@@ -409,6 +409,41 @@ pub fn record_verification(
         path: root.into(),
         source,
     })?;
+    let git =
+        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
+    record_verification_with_snapshot(
+        &root,
+        work_item_id,
+        receipt,
+        runtime_version,
+        runtime_digest,
+        &snapshot,
+    )
+}
+
+pub fn record_verification_with_snapshot(
+    root: &Path,
+    work_item_id: &str,
+    receipt: &serde_json::Value,
+    runtime_version: &str,
+    runtime_digest: &Digest,
+    snapshot: &RepositorySnapshot,
+) -> Result<serde_json::Value, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    if fs::canonicalize(&snapshot.root).ok().as_ref() != Some(&root) {
+        return Err(ObserverError::SnapshotRootMismatch);
+    }
     let active_contract = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.contract.json"));
@@ -424,21 +459,12 @@ pub fn record_verification(
             message: "failed verification cannot be recorded as completion evidence".into(),
         });
     }
-    let git =
-        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
-            path: root.clone(),
-            message: error.to_string(),
-        })?;
-    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
-        path: root.clone(),
-        message: error.to_string(),
-    })?;
     let evidence = serde_json::json!({
         "protocolVersion": 1,
         "workItemId": work_item_id,
         "runtimeVersion": runtime_version,
         "runtimeDigest": runtime_digest,
-        "repositorySnapshotDigest": snapshot_digest(&snapshot)?,
+        "repositorySnapshotDigest": snapshot_digest(snapshot)?,
         "passed": true,
         "receipt": receipt,
         "createdAt": now(),

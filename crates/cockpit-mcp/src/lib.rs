@@ -204,12 +204,13 @@ fn verify_for_repo(repo: &Path, arguments: &Value) -> Result<Value, String> {
     receipt.files_hashed += snapshot.files_hashed;
     let output = json!({"nodesPlanned":receipt.nodes_planned,"nodesExecuted":receipt.nodes_executed,"nodesReused":receipt.nodes_reused,"processesSpawned":receipt.processes_spawned,"gitCalls":receipt.git_calls,"filesRead":receipt.files_read,"filesHashed":receipt.files_hashed,"elapsedMs":receipt.elapsed_ms,"passed":receipt.passed});
     if let Some(work_item_id) = arguments.get("workItemId").and_then(Value::as_str) {
-        cockpit_repository::record_verification(
+        cockpit_repository::record_verification_with_snapshot(
             &root,
             work_item_id,
             &output,
             "0.1.0",
             &cockpit_core::Digest::sha256_bytes(b"ai-cockpit-0.1.0"),
+            &snapshot,
         )
         .map_err(|error| error.to_string())?;
     }

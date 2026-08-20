@@ -328,12 +328,13 @@ fn run() -> Result<()> {
                 "passed": receipt.passed,
             });
             if let Some(work_item) = work_item {
-                cockpit_repository::record_verification(
+                cockpit_repository::record_verification_with_snapshot(
                     &root,
                     &work_item,
                     &output,
                     "0.1.0",
                     &cockpit_core::Digest::sha256_bytes(b"ai-cockpit-0.1.0"),
+                    &snapshot,
                 )
                 .context("record verification evidence")?;
             }
