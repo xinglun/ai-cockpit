@@ -1,0 +1,696 @@
+use cockpit_core::Digest;
+use cockpit_git::RepositorySnapshot;
+use cockpit_protocol::QualityCommand;
+use serde::{Deserialize, Serialize};
+use sha2::{Digest as ShaDigest, Sha256};
+use std::fs;
+use std::path::{Path, PathBuf};
+use thiserror::Error;
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub enum LanguageSignal {
+    Rust,
+    Python,
+    JavaScript,
+    TypeScript,
+    Go,
+    Unknown,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub enum BuildSystem {
+    Cargo,
+    Npm,
+    Poetry,
+    Go,
+    Make,
+    Unknown,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct RepositoryObservation {
+    pub snapshot_digest: Digest,
+    pub languages: Vec<LanguageSignal>,
+    pub build_systems: Vec<BuildSystem>,
+    pub test_roots: Vec<String>,
+    pub quality_commands: Vec<QualityCommand>,
+    pub ci_surfaces: Vec<String>,
+    pub critical_domains: Vec<String>,
+    pub files_read: usize,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub enum EvolutionClass {
+    L0,
+    L1,
+    L2,
+    L3,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct EvolutionEvent {
+    pub class: EvolutionClass,
+    pub event_type: String,
+    pub path: String,
+    pub action: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct AttachedProfile {
+    pub profile_version: u64,
+    pub repository_id: String,
+    pub state: String,
+    pub tests: Vec<QualityCommand>,
+    pub build_systems: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct RepositoryStatus {
+    pub protocol_version: u32,
+    pub repository_id: String,
+    pub state: String,
+    pub profile_version: u64,
+    pub active_work_items: usize,
+    pub archived_work_items: usize,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct LifecycleReceipt {
+    pub work_item_id: String,
+    pub state: String,
+    pub timestamp: String,
+}
+
+#[derive(Debug, Error)]
+pub enum ObserverError {
+    #[error("failed to read repository entry {path}: {source}")]
+    Read {
+        path: PathBuf,
+        source: std::io::Error,
+    },
+    #[error("repository snapshot root does not match observer root")]
+    SnapshotRootMismatch,
+    #[error("repository protocol state error at {path}: {message}")]
+    State { path: PathBuf, message: String },
+}
+
+pub fn repository_id(root: &Path) -> Digest {
+    Digest::sha256_bytes(root.to_string_lossy().as_bytes())
+}
+
+pub fn attach(root: &Path) -> Result<AttachedProfile, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let git =
+        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
+    let observation = observe(&root, &snapshot)?;
+    let ai = root.join(".ai");
+    for directory in [
+        ai.join("work-items/active"),
+        ai.join("work-items/archive"),
+        ai.join("decisions"),
+        ai.join("evidence"),
+        ai.join("knowledge"),
+    ] {
+        fs::create_dir_all(&directory).map_err(|source| ObserverError::Read {
+            path: directory,
+            source,
+        })?;
+    }
+    let id = repository_id(&root).to_string();
+    let config = format!("protocol_version = 1\nrepository_id = \"{id}\"\n");
+    atomic_write(&ai.join("cockpit.toml"), config.as_bytes())?;
+    let profile = AttachedProfile {
+        profile_version: 1,
+        repository_id: id,
+        state: "calibration_required".into(),
+        tests: observation.quality_commands,
+        build_systems: observation
+            .build_systems
+            .iter()
+            .map(|value| format!("{value:?}"))
+            .collect(),
+    };
+    let encoded = serde_json::to_vec_pretty(&profile).map_err(|error| ObserverError::State {
+        path: ai.join("project.json"),
+        message: error.to_string(),
+    })?;
+    atomic_write(&ai.join("project.json"), &encoded)?;
+    Ok(profile)
+}
+
+pub fn status(root: &Path) -> Result<RepositoryStatus, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let ai = root.join(".ai");
+    let profile_bytes =
+        fs::read(ai.join("project.json")).map_err(|source| ObserverError::Read {
+            path: ai.join("project.json"),
+            source,
+        })?;
+    let profile: AttachedProfile =
+        serde_json::from_slice(&profile_bytes).map_err(|error| ObserverError::State {
+            path: ai.join("project.json"),
+            message: error.to_string(),
+        })?;
+    Ok(RepositoryStatus {
+        protocol_version: 1,
+        repository_id: profile.repository_id,
+        state: profile.state,
+        profile_version: profile.profile_version,
+        active_work_items: count_suffix(&ai.join("work-items/active"), ".contract.json"),
+        archived_work_items: count_suffix(&ai.join("work-items/archive"), ".archive.json"),
+    })
+}
+
+fn count_suffix(path: &Path, suffix: &str) -> usize {
+    fs::read_dir(path)
+        .ok()
+        .into_iter()
+        .flatten()
+        .filter_map(Result::ok)
+        .filter(|entry| entry.file_name().to_string_lossy().ends_with(suffix))
+        .count()
+}
+
+pub fn start_work_item(
+    root: &Path,
+    work_item_id: &str,
+    intent: &str,
+    goal: &str,
+    scope: &[String],
+) -> Result<LifecycleReceipt, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let ai = root.join(".ai");
+    if !ai.join("cockpit.toml").exists() {
+        attach(&root)?;
+    }
+    let git =
+        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
+    let profile_digest =
+        Digest::sha256_bytes(&fs::read(ai.join("project.json")).map_err(|source| {
+            ObserverError::Read {
+                path: ai.join("project.json"),
+                source,
+            }
+        })?);
+    let repository_snapshot_digest = Digest::sha256_bytes(
+        serde_json::to_vec(&snapshot.changed_paths)
+            .map_err(|error| ObserverError::State {
+                path: ai.clone(),
+                message: error.to_string(),
+            })?
+            .as_slice(),
+    );
+    let now = now();
+    let contract = serde_json::json!({
+        "protocolVersion": 1,
+        "repositoryId": repository_id(&root),
+        "workItemId": work_item_id,
+        "intent": intent,
+        "goal": goal,
+        "scope": scope,
+        "outOfScope": [],
+        "risk": "normal",
+        "authority": "authorized",
+        "acceptanceCriteria": [],
+        "requiredEvidenceClasses": [],
+        "baseRevision": snapshot.head.unwrap_or_else(|| "unborn".into()),
+        "projectProfileDigest": profile_digest,
+        "repositorySnapshotDigest": repository_snapshot_digest,
+        "createdAt": now,
+    });
+    let summary = serde_json::json!({
+        "protocolVersion": 1,
+        "repositoryId": repository_id(&root),
+        "workItemId": work_item_id,
+        "state": "implementation_active",
+        "changedPaths": snapshot.changed_paths,
+        "checkpointCount": 0,
+        "createdAt": now,
+        "updatedAt": now,
+    });
+    let active = ai.join("work-items/active");
+    atomic_json(
+        &active.join(format!("{work_item_id}.contract.json")),
+        &contract,
+    )?;
+    atomic_json(
+        &active.join(format!("{work_item_id}.summary.json")),
+        &summary,
+    )?;
+    Ok(LifecycleReceipt {
+        work_item_id: work_item_id.into(),
+        state: "implementation_active".into(),
+        timestamp: now,
+    })
+}
+
+pub fn checkpoint_work_item(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<LifecycleReceipt, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.summary.json"));
+    let mut summary: serde_json::Value = read_json(&path)?;
+    let count = summary["checkpointCount"].as_u64().unwrap_or(0) + 1;
+    let timestamp = now();
+    summary["checkpointCount"] = count.into();
+    summary["updatedAt"] = timestamp.clone().into();
+    atomic_json(&path, &summary)?;
+    Ok(LifecycleReceipt {
+        work_item_id: work_item_id.into(),
+        state: "checkpointed".into(),
+        timestamp,
+    })
+}
+
+pub fn finish_work_item(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<LifecycleReceipt, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let active = root.join(".ai/work-items/active");
+    let summary_path = active.join(format!("{work_item_id}.summary.json"));
+    let mut summary: serde_json::Value = read_json(&summary_path)?;
+    let timestamp = now();
+    summary["state"] = "finish_ready".into();
+    summary["updatedAt"] = timestamp.clone().into();
+    atomic_json(&summary_path, &summary)?;
+    let outcome = serde_json::json!({
+        "protocolVersion": 1,
+        "workItemId": work_item_id,
+        "state": "finish_ready",
+        "verification": {"status": "recorded", "required": true},
+        "createdAt": timestamp,
+    });
+    atomic_json(
+        &active.join(format!("{work_item_id}.outcome.json")),
+        &outcome,
+    )?;
+    Ok(LifecycleReceipt {
+        work_item_id: work_item_id.into(),
+        state: "finish_ready".into(),
+        timestamp,
+    })
+}
+
+pub fn archive_work_item(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<LifecycleReceipt, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let ai = root.join(".ai");
+    let active = ai.join("work-items/active");
+    let archive = ai.join("work-items/archive");
+    fs::create_dir_all(&archive).map_err(|source| ObserverError::Read {
+        path: archive.clone(),
+        source,
+    })?;
+    let names = ["contract", "summary", "outcome"];
+    let mut files = serde_json::Map::new();
+    for name in names {
+        let source_path = active.join(format!("{work_item_id}.{name}.json"));
+        let target = archive.join(format!("{work_item_id}.{name}.json"));
+        let bytes = fs::read(&source_path).map_err(|error| ObserverError::Read {
+            path: source_path.clone(),
+            source: error,
+        })?;
+        files.insert(
+            format!("{name}Path"),
+            serde_json::Value::String(target.to_string_lossy().into_owned()),
+        );
+        files.insert(
+            format!("{name}Digest"),
+            serde_json::Value::String(Digest::sha256_bytes(&bytes).to_string()),
+        );
+        fs::rename(&source_path, &target).map_err(|source| ObserverError::Read {
+            path: target,
+            source,
+        })?;
+    }
+    let timestamp = now();
+    let manifest = serde_json::json!({
+        "protocolVersion": 1,
+        "workItemId": work_item_id,
+        "state": "archived",
+        "files": files,
+        "createdAt": timestamp,
+    });
+    atomic_json(
+        &archive.join(format!("{work_item_id}.archive.json")),
+        &manifest,
+    )?;
+    Ok(LifecycleReceipt {
+        work_item_id: work_item_id.into(),
+        state: "archived".into(),
+        timestamp,
+    })
+}
+
+pub fn close_work_item(root: &Path, work_item_id: &str) -> Result<LifecycleReceipt, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let archive = root
+        .join(".ai/work-items/archive")
+        .join(format!("{work_item_id}.archive.json"));
+    let _: serde_json::Value = read_json(&archive)?;
+    let timestamp = now();
+    let receipt = LifecycleReceipt {
+        work_item_id: work_item_id.into(),
+        state: "closed".into(),
+        timestamp: timestamp.clone(),
+    };
+    let receipt_value = serde_json::to_value(&receipt).map_err(|error| ObserverError::State {
+        path: root.join(".ai/decisions"),
+        message: error.to_string(),
+    })?;
+    atomic_json(
+        &root
+            .join(".ai/decisions")
+            .join(format!("{work_item_id}.close.json")),
+        &receipt_value,
+    )?;
+    Ok(receipt)
+}
+
+pub fn generate_knowledge(root: &Path) -> Result<cockpit_knowledge::KnowledgeIndex, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let archive = root.join(".ai/work-items/archive");
+    let mut records = Vec::new();
+    for entry in fs::read_dir(&archive).map_err(|source| ObserverError::Read {
+        path: archive.clone(),
+        source,
+    })? {
+        let entry = entry.map_err(|source| ObserverError::Read {
+            path: archive.clone(),
+            source,
+        })?;
+        let name = entry.file_name().to_string_lossy().into_owned();
+        let Some(work_item_id) = name.strip_suffix(".archive.json") else {
+            continue;
+        };
+        let contract_path = archive.join(format!("{work_item_id}.contract.json"));
+        let contract = read_json(&contract_path)?;
+        let intent = contract["intent"].as_str().unwrap_or("unknown");
+        records.push(cockpit_knowledge::project_record(
+            work_item_id,
+            intent,
+            "archived",
+            &format!(".ai/work-items/archive/{work_item_id}.archive.json"),
+        ));
+    }
+    let index = cockpit_knowledge::KnowledgeIndex::from_records(records);
+    let knowledge = root.join(".ai/knowledge");
+    fs::create_dir_all(&knowledge).map_err(|source| ObserverError::Read {
+        path: knowledge.clone(),
+        source,
+    })?;
+    let encoded = serde_json::to_value(&index).map_err(|error| ObserverError::State {
+        path: knowledge.clone(),
+        message: error.to_string(),
+    })?;
+    atomic_json(&knowledge.join("index.json"), &encoded)?;
+    for record in &index.records {
+        let record_value = serde_json::to_value(record).map_err(|error| ObserverError::State {
+            path: knowledge.clone(),
+            message: error.to_string(),
+        })?;
+        atomic_json(&root.join(&record.knowledge_path), &record_value)?;
+    }
+    Ok(index)
+}
+
+fn validate_work_item_id(id: &str) -> Result<(), ObserverError> {
+    if id.is_empty()
+        || !id
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || byte == b'-' || byte == b'_')
+    {
+        return Err(ObserverError::State {
+            path: PathBuf::from(id),
+            message: "invalid work item id".into(),
+        });
+    }
+    Ok(())
+}
+
+fn read_json(path: &Path) -> Result<serde_json::Value, ObserverError> {
+    let bytes = fs::read(path).map_err(|source| ObserverError::Read {
+        path: path.into(),
+        source,
+    })?;
+    serde_json::from_slice(&bytes).map_err(|error| ObserverError::State {
+        path: path.into(),
+        message: error.to_string(),
+    })
+}
+
+fn atomic_json(path: &Path, value: &serde_json::Value) -> Result<(), ObserverError> {
+    let bytes = serde_json::to_vec_pretty(value).map_err(|error| ObserverError::State {
+        path: path.into(),
+        message: error.to_string(),
+    })?;
+    atomic_write(path, &bytes)
+}
+
+fn now() -> String {
+    use std::time::{SystemTime, UNIX_EPOCH};
+    let seconds = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap_or_default()
+        .as_secs();
+    format!("{seconds}")
+}
+
+fn atomic_write(path: &Path, bytes: &[u8]) -> Result<(), ObserverError> {
+    let temporary = path.with_extension(format!("tmp-{}", std::process::id()));
+    fs::write(&temporary, bytes).map_err(|source| ObserverError::Read {
+        path: temporary.clone(),
+        source,
+    })?;
+    fs::rename(&temporary, path).map_err(|source| ObserverError::Read {
+        path: path.into(),
+        source,
+    })
+}
+
+pub fn observe(
+    root: &Path,
+    snapshot: &RepositorySnapshot,
+) -> Result<RepositoryObservation, ObserverError> {
+    let canonical_root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let canonical_snapshot_root =
+        fs::canonicalize(&snapshot.root).map_err(|source| ObserverError::Read {
+            path: snapshot.root.clone(),
+            source,
+        })?;
+    if canonical_root != canonical_snapshot_root {
+        return Err(ObserverError::SnapshotRootMismatch);
+    }
+    let mut files = Vec::new();
+    collect_files(&canonical_root, &canonical_root, &mut files)?;
+    let mut languages = Vec::new();
+    let mut build_systems = Vec::new();
+    let mut test_roots = Vec::new();
+    let mut quality_commands = Vec::new();
+    let mut ci_surfaces = Vec::new();
+    for relative in &files {
+        match relative
+            .extension()
+            .and_then(|extension| extension.to_str())
+        {
+            Some("rs") => languages.push(LanguageSignal::Rust),
+            Some("py") => languages.push(LanguageSignal::Python),
+            Some("js") | Some("jsx") => languages.push(LanguageSignal::JavaScript),
+            Some("ts") | Some("tsx") => languages.push(LanguageSignal::TypeScript),
+            Some("go") => languages.push(LanguageSignal::Go),
+            _ => {}
+        }
+        let path = relative.to_string_lossy();
+        let path_string = path.to_string();
+        if path.starts_with("tests/") || path == "tests" {
+            test_roots.push("tests/**".into());
+        }
+        if path.starts_with(".github/workflows/") {
+            ci_surfaces.push(path_string.clone());
+        }
+        if path == "Cargo.toml" {
+            build_systems.push(BuildSystem::Cargo);
+            quality_commands.push(QualityCommand {
+                program: "cargo".into(),
+                args: vec!["test".into(), "--workspace".into()],
+                state: "detected".into(),
+            });
+        } else if path == "package.json" {
+            build_systems.push(BuildSystem::Npm);
+        } else if path == "pyproject.toml" {
+            build_systems.push(BuildSystem::Poetry);
+        } else if path == "go.mod" {
+            build_systems.push(BuildSystem::Go);
+        } else if path == "Makefile" {
+            build_systems.push(BuildSystem::Make);
+        }
+    }
+    languages.sort_by_key(|value| format!("{value:?}"));
+    languages.dedup();
+    build_systems.sort_by_key(|value| format!("{value:?}"));
+    build_systems.dedup();
+    test_roots.sort();
+    test_roots.dedup();
+    ci_surfaces.sort();
+    ci_surfaces.dedup();
+    let mut hasher = Sha256::new();
+    for path in &files {
+        hasher.update(path.to_string_lossy().as_bytes());
+        hasher.update([0]);
+    }
+    let snapshot_digest = Digest::sha256_bytes(&hasher.finalize());
+    Ok(RepositoryObservation {
+        snapshot_digest,
+        languages,
+        build_systems,
+        test_roots,
+        quality_commands,
+        ci_surfaces,
+        critical_domains: Vec::new(),
+        files_read: files.len(),
+    })
+}
+
+pub fn classify_evolution(
+    _profile: &cockpit_protocol::ProjectProfile,
+    observation: &RepositoryObservation,
+    snapshot: &RepositorySnapshot,
+) -> Vec<EvolutionEvent> {
+    snapshot
+        .changed_paths
+        .iter()
+        .map(|path| {
+            let normalized = path.replace('\\', "/");
+            let is_governance = normalized.starts_with(".github/")
+                || normalized.contains("security")
+                || normalized.contains("release")
+                || normalized.contains("branch-protection")
+                || normalized.contains("production");
+            let is_known_test = observation.test_roots.iter().any(|root| {
+                root.strip_suffix("/**")
+                    .is_some_and(|prefix| normalized.starts_with(&format!("{prefix}/")))
+            });
+            let is_new_capability = normalized.contains("playwright")
+                || normalized.contains("cypress")
+                || normalized.contains("nextest")
+                || normalized.ends_with("playwright.config.ts")
+                || normalized.ends_with("playwright.config.js");
+            if is_governance {
+                EvolutionEvent {
+                    class: EvolutionClass::L3,
+                    event_type: "governance_change".into(),
+                    path: normalized,
+                    action: "needs_human_decision".into(),
+                }
+            } else if is_new_capability {
+                EvolutionEvent {
+                    class: EvolutionClass::L2,
+                    event_type: "new_test_framework".into(),
+                    path: normalized,
+                    action: "needs_confirmation".into(),
+                }
+            } else if is_known_test {
+                EvolutionEvent {
+                    class: EvolutionClass::L1,
+                    event_type: "new_test".into(),
+                    path: normalized,
+                    action: "auto_absorb".into(),
+                }
+            } else {
+                EvolutionEvent {
+                    class: EvolutionClass::L0,
+                    event_type: "content_change".into(),
+                    path: normalized,
+                    action: "auto_absorb".into(),
+                }
+            }
+        })
+        .collect()
+}
+
+fn collect_files(
+    root: &Path,
+    current: &Path,
+    output: &mut Vec<PathBuf>,
+) -> Result<(), ObserverError> {
+    let entries = fs::read_dir(current).map_err(|source| ObserverError::Read {
+        path: current.into(),
+        source,
+    })?;
+    for entry in entries {
+        let entry = entry.map_err(|source| ObserverError::Read {
+            path: current.into(),
+            source,
+        })?;
+        let path = entry.path();
+        if path
+            .file_name()
+            .is_some_and(|name| name == ".git" || name == "target")
+        {
+            continue;
+        }
+        if path.is_dir() {
+            collect_files(root, &path, output)?;
+        } else if path.is_file() {
+            output.push(path.strip_prefix(root).unwrap_or(&path).to_path_buf());
+        }
+    }
+    output.sort();
+    Ok(())
+}

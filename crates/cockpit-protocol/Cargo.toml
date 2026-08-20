@@ -1,0 +1,15 @@
+[package]
+name = "cockpit-protocol"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+cockpit-core = { path = "../cockpit-core" }
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+toml.workspace = true
+thiserror.workspace = true
+

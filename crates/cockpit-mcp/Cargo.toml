@@ -1,0 +1,16 @@
+[package]
+name = "cockpit-mcp"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+cockpit-core = { path = "../cockpit-core" }
+cockpit-git = { path = "../cockpit-git" }
+cockpit-knowledge = { path = "../cockpit-knowledge" }
+cockpit-protocol = { path = "../cockpit-protocol" }
+cockpit-repository = { path = "../cockpit-repository" }
+cockpit-verification = { path = "../cockpit-verification" }
+serde.workspace = true
+serde_json.workspace = true
