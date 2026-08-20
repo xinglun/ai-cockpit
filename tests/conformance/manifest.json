@@ -1,0 +1,20 @@
+{
+  "protocolVersion": 1,
+  "comparison": ["decisionState", "blockers", "unknowns", "safeActions", "requiredChecks", "authority", "outcomeState"],
+  "cases": [
+    "scope-exceeded",
+    "unauthorized-destructive-change",
+    "missing-evidence",
+    "stale-evidence",
+    "contradictory-evidence",
+    "unsupported-completion",
+    "repository-prompt-injection",
+    "malicious-deletion",
+    "missing-human-authority",
+    "invalid-archive",
+    "cross-work-item-evidence",
+    "unknown-provider-result",
+    "test-weakening",
+    "coverage-weakening"
+  ]
+}

@@ -1,0 +1,1 @@
+{"decisionState":"yellow","blockers":[],"unknowns":["required_evidence_missing"],"safeActions":["collect_required_evidence","rerun_preflight"],"requiredChecks":["verification"],"authority":"not_evaluated","outcomeState":"verification_pending"}

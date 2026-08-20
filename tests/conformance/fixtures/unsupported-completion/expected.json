@@ -1,0 +1,1 @@
+{"decisionState":"red","blockers":["unsupported_completion_claim"],"unknowns":[],"safeActions":["remove_claim_or_provide_evidence"],"requiredChecks":["completion_evidence"],"authority":"not_evaluated","outcomeState":"blocked"}

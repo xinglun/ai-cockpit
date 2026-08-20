@@ -1,0 +1,1 @@
+{"decisionState":"red","blockers":["evidence_contradictory"],"unknowns":[],"safeActions":["stop_and_reconcile_evidence"],"requiredChecks":["evidence_consistency"],"authority":"not_evaluated","outcomeState":"blocked"}
