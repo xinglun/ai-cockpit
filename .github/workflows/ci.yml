@@ -1,0 +1,27 @@
+name: ai-cockpit quality
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.94.1
+          components: rustfmt, clippy
+      - run: cargo fmt --all --check
+      - run: cargo clippy --workspace --all-targets --all-features -- -D warnings
+      - run: cargo test --workspace
+      - name: verify three-language work-item counterparts
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r english; do
+            test -f "${english%.md}.zh-CN.md"
+            test -f "${english%.md}.ja.md"
+          done < <(find docs/work-items -maxdepth 1 -name 'WI-*.md' ! -name '*.zh-CN.md' ! -name '*.ja.md' | sort)
+
