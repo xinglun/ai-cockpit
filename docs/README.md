@@ -11,6 +11,7 @@ Japanese documents are maintained as semantic equivalents, not summaries.
 - [Bootstrap work-item rules](work-items/README.md)
 - [Repository Protocol v1](protocol/v1/specification.md)
 - [Performance acceptance](../tests/performance/README.md)
+- [Measured performance baseline](performance/baseline.md)
 - [Release and distribution](release/distribution.md)
 - [Adversarial validation](security/adversarial-validation.md)
 - [Work-item roadmap](work-items/WI-03.md)

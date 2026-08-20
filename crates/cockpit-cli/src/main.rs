@@ -7,7 +7,7 @@ use cockpit_mcp::serve;
 use cockpit_protocol::{Contract, RepositoryConfig};
 use cockpit_repository::{
     archive_work_item, attach, checkpoint_work_item, close_work_item, contract_freshness_findings,
-    finish_work_item, generate_knowledge, observe, start_work_item, status,
+    finish_work_item, generate_knowledge, start_work_item, status,
 };
 use cockpit_verification::{
     VerificationCommand, VerificationGraph, VerificationNode, VerificationNodeKind, execute_bounded,
@@ -98,6 +98,10 @@ enum CommandKind {
         #[command(subcommand)]
         command: KnowledgeCommand,
     },
+    Profile {
+        #[command(subcommand)]
+        command: ProfileCommand,
+    },
     Mcp {
         #[arg(long)]
         repo: Option<PathBuf>,
@@ -121,6 +125,18 @@ enum KnowledgeCommand {
         state: Option<String>,
         #[arg(long)]
         work_item_id: Option<String>,
+    },
+}
+
+#[derive(Debug, Subcommand)]
+enum ProfileCommand {
+    Confirm {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        program: String,
+        #[arg(long, value_delimiter = ',')]
+        args: Vec<String>,
     },
 }
 
@@ -199,7 +215,8 @@ fn run() -> Result<()> {
         CommandKind::Observe { repo } => {
             let git = GitRepository::discover(&repo).context("discover repository")?;
             let snapshot = git.snapshot().context("create repository snapshot")?;
-            let observation = observe(&snapshot.root, &snapshot).context("observe repository")?;
+            let observation = cockpit_repository::observe_cached(&snapshot.root, &snapshot)
+                .context("observe repository")?;
             let (evolution, profile_update_proposal) =
                 std::fs::read(snapshot.root.join(".ai/project.json"))
                     .ok()
@@ -345,6 +362,17 @@ fn run() -> Result<()> {
                     "results": results,
                 });
                 println!("{}", serde_json::to_string_pretty(&output)?);
+            }
+        },
+        CommandKind::Profile { command } => match command {
+            ProfileCommand::Confirm {
+                repo,
+                program,
+                args,
+            } => {
+                let profile = cockpit_repository::confirm_profile_update(&repo, &program, &args)
+                    .context("confirm project profile update")?;
+                println!("{}", serde_json::to_string_pretty(&profile)?);
             }
         },
         CommandKind::Mcp { repo } => {

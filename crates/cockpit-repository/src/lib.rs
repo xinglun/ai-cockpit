@@ -39,6 +39,8 @@ pub struct RepositoryObservation {
     pub ci_surfaces: Vec<String>,
     pub critical_domains: Vec<String>,
     pub files_read: usize,
+    #[serde(default)]
+    pub cache_hit: bool,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -336,6 +338,7 @@ pub fn finish_work_item(
     let active = root.join(".ai/work-items/active");
     let summary_path = active.join(format!("{work_item_id}.summary.json"));
     let mut summary: serde_json::Value = read_json(&summary_path)?;
+    let original_summary = summary.clone();
     let evidence_path = root
         .join(".ai/evidence")
         .join(format!("{work_item_id}.verification.json"));
@@ -380,10 +383,13 @@ pub fn finish_work_item(
         "evidenceDigest": cockpit_protocol::digest_json(&evidence).map_err(|error| ObserverError::State { path: root.join(".ai/evidence"), message: error.to_string() })?,
         "createdAt": timestamp,
     });
-    atomic_json(
+    if let Err(error) = atomic_json(
         &active.join(format!("{work_item_id}.outcome.json")),
         &outcome,
-    )?;
+    ) {
+        let _ = atomic_json(&summary_path, &original_summary);
+        return Err(error);
+    }
     Ok(LifecycleReceipt {
         work_item_id: work_item_id.into(),
         state: "finish_ready".into(),
@@ -511,6 +517,13 @@ pub fn archive_work_item(
         path: archive.clone(),
         source,
     })?;
+    let manifest_path = archive.join(format!("{work_item_id}.archive.json"));
+    if manifest_path.exists() {
+        return Err(ObserverError::State {
+            path: manifest_path,
+            message: "archive manifest already exists".into(),
+        });
+    }
     let names = ["contract", "summary", "outcome"];
     let mut files = serde_json::Map::new();
     let mut pending = Vec::new();
@@ -523,7 +536,7 @@ pub fn archive_work_item(
         })?;
         files.insert(
             format!("{name}Path"),
-            serde_json::Value::String(target.to_string_lossy().into_owned()),
+            serde_json::Value::String(format!(".ai/work-items/archive/{work_item_id}.{name}.json")),
         );
         files.insert(
             format!("{name}Digest"),
@@ -558,10 +571,12 @@ pub fn archive_work_item(
         "files": files,
         "createdAt": timestamp,
     });
-    atomic_json(
-        &archive.join(format!("{work_item_id}.archive.json")),
-        &manifest,
-    )?;
+    if let Err(error) = atomic_json(&manifest_path, &manifest) {
+        for (moved_source, moved_target) in moved.into_iter().rev() {
+            let _ = fs::rename(moved_target, moved_source);
+        }
+        return Err(error);
+    }
     Ok(LifecycleReceipt {
         work_item_id: work_item_id.into(),
         state: "archived".into(),
@@ -798,7 +813,49 @@ pub fn observe(
             .parse()
             .unwrap_or_else(|_| Digest::sha256_bytes(b"invalid-dependency-fingerprint")),
         files_read: files.len() + snapshot.files_read,
+        cache_hit: false,
     })
+}
+
+pub fn observe_cached(
+    root: &Path,
+    snapshot: &RepositorySnapshot,
+) -> Result<RepositoryObservation, ObserverError> {
+    let canonical_root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    if !canonical_root.join(".ai/cockpit.toml").is_file() {
+        return observe(&canonical_root, snapshot);
+    }
+    let cache_path = canonical_root.join(".ai/decisions/observer-snapshot.json");
+    if let Ok(cache) = read_json(&cache_path) {
+        let matches = cache["treeDigest"] == snapshot.tree_digest
+            && cache["diffDigest"] == snapshot.diff_digest
+            && cache["dependencyFingerprint"] == snapshot.dependency_fingerprint;
+        if matches
+            && let Ok(mut observation) =
+                serde_json::from_value::<RepositoryObservation>(cache["observation"].clone())
+        {
+            observation.cache_hit = true;
+            return Ok(observation);
+        }
+    }
+    let observation = observe(&canonical_root, snapshot)?;
+    let cache = serde_json::json!({
+        "treeDigest": snapshot.tree_digest,
+        "diffDigest": snapshot.diff_digest,
+        "dependencyFingerprint": snapshot.dependency_fingerprint,
+        "observation": observation,
+    });
+    if let Some(parent) = cache_path.parent() {
+        fs::create_dir_all(parent).map_err(|source| ObserverError::Read {
+            path: parent.into(),
+            source,
+        })?;
+    }
+    atomic_json(&cache_path, &cache)?;
+    Ok(observation)
 }
 
 pub fn classify_evolution(
@@ -871,6 +928,76 @@ pub fn profile_update_proposal(
         reason: candidate.event_type.clone(),
         requires_human_confirmation: true,
     })
+}
+
+pub fn confirm_profile_update(
+    root: &Path,
+    program: &str,
+    args: &[String],
+) -> Result<AttachedProfile, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let project_path = root.join(".ai/project.json");
+    let current: AttachedProfile = read_json(&project_path).and_then(|value| {
+        serde_json::from_value(value).map_err(|error| ObserverError::State {
+            path: project_path.clone(),
+            message: error.to_string(),
+        })
+    })?;
+    let mut tests = current.tests.clone();
+    let candidate = QualityCommand {
+        program: program.into(),
+        args: args.to_vec(),
+        state: "verified".into(),
+    };
+    if !tests.contains(&candidate) {
+        tests.push(candidate);
+    }
+    tests.sort_by(|left, right| {
+        (left.program.as_str(), &left.args).cmp(&(right.program.as_str(), &right.args))
+    });
+    let profile_version = current.profile_version + 1;
+    let profile = cockpit_protocol::ProjectProfile {
+        profile_version,
+        repository_id: current.repository_id.clone(),
+        tests: tests.clone(),
+        build_systems: current.build_systems.clone(),
+    };
+    let profile_digest =
+        cockpit_protocol::digest_json(&profile).map_err(|error| ObserverError::State {
+            path: project_path.clone(),
+            message: error.to_string(),
+        })?;
+    let updated = AttachedProfile {
+        profile_version,
+        repository_id: current.repository_id,
+        state: "calibrated".into(),
+        profile_digest: Some(profile_digest.clone()),
+        tests,
+        build_systems: current.build_systems,
+    };
+    let value = serde_json::to_value(&updated).map_err(|error| ObserverError::State {
+        path: project_path.clone(),
+        message: error.to_string(),
+    })?;
+    atomic_json(&project_path, &value)?;
+    let decision = serde_json::json!({
+        "kind": "project_profile_confirmation",
+        "profileVersion": profile_version,
+        "profileDigest": profile_digest,
+        "candidate": {"program": program, "args": args},
+        "state": "confirmed",
+        "createdAt": now(),
+    });
+    atomic_json(
+        &root
+            .join(".ai/decisions")
+            .join(format!("profile-v{profile_version}.json")),
+        &decision,
+    )?;
+    Ok(updated)
 }
 
 fn collect_files(

@@ -10,6 +10,7 @@
 - [Bootstrap Work Item 规则](work-items/README.zh-CN.md)
 - [Repository Protocol v1](protocol/v1/specification.zh-CN.md)
 - [性能验收](../tests/performance/README.zh-CN.md)
+- [实测性能基线](performance/baseline.zh-CN.md)
 - [发布与分发](release/distribution.zh-CN.md)
 - [对抗性验证](security/adversarial-validation.zh-CN.md)
 - [Work Item 路线](work-items/WI-03.zh-CN.md)

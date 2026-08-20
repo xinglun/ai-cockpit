@@ -67,6 +67,18 @@ fn observation_medium_fixture_is_measured_once() {
         .expect("source");
     }
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let attach = Command::new(binary)
+        .args(["attach", "--repo"])
+        .arg(&repo)
+        .output()
+        .expect("attach");
+    assert!(attach.status.success());
+    let warm = Command::new(binary)
+        .args(["observe", "--repo"])
+        .arg(&repo)
+        .output()
+        .expect("warm observe");
+    assert!(warm.status.success());
     let started = Instant::now();
     let output = Command::new(binary)
         .args(["observe", "--repo"])
@@ -77,6 +89,7 @@ fn observation_medium_fixture_is_measured_once() {
     let elapsed = started.elapsed();
     let json: serde_json::Value = serde_json::from_slice(&output.stdout).expect("JSON");
     assert!(json["filesRead"].as_u64().unwrap_or_default() >= 200);
+    assert_eq!(json["cacheHit"], true);
     eprintln!(
         "{{\"benchmark\":\"observation-medium\",\"filesRead\":{},\"elapsedMs\":{}}}",
         json["filesRead"],

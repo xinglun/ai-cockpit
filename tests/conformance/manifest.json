@@ -1,5 +1,11 @@
 {
   "protocolVersion": 1,
+  "oracle": {
+    "sourceLock": "v1-reference.lock",
+    "mode": "offline-semantic-fixtures",
+    "runtimeInvoked": false
+  },
+  "fixtureLayout": ["repository/", "contract.json", "evidence/", "input.json", "expected.json"],
   "comparison": ["decisionState", "blockers", "unknowns", "safeActions", "requiredChecks", "authority", "outcomeState"],
   "cases": [
     "scope-exceeded",

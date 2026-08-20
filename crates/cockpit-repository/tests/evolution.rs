@@ -19,6 +19,7 @@ fn observation() -> RepositoryObservation {
         ci_surfaces: vec![],
         critical_domains: vec![],
         files_read: 0,
+        cache_hit: false,
     }
 }
 

@@ -11,6 +11,7 @@
 - [Bootstrap Work Item ルール](work-items/README.ja.md)
 - [Repository Protocol v1](protocol/v1/specification.ja.md)
 - [パフォーマンス受入れ](../tests/performance/README.ja.md)
+- [実測パフォーマンスベースライン](performance/baseline.ja.md)
 - [リリースと配布](release/distribution.ja.md)
 - [敵対的検証](security/adversarial-validation.ja.md)
 - [Work Item ロードマップ](work-items/WI-03.ja.md)

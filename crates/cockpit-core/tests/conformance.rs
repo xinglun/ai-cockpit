@@ -81,3 +81,28 @@ fn canonical_corpus_has_rust_semantic_parity() {
         );
     }
 }
+
+#[test]
+fn corpus_manifest_and_fixture_layout_are_complete() {
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../tests/conformance");
+    let manifest: serde_json::Value =
+        serde_json::from_slice(&fs::read(root.join("manifest.json")).expect("manifest"))
+            .expect("manifest JSON");
+    assert_eq!(manifest["oracle"]["runtimeInvoked"], false);
+    for case in manifest["cases"].as_array().expect("cases") {
+        let name = case.as_str().expect("case name");
+        let fixture = root.join("fixtures").join(name);
+        for required in [
+            "repository/material.txt",
+            "contract.json",
+            "evidence/receipt.json",
+            "input.json",
+            "expected.json",
+        ] {
+            assert!(
+                fixture.join(required).is_file(),
+                "missing {name}/{required}"
+            );
+        }
+    }
+}

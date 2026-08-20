@@ -69,6 +69,26 @@ impl GitRepository {
                 .filter_map(|line| line.get(3..))
                 .map(|line| line.rsplit_once(" -> ").map_or(line, |(_, path)| path)),
         );
+        let mut changed_hasher = Sha256::new();
+        let mut changed_files_read = 0;
+        let mut changed_files_hashed = 0;
+        for line in diff.lines().filter(|line| !line.contains(".ai/")) {
+            changed_hasher.update(line.as_bytes());
+            changed_hasher.update([0]);
+        }
+        for relative in &changed_paths {
+            if relative.starts_with(".ai/") {
+                continue;
+            }
+            let path = self.root.join(relative);
+            if let Ok(bytes) = std::fs::read(path) {
+                changed_hasher.update(relative.as_bytes());
+                changed_hasher.update([0]);
+                changed_hasher.update(&bytes);
+                changed_files_read += 1;
+                changed_files_hashed += 1;
+            }
+        }
         let dependency_paths = [
             "Cargo.toml",
             "Cargo.lock",
@@ -101,10 +121,10 @@ impl GitRepository {
             changed_paths,
             git_calls: 4,
             tree_digest: digest(tree.as_bytes()),
-            diff_digest: digest(diff.as_bytes()),
+            diff_digest: format!("sha256:{}", hex::encode(changed_hasher.finalize())),
             dependency_fingerprint: format!("sha256:{}", hex::encode(dependency_hasher.finalize())),
-            files_read,
-            files_hashed,
+            files_read: files_read + changed_files_read,
+            files_hashed: files_hashed + changed_files_hashed,
         })
     }
 
