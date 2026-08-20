@@ -31,6 +31,7 @@ pub enum BuildSystem {
 #[serde(rename_all = "camelCase")]
 pub struct RepositoryObservation {
     pub snapshot_digest: Digest,
+    pub dependency_fingerprint: Digest,
     pub languages: Vec<LanguageSignal>,
     pub build_systems: Vec<BuildSystem>,
     pub test_roots: Vec<String>,
@@ -58,10 +59,21 @@ pub struct EvolutionEvent {
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+pub struct ProfileUpdateProposal {
+    pub from_profile_version: u64,
+    pub candidate: String,
+    pub reason: String,
+    pub requires_human_confirmation: bool,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct AttachedProfile {
     pub profile_version: u64,
     pub repository_id: String,
     pub state: String,
+    #[serde(default)]
+    pub profile_digest: Option<Digest>,
     pub tests: Vec<QualityCommand>,
     pub build_systems: Vec<String>,
 }
@@ -133,10 +145,25 @@ pub fn attach(root: &Path) -> Result<AttachedProfile, ObserverError> {
     let id = repository_id(&root).to_string();
     let config = format!("protocol_version = 1\nrepository_id = \"{id}\"\n");
     atomic_write(&ai.join("cockpit.toml"), config.as_bytes())?;
+    let profile_digest = cockpit_protocol::digest_json(&cockpit_protocol::ProjectProfile {
+        profile_version: 1,
+        repository_id: id.clone(),
+        tests: observation.quality_commands.clone(),
+        build_systems: observation
+            .build_systems
+            .iter()
+            .map(|value| format!("{value:?}"))
+            .collect(),
+    })
+    .map_err(|error| ObserverError::State {
+        path: ai.join("project.json"),
+        message: error.to_string(),
+    })?;
     let profile = AttachedProfile {
         profile_version: 1,
         repository_id: id,
         state: "calibration_required".into(),
+        profile_digest: Some(profile_digest.clone()),
         tests: observation.quality_commands,
         build_systems: observation
             .build_systems
@@ -149,6 +176,13 @@ pub fn attach(root: &Path) -> Result<AttachedProfile, ObserverError> {
         message: error.to_string(),
     })?;
     atomic_write(&ai.join("project.json"), &encoded)?;
+    let proposal = serde_json::json!({
+        "kind": "project_profile_initialization",
+        "profileVersion": 1,
+        "profileDigest": profile_digest,
+        "state": "calibration_required",
+    });
+    atomic_json(&ai.join("decisions/profile-v1.json"), &proposal)?;
     Ok(profile)
 }
 
@@ -220,14 +254,7 @@ pub fn start_work_item(
                 source,
             }
         })?);
-    let repository_snapshot_digest = Digest::sha256_bytes(
-        serde_json::to_vec(&snapshot.changed_paths)
-            .map_err(|error| ObserverError::State {
-                path: ai.clone(),
-                message: error.to_string(),
-            })?
-            .as_slice(),
-    );
+    let repository_snapshot_digest = snapshot_digest(&snapshot)?;
     let now = now();
     let contract = serde_json::json!({
         "protocolVersion": 1,
@@ -309,6 +336,38 @@ pub fn finish_work_item(
     let active = root.join(".ai/work-items/active");
     let summary_path = active.join(format!("{work_item_id}.summary.json"));
     let mut summary: serde_json::Value = read_json(&summary_path)?;
+    let evidence_path = root
+        .join(".ai/evidence")
+        .join(format!("{work_item_id}.verification.json"));
+    let evidence = read_json(&evidence_path).map_err(|_| ObserverError::State {
+        path: evidence_path.clone(),
+        message: "finish requires a recorded verification receipt".into(),
+    })?;
+    if evidence["workItemId"].as_str() != Some(work_item_id)
+        || evidence["passed"] != serde_json::Value::Bool(true)
+    {
+        return Err(ObserverError::State {
+            path: evidence_path,
+            message: "verification receipt is not a passed receipt for this work item".into(),
+        });
+    }
+    let git =
+        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
+    let current_digest = snapshot_digest(&snapshot)?;
+    if evidence["repositorySnapshotDigest"] != serde_json::Value::String(current_digest.to_string())
+    {
+        return Err(ObserverError::State {
+            path: evidence_path,
+            message: "verification receipt is stale for the current repository snapshot".into(),
+        });
+    }
     let timestamp = now();
     summary["state"] = "finish_ready".into();
     summary["updatedAt"] = timestamp.clone().into();
@@ -317,7 +376,8 @@ pub fn finish_work_item(
         "protocolVersion": 1,
         "workItemId": work_item_id,
         "state": "finish_ready",
-        "verification": {"status": "recorded", "required": true},
+        "verification": {"status": "verified", "required": true, "evidencePath": format!(".ai/evidence/{work_item_id}.verification.json")},
+        "evidenceDigest": cockpit_protocol::digest_json(&evidence).map_err(|error| ObserverError::State { path: root.join(".ai/evidence"), message: error.to_string() })?,
         "createdAt": timestamp,
     });
     atomic_json(
@@ -329,6 +389,110 @@ pub fn finish_work_item(
         state: "finish_ready".into(),
         timestamp,
     })
+}
+
+pub fn record_verification(
+    root: &Path,
+    work_item_id: &str,
+    receipt: &serde_json::Value,
+    runtime_version: &str,
+    runtime_digest: &Digest,
+) -> Result<serde_json::Value, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let active_contract = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    if !active_contract.is_file() {
+        return Err(ObserverError::State {
+            path: active_contract,
+            message: "verification evidence requires an active work item contract".into(),
+        });
+    }
+    if receipt["passed"] != serde_json::Value::Bool(true) {
+        return Err(ObserverError::State {
+            path: root.join(".ai/evidence"),
+            message: "failed verification cannot be recorded as completion evidence".into(),
+        });
+    }
+    let git =
+        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
+    let evidence = serde_json::json!({
+        "protocolVersion": 1,
+        "workItemId": work_item_id,
+        "runtimeVersion": runtime_version,
+        "runtimeDigest": runtime_digest,
+        "repositorySnapshotDigest": snapshot_digest(&snapshot)?,
+        "passed": true,
+        "receipt": receipt,
+        "createdAt": now(),
+    });
+    let path = root
+        .join(".ai/evidence")
+        .join(format!("{work_item_id}.verification.json"));
+    atomic_json(&path, &evidence)?;
+    Ok(evidence)
+}
+
+pub fn snapshot_digest(snapshot: &RepositorySnapshot) -> Result<Digest, ObserverError> {
+    let mut stable = snapshot.clone();
+    stable
+        .changed_paths
+        .retain(|path| !path.starts_with(".ai/"));
+    cockpit_protocol::digest_json(&stable).map_err(|error| ObserverError::State {
+        path: snapshot.root.join(".ai"),
+        message: error.to_string(),
+    })
+}
+
+pub fn contract_freshness_findings(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+) -> Result<Vec<String>, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let profile_path = root.join(".ai/project.json");
+    if !profile_path.is_file() {
+        return Ok(Vec::new());
+    }
+    let mut findings = Vec::new();
+    if contract.repository_id != repository_id(&root).to_string() {
+        findings.push("stale_contract".into());
+    }
+    if contract.base_revision != "unborn"
+        && snapshot.head.as_deref() != Some(contract.base_revision.as_str())
+    {
+        findings.push("stale_contract".into());
+    }
+    let profile_digest =
+        Digest::sha256_bytes(
+            &fs::read(&profile_path).map_err(|source| ObserverError::Read {
+                path: profile_path.clone(),
+                source,
+            })?,
+        );
+    if contract.project_profile_digest != profile_digest {
+        findings.push("stale_contract".into());
+    }
+    if contract.repository_snapshot_digest != snapshot_digest(snapshot)? {
+        findings.push("stale_contract".into());
+    }
+    findings.sort();
+    findings.dedup();
+    Ok(findings)
 }
 
 pub fn archive_work_item(
@@ -349,6 +513,7 @@ pub fn archive_work_item(
     })?;
     let names = ["contract", "summary", "outcome"];
     let mut files = serde_json::Map::new();
+    let mut pending = Vec::new();
     for name in names {
         let source_path = active.join(format!("{work_item_id}.{name}.json"));
         let target = archive.join(format!("{work_item_id}.{name}.json"));
@@ -364,10 +529,26 @@ pub fn archive_work_item(
             format!("{name}Digest"),
             serde_json::Value::String(Digest::sha256_bytes(&bytes).to_string()),
         );
-        fs::rename(&source_path, &target).map_err(|source| ObserverError::Read {
-            path: target,
-            source,
-        })?;
+        if target.exists() {
+            return Err(ObserverError::State {
+                path: target,
+                message: "archive target already exists".into(),
+            });
+        }
+        pending.push((source_path, target));
+    }
+    let mut moved = Vec::new();
+    for (source, target) in &pending {
+        if let Err(source_error) = fs::rename(source, target) {
+            for (moved_source, moved_target) in moved.into_iter().rev() {
+                let _ = fs::rename(moved_target, moved_source);
+            }
+            return Err(ObserverError::Read {
+                path: target.clone(),
+                source: source_error,
+            });
+        }
+        moved.push((source.clone(), target.clone()));
     }
     let timestamp = now();
     let manifest = serde_json::json!({
@@ -501,12 +682,7 @@ fn atomic_json(path: &Path, value: &serde_json::Value) -> Result<(), ObserverErr
 }
 
 fn now() -> String {
-    use std::time::{SystemTime, UNIX_EPOCH};
-    let seconds = SystemTime::now()
-        .duration_since(UNIX_EPOCH)
-        .unwrap_or_default()
-        .as_secs();
-    format!("{seconds}")
+    chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Secs, true)
 }
 
 fn atomic_write(path: &Path, bytes: &[u8]) -> Result<(), ObserverError> {
@@ -544,6 +720,7 @@ pub fn observe(
     let mut test_roots = Vec::new();
     let mut quality_commands = Vec::new();
     let mut ci_surfaces = Vec::new();
+    let mut critical_domains = Vec::new();
     for relative in &files {
         match relative
             .extension()
@@ -563,6 +740,17 @@ pub fn observe(
         }
         if path.starts_with(".github/workflows/") {
             ci_surfaces.push(path_string.clone());
+        }
+        for (needle, domain) in [
+            ("security", "security"),
+            ("payment", "payment"),
+            ("auth", "identity"),
+            ("production", "production"),
+            ("release", "release"),
+        ] {
+            if path.contains(needle) {
+                critical_domains.push(domain.into());
+            }
         }
         if path == "Cargo.toml" {
             build_systems.push(BuildSystem::Cargo);
@@ -589,6 +777,8 @@ pub fn observe(
     test_roots.dedup();
     ci_surfaces.sort();
     ci_surfaces.dedup();
+    critical_domains.sort();
+    critical_domains.dedup();
     let mut hasher = Sha256::new();
     for path in &files {
         hasher.update(path.to_string_lossy().as_bytes());
@@ -602,8 +792,12 @@ pub fn observe(
         test_roots,
         quality_commands,
         ci_surfaces,
-        critical_domains: Vec::new(),
-        files_read: files.len(),
+        critical_domains,
+        dependency_fingerprint: snapshot
+            .dependency_fingerprint
+            .parse()
+            .unwrap_or_else(|_| Digest::sha256_bytes(b"invalid-dependency-fingerprint")),
+        files_read: files.len() + snapshot.files_read,
     })
 }
 
@@ -662,6 +856,21 @@ pub fn classify_evolution(
             }
         })
         .collect()
+}
+
+pub fn profile_update_proposal(
+    profile: &cockpit_protocol::ProjectProfile,
+    events: &[EvolutionEvent],
+) -> Option<ProfileUpdateProposal> {
+    let candidate = events
+        .iter()
+        .find(|event| matches!(&event.class, EvolutionClass::L2 | EvolutionClass::L3))?;
+    Some(ProfileUpdateProposal {
+        from_profile_version: profile.profile_version,
+        candidate: candidate.path.clone(),
+        reason: candidate.event_type.clone(),
+        requires_human_confirmation: true,
+    })
 }
 
 fn collect_files(

@@ -40,3 +40,17 @@ fn project_profile_digest_is_stable_for_equal_profiles() {
     let second = cockpit_protocol::digest_json(&profile).expect("digest");
     assert_eq!(first, second);
 }
+
+#[test]
+fn repository_context_keeps_runtime_root_out_of_repository_context() {
+    let context = cockpit_protocol::RepositoryContext {
+        root: std::path::PathBuf::from("/repo"),
+        git_root: std::path::PathBuf::from("/repo"),
+        config: RepositoryConfig {
+            protocol_version: 1,
+            repository_id: "repo".into(),
+        },
+    };
+    assert_eq!(context.root, context.git_root);
+    assert_eq!(context.config.protocol_version, 1);
+}

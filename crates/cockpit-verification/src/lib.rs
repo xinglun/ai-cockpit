@@ -1,4 +1,5 @@
 use std::collections::{BTreeMap, BTreeSet, VecDeque};
+use std::path::PathBuf;
 use std::process::Command;
 use std::sync::{Arc, Mutex};
 use std::time::Instant;
@@ -18,6 +19,19 @@ pub struct VerificationNode {
     pub id: String,
     pub kind: VerificationNodeKind,
     pub dependencies: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct VerificationPlan {
+    pub node_ids: Vec<String>,
+    pub max_workers: usize,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct VerificationResult {
+    pub node_id: String,
+    pub passed: bool,
+    pub reused: bool,
 }
 
 impl VerificationNode {
@@ -46,8 +60,12 @@ pub enum GraphError {
 }
 
 impl VerificationGraph {
-    pub fn add(&mut self, node: VerificationNode) {
+    pub fn add(&mut self, node: VerificationNode) -> Result<(), GraphError> {
+        if self.nodes.contains_key(&node.id) {
+            return Err(GraphError::Duplicate(node.id));
+        }
         self.nodes.insert(node.id.clone(), node);
+        Ok(())
     }
 
     pub fn plan(&self) -> Result<Vec<String>, GraphError> {
@@ -107,6 +125,7 @@ pub struct VerificationCommand {
     pub args: Vec<String>,
     pub reuse: bool,
     pub protected: bool,
+    pub current_dir: Option<PathBuf>,
 }
 
 impl VerificationCommand {
@@ -117,6 +136,7 @@ impl VerificationCommand {
             args,
             reuse: false,
             protected: false,
+            current_dir: None,
         }
     }
 
@@ -129,6 +149,11 @@ impl VerificationCommand {
         self.protected = protected;
         self
     }
+
+    pub fn with_current_dir(mut self, current_dir: impl Into<PathBuf>) -> Self {
+        self.current_dir = Some(current_dir.into());
+        self
+    }
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -137,6 +162,9 @@ pub struct VerificationReceipt {
     pub nodes_executed: usize,
     pub nodes_reused: usize,
     pub processes_spawned: usize,
+    pub git_calls: usize,
+    pub files_read: usize,
+    pub files_hashed: usize,
     pub elapsed_ms: u128,
     pub passed: bool,
 }
@@ -178,7 +206,12 @@ pub fn execute_bounded(
                     }
                     continue;
                 }
-                let result = Command::new(&command.program).args(&command.args).status();
+                let mut process = Command::new(&command.program);
+                process.args(&command.args);
+                if let Some(current_dir) = &command.current_dir {
+                    process.current_dir(current_dir);
+                }
+                let result = process.status();
                 if let Ok(mut metrics) = metrics.lock() {
                     metrics.0 += 1;
                     metrics.2 += 1;
@@ -198,6 +231,9 @@ pub fn execute_bounded(
         nodes_executed: metrics.0,
         nodes_reused: metrics.1,
         processes_spawned: metrics.2,
+        git_calls: 0,
+        files_read: 0,
+        files_hashed: 0,
         elapsed_ms: started.elapsed().as_millis(),
         passed: metrics.3,
     })

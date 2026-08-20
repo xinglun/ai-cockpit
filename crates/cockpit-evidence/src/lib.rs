@@ -1,7 +1,23 @@
 #[derive(Clone, Debug, PartialEq, Eq)]
+pub enum EvidenceBinding {
+    Content {
+        digest: String,
+    },
+    Diff {
+        base_commit: String,
+        head_commit: String,
+        changed_paths_digest: String,
+    },
+    Environment {
+        fingerprint: String,
+    },
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Binding {
     pub classification: &'static str,
     pub value: String,
+    pub evidence_binding: EvidenceBinding,
 }
 
 impl Binding {
@@ -9,6 +25,31 @@ impl Binding {
         Self {
             classification: "content-bound",
             value: value.into(),
+            evidence_binding: EvidenceBinding::Content {
+                digest: value.into(),
+            },
+        }
+    }
+
+    pub fn diff(base_commit: &str, head_commit: &str, changed_paths_digest: &str) -> Self {
+        Self {
+            classification: "diff-bound",
+            value: changed_paths_digest.into(),
+            evidence_binding: EvidenceBinding::Diff {
+                base_commit: base_commit.into(),
+                head_commit: head_commit.into(),
+                changed_paths_digest: changed_paths_digest.into(),
+            },
+        }
+    }
+
+    pub fn environment(fingerprint: &str) -> Self {
+        Self {
+            classification: "environment-bound",
+            value: fingerprint.into(),
+            evidence_binding: EvidenceBinding::Environment {
+                fingerprint: fingerprint.into(),
+            },
         }
     }
 }

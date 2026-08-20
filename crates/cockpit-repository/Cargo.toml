@@ -6,6 +6,7 @@ license.workspace = true
 rust-version.workspace = true
 
 [dependencies]
+chrono.workspace = true
 cockpit-git = { path = "../cockpit-git" }
 cockpit-protocol = { path = "../cockpit-protocol" }
 cockpit-core = { path = "../cockpit-core" }

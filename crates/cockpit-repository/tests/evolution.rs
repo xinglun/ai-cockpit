@@ -7,6 +7,7 @@ use std::path::PathBuf;
 fn observation() -> RepositoryObservation {
     RepositoryObservation {
         snapshot_digest: Digest::sha256_bytes(b"snapshot"),
+        dependency_fingerprint: Digest::sha256_bytes(b"dependencies"),
         languages: vec![],
         build_systems: vec![],
         test_roots: vec!["tests/**".into()],
@@ -28,6 +29,11 @@ fn snapshot(paths: &[&str]) -> RepositorySnapshot {
         head: Some("0123456789abcdef0123456789abcdef01234567".into()),
         changed_paths: paths.iter().map(|path| (*path).into()).collect(),
         git_calls: 2,
+        tree_digest: "sha256:tree".into(),
+        diff_digest: "sha256:diff".into(),
+        dependency_fingerprint: "sha256:dependencies".into(),
+        files_read: 0,
+        files_hashed: 0,
     }
 }
 

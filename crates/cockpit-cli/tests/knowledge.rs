@@ -44,6 +44,17 @@ fn knowledge_query_projects_archived_work_item_records_deterministically() {
         "stderr: {}",
         String::from_utf8_lossy(&start.stderr)
     );
+    let verify = Command::new(binary)
+        .args(["verify", "--repo"])
+        .arg(&directory)
+        .args(["--work-item", "WI-K", "--command", "true"])
+        .output()
+        .expect("verify");
+    assert!(
+        verify.status.success(),
+        "stderr: {}",
+        String::from_utf8_lossy(&verify.stderr)
+    );
     for args in [
         vec!["finish", "--id", "WI-K"],
         vec!["archive", "--id", "WI-K"],

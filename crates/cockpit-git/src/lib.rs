@@ -1,15 +1,23 @@
+use serde::{Deserialize, Serialize};
+use sha2::{Digest as ShaDigest, Sha256};
 use std::path::PathBuf;
 use std::path::{Component, Path};
 use std::process::Command;
 use thiserror::Error;
 
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct RepositorySnapshot {
     pub root: PathBuf,
     pub git_root: PathBuf,
     pub head: Option<String>,
     pub changed_paths: Vec<String>,
     pub git_calls: usize,
+    pub tree_digest: String,
+    pub diff_digest: String,
+    pub dependency_fingerprint: String,
+    pub files_read: usize,
+    pub files_hashed: usize,
 }
 
 pub struct GitRepository {
@@ -53,18 +61,50 @@ impl GitRepository {
             .ok()
             .map(|value| value.trim().to_owned());
         let status = self.run(["status", "--porcelain=v1", "--untracked-files=all"])?;
+        let diff = self.run(["diff", "--no-ext-diff", "--name-status"])?;
+        let tree = self.run(["ls-files", "-s"])?;
         let changed_paths = normalize_changed_paths(
             status
                 .lines()
                 .filter_map(|line| line.get(3..))
                 .map(|line| line.rsplit_once(" -> ").map_or(line, |(_, path)| path)),
         );
+        let dependency_paths = [
+            "Cargo.toml",
+            "Cargo.lock",
+            "package.json",
+            "package-lock.json",
+            "pnpm-lock.yaml",
+            "yarn.lock",
+            "pyproject.toml",
+            "poetry.lock",
+            "go.mod",
+            "go.sum",
+        ];
+        let mut dependency_hasher = Sha256::new();
+        let mut files_read = 0;
+        let mut files_hashed = 0;
+        for relative in dependency_paths {
+            let path = self.root.join(relative);
+            if let Ok(bytes) = std::fs::read(&path) {
+                dependency_hasher.update(relative.as_bytes());
+                dependency_hasher.update([0]);
+                dependency_hasher.update(&bytes);
+                files_read += 1;
+                files_hashed += 1;
+            }
+        }
         Ok(RepositorySnapshot {
             root: self.root.clone(),
             git_root: self.root.clone(),
             head: head.filter(|value| !value.is_empty()),
             changed_paths,
-            git_calls: 2,
+            git_calls: 4,
+            tree_digest: digest(tree.as_bytes()),
+            diff_digest: digest(diff.as_bytes()),
+            dependency_fingerprint: format!("sha256:{}", hex::encode(dependency_hasher.finalize())),
+            files_read,
+            files_hashed,
         })
     }
 
@@ -82,6 +122,12 @@ impl GitRepository {
         }
         String::from_utf8(output.stdout).map_err(|_| GitError::InvalidUtf8)
     }
+}
+
+fn digest(bytes: &[u8]) -> String {
+    let mut hasher = Sha256::new();
+    hasher.update(bytes);
+    format!("sha256:{}", hex::encode(hasher.finalize()))
 }
 pub fn normalize_changed_paths<I, S>(paths: I) -> Vec<String>
 where

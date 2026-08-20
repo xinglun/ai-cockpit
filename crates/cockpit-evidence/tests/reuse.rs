@@ -1,4 +1,4 @@
-use cockpit_evidence::{Binding, ReuseAction, ReuseInput, decide_reuse};
+use cockpit_evidence::{Binding, EvidenceBinding, ReuseAction, ReuseInput, decide_reuse};
 
 #[test]
 fn exact_fresh_binding_can_reuse_non_protected_evidence() {
@@ -32,4 +32,24 @@ fn protected_evidence_is_executed_even_when_binding_matches() {
         },
     );
     assert_eq!(decision.action, ReuseAction::Execute);
+}
+
+#[test]
+fn diff_and_environment_bindings_are_first_class() {
+    let diff = Binding::diff(
+        "base",
+        "head",
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    );
+    let environment = Binding::environment(
+        "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    );
+    assert!(matches!(
+        diff.evidence_binding,
+        EvidenceBinding::Diff { .. }
+    ));
+    assert!(matches!(
+        environment.evidence_binding,
+        EvidenceBinding::Environment { .. }
+    ));
 }

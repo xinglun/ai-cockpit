@@ -6,10 +6,12 @@ use cockpit_knowledge::{Query, query};
 use cockpit_mcp::serve;
 use cockpit_protocol::{Contract, RepositoryConfig};
 use cockpit_repository::{
-    archive_work_item, attach, checkpoint_work_item, close_work_item, finish_work_item,
-    generate_knowledge, observe, start_work_item, status,
+    archive_work_item, attach, checkpoint_work_item, close_work_item, contract_freshness_findings,
+    finish_work_item, generate_knowledge, observe, start_work_item, status,
 };
-use cockpit_verification::{VerificationCommand, execute_bounded};
+use cockpit_verification::{
+    VerificationCommand, VerificationGraph, VerificationNode, VerificationNodeKind, execute_bounded,
+};
 use serde_json::json;
 use std::path::PathBuf;
 
@@ -84,6 +86,8 @@ enum CommandKind {
         #[arg(long)]
         repo: PathBuf,
         #[arg(long)]
+        work_item: Option<String>,
+        #[arg(long)]
         command: Option<String>,
         #[arg(long, value_delimiter = ',')]
         args: Vec<String>,
@@ -142,6 +146,11 @@ fn run() -> Result<()> {
                 "head": snapshot.head,
                 "changedPaths": snapshot.changed_paths,
                 "gitCalls": snapshot.git_calls,
+                "treeDigest": snapshot.tree_digest,
+                "diffDigest": snapshot.diff_digest,
+                "dependencyFingerprint": snapshot.dependency_fingerprint,
+                "filesRead": snapshot.files_read,
+                "filesHashed": snapshot.files_hashed,
             });
             println!("{}", serde_json::to_string_pretty(&output)?);
         }
@@ -168,6 +177,8 @@ fn run() -> Result<()> {
             } else {
                 AuthorityState::Missing
             };
+            let explicit_blockers = contract_freshness_findings(&repo, &contract, &snapshot)
+                .context("validate contract freshness")?;
             let decision = evaluate(GovernanceInput {
                 scope: contract.scope,
                 out_of_scope: contract.out_of_scope,
@@ -178,6 +189,10 @@ fn run() -> Result<()> {
                 untrusted_material: false,
                 test_weakening: false,
                 coverage_weakening: false,
+                explicit_blockers,
+                explicit_unknowns: vec![],
+                outcome_state_override: None,
+                authority_override: None,
             });
             println!("{}", serde_json::to_string_pretty(&decision)?);
         }
@@ -185,7 +200,27 @@ fn run() -> Result<()> {
             let git = GitRepository::discover(&repo).context("discover repository")?;
             let snapshot = git.snapshot().context("create repository snapshot")?;
             let observation = observe(&snapshot.root, &snapshot).context("observe repository")?;
-            println!("{}", serde_json::to_string_pretty(&observation)?);
+            let (evolution, profile_update_proposal) =
+                std::fs::read(snapshot.root.join(".ai/project.json"))
+                    .ok()
+                    .and_then(|bytes| {
+                        serde_json::from_slice::<cockpit_protocol::ProjectProfile>(&bytes).ok()
+                    })
+                    .map(|profile| {
+                        let evolution = cockpit_repository::classify_evolution(
+                            &profile,
+                            &observation,
+                            &snapshot,
+                        );
+                        let proposal =
+                            cockpit_repository::profile_update_proposal(&profile, &evolution);
+                        (evolution, proposal)
+                    })
+                    .unwrap_or_default();
+            let mut output = serde_json::to_value(observation)?;
+            output["evolution"] = serde_json::to_value(evolution)?;
+            output["profileUpdateProposal"] = serde_json::to_value(profile_update_proposal)?;
+            println!("{}", serde_json::to_string_pretty(&output)?);
         }
         CommandKind::Attach { repo } => {
             let profile = attach(&repo).context("attach repository")?;
@@ -224,6 +259,7 @@ fn run() -> Result<()> {
         }
         CommandKind::Verify {
             repo,
+            work_item,
             command,
             args,
             workers,
@@ -238,22 +274,52 @@ fn run() -> Result<()> {
             } else {
                 anyhow::bail!("no verified project command detected; provide --command")
             };
-            let receipt = execute_bounded(
-                vec![
-                    VerificationCommand::new("project-command", &program, command_args)
-                        .with_protected(true),
-                ],
-                workers,
-            )
-            .context("execute verification")?;
+            let snapshot = GitRepository::discover(&root)
+                .context("discover repository for verification")?
+                .snapshot()
+                .context("snapshot repository for verification")?;
+            let mut graph = VerificationGraph::default();
+            graph
+                .add(VerificationNode::new(
+                    "project-command",
+                    VerificationNodeKind::Protected,
+                    vec![],
+                ))
+                .context("build verification graph")?;
+            let plan = graph.plan().context("plan verification graph")?;
+            let commands = plan
+                .into_iter()
+                .map(|id| {
+                    VerificationCommand::new(&id, &program, command_args.clone())
+                        .with_protected(true)
+                        .with_current_dir(&root)
+                })
+                .collect();
+            let mut receipt = execute_bounded(commands, workers).context("execute verification")?;
+            receipt.git_calls = snapshot.git_calls;
+            receipt.files_read += snapshot.files_read;
+            receipt.files_hashed += snapshot.files_hashed;
             let output = json!({
                 "nodesPlanned": receipt.nodes_planned,
                 "nodesExecuted": receipt.nodes_executed,
                 "nodesReused": receipt.nodes_reused,
                 "processesSpawned": receipt.processes_spawned,
+                "gitCalls": receipt.git_calls,
+                "filesRead": receipt.files_read,
+                "filesHashed": receipt.files_hashed,
                 "elapsedMs": receipt.elapsed_ms,
                 "passed": receipt.passed,
             });
+            if let Some(work_item) = work_item {
+                cockpit_repository::record_verification(
+                    &root,
+                    &work_item,
+                    &output,
+                    "0.1.0",
+                    &cockpit_core::Digest::sha256_bytes(b"ai-cockpit-0.1.0"),
+                )
+                .context("record verification evidence")?;
+            }
             println!("{}", serde_json::to_string_pretty(&output)?);
         }
         CommandKind::Knowledge { command } => match command {
@@ -297,8 +363,22 @@ fn run() -> Result<()> {
         }
         CommandKind::Doctor { repo } => {
             let root = std::fs::canonicalize(&repo).context("canonicalize repository")?;
-            let config_text = std::fs::read_to_string(root.join(".ai/cockpit.toml"))
-                .context("read protocol configuration")?;
+            let config_path = root.join(".ai/cockpit.toml");
+            if !config_path.is_file() {
+                println!(
+                    "{}",
+                    serde_json::to_string_pretty(&json!({
+                        "state": "unattached",
+                        "protocolVersion": null,
+                        "repositoryId": null,
+                        "runtimeCodeInRepository": false,
+                        "runtimeVersion": "0.1.0",
+                    }))?
+                );
+                return Ok(());
+            }
+            let config_text =
+                std::fs::read_to_string(&config_path).context("read protocol configuration")?;
             let config: RepositoryConfig =
                 toml::from_str(&config_text).context("parse protocol configuration")?;
             let runtime_code_in_repository = contains_runtime_code(&root.join(".ai"));

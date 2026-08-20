@@ -10,6 +10,7 @@ fn repository() -> std::path::PathBuf {
         .expect("clock")
         .as_nanos();
     let directory = std::env::temp_dir().join(format!("cockpit-lifecycle-{suffix}"));
+    let _ = fs::remove_dir_all(&directory);
     fs::create_dir_all(&directory).expect("directory");
     Command::new("git")
         .args(["init", "-q"])
@@ -77,6 +78,11 @@ fn work_item_lifecycle_is_atomic_and_archive_is_content_bound() {
             .is_file()
     );
     run(binary, &["checkpoint", "--id", "WI-TEST"], &repo);
+    run(
+        binary,
+        &["verify", "--work-item", "WI-TEST", "--command", "true"],
+        &repo,
+    );
     run(binary, &["finish", "--id", "WI-TEST"], &repo);
     assert!(
         repo.join(".ai/work-items/active/WI-TEST.outcome.json")
@@ -95,5 +101,135 @@ fn work_item_lifecycle_is_atomic_and_archive_is_content_bound() {
     run(binary, &["close", "--id", "WI-TEST"], &repo);
     let status = run(binary, &["status"], &repo);
     assert_eq!(status["archivedWorkItems"], 1);
+    fs::remove_dir_all(repo).expect("cleanup");
+}
+
+#[test]
+fn invalid_work_item_id_is_rejected_without_path_traversal() {
+    let repo = repository();
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let output = Command::new(binary)
+        .args(["start", "--repo"])
+        .arg(&repo)
+        .args([
+            "--id",
+            "../escape",
+            "--intent",
+            "bad",
+            "--goal",
+            "bad",
+            "--scope",
+            "**",
+        ])
+        .output()
+        .expect("start");
+    assert!(!output.status.success());
+    assert!(
+        !repo
+            .parent()
+            .expect("parent")
+            .join("escape.contract.json")
+            .exists()
+    );
+    fs::remove_dir_all(repo).expect("cleanup");
+}
+
+#[test]
+fn archive_failure_keeps_active_files_for_recovery() {
+    let repo = repository();
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let attach = Command::new(binary)
+        .args(["attach", "--repo"])
+        .arg(&repo)
+        .output()
+        .expect("attach");
+    assert!(attach.status.success());
+    let start = Command::new(binary)
+        .args(["start", "--repo"])
+        .arg(&repo)
+        .args([
+            "--id",
+            "WI-RECOVER",
+            "--intent",
+            "recover",
+            "--goal",
+            "test",
+            "--scope",
+            "**",
+        ])
+        .output()
+        .expect("start");
+    assert!(start.status.success());
+    let finish = Command::new(binary)
+        .args(["verify", "--repo"])
+        .arg(&repo)
+        .args(["--work-item", "WI-RECOVER", "--command", "true"])
+        .output()
+        .expect("verify");
+    assert!(finish.status.success());
+    let finish = Command::new(binary)
+        .args(["finish", "--repo"])
+        .arg(&repo)
+        .args(["--id", "WI-RECOVER"])
+        .output()
+        .expect("finish");
+    assert!(finish.status.success());
+    fs::remove_file(repo.join(".ai/work-items/active/WI-RECOVER.outcome.json"))
+        .expect("remove outcome");
+    let archive = Command::new(binary)
+        .args(["archive", "--repo"])
+        .arg(&repo)
+        .args(["--id", "WI-RECOVER"])
+        .output()
+        .expect("archive");
+    assert!(!archive.status.success());
+    assert!(
+        repo.join(".ai/work-items/active/WI-RECOVER.contract.json")
+            .is_file()
+    );
+    assert!(
+        repo.join(".ai/work-items/active/WI-RECOVER.summary.json")
+            .is_file()
+    );
+    fs::remove_dir_all(repo).expect("cleanup");
+}
+
+#[test]
+fn finish_rejects_self_declared_completion_without_receipt() {
+    let repo = repository();
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let attach = Command::new(binary)
+        .args(["attach", "--repo"])
+        .arg(&repo)
+        .output()
+        .expect("attach");
+    assert!(attach.status.success());
+    let start = Command::new(binary)
+        .args(["start", "--repo"])
+        .arg(&repo)
+        .args([
+            "--id",
+            "WI-NO-RECEIPT",
+            "--intent",
+            "negative",
+            "--goal",
+            "must block",
+            "--scope",
+            "**",
+        ])
+        .output()
+        .expect("start");
+    assert!(start.status.success());
+    let finish = Command::new(binary)
+        .args(["finish", "--repo"])
+        .arg(&repo)
+        .args(["--id", "WI-NO-RECEIPT"])
+        .output()
+        .expect("finish");
+    assert!(!finish.status.success());
+    assert!(
+        repo.join(".ai/work-items/active/WI-NO-RECEIPT.summary.json")
+            .is_file()
+    );
     fs::remove_dir_all(repo).expect("cleanup");
 }

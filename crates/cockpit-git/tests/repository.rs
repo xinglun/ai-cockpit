@@ -49,6 +49,9 @@ fn snapshot_observes_head_and_untracked_paths_with_one_snapshot_api() {
     let snapshot = repository.snapshot().expect("snapshot");
     assert!(snapshot.head.is_some());
     assert_eq!(snapshot.changed_paths, vec!["src.txt"]);
-    assert_eq!(snapshot.git_calls, 2);
+    assert_eq!(snapshot.git_calls, 4);
+    assert!(snapshot.tree_digest.starts_with("sha256:"));
+    assert!(snapshot.diff_digest.starts_with("sha256:"));
+    assert!(snapshot.dependency_fingerprint.starts_with("sha256:"));
     fs::remove_dir_all(path).expect("cleanup");
 }

@@ -13,6 +13,10 @@ fn base_input() -> GovernanceInput {
         untrusted_material: false,
         test_weakening: false,
         coverage_weakening: false,
+        explicit_blockers: vec![],
+        explicit_unknowns: vec![],
+        outcome_state_override: None,
+        authority_override: None,
     }
 }
 

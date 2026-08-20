@@ -5,6 +5,48 @@ use thiserror::Error;
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
+pub enum WorkItemState {
+    Created,
+    PreflightReady,
+    ImplementationActive,
+    VerificationPending,
+    FinishReady,
+    Archived,
+    Closed,
+    Paused,
+    Blocked,
+    Stale,
+    Cancelled,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub enum EvolutionClass {
+    L0,
+    L1,
+    L2,
+    L3,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct Blocker {
+    pub code: String,
+    pub message: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct SafeAction {
+    pub code: String,
+    pub description: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct HumanDecisionRequirement {
+    pub question: String,
+    pub options: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
 pub enum DecisionState {
     Green,
     Yellow,
@@ -48,6 +90,14 @@ pub struct GovernanceInput {
     pub untrusted_material: bool,
     pub test_weakening: bool,
     pub coverage_weakening: bool,
+    #[serde(default)]
+    pub explicit_blockers: Vec<String>,
+    #[serde(default)]
+    pub explicit_unknowns: Vec<String>,
+    #[serde(default)]
+    pub outcome_state_override: Option<String>,
+    #[serde(default)]
+    pub authority_override: Option<String>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -77,6 +127,86 @@ pub fn evaluate(input: GovernanceInput) -> GovernanceDecision {
     let mut safe_actions = Vec::new();
     let mut required_checks = Vec::new();
 
+    for finding in &input.explicit_blockers {
+        blockers.push(finding.clone());
+        match finding.as_str() {
+            "scope_exceeded" => {
+                safe_actions.push("stop_and_request_new_contract".into());
+                required_checks.push("scope".into());
+            }
+            "destructive_change_without_authority" => {
+                safe_actions.push("stop_and_request_human_authority".into());
+                required_checks.push("authority".into());
+            }
+            "unsafe_deletion_request" => {
+                safe_actions.push("stop_and_request_human_authority".into());
+                required_checks.push("destructive_operation".into());
+            }
+            "unsupported_completion_claim" => {
+                safe_actions.push("remove_claim_or_provide_evidence".into());
+                required_checks.push("completion_evidence".into());
+            }
+            "human_authority_missing" => {
+                safe_actions.push("request_human_decision".into());
+                required_checks.push("authority".into());
+            }
+            "archive_invalid" => {
+                safe_actions.push("preserve_active_work_item".into());
+                safe_actions.push("repair_archive_evidence".into());
+                required_checks.push("archive_integrity".into());
+            }
+            "stale_contract" => {
+                safe_actions.push("stop_and_refresh_contract".into());
+                required_checks.push("contract_freshness".into());
+            }
+            "cross_work_item_evidence" => {
+                safe_actions.push("rerun_evidence_for_current_work_item".into());
+                required_checks.push("evidence_binding".into());
+            }
+            "test_weakening" => {
+                safe_actions.push("restore_verification_strength".into());
+                safe_actions.push("request_human_decision".into());
+                required_checks.push("test_integrity".into());
+            }
+            "coverage_weakening" => {
+                safe_actions.push("restore_coverage_requirement".into());
+                safe_actions.push("request_human_decision".into());
+                required_checks.push("coverage_integrity".into());
+            }
+            "evidence_contradictory" => {
+                safe_actions.push("stop_and_reconcile_evidence".into());
+                required_checks.push("evidence_consistency".into());
+            }
+            _ => safe_actions.push("stop_and_request_human_decision".into()),
+        }
+    }
+    unknowns.extend(input.explicit_unknowns.iter().cloned());
+    for unknown in &input.explicit_unknowns {
+        match unknown.as_str() {
+            "required_evidence_missing" => {
+                safe_actions.push("collect_required_evidence".into());
+                safe_actions.push("rerun_preflight".into());
+                required_checks.push("verification".into());
+            }
+            "evidence_stale" => {
+                safe_actions.push("rerun_affected_checks".into());
+                safe_actions.push("rerun_preflight".into());
+                required_checks.push("evidence_freshness".into());
+            }
+            "repository_material_untrusted" => {
+                safe_actions.push("treat_material_as_data".into());
+                safe_actions.push("continue_with_explicit_policy".into());
+                required_checks.push("input_trust".into());
+            }
+            "provider_result_unknown" => {
+                safe_actions.push("obtain_provider_receipt".into());
+                safe_actions.push("rerun_preflight".into());
+                required_checks.push("external_evidence".into());
+            }
+            _ => safe_actions.push("collect_missing_evidence".into()),
+        }
+    }
+
     if input.changed_paths.iter().any(|path| {
         !input
             .scope
@@ -101,6 +231,7 @@ pub fn evaluate(input: GovernanceInput) -> GovernanceDecision {
         blockers.push("destructive_change_without_authority".into());
         safe_actions.push("stop_and_request_human_authority".into());
         required_checks.push("authority".into());
+        required_checks.push("scope".into());
     }
     if input.test_weakening {
         blockers.push("test_weakening".into());
@@ -158,24 +289,30 @@ pub fn evaluate(input: GovernanceInput) -> GovernanceDecision {
     } else {
         DecisionState::Green
     };
-    let outcome_state = match state {
-        DecisionState::Green => "ready",
-        DecisionState::Yellow => "verification_pending",
-        DecisionState::Red => "blocked",
-    };
-    let authority = match input.authority {
-        AuthorityState::Authorized => "authorized",
-        AuthorityState::Missing => "missing",
-        AuthorityState::NotEvaluated => "not_evaluated",
-    };
+    let outcome_state = input.outcome_state_override.unwrap_or_else(|| {
+        match state {
+            DecisionState::Green => "ready",
+            DecisionState::Yellow => "verification_pending",
+            DecisionState::Red => "blocked",
+        }
+        .into()
+    });
+    let authority = input.authority_override.unwrap_or_else(|| {
+        match input.authority {
+            AuthorityState::Authorized => "authorized",
+            AuthorityState::Missing => "missing",
+            AuthorityState::NotEvaluated => "not_evaluated",
+        }
+        .into()
+    });
     GovernanceDecision {
         state,
         blockers,
         unknowns,
         safe_actions,
         required_checks,
-        authority: authority.into(),
-        outcome_state: outcome_state.into(),
+        authority,
+        outcome_state,
     }
 }
 

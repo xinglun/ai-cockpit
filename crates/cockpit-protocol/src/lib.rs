@@ -1,5 +1,6 @@
 use cockpit_core::Digest;
 use serde::{Deserialize, Serialize};
+use std::path::PathBuf;
 use thiserror::Error;
 
 pub const PROTOCOL_VERSION: u32 = 1;
@@ -17,6 +18,13 @@ pub struct RuntimeContext {
     pub runtime_version: String,
     pub protocol_version: u32,
     pub runtime_digest: Digest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RepositoryContext {
+    pub root: PathBuf,
+    pub git_root: PathBuf,
+    pub config: RepositoryConfig,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
