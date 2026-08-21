@@ -1,8 +1,11 @@
 use std::{
     fs,
     process::Command,
+    sync::atomic::{AtomicU64, Ordering},
     time::{SystemTime, UNIX_EPOCH},
 };
+
+static NEXT_REPOSITORY_ID: AtomicU64 = AtomicU64::new(0);
 
 #[test]
 fn preflight_reports_yellow_when_required_evidence_is_missing() {
@@ -10,7 +13,11 @@ fn preflight_reports_yellow_when_required_evidence_is_missing() {
         .duration_since(UNIX_EPOCH)
         .expect("clock")
         .as_nanos();
-    let directory = std::env::temp_dir().join(format!("cockpit-preflight-{suffix}"));
+    let sequence = NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed);
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-preflight-{}-{suffix}-{sequence}",
+        std::process::id()
+    ));
     fs::create_dir_all(&directory).expect("directory");
     Command::new("git")
         .args(["init", "-q"])
@@ -57,7 +64,11 @@ fn preflight_turns_green_after_matching_verification_evidence() {
         .duration_since(UNIX_EPOCH)
         .expect("clock")
         .as_nanos();
-    let directory = std::env::temp_dir().join(format!("cockpit-preflight-green-{suffix}"));
+    let sequence = NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed);
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-preflight-green-{}-{suffix}-{sequence}",
+        std::process::id()
+    ));
     fs::create_dir_all(&directory).expect("directory");
     Command::new("git")
         .args(["init", "-q"])

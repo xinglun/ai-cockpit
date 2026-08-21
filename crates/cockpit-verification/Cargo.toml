@@ -8,5 +8,19 @@ rust-version.workspace = true
 [dependencies]
 cockpit-core = { path = "../cockpit-core" }
 cockpit-evidence = { path = "../cockpit-evidence" }
+serde.workspace = true
+serde_json.workspace = true
 thiserror.workspace = true
 
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { workspace = true, features = [
+    "Win32_Foundation",
+    "Win32_Security",
+    "Win32_System_Diagnostics_ToolHelp",
+    "Win32_System_JobObjects",
+    "Win32_System_Pipes",
+    "Win32_System_Threading",
+] }

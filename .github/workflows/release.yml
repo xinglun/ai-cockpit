@@ -5,10 +5,8 @@ on:
   push:
     tags: ['v*']
 
-permissions:
-  contents: write
-  id-token: write
-  attestations: write
+env:
+  CARGO_TERM_COLOR: never
 
 jobs:
   build:
@@ -16,80 +14,474 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-24.04
             target: x86_64-unknown-linux-gnu
             archive: tar.gz
           - os: ubuntu-24.04-arm
             target: aarch64-unknown-linux-gnu
             archive: tar.gz
-          - os: macos-13
+          - os: macos-15-intel
             target: x86_64-apple-darwin
             archive: tar.gz
-          - os: macos-14
+          - os: macos-15
             target: aarch64-apple-darwin
             archive: tar.gz
-          - os: windows-latest
+          - os: windows-2025
             target: x86_64-pc-windows-msvc
             archive: zip
     runs-on: ${{ matrix.os }}
-    env:
-      COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
-      COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
         with:
           toolchain: 1.94.1
           targets: ${{ matrix.target }}
-      - run: cargo build --locked --release --target ${{ matrix.target }}
-      - name: collect binary and SBOM metadata
+      - name: Build the target binary
+        run: cargo build --locked --release --package cockpit-cli --target ${{ matrix.target }}
+      - name: Package the exact archive layout
         shell: bash
+        env:
+          TARGET: ${{ matrix.target }}
         run: |
           set -euo pipefail
+          version="$(cargo metadata --locked --format-version 1 | jq -er '.packages[] | select(.name == "cockpit-cli") | .version')"
+          tag="v${version}"
           mkdir -p dist
-          if [[ "${{ matrix.archive }}" == "zip" ]]; then
-            cp "target/${{ matrix.target }}/release/ai-cockpit.exe" "dist/ai-cockpit-${{ matrix.target }}.exe"
-            (cd dist && 7z a -tzip "ai-cockpit-${{ matrix.target }}.zip" "ai-cockpit-${{ matrix.target }}.exe")
+          if [[ "$TARGET" == "x86_64-pc-windows-msvc" ]]; then
+            executable="target/${TARGET}/release/ai-cockpit.exe"
+            archive="dist/ai-cockpit-${tag}-${TARGET}.zip"
           else
-            cp "target/${{ matrix.target }}/release/ai-cockpit" "dist/ai-cockpit-${{ matrix.target }}"
-            tar -czf "dist/ai-cockpit-${{ matrix.target }}.tar.gz" -C dist "ai-cockpit-${{ matrix.target }}"
+            executable="target/${TARGET}/release/ai-cockpit"
+            archive="dist/ai-cockpit-${tag}-${TARGET}.tar.gz"
           fi
-          cargo metadata --locked --format-version 1 > "dist/sbom-${{ matrix.target }}.json"
-          (cd dist && shasum -a 256 * > SHA256SUMS-${{ matrix.target }})
-      - name: generate SPDX SBOM
-        uses: anchore/sbom-action@v0
+          printf 'ai-cockpit %s archive for %s\n' "$version" "$TARGET" > dist/README
+          cargo run --locked --package cockpit-release -- package \
+            --executable "$executable" \
+            --license LICENSE \
+            --readme dist/README \
+            --target "$TARGET" \
+            --output "$archive"
+          cargo metadata --locked --format-version 1 > "dist/ai-cockpit-${tag}-${TARGET}.cargo.json"
+      - name: Generate SPDX SBOM
+        uses: anchore/sbom-action@d94f46e13c6c62f59525ac9a1e147a99dc0b9bf5
         with:
           path: .
           format: spdx-json
           output-file: dist/sbom-spdx-${{ matrix.target }}.json
-      - name: attest build provenance
-        uses: actions/attest-build-provenance@v2
-        with:
-          subject-path: 'dist/*'
-      - name: install cosign
-        if: ${{ env.COSIGN_PRIVATE_KEY != '' }}
-        uses: sigstore/cosign-installer@v3
-      - name: sign checksums when release key is configured
-        if: ${{ env.COSIGN_PRIVATE_KEY != '' }}
+      - name: Bind SBOM to the release version
+        shell: bash
         env:
-          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
-          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
-        run: cosign sign-blob --yes --key env://COSIGN_PRIVATE_KEY --output-signature "dist/SHA256SUMS-${{ matrix.target }}.sig" "dist/SHA256SUMS-${{ matrix.target }}"
-      - uses: actions/upload-artifact@v4
+          TARGET: ${{ matrix.target }}
+        run: |
+          set -euo pipefail
+          version="$(cargo metadata --locked --format-version 1 | jq -er '.packages[] | select(.name == "cockpit-cli") | .version')"
+          mv "dist/sbom-spdx-${TARGET}.json" "dist/ai-cockpit-v${version}-${TARGET}.spdx.json"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: ai-cockpit-${{ matrix.target }}
           path: dist/
+          if-no-files-found: error
+          retention-days: 7
 
-  publish:
-    if: startsWith(github.ref, 'refs/tags/')
-    needs: build
-    runs-on: ubuntu-latest
+  source_quality:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+        with:
+          toolchain: 1.94.1
+      - name: Run source quality gates
+        shell: bash
+        run: |
+          set -euo pipefail
+          cargo fmt --all -- --check
+          cargo clippy --workspace --all-targets --all-features -- -D warnings
+          cargo test --workspace --all-targets --all-features --quiet
+          cargo metadata --locked --format-version 1 > /tmp/cargo-metadata.json
+          version="$(jq -er '.packages[] | select(.name == "cockpit-cli") | .version' /tmp/cargo-metadata.json)"
+          jq -e --arg version "$version" '[.packages[] | select(.source == null) | .version == $version] | all' /tmp/cargo-metadata.json
+          tests/release/workflow_policy.sh .github/workflows/release.yml
+          tests/release/annotated_tag_identity.sh
+
+  aggregate:
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+        with:
+          toolchain: 1.94.1
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           path: dist
+          pattern: ai-cockpit-*
           merge-multiple: true
-      - uses: softprops/action-gh-release@v2
+      - name: Aggregate and bind the candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="$(cargo metadata --locked --format-version 1 | jq -er '.packages[] | select(.name == "cockpit-cli") | .version')"
+          tag="v${version}"
+          if [[ "$GITHUB_REF" == refs/tags/* && "$GITHUB_REF_NAME" != "$tag" ]]; then
+            echo "tag $GITHUB_REF_NAME does not match workspace version $version" >&2
+            exit 1
+          fi
+          commit="$(git rev-parse "${GITHUB_SHA}^{commit}")"
+          test "$commit" = "$GITHUB_SHA"
+          lock_sha="$(shasum -a 256 Cargo.lock | awk '{print $1}')"
+          cargo run --locked --package cockpit-release -- manifest \
+            --dist dist \
+            --output dist/release-manifest.json \
+            --version "$version" \
+            --tag "$tag" \
+            --commit "$commit" \
+            --cargo-lock-sha256 "$lock_sha"
+          mkdir -p dist/Formula
+          cargo run --locked --package cockpit-release -- formula \
+            --manifest dist/release-manifest.json \
+            --output dist/Formula/ai-cockpit.rb
+          cargo run --locked --package cockpit-release -- validate \
+            --manifest dist/release-manifest.json --dist dist
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          files: dist/*
+          name: ai-cockpit-candidate
+          path: dist/
+          if-no-files-found: error
+          retention-days: 7
+
+  release_policy:
+    needs: [aggregate, source_quality]
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ai-cockpit-candidate
+          path: dist
+      - name: Enforce immutable release identity
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          version="$(jq -er '.version' dist/release-manifest.json)"
+          tag="v${version}"
+          test "$(jq -er '.tag' dist/release-manifest.json)" = "$tag"
+          test "$(jq -er '.commit' dist/release-manifest.json)" = "$GITHUB_SHA"
+          test "$(jq -er '.cargoLockSha256' dist/release-manifest.json)" = "$(shasum -a 256 Cargo.lock | awk '{print $1}')"
+          if [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
+            test "$GITHUB_REF_NAME" = "$tag"
+            before="$(jq -er '.before' "$GITHUB_EVENT_PATH")"
+            test "$before" = "0000000000000000000000000000000000000000"
+            test "$(git rev-parse "refs/tags/${GITHUB_REF_NAME}^{commit}")" = "$GITHUB_SHA"
+            git fetch origin main --depth=1
+            git merge-base --is-ancestor "$GITHUB_SHA" origin/main
+            release_response="$(gh api --include "repos/xinglun/ai-cockpit/releases/tags/${tag}" 2>&1 || true)"
+            release_status="$(printf '%s\n' "$release_response" | awk '$1 ~ /^HTTP\// {print $2; exit}')"
+            case "$release_status" in
+              404) ;;
+              2*|3*) echo "provider Release already exists for ${tag}" >&2; exit 1 ;;
+              *) echo "unable to determine provider Release state (HTTP ${release_status:-unknown})" >&2; exit 1 ;;
+            esac
+          fi
+
+  verify:
+    needs: [aggregate, source_quality, release_policy]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+        with:
+          toolchain: 1.94.1
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ai-cockpit-candidate
+          path: dist
+      - name: Verify manifest, checksums, and archive members
+        shell: bash
+        run: |
+          set -euo pipefail
+          cargo run --locked --package cockpit-release -- validate \
+            --manifest dist/release-manifest.json --dist dist
+          version="$(jq -er '.version' dist/release-manifest.json)"
+          test -n "$version"
+          for target in aarch64-apple-darwin aarch64-unknown-linux-gnu x86_64-apple-darwin x86_64-pc-windows-msvc x86_64-unknown-linux-gnu; do
+            if [[ "$target" == x86_64-pc-windows-msvc ]]; then extension=zip; else extension=tar.gz; fi
+            cargo run --locked --package cockpit-release -- inspect \
+              --archive "dist/ai-cockpit-v${version}-${target}.${extension}" --target "$target"
+          done
+
+  smoke_homebrew:
+    needs: [aggregate, verify]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-15
+            target: aarch64-apple-darwin
+          - os: macos-15-intel
+            target: x86_64-apple-darwin
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+        with:
+          toolchain: 1.94.1
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ai-cockpit-candidate
+          path: dist
+      - name: Install and uninstall the staged Formula
+        shell: bash
+        env:
+          TARGET: ${{ matrix.target }}
+        run: |
+          set -euo pipefail
+          version="$(jq -er '.version' dist/release-manifest.json)"
+          test -n "$version"
+          tag="v${version}"
+          archive="ai-cockpit-${tag}-${TARGET}.tar.gz"
+          mkdir -p "serve/${tag}" Formula
+          cp "dist/${archive}" "serve/${tag}/${archive}"
+          python3 - "$PWD/serve" >/tmp/ai-cockpit-http-port 2>/tmp/ai-cockpit-http.log <<'PY' &
+          import functools
+          import http.server
+          import sys
+          import socketserver
+
+          handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=sys.argv[1])
+          with socketserver.TCPServer(("127.0.0.1", 0), handler) as server:
+              print(server.server_address[1], flush=True)
+              server.serve_forever()
+          PY
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..50}; do
+            [[ -s /tmp/ai-cockpit-http-port ]] && break
+            sleep 0.1
+          done
+          port="$(cat /tmp/ai-cockpit-http-port)"
+          curl --fail --silent "http://127.0.0.1:${port}/${tag}/${archive}" -o /dev/null
+          cargo run --locked --package cockpit-release -- formula \
+            --manifest dist/release-manifest.json \
+            --fixture-base-url "http://127.0.0.1:${port}/" \
+            --output Formula/ai-cockpit.rb
+          brew install --formula ./Formula/ai-cockpit.rb
+          brew test ./Formula/ai-cockpit.rb
+          ai-cockpit --version
+          brew uninstall ai-cockpit
+          ! brew list --formula | grep -Fx ai-cockpit
+
+  smoke_linux:
+    needs: [aggregate, verify]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            target: x86_64-unknown-linux-gnu
+          - os: ubuntu-24.04-arm
+            target: aarch64-unknown-linux-gnu
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ai-cockpit-candidate
+          path: dist
+      - name: Verify and run Linux archive
+        shell: bash
+        env:
+          TARGET: ${{ matrix.target }}
+        run: |
+          set -euo pipefail
+          version="$(jq -er '.version' dist/release-manifest.json)"
+          test -n "$version"
+          archive="ai-cockpit-v${version}-${TARGET}.tar.gz"
+          expected="$(awk -v name="$archive" '$2 == name {print $1}' dist/SHA256SUMS)"
+          actual="$(sha256sum "dist/${archive}" | awk '{print $1}')"
+          test -n "$expected" && test "$expected" = "$actual"
+          mkdir extracted
+          tar -xzf "dist/${archive}" -C extracted
+          ./extracted/ai-cockpit --version
+          ./extracted/ai-cockpit --help >/dev/null
+
+  smoke_windows:
+    needs: [aggregate, verify]
+    runs-on: windows-2025
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ai-cockpit-candidate
+          path: dist
+      - name: Verify and run Windows archive
+        shell: pwsh
+        run: |
+          $version = (Get-Content dist/release-manifest.json -Raw | ConvertFrom-Json).version
+          $archive = "ai-cockpit-v$version-x86_64-pc-windows-msvc.zip"
+          $expected = (Get-Content dist/SHA256SUMS | Where-Object { $_ -match [regex]::Escape($archive) } | ForEach-Object { ($_ -split '\s+')[0] }).ToLowerInvariant()
+          $actual = (Get-FileHash "dist/$archive" -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($expected -ne $actual) { throw 'Windows archive checksum mismatch' }
+          Expand-Archive "dist/$archive" -DestinationPath extracted
+          ./extracted/ai-cockpit.exe --version
+          ./extracted/ai-cockpit.exe --help | Out-Null
+
+  attest:
+    needs: [build, aggregate, source_quality, release_policy, verify, smoke_homebrew, smoke_linux, smoke_windows]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ai-cockpit-candidate
+          path: dist
+      - name: Attest the final candidate bundle
+        uses: actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32
+        with:
+          subject-path: |
+            dist/*.tar.gz
+            dist/*.zip
+            dist/*.spdx.json
+            dist/release-manifest.json
+            dist/SHA256SUMS
+            dist/Formula/ai-cockpit.rb
+
+  publish:
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    needs: [build, aggregate, source_quality, release_policy, verify, smoke_homebrew, smoke_linux, smoke_windows, attest]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ai-cockpit-candidate
+          path: dist
+      - name: Recheck immutable tag and provider Release identity
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          tag="$(jq -er '.tag' dist/release-manifest.json)"
+          test "$tag" = "$GITHUB_REF_NAME"
+          test "$(jq -er '.commit' dist/release-manifest.json)" = "$GITHUB_SHA"
+          test "$(git ls-remote origin "refs/tags/${tag}^{}" | awk '{print $1}')" = "$GITHUB_SHA"
+          release_response="$(gh api --include "repos/xinglun/ai-cockpit/releases/tags/${tag}" 2>&1 || true)"
+          release_status="$(printf '%s\n' "$release_response" | awk '$1 ~ /^HTTP\// {print $2; exit}')"
+          case "$release_status" in
+            404) ;;
+            2*|3*) echo "provider Release already exists for ${tag}" >&2; exit 1 ;;
+            *) echo "unable to determine provider Release state (HTTP ${release_status:-unknown})" >&2; exit 1 ;;
+          esac
+      - uses: softprops/action-gh-release@da05d552573ad5aba039eaac05058a918a7bf631
+        with:
+          files: |
+            dist/release-manifest.json
+            dist/SHA256SUMS
+            dist/Formula/ai-cockpit.rb
+            dist/*.tar.gz
+            dist/*.zip
+            dist/*.spdx.json
           generate_release_notes: true
+
+  publish_handoff:
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    needs: publish
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+        with:
+          toolchain: 1.94.1
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ai-cockpit-candidate
+          path: dist
+      - name: Create the post-publication handoff
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          tag="$(jq -er '.tag' dist/release-manifest.json)"
+          test "$tag" = "$GITHUB_REF_NAME"
+          provider_release_id=''
+          for attempt in {1..30}; do
+            provider_release_id="$(gh api "repos/xinglun/ai-cockpit/releases/tags/${tag}" --jq '.id' 2>/dev/null || true)"
+            if [[ "$provider_release_id" =~ ^[1-9][0-9]*$ ]]; then break; fi
+            sleep 2
+          done
+          test "$provider_release_id" -gt 0
+          manifest_sha="$(shasum -a 256 dist/release-manifest.json | awk '{print $1}')"
+          formula_sha="$(shasum -a 256 dist/Formula/ai-cockpit.rb | awk '{print $1}')"
+          issued="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          expires="$(date -u -d '+24 hours' +%Y-%m-%dT%H:%M:%SZ)"
+          cargo run --locked --package cockpit-release -- handoff \
+            --output dist/homebrew-handoff.json \
+            --workflow-ref "xinglun/ai-cockpit/.github/workflows/release.yml@${GITHUB_SHA}" \
+            --run-id "$GITHUB_RUN_ID" \
+            --tag "$tag" \
+            --commit "$GITHUB_SHA" \
+            --provider-release-id "$provider_release_id" \
+            --manifest-sha256 "$manifest_sha" \
+            --formula-sha256 "$formula_sha" \
+            --issued-at "$issued" \
+            --expires-at "$expires"
+          test "$(jq -er '.release.providerReleaseId' dist/homebrew-handoff.json)" = "$provider_release_id"
+      - name: Attest the handoff
+        uses: actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32
+        with:
+          subject-path: dist/homebrew-handoff.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ai-cockpit-publish-handoff
+          path: dist/homebrew-handoff.json
+          if-no-files-found: error
+          retention-days: 7

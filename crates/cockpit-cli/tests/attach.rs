@@ -1,15 +1,22 @@
 use std::{
     fs,
     process::Command,
+    sync::atomic::{AtomicU64, Ordering},
     time::{SystemTime, UNIX_EPOCH},
 };
+
+static NEXT_REPOSITORY_ID: AtomicU64 = AtomicU64::new(0);
 
 fn fixture_repository() -> std::path::PathBuf {
     let suffix = SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .expect("clock")
         .as_nanos();
-    let directory = std::env::temp_dir().join(format!("cockpit-attach-{suffix}"));
+    let sequence = NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed);
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-attach-{}-{suffix}-{sequence}",
+        std::process::id()
+    ));
     fs::create_dir_all(&directory).expect("directory");
     Command::new("git")
         .args(["init", "-q"])

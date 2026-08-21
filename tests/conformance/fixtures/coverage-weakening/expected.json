@@ -1,1 +1,1 @@
-{"decisionState":"red","blockers":["coverage_weakening"],"unknowns":[],"safeActions":["restore_coverage_requirement","request_human_decision"],"requiredChecks":["coverage_integrity"],"authority":"not_evaluated","outcomeState":"blocked"}
+{"decisionState":"yellow","blockers":[],"unknowns":["coverage_weakening"],"safeActions":["restore_coverage_requirement","request_human_decision"],"requiredChecks":["coverage_integrity"],"authority":"not_evaluated","outcomeState":"needs_human_decision"}

@@ -10,6 +10,7 @@ members = [
     "crates/cockpit-knowledge",
     "crates/cockpit-mcp",
     "crates/cockpit-cli",
+    "crates/cockpit-release",
 ]
 
 [workspace.package]
@@ -20,11 +21,19 @@ rust-version = "1.94"
 
 [workspace.dependencies]
 anyhow = "1.0"
+cap-std = "4.0"
+cap-fs-ext = "4.0"
 chrono = { version = "0.4", default-features = false, features = ["clock"] }
 clap = { version = "4.5", features = ["derive"] }
 hex = "0.4"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
+semver = "1.0"
 sha2 = "0.10"
 thiserror = "2.0"
+tempfile = "3.23"
 toml = "0.9"
+windows-sys = "0.60"
+
+[profile.dev.package.sha2]
+opt-level = 3

@@ -1,8 +1,11 @@
 use std::{
     fs,
     process::Command,
+    sync::atomic::{AtomicU64, Ordering},
     time::{SystemTime, UNIX_EPOCH},
 };
+
+static NEXT_REPOSITORY_ID: AtomicU64 = AtomicU64::new(0);
 
 #[test]
 fn doctor_reports_protocol_and_runtime_thin_repository_checks() {
@@ -10,7 +13,11 @@ fn doctor_reports_protocol_and_runtime_thin_repository_checks() {
         .duration_since(UNIX_EPOCH)
         .expect("clock")
         .as_nanos();
-    let directory = std::env::temp_dir().join(format!("cockpit-doctor-{suffix}"));
+    let sequence = NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed);
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-doctor-{}-{suffix}-{sequence}",
+        std::process::id()
+    ));
     fs::create_dir_all(&directory).expect("directory");
     Command::new("git")
         .args(["init", "-q"])
@@ -38,6 +45,12 @@ fn doctor_reports_protocol_and_runtime_thin_repository_checks() {
     assert_eq!(json["protocolVersion"], 1);
     assert_eq!(json["runtimeCodeInRepository"], false);
     assert_eq!(json["state"], "ok");
+    assert_eq!(json["runtimeVersion"], env!("CARGO_PKG_VERSION"));
+    let expected_digest = cockpit_core::Digest::sha256_bytes(
+        &fs::read(binary).expect("read exact executable under test"),
+    )
+    .to_string();
+    assert_eq!(json["runtimeDigest"], expected_digest);
     fs::remove_dir_all(directory).expect("cleanup");
 }
 
@@ -47,7 +60,11 @@ fn status_rejects_unsupported_repository_protocol() {
         .duration_since(UNIX_EPOCH)
         .expect("clock")
         .as_nanos();
-    let directory = std::env::temp_dir().join(format!("cockpit-status-protocol-{suffix}"));
+    let sequence = NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed);
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-status-protocol-{}-{suffix}-{sequence}",
+        std::process::id()
+    ));
     fs::create_dir_all(&directory).expect("directory");
     Command::new("git")
         .args(["init", "-q"])

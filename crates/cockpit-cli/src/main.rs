@@ -1,23 +1,22 @@
 use anyhow::{Context, Result};
 use clap::{ArgAction, Parser, Subcommand};
-use cockpit_core::{ActionKind, AuthorityState, GovernanceInput, evaluate};
 use cockpit_git::GitRepository;
 use cockpit_knowledge::{Query, query};
 use cockpit_mcp::serve;
 use cockpit_protocol::{Contract, RepositoryConfig, validate_protocol_version};
 use cockpit_repository::{
-    WorkItemStartOptions, archive_work_item, attach, checkpoint_work_item,
-    close_work_item_with_decision, contract_freshness_findings, finish_work_item,
-    generate_knowledge, start_work_item_with_options, status,
-};
-use cockpit_verification::{
-    VerificationCommand, VerificationGraph, VerificationNode, VerificationNodeKind, execute_bounded,
+    RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
+    archive_work_item, attach, checkpoint_work_item, close_work_item_with_decision,
+    finish_work_item, generate_knowledge, run_repository_verification,
+    start_work_item_with_options, status,
 };
 use serde_json::json;
 use std::path::PathBuf;
 
+mod runtime_identity;
+
 #[derive(Debug, Parser)]
-#[command(name = "ai-cockpit", version = "0.1.0")]
+#[command(name = "ai-cockpit", version)]
 struct Cli {
     #[command(subcommand)]
     command: CommandKind,
@@ -162,14 +161,15 @@ fn main() {
 
 fn run() -> Result<()> {
     let cli = Cli::parse();
+    let runtime_context = runtime_identity::load_current().context("load runtime identity")?;
     match cli.command {
         CommandKind::Inspect { repo } => {
             let git = GitRepository::discover(&repo).context("discover repository")?;
             let snapshot = git.snapshot().context("create repository snapshot")?;
             let output = json!({
-                "runtimeVersion": "0.1.0",
-                "runtimeDigest": cockpit_core::Digest::sha256_bytes(b"ai-cockpit-0.1.0").to_string(),
-                "protocolVersion": 1,
+                "runtimeVersion": &runtime_context.runtime_version,
+                "runtimeDigest": &runtime_context.runtime_digest,
+                "protocolVersion": runtime_context.protocol_version,
                 "repositoryRoot": snapshot.root,
                 "gitRoot": snapshot.git_root,
                 "head": snapshot.head,
@@ -191,40 +191,9 @@ fn run() -> Result<()> {
                     .context("parse contract")?;
             cockpit_protocol::validate_protocol_version(contract.protocol_version)
                 .context("validate contract protocol")?;
-            let evidence =
-                cockpit_repository::evidence_state_for_contract(&repo, &contract, &snapshot)
-                    .context("evaluate required evidence")?;
-            let action = if contract.risk.to_ascii_lowercase().contains("destructive") {
-                ActionKind::Destructive
-            } else {
-                ActionKind::Write
-            };
-            let authority = if contract.authority == "authorized" {
-                AuthorityState::Authorized
-            } else {
-                AuthorityState::Missing
-            };
-            let explicit_blockers = contract_freshness_findings(&repo, &contract, &snapshot)
-                .context("validate contract freshness")?;
-            let decision = evaluate(GovernanceInput {
-                scope: contract.scope,
-                out_of_scope: contract.out_of_scope,
-                changed_paths: snapshot
-                    .changed_paths
-                    .into_iter()
-                    .filter(|path| !path.starts_with(".ai/"))
-                    .collect(),
-                action,
-                authority,
-                evidence,
-                untrusted_material: false,
-                test_weakening: false,
-                coverage_weakening: false,
-                explicit_blockers,
-                explicit_unknowns: vec![],
-                outcome_state_override: None,
-                authority_override: None,
-            });
+            let decision =
+                cockpit_repository::governance_decision_for_contract(&repo, &contract, &snapshot)
+                    .context("evaluate governance decision")?;
             println!("{}", serde_json::to_string_pretty(&decision)?);
         }
         CommandKind::Observe { repo } => {
@@ -236,7 +205,14 @@ fn run() -> Result<()> {
                 std::fs::read(snapshot.root.join(".ai/project.json"))
                     .ok()
                     .and_then(|bytes| {
-                        serde_json::from_slice::<cockpit_protocol::ProjectProfile>(&bytes).ok()
+                        serde_json::from_slice::<cockpit_repository::AttachedProfile>(&bytes)
+                            .ok()
+                            .map(|profile| cockpit_protocol::ProjectProfile {
+                                profile_version: profile.profile_version,
+                                repository_id: profile.repository_id,
+                                tests: profile.tests,
+                                build_systems: profile.build_systems,
+                            })
                     })
                     .map(|profile| {
                         let evolution = cockpit_repository::classify_evolution(
@@ -320,7 +296,8 @@ fn run() -> Result<()> {
             workers,
         } => {
             let root = std::fs::canonicalize(&repo).context("canonicalize repository")?;
-            let (programs, command_args) = if !command.is_empty() {
+            let explicit = !command.is_empty();
+            let (programs, command_args) = if explicit {
                 (command, args)
             } else if root.join("Cargo.toml").is_file() {
                 (
@@ -332,59 +309,93 @@ fn run() -> Result<()> {
             } else {
                 anyhow::bail!("no verified project command detected; provide --command")
             };
-            let snapshot = GitRepository::discover(&root)
-                .context("discover repository for verification")?
-                .snapshot()
-                .context("snapshot repository for verification")?;
-            let mut graph = VerificationGraph::default();
-            let mut programs_by_id = std::collections::BTreeMap::new();
-            for (index, program) in programs.iter().enumerate() {
-                let id = format!("project-command-{index}");
-                graph
-                    .add(VerificationNode::new(
-                        &id,
-                        VerificationNodeKind::Protected,
-                        vec![],
-                    ))
-                    .context("build verification graph")?;
-                programs_by_id.insert(id, program.clone());
-            }
-            let plan = graph.plan().context("plan verification graph")?;
-            let commands = plan
+            let requests = programs
                 .into_iter()
-                .map(|id| {
-                    VerificationCommand::new(
-                        &id,
-                        programs_by_id.get(&id).expect("planned program"),
-                        command_args.clone(),
-                    )
-                    .with_protected(true)
-                    .with_current_dir(&root)
+                .enumerate()
+                .map(|(index, program)| RepositoryVerificationRequest {
+                    node_id: format!("project-command-{index}"),
+                    program,
+                    args: command_args.clone(),
+                    scope: vec!["**".into()],
+                    stage: "task".into(),
+                    runner: "local".into(),
+                    runtime_digest: runtime_context.runtime_digest.to_string(),
+                    base_commit: None,
+                    workers,
+                    policy: if explicit || work_item.is_some() {
+                        RepositoryVerificationPolicy::NeverReuse
+                    } else {
+                        RepositoryVerificationPolicy::ProfileAuthorized
+                    },
                 })
-                .collect();
-            let mut receipt = execute_bounded(commands, workers).context("execute verification")?;
-            receipt.git_calls = snapshot.git_calls;
-            receipt.files_read += snapshot.files_read;
-            receipt.files_hashed += snapshot.files_hashed;
-            let output = json!({
-                "nodesPlanned": receipt.nodes_planned,
-                "nodesExecuted": receipt.nodes_executed,
-                "nodesReused": receipt.nodes_reused,
-                "processesSpawned": receipt.processes_spawned,
-                "gitCalls": receipt.git_calls,
-                "filesRead": receipt.files_read,
-                "filesHashed": receipt.files_hashed,
-                "elapsedMs": receipt.elapsed_ms,
-                "passed": receipt.passed,
-            });
+                .collect::<Vec<_>>();
+            let requires_aggregate_snapshot = requests.len() > 1;
+            let service_started = std::time::Instant::now();
+            let mut runs = Vec::with_capacity(requests.len());
+            let mut planning_elapsed_ms = 0_u128;
+            let mut execution_elapsed_ms = 0_u128;
+            for batch in requests.chunks(workers.max(1)) {
+                let batch_runs = std::thread::scope(|scope| {
+                    batch
+                        .iter()
+                        .map(|request| scope.spawn(|| run_repository_verification(&root, request)))
+                        .collect::<Vec<_>>()
+                        .into_iter()
+                        .map(|worker| worker.join())
+                        .collect::<Vec<_>>()
+                });
+                let mut completed_batch = Vec::with_capacity(batch_runs.len());
+                for run in batch_runs {
+                    let run = run
+                        .map_err(|_| anyhow::anyhow!("repository verification worker panicked"))?
+                        .context("execute repository verification")?;
+                    completed_batch.push(run);
+                }
+                planning_elapsed_ms = planning_elapsed_ms.saturating_add(concurrent_phase_elapsed(
+                    completed_batch
+                        .iter()
+                        .map(|run| run.receipt.planning_elapsed_ms),
+                ));
+                execution_elapsed_ms =
+                    execution_elapsed_ms.saturating_add(concurrent_phase_elapsed(
+                        completed_batch
+                            .iter()
+                            .map(|run| run.receipt.execution_elapsed_ms),
+                    ));
+                runs.extend(completed_batch);
+            }
+            let mut run = merge_verification_runs(runs).context("merge verification runs")?;
+            run.receipt.planning_elapsed_ms = planning_elapsed_ms;
+            run.receipt.execution_elapsed_ms = execution_elapsed_ms;
+            if requires_aggregate_snapshot {
+                let final_snapshot = cockpit_git::GitRepository::discover(&root)
+                    .context("discover repository for aggregate snapshot")?
+                    .snapshot()
+                    .context("capture aggregate verification snapshot")?;
+                run.receipt.git_calls = run
+                    .receipt
+                    .git_calls
+                    .saturating_add(final_snapshot.git_calls);
+                run.receipt.files_read = run
+                    .receipt
+                    .files_read
+                    .saturating_add(final_snapshot.files_read);
+                run.receipt.files_hashed = run
+                    .receipt
+                    .files_hashed
+                    .saturating_add(final_snapshot.files_hashed);
+                run.final_snapshot = final_snapshot;
+            }
+            run.receipt.elapsed_ms = service_started.elapsed().as_millis();
+            let output = serde_json::to_value(&run.receipt)?;
             if let Some(work_item) = work_item {
                 cockpit_repository::record_verification_with_snapshot(
                     &root,
                     &work_item,
                     &output,
-                    "0.1.0",
-                    &cockpit_core::Digest::sha256_bytes(b"ai-cockpit-0.1.0"),
-                    &snapshot,
+                    &runtime_context.runtime_version,
+                    &runtime_context.runtime_digest,
+                    &run.final_snapshot,
                 )
                 .context("record verification evidence")?;
             }
@@ -434,10 +445,16 @@ fn run() -> Result<()> {
                     std::io::BufReader::new(stdin.lock()),
                     stdout.lock(),
                     &repo,
+                    &runtime_context,
                 )
                 .context("serve MCP")?;
             } else {
-                serve(std::io::BufReader::new(stdin.lock()), stdout.lock()).context("serve MCP")?;
+                serve(
+                    std::io::BufReader::new(stdin.lock()),
+                    stdout.lock(),
+                    &runtime_context,
+                )
+                .context("serve MCP")?;
             }
         }
         CommandKind::Doctor { repo } => {
@@ -451,7 +468,8 @@ fn run() -> Result<()> {
                         "protocolVersion": null,
                         "repositoryId": null,
                         "runtimeCodeInRepository": false,
-                        "runtimeVersion": "0.1.0",
+                        "runtimeVersion": &runtime_context.runtime_version,
+                        "runtimeDigest": &runtime_context.runtime_digest,
                     }))?
                 );
                 return Ok(());
@@ -469,7 +487,8 @@ fn run() -> Result<()> {
                             "protocolVersion": null,
                             "repositoryId": null,
                             "runtimeCodeInRepository": runtime_code_in_repository,
-                            "runtimeVersion": "0.1.0",
+                            "runtimeVersion": &runtime_context.runtime_version,
+                            "runtimeDigest": &runtime_context.runtime_digest,
                             "error": error.to_string(),
                         }))?
                     );
@@ -492,12 +511,57 @@ fn run() -> Result<()> {
                     "protocolVersion": config.protocol_version,
                     "repositoryId": config.repository_id,
                     "runtimeCodeInRepository": runtime_code_in_repository,
-                    "runtimeVersion": "0.1.0",
+                    "runtimeVersion": &runtime_context.runtime_version,
+                    "runtimeDigest": &runtime_context.runtime_digest,
                 }))?
             );
         }
     }
     Ok(())
+}
+
+fn merge_verification_runs(
+    mut runs: Vec<cockpit_repository::RepositoryVerificationRun>,
+) -> Option<cockpit_repository::RepositoryVerificationRun> {
+    let mut merged = runs.pop()?;
+    for mut run in runs {
+        merged.receipt.results.append(&mut run.receipt.results);
+        merged
+            .receipt
+            .receipt_candidates
+            .append(&mut run.receipt.receipt_candidates);
+        merged.receipt.nodes_planned += run.receipt.nodes_planned;
+        merged.receipt.nodes_executed += run.receipt.nodes_executed;
+        merged.receipt.nodes_reused += run.receipt.nodes_reused;
+        merged.receipt.rerun_stale += run.receipt.rerun_stale;
+        merged.receipt.rerun_unknown += run.receipt.rerun_unknown;
+        merged.receipt.protected_nodes_executed += run.receipt.protected_nodes_executed;
+        merged.receipt.protected_nodes_skipped += run.receipt.protected_nodes_skipped;
+        merged.receipt.planning_elapsed_ms = merged
+            .receipt
+            .planning_elapsed_ms
+            .max(run.receipt.planning_elapsed_ms);
+        merged.receipt.execution_elapsed_ms = merged
+            .receipt
+            .execution_elapsed_ms
+            .max(run.receipt.execution_elapsed_ms);
+        merged.receipt.processes_spawned += run.receipt.processes_spawned;
+        merged.receipt.process_spawn_failures += run.receipt.process_spawn_failures;
+        merged.receipt.git_calls += run.receipt.git_calls;
+        merged.receipt.files_read += run.receipt.files_read;
+        merged.receipt.files_hashed += run.receipt.files_hashed;
+        merged.receipt.elapsed_ms += run.receipt.elapsed_ms;
+        merged.receipt.passed &= run.receipt.passed;
+    }
+    merged
+        .receipt
+        .results
+        .sort_by(|left, right| left.node_id.cmp(&right.node_id));
+    Some(merged)
+}
+
+fn concurrent_phase_elapsed(durations: impl IntoIterator<Item = u128>) -> u128 {
+    durations.into_iter().max().unwrap_or_default()
 }
 
 fn contains_runtime_code(path: &std::path::Path) -> bool {
@@ -517,4 +581,15 @@ fn contains_runtime_code(path: &std::path::Path) -> bool {
                 ) || child.file_name().is_some_and(|name| name == "Makefile.ai")
             }
         })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::concurrent_phase_elapsed;
+
+    #[test]
+    fn concurrent_phase_telemetry_uses_wall_time_instead_of_summed_worker_time() {
+        assert_eq!(concurrent_phase_elapsed([1_000, 1_200]), 1_200);
+        assert_eq!(concurrent_phase_elapsed([]), 0);
+    }
 }

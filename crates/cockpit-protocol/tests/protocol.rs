@@ -42,6 +42,18 @@ fn project_profile_digest_is_stable_for_equal_profiles() {
 }
 
 #[test]
+fn project_profile_rejects_unknown_fields() {
+    let value = serde_json::json!({
+        "profileVersion": 1,
+        "repositoryId": "example",
+        "tests": [],
+        "buildSystems": [],
+        "futurePolicy": "must-not-be-ignored"
+    });
+    assert!(serde_json::from_value::<cockpit_protocol::ProjectProfile>(value).is_err());
+}
+
+#[test]
 fn repository_context_keeps_runtime_root_out_of_repository_context() {
     let context = cockpit_protocol::RepositoryContext {
         root: std::path::PathBuf::from("/repo"),

@@ -60,20 +60,38 @@ fn missing_evidence_is_yellow_and_never_passes() {
 }
 
 #[test]
-fn destructive_action_without_authority_is_red() {
+fn destructive_action_without_authority_is_yellow_and_requires_human_decision() {
     let mut input = base_input();
     input.action = ActionKind::Destructive;
     input.authority = AuthorityState::Missing;
 
     let decision = evaluate(input);
 
-    assert_eq!(decision.state, DecisionState::Red);
+    assert_eq!(decision.state, DecisionState::Yellow);
     assert!(
         decision
-            .blockers
+            .unknowns
             .iter()
             .any(|item| item == "destructive_change_without_authority")
     );
+    assert_eq!(decision.outcome_state, "needs_human_decision");
+}
+
+#[test]
+fn coverage_weakening_is_yellow_and_requires_human_decision() {
+    let mut input = base_input();
+    input.coverage_weakening = true;
+
+    let decision = evaluate(input);
+
+    assert_eq!(decision.state, DecisionState::Yellow);
+    assert!(
+        decision
+            .unknowns
+            .iter()
+            .any(|item| item == "coverage_weakening")
+    );
+    assert_eq!(decision.outcome_state, "needs_human_decision");
 }
 
 #[test]

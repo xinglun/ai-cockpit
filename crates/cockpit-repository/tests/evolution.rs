@@ -29,6 +29,7 @@ fn snapshot(paths: &[&str]) -> RepositorySnapshot {
         git_root: PathBuf::from("/tmp/repo"),
         head: Some("0123456789abcdef0123456789abcdef01234567".into()),
         changed_paths: paths.iter().map(|path| (*path).into()).collect(),
+        change_evidence: vec![],
         git_calls: 2,
         tree_digest: "sha256:tree".into(),
         diff_digest: "sha256:diff".into(),

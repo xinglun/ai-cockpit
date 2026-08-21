@@ -1,8 +1,11 @@
 use std::{
     fs,
     process::Command,
+    sync::atomic::{AtomicU64, Ordering},
     time::{SystemTime, UNIX_EPOCH},
 };
+
+static NEXT_REPOSITORY_ID: AtomicU64 = AtomicU64::new(0);
 
 #[test]
 fn profile_confirmation_creates_a_new_version_and_decision_receipt() {
@@ -10,7 +13,11 @@ fn profile_confirmation_creates_a_new_version_and_decision_receipt() {
         .duration_since(UNIX_EPOCH)
         .expect("clock")
         .as_nanos();
-    let repo = std::env::temp_dir().join(format!("cockpit-profile-{suffix}"));
+    let sequence = NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed);
+    let repo = std::env::temp_dir().join(format!(
+        "cockpit-profile-{}-{suffix}-{sequence}",
+        std::process::id()
+    ));
     fs::create_dir_all(&repo).expect("repo");
     Command::new("git")
         .args(["init", "-q"])

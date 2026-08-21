@@ -17,7 +17,7 @@ const TOOL_NAMES: [&str; 10] = [
     "verify",
 ];
 
-pub fn handle_request(request: &Value) -> Value {
+pub fn handle_request(request: &Value, runtime: &cockpit_protocol::RuntimeContext) -> Value {
     let id = request.get("id").cloned().unwrap_or(Value::Null);
     match request.get("method").and_then(Value::as_str) {
         Some("initialize") => json!({
@@ -26,7 +26,11 @@ pub fn handle_request(request: &Value) -> Value {
             "result": {
                 "protocolVersion": "2025-06-18",
                 "capabilities": {"tools": {"listChanged": false}},
-                "serverInfo": {"name": "ai-cockpit", "version": "0.1.0"}
+                "serverInfo": {
+                    "name": "ai-cockpit",
+                    "version": &runtime.runtime_version,
+                    "runtimeDigest": &runtime.runtime_digest,
+                }
             }
         }),
         Some("tools/list") => json!({
@@ -58,9 +62,13 @@ pub fn handle_request(request: &Value) -> Value {
     }
 }
 
-pub fn handle_request_for_repo(request: &Value, repo: &Path) -> Value {
+pub fn handle_request_for_repo(
+    request: &Value,
+    repo: &Path,
+    runtime: &cockpit_protocol::RuntimeContext,
+) -> Value {
     if request.get("method").and_then(Value::as_str) != Some("tools/call") {
-        return handle_request(request);
+        return handle_request(request, runtime);
     }
     let id = request.get("id").cloned().unwrap_or(Value::Null);
     let name = request
@@ -93,7 +101,7 @@ pub fn handle_request_for_repo(request: &Value, repo: &Path) -> Value {
         "work_item_get" => work_item_get(repo, &arguments),
         "evidence_get" => evidence_get(repo, &arguments),
         "preflight" => preflight_for_repo(repo, &arguments),
-        "verify" => verify_for_repo(repo, &arguments),
+        "verify" => verify_for_repo(repo, &arguments, runtime),
         _ => return error_response(id, -32602, "unknown tool"),
     };
     match result {
@@ -119,100 +127,79 @@ fn preflight_for_repo(repo: &Path, arguments: &Value) -> Result<Value, String> {
         .map_err(|error| error.to_string())?;
     let git = cockpit_git::GitRepository::discover(repo).map_err(|error| error.to_string())?;
     let snapshot = git.snapshot().map_err(|error| error.to_string())?;
-    let explicit_blockers =
-        cockpit_repository::contract_freshness_findings(repo, &contract, &snapshot)
-            .map_err(|error| error.to_string())?;
-    let decision = cockpit_core::evaluate(cockpit_core::GovernanceInput {
-        scope: contract.scope.clone(),
-        out_of_scope: contract.out_of_scope.clone(),
-        changed_paths: snapshot
-            .changed_paths
-            .iter()
-            .filter(|path| !path.starts_with(".ai/"))
-            .cloned()
-            .collect(),
-        action: if contract.risk.contains("destructive") {
-            cockpit_core::ActionKind::Destructive
-        } else {
-            cockpit_core::ActionKind::Write
-        },
-        authority: if contract.authority == "authorized" {
-            cockpit_core::AuthorityState::Authorized
-        } else {
-            cockpit_core::AuthorityState::Missing
-        },
-        evidence: cockpit_repository::evidence_state_for_contract(repo, &contract, &snapshot)
-            .map_err(|error| error.to_string())?,
-        untrusted_material: false,
-        test_weakening: false,
-        coverage_weakening: false,
-        explicit_blockers,
-        explicit_unknowns: vec![],
-        outcome_state_override: None,
-        authority_override: None,
-    });
+    let decision = cockpit_repository::governance_decision_for_contract(repo, &contract, &snapshot)
+        .map_err(|error| error.to_string())?;
     serde_json::to_value(decision).map_err(|error| error.to_string())
 }
 
-fn verify_for_repo(repo: &Path, arguments: &Value) -> Result<Value, String> {
-    let program = arguments
-        .get("command")
-        .and_then(Value::as_str)
-        .ok_or("command argument is required")?;
-    let args: Vec<String> = arguments
-        .get("args")
-        .and_then(Value::as_array)
-        .map(|items| {
-            items
-                .iter()
-                .filter_map(Value::as_str)
-                .map(str::to_owned)
-                .collect()
-        })
-        .unwrap_or_default();
+fn verify_for_repo(
+    repo: &Path,
+    arguments: &Value,
+    runtime: &cockpit_protocol::RuntimeContext,
+) -> Result<Value, String> {
+    let root = fs::canonicalize(repo).map_err(|error| error.to_string())?;
+    let explicit_program = match arguments.get("command") {
+        Some(Value::String(program)) => Some(program.as_str()),
+        Some(_) => return Err("command argument must be a string".into()),
+        None => None,
+    };
+    let explicit = explicit_program.is_some();
+    let supplied_args = match arguments.get("args") {
+        Some(Value::Array(items)) if items.iter().all(Value::is_string) => items
+            .iter()
+            .map(|item| item.as_str().expect("validated string").to_owned())
+            .collect(),
+        Some(Value::Array(_)) => return Err("every args element must be a string".into()),
+        Some(_) => return Err("args argument must be an array".into()),
+        None => Vec::new(),
+    };
     let allowed = [
         "cargo", "npm", "go", "pytest", "python", "python3", "node", "true",
     ];
-    if !allowed.contains(&program) {
+    if explicit_program.is_some_and(|program| !allowed.contains(&program)) {
         return Err(format!(
-            "verification command is not allowlisted: {program}"
+            "verification command is not allowlisted: {}",
+            explicit_program.expect("explicit program exists")
         ));
     }
-    let root = fs::canonicalize(repo).map_err(|error| error.to_string())?;
-    let snapshot = cockpit_git::GitRepository::discover(&root)
-        .and_then(|git| git.snapshot())
-        .map_err(|error| error.to_string())?;
-    let mut graph = cockpit_verification::VerificationGraph::default();
-    graph
-        .add(cockpit_verification::VerificationNode::new(
-            "mcp-verify",
-            cockpit_verification::VerificationNodeKind::Protected,
-            vec![],
-        ))
-        .map_err(|error| error.to_string())?;
-    let plan = graph.plan().map_err(|error| error.to_string())?;
-    let commands = plan
-        .into_iter()
-        .map(|id| {
-            cockpit_verification::VerificationCommand::new(&id, program, args.clone())
-                .with_protected(true)
-                .with_current_dir(&root)
-        })
-        .collect();
-    let mut receipt =
-        cockpit_verification::execute_bounded(commands, 2).map_err(|error| error.to_string())?;
-    receipt.git_calls = snapshot.git_calls;
-    receipt.files_read += snapshot.files_read;
-    receipt.files_hashed += snapshot.files_hashed;
-    let output = json!({"nodesPlanned":receipt.nodes_planned,"nodesExecuted":receipt.nodes_executed,"nodesReused":receipt.nodes_reused,"processesSpawned":receipt.processes_spawned,"gitCalls":receipt.git_calls,"filesRead":receipt.files_read,"filesHashed":receipt.files_hashed,"elapsedMs":receipt.elapsed_ms,"passed":receipt.passed});
+    let (program, args) = if let Some(program) = explicit_program {
+        (program.to_owned(), supplied_args)
+    } else if root.join("Cargo.toml").is_file() {
+        ("cargo".into(), vec!["test".into(), "--workspace".into()])
+    } else if root.join("package.json").is_file() {
+        ("npm".into(), vec!["test".into()])
+    } else {
+        return Err("no verified project command detected; provide command".into());
+    };
+    let run = cockpit_repository::run_repository_verification(
+        &root,
+        &cockpit_repository::RepositoryVerificationRequest {
+            node_id: "project-command-0".into(),
+            program,
+            args,
+            scope: vec!["**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 2,
+            policy: if explicit || arguments.get("workItemId").is_some() {
+                cockpit_repository::RepositoryVerificationPolicy::NeverReuse
+            } else {
+                cockpit_repository::RepositoryVerificationPolicy::ProfileAuthorized
+            },
+        },
+    )
+    .map_err(|error| error.to_string())?;
+    let output = serde_json::to_value(&run.receipt).map_err(|error| error.to_string())?;
     if let Some(work_item_id) = arguments.get("workItemId").and_then(Value::as_str) {
         cockpit_repository::record_verification_with_snapshot(
             &root,
             work_item_id,
             &output,
-            "0.1.0",
-            &cockpit_core::Digest::sha256_bytes(b"ai-cockpit-0.1.0"),
-            &snapshot,
+            &runtime.runtime_version,
+            &runtime.runtime_digest,
+            &run.final_snapshot,
         )
         .map_err(|error| error.to_string())?;
     }
@@ -227,8 +214,14 @@ fn repository_observe(repo: &Path) -> Result<Value, String> {
     let (evolution, profile_update_proposal) = if let Ok(profile_bytes) =
         fs::read(snapshot.root.join(".ai/project.json"))
     {
-        let profile: cockpit_protocol::ProjectProfile =
+        let profile: cockpit_repository::AttachedProfile =
             serde_json::from_slice(&profile_bytes).map_err(|error| error.to_string())?;
+        let profile = cockpit_protocol::ProjectProfile {
+            profile_version: profile.profile_version,
+            repository_id: profile.repository_id,
+            tests: profile.tests,
+            build_systems: profile.build_systems,
+        };
         let evolution = cockpit_repository::classify_evolution(&profile, &observation, &snapshot);
         let proposal = cockpit_repository::profile_update_proposal(&profile, &evolution);
         (evolution, proposal)
@@ -361,7 +354,11 @@ fn error_response(id: Value, code: i64, message: &str) -> Value {
     json!({"jsonrpc":"2.0","id":id,"error":{"code":code,"message":message}})
 }
 
-pub fn serve<R: BufRead, W: Write>(reader: R, mut writer: W) -> io::Result<()> {
+pub fn serve<R: BufRead, W: Write>(
+    reader: R,
+    mut writer: W,
+    runtime: &cockpit_protocol::RuntimeContext,
+) -> io::Result<()> {
     for line in reader.lines() {
         let line = line?;
         if line.trim().is_empty() {
@@ -369,7 +366,7 @@ pub fn serve<R: BufRead, W: Write>(reader: R, mut writer: W) -> io::Result<()> {
         }
         let request: Value = serde_json::from_str(&line)
             .map_err(|error| io::Error::new(io::ErrorKind::InvalidData, error))?;
-        let response = handle_request(&request);
+        let response = handle_request(&request, runtime);
         if !response.is_null() {
             writeln!(writer, "{}", response)?;
             writer.flush()?;
@@ -382,6 +379,7 @@ pub fn serve_with_repo<R: BufRead, W: Write>(
     reader: R,
     mut writer: W,
     repo: &Path,
+    runtime: &cockpit_protocol::RuntimeContext,
 ) -> io::Result<()> {
     for line in reader.lines() {
         let line = line?;
@@ -390,7 +388,7 @@ pub fn serve_with_repo<R: BufRead, W: Write>(
         }
         let request: Value = serde_json::from_str(&line)
             .map_err(|error| io::Error::new(io::ErrorKind::InvalidData, error))?;
-        let response = handle_request_for_repo(&request, repo);
+        let response = handle_request_for_repo(&request, repo, runtime);
         if !response.is_null() {
             writeln!(writer, "{}", response)?;
             writer.flush()?;

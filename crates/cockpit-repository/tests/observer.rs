@@ -3,8 +3,11 @@ use cockpit_repository::{BuildSystem, LanguageSignal, observe, observe_cached};
 use std::{
     fs,
     process::Command,
+    sync::atomic::{AtomicU64, Ordering},
     time::{SystemTime, UNIX_EPOCH},
 };
+
+static NEXT_REPOSITORY_ID: AtomicU64 = AtomicU64::new(0);
 
 #[test]
 fn observer_detects_rust_and_cargo_without_rescanning_per_checker() {
@@ -12,7 +15,11 @@ fn observer_detects_rust_and_cargo_without_rescanning_per_checker() {
         .duration_since(UNIX_EPOCH)
         .expect("clock")
         .as_nanos();
-    let path = std::env::temp_dir().join(format!("cockpit-observer-{suffix}"));
+    let sequence = NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed);
+    let path = std::env::temp_dir().join(format!(
+        "cockpit-observer-{}-{suffix}-{sequence}",
+        std::process::id()
+    ));
     fs::create_dir_all(path.join("tests")).expect("directories");
     fs::write(
         path.join("Cargo.toml"),

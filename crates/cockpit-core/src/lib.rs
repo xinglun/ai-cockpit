@@ -173,6 +173,21 @@ pub fn evaluate(input: GovernanceInput) -> GovernanceDecision {
                 safe_actions.push("request_human_decision".into());
                 required_checks.push("coverage_integrity".into());
             }
+            "repository_material_inspection_unavailable" => {
+                safe_actions.push("inspect_repository_material".into());
+                safe_actions.push("rerun_preflight".into());
+                required_checks.push("input_trust".into());
+            }
+            "test_weakening_inspection_unavailable" => {
+                safe_actions.push("inspect_test_change".into());
+                safe_actions.push("rerun_preflight".into());
+                required_checks.push("test_integrity".into());
+            }
+            "coverage_weakening_inspection_unavailable" => {
+                safe_actions.push("inspect_coverage_change".into());
+                safe_actions.push("rerun_preflight".into());
+                required_checks.push("coverage_integrity".into());
+            }
             "evidence_contradictory" => {
                 safe_actions.push("stop_and_reconcile_evidence".into());
                 required_checks.push("evidence_consistency".into());
@@ -203,6 +218,20 @@ pub fn evaluate(input: GovernanceInput) -> GovernanceDecision {
                 safe_actions.push("rerun_preflight".into());
                 required_checks.push("external_evidence".into());
             }
+            "destructive_change_without_authority" => {
+                safe_actions.push("stop_and_request_human_authority".into());
+                required_checks.push("authority".into());
+                required_checks.push("scope".into());
+            }
+            "human_authority_missing" => {
+                safe_actions.push("request_human_decision".into());
+                required_checks.push("authority".into());
+            }
+            "coverage_weakening" => {
+                safe_actions.push("restore_coverage_requirement".into());
+                safe_actions.push("request_human_decision".into());
+                required_checks.push("coverage_integrity".into());
+            }
             _ => safe_actions.push("collect_missing_evidence".into()),
         }
     }
@@ -228,7 +257,7 @@ pub fn evaluate(input: GovernanceInput) -> GovernanceDecision {
         required_checks.push("scope".into());
     }
     if input.action == ActionKind::Destructive && input.authority != AuthorityState::Authorized {
-        blockers.push("destructive_change_without_authority".into());
+        unknowns.push("destructive_change_without_authority".into());
         safe_actions.push("stop_and_request_human_authority".into());
         required_checks.push("authority".into());
         required_checks.push("scope".into());
@@ -239,8 +268,9 @@ pub fn evaluate(input: GovernanceInput) -> GovernanceDecision {
         required_checks.push("test_integrity".into());
     }
     if input.coverage_weakening {
-        blockers.push("coverage_weakening".into());
+        unknowns.push("coverage_weakening".into());
         safe_actions.push("restore_coverage_requirement".into());
+        safe_actions.push("request_human_decision".into());
         required_checks.push("coverage_integrity".into());
     }
 
@@ -289,13 +319,22 @@ pub fn evaluate(input: GovernanceInput) -> GovernanceDecision {
     } else {
         DecisionState::Green
     };
-    let outcome_state = input.outcome_state_override.unwrap_or_else(|| {
-        match state {
-            DecisionState::Green => "ready",
-            DecisionState::Yellow => "verification_pending",
-            DecisionState::Red => "blocked",
+    let outcome_state = input.outcome_state_override.unwrap_or_else(|| match state {
+        DecisionState::Green => "ready".into(),
+        DecisionState::Yellow
+            if unknowns.iter().any(|unknown| {
+                matches!(
+                    unknown.as_str(),
+                    "destructive_change_without_authority"
+                        | "human_authority_missing"
+                        | "coverage_weakening"
+                )
+            }) =>
+        {
+            "needs_human_decision".into()
         }
-        .into()
+        DecisionState::Yellow => "verification_pending".into(),
+        DecisionState::Red => "blocked".into(),
     });
     let authority = input.authority_override.unwrap_or_else(|| {
         match input.authority {

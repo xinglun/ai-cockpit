@@ -6,6 +6,7 @@ use thiserror::Error;
 pub const PROTOCOL_VERSION: u32 = 1;
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct RepositoryConfig {
     #[serde(rename = "protocol_version")]
     pub protocol_version: u32,
@@ -28,7 +29,7 @@ pub struct RepositoryContext {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct ProjectProfile {
     pub profile_version: u64,
     pub repository_id: String,
@@ -37,7 +38,7 @@ pub struct ProjectProfile {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct QualityCommand {
     pub program: String,
     pub args: Vec<String>,

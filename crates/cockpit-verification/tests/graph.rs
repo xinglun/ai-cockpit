@@ -1,5 +1,6 @@
 use cockpit_verification::{
-    VerificationGraph, VerificationNode, VerificationNodeKind, VerificationPlan, VerificationResult,
+    PlannedAction, PlannedReason, PlannedSatisfaction, PlannedState, VerificationGraph,
+    VerificationNode, VerificationNodeKind, VerificationPlan, VerificationResult,
 };
 
 #[test]
@@ -52,6 +53,15 @@ fn verification_plan_and_result_are_explicit_runtime_models() {
         node_id: "quality".into(),
         passed: true,
         reused: false,
+        protected: false,
+        action: PlannedAction::Execute,
+        state: PlannedState::NotApplicable,
+        reason: PlannedReason::ReuseNotConfigured.code().into(),
+        receipt_id: None,
+        output_digest: None,
+        output_truncated: false,
+        timed_out: false,
+        satisfied_by: PlannedSatisfaction::Execution,
     };
     assert_eq!(plan.max_workers, 2);
     assert!(result.passed);
