@@ -16,6 +16,19 @@ keywords: [ai-cockpit, architecture, evidence-flow, boundaries]
 
 # Architecture
 
+## 構造化された操作リクエスト
+
+Adapter は `RequestedOperationV2` envelope を Core に渡せます。これは request
+を repository ID と Work Item ID に bind し、operation、scope、authority、
+evidence、policy reference を明示します。`CapabilityMappingV2` は同じ operation
+と決定的な action class を宣言する必要があります。capability が scope を広げたり、
+destructive operation を通常の write として再分類したりすることはできません。
+
+Core は最初に schema と identity を検証し、その後で既存の pure governance
+evaluator に envelope を変換します。optional な `intent` や Agent の prose から
+authority、scope、operation を推論しません。将来の request-envelope schema は
+adapter が明示的に対応するまで拒否され、repository schema migration とは独立です。
+
 ## 目的
 
 このページは、**人間の request が review 可能な repository decision になるまでと、インストール

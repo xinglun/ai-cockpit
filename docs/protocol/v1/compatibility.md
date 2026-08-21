@@ -14,6 +14,14 @@ capabilityClaims:
 
 # Protocol Compatibility Rules
 
+## Request-envelope compatibility
+
+The Core accepts `RequestedOperationV2` and `CapabilityMappingV2` only when
+their envelope `schemaVersion` is `2`. This request-envelope version is an
+adapter/Core contract, not a repository schema version. Unknown future
+envelope versions fail closed; they do not get downgraded to a raw request or
+silently treated as authorized.
+
 These are the compatibility rules implemented by the current runtime:
 
 1. Parse the repository protocol version without executing repository material.

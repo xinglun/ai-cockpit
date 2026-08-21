@@ -14,6 +14,14 @@ capabilityClaims:
 
 # Protocol compatibility ルール
 
+## Request envelope の互換性
+
+Core は envelope の `schemaVersion` が `2` の場合だけ
+`RequestedOperationV2` と `CapabilityMappingV2` を受け付けます。この request
+envelope version は adapter/Core contract であり、repository schema version
+ではありません。未知の将来 version は fail closed となり、raw request に
+silent downgrade されたり、authorized と扱われたりしません。
+
 現在の runtime が実装する互換性ルールは次のとおりです。
 
 1. repository material を実行せず protocol version を parse する。

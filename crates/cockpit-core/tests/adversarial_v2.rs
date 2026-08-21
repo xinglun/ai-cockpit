@@ -1,6 +1,7 @@
 use cockpit_core::{
-    ActionKind, AuthorityState, CapabilityMapping, Digest, GovernanceInput, OperationKind,
-    RawRequestBinding, RequestSource, bind_request, evaluate,
+    ActionKind, AuthorityState, CapabilityMapping, CapabilityMappingV2, Digest, GovernanceInput,
+    OperationKind, REQUESTED_OPERATION_SCHEMA_VERSION, RawRequestBinding, RequestSource,
+    RequestedOperationV2, bind_request, bind_requested_operation, evaluate,
 };
 use serde::Deserialize;
 use std::{fs, path::PathBuf};
@@ -75,6 +76,112 @@ fn mapping(operation: OperationKind) -> CapabilityMapping {
         required_evidence: vec![".ai/evidence/fresh.json".into()],
         independent_approval_required: false,
     }
+}
+
+fn requested_v2(operation: OperationKind) -> RequestedOperationV2 {
+    RequestedOperationV2 {
+        schema_version: REQUESTED_OPERATION_SCHEMA_VERSION,
+        request_id: "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            .parse()
+            .expect("digest"),
+        repository_id: "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            .parse()
+            .expect("digest"),
+        work_item_id: "WI-v2-test".into(),
+        source: RequestSource::HumanRequest,
+        operation,
+        scope: vec!["src/**".into()],
+        risk: "normal".into(),
+        authority: AuthorityState::Authorized,
+        evidence_refs: vec!["verification:fresh".into()],
+        policy_refs: vec!["policy:project-default".into()],
+        actor: Some("human:owner".into()),
+        implementer: Some("agent:codex".into()),
+        intent: Some("explicit human intent".into()),
+    }
+}
+
+fn mapping_v2(operation: OperationKind) -> CapabilityMappingV2 {
+    CapabilityMappingV2 {
+        schema_version: REQUESTED_OPERATION_SCHEMA_VERSION,
+        operation,
+        capability: "governed-change".into(),
+        action: ActionKind::Write,
+        allowed_scope: vec!["src/**".into()],
+        requires_human_authority: true,
+        required_evidence: vec!["verification:fresh".into()],
+        required_policy_refs: vec!["policy:project-default".into()],
+        independent_approval_required: false,
+    }
+}
+
+#[test]
+fn requested_operation_v2_requires_identity_and_explicit_policy() {
+    let request = requested_v2(OperationKind::ModifySource);
+    let mapping = mapping_v2(OperationKind::ModifySource);
+    let input = bind_requested_operation(&request, &mapping).expect("v2 binding");
+    assert_eq!(input.action, ActionKind::Write);
+    assert_eq!(evaluate(input).state, cockpit_core::DecisionState::Green);
+
+    let mut missing_work_item = request.clone();
+    missing_work_item.work_item_id.clear();
+    assert!(matches!(
+        bind_requested_operation(&missing_work_item, &mapping),
+        Err(cockpit_core::RequestBindingError::MissingWorkItemIdentity)
+    ));
+
+    let mut missing_policy = request;
+    missing_policy.policy_refs.clear();
+    assert!(matches!(
+        bind_requested_operation(&missing_policy, &mapping),
+        Err(cockpit_core::RequestBindingError::MissingPolicyReference { .. })
+    ));
+}
+
+#[test]
+fn requested_operation_v2_cannot_relabel_destructive_operations() {
+    let request = requested_v2(OperationKind::ExecuteRemoteScript);
+    let mut capability = mapping_v2(OperationKind::ExecuteRemoteScript);
+    capability.action = ActionKind::Write;
+    assert!(matches!(
+        bind_requested_operation(&request, &capability),
+        Err(cockpit_core::RequestBindingError::ActionMismatch)
+    ));
+
+    let mut capability = mapping_v2(OperationKind::ExecuteRemoteScript);
+    capability.action = ActionKind::Destructive;
+    let decision = evaluate(bind_requested_operation(&request, &capability).expect("binding"));
+    assert!(
+        decision
+            .blockers
+            .iter()
+            .any(|blocker| blocker == "remote_script_execution")
+    );
+}
+
+#[test]
+fn requested_operation_v2_rejects_future_schema_versions() {
+    let mut request = requested_v2(OperationKind::ModifySource);
+    request.schema_version = REQUESTED_OPERATION_SCHEMA_VERSION + 1;
+    assert!(matches!(
+        bind_requested_operation(&request, &mapping_v2(OperationKind::ModifySource)),
+        Err(cockpit_core::RequestBindingError::UnsupportedSchemaVersion(
+            3
+        ))
+    ));
+}
+
+#[test]
+fn requested_operation_v2_serialization_is_strict_and_camel_case() {
+    let value = serde_json::to_value(requested_v2(OperationKind::ModifySource)).expect("json");
+    assert_eq!(value["schemaVersion"], 2);
+    assert_eq!(value["workItemId"], "WI-v2-test");
+    assert!(value.get("work_item_id").is_none());
+    let mut object = value.as_object().expect("object").clone();
+    object.insert("unexpected".into(), serde_json::json!(true));
+    assert!(
+        serde_json::from_value::<RequestedOperationV2>(serde_json::Value::Object(object)).is_err()
+    );
 }
 
 #[test]

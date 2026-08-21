@@ -84,6 +84,12 @@ pub enum OperationKind {
     Release,
 }
 
+/// Version of the structured request envelope introduced after the original
+/// raw adapter binding.  The version is deliberately independent from the
+/// repository Protocol major: adapters can reject a request envelope without
+/// making a repository migration.
+pub const REQUESTED_OPERATION_SCHEMA_VERSION: u32 = 2;
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum RequestSource {
@@ -120,12 +126,159 @@ pub struct CapabilityMapping {
     pub independent_approval_required: bool,
 }
 
+/// A request that an adapter has already reduced to explicit facts.
+///
+/// This type is intentionally not a natural-language request.  `intent` is
+/// optional metadata supplied by the human or calling system; the Core never
+/// derives authority, scope, or an operation from it.  Repository and Work
+/// Item identity are part of the envelope so a request cannot be evaluated
+/// as an unbound global operation.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct RequestedOperationV2 {
+    pub schema_version: u32,
+    pub request_id: Digest,
+    pub repository_id: Digest,
+    pub work_item_id: String,
+    pub source: RequestSource,
+    pub operation: OperationKind,
+    pub scope: Vec<String>,
+    pub risk: String,
+    pub authority: AuthorityState,
+    pub evidence_refs: Vec<String>,
+    pub policy_refs: Vec<String>,
+    pub actor: Option<String>,
+    pub implementer: Option<String>,
+    #[serde(default)]
+    pub intent: Option<String>,
+}
+
+/// Capability declaration paired with a [`RequestedOperationV2`].  The
+/// declared action is checked against the operation's deterministic action
+/// class; adapters cannot relabel a destructive operation as a write.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CapabilityMappingV2 {
+    pub schema_version: u32,
+    pub operation: OperationKind,
+    pub capability: String,
+    pub action: ActionKind,
+    pub allowed_scope: Vec<String>,
+    pub requires_human_authority: bool,
+    pub required_evidence: Vec<String>,
+    pub required_policy_refs: Vec<String>,
+    pub independent_approval_required: bool,
+}
+
 #[derive(Debug, Error, PartialEq, Eq)]
 pub enum RequestBindingError {
+    #[error("unsupported requested operation schema version {0}")]
+    UnsupportedSchemaVersion(u32),
+    #[error("requested operation work item identity must be explicit")]
+    MissingWorkItemIdentity,
+    #[error("requested operation scope must contain at least one path")]
+    EmptyScope,
+    #[error("requested operation contains an empty policy reference")]
+    EmptyPolicyReference,
+    #[error("capability mapping contains an empty required policy reference")]
+    EmptyCapabilityPolicyReference,
+    #[error("required policy reference is not bound to the requested operation: {reference}")]
+    MissingPolicyReference { reference: String },
+    #[error("capability action does not match the requested operation")]
+    ActionMismatch,
+    #[error("capability mapping must contain at least one allowed path")]
+    EmptyCapabilityScope,
     #[error("capability operation does not match the requested operation")]
     OperationMismatch,
     #[error("capability scope widens the raw request: {path}")]
     ScopeWidened { path: String },
+}
+
+fn action_for_operation(operation: &OperationKind) -> ActionKind {
+    match operation {
+        OperationKind::DeleteReferencedFunction
+        | OperationKind::UploadSensitiveData
+        | OperationKind::ExecuteRemoteScript
+        | OperationKind::EmergencyBypass => ActionKind::Destructive,
+        OperationKind::ModifySource
+        | OperationKind::ModifyVerification
+        | OperationKind::Release => ActionKind::Write,
+    }
+}
+
+/// Bind a v2 request and capability declaration into the existing pure
+/// governance input.  All v2 identity and policy checks happen before the v1
+/// evaluator is called; no field is inferred from `intent` or prose.
+pub fn bind_requested_operation(
+    request: &RequestedOperationV2,
+    capability: &CapabilityMappingV2,
+) -> Result<GovernanceInput, RequestBindingError> {
+    if request.schema_version != REQUESTED_OPERATION_SCHEMA_VERSION {
+        return Err(RequestBindingError::UnsupportedSchemaVersion(
+            request.schema_version,
+        ));
+    }
+    if capability.schema_version != REQUESTED_OPERATION_SCHEMA_VERSION {
+        return Err(RequestBindingError::UnsupportedSchemaVersion(
+            capability.schema_version,
+        ));
+    }
+    if request.work_item_id.trim().is_empty() {
+        return Err(RequestBindingError::MissingWorkItemIdentity);
+    }
+    if request.scope.is_empty() {
+        return Err(RequestBindingError::EmptyScope);
+    }
+    if capability.allowed_scope.is_empty() {
+        return Err(RequestBindingError::EmptyCapabilityScope);
+    }
+    if request
+        .policy_refs
+        .iter()
+        .any(|reference| reference.trim().is_empty())
+    {
+        return Err(RequestBindingError::EmptyPolicyReference);
+    }
+    if capability
+        .required_policy_refs
+        .iter()
+        .any(|reference| reference.trim().is_empty())
+    {
+        return Err(RequestBindingError::EmptyCapabilityPolicyReference);
+    }
+    if capability.action != action_for_operation(&request.operation) {
+        return Err(RequestBindingError::ActionMismatch);
+    }
+    if request.operation != capability.operation {
+        return Err(RequestBindingError::OperationMismatch);
+    }
+    for required in &capability.required_policy_refs {
+        if !request.policy_refs.contains(required) {
+            return Err(RequestBindingError::MissingPolicyReference {
+                reference: required.clone(),
+            });
+        }
+    }
+    let legacy = RawRequestBinding {
+        request_digest: request.request_id.clone(),
+        source: request.source.clone(),
+        operation: request.operation.clone(),
+        scope: request.scope.clone(),
+        risk: request.risk.clone(),
+        authority: request.authority.clone(),
+        evidence_refs: request.evidence_refs.clone(),
+        actor: request.actor.clone(),
+        implementer: request.implementer.clone(),
+    };
+    let legacy_capability = CapabilityMapping {
+        operation: capability.operation.clone(),
+        capability: capability.capability.clone(),
+        allowed_scope: capability.allowed_scope.clone(),
+        requires_human_authority: capability.requires_human_authority,
+        required_evidence: capability.required_evidence.clone(),
+        independent_approval_required: capability.independent_approval_required,
+    };
+    bind_request(&legacy, &legacy_capability)
 }
 
 /// Convert declared request facts into the pure evaluator input. This function
@@ -144,15 +297,7 @@ pub fn bind_request(
         }
     }
 
-    let action = match request.operation {
-        OperationKind::DeleteReferencedFunction
-        | OperationKind::UploadSensitiveData
-        | OperationKind::ExecuteRemoteScript
-        | OperationKind::EmergencyBypass => ActionKind::Destructive,
-        OperationKind::ModifySource
-        | OperationKind::ModifyVerification
-        | OperationKind::Release => ActionKind::Write,
-    };
+    let action = action_for_operation(&request.operation);
     let evidence = if capability
         .required_evidence
         .iter()

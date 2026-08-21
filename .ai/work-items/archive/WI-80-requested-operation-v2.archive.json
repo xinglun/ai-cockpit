@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T22:55:44Z",
+  "files": {
+    "contractDigest": "sha256:a79827a10fa4f05e1d954d2b68210bf67ae6de8b9c5a4e943824821433472af0",
+    "contractPath": ".ai/work-items/archive/WI-80-requested-operation-v2.contract.json",
+    "outcomeDigest": "sha256:c3e0cf571cd202dd21dfa23428014700beab5d9f4f35a5d6619860a3ed7fe929",
+    "outcomePath": ".ai/work-items/archive/WI-80-requested-operation-v2.outcome.json",
+    "summaryDigest": "sha256:7f9f5d2f5cd39169aa1416ce2db9c94616254c272512f26abfec4cde9d4f8e4f",
+    "summaryPath": ".ai/work-items/archive/WI-80-requested-operation-v2.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-80-requested-operation-v2"
+}
