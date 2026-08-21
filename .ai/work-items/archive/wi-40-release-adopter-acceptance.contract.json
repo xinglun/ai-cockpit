@@ -1,0 +1,42 @@
+{
+  "acceptanceCriteria": [
+    "public immutable release archive is downloaded and digest-pinned without source fallback",
+    "fresh adopter attach/profile/agent doctor and not_ready skeleton are proven",
+    "work item lifecycle and before/after evidence reuse are proven",
+    "acceptance.json and SHA256SUMS are emitted",
+    "post-release CI invokes the harness without rewriting Release truth"
+  ],
+  "authority": "authorized",
+  "baseRevision": "a43f96c9703eb670bf69d8f3726385b5ed837527",
+  "createdAt": "2026-08-21T14:59:08Z",
+  "goal": "Prove that the public v0.1.1 Runtime can govern a fresh adopter repository from zero, with auditable evidence, reuse, isolation, and post-release CI coverage.",
+  "intent": "Establish a reproducible post-release adopter acceptance baseline using only immutable public Release artifacts.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates",
+    "cockpit.toml",
+    "global-agent-config",
+    "pre-publication-release-gates",
+    "second-technology-stack"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:649bacd25d727a5b8b2cbfd8a6ae659d1130a348c92cd98e4d3fd2a5ac920cdd",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "tests/release/**",
+    ".github/workflows/release.yml",
+    "docs/work-items/WI-40.md",
+    "docs/work-items/WI-40.zh-CN.md",
+    "docs/work-items/WI-40.ja.md",
+    "docs/release/**",
+    "docs/reference/**",
+    "docs/superpowers/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "wi-40-release-adopter-acceptance"
+}

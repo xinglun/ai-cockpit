@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T15:25:28Z",
+  "evidenceDigest": "sha256:2dc83b4efbc2c30bcd19e0716bb889969010fa65588a21a18bab1f91bce783d5",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/wi-40-release-adopter-acceptance.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "wi-40-release-adopter-acceptance"
+}

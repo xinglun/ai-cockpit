@@ -15,10 +15,11 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # Release and Distribution
 
-WI-34 defines the installation contract; it does not claim that the first
-public Release or `xinglun/homebrew-tap` already exists. The repository
-configuration remains `cockpit.toml`, and installing the runtime never creates
-`.ai` in a target repository.
+The public immutable `v0.1.1` Release is the current installation baseline.
+Homebrew and manual installation use the published archive and manifest; the
+repository configuration remains `cockpit.toml`, and installing the runtime
+never creates `.ai` in a target repository. WI-40 adds a post-release adopter
+acceptance harness; it is not a pre-publication gate or a Runtime command.
 
 ## Before you start
 
@@ -29,7 +30,8 @@ Windows. `gh attestation verify` is an optional additional provenance check.
 
 ## Primary macOS installation
 
-After WI-35 publishes the first verified Release and merges the Formula:
+When the maintained Homebrew tap is available, install the Formula from the
+published release line:
 
 ```bash
 brew install xinglun/tap/ai-cockpit
@@ -74,6 +76,27 @@ gh release download v0.1.1 --repo xinglun/ai-cockpit \
 
 The filename, target, checksum, manifest, and attestation subject must agree.
 Do not treat an upload or a semantic tag alone as installation evidence.
+
+## Post-release adopter acceptance
+
+Maintainers can repeat the public-binary acceptance baseline after a Release:
+
+```bash
+tests/release/adopter_acceptance.sh \
+  --repository xinglun/ai-cockpit \
+  --tag v0.1.1 \
+  --target aarch64-apple-darwin \
+  --output ./release-adopter-acceptance
+```
+
+The harness downloads only the named public Release, pins the extracted binary
+by SHA-256, creates an isolated Cargo adopter, runs attach/profile/Agent doctor,
+preserves `first-adopter-smoke` as `not_ready`, proves Work Item lifecycle and
+evidence reuse, and emits `acceptance.json` plus `SHA256SUMS`. It never uses a
+workspace or local Runtime binary. A failed post-release acceptance records
+`releasePublished: true` and `adopterAcceptance: failed`; it does not rewrite
+the already-published Release. Coverage for a second technology stack is a
+separate future Work Item.
 
 ## Manual archive installation
 
@@ -121,8 +144,7 @@ $env:Path = "$destination;$env:Path"
 
 ## Rust developer fallback
 
-This fallback becomes available only after WI-35 publishes the immutable
-`v0.1.1` tag, which is the current immutable release.
+This fallback is available for the current immutable `v0.1.1` tag.
 
 After that publication, the workspace package must be selected explicitly:
 

@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-08-21T15:25:03Z",
+  "finishedAt": "2026-08-21T15:25:09Z",
+  "releasePublished": true,
+  "adopterAcceptance": "passed",
+  "repository": "xinglun/ai-cockpit",
+  "tag": "v0.1.1",
+  "target": "aarch64-apple-darwin",
+  "runtimeVersion": "0.1.1",
+  "runtimeDigest": "sha256:a164d17037cdb4331ac219660e9a869a81192850896aa07c1405401540f009f4",
+  "repositoryId": "sha256:ddbf301dd1b850d4a64b0f38630fd6fff571db4e941d32923f9040427318e2a3",
+  "sourceRepositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "steps": [
+    {
+      "name": "release-fetch",
+      "state": "passed"
+    },
+    {
+      "name": "release-download",
+      "state": "passed"
+    },
+    {
+      "name": "runtime-pin",
+      "state": "passed"
+    },
+    {
+      "name": "adopter-scaffold",
+      "state": "passed"
+    },
+    {
+      "name": "attach.json",
+      "state": "passed"
+    },
+    {
+      "name": "inspect.json",
+      "state": "passed"
+    },
+    {
+      "name": "inspect-runtime-identity",
+      "state": "passed"
+    },
+    {
+      "name": "profile-confirm.json",
+      "state": "passed"
+    },
+    {
+      "name": "agent-list.json",
+      "state": "passed"
+    },
+    {
+      "name": "agent-install.json",
+      "state": "passed"
+    },
+    {
+      "name": "agent-doctor.json",
+      "state": "passed"
+    },
+    {
+      "name": "agent-doctor-assertion",
+      "state": "passed"
+    },
+    {
+      "name": "first-adopter-smoke.json",
+      "state": "passed"
+    },
+    {
+      "name": "first-adopter-smoke-assertion",
+      "state": "passed"
+    },
+    {
+      "name": "verify-first.json",
+      "state": "passed"
+    },
+    {
+      "name": "verify-reuse.json",
+      "state": "passed"
+    },
+    {
+      "name": "reuse-assertion",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-start.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-checkpoint.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-preflight.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-verify.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-runtime-identity",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-finish.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-archive.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-close.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-assertion",
+      "state": "passed"
+    },
+    {
+      "name": "isolation-assertion",
+      "state": "passed"
+    },
+    {
+      "name": "repository-identity",
+      "state": "passed"
+    }
+  ],
+  "failureReason": null
+}

@@ -112,6 +112,7 @@ jobs:
           jq -e --arg version "$version" '[.packages[] | select(.source == null) | .version == $version] | all' /tmp/cargo-metadata.json
           tests/release/workflow_policy.sh .github/workflows/release.yml
           tests/release/annotated_tag_identity.sh
+          tests/release/adopter_acceptance_test.sh
 
   aggregate:
     needs: build
@@ -490,3 +491,37 @@ jobs:
           path: dist/homebrew-handoff.json
           if-no-files-found: error
           retention-days: 7
+
+  adopter_acceptance:
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    needs: [publish, publish_handoff]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+        with:
+          toolchain: 1.94.1
+      - name: Run public Release adopter acceptance
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/release-adopter-acceptance"
+          tests/release/adopter_acceptance.sh \
+            --repository "$GITHUB_REPOSITORY" \
+            --tag "$GITHUB_REF_NAME" \
+            --target x86_64-unknown-linux-gnu \
+            --source-repo "$GITHUB_WORKSPACE" \
+            --output "$RUNNER_TEMP/release-adopter-acceptance"
+      - name: Upload adopter acceptance evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: release-adopter-acceptance-${{ github.ref_name }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/release-adopter-acceptance/
+          if-no-files-found: error
+          retention-days: 30

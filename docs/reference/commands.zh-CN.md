@@ -47,3 +47,9 @@ capabilityClaims:
 
 `inspect`、`doctor`、MCP `initialize` 和 verification evidence 会提供 runtime version、runtime digest、
 protocol version。`ai-cockpit --version` 只输出简短的 executable version。
+
+## Release 验收边界
+
+`tests/release/adopter_acceptance.sh` 是维护者侧的发布后 harness，不是 Runtime 命令。它下载并固定公开
+Release binary，在隔离目录中执行 adopter lifecycle，并生成 `acceptance.json` 与 `SHA256SUMS`。不得用 workspace
+build 或本地 target binary 替代；验收失败也不会改变已发布 Release truth。

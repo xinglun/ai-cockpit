@@ -19,7 +19,7 @@ fail_if_match() {
   local message=$2
   if search "$pattern" "$workflow" >/dev/null; then
     printf 'policy failure: %s\n' "$message" >&2
-    search "$pattern" "$workflow" >&2 || true
+    if ! search "$pattern" "$workflow" >&2; then :; fi
     exit 1
   fi
 }
@@ -73,6 +73,7 @@ require_match '^  source_quality:' 'source-quality job must be present'
 require_match '^  release_policy:' 'release-policy job must be present'
 require_match '^  attest:' 'final attestation job must be present'
 require_match '^  publish_handoff:' 'post-publication handoff job must be present'
+require_match '^  adopter_acceptance:' 'post-release adopter acceptance job must be present'
 require_match 'cargo fmt --all -- --check' 'source quality must run rustfmt'
 require_match 'cargo clippy --workspace --all-targets --all-features -- -D warnings' 'source quality must run Clippy'
 require_match 'cargo test --workspace --all-targets --all-features' 'source quality must run the workspace tests'
@@ -87,6 +88,11 @@ require_match 'dist/Formula/ai-cockpit\.rb' 'published assets must include the F
 require_match 'needs: \[build, aggregate, source_quality, release_policy, verify, smoke_homebrew, smoke_linux, smoke_windows, attest\]' 'publish must depend on every final gate'
 require_match '^  publish_handoff:' 'handoff must be a separate post-publication job'
 require_match 'publish_handoff:[[:space:]]*$' 'post-publication handoff job must be addressable'
+require_match 'adopter_acceptance:[[:space:]]*$' 'post-release adopter acceptance job must be addressable'
+require_match 'tests/release/adopter_acceptance\.sh' 'post-release job must invoke the adopter acceptance harness'
+require_match 'needs: \[publish, publish_handoff\]' 'adopter acceptance must run after publication and handoff'
+require_match 'if: github\.event_name == '\''push'\'' && startsWith\(github\.ref, '\''refs/tags/'\''\)' 'adopter acceptance must be tag-only and post-publication'
+require_match 'if: always\(\)' 'adopter acceptance evidence must upload after success or failure'
 require_match 'refs/tags/\$\{tag\}\^\{\}' 'publish must compare the peeled tag commit'
 
 awk '

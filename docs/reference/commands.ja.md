@@ -47,3 +47,9 @@ capabilityClaims:
 
 `inspect`、`doctor`、MCP `initialize`、verification evidence は runtime version、runtime digest、protocol version を示します。
 `ai-cockpit --version` は短い executable version だけを出します。
+
+## Release acceptance の境界
+
+`tests/release/adopter_acceptance.sh` は maintainer 向けの post-release harness であり、Runtime command ではありません。
+public Release binary を download して pin し、isolated directory で adopter lifecycle を実行し、`acceptance.json` と `SHA256SUMS` を生成します。
+workspace build や local target binary で代用してはならず、acceptance failure が公開済み Release truth を変更することもありません。
