@@ -134,5 +134,27 @@ fn intelligence_commands_emit_repository_bound_json_and_unknowns() {
             .join(".ai/work-items/active/WI-INTELLIGENCE.approach.json")
             .is_file()
     );
+    let outcome = Command::new(binary)
+        .args(["work-item", "outcome", "--repo"])
+        .arg(directory.path())
+        .args(["--id", "WI-INTELLIGENCE"])
+        .env("AI_COCKPIT_LANGUAGE", "zh-CN")
+        .output()
+        .expect("human outcome");
+    assert!(outcome.status.success());
+    let outcome_text = String::from_utf8(outcome.stdout).expect("UTF-8 outcome");
+    assert!(outcome_text.contains("结果 — WI-INTELLIGENCE"));
+    assert!(outcome_text.contains("🟡 未就绪"));
+    assert!(outcome_text.contains("下一步"));
+    let machine_outcome = Command::new(binary)
+        .args(["work-item", "outcome", "--repo"])
+        .arg(directory.path())
+        .args(["--id", "WI-INTELLIGENCE", "--json"])
+        .output()
+        .expect("machine outcome");
+    assert!(machine_outcome.status.success());
+    let machine_json: serde_json::Value =
+        serde_json::from_slice(&machine_outcome.stdout).expect("machine outcome JSON");
+    assert_eq!(machine_json["schemaVersion"], 2);
     fs::remove_dir_all(directory).expect("cleanup");
 }

@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T23:30:07Z",
+  "files": {
+    "contractDigest": "sha256:b5f3a779445f4b38e541de8b6dabf651ca9cfb80e2a29d26e30ce49f67d7c292",
+    "contractPath": ".ai/work-items/archive/WI-82-v1-final-replacement-acceptance.contract.json",
+    "outcomeDigest": "sha256:4ebcdda527d8c6c3019fda1d32e9574c8b97f07bce77201e1b3a56836f20030d",
+    "outcomePath": ".ai/work-items/archive/WI-82-v1-final-replacement-acceptance.outcome.json",
+    "summaryDigest": "sha256:7e67083fb4feaeb0653bc69f891a6815ac955ac51a42e00694fbdde23a097786",
+    "summaryPath": ".ai/work-items/archive/WI-82-v1-final-replacement-acceptance.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-82-v1-final-replacement-acceptance"
+}

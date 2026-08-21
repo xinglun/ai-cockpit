@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T23:30:01Z",
+  "evidenceDigest": "sha256:f92bc67699e1a3dca7015eb83886bbeda833afcfe4dce25fe7216ffb8d15ff1c",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-82-v1-final-replacement-acceptance.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-82-v1-final-replacement-acceptance"
+}

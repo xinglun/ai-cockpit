@@ -1,0 +1,37 @@
+{
+  "acceptanceCriteria": [
+    "human Outcome sections are readable in Chinese",
+    " Japanese",
+    " and English",
+    "machine JSON remains available with --json",
+    "release receipt records canonical runtime version"
+  ],
+  "authority": "authorized",
+  "baseRevision": "b92bedd53e20f07ef30712958979054c5f497322",
+  "createdAt": "2026-08-21T23:30:48Z",
+  "goal": "Ensure localized Outcome text is readable and acceptance receipts record a canonical runtime version",
+  "intent": "Polish human-facing Outcome presentation and release receipt identity",
+  "mode": "implementation",
+  "outOfScope": [
+    "governance semantics",
+    "global agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:047e09dee80fc7851884daf3d68b48a2555a57d9fffeb0dfda62565a573f2674",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-cli/**",
+    "tests/conformance/final_replacement_acceptance.sh",
+    "tests/conformance/final_replacement_acceptance_test.sh",
+    "crates/cockpit-cli/tests/**",
+    "docs/reference/**",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-90a-outcome-presentation-polish"
+}

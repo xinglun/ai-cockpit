@@ -1,0 +1,21 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "accepted",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "repository-owner",
+    "authoritySource": "user-authorized-release-work",
+    "decidedAt": "2026-08-21T23:32:00Z",
+    "decision": "accepted",
+    "evidenceRefs": [
+      ".ai/evidence/WI-90a-outcome-presentation-polish.verification.json"
+    ],
+    "policyRefs": [
+      "WI-90a-outcome-presentation-polish"
+    ],
+    "reason": "Localized human Outcome and canonical release receipt identity verified.",
+    "resumeCondition": "Reopen if future locale or receipt tests regress."
+  },
+  "timestamp": "2026-08-21T23:32:15Z",
+  "workItemId": "WI-90a-outcome-presentation-polish"
+}

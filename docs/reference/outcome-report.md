@@ -1,0 +1,49 @@
+---
+author: AI Cockpit maintainers
+title: "Human-facing Outcome"
+description: "The human handoff emitted from a Work Item Outcome."
+audience:
+  - adopter
+  - maintainer
+  - reviewer
+status: current
+authority: canonical
+lastVerifiedBy: outcome-dialog-acceptance
+capabilityClaims:
+  - human_outcome_handoff
+---
+
+# Human-facing Outcome
+
+`ai-cockpit work-item outcome --repo <repository> --id <work-item>` emits a
+human handoff by default. Use `--json` when a machine needs the stable
+`OutcomeV2` object.
+
+The handoff follows the reader-first order:
+
+1. Task Result and status marker
+2. What was completed
+3. Problems found
+4. Stops triggered
+5. Problems resolved
+6. Risks avoided
+7. Remaining risks
+8. Unknowns
+9. Human decisions
+10. Verification and evidence
+11. Impact
+12. Next action
+
+Status markers are decision signals, not release authorization:
+
+- `🟢` verified evidence is present; review evidence before proceeding.
+- `🟡` the result is partial, not ready, or unknown; repair or investigate.
+- `🔴` a required control failed or authority/scope is invalid; stop and recover.
+
+An empty section is rendered as `None`/`无`/`なし`; the report never fills a
+governance decision from inference. A green result does not authorize merge,
+release, publication, or a security claim.
+
+The CLI uses `AI_COCKPIT_LANGUAGE`, then the process locale, for direct human
+output. Agent conversations should render the same handoff in the language of
+the user. JSON field names and enum values remain stable across languages.
