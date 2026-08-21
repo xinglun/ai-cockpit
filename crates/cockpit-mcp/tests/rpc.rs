@@ -215,6 +215,11 @@ fn repository_bound_verify_binds_evidence_after_command_side_effects() {
     assert!(verification["planningElapsedMs"].is_u64());
     assert!(verification["executionElapsedMs"].is_u64());
     assert_eq!(verification["processSpawnFailures"], 0);
+    assert_eq!(verification["runtimeVersion"], runtime.runtime_version);
+    assert_eq!(
+        verification["runtimeDigest"],
+        runtime.runtime_digest.to_string()
+    );
     assert_eq!(verification["results"][0]["nodeId"], "project-command-0");
     assert_eq!(verification["results"][0]["protected"], false);
     let evidence: serde_json::Value = serde_json::from_slice(

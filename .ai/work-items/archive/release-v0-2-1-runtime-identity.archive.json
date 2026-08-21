@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T17:33:01Z",
+  "files": {
+    "contractDigest": "sha256:a26360e5f45bf5869b8166b153512bcab1a417d050497ebb5ff1bc2a64c56a5e",
+    "contractPath": ".ai/work-items/archive/release-v0-2-1-runtime-identity.contract.json",
+    "outcomeDigest": "sha256:0ff7f0468d202aceed3ab7fa670ac772d9d95bb4ef5637227e06795613ac6289",
+    "outcomePath": ".ai/work-items/archive/release-v0-2-1-runtime-identity.outcome.json",
+    "summaryDigest": "sha256:1bb9baafe68b9862e49ebc5c5976fcda646a47893c1d15d428f9d00aa42016c2",
+    "summaryPath": ".ai/work-items/archive/release-v0-2-1-runtime-identity.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "release-v0-2-1-runtime-identity"
+}

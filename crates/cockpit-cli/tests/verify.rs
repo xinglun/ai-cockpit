@@ -52,6 +52,12 @@ fn verify_executes_an_explicit_never_reuse_command_with_bounded_telemetry() {
     assert_eq!(json["results"][0]["action"], "execute");
     assert_eq!(json["results"][0]["satisfiedBy"], "execution");
     assert_eq!(json["passed"], true);
+    assert_eq!(json["runtimeVersion"], env!("CARGO_PKG_VERSION"));
+    assert!(
+        json["runtimeDigest"]
+            .as_str()
+            .is_some_and(|value| value.starts_with("sha256:"))
+    );
     fs::remove_dir_all(directory).expect("cleanup");
 }
 
