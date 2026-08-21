@@ -928,6 +928,11 @@ fn stage_pinned_executable(
     std::io::copy(&mut source, &mut destination).ok()?;
     destination.sync_all().ok()?;
     fs::set_permissions(&staged_target, source.metadata().ok()?.permissions()).ok()?;
+    // Some Linux filesystems reject execve while a writable descriptor for
+    // the executable is still open (ETXTBSY). Close the copy-on-write handle
+    // and retain only a read-only pin for the staged bytes.
+    drop(destination);
+    let pinned = fs::File::open(&staged_target).ok()?;
     let staged_logical = component_root.join(logical_relative);
     if staged_logical != staged_target {
         fs::create_dir_all(staged_logical.parent()?).ok()?;
@@ -945,9 +950,8 @@ fn stage_pinned_executable(
         logical_relative.parent()?,
         target_relative.parent()?,
     )?;
-    destination.seek(std::io::SeekFrom::Start(0)).ok()?;
     let execution_path = staged_logical.to_string_lossy().into_owned();
-    Some((destination, execution_path))
+    Some((pinned, execution_path))
 }
 
 #[cfg(unix)]
@@ -2190,7 +2194,15 @@ fn replace_cap_entry(
     // remains open with delete sharing disabled, so its absolute path cannot
     // be redirected while this operation is in flight. Keeping the Ex class
     // preserves replace/POSIX semantics for an existing target.
-    let name = display_path.as_os_str().encode_wide().collect::<Vec<_>>();
+    let display_path = display_path.to_string_lossy();
+    // cap-std canonical paths on Windows use the extended-length `\\?\\`
+    // prefix. FileRenameInfoEx accepts the ordinary DOS spelling for these
+    // short local paths, while treating the extended spelling as an invalid
+    // rename target on some runner images.
+    let display_path = display_path.strip_prefix(r"\\?\").unwrap_or(&display_path);
+    let name = std::ffi::OsStr::new(display_path)
+        .encode_wide()
+        .collect::<Vec<_>>();
     let header_size = std::mem::offset_of!(FILE_RENAME_INFO, FileName);
     let byte_len = header_size + name.len() * std::mem::size_of::<u16>();
     let word_len = byte_len.div_ceil(std::mem::size_of::<usize>());
