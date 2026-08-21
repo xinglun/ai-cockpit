@@ -47,6 +47,10 @@ capabilityClaims:
   `COMPATIBLE`、`MIGRATION_REQUIRED`、`INCOMPATIBLE` を返します。`migrate plan` は read-only です。
   `migrate apply` は `--approved` がなければ書き込まず、Work Item、evidence、decision、knowledge、
   archive history を書き換えません。
+- attached protocol file が揃った後の stateful governance command は `COMPATIBLE` を要求します。
+  `MIGRATION_REQUIRED` と `INCOMPATIBLE` は、新しい Work Item、lifecycle record、verification evidence、
+  profile/adapter write、governed MCP operation を作成する前に fail closed します。migration review 用の
+  read-only diagnostic は引き続き利用できます。
 
 ## Runtime identity
 

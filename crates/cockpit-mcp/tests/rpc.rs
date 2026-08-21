@@ -16,6 +16,30 @@ fn test_runtime_context() -> cockpit_protocol::RuntimeContext {
     }
 }
 
+fn downgrade_to_schema_one(root: &std::path::Path) {
+    for name in ["project.json", "agent-interface.json"] {
+        let path = root.join(".ai").join(name);
+        let mut value: serde_json::Value =
+            serde_json::from_slice(&fs::read(&path).expect("protocol JSON")).expect("JSON");
+        value
+            .as_object_mut()
+            .expect("object")
+            .remove("repositorySchemaVersion");
+        fs::write(&path, serde_json::to_vec_pretty(&value).expect("JSON")).expect("write JSON");
+    }
+    let config = root.join(".ai/cockpit.toml");
+    let text = fs::read_to_string(&config).expect("config");
+    fs::write(
+        config,
+        text.lines()
+            .filter(|line| !line.starts_with("repository_schema_version"))
+            .collect::<Vec<_>>()
+            .join("\n")
+            + "\n",
+    )
+    .expect("write config");
+}
+
 #[test]
 fn mcp_initialize_uses_the_injected_runtime_identity() {
     let runtime = test_runtime_context();
@@ -147,6 +171,93 @@ fn repository_observe_accepts_the_attached_profile_wrapper() {
     );
     assert_eq!(response["result"]["isError"], false);
     assert!(response["result"]["structuredContent"]["evolution"].is_array());
+    fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[test]
+fn mcp_preflight_rejects_a_repository_that_requires_migration() {
+    let suffix = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("clock")
+        .as_nanos();
+    let sequence = NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed);
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-mcp-preflight-migration-{}-{suffix}-{sequence}",
+        std::process::id()
+    ));
+    fs::create_dir_all(&directory).expect("directory");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(&directory)
+        .status()
+        .expect("git init");
+    cockpit_repository::attach(&directory).expect("attach");
+    cockpit_repository::start_work_item_with_options(
+        &directory,
+        "WI-MCP-MIGRATION-PREFLIGHT",
+        "verify",
+        "migration gate",
+        &["src/**".to_owned()],
+        &cockpit_repository::WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    downgrade_to_schema_one(&directory);
+    let contract = ".ai/work-items/active/WI-MCP-MIGRATION-PREFLIGHT.contract.json";
+    let response = cockpit_mcp::handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0","id":8,"method":"tools/call",
+            "params":{"name":"preflight","arguments":{"contract":contract}}
+        }),
+        &directory,
+        &test_runtime_context(),
+    );
+    assert_eq!(response["result"]["isError"], true);
+    assert!(
+        response["result"]["content"][0]["text"]
+            .as_str()
+            .expect("error text")
+            .contains("MIGRATION_REQUIRED")
+    );
+    fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[test]
+fn mcp_verify_rejects_a_repository_that_requires_migration() {
+    let suffix = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("clock")
+        .as_nanos();
+    let sequence = NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed);
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-mcp-verify-migration-{}-{suffix}-{sequence}",
+        std::process::id()
+    ));
+    fs::create_dir_all(&directory).expect("directory");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(&directory)
+        .status()
+        .expect("git init");
+    cockpit_repository::attach(&directory).expect("attach");
+    downgrade_to_schema_one(&directory);
+    let response = cockpit_mcp::handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0","id":9,"method":"tools/call",
+            "params":{"name":"verify","arguments":{"command":"true","args":[]}}
+        }),
+        &directory,
+        &test_runtime_context(),
+    );
+    assert_eq!(response["result"]["isError"], true);
+    assert!(
+        response["result"]["content"][0]["text"]
+            .as_str()
+            .expect("error text")
+            .contains("MIGRATION_REQUIRED")
+    );
     fs::remove_dir_all(directory).expect("cleanup");
 }
 

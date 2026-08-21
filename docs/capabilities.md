@@ -131,6 +131,14 @@ protocol files and migration record; archived Work Items, evidence, decisions,
 and knowledge remain byte-for-byte historical records. `INCOMPATIBLE` stops
 without a write and requires a Runtime that understands the stored schema.
 
+When the attached protocol files are present, stateful governance operations
+(`preflight`, Work Item creation/lifecycle, `verify`, knowledge/profile writes,
+Agent adapter writes, and governed MCP calls) require `COMPATIBLE`. A
+`MIGRATION_REQUIRED` or `INCOMPATIBLE` result stops before creating a new
+record or evidence. Read-only compatibility, migration planning, observation,
+status, and diagnostics remain available so an operator can review the next
+safe action.
+
 ### Connect an Agent explicitly
 
 `attach` creates the repository facts but does not modify `AGENTS.md`,

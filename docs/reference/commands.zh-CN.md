@@ -47,6 +47,9 @@ capabilityClaims:
   `COMPATIBLE`、`MIGRATION_REQUIRED` 或 `INCOMPATIBLE`。`migrate plan` 是只读操作；
   `migrate apply` 没有 `--approved` 就拒绝写入，也不会重写 Work Item、evidence、decision、
   knowledge 或 archive history。
+- 当 attached protocol files 完整存在时，有状态治理命令必须先得到 `COMPATIBLE`；
+  `MIGRATION_REQUIRED` 和 `INCOMPATIBLE` 会在创建新 Work Item、生命周期 record、verification evidence、
+  profile/adapter 写入或受治理 MCP 操作前 fail closed。迁移审查所需的只读诊断仍可用。
 
 ## Runtime identity
 

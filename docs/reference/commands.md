@@ -61,6 +61,11 @@ unknown decision is not a pass.
   `migrate plan` is read-only. `migrate apply` refuses to write unless
   `--approved` is present and never rewrites Work Items, evidence, decisions,
   knowledge, or archive history.
+- Once all attached protocol files exist, stateful governance commands require
+  `COMPATIBLE`; `MIGRATION_REQUIRED` and `INCOMPATIBLE` fail closed before a
+  new Work Item, lifecycle record, verification evidence, profile/adapter
+  write, or governed MCP operation is created. Read-only diagnostics remain
+  available for migration review.
 
 ## Runtime identity
 
