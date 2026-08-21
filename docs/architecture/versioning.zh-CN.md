@@ -18,7 +18,7 @@ Runtime version 与 Repository Protocol version 独立。
 
 ```text
 ai-cockpit --version
-0.1.0
+0.1.1
 
 repository:
 protocol_version = 1

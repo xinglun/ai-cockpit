@@ -56,7 +56,7 @@ immutable GitHub Release. The checksum file covers all ten archive/SBOM files,
 so validate the exact archive you downloaded:
 
 ```bash
-archive="ai-cockpit-v0.1.0-aarch64-apple-darwin.tar.gz"
+archive="ai-cockpit-v0.1.1-aarch64-apple-darwin.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -67,8 +67,8 @@ gh attestation verify "$archive" \
 If you use GitHub CLI after the Release exists, the equivalent download is:
 
 ```bash
-archive="ai-cockpit-v0.1.0-aarch64-apple-darwin.tar.gz"
-gh release download v0.1.0 --repo xinglun/ai-cockpit \
+archive="ai-cockpit-v0.1.1-aarch64-apple-darwin.tar.gz"
+gh release download v0.1.1 --repo xinglun/ai-cockpit \
   --pattern "$archive" --pattern release-manifest.json --pattern SHA256SUMS
 ```
 
@@ -83,7 +83,7 @@ the exact Rust target, verify the archive, and place `ai-cockpit` in
 
 ```bash
 target="aarch64-apple-darwin" # choose the target matching your machine
-archive="ai-cockpit-v0.1.0-${target}.tar.gz"
+archive="ai-cockpit-v0.1.1-${target}.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -101,7 +101,7 @@ Windows users download the `.zip` and `SHA256SUMS`, compare the exact checksum,
 extract it to a user bin directory, and add that directory to the user `PATH`:
 
 ```powershell
-$archive = "ai-cockpit-v0.1.0-x86_64-pc-windows-msvc.zip"
+$archive = "ai-cockpit-v0.1.1-x86_64-pc-windows-msvc.zip"
 $expected = Get-Content .\SHA256SUMS |
   Where-Object { ($_ -split '\s+')[1] -eq $archive } |
   ForEach-Object { ($_ -split '\s+')[0].ToLowerInvariant() }
@@ -122,13 +122,13 @@ $env:Path = "$destination;$env:Path"
 ## Rust developer fallback
 
 This fallback becomes available only after WI-35 publishes the immutable
-`v0.1.0` tag. The current source remote has no such tag yet.
+`v0.1.1` tag, which is the current immutable release.
 
 After that publication, the workspace package must be selected explicitly:
 
 ```bash
 cargo install --git https://github.com/xinglun/ai-cockpit.git \
-  --tag v0.1.0 --locked --root "$HOME/.local" \
+  --tag v0.1.1 --locked --root "$HOME/.local" \
   --bin ai-cockpit cockpit-cli
 "$HOME/.local/bin/ai-cockpit" --version
 cargo uninstall --root "$HOME/.local" cockpit-cli

@@ -295,10 +295,15 @@ jobs:
             --manifest dist/release-manifest.json \
             --fixture-base-url "http://127.0.0.1:${port}/" \
             --output Formula/ai-cockpit.rb
-          brew install --formula ./Formula/ai-cockpit.rb
-          brew test ./Formula/ai-cockpit.rb
+          brew tap-new --no-git ai-cockpit/smoke
+          tap_root="$(brew --repository)/Library/Taps/ai-cockpit/homebrew-smoke"
+          mkdir -p "${tap_root}/Formula"
+          cp Formula/ai-cockpit.rb "${tap_root}/Formula/ai-cockpit.rb"
+          brew install --formula ai-cockpit/smoke/ai-cockpit
+          brew test ai-cockpit/smoke/ai-cockpit
           ai-cockpit --version
-          brew uninstall ai-cockpit
+          brew uninstall ai-cockpit/smoke/ai-cockpit
+          brew untap ai-cockpit/smoke
           ! brew list --formula | grep -Fx ai-cockpit
 
   smoke_linux:
