@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T21:19:21Z",
+  "evidenceDigest": "sha256:483f902d4c70bb9c98de83dbd99697aea6d9e2e06fc32e86d587ec7e7bd9beaf",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-72-release-hardening.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-72-release-hardening"
+}

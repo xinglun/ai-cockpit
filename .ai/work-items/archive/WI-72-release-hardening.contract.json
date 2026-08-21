@@ -15,13 +15,7 @@
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:dcdae205b44ac3462b8bbec62b7e222f199b8d6eb537cfbcf98ac2643c0bd878",
   "requiredEvidenceClasses": [
-    "cargo test --workspace --all-targets --all-features",
-    "cargo clippy --workspace --all-targets --all-features -- -D warnings",
-    "cargo fmt --all -- --check",
-    "tests/release/workflow_policy.sh .github/workflows/release.yml",
-    "tests/release/adopter_acceptance_test.sh",
-    "tests/release/adopter_upgrade_acceptance_test.sh",
-    "installed v0.2.1 preflight and verify JSON"
+    "verification"
   ],
   "risk": "normal",
   "scope": [

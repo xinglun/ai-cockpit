@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T21:19:27Z",
+  "files": {
+    "contractDigest": "sha256:f6838a1175af2a11c9c8cb02a31813e132d753610d5b092a010dec9204ccd9ba",
+    "contractPath": ".ai/work-items/archive/WI-72-release-hardening.contract.json",
+    "outcomeDigest": "sha256:f1d1911a1305dfd3df236537e87b5f3af0344ee6bb90238f95379c4df12c39d9",
+    "outcomePath": ".ai/work-items/archive/WI-72-release-hardening.outcome.json",
+    "summaryDigest": "sha256:61504df626e950e49836981d18385d4d867340f8d8a8cd5f74794a1969475548",
+    "summaryPath": ".ai/work-items/archive/WI-72-release-hardening.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-72-release-hardening"
+}
