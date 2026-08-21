@@ -1,6 +1,6 @@
 use cockpit_core::{Digest, EvidenceState};
 use cockpit_git::RepositorySnapshot;
-use cockpit_protocol::QualityCommand;
+use cockpit_protocol::{QualityCommand, RepositoryConfig, validate_protocol_version};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest as ShaDigest, Sha256};
 use std::fs;
@@ -203,6 +203,20 @@ pub fn status(root: &Path) -> Result<RepositoryStatus, ObserverError> {
         source,
     })?;
     let ai = root.join(".ai");
+    let config_path = ai.join("cockpit.toml");
+    let config_text = fs::read_to_string(&config_path).map_err(|source| ObserverError::Read {
+        path: config_path.clone(),
+        source,
+    })?;
+    let config: RepositoryConfig =
+        toml::from_str(&config_text).map_err(|error| ObserverError::State {
+            path: config_path.clone(),
+            message: error.to_string(),
+        })?;
+    validate_protocol_version(config.protocol_version).map_err(|error| ObserverError::State {
+        path: config_path.clone(),
+        message: error.to_string(),
+    })?;
     let profile_bytes =
         fs::read(ai.join("project.json")).map_err(|source| ObserverError::Read {
             path: ai.join("project.json"),
@@ -213,8 +227,16 @@ pub fn status(root: &Path) -> Result<RepositoryStatus, ObserverError> {
             path: ai.join("project.json"),
             message: error.to_string(),
         })?;
+    if profile.repository_id != config.repository_id
+        || config.repository_id != repository_id(&root).to_string()
+    {
+        return Err(ObserverError::State {
+            path: config_path,
+            message: "repository identity does not match protocol state".into(),
+        });
+    }
     Ok(RepositoryStatus {
-        protocol_version: 1,
+        protocol_version: config.protocol_version,
         repository_id: profile.repository_id,
         state: profile.state,
         profile_version: profile.profile_version,
