@@ -2101,6 +2101,18 @@ fn atomic_replace_cap_strict(
         .write(true)
         .create_new(true)
         .follow(FollowSymlinks::No);
+    #[cfg(windows)]
+    {
+        use cap_std::fs::OpenOptionsExt;
+        use windows_sys::Win32::{
+            Foundation::{GENERIC_READ, GENERIC_WRITE},
+            Storage::FileSystem::DELETE,
+        };
+        // FileRenameInfoEx requires DELETE access on the source handle.  A
+        // write-only temporary file is sufficient on Unix but is rejected by
+        // Windows with ERROR_ACCESS_DENIED during the first index publish.
+        options.access_mode(GENERIC_READ | GENERIC_WRITE | DELETE);
+    }
     let mut file = parent
         .open_with(&temporary, &options)
         .map_err(|source| ObserverError::Read {
