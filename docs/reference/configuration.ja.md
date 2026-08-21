@@ -25,6 +25,8 @@ protocol_version = 1
 repository_id = "sha256:<64 lowercase hexadecimal characters>"
 ```
 
+`repository_id` は最初の attach 時に生成され、以後の request は repository-owned file から読み取ります。
+absolute path の hash ではないため、attach 済み repository を移動しても evidence は別 repository になりません。
 runtime は両方を validate し identity mismatch を拒否します。runtime source や V1 file を `.ai/` に copy しません。
 
 ## `.ai/project.json`

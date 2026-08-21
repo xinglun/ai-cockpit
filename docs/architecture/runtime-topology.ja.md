@@ -37,3 +37,18 @@ input に変換し、decision を CLI/MCP response に変換します。Reposito
 対象 repository に保存するのは facts、decisions、evidence、generated knowledge
 projection だけです。Rust source、Python runtime、helper script、runtime schema
 copy は保存しません。
+
+## 1 つの Runtime、複数の Repository Context
+
+```mermaid
+flowchart TB
+    Runtime["machine に 1 つの ai-cockpit binary"]
+    Runtime --> A["RepositoryContext A<br/>/project-a/.ai/"]
+    Runtime --> B["RepositoryContext B<br/>/project-b/.ai/"]
+    Runtime --> C["RepositoryContext C<br/>/project-c/.ai/"]
+```
+
+Core は request-scoped です。`--repo`（または同等の MCP repository binding）で 1 回の
+operation の context を選び、global な current repository、Work Item、profile は持ちません。
+互換性のある repository は Runtime upgrade を共有できますが、各 context の Contract、
+evidence、knowledge は分離されます。

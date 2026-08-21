@@ -25,8 +25,11 @@ protocol_version = 1
 repository_id = "sha256:<64 lowercase hexadecimal characters>"
 ```
 
-The runtime validates both fields and rejects an identity mismatch. Do not copy
-runtime source or V1 files into `.ai/`.
+`repository_id` is generated when the repository is first attached and is read
+from this repository-owned file on later requests. It is deliberately not a
+hash of the absolute path, so moving an attached repository does not make its
+evidence a different repository. The runtime validates both fields and rejects
+an identity mismatch. Do not copy runtime source or V1 files into `.ai/`.
 
 ## `.ai/project.json`
 

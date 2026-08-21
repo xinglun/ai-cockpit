@@ -25,6 +25,8 @@ protocol_version = 1
 repository_id = "sha256:<64 位小写十六进制>"
 ```
 
+`repository_id` 在第一次 attach 时生成，后续请求从这个 repository-owned 文件读取。它不会
+对绝对路径做哈希，因此移动已 attach 的 repository 不会让 evidence 变成另一个 repository。
 Runtime 会验证两个字段并拒绝 identity 不一致。不要把 runtime source 或 V1 文件复制到 `.ai/`。
 
 ## `.ai/project.json`

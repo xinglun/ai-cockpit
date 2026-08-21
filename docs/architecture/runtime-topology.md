@@ -38,3 +38,18 @@ invokes Git.
 The target repository stores facts, decisions, evidence, and generated knowledge
 projections. It does not store Rust source, Python runtime, helper scripts, or
 runtime schema copies.
+
+## One Runtime, many Repository Contexts
+
+```mermaid
+flowchart TB
+    Runtime["One installed ai-cockpit binary"]
+    Runtime --> A["RepositoryContext A<br/>/project-a/.ai/"]
+    Runtime --> B["RepositoryContext B<br/>/project-b/.ai/"]
+    Runtime --> C["RepositoryContext C<br/>/project-c/.ai/"]
+```
+
+The Core is request-scoped. `--repo` (or the equivalent MCP repository
+binding) selects one context for one operation; no global current repository,
+Work Item, or profile exists. Runtime upgrades are shared across compatible
+repositories, while each context owns its Contracts, evidence, and knowledge.
