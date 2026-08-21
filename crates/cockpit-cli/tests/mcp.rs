@@ -4,9 +4,24 @@ use std::time::{SystemTime, UNIX_EPOCH};
 
 #[test]
 fn mcp_command_serves_json_rpc_over_stdio() {
+    let suffix = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("clock")
+        .as_nanos();
+    let repository = std::env::temp_dir().join(format!(
+        "cockpit-cli-mcp-initialize-{}-{suffix}",
+        std::process::id()
+    ));
+    std::fs::create_dir_all(&repository).expect("repository");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(&repository)
+        .status()
+        .expect("git init");
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     let mut child = Command::new(binary)
-        .arg("mcp")
+        .args(["mcp", "--repo"])
+        .arg(&repository)
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
         .spawn()
@@ -36,6 +51,7 @@ fn mcp_command_serves_json_rpc_over_stdio() {
         response["result"]["serverInfo"]["runtimeDigest"],
         expected_digest
     );
+    std::fs::remove_dir_all(repository).expect("cleanup");
 }
 
 #[test]

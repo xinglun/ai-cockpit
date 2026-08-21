@@ -41,7 +41,7 @@ bootstrap。依赖 evidence reuse 前请先检查 attached profile。
 | 功能 | 用户可以做什么 | 从这里开始 | 结果 |
 | --- | --- | --- | --- |
 | Inspect | 不修改 repository 地读取状态。 | `ai-cockpit inspect --repo <path>` | Git identity、changed paths、digest 和 runtime identity。 |
-| Attach | 创建 repository 持有的治理界面。 | `ai-cockpit attach --repo <path>` | `.ai/cockpit.toml`、`.ai/project.json` 和校准状态。 |
+| Attach | 创建最小的 repository 治理脚手架。 | `ai-cockpit attach --repo <path>` | `.ai/` 协议文件、discovery manifest、状态目录和校准状态。 |
 | Observe | 读取 profile 并推导 repository 事实。 | `ai-cockpit observe --repo <path>` | observation 与 evolution signal。 |
 | Preflight | 编辑前评估 Work Item contract。 | `ai-cockpit preflight --repo <path> --contract <file>` | green、yellow 或 red 的 governance decision。 |
 | Work Item 生命周期 | 启动、checkpoint、完成、归档并关闭有界工作。 | `start`、`checkpoint`、`finish`、`archive`、`close` | 明确的状态转换和 receipt。 |
@@ -51,6 +51,8 @@ bootstrap。依赖 evidence reuse 前请先检查 attached profile。
 | MCP | 向 MCP client 提供相同 repository service。 | `ai-cockpit mcp --repo <path>` | 有显式绑定的 JSON-RPC 结果。 |
 | Doctor | 诊断 runtime 和 repository 准备度。 | `ai-cockpit doctor --repo <path>` | 可操作诊断，不静默修复。 |
 | Profile confirmation | 确认可用于受控 reuse 的质量命令。 | `ai-cockpit profile confirm --repo <path> --program cargo --args test,--workspace` | 可审查的新 profile 版本。 |
+| Work Item scaffold | 生成可被验证器读取、但不替人做治理决定的骨架。 | `ai-cockpit work-item new --repo <path> --id <id> --mode <mode>` | `not_ready` Contract、snapshot 事实和待补的人类输入。 |
+| Profile proposal | 生成候选 profile amendment，不修改正式 baseline。 | `ai-cockpit profile propose --repo <path>` | 只读的 `candidate`/`proposed` 输出。 |
 
 ## 面向用户的详细路径
 
@@ -74,14 +76,53 @@ ai-cockpit attach --repo /path/to/repository
 ai-cockpit observe --repo /path/to/repository
 ```
 
-Attach 可能创建或更新 `.ai/cockpit.toml` 和 `.ai/project.json`，但不会把 Rust source、
-V1 runtime file、Python helper 或 runtime schema 复制到目标。初始 profile 是
-`calibration_required`；确认质量命令后才可用于受控 reuse：
+Attach 创建最小的 repository-owned scaffold：
+
+```text
+.ai/
+├── cockpit.toml
+├── project.json
+├── agent-interface.json
+├── work-items/active/
+├── work-items/archive/
+├── evidence/
+├── decisions/
+└── knowledge/
+```
+
+它不会把 Rust source、V1 runtime file、Python helper、provider instruction 或 runtime schema
+复制到目标。初始 profile 是 `calibration_required`；确认质量命令后才可用于受控 reuse：
 
 ```bash
 ai-cockpit profile confirm --repo /path/to/repository \
   --program cargo --args test,--workspace
 ```
+
+`agent-interface.json` 是 repository-local discovery fact，记录稳定的 repository identity 和 Runtime
+能力；它不是 Agent prompt、provider 安装、授权或全局 MCP 设置。
+
+### 创建 Work Item 骨架
+
+在人类决定尚未准备好时使用 scaffold：
+
+```bash
+ai-cockpit work-item new --repo /path/to/repository \
+  --id payment-refund-guard --mode code
+```
+
+命令只自动填充 `repositoryId`、`baseRevision`、`projectProfileDigest` 和 `repositorySnapshotDigest`。
+`intent`、`scope`、`acceptanceCriteria`、`authority` 保持空值或 `unknown`；Contract 与 summary 状态为
+`not_ready`，不会生成 `passed`、`approved`、`verified` 或 `completed`。CLI 会直接列出已知事实和仍需人类输入的字段。
+旧的 `start` 命令仍可用，但会复用同一底层 scaffold writer 并接受显式人类字段。
+
+### 提议 profile amendment
+
+```bash
+ai-cockpit profile propose --repo /path/to/repository
+```
+
+命令输出只读的 `candidate`/`proposed` amendment，不会改变正式 `.ai/project.json` 的 bytes 或 digest；只有未来
+显式的 apply decision 才能修改 baseline。
 
 ### Preflight Work Item
 

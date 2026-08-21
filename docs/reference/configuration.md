@@ -31,6 +31,15 @@ hash of the absolute path, so moving an attached repository does not make its
 evidence a different repository. The runtime validates both fields and rejects
 an identity mismatch. Do not copy runtime source or V1 files into `.ai/`.
 
+## `.ai/agent-interface.json`
+
+`attach` also writes a strict repository-local discovery manifest. It contains
+`schemaVersion`, `protocolVersion`, the stable `repositoryId`,
+`rootBinding: "manifest-parent"`, the capabilities exposed by this Runtime,
+and `adapterState: "unconfigured"`. It is a discovery fact, not provider
+instructions, an authorization grant, or a global MCP configuration. Provider
+installation is explicit and separate from `attach`.
+
 ## `.ai/project.json`
 
 `attach` creates an attached profile with `state: "calibration_required"`.
@@ -46,6 +55,13 @@ profile fields are rejected.
 - `<id>.contract.json` — intent, scope, authority, acceptance, required evidence,
   base revision, profile digest, and repository snapshot digest;
 - `<id>.summary.json` — lifecycle state and checkpoint count.
+
+`work-item new --repo <path> --id <id> --mode <mode>` uses the same contract
+writer to create a `not_ready` skeleton. It fills only the four deterministic
+facts (`repositoryId`, `baseRevision`, `projectProfileDigest`, and
+`repositorySnapshotDigest`) and leaves intent, scope, acceptance criteria, and
+authority empty or `unknown`. `profile propose` emits a candidate amendment
+without changing the formal profile bytes or digest.
 
 `verify --work-item <id>` writes `.ai/evidence/<id>.verification.json`. `finish`
 creates an outcome, `archive` creates an archive manifest, and `close` records the

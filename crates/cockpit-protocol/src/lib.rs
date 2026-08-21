@@ -28,6 +28,23 @@ pub struct RepositoryContext {
     pub config: RepositoryConfig,
 }
 
+/// Repository-local discovery facts written by `attach`.
+///
+/// This manifest deliberately contains no provider prompt, command template,
+/// authorization, or global configuration. It only lets an explicitly
+/// attached repository advertise the shared Runtime's stable identity and
+/// capabilities to an adapter that is already pointed at this directory.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct AgentInterfaceManifest {
+    pub schema_version: u32,
+    pub protocol_version: u32,
+    pub repository_id: String,
+    pub root_binding: String,
+    pub capabilities: Vec<String>,
+    pub adapter_state: String,
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct ProjectProfile {

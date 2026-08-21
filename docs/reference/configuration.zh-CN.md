@@ -29,6 +29,12 @@ repository_id = "sha256:<64 位小写十六进制>"
 对绝对路径做哈希，因此移动已 attach 的 repository 不会让 evidence 变成另一个 repository。
 Runtime 会验证两个字段并拒绝 identity 不一致。不要把 runtime source 或 V1 文件复制到 `.ai/`。
 
+## `.ai/agent-interface.json`
+
+`attach` 还会写入严格的 repository-local discovery manifest，包含 `schemaVersion`、`protocolVersion`、稳定的
+`repositoryId`、`rootBinding: "manifest-parent"`、当前 Runtime 能力和 `adapterState: "unconfigured"`。它是 discovery fact，
+不是 provider instruction、授权或全局 MCP 配置。Provider 安装必须是独立的显式操作。
+
 ## `.ai/project.json`
 
 `attach` 创建 `state: "calibration_required"` 的 attached profile。`profile confirm` 后 profile
@@ -42,6 +48,10 @@ version 增加，并把选定质量命令记录为 verified。wrapper 包含 `pr
 - `<id>.contract.json`——intent、scope、authority、acceptance、required evidence、base revision、
   profile digest 和 repository snapshot digest；
 - `<id>.summary.json`——生命周期状态和 checkpoint 数量。
+
+`work-item new --repo <path> --id <id> --mode <mode>` 复用同一 contract writer，生成 `not_ready` 骨架。它只填充四个可确定
+推导事实（`repositoryId`、`baseRevision`、`projectProfileDigest`、`repositorySnapshotDigest`），intent、scope、acceptance criteria
+和 authority 保持空值或 `unknown`。`profile propose` 只输出候选 amendment，不改变正式 profile 的 bytes 或 digest。
 
 `verify --work-item <id>` 写入 `.ai/evidence/<id>.verification.json`。`finish` 创建 outcome，`archive`
 创建 archive manifest，`close` 记录 human decision。这些记录与内容绑定，不应手工修改来伪造 green。

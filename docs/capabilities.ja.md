@@ -42,7 +42,7 @@ profile を確認してください。
 | 機能 | 利用者ができること | 開始点 | 結果 |
 | --- | --- | --- | --- |
 | Inspect | repository state を変更せず読む。 | `ai-cockpit inspect --repo <path>` | Git identity、changed paths、digest、runtime identity。 |
-| Attach | repository-owned governance surface を作る。 | `ai-cockpit attach --repo <path>` | `.ai/cockpit.toml`、`.ai/project.json`、calibration state。 |
+| Attach | minimum の repository-owned governance scaffold を作る。 | `ai-cockpit attach --repo <path>` | `.ai/` protocol file、discovery manifest、state directory、calibration state。 |
 | Observe | attached profile と repository facts を読む。 | `ai-cockpit observe --repo <path>` | observation と evolution signal。 |
 | Preflight | edit 前に Work Item contract を評価する。 | `ai-cockpit preflight --repo <path> --contract <file>` | green、yellow、red の governance decision。 |
 | Work Item lifecycle | bounded work を start、checkpoint、finish、archive、close する。 | `start`、`checkpoint`、`finish`、`archive`、`close` | 明示的な state transition と receipt。 |
@@ -52,6 +52,8 @@ profile を確認してください。
 | MCP | 同じ repository service を MCP client に公開する。 | `ai-cockpit mcp --repo <path>` | explicit binding 付き JSON-RPC result。 |
 | Doctor | runtime と repository の readiness を診断する。 | `ai-cockpit doctor --repo <path>` | action 可能な診断。黙って修復しない。 |
 | Profile confirmation | controlled reuse 用の quality command を確認する。 | `ai-cockpit profile confirm --repo <path> --program cargo --args test,--workspace` | review 可能な profile version。 |
+| Work Item scaffold | governance decision を発明せず validator-readable skeleton を作る。 | `ai-cockpit work-item new --repo <path> --id <id> --mode <mode>` | `not_ready` Contract、snapshot facts、人間入力の一覧。 |
+| Profile proposal | formal baseline を変更せず candidate profile amendment を作る。 | `ai-cockpit profile propose --repo <path>` | read-only の `candidate`/`proposed` output。 |
 
 ## 利用者向けの詳細 path
 
@@ -73,14 +75,53 @@ ai-cockpit attach --repo /path/to/repository
 ai-cockpit observe --repo /path/to/repository
 ```
 
-Attach は `.ai/cockpit.toml` と `.ai/project.json` を作成・更新できますが、Rust source、V1
-runtime file、Python helper、runtime schema を target に copy しません。初期 profile は
-`calibration_required` です。controlled reuse の前に quality command を確認します。
+Attach は minimum の repository-owned scaffold を作ります。
+
+```text
+.ai/
+├── cockpit.toml
+├── project.json
+├── agent-interface.json
+├── work-items/active/
+├── work-items/archive/
+├── evidence/
+├── decisions/
+└── knowledge/
+```
+
+Rust source、V1 runtime file、Python helper、provider instruction、runtime schema は target に copy しません。
+初期 profile は `calibration_required` です。controlled reuse の前に quality command を確認します。
 
 ```bash
 ai-cockpit profile confirm --repo /path/to/repository \
   --program cargo --args test,--workspace
 ```
+
+`agent-interface.json` は repository-local の discovery fact です。stable repository identity と Runtime capability
+だけを記録し、Agent prompt、provider install、authorization、global MCP setting にはなりません。
+
+### Work Item skeleton を作る
+
+人間の判断がまだ準備できていない場合は scaffold を使います。
+
+```bash
+ai-cockpit work-item new --repo /path/to/repository \
+  --id payment-refund-guard --mode code
+```
+
+自動入力されるのは `repositoryId`、`baseRevision`、`projectProfileDigest`、`repositorySnapshotDigest` だけです。
+`intent`、`scope`、`acceptanceCriteria`、`authority` は空または `unknown` のままです。Contract と summary は
+`not_ready` になり、`passed`、`approved`、`verified`、`completed` は生成しません。CLI は既知の fact と不足している
+人間入力を表示します。移行期の `start` は同じ scaffold writer を明示的な human field とともに使います。
+
+### Profile amendment を提案する
+
+```bash
+ai-cockpit profile propose --repo /path/to/repository
+```
+
+read-only の `candidate`/`proposed` amendment を出力します。formal `.ai/project.json` の bytes/digest は変更せず、
+baseline の変更には将来の明示的な apply decision が必要です。
 
 ### Work Item を Preflight する
 

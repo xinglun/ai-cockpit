@@ -108,7 +108,7 @@ Release archive / Homebrew / Cargo Git
             `ai-cockpit`
                   │ 明示的な `attach --repo <path>`
                   ▼
-       対象 repository + `.ai/cockpit.toml` + `.ai/project.json`
+       対象 repository + `.ai/` scaffold + discovery manifest
 ```
 
 `cockpit.toml` は repository configuration format のままで `.ai/` 配下に置かれます。installed runtime を対象 repository
@@ -126,17 +126,24 @@ profile を保持しません。
 ```mermaid
 flowchart TB
     Runtime["machine に 1 つの ai-cockpit binary"]
-    Runtime --> A["RepositoryContext A<br/>/project-a/.ai/<br/>Contract · Evidence · Knowledge"]
-    Runtime --> B["RepositoryContext B<br/>/project-b/.ai/<br/>Contract · Evidence · Knowledge"]
-    Runtime --> C["RepositoryContext C<br/>/project-c/.ai/<br/>Contract · Evidence · Knowledge"]
+    Runtime --> A["RepositoryContext A<br/>/project-a/.ai/<br/>Manifest · Contract · Evidence · Knowledge"]
+    Runtime --> B["RepositoryContext B<br/>/project-b/.ai/<br/>Manifest · Contract · Evidence · Knowledge"]
+    Runtime --> C["RepositoryContext C<br/>/project-c/.ai/<br/>Manifest · Contract · Evidence · Knowledge"]
 ```
 
 そのため repository-bound command には `--repo` が必要です。たとえば
 `ai-cockpit status --repo /project-a`、`ai-cockpit verify --repo /project-b` のように
-指定します。MCP request も repository manifest と stable な `repositoryId` で同じ
-binding を使います。Runtime の upgrade は複数 project で共有できますが、Contract、
+指定します。MCP process も同じ明示的な repository binding で起動し、repository-local
+manifest は client に stable な `repositoryId` を知らせます。Runtime の upgrade は複数 project で共有できますが、Contract、
 receipt、knowledge、repository state は共有しません。Work Item evidence には生成時の
 `runtimeVersion`、`runtimeDigest`、`protocolVersion` を記録します。
+
+### Scaffolding は governance decision ではありません
+
+`attach` は最小の `.ai/` tree と repository-local の `agent-interface.json` discovery manifest だけを作ります。
+`work-item new` は snapshot-derived fact から `not_ready` Contract を作り、残っている intent と authority を人間に示します。
+provider rule を install したり、approved、verified、completed を主張したりしません。`profile propose` は read-only の
+`candidate`/`proposed` amendment であり、formal profile の変更には明示的な human apply step が必要です。
 
 ## Scenario
 

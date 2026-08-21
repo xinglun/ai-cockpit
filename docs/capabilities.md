@@ -42,7 +42,7 @@ missing. Review the attached profile before relying on evidence reuse.
 | Capability | What a user can do | Start here | Result |
 | --- | --- | --- | --- |
 | Inspect | Read repository state without changing it. | `ai-cockpit inspect --repo <path>` | Git identity, changed paths, digests, and runtime identity. |
-| Attach | Create the repository-owned governance surface. | `ai-cockpit attach --repo <path>` | `.ai/cockpit.toml` and `.ai/project.json` with calibration state. |
+| Attach | Create the minimum repository-owned governance scaffold. | `ai-cockpit attach --repo <path>` | `.ai/` protocol files, discovery manifest, state directories, and calibration state. |
 | Observe | Read the attached profile and repository facts. | `ai-cockpit observe --repo <path>` | Observation and evolution signals. |
 | Preflight | Evaluate a Work Item contract before editing. | `ai-cockpit preflight --repo <path> --contract <file>` | A green, yellow, or red governance decision. |
 | Work Item lifecycle | Start, checkpoint, finish, archive, and close bounded work. | `start`, `checkpoint`, `finish`, `archive`, `close` | Explicit state transitions and receipts. |
@@ -52,6 +52,8 @@ missing. Review the attached profile before relying on evidence reuse.
 | MCP | Expose the same repository services to an MCP client. | `ai-cockpit mcp --repo <path>` | JSON-RPC result envelopes with explicit binding. |
 | Doctor | Diagnose runtime and repository readiness. | `ai-cockpit doctor --repo <path>` | Actionable diagnostics; no silent repair. |
 | Profile confirmation | Confirm a quality command for controlled reuse. | `ai-cockpit profile confirm --repo <path> --program cargo --args test,--workspace` | New reviewable profile version. |
+| Work Item scaffold | Create a validator-readable skeleton without inventing governance decisions. | `ai-cockpit work-item new --repo <path> --id <id> --mode <mode>` | `not_ready` Contract with snapshot-derived facts and a list of human inputs still required. |
+| Profile proposal | Derive a candidate profile amendment without changing the formal baseline. | `ai-cockpit profile propose --repo <path>` | Read-only `candidate`/`proposed` output. |
 
 ## User-facing paths
 
@@ -76,15 +78,59 @@ ai-cockpit attach --repo /path/to/repository
 ai-cockpit observe --repo /path/to/repository
 ```
 
-Attachment may create or update `.ai/cockpit.toml` and `.ai/project.json`; it
-does not copy Rust source, V1 runtime files, Python helpers, or runtime schemas
-into the target. The first profile is `calibration_required` until a person
+Attachment creates the minimum repository-owned scaffold:
+
+```text
+.ai/
+├── cockpit.toml
+├── project.json
+├── agent-interface.json
+├── work-items/active/
+├── work-items/archive/
+├── evidence/
+├── decisions/
+└── knowledge/
+```
+
+It does not copy Rust source, V1 runtime files, Python helpers, provider
+instructions, or runtime schemas into the target. The first profile is `calibration_required` until a person
 confirms a quality command:
 
 ```bash
 ai-cockpit profile confirm --repo /path/to/repository \
   --program cargo --args test,--workspace
 ```
+
+`agent-interface.json` is a repository-local discovery fact. It records the
+stable repository identity and available Runtime capabilities; it is not an
+Agent prompt, provider installation, authorization, or global MCP setting.
+
+### Create a Work Item skeleton
+
+Use the scaffold when the human decision is not ready yet:
+
+```bash
+ai-cockpit work-item new --repo /path/to/repository \
+  --id payment-refund-guard --mode code
+```
+
+The command fills only `repositoryId`, `baseRevision`,
+`projectProfileDigest`, and `repositorySnapshotDigest`. `intent`, `scope`,
+`acceptanceCriteria`, and `authority` remain empty or `unknown`; the Contract
+and summary state is `not_ready`, never `passed`, `approved`, `verified`, or
+`completed`. The CLI prints the known facts and the human input still needed.
+The older `start` command remains available and delegates to the same scaffold
+writer with explicit human fields.
+
+### Propose a profile amendment
+
+```bash
+ai-cockpit profile propose --repo /path/to/repository
+```
+
+This emits a read-only `candidate`/`proposed` amendment. It never changes the
+formal `.ai/project.json` bytes or digest; a separate explicit apply decision
+would be required for that change.
 
 ### Preflight a Work Item
 

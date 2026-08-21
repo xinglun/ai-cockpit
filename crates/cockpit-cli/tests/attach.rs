@@ -42,8 +42,17 @@ fn attach_creates_only_protocol_state_and_is_idempotent() {
     );
     assert!(directory.join(".ai/cockpit.toml").is_file());
     assert!(directory.join(".ai/project.json").is_file());
+    let manifest_path = directory.join(".ai/agent-interface.json");
+    assert!(manifest_path.is_file());
+    let manifest_before = fs::read(&manifest_path).expect("manifest");
     assert!(directory.join(".ai/work-items/active").is_dir());
     assert!(!directory.join("scripts").exists());
+    for forbidden in ["AGENTS.md", "CLAUDE.md", "GEMINI.md", ".cursor"] {
+        assert!(
+            !directory.join(forbidden).exists(),
+            "attach wrote {forbidden}"
+        );
+    }
     let second = Command::new(binary)
         .args(["attach", "--repo"])
         .arg(&directory)
@@ -54,6 +63,7 @@ fn attach_creates_only_protocol_state_and_is_idempotent() {
         "stderr: {}",
         String::from_utf8_lossy(&second.stderr)
     );
+    assert_eq!(fs::read(manifest_path).expect("manifest"), manifest_before);
     fs::remove_dir_all(directory).expect("cleanup");
 }
 

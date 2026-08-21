@@ -43,6 +43,19 @@ binary は共有しますが、各 repository は独自の `.ai/` Contract、Evi
 を持ちます。repository-bound command には常に `--repo` が必要で、Runtime に global な
 current repository や active Work Item はありません。
 
+`attach` は最小の repository scaffold（`cockpit.toml`、`project.json`、`agent-interface.json`、
+Work Item directory、evidence、decisions、knowledge）だけを作成し、Agent provider instruction は install しません。
+Governance skeleton が必要な場合は明示的に実行します。
+
+```bash
+ai-cockpit work-item new --repo /project-a \
+  --id payment-refund-guard --mode code
+```
+
+解決できた snapshot-derived fact と、人間が入力すべき `intent`、`scope`、`acceptanceCriteria`、`authority` を表示します。
+状態は `not_ready` で、scaffold が approved や verified を主張することはありません。`profile propose --repo /project-a` も
+read-only の candidate amendment を出力し、formal profile は変更しません。
+
 ## 3 つの decision state
 
 - `green`: 必要な evidence が bounded な次の操作を支える。

@@ -105,7 +105,7 @@ Release archive / Homebrew / Cargo Git
             `ai-cockpit`
                   │ 显式 `attach --repo <path>`
                   ▼
-       目标 repository + `.ai/cockpit.toml` + `.ai/project.json`
+       目标 repository + `.ai/` scaffold + discovery manifest
 ```
 
 `cockpit.toml` 仍然是 repository 配置格式，并存放在 `.ai/` 下。安装后的 runtime 不会被复制进目标 repository；
@@ -122,17 +122,25 @@ repository；Core 不保存全局 active repository、Work Item 或 project prof
 ```mermaid
 flowchart TB
     Runtime["机器上安装一份 ai-cockpit binary"]
-    Runtime --> A["RepositoryContext A<br/>/project-a/.ai/<br/>Contract · Evidence · Knowledge"]
-    Runtime --> B["RepositoryContext B<br/>/project-b/.ai/<br/>Contract · Evidence · Knowledge"]
-    Runtime --> C["RepositoryContext C<br/>/project-c/.ai/<br/>Contract · Evidence · Knowledge"]
+    Runtime --> A["RepositoryContext A<br/>/project-a/.ai/<br/>Manifest · Contract · Evidence · Knowledge"]
+    Runtime --> B["RepositoryContext B<br/>/project-b/.ai/<br/>Manifest · Contract · Evidence · Knowledge"]
+    Runtime --> C["RepositoryContext C<br/>/project-c/.ai/<br/>Manifest · Contract · Evidence · Knowledge"]
 ```
 
 因此，CLI 的 repository-bound command 必须带 `--repo`，例如
 `ai-cockpit status --repo /project-a` 和 `ai-cockpit verify --repo /project-b`。
-MCP 请求通过 repository manifest 和稳定的 `repositoryId` 使用同一绑定。Runtime
+MCP 进程也必须用同一显式 repository 绑定启动；repository-local manifest 可以向 client
+公布稳定的 `repositoryId`。Runtime
 升级可以一次惠及多个项目；Contract、receipt、knowledge 和 repository state
 绝不共享。Work Item evidence 记录产生它的 `runtimeVersion`、`runtimeDigest` 和
 `protocolVersion`。
+
+### 脚手架不是治理决定
+
+`attach` 只创建最小 `.ai/` 树和 repository-local 的 `agent-interface.json` discovery manifest。
+`work-item new` 根据 snapshot 事实创建 `not_ready` Contract，并列出仍需人类提供的 intent 与 authority。
+它不会安装 provider rules，也不会声称 approved、verified 或 completed。`profile propose` 是只读的
+`candidate`/`proposed` amendment；修改正式 profile 仍必须经过显式的人类 apply 步骤。
 
 ## 场景
 

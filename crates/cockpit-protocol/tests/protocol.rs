@@ -54,6 +54,28 @@ fn project_profile_rejects_unknown_fields() {
 }
 
 #[test]
+fn agent_interface_manifest_is_strict_and_round_trips() {
+    let manifest = cockpit_protocol::AgentInterfaceManifest {
+        schema_version: 1,
+        protocol_version: 1,
+        repository_id: "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            .into(),
+        root_binding: "manifest-parent".into(),
+        capabilities: vec!["inspect".into(), "work-item-scaffold".into()],
+        adapter_state: "unconfigured".into(),
+    };
+    let value = serde_json::to_value(&manifest).expect("manifest serializes");
+    assert_eq!(
+        serde_json::from_value::<cockpit_protocol::AgentInterfaceManifest>(value.clone())
+            .expect("manifest parses"),
+        manifest
+    );
+    let mut unknown = value;
+    unknown["futureCapability"] = serde_json::json!(true);
+    assert!(serde_json::from_value::<cockpit_protocol::AgentInterfaceManifest>(unknown).is_err());
+}
+
+#[test]
 fn repository_context_keeps_runtime_root_out_of_repository_context() {
     let context = cockpit_protocol::RepositoryContext {
         root: std::path::PathBuf::from("/repo"),

@@ -2,12 +2,11 @@ use anyhow::{Context, Result};
 use clap::{ArgAction, Parser, Subcommand};
 use cockpit_git::GitRepository;
 use cockpit_knowledge::{Query, query};
-use cockpit_mcp::serve;
 use cockpit_protocol::{Contract, RepositoryConfig, validate_protocol_version};
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
     archive_work_item, attach, checkpoint_work_item, close_work_item_with_decision,
-    finish_work_item, generate_knowledge, run_repository_verification,
+    finish_work_item, generate_knowledge, run_repository_verification, scaffold_work_item,
     start_work_item_with_options, status,
 };
 use serde_json::json;
@@ -106,6 +105,10 @@ enum CommandKind {
         #[arg(long, default_value_t = 2)]
         workers: usize,
     },
+    WorkItem {
+        #[command(subcommand)]
+        command: WorkItemCommand,
+    },
     Knowledge {
         #[command(subcommand)]
         command: KnowledgeCommand,
@@ -116,7 +119,7 @@ enum CommandKind {
     },
     Mcp {
         #[arg(long)]
-        repo: Option<PathBuf>,
+        repo: PathBuf,
     },
     Doctor {
         #[arg(long)]
@@ -141,6 +144,18 @@ enum KnowledgeCommand {
 }
 
 #[derive(Debug, Subcommand)]
+enum WorkItemCommand {
+    New {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+        #[arg(long)]
+        mode: String,
+    },
+}
+
+#[derive(Debug, Subcommand)]
 enum ProfileCommand {
     Confirm {
         #[arg(long)]
@@ -149,6 +164,10 @@ enum ProfileCommand {
         program: String,
         #[arg(long, value_delimiter = ',')]
         args: Vec<String>,
+    },
+    Propose {
+        #[arg(long)]
+        repo: PathBuf,
     },
 }
 
@@ -401,6 +420,23 @@ fn run() -> Result<()> {
             }
             println!("{}", serde_json::to_string_pretty(&output)?);
         }
+        CommandKind::WorkItem { command } => match command {
+            WorkItemCommand::New { repo, id, mode } => {
+                let receipt =
+                    scaffold_work_item(&repo, &id, &mode).context("create Work Item scaffold")?;
+                println!("Work Item scaffold created.");
+                println!("\nKnown facts:");
+                println!(
+                    "  repositoryId              resolved\n  baseRevision              resolved\n  projectProfileDigest      resolved\n  repositorySnapshotDigest resolved"
+                );
+                println!("\nHuman input required:");
+                for field in &receipt.human_input_required {
+                    println!("  {field}");
+                }
+                println!("\nState: {}", receipt.state);
+                println!("\n{}", serde_json::to_string_pretty(&receipt)?);
+            }
+        },
         CommandKind::Knowledge { command } => match command {
             KnowledgeCommand::Query {
                 repo,
@@ -436,26 +472,49 @@ fn run() -> Result<()> {
                     .context("confirm project profile update")?;
                 println!("{}", serde_json::to_string_pretty(&profile)?);
             }
+            ProfileCommand::Propose { repo } => {
+                let git = GitRepository::discover(&repo).context("discover repository")?;
+                let snapshot = git.snapshot().context("create repository snapshot")?;
+                let observation = cockpit_repository::observe(&snapshot.root, &snapshot)
+                    .context("observe repository")?;
+                let profile_path = snapshot.root.join(".ai/project.json");
+                let profile: cockpit_repository::AttachedProfile = serde_json::from_slice(
+                    &std::fs::read(&profile_path).context("read attached profile")?,
+                )
+                .context("parse attached profile")?;
+                let projected = cockpit_protocol::ProjectProfile {
+                    profile_version: profile.profile_version,
+                    repository_id: profile.repository_id.clone(),
+                    tests: profile.tests.clone(),
+                    build_systems: profile.build_systems.clone(),
+                };
+                let evolution =
+                    cockpit_repository::classify_evolution(&projected, &observation, &snapshot);
+                let proposal = cockpit_repository::profile_update_proposal(&projected, &evolution);
+                let output = json!({
+                    "kind": "project_profile_amendment",
+                    "state": "candidate",
+                    "status": "proposed",
+                    "repositoryId": profile.repository_id,
+                    "baseProfileDigest": profile.profile_digest,
+                    "repositorySnapshotDigest": cockpit_repository::snapshot_digest(&snapshot)?,
+                    "evolution": evolution,
+                    "proposal": proposal,
+                    "formalBaselineChanged": false,
+                });
+                println!("{}", serde_json::to_string_pretty(&output)?);
+            }
         },
         CommandKind::Mcp { repo } => {
             let stdin = std::io::stdin();
             let stdout = std::io::stdout();
-            if let Some(repo) = repo {
-                cockpit_mcp::serve_with_repo(
-                    std::io::BufReader::new(stdin.lock()),
-                    stdout.lock(),
-                    &repo,
-                    &runtime_context,
-                )
-                .context("serve MCP")?;
-            } else {
-                serve(
-                    std::io::BufReader::new(stdin.lock()),
-                    stdout.lock(),
-                    &runtime_context,
-                )
-                .context("serve MCP")?;
-            }
+            cockpit_mcp::serve_with_repo(
+                std::io::BufReader::new(stdin.lock()),
+                stdout.lock(),
+                &repo,
+                &runtime_context,
+            )
+            .context("serve MCP")?;
         }
         CommandKind::Doctor { repo } => {
             let root = std::fs::canonicalize(&repo).context("canonicalize repository")?;

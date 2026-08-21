@@ -5,7 +5,9 @@ use cockpit_core::{
     GovernanceInput, evaluate,
 };
 use cockpit_git::{ChangeContentState, ChangeKind, RepositorySnapshot};
-use cockpit_protocol::{QualityCommand, RepositoryConfig, validate_protocol_version};
+use cockpit_protocol::{
+    AgentInterfaceManifest, QualityCommand, RepositoryConfig, validate_protocol_version,
+};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest as ShaDigest, Sha256};
 use std::collections::BTreeMap;
@@ -243,6 +245,26 @@ pub struct WorkItemStartOptions {
     pub authority: String,
     pub acceptance_criteria: Vec<String>,
     pub required_evidence_classes: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct WorkItemScaffoldFacts {
+    pub repository_id: String,
+    pub base_revision: String,
+    pub project_profile_digest: Digest,
+    pub repository_snapshot_digest: Digest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct WorkItemScaffoldReceipt {
+    pub work_item_id: String,
+    pub mode: String,
+    pub contract_path: String,
+    pub state: String,
+    pub known_facts: WorkItemScaffoldFacts,
+    pub human_input_required: Vec<String>,
 }
 
 #[derive(Debug, Error)]
@@ -2363,6 +2385,30 @@ pub fn attach(root: &Path) -> Result<AttachedProfile, ObserverError> {
         message: error.to_string(),
     })?;
     atomic_write(&ai.join("project.json"), &encoded)?;
+    let manifest = AgentInterfaceManifest {
+        schema_version: 1,
+        protocol_version: 1,
+        repository_id: profile.repository_id.clone(),
+        root_binding: "manifest-parent".into(),
+        capabilities: vec![
+            "inspect".into(),
+            "observe".into(),
+            "status".into(),
+            "preflight".into(),
+            "verify".into(),
+            "work-item-scaffold".into(),
+            "profile-propose".into(),
+            "knowledge".into(),
+            "doctor".into(),
+            "mcp".into(),
+        ],
+        adapter_state: "unconfigured".into(),
+    };
+    let manifest_value = serde_json::to_value(&manifest).map_err(|error| ObserverError::State {
+        path: ai.join("agent-interface.json"),
+        message: error.to_string(),
+    })?;
+    atomic_json(&ai.join("agent-interface.json"), &manifest_value)?;
     let proposal = serde_json::json!({
         "kind": "project_profile_initialization",
         "profileVersion": 1,
@@ -2460,7 +2506,97 @@ pub fn start_work_item_with_options(
     scope: &[String],
     options: &WorkItemStartOptions,
 ) -> Result<LifecycleReceipt, ObserverError> {
-    validate_work_item_id(work_item_id)?;
+    create_work_item_scaffold(
+        root,
+        &ContractScaffoldInput {
+            work_item_id,
+            mode: "implementation",
+            intent,
+            goal,
+            scope,
+            options,
+            state: "implementation_active",
+        },
+    )?;
+    Ok(LifecycleReceipt {
+        work_item_id: work_item_id.into(),
+        state: "implementation_active".into(),
+        timestamp: now(),
+    })
+}
+
+/// Create a deterministic, validator-readable Work Item skeleton.
+///
+/// This is the single scaffold writer used by both the transitional `start`
+/// lifecycle and the user-facing `work-item new` command. The caller supplies
+/// only fields that are explicitly human-owned; the repository facts are read
+/// from one fresh snapshot and the attached profile.
+pub fn scaffold_work_item(
+    root: &Path,
+    work_item_id: &str,
+    mode: &str,
+) -> Result<WorkItemScaffoldReceipt, ObserverError> {
+    let mode = mode.trim();
+    if mode.is_empty() {
+        return Err(ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message: "work item mode must not be empty".into(),
+        });
+    }
+    let options = WorkItemStartOptions {
+        out_of_scope: Vec::new(),
+        risk: "unknown".into(),
+        authority: "unknown".into(),
+        acceptance_criteria: Vec::new(),
+        required_evidence_classes: Vec::new(),
+    };
+    let scaffold = create_work_item_scaffold(
+        root,
+        &ContractScaffoldInput {
+            work_item_id,
+            mode,
+            intent: "",
+            goal: "",
+            scope: &[],
+            options: &options,
+            state: "not_ready",
+        },
+    )?;
+    Ok(WorkItemScaffoldReceipt {
+        work_item_id: work_item_id.into(),
+        mode: mode.into(),
+        contract_path: scaffold.contract_path,
+        state: "not_ready".into(),
+        known_facts: scaffold.facts,
+        human_input_required: vec![
+            "intent".into(),
+            "scope".into(),
+            "acceptanceCriteria".into(),
+            "authority".into(),
+        ],
+    })
+}
+
+struct CreatedWorkItemScaffold {
+    contract_path: String,
+    facts: WorkItemScaffoldFacts,
+}
+
+struct ContractScaffoldInput<'a> {
+    work_item_id: &'a str,
+    mode: &'a str,
+    intent: &'a str,
+    goal: &'a str,
+    scope: &'a [String],
+    options: &'a WorkItemStartOptions,
+    state: &'a str,
+}
+
+fn create_work_item_scaffold(
+    root: &Path,
+    input: &ContractScaffoldInput<'_>,
+) -> Result<CreatedWorkItemScaffold, ObserverError> {
+    validate_work_item_id(input.work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -2478,37 +2614,46 @@ pub fn start_work_item_with_options(
         path: root.clone(),
         message: error.to_string(),
     })?;
-    let profile_digest =
-        Digest::sha256_bytes(&fs::read(ai.join("project.json")).map_err(|source| {
-            ObserverError::Read {
-                path: ai.join("project.json"),
-                source,
-            }
-        })?);
-    let repository_snapshot_digest = snapshot_digest(&snapshot)?;
+    let profile_path = ai.join("project.json");
+    let profile: AttachedProfile = read_json(&profile_path).and_then(|value| {
+        serde_json::from_value(value).map_err(|error| ObserverError::State {
+            path: profile_path.clone(),
+            message: error.to_string(),
+        })
+    })?;
+    let profile_digest = attached_profile_digest(&profile, &profile_path)?;
+    let facts = WorkItemScaffoldFacts {
+        repository_id: profile.repository_id.clone(),
+        base_revision: snapshot.head.clone().unwrap_or_else(|| "unborn".into()),
+        project_profile_digest: profile_digest,
+        repository_snapshot_digest: snapshot_digest(&snapshot)?,
+    };
     let now = now();
     let contract = serde_json::json!({
         "protocolVersion": 1,
-        "repositoryId": repository_id(&root),
-        "workItemId": work_item_id,
-        "intent": intent,
-        "goal": goal,
-        "scope": scope,
-        "outOfScope": options.out_of_scope.clone(),
-        "risk": options.risk.clone(),
-        "authority": options.authority.clone(),
-        "acceptanceCriteria": options.acceptance_criteria.clone(),
-        "requiredEvidenceClasses": options.required_evidence_classes.clone(),
-        "baseRevision": snapshot.head.unwrap_or_else(|| "unborn".into()),
-        "projectProfileDigest": profile_digest,
-        "repositorySnapshotDigest": repository_snapshot_digest,
+        "repositoryId": facts.repository_id,
+        "workItemId": input.work_item_id,
+        "mode": input.mode,
+        "state": input.state,
+        "intent": input.intent,
+        "goal": input.goal,
+        "scope": input.scope,
+        "outOfScope": input.options.out_of_scope.clone(),
+        "risk": input.options.risk.clone(),
+        "authority": input.options.authority.clone(),
+        "acceptanceCriteria": input.options.acceptance_criteria.clone(),
+        "requiredEvidenceClasses": input.options.required_evidence_classes.clone(),
+        "baseRevision": facts.base_revision,
+        "projectProfileDigest": facts.project_profile_digest,
+        "repositorySnapshotDigest": facts.repository_snapshot_digest,
         "createdAt": now,
     });
     let summary = serde_json::json!({
         "protocolVersion": 1,
-        "repositoryId": repository_id(&root),
-        "workItemId": work_item_id,
-        "state": "implementation_active",
+        "repositoryId": facts.repository_id,
+        "workItemId": input.work_item_id,
+        "mode": input.mode,
+        "state": input.state,
         "changedPaths": snapshot.changed_paths,
         "checkpointCount": 0,
         "createdAt": now,
@@ -2516,31 +2661,28 @@ pub fn start_work_item_with_options(
     });
     let active = ai.join("work-items/active");
     let archive = ai.join("work-items/archive");
+    let contract_path = active.join(format!("{}.contract.json", input.work_item_id));
     if [
-        active.join(format!("{work_item_id}.contract.json")),
-        active.join(format!("{work_item_id}.summary.json")),
-        archive.join(format!("{work_item_id}.archive.json")),
+        contract_path.clone(),
+        active.join(format!("{}.summary.json", input.work_item_id)),
+        archive.join(format!("{}.archive.json", input.work_item_id)),
     ]
     .iter()
     .any(|path| path.exists())
     {
         return Err(ObserverError::State {
-            path: active.join(format!("{work_item_id}.contract.json")),
+            path: contract_path,
             message: "work item already exists".into(),
         });
     }
+    atomic_json(&contract_path, &contract)?;
     atomic_json(
-        &active.join(format!("{work_item_id}.contract.json")),
-        &contract,
-    )?;
-    atomic_json(
-        &active.join(format!("{work_item_id}.summary.json")),
+        &active.join(format!("{}.summary.json", input.work_item_id)),
         &summary,
     )?;
-    Ok(LifecycleReceipt {
-        work_item_id: work_item_id.into(),
-        state: "implementation_active".into(),
-        timestamp: now,
+    Ok(CreatedWorkItemScaffold {
+        contract_path: contract_path.to_string_lossy().into_owned(),
+        facts,
     })
 }
 
@@ -3000,13 +3142,13 @@ pub fn contract_freshness_findings(
     if contract.repository_id != repository_id(&root).to_string() {
         findings.push("stale_contract".into());
     }
-    let profile_digest =
-        Digest::sha256_bytes(
-            &fs::read(&profile_path).map_err(|source| ObserverError::Read {
-                path: profile_path.clone(),
-                source,
-            })?,
-        );
+    let profile: AttachedProfile = read_json(&profile_path).and_then(|value| {
+        serde_json::from_value(value).map_err(|error| ObserverError::State {
+            path: profile_path.clone(),
+            message: error.to_string(),
+        })
+    })?;
+    let profile_digest = attached_profile_digest(&profile, &profile_path)?;
     if contract.project_profile_digest != profile_digest {
         findings.push("stale_contract".into());
     }
@@ -3432,6 +3574,31 @@ fn read_json(path: &Path) -> Result<serde_json::Value, ObserverError> {
         path: path.into(),
         message: error.to_string(),
     })
+}
+
+fn attached_profile_digest(
+    profile: &AttachedProfile,
+    path: &Path,
+) -> Result<Digest, ObserverError> {
+    let computed = cockpit_protocol::digest_json(&cockpit_protocol::ProjectProfile {
+        profile_version: profile.profile_version,
+        repository_id: profile.repository_id.clone(),
+        tests: profile.tests.clone(),
+        build_systems: profile.build_systems.clone(),
+    })
+    .map_err(|error| ObserverError::State {
+        path: path.into(),
+        message: error.to_string(),
+    })?;
+    if let Some(stored) = &profile.profile_digest
+        && stored != &computed
+    {
+        return Err(ObserverError::State {
+            path: path.into(),
+            message: "attached profile digest does not match profile fields".into(),
+        });
+    }
+    Ok(computed)
 }
 
 fn atomic_json(path: &Path, value: &serde_json::Value) -> Result<(), ObserverError> {

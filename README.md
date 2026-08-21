@@ -43,6 +43,22 @@ The binary is shared, but each repository keeps its own `.ai/` Contract,
 Evidence, and Knowledge. Every repository-bound command requires `--repo`; the
 Runtime has no global current repository or active Work Item.
 
+`attach` creates only the minimum repository scaffold (`cockpit.toml`,
+`project.json`, `agent-interface.json`, Work Item directories, evidence,
+decisions, and knowledge). It does not install Agent-provider instructions.
+When a task needs a governance skeleton, create one explicitly:
+
+```bash
+ai-cockpit work-item new --repo /project-a \
+  --id payment-refund-guard --mode code
+```
+
+The command reports the snapshot-derived facts it could resolve and the human
+inputs still required (`intent`, `scope`, `acceptanceCriteria`, and
+`authority`). The result is `not_ready`; scaffolding never claims approval or
+verification. `profile propose --repo /project-a` similarly emits a read-only
+candidate amendment and leaves the formal profile unchanged.
+
 ## Three decision states
 
 - `green`: the required evidence supports the bounded next action;

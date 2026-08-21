@@ -40,6 +40,19 @@ binary 可以共享，但每个 repository 都有自己的 `.ai/` Contract、Evi
 Knowledge。所有 repository-bound command 都必须带 `--repo`；Runtime 不保存全局
 current repository 或 active Work Item。
 
+`attach` 只创建最小 repository scaffold（`cockpit.toml`、`project.json`、
+`agent-interface.json`、Work Item 目录、evidence、decisions 和 knowledge），不会安装
+Agent provider instruction。需要治理骨架时显式运行：
+
+```bash
+ai-cockpit work-item new --repo /project-a \
+  --id payment-refund-guard --mode code
+```
+
+命令会列出已确定推导的事实和仍需人类填写的 `intent`、`scope`、`acceptanceCriteria`、
+`authority`。结果状态是 `not_ready`，脚手架不会声称 approved 或 verified。类似地，
+`profile propose --repo /project-a` 只输出候选 amendment，不改变正式 profile。
+
 ## 三种决定状态
 
 - `green`：已有证据支持当前有边界的下一步动作；

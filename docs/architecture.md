@@ -112,7 +112,7 @@ Release archive / Homebrew / Cargo Git
             `ai-cockpit`
                   │ explicit `attach --repo <path>`
                   ▼
-        target repository + `.ai/cockpit.toml` + `.ai/project.json`
+        target repository + `.ai/` scaffold + discovery manifest
 ```
 
 `cockpit.toml` remains the repository configuration format and is stored under
@@ -132,17 +132,28 @@ project profile.
 ```mermaid
 flowchart TB
     Runtime["One installed ai-cockpit binary"]
-    Runtime --> A["RepositoryContext A<br/>/project-a/.ai/<br/>Contract · Evidence · Knowledge"]
-    Runtime --> B["RepositoryContext B<br/>/project-b/.ai/<br/>Contract · Evidence · Knowledge"]
-    Runtime --> C["RepositoryContext C<br/>/project-c/.ai/<br/>Contract · Evidence · Knowledge"]
+    Runtime --> A["RepositoryContext A<br/>/project-a/.ai/<br/>Manifest · Contract · Evidence · Knowledge"]
+    Runtime --> B["RepositoryContext B<br/>/project-b/.ai/<br/>Manifest · Contract · Evidence · Knowledge"]
+    Runtime --> C["RepositoryContext C<br/>/project-c/.ai/<br/>Manifest · Contract · Evidence · Knowledge"]
 ```
 
 The CLI therefore requires `--repo` on repository-bound commands, for example
 `ai-cockpit status --repo /project-a` and `ai-cockpit verify --repo /project-b`.
-MCP requests carry the same binding through the repository manifest and its
-stable `repositoryId`. Runtime upgrades are shared; Contracts, receipts,
+The MCP process is launched with the same explicit repository binding; its
+repository-local manifest can advertise the stable `repositoryId` to a client.
+Runtime upgrades are shared; Contracts, receipts,
 knowledge, and repository state are not. Work Item evidence records the
 `runtimeVersion`, `runtimeDigest`, and `protocolVersion` that produced it.
+
+### Scaffolding is not a governance decision
+
+`attach` creates only the minimum `.ai/` tree and a repository-local
+`agent-interface.json` discovery manifest. `work-item new` creates a
+`not_ready` Contract from snapshot-derived facts and prints the human fields
+that still require intent and authority. It never installs provider rules or
+claims approval, verification, or completion. `profile propose` is a read-only
+`candidate`/`proposed` amendment; changing the formal profile remains an
+explicit human apply step.
 
 ## Scenario
 

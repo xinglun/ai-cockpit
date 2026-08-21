@@ -29,6 +29,13 @@ repository_id = "sha256:<64 lowercase hexadecimal characters>"
 absolute path の hash ではないため、attach 済み repository を移動しても evidence は別 repository になりません。
 runtime は両方を validate し identity mismatch を拒否します。runtime source や V1 file を `.ai/` に copy しません。
 
+## `.ai/agent-interface.json`
+
+`attach` は strict な repository-local discovery manifest も書きます。`schemaVersion`、`protocolVersion`、stable
+`repositoryId`、`rootBinding: "manifest-parent"`、Runtime capability、`adapterState: "unconfigured"` を持ちます。
+これは discovery fact であり、provider instruction、authorization、global MCP configuration ではありません。Provider install は
+`attach` とは別の明示操作です。
+
 ## `.ai/project.json`
 
 `attach` は `state: "calibration_required"` の attached profile を作ります。`profile confirm` 後に profile version が
@@ -41,6 +48,11 @@ runtime は両方を validate し identity mismatch を拒否します。runtime
 
 - `<id>.contract.json` — intent、scope、authority、acceptance、required evidence、base revision、profile digest、repository snapshot digest。
 - `<id>.summary.json` — lifecycle state と checkpoint count。
+
+`work-item new --repo <path> --id <id> --mode <mode>` は同じ contract writer を使って `not_ready` skeleton を作ります。自動入力は
+4 つの deterministic fact（`repositoryId`、`baseRevision`、`projectProfileDigest`、`repositorySnapshotDigest`）だけで、intent、scope、
+acceptance criteria、authority は空または `unknown` のままです。`profile propose` は candidate amendment を出力するだけで、formal
+profile の bytes/digest を変更しません。
 
 `verify --work-item <id>` は `.ai/evidence/<id>.verification.json` を書きます。`finish` は outcome、`archive` は archive manifest、
 `close` は human decision を記録します。green に見せるため手編集してはいけません。

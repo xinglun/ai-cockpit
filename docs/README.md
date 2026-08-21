@@ -35,6 +35,7 @@ journey is clear.
 | Understand the project | [Design philosophy](philosophy.md) → [Architecture](architecture.md) | Explain the evidence flow and product boundary. |
 | Decide whether to adopt | [Capabilities](capabilities.md) → [Installation](release/distribution.md) | Choose an installation path and know what it does not change. |
 | Start a governed task | [Capabilities](capabilities.md#run-a-governed-work-item) → [Work Item rules](work-items/README.md) | Inspect, attach, preflight, verify, and close a bounded Work Item. |
+| Create a governance skeleton | [Capabilities](capabilities.md#create-a-work-item-skeleton) → [Command reference](reference/commands.md) | Create `not_ready` scaffolding and see which human inputs remain. |
 | Configure an MCP client | [Capabilities](capabilities.md#use-mcp) → [MCP distribution](release/distribution.md#mcp-and-repository-attachment) | Start the server with an explicit repository binding and read its result envelope. |
 | Review or recover from a result | [Capabilities](capabilities.md#stop-and-recovery) → [Adversarial validation](security/adversarial-validation.md) | Read decisions, preserve evidence, and repair a stopped flow. |
 | Maintain or audit the system | [Architecture](architecture.md) → [Protocol v1](protocol/v1/specification.md) | Find ownership, boundaries, and machine-facing contracts. |
@@ -59,13 +60,14 @@ journey is clear.
 - [Accepted Work Item: WI-34](work-items/WI-34.md)
 - [First-public-release Work Item: WI-35](work-items/WI-35.md)
 - [Corrective Work Item: WI-36](work-items/WI-36.md)
+- [Governance scaffolding Work Item: WI-38](work-items/WI-38.md)
 - [WI-34 installable-release design](superpowers/specs/2026-08-21-installable-release-homebrew-distribution-design.md)
 - [WI-35 first-public-release design](superpowers/specs/2026-08-21-first-public-release-homebrew-tap-bootstrap-design.md)
 - [WI-35 implementation plan](superpowers/plans/2026-08-21-first-public-release-homebrew-tap-bootstrap.md)
 
 ## Current implementation boundary
 
-The implementation and readiness history is recorded in WI-03 through WI-36.
+The implementation and readiness history is recorded in WI-03 through WI-38.
 WI-36 is locally accepted; hosted Release, Homebrew, and public installation
 evidence remain owned by WI-35. Until the Rust runtime can govern itself,
 development uses the Markdown bootstrap rules in `docs/work-items`. V1 is never
