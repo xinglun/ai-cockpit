@@ -273,6 +273,9 @@ ai-cockpit doctor --repo /path/to/repository
 Doctor 报告 runtime version/digest、protocol state、repository identity 和可操作问题。它不是
 通用 security scanner，也不声称外部 identity、provider、branch 或生产 control 已满足。
 
+企业采用者还应阅读[企业治理边界](security/enterprise-governance.zh-CN.md)，了解 assurance level、策略优先级、
+委托证据、敏感数据持久化、保留和外部审计导出的边界。
+
 ## AI Cockpit 不声称什么
 
 AI Cockpit 不是 Agent Runtime、Workflow Engine、Security Sandbox、通用 prompt-injection detector、

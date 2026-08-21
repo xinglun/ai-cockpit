@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T19:28:17Z",
+  "evidenceDigest": "sha256:ef1fed2c827a5dd32bd1e7031be66322e6d2ec62815ca32d9b08474538cbfc5b",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-58-enterprise-governance-contracts.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-58-enterprise-governance-contracts"
+}

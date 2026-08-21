@@ -159,6 +159,221 @@ pub struct QualityCommand {
     pub state: String,
 }
 
+/// The assurance source for an authority or delegated evidence claim. These
+/// labels describe provenance, not an automatic approval.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum AssuranceLevel {
+    SelfDeclared,
+    RepositoryVerified,
+    ProviderVerified,
+    EnterpriseVerified,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct AuthorityEvidence {
+    pub assurance: AssuranceLevel,
+    pub actor: String,
+    pub authority_source: String,
+    pub operations: Vec<String>,
+    pub policy_refs: Vec<String>,
+    pub evidence_refs: Vec<String>,
+}
+
+/// A structured decision keeps responsibility and recovery conditions visible
+/// without imposing a fixed number of approvers.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HumanDecision {
+    pub decision: String,
+    pub actor: String,
+    pub authority_source: String,
+    pub reason: String,
+    pub evidence_refs: Vec<String>,
+    pub policy_refs: Vec<String>,
+    pub decided_at: String,
+    pub resume_condition: Option<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum PolicyLayer {
+    Organization,
+    Project,
+    WorkItem,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ApprovalMode {
+    NoHumanApprovalForLowRisk,
+    SingleAuthorizedHuman,
+    MultiPartyApproval,
+    ExternalProviderApproval,
+}
+
+impl ApprovalMode {
+    fn strength(&self) -> u8 {
+        match self {
+            Self::NoHumanApprovalForLowRisk => 0,
+            Self::SingleAuthorizedHuman => 1,
+            Self::MultiPartyApproval | Self::ExternalProviderApproval => 2,
+        }
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct PolicyRule {
+    pub operation: String,
+    pub approval_mode: ApprovalMode,
+    pub required_evidence: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct GovernancePolicy {
+    pub policy_id: String,
+    pub layer: PolicyLayer,
+    pub rules: Vec<PolicyRule>,
+}
+
+#[derive(Debug, Error, PartialEq, Eq)]
+pub enum PolicyError {
+    #[error("lower policy weakens {operation}: {field}")]
+    Weakening { operation: String, field: String },
+}
+
+/// Validate an overlay without forcing every lower layer to repeat inherited
+/// rules. An explicitly weaker rule is rejected; omission leaves the parent
+/// rule in force.
+pub fn validate_policy_overlay(
+    parent: &GovernancePolicy,
+    child: &GovernancePolicy,
+) -> Result<(), PolicyError> {
+    for parent_rule in &parent.rules {
+        let Some(child_rule) = child
+            .rules
+            .iter()
+            .find(|rule| rule.operation == parent_rule.operation)
+        else {
+            continue;
+        };
+        if child_rule.approval_mode.strength() < parent_rule.approval_mode.strength() {
+            return Err(PolicyError::Weakening {
+                operation: parent_rule.operation.clone(),
+                field: "approvalMode".into(),
+            });
+        }
+        let parent_evidence = parent_rule
+            .required_evidence
+            .iter()
+            .collect::<std::collections::BTreeSet<_>>();
+        let child_evidence = child_rule
+            .required_evidence
+            .iter()
+            .collect::<std::collections::BTreeSet<_>>();
+        if !parent_evidence.is_subset(&child_evidence) {
+            return Err(PolicyError::Weakening {
+                operation: parent_rule.operation.clone(),
+                field: "requiredEvidence".into(),
+            });
+        }
+    }
+    Ok(())
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum DataClassification {
+    Public,
+    Internal,
+    Confidential,
+    Restricted,
+    SecretProhibited,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum EvidencePersistence {
+    FullCapture,
+    RedactedCapture,
+    DigestOnly,
+    NoPersistence,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct EvidenceRetention {
+    pub classification: DataClassification,
+    pub persistence: EvidencePersistence,
+    pub retention_days: Option<u64>,
+    pub expires_at: Option<String>,
+    pub disposal_action: String,
+}
+
+#[derive(Debug, Error, PartialEq, Eq)]
+pub enum EvidenceRetentionError {
+    #[error("secret_prohibited evidence cannot use full_capture or redacted_capture")]
+    SecretCaptureForbidden,
+    #[error("disposal_action must be explicit")]
+    MissingDisposalAction,
+}
+
+pub fn validate_evidence_retention(
+    retention: &EvidenceRetention,
+) -> Result<(), EvidenceRetentionError> {
+    if retention.disposal_action.trim().is_empty() {
+        return Err(EvidenceRetentionError::MissingDisposalAction);
+    }
+    if matches!(
+        retention.classification,
+        DataClassification::SecretProhibited
+    ) && matches!(
+        retention.persistence,
+        EvidencePersistence::FullCapture | EvidencePersistence::RedactedCapture
+    ) {
+        return Err(EvidenceRetentionError::SecretCaptureForbidden);
+    }
+    Ok(())
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum EvidenceValidity {
+    Valid,
+    Expired,
+    Revoked,
+    Unknown,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct DelegatedEvidence {
+    pub provider: String,
+    pub subject: String,
+    pub origin: String,
+    pub assurance: AssuranceLevel,
+    pub collected_at: String,
+    pub digest: Digest,
+    pub validity: EvidenceValidity,
+    pub raw_evidence_ref: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct AuditEvent {
+    pub event_id: String,
+    pub repository_id: String,
+    pub work_item_id: Option<String>,
+    pub runtime_version: String,
+    pub runtime_digest: Digest,
+    pub timestamp: String,
+    pub event_type: String,
+    pub evidence_refs: Vec<String>,
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Contract {

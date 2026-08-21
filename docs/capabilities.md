@@ -296,6 +296,10 @@ Doctor reports runtime version/digest, protocol state, repository identity, and
 actionable problems. It is not a generic security scanner and does not claim that
 external identity, provider, branch, or production controls are satisfied.
 
+Enterprise adopters should also read [Enterprise governance boundary](security/enterprise-governance.md)
+for assurance levels, policy precedence, delegated evidence, sensitive-data persistence, retention, and
+external audit export boundaries.
+
 ## What AI Cockpit does not claim
 
 AI Cockpit is not an Agent Runtime, Workflow Engine, Security Sandbox, general
