@@ -100,16 +100,18 @@ workspace or local Runtime binary. A failed post-release acceptance records
 the already-published Release. Coverage for a second technology stack is a
 separate future Work Item.
 
-### N-1 upgrade acceptance
+### Historical N-1 schema migration acceptance
 
-When a new Runtime changes the Repository Protocol schema, run the separate
-N-1 harness with both public archives:
+The schema-changing baseline is the historical v0.1.1 to v0.2.0 migration.
+v0.2.1 is a same-schema patch release, so it uses fresh-adopter acceptance
+and compatibility checks rather than this migration harness. To reproduce the
+historical migration evidence with both public archives:
 
 ```bash
 tests/release/adopter_upgrade_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --from-tag v0.2.0 \
-  --to-tag v0.2.1 \
+  --from-tag v0.1.1 \
+  --to-tag v0.2.0 \
   --target aarch64-apple-darwin \
   --output ./release-adopter-upgrade-acceptance
 ```

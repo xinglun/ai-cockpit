@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T17:47:36Z",
+  "evidenceDigest": "sha256:35aefa4c89af64c5b39df37c6db8dfda332c8ac81009c3a4ca8d933bd9eba39e",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/release-v0-2-1-docs-boundary.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "release-v0-2-1-docs-boundary"
+}
