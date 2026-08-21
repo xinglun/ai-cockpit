@@ -4,7 +4,7 @@ use cockpit_core::{ActionKind, AuthorityState, GovernanceInput, evaluate};
 use cockpit_git::GitRepository;
 use cockpit_knowledge::{Query, query};
 use cockpit_mcp::serve;
-use cockpit_protocol::{Contract, RepositoryConfig};
+use cockpit_protocol::{Contract, RepositoryConfig, validate_protocol_version};
 use cockpit_repository::{
     WorkItemStartOptions, archive_work_item, attach, checkpoint_work_item,
     close_work_item_with_decision, contract_freshness_findings, finish_work_item,
@@ -458,10 +458,29 @@ fn run() -> Result<()> {
             }
             let config_text =
                 std::fs::read_to_string(&config_path).context("read protocol configuration")?;
-            let config: RepositoryConfig =
-                toml::from_str(&config_text).context("parse protocol configuration")?;
             let runtime_code_in_repository = contains_runtime_code(&root.join(".ai"));
-            let state = if config.protocol_version == 1 && !runtime_code_in_repository {
+            let config: RepositoryConfig = match toml::from_str(&config_text) {
+                Ok(config) => config,
+                Err(error) => {
+                    println!(
+                        "{}",
+                        serde_json::to_string_pretty(&json!({
+                            "state": "red",
+                            "protocolVersion": null,
+                            "repositoryId": null,
+                            "runtimeCodeInRepository": runtime_code_in_repository,
+                            "runtimeVersion": "0.1.0",
+                            "error": error.to_string(),
+                        }))?
+                    );
+                    return Ok(());
+                }
+            };
+            let runtime_code_in_repository = contains_runtime_code(&root.join(".ai"));
+            let state = if validate_protocol_version(config.protocol_version).is_ok()
+                && !runtime_code_in_repository
+                && config.repository_id == cockpit_repository::repository_id(&root).to_string()
+            {
                 "ok"
             } else {
                 "red"

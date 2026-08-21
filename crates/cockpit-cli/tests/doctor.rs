@@ -72,6 +72,14 @@ fn status_rejects_unsupported_repository_protocol() {
         .output()
         .expect("status");
     assert!(!status.status.success());
+    let doctor = Command::new(binary)
+        .args(["doctor", "--repo"])
+        .arg(&directory)
+        .output()
+        .expect("doctor");
+    assert!(doctor.status.success());
+    let doctor_json: serde_json::Value = serde_json::from_slice(&doctor.stdout).expect("JSON");
+    assert_eq!(doctor_json["state"], "red");
     let reattach = Command::new(binary)
         .args(["attach", "--repo"])
         .arg(&directory)
