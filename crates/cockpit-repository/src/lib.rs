@@ -141,6 +141,31 @@ pub fn attach(root: &Path) -> Result<AttachedProfile, ObserverError> {
     })?;
     let observation = observe(&root, &snapshot)?;
     let ai = root.join(".ai");
+    let config_path = ai.join("cockpit.toml");
+    let id = repository_id(&root).to_string();
+    if config_path.is_file() {
+        let existing = fs::read_to_string(&config_path).map_err(|source| ObserverError::Read {
+            path: config_path.clone(),
+            source,
+        })?;
+        let config: RepositoryConfig =
+            toml::from_str(&existing).map_err(|error| ObserverError::State {
+                path: config_path.clone(),
+                message: error.to_string(),
+            })?;
+        validate_protocol_version(config.protocol_version).map_err(|error| {
+            ObserverError::State {
+                path: config_path.clone(),
+                message: error.to_string(),
+            }
+        })?;
+        if config.repository_id != id {
+            return Err(ObserverError::State {
+                path: config_path,
+                message: "repository identity does not match attach target".into(),
+            });
+        }
+    }
     for directory in [
         ai.join("work-items/active"),
         ai.join("work-items/archive"),
@@ -153,7 +178,6 @@ pub fn attach(root: &Path) -> Result<AttachedProfile, ObserverError> {
             source,
         })?;
     }
-    let id = repository_id(&root).to_string();
     let config = format!("protocol_version = 1\nrepository_id = \"{id}\"\n");
     atomic_write(&ai.join("cockpit.toml"), config.as_bytes())?;
     let profile_digest = cockpit_protocol::digest_json(&cockpit_protocol::ProjectProfile {

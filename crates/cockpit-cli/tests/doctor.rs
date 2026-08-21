@@ -72,5 +72,11 @@ fn status_rejects_unsupported_repository_protocol() {
         .output()
         .expect("status");
     assert!(!status.status.success());
+    let reattach = Command::new(binary)
+        .args(["attach", "--repo"])
+        .arg(&directory)
+        .output()
+        .expect("reattach");
+    assert!(!reattach.status.success());
     fs::remove_dir_all(directory).expect("cleanup");
 }
