@@ -8,11 +8,11 @@ use cockpit_core::{
 use cockpit_git::{ChangeContentState, ChangeKind, RepositorySnapshot};
 use cockpit_protocol::{
     AgentAdapterCompatibility, AgentInterfaceAvailability, AgentInterfaceManifest, AgentInterfaces,
-    AgentRootBinding, ApprovalMode, Contract, DataClassification, DelegatedEvidence,
-    DelegatedEvidenceReceipt, EvidenceDisposition, EvidenceDispositionItem, EvidencePersistence,
-    EvidenceRetention, EvidenceRetentionPolicy, EvidenceValidity, GovernancePolicy,
-    GovernancePolicyDocument, HumanDecision, PolicyLayer, QualityCommand, RepositoryConfig,
-    RuntimeContext, default_repository_schema_version, merge_policy_layers,
+    AgentRootBinding, ApprovalMode, AuditEvent, AuditExportManifest, Contract, DataClassification,
+    DelegatedEvidence, DelegatedEvidenceReceipt, EvidenceDisposition, EvidenceDispositionItem,
+    EvidencePersistence, EvidenceRetention, EvidenceRetentionPolicy, EvidenceValidity,
+    GovernancePolicy, GovernancePolicyDocument, HumanDecision, PolicyLayer, QualityCommand,
+    RepositoryConfig, RuntimeContext, default_repository_schema_version, merge_policy_layers,
     validate_evidence_retention, validate_protocol_version,
 };
 use serde::{Deserialize, Serialize};
@@ -3437,6 +3437,214 @@ pub fn evidence_purge_plan(
     }
     items.sort_by(|left, right| left.path.cmp(&right.path));
     Ok(items)
+}
+
+/// Build a deterministic, repository-bound audit export. The export is a
+/// handoff artifact: local Git/.ai storage is not claimed to be immutable
+/// enterprise retention.
+pub fn export_audit_events(
+    root: &Path,
+    runtime: &RuntimeContext,
+) -> Result<AuditExportManifest, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let repository_id = repository_id(&root).to_string();
+    let mut events = Vec::new();
+    let evidence_dir = root.join(".ai/evidence");
+    if let Ok(entries) = fs::read_dir(&evidence_dir) {
+        for entry in entries {
+            let entry = entry.map_err(|source| ObserverError::Read {
+                path: evidence_dir.clone(),
+                source,
+            })?;
+            if !entry
+                .file_type()
+                .map(|kind| kind.is_file())
+                .unwrap_or(false)
+            {
+                continue;
+            }
+            let name = entry.file_name().to_string_lossy().into_owned();
+            let path = entry.path();
+            let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
+                path: path.clone(),
+                source,
+            })?;
+            if let Some(work_item_id) = name.strip_suffix(".verification.json") {
+                let value: serde_json::Value =
+                    serde_json::from_slice(&bytes).map_err(|error| ObserverError::State {
+                        path: path.clone(),
+                        message: error.to_string(),
+                    })?;
+                let timestamp = value["createdAt"].as_str().unwrap_or("unknown");
+                events.push(stable_audit_event(
+                    &repository_id,
+                    runtime,
+                    Some(work_item_id),
+                    "verification_recorded",
+                    timestamp,
+                    Digest::sha256_bytes(&bytes),
+                    vec![format!(".ai/evidence/{name}")],
+                )?);
+            }
+        }
+    }
+    let external_dir = evidence_dir.join("external");
+    if let Ok(entries) = fs::read_dir(&external_dir) {
+        for entry in entries {
+            let entry = entry.map_err(|source| ObserverError::Read {
+                path: external_dir.clone(),
+                source,
+            })?;
+            if !entry
+                .file_type()
+                .map(|kind| kind.is_file())
+                .unwrap_or(false)
+            {
+                continue;
+            }
+            let name = entry.file_name().to_string_lossy().into_owned();
+            let Some(work_item_id) = name.strip_suffix(".delegated.json") else {
+                continue;
+            };
+            let bytes = fs::read(entry.path()).map_err(|source| ObserverError::Read {
+                path: entry.path(),
+                source,
+            })?;
+            let receipt: DelegatedEvidenceReceipt =
+                serde_json::from_slice(&bytes).map_err(|error| ObserverError::State {
+                    path: external_dir.join(&name),
+                    message: error.to_string(),
+                })?;
+            if receipt.repository_id != repository_id || receipt.work_item_id != work_item_id {
+                return Err(ObserverError::State {
+                    path: external_dir.join(&name),
+                    message: "audit export found a cross-repository delegated receipt".into(),
+                });
+            }
+            events.push(stable_audit_event(
+                &repository_id,
+                runtime,
+                Some(work_item_id),
+                "external_evidence_bound",
+                &receipt.bound_at,
+                receipt.evidence.digest.clone(),
+                vec![
+                    format!(".ai/evidence/external/{name}"),
+                    receipt.evidence.raw_evidence_ref,
+                ],
+            )?);
+        }
+    }
+    let decisions_dir = root.join(".ai/decisions");
+    if let Ok(entries) = fs::read_dir(&decisions_dir) {
+        for entry in entries {
+            let entry = entry.map_err(|source| ObserverError::Read {
+                path: decisions_dir.clone(),
+                source,
+            })?;
+            if !entry
+                .file_type()
+                .map(|kind| kind.is_file())
+                .unwrap_or(false)
+            {
+                continue;
+            }
+            let name = entry.file_name().to_string_lossy().into_owned();
+            let Some(work_item_id) = name.strip_suffix(".close.json") else {
+                continue;
+            };
+            let path = entry.path();
+            let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
+                path: path.clone(),
+                source,
+            })?;
+            let value: serde_json::Value =
+                serde_json::from_slice(&bytes).map_err(|error| ObserverError::State {
+                    path: path.clone(),
+                    message: error.to_string(),
+                })?;
+            let timestamp = value["structuredDecision"]["decidedAt"]
+                .as_str()
+                .unwrap_or("unknown");
+            let refs = value["structuredDecision"]["evidenceRefs"]
+                .as_array()
+                .map(|refs| {
+                    refs.iter()
+                        .filter_map(|reference| reference.as_str().map(str::to_owned))
+                        .collect::<Vec<_>>()
+                })
+                .unwrap_or_default();
+            events.push(stable_audit_event(
+                &repository_id,
+                runtime,
+                Some(work_item_id),
+                "human_decision_recorded",
+                timestamp,
+                Digest::sha256_bytes(&bytes),
+                refs,
+            )?);
+        }
+    }
+    events.sort_by(|left, right| left.event_id.cmp(&right.event_id));
+    let export_digest = cockpit_protocol::digest_json(&serde_json::json!({
+        "repositoryId": repository_id,
+        "runtimeVersion": &runtime.runtime_version,
+        "runtimeDigest": &runtime.runtime_digest,
+        "events": events,
+    }))
+    .map_err(|error| ObserverError::State {
+        path: root.join(".ai"),
+        message: error.to_string(),
+    })?;
+    Ok(AuditExportManifest {
+        schema_version: 1,
+        repository_id,
+        runtime_version: runtime.runtime_version.clone(),
+        runtime_digest: runtime.runtime_digest.clone(),
+        export_digest,
+        external_retention_required: true,
+        events,
+    })
+}
+
+fn stable_audit_event(
+    repository_id: &str,
+    runtime: &RuntimeContext,
+    work_item_id: Option<&str>,
+    event_type: &str,
+    timestamp: &str,
+    digest: Digest,
+    evidence_refs: Vec<String>,
+) -> Result<AuditEvent, ObserverError> {
+    let payload = serde_json::json!({
+        "repositoryId": repository_id,
+        "runtimeVersion": &runtime.runtime_version,
+        "runtimeDigest": &runtime.runtime_digest,
+        "workItemId": work_item_id,
+        "eventType": event_type,
+        "timestamp": timestamp,
+        "digest": digest,
+        "evidenceRefs": evidence_refs,
+    });
+    let event_digest =
+        cockpit_protocol::digest_json(&payload).map_err(|error| ObserverError::State {
+            path: PathBuf::from(".ai/audit"),
+            message: error.to_string(),
+        })?;
+    Ok(AuditEvent {
+        event_id: event_digest.to_string(),
+        repository_id: repository_id.into(),
+        work_item_id: work_item_id.map(str::to_owned),
+        runtime_version: runtime.runtime_version.clone(),
+        runtime_digest: runtime.runtime_digest.clone(),
+        timestamp: timestamp.into(),
+        event_type: event_type.into(),
+        digest,
+        evidence_refs,
+    })
 }
 
 fn parse_epoch_seconds(value: &str) -> Option<u64> {

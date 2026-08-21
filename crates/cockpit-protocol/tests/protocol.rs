@@ -367,6 +367,9 @@ fn delegated_evidence_and_audit_event_bind_external_identity_without_claiming_ow
             .expect("digest"),
         timestamp: "2026-08-21T19:01:00Z".into(),
         event_type: "external_evidence_bound".into(),
+        digest: "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+            .parse()
+            .expect("event digest"),
         evidence_refs: vec![evidence.raw_evidence_ref.clone()],
     };
     let value = serde_json::to_value((&evidence, &event)).expect("audit records serialize");

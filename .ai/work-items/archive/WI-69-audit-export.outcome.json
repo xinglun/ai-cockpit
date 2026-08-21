@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T20:51:32Z",
+  "evidenceDigest": "sha256:7a597ca16af7dcb03ad4055ee202012784dcc1c87992b3a4bb4bfeabd06cb82f",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-69-audit-export.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-69-audit-export"
+}

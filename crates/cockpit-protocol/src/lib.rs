@@ -542,7 +542,20 @@ pub struct AuditEvent {
     pub runtime_digest: Digest,
     pub timestamp: String,
     pub event_type: String,
+    pub digest: Digest,
     pub evidence_refs: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct AuditExportManifest {
+    pub schema_version: u32,
+    pub repository_id: String,
+    pub runtime_version: String,
+    pub runtime_digest: Digest,
+    pub export_digest: Digest,
+    pub external_retention_required: bool,
+    pub events: Vec<AuditEvent>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]

@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T20:51:32Z",
+  "files": {
+    "contractDigest": "sha256:e31f78d85415d4019610c133000c52a47215dc4115856b6a217f133ee37b313f",
+    "contractPath": ".ai/work-items/archive/WI-69-audit-export.contract.json",
+    "outcomeDigest": "sha256:0440bd6cd483ff43ea7e79dc8a78802eb7b948856cb5813128a190d98de8c095",
+    "outcomePath": ".ai/work-items/archive/WI-69-audit-export.outcome.json",
+    "summaryDigest": "sha256:335630b88aa281e85880eb17294384314e1a6d38bcf70f953208b8a27a93293d",
+    "summaryPath": ".ai/work-items/archive/WI-69-audit-export.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-69-audit-export"
+}

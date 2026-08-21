@@ -26,6 +26,7 @@ capabilityClaims:
 | Work Item | `work-item new`、`start`、`checkpoint`、`finish`、`archive`、`close` | 创建骨架或写入显式生命周期记录；`close` 要求 human decision。 |
 | Verification | `verify` | 执行有界命令、记录 evidence，并可绑定 Work Item。 |
 | 外部 evidence | `evidence import`、`evidence list`、`evidence policy`、`evidence purge-plan` | 将精确 provider bytes 绑定到 Work Item，声明有界持久化策略，或生成确定性的非破坏性处置计划。 |
+| Audit | `audit export` | 生成绑定 repository 的稳定事件包交给外部保留方；不宣称本地 immutable。 |
 | Adapter | `agent list/install/doctor/repair/detach`、`mcp` | 管理显式选择的 repository-local Agent adapter，或通过 stdio 提供 JSON-RPC；所有操作都绑定 `--repo`。 |
 
 ## 重要选项
@@ -55,6 +56,9 @@ capabilityClaims:
   禁止 `full_capture` 和 `redacted_capture`；`digest_only` 不保存命令原始输出；
   `no_persistence` 在无法保存 completion evidence 时 fail closed。`evidence
   purge-plan --repo <path>` 只输出稳定的处置计划，不会自行删除 evidence。
+- `audit export --repo <path> [--output <file>]` 输出稳定的 `AuditEvent`，包含 event ID、主题 digest、
+  repository/Work Item identity 和 Runtime identity。manifest 会设置 `externalRetentionRequired: true`；
+  输出文件幂等，只是交给 SIEM、WORM、S3 Object Lock 或其他外部保留方的 handoff。
 - 如需可审计决定，请增加 `--actor`、`--authority-source`、`--reason`、`--decided-at`，并可重复提供
   `--evidence-ref`、`--policy-ref`、`--resume-condition`。结果的 `structuredDecision` 写入
   `.ai/decisions/<id>.close.json`；旧 flag 仍保持显式，并以可见的 `legacy-cli` provenance 记录。

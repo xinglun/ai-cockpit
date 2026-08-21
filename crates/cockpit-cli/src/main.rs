@@ -135,6 +135,10 @@ enum CommandKind {
         #[command(subcommand)]
         command: EvidenceCommand,
     },
+    Audit {
+        #[command(subcommand)]
+        command: AuditCommand,
+    },
     WorkItem {
         #[command(subcommand)]
         command: WorkItemCommand,
@@ -200,6 +204,16 @@ enum EvidenceCommand {
         repo: PathBuf,
         #[arg(long)]
         now_epoch_seconds: Option<u64>,
+    },
+}
+
+#[derive(Debug, Subcommand)]
+enum AuditCommand {
+    Export {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        output: Option<PathBuf>,
     },
 }
 
@@ -723,6 +737,30 @@ fn run() -> Result<()> {
                 let plan = cockpit_repository::evidence_purge_plan(&repo, now_epoch_seconds)
                     .context("create deterministic evidence purge plan")?;
                 println!("{}", serde_json::to_string_pretty(&plan)?);
+            }
+        },
+        CommandKind::Audit { command } => match command {
+            AuditCommand::Export { repo, output } => {
+                require_compatible(&repo, &runtime_context)?;
+                let manifest = cockpit_repository::export_audit_events(&repo, &runtime_context)
+                    .context("export audit events")?;
+                if let Some(output) = output {
+                    let bytes = serde_json::to_vec_pretty(&manifest)?;
+                    if output.exists() {
+                        let existing =
+                            std::fs::read(&output).context("read existing audit export")?;
+                        if existing != bytes {
+                            anyhow::bail!("audit export target already exists with different bytes")
+                        }
+                    } else {
+                        if let Some(parent) = output.parent() {
+                            std::fs::create_dir_all(parent)
+                                .context("create audit export parent")?;
+                        }
+                        std::fs::write(&output, &bytes).context("write audit export")?;
+                    }
+                }
+                println!("{}", serde_json::to_string_pretty(&manifest)?);
             }
         },
         CommandKind::WorkItem { command } => match command {
