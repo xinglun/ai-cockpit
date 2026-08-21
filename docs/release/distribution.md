@@ -98,6 +98,25 @@ workspace or local Runtime binary. A failed post-release acceptance records
 the already-published Release. Coverage for a second technology stack is a
 separate future Work Item.
 
+### N-1 upgrade acceptance
+
+When a new Runtime changes the Repository Protocol schema, run the separate
+N-1 harness with both public archives:
+
+```bash
+tests/release/adopter_upgrade_acceptance.sh \
+  --repository xinglun/ai-cockpit \
+  --from-tag v0.1.1 \
+  --to-tag v0.2.0 \
+  --target aarch64-apple-darwin \
+  --output ./release-adopter-upgrade-acceptance
+```
+
+This proves old-adopter detection, review-gated migration, byte-preserved
+history, continued operation, and isolated repository/runtime identity. It is
+post-release evidence and must never be replaced by a source build or used to
+rewrite Release truth. See [WI-44](../work-items/WI-44-n-minus-one-upgrade-acceptance.md).
+
 ## Manual archive installation
 
 macOS and Linux users download the matching `.tar.gz` and `SHA256SUMS`, choose

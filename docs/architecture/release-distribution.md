@@ -86,6 +86,20 @@ An unattached release-build checkout may remain without `.ai`; this self-governe
 checkout intentionally owns its repository-local `.ai/`. `cockpit.toml` remains
 TOML under `.ai/`; distribution does not migrate it to JSON.
 
+## Upgrade boundaries
+
+A Runtime-only upgrade replaces the shared executable and leaves every
+repository's `.ai/` bytes, Contract, evidence, Work Item, and knowledge state
+unchanged. A Repository migration is different: it is an explicit, reviewed,
+versioned operation selected by the new Runtime when compatibility reports
+`MIGRATION_REQUIRED`. The migration receipt binds the before/after repository
+digests and the Runtime version/digest; historical evidence is not rewritten.
+
+The N-1 acceptance harness in
+[WI-44](../work-items/WI-44-n-minus-one-upgrade-acceptance.md) proves this
+boundary with old and new public archives. It is a post-release artifact, never
+a source-build fallback or a replacement for Release truth.
+
 ## Trust boundaries
 
 - `cockpit-release` and the release workflow own the local release contract,

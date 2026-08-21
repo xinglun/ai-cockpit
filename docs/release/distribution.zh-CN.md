@@ -87,6 +87,23 @@ attach/profile/Agent doctor，保持 `first-adopter-smoke` 为 `not_ready`，验
 并生成 `acceptance.json` 与 `SHA256SUMS`。它不会使用 workspace 或本地 Runtime binary。发布后验收失败时仍记录
 `releasePublished: true` 和 `adopterAcceptance: failed`，不会重写已发布的 Release。第二技术栈覆盖属于后续独立 Work Item。
 
+### N-1 升级验收
+
+当新 Runtime 改变 Repository Protocol schema 时，使用两个公开归档运行 N-1 脚本：
+
+```bash
+tests/release/adopter_upgrade_acceptance.sh \
+  --repository xinglun/ai-cockpit \
+  --from-tag v0.1.1 \
+  --to-tag v0.2.0 \
+  --target aarch64-apple-darwin \
+  --output ./release-adopter-upgrade-acceptance
+```
+
+它证明旧 adopter 检测、审查门控迁移、历史字节保持、继续运行以及隔离的
+repository/runtime identity。这是发布后 evidence，不能用源码构建替代，也不能改写
+Release truth。参见 [WI-44](../work-items/WI-44-n-minus-one-upgrade-acceptance.zh-CN.md)。
+
 ## 手动 archive 安装
 
 macOS/Linux 用户下载对应的 `.tar.gz` 和 `SHA256SUMS`，选择准确的 Rust target，校验 archive，

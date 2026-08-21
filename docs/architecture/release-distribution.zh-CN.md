@@ -80,6 +80,17 @@ Release manifest 绑定 version、tag、commit、target、runner image、archive
 未 attach 的 release-build checkout 可以没有 `.ai`；当前 self-governed checkout 有意拥有
 repository-local `.ai/`。`cockpit.toml` 仍是 `.ai/` 下的 TOML；分发工作不会将其迁移为 JSON。
 
+## 升级边界
+
+Runtime-only 升级只替换共享 executable，不改变任何 repository 的 `.ai/` 字节、
+Contract、evidence、Work Item 或 knowledge。Repository migration 则不同：当兼容性
+报告 `MIGRATION_REQUIRED` 时，由新 Runtime 触发显式、审查过并带版本的操作。迁移
+receipt 绑定迁移前后 repository digest 以及 Runtime version/digest；历史 evidence
+不会被重写。
+
+[WI-44](../work-items/WI-44-n-minus-one-upgrade-acceptance.zh-CN.md) 使用旧、新公开
+归档证明这个边界。它是发布后 artifact，不是源码构建 fallback，也不替代 Release truth。
+
 ## 信任边界
 
 - `cockpit-release` 与 release workflow 负责本地 release contract、确定性 manifest、Formula 投影、
