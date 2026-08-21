@@ -503,18 +503,27 @@ fn descendant_cannot_escape_the_windows_job_before_assignment() {
             .expect("clock")
             .as_nanos()
     ));
+    // Use PowerShell's process API instead of nested `cmd /c start` quoting.
+    // The latter can make the direct child wait for its grandchild on hosted
+    // Windows runners, turning this boundary test into a five-minute timeout
+    // before it can assert the job-kill behavior.
+    let marker_for_powershell = marker.display().to_string().replace('\'', "''");
     let delayed_write = format!(
-        "ping -n 3 127.0.0.1 >nul & echo escaped>\"{}\"",
-        marker.display()
+        "Start-Sleep -Seconds 1; Set-Content -LiteralPath '{marker_for_powershell}' -Value escaped"
+    );
+    let delayed_write_for_argument = delayed_write.replace('\'', "''");
+    let spawn_descendant = format!(
+        "Start-Process -FilePath powershell.exe -ArgumentList @('-NoLogo','-NoProfile','-NonInteractive','-Command','{delayed_write_for_argument}')"
     );
     let command = always_command(
         "windows-descendant",
-        "cmd.exe",
+        "powershell.exe",
         vec![
-            "/D".into(),
-            "/S".into(),
-            "/C".into(),
-            format!("start \"\" /B cmd.exe /D /S /C \"{delayed_write}\""),
+            "-NoLogo".into(),
+            "-NoProfile".into(),
+            "-NonInteractive".into(),
+            "-Command".into(),
+            spawn_descendant,
         ],
     );
 
@@ -523,4 +532,5 @@ fn descendant_cannot_escape_the_windows_job_before_assignment() {
 
     assert!(result.passed);
     assert!(!marker.exists(), "descendant escaped the kill-on-close job");
+    let _ = std::fs::remove_file(marker);
 }
