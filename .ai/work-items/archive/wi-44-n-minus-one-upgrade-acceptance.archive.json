@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T16:54:08Z",
+  "files": {
+    "contractDigest": "sha256:6d9349c93c12026b58c3b43b65207322d193074e70cfb95c2983d9dc94ee9de1",
+    "contractPath": ".ai/work-items/archive/wi-44-n-minus-one-upgrade-acceptance.contract.json",
+    "outcomeDigest": "sha256:83f624c8b18c25fd4643f9a6016aa516740cc9cec4180e490e70a6f0d77caf21",
+    "outcomePath": ".ai/work-items/archive/wi-44-n-minus-one-upgrade-acceptance.outcome.json",
+    "summaryDigest": "sha256:2b273cc24480daa7ac345dad5519e09a90a7eee285b564f859e3169ed60aa541",
+    "summaryPath": ".ai/work-items/archive/wi-44-n-minus-one-upgrade-acceptance.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "wi-44-n-minus-one-upgrade-acceptance"
+}

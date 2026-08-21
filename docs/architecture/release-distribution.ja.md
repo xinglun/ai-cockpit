@@ -81,6 +81,18 @@ provider Release や単独の artifact upload だけでは installation evidence
 repository-local `.ai/` を意図的に持ちます。`cockpit.toml` は `.ai/` 配下の TOML のままで、distribution が
 JSON へ移行させることもありません。
 
+## アップグレード境界
+
+Runtime-only upgrade は共有 executable だけを置き換え、repository の `.ai/` bytes、
+Contract、evidence、Work Item、knowledge を変更しない。Repository migration は別の
+操作であり、新 Runtime が `MIGRATION_REQUIRED` を返したときに、明示的にレビューされ
+た versioned operation として実行する。migration receipt は前後の repository digest と
+Runtime version/digest に結び付き、過去の evidence は書き換えない。
+
+[WI-44](../work-items/WI-44-n-minus-one-upgrade-acceptance.ja.md) は旧・新の公開 archive
+でこの境界を検証する。これは公開後 artifact であり、source build fallback や Release
+truth の代替ではない。
+
 ## Trust boundary
 
 - `cockpit-release` と release workflow は local release contract、deterministic manifest、Formula projection、

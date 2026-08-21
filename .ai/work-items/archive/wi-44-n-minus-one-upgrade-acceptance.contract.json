@@ -1,0 +1,40 @@
+{
+  "acceptanceCriteria": [
+    "No cargo build/run or workspace binary fallback; old and new public archives are tag-bound and checksum-verified; isolated HOME/XDG/TMP/adopter; old schema reports MIGRATION_REQUIRED under new Runtime; plan is read-only; unapproved apply fails; approved apply records runtime-bound receipt; historical evidence is byte-identical; new Runtime reaches COMPATIBLE and continues Work Item/Agent/verify operation; acceptance.json and SHA256SUMS are produced; failed post-release acceptance never mutates Release truth."
+  ],
+  "authority": "repository owner approval required for published-artifact upgrade acceptance",
+  "baseRevision": "fa838d92e934056eb9e87b67a19800a7c1d0bba5",
+  "createdAt": "2026-08-21T16:32:48Z",
+  "goal": "Prove an old adopter can upgrade from the previous public Runtime through explicit compatibility, reviewed migration, preserved evidence, and continued governed operation.",
+  "intent": "Add a reproducible post-release N-1 adopter upgrade acceptance harness using only immutable public Release artifacts.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime implementation changes",
+    " source fallback",
+    " pre-release gates",
+    " Release truth mutation",
+    " Homebrew tap mutation",
+    " second technology-stack matrix"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ccd22d2dfc3a58628879a8d13bc012d25eb6a1275d8b7b5fb145c2cc681a3aff",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scope": [
+    "tests/release/**",
+    "docs/release/**",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/work-items/**",
+    ".ai/work-items/**",
+    ".ai/evidence/**",
+    ".ai/decisions/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "wi-44-n-minus-one-upgrade-acceptance"
+}

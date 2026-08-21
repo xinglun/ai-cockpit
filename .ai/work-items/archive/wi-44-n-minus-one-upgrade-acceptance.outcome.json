@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T16:54:03Z",
+  "evidenceDigest": "sha256:a12791cc47df3b5f93e553e317a67617f0badbf57b91e1c76e7b08dec52453c9",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/wi-44-n-minus-one-upgrade-acceptance.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "wi-44-n-minus-one-upgrade-acceptance"
+}
