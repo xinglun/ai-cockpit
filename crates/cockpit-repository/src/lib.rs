@@ -2205,20 +2205,24 @@ fn sync_cap_directory(parent: &Dir, display_path: &Path) -> Result<(), ObserverE
         return Ok(());
     }
     #[cfg(not(windows))]
-    // `cap-std` intentionally opens read-only directories with `O_PATH` on
-    // Linux. `fsync(O_PATH)` returns EBADF, so reopen `.` relative to the
-    // already-pinned directory capability with ordinary read access before
-    // syncing. This remains handle-relative and avoids an ambient path race.
-    let mut options = CapOpenOptions::new();
-    options.read(true);
-    parent
-        .open_with(".", &options)
-        .map(|directory| directory.into_std().sync_all())
-        .and_then(|result| result)
-        .map_err(|source| ObserverError::Read {
-            path: display_path.parent().unwrap_or(display_path).to_path_buf(),
-            source,
-        })
+    #[cfg(not(windows))]
+    {
+        // `cap-std` intentionally opens read-only directories with `O_PATH`
+        // on Linux. `fsync(O_PATH)` returns EBADF, so reopen `.` relative to
+        // the already-pinned directory capability with ordinary read access
+        // before syncing. This remains handle-relative and avoids an ambient
+        // path race.
+        let mut options = CapOpenOptions::new();
+        options.read(true);
+        parent
+            .open_with(".", &options)
+            .map(|directory| directory.into_std().sync_all())
+            .and_then(|result| result)
+            .map_err(|source| ObserverError::Read {
+                path: display_path.parent().unwrap_or(display_path).to_path_buf(),
+                source,
+            })
+    }
 }
 
 #[cfg(not(windows))]
