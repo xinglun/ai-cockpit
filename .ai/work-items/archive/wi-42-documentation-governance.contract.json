@@ -1,0 +1,54 @@
+{
+  "acceptanceCriteria": [
+    "public documentation no longer claims the runtime is uninstalled or release evidence is pending",
+    "README routes and language switching are reader-first and trilingual",
+    "repository-local Agent usage instructions point to explicit --repo commands and do not invent governance decisions",
+    "work-item bootstrap documentation reflects installed self-governance",
+    "release architecture names current v0.1.1 public truth without stale WI-35 ownership claims"
+  ],
+  "authority": "authorized",
+  "baseRevision": "3e49248b3e5f9c555027d736c5e50645fdc15af6",
+  "createdAt": "2026-08-21T15:45:21Z",
+  "goal": "Make current installation, self-governance, Agent discovery, and documentation authority truthful without changing runtime behavior or silently editing global Agent configuration.",
+  "intent": "Remove internal progress claims from adopter-facing documentation and establish a reader-first trilingual route plus repository-local Agent usage guidance.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    "tests/**",
+    ".github/**",
+    "docs/work-items/WI-00*..WI-41*",
+    "docs/superpowers/**",
+    "global Agent/MCP configuration",
+    "V1 runtime files"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:179300b47fd2e2100c8a89189b1be8bc8b616459a5f2916b4f8e010f475d3a81",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "README.md",
+    "README.zh-CN.md",
+    "README.ja.md",
+    "docs/README.md",
+    "docs/README.zh-CN.md",
+    "docs/README.ja.md",
+    "docs/work-items/README.md",
+    "docs/work-items/README.zh-CN.md",
+    "docs/work-items/README.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    "docs/work-items/WI-42.md",
+    "docs/work-items/WI-42.zh-CN.md",
+    "docs/work-items/WI-42.ja.md"
+  ],
+  "state": "implementation_active",
+  "workItemId": "wi-42-documentation-governance"
+}

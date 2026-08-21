@@ -53,22 +53,13 @@ machine-facing contract を定義する technical reference に進んでくだ�
 - [Reference](reference/README.ja.md) — command、configuration、recovery。
 - [Reference source parity](reference/reference-parity.ja.md) — adopted scope、意図的な差分、次の Work Item。
 
-## Maintainer、audit、current work
+## Maintainer と audit の route
 
-- [Bootstrap Work Item ルール](work-items/README.ja.md)
-- [Work Item ロードマップ](work-items/WI-03.ja.md)
-- [Accepted Work Item: WI-34](work-items/WI-34.ja.md)
-- [First-public-release Work Item: WI-35](work-items/WI-35.ja.md)
-- [Corrective Work Item: WI-36](work-items/WI-36.ja.md)
-- [Governance scaffolding Work Item: WI-38](work-items/WI-38.ja.md)
-- [WI-34 installable-release design](superpowers/specs/2026-08-21-installable-release-homebrew-distribution-design.md)
-- [WI-35 first-public-release design（英語 canonical）](superpowers/specs/2026-08-21-first-public-release-homebrew-tap-bootstrap-design.md)
-- [WI-35 implementation plan（英語 canonical）](superpowers/plans/2026-08-21-first-public-release-homebrew-tap-bootstrap.md)
+- [Work Item ルール](work-items/README.ja.md) — この repository の governed lifecycle。
+- [Command reference](reference/commands.ja.md) — CLI の境界と output。
+- [Repository Protocol v1](protocol/v1/specification.ja.md) — storage と evidence contract。
+- [Reference source parity](reference/reference-parity.ja.md) — external template との比較と差分。
+- [バージョニング](architecture/versioning.ja.md) — Runtime、repository schema、migration の境界。
 
-## 現在の実装境界
-
-WI-03 から WI-38 までに implementation/readiness history を記録しています。WI-36 は
-local acceptance 済みですが、hosted Release、Homebrew、public installation evidence
-は WI-35 が担当します。Rust runtime が自分自身を governance できるまでは、
-`docs/work-items` の Markdown bootstrap ルールを使います。この repository に V1 を
-install しません。
+Historical Work Item と implementation plan は Git で監査できますが、現在の product status や
+adopter の操作説明としては表示しません。
