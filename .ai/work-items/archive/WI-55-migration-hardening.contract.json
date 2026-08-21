@@ -1,0 +1,32 @@
+{
+  "acceptanceCriteria": [
+    "work-item new and preflight fail closed on MIGRATION_REQUIRED and INCOMPATIBLE without writes; observe/status/compatibility/migrate plan/doctor remain available; CLI and MCP semantics agree; regression tests pass"
+  ],
+  "authority": "authorized",
+  "baseRevision": "5e476a7c8cf7cbc952c374d211d7b801c7eddc31",
+  "createdAt": "2026-08-21T19:06:21Z",
+  "goal": "An incompatible repository cannot receive a new Work Item or governance decision, while read-only diagnostics and reviewed migration planning remain available.",
+  "intent": "Enforce compatibility boundaries before governance execution and formalize the migration hardening contract.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Raw Request Binding;Requested Operation;Capability Mapping;Outcome projection;schema 3 migration implementation;release publication"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:42c9f429b9ec80461670531be8e78b3c37966b0cf8d2b5b8bde471a5836157e4",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-cli/**",
+    "crates/cockpit-mcp/**",
+    "crates/cockpit-repository/**",
+    "tests/**",
+    "docs/**",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-55-migration-hardening"
+}

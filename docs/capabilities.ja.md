@@ -125,6 +125,12 @@ Migration receipt は source/target schema、前後 digest、Runtime version、R
 knowledge は byte-for-byte の履歴として保持します。`INCOMPATIBLE` は書き込み前に停止し、その schema を
 理解する Runtime が必要です。
 
+attached protocol file が揃っている場合、stateful な governance operation（`preflight`、Work Item の
+作成/lifecycle、`verify`、knowledge/profile の書き込み、Agent adapter の書き込み、governed MCP call）は
+`COMPATIBLE` でなければ実行できません。`MIGRATION_REQUIRED` または `INCOMPATIBLE` なら新しい record や
+evidence を作る前に停止します。compatibility、migration plan、observe、status、doctor などの read-only
+diagnostic は利用でき、次の安全な操作を確認できます。
+
 ### Agent を明示的に接続する
 
 `attach` は repository fact だけを作成し、`AGENTS.md`、`CLAUDE.md`、`GEMINI.md`、`.cursor/`、

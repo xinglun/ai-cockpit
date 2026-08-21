@@ -125,6 +125,11 @@ Migration receipt 记录 source/target schema、迁移前后 digest、Runtime ve
 knowledge 保持 byte-for-byte historical record。`INCOMPATIBLE` 会在写入前停止，需要理解该 schema
 的 Runtime。
 
+当 attached protocol files 完整存在时，有状态的治理操作（`preflight`、Work Item 创建/生命周期、
+`verify`、knowledge/profile 写入、Agent adapter 写入以及受治理的 MCP 调用）必须先得到
+`COMPATIBLE`。`MIGRATION_REQUIRED` 或 `INCOMPATIBLE` 会在创建新 record 或 evidence 前停止。
+compatibility、migration plan、observe、status 和 doctor 等只读诊断仍可用，以便审查下一步安全操作。
+
 ### 显式连接 Agent
 
 `attach` 只创建 repository facts，不修改 `AGENTS.md`、`CLAUDE.md`、`GEMINI.md`、

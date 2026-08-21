@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T19:19:25Z",
+  "evidenceDigest": "sha256:6405518240ebe3f552d5fcab97cd2e520efc005b83ec1892030a06d487fa4b17",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-55-migration-hardening.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-55-migration-hardening"
+}

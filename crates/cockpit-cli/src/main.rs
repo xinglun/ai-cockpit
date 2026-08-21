@@ -285,6 +285,7 @@ fn run() -> Result<()> {
             println!("{}", serde_json::to_string_pretty(&output)?);
         }
         CommandKind::Preflight { repo, contract } => {
+            require_compatible(&repo, &runtime_context)?;
             let git = GitRepository::discover(&repo).context("discover repository")?;
             let snapshot = git.snapshot().context("create repository snapshot")?;
             let contract: Contract =
@@ -540,6 +541,7 @@ fn run() -> Result<()> {
         }
         CommandKind::WorkItem { command } => match command {
             WorkItemCommand::New { repo, id, mode } => {
+                require_compatible(&repo, &runtime_context)?;
                 let receipt =
                     scaffold_work_item(&repo, &id, &mode).context("create Work Item scaffold")?;
                 println!("Work Item scaffold created.");
@@ -842,7 +844,10 @@ fn require_compatible(
     // unattached repository, preserve the legacy ephemeral verification path;
     // once `.ai/cockpit.toml` exists, every stateful/evidence operation is
     // governed by the repository compatibility gate below.
-    if !repo.join(".ai/cockpit.toml").is_file() {
+    if !["cockpit.toml", "project.json", "agent-interface.json"]
+        .iter()
+        .all(|name| repo.join(".ai").join(name).is_file())
+    {
         return Ok(());
     }
     let report = cockpit_repository::compatibility_report(repo, runtime)

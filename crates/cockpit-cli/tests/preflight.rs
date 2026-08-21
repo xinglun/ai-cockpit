@@ -7,6 +7,60 @@ use std::{
 
 static NEXT_REPOSITORY_ID: AtomicU64 = AtomicU64::new(0);
 
+fn downgrade_to_schema_one(root: &std::path::Path) {
+    for name in ["project.json", "agent-interface.json"] {
+        let path = root.join(".ai").join(name);
+        let mut value: serde_json::Value =
+            serde_json::from_slice(&fs::read(&path).expect("protocol JSON")).expect("JSON");
+        value
+            .as_object_mut()
+            .expect("object")
+            .remove("repositorySchemaVersion");
+        fs::write(&path, serde_json::to_vec_pretty(&value).expect("JSON")).expect("write JSON");
+    }
+    let config = root.join(".ai/cockpit.toml");
+    let text = fs::read_to_string(&config).expect("config");
+    fs::write(
+        config,
+        text.lines()
+            .filter(|line| !line.starts_with("repository_schema_version"))
+            .collect::<Vec<_>>()
+            .join("\n")
+            + "\n",
+    )
+    .expect("write config");
+}
+
+fn set_schema_version(root: &std::path::Path, version: u64) {
+    for name in ["project.json", "agent-interface.json"] {
+        let path = root.join(".ai").join(name);
+        let mut value: serde_json::Value =
+            serde_json::from_slice(&fs::read(&path).expect("protocol JSON")).expect("JSON");
+        value
+            .as_object_mut()
+            .expect("object")
+            .insert("repositorySchemaVersion".into(), version.into());
+        fs::write(&path, serde_json::to_vec_pretty(&value).expect("JSON")).expect("write JSON");
+    }
+    let config = root.join(".ai/cockpit.toml");
+    let text = fs::read_to_string(&config).expect("config");
+    fs::write(
+        config,
+        text.lines()
+            .map(|line| {
+                if line.starts_with("repository_schema_version") {
+                    format!("repository_schema_version = {version}")
+                } else {
+                    line.to_owned()
+                }
+            })
+            .collect::<Vec<_>>()
+            .join("\n")
+            + "\n",
+    )
+    .expect("write config");
+}
+
 #[test]
 fn preflight_reports_yellow_when_required_evidence_is_missing() {
     let suffix = SystemTime::now()
@@ -141,5 +195,97 @@ fn preflight_turns_green_after_matching_verification_evidence() {
             .iter()
             .any(|value| value == "stale_contract")
     );
+    fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[test]
+fn preflight_rejects_a_repository_that_requires_migration() {
+    let suffix = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("clock")
+        .as_nanos();
+    let sequence = NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed);
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-preflight-migration-{}-{suffix}-{sequence}",
+        std::process::id()
+    ));
+    fs::create_dir_all(&directory).expect("directory");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(&directory)
+        .status()
+        .expect("git init");
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let attach = Command::new(binary)
+        .args(["attach", "--repo"])
+        .arg(&directory)
+        .output()
+        .expect("attach");
+    assert!(attach.status.success());
+    let start = Command::new(binary)
+        .args(["start", "--repo"])
+        .arg(&directory)
+        .args([
+            "--id",
+            "WI-MIGRATION-PREFLIGHT",
+            "--intent",
+            "verify",
+            "--goal",
+            "migration gate",
+            "--scope",
+            "src/**",
+            "--authority",
+            "authorized",
+        ])
+        .output()
+        .expect("start");
+    assert!(start.status.success());
+    downgrade_to_schema_one(&directory);
+    let contract = directory.join(".ai/work-items/active/WI-MIGRATION-PREFLIGHT.contract.json");
+    let output = Command::new(binary)
+        .args(["preflight", "--repo"])
+        .arg(&directory)
+        .args(["--contract"])
+        .arg(&contract)
+        .output()
+        .expect("preflight");
+    assert!(!output.status.success());
+    assert!(String::from_utf8_lossy(&output.stderr).contains("MIGRATION_REQUIRED"));
+    fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[test]
+fn preflight_rejects_a_repository_with_an_unsupported_future_schema() {
+    let suffix = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("clock")
+        .as_nanos();
+    let sequence = NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed);
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-preflight-incompatible-{}-{suffix}-{sequence}",
+        std::process::id()
+    ));
+    fs::create_dir_all(&directory).expect("directory");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(&directory)
+        .status()
+        .expect("git init");
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let attach = Command::new(binary)
+        .args(["attach", "--repo"])
+        .arg(&directory)
+        .output()
+        .expect("attach");
+    assert!(attach.status.success());
+    set_schema_version(&directory, 999);
+    let output = Command::new(binary)
+        .args(["preflight", "--repo"])
+        .arg(&directory)
+        .args(["--contract", ".ai/work-items/active/missing.contract.json"])
+        .output()
+        .expect("preflight");
+    assert!(!output.status.success());
+    assert!(String::from_utf8_lossy(&output.stderr).contains("INCOMPATIBLE"));
     fs::remove_dir_all(directory).expect("cleanup");
 }

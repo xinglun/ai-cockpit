@@ -84,23 +84,36 @@ pub fn handle_request_for_repo(
             .map_err(|error| error.to_string())
             .and_then(|value| serde_json::to_value(value).map_err(|error| error.to_string())),
         "repository_observe" => repository_observe(repo),
-        "knowledge_query" => cockpit_repository::generate_knowledge(repo)
-            .map_err(|error| error.to_string())
-            .map(|index| {
-                let filter = cockpit_knowledge::Query {
-                    topic: arguments.get("topic").and_then(Value::as_str).map(str::to_owned),
-                    component: arguments.get("component").and_then(Value::as_str).map(str::to_owned),
-                    state: arguments.get("state").and_then(Value::as_str).map(str::to_owned),
-                    work_item_id: arguments.get("workItemId").and_then(Value::as_str).map(str::to_owned),
-                };
-                json!({"matchCount": cockpit_knowledge::query(&index, &filter).len(), "results": cockpit_knowledge::query(&index, &filter)})
-            }),
-        "blockers" => decision_items(repo, &arguments, "blockers"),
-        "safe_actions" => decision_items(repo, &arguments, "safe_actions"),
+        "knowledge_query" => {
+            require_compatible(repo, runtime).and_then(|_| {
+                cockpit_repository::generate_knowledge(repo)
+                    .map_err(|error| error.to_string())
+                    .map(|index| {
+                        let filter = cockpit_knowledge::Query {
+                            topic: arguments.get("topic").and_then(Value::as_str).map(str::to_owned),
+                            component: arguments.get("component").and_then(Value::as_str).map(str::to_owned),
+                            state: arguments.get("state").and_then(Value::as_str).map(str::to_owned),
+                            work_item_id: arguments.get("workItemId").and_then(Value::as_str).map(str::to_owned),
+                        };
+                        json!({"matchCount": cockpit_knowledge::query(&index, &filter).len(), "results": cockpit_knowledge::query(&index, &filter)})
+                    })
+            })
+        }
+        "blockers" => {
+            require_compatible(repo, runtime)
+                .and_then(|_| decision_items(repo, &arguments, "blockers"))
+        }
+        "safe_actions" => {
+            require_compatible(repo, runtime)
+                .and_then(|_| decision_items(repo, &arguments, "safe_actions"))
+        }
         "work_item_list" => work_item_list(repo),
         "work_item_get" => work_item_get(repo, &arguments),
         "evidence_get" => evidence_get(repo, &arguments),
-        "preflight" => preflight_for_repo(repo, &arguments),
+        "preflight" => {
+            require_compatible(repo, runtime)
+                .and_then(|_| preflight_for_repo(repo, &arguments))
+        }
         "verify" => verify_for_repo(repo, &arguments, runtime),
         _ => return error_response(id, -32602, "unknown tool"),
     };
@@ -137,6 +150,7 @@ fn verify_for_repo(
     arguments: &Value,
     runtime: &cockpit_protocol::RuntimeContext,
 ) -> Result<Value, String> {
+    require_compatible(repo, runtime)?;
     let root = fs::canonicalize(repo).map_err(|error| error.to_string())?;
     let explicit_program = match arguments.get("command") {
         Some(Value::String(program)) => Some(program.as_str()),
@@ -206,6 +220,27 @@ fn verify_for_repo(
         .map_err(|error| error.to_string())?;
     }
     Ok(output)
+}
+
+fn require_compatible(
+    repo: &Path,
+    runtime: &cockpit_protocol::RuntimeContext,
+) -> Result<(), String> {
+    if !["cockpit.toml", "project.json", "agent-interface.json"]
+        .iter()
+        .all(|name| repo.join(".ai").join(name).is_file())
+    {
+        return Ok(());
+    }
+    let report = cockpit_repository::compatibility_report(repo, runtime)
+        .map_err(|error| error.to_string())?;
+    if report.state != "COMPATIBLE" {
+        return Err(format!(
+            "repository compatibility is {}; run ai-cockpit migrate plan --repo <repository> and apply the reviewed migration before continuing",
+            report.state
+        ));
+    }
+    Ok(())
 }
 
 fn repository_observe(repo: &Path) -> Result<Value, String> {

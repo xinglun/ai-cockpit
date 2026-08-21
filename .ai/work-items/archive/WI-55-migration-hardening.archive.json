@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T19:19:28Z",
+  "files": {
+    "contractDigest": "sha256:b1ab40321b02e066a973d988178d1a012442bd8c6a61b4d5295e0440fa897b8a",
+    "contractPath": ".ai/work-items/archive/WI-55-migration-hardening.contract.json",
+    "outcomeDigest": "sha256:0351a284583681d562dc81a7a42658301fd6aee48a9c371a2b36dcb4ceca8b7a",
+    "outcomePath": ".ai/work-items/archive/WI-55-migration-hardening.outcome.json",
+    "summaryDigest": "sha256:58ed6ceb0e67f335bc3075f3eaf5740eea8a4b3e691be316e4a6bf072e022626",
+    "summaryPath": ".ai/work-items/archive/WI-55-migration-hardening.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-55-migration-hardening"
+}
