@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T19:41:05Z",
+  "files": {
+    "contractDigest": "sha256:b4ef4db7b635aa74b191ed731db500ecc50eb69519e0059c33bd3e100292029e",
+    "contractPath": ".ai/work-items/archive/WI-64-security-enterprise-documentation.contract.json",
+    "outcomeDigest": "sha256:332dfaad8d0252422de8094894f07afc8e589b1079ce8bb0ba502012eaee9d80",
+    "outcomePath": ".ai/work-items/archive/WI-64-security-enterprise-documentation.outcome.json",
+    "summaryDigest": "sha256:81e6ce597e79243a5b157b24d71c95b10f1e4084ae3dd69139a36345e7f82af9",
+    "summaryPath": ".ai/work-items/archive/WI-64-security-enterprise-documentation.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-64-security-enterprise-documentation"
+}

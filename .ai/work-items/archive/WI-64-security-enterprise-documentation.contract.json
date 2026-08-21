@@ -1,0 +1,34 @@
+{
+  "acceptanceCriteria": [
+    "SECURITY.md",
+    " threat model",
+    " enterprise deployment boundary",
+    " vulnerability reporting",
+    " supported versions",
+    " and security patch policy are present; documents state external evidence ownership and explicitly do not claim ISO/SOC certification; trilingual links and terminology are consistent"
+  ],
+  "authority": "authorized",
+  "baseRevision": "6b326597b2788b327de155d0704d8a9500b0c370",
+  "createdAt": "2026-08-21T19:39:34Z",
+  "goal": "Security reporting, threat boundaries, supported versions, patch policy, enterprise deployment limits, and non-certification claims are documented in English, Chinese, and Japanese.",
+  "intent": "Publish an honest security and enterprise deployment boundary for adopters.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime security implementation; external SIEM/provider integrations; release publication"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:af20571f027b96526a0b89d3a244c45bd8e2f0dfafe6cdef242194e4efc9e670",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "SECURITY.md",
+    "docs/security/**",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-64-security-enterprise-documentation"
+}
