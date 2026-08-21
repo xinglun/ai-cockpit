@@ -61,6 +61,16 @@ validate, display, and archive that reference; it does not manufacture a
 provider signature, branch-protection result, SBOM, provenance statement, or
 enterprise approval.
 
+Use `ai-cockpit evidence import --repo <repo> --work-item <id> --metadata
+<metadata.json> --raw <provider-output>` to bind provider metadata to the
+digest of the exact raw bytes. The raw reference must stay under
+`.ai/evidence/external/`; identical imports are idempotent and conflicting
+receipts, path escapes, symlinks, unknown fields, or repository/Work Item
+mismatches fail closed. `ai-cockpit evidence list` and the repository-bound MCP
+`delegated_evidence_list` tool expose only revalidated receipts. Expired,
+revoked, or unknown receipts remain auditable but do not satisfy a
+`delegated:<provider>` evidence requirement.
+
 Audit events carry a stable event ID, repository and Work Item identity, Runtime
 identity, timestamp, digest, and evidence references. Local Git and `.ai/`
 records are not claimed to be an independent immutable enterprise audit log.

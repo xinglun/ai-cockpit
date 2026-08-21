@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T20:29:30Z",
+  "evidenceDigest": "sha256:9f67ff20237742d0ca321c282376cdba16e2218ce3ddb750c030d38a8d60d0b7",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-67-delegated-evidence-operations.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-67-delegated-evidence-operations"
+}

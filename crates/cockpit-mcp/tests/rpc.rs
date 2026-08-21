@@ -85,11 +85,72 @@ fn mcp_initialize_and_tool_list_are_read_only_and_deterministic() {
             "safe_actions",
             "knowledge_query",
             "evidence_get",
+            "delegated_evidence_list",
             "repository_observe",
             "preflight",
             "verify"
         ]
     );
+}
+
+#[test]
+fn delegated_evidence_list_exposes_only_repository_bound_receipts() {
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-mcp-delegated-{}",
+        NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed)
+    ));
+    fs::create_dir_all(&directory).expect("directory");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(&directory)
+        .status()
+        .expect("git init");
+    cockpit_repository::attach(&directory).expect("attach");
+    cockpit_repository::start_work_item_with_options(
+        &directory,
+        "WI-MCP-DELEGATED",
+        "external evidence",
+        "list provider evidence",
+        &["**".into()],
+        &cockpit_repository::WorkItemStartOptions {
+            authority: "authorized".into(),
+            required_evidence_classes: vec!["delegated:github".into()],
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    let raw = br#"{"run":321}"#;
+    cockpit_repository::import_delegated_evidence(
+        &directory,
+        "WI-MCP-DELEGATED",
+        &cockpit_protocol::DelegatedEvidence {
+            provider: "github".into(),
+            subject: "run:321".into(),
+            origin: "https://github.com/example/repo/actions/runs/321".into(),
+            assurance: cockpit_protocol::AssuranceLevel::ProviderVerified,
+            collected_at: "2026-08-21T19:00:00Z".into(),
+            digest: cockpit_core::Digest::sha256_bytes(raw),
+            validity: cockpit_protocol::EvidenceValidity::Valid,
+            raw_evidence_ref: ".ai/evidence/external/github-run-321.json".into(),
+        },
+        raw,
+        &test_runtime_context(),
+    )
+    .expect("import");
+    let response = cockpit_mcp::handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0","id":42,"method":"tools/call",
+            "params":{"name":"delegated_evidence_list","arguments":{"workItemId":"WI-MCP-DELEGATED"}}
+        }),
+        &directory,
+        &test_runtime_context(),
+    );
+    assert_eq!(response["result"]["isError"], false);
+    assert_eq!(
+        response["result"]["structuredContent"][0]["workItemId"],
+        "WI-MCP-DELEGATED"
+    );
+    fs::remove_dir_all(directory).expect("cleanup");
 }
 
 #[test]

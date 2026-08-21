@@ -4,7 +4,7 @@ use std::fs;
 use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
 
-const TOOL_NAMES: [&str; 10] = [
+const TOOL_NAMES: [&str; 11] = [
     "status",
     "work_item_get",
     "work_item_list",
@@ -12,6 +12,7 @@ const TOOL_NAMES: [&str; 10] = [
     "safe_actions",
     "knowledge_query",
     "evidence_get",
+    "delegated_evidence_list",
     "repository_observe",
     "preflight",
     "verify",
@@ -110,6 +111,19 @@ pub fn handle_request_for_repo(
         "work_item_list" => work_item_list(repo),
         "work_item_get" => work_item_get(repo, &arguments),
         "evidence_get" => evidence_get(repo, &arguments),
+        "delegated_evidence_list" => {
+            require_compatible(repo, runtime).and_then(|_| {
+                let work_item_id = arguments
+                    .get("workItemId")
+                    .and_then(Value::as_str)
+                    .ok_or("workItemId argument is required")?;
+                cockpit_repository::list_delegated_evidence(repo, work_item_id)
+                    .map_err(|error| error.to_string())
+                    .and_then(|receipts| {
+                        serde_json::to_value(receipts).map_err(|error| error.to_string())
+                    })
+            })
+        }
         "preflight" => {
             require_compatible(repo, runtime)
                 .and_then(|_| preflight_for_repo(repo, &arguments))

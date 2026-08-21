@@ -474,6 +474,21 @@ pub struct DelegatedEvidence {
     pub raw_evidence_ref: String,
 }
 
+/// A Runtime binding receipt for provider-produced evidence. The Runtime
+/// records the binding and digest; it does not assert that the provider's
+/// underlying claim is true.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct DelegatedEvidenceReceipt {
+    pub schema_version: u32,
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub evidence: DelegatedEvidence,
+    pub runtime_version: String,
+    pub runtime_digest: Digest,
+    pub bound_at: String,
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct AuditEvent {

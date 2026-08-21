@@ -7,9 +7,10 @@ use cockpit_core::{
 use cockpit_git::{ChangeContentState, ChangeKind, RepositorySnapshot};
 use cockpit_protocol::{
     AgentAdapterCompatibility, AgentInterfaceAvailability, AgentInterfaceManifest, AgentInterfaces,
-    AgentRootBinding, ApprovalMode, Contract, GovernancePolicy, GovernancePolicyDocument,
-    HumanDecision, PolicyLayer, QualityCommand, RepositoryConfig, RuntimeContext,
-    default_repository_schema_version, merge_policy_layers, validate_protocol_version,
+    AgentRootBinding, ApprovalMode, Contract, DelegatedEvidence, DelegatedEvidenceReceipt,
+    EvidenceValidity, GovernancePolicy, GovernancePolicyDocument, HumanDecision, PolicyLayer,
+    QualityCommand, RepositoryConfig, RuntimeContext, default_repository_schema_version,
+    merge_policy_layers, validate_protocol_version,
 };
 use serde::{Deserialize, Serialize};
 use sha2::{Digest as ShaDigest, Sha256};
@@ -30,6 +31,7 @@ static NEXT_REPOSITORY_ID: AtomicU64 = AtomicU64::new(0);
 const MAX_RECEIPT_INDEX_BYTES: u64 = 8 * 1024 * 1024;
 const MAX_REUSABLE_RECEIPT_BYTES: u64 = 1024 * 1024;
 const MAX_VERIFICATION_IDENTITY_FILE_BYTES: u64 = 1024 * 1024;
+const MAX_EXTERNAL_EVIDENCE_BYTES: usize = 4 * 1024 * 1024;
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum LanguageSignal {
@@ -3185,6 +3187,418 @@ pub fn record_verification_with_snapshot(
     Ok(evidence)
 }
 
+fn external_evidence_directory(root: &Path) -> Result<PathBuf, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let ai = root.join(".ai");
+    let evidence = ai.join("evidence");
+    let external = evidence.join("external");
+    for directory in [&ai, &evidence, &external] {
+        match fs::symlink_metadata(directory) {
+            Ok(metadata) if metadata.file_type().is_symlink() => {
+                return Err(ObserverError::State {
+                    path: directory.to_path_buf(),
+                    message: "external evidence parent must not be a symlink".into(),
+                });
+            }
+            Ok(metadata) if !metadata.is_dir() => {
+                return Err(ObserverError::State {
+                    path: directory.to_path_buf(),
+                    message: "external evidence parent is not a directory".into(),
+                });
+            }
+            Ok(_) => {}
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                fs::create_dir(directory).map_err(|source| ObserverError::Read {
+                    path: directory.to_path_buf(),
+                    source,
+                })?;
+            }
+            Err(source) => {
+                return Err(ObserverError::Read {
+                    path: directory.to_path_buf(),
+                    source,
+                });
+            }
+        }
+    }
+    Ok(external)
+}
+
+fn existing_external_evidence_directory(root: &Path) -> Result<Option<PathBuf>, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let parents = [
+        root.join(".ai"),
+        root.join(".ai/evidence"),
+        root.join(".ai/evidence/external"),
+    ];
+    for parent in &parents {
+        match fs::symlink_metadata(parent) {
+            Ok(metadata) if metadata.file_type().is_symlink() => {
+                return Err(ObserverError::State {
+                    path: parent.clone(),
+                    message: "external evidence parent must not be a symlink".into(),
+                });
+            }
+            Ok(metadata) if !metadata.is_dir() => {
+                return Err(ObserverError::State {
+                    path: parent.clone(),
+                    message: "external evidence parent is not a directory".into(),
+                });
+            }
+            Ok(_) => {}
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
+            Err(source) => {
+                return Err(ObserverError::Read {
+                    path: parent.clone(),
+                    source,
+                });
+            }
+        }
+    }
+    Ok(Some(parents[2].clone()))
+}
+
+fn external_evidence_file(root: &Path, reference: &str) -> Result<PathBuf, ObserverError> {
+    let Some(name) = reference.strip_prefix(".ai/evidence/external/") else {
+        return Err(ObserverError::State {
+            path: root.join(".ai/evidence/external"),
+            message: "rawEvidenceRef must stay under .ai/evidence/external".into(),
+        });
+    };
+    if name.is_empty()
+        || name == "."
+        || name == ".."
+        || name.contains('/')
+        || name.contains('\\')
+        || name.contains("..")
+    {
+        return Err(ObserverError::State {
+            path: root.join(".ai/evidence/external"),
+            message: "rawEvidenceRef must be one safe repository-relative filename".into(),
+        });
+    }
+    let external = external_evidence_directory(root)?;
+    let path = external.join(name);
+    if let Ok(metadata) = fs::symlink_metadata(&path)
+        && metadata.file_type().is_symlink()
+    {
+        return Err(ObserverError::State {
+            path,
+            message: "raw evidence leaf must not be a symlink".into(),
+        });
+    }
+    Ok(path)
+}
+
+fn delegated_receipt_path(
+    root: &Path,
+    work_item_id: &str,
+    digest: &Digest,
+) -> Result<PathBuf, ObserverError> {
+    let external = external_evidence_directory(root)?;
+    let digest_hex =
+        digest
+            .as_str()
+            .strip_prefix("sha256:")
+            .ok_or_else(|| ObserverError::State {
+                path: external.clone(),
+                message: "delegated evidence digest must be sha256".into(),
+            })?;
+    Ok(external.join(format!("{work_item_id}.{digest_hex}.delegated.json")))
+}
+
+fn validate_delegated_metadata(
+    root: &Path,
+    work_item_id: &str,
+    evidence: &DelegatedEvidence,
+    raw_bytes: &[u8],
+) -> Result<PathBuf, ObserverError> {
+    if raw_bytes.len() > MAX_EXTERNAL_EVIDENCE_BYTES {
+        return Err(ObserverError::State {
+            path: root.join(".ai/evidence/external"),
+            message: "delegated raw evidence exceeds the bounded size limit".into(),
+        });
+    }
+    for (field, value) in [
+        ("provider", evidence.provider.as_str()),
+        ("subject", evidence.subject.as_str()),
+        ("origin", evidence.origin.as_str()),
+        ("collectedAt", evidence.collected_at.as_str()),
+    ] {
+        if value.trim().is_empty() {
+            return Err(ObserverError::State {
+                path: root.join(".ai/evidence/external"),
+                message: format!("delegated evidence field {field} must not be empty"),
+            });
+        }
+    }
+    let raw_path = external_evidence_file(root, &evidence.raw_evidence_ref)?;
+    let computed = Digest::sha256_bytes(raw_bytes);
+    if computed != evidence.digest {
+        return Err(ObserverError::State {
+            path: raw_path,
+            message: format!(
+                "delegated evidence digest mismatch: declared {}, computed {}",
+                evidence.digest, computed
+            ),
+        });
+    }
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let contract_path = if contract_path.is_file() {
+        contract_path
+    } else {
+        root.join(".ai/work-items/archive")
+            .join(format!("{work_item_id}.contract.json"))
+    };
+    let contract = read_contract(&contract_path)?;
+    if contract.work_item_id != work_item_id
+        || contract.repository_id != repository_id(root).to_string()
+    {
+        return Err(ObserverError::State {
+            path: contract_path,
+            message: "delegated evidence Work Item or repository binding mismatch".into(),
+        });
+    }
+    Ok(raw_path)
+}
+
+/// Import provider-produced bytes and bind their digest to a repository Work
+/// Item. Existing identical bytes/receipts are idempotent; conflicting writes
+/// fail closed.
+pub fn import_delegated_evidence(
+    root: &Path,
+    work_item_id: &str,
+    evidence: &DelegatedEvidence,
+    raw_bytes: &[u8],
+    runtime: &RuntimeContext,
+) -> Result<DelegatedEvidenceReceipt, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let raw_path = validate_delegated_metadata(&root, work_item_id, evidence, raw_bytes)?;
+    match fs::symlink_metadata(&raw_path) {
+        Ok(metadata) if metadata.file_type().is_symlink() => {
+            return Err(ObserverError::State {
+                path: raw_path,
+                message: "raw evidence leaf must not be a symlink".into(),
+            });
+        }
+        Ok(_) => {
+            let metadata =
+                fs::symlink_metadata(&raw_path).map_err(|source| ObserverError::Read {
+                    path: raw_path.clone(),
+                    source,
+                })?;
+            if metadata.len() > MAX_EXTERNAL_EVIDENCE_BYTES as u64 {
+                return Err(ObserverError::State {
+                    path: raw_path,
+                    message: "existing delegated raw evidence exceeds the bounded size limit"
+                        .into(),
+                });
+            }
+            let existing = fs::read(&raw_path).map_err(|source| ObserverError::Read {
+                path: raw_path.clone(),
+                source,
+            })?;
+            if existing != raw_bytes {
+                return Err(ObserverError::State {
+                    path: raw_path,
+                    message: "raw evidence already exists with different bytes".into(),
+                });
+            }
+        }
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+            atomic_write(&raw_path, raw_bytes)?;
+        }
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: raw_path,
+                source,
+            });
+        }
+    }
+    let receipt = DelegatedEvidenceReceipt {
+        schema_version: 1,
+        repository_id: repository_id(&root).to_string(),
+        work_item_id: work_item_id.into(),
+        evidence: evidence.clone(),
+        runtime_version: runtime.runtime_version.clone(),
+        runtime_digest: runtime.runtime_digest.clone(),
+        bound_at: now(),
+    };
+    let receipt_path = delegated_receipt_path(&root, work_item_id, &evidence.digest)?;
+    if let Ok(metadata) = fs::symlink_metadata(&receipt_path) {
+        if metadata.file_type().is_symlink() {
+            return Err(ObserverError::State {
+                path: receipt_path,
+                message: "delegated receipt leaf must not be a symlink".into(),
+            });
+        }
+        if metadata.len() > MAX_REUSABLE_RECEIPT_BYTES {
+            return Err(ObserverError::State {
+                path: receipt_path,
+                message: "existing delegated receipt exceeds the bounded size limit".into(),
+            });
+        }
+        let existing: DelegatedEvidenceReceipt =
+            serde_json::from_slice(&fs::read(&receipt_path).map_err(|source| {
+                ObserverError::Read {
+                    path: receipt_path.clone(),
+                    source,
+                }
+            })?)
+            .map_err(|error| ObserverError::State {
+                path: receipt_path.clone(),
+                message: format!("invalid existing delegated receipt: {error}"),
+            })?;
+        if existing.repository_id != receipt.repository_id
+            || existing.work_item_id != receipt.work_item_id
+            || existing.evidence != receipt.evidence
+        {
+            return Err(ObserverError::State {
+                path: receipt_path,
+                message: "delegated receipt already exists with different binding".into(),
+            });
+        }
+        if existing.schema_version != 1 {
+            return Err(ObserverError::State {
+                path: receipt_path,
+                message: "unsupported delegated receipt schema".into(),
+            });
+        }
+        return Ok(existing);
+    }
+    let value = serde_json::to_value(&receipt).map_err(|error| ObserverError::State {
+        path: receipt_path.clone(),
+        message: error.to_string(),
+    })?;
+    atomic_json(&receipt_path, &value)?;
+    Ok(receipt)
+}
+
+/// Read and revalidate all delegated receipts for a Work Item. Invalid or
+/// mismatched entries are errors rather than silently becoming authority.
+pub fn list_delegated_evidence(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<Vec<DelegatedEvidenceReceipt>, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let Some(external) = existing_external_evidence_directory(root)? else {
+        return Ok(Vec::new());
+    };
+    let mut receipts = Vec::new();
+    let entries = fs::read_dir(&external).map_err(|source| ObserverError::Read {
+        path: external.clone(),
+        source,
+    })?;
+    for entry in entries {
+        let entry = entry.map_err(|source| ObserverError::Read {
+            path: external.clone(),
+            source,
+        })?;
+        let path = entry.path();
+        if !path
+            .file_name()
+            .and_then(|name| name.to_str())
+            .is_some_and(|name| name.ends_with(".delegated.json"))
+        {
+            continue;
+        }
+        let metadata = fs::symlink_metadata(&path).map_err(|source| ObserverError::Read {
+            path: path.clone(),
+            source,
+        })?;
+        if metadata.file_type().is_symlink() || metadata.len() > MAX_REUSABLE_RECEIPT_BYTES {
+            return Err(ObserverError::State {
+                path,
+                message: "delegated receipt is symlinked or exceeds the bounded size limit".into(),
+            });
+        }
+        let receipt: DelegatedEvidenceReceipt =
+            serde_json::from_slice(&fs::read(&path).map_err(|source| ObserverError::Read {
+                path: path.clone(),
+                source,
+            })?)
+            .map_err(|error| ObserverError::State {
+                path: path.clone(),
+                message: format!("invalid delegated receipt: {error}"),
+            })?;
+        if receipt.schema_version != 1 {
+            return Err(ObserverError::State {
+                path,
+                message: "unsupported delegated receipt schema".into(),
+            });
+        }
+        if receipt.repository_id != repository_id(root).to_string() {
+            return Err(ObserverError::State {
+                path,
+                message: "delegated receipt repository binding mismatch".into(),
+            });
+        }
+        if receipt.work_item_id != work_item_id {
+            continue;
+        }
+        let raw_path = external_evidence_file(root, &receipt.evidence.raw_evidence_ref)?;
+        let raw_metadata =
+            fs::symlink_metadata(&raw_path).map_err(|source| ObserverError::Read {
+                path: raw_path.clone(),
+                source,
+            })?;
+        if raw_metadata.len() > MAX_EXTERNAL_EVIDENCE_BYTES as u64 {
+            return Err(ObserverError::State {
+                path: raw_path,
+                message: "delegated raw evidence exceeds the bounded size limit".into(),
+            });
+        }
+        let raw = fs::read(&raw_path).map_err(|source| ObserverError::Read {
+            path: raw_path.clone(),
+            source,
+        })?;
+        validate_delegated_metadata(root, work_item_id, &receipt.evidence, &raw)?;
+        receipts.push(receipt);
+    }
+    receipts.sort_by(|left, right| {
+        left.evidence
+            .provider
+            .cmp(&right.evidence.provider)
+            .then(left.evidence.subject.cmp(&right.evidence.subject))
+            .then(
+                left.evidence
+                    .digest
+                    .as_str()
+                    .cmp(right.evidence.digest.as_str()),
+            )
+    });
+    Ok(receipts)
+}
+
+fn delegated_evidence_satisfies(
+    root: &Path,
+    work_item_id: &str,
+    requirement: &str,
+) -> Result<bool, ObserverError> {
+    let provider = requirement.strip_prefix("delegated:");
+    if provider.is_none() && !matches!(requirement, "delegated_evidence" | "external_evidence") {
+        return Ok(false);
+    }
+    Ok(list_delegated_evidence(root, work_item_id)?
+        .into_iter()
+        .any(|receipt| {
+            receipt.evidence.validity == EvidenceValidity::Valid
+                && provider.is_none_or(|provider| receipt.evidence.provider == provider)
+        }))
+}
+
 pub fn snapshot_digest(snapshot: &RepositorySnapshot) -> Result<Digest, ObserverError> {
     let mut stable = snapshot.clone();
     stable
@@ -3734,34 +4148,55 @@ pub fn evidence_state_for_contract(
         path: root.into(),
         source,
     })?;
-    let evidence_path = root
-        .join(".ai/evidence")
-        .join(format!("{}.verification.json", contract.work_item_id));
-    let evidence = match read_json(&evidence_path) {
-        Ok(value) => value,
-        Err(ObserverError::Read { source, .. })
-            if source.kind() == std::io::ErrorKind::NotFound =>
-        {
-            return Ok(EvidenceState::Missing);
-        }
-        Err(error) => return Err(error),
-    };
-    if evidence["workItemId"] != serde_json::Value::String(contract.work_item_id.clone())
-        || evidence["passed"] != serde_json::Value::Bool(true)
-    {
-        return Ok(EvidenceState::Contradictory);
-    }
-    if evidence["repositorySnapshotDigest"]
-        != serde_json::Value::String(snapshot_digest(snapshot)?.to_string())
-    {
-        return Ok(EvidenceState::Stale);
-    }
-    if contract.required_evidence_classes.iter().any(|class| {
-        !matches!(
+    let requires_verification = contract.required_evidence_classes.iter().any(|class| {
+        matches!(
             class.to_ascii_lowercase().as_str(),
             "verification" | "verification_receipt" | "verification-receipt"
         )
-    }) {
+    });
+    if requires_verification {
+        let evidence_path = root
+            .join(".ai/evidence")
+            .join(format!("{}.verification.json", contract.work_item_id));
+        let evidence = match read_json(&evidence_path) {
+            Ok(value) => value,
+            Err(ObserverError::Read { source, .. })
+                if source.kind() == std::io::ErrorKind::NotFound =>
+            {
+                return Ok(EvidenceState::Missing);
+            }
+            Err(error) => return Err(error),
+        };
+        if evidence["workItemId"] != serde_json::Value::String(contract.work_item_id.clone())
+            || evidence["passed"] != serde_json::Value::Bool(true)
+        {
+            return Ok(EvidenceState::Contradictory);
+        }
+        if evidence["repositorySnapshotDigest"]
+            != serde_json::Value::String(snapshot_digest(snapshot)?.to_string())
+        {
+            return Ok(EvidenceState::Stale);
+        }
+    }
+    for class in &contract.required_evidence_classes {
+        let normalized = class.to_ascii_lowercase();
+        if matches!(
+            normalized.as_str(),
+            "verification" | "verification_receipt" | "verification-receipt"
+        ) {
+            continue;
+        }
+        if normalized.starts_with("delegated:")
+            || matches!(
+                normalized.as_str(),
+                "delegated_evidence" | "external_evidence"
+            )
+        {
+            if !delegated_evidence_satisfies(&root, &contract.work_item_id, &normalized)? {
+                return Ok(EvidenceState::Missing);
+            }
+            continue;
+        }
         return Ok(EvidenceState::Missing);
     }
     Ok(EvidenceState::Complete)

@@ -360,3 +360,40 @@ fn delegated_evidence_and_audit_event_bind_external_identity_without_claiming_ow
     assert_eq!(value[0]["provider"], "github");
     assert_eq!(value[1]["eventType"], "external_evidence_bound");
 }
+
+#[test]
+fn delegated_evidence_receipt_is_strict_and_binds_repository_and_work_item() {
+    let receipt = cockpit_protocol::DelegatedEvidenceReceipt {
+        schema_version: 1,
+        repository_id: "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            .into(),
+        work_item_id: "WI-EXTERNAL".into(),
+        evidence: cockpit_protocol::DelegatedEvidence {
+            provider: "github".into(),
+            subject: "run:123".into(),
+            origin: "https://github.com/example/repo/actions/runs/123".into(),
+            assurance: cockpit_protocol::AssuranceLevel::ProviderVerified,
+            collected_at: "2026-08-21T19:00:00Z".into(),
+            digest: "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+                .parse()
+                .expect("digest"),
+            validity: cockpit_protocol::EvidenceValidity::Valid,
+            raw_evidence_ref: ".ai/evidence/external/github-run-123.json".into(),
+        },
+        runtime_version: "0.2.2".into(),
+        runtime_digest: "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+            .parse()
+            .expect("runtime digest"),
+        bound_at: "2026-08-21T19:01:00Z".into(),
+    };
+    let value = serde_json::to_value(&receipt).expect("receipt serializes");
+    assert_eq!(value["workItemId"], "WI-EXTERNAL");
+    assert_eq!(
+        serde_json::from_value::<cockpit_protocol::DelegatedEvidenceReceipt>(value.clone())
+            .expect("receipt parses"),
+        receipt
+    );
+    let mut unknown = value;
+    unknown["providerSignature"] = serde_json::json!("fake");
+    assert!(serde_json::from_value::<cockpit_protocol::DelegatedEvidenceReceipt>(unknown).is_err());
+}

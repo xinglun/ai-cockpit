@@ -51,6 +51,14 @@ provider 审批在导入外部审批回执前保持 fail-closed。
 assurance、收集时间、digest、validity 和 raw evidence reference。AI Cockpit 可以要求、验证、展示和
 归档该引用，但不会伪造 provider signature、branch protection、SBOM、provenance 或企业审批。
 
+使用 `ai-cockpit evidence import --repo <repo> --work-item <id> --metadata
+<metadata.json> --raw <provider-output>`，将 provider metadata 绑定到原始 bytes
+的 digest。raw reference 必须位于 `.ai/evidence/external/`；相同 bytes 的重复导入
+是幂等的，冲突 receipt、路径逃逸、symlink、未知字段以及 repository/Work Item 不一致
+都会 fail closed。`ai-cockpit evidence list` 和 repository-bound MCP 的
+`delegated_evidence_list` 只展示重新验证过的 receipt。过期、撤销或 unknown receipt
+仍可审计，但不能满足 `delegated:<provider>` evidence 要求。
+
 Audit event 携带稳定 event ID、repository/Work Item identity、Runtime identity、时间、digest 和
 evidence references。不能宣称本地 Git 或 `.ai/` 是独立不可变的企业审计日志。需要更高保证的组织应将
 事件导出到 SIEM、WORM、S3 Object Lock、企业审计系统或外部 ledger。

@@ -1,10 +1,13 @@
 use cockpit_core::Digest;
 use cockpit_git::GitRepository;
-use cockpit_protocol::HumanDecision;
+use cockpit_protocol::{
+    AssuranceLevel, DelegatedEvidence, EvidenceValidity, HumanDecision, RuntimeContext,
+};
 use cockpit_repository::{
     WorkItemStartOptions, archive_work_item, attach, close_work_item_with_decision,
-    close_work_item_with_structured_decision, finish_work_item, governance_decision_for_contract,
-    record_verification, start_work_item, start_work_item_with_options,
+    close_work_item_with_structured_decision, evidence_state_for_contract, finish_work_item,
+    governance_decision_for_contract, import_delegated_evidence, record_verification,
+    start_work_item, start_work_item_with_options,
 };
 use std::{
     fs,
@@ -131,7 +134,7 @@ fn organization_policy_requires_a_bound_structured_decision_at_close() {
             "rules": [{
               "operation": "modify_source",
               "approvalMode": "single_authorized_human",
-              "requiredEvidence": ["verification"]
+              "requiredEvidence": ["delegated:github"]
             }]
           }
         }"#,
@@ -145,11 +148,33 @@ fn organization_policy_requires_a_bound_structured_decision_at_close() {
         &["**".into()],
         &WorkItemStartOptions {
             authority: "authorized".into(),
-            required_evidence_classes: vec!["verification".into()],
+            required_evidence_classes: vec!["verification".into(), "delegated:github".into()],
             ..WorkItemStartOptions::default()
         },
     )
     .expect("start");
+    let raw = br#"{"run":999}"#;
+    import_delegated_evidence(
+        &path,
+        "WI-POLICY",
+        &DelegatedEvidence {
+            provider: "github".into(),
+            subject: "run:999".into(),
+            origin: "https://github.com/example/repo/actions/runs/999".into(),
+            assurance: AssuranceLevel::ProviderVerified,
+            collected_at: "2026-08-21T19:00:00Z".into(),
+            digest: cockpit_core::Digest::sha256_bytes(raw),
+            validity: EvidenceValidity::Valid,
+            raw_evidence_ref: ".ai/evidence/external/github-run-999.json".into(),
+        },
+        raw,
+        &RuntimeContext {
+            runtime_version: "0.2.2".into(),
+            protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"runtime"),
+        },
+    )
+    .expect("delegated evidence");
     record_verification(
         &path,
         "WI-POLICY",
@@ -243,6 +268,124 @@ fn preflight_exposes_policy_authority_and_evidence_gaps() {
         decision
             .unknowns
             .contains(&"policy_required_evidence_missing".into())
+    );
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn delegated_evidence_import_binds_raw_digest_and_work_item() {
+    let path = repository();
+    start_work_item(
+        &path,
+        "WI-EXTERNAL",
+        "external",
+        "bind evidence",
+        &["**".into()],
+    )
+    .expect("start");
+    let raw = br#"{"provider":"github","run":123}"#;
+    let evidence = DelegatedEvidence {
+        provider: "github".into(),
+        subject: "run:123".into(),
+        origin: "https://github.com/example/repo/actions/runs/123".into(),
+        assurance: AssuranceLevel::ProviderVerified,
+        collected_at: "2026-08-21T19:00:00Z".into(),
+        digest: cockpit_core::Digest::sha256_bytes(raw),
+        validity: EvidenceValidity::Valid,
+        raw_evidence_ref: ".ai/evidence/external/github-run-123.json".into(),
+    };
+    let runtime = RuntimeContext {
+        runtime_version: "0.2.2".into(),
+        protocol_version: 1,
+        runtime_digest: cockpit_core::Digest::sha256_bytes(b"runtime"),
+    };
+    let receipt =
+        import_delegated_evidence(&path, "WI-EXTERNAL", &evidence, raw, &runtime).expect("import");
+    assert_eq!(
+        receipt.repository_id,
+        cockpit_repository::repository_id(&path).to_string()
+    );
+    assert_eq!(receipt.work_item_id, "WI-EXTERNAL");
+    assert!(
+        path.join(".ai/evidence/external/github-run-123.json")
+            .is_file()
+    );
+    assert_eq!(
+        fs::read_dir(path.join(".ai/evidence/external"))
+            .expect("external evidence")
+            .count(),
+        2,
+        "raw evidence and its binding receipt are both archived"
+    );
+
+    let mismatch = DelegatedEvidence {
+        digest: cockpit_core::Digest::sha256_bytes(b"different"),
+        ..evidence.clone()
+    };
+    let error = import_delegated_evidence(&path, "WI-EXTERNAL", &mismatch, raw, &runtime)
+        .expect_err("digest mismatch must fail closed");
+    assert!(error.to_string().contains("digest"));
+
+    let unsafe_ref = DelegatedEvidence {
+        raw_evidence_ref: ".ai/evidence/external/../escape.json".into(),
+        ..evidence
+    };
+    let error = import_delegated_evidence(&path, "WI-EXTERNAL", &unsafe_ref, raw, &runtime)
+        .expect_err("path escape must fail closed");
+    assert!(error.to_string().contains("external"));
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn valid_delegated_evidence_satisfies_a_provider_specific_contract_requirement() {
+    let path = repository();
+    start_work_item_with_options(
+        &path,
+        "WI-DELEGATED-REQUIRED",
+        "external",
+        "require provider evidence",
+        &["**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            required_evidence_classes: vec!["delegated:github".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start");
+    let raw = br#"{"run":456}"#;
+    import_delegated_evidence(
+        &path,
+        "WI-DELEGATED-REQUIRED",
+        &DelegatedEvidence {
+            provider: "github".into(),
+            subject: "run:456".into(),
+            origin: "https://github.com/example/repo/actions/runs/456".into(),
+            assurance: AssuranceLevel::ProviderVerified,
+            collected_at: "2026-08-21T19:00:00Z".into(),
+            digest: cockpit_core::Digest::sha256_bytes(raw),
+            validity: EvidenceValidity::Valid,
+            raw_evidence_ref: ".ai/evidence/external/github-run-456.json".into(),
+        },
+        raw,
+        &RuntimeContext {
+            runtime_version: "0.2.2".into(),
+            protocol_version: 1,
+            runtime_digest: cockpit_core::Digest::sha256_bytes(b"runtime"),
+        },
+    )
+    .expect("import");
+    let contract: cockpit_protocol::Contract = serde_json::from_slice(
+        &fs::read(path.join(".ai/work-items/active/WI-DELEGATED-REQUIRED.contract.json"))
+            .expect("contract"),
+    )
+    .expect("parse contract");
+    let snapshot = GitRepository::discover(&path)
+        .expect("git")
+        .snapshot()
+        .expect("snapshot");
+    assert_eq!(
+        evidence_state_for_contract(&path, &contract, &snapshot).expect("evidence state"),
+        cockpit_core::EvidenceState::Complete
     );
     fs::remove_dir_all(path).expect("cleanup");
 }
