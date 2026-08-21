@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T15:42:02Z",
+  "files": {
+    "contractDigest": "sha256:562ca74c1b0a783734a0033d81dbc093b7b7f30b40a22f96374165ff84f09809",
+    "contractPath": ".ai/work-items/archive/wi-41-reference-parity.contract.json",
+    "outcomeDigest": "sha256:46a4572b8f16499100315698600ff7a87b4b453120956d293acdbac483d6ebb5",
+    "outcomePath": ".ai/work-items/archive/wi-41-reference-parity.outcome.json",
+    "summaryDigest": "sha256:97e84c17480278272c229e770205da27f3598fe5d6b3a223ca50eafb3ca57799",
+    "summaryPath": ".ai/work-items/archive/wi-41-reference-parity.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "wi-41-reference-parity"
+}

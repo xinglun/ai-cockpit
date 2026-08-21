@@ -14,6 +14,8 @@ capabilityClaims:
 
 # AI Cockpit
 
+[English](README.md) | [中文](README.zh-CN.md)
+
 AI Cockpit は AI 支援開発のための repository governance runtime です。repository
 の事実、宣言した範囲、検証結果、人間の選択を、後から確認できる bounded decision
 に変換します。
@@ -31,6 +33,18 @@ Repository Protocol v1 に保存し、Rust governance core は application code 
 しています。基本の流れは次のとおりです。
 
 `inspect → attach → preflight → verify → finish/archive/close`
+
+## 30 秒で開始
+
+Runtime は一度だけ install し、作業対象 repository を attach します。
+
+```bash
+ai-cockpit attach --repo /path/to/repository
+ai-cockpit status --repo /path/to/repository
+```
+
+最初の governed Work Item は[機能と境界](docs/capabilities.ja.md)を、
+install と検証は[Release と配布](docs/release/distribution.ja.md)を参照してください。
 
 Runtime は 1 つだけ install し、各 target repository を個別に attach します。
 

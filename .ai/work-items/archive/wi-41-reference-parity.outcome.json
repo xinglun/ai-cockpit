@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T15:42:02Z",
+  "evidenceDigest": "sha256:88f2c32920a4d5eeb236dc860ad89889578a005c6c1210e7995826cf60ceb2d7",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/wi-41-reference-parity.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "wi-41-reference-parity"
+}

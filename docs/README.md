@@ -52,6 +52,8 @@ journey is clear.
 - [Measured performance baseline](performance/baseline.md)
 - [Adversarial validation](security/adversarial-validation.md)
 - [Reference](reference/README.md) — commands, configuration, and recovery.
+- [Reference source parity](reference/reference-parity.md) — what was adopted,
+  what is intentionally different, and what remains a separate Work Item.
 
 ## Maintainer, audit, and current work
 

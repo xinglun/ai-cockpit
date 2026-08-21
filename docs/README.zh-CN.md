@@ -51,6 +51,7 @@ capabilityClaims:
 - [实测性能基线](performance/baseline.zh-CN.md)
 - [对抗性验证](security/adversarial-validation.zh-CN.md)
 - [参考](reference/README.zh-CN.md)——命令、配置和恢复。
+- [参考源对齐](reference/reference-parity.zh-CN.md)——哪些已采用、哪些有意不同、哪些由独立 Work Item 完成。
 
 ## 维护者、审计和当前工作
 

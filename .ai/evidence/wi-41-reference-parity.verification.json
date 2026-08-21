@@ -1,0 +1,44 @@
+{
+  "createdAt": "2026-08-21T15:41:55Z",
+  "passed": true,
+  "protocolVersion": 1,
+  "receipt": {
+    "elapsedMs": 37535,
+    "executionElapsedMs": 37343,
+    "filesHashed": 29,
+    "filesRead": 29,
+    "gitCalls": 8,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:46aaf4cc005d5c4660241f2cf457516ddecd747d10d5e8b3402a14563546e891",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ]
+  },
+  "repositorySnapshotDigest": "sha256:53bbdf167d8822073ed4c263083ae5e624ff581667a5bd45d51250da31e14296",
+  "runtimeDigest": "sha256:a164d17037cdb4331ac219660e9a869a81192850896aa07c1405401540f009f4",
+  "runtimeVersion": "0.1.1",
+  "workItemId": "wi-41-reference-parity"
+}
