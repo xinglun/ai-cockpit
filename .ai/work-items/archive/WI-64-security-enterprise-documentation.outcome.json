@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T19:41:05Z",
+  "evidenceDigest": "sha256:63b6ebf7b208bd5a7a2bc84157578d3a81704b7573cec67d45790d79d7ea6727",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-64-security-enterprise-documentation.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-64-security-enterprise-documentation"
+}
