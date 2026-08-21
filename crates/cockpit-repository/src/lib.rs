@@ -7,7 +7,7 @@ use cockpit_core::{
 use cockpit_git::{ChangeContentState, ChangeKind, RepositorySnapshot};
 use cockpit_protocol::{
     AgentAdapterCompatibility, AgentInterfaceAvailability, AgentInterfaceManifest, AgentInterfaces,
-    AgentRootBinding, QualityCommand, RepositoryConfig, RuntimeContext,
+    AgentRootBinding, HumanDecision, QualityCommand, RepositoryConfig, RuntimeContext,
     default_repository_schema_version, validate_protocol_version,
 };
 use serde::{Deserialize, Serialize};
@@ -3712,12 +3712,49 @@ pub fn close_work_item_with_decision(
     work_item_id: &str,
     human_decision: &str,
 ) -> Result<LifecycleReceipt, ObserverError> {
-    validate_work_item_id(work_item_id)?;
     if human_decision.trim().is_empty() {
         return Err(ObserverError::State {
             path: root.join(".ai/decisions"),
             message: "human decision must not be empty".into(),
         });
+    }
+    close_work_item_with_structured_decision(
+        root,
+        work_item_id,
+        &HumanDecision {
+            decision: human_decision.trim().into(),
+            actor: "legacy-cli".into(),
+            authority_source: "explicit-cli".into(),
+            reason:
+                "legacy human-decision input; provide structured fields for enterprise assurance"
+                    .into(),
+            evidence_refs: Vec::new(),
+            policy_refs: Vec::new(),
+            decided_at: now(),
+            resume_condition: None,
+        },
+    )
+}
+
+pub fn close_work_item_with_structured_decision(
+    root: &Path,
+    work_item_id: &str,
+    human_decision: &HumanDecision,
+) -> Result<LifecycleReceipt, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    for (field, value) in [
+        ("decision", human_decision.decision.as_str()),
+        ("actor", human_decision.actor.as_str()),
+        ("authoritySource", human_decision.authority_source.as_str()),
+        ("reason", human_decision.reason.as_str()),
+        ("decidedAt", human_decision.decided_at.as_str()),
+    ] {
+        if value.trim().is_empty() {
+            return Err(ObserverError::State {
+                path: root.join(".ai/decisions"),
+                message: format!("human decision field {field} must not be empty"),
+            });
+        }
     }
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -3772,8 +3809,13 @@ pub fn close_work_item_with_decision(
         });
     }
     let mut decision = receipt_value;
-    decision["humanDecision"] = serde_json::Value::String(human_decision.trim().into());
+    decision["humanDecision"] = serde_json::Value::String(human_decision.decision.trim().into());
     decision["decisionState"] = serde_json::Value::String("confirmed".into());
+    decision["structuredDecision"] =
+        serde_json::to_value(human_decision).map_err(|error| ObserverError::State {
+            path: root.join(".ai/decisions"),
+            message: error.to_string(),
+        })?;
     atomic_json(&decision_path, &decision)?;
     Ok(receipt)
 }

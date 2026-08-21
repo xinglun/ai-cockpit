@@ -43,6 +43,9 @@ capabilityClaims:
   如果 managed section 或 ownership record 被修改，`repair` 和 `detach` 会 fail closed；任何命令都不会写入全局 Agent/MCP 配置。
 - `preflight --contract` 通常指向 `start` 生成的 `.ai/work-items/active/<id>.contract.json`。
 - `close --human-decision approved|rejected` 是 human decision 记录，不是 verification evidence。
+- 如需可审计决定，请增加 `--actor`、`--authority-source`、`--reason`、`--decided-at`，并可重复提供
+  `--evidence-ref`、`--policy-ref`、`--resume-condition`。结果的 `structuredDecision` 写入
+  `.ai/decisions/<id>.close.json`；旧 flag 仍保持显式，并以可见的 `legacy-cli` provenance 记录。
 - `compatibility --repo <path>` 报告安装的 Runtime 与 attached repository schema 的
   `COMPATIBLE`、`MIGRATION_REQUIRED` 或 `INCOMPATIBLE`。`migrate plan` 是只读操作；
   `migrate apply` 没有 `--approved` 就拒绝写入，也不会重写 Work Item、evidence、decision、

@@ -143,8 +143,31 @@ fn work_item_lifecycle_is_atomic_and_archive_is_content_bound() {
             "WI-TEST",
             "--human-decision",
             "approved-by-test",
+            "--actor",
+            "human:test",
+            "--authority-source",
+            "team-policy",
+            "--reason",
+            "fresh verification",
+            "--evidence-ref",
+            ".ai/evidence/WI-TEST.verification.json",
+            "--policy-ref",
+            "team-policy-v1",
+            "--decided-at",
+            "2026-08-21T19:00:00Z",
+            "--resume-condition",
+            "rerun if base changes",
         ],
         &repo,
+    );
+    let decision: serde_json::Value = serde_json::from_slice(
+        &fs::read(repo.join(".ai/decisions/WI-TEST.close.json")).expect("decision"),
+    )
+    .expect("decision JSON");
+    assert_eq!(decision["structuredDecision"]["actor"], "human:test");
+    assert_eq!(
+        decision["structuredDecision"]["policyRefs"][0],
+        "team-policy-v1"
     );
     let duplicate_close = Command::new(binary)
         .args(["close", "--repo"])

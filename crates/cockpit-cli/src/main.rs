@@ -3,12 +3,14 @@ use clap::{ArgAction, Parser, Subcommand};
 use cockpit_agent::AgentExitCode;
 use cockpit_git::GitRepository;
 use cockpit_knowledge::{Query, query};
-use cockpit_protocol::{AgentProvider, Contract, RepositoryConfig, validate_protocol_version};
+use cockpit_protocol::{
+    AgentProvider, Contract, HumanDecision, RepositoryConfig, validate_protocol_version,
+};
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
     archive_work_item, attach, checkpoint_work_item, close_work_item_with_decision,
-    finish_work_item, generate_knowledge, run_repository_verification, scaffold_work_item,
-    start_work_item_with_options, status,
+    close_work_item_with_structured_decision, finish_work_item, generate_knowledge,
+    run_repository_verification, scaffold_work_item, start_work_item_with_options, status,
 };
 use serde_json::json;
 use std::path::PathBuf;
@@ -101,6 +103,20 @@ enum CommandKind {
         id: String,
         #[arg(long)]
         human_decision: String,
+        #[arg(long)]
+        actor: Option<String>,
+        #[arg(long)]
+        authority_source: Option<String>,
+        #[arg(long)]
+        reason: Option<String>,
+        #[arg(long, value_delimiter = ',')]
+        evidence_ref: Vec<String>,
+        #[arg(long, value_delimiter = ',')]
+        policy_ref: Vec<String>,
+        #[arg(long)]
+        decided_at: Option<String>,
+        #[arg(long)]
+        resume_condition: Option<String>,
     },
     Verify {
         #[arg(long)]
@@ -415,10 +431,49 @@ fn run() -> Result<()> {
             repo,
             id,
             human_decision,
+            actor,
+            authority_source,
+            reason,
+            evidence_ref,
+            policy_ref,
+            decided_at,
+            resume_condition,
         } => {
             require_compatible(&repo, &runtime_context)?;
-            let receipt = close_work_item_with_decision(&repo, &id, &human_decision)
-                .context("close work item")?;
+            let receipt = if actor.is_some()
+                || authority_source.is_some()
+                || reason.is_some()
+                || !evidence_ref.is_empty()
+                || !policy_ref.is_empty()
+                || decided_at.is_some()
+                || resume_condition.is_some()
+            {
+                let decision = HumanDecision {
+                    decision: human_decision,
+                    actor: actor.ok_or_else(|| {
+                        anyhow::anyhow!("--actor is required with structured close fields")
+                    })?,
+                    authority_source: authority_source.ok_or_else(|| {
+                        anyhow::anyhow!(
+                            "--authority-source is required with structured close fields"
+                        )
+                    })?,
+                    reason: reason.ok_or_else(|| {
+                        anyhow::anyhow!("--reason is required with structured close fields")
+                    })?,
+                    evidence_refs: evidence_ref,
+                    policy_refs: policy_ref,
+                    decided_at: decided_at.ok_or_else(|| {
+                        anyhow::anyhow!("--decided-at is required with structured close fields")
+                    })?,
+                    resume_condition,
+                };
+                close_work_item_with_structured_decision(&repo, &id, &decision)
+                    .context("close work item with structured decision")?
+            } else {
+                close_work_item_with_decision(&repo, &id, &human_decision)
+                    .context("close work item")?
+            };
             println!("{}", serde_json::to_string_pretty(&receipt)?);
         }
         CommandKind::Verify {
