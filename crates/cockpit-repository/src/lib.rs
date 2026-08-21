@@ -1218,7 +1218,7 @@ pub fn load_reusable_receipt(
         if !index_metadata.is_file() {
             return Ok(unavailable_receipt("index_invalid", 0));
         }
-        let index_bytes = match read_cap_file_nofollow_bounded(
+        match read_cap_file_nofollow_bounded(
             &reuse,
             "index.json",
             &index_path,
@@ -1226,8 +1226,7 @@ pub fn load_reusable_receipt(
         ) {
             Ok(bytes) => bytes,
             Err(_) => return Ok(unavailable_receipt("index_unreadable", 0)),
-        };
-        index_bytes
+        }
     };
     let index: ReceiptStoreIndex = match serde_json::from_slice(&index_bytes) {
         Ok(index) => index,
@@ -1285,7 +1284,7 @@ pub fn load_reusable_receipt(
         if !receipt_metadata.is_file() {
             return Ok(unavailable_receipt("receipt_invalid", 1));
         }
-        let receipt_bytes = match read_cap_file_nofollow_bounded(
+        match read_cap_file_nofollow_bounded(
             &receipts,
             &receipt_name,
             &receipt_path,
@@ -1293,8 +1292,7 @@ pub fn load_reusable_receipt(
         ) {
             Ok(bytes) => bytes,
             Err(_) => return Ok(unavailable_receipt("receipt_unreadable", 1)),
-        };
-        receipt_bytes
+        }
     };
     let receipt: cockpit_evidence::ReusableReceipt = match serde_json::from_slice(&receipt_bytes) {
         Ok(receipt) => receipt,
@@ -1927,6 +1925,22 @@ fn read_optional_cap_file_nofollow_bounded(
         // `symlink_metadata` is not usable with the Windows capability
         // handle implementation on the hosted runner.  Open once with
         // no-follow semantics and read from that pinned handle.
+        //
+        // cap-std currently reports `ERROR_ACCESS_DENIED` for a missing leaf
+        // when it performs that relative open.  Use the canonical display
+        // path only to distinguish the absent case; any existing entry is
+        // still opened and read through the capability handle below, so the
+        // ambient probe cannot authorize a substituted file.
+        match fs::symlink_metadata(display_path) {
+            Ok(_) => {}
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
+            Err(source) => {
+                return Err(ObserverError::Read {
+                    path: display_path.to_path_buf(),
+                    source,
+                });
+            }
+        }
         let mut file = match parent.open_with(name, &cap_read_options()) {
             Ok(file) => file.into_std(),
             Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
