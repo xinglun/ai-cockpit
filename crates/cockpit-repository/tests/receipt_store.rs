@@ -313,7 +313,25 @@ fn parent_replacement_after_lock_open_cannot_redirect_store_writes() {
     });
     started_rx.recv().expect("started");
     std::thread::sleep(Duration::from_millis(100));
-    fs::rename(&reuse, &original).expect("move original store");
+    let moved = fs::rename(&reuse, &original);
+    if let Err(error) = moved {
+        // Windows keeps an opened/locked child from being moved as part of
+        // its parent directory. That is itself the no-redirect guarantee;
+        // release the lock and let the worker complete against the original
+        // store before asserting the replacement was never used.
+        assert_eq!(
+            error.raw_os_error(),
+            Some(32),
+            "unexpected rename error: {error}"
+        );
+        lock.unlock().expect("unlock");
+        worker
+            .join()
+            .expect("writer")
+            .expect("persist through handle");
+        fs::remove_dir_all(root).expect("cleanup root");
+        return;
+    }
     fs::create_dir_all(reuse.join("receipts")).expect("replacement store");
     fs::write(reuse.join("index.lock"), b"").expect("replacement lock");
     fs::write(reuse.join("sentinel"), b"untouched").expect("sentinel");
