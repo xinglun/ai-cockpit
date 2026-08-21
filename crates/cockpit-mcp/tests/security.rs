@@ -9,8 +9,11 @@ fn repo() -> std::path::PathBuf {
         .duration_since(UNIX_EPOCH)
         .expect("clock")
         .as_nanos();
-    let directory = std::env::temp_dir().join(format!("cockpit-mcp-security-{suffix}"));
-    fs::create_dir_all(&directory).expect("directory");
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-mcp-security-{}-{suffix}",
+        std::process::id()
+    ));
+    fs::create_dir(&directory).expect("directory");
     Command::new("git")
         .args(["init", "-q"])
         .current_dir(&directory)

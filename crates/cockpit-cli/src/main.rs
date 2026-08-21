@@ -209,7 +209,11 @@ fn run() -> Result<()> {
             let decision = evaluate(GovernanceInput {
                 scope: contract.scope,
                 out_of_scope: contract.out_of_scope,
-                changed_paths: snapshot.changed_paths,
+                changed_paths: snapshot
+                    .changed_paths
+                    .into_iter()
+                    .filter(|path| !path.starts_with(".ai/"))
+                    .collect(),
                 action,
                 authority,
                 evidence,

@@ -82,7 +82,7 @@ fn preflight_turns_green_after_matching_verification_evidence() {
             "--goal",
             "green after evidence",
             "--scope",
-            "**",
+            "src/**",
             "--required-evidence",
             "verification",
         ])

@@ -125,7 +125,12 @@ fn preflight_for_repo(repo: &Path, arguments: &Value) -> Result<Value, String> {
     let decision = cockpit_core::evaluate(cockpit_core::GovernanceInput {
         scope: contract.scope.clone(),
         out_of_scope: contract.out_of_scope.clone(),
-        changed_paths: snapshot.changed_paths.clone(),
+        changed_paths: snapshot
+            .changed_paths
+            .iter()
+            .filter(|path| !path.starts_with(".ai/"))
+            .cloned()
+            .collect(),
         action: if contract.risk.contains("destructive") {
             cockpit_core::ActionKind::Destructive
         } else {
