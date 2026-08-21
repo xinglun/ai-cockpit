@@ -1,0 +1,34 @@
+{
+  "acceptanceCriteria": [
+    "event IDs and digests are deterministic",
+    "export is repository-bound",
+    "external retention boundary is explicit",
+    "no local export claims immutable enterprise audit"
+  ],
+  "authority": "authorized",
+  "baseRevision": "b86158431bc869b0fa6e1b8219f54197641f0a95",
+  "createdAt": "2026-08-21T20:44:40Z",
+  "goal": "Enterprise adopters can bind repository governance events to an external SIEM/WORM/Object Lock owner.",
+  "intent": "Export stable audit events and an external-retention handoff without claiming local immutability.",
+  "mode": "implementation",
+  "outOfScope": [
+    "implementing external SIEM/WORM APIs"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:cff82fa5daf0c151b5f9ab7d6b9f9a9c6decf330144b78f719463bb845467b1d",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-protocol/**",
+    "crates/cockpit-repository/**",
+    "crates/cockpit-cli/**",
+    "crates/cockpit-mcp/**",
+    "docs/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-69-audit-export"
+}

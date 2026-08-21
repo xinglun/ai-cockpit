@@ -62,6 +62,8 @@ assurance、收集时间、digest、validity 和 raw evidence reference。AI Coc
 Audit event 携带稳定 event ID、repository/Work Item identity、Runtime identity、时间、digest 和
 evidence references。不能宣称本地 Git 或 `.ai/` 是独立不可变的企业审计日志。需要更高保证的组织应将
 事件导出到 SIEM、WORM、S3 Object Lock、企业审计系统或外部 ledger。
+`ai-cockpit audit export --repo <repo> --output <file>` 生成稳定的 handoff 包；在同一 repository facts 和
+Runtime identity 下重复导出保持 bytes 幂等。长期 immutable 保存仍由外部目的地负责。
 
 ## 敏感证据与保留
 

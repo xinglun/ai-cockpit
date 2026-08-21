@@ -28,6 +28,7 @@ unknown decision is not a pass.
 | Work Item | `work-item new`, `start`, `checkpoint`, `finish`, `archive`, `close` | Scaffold or write explicit lifecycle records; `close` requires a human decision. |
 | Verification | `verify` | Execute bounded commands, record evidence, and optionally bind it to a Work Item. |
 | External evidence | `evidence import`, `evidence list`, `evidence policy`, `evidence purge-plan` | Bind exact provider bytes, declare bounded persistence, or produce a deterministic non-destructive disposal plan. |
+| Audit | `audit export` | Produce a stable repository-bound event bundle for an external retention owner; never claim local immutability. |
 | Adapter | `agent list/install/doctor/repair/detach`, `mcp` | Manage an explicitly selected repository-local Agent adapter or serve JSON-RPC over stdio; every operation binds `--repo`. |
 
 ## Important options
@@ -69,6 +70,11 @@ unknown decision is not a pass.
   output; `no_persistence` fails closed when completion evidence would otherwise
   be written. `evidence purge-plan --repo <path>` emits a stable plan and never
   deletes evidence by itself.
+- `audit export --repo <path> [--output <file>]` emits stable `AuditEvent` records
+  with event IDs, subject digests, repository/Work Item identity, and Runtime
+  identity. The manifest sets `externalRetentionRequired: true`; an output file
+  is idempotent and is only a handoff to SIEM, WORM, S3 Object Lock, or another
+  external retention owner.
 - For an auditable decision, add `--actor`, `--authority-source`, `--reason`,
   `--decided-at`, and optional repeated `--evidence-ref`, `--policy-ref`, and
   `--resume-condition`. The resulting `structuredDecision` is stored under

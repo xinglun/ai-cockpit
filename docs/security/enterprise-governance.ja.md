@@ -67,6 +67,9 @@ Audit event は安定した event ID、repository/Work Item identity、Runtime i
 evidence reference を持ちます。Local Git と `.ai/` を独立した immutable enterprise audit log とは
 主張しません。高い assurance が必要なら SIEM、WORM、S3 Object Lock、enterprise audit system、
 external ledger へ export します。
+`ai-cockpit audit export --repo <repo> --output <file>` は安定した handoff bundle を生成します。同じ
+repository facts と Runtime identity で繰り返せば bytes は idempotent ですが、長期の immutable retention
+は外部 destination の責任です。
 
 ## Sensitive evidence と retention
 

@@ -76,6 +76,10 @@ identity, timestamp, digest, and evidence references. Local Git and `.ai/`
 records are not claimed to be an independent immutable enterprise audit log.
 Organizations requiring immutable retention should export these events to a
 SIEM, WORM store, S3 Object Lock, enterprise audit system, or external ledger.
+`ai-cockpit audit export --repo <repo> --output <file>` produces that stable
+handoff bundle. Repeating the export is byte-idempotent for the same repository
+facts and Runtime identity; the external destination remains the authority for
+long-term immutability.
 
 ## Sensitive evidence and retention
 

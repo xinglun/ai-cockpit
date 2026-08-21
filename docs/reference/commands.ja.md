@@ -26,6 +26,7 @@ capabilityClaims:
 | Work Item | `work-item new`、`start`、`checkpoint`、`finish`、`archive`、`close` | skeleton または lifecycle record を作る。`close` は human decision が必要。 |
 | Verification | `verify` | bounded command を実行し evidence を記録する。Work Item に bind できる。 |
 | External evidence | `evidence import`、`evidence list`、`evidence policy`、`evidence purge-plan` | exact provider bytes の bind、bounded persistence policy の宣言、または決定論的な非破壊 disposal plan の生成。 |
+| Audit | `audit export` | repository-bound な安定 event bundle を外部 retention owner へ handoff する。local immutability は主張しない。 |
 | Adapter | `agent list/install/doctor/repair/detach`、`mcp` | 明示的に選択した repository-local Agent adapter を管理し、または stdio で JSON-RPC を提供する。すべて `--repo` に bind する。 |
 
 ## Important options
@@ -55,6 +56,10 @@ capabilityClaims:
   `digest_only` は command の raw output を保存せず、`no_persistence` は completion
   evidence を保存できない場合に fail closed します。`evidence purge-plan --repo <path>`
   は決定論的な plan だけを出力し、自動削除はしません。
+- `audit export --repo <path> [--output <file>]` は event ID、subject digest、repository/Work Item identity、
+  Runtime identity を含む安定した `AuditEvent` を出力します。manifest は
+  `externalRetentionRequired: true` を設定し、output file は idempotent です。これは SIEM、WORM、
+  S3 Object Lock など外部 retention owner への handoff に限られます。
 - 監査可能な decision には `--actor`、`--authority-source`、`--reason`、`--decided-at` と、任意の
   `--evidence-ref`、`--policy-ref`、`--resume-condition` を指定します。結果の `structuredDecision` は
   `.ai/decisions/<id>.close.json` に保存されます。legacy flag も明示的なまま、`legacy-cli` provenance を付けて記録します。

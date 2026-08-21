@@ -7,8 +7,8 @@ use cockpit_protocol::{
 use cockpit_repository::{
     WorkItemStartOptions, archive_work_item, attach, close_work_item_with_decision,
     close_work_item_with_structured_decision, evidence_purge_plan, evidence_state_for_contract,
-    finish_work_item, governance_decision_for_contract, import_delegated_evidence,
-    record_verification, set_evidence_retention_policy, start_work_item,
+    export_audit_events, finish_work_item, governance_decision_for_contract,
+    import_delegated_evidence, record_verification, set_evidence_retention_policy, start_work_item,
     start_work_item_with_options,
 };
 use std::{
@@ -400,6 +400,34 @@ fn purge_plan_is_deterministic_and_never_deletes_evidence() {
         path.join(".ai/evidence/WI-EXPIRE.verification.json")
             .is_file()
     );
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn audit_export_is_deterministic_and_marks_external_retention_boundary() {
+    let path = repository();
+    start_work_item(&path, "WI-AUDIT", "audit", "export", &["**".into()]).expect("start");
+    record_verification(
+        &path,
+        "WI-AUDIT",
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.2.2",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+    let runtime = RuntimeContext {
+        runtime_version: "0.2.2".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"runtime"),
+    };
+    let first = export_audit_events(&path, &runtime).expect("audit export");
+    let second = export_audit_events(&path, &runtime).expect("audit export");
+    assert_eq!(first, second);
+    assert!(first.external_retention_required);
+    assert_eq!(first.events.len(), 1);
+    assert_eq!(first.events[0].runtime_version, "0.2.2");
+    assert_eq!(first.events[0].work_item_id.as_deref(), Some("WI-AUDIT"));
+    assert!(first.events[0].event_id.starts_with("sha256:"));
     fs::remove_dir_all(path).expect("cleanup");
 }
 
