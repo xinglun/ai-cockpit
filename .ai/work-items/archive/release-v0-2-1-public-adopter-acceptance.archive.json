@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T17:51:50Z",
+  "files": {
+    "contractDigest": "sha256:8157d83fe62619b12932b6d43eaeb68a5fb2706b58fcfbe3721cbe0e35d19200",
+    "contractPath": ".ai/work-items/archive/release-v0-2-1-public-adopter-acceptance.contract.json",
+    "outcomeDigest": "sha256:e33536e6de621201e9ea48d7204c84a5484f3e1b2b94af5647fd1ce31b14b041",
+    "outcomePath": ".ai/work-items/archive/release-v0-2-1-public-adopter-acceptance.outcome.json",
+    "summaryDigest": "sha256:4de4e6ba9068ad35b81e1eaa0ea37e531b000db04db941473ff77ad620caadec",
+    "summaryPath": ".ai/work-items/archive/release-v0-2-1-public-adopter-acceptance.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "release-v0-2-1-public-adopter-acceptance"
+}

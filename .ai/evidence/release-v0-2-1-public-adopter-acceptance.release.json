@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "release",
+  "releasePublished": true,
+  "releaseTag": "v0.2.1",
+  "releaseUrl": "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.1",
+  "runtime": {
+    "version": "0.2.1",
+    "binaryDigest": "sha256:888db7ef59aa4e0fe599d84f6d12c4c140b1b6bda4f6c489e7dd0f39876081dd",
+    "archive": "ai-cockpit-v0.2.1-aarch64-apple-darwin.tar.gz",
+    "archiveDigest": "sha256:3a945c6b934804d636636f02cabeaade0a28d3a8d760dccc92c031bdb99cfeca",
+    "target": "aarch64-apple-darwin",
+    "downloadSource": "https://github.com/xinglun/ai-cockpit/releases/download/v0.2.1/ai-cockpit-v0.2.1-aarch64-apple-darwin.tar.gz"
+  },
+  "sourceRepository": {
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "unchangedAfterAcceptance": true,
+    "globalHomeAndXdgUnchanged": true
+  },
+  "freshAdopter": {
+    "result": "passed",
+    "repositoryId": "sha256:f57fa0630a178a4829bce237bcbc0371f7876a90c86104634fccca35740dd26f",
+    "repositoryHadNoAiBeforeAttach": true,
+    "attachProfileAgentDoctor": "passed",
+    "firstAdopterSmoke": "not_ready",
+    "verifyFirst": "passed",
+    "verifyReuse": "passed",
+    "evidenceReuse": "passed",
+    "workItemLifecycle": "passed",
+    "isolation": "passed",
+    "acceptanceJsonSha256": "sha256:d8c7f516823a2313192924a2e874109c0708681b1cd9306160eecf1e05f9ad4c",
+    "sha256SumsSha256": "sha256:d4c1b3138d9433e48d51aeb5fd2f30e1e680b7d4af65140eefa8db6515bc29df",
+    "runtimeJsonSha256": "sha256:2fece3595e79c3b05cd39f91eededa50afa607b3592c09f0af3733830e08758e",
+    "verifyFirstJsonSha256": "sha256:61007f59297b540f0e93ea428ad8b3e17a3e4bcf6c16ca8c5f2c2aa2d801f116",
+    "verifyReuseJsonSha256": "sha256:971ee8fc49946adc99a15d8efe092b25fcfef0376dda23e032423810de174fb0"
+  },
+  "sameSchemaPatchBoundary": {
+    "repositorySchemaVersion": 2,
+    "v0_2_0ToV0_2_1NMinusOne": "not_applicable_same_schema",
+    "historicalSchemaMigrationEvidence": ".ai/evidence/release-v0-2-0-public-adopter-acceptance.release.json"
+  },
+  "installedRuntime": {
+    "path": "/Users/sei-rinn/.local/bin/ai-cockpit",
+    "version": "0.2.1",
+    "binaryDigest": "sha256:888db7ef59aa4e0fe599d84f6d12c4c140b1b6bda4f6c489e7dd0f39876081dd",
+    "compatibility": "COMPATIBLE",
+    "agentDoctor": "VERIFIED",
+    "verifyRuntimeIdentity": "passed"
+  },
+  "acceptance": "passed"
+}

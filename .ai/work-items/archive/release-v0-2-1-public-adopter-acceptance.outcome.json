@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T17:51:50Z",
+  "evidenceDigest": "sha256:39083c1b7cf86d0298b98ff25aa81cb186b795cd690e1e0a1177fc2011ef4864",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/release-v0-2-1-public-adopter-acceptance.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "release-v0-2-1-public-adopter-acceptance"
+}

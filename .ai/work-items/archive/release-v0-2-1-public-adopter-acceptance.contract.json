@@ -1,0 +1,27 @@
+{
+  "acceptanceCriteria": [
+    "A repository-local release evidence summary binds v0.2.1 tag/archive/binary identity to fresh-adopter attach/profile/Agent doctor/verify/reuse/lifecycle/not_ready/isolation results; same-schema patch boundary is explicit and historical v0.1.1 to v0.2.0 N-1 evidence remains linked."
+  ],
+  "authority": "authorized",
+  "baseRevision": "2aaf827e0af3c21256d5a41a2ff4e6fc2cf6591d",
+  "createdAt": "2026-08-21T17:51:11Z",
+  "goal": "Record release runtime identity, adopter lifecycle, reuse, not_ready scaffold, and isolation evidence for v0.2.1.",
+  "intent": "Bind the immutable public v0.2.1 binary to a reproducible fresh-adopter acceptance baseline.",
+  "mode": "implementation",
+  "outOfScope": [
+    "target"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:fc2d0c21b5ea649c6b4e4c32ba3f677f5f0c038f2d86ffb265925d4fdafae313",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scope": [
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "release-v0-2-1-public-adopter-acceptance"
+}
