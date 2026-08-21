@@ -55,3 +55,17 @@ fn snapshot_observes_head_and_untracked_paths_with_one_snapshot_api() {
     assert!(snapshot.dependency_fingerprint.starts_with("sha256:"));
     fs::remove_dir_all(path).expect("cleanup");
 }
+
+#[test]
+fn snapshot_hashes_overlapping_changed_and_dependency_paths_once() {
+    let path = temporary_repository();
+    fs::write(path.join("Cargo.toml"), "[workspace]\nmembers=[]\n").expect("write");
+    let snapshot = GitRepository::discover(&path)
+        .expect("discover")
+        .snapshot()
+        .expect("snapshot");
+    assert_eq!(snapshot.changed_paths, vec!["Cargo.toml"]);
+    assert_eq!(snapshot.files_hashed, 1);
+    assert_eq!(snapshot.files_read, 1);
+    fs::remove_dir_all(path).expect("cleanup");
+}

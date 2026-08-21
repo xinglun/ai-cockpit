@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use sha2::{Digest as ShaDigest, Sha256};
+use std::collections::BTreeSet;
 use std::path::PathBuf;
 use std::path::{Component, Path};
 use std::process::Command;
@@ -72,12 +73,16 @@ impl GitRepository {
         let mut changed_hasher = Sha256::new();
         let mut changed_files_read = 0;
         let mut changed_files_hashed = 0;
+        let mut hashed_paths = BTreeSet::new();
         for line in diff.lines().filter(|line| !line.contains(".ai/")) {
             changed_hasher.update(line.as_bytes());
             changed_hasher.update([0]);
         }
         for relative in &changed_paths {
             if relative.starts_with(".ai/") {
+                continue;
+            }
+            if !hashed_paths.insert(relative.clone()) {
                 continue;
             }
             let path = self.root.join(relative);
@@ -105,6 +110,9 @@ impl GitRepository {
         let mut files_read = 0;
         let mut files_hashed = 0;
         for relative in dependency_paths {
+            if !hashed_paths.insert(relative.into()) {
+                continue;
+            }
             let path = self.root.join(relative);
             if let Ok(bytes) = std::fs::read(&path) {
                 dependency_hasher.update(relative.as_bytes());
