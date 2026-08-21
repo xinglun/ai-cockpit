@@ -19,9 +19,16 @@ decision state、blockers、unknowns、safe actions、required checks、authorit
 意味を比較します。
 
 Corpus v2 は 15 の structured adversarial case を持ち、各 case に English、Japanese、Chinese の
-wording variant を 3 つずつ用意します。raw wording は digest で bind し、operation、risk、authority、
-scope、evidence は明示的な fact として渡します。表現を変えても capability を広げたり、repository、
-log、dependency、provider material を authority に変えたりできません。
+wording variant を 5 つずつ用意します。raw wording は digest で bind し、operation、risk、authority、
+scope、evidence は明示的な fact として渡します。統合テストは全 variant の governance output が一致する
+ことを比較するため、表現を変えても capability を広げたり、repository、log、dependency、provider
+material を authority に変えたりできません。
+
+Manifest は RAI-01 から RAI-12 の named case も、明示的な status（`pass`、`partial`、`not_proven`、
+`policy_sensitive`）と決定論的な finding に bind します。これにより未解決の reference boundary も
+見えるままになります。たとえば RAI-01 は delete request だけから callers、reflection、monitoring、
+external contract を推論できないため `not_proven`、RAI-04 は provider identity が委譲境界にあるため
+`partial` です。
 
 ## Real-absurdity parity の境界
 

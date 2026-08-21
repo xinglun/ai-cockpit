@@ -1,0 +1,39 @@
+{
+  "acceptanceCriteria": [
+    "All 15 semantic adversarial cases have at least five wording variants in en/ja/zh and bind to identical decisions; dedicated RAI-01..12 regression assertions record PASS/NOT_PROVEN/PARTIAL honestly; release policy",
+    " source quality and post-release acceptance tests pass; enterprise assurance boundaries are documented; no source fallback is allowed"
+  ],
+  "authority": "authorized",
+  "baseRevision": "690188e7bd4ad842add9add42f44a4ed8a3f17fd",
+  "createdAt": "2026-08-21T21:09:30Z",
+  "goal": "Before publishing the next runtime, close deterministic adversarial corpus gaps, document enterprise boundaries, and prove release workflow plus post-release acceptance remain fail-closed",
+  "intent": "Add release-blocking adversarial corpus parity and enterprise assurance acceptance without inferring intent or manufacturing external proof",
+  "mode": "implementation",
+  "outOfScope": [],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:dcdae205b44ac3462b8bbec62b7e222f199b8d6eb537cfbcf98ac2643c0bd878",
+  "requiredEvidenceClasses": [
+    "cargo test --workspace --all-targets --all-features",
+    "cargo clippy --workspace --all-targets --all-features -- -D warnings",
+    "cargo fmt --all -- --check",
+    "tests/release/workflow_policy.sh .github/workflows/release.yml",
+    "tests/release/adopter_acceptance_test.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh",
+    "installed v0.2.1 preflight and verify JSON"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-core/**",
+    "tests/adversarial/**",
+    "tests/release/**",
+    ".github/workflows/release.yml",
+    "docs/security/**",
+    "docs/release/**",
+    "SECURITY.md",
+    "THREAT-MODEL.md"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-72-release-hardening"
+}
