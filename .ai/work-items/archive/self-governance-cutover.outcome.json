@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T14:47:52Z",
+  "evidenceDigest": "sha256:b9f7d26015017168f0eff83f2ed82837c036f91f903499c5935d5baddacbc30e",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/self-governance-cutover.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "self-governance-cutover"
+}
