@@ -275,6 +275,10 @@ ai-cockpit doctor --repo /path/to/repository
 Doctor は runtime version/digest、protocol state、repository identity、action 可能な問題を報告します。
 一般的な security scanner ではなく、external identity、provider、branch、production control の充足も主張しません。
 
+Enterprise adopter は [Enterprise governance boundary](security/enterprise-governance.ja.md) も参照してください。
+assurance level、policy precedence、delegated evidence、sensitive data persistence、retention、external audit
+export の境界を説明します。
+
 ## AI Cockpit が主張しないこと
 
 AI Cockpit は Agent Runtime、Workflow Engine、Security Sandbox、general prompt-injection detector、

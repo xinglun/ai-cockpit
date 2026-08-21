@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T19:28:17Z",
+  "files": {
+    "contractDigest": "sha256:8cd5b3bc4271d1ef0f048f91100805fbacf3dc3c755932dd3928fff5dc5c9566",
+    "contractPath": ".ai/work-items/archive/WI-58-enterprise-governance-contracts.contract.json",
+    "outcomeDigest": "sha256:f2817cf249b043ceebee7c1c9f980bd040356edcc2e886f5e80c9d21d03f5c86",
+    "outcomePath": ".ai/work-items/archive/WI-58-enterprise-governance-contracts.outcome.json",
+    "summaryDigest": "sha256:f54eab9d96eff10c423ea4df58c0f28284a780d5d8bd53029dc448a71dbdf595",
+    "summaryPath": ".ai/work-items/archive/WI-58-enterprise-governance-contracts.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-58-enterprise-governance-contracts"
+}

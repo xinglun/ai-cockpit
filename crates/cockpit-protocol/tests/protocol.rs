@@ -202,3 +202,114 @@ fn doctor_report_rejects_unknown_fields() {
     });
     assert!(serde_json::from_value::<cockpit_protocol::AgentDoctorReport>(value).is_err());
 }
+
+#[test]
+fn enterprise_authority_and_human_decision_are_strict_and_auditable() {
+    let authority = cockpit_protocol::AuthorityEvidence {
+        assurance: cockpit_protocol::AssuranceLevel::ProviderVerified,
+        actor: "provider:github:user-42".into(),
+        authority_source: "github-team/security-maintainers".into(),
+        operations: vec!["release".into()],
+        policy_refs: vec!["org-release-v1".into()],
+        evidence_refs: vec![".ai/evidence/github-approval.json".into()],
+    };
+    let decision = cockpit_protocol::HumanDecision {
+        decision: "approved".into(),
+        actor: "provider:github:user-42".into(),
+        authority_source: "github-team/security-maintainers".into(),
+        reason: "fresh verification and bounded scope".into(),
+        evidence_refs: vec![".ai/evidence/WI-42.verification.json".into()],
+        policy_refs: vec!["org-release-v1".into()],
+        decided_at: "2026-08-21T19:00:00Z".into(),
+        resume_condition: None,
+    };
+    let encoded = cockpit_protocol::canonical_json(&(authority.clone(), decision.clone()))
+        .expect("enterprise records serialize");
+    let decoded: (
+        cockpit_protocol::AuthorityEvidence,
+        cockpit_protocol::HumanDecision,
+    ) = serde_json::from_slice(&encoded).expect("enterprise records parse");
+    assert_eq!(decoded, (authority, decision));
+
+    let mut unknown = serde_json::to_value(decoded.0).expect("authority json");
+    unknown["untrustedClaim"] = serde_json::json!(true);
+    assert!(serde_json::from_value::<cockpit_protocol::AuthorityEvidence>(unknown).is_err());
+}
+
+#[test]
+fn organization_policy_cannot_be_weakened_by_a_lower_layer() {
+    let organization = cockpit_protocol::GovernancePolicy {
+        policy_id: "org-production-v1".into(),
+        layer: cockpit_protocol::PolicyLayer::Organization,
+        rules: vec![cockpit_protocol::PolicyRule {
+            operation: "production_destructive".into(),
+            approval_mode: cockpit_protocol::ApprovalMode::SingleAuthorizedHuman,
+            required_evidence: vec!["hosted_ci".into()],
+        }],
+    };
+    let weakened = cockpit_protocol::GovernancePolicy {
+        policy_id: "project-local".into(),
+        layer: cockpit_protocol::PolicyLayer::Project,
+        rules: vec![cockpit_protocol::PolicyRule {
+            operation: "production_destructive".into(),
+            approval_mode: cockpit_protocol::ApprovalMode::NoHumanApprovalForLowRisk,
+            required_evidence: vec![],
+        }],
+    };
+    let error = cockpit_protocol::validate_policy_overlay(&organization, &weakened)
+        .expect_err("lower layer must not weaken organization policy");
+    assert!(matches!(
+        error,
+        cockpit_protocol::PolicyError::Weakening { .. }
+    ));
+}
+
+#[test]
+fn sensitive_evidence_policy_rejects_secret_full_capture_and_accepts_digest_only() {
+    let full = cockpit_protocol::EvidenceRetention {
+        classification: cockpit_protocol::DataClassification::SecretProhibited,
+        persistence: cockpit_protocol::EvidencePersistence::FullCapture,
+        retention_days: None,
+        expires_at: None,
+        disposal_action: "purge".into(),
+    };
+    assert!(cockpit_protocol::validate_evidence_retention(&full).is_err());
+
+    let digest_only = cockpit_protocol::EvidenceRetention {
+        persistence: cockpit_protocol::EvidencePersistence::DigestOnly,
+        ..full
+    };
+    assert!(cockpit_protocol::validate_evidence_retention(&digest_only).is_ok());
+}
+
+#[test]
+fn delegated_evidence_and_audit_event_bind_external_identity_without_claiming_ownership() {
+    let evidence = cockpit_protocol::DelegatedEvidence {
+        provider: "github".into(),
+        subject: "run:123".into(),
+        origin: "https://github.com/example/repo/actions/runs/123".into(),
+        assurance: cockpit_protocol::AssuranceLevel::ProviderVerified,
+        collected_at: "2026-08-21T19:00:00Z".into(),
+        digest: "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            .parse()
+            .expect("digest"),
+        validity: cockpit_protocol::EvidenceValidity::Valid,
+        raw_evidence_ref: ".ai/evidence/external/github-run-123.json".into(),
+    };
+    let event = cockpit_protocol::AuditEvent {
+        event_id: "event-123".into(),
+        repository_id: "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            .into(),
+        work_item_id: Some("WI-42".into()),
+        runtime_version: "0.2.2".into(),
+        runtime_digest: "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+            .parse()
+            .expect("digest"),
+        timestamp: "2026-08-21T19:01:00Z".into(),
+        event_type: "external_evidence_bound".into(),
+        evidence_refs: vec![evidence.raw_evidence_ref.clone()],
+    };
+    let value = serde_json::to_value((&evidence, &event)).expect("audit records serialize");
+    assert_eq!(value[0]["provider"], "github");
+    assert_eq!(value[1]["eventType"], "external_evidence_bound");
+}

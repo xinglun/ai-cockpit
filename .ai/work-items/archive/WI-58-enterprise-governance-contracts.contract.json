@@ -1,0 +1,40 @@
+{
+  "acceptanceCriteria": [
+    "strict protocol types cover assurance levels",
+    " structured human decision/recovery",
+    " organization/project/work-item policy precedence",
+    " delegated external evidence",
+    " data classification/persistence",
+    " retention/disposal metadata",
+    " and external audit events; lower policy cannot weaken higher policy; unknown fields fail closed; tests and trilingual security boundary documentation pass"
+  ],
+  "authority": "authorized",
+  "baseRevision": "6e5ec2e05f3cc621d579ccad88a25fab15a353ee",
+  "createdAt": "2026-08-21T19:23:19Z",
+  "goal": "Enterprise authority, decisions, policy precedence, delegated evidence, sensitive-data handling, retention, and audit boundaries are typed, strict, and auditable before the next release.",
+  "intent": "Introduce enterprise governance contracts without prescribing organizational structure.",
+  "mode": "implementation",
+  "outOfScope": [
+    "CLI policy enforcement; full external provider integrations; release publication; natural-language intent classification"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:bd002731b03f028634a1498e606bf3f682125771a00af2cf70be9c5115890bb8",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-protocol/**",
+    "crates/cockpit-core/**",
+    "tests/**",
+    "docs/security/**",
+    "docs/capabilities.md",
+    "docs/capabilities.zh-CN.md",
+    "docs/capabilities.ja.md",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-58-enterprise-governance-contracts"
+}
