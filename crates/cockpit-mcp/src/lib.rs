@@ -152,6 +152,10 @@ fn verify_for_repo(
 ) -> Result<Value, String> {
     require_compatible(repo, runtime)?;
     let root = fs::canonicalize(repo).map_err(|error| error.to_string())?;
+    if let Some(work_item_id) = arguments.get("workItemId").and_then(Value::as_str) {
+        cockpit_repository::require_policy_for_verification(&root, work_item_id)
+            .map_err(|error| error.to_string())?;
+    }
     let explicit_program = match arguments.get("command") {
         Some(Value::String(program)) => Some(program.as_str()),
         Some(_) => return Err("command argument must be a string".into()),

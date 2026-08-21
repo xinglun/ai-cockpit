@@ -485,6 +485,10 @@ fn run() -> Result<()> {
         } => {
             require_compatible(&repo, &runtime_context)?;
             let root = std::fs::canonicalize(&repo).context("canonicalize repository")?;
+            if let Some(work_item_id) = work_item.as_deref() {
+                cockpit_repository::require_policy_for_verification(&root, work_item_id)
+                    .context("enforce verification policy")?;
+            }
             let explicit = !command.is_empty();
             let (programs, command_args) = if explicit {
                 (command, args)

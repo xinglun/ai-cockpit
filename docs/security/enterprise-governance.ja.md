@@ -35,6 +35,18 @@ Policy layer は organization → project → Work Item です。下位 layer �
 継承できますが、上位の approval strength を下げたり required evidence を削除したりできません。
 弱化する overlay は fail closed で拒否します。
 
+Runtime は任意の strict な `.ai/policy.json`（`schemaVersion: 1`、
+`organization`/`project` slot）を読み取ります。Work Item は contract に
+`layer: "work_item"` の `governancePolicy` を追加できます。有効な rule は
+明示された contract `operation`（未指定なら決定論的な
+`modify_source` または `production_destructive`）で選ばれ、自然言語で変更
+されません。`preflight` は authority/evidence の不足を示し、verification は
+権限不足の operation を実行せず、`finish`、`archive`、`close` は effective
+decision が green の場合だけ進みます。Policy 対象の close は structured
+decision と `policyRefs` の policy ID binding が必要です。Multi-party と
+external-provider mode は外部 approval receipt が import されるまで
+fail-closed です。
+
 ## Delegated evidence と audit boundary
 
 External provider は自分の proof を生成する責任を持ちます。Delegated evidence model は provider、

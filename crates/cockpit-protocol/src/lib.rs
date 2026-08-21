@@ -239,10 +239,45 @@ pub struct GovernancePolicy {
     pub rules: Vec<PolicyRule>,
 }
 
+/// Repository-owned policy input. A missing file means that the repository has
+/// not opted into an organization/project policy yet; an existing file is
+/// parsed strictly and cannot contain adapter instructions or unknown policy
+/// fields.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct GovernancePolicyDocument {
+    pub schema_version: u32,
+    #[serde(default)]
+    pub organization: Option<GovernancePolicy>,
+    #[serde(default)]
+    pub project: Option<GovernancePolicy>,
+}
+
 #[derive(Debug, Error, PartialEq, Eq)]
 pub enum PolicyError {
     #[error("lower policy weakens {operation}: {field}")]
     Weakening { operation: String, field: String },
+    #[error("policy layer is out of order: expected {expected}, got {actual}")]
+    InvalidLayer { expected: String, actual: String },
+}
+
+fn policy_layer_name(layer: &PolicyLayer) -> &'static str {
+    match layer {
+        PolicyLayer::Organization => "organization",
+        PolicyLayer::Project => "project",
+        PolicyLayer::WorkItem => "work_item",
+    }
+}
+
+fn policy_layers_in_order(layers: &[&GovernancePolicy]) -> bool {
+    layers.windows(2).all(|pair| {
+        let rank = |layer: &PolicyLayer| match layer {
+            PolicyLayer::Organization => 0,
+            PolicyLayer::Project => 1,
+            PolicyLayer::WorkItem => 2,
+        };
+        rank(&pair[0].layer) <= rank(&pair[1].layer)
+    })
 }
 
 /// Validate an overlay without forcing every lower layer to repeat inherited
@@ -282,6 +317,84 @@ pub fn validate_policy_overlay(
         }
     }
     Ok(())
+}
+
+/// Merge organization, project, and optional Work Item policies into one
+/// effective policy. Child rules may add requirements or strengthen approval,
+/// but they may never weaken a parent rule. Rule order is deterministic.
+pub fn merge_policy_layers(layers: &[&GovernancePolicy]) -> Result<GovernancePolicy, PolicyError> {
+    if !policy_layers_in_order(layers)
+        && let Some(policy) = layers.first()
+    {
+        return Err(PolicyError::InvalidLayer {
+            expected: "ascending organization/project/work_item".into(),
+            actual: policy_layer_name(&policy.layer).into(),
+        });
+    }
+    let mut effective = GovernancePolicy {
+        policy_id: "effective:none".into(),
+        layer: PolicyLayer::Organization,
+        rules: Vec::new(),
+    };
+    let mut ids = Vec::new();
+    for (index, policy) in layers.iter().enumerate() {
+        let expected = match index {
+            0 => None,
+            _ => Some(match policy.layer {
+                PolicyLayer::Organization => "project or work_item",
+                PolicyLayer::Project => "work_item",
+                PolicyLayer::WorkItem => "no lower layer",
+            }),
+        };
+        if let Some(expected) = expected {
+            let previous = layers[index - 1].layer.clone();
+            let valid = match previous {
+                PolicyLayer::Organization => {
+                    matches!(
+                        policy.layer,
+                        PolicyLayer::Organization | PolicyLayer::Project
+                    )
+                }
+                PolicyLayer::Project => {
+                    matches!(policy.layer, PolicyLayer::Project | PolicyLayer::WorkItem)
+                }
+                PolicyLayer::WorkItem => matches!(policy.layer, PolicyLayer::WorkItem),
+            };
+            if !valid {
+                return Err(PolicyError::InvalidLayer {
+                    expected: expected.into(),
+                    actual: policy_layer_name(&policy.layer).into(),
+                });
+            }
+        }
+        if index > 0 {
+            validate_policy_overlay(&effective, policy)?;
+        }
+        for rule in &policy.rules {
+            if let Some(existing) = effective
+                .rules
+                .iter_mut()
+                .find(|existing| existing.operation == rule.operation)
+            {
+                let mut evidence = existing.required_evidence.clone();
+                for item in &rule.required_evidence {
+                    if !evidence.contains(item) {
+                        evidence.push(item.clone());
+                    }
+                }
+                existing.approval_mode = rule.approval_mode.clone();
+                existing.required_evidence = evidence;
+            } else {
+                effective.rules.push(rule.clone());
+            }
+        }
+        effective.layer = policy.layer.clone();
+        ids.push(policy.policy_id.clone());
+    }
+    if !ids.is_empty() {
+        effective.policy_id = format!("effective:{}", ids.join(":"));
+    }
+    Ok(effective)
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -392,6 +505,10 @@ pub struct Contract {
     pub base_revision: String,
     pub project_profile_digest: Digest,
     pub repository_snapshot_digest: Digest,
+    #[serde(default)]
+    pub operation: Option<String>,
+    #[serde(default)]
+    pub governance_policy: Option<GovernancePolicy>,
 }
 
 #[derive(Debug, Error, PartialEq, Eq)]

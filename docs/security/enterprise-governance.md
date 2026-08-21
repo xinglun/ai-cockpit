@@ -40,6 +40,18 @@ requirements or leave an inherited rule in force, but it cannot reduce the
 approval strength or remove required evidence from a higher layer. Overlay
 validation fails closed when a lower policy attempts to weaken either binding.
 
+The Runtime reads an optional strict `.ai/policy.json` document with
+`schemaVersion: 1` and `organization`/`project` policy slots. A Work Item may
+add a `governancePolicy` with `layer: "work_item"` in its contract. The
+effective rule is selected by the explicit contract `operation` (or the
+deterministic `modify_source`/`production_destructive` fallback); prose never
+changes it. `preflight` reports missing authority or policy evidence,
+verification refuses an already-unauthorized operation, and `finish`,
+`archive`, and `close` refuse to proceed unless the effective decision is
+green. A policy-protected close must use structured decision fields and bind
+the policy ID in `policyRefs`. Multi-party and external-provider modes remain
+fail-closed until their external approval receipt is imported.
+
 ## Delegated evidence and audit boundary
 
 External providers remain responsible for producing their own proof. The

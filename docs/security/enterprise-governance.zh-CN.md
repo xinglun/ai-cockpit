@@ -35,6 +35,16 @@ AI Cockpit 不规定企业必须有多少审批人，而是要求权限明确、
 的审批强度，也不能删除上层要求的 evidence。发现下层试图弱化任一绑定时，overlay validation
 必须 fail closed。
 
+Runtime 会读取可选且严格校验的 `.ai/policy.json`（`schemaVersion: 1`，包含
+`organization`/`project` 槽位）。Work Item 可以在 contract 中增加
+`layer: "work_item"` 的 `governancePolicy`。有效规则由显式的 contract
+`operation` 选择（缺省时确定性地使用 `modify_source` 或
+`production_destructive`）；自然语言不会改变规则。`preflight` 会暴露缺失的
+权限或 policy evidence；verification 不会执行已经缺少权限的操作；`finish`、
+`archive` 和 `close` 只有在有效决定为 green 时才会继续。受策略保护的 close
+必须使用结构化 decision，并在 `policyRefs` 绑定 policy ID。多方审批和外部
+provider 审批在导入外部审批回执前保持 fail-closed。
+
 ## 委托证据与审计边界
 
 外部 provider 仍负责生成自己的证明。Delegated evidence model 绑定 provider、subject、origin、
