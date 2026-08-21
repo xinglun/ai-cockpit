@@ -53,20 +53,12 @@ capabilityClaims:
 - [参考](reference/README.zh-CN.md)——命令、配置和恢复。
 - [参考源对齐](reference/reference-parity.zh-CN.md)——哪些已采用、哪些有意不同、哪些由独立 Work Item 完成。
 
-## 维护者、审计和当前工作
+## 维护者与审计路线
 
-- [Bootstrap Work Item 规则](work-items/README.zh-CN.md)
-- [Work Item 路线](work-items/WI-03.zh-CN.md)
-- [已验收 Work Item：WI-34](work-items/WI-34.zh-CN.md)
-- [首次公开发布 Work Item：WI-35](work-items/WI-35.zh-CN.md)
-- [纠正 Work Item：WI-36](work-items/WI-36.zh-CN.md)
-- [治理脚手架 Work Item：WI-38](work-items/WI-38.zh-CN.md)
-- [WI-34 可安装发布设计](superpowers/specs/2026-08-21-installable-release-homebrew-distribution-design.md)
-- [WI-35 首次公开发布设计（英文规范稿）](superpowers/specs/2026-08-21-first-public-release-homebrew-tap-bootstrap-design.md)
-- [WI-35 实施计划（英文规范稿）](superpowers/plans/2026-08-21-first-public-release-homebrew-tap-bootstrap.md)
+- [Work Item 规则](work-items/README.zh-CN.md)——本仓库的受治理生命周期。
+- [命令参考](reference/commands.zh-CN.md)——精确的 CLI 边界和输出。
+- [Protocol v1](protocol/v1/specification.zh-CN.md)——repository storage 与 evidence contract。
+- [参考源对齐](reference/reference-parity.zh-CN.md)——与外部 template 的比较和明确差异。
+- [版本策略](architecture/versioning.zh-CN.md)——Runtime、repository schema 和 migration 边界。
 
-## 当前实现边界
-
-WI-03 至 WI-38 记录实现与准备度历史。WI-36 已在本地验收；托管 Release、Homebrew
-和公开安装证据仍由 WI-35 负责。在 Rust runtime 能够治理自身之前，开发使用
-`docs/work-items` 中的 Markdown bootstrap 规则。本仓库永远不会安装 V1。
+历史 Work Item 和实施计划仍可在 Git 中审计，但不会被当作当前产品状态或采用者操作说明展示。

@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T15:52:51Z",
+  "evidenceDigest": "sha256:94e102ec7f897b4815e2dc700b57cfecab7a35d3a571c839c8411154ed8b6861",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/wi-42-documentation-governance.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "wi-42-documentation-governance"
+}

@@ -55,22 +55,13 @@ journey is clear.
 - [Reference source parity](reference/reference-parity.md) — what was adopted,
   what is intentionally different, and what remains a separate Work Item.
 
-## Maintainer, audit, and current work
+## Maintainer and audit route
 
-- [Bootstrap Work Item rules](work-items/README.md)
-- [Work-item roadmap](work-items/WI-03.md)
-- [Accepted Work Item: WI-34](work-items/WI-34.md)
-- [First-public-release Work Item: WI-35](work-items/WI-35.md)
-- [Corrective Work Item: WI-36](work-items/WI-36.md)
-- [Governance scaffolding Work Item: WI-38](work-items/WI-38.md)
-- [WI-34 installable-release design](superpowers/specs/2026-08-21-installable-release-homebrew-distribution-design.md)
-- [WI-35 first-public-release design](superpowers/specs/2026-08-21-first-public-release-homebrew-tap-bootstrap-design.md)
-- [WI-35 implementation plan](superpowers/plans/2026-08-21-first-public-release-homebrew-tap-bootstrap.md)
+- [Work Item rules](work-items/README.md) — the governed lifecycle for this repository.
+- [Command reference](reference/commands.md) — exact CLI boundaries and output.
+- [Protocol v1](protocol/v1/specification.md) — repository storage and evidence contract.
+- [Reference source parity](reference/reference-parity.md) — comparison with the external template.
+- [Versioning](architecture/versioning.md) — Runtime versus repository schema boundaries.
 
-## Current implementation boundary
-
-The implementation and readiness history is recorded in WI-03 through WI-38.
-WI-36 is locally accepted; hosted Release, Homebrew, and public installation
-evidence remain owned by WI-35. Until the Rust runtime can govern itself,
-development uses the Markdown bootstrap rules in `docs/work-items`. V1 is never
-installed into this repository.
+Historical Work Items and implementation plans remain auditable in Git, but are
+not presented as current product status or adopter instructions.

@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T15:52:51Z",
+  "files": {
+    "contractDigest": "sha256:76beaf8bc6fa7b1993adde927deab9e1b89de34f90c5758784eede120f42a6dd",
+    "contractPath": ".ai/work-items/archive/wi-42-documentation-governance.contract.json",
+    "outcomeDigest": "sha256:11def005ed51caf242f461c5330f2775856d451206b98baad80eddf1728cd308",
+    "outcomePath": ".ai/work-items/archive/wi-42-documentation-governance.outcome.json",
+    "summaryDigest": "sha256:4f023dfdc4607620e7969264ac4c96031a65e99f62fc1bf1b96b0248cc14e45e",
+    "summaryPath": ".ai/work-items/archive/wi-42-documentation-governance.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "wi-42-documentation-governance"
+}

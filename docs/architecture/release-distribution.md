@@ -63,8 +63,8 @@ artifact smoke tests + provenance attestation
                          ▼
        target repository + `.ai/cockpit.toml` + `.ai/project.json`
 
-homebrew-handoff.json ──► WI-35 verifier ──► tap PR
-                          (external, not WI-34)
+homebrew-handoff.json ──► external tap review (when a maintained tap exists)
+                          (outside this repository's Runtime authority)
 ```
 
 The release manifest binds version, tag, commit, target, runner image, archive,
@@ -82,16 +82,18 @@ asset alone is not installation evidence.
    that may create or update `.ai/`.
 4. Start the CLI or MCP adapter against the attached repository.
 
-The development checkout used to build a candidate remains without `.ai`.
-`cockpit.toml` remains TOML under `.ai/`; distribution does not migrate it to JSON.
+An unattached release-build checkout may remain without `.ai`; this self-governed
+checkout intentionally owns its repository-local `.ai/`. `cockpit.toml` remains
+TOML under `.ai/`; distribution does not migrate it to JSON.
 
 ## Trust boundaries
 
-- WI-34 owns the local release contract, deterministic manifest and Formula,
-  staged install tests, and the identity-bound handoff document.
-- WI-35 owns hosted release receipts, immutable tag and provider Release
-  creation, the external tap, the tap pull request, and real public install
-  receipts.
+- `cockpit-release` and the release workflow own the local release contract,
+  deterministic manifest, Formula projection, hosted checks, and published
+  Release identity.
+- The current immutable public baseline is `v0.1.1`; WI-40 records its public
+  adopter acceptance. An external Homebrew tap is a separate provider surface
+  and is not implied by this repository.
 - The tap receives a reviewed Formula projection; it does not rebuild binaries.
 - Homebrew is a delivery path, not a governance authority. Repository facts and
   human decisions still come from the attached repository and its Work Items.
@@ -108,7 +110,8 @@ presented as proof that a repository has been attached.
 
 1. [Release and distribution](../release/distribution.md) — adopter commands.
 2. [Architecture](../architecture.md) — runtime and evidence ownership.
-3. [WI-34](../work-items/WI-34.md) — local readiness and its external boundary.
+3. [Reference source parity](../reference/reference-parity.md) — explicit
+   differences from the reference template.
 
 ## Technical depth
 

@@ -61,8 +61,8 @@ artifact smoke test + provenance attestation
                          ▼
        対象 repository + `.ai/cockpit.toml` + `.ai/project.json`
 
-homebrew-handoff.json ──► WI-35 verifier ──► tap PR
-                          (external、WI-34 の外部)
+homebrew-handoff.json ──► external tap review（maintained tap がある場合）
+                          （この repository の Runtime authority の外側）
 ```
 
 Release manifest は version、tag、commit、target、runner image、archive、SBOM、bytes、digest、
@@ -77,15 +77,16 @@ provider Release や単独の artifact upload だけでは installation evidence
    を実行します。attach は明示的な手順で、`.ai/` を作成・更新し得ます。
 4. attach 済み repository に対して CLI または MCP adapter を起動します。
 
-candidate を build する development checkout は `.ai` を持ちません。`cockpit.toml` は `.ai/` 配下の TOML のままであり、
-distribution が JSON へ移行させることもありません。
+未 attach の release-build checkout は `.ai` を持たない場合がありますが、この self-governed checkout は
+repository-local `.ai/` を意図的に持ちます。`cockpit.toml` は `.ai/` 配下の TOML のままで、distribution が
+JSON へ移行させることもありません。
 
 ## Trust boundary
 
-- WI-34 は local release contract、deterministic な manifest と Formula、staged install test、identity-bound
-  handoff document を所有します。
-- WI-35 は hosted release receipt、immutable tag と provider Release、external tap、tap pull request、
-  real public install receipt を所有します。
+- `cockpit-release` と release workflow は local release contract、deterministic manifest、Formula projection、
+  hosted check、published Release identity を扱います。
+- 現在の immutable public baseline は `v0.1.1` で、WI-40 が public adopter acceptance を記録しています。
+  external Homebrew tap は別の provider surface であり、この repository が自動的に保証するものではありません。
 - Tap は review 済み Formula projection を受け取り、binary を rebuild しません。
 - Homebrew は delivery path であり governance authority ではありません。repository facts と human decision
   は attach 済み repository と Work Item から来ます。
@@ -101,7 +102,7 @@ default branch を直接変更しようとする場合も停止します。insta
 
 1. [Release と配布](../release/distribution.ja.md) — adopter command。
 2. [Architecture](../architecture.ja.md) — runtime と evidence ownership。
-3. [WI-34](../work-items/WI-34.ja.md) — local readiness と external boundary。
+3. [Reference source parity](../reference/reference-parity.ja.md) — reference template との差分。
 
 ## 技術的な深さ
 

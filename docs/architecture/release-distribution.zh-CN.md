@@ -61,8 +61,8 @@ artifact smoke test + provenance attestation
                          ▼
        目标 repository + `.ai/cockpit.toml` + `.ai/project.json`
 
-homebrew-handoff.json ──► WI-35 verifier ──► tap PR
-                          （外部，非 WI-34）
+homebrew-handoff.json ──► 外部 tap review（仅在存在维护中的 tap 时）
+                          （不属于本仓库 Runtime authority）
 ```
 
 Release manifest 绑定 version、tag、commit、target、runner image、archive、SBOM、字节数、digest
@@ -77,15 +77,15 @@ Release manifest 绑定 version、tag、commit、target、runner image、archive
    `ai-cockpit attach --repo /path/to/repository`。Attach 是显式步骤，可能创建或更新 `.ai/`。
 4. 针对已 attach 的 repository 启动 CLI 或 MCP adapter。
 
-用于构建 candidate 的 development checkout 保持没有 `.ai`。`cockpit.toml` 仍是 `.ai/` 下的 TOML；
-分发工作不会将其迁移为 JSON。
+未 attach 的 release-build checkout 可以没有 `.ai`；当前 self-governed checkout 有意拥有
+repository-local `.ai/`。`cockpit.toml` 仍是 `.ai/` 下的 TOML；分发工作不会将其迁移为 JSON。
 
 ## 信任边界
 
-- WI-34 负责本地 release contract、确定性的 manifest 与 Formula、staged install test 和有身份
-  绑定的 handoff 文档。
-- WI-35 负责 hosted release receipt、immutable tag 与 provider Release、外部 tap、tap pull request
-  以及真实的公开安装 receipt。
+- `cockpit-release` 与 release workflow 负责本地 release contract、确定性 manifest、Formula 投影、
+  hosted checks 和已发布 Release identity。
+- 当前不可变公开基线是 `v0.1.1`；WI-40 记录其 public adopter acceptance。外部 Homebrew tap 是
+  独立 provider surface，不由本仓库自动保证。
 - Tap 接收经过审查的 Formula 投影，不会重新构建 binary。
 - Homebrew 是交付路径，不是治理权威。Repository 事实和人类决策仍来自已 attach 的 repository 与 Work Item。
 
@@ -99,7 +99,7 @@ provider Release identity 不一致时停止。当 handoff 过期、指向另一
 
 1. [发布与分发](../release/distribution.zh-CN.md) — 面向采用者的命令。
 2. [架构](../architecture.zh-CN.md) — runtime 和证据所有权。
-3. [WI-34](../work-items/WI-34.zh-CN.md) — 本地准备度及其外部边界。
+3. [参考源对齐](../reference/reference-parity.zh-CN.md)——与参考 template 的明确差异。
 
 ## 技术深度
 
