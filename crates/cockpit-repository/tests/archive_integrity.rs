@@ -1,7 +1,9 @@
 use cockpit_core::Digest;
+use cockpit_protocol::HumanDecision;
 use cockpit_repository::{
-    archive_work_item, attach, close_work_item_with_decision, finish_work_item,
-    record_verification, start_work_item,
+    archive_work_item, attach, close_work_item_with_decision,
+    close_work_item_with_structured_decision, finish_work_item, record_verification,
+    start_work_item,
 };
 use std::{
     fs,
@@ -71,5 +73,46 @@ fn verification_receipt_cannot_cross_work_items() {
     )
     .expect_err("cross-work-item evidence must be rejected");
     assert!(error.to_string().contains("another work item"));
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn close_persists_a_structured_human_decision_and_recovery_condition() {
+    let path = repository();
+    start_work_item(&path, "WI-DECISION", "decision", "verify", &["**".into()]).expect("start");
+    record_verification(
+        &path,
+        "WI-DECISION",
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.1.0",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+    finish_work_item(&path, "WI-DECISION").expect("finish");
+    archive_work_item(&path, "WI-DECISION").expect("archive");
+    close_work_item_with_structured_decision(
+        &path,
+        "WI-DECISION",
+        &HumanDecision {
+            decision: "approved".into(),
+            actor: "human:owner".into(),
+            authority_source: "team-policy".into(),
+            reason: "bounded change and fresh evidence".into(),
+            evidence_refs: vec![".ai/evidence/WI-DECISION.verification.json".into()],
+            policy_refs: vec!["team-policy-v1".into()],
+            decided_at: "2026-08-21T19:00:00Z".into(),
+            resume_condition: Some("rerun verification if the base changes".into()),
+        },
+    )
+    .expect("structured close");
+    let decision: serde_json::Value = serde_json::from_slice(
+        &fs::read(path.join(".ai/decisions/WI-DECISION.close.json")).expect("decision"),
+    )
+    .expect("decision JSON");
+    assert_eq!(decision["structuredDecision"]["actor"], "human:owner");
+    assert_eq!(
+        decision["structuredDecision"]["resumeCondition"],
+        "rerun verification if the base changes"
+    );
     fs::remove_dir_all(path).expect("cleanup");
 }

@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T19:51:02Z",
+  "files": {
+    "contractDigest": "sha256:bd92620fe216192e361cb5bfdb456d8183e666bf685ed5352c7371948f97f55e",
+    "contractPath": ".ai/work-items/archive/WI-59-structured-human-decision.contract.json",
+    "outcomeDigest": "sha256:e59f062dc2dc03f0ed36debd34672b2c07ed5c32ebb5a559d1688824181daecf",
+    "outcomePath": ".ai/work-items/archive/WI-59-structured-human-decision.outcome.json",
+    "summaryDigest": "sha256:097f086a2fd26261ef95a0acbeffc5ed816cbfb7092eba901ebfb335df6129fc",
+    "summaryPath": ".ai/work-items/archive/WI-59-structured-human-decision.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-59-structured-human-decision"
+}

@@ -234,6 +234,10 @@ fn enterprise_authority_and_human_decision_are_strict_and_auditable() {
     let mut unknown = serde_json::to_value(decoded.0).expect("authority json");
     unknown["untrustedClaim"] = serde_json::json!(true);
     assert!(serde_json::from_value::<cockpit_protocol::AuthorityEvidence>(unknown).is_err());
+
+    let mut unknown_decision = serde_json::to_value(decoded.1).expect("decision json");
+    unknown_decision["futureApprovalMode"] = serde_json::json!("dual_control");
+    assert!(serde_json::from_value::<cockpit_protocol::HumanDecision>(unknown_decision).is_err());
 }
 
 #[test]

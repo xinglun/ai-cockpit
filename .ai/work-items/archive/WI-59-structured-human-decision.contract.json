@@ -1,0 +1,37 @@
+{
+  "acceptanceCriteria": [
+    "structured close decision API and CLI fields are strict and persisted; legacy human-decision invocation remains explicit and is represented with visible legacy provenance; unknown decision fields fail closed; evidence/policy refs and resume condition round-trip; tests and trilingual command docs pass"
+  ],
+  "authority": "authorized",
+  "baseRevision": "a035b61f8706cddd56b9ed0344f072452a2fddec",
+  "createdAt": "2026-08-21T19:46:28Z",
+  "goal": "Closing a Work Item preserves decision, actor, authority source, reason, evidence refs, policy refs, decidedAt, and resume condition without prescribing an approval count.",
+  "intent": "Record human decisions as structured, auditable recovery-aware records.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Organization policy evaluation; external provider identity; release publication; automatic outcome projection"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:73512075936517b53659f9b46190c749251b4508c36c2b6a483e19a8b92cc916",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-protocol/**",
+    "crates/cockpit-repository/**",
+    "crates/cockpit-cli/**",
+    "tests/**",
+    "docs/capabilities.md",
+    "docs/capabilities.zh-CN.md",
+    "docs/capabilities.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-59-structured-human-decision"
+}

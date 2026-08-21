@@ -43,6 +43,9 @@ capabilityClaims:
   managed section または ownership record が変更されていれば `repair` と `detach` は fail closed し、global Agent/MCP config は変更しません。
 - `preflight --contract` は通常 `start` が作る `.ai/work-items/active/<id>.contract.json` を指します。
 - `close --human-decision approved|rejected` は human decision record であり verification evidence ではありません。
+- 監査可能な decision には `--actor`、`--authority-source`、`--reason`、`--decided-at` と、任意の
+  `--evidence-ref`、`--policy-ref`、`--resume-condition` を指定します。結果の `structuredDecision` は
+  `.ai/decisions/<id>.close.json` に保存されます。legacy flag も明示的なまま、`legacy-cli` provenance を付けて記録します。
 - `compatibility --repo <path>` は installed Runtime と attached repository schema の
   `COMPATIBLE`、`MIGRATION_REQUIRED`、`INCOMPATIBLE` を返します。`migrate plan` は read-only です。
   `migrate apply` は `--approved` がなければ書き込まず、Work Item、evidence、decision、knowledge、

@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T19:51:02Z",
+  "evidenceDigest": "sha256:399351d6dcf5d6865a5aed7e0322e3162979599bfec6be544932715b4390a5ec",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-59-structured-human-decision.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-59-structured-human-decision"
+}
