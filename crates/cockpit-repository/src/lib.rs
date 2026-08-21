@@ -317,6 +317,20 @@ pub fn start_work_item_with_options(
         "updatedAt": now,
     });
     let active = ai.join("work-items/active");
+    let archive = ai.join("work-items/archive");
+    if [
+        active.join(format!("{work_item_id}.contract.json")),
+        active.join(format!("{work_item_id}.summary.json")),
+        archive.join(format!("{work_item_id}.archive.json")),
+    ]
+    .iter()
+    .any(|path| path.exists())
+    {
+        return Err(ObserverError::State {
+            path: active.join(format!("{work_item_id}.contract.json")),
+            message: "work item already exists".into(),
+        });
+    }
     atomic_json(
         &active.join(format!("{work_item_id}.contract.json")),
         &contract,

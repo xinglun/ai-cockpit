@@ -77,6 +77,22 @@ fn work_item_lifecycle_is_atomic_and_archive_is_content_bound() {
         repo.join(".ai/work-items/active/WI-TEST.summary.json")
             .is_file()
     );
+    let duplicate_start = Command::new(binary)
+        .args(["start", "--repo"])
+        .arg(&repo)
+        .args([
+            "--id",
+            "WI-TEST",
+            "--intent",
+            "duplicate",
+            "--goal",
+            "must fail",
+            "--scope",
+            "**",
+        ])
+        .output()
+        .expect("duplicate start");
+    assert!(!duplicate_start.status.success());
     let contract: serde_json::Value = serde_json::from_slice(
         &fs::read(repo.join(".ai/work-items/active/WI-TEST.contract.json")).expect("contract"),
     )
