@@ -3,12 +3,23 @@ set -euo pipefail
 
 workflow=${1:?usage: workflow_policy.sh <workflow>}
 
+if command -v rg >/dev/null 2>&1; then
+  search() { rg -n --pcre2 -- "$1" "$2"; }
+  extract() { rg -oP "$1" "$2"; }
+else
+  # GitHub's Ubuntu runner does not guarantee ripgrep. GNU grep's PCRE mode
+  # covers the same patterns used by this policy script and keeps the check
+  # self-contained instead of making the workflow install another tool.
+  search() { grep -nP -- "$1" "$2"; }
+  extract() { grep -oP "$1" "$2"; }
+fi
+
 fail_if_match() {
   local pattern=$1
   local message=$2
-  if rg -n --pcre2 -- "$pattern" "$workflow" >/dev/null; then
+  if search "$pattern" "$workflow" >/dev/null; then
     printf 'policy failure: %s\n' "$message" >&2
-    rg -n --pcre2 -- "$pattern" "$workflow" >&2 || true
+    search "$pattern" "$workflow" >&2 || true
     exit 1
   fi
 }
@@ -16,7 +27,7 @@ fail_if_match() {
 require_match() {
   local pattern=$1
   local message=$2
-  if ! rg -n --pcre2 -- "$pattern" "$workflow" >/dev/null; then
+  if ! search "$pattern" "$workflow" >/dev/null; then
     printf 'policy failure: %s\n' "$message" >&2
     exit 1
   fi
@@ -36,7 +47,7 @@ while IFS= read -r action_ref; do
     printf 'policy failure: action reference is not a full lowercase commit SHA: %s\n' "$action_ref" >&2
     exit 1
   fi
-done < <(rg -oP '^\s*-\s*uses:\s*[^@]+@\K[^[:space:]]+' "$workflow")
+done < <(extract '^\s*-\s*uses:\s*[^@]+@\K[^[:space:]]+' "$workflow")
 awk '
   /^  [A-Za-z0-9_-]+:/ {
     job=$0
