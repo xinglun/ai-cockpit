@@ -4,6 +4,7 @@ use std::path::PathBuf;
 use thiserror::Error;
 
 pub const PROTOCOL_VERSION: u32 = 1;
+pub const AGENT_INTERFACE_VERSION: u32 = 1;
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -39,10 +40,97 @@ pub struct RepositoryContext {
 pub struct AgentInterfaceManifest {
     pub schema_version: u32,
     pub protocol_version: u32,
+    pub interface_version: u32,
     pub repository_id: String,
-    pub root_binding: String,
+    pub root_binding: AgentRootBinding,
     pub capabilities: Vec<String>,
+    pub interfaces: AgentInterfaces,
+    pub adapter: AgentAdapterCompatibility,
     pub adapter_state: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct AgentRootBinding {
+    #[serde(rename = "type")]
+    pub binding_type: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct AgentInterfaces {
+    pub cli: AgentInterfaceAvailability,
+    pub mcp: AgentInterfaceAvailability,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct AgentInterfaceAvailability {
+    pub available: bool,
+    #[serde(default)]
+    pub transport: Option<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct AgentAdapterCompatibility {
+    pub required: bool,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum AgentProvider {
+    GenericAgentsMd,
+    Codex,
+    Claude,
+    Gemini,
+    Cursor,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ManagedAdapterRecord {
+    pub provider: AgentProvider,
+    pub adapter_version: u32,
+    pub target: String,
+    pub mode: String,
+    pub repository_id: String,
+    pub installed_digest: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct AgentDoctorCheck {
+    pub state: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct AgentDoctorAdapter {
+    pub provider: AgentProvider,
+    pub state: String,
+    pub target: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct AgentDoctorInterfaces {
+    pub cli: String,
+    pub mcp: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct AgentDoctorReport {
+    pub schema_version: u32,
+    pub state: String,
+    pub repository_id: Option<String>,
+    pub attachment: AgentDoctorCheck,
+    pub manifest: AgentDoctorCheck,
+    pub adapters: Vec<AgentDoctorAdapter>,
+    pub interfaces: AgentDoctorInterfaces,
+    pub problems: Vec<String>,
+    pub safe_actions: Vec<String>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -86,6 +174,8 @@ pub struct Contract {
 pub enum ProtocolError {
     #[error("unsupported protocol major version {0}")]
     UnsupportedMajor(u32),
+    #[error("unsupported agent interface version {0}")]
+    UnsupportedAgentInterface(u32),
     #[error("malformed protocol version")]
     Malformed,
 }
@@ -95,6 +185,14 @@ pub fn validate_protocol_version(version: u32) -> Result<(), ProtocolError> {
         Ok(())
     } else {
         Err(ProtocolError::UnsupportedMajor(version))
+    }
+}
+
+pub fn validate_agent_interface_version(version: u32) -> Result<(), ProtocolError> {
+    if version == AGENT_INTERFACE_VERSION {
+        Ok(())
+    } else {
+        Err(ProtocolError::UnsupportedAgentInterface(version))
     }
 }
 

@@ -6,7 +6,8 @@ use cockpit_core::{
 };
 use cockpit_git::{ChangeContentState, ChangeKind, RepositorySnapshot};
 use cockpit_protocol::{
-    AgentInterfaceManifest, QualityCommand, RepositoryConfig, validate_protocol_version,
+    AgentAdapterCompatibility, AgentInterfaceAvailability, AgentInterfaceManifest, AgentInterfaces,
+    AgentRootBinding, QualityCommand, RepositoryConfig, validate_protocol_version,
 };
 use serde::{Deserialize, Serialize};
 use sha2::{Digest as ShaDigest, Sha256};
@@ -2399,8 +2400,11 @@ pub fn attach(root: &Path) -> Result<AttachedProfile, ObserverError> {
     let manifest = AgentInterfaceManifest {
         schema_version: 1,
         protocol_version: 1,
+        interface_version: 1,
         repository_id: profile.repository_id.clone(),
-        root_binding: "manifest-parent".into(),
+        root_binding: AgentRootBinding {
+            binding_type: "manifest-parent".into(),
+        },
         capabilities: vec![
             "inspect".into(),
             "observe".into(),
@@ -2413,6 +2417,17 @@ pub fn attach(root: &Path) -> Result<AttachedProfile, ObserverError> {
             "doctor".into(),
             "mcp".into(),
         ],
+        interfaces: AgentInterfaces {
+            cli: AgentInterfaceAvailability {
+                available: true,
+                transport: None,
+            },
+            mcp: AgentInterfaceAvailability {
+                available: true,
+                transport: Some("stdio".into()),
+            },
+        },
+        adapter: AgentAdapterCompatibility { required: false },
         adapter_state: "unconfigured".into(),
     };
     let manifest_value = serde_json::to_value(&manifest).map_err(|error| ObserverError::State {
