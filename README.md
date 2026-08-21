@@ -47,7 +47,9 @@ Read [Capabilities and boundaries](docs/capabilities.md) for the first governed
 Work Item and [Release and distribution](docs/release/distribution.md) for
 installation and verification.
 
-Install the Runtime once, then attach each target repository separately:
+## Shared Runtime, isolated repositories
+
+Attach each target repository separately:
 
 ```text
 ai-cockpit attach --repo /project-a
@@ -106,14 +108,9 @@ For a source checkout, contributors can inspect the command surface with
 `cargo run -p cockpit-cli -- --help`. Public Release and Homebrew availability
 are separate release evidence and are not implied by this checkout.
 
-## Product boundary
+## What remains external
 
-This repository is not a V1 upgrade, migration, or Rust port. The V1 template is
-used only as a specification source, behavioral oracle, conformance corpus, and
-historical reference. Runtime code, Python modules, `Makefile.ai`, installer
-files, and runtime schemas are not copied into target repositories.
-
-AI Cockpit is not an Agent Runtime, Workflow Engine, Security Sandbox, identity
-provider, compliance certificate, or replacement for human review. External
-identity, branch protection, production isolation, provider Releases, and
-provenance remain external evidence or adopter responsibility.
+External identity, branch protection, production isolation, provider Releases,
+and provenance remain external evidence or adopter responsibility. AI Cockpit
+provides bounded repository governance; it does not replace human review or an
+organization's security and compliance systems.

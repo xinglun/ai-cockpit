@@ -46,7 +46,9 @@ ai-cockpit status --repo /path/to/repository
 最初の governed Work Item は[機能と境界](docs/capabilities.ja.md)を、
 install と検証は[Release と配布](docs/release/distribution.ja.md)を参照してください。
 
-Runtime は 1 つだけ install し、各 target repository を個別に attach します。
+## Shared Runtime と repository isolation
+
+各 target repository を個別に attach します。
 
 ```text
 ai-cockpit attach --repo /project-a
@@ -97,14 +99,8 @@ source checkout では、contributor は `cargo run -p cockpit-cli -- --help` �
 surface を確認できます。Public Release と Homebrew availability は別の release
 evidence であり、この checkout だけでは利用可能とは言えません。
 
-## 製品の境界
+## 外部に残る責任
 
-この repository は V1 の upgrade、migration、Rust port ではありません。V1 template
-は specification source、behavioral oracle、conformance corpus、過去の reference
-としてだけ使います。runtime code、Python module、`Makefile.ai`、installer、runtime
-schema を target repository にコピーしません。
-
-AI Cockpit は Agent Runtime、Workflow Engine、Security Sandbox、identity provider、
-compliance certificate、human review の代替ではありません。external identity、branch
-protection、production isolation、provider Release、provenance は外部 evidence または
-adopter の責任です。
+External identity、branch protection、production isolation、provider Release、provenance は
+外部 evidence または adopter の責任です。AI Cockpit は bounded な repository governance を
+提供しますが、human review、組織の security system、compliance framework の代替ではありません。

@@ -52,16 +52,10 @@ journey is clear.
 - [Measured performance baseline](performance/baseline.md)
 - [Adversarial validation](security/adversarial-validation.md)
 - [Reference](reference/README.md) — commands, configuration, and recovery.
-- [Reference source parity](reference/reference-parity.md) — what was adopted,
-  what is intentionally different, and what remains a separate Work Item.
 
 ## Maintainer and audit route
 
 - [Work Item rules](work-items/README.md) — the governed lifecycle for this repository.
 - [Command reference](reference/commands.md) — exact CLI boundaries and output.
 - [Protocol v1](protocol/v1/specification.md) — repository storage and evidence contract.
-- [Reference source parity](reference/reference-parity.md) — comparison with the external template.
 - [Versioning](architecture/versioning.md) — Runtime versus repository schema boundaries.
-
-Historical Work Items and implementation plans remain auditable in Git, but are
-not presented as current product status or adopter instructions.

@@ -43,7 +43,9 @@ ai-cockpit status --repo /path/to/repository
 先读[功能与边界](docs/capabilities.zh-CN.md)了解第一个受治理 Work Item，
 再读[发布与分发](docs/release/distribution.zh-CN.md)了解安装和验证。
 
-Runtime 只安装一份，然后分别 attach 每个目标 repository：
+## 共享 Runtime，隔离 repository
+
+分别 attach 每个目标 repository：
 
 ```text
 ai-cockpit attach --repo /project-a
@@ -93,12 +95,8 @@ ai-cockpit agent doctor --repo /project-a --json
 在源码检出中，贡献者可用 `cargo run -p cockpit-cli -- --help` 查看命令面。公开
 Release 和 Homebrew 是否可用属于独立的发布证据，不能由当前源码检出推断。
 
-## 产品边界
+## 仍由外部负责
 
-本仓库不是 V1 的升级、迁移或 Rust 移植。V1 模板只作为规格来源、行为 Oracle、
-conformance corpus 和历史参考。不会把 runtime 代码、Python 模块、`Makefile.ai`、
-安装器或 runtime schemas 复制到目标 repository。
-
-AI Cockpit 不是 Agent Runtime、Workflow Engine、Security Sandbox、identity
-provider、合规证书，也不是人工 review 的替代品。外部 identity、branch protection、
-生产隔离、provider Release 和 provenance 仍属于外部证据或采用者责任。
+外部 identity、branch protection、生产隔离、provider Release 和 provenance 仍属于
+外部证据或采用者责任。AI Cockpit 提供有界的 repository 治理，不替代人工 review、
+组织自身的安全系统或合规体系。

@@ -51,15 +51,10 @@ machine-facing contract を定義する technical reference に進んでくだ�
 - [実測パフォーマンスベースライン](performance/baseline.ja.md)
 - [敵対的検証](security/adversarial-validation.ja.md)
 - [Reference](reference/README.ja.md) — command、configuration、recovery。
-- [Reference source parity](reference/reference-parity.ja.md) — adopted scope、意図的な差分、次の Work Item。
 
 ## Maintainer と audit の route
 
 - [Work Item ルール](work-items/README.ja.md) — この repository の governed lifecycle。
 - [Command reference](reference/commands.ja.md) — CLI の境界と output。
 - [Repository Protocol v1](protocol/v1/specification.ja.md) — storage と evidence contract。
-- [Reference source parity](reference/reference-parity.ja.md) — external template との比較と差分。
 - [バージョニング](architecture/versioning.ja.md) — Runtime、repository schema、migration の境界。
-
-Historical Work Item と implementation plan は Git で監査できますが、現在の product status や
-adopter の操作説明としては表示しません。
