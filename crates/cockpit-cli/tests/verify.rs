@@ -226,7 +226,10 @@ fn calibrated_auto_command_reuses_a_persisted_receipt_in_a_second_process() {
     let second = run();
 
     assert_eq!(first["nodesExecuted"], 1);
-    assert_eq!(first["processesSpawned"], 1);
+    assert_eq!(
+        first["processesSpawned"], 1,
+        "first verification: {first:#}"
+    );
     assert_eq!(first["nodesReused"], 0);
     assert_eq!(second["nodesExecuted"], 0);
     assert_eq!(second["processesSpawned"], 0);
