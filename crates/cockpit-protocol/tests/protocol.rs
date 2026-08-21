@@ -16,11 +16,35 @@ fn unsupported_major_is_fail_closed() {
 fn repository_config_round_trips_through_toml() {
     let config = RepositoryConfig {
         protocol_version: 1,
+        repository_schema_version: 1,
         repository_id: "example".into(),
     };
     let encoded = toml::to_string(&config).expect("config serializes");
     let decoded: RepositoryConfig = toml::from_str(&encoded).expect("config parses");
     assert_eq!(decoded, config);
+}
+
+#[test]
+fn legacy_repository_files_default_to_schema_one() {
+    let config: RepositoryConfig =
+        toml::from_str("protocol_version = 1\nrepository_id = \"example\"\n")
+            .expect("legacy config parses");
+    assert_eq!(config.repository_schema_version, 1);
+
+    let manifest = serde_json::json!({
+        "schemaVersion": 1,
+        "protocolVersion": 1,
+        "interfaceVersion": 1,
+        "repositoryId": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "rootBinding": {"type": "manifest-parent"},
+        "capabilities": ["status"],
+        "interfaces": {"cli": {"available": true}, "mcp": {"available": false}},
+        "adapter": {"required": false},
+        "adapterState": "unconfigured"
+    });
+    let manifest: cockpit_protocol::AgentInterfaceManifest =
+        serde_json::from_value(manifest).expect("legacy manifest parses");
+    assert_eq!(manifest.repository_schema_version, 1);
 }
 
 #[test]
@@ -58,6 +82,7 @@ fn agent_interface_manifest_is_strict_and_round_trips() {
     let manifest = cockpit_protocol::AgentInterfaceManifest {
         schema_version: 1,
         protocol_version: 1,
+        repository_schema_version: 1,
         interface_version: 1,
         repository_id: "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
             .into(),
@@ -96,6 +121,7 @@ fn repository_context_keeps_runtime_root_out_of_repository_context() {
         git_root: std::path::PathBuf::from("/repo"),
         config: RepositoryConfig {
             protocol_version: 1,
+            repository_schema_version: 1,
             repository_id: "repo".into(),
         },
     };

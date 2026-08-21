@@ -1,0 +1,44 @@
+{
+  "createdAt": "2026-08-21T16:25:10Z",
+  "passed": true,
+  "protocolVersion": 1,
+  "receipt": {
+    "elapsedMs": 109,
+    "executionElapsedMs": 16,
+    "filesHashed": 51,
+    "filesRead": 51,
+    "gitCalls": 8,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:5e67b6e911e0401aa3185a027a5d72f1f66028de416e287f5936d72f165e5a36",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ]
+  },
+  "repositorySnapshotDigest": "sha256:fbc6f7823b96bd6a0882bdc52e76f7df281968f74c88fe82eb7ea4ed4dcd7f19",
+  "runtimeDigest": "sha256:e17316bcba12c63667425a83448d07e3d12ad73620ecf30bfd08b092adc31afc",
+  "runtimeVersion": "0.1.1",
+  "workItemId": "wi-43-migration-protocol"
+}

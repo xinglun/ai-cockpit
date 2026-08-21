@@ -44,6 +44,7 @@ missing. Review the attached profile before relying on evidence reuse.
 | --- | --- | --- | --- |
 | Inspect | Read repository state without changing it. | `ai-cockpit inspect --repo <path>` | Git identity, changed paths, digests, and runtime identity. |
 | Attach | Create the minimum repository-owned governance scaffold. | `ai-cockpit attach --repo <path>` | `.ai/` protocol files, discovery manifest, state directories, and calibration state. |
+| Compatibility and migration | Check whether an installed Runtime can safely use this repository, then apply an explicit schema migration when required. | `compatibility`, `migrate plan`, `migrate apply --approved` | `COMPATIBLE`, `MIGRATION_REQUIRED`, or `INCOMPATIBLE`; approved migrations emit a runtime-bound receipt. |
 | Observe | Read the attached profile and repository facts. | `ai-cockpit observe --repo <path>` | Observation and evolution signals. |
 | Preflight | Evaluate a Work Item contract before editing. | `ai-cockpit preflight --repo <path> --contract <file>` | A green, yellow, or red governance decision. |
 | Work Item lifecycle | Start, checkpoint, finish, archive, and close bounded work. | `start`, `checkpoint`, `finish`, `archive`, `close` | Explicit state transitions and receipts. |
@@ -106,6 +107,29 @@ ai-cockpit profile confirm --repo /path/to/repository \
 `agent-interface.json` is a repository-local discovery fact. It records the
 stable repository identity and available Runtime capabilities; it is not an
 Agent prompt, provider installation, authorization, or global MCP setting.
+
+### Upgrade a Runtime or migrate a repository
+
+Runtime upgrades and repository migrations are separate operations. A compatible
+Runtime upgrade does not rewrite `.ai/` and does not create a global current
+repository. Check the installed Runtime against the explicit repository first:
+
+```bash
+ai-cockpit compatibility --repo /path/to/repository
+ai-cockpit migrate plan --repo /path/to/repository
+```
+
+If the result is `MIGRATION_REQUIRED`, review the plan and explicitly approve it:
+
+```bash
+ai-cockpit migrate apply --repo /path/to/repository --approved
+```
+
+The migration receipt records the source and target schema, before/after
+digests, Runtime version, and Runtime digest. It changes only the versioned
+protocol files and migration record; archived Work Items, evidence, decisions,
+and knowledge remain byte-for-byte historical records. `INCOMPATIBLE` stops
+without a write and requires a Runtime that understands the stored schema.
 
 ### Connect an Agent explicitly
 

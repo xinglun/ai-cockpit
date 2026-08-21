@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T16:25:31Z",
+  "files": {
+    "contractDigest": "sha256:e7488322bc559e6cb17f122487a9637630355f939e20083d14872b08797ba20c",
+    "contractPath": ".ai/work-items/archive/wi-43-migration-protocol.contract.json",
+    "outcomeDigest": "sha256:f0469b448c6e1f6fa44107d0514400c8b9fd82c084d25dab471bbbd074ae025b",
+    "outcomePath": ".ai/work-items/archive/wi-43-migration-protocol.outcome.json",
+    "summaryDigest": "sha256:c55bd70719fa54105b08e77684b0ec7054a20f3ab2ffb2a6a6b9fead7d2ec0e1",
+    "summaryPath": ".ai/work-items/archive/wi-43-migration-protocol.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "wi-43-migration-protocol"
+}

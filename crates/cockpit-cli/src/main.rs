@@ -46,6 +46,14 @@ enum CommandKind {
         #[arg(long)]
         repo: PathBuf,
     },
+    Compatibility {
+        #[arg(long)]
+        repo: PathBuf,
+    },
+    Migrate {
+        #[command(subcommand)]
+        command: MigrateCommand,
+    },
     Start {
         #[arg(long)]
         repo: PathBuf,
@@ -231,6 +239,20 @@ enum ProfileCommand {
     },
 }
 
+#[derive(Debug, Subcommand)]
+enum MigrateCommand {
+    Plan {
+        #[arg(long)]
+        repo: PathBuf,
+    },
+    Apply {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        approved: bool,
+    },
+}
+
 fn main() {
     if let Err(error) = run() {
         eprintln!("{error:#}");
@@ -315,8 +337,34 @@ fn run() -> Result<()> {
         }
         CommandKind::Status { repo } => {
             let repository_status = status(&repo).context("read repository status")?;
-            println!("{}", serde_json::to_string_pretty(&repository_status)?);
+            let compatibility = cockpit_repository::compatibility_report(&repo, &runtime_context)
+                .context("read repository compatibility")?;
+            let mut output = serde_json::to_value(repository_status)?;
+            output["compatibility"] = serde_json::to_value(compatibility)?;
+            println!("{}", serde_json::to_string_pretty(&output)?);
         }
+        CommandKind::Compatibility { repo } => {
+            let compatibility = cockpit_repository::compatibility_report(&repo, &runtime_context)
+                .context("read repository compatibility")?;
+            println!("{}", serde_json::to_string_pretty(&compatibility)?);
+        }
+        CommandKind::Migrate { command } => match command {
+            MigrateCommand::Plan { repo } => {
+                let plan = cockpit_repository::migration_plan(&repo)
+                    .context("plan repository migration")?;
+                println!("{}", serde_json::to_string_pretty(&plan)?);
+            }
+            MigrateCommand::Apply { repo, approved } => {
+                if !approved {
+                    anyhow::bail!(
+                        "migration changes repository state; rerun with --approved after reviewing migrate plan"
+                    )
+                }
+                let receipt = cockpit_repository::apply_migration(&repo, &runtime_context)
+                    .context("apply repository migration")?;
+                println!("{}", serde_json::to_string_pretty(&receipt)?);
+            }
+        },
         CommandKind::Start {
             repo,
             id,
@@ -329,6 +377,7 @@ fn run() -> Result<()> {
             acceptance,
             required_evidence,
         } => {
+            require_compatible(&repo, &runtime_context)?;
             let receipt = start_work_item_with_options(
                 &repo,
                 &id,
@@ -347,14 +396,17 @@ fn run() -> Result<()> {
             println!("{}", serde_json::to_string_pretty(&receipt)?);
         }
         CommandKind::Checkpoint { repo, id } => {
+            require_compatible(&repo, &runtime_context)?;
             let receipt = checkpoint_work_item(&repo, &id).context("checkpoint work item")?;
             println!("{}", serde_json::to_string_pretty(&receipt)?);
         }
         CommandKind::Finish { repo, id } => {
+            require_compatible(&repo, &runtime_context)?;
             let receipt = finish_work_item(&repo, &id).context("finish work item")?;
             println!("{}", serde_json::to_string_pretty(&receipt)?);
         }
         CommandKind::Archive { repo, id } => {
+            require_compatible(&repo, &runtime_context)?;
             let receipt = archive_work_item(&repo, &id).context("archive work item")?;
             println!("{}", serde_json::to_string_pretty(&receipt)?);
         }
@@ -363,6 +415,7 @@ fn run() -> Result<()> {
             id,
             human_decision,
         } => {
+            require_compatible(&repo, &runtime_context)?;
             let receipt = close_work_item_with_decision(&repo, &id, &human_decision)
                 .context("close work item")?;
             println!("{}", serde_json::to_string_pretty(&receipt)?);
@@ -374,6 +427,7 @@ fn run() -> Result<()> {
             args,
             workers,
         } => {
+            require_compatible(&repo, &runtime_context)?;
             let root = std::fs::canonicalize(&repo).context("canonicalize repository")?;
             let explicit = !command.is_empty();
             let (programs, command_args) = if explicit {
@@ -505,6 +559,7 @@ fn run() -> Result<()> {
                 state,
                 work_item_id,
             } => {
+                require_compatible(&repo, &runtime_context)?;
                 let index = generate_knowledge(&repo).context("project knowledge")?;
                 let results = query(
                     &index,
@@ -528,11 +583,13 @@ fn run() -> Result<()> {
                 program,
                 args,
             } => {
+                require_compatible(&repo, &runtime_context)?;
                 let profile = cockpit_repository::confirm_profile_update(&repo, &program, &args)
                     .context("confirm project profile update")?;
                 println!("{}", serde_json::to_string_pretty(&profile)?);
             }
             ProfileCommand::Propose { repo } => {
+                require_compatible(&repo, &runtime_context)?;
                 let git = GitRepository::discover(&repo).context("discover repository")?;
                 let snapshot = git.snapshot().context("create repository snapshot")?;
                 let observation = cockpit_repository::observe(&snapshot.root, &snapshot)
@@ -566,6 +623,7 @@ fn run() -> Result<()> {
             }
         },
         CommandKind::Mcp { repo } => {
+            require_compatible(&repo, &runtime_context)?;
             let stdin = std::io::stdin();
             let stdout = std::io::stdout();
             cockpit_mcp::serve_with_repo(
@@ -578,11 +636,13 @@ fn run() -> Result<()> {
         }
         CommandKind::Agent { command } => match command {
             AgentCommand::List { repo } => {
+                require_compatible(&repo, &runtime_context)?;
                 let detected =
                     cockpit_agent::detect_providers(&repo).context("list agent surfaces")?;
                 println!("{}", serde_json::to_string_pretty(&detected)?);
             }
             AgentCommand::Install { repo, provider } => {
+                require_compatible(&repo, &runtime_context)?;
                 let provider = match provider.provider() {
                     Some(provider) => provider,
                     None => select_auto_provider(&repo)?,
@@ -592,6 +652,7 @@ fn run() -> Result<()> {
                 println!("{}", serde_json::to_string_pretty(&receipt)?);
             }
             AgentCommand::Doctor { repo, json } => {
+                require_compatible(&repo, &runtime_context)?;
                 let report = cockpit_agent::doctor(&repo).context("inspect agent state")?;
                 if json {
                     println!("{}", serde_json::to_string_pretty(&report)?);
@@ -615,12 +676,14 @@ fn run() -> Result<()> {
                 }
             }
             AgentCommand::Repair { repo, provider } => {
+                require_compatible(&repo, &runtime_context)?;
                 let provider = select_single_provider(&repo, provider)?;
                 let receipt = cockpit_agent::repair_adapter(&repo, provider)
                     .context("repair repository-owned agent adapter")?;
                 println!("{}", serde_json::to_string_pretty(&receipt)?);
             }
             AgentCommand::Detach { repo, provider } => {
+                require_compatible(&repo, &runtime_context)?;
                 let provider = provider
                     .provider()
                     .ok_or_else(|| anyhow::anyhow!("detach requires an explicit provider"))?;
@@ -657,6 +720,7 @@ fn run() -> Result<()> {
                         serde_json::to_string_pretty(&json!({
                             "state": "red",
                             "protocolVersion": null,
+                            "repositorySchemaVersion": null,
                             "repositoryId": null,
                             "runtimeCodeInRepository": runtime_code_in_repository,
                             "runtimeVersion": &runtime_context.runtime_version,
@@ -668,9 +732,14 @@ fn run() -> Result<()> {
                 }
             };
             let runtime_code_in_repository = contains_runtime_code(&root.join(".ai"));
+            let compatibility =
+                cockpit_repository::compatibility_report(&root, &runtime_context).ok();
             let state = if validate_protocol_version(config.protocol_version).is_ok()
                 && !runtime_code_in_repository
                 && config.repository_id == cockpit_repository::repository_id(&root).to_string()
+                && compatibility
+                    .as_ref()
+                    .is_some_and(|value| value.state == "COMPATIBLE")
             {
                 "ok"
             } else {
@@ -681,10 +750,12 @@ fn run() -> Result<()> {
                 serde_json::to_string_pretty(&json!({
                     "state": state,
                     "protocolVersion": config.protocol_version,
+                    "repositorySchemaVersion": config.repository_schema_version,
                     "repositoryId": config.repository_id,
                     "runtimeCodeInRepository": runtime_code_in_repository,
                     "runtimeVersion": &runtime_context.runtime_version,
                     "runtimeDigest": &runtime_context.runtime_digest,
+                    "compatibility": compatibility,
                 }))?
             );
         }
@@ -757,6 +828,28 @@ fn select_single_provider(
         );
     }
     Ok(installed.into_iter().next().expect("one provider"))
+}
+
+fn require_compatible(
+    repo: &std::path::Path,
+    runtime: &cockpit_protocol::RuntimeContext,
+) -> Result<()> {
+    // Explicit `--repo` is still required at the CLI boundary. For a fresh,
+    // unattached repository, preserve the legacy ephemeral verification path;
+    // once `.ai/cockpit.toml` exists, every stateful/evidence operation is
+    // governed by the repository compatibility gate below.
+    if !repo.join(".ai/cockpit.toml").is_file() {
+        return Ok(());
+    }
+    let report = cockpit_repository::compatibility_report(repo, runtime)
+        .context("read repository compatibility")?;
+    if report.state != "COMPATIBLE" {
+        anyhow::bail!(
+            "repository compatibility is {}; run ai-cockpit migrate plan --repo <repository> and apply the reviewed migration before continuing",
+            report.state
+        );
+    }
+    Ok(())
 }
 
 fn select_auto_provider(repo: &std::path::Path) -> Result<AgentProvider> {

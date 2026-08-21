@@ -1,0 +1,17 @@
+{
+  "afterDigest": "sha256:a3c2a2cb4b7c624a2a2a8b6b8568ec17b04a9c622370bc6446e995e6cdb67a56",
+  "beforeDigest": "sha256:56b945157239e6d27c68c33734e181404f4bfaaf087ad798edb082797290c9e7",
+  "changes": [
+    ".ai/cockpit.toml",
+    ".ai/project.json",
+    ".ai/agent-interface.json"
+  ],
+  "createdAt": "2026-08-21T16:21:08Z",
+  "fromSchema": 1,
+  "migrationId": "schema-1-to-2-2026-08-21T16-21-08Z",
+  "result": "completed",
+  "runtimeDigest": "sha256:e7a42321d6c41622630c763f73437c821bd1bc4e3a28ab97bc31f8e83320692d",
+  "runtimeVersion": "0.1.1",
+  "schemaVersion": 1,
+  "toSchema": 2
+}

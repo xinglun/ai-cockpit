@@ -180,6 +180,14 @@ pub fn load_agent_context(root: &Path) -> Result<AgentRepositoryContext, AgentEr
             message: "manifest repositoryId does not match cockpit.toml".into(),
         });
     }
+    if config.repository_schema_version != manifest.repository_schema_version {
+        return Err(AgentError::State {
+            path: manifest_path,
+            message:
+                "repository schema versions disagree between cockpit.toml and agent-interface.json"
+                    .into(),
+        });
+    }
     Ok(AgentRepositoryContext {
         root: repository_root,
         manifest_path,

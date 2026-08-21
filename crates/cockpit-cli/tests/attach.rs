@@ -127,3 +127,139 @@ fn status_reports_calibration_required_before_first_profile_confirmation() {
     assert_eq!(json["state"], "calibration_required");
     fs::remove_dir_all(directory).expect("cleanup");
 }
+
+fn migration_fixture_repository() -> std::path::PathBuf {
+    let suffix = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("clock")
+        .as_nanos();
+    let directory =
+        std::env::temp_dir().join(format!("cockpit-migration-{}-{suffix}", std::process::id()));
+    fs::create_dir_all(&directory).expect("directory");
+    assert!(
+        Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(&directory)
+            .status()
+            .expect("git init")
+            .success()
+    );
+    directory
+}
+
+fn migration_run(
+    binary: &str,
+    repository: &std::path::Path,
+    args: &[&str],
+) -> std::process::Output {
+    Command::new(binary)
+        .args(args)
+        .args(["--repo"])
+        .arg(repository)
+        .output()
+        .expect("command")
+}
+
+#[test]
+fn old_repository_requires_explicit_migration_and_preserves_history() {
+    let repository = migration_fixture_repository();
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let attached = migration_run(binary, &repository, &["attach"]);
+    assert!(attached.status.success(), "attach: {:?}", attached);
+
+    let project_path = repository.join(".ai/project.json");
+    let manifest_path = repository.join(".ai/agent-interface.json");
+    let config_path = repository.join(".ai/cockpit.toml");
+    for path in [&project_path, &manifest_path] {
+        let mut value: serde_json::Value =
+            serde_json::from_slice(&fs::read(path).expect("JSON bytes")).expect("JSON");
+        value
+            .as_object_mut()
+            .expect("object")
+            .remove("repositorySchemaVersion");
+        fs::write(path, serde_json::to_vec_pretty(&value).expect("JSON")).expect("write JSON");
+    }
+    let config = fs::read_to_string(&config_path).expect("config");
+    fs::write(
+        &config_path,
+        config
+            .lines()
+            .filter(|line| !line.starts_with("repository_schema_version"))
+            .collect::<Vec<_>>()
+            .join("\n")
+            + "\n",
+    )
+    .expect("write legacy config");
+
+    let historical = repository.join(".ai/evidence/historical.json");
+    let archived = repository.join(".ai/work-items/archive/historical.contract.json");
+    fs::write(&historical, br#"{"kind":"historical","immutable":true}"#).expect("evidence");
+    fs::write(
+        &archived,
+        br#"{"workItemId":"historical","state":"closed"}"#,
+    )
+    .expect("archive");
+    let historical_before = fs::read(&historical).expect("evidence");
+    let archived_before = fs::read(&archived).expect("archive");
+
+    let compatibility = migration_run(binary, &repository, &["compatibility"]);
+    assert!(
+        compatibility.status.success(),
+        "compatibility: {compatibility:?}"
+    );
+    let compatibility_json: serde_json::Value =
+        serde_json::from_slice(&compatibility.stdout).expect("compatibility JSON");
+    assert_eq!(compatibility_json["state"], "MIGRATION_REQUIRED");
+    assert_eq!(compatibility_json["repositorySchemaVersion"], 1);
+
+    let plan = migration_run(binary, &repository, &["migrate", "plan"]);
+    assert!(plan.status.success(), "plan: {plan:?}");
+    let plan_json: serde_json::Value = serde_json::from_slice(&plan.stdout).expect("plan JSON");
+    assert_eq!(plan_json["state"], "MIGRATION_REQUIRED");
+    assert_eq!(plan_json["humanApprovalRequired"], true);
+    assert_eq!(plan_json["currentSchema"], 1);
+
+    let before_apply = (
+        fs::read(&config_path).expect("config"),
+        fs::read(&project_path).expect("project"),
+        fs::read(&manifest_path).expect("manifest"),
+    );
+    let denied = migration_run(binary, &repository, &["migrate", "apply"]);
+    assert!(!denied.status.success());
+    assert_eq!(fs::read(&config_path).expect("config"), before_apply.0);
+    assert_eq!(fs::read(&project_path).expect("project"), before_apply.1);
+    assert_eq!(fs::read(&manifest_path).expect("manifest"), before_apply.2);
+
+    let applied = migration_run(binary, &repository, &["migrate", "apply", "--approved"]);
+    assert!(applied.status.success(), "apply: {applied:?}");
+    let receipt: serde_json::Value = serde_json::from_slice(&applied.stdout).expect("receipt JSON");
+    assert_eq!(receipt["fromSchema"], 1);
+    assert_eq!(receipt["toSchema"], 2);
+    assert_eq!(receipt["result"], "completed");
+    assert!(
+        receipt["runtimeDigest"]
+            .as_str()
+            .unwrap_or_default()
+            .starts_with("sha256:")
+    );
+
+    let migrated = migration_run(binary, &repository, &["compatibility"]);
+    assert!(migrated.status.success(), "compatibility: {migrated:?}");
+    let migrated_json: serde_json::Value = serde_json::from_slice(&migrated.stdout).expect("JSON");
+    assert_eq!(migrated_json["state"], "COMPATIBLE");
+    assert_eq!(migrated_json["repositorySchemaVersion"], 2);
+    assert_eq!(fs::read(&historical).expect("evidence"), historical_before);
+    assert_eq!(fs::read(&archived).expect("archive"), archived_before);
+    assert!(
+        repository
+            .join(".ai/migrations")
+            .read_dir()
+            .expect("migrations")
+            .next()
+            .is_some()
+    );
+
+    let repeated = migration_run(binary, &repository, &["migrate", "apply", "--approved"]);
+    assert!(!repeated.status.success());
+    fs::remove_dir_all(repository).expect("cleanup");
+}

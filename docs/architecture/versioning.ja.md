@@ -14,7 +14,7 @@ capabilityClaims:
 
 # バージョニング
 
-Runtime version と Repository Protocol version は独立しています。
+Runtime version、Repository Protocol version、repository schema version は独立した identity です。
 
 ```text
 ai-cockpit --version
@@ -22,6 +22,7 @@ ai-cockpit --version
 
 repository:
 protocol_version = 1
+repository_schema_version = 2
 ```
 
 CLI version は executable package を示し、protocol version は repository storage contract
@@ -29,7 +30,24 @@ CLI version は executable package を示し、protocol version は repository s
 `initialize`、verification evidence などの identity-bearing surface で一緒に提供されます。
 `--version` は短い package-version command であり、完全な identity envelope を返す約束ではありません。
 
-Runtime upgrade は Protocol 1 を継続サポートしたまま capability を追加できます。Protocol 1 →
-Protocol 2 だけが repository migration です。Historical Work Item は decision boundary で使った
-Project Profile digest と protocol version を保持します。Major migration は個別に review する
-Work Item とし、旧 evidence を保持します。
+Runtime-only upgrade は compatibility が `COMPATIBLE` のとき repository の `.ai/` bytes を変更しません。
+新しい verification と migration receipt には Runtime identity を記録しますが、Runtime は global な
+active repository や Work Item state を持ちません。
+
+現在の Repository Protocol は Protocol 1 のままで、attached repository の target schema は 2 です。
+古い schema を黙って書き換えず、まず境界を確認します。
+
+```bash
+ai-cockpit compatibility --repo /path/to/repository
+ai-cockpit migrate plan --repo /path/to/repository
+ai-cockpit migrate apply --repo /path/to/repository --approved
+```
+
+`COMPATIBLE` なら通常の lifecycle command を実行できます。`MIGRATION_REQUIRED` では inspect と
+read-only plan だけを許可し、人間が明示 migration を review/approve するまで lifecycle、Agent、MCP、
+verification は停止します。`INCOMPATIBLE` は fail-closed stop で、保存された schema を理解する Runtime
+が必要です。Migration receipt は from/to schema、前後 digest、runtime version、runtime digest を bind
+します。Work Item、evidence、decision、knowledge、archive history はこの migration で書き換えません。
+
+Historical Work Item は decision boundary で使った Project Profile digest と protocol version を保持します。
+Major migration は個別に review する Work Item とし、旧 evidence を保持します。

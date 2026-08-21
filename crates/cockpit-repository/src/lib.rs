@@ -7,7 +7,8 @@ use cockpit_core::{
 use cockpit_git::{ChangeContentState, ChangeKind, RepositorySnapshot};
 use cockpit_protocol::{
     AgentAdapterCompatibility, AgentInterfaceAvailability, AgentInterfaceManifest, AgentInterfaces,
-    AgentRootBinding, QualityCommand, RepositoryConfig, validate_protocol_version,
+    AgentRootBinding, QualityCommand, RepositoryConfig, RuntimeContext,
+    default_repository_schema_version, validate_protocol_version,
 };
 use serde::{Deserialize, Serialize};
 use sha2::{Digest as ShaDigest, Sha256};
@@ -95,6 +96,8 @@ pub struct ProfileUpdateProposal {
 pub struct AttachedProfile {
     pub profile_version: u64,
     pub repository_id: String,
+    #[serde(default = "default_repository_schema_version")]
+    pub repository_schema_version: u32,
     pub state: String,
     #[serde(default)]
     pub profile_digest: Option<Digest>,
@@ -215,11 +218,52 @@ struct ReceiptStoreIndex {
 #[serde(rename_all = "camelCase")]
 pub struct RepositoryStatus {
     pub protocol_version: u32,
+    pub repository_schema_version: u32,
     pub repository_id: String,
     pub state: String,
     pub profile_version: u64,
     pub active_work_items: usize,
     pub archived_work_items: usize,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct RepositoryCompatibility {
+    pub runtime_version: String,
+    pub runtime_digest: Digest,
+    pub protocol_version: u32,
+    pub repository_schema_version: u32,
+    pub required_repository_schema_version: u32,
+    pub state: String,
+    pub safe_actions: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct MigrationPlan {
+    pub state: String,
+    pub current_schema: u32,
+    pub target_schema: u32,
+    pub migration_type: String,
+    pub planned_changes: Vec<String>,
+    pub unchanged: Vec<String>,
+    pub human_approval_required: bool,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct MigrationReceipt {
+    pub schema_version: u32,
+    pub migration_id: String,
+    pub from_schema: u32,
+    pub to_schema: u32,
+    pub runtime_version: String,
+    pub runtime_digest: Digest,
+    pub before_digest: Digest,
+    pub after_digest: Digest,
+    pub changes: Vec<String>,
+    pub result: String,
+    pub created_at: String,
 }
 
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
@@ -2339,6 +2383,16 @@ pub fn attach(root: &Path) -> Result<AttachedProfile, ObserverError> {
                 message: error.to_string(),
             }
         })?;
+        if config.repository_schema_version != cockpit_protocol::REPOSITORY_SCHEMA_VERSION {
+            return Err(ObserverError::State {
+                path: config_path.clone(),
+                message: format!(
+                    "repository schema {} requires explicit migration to {}",
+                    config.repository_schema_version,
+                    cockpit_protocol::REPOSITORY_SCHEMA_VERSION
+                ),
+            });
+        }
         if config.repository_id == legacy_id {
             // Rebind repositories created by the pre-attach path-derived
             // implementation to a durable identity on the next explicit
@@ -2364,7 +2418,10 @@ pub fn attach(root: &Path) -> Result<AttachedProfile, ObserverError> {
             source,
         })?;
     }
-    let config = format!("protocol_version = 1\nrepository_id = \"{id}\"\n");
+    let config = format!(
+        "protocol_version = 1\nrepository_schema_version = {}\nrepository_id = \"{id}\"\n",
+        cockpit_protocol::REPOSITORY_SCHEMA_VERSION
+    );
     atomic_write(&ai.join("cockpit.toml"), config.as_bytes())?;
     let profile_digest = cockpit_protocol::digest_json(&cockpit_protocol::ProjectProfile {
         profile_version: 1,
@@ -2383,6 +2440,7 @@ pub fn attach(root: &Path) -> Result<AttachedProfile, ObserverError> {
     let profile = AttachedProfile {
         profile_version: 1,
         repository_id: id,
+        repository_schema_version: cockpit_protocol::REPOSITORY_SCHEMA_VERSION,
         state: "calibration_required".into(),
         profile_digest: Some(profile_digest.clone()),
         tests: observation.quality_commands,
@@ -2400,6 +2458,7 @@ pub fn attach(root: &Path) -> Result<AttachedProfile, ObserverError> {
     let manifest = AgentInterfaceManifest {
         schema_version: 1,
         protocol_version: 1,
+        repository_schema_version: cockpit_protocol::REPOSITORY_SCHEMA_VERSION,
         interface_version: 1,
         repository_id: profile.repository_id.clone(),
         root_binding: AgentRootBinding {
@@ -2445,6 +2504,230 @@ pub fn attach(root: &Path) -> Result<AttachedProfile, ObserverError> {
     Ok(profile)
 }
 
+fn migration_inputs(
+    root: &Path,
+) -> Result<
+    (
+        RepositoryConfig,
+        AttachedProfile,
+        AgentInterfaceManifest,
+        Vec<u8>,
+    ),
+    ObserverError,
+> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let ai = root.join(".ai");
+    let config_path = ai.join("cockpit.toml");
+    let project_path = ai.join("project.json");
+    let manifest_path = ai.join("agent-interface.json");
+    let config_bytes = fs::read(&config_path).map_err(|source| ObserverError::Read {
+        path: config_path.clone(),
+        source,
+    })?;
+    let config: RepositoryConfig =
+        toml::from_slice(&config_bytes).map_err(|error| ObserverError::State {
+            path: config_path.clone(),
+            message: error.to_string(),
+        })?;
+    validate_protocol_version(config.protocol_version).map_err(|error| ObserverError::State {
+        path: config_path.clone(),
+        message: error.to_string(),
+    })?;
+    let project_bytes = fs::read(&project_path).map_err(|source| ObserverError::Read {
+        path: project_path.clone(),
+        source,
+    })?;
+    let profile: AttachedProfile =
+        serde_json::from_slice(&project_bytes).map_err(|error| ObserverError::State {
+            path: project_path.clone(),
+            message: error.to_string(),
+        })?;
+    let manifest_bytes = fs::read(&manifest_path).map_err(|source| ObserverError::Read {
+        path: manifest_path.clone(),
+        source,
+    })?;
+    let manifest: AgentInterfaceManifest =
+        serde_json::from_slice(&manifest_bytes).map_err(|error| ObserverError::State {
+            path: manifest_path.clone(),
+            message: error.to_string(),
+        })?;
+    if config.repository_id != profile.repository_id
+        || config.repository_id != manifest.repository_id
+        || config.repository_schema_version != profile.repository_schema_version
+        || config.repository_schema_version != manifest.repository_schema_version
+    {
+        return Err(ObserverError::State {
+            path: config_path,
+            message: "repository identity or schema versions disagree across protocol files".into(),
+        });
+    }
+    let mut before = config_bytes;
+    before.push(0);
+    before.extend_from_slice(&project_bytes);
+    before.push(0);
+    before.extend_from_slice(&manifest_bytes);
+    Ok((config, profile, manifest, before))
+}
+
+pub fn compatibility_report(
+    root: &Path,
+    runtime: &RuntimeContext,
+) -> Result<RepositoryCompatibility, ObserverError> {
+    let (config, _, _, _) = migration_inputs(root)?;
+    let (state, safe_actions) =
+        if config.repository_schema_version == cockpit_protocol::REPOSITORY_SCHEMA_VERSION {
+            ("COMPATIBLE", Vec::new())
+        } else if config.repository_schema_version < cockpit_protocol::REPOSITORY_SCHEMA_VERSION {
+            (
+                "MIGRATION_REQUIRED",
+                vec![
+                    "ai-cockpit migrate plan --repo <repository>".into(),
+                    "ai-cockpit migrate apply --repo <repository> --approved".into(),
+                ],
+            )
+        } else {
+            (
+                "INCOMPATIBLE",
+                vec!["install a Runtime that supports this repository schema".into()],
+            )
+        };
+    Ok(RepositoryCompatibility {
+        runtime_version: runtime.runtime_version.clone(),
+        runtime_digest: runtime.runtime_digest.clone(),
+        protocol_version: config.protocol_version,
+        repository_schema_version: config.repository_schema_version,
+        required_repository_schema_version: cockpit_protocol::REPOSITORY_SCHEMA_VERSION,
+        state: state.into(),
+        safe_actions,
+    })
+}
+
+pub fn migration_plan(root: &Path) -> Result<MigrationPlan, ObserverError> {
+    let (config, _, _, _) = migration_inputs(root)?;
+    let target = cockpit_protocol::REPOSITORY_SCHEMA_VERSION;
+    let (state, migration_type, planned_changes) = if config.repository_schema_version == target {
+        ("COMPATIBLE", "none", Vec::new())
+    } else if config.repository_schema_version < target {
+        (
+            "MIGRATION_REQUIRED",
+            "additive",
+            vec![
+                ".ai/cockpit.toml".into(),
+                ".ai/project.json".into(),
+                ".ai/agent-interface.json".into(),
+                ".ai/migrations/<timestamp>-schema-1-to-2.json".into(),
+            ],
+        )
+    } else {
+        ("INCOMPATIBLE", "unsupported", Vec::new())
+    };
+    Ok(MigrationPlan {
+        state: state.into(),
+        current_schema: config.repository_schema_version,
+        target_schema: target,
+        migration_type: migration_type.into(),
+        planned_changes,
+        unchanged: vec![
+            ".ai/work-items/archive".into(),
+            ".ai/evidence".into(),
+            ".ai/decisions".into(),
+            ".ai/knowledge".into(),
+            "historical Work Item records".into(),
+        ],
+        human_approval_required: state == "MIGRATION_REQUIRED",
+    })
+}
+
+pub fn apply_migration(
+    root: &Path,
+    runtime: &RuntimeContext,
+) -> Result<MigrationReceipt, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let (config, mut profile, mut manifest, before) = migration_inputs(&root)?;
+    let target = cockpit_protocol::REPOSITORY_SCHEMA_VERSION;
+    if config.repository_schema_version >= target {
+        return Err(ObserverError::State {
+            path: root.join(".ai/cockpit.toml"),
+            message: "repository is already migrated or uses an unsupported future schema".into(),
+        });
+    }
+    let from_schema = config.repository_schema_version;
+    let migration_id = format!(
+        "schema-{from_schema}-to-{target}-{}",
+        now().replace([':', '.'], "-")
+    );
+    profile.repository_schema_version = target;
+    manifest.repository_schema_version = target;
+    let ai = root.join(".ai");
+    let config_text = format!(
+        "protocol_version = {}\nrepository_schema_version = {}\nrepository_id = \"{}\"\n",
+        config.protocol_version, target, config.repository_id
+    );
+    let project_value = serde_json::to_value(&profile).map_err(|error| ObserverError::State {
+        path: ai.join("project.json"),
+        message: error.to_string(),
+    })?;
+    let manifest_value = serde_json::to_value(&manifest).map_err(|error| ObserverError::State {
+        path: ai.join("agent-interface.json"),
+        message: error.to_string(),
+    })?;
+    atomic_write(&ai.join("cockpit.toml"), config_text.as_bytes())?;
+    atomic_json(&ai.join("project.json"), &project_value)?;
+    atomic_json(&ai.join("agent-interface.json"), &manifest_value)?;
+    let mut after = config_text.into_bytes();
+    after.push(0);
+    after.extend_from_slice(&serde_json::to_vec_pretty(&project_value).map_err(|error| {
+        ObserverError::State {
+            path: ai.join("project.json"),
+            message: error.to_string(),
+        }
+    })?);
+    after.push(0);
+    after.extend_from_slice(
+        &serde_json::to_vec_pretty(&manifest_value).map_err(|error| ObserverError::State {
+            path: ai.join("agent-interface.json"),
+            message: error.to_string(),
+        })?,
+    );
+    let receipt = MigrationReceipt {
+        schema_version: 1,
+        migration_id: migration_id.clone(),
+        from_schema,
+        to_schema: target,
+        runtime_version: runtime.runtime_version.clone(),
+        runtime_digest: runtime.runtime_digest.clone(),
+        before_digest: Digest::sha256_bytes(&before),
+        after_digest: Digest::sha256_bytes(&after),
+        changes: vec![
+            ".ai/cockpit.toml".into(),
+            ".ai/project.json".into(),
+            ".ai/agent-interface.json".into(),
+        ],
+        result: "completed".into(),
+        created_at: now(),
+    };
+    let migrations = ai.join("migrations");
+    fs::create_dir_all(&migrations).map_err(|source| ObserverError::Read {
+        path: migrations.clone(),
+        source,
+    })?;
+    let receipt_value = serde_json::to_value(&receipt).map_err(|error| ObserverError::State {
+        path: migrations.clone(),
+        message: error.to_string(),
+    })?;
+    atomic_json(
+        &migrations.join(format!("{migration_id}.json")),
+        &receipt_value,
+    )?;
+    Ok(receipt)
+}
+
 pub fn status(root: &Path) -> Result<RepositoryStatus, ObserverError> {
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -2485,6 +2768,7 @@ pub fn status(root: &Path) -> Result<RepositoryStatus, ObserverError> {
     }
     Ok(RepositoryStatus {
         protocol_version: config.protocol_version,
+        repository_schema_version: config.repository_schema_version,
         repository_id: profile.repository_id,
         state: profile.state,
         profile_version: profile.profile_version,
@@ -3014,16 +3298,23 @@ fn assertion_count(lines: &[String]) -> usize {
 
 fn contains_test_bypass(text: &str) -> bool {
     let text = text.to_ascii_lowercase();
-    let removes_tests = (text.contains("delete")
-        || text.contains("remove")
-        || text.contains("disable")
-        || text.contains("skip"))
-        && text.contains("test");
-    let claims_success = text.contains("pass") || text.contains("green") || text.contains("ci");
+    let removes_tests = text.lines().any(|line| {
+        let line = line.trim();
+        (line.contains("delete")
+            || line.contains("remove")
+            || line.contains("disable")
+            || line.contains("skip"))
+            && line.contains("test")
+    });
+    let claims_success = text
+        .lines()
+        .any(|line| line.contains("pass") || line.contains("green") || line.contains("ci"));
     removes_tests && claims_success
-        || text.contains("continue-on-error: true")
-        || text.contains("allow_failure: true")
-        || text.contains("|| true")
+        || text.lines().any(|line| {
+            line.contains("continue-on-error: true")
+                || line.contains("allow_failure: true")
+                || line.contains("|| true")
+        })
 }
 
 fn assignment(line: &str) -> Option<(String, String)> {
@@ -3117,10 +3408,8 @@ pub fn derive_governance_signals(snapshot: &RepositorySnapshot) -> GovernanceSig
             continue;
         }
 
-        let changed_text = change.after_text.as_deref().unwrap_or("").to_owned()
-            + "\n"
-            + &change.added_lines.join("\n");
-        if contains_strong_instruction_injection(&changed_text) {
+        let added_text = change.added_lines.join("\n");
+        if contains_strong_instruction_injection(&added_text) {
             result.untrusted_material = true;
             result.findings.push("repository_prompt_injection".into());
         }
@@ -3128,7 +3417,7 @@ pub fn derive_governance_signals(snapshot: &RepositorySnapshot) -> GovernanceSig
             && (change.kind == ChangeKind::Deleted
                 || contains_skip_marker(&change.added_lines)
                 || assertion_count(&change.removed_lines) > assertion_count(&change.added_lines)
-                || contains_test_bypass(&changed_text))
+                || contains_test_bypass(&added_text))
         {
             result.test_weakening = true;
             result.findings.push("test_weakening".into());
@@ -3912,6 +4201,7 @@ pub fn confirm_profile_update(
     let updated = AttachedProfile {
         profile_version,
         repository_id: current.repository_id,
+        repository_schema_version: current.repository_schema_version,
         state: "calibrated".into(),
         profile_digest: Some(profile_digest.clone()),
         tests,

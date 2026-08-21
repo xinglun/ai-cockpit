@@ -28,6 +28,7 @@
   },
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySchemaVersion": 2,
   "rootBinding": {
     "type": "manifest-parent"
   },
