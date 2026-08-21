@@ -15,7 +15,7 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # Release と配布
 
-現在の installation baseline は公開済みで immutable な `v0.1.1` Release です。Homebrew と manual install は
+現在の installation baseline は公開済みで immutable な `v0.2.0` Release です。Homebrew と manual install は
 public archive と manifest を使い、Repository configuration は `cockpit.toml` のままです。runtime の install は
 対象 repository に `.ai` を作成しません。WI-40 は post-release adopter acceptance harness を追加しますが、pre-release gate や Runtime command ではありません。
 
@@ -53,7 +53,7 @@ supported path ではありません。
 checksum file は全十個の archive/SBOM を対象にするため、download した archive だけを検証します。
 
 ```bash
-archive="ai-cockpit-v0.1.1-aarch64-apple-darwin.tar.gz"
+archive="ai-cockpit-v0.2.0-aarch64-apple-darwin.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -63,8 +63,8 @@ gh attestation verify "$archive" --repo xinglun/ai-cockpit
 Release 公開後は GitHub CLI で正確な 3 ファイルを取得することもできます。
 
 ```bash
-archive="ai-cockpit-v0.1.1-aarch64-apple-darwin.tar.gz"
-gh release download v0.1.1 --repo xinglun/ai-cockpit \
+archive="ai-cockpit-v0.2.0-aarch64-apple-darwin.tar.gz"
+gh release download v0.2.0 --repo xinglun/ai-cockpit \
   --pattern "$archive" --pattern release-manifest.json --pattern SHA256SUMS
 ```
 
@@ -97,7 +97,7 @@ repository/runtime identity の隔離を検証する公開後 evidence である
 ```bash
 tests/release/adopter_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --tag v0.1.1 \
+  --tag v0.2.0 \
   --target aarch64-apple-darwin \
   --output ./release-adopter-acceptance
 ```
@@ -114,7 +114,7 @@ verify してから `ai-cockpit` を `$HOME/.local/bin` に置きます。
 
 ```bash
 target="aarch64-apple-darwin" # machine に合う target を選ぶ
-archive="ai-cockpit-v0.1.1-${target}.tar.gz"
+archive="ai-cockpit-v0.2.0-${target}.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -132,7 +132,7 @@ Windows では `.zip` と `SHA256SUMS` を download し、checksum を比較し�
 その directory を user `PATH` に追加します。
 
 ```powershell
-$archive = "ai-cockpit-v0.1.1-x86_64-pc-windows-msvc.zip"
+$archive = "ai-cockpit-v0.2.0-x86_64-pc-windows-msvc.zip"
 $expected = Get-Content .\SHA256SUMS |
   Where-Object { ($_ -split '\s+')[1] -eq $archive } |
   ForEach-Object { ($_ -split '\s+')[0].ToLowerInvariant() }
@@ -152,10 +152,10 @@ $env:Path = "$destination;$env:Path"
 
 ## Rust developer fallback
 
-この fallback は現在公開済みの immutable な `v0.1.1` tag で利用できます。Workspace は複数 package を含むため `cockpit-cli` を明示します。
+この fallback は現在公開済みの immutable な `v0.2.0` tag で利用できます。Workspace は複数 package を含むため `cockpit-cli` を明示します。
 
 ```bash
-cargo install --git https://github.com/xinglun/ai-cockpit.git --tag v0.1.1 --locked --root "$HOME/.local" --bin ai-cockpit cockpit-cli
+cargo install --git https://github.com/xinglun/ai-cockpit.git --tag v0.2.0 --locked --root "$HOME/.local" --bin ai-cockpit cockpit-cli
 "$HOME/.local/bin/ai-cockpit" --version
 cargo uninstall --root "$HOME/.local" cockpit-cli
 ```

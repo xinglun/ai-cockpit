@@ -105,8 +105,8 @@ a source-build fallback or a replacement for Release truth.
 - `cockpit-release` and the release workflow own the local release contract,
   deterministic manifest, Formula projection, hosted checks, and published
   Release identity.
-- The current immutable public baseline is `v0.1.1`; WI-40 records its public
-  adopter acceptance. An external Homebrew tap is a separate provider surface
+- The current immutable public baseline is `v0.2.0`; WI-40 records the first
+  public adopter acceptance and WI-44 records N-1 upgrade acceptance. An external Homebrew tap is a separate provider surface
   and is not implied by this repository.
 - The tap receives a reviewed Formula projection; it does not rebuild binaries.
 - Homebrew is a delivery path, not a governance authority. Repository facts and
