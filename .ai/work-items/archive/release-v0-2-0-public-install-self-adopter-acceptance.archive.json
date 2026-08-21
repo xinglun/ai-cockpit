@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T17:03:43Z",
+  "files": {
+    "contractDigest": "sha256:248e3e1200323a3e7847b73354551c776d044c809a1344cd814c3c102a263421",
+    "contractPath": ".ai/work-items/archive/release-v0-2-0-public-install-self-adopter-acceptance.contract.json",
+    "outcomeDigest": "sha256:c6104da87d161b8c0a07abbcc0a04f8df72f907605636885ac3a42f788bf3443",
+    "outcomePath": ".ai/work-items/archive/release-v0-2-0-public-install-self-adopter-acceptance.outcome.json",
+    "summaryDigest": "sha256:580c140a38c504d7a470d5db4e7636981af19eab60ad72eae99c2c6bb726b5f6",
+    "summaryPath": ".ai/work-items/archive/release-v0-2-0-public-install-self-adopter-acceptance.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "release-v0-2-0-public-install-self-adopter-acceptance"
+}

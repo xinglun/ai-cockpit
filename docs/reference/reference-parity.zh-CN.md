@@ -25,7 +25,7 @@ Python 模块、Makefile helper 或 V1 repository state。
 
 | 参考关注点 | Rust runtime 状态 | 证据与边界 |
 | --- | --- | --- |
-| 面向读者的入口和语言切换 | 部分完成，WI-41 修正 | 根 README 已互相链接；完整阅读路线和内部历史清理由 WI-42 完成。 |
+| 面向读者的入口和语言切换 | 已实现 | 根 README 互相链接，阅读路线区分 adopter 与 maintainer 内容。 |
 | 目的、问题、架构和功能概览 | 已实现 | `docs/philosophy*`、`docs/architecture*`、`docs/capabilities*` 描述 Rust runtime 及外部责任。 |
 | 共享 Runtime 与 request-scoped repository context | 已实现 | `docs/architecture/runtime-topology*`、所有 CLI 显式 `--repo`、repository isolation tests。 |
 | Repository attach 和最小 scaffold | 已实现 | `attach`、`.ai/cockpit.toml`、`.ai/project.json`、`.ai/agent-interface.json` 及 attach tests。 |
@@ -33,9 +33,9 @@ Python 模块、Makefile helper 或 V1 repository state。
 | Work Item 生命周期和治理决定 | 已实现 | Contract、preflight、verification evidence、archive、close 和 human decision records。 |
 | 有界验证与 fail-closed evidence reuse | 已实现 | Runtime identity、snapshot/toolchain/environment binding、receipt store 和 workspace verification suite。 |
 | MCP repository binding | 已实现 | repository-bound stdio MCP service 与 CLI/MCP parity tests。 |
-| 公开 Release 与新 adopter 验收 | 已实现 | WI-40 harness、公开 `v0.1.1` 证据和发布后 CI job。 |
-| Runtime-only upgrade 与 repository migration | 尚未实现 | 当前 versioning 文档已声明边界，但没有 `compatibility` 或 `migrate` command；由 WI-43 实现。 |
-| N-1 旧 adopter 升级验收 | 尚未实现 | 已有新 adopter 验收；旧 adopter 升级矩阵由 WI-44 实现。 |
+| 公开 Release 与新 adopter 验收 | 已实现 | WI-40 harness、公开 Release 证据和发布后 CI job。 |
+| Runtime-only upgrade 与 repository migration | 已实现 | `compatibility`、`migrate plan` 和批准后的 `migrate apply` 保留历史 evidence 并绑定 Runtime identity。 |
+| N-1 旧 adopter 升级验收 | 已实现 | WI-44 公开 artifact harness 覆盖旧 schema、批准门控、历史保持与继续运行。 |
 | 参考 installer、Makefile 和 V1 helper scripts | 有意不复制 | Rust 项目分发 Rust binary，并把安装/provider 配置与 repository state 分离。 |
 | 参考源历史 Work Item 和内部进度计划 | 不是产品能力 | WI-42 会从读者入口移除内部历史；归档证据仍在 Git 中可审计。 |
 
@@ -49,12 +49,7 @@ ownership；决定绑定证据；公开 Release 验收可重复执行。
 project/profile records 在适用位置由 Rust Protocol files 表达；不把
 `cockpit.toml` 改成 JSON。
 
-## 后续 Work Item
+## 当前边界
 
-- WI-42：让文档入口面向读者，删除入口中的进度历史，并规范三种语言路线。
-- WI-43：加入显式 Runtime compatibility gate 和版本化 repository migration
-  protocol，且不重写历史 evidence。
-- WI-44：把 N-1 旧 adopter 升级加入 Release evidence matrix。
-
-这些工作分成独立 Work Item，因为它们分别改变文档导航、runtime/repository
-行为和发布验收 authority surface。
+Reader 路线、Runtime migration 边界和 N-1 release 验收已经实现并写入文档。后续变化必须
+保持共享 Runtime 升级、显式 repository migration 与 repository-local evidence 的分离。

@@ -1,0 +1,39 @@
+{
+  "acceptanceCriteria": [
+    "Published v0.2.0 assets are immutable and checksum-verified; the public binary is installed; current repository compatibility is COMPATIBLE; Agent doctor is VERIFIED; public adopter and N-1 acceptance pass; runtime/evidence identities and isolation are recorded."
+  ],
+  "authority": "authorized",
+  "baseRevision": "8ac116b1c12cfb09f6b892a983655bd69d4fc0c8",
+  "createdAt": "2026-08-21T16:57:56Z",
+  "goal": "Bind release identity, installation, public adopter acceptance, N-1 upgrade acceptance, and self-governed development to one auditable final release baseline.",
+  "intent": "Publish v0.2.0, install only its public Release binary, and prove the Runtime governs this repository and a fresh adopter.",
+  "mode": "implementation",
+  "outOfScope": [],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:36e40aeddd9a9c9a7c645b555e600aff85eaae62e63d709122481437bc86b954",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    ".github/workflows/release.yml",
+    "docs/release/**",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "tests/release/**",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "release-v0-2-0-public-install-self-adopter-acceptance"
+}

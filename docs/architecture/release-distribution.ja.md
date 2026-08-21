@@ -97,7 +97,7 @@ truth の代替ではない。
 
 - `cockpit-release` と release workflow は local release contract、deterministic manifest、Formula projection、
   hosted check、published Release identity を扱います。
-- 現在の immutable public baseline は `v0.1.1` で、WI-40 が public adopter acceptance を記録しています。
+- 現在の immutable public baseline は `v0.2.0` で、WI-40 が最初の public adopter acceptance、WI-44 が N-1 upgrade 受入れを記録しています。
   external Homebrew tap は別の provider surface であり、この repository が自動的に保証するものではありません。
 - Tap は review 済み Formula projection を受け取り、binary を rebuild しません。
 - Homebrew は delivery path であり governance authority ではありません。repository facts と human decision

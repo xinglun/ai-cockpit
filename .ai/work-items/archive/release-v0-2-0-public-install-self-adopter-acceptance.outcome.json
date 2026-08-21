@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T17:03:43Z",
+  "evidenceDigest": "sha256:0fafdd377b726bd3b6ac04a810b6ee89771a0776bee89c232d55e50389fd0142",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/release-v0-2-0-public-install-self-adopter-acceptance.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "release-v0-2-0-public-install-self-adopter-acceptance"
+}
