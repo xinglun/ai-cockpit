@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T23:01:03Z",
+  "files": {
+    "contractDigest": "sha256:4294f79d7af91511e0f1af9e398b77e313f5e1d6dd20f56b53d3d12a765e9f3c",
+    "contractPath": ".ai/work-items/archive/WI-81-schema-migration-chain.contract.json",
+    "outcomeDigest": "sha256:916044b9092641b57dc01aa1d084d73b55c43344d66c197eabb6899df0f1a06b",
+    "outcomePath": ".ai/work-items/archive/WI-81-schema-migration-chain.outcome.json",
+    "summaryDigest": "sha256:d249e3e53ca9cf61be70904f4b11a7d47251b6742036d5f3f70be8bc007b4410",
+    "summaryPath": ".ai/work-items/archive/WI-81-schema-migration-chain.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-81-schema-migration-chain"
+}

@@ -263,3 +263,44 @@ fn old_repository_requires_explicit_migration_and_preserves_history() {
     assert!(!repeated.status.success());
     fs::remove_dir_all(repository).expect("cleanup");
 }
+
+#[test]
+fn migration_rejects_an_unreviewed_schema_without_skipping_history() {
+    let repository = migration_fixture_repository();
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let attached = migration_run(binary, &repository, &["attach"]);
+    assert!(attached.status.success(), "attach: {attached:?}");
+
+    let config_path = repository.join(".ai/cockpit.toml");
+    let project_path = repository.join(".ai/project.json");
+    let manifest_path = repository.join(".ai/agent-interface.json");
+    let mut config = fs::read_to_string(&config_path).expect("config");
+    config = config.replace(
+        "repository_schema_version = 2",
+        "repository_schema_version = 0",
+    );
+    fs::write(&config_path, config).expect("write config");
+    for path in [&project_path, &manifest_path] {
+        let mut value: serde_json::Value =
+            serde_json::from_slice(&fs::read(path).expect("JSON bytes")).expect("JSON");
+        value["repositorySchemaVersion"] = serde_json::json!(0);
+        fs::write(path, serde_json::to_vec_pretty(&value).expect("JSON")).expect("write JSON");
+    }
+    let before = (
+        fs::read(&config_path).expect("config"),
+        fs::read(&project_path).expect("project"),
+        fs::read(&manifest_path).expect("manifest"),
+    );
+    let plan = migration_run(binary, &repository, &["migrate", "plan"]);
+    assert!(!plan.status.success(), "unreviewed schema must fail closed");
+    assert!(String::from_utf8_lossy(&plan.stderr).contains("no reviewed adjacent migration"));
+    let apply = migration_run(binary, &repository, &["migrate", "apply", "--approved"]);
+    assert!(
+        !apply.status.success(),
+        "unreviewed schema must not be skipped"
+    );
+    assert_eq!(fs::read(&config_path).expect("config"), before.0);
+    assert_eq!(fs::read(&project_path).expect("project"), before.1);
+    assert_eq!(fs::read(&manifest_path).expect("manifest"), before.2);
+    fs::remove_dir_all(repository).expect("cleanup");
+}

@@ -14,6 +14,14 @@ capabilityClaims:
 
 # 版本策略
 
+## 相邻迁移链
+
+Repository schema migration 是由审核过的相邻边组成的显式链。Runtime 根据当前
+schema 解析下一条边，并拒绝未知来源、未来 schema，或跳过未经审核的中间版本的
+直接迁移。每个批准的步骤都会写入绑定 Runtime 的 receipt，其中包含步骤 identity、
+链长度、保留历史 evidence 的 digest 以及 Runtime version/digest。历史 evidence、
+decision、knowledge 和归档 Work Item 按字节保留；migration 永远不会重写它们。
+
 Runtime version、Repository Protocol version 和 repository schema version 是独立的 identity。
 
 ```text

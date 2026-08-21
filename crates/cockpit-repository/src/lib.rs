@@ -12,8 +12,9 @@ use cockpit_protocol::{
     DelegatedEvidence, DelegatedEvidenceReceipt, EvidenceDisposition, EvidenceDispositionItem,
     EvidencePersistence, EvidenceRetention, EvidenceRetentionPolicy, EvidenceValidity,
     GovernancePolicy, GovernancePolicyDocument, HumanDecision, PolicyLayer, QualityCommand,
-    RepositoryConfig, RuntimeContext, default_repository_schema_version, merge_policy_layers,
-    validate_evidence_retention, validate_protocol_version,
+    RepositoryConfig, RuntimeContext, SchemaMigrationStep, default_repository_schema_version,
+    merge_policy_layers, repository_schema_migration_chain, validate_evidence_retention,
+    validate_protocol_version,
 };
 use serde::{Deserialize, Serialize};
 use sha2::{Digest as ShaDigest, Sha256};
@@ -254,6 +255,7 @@ pub struct MigrationPlan {
     pub planned_changes: Vec<String>,
     pub unchanged: Vec<String>,
     pub human_approval_required: bool,
+    pub steps: Vec<SchemaMigrationStep>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -270,6 +272,10 @@ pub struct MigrationReceipt {
     pub changes: Vec<String>,
     pub result: String,
     pub created_at: String,
+    pub step: SchemaMigrationStep,
+    pub chain_length: usize,
+    pub preserved_evidence_digest: Digest,
+    pub preserved_paths: Vec<String>,
 }
 
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
@@ -2578,6 +2584,79 @@ fn migration_inputs(
     Ok((config, profile, manifest, before))
 }
 
+const MIGRATION_PRESERVED_PATHS: [&str; 4] = [
+    ".ai/evidence",
+    ".ai/decisions",
+    ".ai/knowledge",
+    ".ai/work-items/archive",
+];
+
+fn collect_preserved_files(
+    directory: &Path,
+    files: &mut Vec<PathBuf>,
+) -> Result<(), ObserverError> {
+    let entries = match fs::read_dir(directory) {
+        Ok(entries) => entries,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(()),
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: directory.to_path_buf(),
+                source,
+            });
+        }
+    };
+    for entry in entries {
+        let entry = entry.map_err(|source| ObserverError::Read {
+            path: directory.to_path_buf(),
+            source,
+        })?;
+        let path = entry.path();
+        let metadata = fs::symlink_metadata(&path).map_err(|source| ObserverError::Read {
+            path: path.clone(),
+            source,
+        })?;
+        if metadata.file_type().is_symlink() {
+            return Err(ObserverError::State {
+                path,
+                message: "migration preservation refuses symlinked historical evidence".into(),
+            });
+        }
+        if metadata.is_dir() {
+            collect_preserved_files(&path, files)?;
+        } else if metadata.is_file() {
+            files.push(path);
+        }
+    }
+    Ok(())
+}
+
+fn preserved_evidence_digest(root: &Path) -> Result<Digest, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let mut files = Vec::new();
+    for relative in MIGRATION_PRESERVED_PATHS {
+        collect_preserved_files(&root.join(relative), &mut files)?;
+    }
+    files.sort();
+    let mut bytes = Vec::new();
+    for path in files {
+        let relative = path.strip_prefix(&root).map_err(|_| ObserverError::State {
+            path: path.clone(),
+            message: "historical evidence path escaped repository root".into(),
+        })?;
+        bytes.extend_from_slice(relative.to_string_lossy().as_bytes());
+        bytes.push(0);
+        bytes.extend_from_slice(&fs::read(&path).map_err(|source| ObserverError::Read {
+            path: path.clone(),
+            source,
+        })?);
+        bytes.push(0);
+    }
+    Ok(Digest::sha256_bytes(&bytes))
+}
+
 pub fn compatibility_report(
     root: &Path,
     runtime: &RuntimeContext,
@@ -2614,22 +2693,35 @@ pub fn compatibility_report(
 pub fn migration_plan(root: &Path) -> Result<MigrationPlan, ObserverError> {
     let (config, _, _, _) = migration_inputs(root)?;
     let target = cockpit_protocol::REPOSITORY_SCHEMA_VERSION;
-    let (state, migration_type, planned_changes) = if config.repository_schema_version == target {
-        ("COMPATIBLE", "none", Vec::new())
-    } else if config.repository_schema_version < target {
-        (
-            "MIGRATION_REQUIRED",
-            "additive",
-            vec![
+    let (state, migration_type, planned_changes, steps) =
+        if config.repository_schema_version == target {
+            ("COMPATIBLE", "none", Vec::new(), Vec::new())
+        } else if config.repository_schema_version < target {
+            let steps = repository_schema_migration_chain(config.repository_schema_version, target)
+                .map_err(|error| ObserverError::State {
+                    path: root.join(".ai/cockpit.toml"),
+                    message: error.to_string(),
+                })?;
+            let mut planned_changes = vec![
                 ".ai/cockpit.toml".into(),
                 ".ai/project.json".into(),
                 ".ai/agent-interface.json".into(),
-                ".ai/migrations/<timestamp>-schema-1-to-2.json".into(),
-            ],
-        )
-    } else {
-        ("INCOMPATIBLE", "unsupported", Vec::new())
-    };
+            ];
+            planned_changes.extend(steps.iter().map(|step| {
+                format!(
+                    ".ai/migrations/<timestamp>-schema-{}-to-{}.json",
+                    step.from_schema, step.to_schema
+                )
+            }));
+            (
+                "MIGRATION_REQUIRED",
+                "adjacent_chain",
+                planned_changes,
+                steps,
+            )
+        } else {
+            ("INCOMPATIBLE", "unsupported", Vec::new(), Vec::new())
+        };
     Ok(MigrationPlan {
         state: state.into(),
         current_schema: config.repository_schema_version,
@@ -2644,6 +2736,7 @@ pub fn migration_plan(root: &Path) -> Result<MigrationPlan, ObserverError> {
             "historical Work Item records".into(),
         ],
         human_approval_required: state == "MIGRATION_REQUIRED",
+        steps,
     })
 }
 
@@ -2664,16 +2757,35 @@ pub fn apply_migration(
         });
     }
     let from_schema = config.repository_schema_version;
+    let chain = repository_schema_migration_chain(from_schema, target).map_err(|error| {
+        ObserverError::State {
+            path: root.join(".ai/cockpit.toml"),
+            message: error.to_string(),
+        }
+    })?;
+    let step = chain.first().cloned().ok_or_else(|| ObserverError::State {
+        path: root.join(".ai/cockpit.toml"),
+        message: "migration chain has no next step".into(),
+    })?;
+    if step.from_schema != from_schema || step.to_schema > target {
+        return Err(ObserverError::State {
+            path: root.join(".ai/cockpit.toml"),
+            message: "migration step is not an adjacent reviewed edge".into(),
+        });
+    }
+    let preserved_before = preserved_evidence_digest(&root)?;
     let migration_id = format!(
-        "schema-{from_schema}-to-{target}-{}",
+        "schema-{}-to-{}-{}",
+        step.from_schema,
+        step.to_schema,
         now().replace([':', '.'], "-")
     );
-    profile.repository_schema_version = target;
-    manifest.repository_schema_version = target;
+    profile.repository_schema_version = step.to_schema;
+    manifest.repository_schema_version = step.to_schema;
     let ai = root.join(".ai");
     let config_text = format!(
         "protocol_version = {}\nrepository_schema_version = {}\nrepository_id = \"{}\"\n",
-        config.protocol_version, target, config.repository_id
+        config.protocol_version, step.to_schema, config.repository_id
     );
     let project_value = serde_json::to_value(&profile).map_err(|error| ObserverError::State {
         path: ai.join("project.json"),
@@ -2701,11 +2813,18 @@ pub fn apply_migration(
             message: error.to_string(),
         })?,
     );
+    let preserved_after = preserved_evidence_digest(&root)?;
+    if preserved_before != preserved_after {
+        return Err(ObserverError::State {
+            path: root.join(".ai"),
+            message: "historical evidence changed while applying migration".into(),
+        });
+    }
     let receipt = MigrationReceipt {
         schema_version: 1,
         migration_id: migration_id.clone(),
         from_schema,
-        to_schema: target,
+        to_schema: step.to_schema,
         runtime_version: runtime.runtime_version.clone(),
         runtime_digest: runtime.runtime_digest.clone(),
         before_digest: Digest::sha256_bytes(&before),
@@ -2717,6 +2836,13 @@ pub fn apply_migration(
         ],
         result: "completed".into(),
         created_at: now(),
+        step,
+        chain_length: chain.len(),
+        preserved_evidence_digest: preserved_after,
+        preserved_paths: MIGRATION_PRESERVED_PATHS
+            .iter()
+            .map(|path| (*path).into())
+            .collect(),
     };
     let migrations = ai.join("migrations");
     fs::create_dir_all(&migrations).map_err(|source| ObserverError::Read {

@@ -1,5 +1,32 @@
 use cockpit_core::Digest;
-use cockpit_protocol::{ProtocolError, RepositoryConfig, validate_protocol_version};
+use cockpit_protocol::{
+    ProtocolError, REPOSITORY_SCHEMA_VERSION, RepositoryConfig, SchemaMigrationError,
+    repository_schema_migration_chain, validate_protocol_version,
+};
+
+#[test]
+fn schema_migration_chain_requires_adjacent_reviewed_edges() {
+    let chain = repository_schema_migration_chain(1, REPOSITORY_SCHEMA_VERSION).expect("chain");
+    assert_eq!(
+        chain
+            .iter()
+            .map(|step| (step.from_schema, step.to_schema))
+            .collect::<Vec<_>>(),
+        vec![(1, 2)]
+    );
+    assert_eq!(
+        repository_schema_migration_chain(2, 2),
+        Err(SchemaMigrationError::AlreadyCurrent(2))
+    );
+    assert_eq!(
+        repository_schema_migration_chain(3, 2),
+        Err(SchemaMigrationError::FutureSchema(3, 2))
+    );
+    assert_eq!(
+        repository_schema_migration_chain(0, 2),
+        Err(SchemaMigrationError::MissingStep(0))
+    );
+}
 
 #[test]
 fn protocol_v1_is_accepted() {

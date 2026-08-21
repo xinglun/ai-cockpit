@@ -7,6 +7,66 @@ pub const PROTOCOL_VERSION: u32 = 1;
 pub const AGENT_INTERFACE_VERSION: u32 = 1;
 pub const REPOSITORY_SCHEMA_VERSION: u32 = 2;
 
+/// The repository schema migration graph is intentionally explicit.  A
+/// Runtime may only apply one adjacent edge at a time; adding a future schema
+/// requires adding another reviewed edge instead of changing a direct
+/// `from -> latest` conversion.
+pub const REPOSITORY_SCHEMA_MIGRATIONS: &[(u32, u32)] = &[(1, 2)];
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SchemaMigrationStep {
+    pub from_schema: u32,
+    pub to_schema: u32,
+}
+
+#[derive(Debug, Error, PartialEq, Eq)]
+pub enum SchemaMigrationError {
+    #[error("repository schema {0} is already current")]
+    AlreadyCurrent(u32),
+    #[error("repository schema {0} is newer than the Runtime target {1}")]
+    FutureSchema(u32, u32),
+    #[error("no reviewed adjacent migration from repository schema {0}")]
+    MissingStep(u32),
+}
+
+/// Resolve the reviewed adjacent migration chain.  The function refuses a
+/// future schema and never returns a step that skips an intermediate schema.
+pub fn repository_schema_migration_chain(
+    from_schema: u32,
+    target_schema: u32,
+) -> Result<Vec<SchemaMigrationStep>, SchemaMigrationError> {
+    if from_schema == target_schema {
+        return Err(SchemaMigrationError::AlreadyCurrent(from_schema));
+    }
+    if from_schema > target_schema {
+        return Err(SchemaMigrationError::FutureSchema(
+            from_schema,
+            target_schema,
+        ));
+    }
+    let mut current = from_schema;
+    let mut chain = Vec::new();
+    while current < target_schema {
+        let Some((from, to)) = REPOSITORY_SCHEMA_MIGRATIONS
+            .iter()
+            .copied()
+            .find(|(from, _)| *from == current)
+        else {
+            return Err(SchemaMigrationError::MissingStep(current));
+        };
+        if to > target_schema || to <= from {
+            return Err(SchemaMigrationError::MissingStep(current));
+        }
+        chain.push(SchemaMigrationStep {
+            from_schema: from,
+            to_schema: to,
+        });
+        current = to;
+    }
+    Ok(chain)
+}
+
 pub fn default_repository_schema_version() -> u32 {
     1
 }

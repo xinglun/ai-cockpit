@@ -14,6 +14,16 @@ capabilityClaims:
 
 # バージョニング
 
+## 隣接 migration chain
+
+Repository schema migration は、review 済みの隣接 edge からなる明示的な chain
+です。Runtime は現在の schema から次の edge を解決し、未知の source、future
+schema、または未 review の中間 version を飛ばす direct jump を拒否します。
+approved な各 step は step identity、chain length、保持した historical evidence
+digest、Runtime version/digest を含む Runtime-bound receipt を作成します。過去の
+evidence、decision、knowledge、archive Work Item は byte 単位で保持され、migration
+によって書き換えられません。
+
 Runtime version、Repository Protocol version、repository schema version は独立した identity です。
 
 ```text
