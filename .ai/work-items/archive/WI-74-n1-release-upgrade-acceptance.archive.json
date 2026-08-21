@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T23:12:51Z",
+  "files": {
+    "contractDigest": "sha256:26b4186247a2bbb62847e4b01d067c6aac421111b3adb20fb08d30e56154cc7d",
+    "contractPath": ".ai/work-items/archive/WI-74-n1-release-upgrade-acceptance.contract.json",
+    "outcomeDigest": "sha256:d4206594eb7d0ee99278e0099e67ada514cdb1c3d27b271a18f8d81191e2ccf6",
+    "outcomePath": ".ai/work-items/archive/WI-74-n1-release-upgrade-acceptance.outcome.json",
+    "summaryDigest": "sha256:c0b7ec197450b13d9af3ee0101d0cf2ac900d4d7da32832f79cd1a02c0609139",
+    "summaryPath": ".ai/work-items/archive/WI-74-n1-release-upgrade-acceptance.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-74-n1-release-upgrade-acceptance"
+}

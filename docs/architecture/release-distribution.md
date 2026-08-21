@@ -99,6 +99,15 @@ The N-1 acceptance harness proves this boundary with old and new public
 archives. It is a post-release artifact, never a source-build fallback or a
 replacement for Release truth.
 
+Release tags invoke the harness only after publication and its handoff have
+completed; the workflow resolves the preceding published Release and uploads
+the receipt independently. Manual dispatch requires explicit public
+`from_tag` and `to_tag` inputs and never publishes. When no preceding Release
+exists, the workflow records a checksummed `not_applicable` result.
+Same-schema patch upgrades still execute the harness and record
+`migrationState: not_required`; only a schema-changing pair enters the
+approval-gated migration branch.
+
 ## Trust boundaries
 
 - `cockpit-release` and the release workflow own the local release contract,

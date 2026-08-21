@@ -104,15 +104,16 @@ separate future Work Item.
 ### Historical N-1 schema migration acceptance
 
 The schema-changing baseline is the historical v0.1.1 to v0.2.0 migration.
-v0.2.2 is a same-schema patch release, so it uses fresh-adopter acceptance
-and compatibility checks rather than this migration harness. To reproduce the
-historical migration evidence with both public archives:
+v0.2.2 is a same-schema patch release: its N-1 run follows the same harness
+but records `migrationState: not_required` after compatibility is proven. To
+reproduce a current N-1 run, use the immediately previous public Release and
+the current Runtime:
 
 ```bash
 tests/release/adopter_upgrade_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --from-tag v0.1.1 \
-  --to-tag v0.2.0 \
+  --from-tag v0.2.1 \
+  --to-tag v0.2.2 \
   --target aarch64-apple-darwin \
   --output ./release-adopter-upgrade-acceptance
 ```
@@ -122,6 +123,21 @@ history, continued operation, and isolated repository/runtime identity. It is
 post-release evidence and must never be replaced by a source build or used to
 rewrite Release truth. The migration acceptance artifact is maintained
 separately from the adopter installation path.
+
+The historical v0.1.1 to v0.2.0 migration evidence remains archived. The
+v0.2.0 Runtime predates the adjacent-chain receipt fields, so that historical
+pair is not re-run by the current harness.
+
+The release workflow runs this harness in a separate
+`adopter_upgrade_acceptance` job after publication and the publication handoff.
+For a tag push it resolves the immediately preceding published semantic
+Release through the provider API. A first public Release records
+`adopterAcceptance: not_applicable` with a checksummed receipt. Maintainers can
+also trigger the workflow manually by supplying `from_tag`, `to_tag`, and an
+optional `target`; manual dispatch consumes only those already-published
+artifacts and never publishes a Release. The job uploads
+`acceptance.json`, per-step JSON/stderr, both Runtime identity records, and
+`SHA256SUMS` even when acceptance fails.
 
 ## Manual archive installation
 

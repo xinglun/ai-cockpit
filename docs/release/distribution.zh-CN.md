@@ -92,14 +92,14 @@ attach/profile/Agent doctor，保持 `first-adopter-smoke` 为 `not_ready`，验
 ### 历史 N-1 schema 迁移验收
 
 发生 schema 变化的基线是历史上的 v0.1.1 到 v0.2.0 迁移。v0.2.2 是保持同一
-schema 的 patch Release，因此使用 fresh-adopter 验收和 compatibility 检查，不运行这个迁移 harness。
-如需重现历史迁移 evidence，请使用两个公开归档：
+schema 的 patch Release；其 N-1 run 仍使用同一个 harness，在确认 compatibility 后记录
+`migrationState: not_required`。当前 N-1 run 使用紧邻的上一个公开 Release 与当前 Runtime，例如：
 
 ```bash
 tests/release/adopter_upgrade_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --from-tag v0.1.1 \
-  --to-tag v0.2.0 \
+  --from-tag v0.2.1 \
+  --to-tag v0.2.2 \
   --target aarch64-apple-darwin \
   --output ./release-adopter-upgrade-acceptance
 ```
@@ -107,6 +107,17 @@ tests/release/adopter_upgrade_acceptance.sh \
 它证明旧 adopter 检测、审查门控迁移、历史字节保持、继续运行以及隔离的
 repository/runtime identity。这是发布后 evidence，不能用源码构建替代，也不能改写
 Release truth。迁移验收 artifact 与 adopter 安装路径分开维护。
+
+历史 v0.1.1 到 v0.2.0 的 schema 迁移 evidence 仍保留在归档中。由于 v0.2.0 Runtime
+早于相邻迁移链 receipt 字段，当前 harness 不重新运行这个历史 pair。
+
+发布 workflow 会在发布和 publication handoff 之后，用独立的
+`adopter_upgrade_acceptance` job 执行这个 harness。对于 tag push，workflow 通过 provider
+API 解析紧邻的上一个已发布 semantic Release。第一个公开 Release 会写入带 checksum 的
+`adopterAcceptance: not_applicable` receipt。维护者也可以手动触发 workflow，提供
+`from_tag`、`to_tag` 和可选的 `target`；手动触发只消费已经发布的 artifact，永远不会发布
+Release。即使验收失败，job 也会上传 `acceptance.json`、各步骤 JSON/stderr、两个 Runtime
+identity 记录和 `SHA256SUMS`。
 
 ## 手动 archive 安装
 

@@ -92,6 +92,13 @@ Runtime version/digest に結び付き、過去の evidence は書き換えな�
 N-1 acceptance harness は旧・新の公開 archive でこの境界を検証します。これは公開後 artifact
 であり、source build fallback や Release truth の代替ではありません。
 
+Release tag では publication と handoff が完了した後だけ harness を起動し、workflow は直前の
+published Release を解決して receipt を独立に upload します。manual dispatch には公開済みの
+`from_tag` と `to_tag` の明示入力が必要で、Release を publish しません。直前の Release がない
+場合は checksum 付きの `not_applicable` result を記録します。
+同じ schema の patch upgrade でも harness を実行して `migrationState: not_required` を記録し、
+schema が変わる pair だけが approval-gated migration branch に進みます。
+
 ## Trust boundary
 
 - `cockpit-release` と release workflow は local release contract、deterministic manifest、Formula projection、

@@ -80,15 +80,15 @@ Maintainer は Release 公開後に public binary acceptance baseline を再実�
 ### 過去の N-1 schema migration 受入れ
 
 schema が変わった基準は、過去の v0.1.1 から v0.2.0 への migration です。
-v0.2.2 は同じ schema の patch Release なので、この migration harness ではなく
-fresh-adopter acceptance と compatibility check を使います。過去の migration evidence を
-再現する場合は、公開済みの両 archive を使います。
+v0.2.2 は同じ schema の patch Release ですが、N-1 run は同じ harness を使い、compatibility
+を確認した後に `migrationState: not_required` を記録します。current N-1 run は直前の
+public Release と current Runtime、例えば次のように実行します。
 
 ```bash
 tests/release/adopter_upgrade_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --from-tag v0.1.1 \
-  --to-tag v0.2.0 \
+  --from-tag v0.2.1 \
+  --to-tag v0.2.2 \
   --target aarch64-apple-darwin \
   --output ./release-adopter-upgrade-acceptance
 ```
@@ -97,6 +97,18 @@ tests/release/adopter_upgrade_acceptance.sh \
 repository/runtime identity の隔離を検証する公開後 evidence である。source build で
 代用したり Release truth を書き換えたりしてはならない。
 Migration acceptance artifact は adopter の installation path とは分離して管理します。
+
+過去の v0.1.1 から v0.2.0 への schema migration evidence は archive に保持されますが、
+v0.2.0 Runtime は隣接 chain receipt field より前のため current harness でその pair は再実行しません。
+
+release workflow は publication と publication handoff の後に、独立した
+`adopter_upgrade_acceptance` job でこの harness を実行します。tag push の場合は provider
+API から直前の published semantic Release を解決します。最初の public Release では checksum
+付き receipt に `adopterAcceptance: not_applicable` を記録します。maintainer は `from_tag`、
+`to_tag`、任意の `target` を指定して workflow を手動実行することもできます。manual dispatch
+は既に公開された artifact だけを消費し、Release を publish しません。失敗時も
+`acceptance.json`、step ごとの JSON/stderr、両方の Runtime identity、`SHA256SUMS` を upload
+します。
 
 ```bash
 tests/release/adopter_acceptance.sh \

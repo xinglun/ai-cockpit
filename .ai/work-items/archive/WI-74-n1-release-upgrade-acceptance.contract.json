@@ -1,0 +1,42 @@
+{
+  "acceptanceCriteria": [
+    "Release workflow has a tag-only post-publication N-1 job and an explicit manual public-artifact mode; no source fallback is possible; outputs include runtime identities",
+    " immutable release binding",
+    " byte-identical historical evidence",
+    " isolation",
+    " acceptance.json and SHA256SUMS; workflow/static policy and trilingual docs pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "9294dbae2027ec13aa736c0b37ff8e992e06f9ed",
+  "createdAt": "2026-08-21T23:02:00Z",
+  "goal": "Make every published Release prove N-1 upgrade acceptance from immutable public artifacts, with release truth, runtime identity, historical evidence preservation, isolation, and checksummed receipt.",
+  "intent": "Wire the public-artifact N-1 adopter upgrade harness into release CI with explicit post-release and manual trigger boundaries.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    "global-agent-or-mcp-config"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1dc3eb7ecf9664ed481e02b6c9bada9f26de056b040db582306e01d0f8c0afe5",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    ".github/workflows/release.yml",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh",
+    "tests/release/workflow_policy.sh",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-74-n1-release-upgrade-acceptance"
+}

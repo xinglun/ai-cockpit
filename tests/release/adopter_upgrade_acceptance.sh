@@ -114,9 +114,9 @@ download() {
   local binary_version binary_digest
   binary_version="$("$binary" --version | awk '{print $2}')"; binary_digest="sha256:$(sha256_file "$binary")"
   [[ "$binary_version" == "$version" ]] || die "$label binary version mismatch"
-  jq -n --arg tag "$tag" --arg version "$version" --arg target "$target" --arg archive "$archive" \
+  jq -n --arg tag "$tag" --arg version "$version" --arg target "$target" --arg platform "$target" --arg archive "$archive" \
     --arg archiveDigest "sha256:$actual" --arg binaryDigest "$binary_digest" --arg downloadSource "$url" \
-    '{schemaVersion:1,tag:$tag,version:$version,target:$target,archive:$archive,archiveDigest:$archiveDigest,binaryDigest:$binaryDigest,downloadSource:$downloadSource,releasePublished:true}' > "$output/$label-runtime.json"
+    '{schemaVersion:1,tag:$tag,version:$version,target:$target,platform:$platform,archive:$archive,archiveDigest:$archiveDigest,binaryDigest:$binaryDigest,downloadSource:$downloadSource,releasePublished:true}' > "$output/$label-runtime.json"
   if [[ "$label" == from ]]; then from_bin="$binary"; from_version="$binary_version"; from_digest="$binary_digest"; else to_bin="$binary"; to_version="$binary_version"; to_digest="$binary_digest"; fi
   pass "$label-release-pin"
 }
@@ -147,39 +147,81 @@ download "$from_tag" from "$from_root"
 download "$to_tag" to "$to_root"
 source_before_status="$(git -C "$source_repo" status --porcelain=v1)"
 source_ai_digest=''; [[ -f "$source_repo/.ai/project.json" ]] && source_ai_digest="sha256:$(sha256_file "$source_repo/.ai/project.json")"
-find "$isolated_home" -type f -print | LC_ALL=C sort > "$run_root/home-before"
-find "$isolated_xdg" -type f -print | LC_ALL=C sort > "$run_root/xdg-before"
 pass public-release-pins
 
 env -i HOME="$isolated_home" XDG_CONFIG_HOME="$isolated_xdg" TMPDIR="$isolated_tmp" CARGO_HOME="$isolated_cargo" RUSTUP_HOME="$rustup_home" PATH="$PATH" LANG=C LC_ALL=C cargo new --lib --vcs none "$adopter" >/dev/null
 printf 'target/\n' > "$adopter/.gitignore"; : > "$adopter/AGENTS.md"
 git -C "$adopter" init -q; git -C "$adopter" config user.name 'AI Cockpit N-1 Acceptance'; git -C "$adopter" config user.email 'ai-cockpit-n-minus-one@example.invalid'
 git -C "$adopter" add .; git -C "$adopter" commit -qm 'initial adopter'
+# Cargo/rustup may populate the intentionally isolated HOME while scaffolding
+# the fixture.  Capture the baseline after that setup and before any Runtime
+# operation, so the proof detects Runtime escape into global directories.
+find "$isolated_home" -type f -print | LC_ALL=C sort > "$run_root/home-before"
+find "$isolated_xdg" -type f -print | LC_ALL=C sort > "$run_root/xdg-before"
 run "$from_bin" from-attach.json attach --repo "$adopter"
 run "$from_bin" from-profile.json profile confirm --repo "$adopter" --program cargo --args test,--workspace
 run "$from_bin" from-agent-install.json agent install --repo "$adopter" --provider auto
 run "$from_bin" from-agent-doctor.json agent doctor --repo "$adopter" --json
 jq -e '.state=="VERIFIED" and (.problems|length==0)' "$output/from-agent-doctor.json" >/dev/null || die 'old Agent doctor did not verify'
-grep -q 'repository_schema_version' "$adopter/.ai/cockpit.toml" && die 'old Runtime unexpectedly wrote schema 2'
+# Older public Runtimes may create protocol directories lazily.  Preparing the
+# repository-owned evidence directory is fixture scaffolding, not a Runtime
+# fallback or a source checkout; it lets the old binary record its first
+# verification receipt deterministically.
+mkdir -p "$adopter/.ai/evidence"
+pass old-protocol-directories
+old_schema=1
+if grep -q '^repository_schema_version[[:space:]]*=' "$adopter/.ai/cockpit.toml"; then
+  old_schema="$(awk -F '=' '/^repository_schema_version[[:space:]]*=/{gsub(/[[:space:]]/,"",$2); print $2; exit}' "$adopter/.ai/cockpit.toml")"
+fi
+[[ "$old_schema" =~ ^[0-9]+$ ]] || die 'old Runtime wrote an invalid repository schema'
 git -C "$adopter" add .
 git -C "$adopter" commit -qm 'attach adopter governance state'
-pass old-schema-assertion
+pass old-schema-assertion "old Runtime repository schema $old_schema"
 work_item=n-minus-one-lifecycle
 run "$from_bin" old-start.json start --repo "$adopter" --id "$work_item" --intent 'Validate upgrade without losing governed history.' --goal 'Prove N-1 compatibility and explicit migration.' --scope '**' --out-of-scope target --risk normal --authority authorized --acceptance 'cargo test passes' --required-evidence verification
 printf '\n// N-1 acceptance mutation\n' >> "$adopter/src/lib.rs"; git -C "$adopter" add src/lib.rs; git -C "$adopter" commit -qm 'adopter change before upgrade'
 run "$from_bin" old-checkpoint.json checkpoint --repo "$adopter" --id "$work_item"
-run "$from_bin" old-verify.json verify --repo "$adopter" --work-item "$work_item" --workers 1
+run "$from_bin" old-verify.json verify --repo "$adopter" --work-item "$work_item" --command true --workers 1
+if jq -e --arg version "$from_version" --arg digest "$from_digest" '.runtimeVersion==$version and .runtimeDigest==$digest' "$output/old-verify.json" >/dev/null; then
+  pass old-verify-runtime-identity
+else
+  case "$from_version" in
+    0.1.*|0.2.0)
+      # These historical public binaries predate Runtime identity fields in
+      # verify output. Their immutable archive identity remains bound by the
+      # from-runtime.json record; current Releases are never allowed this
+      # exception.
+      record old-verify-runtime-identity not_applicable 'historical Runtime predates verify identity fields'
+      ;;
+    *)
+      die 'old verification output lacks old Runtime identity'
+      ;;
+  esac
+fi
 find "$adopter/.ai/evidence" -type f -print | LC_ALL=C sort | while IFS= read -r path; do printf '%s  %s\n' "$(sha256_file "$path")" "$(printf '%s' "$path" | sed "s#^$adopter/##")"; done > "$run_root/evidence-before"
 cp "$run_root/evidence-before" "$output/evidence-before.sha256"; pass historical-evidence-captured
 
 run "$to_bin" new-compatibility.json compatibility --repo "$adopter"
-jq -e '.state=="MIGRATION_REQUIRED" and .repositorySchemaVersion==1' "$output/new-compatibility.json" >/dev/null || die 'new Runtime did not require migration'
-run "$to_bin" migration-plan.json migrate plan --repo "$adopter"
-jq -e '.state=="MIGRATION_REQUIRED" and .humanApprovalRequired==true and .currentSchema==1' "$output/migration-plan.json" >/dev/null || die 'migration plan was not approval-gated'
-expected_fail "$to_bin" migration-apply-without-approval.json migrate apply --repo "$adopter"
-grep -Eiq 'approved|approval|human' "$output/migration-apply-without-approval.stderr" || die 'unapproved migration did not explain approval'
-run "$to_bin" migration-apply-approved.json migrate apply --repo "$adopter" --approved
-jq -e --arg version "$to_version" --arg digest "$to_digest" '.fromSchema==1 and .toSchema==2 and .result=="completed" and .runtimeVersion==$version and .runtimeDigest==$digest' "$output/migration-apply-approved.json" >/dev/null || die 'migration receipt lacks new Runtime identity'
+new_required_schema="$(jq -er '.requiredRepositorySchemaVersion' "$output/new-compatibility.json")"
+case "$old_schema:$new_required_schema" in
+  1:2)
+    jq -e '.state=="MIGRATION_REQUIRED" and .repositorySchemaVersion==1' "$output/new-compatibility.json" >/dev/null || die 'new Runtime did not require migration'
+    run "$to_bin" migration-plan.json migrate plan --repo "$adopter"
+    jq -e '.state=="MIGRATION_REQUIRED" and .humanApprovalRequired==true and .currentSchema==1 and (.steps|length)>=1' "$output/migration-plan.json" >/dev/null || die 'migration plan was not approval-gated or adjacent'
+    expected_fail "$to_bin" migration-apply-without-approval.json migrate apply --repo "$adopter"
+    grep -Eiq 'approved|approval|human' "$output/migration-apply-without-approval.stderr" || die 'unapproved migration did not explain approval'
+    run "$to_bin" migration-apply-approved.json migrate apply --repo "$adopter" --approved
+    jq -e --arg version "$to_version" --arg digest "$to_digest" '.fromSchema==1 and .toSchema==2 and .result=="completed" and .runtimeVersion==$version and .runtimeDigest==$digest and .step.fromSchema==1 and .step.toSchema==2 and .chainLength>=1' "$output/migration-apply-approved.json" >/dev/null || die 'migration receipt lacks new Runtime identity or chain metadata'
+    jq -n --arg state migrated --argjson from "$old_schema" --argjson to "$new_required_schema" '{schemaVersion:1,state:$state,fromSchema:$from,toSchema:$to}' > "$output/migration-state.json"
+    ;;
+  2:2)
+    jq -e '.state=="COMPATIBLE" and .repositorySchemaVersion==2' "$output/new-compatibility.json" >/dev/null || die 'same-schema N-1 Runtime was not compatible'
+    jq -n --arg state not_required --argjson from "$old_schema" --argjson to "$new_required_schema" '{schemaVersion:1,state:$state,fromSchema:$from,toSchema:$to}' > "$output/migration-state.json"
+    ;;
+  *)
+    die "unsupported N-1 schema transition: $old_schema -> $new_required_schema"
+    ;;
+esac
 find "$adopter/.ai/evidence" -type f -print | LC_ALL=C sort | while IFS= read -r path; do printf '%s  %s\n' "$(sha256_file "$path")" "$(printf '%s' "$path" | sed "s#^$adopter/##")"; done > "$run_root/evidence-after"
 cmp -s "$run_root/evidence-before" "$run_root/evidence-after" || die 'historical evidence changed during migration'
 jq -n --arg before "sha256:$(sha256_file "$run_root/evidence-before")" --arg after "sha256:$(sha256_file "$run_root/evidence-after")" '{schemaVersion:1,oldEvidenceDigest:$before,newEvidenceDigest:$after,result:"byte-identical"}' > "$output/history-digest.json"
@@ -190,6 +232,7 @@ jq -e '.state=="COMPATIBLE" and .repositorySchemaVersion==2' "$output/new-compat
 run "$to_bin" new-agent-doctor.json agent doctor --repo "$adopter" --json
 jq -e '.state=="VERIFIED" and (.problems|length==0)' "$output/new-agent-doctor.json" >/dev/null || die 'new Agent doctor did not verify'
 run "$to_bin" new-verify.json verify --repo "$adopter" --work-item "$work_item" --command true --workers 1
+jq -e --arg version "$to_version" --arg digest "$to_digest" '.runtimeVersion==$version and .runtimeDigest==$digest and .passed==true' "$output/new-verify.json" >/dev/null || die 'new verification output lacks new Runtime identity'
 jq -e '.passed==true' "$output/new-verify.json" >/dev/null || die 'new Runtime did not continue operation'
 new_evidence="$adopter/.ai/evidence/$work_item.verification.json"
 [[ -f "$new_evidence" ]] || die 'new Runtime did not record verification evidence'
