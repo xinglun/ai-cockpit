@@ -1,0 +1,1 @@
+{"decisionState":"red","blockers":["cross_work_item_evidence"],"unknowns":[],"safeActions":["rerun_evidence_for_current_work_item"],"requiredChecks":["evidence_binding"],"authority":"not_evaluated","outcomeState":"blocked"}

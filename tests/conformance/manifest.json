@@ -1,0 +1,35 @@
+{
+  "protocolVersion": 1,
+  "oracle": {
+    "sourceLock": "v1-reference.lock",
+    "offline": {
+      "mode": "offline-semantic-fixtures",
+      "runtimeInvoked": false
+    },
+    "executable": {
+      "mode": "locked-external-v1-runtime",
+      "runtimeInvoked": true,
+      "adapter": "v1_oracle.py",
+      "test": "cargo test -p cockpit-core --test v1_oracle -- --ignored",
+      "comparison": ["decisionState", "blockers", "unknowns", "safeActions", "requiredChecks", "authority", "outcomeState"]
+    }
+  },
+  "fixtureLayout": ["repository/", "contract.json", "evidence/", "input.json", "expected.json"],
+  "comparison": ["decisionState", "blockers", "unknowns", "safeActions", "requiredChecks", "authority", "outcomeState"],
+  "cases": [
+    "scope-exceeded",
+    "unauthorized-destructive-change",
+    "missing-evidence",
+    "stale-evidence",
+    "contradictory-evidence",
+    "unsupported-completion",
+    "repository-prompt-injection",
+    "malicious-deletion",
+    "missing-human-authority",
+    "invalid-archive",
+    "cross-work-item-evidence",
+    "unknown-provider-result",
+    "test-weakening",
+    "coverage-weakening"
+  ]
+}

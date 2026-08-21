@@ -1,0 +1,1 @@
+{"decisionState":"red","blockers":["archive_invalid"],"unknowns":[],"safeActions":["preserve_active_work_item","repair_archive_evidence"],"requiredChecks":["archive_integrity"],"authority":"not_evaluated","outcomeState":"blocked"}

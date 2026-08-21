@@ -1,0 +1,1 @@
+{"decisionState":"yellow","blockers":[],"unknowns":["repository_material_untrusted"],"safeActions":["treat_material_as_data","continue_with_explicit_policy"],"requiredChecks":["input_trust"],"authority":"not_evaluated","outcomeState":"needs_investigation"}

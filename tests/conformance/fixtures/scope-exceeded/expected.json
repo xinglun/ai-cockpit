@@ -1,0 +1,1 @@
+{"decisionState":"red","blockers":["scope_exceeded"],"unknowns":[],"safeActions":["stop_and_request_new_contract"],"requiredChecks":["scope"],"authority":"absent_for_requested_change","outcomeState":"blocked"}

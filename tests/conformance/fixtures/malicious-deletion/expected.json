@@ -1,0 +1,1 @@
+{"decisionState":"red","blockers":["unsafe_deletion_request"],"unknowns":[],"safeActions":["stop_and_request_human_authority"],"requiredChecks":["destructive_operation"],"authority":"missing","outcomeState":"blocked"}

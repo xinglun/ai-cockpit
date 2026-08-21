@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-cockpit.dev/schemas/repository-protocol-v1.schema.json",
+  "title": "AI Cockpit Repository Protocol v1",
+  "type": "object",
+  "required": ["protocolVersion", "kind", "repositoryId", "repositorySnapshotDigest"],
+  "properties": {
+    "protocolVersion": {"const": 1},
+    "kind": {"enum": ["config", "profile", "contract", "summary", "outcome", "decision", "evidence", "knowledge"]},
+    "repositoryId": {"type": "string", "minLength": 1},
+    "repositorySnapshotDigest": {"$ref": "#/$defs/digest"},
+    "runtimeVersion": {"type": "string", "minLength": 1},
+    "runtimeDigest": {"$ref": "#/$defs/digest"},
+    "createdAt": {"type": "string", "format": "date-time"},
+    "updatedAt": {"type": "string", "format": "date-time"},
+    "profileVersion": {"type": "integer", "minimum": 1},
+    "profileDigest": {"$ref": "#/$defs/digest"},
+    "baseRevision": {"type": "string", "pattern": "^[0-9a-fA-F]{7,64}$"},
+    "scope": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "outOfScope": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "requiredEvidenceClasses": {"type": "array", "items": {"enum": ["content-bound", "diff-bound", "environment-bound", "external", "human-decision"]}},
+    "state": {"enum": ["green", "yellow", "red", "unknown", "created", "active", "verified", "archived", "closed", "stale", "superseded"]},
+    "digest": {"$ref": "#/$defs/digest"}
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  },
+  "additionalProperties": true
+}

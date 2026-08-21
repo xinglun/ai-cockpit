@@ -1,0 +1,1 @@
+{"decisionState":"yellow","blockers":[],"unknowns":["human_authority_missing"],"safeActions":["request_human_decision"],"requiredChecks":["authority"],"authority":"missing","outcomeState":"needs_human_decision"}

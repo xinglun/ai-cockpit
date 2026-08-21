@@ -1,0 +1,1 @@
+{"scope":["src/**"],"out_of_scope":[".git/**"],"changed_paths":["src/lib.rs"],"action":"write","authority":"missing","evidence":"complete","untrusted_material":false,"test_weakening":false,"coverage_weakening":false,"explicit_blockers":["unsafe_deletion_request"],"explicit_unknowns":[],"outcome_state_override":null,"authority_override":null}

@@ -1,0 +1,81 @@
+---
+author: AI Cockpit maintainers
+title: "Configuration Reference"
+description: "Repository-owned TOML configuration, profile state, and generated Work Item files."
+audience:
+  - adopter
+  - maintainer
+status: current
+authority: canonical
+lastVerifiedBy: documentation-acceptance
+capabilityClaims:
+  - configuration
+---
+
+# Configuration reference
+
+The repository configuration format is TOML. It is not changed to JSON.
+
+## `.ai/cockpit.toml`
+
+`attach` creates a minimal file:
+
+```toml
+protocol_version = 1
+repository_id = "sha256:<64 lowercase hexadecimal characters>"
+```
+
+`repository_id` is generated when the repository is first attached and is read
+from this repository-owned file on later requests. It is deliberately not a
+hash of the absolute path, so moving an attached repository does not make its
+evidence a different repository. The runtime validates both fields and rejects
+an identity mismatch. Do not copy runtime source or V1 files into `.ai/`.
+
+## `.ai/agent-interface.json`
+
+`attach` also writes a strict repository-local discovery manifest. It contains
+`schemaVersion`, `protocolVersion`, the stable `repositoryId`,
+`rootBinding: "manifest-parent"`, the capabilities exposed by this Runtime,
+and `adapterState: "unconfigured"`. It is a discovery fact, not provider
+instructions, an authorization grant, or a global MCP configuration. Provider
+installation is explicit and separate from `attach`.
+
+## `.ai/adapters/<provider>.json`
+
+`agent install` writes a strict ownership record containing the provider,
+repository ID, repository-relative target, adapter version, and managed-section
+digest. `doctor`, `repair`, and `detach` use it as the ownership authority;
+missing, modified, duplicated, or mismatched records are conflicts. No global
+Agent or MCP configuration is stored here.
+
+## `.ai/project.json`
+
+`attach` creates an attached profile with `state: "calibration_required"`.
+After `profile confirm`, the profile version increments and the selected quality
+command is recorded as verified. The wrapper contains `profileVersion`,
+`repositoryId`, `state`, `profileDigest`, `tests`, and `buildSystems`. Unknown
+profile fields are rejected.
+
+## Work Item records
+
+`start` generates these files under `.ai/work-items/active/`:
+
+- `<id>.contract.json` — intent, scope, authority, acceptance, required evidence,
+  base revision, profile digest, and repository snapshot digest;
+- `<id>.summary.json` — lifecycle state and checkpoint count.
+
+`work-item new --repo <path> --id <id> --mode <mode>` uses the same contract
+writer to create a `not_ready` skeleton. It fills only the four deterministic
+facts (`repositoryId`, `baseRevision`, `projectProfileDigest`, and
+`repositorySnapshotDigest`) and leaves intent, scope, acceptance criteria, and
+authority empty or `unknown`. `profile propose` emits a candidate amendment
+without changing the formal profile bytes or digest.
+
+`verify --work-item <id>` writes `.ai/evidence/<id>.verification.json`. `finish`
+creates an outcome, `archive` creates an archive manifest, and `close` records the
+human decision. These records are content-bound and must not be hand-edited to make
+a decision appear green.
+
+Cross-process reusable evidence is runtime-managed under
+`.ai/evidence/reuse/`; see [Protocol v1](../protocol/v1/specification.md) for its
+schema, identity bindings, and resource limits.

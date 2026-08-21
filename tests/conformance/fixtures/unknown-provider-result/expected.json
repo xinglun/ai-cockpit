@@ -1,0 +1,1 @@
+{"decisionState":"yellow","blockers":[],"unknowns":["provider_result_unknown"],"safeActions":["obtain_provider_receipt","rerun_preflight"],"requiredChecks":["external_evidence"],"authority":"not_evaluated","outcomeState":"awaiting_external_evidence"}

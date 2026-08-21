@@ -1,0 +1,29 @@
+[package]
+name = "cockpit-release"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+name = "cockpit-release"
+path = "src/main.rs"
+
+[dependencies]
+chrono.workspace = true
+clap.workspace = true
+flate2 = "1.1"
+hex.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+semver.workspace = true
+sha2.workspace = true
+tar = "0.4"
+thiserror.workspace = true
+zip = { version = "7.0", default-features = false, features = ["deflate", "time"] }
+
+[dev-dependencies]
+tempfile.workspace = true
