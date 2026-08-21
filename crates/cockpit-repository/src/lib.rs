@@ -17,10 +17,11 @@ use std::fs;
 use std::io::{Read, Seek, Write};
 use std::path::{Path, PathBuf};
 use std::sync::atomic::{AtomicU64, Ordering};
-use std::time::Instant;
+use std::time::{Instant, SystemTime, UNIX_EPOCH};
 use thiserror::Error;
 
 static NEXT_ATOMIC_WRITE_ID: AtomicU64 = AtomicU64::new(0);
+static NEXT_REPOSITORY_ID: AtomicU64 = AtomicU64::new(0);
 const MAX_RECEIPT_INDEX_BYTES: u64 = 8 * 1024 * 1024;
 const MAX_REUSABLE_RECEIPT_BYTES: u64 = 1024 * 1024;
 const MAX_VERIFICATION_IDENTITY_FILE_BYTES: u64 = 1024 * 1024;
@@ -257,8 +258,39 @@ pub enum ObserverError {
     State { path: PathBuf, message: String },
 }
 
-pub fn repository_id(root: &Path) -> Digest {
+fn path_derived_repository_id(root: &Path) -> Digest {
     Digest::sha256_bytes(root.to_string_lossy().as_bytes())
+}
+
+fn stored_repository_id(root: &Path) -> Option<Digest> {
+    let config = fs::read_to_string(root.join(".ai/cockpit.toml")).ok()?;
+    let config: RepositoryConfig = toml::from_str(&config).ok()?;
+    config.repository_id.parse().ok()
+}
+
+/// Return the repository identity bound to an attached repository.
+///
+/// An attached repository owns the value in `.ai/cockpit.toml`; the path hash
+/// is only a compatibility fallback for un-attached test fixtures and cannot
+/// authorize a repository-local receipt on its own.
+pub fn repository_id(root: &Path) -> Digest {
+    stored_repository_id(root).unwrap_or_else(|| path_derived_repository_id(root))
+}
+
+fn new_repository_id() -> Digest {
+    let sequence = NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed);
+    let timestamp = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map_or(0, |duration| duration.as_nanos());
+    Digest::sha256_bytes(
+        format!(
+            "ai-cockpit:repository:{}:{}:{}",
+            std::process::id(),
+            timestamp,
+            sequence
+        )
+        .as_bytes(),
+    )
 }
 
 pub fn assess_verification_reuse(
@@ -2255,7 +2287,8 @@ pub fn attach(root: &Path) -> Result<AttachedProfile, ObserverError> {
     let observation = observe(&root, &snapshot)?;
     let ai = root.join(".ai");
     let config_path = ai.join("cockpit.toml");
-    let id = repository_id(&root).to_string();
+    let legacy_id = path_derived_repository_id(&root).to_string();
+    let mut id = new_repository_id().to_string();
     if config_path.is_file() {
         let existing = fs::read_to_string(&config_path).map_err(|source| ObserverError::Read {
             path: config_path.clone(),
@@ -2272,10 +2305,16 @@ pub fn attach(root: &Path) -> Result<AttachedProfile, ObserverError> {
                 message: error.to_string(),
             }
         })?;
-        if config.repository_id != id {
+        if config.repository_id == legacy_id {
+            // Rebind repositories created by the pre-attach path-derived
+            // implementation to a durable identity on the next explicit
+            // attach. A current attached identity remains idempotent.
+        } else if config.repository_id.parse::<Digest>().is_ok() {
+            id = config.repository_id;
+        } else {
             return Err(ObserverError::State {
-                path: config_path,
-                message: "repository identity does not match attach target".into(),
+                path: config_path.clone(),
+                message: "repository identity is not a valid stable digest".into(),
             });
         }
     }

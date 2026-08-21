@@ -123,6 +123,27 @@ intentionally remains without `.ai`.
 The full release and Homebrew trust path is documented in
 [Release distribution architecture](architecture/release-distribution.md).
 
+## Shared Runtime, isolated Repository Contexts
+
+AI Cockpit is installed once per machine. Each request must bind an explicit
+repository; the Core never keeps a global active repository, Work Item, or
+project profile.
+
+```mermaid
+flowchart TB
+    Runtime["One installed ai-cockpit binary"]
+    Runtime --> A["RepositoryContext A<br/>/project-a/.ai/<br/>Contract · Evidence · Knowledge"]
+    Runtime --> B["RepositoryContext B<br/>/project-b/.ai/<br/>Contract · Evidence · Knowledge"]
+    Runtime --> C["RepositoryContext C<br/>/project-c/.ai/<br/>Contract · Evidence · Knowledge"]
+```
+
+The CLI therefore requires `--repo` on repository-bound commands, for example
+`ai-cockpit status --repo /project-a` and `ai-cockpit verify --repo /project-b`.
+MCP requests carry the same binding through the repository manifest and its
+stable `repositoryId`. Runtime upgrades are shared; Contracts, receipts,
+knowledge, and repository state are not. Work Item evidence records the
+`runtimeVersion`, `runtimeDigest`, and `protocolVersion` that produced it.
+
 ## Scenario
 
 Someone asks an agent to “clean up the docs.” Before any edit, the request

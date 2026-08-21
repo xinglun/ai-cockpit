@@ -32,6 +32,17 @@ from application code. The normal path is:
 
 `inspect → attach → preflight → verify → finish/archive/close`
 
+Install the Runtime once, then attach each target repository separately:
+
+```text
+ai-cockpit attach --repo /project-a
+ai-cockpit attach --repo /project-b
+```
+
+The binary is shared, but each repository keeps its own `.ai/` Contract,
+Evidence, and Knowledge. Every repository-bound command requires `--repo`; the
+Runtime has no global current repository or active Work Item.
+
 ## Three decision states
 
 - `green`: the required evidence supports the bounded next action;

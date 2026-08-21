@@ -114,6 +114,26 @@ Release archive / Homebrew / Cargo Git
 完整的 release 与 Homebrew 信任路径见
 [发布分发架构](architecture/release-distribution.zh-CN.md)。
 
+## 共享 Runtime，隔离 Repository Context
+
+AI Cockpit 在一台机器上只安装一份。每次请求都必须显式绑定目标
+repository；Core 不保存全局 active repository、Work Item 或 project profile。
+
+```mermaid
+flowchart TB
+    Runtime["机器上安装一份 ai-cockpit binary"]
+    Runtime --> A["RepositoryContext A<br/>/project-a/.ai/<br/>Contract · Evidence · Knowledge"]
+    Runtime --> B["RepositoryContext B<br/>/project-b/.ai/<br/>Contract · Evidence · Knowledge"]
+    Runtime --> C["RepositoryContext C<br/>/project-c/.ai/<br/>Contract · Evidence · Knowledge"]
+```
+
+因此，CLI 的 repository-bound command 必须带 `--repo`，例如
+`ai-cockpit status --repo /project-a` 和 `ai-cockpit verify --repo /project-b`。
+MCP 请求通过 repository manifest 和稳定的 `repositoryId` 使用同一绑定。Runtime
+升级可以一次惠及多个项目；Contract、receipt、knowledge 和 repository state
+绝不共享。Work Item evidence 记录产生它的 `runtimeVersion`、`runtimeDigest` 和
+`protocolVersion`。
+
 ## 场景
 
 有人让 Agent“清理文档”。在任何编辑前，请求先成为带有范围和验收条件的 Work Item。Agent

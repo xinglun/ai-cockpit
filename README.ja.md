@@ -32,6 +32,17 @@ Repository Protocol v1 に保存し、Rust governance core は application code 
 
 `inspect → attach → preflight → verify → finish/archive/close`
 
+Runtime は 1 つだけ install し、各 target repository を個別に attach します。
+
+```text
+ai-cockpit attach --repo /project-a
+ai-cockpit attach --repo /project-b
+```
+
+binary は共有しますが、各 repository は独自の `.ai/` Contract、Evidence、Knowledge
+を持ちます。repository-bound command には常に `--repo` が必要で、Runtime に global な
+current repository や active Work Item はありません。
+
 ## 3 つの decision state
 
 - `green`: 必要な evidence が bounded な次の操作を支える。

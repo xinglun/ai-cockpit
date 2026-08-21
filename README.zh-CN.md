@@ -29,6 +29,17 @@ Protocol v1 保存，Rust 治理核心与应用代码保持独立。典型流程
 
 `inspect → attach → preflight → verify → finish/archive/close`
 
+Runtime 只安装一份，然后分别 attach 每个目标 repository：
+
+```text
+ai-cockpit attach --repo /project-a
+ai-cockpit attach --repo /project-b
+```
+
+binary 可以共享，但每个 repository 都有自己的 `.ai/` Contract、Evidence 和
+Knowledge。所有 repository-bound command 都必须带 `--repo`；Runtime 不保存全局
+current repository 或 active Work Item。
+
 ## 三种决定状态
 
 - `green`：已有证据支持当前有边界的下一步动作；

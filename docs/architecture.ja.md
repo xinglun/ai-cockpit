@@ -117,6 +117,27 @@ Release archive / Homebrew / Cargo Git
 release と Homebrew の trust path は
 [Release distribution architecture](architecture/release-distribution.ja.md) を参照してください。
 
+## 共有 Runtime と分離された Repository Context
+
+AI Cockpit は 1 台の machine に 1 つだけ install します。各 request は明示的な
+repository に bind し、Core は global な active repository、Work Item、project
+profile を保持しません。
+
+```mermaid
+flowchart TB
+    Runtime["machine に 1 つの ai-cockpit binary"]
+    Runtime --> A["RepositoryContext A<br/>/project-a/.ai/<br/>Contract · Evidence · Knowledge"]
+    Runtime --> B["RepositoryContext B<br/>/project-b/.ai/<br/>Contract · Evidence · Knowledge"]
+    Runtime --> C["RepositoryContext C<br/>/project-c/.ai/<br/>Contract · Evidence · Knowledge"]
+```
+
+そのため repository-bound command には `--repo` が必要です。たとえば
+`ai-cockpit status --repo /project-a`、`ai-cockpit verify --repo /project-b` のように
+指定します。MCP request も repository manifest と stable な `repositoryId` で同じ
+binding を使います。Runtime の upgrade は複数 project で共有できますが、Contract、
+receipt、knowledge、repository state は共有しません。Work Item evidence には生成時の
+`runtimeVersion`、`runtimeDigest`、`protocolVersion` を記録します。
+
 ## Scenario
 
 誰かが Agent に「docs を整理して」と依頼したとします。edit 前に request は scope と acceptance
