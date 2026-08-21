@@ -6,7 +6,7 @@ Captured with `cargo test -p cockpit-cli --test performance -- --nocapture` on
 | Surface | Fixture | Result |
 | --- | --- | --- |
 | `status` warm startup | 12 samples | median 2 ms |
-| repository observation (incremental cache hit) | 200 generated files, 406 files read/hashed | 26 ms |
+| repository observation (incremental cache hit) | 200 generated files, 406 files read/hashed | 38 ms |
 | knowledge unrelated query | 10,000 records | 0 historical records accessed |
 
 The status target (<50 ms) and the incremental observation target (<100 ms) are

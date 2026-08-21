@@ -6,7 +6,7 @@
 | 面 | 夹具 | 结果 |
 | --- | --- | --- |
 | `status` 温热启动 | 12 个样本 | 中位 2 ms |
-| repository observation（增量缓存命中） | 200 个生成文件，读取/哈希 406 个文件 | 26 ms |
+| repository observation（增量缓存命中） | 200 个生成文件，读取/哈希 406 个文件 | 38 ms |
 | knowledge 无关查询 | 10,000 条记录 | 访问历史记录 0 条 |
 
 本次 status 目标（<50 ms）和增量 observation 目标（<100 ms）均达成。首次未缓存扫描会单独
