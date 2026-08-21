@@ -1,0 +1,38 @@
+{
+  "acceptanceCriteria": [
+    "version and release assets are bound to the same immutable tag",
+    "public release adopter acceptance passes without source fallback",
+    "current repository is reverified by the installed public binary",
+    "release and installation documents identify v0.2.3"
+  ],
+  "authority": "authorized",
+  "baseRevision": "9bd3fb57b3f2113b4557cdf3e17834a4deaedf36",
+  "createdAt": "2026-08-21T23:42:20Z",
+  "goal": "Create immutable v0.2.3 release evidence, install only its public binary, and reverify this repository",
+  "intent": "Publish the completed Rust Runtime and install the public release into this repository",
+  "mode": "implementation",
+  "outOfScope": [
+    "global Agent or MCP configuration",
+    " unrelated repositories"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ed27dd450b71249f4cf4df12ba093bd8f2c25e0f2a43bbf07dc4a53fa506116c",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/**",
+    "docs/reference/**",
+    "docs/architecture/**",
+    "tests/release/**",
+    ".github/workflows/**",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-92-release-v0-2-3"
+}
