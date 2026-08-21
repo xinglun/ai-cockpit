@@ -1,0 +1,27 @@
+{
+  "buildSystems": [
+    "Cargo"
+  ],
+  "profileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "profileVersion": 2,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "calibrated",
+  "tests": [
+    {
+      "args": [
+        "test",
+        "--workspace"
+      ],
+      "program": "cargo",
+      "state": "detected"
+    },
+    {
+      "args": [
+        "test",
+        "--workspace"
+      ],
+      "program": "cargo",
+      "state": "verified"
+    }
+  ]
+}

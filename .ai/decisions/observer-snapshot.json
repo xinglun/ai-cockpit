@@ -1,0 +1,40 @@
+{
+  "dependencyFingerprint": "sha256:fe439dcdb71c0b30f207b413dd7eb6aa8b1aa5bbf7fd09d8aa811191f45dfa62",
+  "diffDigest": "sha256:63ae3a890f2409f7230646514c5012a10debe520767e39abe4490544e88c9566",
+  "observation": {
+    "buildSystems": [
+      "Cargo"
+    ],
+    "cacheHit": false,
+    "ciSurfaces": [
+      ".github/workflows/ci.yml",
+      ".github/workflows/release.yml"
+    ],
+    "criticalDomains": [
+      "identity",
+      "release",
+      "security"
+    ],
+    "dependencyFingerprint": "sha256:fe439dcdb71c0b30f207b413dd7eb6aa8b1aa5bbf7fd09d8aa811191f45dfa62",
+    "filesRead": 385,
+    "languages": [
+      "Python",
+      "Rust"
+    ],
+    "qualityCommands": [
+      {
+        "args": [
+          "test",
+          "--workspace"
+        ],
+        "program": "cargo",
+        "state": "detected"
+      }
+    ],
+    "snapshotDigest": "sha256:9f5157dec263eae2418aef5f160e13eec1546b85e02661c43f7aa6dbf2eba1e1",
+    "testRoots": [
+      "tests/**"
+    ]
+  },
+  "treeDigest": "sha256:194ab0fe131a7685e3ea5ba573ed653d5dd9b205b75a8058919e52d62dd22a08"
+}

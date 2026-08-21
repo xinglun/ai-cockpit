@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T14:49:18Z",
+  "files": {
+    "contractDigest": "sha256:6f5a3d2e65b1265253fedbb1858f813d728042e3a921218a8472413822fe7772",
+    "contractPath": ".ai/work-items/archive/self-governance-cutover.contract.json",
+    "outcomeDigest": "sha256:97098320018546541e5e911088c84f5aac36c86bf4360b152c9cd72044d0b694",
+    "outcomePath": ".ai/work-items/archive/self-governance-cutover.outcome.json",
+    "summaryDigest": "sha256:444cb2e57728d1dd760899c2c16161b010992365cb007b26ea5252b7c672c5bc",
+    "summaryPath": ".ai/work-items/archive/self-governance-cutover.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "self-governance-cutover"
+}

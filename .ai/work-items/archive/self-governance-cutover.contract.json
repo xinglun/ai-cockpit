@@ -1,0 +1,32 @@
+{
+  "acceptanceCriteria": [
+    "published v0.1.1 doctor is VERIFIED",
+    "repository-local .ai and Agent adapter are committed",
+    "self-governed verification passes"
+  ],
+  "authority": "authorized",
+  "baseRevision": "c6d49c34193deccee03e2b65316ae7f90ab2900b",
+  "createdAt": "2026-08-21T14:45:16Z",
+  "goal": "Use the installed ai-cockpit v0.1.1 binary to govern repository identity, Agent discovery, profile evidence, and the first self-governed Work Item.",
+  "intent": "Attach the ai-cockpit source repository to the published v0.1.1 Runtime so future AI Cockpit development is governed by its own external release.",
+  "mode": "implementation",
+  "outOfScope": [
+    "target",
+    "dist",
+    "release-artifacts"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c426888c64e11cf57178bcbe32f935d7a594106bced8fef4f4306aec804c4cfb",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    ".ai",
+    "AGENTS.md"
+  ],
+  "state": "implementation_active",
+  "workItemId": "self-governance-cutover"
+}
