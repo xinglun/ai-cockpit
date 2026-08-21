@@ -1,3 +1,17 @@
+---
+author: AI Cockpit maintainers
+title: "产品边界"
+description: "说明 AI Cockpit 负责什么，以及哪些责任仍属于采用者或 provider。"
+audience:
+  - adopter
+  - maintainer
+status: current
+authority: canonical
+lastVerifiedBy: documentation-acceptance
+capabilityClaims:
+  - product_boundary
+---
+
 # 产品边界
 
 ## 产品身份
@@ -34,4 +48,3 @@ provenance 和企业策略属于外部证据或 adopter 责任。
 - Repository Protocol version 与 Runtime version 独立。
 - MCP 与 CLI 使用同一 application services，不能各自拥有治理规则。
 - 人类决定可以解决 workflow 问题，但不能把未验证的 check 变成 pass。
-

@@ -1,3 +1,17 @@
+---
+author: AI Cockpit maintainers
+title: "製品境界"
+description: "AI Cockpit の責任範囲と adopter/provider に残る責任。"
+audience:
+  - adopter
+  - maintainer
+status: current
+authority: canonical
+lastVerifiedBy: documentation-acceptance
+capabilityClaims:
+  - product_boundary
+---
+
 # 製品境界
 
 ## 製品 identity
@@ -36,4 +50,3 @@ evidence または adopter の責任です。
 - Repository Protocol version と Runtime version を分離する。
 - MCP と CLI は同じ application service を呼び、統治ルールを所有しない。
 - human decision は workflow の問いを解決できるが、未検証 check を pass にしない。
-

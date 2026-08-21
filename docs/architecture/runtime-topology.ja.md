@@ -1,3 +1,17 @@
+---
+author: AI Cockpit maintainers
+title: "Runtime topology"
+description: "Runtime component と repository-owned storage path。"
+audience:
+  - adopter
+  - maintainer
+status: current
+authority: canonical
+lastVerifiedBy: documentation-acceptance
+capabilityClaims:
+  - runtime_topology
+---
+
 # Runtime topology
 
 ```text
@@ -23,4 +37,3 @@ input に変換し、decision を CLI/MCP response に変換します。Reposito
 対象 repository に保存するのは facts、decisions、evidence、generated knowledge
 projection だけです。Rust source、Python runtime、helper script、runtime schema
 copy は保存しません。
-

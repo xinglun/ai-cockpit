@@ -1,0 +1,199 @@
+---
+author: AI Cockpit maintainers
+title: "機能一覧と境界"
+description: "AI Cockpit runtime の現在の機能と、外部に残る責任を reader-first に説明します。"
+audience:
+  - adopter
+  - maintainer
+status: current
+authority: canonical
+lastVerifiedBy: documentation-acceptance
+capabilityClaims:
+  - cli_lifecycle
+  - mcp_adapter
+  - bounded_verification
+---
+
+# 機能一覧と境界
+
+## 目的
+
+このページを現在の機能 index として使ってください。各行に、利用者ができること、
+開始 command、生成される state または evidence を示します。
+
+## 開始前
+
+`ai-cockpit` binary を install または build し、Git repository に向けてください。
+`inspect` は read-only、`attach` は推奨する明示的な準備操作で `.ai/` を作成できます。
+protocol file がない場合、`start` も bootstrap できます。evidence reuse の前に attached
+profile を確認してください。
+
+## 用語
+
+- **snapshot**: Git と関連 file digest を含む一回の repository 観測結果。
+- **profile**: controlled reuse に使う quality command の明示的な確認結果。
+- **receipt**: 一回の verification result に content-bound された evidence。
+- **bounded verification**: worker 上限、timeout、bounded output capture 付きの実行。
+- **reuse**: すべての identity binding が一致したときだけ command を省略すること。
+- **fail closed**: evidence が不足・矛盾したら rerun、unknown、または停止にすること。
+
+## 機能一覧
+
+| 機能 | 利用者ができること | 開始点 | 結果 |
+| --- | --- | --- | --- |
+| Inspect | repository state を変更せず読む。 | `ai-cockpit inspect --repo <path>` | Git identity、changed paths、digest、runtime identity。 |
+| Attach | repository-owned governance surface を作る。 | `ai-cockpit attach --repo <path>` | `.ai/cockpit.toml`、`.ai/project.json`、calibration state。 |
+| Observe | attached profile と repository facts を読む。 | `ai-cockpit observe --repo <path>` | observation と evolution signal。 |
+| Preflight | edit 前に Work Item contract を評価する。 | `ai-cockpit preflight --repo <path> --contract <file>` | green、yellow、red の governance decision。 |
+| Work Item lifecycle | bounded work を start、checkpoint、finish、archive、close する。 | `start`、`checkpoint`、`finish`、`archive`、`close` | 明示的な state transition と receipt。 |
+| Verification | allowlist/profile command を制限内で実行する。 | `ai-cockpit verify --repo <path> ...` | pass/fail/unknown と execution evidence。 |
+| Evidence reuse | identity binding が一致するときだけ再実行を省略する。 | confirmed profile + automatic `verify` | reuse または fail-closed rerun。 |
+| Knowledge | repository-local の完了済み evidence を query する。 | `ai-cockpit knowledge query --repo <path>` | filtered result。第二の fact source ではない。 |
+| MCP | 同じ repository service を MCP client に公開する。 | `ai-cockpit mcp --repo <path>` | explicit binding 付き JSON-RPC result。 |
+| Doctor | runtime と repository の readiness を診断する。 | `ai-cockpit doctor --repo <path>` | action 可能な診断。黙って修復しない。 |
+| Profile confirmation | controlled reuse 用の quality command を確認する。 | `ai-cockpit profile confirm --repo <path> --program cargo --args test,--workspace` | review 可能な profile version。 |
+
+## 利用者向けの詳細 path
+
+### Repository を inspect する
+
+**依頼の例:** 「変更せずに repository state を表示して。」
+
+```bash
+ai-cockpit inspect --repo /path/to/repository
+```
+
+repository root、Git head、changed paths、tree/diff digest、dependency fingerprint、read/hash
+counter、runtime identity を報告します。discover または Git が失敗したら停止し、path を修正してください。
+
+### Repository を attach・observe する
+
+```bash
+ai-cockpit attach --repo /path/to/repository
+ai-cockpit observe --repo /path/to/repository
+```
+
+Attach は `.ai/cockpit.toml` と `.ai/project.json` を作成・更新できますが、Rust source、V1
+runtime file、Python helper、runtime schema を target に copy しません。初期 profile は
+`calibration_required` です。controlled reuse の前に quality command を確認します。
+
+```bash
+ai-cockpit profile confirm --repo /path/to/repository \
+  --program cargo --args test,--workspace
+```
+
+### Work Item を Preflight する
+
+`start` が `preflight` 用の contract を作成します。
+
+```bash
+ai-cockpit start --repo /path/to/repository --id WI-123 \
+  --intent "Improve documentation" \
+  --goal "Explain installation clearly" \
+  --scope 'docs/**' --authority authorized \
+  --acceptance "examples work"
+ai-cockpit preflight --repo /path/to/repository \
+  --contract .ai/work-items/active/WI-123.contract.json
+```
+
+current snapshot に対して contract を評価します。authority の欠落、stale contract、scope
+violation、矛盾した fact は stop condition です。
+
+### Governed Work Item を実行する
+
+**依頼の例:** 「bounded change を開始し、進捗を記録し、review 後にだけ close して。」
+
+```bash
+# preflight が受け入れられた後、docs/** だけを編集する
+ai-cockpit checkpoint --repo /path/to/repository --id WI-123
+ai-cockpit verify --repo /path/to/repository --work-item WI-123 \
+  --command cargo --args test,--workspace --workers 2
+ai-cockpit finish --repo /path/to/repository --id WI-123
+ai-cockpit archive --repo /path/to/repository --id WI-123
+ai-cockpit close --repo /path/to/repository --id WI-123 \
+  --human-decision approved
+```
+
+期待される state は `implementation_active`、`checkpointed`、`finish_ready`、`archived`、
+`closed` です。`finish` は同じ Work Item と current repository snapshot の passed verification
+receipt を要求し、`close` は archive manifest と human decision を要求します。失敗したら
+Work Item を残し、evidence を修復します。record を削除して状態を隠してはいけません。
+
+### Verification と reuse
+
+Explicit command と Work Item-bound verification は常に fresh です。
+
+```bash
+ai-cockpit verify --repo /path/to/repository \
+  --command cargo --args test,--workspace --workers 2
+```
+
+Automatic detection は confirmed profile を使い、persisted receipt を reuse できます。
+
+```bash
+ai-cockpit verify --repo /path/to/repository
+ai-cockpit verify --repo /path/to/repository
+```
+
+2 回目に `nodesReused: 1`、`processesSpawned: 0` になる場合があります。repository snapshot、
+source/base revision、profile、toolchain、environment、executable identity、scope、policy、
+stage、runner、command、output identity がすべて一致した場合だけ reuse します。protected gate、
+explicit command、Work Item run は fresh です。不一致は rerun または unknown/blocked になります。
+
+制限は command timeout 300 秒、stdout/stderr 各 64 KiB、positive worker count です。output が
+truncated と表示されることがあります。timeout、capture、process-tree failure は pass ではありません。
+receipt-store index は 8 MiB、reusable receipt は 1 MiB までです。malformed、oversized、symlink、
+inconsistent entry は fail closed になります。
+
+### Knowledge と status を query する
+
+```bash
+ai-cockpit status --repo /path/to/repository
+ai-cockpit knowledge query --repo /path/to/repository --topic installation
+```
+
+Knowledge は repository-local evidence の projection で、第二の source of truth ではありません。
+Work Item や receipt が missing、stale、invalid なら新しい claim に変換しません。
+
+### MCP を使う
+
+explicit repository binding で server を起動します。
+
+```bash
+ai-cockpit mcp --repo /path/to/repository
+```
+
+`status`、`work_item_get`、`work_item_list`、`blockers`、`safe_actions`、`knowledge_query`、
+`evidence_get`、`repository_observe`、`preflight`、`verify` の 10 tools を提供します。
+`tools/list` で JSON-RPC schema を確認できます。`preflight` は repository-relative `contract`、
+`verify` は `command`、string array の `args`、optional `workItemId` を受け取ります。repository
+binding のない call は fail closed です。result には `structuredContent`、text content、`isError`
+が含まれ、CLI と同じ repository-bound verification policy を使います。
+
+### Readiness を診断する
+
+```bash
+ai-cockpit doctor --repo /path/to/repository
+```
+
+Doctor は runtime version/digest、protocol state、repository identity、action 可能な問題を報告します。
+一般的な security scanner ではなく、external identity、provider、branch、production control の充足も主張しません。
+
+## AI Cockpit が主張しないこと
+
+AI Cockpit は Agent Runtime、Workflow Engine、Security Sandbox、general prompt-injection detector、
+identity provider、compliance certificate、human review の代替ではありません。external identity、
+branch protection、production isolation、signing、SBOM、provenance、enterprise policy は外部
+evidence または adopter の責任です。
+
+## Stop と recovery
+
+missing または矛盾した evidence への安全な応答は、停止し、Work Item と receipt を保持し、gap を説明し、
+関連 fact を修復してから rerun することです。green の command output で red の governance state を上書きしません。
+
+## 次に読むもの
+
+1. [Installation と distribution](release/distribution.ja.md)
+2. [アーキテクチャ](architecture.ja.md)
+3. [設計思想](philosophy.ja.md)
+4. [Repository Protocol v1](protocol/v1/specification.ja.md)

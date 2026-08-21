@@ -1,14 +1,55 @@
+---
+author: AI Cockpit maintainers
+title: "AI Cockpit"
+description: "面向 AI 辅助工程的、以证据为基础的 repository 治理。"
+audience:
+  - adopter
+  - contributor
+status: current
+authority: canonical
+lastVerifiedBy: documentation-acceptance
+capabilityClaims:
+  - repository_governance_layer
+---
+
 # AI Cockpit
 
-AI Cockpit 是面向 AI 辅助工程的新 Rust Repository Governance Runtime。
-它是单一 binary、CLI-first，并提供本地 MCP adapter 和版本化 Repository Protocol。
+AI Cockpit 是面向 AI 辅助工程的 repository 治理 runtime。它把 repository
+事实、声明的范围、验证结果和人的选择转化为可复查的有界决定。
+
+## 它解决什么问题
+
+AI 辅助修改可能超出范围、削弱测试、跳过验证，或让审查者缺少证据。AI Cockpit
+明确记录预期修改、实际 repository 状态、必需检查、未知项和人类决定。
+
+## 它如何工作
+
+人和工具通过 CLI 或本地 MCP adapter 使用它；repository 状态通过 Repository
+Protocol v1 保存，Rust 治理核心与应用代码保持独立。典型流程是：
+
+`inspect → attach → preflight → verify → finish/archive/close`
+
+## 三种决定状态
+
+- `green`：已有证据支持当前有边界的下一步动作；
+- `yellow`：证据缺失、过期、矛盾或需要人工确认；
+- `red`：控制失败或权限缺失，操作必须停止。
+
+## 从这里开始
+
+- [文档导航](docs/README.zh-CN.md)——选择采用者、贡献者、审查者、MCP 或维护者路径。
+- [功能与边界](docs/capabilities.zh-CN.md)——查看当前命令能力和外部责任。
+- [发布与分发](docs/release/distribution.zh-CN.md)——安装、验证、回滚和 MCP 配置。
+
+在源码检出中，贡献者可用 `cargo run -p cockpit-cli -- --help` 查看命令面。公开
+Release 和 Homebrew 是否可用属于独立的发布证据，不能由当前源码检出推断。
+
+## 产品边界
 
 本仓库不是 V1 的升级、迁移或 Rust 移植。V1 模板只作为规格来源、行为 Oracle、
-conformance corpus 来源和历史证据参考。不会把 runtime 代码、Python 模块、
-Makefile.ai、安装器或 runtime schemas 复制到对象工程。
+conformance corpus 和历史参考。不会把 runtime 代码、Python 模块、`Makefile.ai`、
+安装器或 runtime schemas 复制到目标 repository。
 
-Northbound 是 MCP 与 CLI，Southbound 是 Repository Protocol。Rust 治理核心必须
-独立于 adapter，也必须独立于应用代码。
-
-开始贡献前请先阅读[文档导航](docs/README.zh-CN.md)。
-
+AI Cockpit 不是 Agent Runtime、Workflow Engine、Security Sandbox、identity
+provider、合规证书，也不是人工 review 的替代品。外部 identity、branch protection、
+生产隔离、provider Release 和 provenance 仍属于外部证据或采用者责任。

@@ -1,3 +1,17 @@
+---
+author: AI Cockpit maintainers
+title: "Product Boundary"
+description: "What AI Cockpit owns and what remains the responsibility of an adopter or provider."
+audience:
+  - adopter
+  - maintainer
+status: current
+authority: canonical
+lastVerifiedBy: documentation-acceptance
+capabilityClaims:
+  - product_boundary
+---
+
 # Product Boundary
 
 ## Identity
@@ -37,4 +51,3 @@ external evidence or adopter responsibility.
 - MCP and CLI call the same application services; neither owns governance rules.
 - A human decision can resolve a workflow question, but cannot turn an unverified
   check into a pass.
-

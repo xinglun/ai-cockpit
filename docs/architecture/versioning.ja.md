@@ -1,20 +1,35 @@
+---
+author: AI Cockpit maintainers
+title: "バージョニング"
+description: "Runtime と Repository Protocol の version identity と migration boundary。"
+audience:
+  - adopter
+  - maintainer
+status: current
+authority: canonical
+lastVerifiedBy: documentation-acceptance
+capabilityClaims:
+  - versioning
+---
+
 # バージョニング
 
 Runtime version と Repository Protocol version は独立しています。
 
 ```text
-ai-cockpit 2.3.5
-supports repositoryProtocol = 1
+ai-cockpit --version
+0.1.0
 
 repository:
 protocol_version = 1
 ```
 
-Runtime upgrade は Protocol 1 を継続サポートしたまま capability を追加できます。
-Protocol 1 → Protocol 2 だけが repository migration です。Runtime startup は両方の
-version と Runtime digest を報告しなければなりません。
+CLI version は executable package を示し、protocol version は repository storage contract
+を示します。Runtime version、runtime digest、protocol version は `inspect`、`doctor`、MCP
+`initialize`、verification evidence などの identity-bearing surface で一緒に提供されます。
+`--version` は短い package-version command であり、完全な identity envelope を返す約束ではありません。
 
-Protocol compatibility は明示します。未対応 major protocol は Red、現在の Runtime
-にない optional capability は safe action 付き Yellow です。Historical Work Item は
-decision boundary で使用した Project Profile digest と protocol version を保持します。
-
+Runtime upgrade は Protocol 1 を継続サポートしたまま capability を追加できます。Protocol 1 →
+Protocol 2 だけが repository migration です。Historical Work Item は decision boundary で使った
+Project Profile digest と protocol version を保持します。Major migration は個別に review する
+Work Item とし、旧 evidence を保持します。
