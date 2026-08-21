@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T16:25:31Z",
+  "evidenceDigest": "sha256:8929708a07d016b14c1837125a03ab2f2e3544b14c56f7c56b3fcb5859132de5",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/wi-43-migration-protocol.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "wi-43-migration-protocol"
+}

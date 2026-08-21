@@ -19,8 +19,9 @@ capabilityClaims:
 
 | Group | Commands | Boundary |
 | --- | --- | --- |
-| Read-only | `inspect`、`observe`、`status`、`knowledge query`、`doctor` | repository state/evidence を読み、黙って修復しない。 |
+| Read-only | `inspect`、`observe`、`status`、`compatibility`、`migrate plan`、`knowledge query`、`doctor` | repository state/evidence を読み、黙って修復しない。 |
 | Setup | `attach`、`profile confirm`、`profile propose` | protocol state の作成/更新、profile の確認、read-only candidate の出力。 |
+| Migration | `migrate apply --approved` | review 済みの repository schema migration だけを適用し、Runtime-bound migration receipt を作る。 |
 | Governance | `preflight` | Contract を読み green/yellow/red decision を返す。 |
 | Work Item | `work-item new`、`start`、`checkpoint`、`finish`、`archive`、`close` | skeleton または lifecycle record を作る。`close` は human decision が必要。 |
 | Verification | `verify` | bounded command を実行し evidence を記録する。Work Item に bind できる。 |
@@ -42,6 +43,10 @@ capabilityClaims:
   managed section または ownership record が変更されていれば `repair` と `detach` は fail closed し、global Agent/MCP config は変更しません。
 - `preflight --contract` は通常 `start` が作る `.ai/work-items/active/<id>.contract.json` を指します。
 - `close --human-decision approved|rejected` は human decision record であり verification evidence ではありません。
+- `compatibility --repo <path>` は installed Runtime と attached repository schema の
+  `COMPATIBLE`、`MIGRATION_REQUIRED`、`INCOMPATIBLE` を返します。`migrate plan` は read-only です。
+  `migrate apply` は `--approved` がなければ書き込まず、Work Item、evidence、decision、knowledge、
+  archive history を書き換えません。
 
 ## Runtime identity
 

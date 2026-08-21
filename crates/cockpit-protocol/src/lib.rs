@@ -5,12 +5,19 @@ use thiserror::Error;
 
 pub const PROTOCOL_VERSION: u32 = 1;
 pub const AGENT_INTERFACE_VERSION: u32 = 1;
+pub const REPOSITORY_SCHEMA_VERSION: u32 = 2;
+
+pub fn default_repository_schema_version() -> u32 {
+    1
+}
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct RepositoryConfig {
     #[serde(rename = "protocol_version")]
     pub protocol_version: u32,
+    #[serde(default = "default_repository_schema_version")]
+    pub repository_schema_version: u32,
     pub repository_id: String,
 }
 
@@ -40,6 +47,8 @@ pub struct RepositoryContext {
 pub struct AgentInterfaceManifest {
     pub schema_version: u32,
     pub protocol_version: u32,
+    #[serde(default = "default_repository_schema_version")]
+    pub repository_schema_version: u32,
     pub interface_version: u32,
     pub repository_id: String,
     pub root_binding: AgentRootBinding,

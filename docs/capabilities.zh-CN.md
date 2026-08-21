@@ -43,6 +43,7 @@ bootstrap。依赖 evidence reuse 前请先检查 attached profile。
 | --- | --- | --- | --- |
 | Inspect | 不修改 repository 地读取状态。 | `ai-cockpit inspect --repo <path>` | Git identity、changed paths、digest 和 runtime identity。 |
 | Attach | 创建最小的 repository 治理脚手架。 | `ai-cockpit attach --repo <path>` | `.ai/` 协议文件、discovery manifest、状态目录和校准状态。 |
+| Compatibility 与 migration | 检查安装的 Runtime 是否能安全使用 repository，并在需要时应用显式 schema migration。 | `compatibility`、`migrate plan`、`migrate apply --approved` | `COMPATIBLE`、`MIGRATION_REQUIRED` 或 `INCOMPATIBLE`；批准的迁移生成绑定 Runtime 的 receipt。 |
 | Observe | 读取 profile 并推导 repository 事实。 | `ai-cockpit observe --repo <path>` | observation 与 evolution signal。 |
 | Preflight | 编辑前评估 Work Item contract。 | `ai-cockpit preflight --repo <path> --contract <file>` | green、yellow 或 red 的 governance decision。 |
 | Work Item 生命周期 | 启动、checkpoint、完成、归档并关闭有界工作。 | `start`、`checkpoint`、`finish`、`archive`、`close` | 明确的状态转换和 receipt。 |
@@ -102,6 +103,27 @@ ai-cockpit profile confirm --repo /path/to/repository \
 
 `agent-interface.json` 是 repository-local discovery fact，记录稳定的 repository identity 和 Runtime
 能力；它不是 Agent prompt、provider 安装、授权或全局 MCP 设置。
+
+### Runtime 升级与 repository migration
+
+Runtime 升级和 repository migration 是两件事。兼容的 Runtime 升级不会重写 `.ai/`，也不会产生全局
+current repository。先针对显式 repository 检查安装的 Runtime：
+
+```bash
+ai-cockpit compatibility --repo /path/to/repository
+ai-cockpit migrate plan --repo /path/to/repository
+```
+
+如果结果是 `MIGRATION_REQUIRED`，先审查 plan，再显式批准：
+
+```bash
+ai-cockpit migrate apply --repo /path/to/repository --approved
+```
+
+Migration receipt 记录 source/target schema、迁移前后 digest、Runtime version 和 Runtime digest。
+迁移只修改 versioned protocol files 和 migration record；archive Work Item、evidence、decision、
+knowledge 保持 byte-for-byte historical record。`INCOMPATIBLE` 会在写入前停止，需要理解该 schema
+的 Runtime。
 
 ### 显式连接 Agent
 

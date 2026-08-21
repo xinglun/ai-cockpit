@@ -44,6 +44,7 @@ profile を確認してください。
 | --- | --- | --- | --- |
 | Inspect | repository state を変更せず読む。 | `ai-cockpit inspect --repo <path>` | Git identity、changed paths、digest、runtime identity。 |
 | Attach | minimum の repository-owned governance scaffold を作る。 | `ai-cockpit attach --repo <path>` | `.ai/` protocol file、discovery manifest、state directory、calibration state。 |
+| Compatibility と migration | installed Runtime が repository を安全に扱えるか確認し、必要なときだけ明示的な schema migration を適用する。 | `compatibility`、`migrate plan`、`migrate apply --approved` | `COMPATIBLE`、`MIGRATION_REQUIRED`、`INCOMPATIBLE`。承認済み migration は Runtime-bound receipt を作る。 |
 | Observe | attached profile と repository facts を読む。 | `ai-cockpit observe --repo <path>` | observation と evolution signal。 |
 | Preflight | edit 前に Work Item contract を評価する。 | `ai-cockpit preflight --repo <path> --contract <file>` | green、yellow、red の governance decision。 |
 | Work Item lifecycle | bounded work を start、checkpoint、finish、archive、close する。 | `start`、`checkpoint`、`finish`、`archive`、`close` | 明示的な state transition と receipt。 |
@@ -101,6 +102,28 @@ ai-cockpit profile confirm --repo /path/to/repository \
 
 `agent-interface.json` は repository-local の discovery fact です。stable repository identity と Runtime capability
 だけを記録し、Agent prompt、provider install、authorization、global MCP setting にはなりません。
+
+### Runtime upgrade と repository migration
+
+Runtime upgrade と repository migration は別の操作です。互換性のある Runtime upgrade は `.ai/` を
+書き換えず、global な current repository も作りません。まず明示した repository と installed Runtime
+の互換性を確認します。
+
+```bash
+ai-cockpit compatibility --repo /path/to/repository
+ai-cockpit migrate plan --repo /path/to/repository
+```
+
+結果が `MIGRATION_REQUIRED` なら plan を確認してから明示的に承認します。
+
+```bash
+ai-cockpit migrate apply --repo /path/to/repository --approved
+```
+
+Migration receipt は source/target schema、前後 digest、Runtime version、Runtime digest を記録します。
+変更するのは versioned protocol file と migration record だけで、archive Work Item、evidence、decision、
+knowledge は byte-for-byte の履歴として保持します。`INCOMPATIBLE` は書き込み前に停止し、その schema を
+理解する Runtime が必要です。
 
 ### Agent を明示的に接続する
 

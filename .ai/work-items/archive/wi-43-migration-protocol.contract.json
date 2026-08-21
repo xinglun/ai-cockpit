@@ -1,0 +1,34 @@
+{
+  "acceptanceCriteria": [
+    "Runtime-only version upgrade leaves .ai bytes unchanged; compatibility reports COMPATIBLE/MIGRATION_REQUIRED/INCOMPATIBLE; migrate plan is read-only; migrate apply requires --approved; migration receipt binds before/after digests and runtime identity; historical evidence is unchanged; old schema defaults safely; all three language docs describe the boundary."
+  ],
+  "authority": "repository owner approval required for migration apply",
+  "baseRevision": "829d8c80b8b25b3f23ca24be12710f352712856a",
+  "createdAt": "2026-08-21T16:03:58Z",
+  "goal": "Separate compatible Runtime-only upgrades from explicit repository schema migration with inspectable compatibility, approved migration plans, and receipt-bound outcomes.",
+  "intent": "Implement explicit Runtime compatibility and versioned Repository Migration Protocol without changing historical evidence or introducing global project state.",
+  "mode": "implementation",
+  "outOfScope": [
+    "V1 installation or protocol changes",
+    " automatic migration",
+    " provider injection",
+    " global current-repository state",
+    " public release publication",
+    " multi-technology adopter matrix"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8e0a65728db23b0a6c4ebe4e46b67bd6f1dc98943a9f7b748aa995e978b66255",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scope": [
+    "crates/**",
+    ".ai/work-items/**",
+    "docs/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "wi-43-migration-protocol"
+}

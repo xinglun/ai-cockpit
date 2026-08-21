@@ -22,6 +22,7 @@ fn repository(id: char) -> tempfile::TempDir {
     let manifest = AgentInterfaceManifest {
         schema_version: 1,
         protocol_version: 1,
+        repository_schema_version: 1,
         interface_version: 1,
         repository_id,
         root_binding: AgentRootBinding {

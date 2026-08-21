@@ -19,8 +19,9 @@ capabilityClaims:
 
 | 分组 | 命令 | 边界 |
 | --- | --- | --- |
-| 只读 | `inspect`、`observe`、`status`、`knowledge query`、`doctor` | 读取 repository 状态或 evidence，不静默修复。 |
+| 只读 | `inspect`、`observe`、`status`、`compatibility`、`migrate plan`、`knowledge query`、`doctor` | 读取 repository 状态或 evidence，不静默修复。 |
 | 准备 | `attach`、`profile confirm`、`profile propose` | 创建/更新协议状态、确认 profile，或输出只读候选。 |
+| 迁移 | `migrate apply --approved` | 只应用经过审查的 repository schema migration，并写入绑定 Runtime 的 migration receipt。 |
 | 治理 | `preflight` | 读取 Contract，返回 green/yellow/red decision。 |
 | Work Item | `work-item new`、`start`、`checkpoint`、`finish`、`archive`、`close` | 创建骨架或写入显式生命周期记录；`close` 要求 human decision。 |
 | Verification | `verify` | 执行有界命令、记录 evidence，并可绑定 Work Item。 |
@@ -42,6 +43,10 @@ capabilityClaims:
   如果 managed section 或 ownership record 被修改，`repair` 和 `detach` 会 fail closed；任何命令都不会写入全局 Agent/MCP 配置。
 - `preflight --contract` 通常指向 `start` 生成的 `.ai/work-items/active/<id>.contract.json`。
 - `close --human-decision approved|rejected` 是 human decision 记录，不是 verification evidence。
+- `compatibility --repo <path>` 报告安装的 Runtime 与 attached repository schema 的
+  `COMPATIBLE`、`MIGRATION_REQUIRED` 或 `INCOMPATIBLE`。`migrate plan` 是只读操作；
+  `migrate apply` 没有 `--approved` 就拒绝写入，也不会重写 Work Item、evidence、decision、
+  knowledge 或 archive history。
 
 ## Runtime identity
 
