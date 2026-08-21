@@ -61,3 +61,11 @@ unknown decision is not a pass.
 `inspect`, `doctor`, MCP `initialize`, and verification evidence expose runtime
 version, runtime digest, and protocol version. `ai-cockpit --version` is only the
 short executable version string.
+
+## Release acceptance boundary
+
+`tests/release/adopter_acceptance.sh` is a maintainer-side post-release harness,
+not a Runtime command. It downloads and pins a public Release binary, runs the
+adopter lifecycle in isolated directories, and emits `acceptance.json` and
+`SHA256SUMS`. It must not be replaced with a workspace build or local target
+binary, and a failed acceptance never changes the published Release truth.

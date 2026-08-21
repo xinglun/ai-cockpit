@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T15:25:31Z",
+  "files": {
+    "contractDigest": "sha256:b04be73fc10dbacbe7c2e7b6a7df8cc0ca885ecbba3608fbd0465d63709ba712",
+    "contractPath": ".ai/work-items/archive/wi-40-release-adopter-acceptance.contract.json",
+    "outcomeDigest": "sha256:dc0f8679d334380010d81b2ee2b8608a806d58ea0dd58f665a2530d472a53181",
+    "outcomePath": ".ai/work-items/archive/wi-40-release-adopter-acceptance.outcome.json",
+    "summaryDigest": "sha256:a33d597ec01a7a3a1a9ffff94947c5c0fe9127f8c09453451248a2064c0a4271",
+    "summaryPath": ".ai/work-items/archive/wi-40-release-adopter-acceptance.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "wi-40-release-adopter-acceptance"
+}

@@ -1,0 +1,44 @@
+{
+  "createdAt": "2026-08-21T15:24:18Z",
+  "passed": true,
+  "protocolVersion": 1,
+  "receipt": {
+    "elapsedMs": 33131,
+    "executionElapsedMs": 32973,
+    "filesHashed": 31,
+    "filesRead": 31,
+    "gitCalls": 8,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:743205e7232dbf87f899c745d353ff3e1849083664deaaa9f54335371c443ae0",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ]
+  },
+  "repositorySnapshotDigest": "sha256:94833e00c892a47f3478739598b62611c003b3cd3acab015fbd77970ddb091b5",
+  "runtimeDigest": "sha256:a164d17037cdb4331ac219660e9a869a81192850896aa07c1405401540f009f4",
+  "runtimeVersion": "0.1.1",
+  "workItemId": "wi-40-release-adopter-acceptance"
+}

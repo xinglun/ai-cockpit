@@ -15,8 +15,9 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # 发布与分发
 
-WI-34 定义安装契约，但不声称首个公开 Release 或 `xinglun/homebrew-tap` 已经存在。
-仓库配置仍使用 `cockpit.toml`；安装 runtime 不会在目标仓库创建 `.ai`。
+当前安装基线是公开且不可变的 `v0.1.1` Release。Homebrew 和手动安装都使用公开 archive
+与 manifest；仓库配置仍使用 `cockpit.toml`，安装 runtime 不会在目标仓库创建 `.ai`。
+WI-40 增加发布后的 adopter 验收 harness，它不是发布前 gate，也不是 Runtime 命令。
 
 ## 开始前
 
@@ -26,7 +27,7 @@ WI-34 定义安装契约，但不声称首个公开 Release 或 `xinglun/homebre
 
 ## macOS 主安装方式
 
-在 WI-35 发布首个经过验证的 Release 并合并 Formula 后：
+在维护的 Homebrew tap 可用后，从已发布的 release line 安装 Formula：
 
 ```bash
 brew install xinglun/tap/ai-cockpit
@@ -68,6 +69,23 @@ gh release download v0.1.1 --repo xinglun/ai-cockpit \
 
 文件名、target、checksum、manifest 和 attestation subject 必须一致。单独的上传或
 semantic tag 不能证明安装完整。
+
+## 发布后 adopter 验收
+
+维护者可以在 Release 发布后重复执行公开 binary 验收基线：
+
+```bash
+tests/release/adopter_acceptance.sh \
+  --repository xinglun/ai-cockpit \
+  --tag v0.1.1 \
+  --target aarch64-apple-darwin \
+  --output ./release-adopter-acceptance
+```
+
+harness 只下载指定的公开 Release，按 SHA-256 固定解压后的 binary，创建隔离的 Cargo adopter，执行
+attach/profile/Agent doctor，保持 `first-adopter-smoke` 为 `not_ready`，验证 Work Item lifecycle 和 evidence reuse，
+并生成 `acceptance.json` 与 `SHA256SUMS`。它不会使用 workspace 或本地 Runtime binary。发布后验收失败时仍记录
+`releasePublished: true` 和 `adopterAcceptance: failed`，不会重写已发布的 Release。第二技术栈覆盖属于后续独立 Work Item。
 
 ## 手动 archive 安装
 

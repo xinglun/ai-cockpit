@@ -15,9 +15,9 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # Release と配布
 
-WI-34 は installation contract を定義しますが、最初の public Release や
-`xinglun/homebrew-tap` が既に存在すると主張しません。Repository configuration は
-`cockpit.toml` のままで、runtime の install は対象 repository に `.ai` を作成しません。
+現在の installation baseline は公開済みで immutable な `v0.1.1` Release です。Homebrew と manual install は
+public archive と manifest を使い、Repository configuration は `cockpit.toml` のままです。runtime の install は
+対象 repository に `.ai` を作成しません。WI-40 は post-release adopter acceptance harness を追加しますが、pre-release gate や Runtime command ではありません。
 
 ## 開始前
 
@@ -27,7 +27,7 @@ WI-34 は installation contract を定義しますが、最初の public Release
 
 ## macOS の primary install
 
-WI-35 が検証済みの最初の Release を公開し Formula を merge した後に実行します。
+maintained Homebrew tap が利用可能になった後、公開済み release line の Formula を install します。
 
 ```bash
 brew install xinglun/tap/ai-cockpit
@@ -70,6 +70,23 @@ gh release download v0.1.1 --repo xinglun/ai-cockpit \
 
 Filename、target、checksum、manifest、attestation subject は一致しなければなりません。
 Upload や semantic tag だけでは install の完了 evidence になりません。
+
+## Post-release adopter acceptance
+
+Maintainer は Release 公開後に public binary acceptance baseline を再実行できます。
+
+```bash
+tests/release/adopter_acceptance.sh \
+  --repository xinglun/ai-cockpit \
+  --tag v0.1.1 \
+  --target aarch64-apple-darwin \
+  --output ./release-adopter-acceptance
+```
+
+Harness は指定した public Release だけを download し、展開した binary を SHA-256 で pin します。isolated Cargo adopter を作成し、
+attach/profile/Agent doctor、`first-adopter-smoke` の `not_ready`、Work Item lifecycle、evidence reuse を検証し、`acceptance.json` と
+`SHA256SUMS` を出力します。workspace や local Runtime binary は使いません。post-release acceptance が失敗しても
+`releasePublished: true` と `adopterAcceptance: failed` を記録し、公開済み Release を書き換えません。second technology stack は別の Work Item です。
 
 ## Manual archive install
 
