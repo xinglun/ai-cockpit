@@ -71,4 +71,9 @@ Evidence 分类为 `public`、`internal`、`confidential`、`restricted` 或 `se
 action。保留策略可以要求 purge plan；AI Cockpit 不会静默删除历史 evidence，也不声称本地 archive
 满足企业法定保留要求。
 
+实际入口是 `evidence policy` 和 `evidence purge-plan`。前者把严格策略绑定到 Work Item；后者返回
+带 digest 的稳定 `retain`/`purge_planned` 清单，交给外部责任方审查。任何命令都不会静默删除 evidence。
+`digest_only` 只保留 receipt digest 和治理摘要，不保留命令输出；如果策略为 `no_persistence` 而操作会
+依赖不可保留的 receipt 来宣称完成，Runtime 会 fail closed。
+
 这些控制支持企业合规工作，但不等同于 ISO 27001、SOC 2 或其他组织级认证。

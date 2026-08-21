@@ -25,7 +25,7 @@ capabilityClaims:
 | 治理 | `preflight` | 读取 Contract，返回 green/yellow/red decision。 |
 | Work Item | `work-item new`、`start`、`checkpoint`、`finish`、`archive`、`close` | 创建骨架或写入显式生命周期记录；`close` 要求 human decision。 |
 | Verification | `verify` | 执行有界命令、记录 evidence，并可绑定 Work Item。 |
-| 外部 evidence | `evidence import`、`evidence list` | 将精确 provider bytes 绑定到 Work Item，或列出重新验证过的 delegated receipt。 |
+| 外部 evidence | `evidence import`、`evidence list`、`evidence policy`、`evidence purge-plan` | 将精确 provider bytes 绑定到 Work Item，声明有界持久化策略，或生成确定性的非破坏性处置计划。 |
 | Adapter | `agent list/install/doctor/repair/detach`、`mcp` | 管理显式选择的 repository-local Agent adapter，或通过 stdio 提供 JSON-RPC；所有操作都绑定 `--repo`。 |
 
 ## 重要选项
@@ -49,6 +49,12 @@ capabilityClaims:
   `DelegatedEvidence` metadata，并在 `.ai/evidence/external/` 写入绑定
   repository/Work Item 的 receipt。`evidence list` 会重新验证这些 receipt；过期或撤销的
   provider claim 不会因此变成 authority。
+- `evidence policy --repo <path> --work-item <id> --classification <value>
+  --persistence <value> --retention-days <n>|--expires-at <timestamp>
+  --disposal-action <action>` 写入严格 retention policy。`secret_prohibited`
+  禁止 `full_capture` 和 `redacted_capture`；`digest_only` 不保存命令原始输出；
+  `no_persistence` 在无法保存 completion evidence 时 fail closed。`evidence
+  purge-plan --repo <path>` 只输出稳定的处置计划，不会自行删除 evidence。
 - 如需可审计决定，请增加 `--actor`、`--authority-source`、`--reason`、`--decided-at`，并可重复提供
   `--evidence-ref`、`--policy-ref`、`--resume-condition`。结果的 `structuredDecision` 写入
   `.ai/decisions/<id>.close.json`；旧 flag 仍保持显式，并以可见的 `legacy-cli` provenance 记录。

@@ -27,7 +27,7 @@ unknown decision is not a pass.
 | Governance | `preflight` | Read a Contract and return a green/yellow/red decision. |
 | Work Item | `work-item new`, `start`, `checkpoint`, `finish`, `archive`, `close` | Scaffold or write explicit lifecycle records; `close` requires a human decision. |
 | Verification | `verify` | Execute bounded commands, record evidence, and optionally bind it to a Work Item. |
-| External evidence | `evidence import`, `evidence list` | Bind exact provider bytes to a Work Item or list revalidated delegated receipts. |
+| External evidence | `evidence import`, `evidence list`, `evidence policy`, `evidence purge-plan` | Bind exact provider bytes, declare bounded persistence, or produce a deterministic non-destructive disposal plan. |
 | Adapter | `agent list/install/doctor/repair/detach`, `mcp` | Manage an explicitly selected repository-local Agent adapter or serve JSON-RPC over stdio; every operation binds `--repo`. |
 
 ## Important options
@@ -62,6 +62,13 @@ unknown decision is not a pass.
   against the exact raw-byte digest and writes a repository/Work Item-bound
   receipt under `.ai/evidence/external/`. `evidence list` revalidates those
   receipts; it does not turn expired or revoked provider claims into authority.
+- `evidence policy --repo <path> --work-item <id> --classification <value>
+  --persistence <value> --retention-days <n>|--expires-at <timestamp>
+  --disposal-action <action>` binds a strict retention policy. `secret_prohibited`
+  rejects `full_capture` and `redacted_capture`; `digest_only` omits raw command
+  output; `no_persistence` fails closed when completion evidence would otherwise
+  be written. `evidence purge-plan --repo <path>` emits a stable plan and never
+  deletes evidence by itself.
 - For an auditable decision, add `--actor`, `--authority-source`, `--reason`,
   `--decided-at`, and optional repeated `--evidence-ref`, `--policy-ref`, and
   `--resume-condition`. The resulting `structuredDecision` is stored under

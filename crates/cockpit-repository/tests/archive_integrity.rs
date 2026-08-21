@@ -1,13 +1,15 @@
 use cockpit_core::Digest;
 use cockpit_git::GitRepository;
 use cockpit_protocol::{
-    AssuranceLevel, DelegatedEvidence, EvidenceValidity, HumanDecision, RuntimeContext,
+    AssuranceLevel, DataClassification, DelegatedEvidence, EvidencePersistence, EvidenceRetention,
+    EvidenceValidity, HumanDecision, RuntimeContext,
 };
 use cockpit_repository::{
     WorkItemStartOptions, archive_work_item, attach, close_work_item_with_decision,
-    close_work_item_with_structured_decision, evidence_state_for_contract, finish_work_item,
-    governance_decision_for_contract, import_delegated_evidence, record_verification,
-    start_work_item, start_work_item_with_options,
+    close_work_item_with_structured_decision, evidence_purge_plan, evidence_state_for_contract,
+    finish_work_item, governance_decision_for_contract, import_delegated_evidence,
+    record_verification, set_evidence_retention_policy, start_work_item,
+    start_work_item_with_options,
 };
 use std::{
     fs,
@@ -268,6 +270,135 @@ fn preflight_exposes_policy_authority_and_evidence_gaps() {
         decision
             .unknowns
             .contains(&"policy_required_evidence_missing".into())
+    );
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn digest_only_retention_never_persists_command_output() {
+    let path = repository();
+    start_work_item(&path, "WI-DIGEST", "digest", "verify", &["**".into()]).expect("start");
+    set_evidence_retention_policy(
+        &path,
+        "WI-DIGEST",
+        EvidenceRetention {
+            classification: DataClassification::Restricted,
+            persistence: EvidencePersistence::DigestOnly,
+            retention_days: Some(30),
+            expires_at: None,
+            disposal_action: "purge_after_expiry".into(),
+        },
+        &RuntimeContext {
+            runtime_version: "0.2.2".into(),
+            protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"runtime"),
+        },
+    )
+    .expect("retention policy");
+    let evidence = record_verification(
+        &path,
+        "WI-DIGEST",
+        &serde_json::json!({
+            "passed": true,
+            "nodesPlanned": 1,
+            "output": "credential=do-not-persist"
+        }),
+        "0.2.2",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+    assert_eq!(evidence["captureMode"], "digest_only");
+    assert!(evidence.get("receipt").is_none());
+    let bytes = fs::read_to_string(path.join(".ai/evidence/WI-DIGEST.verification.json"))
+        .expect("stored evidence");
+    assert!(!bytes.contains("do-not-persist"));
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn no_persistence_fails_closed_instead_of_claiming_completion() {
+    let path = repository();
+    start_work_item(
+        &path,
+        "WI-NOPERSIST",
+        "no persist",
+        "verify",
+        &["**".into()],
+    )
+    .expect("start");
+    set_evidence_retention_policy(
+        &path,
+        "WI-NOPERSIST",
+        EvidenceRetention {
+            classification: DataClassification::SecretProhibited,
+            persistence: EvidencePersistence::NoPersistence,
+            retention_days: Some(1),
+            expires_at: None,
+            disposal_action: "external_owner".into(),
+        },
+        &RuntimeContext {
+            runtime_version: "0.2.2".into(),
+            protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"runtime"),
+        },
+    )
+    .expect("retention policy");
+    let error = record_verification(
+        &path,
+        "WI-NOPERSIST",
+        &serde_json::json!({"passed": true}),
+        "0.2.2",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect_err("completion evidence must not be silently discarded");
+    assert!(error.to_string().contains("no_persistence"));
+    assert!(
+        !path
+            .join(".ai/evidence/WI-NOPERSIST.verification.json")
+            .exists()
+    );
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn purge_plan_is_deterministic_and_never_deletes_evidence() {
+    let path = repository();
+    start_work_item(&path, "WI-EXPIRE", "expiry", "verify", &["**".into()]).expect("start");
+    set_evidence_retention_policy(
+        &path,
+        "WI-EXPIRE",
+        EvidenceRetention {
+            classification: DataClassification::Confidential,
+            persistence: EvidencePersistence::DigestOnly,
+            retention_days: None,
+            expires_at: Some("0".into()),
+            disposal_action: "purge_after_review".into(),
+        },
+        &RuntimeContext {
+            runtime_version: "0.2.2".into(),
+            protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"runtime"),
+        },
+    )
+    .expect("retention policy");
+    record_verification(
+        &path,
+        "WI-EXPIRE",
+        &serde_json::json!({"passed": true}),
+        "0.2.2",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+    let first = evidence_purge_plan(&path, 1_700_000_000).expect("purge plan");
+    let second = evidence_purge_plan(&path, 1_700_000_000).expect("purge plan");
+    assert_eq!(first, second);
+    assert_eq!(
+        first[0].disposition,
+        cockpit_protocol::EvidenceDisposition::PurgePlanned
+    );
+    assert!(
+        path.join(".ai/evidence/WI-EXPIRE.verification.json")
+            .is_file()
     );
     fs::remove_dir_all(path).expect("cleanup");
 }

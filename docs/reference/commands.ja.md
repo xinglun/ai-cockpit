@@ -25,7 +25,7 @@ capabilityClaims:
 | Governance | `preflight` | Contract を読み green/yellow/red decision を返す。 |
 | Work Item | `work-item new`、`start`、`checkpoint`、`finish`、`archive`、`close` | skeleton または lifecycle record を作る。`close` は human decision が必要。 |
 | Verification | `verify` | bounded command を実行し evidence を記録する。Work Item に bind できる。 |
-| External evidence | `evidence import`、`evidence list` | exact provider bytes を Work Item に bind し、再検証済み delegated receipt を表示する。 |
+| External evidence | `evidence import`、`evidence list`、`evidence policy`、`evidence purge-plan` | exact provider bytes の bind、bounded persistence policy の宣言、または決定論的な非破壊 disposal plan の生成。 |
 | Adapter | `agent list/install/doctor/repair/detach`、`mcp` | 明示的に選択した repository-local Agent adapter を管理し、または stdio で JSON-RPC を提供する。すべて `--repo` に bind する。 |
 
 ## Important options
@@ -48,6 +48,13 @@ capabilityClaims:
   --raw <provider-output>` は strict な `DelegatedEvidence` metadata を exact raw-byte
   digest と照合し、`.ai/evidence/external/` に repository/Work Item-bound receipt を書きます。
   `evidence list` は receipt を再検証し、expired/revoked provider claim を authority に変えません。
+- `evidence policy --repo <path> --work-item <id> --classification <value>
+  --persistence <value> --retention-days <n>|--expires-at <timestamp>
+  --disposal-action <action>` は strict な retention policy を bind します。
+  `secret_prohibited` は `full_capture` と `redacted_capture` を拒否し、
+  `digest_only` は command の raw output を保存せず、`no_persistence` は completion
+  evidence を保存できない場合に fail closed します。`evidence purge-plan --repo <path>`
+  は決定論的な plan だけを出力し、自動削除はしません。
 - 監査可能な decision には `--actor`、`--authority-source`、`--reason`、`--decided-at` と、任意の
   `--evidence-ref`、`--policy-ref`、`--resume-condition` を指定します。結果の `structuredDecision` は
   `.ai/decisions/<id>.close.json` に保存されます。legacy flag も明示的なまま、`legacy-cli` provenance を付けて記録します。

@@ -1,5 +1,6 @@
 use cap_fs_ext::{DirExt, FollowSymlinks, OpenOptionsFollowExt};
 use cap_std::fs::{Dir, OpenOptions as CapOpenOptions};
+use chrono::{DateTime, Utc};
 use cockpit_core::{
     ActionKind, AuthorityState, DecisionState, Digest, EvidenceState, GovernanceDecision,
     GovernanceInput, evaluate,
@@ -7,10 +8,12 @@ use cockpit_core::{
 use cockpit_git::{ChangeContentState, ChangeKind, RepositorySnapshot};
 use cockpit_protocol::{
     AgentAdapterCompatibility, AgentInterfaceAvailability, AgentInterfaceManifest, AgentInterfaces,
-    AgentRootBinding, ApprovalMode, Contract, DelegatedEvidence, DelegatedEvidenceReceipt,
-    EvidenceValidity, GovernancePolicy, GovernancePolicyDocument, HumanDecision, PolicyLayer,
-    QualityCommand, RepositoryConfig, RuntimeContext, default_repository_schema_version,
-    merge_policy_layers, validate_protocol_version,
+    AgentRootBinding, ApprovalMode, Contract, DataClassification, DelegatedEvidence,
+    DelegatedEvidenceReceipt, EvidenceDisposition, EvidenceDispositionItem, EvidencePersistence,
+    EvidenceRetention, EvidenceRetentionPolicy, EvidenceValidity, GovernancePolicy,
+    GovernancePolicyDocument, HumanDecision, PolicyLayer, QualityCommand, RepositoryConfig,
+    RuntimeContext, default_repository_schema_version, merge_policy_layers,
+    validate_evidence_retention, validate_protocol_version,
 };
 use serde::{Deserialize, Serialize};
 use sha2::{Digest as ShaDigest, Sha256};
@@ -3170,21 +3173,279 @@ pub fn record_verification_with_snapshot(
             message: "verification receipt belongs to another work item".into(),
         });
     }
-    let evidence = serde_json::json!({
+    let retention_policy = read_evidence_retention_policy(&root, work_item_id)?;
+    let receipt_digest =
+        cockpit_protocol::digest_json(receipt).map_err(|error| ObserverError::State {
+            path: root.join(".ai/evidence"),
+            message: error.to_string(),
+        })?;
+    let (stored_receipt, capture_mode) = match retention_policy
+        .as_ref()
+        .map(|policy| &policy.retention.persistence)
+    {
+        Some(EvidencePersistence::NoPersistence) => {
+            return Err(ObserverError::State {
+                path: root
+                    .join(".ai/evidence")
+                    .join(format!("{work_item_id}.retention.json")),
+                message:
+                    "no_persistence cannot produce completion evidence; use an external evidence owner or change the policy".into(),
+            });
+        }
+        Some(EvidencePersistence::DigestOnly) => (None, "digest_only"),
+        Some(EvidencePersistence::RedactedCapture) => (
+            Some(redact_verification_receipt(receipt)),
+            "redacted_capture",
+        ),
+        Some(EvidencePersistence::FullCapture) | None => (Some(receipt.clone()), "full_capture"),
+    };
+    let mut evidence = serde_json::json!({
         "protocolVersion": 1,
         "workItemId": work_item_id,
         "runtimeVersion": runtime_version,
         "runtimeDigest": runtime_digest,
         "repositorySnapshotDigest": snapshot_digest(snapshot)?,
         "passed": true,
-        "receipt": receipt,
+        "receiptDigest": receipt_digest,
+        "captureMode": capture_mode,
         "createdAt": now(),
     });
+    if let Some(receipt) = stored_receipt {
+        evidence["receipt"] = receipt;
+    }
+    if let Some(policy) = retention_policy {
+        evidence["retention"] =
+            serde_json::to_value(policy).map_err(|error| ObserverError::State {
+                path: root.join(".ai/evidence"),
+                message: error.to_string(),
+            })?;
+    }
     let path = root
         .join(".ai/evidence")
         .join(format!("{work_item_id}.verification.json"));
     atomic_json(&path, &evidence)?;
     Ok(evidence)
+}
+
+fn redact_verification_receipt(receipt: &serde_json::Value) -> serde_json::Value {
+    match receipt {
+        serde_json::Value::Object(map) => {
+            let mut redacted = serde_json::Map::new();
+            for (key, value) in map {
+                let lowered = key.to_ascii_lowercase();
+                if matches!(lowered.as_str(), "output" | "stdout" | "stderr" | "command")
+                    || lowered.contains("log")
+                {
+                    redacted.insert(key.clone(), serde_json::Value::String("[redacted]".into()));
+                } else {
+                    redacted.insert(key.clone(), redact_verification_receipt(value));
+                }
+            }
+            serde_json::Value::Object(redacted)
+        }
+        serde_json::Value::Array(values) => {
+            serde_json::Value::Array(values.iter().map(redact_verification_receipt).collect())
+        }
+        other => other.clone(),
+    }
+}
+
+pub fn set_evidence_retention_policy(
+    root: &Path,
+    work_item_id: &str,
+    retention: EvidenceRetention,
+    runtime: &RuntimeContext,
+) -> Result<EvidenceRetentionPolicy, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    validate_evidence_retention(&retention).map_err(|error| ObserverError::State {
+        path: root
+            .join(".ai/evidence")
+            .join(format!("{work_item_id}.retention.json")),
+        message: error.to_string(),
+    })?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let contract = read_contract(&contract_path)?;
+    let policy = EvidenceRetentionPolicy {
+        schema_version: 1,
+        repository_id: contract.repository_id,
+        work_item_id: work_item_id.into(),
+        retention,
+        created_at: now(),
+    };
+    let path = root
+        .join(".ai/evidence")
+        .join(format!("{work_item_id}.retention.json"));
+    if path.exists() {
+        let existing = read_json(&path)?;
+        let existing: EvidenceRetentionPolicy =
+            serde_json::from_value(existing).map_err(|error| ObserverError::State {
+                path: path.clone(),
+                message: error.to_string(),
+            })?;
+        if existing.repository_id != policy.repository_id
+            || existing.work_item_id != policy.work_item_id
+            || existing.retention != policy.retention
+        {
+            return Err(ObserverError::State {
+                path,
+                message: "conflicting retention policy already exists".into(),
+            });
+        }
+        return Ok(existing);
+    }
+    let policy_value = serde_json::to_value(&policy).map_err(|error| ObserverError::State {
+        path: path.clone(),
+        message: error.to_string(),
+    })?;
+    atomic_json(&path, &policy_value)?;
+    let _ = runtime;
+    Ok(policy)
+}
+
+pub fn read_evidence_retention_policy(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<Option<EvidenceRetentionPolicy>, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let path = root
+        .join(".ai/evidence")
+        .join(format!("{work_item_id}.retention.json"));
+    let value = match read_json(&path) {
+        Ok(value) => value,
+        Err(ObserverError::Read { source, .. })
+            if source.kind() == std::io::ErrorKind::NotFound =>
+        {
+            return Ok(None);
+        }
+        Err(error) => return Err(error),
+    };
+    let policy: EvidenceRetentionPolicy =
+        serde_json::from_value(value).map_err(|error| ObserverError::State {
+            path: path.clone(),
+            message: error.to_string(),
+        })?;
+    if policy.repository_id != repository_id(&root).to_string()
+        || policy.work_item_id != work_item_id
+    {
+        return Err(ObserverError::State {
+            path,
+            message: "retention policy repository/work item binding mismatch".into(),
+        });
+    }
+    validate_evidence_retention(&policy.retention).map_err(|error| ObserverError::State {
+        path,
+        message: error.to_string(),
+    })?;
+    Ok(Some(policy))
+}
+
+pub fn evidence_purge_plan(
+    root: &Path,
+    now_epoch_seconds: u64,
+) -> Result<Vec<EvidenceDispositionItem>, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let evidence_dir = root.join(".ai/evidence");
+    let mut items = Vec::new();
+    let entries = match fs::read_dir(&evidence_dir) {
+        Ok(entries) => entries,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(items),
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: evidence_dir,
+                source,
+            });
+        }
+    };
+    for entry in entries {
+        let entry = entry.map_err(|source| ObserverError::Read {
+            path: root.join(".ai/evidence"),
+            source,
+        })?;
+        let name = entry.file_name().to_string_lossy().into_owned();
+        let Some(work_item_id) = name.strip_suffix(".verification.json") else {
+            continue;
+        };
+        let path = entry.path();
+        let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
+            path: path.clone(),
+            source,
+        })?;
+        let digest = Digest::sha256_bytes(&bytes);
+        let value: serde_json::Value =
+            serde_json::from_slice(&bytes).map_err(|error| ObserverError::State {
+                path: path.clone(),
+                message: error.to_string(),
+            })?;
+        let policy = read_evidence_retention_policy(&root, work_item_id)?;
+        let Some(policy) = policy else {
+            items.push(EvidenceDispositionItem {
+                path: format!(".ai/evidence/{name}"),
+                digest,
+                classification: DataClassification::Internal,
+                persistence: EvidencePersistence::FullCapture,
+                disposition: EvidenceDisposition::Retain,
+                reason: "no repository retention policy is bound; no automatic disposal".into(),
+            });
+            continue;
+        };
+        let expired = policy
+            .retention
+            .expires_at
+            .as_deref()
+            .and_then(parse_epoch_seconds)
+            .is_some_and(|expiry| expiry <= now_epoch_seconds)
+            || policy.retention.retention_days.is_some_and(|days| {
+                value["createdAt"]
+                    .as_str()
+                    .and_then(parse_epoch_seconds)
+                    .is_some_and(|created| {
+                        created.saturating_add(days.saturating_mul(86_400)) <= now_epoch_seconds
+                    })
+            });
+        items.push(EvidenceDispositionItem {
+            path: format!(".ai/evidence/{name}"),
+            digest,
+            classification: policy.retention.classification,
+            persistence: policy.retention.persistence,
+            disposition: if expired {
+                EvidenceDisposition::PurgePlanned
+            } else {
+                EvidenceDisposition::Retain
+            },
+            reason: if expired {
+                format!(
+                    "retention expired; explicit disposal action={}",
+                    policy.retention.disposal_action
+                )
+            } else {
+                "retention window is still active".into()
+            },
+        });
+    }
+    items.sort_by(|left, right| left.path.cmp(&right.path));
+    Ok(items)
+}
+
+fn parse_epoch_seconds(value: &str) -> Option<u64> {
+    if let Ok(seconds) = value.parse::<u64>() {
+        return Some(seconds);
+    }
+    DateTime::parse_from_rfc3339(value)
+        .ok()
+        .and_then(|timestamp| timestamp.with_timezone(&Utc).timestamp().try_into().ok())
 }
 
 fn external_evidence_directory(root: &Path) -> Result<PathBuf, ObserverError> {

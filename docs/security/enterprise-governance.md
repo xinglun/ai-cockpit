@@ -87,5 +87,13 @@ deterministic disposal action. A retention policy may require a purge plan;
 AI Cockpit does not silently delete historical evidence or claim that local
 archive storage satisfies enterprise retention law.
 
+The operational entry points are `evidence policy` and `evidence purge-plan`.
+The former binds a strict policy to a Work Item; the latter returns a stable,
+digest-bound list of `retain` or `purge_planned` items for an external owner to
+review. No command silently removes evidence. `digest_only` stores the receipt
+digest and governance summary without command output, while `no_persistence`
+fails closed if the requested operation would otherwise claim completion from a
+receipt that cannot be retained.
+
 These controls support enterprise compliance work. They are not an ISO 27001,
 SOC 2, or other organizational certification.

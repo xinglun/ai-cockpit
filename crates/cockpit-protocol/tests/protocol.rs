@@ -324,9 +324,22 @@ fn sensitive_evidence_policy_rejects_secret_full_capture_and_accepts_digest_only
 
     let digest_only = cockpit_protocol::EvidenceRetention {
         persistence: cockpit_protocol::EvidencePersistence::DigestOnly,
+        retention_days: Some(30),
         ..full
     };
     assert!(cockpit_protocol::validate_evidence_retention(&digest_only).is_ok());
+
+    let policy = cockpit_protocol::EvidenceRetentionPolicy {
+        schema_version: 1,
+        repository_id: "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            .into(),
+        work_item_id: "WI-SENSITIVE".into(),
+        retention: digest_only,
+        created_at: "2026-08-21T19:00:00Z".into(),
+    };
+    let mut value = serde_json::to_value(&policy).expect("policy serializes");
+    value["future"] = serde_json::json!(true);
+    assert!(serde_json::from_value::<cockpit_protocol::EvidenceRetentionPolicy>(value).is_err());
 }
 
 #[test]

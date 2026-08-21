@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T20:41:39Z",
+  "files": {
+    "contractDigest": "sha256:0c2a6e0febdd914fa30a450945a4017db5b1b213acb621be432da9d15d285de5",
+    "contractPath": ".ai/work-items/archive/WI-68-sensitive-evidence-retention.contract.json",
+    "outcomeDigest": "sha256:bf823b9aa9fd2e816331db1d1cc2a1840603ae8aeeabd111677e5c13a6156ab3",
+    "outcomePath": ".ai/work-items/archive/WI-68-sensitive-evidence-retention.outcome.json",
+    "summaryDigest": "sha256:2dac215eed46ced5778b2d19fac2e4cfea42b99137fa6a1812cb5eca97b45393",
+    "summaryPath": ".ai/work-items/archive/WI-68-sensitive-evidence-retention.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-68-sensitive-evidence-retention"
+}

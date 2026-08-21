@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T20:41:38Z",
+  "evidenceDigest": "sha256:9e34b03644b85a203c35d13eb6ff4539109ba33c21ee1b9a4a556b4b75b2a284",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-68-sensitive-evidence-retention.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-68-sensitive-evidence-retention"
+}
