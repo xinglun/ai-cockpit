@@ -1,0 +1,34 @@
+{
+  "acceptanceCriteria": [
+    "finish/archive/close lifecycle JSON contains an explicit outcome object",
+    "a regression test fails when lifecycle output omits outcome",
+    "Outcome state/evidence remains honest and repository-bound"
+  ],
+  "authority": "authorized",
+  "baseRevision": "287812036aa1f92b05a843d0a178a3b3afbdaf68",
+  "createdAt": "2026-08-21T23:15:33Z",
+  "goal": "Make Outcome visibility a tested delivery invariant without treating collapsed or file-only evidence as user-visible delivery.",
+  "intent": "Ensure every Work Item finish, archive, and close presents an explicit Outcome in the conversation-facing CLI result.",
+  "mode": "implementation",
+  "outOfScope": [
+    "runtime protocol semantics",
+    "global agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:95b1811e7e90de1d7e0680032d37e217935ad5108c2f4179d38f0f560bf044bf",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/**",
+    "crates/cockpit-repository/src/lib.rs",
+    "docs/**",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-90-outcome-dialog-visibility"
+}

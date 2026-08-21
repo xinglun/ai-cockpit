@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T23:17:27Z",
+  "files": {
+    "contractDigest": "sha256:85e6c430c97d92f6d1c7860e6931781e1811a8fcbc6fd4458cd02159910f5f0d",
+    "contractPath": ".ai/work-items/archive/WI-90-outcome-dialog-visibility.contract.json",
+    "outcomeDigest": "sha256:9f22c09b012526f77e1c4f140cd042ffdee351cb5c5ca82fb40433d4c04c4da1",
+    "outcomePath": ".ai/work-items/archive/WI-90-outcome-dialog-visibility.outcome.json",
+    "summaryDigest": "sha256:a5a9a081f30674e4e47ee74618fdcf7618a0435292a25d12f147a91d0b3806f7",
+    "summaryPath": ".ai/work-items/archive/WI-90-outcome-dialog-visibility.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-90-outcome-dialog-visibility"
+}

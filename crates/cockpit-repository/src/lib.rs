@@ -14,8 +14,8 @@ use cockpit_protocol::{
     EvidencePersistence, EvidenceRetention, EvidenceRetentionPolicy, EvidenceValidity, FactOrigin,
     GovernanceCost, GovernancePolicy, GovernancePolicyDocument, HumanBenefitReport, HumanDecision,
     ImplementationApproach, OutcomeState, OutcomeV2, PerformanceDiagnosis, PolicyLayer,
-    QualityCommand, RepositoryConfig, RuntimeContext, TruthState, WorkItemCompatibility,
-    WorkItemIntelligence, SchemaMigrationStep, default_repository_schema_version,
+    QualityCommand, RepositoryConfig, RuntimeContext, SchemaMigrationStep, TruthState,
+    WorkItemCompatibility, WorkItemIntelligence, default_repository_schema_version,
     merge_policy_layers, repository_schema_migration_chain, validate_evidence_retention,
     validate_protocol_version,
 };

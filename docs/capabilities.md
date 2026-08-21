@@ -232,6 +232,10 @@ for the same Work Item and current repository snapshot. `close` requires the
 archive manifest and a human decision. If a check fails, preserve the Work Item
 and repair the missing evidence; do not delete its records.
 
+`finish`, `archive`, and `close` each emit the bound `outcome` object in their
+JSON result. Agents must surface that Outcome as an explicit conversation
+message; a file-only or collapsed result is not a delivery confirmation.
+
 ### Verify commands and understand reuse
 
 Explicit commands and Work Item-bound verification always execute fresh:

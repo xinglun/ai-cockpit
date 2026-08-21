@@ -1,0 +1,13 @@
+{
+  "changedPaths": [
+    "crates/cockpit-repository/src/lib.rs"
+  ],
+  "checkpointCount": 1,
+  "createdAt": "2026-08-21T23:15:33Z",
+  "mode": "implementation",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-21T23:17:20Z",
+  "workItemId": "WI-90-outcome-dialog-visibility"
+}

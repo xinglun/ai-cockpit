@@ -215,6 +215,10 @@ ai-cockpit close --repo /path/to/repository --id WI-123 \
 receipt を要求し、`close` は archive manifest と human decision を要求します。失敗したら
 Work Item を残し、evidence を修復します。record を削除して状態を隠してはいけません。
 
+`finish`、`archive`、`close` の JSON 結果には、bound された `outcome` object が必ず含まれます。
+Agent はこの Outcome を独立した会話メッセージとして明示してください。ファイルにだけ保存された結果や、
+折りたたまれた結果は delivery confirmation ではありません。
+
 ### Verification と reuse
 
 Explicit command と Work Item-bound verification は常に fresh です。

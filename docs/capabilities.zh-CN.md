@@ -214,6 +214,9 @@ ai-cockpit close --repo /path/to/repository --id WI-123 \
 receipt；`close` 要求 archive manifest 和 human decision。检查失败时保留 Work Item，修复
 缺失 evidence，不要删除记录。
 
+`finish`、`archive` 和 `close` 的 JSON 结果都会包含绑定的 `outcome` 对象。Agent 必须将该
+Outcome 作为独立的对话消息显式呈现；仅写入文件或被折叠的结果不能视为交付确认。
+
 ### Verification 和 reuse
 
 显式命令和绑定 Work Item 的验证总是 fresh：

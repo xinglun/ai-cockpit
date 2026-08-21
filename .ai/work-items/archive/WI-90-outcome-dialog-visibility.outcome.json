@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T23:17:20Z",
+  "evidenceDigest": "sha256:6eb6988fe04d1c5cdcfd2e5f98367b092ca00fcde87ffaf2f016d701e07d2940",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-90-outcome-dialog-visibility.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-90-outcome-dialog-visibility"
+}
