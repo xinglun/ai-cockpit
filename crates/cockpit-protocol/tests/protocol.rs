@@ -241,6 +241,30 @@ fn enterprise_authority_and_human_decision_are_strict_and_auditable() {
 }
 
 #[test]
+fn provider_and_enterprise_authority_require_bound_evidence_and_policy() {
+    let mut evidence = cockpit_protocol::AuthorityEvidence {
+        assurance: cockpit_protocol::AssuranceLevel::ProviderVerified,
+        actor: "provider:github".into(),
+        authority_source: "github-team".into(),
+        operations: vec!["release".into()],
+        policy_refs: Vec::new(),
+        evidence_refs: Vec::new(),
+    };
+    assert_eq!(
+        cockpit_protocol::validate_authority_evidence(&evidence),
+        Err(cockpit_protocol::AuthorityEvidenceError::MissingEvidence)
+    );
+    evidence.evidence_refs.push("run:123".into());
+    evidence.assurance = cockpit_protocol::AssuranceLevel::EnterpriseVerified;
+    assert_eq!(
+        cockpit_protocol::validate_authority_evidence(&evidence),
+        Err(cockpit_protocol::AuthorityEvidenceError::MissingPolicy)
+    );
+    evidence.policy_refs.push("org-release-v1".into());
+    assert!(cockpit_protocol::validate_authority_evidence(&evidence).is_ok());
+}
+
+#[test]
 fn organization_policy_cannot_be_weakened_by_a_lower_layer() {
     let organization = cockpit_protocol::GovernancePolicy {
         policy_id: "org-production-v1".into(),
