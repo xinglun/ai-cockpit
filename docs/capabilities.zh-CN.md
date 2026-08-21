@@ -249,6 +249,26 @@ ai-cockpit knowledge query --repo /path/to/repository --topic installation
 Knowledge 是 repository-local evidence 的 projection，不是第二事实源。缺失、过期或无效的
 Work Item 和 receipt 不能变成新的 claim。
 
+### 可追溯性、Outcome 与并行准备度
+
+v2 intelligence projection 将事实与推导分开，绝不代替人类填写意图或授权：
+
+```bash
+ai-cockpit work-item approach --repo /path/to/repository --id WI-123
+ai-cockpit work-item outcome --repo /path/to/repository --id WI-123
+ai-cockpit work-item inspect --repo /path/to/repository --id WI-123
+ai-cockpit work-item declare --repo /path/to/repository --id WI-123 \
+  --depends-on WI-100 --conflicts-with WI-124 --parallelizable
+ai-cockpit knowledge query --repo /path/to/repository --v2
+ai-cockpit capability show --repo /path/to/repository
+ai-cockpit diagnose --repo /path/to/repository --work-item WI-123
+```
+
+`approach` 输出观察到的事实、命名后的推导、证据引用和仍未知的人类输入。`outcome` 将已验证的实现证据
+与 Human Benefit Report 分开；没有明确声明的用户收益保持为 `unknown`。Capability Registry 区分检测到的能力
+与 profile 确认的验证能力，并记录 confidence 和 evidence。`inspect` 在依赖、冲突或 scope 兼容性未被明确知道时
+对并行执行 fail closed。Diagnosis 只报告实际测得的 snapshot/verification 成本，不伪装成 benchmark。
+
 ### 使用 MCP
 
 使用显式 repository 绑定启动服务：

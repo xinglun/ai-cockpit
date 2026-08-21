@@ -143,6 +143,16 @@ enum CommandKind {
         #[command(subcommand)]
         command: WorkItemCommand,
     },
+    Capability {
+        #[command(subcommand)]
+        command: CapabilityCommand,
+    },
+    Diagnose {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        work_item: Option<String>,
+    },
     Knowledge {
         #[command(subcommand)]
         command: KnowledgeCommand,
@@ -285,6 +295,8 @@ enum KnowledgeCommand {
         state: Option<String>,
         #[arg(long)]
         work_item_id: Option<String>,
+        #[arg(long)]
+        v2: bool,
     },
 }
 
@@ -297,6 +309,44 @@ enum WorkItemCommand {
         id: String,
         #[arg(long)]
         mode: String,
+    },
+    Approach {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+    },
+    Outcome {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+    },
+    Inspect {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+    },
+    Declare {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+        #[arg(long, value_delimiter = ',')]
+        depends_on: Vec<String>,
+        #[arg(long, value_delimiter = ',')]
+        conflicts_with: Vec<String>,
+        #[arg(long, default_value_t = false)]
+        parallelizable: bool,
+    },
+}
+
+#[derive(Debug, Subcommand)]
+enum CapabilityCommand {
+    Show {
+        #[arg(long)]
+        repo: PathBuf,
     },
 }
 
@@ -780,7 +830,65 @@ fn run() -> Result<()> {
                 println!("\nState: {}", receipt.state);
                 println!("\n{}", serde_json::to_string_pretty(&receipt)?);
             }
+            WorkItemCommand::Approach { repo, id } => {
+                require_compatible(&repo, &runtime_context)?;
+                let approach = cockpit_repository::implementation_approach(&repo, &id)
+                    .context("derive implementation approach")?;
+                println!("{}", serde_json::to_string_pretty(&approach)?);
+            }
+            WorkItemCommand::Outcome { repo, id } => {
+                require_compatible(&repo, &runtime_context)?;
+                let outcome =
+                    cockpit_repository::outcome_v2(&repo, &id).context("read Work Item outcome")?;
+                println!("{}", serde_json::to_string_pretty(&outcome)?);
+            }
+            WorkItemCommand::Inspect { repo, id } => {
+                require_compatible(&repo, &runtime_context)?;
+                let compatibility = cockpit_repository::work_item_compatibility(&repo, &id)
+                    .context("inspect Work Item compatibility")?;
+                let approach = cockpit_repository::implementation_approach(&repo, &id)
+                    .context("derive Work Item implementation approach")?;
+                let output = json!({
+                    "repositoryId": compatibility.repository_id,
+                    "workItemId": id,
+                    "compatibility": compatibility,
+                    "implementationApproach": approach,
+                });
+                println!("{}", serde_json::to_string_pretty(&output)?);
+            }
+            WorkItemCommand::Declare {
+                repo,
+                id,
+                depends_on,
+                conflicts_with,
+                parallelizable,
+            } => {
+                require_compatible(&repo, &runtime_context)?;
+                let intelligence = cockpit_repository::set_work_item_intelligence(
+                    &repo,
+                    &id,
+                    depends_on,
+                    conflicts_with,
+                    parallelizable,
+                )
+                .context("declare Work Item intelligence")?;
+                println!("{}", serde_json::to_string_pretty(&intelligence)?);
+            }
         },
+        CommandKind::Capability { command } => match command {
+            CapabilityCommand::Show { repo } => {
+                require_compatible(&repo, &runtime_context)?;
+                let registry = cockpit_repository::capability_truth_registry(&repo)
+                    .context("derive capability truth registry")?;
+                println!("{}", serde_json::to_string_pretty(&registry)?);
+            }
+        },
+        CommandKind::Diagnose { repo, work_item } => {
+            require_compatible(&repo, &runtime_context)?;
+            let diagnosis = cockpit_repository::performance_diagnosis(&repo, work_item.as_deref())
+                .context("diagnose governance cost and performance")?;
+            println!("{}", serde_json::to_string_pretty(&diagnosis)?);
+        }
         CommandKind::Knowledge { command } => match command {
             KnowledgeCommand::Query {
                 repo,
@@ -788,8 +896,29 @@ fn run() -> Result<()> {
                 component,
                 state,
                 work_item_id,
+                v2,
             } => {
                 require_compatible(&repo, &runtime_context)?;
+                if v2 {
+                    let records = cockpit_repository::generate_knowledge_v2(&repo)
+                        .context("project knowledge v2")?;
+                    let records = records
+                        .into_iter()
+                        .filter(|record| {
+                            topic.as_ref().is_none_or(|value| &record.topic == value)
+                                && component
+                                    .as_ref()
+                                    .is_none_or(|value| &record.component == value)
+                                && state.as_ref().is_none_or(|value| &record.state == value)
+                                && work_item_id
+                                    .as_ref()
+                                    .is_none_or(|value| &record.work_item_id == value)
+                        })
+                        .collect::<Vec<_>>();
+                    let output = json!({"schemaVersion": 2, "matchCount": records.len(), "results": records});
+                    println!("{}", serde_json::to_string_pretty(&output)?);
+                    return Ok(());
+                }
                 let index = generate_knowledge(&repo).context("project knowledge")?;
                 let results = query(
                     &index,

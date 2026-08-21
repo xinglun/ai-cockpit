@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T23:02:52Z",
+  "evidenceDigest": "sha256:ad4b26fcb8fc985f6d58e10f084ff74c839179818b7326efb967f5c49ae5a6b3",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-79-work-item-intelligence.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-79-work-item-intelligence"
+}

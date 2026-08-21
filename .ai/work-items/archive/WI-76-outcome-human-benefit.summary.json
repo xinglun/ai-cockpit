@@ -1,0 +1,30 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-75-implementation-knowledge-v2.close.json",
+    ".ai/evidence/WI-75-implementation-knowledge-v2.verification.json",
+    ".ai/work-items/archive/WI-75-implementation-knowledge-v2.archive.json",
+    ".ai/work-items/archive/WI-75-implementation-knowledge-v2.contract.json",
+    ".ai/work-items/archive/WI-75-implementation-knowledge-v2.outcome.json",
+    ".ai/work-items/archive/WI-75-implementation-knowledge-v2.summary.json",
+    "Cargo.lock",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/intelligence.rs",
+    "crates/cockpit-knowledge/Cargo.toml",
+    "crates/cockpit-knowledge/src/lib.rs",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/intelligence_schema.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/intelligence.rs",
+    "docs/capabilities.ja.md",
+    "docs/capabilities.md",
+    "docs/capabilities.zh-CN.md"
+  ],
+  "checkpointCount": 1,
+  "createdAt": "2026-08-21T23:02:46Z",
+  "mode": "implementation",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-21T23:02:47Z",
+  "workItemId": "WI-76-outcome-human-benefit"
+}

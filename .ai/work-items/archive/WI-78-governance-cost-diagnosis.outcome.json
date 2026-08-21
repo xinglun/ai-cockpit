@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T23:02:50Z",
+  "evidenceDigest": "sha256:9d6c00efbfb6e9a45a6bc3707592805e32e941e1a2ea810c23675e6a971876cd",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-78-governance-cost-diagnosis.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-78-governance-cost-diagnosis"
+}

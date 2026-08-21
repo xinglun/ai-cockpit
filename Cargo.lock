@@ -291,6 +291,8 @@ dependencies = [
 name = "cockpit-knowledge"
 version = "0.2.2"
 dependencies = [
+ "cockpit-core",
+ "cockpit-protocol",
  "serde",
  "serde_json",
  "thiserror",

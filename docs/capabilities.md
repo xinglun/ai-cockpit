@@ -270,6 +270,31 @@ ai-cockpit knowledge query --repo /path/to/repository --topic installation
 Knowledge is a projection of repository-local evidence, not a second source of
 truth. Missing, stale, or invalid Work Items and receipts must not become fresh claims.
 
+### Traceability, outcomes, and parallel readiness
+
+The v2 intelligence projections keep facts separate from derived conclusions and
+never invent human-owned decisions:
+
+```bash
+ai-cockpit work-item approach --repo /path/to/repository --id WI-123
+ai-cockpit work-item outcome --repo /path/to/repository --id WI-123
+ai-cockpit work-item inspect --repo /path/to/repository --id WI-123
+ai-cockpit work-item declare --repo /path/to/repository --id WI-123 \
+  --depends-on WI-100 --conflicts-with WI-124 --parallelizable
+ai-cockpit knowledge query --repo /path/to/repository --v2
+ai-cockpit capability show --repo /path/to/repository
+ai-cockpit diagnose --repo /path/to/repository --work-item WI-123
+```
+
+`approach` emits observed facts, named derivations, evidence references, and
+unknown human inputs. `outcome` distinguishes verified implementation evidence
+from the human-benefit report; an undeclared benefit remains `unknown`. The
+capability registry reports detection versus profile-confirmed verification and
+includes confidence and evidence. `inspect` fails closed for parallel execution
+when dependencies, conflicts, or scope compatibility are not explicitly known.
+Diagnosis reports measured snapshot and verification cost only; it does not
+pretend to be a benchmark.
+
 ### Use MCP
 
 Start the server with an explicit repository binding:

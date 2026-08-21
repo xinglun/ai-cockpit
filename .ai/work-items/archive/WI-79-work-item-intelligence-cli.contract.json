@@ -1,0 +1,31 @@
+{
+  "acceptanceCriteria": [
+    "declaration persists repository-bound intelligence",
+    "compatibility query remains fail-closed when unknown"
+  ],
+  "authority": "authorized",
+  "baseRevision": "0c507c42ed318a9fb173e2b658ed47743dd6953c",
+  "createdAt": "2026-08-21T23:04:21Z",
+  "goal": "Agents can declare dependencies, conflicts, and parallelizable status before querying compatibility",
+  "intent": "Expose explicit Work Item intelligence declarations in the CLI",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/cockpit-release/**",
+    "crates/cockpit-verification/**",
+    "tests/release/**"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4cf3767413462bcb0a6184590614b7f05ea8c3a6d89230bcdcb26d9495a047e8",
+  "requiredEvidenceClasses": [],
+  "risk": "normal",
+  "scope": [
+    "Cargo.lock",
+    "crates/**",
+    "docs/**",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-79-work-item-intelligence-cli"
+}

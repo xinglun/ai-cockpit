@@ -8,11 +8,14 @@ use cockpit_core::{
 use cockpit_git::{ChangeContentState, ChangeKind, RepositorySnapshot};
 use cockpit_protocol::{
     AgentAdapterCompatibility, AgentInterfaceAvailability, AgentInterfaceManifest, AgentInterfaces,
-    AgentRootBinding, ApprovalMode, AuditEvent, AuditExportManifest, Contract, DataClassification,
-    DelegatedEvidence, DelegatedEvidenceReceipt, EvidenceDisposition, EvidenceDispositionItem,
-    EvidencePersistence, EvidenceRetention, EvidenceRetentionPolicy, EvidenceValidity,
-    GovernancePolicy, GovernancePolicyDocument, HumanDecision, PolicyLayer, QualityCommand,
-    RepositoryConfig, RuntimeContext, SchemaMigrationStep, default_repository_schema_version,
+    AgentRootBinding, ApprovalMode, AuditEvent, AuditExportManifest, CapabilityConfidence,
+    CapabilityTruth, CapabilityTruthRegistry, Contract, DataClassification, DelegatedEvidence,
+    DelegatedEvidenceReceipt, DiagnosisState, EvidenceDisposition, EvidenceDispositionItem,
+    EvidencePersistence, EvidenceRetention, EvidenceRetentionPolicy, EvidenceValidity, FactOrigin,
+    GovernanceCost, GovernancePolicy, GovernancePolicyDocument, HumanBenefitReport, HumanDecision,
+    ImplementationApproach, OutcomeState, OutcomeV2, PerformanceDiagnosis, PolicyLayer,
+    QualityCommand, RepositoryConfig, RuntimeContext, TruthState, WorkItemCompatibility,
+    WorkItemIntelligence, SchemaMigrationStep, default_repository_schema_version,
     merge_policy_layers, repository_schema_migration_chain, validate_evidence_retention,
     validate_protocol_version,
 };
@@ -3205,14 +3208,43 @@ pub fn finish_work_item(
     summary["state"] = "finish_ready".into();
     summary["updatedAt"] = timestamp.clone().into();
     atomic_json(&summary_path, &summary)?;
-    let outcome = serde_json::json!({
-        "protocolVersion": 1,
-        "workItemId": work_item_id,
-        "state": "finish_ready",
-        "verification": {"status": "verified", "required": true, "evidencePath": format!(".ai/evidence/{work_item_id}.verification.json")},
-        "evidenceDigest": cockpit_protocol::digest_json(&evidence).map_err(|error| ObserverError::State { path: root.join(".ai/evidence"), message: error.to_string() })?,
-        "createdAt": timestamp,
+    let outcome_v2 = OutcomeV2 {
+        schema_version: 2,
+        repository_id: contract.repository_id.clone(),
+        work_item_id: work_item_id.into(),
+        state: OutcomeState::Verified,
+        summary: "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.".into(),
+        acceptance_results: contract.acceptance_criteria.clone(),
+        unknowns: vec!["user_visible_benefit_not_declared".into()],
+        evidence_refs: vec![format!(".ai/evidence/{work_item_id}.verification.json")],
+        human_benefit_report: HumanBenefitReport {
+            state: OutcomeState::Unknown,
+            user_visible_changes: Vec::new(),
+            affected_users: Vec::new(),
+            unknowns: vec!["user_visible_benefit_not_declared".into()],
+            evidence_refs: vec![format!(".ai/evidence/{work_item_id}.verification.json")],
+        },
+    };
+    let mut outcome = serde_json::to_value(&outcome_v2).map_err(|error| ObserverError::State {
+        path: active.join(format!("{work_item_id}.outcome.json")),
+        message: error.to_string(),
+    })?;
+    outcome["protocolVersion"] = serde_json::json!(1);
+    outcome["workItemId"] = serde_json::json!(work_item_id);
+    outcome["state"] = serde_json::json!("finish_ready");
+    outcome["verification"] = serde_json::json!({
+        "status": "verified",
+        "required": true,
+        "evidencePath": format!(".ai/evidence/{work_item_id}.verification.json"),
     });
+    outcome["evidenceDigest"] = cockpit_protocol::digest_json(&evidence)
+        .map_err(|error| ObserverError::State {
+            path: root.join(".ai/evidence"),
+            message: error.to_string(),
+        })?
+        .to_string()
+        .into();
+    outcome["createdAt"] = timestamp.clone().into();
     if let Err(error) = atomic_json(
         &active.join(format!("{work_item_id}.outcome.json")),
         &outcome,
@@ -5166,6 +5198,610 @@ pub fn generate_knowledge(root: &Path) -> Result<cockpit_knowledge::KnowledgeInd
         atomic_json(&root.join(&record.knowledge_path), &record_value)?;
     }
     Ok(index)
+}
+
+/// Build a request-scoped, provenance-aware implementation approach.  Facts
+/// are copied from the current Observer snapshot and derivations name the
+/// exact fact keys they consume.  Empty human-owned contract fields remain
+/// unknown rather than being guessed from prose or filenames.
+pub fn implementation_approach(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<ImplementationApproach, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let git =
+        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let contract = read_contract(&contract_path)?;
+    let observation = observe(&root, &snapshot)?;
+    let snapshot_digest = snapshot_digest(&snapshot)?;
+    let evidence_prefix = format!(".ai/work-items/active/{work_item_id}");
+    let mut facts = vec![
+        cockpit_protocol::TraceableFact {
+            key: "repositoryId".into(),
+            value: serde_json::Value::String(contract.repository_id.clone()),
+            origin: FactOrigin::Observed,
+            evidence_refs: vec![".ai/cockpit.toml".into()],
+            confidence: "high".into(),
+        },
+        cockpit_protocol::TraceableFact {
+            key: "baseRevision".into(),
+            value: serde_json::Value::String(contract.base_revision.clone()),
+            origin: FactOrigin::Observed,
+            evidence_refs: vec!["git:HEAD".into()],
+            confidence: "high".into(),
+        },
+        cockpit_protocol::TraceableFact {
+            key: "languages".into(),
+            value: serde_json::to_value(&observation.languages).map_err(|error| {
+                ObserverError::State {
+                    path: root.clone(),
+                    message: error.to_string(),
+                }
+            })?,
+            origin: FactOrigin::Observed,
+            evidence_refs: vec!["repository-snapshot".into()],
+            confidence: "high".into(),
+        },
+        cockpit_protocol::TraceableFact {
+            key: "buildSystems".into(),
+            value: serde_json::to_value(&observation.build_systems).map_err(|error| {
+                ObserverError::State {
+                    path: root.clone(),
+                    message: error.to_string(),
+                }
+            })?,
+            origin: FactOrigin::Observed,
+            evidence_refs: vec!["repository-snapshot".into()],
+            confidence: "high".into(),
+        },
+    ];
+    facts.sort_by(|left, right| left.key.cmp(&right.key));
+    let mut derivations = Vec::new();
+    if !observation.quality_commands.is_empty() {
+        derivations.push(cockpit_protocol::TraceableDerivation {
+            key: "verificationCapability".into(),
+            value: serde_json::to_value(&observation.quality_commands).map_err(|error| {
+                ObserverError::State {
+                    path: root.clone(),
+                    message: error.to_string(),
+                }
+            })?,
+            rule: "observer.quality_commands_from_detected_build_system".into(),
+            input_fact_keys: vec!["buildSystems".into()],
+            evidence_refs: vec!["repository-snapshot".into()],
+            confidence: "medium".into(),
+        });
+    }
+    let mut unknowns = Vec::new();
+    if contract.intent.trim().is_empty() {
+        unknowns.push("intent".into());
+    }
+    if contract.scope.is_empty() {
+        unknowns.push("scope".into());
+    }
+    if contract.acceptance_criteria.is_empty() {
+        unknowns.push("acceptanceCriteria".into());
+    }
+    if contract.authority.trim().is_empty() || contract.authority == "unknown" {
+        unknowns.push("authority".into());
+    }
+    unknowns.sort();
+    unknowns.dedup();
+    let mut evidence_refs = vec![evidence_prefix, "repository-snapshot".into()];
+    evidence_refs.sort();
+    let approach = ImplementationApproach {
+        schema_version: 2,
+        repository_id: contract.repository_id,
+        work_item_id: work_item_id.into(),
+        repository_snapshot_digest: snapshot_digest,
+        facts,
+        derivations,
+        unknowns,
+        evidence_refs,
+    };
+    atomic_json(
+        &root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.approach.json")),
+        &serde_json::to_value(&approach).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?,
+    )?;
+    Ok(approach)
+}
+
+/// Return knowledge v2 projections without replacing the legacy index.  The
+/// projection is derived from archive contracts and bound to one snapshot.
+pub fn generate_knowledge_v2(
+    root: &Path,
+) -> Result<Vec<cockpit_protocol::KnowledgeV2Record>, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let git =
+        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
+    let digest = snapshot_digest(&snapshot)?;
+    let repository_id = repository_id(&root).to_string();
+    let archive = root.join(".ai/work-items/archive");
+    let mut records = Vec::new();
+    for entry in fs::read_dir(&archive).map_err(|source| ObserverError::Read {
+        path: archive.clone(),
+        source,
+    })? {
+        let entry = entry.map_err(|source| ObserverError::Read {
+            path: archive.clone(),
+            source,
+        })?;
+        let name = entry.file_name().to_string_lossy().into_owned();
+        let Some(work_item_id) = name.strip_suffix(".archive.json") else {
+            continue;
+        };
+        let contract: serde_json::Value =
+            read_json(&archive.join(format!("{work_item_id}.contract.json")))?;
+        let intent = contract["intent"].as_str().unwrap_or("unknown");
+        records.push(cockpit_knowledge::project_record_v2(
+            &repository_id,
+            work_item_id,
+            intent,
+            "archived",
+            &format!(".ai/work-items/archive/{work_item_id}.archive.json"),
+            digest.clone(),
+        ));
+    }
+    records.sort_by(|left, right| left.work_item_id.cmp(&right.work_item_id));
+    let path = root.join(".ai/knowledge/index.v2.json");
+    atomic_json(
+        &path,
+        &serde_json::to_value(&records).map_err(|error| ObserverError::State {
+            path: path.clone(),
+            message: error.to_string(),
+        })?,
+    )?;
+    Ok(records)
+}
+
+/// Build a human-benefit-aware outcome while preserving the distinction
+/// between verified implementation evidence and a user-visible benefit claim.
+pub fn outcome_v2(root: &Path, work_item_id: &str) -> Result<OutcomeV2, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let active = root.join(".ai/work-items/active");
+    let archive = root.join(".ai/work-items/archive");
+    let contract_path = [
+        active.join(format!("{work_item_id}.contract.json")),
+        archive.join(format!("{work_item_id}.contract.json")),
+    ]
+    .into_iter()
+    .find(|path| path.is_file())
+    .ok_or_else(|| ObserverError::State {
+        path: active.join(format!("{work_item_id}.contract.json")),
+        message: "work item contract not found".into(),
+    })?;
+    let contract = read_contract(&contract_path)?;
+    let evidence_ref = format!(".ai/evidence/{work_item_id}.verification.json");
+    let evidence_path = root.join(&evidence_ref);
+    let verified = evidence_path.is_file();
+    let state = if verified {
+        OutcomeState::Verified
+    } else {
+        OutcomeState::NotReady
+    };
+    let mut unknowns = vec!["user_visible_benefit_not_declared".into()];
+    if contract.acceptance_criteria.is_empty() {
+        unknowns.push("acceptanceCriteria".into());
+    }
+    unknowns.sort();
+    unknowns.dedup();
+    let report = HumanBenefitReport {
+        state: OutcomeState::Unknown,
+        user_visible_changes: Vec::new(),
+        affected_users: Vec::new(),
+        unknowns: vec!["user_visible_benefit_not_declared".into()],
+        evidence_refs: vec![evidence_ref.clone()],
+    };
+    Ok(OutcomeV2 {
+        schema_version: 2,
+        repository_id: contract.repository_id,
+        work_item_id: work_item_id.into(),
+        state,
+        summary: if verified {
+            "Verification evidence is present; user-visible benefit remains explicitly unknown."
+                .into()
+        } else {
+            "No verification evidence is present; outcome is not ready.".into()
+        },
+        acceptance_results: contract.acceptance_criteria,
+        unknowns,
+        evidence_refs: vec![evidence_ref],
+        human_benefit_report: report,
+    })
+}
+
+/// Derive a repository-local capability truth registry from Observer facts and
+/// profile evidence. Detection is not treated as verification unless a
+/// repository profile explicitly confirmed the command.
+pub fn capability_truth_registry(root: &Path) -> Result<CapabilityTruthRegistry, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let git =
+        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
+    let observation = observe(&root, &snapshot)?;
+    let profile_path = root.join(".ai/project.json");
+    let profile: AttachedProfile = read_json(&profile_path).and_then(|value| {
+        serde_json::from_value(value).map_err(|error| ObserverError::State {
+            path: profile_path.clone(),
+            message: error.to_string(),
+        })
+    })?;
+    let snapshot_ref = snapshot_digest(&snapshot)?.to_string();
+    let mut capabilities = Vec::new();
+    for language in &observation.languages {
+        let capability = format!("language:{language:?}").to_ascii_lowercase();
+        capabilities.push(CapabilityTruth {
+            capability,
+            state: TruthState::Observed,
+            confidence: CapabilityConfidence::High,
+            source: FactOrigin::Observed,
+            evidence_refs: vec![format!("repository-snapshot:{snapshot_ref}")],
+            verification: None,
+            unknowns: Vec::new(),
+        });
+    }
+    for build_system in &observation.build_systems {
+        let capability = format!("build:{build_system:?}").to_ascii_lowercase();
+        capabilities.push(CapabilityTruth {
+            capability,
+            state: TruthState::Observed,
+            confidence: CapabilityConfidence::High,
+            source: FactOrigin::Observed,
+            evidence_refs: vec![format!("repository-snapshot:{snapshot_ref}")],
+            verification: None,
+            unknowns: Vec::new(),
+        });
+    }
+    for command in &observation.quality_commands {
+        let key = format!(
+            "verification:{} {}",
+            command.program,
+            command.args.join(" ")
+        );
+        let confirmed = profile.tests.iter().any(|test| test == command);
+        capabilities.push(CapabilityTruth {
+            capability: key,
+            state: if confirmed {
+                TruthState::Verified
+            } else {
+                TruthState::Observed
+            },
+            confidence: if confirmed {
+                CapabilityConfidence::High
+            } else {
+                CapabilityConfidence::Medium
+            },
+            source: if confirmed {
+                FactOrigin::Declared
+            } else {
+                FactOrigin::Observed
+            },
+            evidence_refs: vec![
+                ".ai/project.json".into(),
+                format!("repository-snapshot:{snapshot_ref}"),
+            ],
+            verification: confirmed.then(|| "project-profile-confirmed".into()),
+            unknowns: if confirmed {
+                Vec::new()
+            } else {
+                vec!["command_not_profile_confirmed".into()]
+            },
+        });
+    }
+    capabilities.sort_by(|left, right| left.capability.cmp(&right.capability));
+    capabilities.dedup_by(|left, right| left.capability == right.capability);
+    Ok(CapabilityTruthRegistry {
+        schema_version: 1,
+        repository_id: repository_id(&root).to_string(),
+        snapshot_digest: snapshot_digest(&snapshot)?,
+        capabilities,
+    })
+}
+
+/// Summarize measurable governance cost from one fresh snapshot and, when
+/// requested, one bound verification receipt. Missing measurements remain
+/// unknown instead of being replaced with benchmark assumptions.
+pub fn performance_diagnosis(
+    root: &Path,
+    work_item_id: Option<&str>,
+) -> Result<PerformanceDiagnosis, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let git =
+        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
+    let mut cost = GovernanceCost {
+        snapshot_git_calls: snapshot.git_calls,
+        snapshot_files_read: snapshot.files_read,
+        snapshot_files_hashed: snapshot.files_hashed,
+        verification_runs: 0,
+        verification_nodes_executed: 0,
+        verification_nodes_reused: 0,
+        elapsed_ms: 0,
+    };
+    let mut evidence_refs = vec!["repository-snapshot".into()];
+    let mut unknowns = Vec::new();
+    if let Some(work_item_id) = work_item_id {
+        let path = root
+            .join(".ai/evidence")
+            .join(format!("{work_item_id}.verification.json"));
+        match read_json(&path) {
+            Ok(evidence) => {
+                cost.verification_runs = 1;
+                let receipt = evidence.get("receipt").unwrap_or(&evidence);
+                cost.verification_nodes_executed =
+                    receipt["nodesExecuted"].as_u64().unwrap_or(0) as usize;
+                cost.verification_nodes_reused =
+                    receipt["nodesReused"].as_u64().unwrap_or(0) as usize;
+                cost.elapsed_ms = receipt["elapsedMs"].as_u64().unwrap_or(0) as u128;
+                evidence_refs.push(format!(".ai/evidence/{work_item_id}.verification.json"));
+            }
+            Err(_) => unknowns.push("verification_receipt_missing".into()),
+        }
+    } else {
+        unknowns.push("work_item_not_selected".into());
+    }
+    let mut bottlenecks = Vec::new();
+    if cost.snapshot_files_hashed > 1000 {
+        bottlenecks.push("snapshot_hashing".into());
+    }
+    if cost.verification_nodes_executed > 0 && cost.verification_nodes_reused == 0 {
+        bottlenecks.push("verification_reuse_not_observed".into());
+    }
+    let state = if unknowns.is_empty() {
+        DiagnosisState::Known
+    } else {
+        DiagnosisState::Unknown
+    };
+    Ok(PerformanceDiagnosis {
+        schema_version: 1,
+        repository_id: repository_id(&root).to_string(),
+        work_item_id: work_item_id.map(str::to_owned),
+        state,
+        cost,
+        bottlenecks,
+        unknowns,
+        evidence_refs,
+    })
+}
+
+fn read_work_item_intelligence(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<Option<WorkItemIntelligence>, ObserverError> {
+    let path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.intelligence.json"));
+    if !path.is_file() {
+        return Ok(None);
+    }
+    let value = read_json(&path)?;
+    serde_json::from_value(value)
+        .map(Some)
+        .map_err(|error| ObserverError::State {
+            path,
+            message: error.to_string(),
+        })
+}
+
+/// Persist an explicit, repository-bound parallelism declaration next to an
+/// active Contract.  This is deliberately separate from the Runtime process:
+/// two repositories can declare identically named Work Items independently.
+pub fn set_work_item_intelligence(
+    root: &Path,
+    work_item_id: &str,
+    depends_on: Vec<String>,
+    conflicts_with: Vec<String>,
+    parallelizable: bool,
+) -> Result<WorkItemIntelligence, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let contract = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    if !contract.is_file() {
+        return Err(ObserverError::State {
+            path: contract,
+            message: "active work item contract not found".into(),
+        });
+    }
+    let intelligence = WorkItemIntelligence {
+        schema_version: 1,
+        repository_id: repository_id(&root).to_string(),
+        work_item_id: work_item_id.into(),
+        depends_on: sorted_unique(depends_on),
+        conflicts_with: sorted_unique(conflicts_with),
+        parallelizable,
+        unknowns: Vec::new(),
+    };
+    let path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.intelligence.json"));
+    atomic_json(
+        &path,
+        &serde_json::to_value(&intelligence).map_err(|error| ObserverError::State {
+            path: path.clone(),
+            message: error.to_string(),
+        })?,
+    )?;
+    Ok(intelligence)
+}
+
+fn sorted_unique(mut values: Vec<String>) -> Vec<String> {
+    values.retain(|value| !value.trim().is_empty());
+    values.sort();
+    values.dedup();
+    values
+}
+
+/// Compare one active Work Item against other active Work Items using only
+/// explicit sidecar dependencies/conflicts and declared scopes. Missing
+/// intelligence is reported as unknown and cannot silently authorize parallel
+/// execution.
+pub fn work_item_compatibility(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<WorkItemCompatibility, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let active = root.join(".ai/work-items/active");
+    let contract_path = active.join(format!("{work_item_id}.contract.json"));
+    if !contract_path.is_file() {
+        return Err(ObserverError::State {
+            path: contract_path,
+            message: "active work item contract not found".into(),
+        });
+    }
+    let target: serde_json::Value = read_json(&contract_path)?;
+    let target_scope = target["scope"]
+        .as_array()
+        .map(|items| {
+            items
+                .iter()
+                .filter_map(|item| item.as_str())
+                .collect::<Vec<_>>()
+        })
+        .unwrap_or_default();
+    let intelligence = read_work_item_intelligence(&root, work_item_id)?;
+    let mut reasons = Vec::new();
+    let mut conflicts = Vec::new();
+    let mut dependencies_satisfied = true;
+    let mut unknowns = Vec::new();
+    let Some(intelligence) = intelligence else {
+        return Ok(WorkItemCompatibility {
+            repository_id: repository_id(&root).to_string(),
+            work_item_id: work_item_id.into(),
+            compatible: false,
+            dependencies_satisfied: false,
+            conflicts,
+            reasons: vec!["parallel_compatibility_not_declared".into()],
+        });
+    };
+    for dependency in &intelligence.depends_on {
+        let path = active.join(format!("{dependency}.contract.json"));
+        if path.is_file() {
+            dependencies_satisfied = false;
+            reasons.push(format!("dependency_active:{dependency}"));
+        } else {
+            unknowns.push(format!("dependency_not_observed:{dependency}"));
+        }
+    }
+    let entries = fs::read_dir(&active).map_err(|source| ObserverError::Read {
+        path: active.clone(),
+        source,
+    })?;
+    for entry in entries {
+        let entry = entry.map_err(|source| ObserverError::Read {
+            path: active.clone(),
+            source,
+        })?;
+        let name = entry.file_name().to_string_lossy().into_owned();
+        let Some(other_id) = name.strip_suffix(".contract.json") else {
+            continue;
+        };
+        if other_id == work_item_id {
+            continue;
+        }
+        let other: serde_json::Value = read_json(&entry.path())?;
+        let other_scope = other["scope"]
+            .as_array()
+            .map(|items| {
+                items
+                    .iter()
+                    .filter_map(|item| item.as_str())
+                    .collect::<Vec<_>>()
+            })
+            .unwrap_or_default();
+        let declared_conflict = intelligence.conflicts_with.iter().any(|id| id == other_id);
+        let overlap = target_scope.iter().any(|left| {
+            other_scope
+                .iter()
+                .any(|right| left == right || left == &"**" || right == &"**")
+        });
+        if declared_conflict || overlap {
+            conflicts.push(other_id.to_string());
+            reasons.push(if declared_conflict {
+                format!("explicit_conflict:{other_id}")
+            } else {
+                format!("scope_overlap:{other_id}")
+            });
+        }
+    }
+    conflicts.sort();
+    conflicts.dedup();
+    if !unknowns.is_empty() {
+        reasons.extend(unknowns);
+    }
+    let compatible = intelligence.parallelizable
+        && dependencies_satisfied
+        && conflicts.is_empty()
+        && reasons
+            .iter()
+            .all(|reason| !reason.starts_with("dependency_not_observed"));
+    Ok(WorkItemCompatibility {
+        repository_id: repository_id(&root).to_string(),
+        work_item_id: work_item_id.into(),
+        compatible,
+        dependencies_satisfied,
+        conflicts,
+        reasons,
+    })
 }
 
 fn validate_work_item_id(id: &str) -> Result<(), ObserverError> {

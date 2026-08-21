@@ -251,6 +251,28 @@ ai-cockpit knowledge query --repo /path/to/repository --topic installation
 Knowledge は repository-local evidence の projection で、第二の source of truth ではありません。
 Work Item や receipt が missing、stale、invalid なら新しい claim に変換しません。
 
+### Traceability、Outcome、parallel readiness
+
+v2 intelligence projection は fact と derivation を分離し、人間が決める intent や authority を補いません。
+
+```bash
+ai-cockpit work-item approach --repo /path/to/repository --id WI-123
+ai-cockpit work-item outcome --repo /path/to/repository --id WI-123
+ai-cockpit work-item inspect --repo /path/to/repository --id WI-123
+ai-cockpit work-item declare --repo /path/to/repository --id WI-123 \
+  --depends-on WI-100 --conflicts-with WI-124 --parallelizable
+ai-cockpit knowledge query --repo /path/to/repository --v2
+ai-cockpit capability show --repo /path/to/repository
+ai-cockpit diagnose --repo /path/to/repository --work-item WI-123
+```
+
+`approach` は observed fact、名前付き derivation、evidence reference、未解決の human input を出力します。
+`outcome` は verified implementation evidence と Human Benefit Report を分離し、宣言されていない user benefit は
+`unknown` のままです。Capability Registry は detection と profile-confirmed verification を区別し、confidence と
+evidence を記録します。`inspect` は dependency、conflict、scope compatibility が明示的に分からない場合に
+parallel execution を fail closed にします。Diagnosis は実測した snapshot/verification cost だけを報告し、benchmark
+を装いません。
+
 ### MCP を使う
 
 explicit repository binding で server を起動します。
