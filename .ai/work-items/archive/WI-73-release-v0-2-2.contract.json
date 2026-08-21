@@ -1,0 +1,40 @@
+{
+  "acceptanceCriteria": [
+    "Workspace package version and immutable tag are v0.2.2; source quality",
+    " workflow policy",
+    " oracle",
+    " Windows",
+    " release artifacts",
+    " public install",
+    " and post-release adopter acceptance all pass; installed binary identity is recorded; no source fallback or existing release asset is reused"
+  ],
+  "authority": "authorized",
+  "baseRevision": "8beae4b7aeb2a9f30d724a43efbb5cc8e7dbecf4",
+  "createdAt": "2026-08-21T21:21:56Z",
+  "goal": "Bump the workspace to v0.2.2, run all source and release gates, publish immutable GitHub Release artifacts, install the public binary, and run post-release adopter acceptance",
+  "intent": "Publish the next immutable Runtime release after all release-blocking checks pass",
+  "mode": "implementation",
+  "outOfScope": [],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f31c4e45ea71fafa2eb1e9157cd076e041c584142a38f60c41764188f5cefa6a",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/**",
+    "docs/architecture/release-distribution.*",
+    "docs/architecture/versioning.*",
+    "README.md",
+    "README.zh-CN.md",
+    "README.ja.md",
+    ".github/workflows/release.yml",
+    "tests/release/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-73-release-v0-2-2"
+}

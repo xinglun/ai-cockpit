@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T21:29:19Z",
+  "evidenceDigest": "sha256:da57c9a23269936fcda0f5e5908d5918535e11452a6e16cf98ba5469e999a5fc",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-73-release-v0-2-2.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-73-release-v0-2-2"
+}

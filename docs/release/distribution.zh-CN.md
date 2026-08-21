@@ -15,9 +15,9 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # 发布与分发
 
-当前安装基线是公开且不可变的 `v0.2.1` Release。Homebrew 和手动安装都使用公开 archive
+当前安装基线是公开且不可变的 `v0.2.2` Release。Homebrew 和手动安装都使用公开 archive
 与 manifest；仓库配置仍使用 `cockpit.toml`，安装 runtime 不会在目标仓库创建 `.ai`。
-WI-40 增加发布后的 adopter 验收 harness，它不是发布前 gate，也不是 Runtime 命令。
+维护者可以使用发布后的 adopter 验收 harness；它不是发布前 gate，也不是 Runtime 命令。
 
 ## 开始前
 
@@ -44,7 +44,7 @@ brew uninstall ai-cockpit
 brew untap xinglun/tap                 # 可选
 ```
 
-当前 Formula 只支持 macOS ARM64 和 Intel；Linuxbrew 不属于 WI-34 支持路径。
+当前 Formula 只支持 macOS ARM64 和 Intel；Linuxbrew 不属于支持路径。
 
 ## 验证 Release 制品
 
@@ -52,7 +52,7 @@ brew untap xinglun/tap                 # 可选
 校验文件覆盖全部十个 archive/SBOM，因此只校验实际下载的 archive：
 
 ```bash
-archive="ai-cockpit-v0.2.1-aarch64-apple-darwin.tar.gz"
+archive="ai-cockpit-v0.2.2-aarch64-apple-darwin.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -62,8 +62,8 @@ gh attestation verify "$archive" --repo xinglun/ai-cockpit
 如果 Release 已存在，也可以使用 GitHub CLI 下载准确的三个文件：
 
 ```bash
-archive="ai-cockpit-v0.2.1-aarch64-apple-darwin.tar.gz"
-gh release download v0.2.1 --repo xinglun/ai-cockpit \
+archive="ai-cockpit-v0.2.2-aarch64-apple-darwin.tar.gz"
+gh release download v0.2.2 --repo xinglun/ai-cockpit \
   --pattern "$archive" --pattern release-manifest.json --pattern SHA256SUMS
 ```
 
@@ -79,7 +79,7 @@ CLI 和 MCP 的 `verify` JSON 也会输出 `runtimeVersion` 与 `runtimeDigest`�
 ```bash
 tests/release/adopter_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --tag v0.2.1 \
+  --tag v0.2.2 \
   --target aarch64-apple-darwin \
   --output ./release-adopter-acceptance
 ```
@@ -91,7 +91,7 @@ attach/profile/Agent doctor，保持 `first-adopter-smoke` 为 `not_ready`，验
 
 ### 历史 N-1 schema 迁移验收
 
-发生 schema 变化的基线是历史上的 v0.1.1 到 v0.2.0 迁移。v0.2.1 是保持同一
+发生 schema 变化的基线是历史上的 v0.1.1 到 v0.2.0 迁移。v0.2.2 是保持同一
 schema 的 patch Release，因此使用 fresh-adopter 验收和 compatibility 检查，不运行这个迁移 harness。
 如需重现历史迁移 evidence，请使用两个公开归档：
 
@@ -106,7 +106,7 @@ tests/release/adopter_upgrade_acceptance.sh \
 
 它证明旧 adopter 检测、审查门控迁移、历史字节保持、继续运行以及隔离的
 repository/runtime identity。这是发布后 evidence，不能用源码构建替代，也不能改写
-Release truth。参见 [WI-44](../work-items/WI-44-n-minus-one-upgrade-acceptance.zh-CN.md)。
+Release truth。迁移验收 artifact 与 adopter 安装路径分开维护。
 
 ## 手动 archive 安装
 
@@ -115,7 +115,7 @@ macOS/Linux 用户下载对应的 `.tar.gz` 和 `SHA256SUMS`，选择准确的 R
 
 ```bash
 target="aarch64-apple-darwin" # 选择与机器匹配的 target
-archive="ai-cockpit-v0.2.1-${target}.tar.gz"
+archive="ai-cockpit-v0.2.2-${target}.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -132,7 +132,7 @@ esac
 Windows 用户下载 `.zip` 和 `SHA256SUMS`，比较准确 checksum，解压到用户 bin 目录，并将该目录加入用户 `PATH`：
 
 ```powershell
-$archive = "ai-cockpit-v0.2.1-x86_64-pc-windows-msvc.zip"
+$archive = "ai-cockpit-v0.2.2-x86_64-pc-windows-msvc.zip"
 $expected = Get-Content .\SHA256SUMS |
   Where-Object { ($_ -split '\s+')[1] -eq $archive } |
   ForEach-Object { ($_ -split '\s+')[0].ToLowerInvariant() }
@@ -152,11 +152,11 @@ $env:Path = "$destination;$env:Path"
 
 ## Rust 开发者 fallback
 
-该 fallback 适用于当前已发布的不可变 `v0.2.1` tag。
+该 fallback 适用于当前已发布的不可变 `v0.2.2` tag。
 发布完成后，workspace 含多个 package，必须显式选择 `cockpit-cli`：
 
 ```bash
-cargo install --git https://github.com/xinglun/ai-cockpit.git --tag v0.2.1 --locked --root "$HOME/.local" --bin ai-cockpit cockpit-cli
+cargo install --git https://github.com/xinglun/ai-cockpit.git --tag v0.2.2 --locked --root "$HOME/.local" --bin ai-cockpit cockpit-cli
 "$HOME/.local/bin/ai-cockpit" --version
 cargo uninstall --root "$HOME/.local" cockpit-cli
 ```

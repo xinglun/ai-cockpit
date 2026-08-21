@@ -1,0 +1,7 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved: v0.2.2 candidate passed source and release gates; publish and post-release acceptance are authorized",
+  "state": "closed",
+  "timestamp": "2026-08-21T21:29:19Z",
+  "workItemId": "WI-73-release-v0-2-2"
+}

@@ -15,11 +15,12 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # Release and Distribution
 
-The public immutable `v0.2.1` Release is the current installation baseline.
+The public immutable `v0.2.2` Release is the current installation baseline.
 Homebrew and manual installation use the published archive and manifest; the
 repository configuration remains `cockpit.toml`, and installing the runtime
-never creates `.ai` in a target repository. WI-40 adds a post-release adopter
-acceptance harness; it is not a pre-publication gate or a Runtime command.
+never creates `.ai` in a target repository. A post-release adopter acceptance
+harness is available for maintainers; it is not a pre-publication gate or a
+Runtime command.
 
 ## Before you start
 
@@ -48,7 +49,7 @@ brew uninstall ai-cockpit
 brew untap xinglun/tap                 # optional
 ```
 
-The Formula currently targets macOS ARM64 and Intel. Linuxbrew is not a WI-34
+The Formula currently targets macOS ARM64 and Intel. Linuxbrew is not a
 supported path.
 
 ## Verify a Release asset
@@ -58,7 +59,7 @@ immutable GitHub Release. The checksum file covers all ten archive/SBOM files,
 so validate the exact archive you downloaded:
 
 ```bash
-archive="ai-cockpit-v0.2.1-aarch64-apple-darwin.tar.gz"
+archive="ai-cockpit-v0.2.2-aarch64-apple-darwin.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -69,8 +70,8 @@ gh attestation verify "$archive" \
 If you use GitHub CLI after the Release exists, the equivalent download is:
 
 ```bash
-archive="ai-cockpit-v0.2.1-aarch64-apple-darwin.tar.gz"
-gh release download v0.2.1 --repo xinglun/ai-cockpit \
+archive="ai-cockpit-v0.2.2-aarch64-apple-darwin.tar.gz"
+gh release download v0.2.2 --repo xinglun/ai-cockpit \
   --pattern "$archive" --pattern release-manifest.json --pattern SHA256SUMS
 ```
 
@@ -86,7 +87,7 @@ Maintainers can repeat the public-binary acceptance baseline after a Release:
 ```bash
 tests/release/adopter_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --tag v0.2.1 \
+  --tag v0.2.2 \
   --target aarch64-apple-darwin \
   --output ./release-adopter-acceptance
 ```
@@ -103,7 +104,7 @@ separate future Work Item.
 ### Historical N-1 schema migration acceptance
 
 The schema-changing baseline is the historical v0.1.1 to v0.2.0 migration.
-v0.2.1 is a same-schema patch release, so it uses fresh-adopter acceptance
+v0.2.2 is a same-schema patch release, so it uses fresh-adopter acceptance
 and compatibility checks rather than this migration harness. To reproduce the
 historical migration evidence with both public archives:
 
@@ -119,7 +120,8 @@ tests/release/adopter_upgrade_acceptance.sh \
 This proves old-adopter detection, review-gated migration, byte-preserved
 history, continued operation, and isolated repository/runtime identity. It is
 post-release evidence and must never be replaced by a source build or used to
-rewrite Release truth. See [WI-44](../work-items/WI-44-n-minus-one-upgrade-acceptance.md).
+rewrite Release truth. The migration acceptance artifact is maintained
+separately from the adopter installation path.
 
 ## Manual archive installation
 
@@ -129,7 +131,7 @@ the exact Rust target, verify the archive, and place `ai-cockpit` in
 
 ```bash
 target="aarch64-apple-darwin" # choose the target matching your machine
-archive="ai-cockpit-v0.2.1-${target}.tar.gz"
+archive="ai-cockpit-v0.2.2-${target}.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -147,7 +149,7 @@ Windows users download the `.zip` and `SHA256SUMS`, compare the exact checksum,
 extract it to a user bin directory, and add that directory to the user `PATH`:
 
 ```powershell
-$archive = "ai-cockpit-v0.2.1-x86_64-pc-windows-msvc.zip"
+$archive = "ai-cockpit-v0.2.2-x86_64-pc-windows-msvc.zip"
 $expected = Get-Content .\SHA256SUMS |
   Where-Object { ($_ -split '\s+')[1] -eq $archive } |
   ForEach-Object { ($_ -split '\s+')[0].ToLowerInvariant() }
@@ -167,13 +169,13 @@ $env:Path = "$destination;$env:Path"
 
 ## Rust developer fallback
 
-This fallback is available for the current immutable `v0.2.1` tag.
+This fallback is available for the current immutable `v0.2.2` tag.
 
 After that publication, the workspace package must be selected explicitly:
 
 ```bash
 cargo install --git https://github.com/xinglun/ai-cockpit.git \
-  --tag v0.2.1 --locked --root "$HOME/.local" \
+  --tag v0.2.2 --locked --root "$HOME/.local" \
   --bin ai-cockpit cockpit-cli
 "$HOME/.local/bin/ai-cockpit" --version
 cargo uninstall --root "$HOME/.local" cockpit-cli
