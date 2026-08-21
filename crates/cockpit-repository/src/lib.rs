@@ -1165,6 +1165,21 @@ pub fn load_reusable_receipt(
     if lock.lock_shared().is_err() {
         return Ok(unavailable_receipt("index_unreadable", 0));
     }
+    #[cfg(windows)]
+    match read_optional_cap_file_nofollow_bounded(
+        &reuse,
+        "index.pending",
+        &reuse_path.join("index.pending"),
+        1024,
+    ) {
+        Ok(Some(_)) => return Ok(unavailable_receipt("index_commit_uncertain", 0)),
+        Ok(None) => {}
+        Err(ObserverError::State { message, .. }) if message.contains("symlink") => {
+            return Ok(unavailable_receipt("symlink_rejected", 0));
+        }
+        Err(_) => return Ok(unavailable_receipt("index_unreadable", 0)),
+    }
+    #[cfg(not(windows))]
     match reuse.symlink_metadata("index.pending") {
         Ok(metadata) if metadata.is_file() && !metadata.file_type().is_symlink() => {
             return Ok(unavailable_receipt("index_commit_uncertain", 0));
@@ -1174,27 +1189,45 @@ pub fn load_reusable_receipt(
         Err(_) => return Ok(unavailable_receipt("index_unreadable", 0)),
     }
     let index_path = reuse_path.join("index.json");
-    let index_metadata = match reuse.symlink_metadata("index.json") {
-        Ok(metadata) => metadata,
-        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
-            return Ok(unavailable_receipt("evidence_missing", 0));
-        }
-        Err(_) => return Ok(unavailable_receipt("index_unreadable", 0)),
-    };
-    if index_metadata.file_type().is_symlink() {
-        return Ok(unavailable_receipt("symlink_rejected", 0));
-    }
-    if !index_metadata.is_file() {
-        return Ok(unavailable_receipt("index_invalid", 0));
-    }
-    let index_bytes = match read_cap_file_nofollow_bounded(
+    #[cfg(windows)]
+    let index_bytes = match read_optional_cap_file_nofollow_bounded(
         &reuse,
         "index.json",
         &index_path,
         MAX_RECEIPT_INDEX_BYTES,
     ) {
-        Ok(bytes) => bytes,
+        Ok(Some(bytes)) => bytes,
+        Ok(None) => return Ok(unavailable_receipt("evidence_missing", 0)),
+        Err(ObserverError::State { message, .. }) if message.contains("symlink") => {
+            return Ok(unavailable_receipt("symlink_rejected", 0));
+        }
         Err(_) => return Ok(unavailable_receipt("index_unreadable", 0)),
+    };
+    #[cfg(not(windows))]
+    let index_bytes = {
+        let index_metadata = match reuse.symlink_metadata("index.json") {
+            Ok(metadata) => metadata,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                return Ok(unavailable_receipt("evidence_missing", 0));
+            }
+            Err(_) => return Ok(unavailable_receipt("index_unreadable", 0)),
+        };
+        if index_metadata.file_type().is_symlink() {
+            return Ok(unavailable_receipt("symlink_rejected", 0));
+        }
+        if !index_metadata.is_file() {
+            return Ok(unavailable_receipt("index_invalid", 0));
+        }
+        let index_bytes = match read_cap_file_nofollow_bounded(
+            &reuse,
+            "index.json",
+            &index_path,
+            MAX_RECEIPT_INDEX_BYTES,
+        ) {
+            Ok(bytes) => bytes,
+            Err(_) => return Ok(unavailable_receipt("index_unreadable", 0)),
+        };
+        index_bytes
     };
     let index: ReceiptStoreIndex = match serde_json::from_slice(&index_bytes) {
         Ok(index) => index,
@@ -1223,27 +1256,45 @@ pub fn load_reusable_receipt(
     };
     let receipt_name = receipt_file_name(receipt_id);
     let receipt_path = receipts_path.join(&receipt_name);
-    let receipt_metadata = match receipts.symlink_metadata(&receipt_name) {
-        Ok(metadata) => metadata,
-        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
-            return Ok(unavailable_receipt("receipt_missing", 1));
-        }
-        Err(_) => return Ok(unavailable_receipt("receipt_unreadable", 1)),
-    };
-    if receipt_metadata.file_type().is_symlink() {
-        return Ok(unavailable_receipt("symlink_rejected", 1));
-    }
-    if !receipt_metadata.is_file() {
-        return Ok(unavailable_receipt("receipt_invalid", 1));
-    }
-    let receipt_bytes = match read_cap_file_nofollow_bounded(
+    #[cfg(windows)]
+    let receipt_bytes = match read_optional_cap_file_nofollow_bounded(
         &receipts,
         &receipt_name,
         &receipt_path,
         MAX_REUSABLE_RECEIPT_BYTES,
     ) {
-        Ok(bytes) => bytes,
+        Ok(Some(bytes)) => bytes,
+        Ok(None) => return Ok(unavailable_receipt("receipt_missing", 1)),
+        Err(ObserverError::State { message, .. }) if message.contains("symlink") => {
+            return Ok(unavailable_receipt("symlink_rejected", 1));
+        }
         Err(_) => return Ok(unavailable_receipt("receipt_unreadable", 1)),
+    };
+    #[cfg(not(windows))]
+    let receipt_bytes = {
+        let receipt_metadata = match receipts.symlink_metadata(&receipt_name) {
+            Ok(metadata) => metadata,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                return Ok(unavailable_receipt("receipt_missing", 1));
+            }
+            Err(_) => return Ok(unavailable_receipt("receipt_unreadable", 1)),
+        };
+        if receipt_metadata.file_type().is_symlink() {
+            return Ok(unavailable_receipt("symlink_rejected", 1));
+        }
+        if !receipt_metadata.is_file() {
+            return Ok(unavailable_receipt("receipt_invalid", 1));
+        }
+        let receipt_bytes = match read_cap_file_nofollow_bounded(
+            &receipts,
+            &receipt_name,
+            &receipt_path,
+            MAX_REUSABLE_RECEIPT_BYTES,
+        ) {
+            Ok(bytes) => bytes,
+            Err(_) => return Ok(unavailable_receipt("receipt_unreadable", 1)),
+        };
+        receipt_bytes
     };
     let receipt: cockpit_evidence::ReusableReceipt = match serde_json::from_slice(&receipt_bytes) {
         Ok(receipt) => receipt,
@@ -1682,6 +1733,34 @@ fn open_cap_directory_nofollow(
     name: &str,
     _display_path: &Path,
 ) -> Result<Dir, &'static str> {
+    #[cfg(windows)]
+    {
+        // cap-std's Windows `symlink_metadata` implementation asks
+        // `CreateFileAtW` for a zero-access handle.  On the hosted Windows
+        // runner that relative metadata probe returns `ERROR_ACCESS_DENIED`
+        // even for an ordinary child directory.  Open the directory handle
+        // directly instead, then inspect the handle metadata; this also
+        // avoids a metadata/open TOCTOU window.
+        let directory = match parent.open_dir_nofollow(name) {
+            Ok(directory) => directory,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                return Err("evidence_missing");
+            }
+            Err(_) => return Err("store_path_unreadable"),
+        };
+        let metadata = directory
+            .dir_metadata()
+            .map_err(|_| "store_path_unreadable")?;
+        if metadata.file_type().is_symlink() {
+            return Err("symlink_rejected");
+        }
+        if !metadata.is_dir() {
+            return Err("store_path_invalid");
+        }
+        return Ok(directory);
+    }
+
+    #[cfg(not(windows))]
     match parent.symlink_metadata(name) {
         Ok(metadata) if metadata.file_type().is_symlink() => Err("symlink_rejected"),
         Ok(metadata) if !metadata.is_dir() => Err("store_path_invalid"),
@@ -1842,6 +1921,56 @@ fn read_optional_cap_file_nofollow_bounded(
     display_path: &Path,
     maximum_bytes: u64,
 ) -> Result<Option<Vec<u8>>, ObserverError> {
+    #[cfg(windows)]
+    {
+        // See `open_cap_directory_nofollow`: probing a child with
+        // `symlink_metadata` is not usable with the Windows capability
+        // handle implementation on the hosted runner.  Open once with
+        // no-follow semantics and read from that pinned handle.
+        let mut file = match parent.open_with(name, &cap_read_options()) {
+            Ok(file) => file.into_std(),
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
+            Err(source) => {
+                return Err(ObserverError::Read {
+                    path: display_path.to_path_buf(),
+                    source,
+                });
+            }
+        };
+        let metadata = file.metadata().map_err(|source| ObserverError::Read {
+            path: display_path.to_path_buf(),
+            source,
+        })?;
+        if metadata.file_type().is_symlink() {
+            return Err(ObserverError::State {
+                path: display_path.to_path_buf(),
+                message: "receipt store entry must not be a symlink".into(),
+            });
+        }
+        if !metadata.is_file() {
+            return Err(ObserverError::State {
+                path: display_path.to_path_buf(),
+                message: "receipt store entry must be a real file".into(),
+            });
+        }
+        let mut bytes = Vec::new();
+        Read::by_ref(&mut file)
+            .take(maximum_bytes.saturating_add(1))
+            .read_to_end(&mut bytes)
+            .map_err(|source| ObserverError::Read {
+                path: display_path.to_path_buf(),
+                source,
+            })?;
+        if bytes.len() as u64 > maximum_bytes {
+            return Err(ObserverError::State {
+                path: display_path.to_path_buf(),
+                message: "receipt store entry exceeds the bounded read limit".into(),
+            });
+        }
+        return Ok(Some(bytes));
+    }
+
+    #[cfg(not(windows))]
     match parent.symlink_metadata(name) {
         Ok(metadata) if metadata.file_type().is_symlink() || !metadata.is_file() => {
             Err(ObserverError::State {
