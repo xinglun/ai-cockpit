@@ -112,5 +112,23 @@ fn preflight_turns_green_after_matching_verification_evidence() {
     let json: serde_json::Value = serde_json::from_slice(&output.stdout).expect("JSON");
     assert_eq!(json["state"], "green");
     assert!(json["unknowns"].as_array().expect("unknowns").is_empty());
+    fs::remove_file(directory.join(".ai/project.json")).expect("remove profile");
+    let stale = Command::new(binary)
+        .args(["preflight", "--repo"])
+        .arg(&directory)
+        .args(["--contract"])
+        .arg(directory.join(".ai/work-items/active/WI-PREFLIGHT.contract.json"))
+        .output()
+        .expect("stale preflight");
+    assert!(stale.status.success());
+    let stale_json: serde_json::Value = serde_json::from_slice(&stale.stdout).expect("JSON");
+    assert_eq!(stale_json["state"], "red");
+    assert!(
+        stale_json["blockers"]
+            .as_array()
+            .expect("blockers")
+            .iter()
+            .any(|value| value == "stale_contract")
+    );
     fs::remove_dir_all(directory).expect("cleanup");
 }

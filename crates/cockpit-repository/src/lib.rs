@@ -551,11 +551,16 @@ pub fn contract_freshness_findings(
         path: root.into(),
         source,
     })?;
+    let config_path = root.join(".ai/cockpit.toml");
     let profile_path = root.join(".ai/project.json");
-    if !profile_path.is_file() {
+    if !config_path.is_file() {
         return Ok(Vec::new());
     }
     let mut findings = Vec::new();
+    if !profile_path.is_file() {
+        findings.push("stale_contract".into());
+        return Ok(findings);
+    }
     if contract.repository_id != repository_id(&root).to_string() {
         findings.push("stale_contract".into());
     }
