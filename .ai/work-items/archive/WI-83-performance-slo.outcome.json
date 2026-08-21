@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T23:06:30Z",
+  "evidenceDigest": "sha256:abf640f52e29070fc1ac1b9e6a40469dbbca8e7efb97d069baad5529ca2e625f",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-83-performance-slo.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-83-performance-slo"
+}

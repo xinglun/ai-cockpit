@@ -1,0 +1,19 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved after incremental Merkle and path safety tests",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "codex",
+    "authoritySource": "user-authorized-work-item",
+    "decidedAt": "2026-08-21T23:07:30Z",
+    "decision": "approved after incremental Merkle and path safety tests",
+    "evidenceRefs": [
+      ".ai/evidence/WI-85-incremental-content-identity.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "Focused Git identity verification passed.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-08-21T23:07:21Z",
+  "workItemId": "WI-85-incremental-content-identity"
+}

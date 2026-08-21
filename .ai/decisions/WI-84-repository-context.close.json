@@ -1,0 +1,19 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved after repository context isolation and memoization tests",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "codex",
+    "authoritySource": "user-authorized-work-item",
+    "decidedAt": "2026-08-21T23:07:00Z",
+    "decision": "approved after repository context isolation and memoization tests",
+    "evidenceRefs": [
+      ".ai/evidence/WI-84-repository-context.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "Focused repository-context verification passed.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-08-21T23:07:00Z",
+  "workItemId": "WI-84-repository-context"
+}

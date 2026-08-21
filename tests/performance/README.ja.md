@@ -11,3 +11,14 @@ knowledge crate には 10,000 レコードの無関係な依存関係クエリ�
 
 <50 ms の status と <100 ms の増分 observe はリリース目標であり、証拠のない主張では
 ありません。リリースゲートでは対象プラットフォームの実測出力を evidence bundle に添付します。
+
+Runtime は identity-bound な `PerformanceBaseline` を提供します。`runtimeVersion`、
+`runtimeDigest`、`repositoryId`、取得時刻、sample、budget が必須です。
+`regression_gate.sh <baseline.json> <candidate.json>` は sample 欠落、zero iteration、
+identity 不一致、budget regression を拒否します。この gate は取得済み evidence だけを読み、
+source fallback を build しません。
+
+Verification scheduler は command ごとの resource weight と明示的な resource budget に対応します。
+weight が zero または budget 超過なら fail-closed になり、dependency order、protected node、
+receipt reuse の意味は変わりません。Repository context と Runtime session は request-scoped であり、
+process-level の current repository は作りません。

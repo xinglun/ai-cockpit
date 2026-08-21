@@ -30,6 +30,7 @@ use std::fs;
 use std::io::{Read, Seek, Write};
 use std::path::{Path, PathBuf};
 use std::sync::atomic::{AtomicU64, Ordering};
+use std::sync::{Arc, Mutex, OnceLock};
 use std::time::{Instant, SystemTime, UNIX_EPOCH};
 use thiserror::Error;
 
@@ -213,6 +214,169 @@ pub struct RepositoryVerificationRequest {
 pub struct RepositoryVerificationRun {
     pub receipt: cockpit_verification::VerificationReceipt,
     pub final_snapshot: RepositorySnapshot,
+}
+
+/// Request-scoped repository state.  A context captures one immutable Git
+/// snapshot and memoizes the derived observation for the lifetime of the
+/// request.  Callers that need fresh facts must create a new context instead
+/// of mutating or globally replacing this one.
+pub struct RepositoryExecutionContext {
+    root: PathBuf,
+    repository_id: Digest,
+    snapshot: RepositorySnapshot,
+    observation: OnceLock<RepositoryObservation>,
+    observation_guard: Mutex<()>,
+}
+
+impl std::fmt::Debug for RepositoryExecutionContext {
+    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        formatter
+            .debug_struct("RepositoryExecutionContext")
+            .field("root", &self.root)
+            .field("repository_id", &self.repository_id)
+            .field("snapshot", &self.snapshot)
+            .finish_non_exhaustive()
+    }
+}
+
+impl RepositoryExecutionContext {
+    pub fn capture(root: &Path) -> Result<Self, ObserverError> {
+        let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+            path: root.into(),
+            source,
+        })?;
+        let git =
+            cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+                path: root.clone(),
+                message: error.to_string(),
+            })?;
+        let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+        let repository_id = repository_id(&root);
+        Ok(Self {
+            root,
+            repository_id,
+            snapshot,
+            observation: OnceLock::new(),
+            observation_guard: Mutex::new(()),
+        })
+    }
+
+    pub fn root(&self) -> &Path {
+        &self.root
+    }
+
+    pub fn repository_id(&self) -> &Digest {
+        &self.repository_id
+    }
+
+    pub fn snapshot(&self) -> &RepositorySnapshot {
+        &self.snapshot
+    }
+
+    pub fn observe(&self) -> Result<&RepositoryObservation, ObserverError> {
+        if let Some(observation) = self.observation.get() {
+            return Ok(observation);
+        }
+        let _guard = self
+            .observation_guard
+            .lock()
+            .map_err(|_| ObserverError::State {
+                path: self.root.join(".ai"),
+                message: "repository observation mutex was poisoned".into(),
+            })?;
+        if let Some(observation) = self.observation.get() {
+            return Ok(observation);
+        }
+        let observation = observe_cached(&self.root, &self.snapshot)?;
+        let _ = self.observation.set(observation);
+        self.observation.get().ok_or_else(|| ObserverError::State {
+            path: self.root.join(".ai"),
+            message: "repository observation was not initialized".into(),
+        })
+    }
+}
+
+/// Explicitly owned process session for repeated requests. It is not a
+/// global current-repository slot: every lookup receives an explicit path,
+/// and each entry contains an isolated request context. The caller chooses
+/// when to refresh a context after a repository mutation.
+#[derive(Default)]
+pub struct RuntimeSession {
+    contexts: Mutex<BTreeMap<PathBuf, Arc<RepositoryExecutionContext>>>,
+}
+
+impl std::fmt::Debug for RuntimeSession {
+    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        formatter
+            .debug_struct("RuntimeSession")
+            .field(
+                "active_repositories",
+                &self.active_repositories().unwrap_or_default(),
+            )
+            .finish()
+    }
+}
+
+impl RuntimeSession {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn bind(&self, root: &Path) -> Result<Arc<RepositoryExecutionContext>, ObserverError> {
+        let canonical = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+            path: root.into(),
+            source,
+        })?;
+        let mut contexts = self.contexts.lock().map_err(|_| ObserverError::State {
+            path: canonical.clone(),
+            message: "runtime session mutex was poisoned".into(),
+        })?;
+        if let Some(context) = contexts.get(&canonical) {
+            return Ok(Arc::clone(context));
+        }
+        let context = Arc::new(RepositoryExecutionContext::capture(&canonical)?);
+        contexts.insert(canonical, Arc::clone(&context));
+        Ok(context)
+    }
+
+    pub fn refresh(&self, root: &Path) -> Result<Arc<RepositoryExecutionContext>, ObserverError> {
+        let canonical = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+            path: root.into(),
+            source,
+        })?;
+        let context = Arc::new(RepositoryExecutionContext::capture(&canonical)?);
+        let mut contexts = self.contexts.lock().map_err(|_| ObserverError::State {
+            path: canonical.clone(),
+            message: "runtime session mutex was poisoned".into(),
+        })?;
+        contexts.insert(canonical, Arc::clone(&context));
+        Ok(context)
+    }
+
+    pub fn unbind(&self, root: &Path) -> Result<bool, ObserverError> {
+        let canonical = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+            path: root.into(),
+            source,
+        })?;
+        let mut contexts = self.contexts.lock().map_err(|_| ObserverError::State {
+            path: canonical.clone(),
+            message: "runtime session mutex was poisoned".into(),
+        })?;
+        Ok(contexts.remove(&canonical).is_some())
+    }
+
+    pub fn active_repositories(&self) -> Result<Vec<PathBuf>, ObserverError> {
+        self.contexts
+            .lock()
+            .map(|contexts| contexts.keys().cloned().collect())
+            .map_err(|_| ObserverError::State {
+                path: PathBuf::from(".ai"),
+                message: "runtime session mutex was poisoned".into(),
+            })
+    }
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -5150,12 +5314,14 @@ pub fn generate_knowledge(root: &Path) -> Result<cockpit_knowledge::KnowledgeInd
     let archive = root.join(".ai/work-items/archive");
     let knowledge = root.join(".ai/knowledge");
     let index_path = knowledge.join("index.json");
+    let source_digest = knowledge_source_digest(&archive)?;
     if index_path.is_file() {
         let cached = read_json(&index_path)?;
-        return serde_json::from_value(cached).map_err(|error| ObserverError::State {
-            path: index_path,
-            message: error.to_string(),
-        });
+        if let Ok(index) = serde_json::from_value::<cockpit_knowledge::KnowledgeIndex>(cached)
+            && index.source_digest == source_digest
+        {
+            return Ok(index);
+        }
     }
     let mut records = Vec::new();
     for entry in fs::read_dir(&archive).map_err(|source| ObserverError::Read {
@@ -5180,7 +5346,8 @@ pub fn generate_knowledge(root: &Path) -> Result<cockpit_knowledge::KnowledgeInd
             &format!(".ai/work-items/archive/{work_item_id}.archive.json"),
         ));
     }
-    let index = cockpit_knowledge::KnowledgeIndex::from_records(records);
+    let index =
+        cockpit_knowledge::KnowledgeIndex::from_records_with_source_digest(records, source_digest);
     fs::create_dir_all(&knowledge).map_err(|source| ObserverError::Read {
         path: knowledge.clone(),
         source,
@@ -5802,6 +5969,56 @@ pub fn work_item_compatibility(
         conflicts,
         reasons,
     })
+}
+
+fn knowledge_source_digest(archive: &Path) -> Result<String, ObserverError> {
+    let mut entries = Vec::new();
+    for entry in fs::read_dir(archive).map_err(|source| ObserverError::Read {
+        path: archive.into(),
+        source,
+    })? {
+        let entry = entry.map_err(|source| ObserverError::Read {
+            path: archive.into(),
+            source,
+        })?;
+        let path = entry.path();
+        if !path.is_file() {
+            continue;
+        }
+        let relative = path
+            .strip_prefix(archive)
+            .map_err(|error| ObserverError::State {
+                path: path.clone(),
+                message: error.to_string(),
+            })?
+            .to_string_lossy()
+            .replace('\\', "/");
+        let metadata = fs::metadata(&path).map_err(|source| ObserverError::Read {
+            path: path.clone(),
+            source,
+        })?;
+        if metadata.len() > MAX_RECEIPT_INDEX_BYTES {
+            return Err(ObserverError::State {
+                path,
+                message: "knowledge source file exceeds bounded cache input".into(),
+            });
+        }
+        let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
+            path: path.clone(),
+            source,
+        })?;
+        entries.push((relative, Digest::sha256_bytes(&bytes).to_string()));
+    }
+    entries.sort();
+    Ok(
+        Digest::sha256_bytes(&serde_json::to_vec(&entries).map_err(|error| {
+            ObserverError::State {
+                path: archive.into(),
+                message: error.to_string(),
+            }
+        })?)
+        .to_string(),
+    )
 }
 
 fn validate_work_item_id(id: &str) -> Result<(), ObserverError> {

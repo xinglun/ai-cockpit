@@ -16,6 +16,11 @@ pub struct KnowledgeRecord {
 #[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
 pub struct KnowledgeIndex {
     pub records: Vec<KnowledgeRecord>,
+    /// Digest of the canonical archived inputs used to build this index.
+    /// This is a cache validator only; archived records remain the source of
+    /// truth and the index is always reconstructible.
+    #[serde(default, rename = "sourceDigest")]
+    pub source_digest: String,
     pub dependencies: BTreeMap<String, Vec<String>>,
     pub by_topic: BTreeMap<String, Vec<String>>,
     pub by_component: BTreeMap<String, Vec<String>>,
@@ -54,12 +59,22 @@ impl KnowledgeIndex {
         }
         Self {
             records,
+            source_digest: String::new(),
             dependencies,
             by_topic,
             by_component,
             by_state,
             by_work_item,
         }
+    }
+
+    pub fn from_records_with_source_digest(
+        records: Vec<KnowledgeRecord>,
+        source_digest: impl Into<String>,
+    ) -> Self {
+        let mut index = Self::from_records(records);
+        index.source_digest = source_digest.into();
+        index
     }
 }
 

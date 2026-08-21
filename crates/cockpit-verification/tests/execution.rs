@@ -1,8 +1,13 @@
 use cockpit_evidence::{DiffIdentity, EvidenceContext, ReusableReceipt};
 use cockpit_verification::{
-    MAX_CAPTURE_BYTES_PER_STREAM, PlannedAction, PlannedSatisfaction, ProtectedGateClass,
-    VerificationCommand, VerificationReusePolicy, execute_bounded, execute_bounded_at,
-    execute_verification_plan_bounded, plan_verification_commands,
+    ExecutionError, MAX_CAPTURE_BYTES_PER_STREAM, PlannedAction, PlannedSatisfaction,
+    ProtectedGateClass, VerificationCommand, VerificationReusePolicy, execute_bounded,
+    execute_bounded_at, execute_bounded_with_resource_budget, execute_verification_plan_bounded,
+    plan_verification_commands,
+};
+use std::sync::{
+    Arc, Barrier,
+    atomic::{AtomicUsize, Ordering},
 };
 use std::time::{SystemTime, UNIX_EPOCH};
 
@@ -97,6 +102,85 @@ fn bounded_execution_reports_plan_and_process_telemetry() {
     assert_eq!(receipt.nodes_executed, 2);
     assert_eq!(receipt.processes_spawned, 2);
     assert!(receipt.passed);
+}
+
+#[test]
+fn resource_budget_rejects_zero_and_overweight_commands_fail_closed() {
+    let zero = always_command("zero", "true", vec![]).with_resource_weight(0);
+    assert!(matches!(
+        execute_bounded_with_resource_budget(vec![zero], 1, 1),
+        Err(ExecutionError::CommandExceedsResourceBudget(id)) if id == "zero"
+    ));
+
+    let overweight = always_command("heavy", "true", vec![]).with_resource_weight(2);
+    assert!(matches!(
+        execute_bounded_with_resource_budget(vec![overweight], 2, 1),
+        Err(ExecutionError::CommandExceedsResourceBudget(id)) if id == "heavy"
+    ));
+}
+
+#[test]
+fn resource_budget_allows_weighted_commands_within_bound() {
+    let first = always_command("first", "true", vec![]).with_resource_weight(2);
+    let second = always_command("second", "true", vec![]).with_resource_weight(1);
+    let result = execute_bounded_with_resource_budget(vec![first, second], 2, 2)
+        .expect("weighted execution");
+    assert!(result.passed);
+    assert_eq!(result.processes_spawned, 2);
+}
+
+#[test]
+fn single_flight_coalesces_same_repository_work_item_and_runtime_identity() {
+    let coordinator = Arc::new(cockpit_verification::SingleFlightCoordinator::default());
+    let key = cockpit_verification::SingleFlightKey {
+        repository_id: digest('r'),
+        work_item_id: "WI-SINGLE".into(),
+        command_digest: digest('c'),
+        runtime_digest: digest('v'),
+    };
+    let barrier = Arc::new(Barrier::new(3));
+    let calls = Arc::new(AtomicUsize::new(0));
+    std::thread::scope(|scope| {
+        let mut handles = Vec::new();
+        for _ in 0..2 {
+            let coordinator = Arc::clone(&coordinator);
+            let key = key.clone();
+            let barrier = Arc::clone(&barrier);
+            let calls = Arc::clone(&calls);
+            handles.push(scope.spawn(move || {
+                barrier.wait();
+                coordinator.execute(key, || {
+                    calls.fetch_add(1, Ordering::SeqCst);
+                    std::thread::sleep(std::time::Duration::from_millis(30));
+                    Ok(
+                        execute_bounded(vec![always_command("check", "true", vec![])], 1)
+                            .expect("receipt"),
+                    )
+                })
+            }));
+        }
+        barrier.wait();
+        let first = handles.remove(0).join().expect("first").expect("result");
+        let second = handles.remove(0).join().expect("second").expect("result");
+        assert!(Arc::ptr_eq(&first, &second));
+    });
+    assert_eq!(calls.load(Ordering::SeqCst), 1);
+    assert_eq!(coordinator.active_count().expect("count"), 0);
+}
+
+#[test]
+fn single_flight_rejects_unbound_repository_identity() {
+    let coordinator = cockpit_verification::SingleFlightCoordinator::default();
+    let key = cockpit_verification::SingleFlightKey {
+        repository_id: String::new(),
+        work_item_id: "WI-SINGLE".into(),
+        command_digest: digest('c'),
+        runtime_digest: digest('v'),
+    };
+    let error = coordinator
+        .execute(key, || Ok(execute_bounded(vec![], 1).expect("receipt")))
+        .expect_err("unbound key must fail closed");
+    assert_eq!(error, "single_flight_key_invalid");
 }
 
 #[test]

@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T23:07:21Z",
+  "evidenceDigest": "sha256:f17340c2b9cd782888b42dd736af8322b0ecb10c586ef93ed6cdbf596c7d295a",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-85-incremental-content-identity.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-85-incremental-content-identity"
+}

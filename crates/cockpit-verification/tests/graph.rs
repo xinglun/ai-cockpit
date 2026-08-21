@@ -1,6 +1,7 @@
 use cockpit_verification::{
-    PlannedAction, PlannedReason, PlannedSatisfaction, PlannedState, VerificationGraph,
-    VerificationNode, VerificationNodeKind, VerificationPlan, VerificationResult,
+    PerformanceBaseline, PerformanceBudget, PerformanceSample, PlannedAction, PlannedReason,
+    PlannedSatisfaction, PlannedState, VerificationGraph, VerificationNode, VerificationNodeKind,
+    VerificationPlan, VerificationResult,
 };
 
 #[test]
@@ -21,6 +22,39 @@ fn graph_rejects_dependency_cycles() {
         ))
         .expect("add b");
     assert!(graph.plan().is_err());
+}
+
+#[test]
+fn performance_baseline_requires_identity_and_enforces_budgets() {
+    let baseline = PerformanceBaseline {
+        schema_version: 1,
+        runtime_version: "0.2.2".into(),
+        runtime_digest: format!("sha256:{}", "a".repeat(64)),
+        repository_id: format!("sha256:{}", "b".repeat(64)),
+        captured_at: "2026-08-22T00:00:00Z".into(),
+        samples: vec![PerformanceSample {
+            name: "status".into(),
+            elapsed_ms: 9,
+            iterations: 12,
+        }],
+        budgets: vec![PerformanceBudget {
+            name: "status".into(),
+            max_elapsed_ms: 10,
+        }],
+    };
+    let assessment = baseline.assess();
+    assert_eq!(assessment.state, "passed");
+    assert_eq!(assessment.passed, 1);
+
+    let mut missing_identity = baseline;
+    missing_identity.runtime_digest = "unknown".into();
+    assert_eq!(missing_identity.assess().state, "failed");
+    assert!(
+        missing_identity
+            .assess()
+            .failures
+            .contains(&"runtime_or_repository_identity_missing".into())
+    );
 }
 
 #[test]

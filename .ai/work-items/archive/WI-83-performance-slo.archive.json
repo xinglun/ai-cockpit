@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T23:06:30Z",
+  "files": {
+    "contractDigest": "sha256:a51fc0e4aa626e6c365a946fae67d33ffa1b957455cc30ad9f73e97d86e62d0a",
+    "contractPath": ".ai/work-items/archive/WI-83-performance-slo.contract.json",
+    "outcomeDigest": "sha256:abf3554152258bc9a5e07d2c31c787fbcb1af81feca362b8721ae5d2beb55472",
+    "outcomePath": ".ai/work-items/archive/WI-83-performance-slo.outcome.json",
+    "summaryDigest": "sha256:70c52b71ccdc5b944e4a08e7535e9ce12b7b6a4d717f1e9837b189c3cf5220a5",
+    "summaryPath": ".ai/work-items/archive/WI-83-performance-slo.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-83-performance-slo"
+}

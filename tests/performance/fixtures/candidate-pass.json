@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "runtimeVersion": "0.2.2",
+  "runtimeDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "repositoryId": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "capturedAt": "2026-08-22T00:01:00Z",
+  "samples": [{"name": "status", "elapsedMs": 11, "iterations": 12}],
+  "budgets": [{"name": "status", "maxElapsedMs": 20}]
+}

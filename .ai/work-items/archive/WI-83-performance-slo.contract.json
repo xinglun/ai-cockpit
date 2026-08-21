@@ -1,0 +1,39 @@
+{
+  "acceptanceCriteria": [
+    "Baseline fixture emits stable machine-readable timing evidence; limits are explicit and no status claim is invented."
+  ],
+  "authority": "authorized",
+  "baseRevision": "0c507c42ed318a9fb173e2b658ed47743dd6953c",
+  "createdAt": "2026-08-21T22:53:29Z",
+  "goal": "Provide deterministic local benchmark evidence for runtime performance without weakening governance",
+  "intent": "Establish reproducible performance baseline and SLO fixtures",
+  "mode": "implementation",
+  "outOfScope": [
+    "release workflow",
+    "migration protocol",
+    "semantic domain schemas"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:60b6c6a1eac10a2c79eb0ebfb8d208dbc87373a2daf75eefb09425e27dc3fea4",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-cli/tests/performance.rs",
+    "crates/cockpit-verification/**",
+    "crates/cockpit-repository/**",
+    "crates/cockpit-git/**",
+    "crates/cockpit-knowledge/**",
+    "tests/performance/**",
+    "docs/performance/**",
+    "docs/work-items/**",
+    "Cargo.lock",
+    ".ai/work-items/**",
+    ".ai/evidence/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-83-performance-slo"
+}

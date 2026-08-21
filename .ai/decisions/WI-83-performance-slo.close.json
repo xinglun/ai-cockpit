@@ -1,0 +1,19 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved after focused performance and isolation checks",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "codex",
+    "authoritySource": "user-authorized-work-item",
+    "decidedAt": "2026-08-21T23:10:00Z",
+    "decision": "approved after focused performance and isolation checks",
+    "evidenceRefs": [
+      ".ai/evidence/WI-83-performance-slo.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "Focused tests, formatter, clippy, and evidence-only regression gate passed.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-08-21T23:06:30Z",
+  "workItemId": "WI-83-performance-slo"
+}
