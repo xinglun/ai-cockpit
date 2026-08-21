@@ -1,0 +1,30 @@
+{
+  "acceptanceCriteria": [
+    "Public v0.2.0 fresh-adopter and N-1 acceptance pass; runtime identity is recorded; current repository is COMPATIBLE; Agent doctor is VERIFIED; source repository and global Agent/MCP surfaces are unchanged; acceptance artifacts are checksummed.",
+    "A repository-local release evidence summary records the immutable tag, archive and binary digests, adopter repository identities, first-adopter-smoke not_ready result, reuse and lifecycle results, and isolation proofs."
+  ],
+  "authority": "authorized",
+  "baseRevision": "96eba1adba032be537f1ddf304d16cc52530fd1c",
+  "createdAt": "2026-08-21T17:14:27Z",
+  "goal": "Prove the immutable public v0.2.0 Release can govern a fresh adopter, upgrade the N-1 adopter, and govern this repository without global or repository-crossing state.",
+  "intent": "Accept the published v0.2.0 binary as the installed Runtime and bind its public adopter and N-1 evidence.",
+  "mode": "implementation",
+  "outOfScope": [],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e9e88288652147af41f24c67329852c185dfae51d6d8140c49797366050d9f9c",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scope": [
+    "tests/release/**",
+    ".ai/**",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md"
+  ],
+  "state": "implementation_active",
+  "workItemId": "release-v0-2-0-public-adopter-acceptance"
+}

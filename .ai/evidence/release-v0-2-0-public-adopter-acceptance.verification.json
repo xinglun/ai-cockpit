@@ -1,0 +1,44 @@
+{
+  "createdAt": "2026-08-21T17:23:38Z",
+  "passed": true,
+  "protocolVersion": 1,
+  "receipt": {
+    "elapsedMs": 95,
+    "executionElapsedMs": 16,
+    "filesHashed": 7,
+    "filesRead": 7,
+    "gitCalls": 8,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:5e67b6e911e0401aa3185a027a5d72f1f66028de416e287f5936d72f165e5a36",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ]
+  },
+  "repositorySnapshotDigest": "sha256:da7e967e8bd0c111d8e361af2f955281ef0d1f6f2e88eec308dce892b91614d3",
+  "runtimeDigest": "sha256:994956c48ebbe435c0e849b8bd82491d913cb32d320f3aedee9a074d00c133c0",
+  "runtimeVersion": "0.2.0",
+  "workItemId": "release-v0-2-0-public-adopter-acceptance"
+}
