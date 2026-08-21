@@ -2169,23 +2169,23 @@ fn replace_cap_entry(
 
 #[cfg(windows)]
 fn replace_cap_entry(
-    parent: &Dir,
+    _parent: &Dir,
     temporary_file: &std::fs::File,
     _temporary: &str,
-    name: &str,
-    _display_path: &Path,
+    _name: &str,
+    display_path: &Path,
 ) -> std::io::Result<()> {
     use std::os::windows::{ffi::OsStrExt, io::AsRawHandle};
-    use windows_sys::Win32::{
-        Storage::FileSystem::{
-            FILE_RENAME_INFO, FILE_RENAME_INFO_0, FileRenameInfoEx, SetFileInformationByHandle,
-        },
-        System::WindowsProgramming::{
-            FILE_RENAME_FLAG_POSIX_SEMANTICS, FILE_RENAME_FLAG_REPLACE_IF_EXISTS,
-        },
+    use windows_sys::Win32::Storage::FileSystem::{
+        FILE_RENAME_INFO, FILE_RENAME_INFO_0, FileRenameInfo, SetFileInformationByHandle,
     };
 
-    let name = std::ffi::OsStr::new(name).encode_wide().collect::<Vec<_>>();
+    // FileRenameInfoEx rejects a relative name paired with RootDirectory on
+    // the Windows runners (ERROR_INVALID_PARAMETER).  The parent capability
+    // remains open with delete sharing disabled, so its absolute path cannot
+    // be redirected while this operation is in flight.  FileRenameInfo is
+    // also supported on older Windows versions and retains replace semantics.
+    let name = display_path.as_os_str().encode_wide().collect::<Vec<_>>();
     let header_size = std::mem::offset_of!(FILE_RENAME_INFO, FileName);
     let byte_len = header_size + name.len() * std::mem::size_of::<u16>();
     let word_len = byte_len.div_ceil(std::mem::size_of::<usize>());
@@ -2193,9 +2193,9 @@ fn replace_cap_entry(
     let information = storage.as_mut_ptr().cast::<FILE_RENAME_INFO>();
     unsafe {
         (*information).Anonymous = FILE_RENAME_INFO_0 {
-            Flags: FILE_RENAME_FLAG_REPLACE_IF_EXISTS | FILE_RENAME_FLAG_POSIX_SEMANTICS,
+            ReplaceIfExists: true,
         };
-        (*information).RootDirectory = parent.as_raw_handle().cast();
+        (*information).RootDirectory = std::ptr::null_mut();
         (*information).FileNameLength = (name.len() * std::mem::size_of::<u16>()) as u32;
         std::ptr::copy_nonoverlapping(
             name.as_ptr(),
@@ -2206,7 +2206,7 @@ fn replace_cap_entry(
     let result = unsafe {
         SetFileInformationByHandle(
             temporary_file.as_raw_handle().cast(),
-            FileRenameInfoEx,
+            FileRenameInfo,
             information.cast(),
             byte_len as u32,
         )
