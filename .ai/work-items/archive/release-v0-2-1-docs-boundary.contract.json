@@ -1,0 +1,28 @@
+{
+  "acceptanceCriteria": [
+    "All three distribution guides distinguish historical schema migration acceptance from same-schema patch acceptance and no command suggests an invalid v0.2.0 to v0.2.1 schema migration."
+  ],
+  "authority": "authorized",
+  "baseRevision": "2d63be479a95c2d2f30b4c77887fc348c17e676f",
+  "createdAt": "2026-08-21T17:47:08Z",
+  "goal": "Keep trilingual distribution guidance executable and truthful after the v0.2.1 release.",
+  "intent": "Clarify that N-1 schema migration acceptance applies to v0.1.1 to v0.2.0, while v0.2.1 is a same-schema patch release.",
+  "mode": "implementation",
+  "outOfScope": [
+    "target"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7f11d4b58449fd66c1db0c031c839ef7647712154617996170857ce50af4d8b1",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "docs/release/**",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "release-v0-2-1-docs-boundary"
+}

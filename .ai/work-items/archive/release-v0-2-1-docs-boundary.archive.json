@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T17:47:36Z",
+  "files": {
+    "contractDigest": "sha256:1cacf4d818bc2369e29d3fe46fce05ff701507da33891a9bfcf524aec117511a",
+    "contractPath": ".ai/work-items/archive/release-v0-2-1-docs-boundary.contract.json",
+    "outcomeDigest": "sha256:641febbaec53feebf4e67aa3e6103030f7359647d4dd9954e25fccd5a338e20e",
+    "outcomePath": ".ai/work-items/archive/release-v0-2-1-docs-boundary.outcome.json",
+    "summaryDigest": "sha256:c2e3c73ccc6ec191d7cdbd9ef943ebada9338ffa63043626238cc0721509a6f2",
+    "summaryPath": ".ai/work-items/archive/release-v0-2-1-docs-boundary.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "release-v0-2-1-docs-boundary"
+}

@@ -77,16 +77,18 @@ evidence を受け入れる前に、download した binary の identity と結�
 
 Maintainer は Release 公開後に public binary acceptance baseline を再実行できます。
 
-### N-1 upgrade 受入れ
+### 過去の N-1 schema migration 受入れ
 
-新 Runtime が Repository Protocol schema を変更する場合は、公開済みの旧・新 archive
-を使って N-1 harness を実行する。
+schema が変わった基準は、過去の v0.1.1 から v0.2.0 への migration です。
+v0.2.1 は同じ schema の patch Release なので、この migration harness ではなく
+fresh-adopter acceptance と compatibility check を使います。過去の migration evidence を
+再現する場合は、公開済みの両 archive を使います。
 
 ```bash
 tests/release/adopter_upgrade_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --from-tag v0.2.0 \
-  --to-tag v0.2.1 \
+  --from-tag v0.1.1 \
+  --to-tag v0.2.0 \
   --target aarch64-apple-darwin \
   --output ./release-adopter-upgrade-acceptance
 ```
