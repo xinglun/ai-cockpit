@@ -161,9 +161,11 @@ run "$from_bin" from-agent-install.json agent install --repo "$adopter" --provid
 run "$from_bin" from-agent-doctor.json agent doctor --repo "$adopter" --json
 jq -e '.state=="VERIFIED" and (.problems|length==0)' "$output/from-agent-doctor.json" >/dev/null || die 'old Agent doctor did not verify'
 grep -q 'repository_schema_version' "$adopter/.ai/cockpit.toml" && die 'old Runtime unexpectedly wrote schema 2'
+git -C "$adopter" add .
+git -C "$adopter" commit -qm 'attach adopter governance state'
 pass old-schema-assertion
 work_item=n-minus-one-lifecycle
-run "$from_bin" old-start.json start --repo "$adopter" --id "$work_item" --intent 'Validate upgrade without losing governed history.' --goal 'Prove N-1 compatibility and explicit migration.' --scope src/lib.rs --out-of-scope target --risk normal --authority authorized --acceptance 'cargo test passes' --required-evidence verification
+run "$from_bin" old-start.json start --repo "$adopter" --id "$work_item" --intent 'Validate upgrade without losing governed history.' --goal 'Prove N-1 compatibility and explicit migration.' --scope '**' --out-of-scope target --risk normal --authority authorized --acceptance 'cargo test passes' --required-evidence verification
 printf '\n// N-1 acceptance mutation\n' >> "$adopter/src/lib.rs"; git -C "$adopter" add src/lib.rs; git -C "$adopter" commit -qm 'adopter change before upgrade'
 run "$from_bin" old-checkpoint.json checkpoint --repo "$adopter" --id "$work_item"
 run "$from_bin" old-verify.json verify --repo "$adopter" --work-item "$work_item" --workers 1
@@ -187,11 +189,14 @@ run "$to_bin" new-compatibility-after.json compatibility --repo "$adopter"
 jq -e '.state=="COMPATIBLE" and .repositorySchemaVersion==2' "$output/new-compatibility-after.json" >/dev/null || die 'migrated adopter is not compatible'
 run "$to_bin" new-agent-doctor.json agent doctor --repo "$adopter" --json
 jq -e '.state=="VERIFIED" and (.problems|length==0)' "$output/new-agent-doctor.json" >/dev/null || die 'new Agent doctor did not verify'
+run "$to_bin" new-verify.json verify --repo "$adopter" --work-item "$work_item" --command true --workers 1
+jq -e '.passed==true' "$output/new-verify.json" >/dev/null || die 'new Runtime did not continue operation'
+new_evidence="$adopter/.ai/evidence/$work_item.verification.json"
+[[ -f "$new_evidence" ]] || die 'new Runtime did not record verification evidence'
+jq -e --arg version "$to_version" --arg digest "$to_digest" '.runtimeVersion==$version and .runtimeDigest==$digest and .passed==true' "$new_evidence" >/dev/null || die 'new verification evidence lacks Runtime identity'
 run "$to_bin" new-finish.json finish --repo "$adopter" --id "$work_item"
 run "$to_bin" new-archive.json archive --repo "$adopter" --id "$work_item"
 run "$to_bin" new-close.json close --repo "$adopter" --id "$work_item" --human-decision approved
-run "$to_bin" new-verify.json verify --repo "$adopter" --command true --workers 1
-jq -e --arg version "$to_version" --arg digest "$to_digest" '.runtimeVersion==$version and .runtimeDigest==$digest and .passed==true' "$output/new-verify.json" >/dev/null || die 'new Runtime did not continue operation'
 pass continued-operation
 
 source_after_status="$(git -C "$source_repo" status --porcelain=v1)"
@@ -203,6 +208,6 @@ cmp -s "$run_root/xdg-before" "$run_root/xdg-after" || xdg_unchanged=false
 [[ "$source_before_status" == "$source_after_status" ]] || die 'acceptance modified source checkout'
 [[ "$home_unchanged" == true && "$xdg_unchanged" == true ]] || die 'acceptance escaped isolated HOME/XDG'
 repository_id="$(jq -er '.repositoryId' "$output/from-agent-doctor.json")"
-jq -n --arg sourceRepository "$source_repo" --arg sourceAiDigest "$source_ai_digest" --arg sourceBeforeStatus "$source_before_status" --arg sourceAfterStatus "$source_after_status" --arg adopterRepository "$adopter" --arg repositoryId "$repository_id" --argjson homeUnchanged "$home_unchanged" --argjson xdgUnchanged "$xdg_unchanged" '{schemaVersion:1,sourceRepository:$sourceRepository,sourceAiDigest:(if $sourceAiDigest=="" then null else $sourceAiDigest end),sourceBeforeStatus:$sourceBeforeStatus,sourceAfterStatus:$sourceAfterStatus,adopterRepository:$adopter,repositoryId:$repositoryId,homeUnchanged:$homeUnchanged,xdgConfigUnchanged:$xdgUnchanged,sourceUnchanged:($sourceBeforeStatus==$sourceAfterStatus),repositoryIsolation:($adopter!=$sourceRepository),releasePublished:true}' > "$output/isolation.json"
+jq -n --arg sourceRepository "$source_repo" --arg sourceAiDigest "$source_ai_digest" --arg sourceBeforeStatus "$source_before_status" --arg sourceAfterStatus "$source_after_status" --arg adopterRepository "$adopter" --arg repositoryId "$repository_id" --argjson homeUnchanged "$home_unchanged" --argjson xdgUnchanged "$xdg_unchanged" '{schemaVersion:1,sourceRepository:$sourceRepository,sourceAiDigest:(if $sourceAiDigest=="" then null else $sourceAiDigest end),sourceBeforeStatus:$sourceBeforeStatus,sourceAfterStatus:$sourceAfterStatus,adopterRepository:$adopterRepository,repositoryId:$repositoryId,homeUnchanged:$homeUnchanged,xdgConfigUnchanged:$xdgUnchanged,sourceUnchanged:($sourceBeforeStatus==$sourceAfterStatus),repositoryIsolation:($adopterRepository!=$sourceRepository),releasePublished:true}' > "$output/isolation.json"
 jq -e '.sourceUnchanged and .homeUnchanged and .xdgConfigUnchanged and .repositoryIsolation' "$output/isolation.json" >/dev/null || die 'isolation proof failed'
 pass isolation

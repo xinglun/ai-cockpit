@@ -1,0 +1,11 @@
+{
+  "changedPaths": [],
+  "checkpointCount": 3,
+  "createdAt": "2026-08-21T17:14:27Z",
+  "mode": "implementation",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-21T17:23:44Z",
+  "workItemId": "release-v0-2-0-public-adopter-acceptance"
+}
