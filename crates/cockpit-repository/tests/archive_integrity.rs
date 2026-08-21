@@ -49,3 +49,20 @@ fn close_rejects_tampered_archived_artifacts() {
     assert!(error.to_string().contains("digest does not match manifest"));
     fs::remove_dir_all(path).expect("cleanup");
 }
+
+#[test]
+fn verification_receipt_cannot_cross_work_items() {
+    let path = repository();
+    start_work_item(&path, "WI-A", "first", "verify", &["**".into()]).expect("start A");
+    start_work_item(&path, "WI-B", "second", "verify", &["**".into()]).expect("start B");
+    let error = record_verification(
+        &path,
+        "WI-B",
+        &serde_json::json!({"passed": true, "workItemId": "WI-A", "nodesPlanned": 1}),
+        "0.1.0",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect_err("cross-work-item evidence must be rejected");
+    assert!(error.to_string().contains("another work item"));
+    fs::remove_dir_all(path).expect("cleanup");
+}

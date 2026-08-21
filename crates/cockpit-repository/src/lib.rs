@@ -504,6 +504,16 @@ pub fn record_verification_with_snapshot(
             message: "failed verification cannot be recorded as completion evidence".into(),
         });
     }
+    if receipt
+        .get("workItemId")
+        .and_then(serde_json::Value::as_str)
+        .is_some_and(|receipt_id| receipt_id != work_item_id)
+    {
+        return Err(ObserverError::State {
+            path: root.join(".ai/evidence"),
+            message: "verification receipt belongs to another work item".into(),
+        });
+    }
     let evidence = serde_json::json!({
         "protocolVersion": 1,
         "workItemId": work_item_id,
