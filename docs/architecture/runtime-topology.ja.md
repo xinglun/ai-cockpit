@@ -52,3 +52,21 @@ Core は request-scoped です。`--repo`（または同等の MCP repository bi
 operation の context を選び、global な current repository、Work Item、profile は持ちません。
 互換性のある repository は Runtime upgrade を共有できますが、各 context の Contract、
 evidence、knowledge は分離されます。
+
+## Agent Discovery / Adapter 層
+
+```mermaid
+flowchart LR
+    Core[共有 Rust Core / binary]
+    Attach[Layer 2: attach + Repository Protocol]
+    Discover[Layer 3: 明示的 Agent Discovery / Adapter]
+    Surface[AGENTS.md / CLAUDE.md / GEMINI.md / .cursor]
+    Ownership[.ai/adapters/<provider>.json]
+    Core --> Attach --> Discover
+    Discover --> Surface
+    Discover --> Ownership
+```
+
+`.ai/agent-interface.json` は repository-bound discovery fact だけを保持し、prompt や governance decision ではありません。
+`attach` は provider rule を注入せず、`agent install --repo ... --provider ...` だけが ownership 付き managed section を追加できます。
+`doctor`、`repair`、`detach` は操作前に ownership を検証します。Provider skill は利用性を高める任意の層であり、Runtime authority にはなりません。

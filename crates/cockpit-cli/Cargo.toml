@@ -13,6 +13,7 @@ path = "src/main.rs"
 anyhow.workspace = true
 clap.workspace = true
 cockpit-core = { path = "../cockpit-core" }
+cockpit-agent = { path = "../cockpit-agent" }
 cockpit-repository = { path = "../cockpit-repository" }
 cockpit-verification = { path = "../cockpit-verification" }
 cockpit-git = { path = "../cockpit-git" }
@@ -23,3 +24,6 @@ serde_json.workspace = true
 sha2.workspace = true
 toml.workspace = true
 hex.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true

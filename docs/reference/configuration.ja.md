@@ -36,6 +36,12 @@ runtime は両方を validate し identity mismatch を拒否します。runtime
 これは discovery fact であり、provider instruction、authorization、global MCP configuration ではありません。Provider install は
 `attach` とは別の明示操作です。
 
+## `.ai/adapters/<provider>.json`
+
+`agent install` は provider、repository ID、repository-relative target、adapter version、managed section の digest を含む strict ownership record を書き込みます。
+`doctor`、`repair`、`detach` はこれを ownership の根拠にし、record の欠落、変更、重複、identity mismatch は conflict として扱います。
+ここには global Agent/MCP configuration を保存しません。
+
 ## `.ai/project.json`
 
 `attach` は `state: "calibration_required"` の attached profile を作ります。`profile confirm` 後に profile version が

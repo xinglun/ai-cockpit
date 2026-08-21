@@ -59,6 +59,19 @@ inputs still required (`intent`, `scope`, `acceptanceCriteria`, and
 verification. `profile propose --repo /project-a` similarly emits a read-only
 candidate amendment and leaves the formal profile unchanged.
 
+To make a selected Agent host aware of the repository, use the explicit
+repository-local adapter flow:
+
+```bash
+ai-cockpit agent list --repo /project-a
+ai-cockpit agent install --repo /project-a --provider codex
+ai-cockpit agent doctor --repo /project-a --json
+```
+
+This writes only an owned section in the selected repository surface and
+`.ai/adapters/`; it never edits global Agent/MCP settings. Discovery, adapter
+installation, connection, verification, and compliance remain separate states.
+
 ## Three decision states
 
 - `green`: the required evidence supports the bounded next action;

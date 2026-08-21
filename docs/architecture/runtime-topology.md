@@ -53,3 +53,24 @@ The Core is request-scoped. `--repo` (or the equivalent MCP repository
 binding) selects one context for one operation; no global current repository,
 Work Item, or profile exists. Runtime upgrades are shared across compatible
 repositories, while each context owns its Contracts, evidence, and knowledge.
+
+## Agent Discovery / Adapter layer
+
+```mermaid
+flowchart LR
+    Core[Shared Rust Core / binary]
+    Attach[Layer 2: attach + Repository Protocol]
+    Discover[Layer 3: explicit Agent Discovery / Adapter]
+    Surface[AGENTS.md / CLAUDE.md / GEMINI.md / .cursor]
+    Ownership[.ai/adapters/<provider>.json]
+    Core --> Attach --> Discover
+    Discover --> Surface
+    Discover --> Ownership
+```
+
+The discovery manifest (`.ai/agent-interface.json`) contains repository-bound
+facts, not prompts or governance decisions. `attach` never injects provider
+rules. Only `agent install --repo ... --provider ...` may add an owned managed
+section; `doctor`, `repair`, and `detach` verify that ownership before acting.
+Provider skills can explain usage, but they are an optional usability layer and
+never become Runtime authority.

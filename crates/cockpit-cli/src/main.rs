@@ -1,8 +1,9 @@
 use anyhow::{Context, Result};
 use clap::{ArgAction, Parser, Subcommand};
+use cockpit_agent::AgentExitCode;
 use cockpit_git::GitRepository;
 use cockpit_knowledge::{Query, query};
-use cockpit_protocol::{Contract, RepositoryConfig, validate_protocol_version};
+use cockpit_protocol::{AgentProvider, Contract, RepositoryConfig, validate_protocol_version};
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
     archive_work_item, attach, checkpoint_work_item, close_work_item_with_decision,
@@ -125,6 +126,65 @@ enum CommandKind {
         #[arg(long)]
         repo: PathBuf,
     },
+    Agent {
+        #[command(subcommand)]
+        command: AgentCommand,
+    },
+}
+
+#[derive(Debug, Subcommand)]
+enum AgentCommand {
+    List {
+        #[arg(long)]
+        repo: PathBuf,
+    },
+    Install {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long, default_value = "auto")]
+        provider: AgentProviderArg,
+    },
+    Doctor {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        json: bool,
+    },
+    Repair {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        provider: Option<AgentProviderArg>,
+    },
+    Detach {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        provider: AgentProviderArg,
+    },
+}
+
+#[derive(Clone, Debug, clap::ValueEnum)]
+enum AgentProviderArg {
+    Auto,
+    GenericAgentsMd,
+    Codex,
+    Claude,
+    Gemini,
+    Cursor,
+}
+
+impl AgentProviderArg {
+    fn provider(&self) -> Option<AgentProvider> {
+        match self {
+            Self::Auto => None,
+            Self::GenericAgentsMd => Some(AgentProvider::GenericAgentsMd),
+            Self::Codex => Some(AgentProvider::Codex),
+            Self::Claude => Some(AgentProvider::Claude),
+            Self::Gemini => Some(AgentProvider::Gemini),
+            Self::Cursor => Some(AgentProvider::Cursor),
+        }
+    }
 }
 
 #[derive(Debug, Subcommand)]
@@ -516,6 +576,59 @@ fn run() -> Result<()> {
             )
             .context("serve MCP")?;
         }
+        CommandKind::Agent { command } => match command {
+            AgentCommand::List { repo } => {
+                let detected =
+                    cockpit_agent::detect_providers(&repo).context("list agent surfaces")?;
+                println!("{}", serde_json::to_string_pretty(&detected)?);
+            }
+            AgentCommand::Install { repo, provider } => {
+                let provider = match provider.provider() {
+                    Some(provider) => provider,
+                    None => select_auto_provider(&repo)?,
+                };
+                let receipt = cockpit_agent::install_adapter(&repo, provider)
+                    .context("install repository-owned agent adapter")?;
+                println!("{}", serde_json::to_string_pretty(&receipt)?);
+            }
+            AgentCommand::Doctor { repo, json } => {
+                let report = cockpit_agent::doctor(&repo).context("inspect agent state")?;
+                if json {
+                    println!("{}", serde_json::to_string_pretty(&report)?);
+                } else {
+                    println!("State: {}", report.state);
+                    if let Some(repository_id) = &report.repository_id {
+                        println!("Repository: {repository_id}");
+                    }
+                    println!("CLI: {}", report.interfaces.cli);
+                    println!("MCP: {}", report.interfaces.mcp);
+                    for problem in &report.problems {
+                        println!("Problem: {problem}");
+                    }
+                    for action in &report.safe_actions {
+                        println!("Safe action: {action}");
+                    }
+                }
+                let code = agent_exit_code(&report.state);
+                if code != AgentExitCode::Ready.code() {
+                    std::process::exit(code);
+                }
+            }
+            AgentCommand::Repair { repo, provider } => {
+                let provider = select_single_provider(&repo, provider)?;
+                let receipt = cockpit_agent::repair_adapter(&repo, provider)
+                    .context("repair repository-owned agent adapter")?;
+                println!("{}", serde_json::to_string_pretty(&receipt)?);
+            }
+            AgentCommand::Detach { repo, provider } => {
+                let provider = provider
+                    .provider()
+                    .ok_or_else(|| anyhow::anyhow!("detach requires an explicit provider"))?;
+                cockpit_agent::detach_adapter(&repo, provider)
+                    .context("detach repository-owned agent adapter")?;
+                println!("Agent adapter detached.");
+            }
+        },
         CommandKind::Doctor { repo } => {
             let root = std::fs::canonicalize(&repo).context("canonicalize repository")?;
             let config_path = root.join(".ai/cockpit.toml");
@@ -621,6 +734,68 @@ fn merge_verification_runs(
 
 fn concurrent_phase_elapsed(durations: impl IntoIterator<Item = u128>) -> u128 {
     durations.into_iter().max().unwrap_or_default()
+}
+
+fn select_single_provider(
+    repo: &std::path::Path,
+    requested: Option<AgentProviderArg>,
+) -> Result<AgentProvider> {
+    if let Some(provider) = requested.and_then(|value| value.provider()) {
+        return Ok(provider);
+    }
+    let report = cockpit_agent::doctor(repo).context("inspect installed agent adapters")?;
+    let installed = report
+        .adapters
+        .into_iter()
+        .filter(|adapter| adapter.state == "installed")
+        .map(|adapter| adapter.provider)
+        .collect::<Vec<_>>();
+    if installed.len() != 1 {
+        anyhow::bail!(
+            "provider selection requires exactly one installed adapter; found {}",
+            installed.len()
+        );
+    }
+    Ok(installed.into_iter().next().expect("one provider"))
+}
+
+fn select_auto_provider(repo: &std::path::Path) -> Result<AgentProvider> {
+    let candidates = cockpit_agent::detect_providers(repo)
+        .context("detect agent surfaces")?
+        .into_iter()
+        .filter(|item| item.state == "available" && item.conflict.is_none())
+        .collect::<Vec<_>>();
+    let targets = candidates
+        .iter()
+        .map(|item| item.target.clone())
+        .collect::<std::collections::BTreeSet<_>>();
+    if targets.len() == 1 {
+        if let Some(item) = candidates
+            .iter()
+            .find(|item| item.provider == AgentProvider::Codex)
+        {
+            return Ok(item.provider.clone());
+        }
+        if let Some(item) = candidates.into_iter().next() {
+            return Ok(item.provider);
+        }
+    }
+    anyhow::bail!(
+        "--provider auto requires one unambiguous safe surface; found {} (choose an explicit provider)",
+        targets.len()
+    )
+}
+
+fn agent_exit_code(state: &str) -> i32 {
+    match state {
+        "VERIFIED" | "CONNECTED" => AgentExitCode::Ready.code(),
+        "DEGRADED" | "ATTACHED" | "DISCOVERY_AVAILABLE" | "ADAPTER_INSTALLED" => {
+            AgentExitCode::Degraded.code()
+        }
+        "UNATTACHED" => AgentExitCode::ConfigurationError.code(),
+        "CONFLICT" => AgentExitCode::InterventionRequired.code(),
+        _ => AgentExitCode::ConfigurationError.code(),
+    }
 }
 
 fn contains_runtime_code(path: &std::path::Path) -> bool {

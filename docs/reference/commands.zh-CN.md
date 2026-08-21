@@ -24,7 +24,7 @@ capabilityClaims:
 | 治理 | `preflight` | 读取 Contract，返回 green/yellow/red decision。 |
 | Work Item | `work-item new`、`start`、`checkpoint`、`finish`、`archive`、`close` | 创建骨架或写入显式生命周期记录；`close` 要求 human decision。 |
 | Verification | `verify` | 执行有界命令、记录 evidence，并可绑定 Work Item。 |
-| Adapter | `mcp` | 通过 stdio 提供 JSON-RPC；`--repo` 绑定 repository 工具。 |
+| Adapter | `agent list/install/doctor/repair/detach`、`mcp` | 管理显式选择的 repository-local Agent adapter，或通过 stdio 提供 JSON-RPC；所有操作都绑定 `--repo`。 |
 
 ## 重要选项
 
@@ -36,6 +36,10 @@ capabilityClaims:
 - `work-item new --repo <path> --id <id> --mode <mode>` 创建 `not_ready` 骨架，只填充 snapshot-derived facts，
   人类字段保持空值或 `unknown`；过渡期 `start` 复用同一 writer。
 - `profile propose --repo <path>` 只读输出 `candidate`/`proposed` amendment，不会应用 profile baseline 修改。
+- `agent list --repo <path>` 是只读操作；`agent install` 是唯一正常的 adapter 写入口，必须指定
+  `--provider`（`auto` 只有在恰好一个无歧义安全 surface 时可用；`AGENTS.md` 默认选择 Codex）。`agent doctor --repo <path> --json`
+  返回严格状态报告，并使用 0（verified）、1（degraded）、2（配置错误）、3（需要人工介入）退出码。
+  如果 managed section 或 ownership record 被修改，`repair` 和 `detach` 会 fail closed；任何命令都不会写入全局 Agent/MCP 配置。
 - `preflight --contract` 通常指向 `start` 生成的 `.ai/work-items/active/<id>.contract.json`。
 - `close --human-decision approved|rejected` 是 human decision 记录，不是 verification evidence。
 

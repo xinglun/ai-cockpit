@@ -24,7 +24,7 @@ capabilityClaims:
 | Governance | `preflight` | Contract を読み green/yellow/red decision を返す。 |
 | Work Item | `work-item new`、`start`、`checkpoint`、`finish`、`archive`、`close` | skeleton または lifecycle record を作る。`close` は human decision が必要。 |
 | Verification | `verify` | bounded command を実行し evidence を記録する。Work Item に bind できる。 |
-| Adapter | `mcp` | stdio で JSON-RPC を提供する。`--repo` が repository tool を bind する。 |
+| Adapter | `agent list/install/doctor/repair/detach`、`mcp` | 明示的に選択した repository-local Agent adapter を管理し、または stdio で JSON-RPC を提供する。すべて `--repo` に bind する。 |
 
 ## Important options
 
@@ -36,6 +36,10 @@ capabilityClaims:
 - `work-item new --repo <path> --id <id> --mode <mode>` は `not_ready` skeleton を作ります。snapshot-derived facts だけを埋め、
   human field は空または `unknown` のままです。移行期の `start` も同じ writer を使います。
 - `profile propose --repo <path>` は read-only の `candidate`/`proposed` amendment を出力し、profile baseline を適用しません。
+- `agent list --repo <path>` は read-only です。`agent install` だけが通常の adapter write entry point で、
+  `--provider` が必要です（`auto` は安全な surface が 1 つだけの場合に限り、`AGENTS.md` では Codex を選びます）。`agent doctor --repo <path> --json`
+  は strict state report を返し、0（verified）、1（degraded）、2（configuration error）、3（human intervention）の exit code を使います。
+  managed section または ownership record が変更されていれば `repair` と `detach` は fail closed し、global Agent/MCP config は変更しません。
 - `preflight --contract` は通常 `start` が作る `.ai/work-items/active/<id>.contract.json` を指します。
 - `close --human-decision approved|rejected` は human decision record であり verification evidence ではありません。
 

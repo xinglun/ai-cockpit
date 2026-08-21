@@ -11,6 +11,7 @@ lastVerifiedBy: documentation-acceptance
 capabilityClaims:
   - cli_lifecycle
   - mcp_adapter
+  - agent_discovery_adapter
   - bounded_verification
 ---
 
@@ -54,6 +55,7 @@ profile を確認してください。
 | Profile confirmation | controlled reuse 用の quality command を確認する。 | `ai-cockpit profile confirm --repo <path> --program cargo --args test,--workspace` | review 可能な profile version。 |
 | Work Item scaffold | governance decision を発明せず validator-readable skeleton を作る。 | `ai-cockpit work-item new --repo <path> --id <id> --mode <mode>` | `not_ready` Contract、snapshot facts、人間入力の一覧。 |
 | Profile proposal | formal baseline を変更せず candidate profile amendment を作る。 | `ai-cockpit profile propose --repo <path>` | read-only の `candidate`/`proposed` output。 |
+| Agent adapter | 選択した Agent host が repository-owned section からこの repository を発見できるようにする。 | `ai-cockpit agent list/install/doctor --repo <path>` | repository-bound discovery、ownership、state、安全な action。global config は変更しない。 |
 
 ## 利用者向けの詳細 path
 
@@ -99,6 +101,30 @@ ai-cockpit profile confirm --repo /path/to/repository \
 
 `agent-interface.json` は repository-local の discovery fact です。stable repository identity と Runtime capability
 だけを記録し、Agent prompt、provider install、authorization、global MCP setting にはなりません。
+
+### Agent を明示的に接続する
+
+`attach` は repository fact だけを作成し、`AGENTS.md`、`CLAUDE.md`、`GEMINI.md`、`.cursor/`、
+home directory の設定は変更しません。Agent host にこの repository を発見させる場合は provider を明示します。
+
+```bash
+ai-cockpit agent list --repo /path/to/repository
+ai-cockpit agent install --repo /path/to/repository --provider codex
+ai-cockpit agent doctor --repo /path/to/repository --json
+```
+
+Adapter が書き込むのは選択した repository surface の marker 付き section と
+`.ai/adapters/<provider>.json` だけで、無関係な bytes は保持します。`doctor` は現在の fact から
+`UNATTACHED`、`DISCOVERY_AVAILABLE`、`VERIFIED`、`DEGRADED`、`CONFLICT` を導出し、prompt を governance authority にしません。
+managed section が変更・重複・不明確な場合、`repair` と `detach` は上書きせず拒否します。
+
+```bash
+ai-cockpit agent repair --repo /path/to/repository --provider codex
+ai-cockpit agent detach --repo /path/to/repository --provider codex
+```
+
+Discovery、adapter install、connection、verification、compliance は別の state です。MCP は optional であり、
+CLI は MCP なしでも使用できます。これらの command は provider の global configuration を変更しません。
 
 ### Work Item skeleton を作る
 

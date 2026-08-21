@@ -231,6 +231,7 @@ dependencies = [
  "tempfile",
  "thiserror",
  "toml",
+ "windows-sys 0.60.2",
 ]
 
 [[package]]
@@ -239,6 +240,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "clap",
+ "cockpit-agent",
  "cockpit-core",
  "cockpit-git",
  "cockpit-knowledge",
@@ -249,6 +251,7 @@ dependencies = [
  "hex",
  "serde_json",
  "sha2",
+ "tempfile",
  "toml",
 ]
 

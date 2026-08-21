@@ -56,6 +56,17 @@ ai-cockpit work-item new --repo /project-a \
 状態は `not_ready` で、scaffold が approved や verified を主張することはありません。`profile propose --repo /project-a` も
 read-only の candidate amendment を出力し、formal profile は変更しません。
 
+選択した Agent host に repository を発見させる場合は、repository-local adapter を明示的に使います。
+
+```bash
+ai-cockpit agent list --repo /project-a
+ai-cockpit agent install --repo /project-a --provider codex
+ai-cockpit agent doctor --repo /project-a --json
+```
+
+書き込まれるのは選択した repository surface と `.ai/adapters/` の ownership 付き section だけで、
+global Agent/MCP 設定は変更しません。Discovery、adapter install、connection、verification、compliance は別の state です。
+
 ## 3 つの decision state
 
 - `green`: 必要な evidence が bounded な次の操作を支える。

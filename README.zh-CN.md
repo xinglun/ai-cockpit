@@ -53,6 +53,17 @@ ai-cockpit work-item new --repo /project-a \
 `authority`。结果状态是 `not_ready`，脚手架不会声称 approved 或 verified。类似地，
 `profile propose --repo /project-a` 只输出候选 amendment，不改变正式 profile。
 
+如果要让选定的 Agent 宿主发现该 repository，请显式使用 repository-local adapter：
+
+```bash
+ai-cockpit agent list --repo /project-a
+ai-cockpit agent install --repo /project-a --provider codex
+ai-cockpit agent doctor --repo /project-a --json
+```
+
+这只会在选定的 repository surface 和 `.ai/adapters/` 写入受 ownership 保护的内容，
+不会修改全局 Agent/MCP 设置。Discovery、adapter 安装、连接、验证和合规仍是不同状态。
+
 ## 三种决定状态
 
 - `green`：已有证据支持当前有边界的下一步动作；

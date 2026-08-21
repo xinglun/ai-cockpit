@@ -11,6 +11,7 @@ lastVerifiedBy: documentation-acceptance
 capabilityClaims:
   - cli_lifecycle
   - mcp_adapter
+  - agent_discovery_adapter
   - bounded_verification
 ---
 
@@ -53,6 +54,7 @@ bootstrap。依赖 evidence reuse 前请先检查 attached profile。
 | Profile confirmation | 确认可用于受控 reuse 的质量命令。 | `ai-cockpit profile confirm --repo <path> --program cargo --args test,--workspace` | 可审查的新 profile 版本。 |
 | Work Item scaffold | 生成可被验证器读取、但不替人做治理决定的骨架。 | `ai-cockpit work-item new --repo <path> --id <id> --mode <mode>` | `not_ready` Contract、snapshot 事实和待补的人类输入。 |
 | Profile proposal | 生成候选 profile amendment，不修改正式 baseline。 | `ai-cockpit profile propose --repo <path>` | 只读的 `candidate`/`proposed` 输出。 |
+| Agent adapter | 让选定的 Agent 宿主通过 repository-owned 片段发现本 repository。 | `ai-cockpit agent list/install/doctor --repo <path>` | repository-bound discovery、ownership、状态和安全动作；不修改全局配置。 |
 
 ## 面向用户的详细路径
 
@@ -100,6 +102,30 @@ ai-cockpit profile confirm --repo /path/to/repository \
 
 `agent-interface.json` 是 repository-local discovery fact，记录稳定的 repository identity 和 Runtime
 能力；它不是 Agent prompt、provider 安装、授权或全局 MCP 设置。
+
+### 显式连接 Agent
+
+`attach` 只创建 repository facts，不修改 `AGENTS.md`、`CLAUDE.md`、`GEMINI.md`、
+`.cursor/` 或 home 目录配置。需要 Agent 宿主发现本 repository 时，显式选择 provider：
+
+```bash
+ai-cockpit agent list --repo /path/to/repository
+ai-cockpit agent install --repo /path/to/repository --provider codex
+ai-cockpit agent doctor --repo /path/to/repository --json
+```
+
+Adapter 只在选定的 repository surface 写入带 marker 的片段，并写入
+`.ai/adapters/<provider>.json`；无关字节会保留。`doctor` 根据当前事实推导
+`UNATTACHED`、`DISCOVERY_AVAILABLE`、`VERIFIED`、`DEGRADED` 或 `CONFLICT`，不会把 prompt 当作治理权威。
+如果 managed section 被修改或有歧义，`repair` 和 `detach` 会拒绝覆盖：
+
+```bash
+ai-cockpit agent repair --repo /path/to/repository --provider codex
+ai-cockpit agent detach --repo /path/to/repository --provider codex
+```
+
+Discovery、adapter 安装、连接、验证和合规是不同状态。MCP 是可选能力；CLI 在没有 MCP 时仍可用，
+这些命令不会修改 provider 的全局配置。
 
 ### 创建 Work Item 骨架
 

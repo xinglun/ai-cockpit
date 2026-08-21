@@ -11,6 +11,7 @@ lastVerifiedBy: documentation-acceptance
 capabilityClaims:
   - cli_lifecycle
   - mcp_adapter
+  - agent_discovery_adapter
   - bounded_verification
 ---
 
@@ -54,6 +55,7 @@ missing. Review the attached profile before relying on evidence reuse.
 | Profile confirmation | Confirm a quality command for controlled reuse. | `ai-cockpit profile confirm --repo <path> --program cargo --args test,--workspace` | New reviewable profile version. |
 | Work Item scaffold | Create a validator-readable skeleton without inventing governance decisions. | `ai-cockpit work-item new --repo <path> --id <id> --mode <mode>` | `not_ready` Contract with snapshot-derived facts and a list of human inputs still required. |
 | Profile proposal | Derive a candidate profile amendment without changing the formal baseline. | `ai-cockpit profile propose --repo <path>` | Read-only `candidate`/`proposed` output. |
+| Agent adapter | Let a selected Agent host discover this repository through an owned, reversible section. | `ai-cockpit agent list/install/doctor --repo <path>` | Repository-bound discovery, ownership, state, and safe actions; no global configuration. |
 
 ## User-facing paths
 
@@ -104,6 +106,34 @@ ai-cockpit profile confirm --repo /path/to/repository \
 `agent-interface.json` is a repository-local discovery fact. It records the
 stable repository identity and available Runtime capabilities; it is not an
 Agent prompt, provider installation, authorization, or global MCP setting.
+
+### Connect an Agent explicitly
+
+`attach` creates the repository facts but does not modify `AGENTS.md`,
+`CLAUDE.md`, `GEMINI.md`, `.cursor/`, or any home-directory configuration.
+Choose a provider explicitly when you want an Agent host to discover the
+repository:
+
+```bash
+ai-cockpit agent list --repo /path/to/repository
+ai-cockpit agent install --repo /path/to/repository --provider codex
+ai-cockpit agent doctor --repo /path/to/repository --json
+```
+
+The adapter writes only a marked section in the selected repository surface and
+`.ai/adapters/<provider>.json`. It preserves unrelated bytes. `doctor` derives
+`UNATTACHED`, `DISCOVERY_AVAILABLE`, `VERIFIED`, `DEGRADED`, or `CONFLICT` from
+current facts; it never treats a prompt as governance authority. `repair` and
+`detach` refuse modified or ambiguous sections rather than overwriting them:
+
+```bash
+ai-cockpit agent repair --repo /path/to/repository --provider codex
+ai-cockpit agent detach --repo /path/to/repository --provider codex
+```
+
+Discovery, adapter installation, connection, verification, and compliance are
+separate states. MCP is optional; the CLI remains usable without it, and no
+provider-global configuration is changed by these commands.
 
 ### Create a Work Item skeleton
 

@@ -35,6 +35,12 @@ Runtime 会验证两个字段并拒绝 identity 不一致。不要把 runtime so
 `repositoryId`、`rootBinding: "manifest-parent"`、当前 Runtime 能力和 `adapterState: "unconfigured"`。它是 discovery fact，
 不是 provider instruction、授权或全局 MCP 配置。Provider 安装必须是独立的显式操作。
 
+## `.ai/adapters/<provider>.json`
+
+`agent install` 会写入严格的 ownership record，包括 provider、repository ID、repository-relative target、adapter version
+以及 managed section 的 digest。`doctor`、`repair` 和 `detach` 以它作为 ownership 依据；记录缺失、内容被修改、marker 重复
+或 identity 不一致都会形成 conflict。这里不会保存全局 Agent 或 MCP 配置。
+
 ## `.ai/project.json`
 
 `attach` 创建 `state: "calibration_required"` 的 attached profile。`profile confirm` 后 profile

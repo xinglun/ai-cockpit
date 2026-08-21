@@ -40,6 +40,14 @@ and `adapterState: "unconfigured"`. It is a discovery fact, not provider
 instructions, an authorization grant, or a global MCP configuration. Provider
 installation is explicit and separate from `attach`.
 
+## `.ai/adapters/<provider>.json`
+
+`agent install` writes a strict ownership record containing the provider,
+repository ID, repository-relative target, adapter version, and managed-section
+digest. `doctor`, `repair`, and `detach` use it as the ownership authority;
+missing, modified, duplicated, or mismatched records are conflicts. No global
+Agent or MCP configuration is stored here.
+
 ## `.ai/project.json`
 
 `attach` creates an attached profile with `state: "calibration_required"`.
