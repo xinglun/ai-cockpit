@@ -1,0 +1,32 @@
+{
+  "acceptanceCriteria": [
+    "provider assurance requires evidence",
+    "enterprise assurance requires policy references",
+    "RAI-01 remains explicitly not_proven",
+    "RAI-02 through RAI-12 statuses are documented and tested"
+  ],
+  "authority": "authorized",
+  "baseRevision": "d4d21838026eb153fb25ca9ef864a8970fb7cb09",
+  "createdAt": "2026-08-21T20:56:40Z",
+  "goal": "Adversarial acceptance distinguishes proven deterministic controls from review and delegated external identity boundaries.",
+  "intent": "Close the modeled adversarial assurance gap for provider and enterprise authority provenance and publish the explicit RAI-01..12 boundary.",
+  "mode": "implementation",
+  "outOfScope": [
+    "claiming universal prompt-injection or external identity detection"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2105be12be51ecd652ee25f44e3939af3de795b923eea48580014ce4f4121104",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-protocol/**",
+    "crates/cockpit-core/**",
+    "docs/security/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-70-adversarial-assurance"
+}

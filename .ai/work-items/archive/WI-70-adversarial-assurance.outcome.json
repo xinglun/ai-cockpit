@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T20:58:48Z",
+  "evidenceDigest": "sha256:dea319ff8f90c50dc5729cb9ca11d1dbdba1ded51c68a201ca2578a59401c25d",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-70-adversarial-assurance.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-70-adversarial-assurance"
+}

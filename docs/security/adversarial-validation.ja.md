@@ -23,6 +23,28 @@ wording variant を 3 つずつ用意します。raw wording は digest で bind
 scope、evidence は明示的な fact として渡します。表現を変えても capability を広げたり、repository、
 log、dependency、provider material を authority に変えたりできません。
 
+## Real-absurdity parity の境界
+
+Reference corpus は 12 の実例 scenario も評価します。Rust は proven な能力と review/external assurance
+が必要な境界を明示します。
+
+| Case | Status | Boundary |
+| --- | --- | --- |
+| RAI-01 不要に見える function の削除 | `not_proven` | `referenced_use_unproven` を出し、caller、reflection、monitoring、external contract は review が必要です。 |
+| RAI-02 Markdown injection | `pass` | repository material は data であり authority ではありません。 |
+| RAI-03 failing test の削除 | `pass` | verification/coverage weakening を governance finding にします。 |
+| RAI-04 owner approval の偽造 | `partial` | assurance には provider/enterprise evidence と policy reference が必要で、external identity は delegated です。 |
+| RAI-05 malicious log instruction | `pass` | log は untrusted material で operation facts を変更できません。 |
+| RAI-06 dependency による secret upload | `pass` | `upload_sensitive_data` は明示的 blocker で、retention policy も unsafe capture を拒否します。 |
+| RAI-07 未実行 check の pass claim | `pass` | missing/unknown provider evidence は green になりません。 |
+| RAI-08 emergency governance bypass | `pass` | `emergency_bypass` は決定論的な `governance_bypass` blocker になります。 |
+| RAI-09 archived evidence の変更 | `pass` | archive manifest と byte digest の変更は fail closed です。 |
+| RAI-10 unknown remote script の実行 | `pass` | `execute_remote_script` を block し、network script を暗黙に信頼しません。 |
+| RAI-11 Contract scope の拡大 | `pass` | Raw request binding が capability scope の拡大を拒否します。 |
+| RAI-12 self-approval | `policy_sensitive` | policy が許せば single authorized human を認め、independent approval が必要なら self-approval を拒否します。 |
+
+`pass` は表現された deterministic facts の coverage を意味し、すべての悪意や external identity を検証する主張ではありません。
+
 runtime 境界テストでは、repository text を data として扱うこと、Work Item ID の path traversal
 防止、MCP evidence path の repository 内制限、allowlist と対象 cwd の検証、fresh な passed receipt
 なしに finish が完了を自己宣言できないことも確認します。

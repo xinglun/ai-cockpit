@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T20:58:48Z",
+  "files": {
+    "contractDigest": "sha256:f5665ff8581cc877655d0f7cf32d3f9f6dd2a1bfe837fb6f84738d1002ba2bb1",
+    "contractPath": ".ai/work-items/archive/WI-70-adversarial-assurance.contract.json",
+    "outcomeDigest": "sha256:797a7ae6b9928f166c107cd384a6bcc8f97df12b8041e10c3fe0dbc452f98e6f",
+    "outcomePath": ".ai/work-items/archive/WI-70-adversarial-assurance.outcome.json",
+    "summaryDigest": "sha256:db72d4176324428942ea595662cd7f838b9bcd2f798542cd5844b82796d0aadd",
+    "summaryPath": ".ai/work-items/archive/WI-70-adversarial-assurance.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-70-adversarial-assurance"
+}

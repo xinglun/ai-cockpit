@@ -181,6 +181,50 @@ pub struct AuthorityEvidence {
     pub evidence_refs: Vec<String>,
 }
 
+#[derive(Debug, Error, PartialEq, Eq)]
+pub enum AuthorityEvidenceError {
+    #[error("authority actor must be explicit")]
+    MissingActor,
+    #[error("authority source must be explicit")]
+    MissingSource,
+    #[error("provider or enterprise assurance requires evidence references")]
+    MissingEvidence,
+    #[error("enterprise assurance requires policy references")]
+    MissingPolicy,
+    #[error("authority evidence must name at least one operation")]
+    MissingOperation,
+}
+
+/// Validate provenance metadata without treating a self-declared claim as an
+/// externally verified approval. Higher assurance levels add binding
+/// requirements; they do not by themselves authorize an operation.
+pub fn validate_authority_evidence(
+    evidence: &AuthorityEvidence,
+) -> Result<(), AuthorityEvidenceError> {
+    if evidence.actor.trim().is_empty() {
+        return Err(AuthorityEvidenceError::MissingActor);
+    }
+    if evidence.authority_source.trim().is_empty() {
+        return Err(AuthorityEvidenceError::MissingSource);
+    }
+    if evidence.operations.is_empty() {
+        return Err(AuthorityEvidenceError::MissingOperation);
+    }
+    if matches!(
+        evidence.assurance,
+        AssuranceLevel::ProviderVerified | AssuranceLevel::EnterpriseVerified
+    ) && evidence.evidence_refs.is_empty()
+    {
+        return Err(AuthorityEvidenceError::MissingEvidence);
+    }
+    if matches!(evidence.assurance, AssuranceLevel::EnterpriseVerified)
+        && evidence.policy_refs.is_empty()
+    {
+        return Err(AuthorityEvidenceError::MissingPolicy);
+    }
+    Ok(())
+}
+
 /// A structured decision keeps responsibility and recovery conditions visible
 /// without imposing a fixed number of approvers.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
