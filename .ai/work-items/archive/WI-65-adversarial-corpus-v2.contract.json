@@ -1,0 +1,37 @@
+{
+  "acceptanceCriteria": [
+    "Raw request binding records source and operation facts; capability mapping cannot widen scope or authority; adversarial corpus covers 15 semantic cases with English/Japanese/Chinese wording variants; dedicated regression cases cover log injection",
+    " sensitive-data exfiltration",
+    " emergency bypass",
+    " remote script execution",
+    " referenced-function proof",
+    " forged approval and policy self-approval; wording variants produce identical decisions; unknown facts fail closed"
+  ],
+  "authority": "authorized",
+  "baseRevision": "7cb1a5ce0ffb92e720cdd4505c1232ee4cfe79b7",
+  "createdAt": "2026-08-21T19:31:22Z",
+  "goal": "Dangerous wording variants map only through declared operation, risk, authority, scope, and evidence facts; RAI gap cases remain fail-closed and auditable without an intent-scoring model.",
+  "intent": "Close the adversarial validation parity gap with explicit request binding and multilingual wording corpus.",
+  "mode": "implementation",
+  "outOfScope": [
+    "LLM intent classification; provider identity verification implementation; external CI/SIEM integrations; release publication"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0355395e9ac9ba5951982413836941598260e82d15619470cc4ba3e85b6cd735",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-core/**",
+    "crates/cockpit-protocol/**",
+    "tests/conformance/**",
+    "tests/adversarial/**",
+    "docs/security/**",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-65-adversarial-corpus-v2"
+}

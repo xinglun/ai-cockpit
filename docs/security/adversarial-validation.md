@@ -18,6 +18,12 @@ The security boundary is fail-closed and evidence-driven. The conformance
 corpus is semantic rather than string-based: it compares decision state,
 blockers, unknowns, safe actions, required checks, authority, and outcome state.
 
+Corpus v2 adds 15 structured adversarial cases with three English, three
+Japanese, and three Chinese wording variants per case. The raw wording is
+bound by digest, while operation, risk, authority, scope, and evidence are
+declared facts. A wording change cannot widen a capability or turn repository,
+log, dependency, or provider material into authority.
+
 Runtime boundary tests additionally verify that repository text is treated as
 data, Work Item IDs cannot traverse paths, MCP evidence paths stay inside the
 repository, verification commands use an allowlist and target cwd, and finish
@@ -40,3 +46,5 @@ capture failures are not passes.
 
 Any failed or unknown provider result remains non-green. Human authority can
 resolve a decision requirement but cannot manufacture a verification receipt.
+The corpus does not claim to detect every malicious intention; it proves only
+the deterministic boundaries represented by its operation and evidence facts.

@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T19:36:34Z",
+  "files": {
+    "contractDigest": "sha256:73476cdafef520cc05155b31f47c84ffb8b093eaacc12ae2d9920b9a95696c96",
+    "contractPath": ".ai/work-items/archive/WI-65-adversarial-corpus-v2.contract.json",
+    "outcomeDigest": "sha256:616c3e0e4c8fed949a3dc65e781d3fffff5561e0dc4310e1dcf7ebd644249221",
+    "outcomePath": ".ai/work-items/archive/WI-65-adversarial-corpus-v2.outcome.json",
+    "summaryDigest": "sha256:c364133f310c78c906dd6a184b0b9d3c50d9ce2dc3cb0c59e10ca3c41518fe22",
+    "summaryPath": ".ai/work-items/archive/WI-65-adversarial-corpus-v2.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-65-adversarial-corpus-v2"
+}

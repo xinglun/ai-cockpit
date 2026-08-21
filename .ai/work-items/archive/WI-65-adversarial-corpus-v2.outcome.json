@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T19:36:34Z",
+  "evidenceDigest": "sha256:2238578e0c78594dfd79491578979850de315b1af0b5607177d601aaa84b915f",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-65-adversarial-corpus-v2.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-65-adversarial-corpus-v2"
+}
