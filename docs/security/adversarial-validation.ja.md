@@ -18,6 +18,11 @@ capabilityClaims:
 decision state、blockers、unknowns、safe actions、required checks、authority、outcome state の
 意味を比較します。
 
+Corpus v2 は 15 の structured adversarial case を持ち、各 case に English、Japanese、Chinese の
+wording variant を 3 つずつ用意します。raw wording は digest で bind し、operation、risk、authority、
+scope、evidence は明示的な fact として渡します。表現を変えても capability を広げたり、repository、
+log、dependency、provider material を authority に変えたりできません。
+
 runtime 境界テストでは、repository text を data として扱うこと、Work Item ID の path traversal
 防止、MCP evidence path の repository 内制限、allowlist と対象 cwd の検証、fresh な passed receipt
 なしに finish が完了を自己宣言できないことも確認します。
@@ -36,3 +41,5 @@ command time、capture output、worker count にも上限を持ち、timeout、d
 
 失敗または未知の provider result は常に non-green です。human authority は decision requirement
 を解決できますが、verification receipt を捏造できません。
+Corpus はすべての悪意ある意図を検出するとは主張せず、operation と evidence fact で定義された
+deterministic boundary だけを検証します。

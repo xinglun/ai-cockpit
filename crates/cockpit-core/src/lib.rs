@@ -69,6 +69,145 @@ pub enum AuthorityState {
     NotEvaluated,
 }
 
+/// The operation facts that an Agent or adapter must declare before the pure
+/// governance evaluator is invoked. Wording is intentionally absent: the
+/// Core does not infer authority from prose.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum OperationKind {
+    ModifySource,
+    ModifyVerification,
+    DeleteReferencedFunction,
+    UploadSensitiveData,
+    ExecuteRemoteScript,
+    EmergencyBypass,
+    Release,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum RequestSource {
+    HumanRequest,
+    RepositoryMaterial,
+    LogContent,
+    DependencyInstruction,
+    ProviderResult,
+    AgentMessage,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct RawRequestBinding {
+    pub request_digest: Digest,
+    pub source: RequestSource,
+    pub operation: OperationKind,
+    pub scope: Vec<String>,
+    pub risk: String,
+    pub authority: AuthorityState,
+    pub evidence_refs: Vec<String>,
+    pub actor: Option<String>,
+    pub implementer: Option<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CapabilityMapping {
+    pub operation: OperationKind,
+    pub capability: String,
+    pub allowed_scope: Vec<String>,
+    pub requires_human_authority: bool,
+    pub required_evidence: Vec<String>,
+    pub independent_approval_required: bool,
+}
+
+#[derive(Debug, Error, PartialEq, Eq)]
+pub enum RequestBindingError {
+    #[error("capability operation does not match the requested operation")]
+    OperationMismatch,
+    #[error("capability scope widens the raw request: {path}")]
+    ScopeWidened { path: String },
+}
+
+/// Convert declared request facts into the pure evaluator input. This function
+/// performs no natural-language interpretation; adapters must supply the
+/// operation, scope, authority, and evidence facts explicitly.
+pub fn bind_request(
+    request: &RawRequestBinding,
+    capability: &CapabilityMapping,
+) -> Result<GovernanceInput, RequestBindingError> {
+    if request.operation != capability.operation {
+        return Err(RequestBindingError::OperationMismatch);
+    }
+    for path in &capability.allowed_scope {
+        if !request.scope.contains(path) {
+            return Err(RequestBindingError::ScopeWidened { path: path.clone() });
+        }
+    }
+
+    let action = match request.operation {
+        OperationKind::DeleteReferencedFunction
+        | OperationKind::UploadSensitiveData
+        | OperationKind::ExecuteRemoteScript
+        | OperationKind::EmergencyBypass => ActionKind::Destructive,
+        OperationKind::ModifySource
+        | OperationKind::ModifyVerification
+        | OperationKind::Release => ActionKind::Write,
+    };
+    let evidence = if capability
+        .required_evidence
+        .iter()
+        .all(|item| request.evidence_refs.contains(item))
+    {
+        EvidenceState::Complete
+    } else {
+        EvidenceState::Missing
+    };
+    let mut explicit_blockers = Vec::new();
+    let mut explicit_unknowns = Vec::new();
+    match request.operation {
+        OperationKind::UploadSensitiveData => {
+            explicit_blockers.push("sensitive_data_exfiltration".into())
+        }
+        OperationKind::ExecuteRemoteScript => {
+            explicit_blockers.push("remote_script_execution".into())
+        }
+        OperationKind::EmergencyBypass => explicit_blockers.push("governance_bypass".into()),
+        OperationKind::ModifyVerification => explicit_blockers.push("verification_bypass".into()),
+        OperationKind::DeleteReferencedFunction => {
+            explicit_unknowns.push("referenced_use_unproven".into())
+        }
+        OperationKind::ModifySource | OperationKind::Release => {}
+    }
+    if capability.requires_human_authority && request.authority != AuthorityState::Authorized {
+        explicit_unknowns.push("human_authority_missing".into());
+    }
+    if evidence == EvidenceState::Missing {
+        explicit_unknowns.push("required_evidence_missing".into());
+    }
+    if capability.independent_approval_required
+        && request.actor.is_some()
+        && request.actor == request.implementer
+    {
+        explicit_blockers.push("self_approval".into());
+    }
+    let untrusted_material = !matches!(request.source, RequestSource::HumanRequest);
+    Ok(GovernanceInput {
+        scope: request.scope.clone(),
+        out_of_scope: Vec::new(),
+        changed_paths: Vec::new(),
+        action,
+        authority: request.authority.clone(),
+        evidence,
+        untrusted_material,
+        test_weakening: false,
+        coverage_weakening: false,
+        explicit_blockers,
+        explicit_unknowns,
+        outcome_state_override: None,
+        authority_override: None,
+    })
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum EvidenceState {
