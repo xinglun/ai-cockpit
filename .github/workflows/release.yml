@@ -19,6 +19,9 @@ jobs:
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
             archive: tar.gz
+          - os: ubuntu-24.04-arm
+            target: aarch64-unknown-linux-gnu
+            archive: tar.gz
           - os: macos-13
             target: x86_64-apple-darwin
             archive: tar.gz
@@ -46,11 +49,13 @@ jobs:
           mkdir -p dist
           if [[ "${{ matrix.archive }}" == "zip" ]]; then
             cp "target/${{ matrix.target }}/release/ai-cockpit.exe" "dist/ai-cockpit-${{ matrix.target }}.exe"
+            (cd dist && 7z a -tzip "ai-cockpit-${{ matrix.target }}.zip" "ai-cockpit-${{ matrix.target }}.exe")
           else
             cp "target/${{ matrix.target }}/release/ai-cockpit" "dist/ai-cockpit-${{ matrix.target }}"
+            tar -czf "dist/ai-cockpit-${{ matrix.target }}.tar.gz" -C dist "ai-cockpit-${{ matrix.target }}"
           fi
           cargo metadata --locked --format-version 1 > "dist/sbom-${{ matrix.target }}.json"
-          (cd dist && sha256sum * > SHA256SUMS-${{ matrix.target }})
+          (cd dist && shasum -a 256 * > SHA256SUMS-${{ matrix.target }})
       - name: generate SPDX SBOM
         uses: anchore/sbom-action@v0
         with:

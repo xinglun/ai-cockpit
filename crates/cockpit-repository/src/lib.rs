@@ -1,4 +1,4 @@
-use cockpit_core::Digest;
+use cockpit_core::{Digest, EvidenceState};
 use cockpit_git::RepositorySnapshot;
 use cockpit_protocol::QualityCommand;
 use serde::{Deserialize, Serialize};
@@ -97,6 +97,15 @@ pub struct LifecycleReceipt {
     pub work_item_id: String,
     pub state: String,
     pub timestamp: String,
+}
+
+#[derive(Clone, Debug, Default, PartialEq, Eq)]
+pub struct WorkItemStartOptions {
+    pub out_of_scope: Vec<String>,
+    pub risk: String,
+    pub authority: String,
+    pub acceptance_criteria: Vec<String>,
+    pub required_evidence_classes: Vec<String>,
 }
 
 #[derive(Debug, Error)]
@@ -231,6 +240,28 @@ pub fn start_work_item(
     goal: &str,
     scope: &[String],
 ) -> Result<LifecycleReceipt, ObserverError> {
+    start_work_item_with_options(
+        root,
+        work_item_id,
+        intent,
+        goal,
+        scope,
+        &WorkItemStartOptions {
+            risk: "normal".into(),
+            authority: "missing".into(),
+            ..WorkItemStartOptions::default()
+        },
+    )
+}
+
+pub fn start_work_item_with_options(
+    root: &Path,
+    work_item_id: &str,
+    intent: &str,
+    goal: &str,
+    scope: &[String],
+    options: &WorkItemStartOptions,
+) -> Result<LifecycleReceipt, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -265,11 +296,11 @@ pub fn start_work_item(
         "intent": intent,
         "goal": goal,
         "scope": scope,
-        "outOfScope": [],
-        "risk": "normal",
-        "authority": "authorized",
-        "acceptanceCriteria": [],
-        "requiredEvidenceClasses": [],
+        "outOfScope": options.out_of_scope.clone(),
+        "risk": options.risk.clone(),
+        "authority": options.authority.clone(),
+        "acceptanceCriteria": options.acceptance_criteria.clone(),
+        "requiredEvidenceClasses": options.required_evidence_classes.clone(),
         "baseRevision": snapshot.head.unwrap_or_else(|| "unborn".into()),
         "projectProfileDigest": profile_digest,
         "repositorySnapshotDigest": repository_snapshot_digest,
@@ -527,6 +558,51 @@ pub fn contract_freshness_findings(
     Ok(findings)
 }
 
+pub fn evidence_state_for_contract(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+) -> Result<EvidenceState, ObserverError> {
+    if contract.required_evidence_classes.is_empty() {
+        return Ok(EvidenceState::Complete);
+    }
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let evidence_path = root
+        .join(".ai/evidence")
+        .join(format!("{}.verification.json", contract.work_item_id));
+    let evidence = match read_json(&evidence_path) {
+        Ok(value) => value,
+        Err(ObserverError::Read { source, .. })
+            if source.kind() == std::io::ErrorKind::NotFound =>
+        {
+            return Ok(EvidenceState::Missing);
+        }
+        Err(error) => return Err(error),
+    };
+    if evidence["workItemId"] != serde_json::Value::String(contract.work_item_id.clone())
+        || evidence["passed"] != serde_json::Value::Bool(true)
+    {
+        return Ok(EvidenceState::Contradictory);
+    }
+    if evidence["repositorySnapshotDigest"]
+        != serde_json::Value::String(snapshot_digest(snapshot)?.to_string())
+    {
+        return Ok(EvidenceState::Stale);
+    }
+    if contract.required_evidence_classes.iter().any(|class| {
+        !matches!(
+            class.to_ascii_lowercase().as_str(),
+            "verification" | "verification_receipt" | "verification-receipt"
+        )
+    }) {
+        return Ok(EvidenceState::Missing);
+    }
+    Ok(EvidenceState::Complete)
+}
+
 pub fn archive_work_item(
     root: &Path,
     work_item_id: &str,
@@ -603,6 +679,7 @@ pub fn archive_work_item(
         }
         return Err(error);
     }
+    let _ = fs::remove_file(ai.join("knowledge/index.json"));
     Ok(LifecycleReceipt {
         work_item_id: work_item_id.into(),
         state: "archived".into(),
@@ -612,6 +689,24 @@ pub fn archive_work_item(
 
 pub fn close_work_item(root: &Path, work_item_id: &str) -> Result<LifecycleReceipt, ObserverError> {
     validate_work_item_id(work_item_id)?;
+    Err(ObserverError::State {
+        path: root.join(".ai/decisions"),
+        message: "close requires an explicit human decision".into(),
+    })
+}
+
+pub fn close_work_item_with_decision(
+    root: &Path,
+    work_item_id: &str,
+    human_decision: &str,
+) -> Result<LifecycleReceipt, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    if human_decision.trim().is_empty() {
+        return Err(ObserverError::State {
+            path: root.join(".ai/decisions"),
+            message: "human decision must not be empty".into(),
+        });
+    }
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -619,7 +714,18 @@ pub fn close_work_item(root: &Path, work_item_id: &str) -> Result<LifecycleRecei
     let archive = root
         .join(".ai/work-items/archive")
         .join(format!("{work_item_id}.archive.json"));
-    let _: serde_json::Value = read_json(&archive)?;
+    let manifest = read_json(&archive)?;
+    verify_archive_manifest(&root, work_item_id, &manifest)?;
+    let outcome = root
+        .join(".ai/work-items/archive")
+        .join(format!("{work_item_id}.outcome.json"));
+    let outcome_value = read_json(&outcome)?;
+    if outcome_value["verification"]["status"] != "verified" {
+        return Err(ObserverError::State {
+            path: outcome,
+            message: "close requires a verified outcome".into(),
+        });
+    }
     let timestamp = now();
     let receipt = LifecycleReceipt {
         work_item_id: work_item_id.into(),
@@ -630,13 +736,59 @@ pub fn close_work_item(root: &Path, work_item_id: &str) -> Result<LifecycleRecei
         path: root.join(".ai/decisions"),
         message: error.to_string(),
     })?;
-    atomic_json(
-        &root
-            .join(".ai/decisions")
-            .join(format!("{work_item_id}.close.json")),
-        &receipt_value,
-    )?;
+    let decision_path = root
+        .join(".ai/decisions")
+        .join(format!("{work_item_id}.close.json"));
+    if decision_path.exists() {
+        return Err(ObserverError::State {
+            path: decision_path,
+            message: "work item is already closed".into(),
+        });
+    }
+    let mut decision = receipt_value;
+    decision["humanDecision"] = serde_json::Value::String(human_decision.trim().into());
+    decision["decisionState"] = serde_json::Value::String("confirmed".into());
+    atomic_json(&decision_path, &decision)?;
     Ok(receipt)
+}
+
+fn verify_archive_manifest(
+    root: &Path,
+    work_item_id: &str,
+    manifest: &serde_json::Value,
+) -> Result<(), ObserverError> {
+    if manifest["workItemId"] != serde_json::Value::String(work_item_id.into())
+        || manifest["state"] != serde_json::Value::String("archived".into())
+    {
+        return Err(ObserverError::State {
+            path: root
+                .join(".ai/work-items/archive")
+                .join(format!("{work_item_id}.archive.json")),
+            message: "archive manifest identity or state is invalid".into(),
+        });
+    }
+    let archive = root.join(".ai/work-items/archive");
+    for name in ["contract", "summary", "outcome"] {
+        let path = archive.join(format!("{work_item_id}.{name}.json"));
+        let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
+            path: path.clone(),
+            source,
+        })?;
+        let expected = manifest["files"][format!("{name}Digest")]
+            .as_str()
+            .ok_or_else(|| ObserverError::State {
+                path: path.clone(),
+                message: format!("archive manifest is missing {name} digest"),
+            })?;
+        let actual = Digest::sha256_bytes(&bytes).to_string();
+        if actual != expected {
+            return Err(ObserverError::State {
+                path,
+                message: format!("archived {name} digest does not match manifest"),
+            });
+        }
+    }
+    Ok(())
 }
 
 pub fn generate_knowledge(root: &Path) -> Result<cockpit_knowledge::KnowledgeIndex, ObserverError> {
@@ -645,6 +797,15 @@ pub fn generate_knowledge(root: &Path) -> Result<cockpit_knowledge::KnowledgeInd
         source,
     })?;
     let archive = root.join(".ai/work-items/archive");
+    let knowledge = root.join(".ai/knowledge");
+    let index_path = knowledge.join("index.json");
+    if index_path.is_file() {
+        let cached = read_json(&index_path)?;
+        return serde_json::from_value(cached).map_err(|error| ObserverError::State {
+            path: index_path,
+            message: error.to_string(),
+        });
+    }
     let mut records = Vec::new();
     for entry in fs::read_dir(&archive).map_err(|source| ObserverError::Read {
         path: archive.clone(),
@@ -669,7 +830,6 @@ pub fn generate_knowledge(root: &Path) -> Result<cockpit_knowledge::KnowledgeInd
         ));
     }
     let index = cockpit_knowledge::KnowledgeIndex::from_records(records);
-    let knowledge = root.join(".ai/knowledge");
     fs::create_dir_all(&knowledge).map_err(|source| ObserverError::Read {
         path: knowledge.clone(),
         source,

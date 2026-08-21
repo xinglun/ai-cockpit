@@ -1,13 +1,14 @@
 use anyhow::{Context, Result};
-use clap::{Parser, Subcommand};
-use cockpit_core::{ActionKind, AuthorityState, EvidenceState, GovernanceInput, evaluate};
+use clap::{ArgAction, Parser, Subcommand};
+use cockpit_core::{ActionKind, AuthorityState, GovernanceInput, evaluate};
 use cockpit_git::GitRepository;
 use cockpit_knowledge::{Query, query};
 use cockpit_mcp::serve;
 use cockpit_protocol::{Contract, RepositoryConfig};
 use cockpit_repository::{
-    archive_work_item, attach, checkpoint_work_item, close_work_item, contract_freshness_findings,
-    finish_work_item, generate_knowledge, start_work_item, status,
+    WorkItemStartOptions, archive_work_item, attach, checkpoint_work_item,
+    close_work_item_with_decision, contract_freshness_findings, finish_work_item,
+    generate_knowledge, start_work_item_with_options, status,
 };
 use cockpit_verification::{
     VerificationCommand, VerificationGraph, VerificationNode, VerificationNodeKind, execute_bounded,
@@ -57,6 +58,16 @@ enum CommandKind {
         goal: String,
         #[arg(long, value_delimiter = ',')]
         scope: Vec<String>,
+        #[arg(long, value_delimiter = ',')]
+        out_of_scope: Vec<String>,
+        #[arg(long, default_value = "normal")]
+        risk: String,
+        #[arg(long, default_value = "missing")]
+        authority: String,
+        #[arg(long, value_delimiter = ',')]
+        acceptance: Vec<String>,
+        #[arg(long, value_delimiter = ',')]
+        required_evidence: Vec<String>,
     },
     Checkpoint {
         #[arg(long)]
@@ -81,14 +92,16 @@ enum CommandKind {
         repo: PathBuf,
         #[arg(long)]
         id: String,
+        #[arg(long)]
+        human_decision: String,
     },
     Verify {
         #[arg(long)]
         repo: PathBuf,
         #[arg(long)]
         work_item: Option<String>,
-        #[arg(long)]
-        command: Option<String>,
+        #[arg(long, action = ArgAction::Append)]
+        command: Vec<String>,
         #[arg(long, value_delimiter = ',')]
         args: Vec<String>,
         #[arg(long, default_value_t = 2)]
@@ -178,11 +191,9 @@ fn run() -> Result<()> {
                     .context("parse contract")?;
             cockpit_protocol::validate_protocol_version(contract.protocol_version)
                 .context("validate contract protocol")?;
-            let evidence = if contract.required_evidence_classes.is_empty() {
-                EvidenceState::Complete
-            } else {
-                EvidenceState::Missing
-            };
+            let evidence =
+                cockpit_repository::evidence_state_for_contract(&repo, &contract, &snapshot)
+                    .context("evaluate required evidence")?;
             let action = if contract.risk.to_ascii_lowercase().contains("destructive") {
                 ActionKind::Destructive
             } else {
@@ -253,9 +264,27 @@ fn run() -> Result<()> {
             intent,
             goal,
             scope,
+            out_of_scope,
+            risk,
+            authority,
+            acceptance,
+            required_evidence,
         } => {
-            let receipt =
-                start_work_item(&repo, &id, &intent, &goal, &scope).context("start work item")?;
+            let receipt = start_work_item_with_options(
+                &repo,
+                &id,
+                &intent,
+                &goal,
+                &scope,
+                &WorkItemStartOptions {
+                    out_of_scope,
+                    risk,
+                    authority,
+                    acceptance_criteria: acceptance,
+                    required_evidence_classes: required_evidence,
+                },
+            )
+            .context("start work item")?;
             println!("{}", serde_json::to_string_pretty(&receipt)?);
         }
         CommandKind::Checkpoint { repo, id } => {
@@ -270,8 +299,13 @@ fn run() -> Result<()> {
             let receipt = archive_work_item(&repo, &id).context("archive work item")?;
             println!("{}", serde_json::to_string_pretty(&receipt)?);
         }
-        CommandKind::Close { repo, id } => {
-            let receipt = close_work_item(&repo, &id).context("close work item")?;
+        CommandKind::Close {
+            repo,
+            id,
+            human_decision,
+        } => {
+            let receipt = close_work_item_with_decision(&repo, &id, &human_decision)
+                .context("close work item")?;
             println!("{}", serde_json::to_string_pretty(&receipt)?);
         }
         CommandKind::Verify {
@@ -282,12 +316,15 @@ fn run() -> Result<()> {
             workers,
         } => {
             let root = std::fs::canonicalize(&repo).context("canonicalize repository")?;
-            let (program, command_args) = if let Some(command) = command {
+            let (programs, command_args) = if !command.is_empty() {
                 (command, args)
             } else if root.join("Cargo.toml").is_file() {
-                ("cargo".into(), vec!["test".into(), "--workspace".into()])
+                (
+                    vec!["cargo".into()],
+                    vec!["test".into(), "--workspace".into()],
+                )
             } else if root.join("package.json").is_file() {
-                ("npm".into(), vec!["test".into()])
+                (vec!["npm".into()], vec!["test".into()])
             } else {
                 anyhow::bail!("no verified project command detected; provide --command")
             };
@@ -296,20 +333,29 @@ fn run() -> Result<()> {
                 .snapshot()
                 .context("snapshot repository for verification")?;
             let mut graph = VerificationGraph::default();
-            graph
-                .add(VerificationNode::new(
-                    "project-command",
-                    VerificationNodeKind::Protected,
-                    vec![],
-                ))
-                .context("build verification graph")?;
+            let mut programs_by_id = std::collections::BTreeMap::new();
+            for (index, program) in programs.iter().enumerate() {
+                let id = format!("project-command-{index}");
+                graph
+                    .add(VerificationNode::new(
+                        &id,
+                        VerificationNodeKind::Protected,
+                        vec![],
+                    ))
+                    .context("build verification graph")?;
+                programs_by_id.insert(id, program.clone());
+            }
             let plan = graph.plan().context("plan verification graph")?;
             let commands = plan
                 .into_iter()
                 .map(|id| {
-                    VerificationCommand::new(&id, &program, command_args.clone())
-                        .with_protected(true)
-                        .with_current_dir(&root)
+                    VerificationCommand::new(
+                        &id,
+                        programs_by_id.get(&id).expect("planned program"),
+                        command_args.clone(),
+                    )
+                    .with_protected(true)
+                    .with_current_dir(&root)
                 })
                 .collect();
             let mut receipt = execute_bounded(commands, workers).context("execute verification")?;

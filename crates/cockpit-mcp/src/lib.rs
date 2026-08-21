@@ -44,11 +44,11 @@ pub fn handle_request(request: &Value) -> Value {
                 .and_then(Value::as_str)
                 .unwrap_or("");
             if TOOL_NAMES.contains(&name) {
-                json!({
-                    "jsonrpc": "2.0",
-                    "id": id,
-                    "result": {"content": [{"type": "text", "text": format!("tool {name} requires repository application service binding")}], "isError": false}
-                })
+                error_response(
+                    id,
+                    -32001,
+                    &format!("tool {name} requires an explicit repository binding"),
+                )
             } else {
                 error_response(id, -32602, "unknown tool")
             }
@@ -136,11 +136,8 @@ fn preflight_for_repo(repo: &Path, arguments: &Value) -> Result<Value, String> {
         } else {
             cockpit_core::AuthorityState::Missing
         },
-        evidence: if contract.required_evidence_classes.is_empty() {
-            cockpit_core::EvidenceState::Complete
-        } else {
-            cockpit_core::EvidenceState::Missing
-        },
+        evidence: cockpit_repository::evidence_state_for_contract(repo, &contract, &snapshot)
+            .map_err(|error| error.to_string())?,
         untrusted_material: false,
         test_weakening: false,
         coverage_weakening: false,

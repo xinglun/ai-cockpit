@@ -49,6 +49,8 @@ pub struct QualityCommand {
 pub struct Contract {
     pub protocol_version: u32,
     pub repository_id: String,
+    #[serde(default)]
+    pub work_item_id: String,
     pub intent: String,
     pub goal: String,
     pub scope: Vec<String>,

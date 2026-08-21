@@ -50,3 +50,67 @@ fn preflight_reports_yellow_when_required_evidence_is_missing() {
     assert_eq!(json["unknowns"][0], "required_evidence_missing");
     fs::remove_dir_all(directory).expect("cleanup");
 }
+
+#[test]
+fn preflight_turns_green_after_matching_verification_evidence() {
+    let suffix = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("clock")
+        .as_nanos();
+    let directory = std::env::temp_dir().join(format!("cockpit-preflight-green-{suffix}"));
+    fs::create_dir_all(&directory).expect("directory");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(&directory)
+        .status()
+        .expect("git init");
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let attach = Command::new(binary)
+        .args(["attach", "--repo"])
+        .arg(&directory)
+        .output()
+        .expect("attach");
+    assert!(attach.status.success());
+    let start = Command::new(binary)
+        .args(["start", "--repo"])
+        .arg(&directory)
+        .args([
+            "--id",
+            "WI-PREFLIGHT",
+            "--intent",
+            "verify",
+            "--goal",
+            "green after evidence",
+            "--scope",
+            "**",
+            "--required-evidence",
+            "verification",
+        ])
+        .output()
+        .expect("start");
+    assert!(
+        start.status.success(),
+        "stderr: {}",
+        String::from_utf8_lossy(&start.stderr)
+    );
+    let verify = Command::new(binary)
+        .args(["verify", "--repo"])
+        .arg(&directory)
+        .args(["--work-item", "WI-PREFLIGHT", "--command", "true"])
+        .output()
+        .expect("verify");
+    assert!(verify.status.success());
+    let contract = directory.join(".ai/work-items/active/WI-PREFLIGHT.contract.json");
+    let output = Command::new(binary)
+        .args(["preflight", "--repo"])
+        .arg(&directory)
+        .args(["--contract"])
+        .arg(contract)
+        .output()
+        .expect("preflight");
+    assert!(output.status.success());
+    let json: serde_json::Value = serde_json::from_slice(&output.stdout).expect("JSON");
+    assert_eq!(json["state"], "green");
+    assert!(json["unknowns"].as_array().expect("unknowns").is_empty());
+    fs::remove_dir_all(directory).expect("cleanup");
+}

@@ -45,6 +45,15 @@ fn mcp_unknown_method_returns_json_rpc_error() {
 }
 
 #[test]
+fn unbound_tool_call_fails_closed_instead_of_returning_success() {
+    let response = handle_request(&serde_json::json!({
+        "jsonrpc":"2.0","id":5,"method":"tools/call",
+        "params":{"name":"status","arguments":{}}
+    }));
+    assert_eq!(response["error"]["code"], -32001);
+}
+
+#[test]
 fn repository_bound_status_tool_returns_protocol_state() {
     let suffix = SystemTime::now()
         .duration_since(UNIX_EPOCH)

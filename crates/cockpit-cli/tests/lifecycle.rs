@@ -77,6 +77,11 @@ fn work_item_lifecycle_is_atomic_and_archive_is_content_bound() {
         repo.join(".ai/work-items/active/WI-TEST.summary.json")
             .is_file()
     );
+    let contract: serde_json::Value = serde_json::from_slice(
+        &fs::read(repo.join(".ai/work-items/active/WI-TEST.contract.json")).expect("contract"),
+    )
+    .expect("contract JSON");
+    assert_eq!(contract["authority"], "missing");
     run(binary, &["checkpoint", "--id", "WI-TEST"], &repo);
     run(
         binary,
@@ -98,7 +103,24 @@ fn work_item_lifecycle_is_atomic_and_archive_is_content_bound() {
         repo.join(".ai/work-items/archive/WI-TEST.archive.json")
             .is_file()
     );
-    run(binary, &["close", "--id", "WI-TEST"], &repo);
+    run(
+        binary,
+        &[
+            "close",
+            "--id",
+            "WI-TEST",
+            "--human-decision",
+            "approved-by-test",
+        ],
+        &repo,
+    );
+    let duplicate_close = Command::new(binary)
+        .args(["close", "--repo"])
+        .arg(&repo)
+        .args(["--id", "WI-TEST", "--human-decision", "second-decision"])
+        .output()
+        .expect("duplicate close");
+    assert!(!duplicate_close.status.success());
     let status = run(binary, &["status"], &repo);
     assert_eq!(status["archivedWorkItems"], 1);
     fs::remove_dir_all(repo).expect("cleanup");
