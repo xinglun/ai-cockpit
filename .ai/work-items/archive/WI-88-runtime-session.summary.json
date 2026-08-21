@@ -1,0 +1,24 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-86-resource-aware-scheduler.close.json",
+    ".ai/decisions/WI-87-single-flight-execution.close.json",
+    ".ai/evidence/WI-86-resource-aware-scheduler.verification.json",
+    ".ai/evidence/WI-87-single-flight-execution.verification.json",
+    ".ai/work-items/archive/WI-86-resource-aware-scheduler.archive.json",
+    ".ai/work-items/archive/WI-86-resource-aware-scheduler.contract.json",
+    ".ai/work-items/archive/WI-86-resource-aware-scheduler.outcome.json",
+    ".ai/work-items/archive/WI-86-resource-aware-scheduler.summary.json",
+    ".ai/work-items/archive/WI-87-single-flight-execution.archive.json",
+    ".ai/work-items/archive/WI-87-single-flight-execution.contract.json",
+    ".ai/work-items/archive/WI-87-single-flight-execution.outcome.json",
+    ".ai/work-items/archive/WI-87-single-flight-execution.summary.json"
+  ],
+  "checkpointCount": 1,
+  "createdAt": "2026-08-21T23:08:26Z",
+  "mode": "implementation",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-21T23:08:36Z",
+  "workItemId": "WI-88-runtime-session"
+}

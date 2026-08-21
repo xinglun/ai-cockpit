@@ -1,0 +1,19 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved after source-digest cache invalidation tests",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "codex",
+    "authoritySource": "user-authorized-work-item",
+    "decidedAt": "2026-08-21T23:09:05Z",
+    "decision": "approved after source-digest cache invalidation tests",
+    "evidenceRefs": [
+      ".ai/evidence/WI-89-knowledge-index-cache.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "Focused knowledge cache evidence passed.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-08-21T23:08:56Z",
+  "workItemId": "WI-89-knowledge-index-cache"
+}

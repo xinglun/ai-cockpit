@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T23:08:19Z",
+  "files": {
+    "contractDigest": "sha256:5ecd44bd827280dfbd908b699f2a700695cf35ca2d81ef48aa1b52baace3e6c6",
+    "contractPath": ".ai/work-items/archive/WI-87-single-flight-execution.contract.json",
+    "outcomeDigest": "sha256:8827d078ada9b9ce1c398e3d78d10da9e04c0242ab9f7195f4893f4010eb02cb",
+    "outcomePath": ".ai/work-items/archive/WI-87-single-flight-execution.outcome.json",
+    "summaryDigest": "sha256:81c6087554d060405a48c323edf63e36f9277a3dc9fc384bb53e8099fe78a472",
+    "summaryPath": ".ai/work-items/archive/WI-87-single-flight-execution.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-87-single-flight-execution"
+}

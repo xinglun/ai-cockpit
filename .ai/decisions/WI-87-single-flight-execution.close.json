@@ -1,0 +1,19 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved after concurrent identity-bound single-flight tests",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "codex",
+    "authoritySource": "user-authorized-work-item",
+    "decidedAt": "2026-08-21T23:08:30Z",
+    "decision": "approved after concurrent identity-bound single-flight tests",
+    "evidenceRefs": [
+      ".ai/evidence/WI-87-single-flight-execution.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "Focused concurrent execution evidence passed.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-08-21T23:08:19Z",
+  "workItemId": "WI-87-single-flight-execution"
+}

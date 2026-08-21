@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T23:08:56Z",
+  "evidenceDigest": "sha256:8a98e7955b027996d8b499d8e4e5d72f9b530819bee321a38f1f568540e99a2d",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-89-knowledge-index-cache.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-89-knowledge-index-cache"
+}

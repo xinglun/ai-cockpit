@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T23:08:36Z",
+  "evidenceDigest": "sha256:e1639da46e93cd745a0593a8baf0e4d3622c31ff280d8d5de0cb5d1bd225013b",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-88-runtime-session.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-88-runtime-session"
+}

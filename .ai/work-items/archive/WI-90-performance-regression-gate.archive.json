@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T23:09:14Z",
+  "files": {
+    "contractDigest": "sha256:8689cbe72e3962a711707f779f02b52b328c62c665d960c8fe8797043cc4f814",
+    "contractPath": ".ai/work-items/archive/WI-90-performance-regression-gate.contract.json",
+    "outcomeDigest": "sha256:383b9a79e4114a8d6e96eed31b7eb302af3832133e789720251fa0243d21eb4c",
+    "outcomePath": ".ai/work-items/archive/WI-90-performance-regression-gate.outcome.json",
+    "summaryDigest": "sha256:ed58ebc6068311bdcbfaaeb817661b452767f52176de5dc24a585a0bcffb754b",
+    "summaryPath": ".ai/work-items/archive/WI-90-performance-regression-gate.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-90-performance-regression-gate"
+}

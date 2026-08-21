@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T23:08:56Z",
+  "files": {
+    "contractDigest": "sha256:f89101a13a43b5f3d54541a78e29b360047fcd9296feff670787ce0093760762",
+    "contractPath": ".ai/work-items/archive/WI-89-knowledge-index-cache.contract.json",
+    "outcomeDigest": "sha256:f2614e8973266c06f7034cf2f599b02b8034d0ca2ea5f557c92f9181e1cce81f",
+    "outcomePath": ".ai/work-items/archive/WI-89-knowledge-index-cache.outcome.json",
+    "summaryDigest": "sha256:edc3205e3a53d2d7bd6ae4dc53fe8aa13d420f8a64d687b2e79e86a61c141634",
+    "summaryPath": ".ai/work-items/archive/WI-89-knowledge-index-cache.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-89-knowledge-index-cache"
+}

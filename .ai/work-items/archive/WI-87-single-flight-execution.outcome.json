@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T23:08:19Z",
+  "evidenceDigest": "sha256:f4732fe1ff76eddba3d11154a283bdd765dce515f37a6b918fbe2dbd45aebb74",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-87-single-flight-execution.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-87-single-flight-execution"
+}

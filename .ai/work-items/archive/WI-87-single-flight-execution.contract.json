@@ -1,0 +1,38 @@
+{
+  "acceptanceCriteria": [
+    "Concurrent identical identity requests execute once; unbound or mismatched identity does not coalesce and all results retain ordinary evidence semantics."
+  ],
+  "authority": "authorized",
+  "baseRevision": "f5bbb66ef197ec37287ee05ee81a9922aa758a02",
+  "createdAt": "2026-08-21T23:08:06Z",
+  "goal": "Avoid duplicate process execution only when full repository, Work Item, command, and Runtime identity matches",
+  "intent": "Coalesce concurrent identical Work Item verification requests",
+  "mode": "implementation",
+  "outOfScope": [
+    "release workflow",
+    "migration protocol"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:87a23e4dceede9acd7ce8b684547325818266dd68ccfcf5b025205711c26a3fe",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-verification/**",
+    "crates/cockpit-repository/**",
+    "crates/cockpit-git/**",
+    "crates/cockpit-knowledge/**",
+    "tests/performance/**",
+    "docs/performance/**",
+    "docs/work-items/**",
+    "Cargo.lock",
+    ".ai/work-items/**",
+    ".ai/evidence/**",
+    ".ai/decisions/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-87-single-flight-execution"
+}
