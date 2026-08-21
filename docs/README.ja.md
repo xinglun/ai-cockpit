@@ -51,6 +51,11 @@ machine-facing contract を定義する technical reference に進んでくだ�
 - [実測パフォーマンスベースライン](performance/baseline.ja.md)
 - [敵対的検証](security/adversarial-validation.ja.md)
 - [Reference](reference/README.ja.md) — command、configuration、recovery。
+- [人間向け Outcome](reference/outcome-report.ja.md) — 読みやすい結果、証拠、リスク、次の action。
+- [最終置換 acceptance](reference/final-replacement-acceptance.ja.md) — conformance とコピーなしの release boundary。
+- [Enterprise governance](security/enterprise-governance.ja.md) — policy layer、delegated evidence、retention、audit export。
+- [Security と threat model](security/threat-model.ja.md) — deployment boundary と security assumption。
+- [Vulnerability reporting](security/vulnerability-reporting.ja.md) — supported version と private report route。
 
 ## Maintainer と audit の route
 

@@ -218,6 +218,8 @@ Work Item を残し、evidence を修復します。record を削除して状態
 `finish`、`archive`、`close` の JSON 結果には、bound された `outcome` object が必ず含まれます。
 Agent はこの Outcome を独立した会話メッセージとして明示してください。ファイルにだけ保存された結果や、
 折りたたまれた結果は delivery confirmation ではありません。
+`work-item outcome` は既定で localize された人間向け handoff を表示し、Agent や script が安定した object を
+必要とする場合は `--json` を指定します。[人間向け Outcome](reference/outcome-report.ja.md) を参照してください。
 
 ### Verification と reuse
 

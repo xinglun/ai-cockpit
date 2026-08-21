@@ -121,8 +121,7 @@ Release archive / Homebrew / Cargo Git
        目标 repository + `.ai/` scaffold + discovery manifest
 ```
 
-`cockpit.toml` 仍然是 repository 配置格式，并存放在 `.ai/` 下。安装后的 runtime 不会被复制进目标 repository；
-当前 development checkout 也会有意保持没有 `.ai`。
+`cockpit.toml` 仍然是 repository 配置格式，并存放在 `.ai/` 下。安装后的 runtime 不会被复制进目标 repository。
 
 完整的 release 与 Homebrew 信任路径见
 [发布分发架构](architecture/release-distribution.zh-CN.md)。

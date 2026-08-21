@@ -130,9 +130,7 @@ Release archive / Homebrew / Cargo Git
 ```
 
 `cockpit.toml` remains the repository configuration format and is stored under
-`.ai/`. The installed
-runtime is not copied into the target repository, and this development checkout
-intentionally remains without `.ai`.
+`.ai/`. The installed runtime is not copied into the target repository.
 
 The full release and Homebrew trust path is documented in
 [Release distribution architecture](architecture/release-distribution.md).

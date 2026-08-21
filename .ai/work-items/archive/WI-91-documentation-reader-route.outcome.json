@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T23:38:06Z",
+  "evidenceDigest": "sha256:b777531e44db34a342882b4c51ac67526e8a693ba012cf2b2c374b8cb5315443",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-91-documentation-reader-route.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-91-documentation-reader-route"
+}

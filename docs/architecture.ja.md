@@ -124,8 +124,8 @@ Release archive / Homebrew / Cargo Git
        対象 repository + `.ai/` scaffold + discovery manifest
 ```
 
-`cockpit.toml` は repository configuration format のままで `.ai/` 配下に置かれます。installed runtime を対象 repository
-へ copy せず、この development checkout も意図的に `.ai` を持ちません。
+`cockpit.toml` は repository configuration format のままで `.ai/` 配下に置かれます。installed runtime は対象 repository
+へ copy しません。
 
 release と Homebrew の trust path は
 [Release distribution architecture](architecture/release-distribution.ja.md) を参照してください。

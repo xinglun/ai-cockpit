@@ -216,6 +216,8 @@ receipt；`close` 要求 archive manifest 和 human decision。检查失败时�
 
 `finish`、`archive` 和 `close` 的 JSON 结果都会包含绑定的 `outcome` 对象。Agent 必须将该
 Outcome 作为独立的对话消息显式呈现；仅写入文件或被折叠的结果不能视为交付确认。
+`work-item outcome` 默认输出本地化的面向人交接结果；Agent 或脚本需要稳定对象时使用
+`--json`。详见[面向人的 Outcome](reference/outcome-report.zh-CN.md)。
 
 ### Verification 和 reuse
 

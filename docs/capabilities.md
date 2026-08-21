@@ -235,6 +235,9 @@ and repair the missing evidence; do not delete its records.
 `finish`, `archive`, and `close` each emit the bound `outcome` object in their
 JSON result. Agents must surface that Outcome as an explicit conversation
 message; a file-only or collapsed result is not a delivery confirmation.
+For a readable handoff, `work-item outcome` renders the localized human report
+by default; use `--json` when an Agent or script needs the stable object. See
+[Human-facing Outcome](reference/outcome-report.md).
 
 ### Verify commands and understand reuse
 

@@ -1,0 +1,21 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "accepted",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "repository-owner",
+    "authoritySource": "user-authorized-release-work",
+    "decidedAt": "2026-08-21T23:40:00Z",
+    "decision": "accepted",
+    "evidenceRefs": [
+      ".ai/evidence/WI-91-documentation-reader-route.verification.json"
+    ],
+    "policyRefs": [
+      "WI-91-documentation-reader-route"
+    ],
+    "reason": "Reader-first documentation, language links, internal-history cleanup, and documentation acceptance checks passed.",
+    "resumeCondition": "Reopen if link, metadata, or reader-route checks regress."
+  },
+  "timestamp": "2026-08-21T23:38:06Z",
+  "workItemId": "WI-91-documentation-reader-route"
+}

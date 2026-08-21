@@ -7,19 +7,15 @@ audience:
   - maintainer
 status: current
 authority: canonical
-lastVerifiedBy: wi-41-reference-parity
+lastVerifiedBy: documentation-acceptance
 capabilityClaims:
   - reference_parity
 ---
 
 # 参考源对齐
 
-本页记录 `xinglun/ai-cockpit` 与参考源
-`spirex-ds-dev/ai-cockpit-template` 的比较。本次参考快照为
-`e5acb67`，Rust runtime 基线为 `031f67d`。
-
-这是边界审计，不是复制参考实现。Rust 项目是独立的 V2 runtime，不安装 V1
-Python 模块、Makefile helper 或 V1 repository state。
+本页记录 Rust runtime 与参考 AI Cockpit 产品的功能边界比较，供采用者和审查者
+理解当前能力；实现历史不属于读者路线。
 
 ## 对齐矩阵
 
@@ -33,11 +29,10 @@ Python 模块、Makefile helper 或 V1 repository state。
 | Work Item 生命周期和治理决定 | 已实现 | Contract、preflight、verification evidence、archive、close 和 human decision records。 |
 | 有界验证与 fail-closed evidence reuse | 已实现 | Runtime identity、snapshot/toolchain/environment binding、receipt store 和 workspace verification suite。 |
 | MCP repository binding | 已实现 | repository-bound stdio MCP service 与 CLI/MCP parity tests。 |
-| 公开 Release 与新 adopter 验收 | 已实现 | WI-40 harness、公开 Release 证据和发布后 CI job。 |
+| 公开 Release 与新 adopter 验收 | 已实现 | 已提供公开 binary harness、Release 证据和发布后 CI job。 |
 | Runtime-only upgrade 与 repository migration | 已实现 | `compatibility`、`migrate plan` 和批准后的 `migrate apply` 保留历史 evidence 并绑定 Runtime identity。 |
-| N-1 旧 adopter 升级验收 | 已实现 | WI-44 公开 artifact harness 覆盖旧 schema、批准门控、历史保持与继续运行。 |
+| N-1 旧 adopter 升级验收 | 已提供公开 artifact harness | harness 覆盖旧 schema 检测、批准门控、历史保持与继续运行；每个 Release 是否自动启用该门禁必须由 workflow 明确声明。 |
 | 参考 installer、Makefile 和 V1 helper scripts | 有意不复制 | Rust 项目分发 Rust binary，并把安装/provider 配置与 repository state 分离。 |
-| 参考源历史 Work Item 和内部进度计划 | 不是产品能力 | WI-42 会从读者入口移除内部历史；归档证据仍在 Git 中可审计。 |
 
 ## 已完成内容
 
@@ -51,5 +46,5 @@ project/profile records 在适用位置由 Rust Protocol files 表达；不把
 
 ## 当前边界
 
-Reader 路线、Runtime migration 边界和 N-1 release 验收已经实现并写入文档。后续变化必须
+Reader 路线、Runtime migration 边界和公开 artifact 验收 harness 已经实现并写入文档。后续变化必须
 保持共享 Runtime 升级、显式 repository migration 与 repository-local evidence 的分离。

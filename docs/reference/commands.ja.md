@@ -14,8 +14,8 @@ capabilityClaims:
 
 # Command reference
 
-すべての repository command は明示的な `--repo <path>` を受け取ります。record や decision を出す command は JSON を出力しますが、
-`work-item new` は JSON record の前に短い human-readable summary も表示します。failed/unknown は pass ではありません。
+すべての repository command は明示的な `--repo <path>` を受け取ります。record や decision を出す command は通常 JSON ですが、
+`work-item outcome` は既定で localize された人間向け handoff を表示します。機械処理には `--json` を指定します。failed/unknown は pass ではありません。
 
 | Group | Commands | Boundary |
 | --- | --- | --- |
@@ -38,6 +38,8 @@ capabilityClaims:
 - `start` は `--id`、`--intent`、`--goal` が必須です。green governed flow には `--authority authorized` が必要です。
 - `work-item new --repo <path> --id <id> --mode <mode>` は `not_ready` skeleton を作ります。snapshot-derived facts だけを埋め、
   human field は空または `unknown` のままです。移行期の `start` も同じ writer を使います。
+- `work-item outcome --repo <path> --id <id>` は完了内容、問題、停止、リスク、不明点、判断、検証、影響、次の action の順で人間向け結果を表示します。
+  automation には `--json` を使います。status marker と言語規則は[人間向け Outcome](outcome-report.ja.md)を参照してください。
 - `profile propose --repo <path>` は read-only の `candidate`/`proposed` amendment を出力し、profile baseline を適用しません。
 - `agent list --repo <path>` は read-only です。`agent install` だけが通常の adapter write entry point で、
   `--provider` が必要です（`auto` は安全な surface が 1 つだけの場合に限り、`AGENTS.md` では Codex を選びます）。`agent doctor --repo <path> --json`
@@ -82,3 +84,6 @@ capabilityClaims:
 `tests/release/adopter_acceptance.sh` は maintainer 向けの post-release harness であり、Runtime command ではありません。
 public Release binary を download して pin し、isolated directory で adopter lifecycle を実行し、`acceptance.json` と `SHA256SUMS` を生成します。
 workspace build や local target binary で代用してはならず、acceptance failure が公開済み Release truth を変更することもありません。
+
+`tests/conformance/final_replacement_acceptance.sh` は source repository の最終置換 boundary です。installed Runtime identity、固定した
+reference oracle、conformance/adversarial/performance gate、コピーなし検査を記録し、`acceptance.json` と `SHA256SUMS` を生成します。

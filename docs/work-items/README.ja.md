@@ -7,7 +7,7 @@ audience:
   - maintainer
 status: current
 authority: canonical
-lastVerifiedBy: wi-42-documentation-governance
+lastVerifiedBy: documentation-acceptance
 capabilityClaims:
   - work_item_lifecycle
 ---
