@@ -60,7 +60,7 @@ version 增加，并把选定质量命令记录为 verified。wrapper 包含 `pr
     "rules": [{
       "operation": "release",
       "approvalMode": "single_authorized_human",
-      "requiredEvidence": ["hosted_ci"]
+      "requiredEvidence": ["delegated:github"]
     }]
   }
 }
@@ -69,6 +69,10 @@ version 增加，并把选定质量命令记录为 verified。wrapper 包含 `pr
 project 层可以增加要求，但不能弱化 organization 层。Work Item contract 可以
 携带 `layer: "work_item"` 的 `governancePolicy`；所有策略对象都会拒绝未知字段。
 `attach` 不会生成此文件，因为策略是治理决定，不是脚手架。
+
+外部证明通过 `evidence import` 单独导入；metadata JSON 必须是严格的
+`DelegatedEvidence` 对象，raw 文件按 bytes 计算 digest。使用 `evidence list`（或 MCP
+`delegated_evidence_list`）查看已绑定的 receipt。
 
 ## Work Item 记录
 

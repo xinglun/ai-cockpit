@@ -62,7 +62,7 @@ Enterprise adopter は TOML の設定形式を変更せず、strict な policy d
     "rules": [{
       "operation": "release",
       "approvalMode": "single_authorized_human",
-      "requiredEvidence": ["hosted_ci"]
+      "requiredEvidence": ["delegated:github"]
     }]
   }
 }
@@ -72,6 +72,10 @@ Project layer は要求を追加できますが、organization layer を弱化�
 Work Item contract には `layer: "work_item"` の `governancePolicy` を含められます。
 すべての policy object は unknown field を拒否します。`attach` は policy を生成
 しません。Policy は governance decision であり scaffold ではないためです。
+
+External proof は `evidence import` で別途取り込みます。Metadata JSON は strict な
+`DelegatedEvidence` object、raw file は bytes 単位で digest 化されます。`evidence list`
+（または MCP `delegated_evidence_list`）で bind 済み receipt を確認できます。
 
 ## Work Item record
 

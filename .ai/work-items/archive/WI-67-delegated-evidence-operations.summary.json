@@ -1,0 +1,11 @@
+{
+  "changedPaths": [],
+  "checkpointCount": 0,
+  "createdAt": "2026-08-21T20:13:41Z",
+  "mode": "implementation",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-21T20:29:30Z",
+  "workItemId": "WI-67-delegated-evidence-operations"
+}

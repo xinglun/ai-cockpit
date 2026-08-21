@@ -54,6 +54,15 @@ subject、origin、assurance、収集時刻、digest、validity、raw evidence r
 AI Cockpit は require、validate、display、archive できますが、provider signature、branch protection、
 SBOM、provenance、enterprise approval を生成したとは主張しません。
 
+`ai-cockpit evidence import --repo <repo> --work-item <id> --metadata
+<metadata.json> --raw <provider-output>` で provider metadata を raw bytes の
+digest に bind します。Raw reference は `.ai/evidence/external/` 配下に限定されます。
+同一 bytes の再 import は idempotent ですが、receipt の衝突、path escape、symlink、
+unknown field、repository/Work Item mismatch は fail closed です。`ai-cockpit evidence
+list` と repository-bound MCP の `delegated_evidence_list` は再検証済み receipt だけを
+表示します。Expired、revoked、unknown receipt は監査用に残せますが、
+`delegated:<provider>` evidence requirement は満たしません。
+
 Audit event は安定した event ID、repository/Work Item identity、Runtime identity、時刻、digest、
 evidence reference を持ちます。Local Git と `.ai/` を独立した immutable enterprise audit log とは
 主張しません。高い assurance が必要なら SIEM、WORM、S3 Object Lock、enterprise audit system、

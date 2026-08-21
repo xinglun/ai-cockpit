@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T20:29:32Z",
+  "files": {
+    "contractDigest": "sha256:3b21d368a906d2343e59c1097ec07d8d0ee3b74a7d47eae8caf5a8e927086331",
+    "contractPath": ".ai/work-items/archive/WI-67-delegated-evidence-operations.contract.json",
+    "outcomeDigest": "sha256:0a7e494d52dedf9143aba9c68b4758d77ccc7fa1465dec4f6923e6d9de5cb471",
+    "outcomePath": ".ai/work-items/archive/WI-67-delegated-evidence-operations.outcome.json",
+    "summaryDigest": "sha256:4aca0813b1c6f1f837f38b874e91f2e9b00dd6869cec18f38210359d311cdda5",
+    "summaryPath": ".ai/work-items/archive/WI-67-delegated-evidence-operations.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-67-delegated-evidence-operations"
+}

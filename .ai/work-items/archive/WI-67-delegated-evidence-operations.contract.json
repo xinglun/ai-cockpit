@@ -1,0 +1,37 @@
+{
+  "acceptanceCriteria": [
+    "External evidence import rejects unknown or mismatched provider/subject/digest/validity; valid receipts are bound to repository and Work Item",
+    " visible through CLI/MCP",
+    " archived immutably",
+    " and required policy evidence can reference only valid delegated receipts."
+  ],
+  "authority": "authorized",
+  "baseRevision": "e3a243eb933affbb1c6126555ecdce6f035bd41f",
+  "createdAt": "2026-08-21T20:13:41Z",
+  "goal": "A strict delegated evidence receipt is source-bound, digest-bound, validity-aware, Work Item-bound, and visible to governance decisions.",
+  "intent": "Import, validate, bind, display, and archive externally produced evidence without manufacturing provider assurance.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Provider API clients",
+    "Identity provider implementation",
+    "SIEM/WORM export"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:bcc285c26239818268513f58cac6991323221173f915d648aebfaec23efacb3f",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-protocol/**",
+    "crates/cockpit-repository/**",
+    "crates/cockpit-cli/**",
+    "crates/cockpit-mcp/**",
+    "docs/**",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-67-delegated-evidence-operations"
+}
