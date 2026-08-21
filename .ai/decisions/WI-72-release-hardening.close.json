@@ -1,0 +1,7 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved: release-blocking adversarial corpus parity and enterprise boundary checks are complete; publish only after final quality gates pass",
+  "state": "closed",
+  "timestamp": "2026-08-21T21:19:27Z",
+  "workItemId": "WI-72-release-hardening"
+}

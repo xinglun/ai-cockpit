@@ -17,9 +17,15 @@ capabilityClaims:
 安全边界采用 fail-closed 和证据驱动原则。conformance corpus 比较语义而不是字符串：
 决策状态、阻断项、未知项、安全动作、必需检查、权限和结果状态必须一致。
 
-Corpus v2 增加 15 个结构化荒诞案例，每个案例包含英文、日文、中文各 3 个 wording variant。
+Corpus v2 增加 15 个结构化荒诞案例，每个案例包含英文、日文、中文各 5 个 wording variant。
 原始 wording 通过 digest 绑定，而 operation、risk、authority、scope 和 evidence 必须作为事实显式
-提供。换一种措辞不能扩大 capability，也不能把仓库、日志、依赖或 provider material 变成权限来源。
+提供。集成测试会比较所有 variant 的治理输出是否完全一致，因此换一种措辞不能扩大 capability，也不能
+把仓库、日志、依赖或 provider material 变成权限来源。
+
+Manifest 还把 RAI-01 到 RAI-12 的命名案例绑定到明确状态（`pass`、`partial`、`not_proven` 或
+`policy_sensitive`）和预期的确定性 finding。这样未解决的参考边界会保持可见：例如 RAI-01 因为不能从
+删除请求推导 callers、reflection、monitoring 和外部 contract，仍是 `not_proven`；RAI-04 因为 provider
+身份属于委托边界，仍是 `partial`。
 
 ## 真实荒诞案例的对齐边界
 

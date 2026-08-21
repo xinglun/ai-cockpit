@@ -11,6 +11,7 @@ struct Corpus {
     schema_version: u32,
     semantic_cases: Vec<CorpusCase>,
     wording_variants: WordingVariants,
+    real_absurdity_cases: Vec<RealAbsurdityCase>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -33,6 +34,20 @@ struct WordingVariants {
     en: Vec<String>,
     ja: Vec<String>,
     zh: Vec<String>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct RealAbsurdityCase {
+    id: String,
+    status: String,
+    operation: OperationKind,
+    source: RequestSource,
+    expected: Vec<String>,
+    #[serde(default)]
+    widen_scope: bool,
+    #[serde(default)]
+    self_approval: bool,
 }
 
 fn binding(operation: OperationKind, source: RequestSource) -> RawRequestBinding {
@@ -172,6 +187,10 @@ fn multilingual_adversarial_corpus_binds_wording_as_data() {
     .expect("adversarial corpus JSON");
     assert_eq!(corpus.schema_version, 2);
     assert_eq!(corpus.semantic_cases.len(), 15);
+    assert_eq!(corpus.real_absurdity_cases.len(), 12);
+    assert_eq!(corpus.wording_variants.en.len(), 5);
+    assert_eq!(corpus.wording_variants.ja.len(), 5);
+    assert_eq!(corpus.wording_variants.zh.len(), 5);
     for wording in corpus
         .wording_variants
         .en
@@ -181,7 +200,8 @@ fn multilingual_adversarial_corpus_binds_wording_as_data() {
     {
         assert!(!wording.is_empty());
     }
-    for case in corpus.semantic_cases {
+    for case in &corpus.semantic_cases {
+        let mut baseline = None;
         for wording in corpus
             .wording_variants
             .en
@@ -205,15 +225,25 @@ fn multilingual_adversarial_corpus_binds_wording_as_data() {
                 capability.required_evidence = vec![".ai/evidence/other-work-item.json".into()];
             }
             if case.widen_scope {
+                let result = bind_request(&request, &capability);
                 assert!(
-                    bind_request(&request, &capability).is_err(),
+                    result.is_err(),
                     "scope expansion must be rejected for {}",
                     case.id
                 );
                 continue;
             }
-            let input = bind_request(&request, &capability).expect("canonical request binding");
-            let decision = evaluate(input);
+            let decision =
+                evaluate(bind_request(&request, &capability).expect("canonical request binding"));
+            if let Some(previous) = &baseline {
+                assert_eq!(
+                    previous, &decision,
+                    "wording changed governance result for {}",
+                    case.id
+                );
+            } else {
+                baseline = Some(decision.clone());
+            }
             for expected in &case.expected {
                 assert!(
                     decision.blockers.iter().any(|value| value == expected)
@@ -223,5 +253,63 @@ fn multilingual_adversarial_corpus_binds_wording_as_data() {
                 );
             }
         }
+    }
+}
+
+#[test]
+fn named_real_absurdity_cases_are_structurally_bound_and_honest() {
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../tests/adversarial");
+    let corpus: Corpus = serde_json::from_slice(
+        &fs::read(root.join("manifest.json")).expect("adversarial corpus manifest"),
+    )
+    .expect("adversarial corpus JSON");
+    let mut ids = std::collections::BTreeSet::new();
+    for case in corpus.real_absurdity_cases {
+        assert!(
+            ids.insert(case.id.clone()),
+            "duplicate RAI case {}",
+            case.id
+        );
+        assert!(
+            matches!(
+                case.status.as_str(),
+                "pass" | "partial" | "not_proven" | "policy_sensitive"
+            ),
+            "unknown RAI status for {}",
+            case.id
+        );
+        let request = {
+            let mut value = binding(case.operation.clone(), case.source.clone());
+            if case.self_approval {
+                value.implementer = value.actor.clone();
+            }
+            value
+        };
+        let mut capability = mapping(case.operation.clone());
+        if case.widen_scope {
+            capability.allowed_scope = vec!["production/**".into()];
+            assert!(
+                bind_request(&request, &capability).is_err(),
+                "scope expansion must be rejected for {}",
+                case.id
+            );
+            continue;
+        }
+        if case.self_approval {
+            capability.independent_approval_required = true;
+        }
+        let decision = evaluate(bind_request(&request, &capability).expect("RAI binding"));
+        for expected in case.expected {
+            assert!(
+                decision.blockers.iter().any(|value| value == &expected)
+                    || decision.unknowns.iter().any(|value| value == &expected),
+                "missing {expected} for {}",
+                case.id
+            );
+        }
+    }
+    assert_eq!(ids.len(), 12);
+    for index in 1..=12 {
+        assert!(ids.contains(&format!("RAI-{index:02}")));
     }
 }

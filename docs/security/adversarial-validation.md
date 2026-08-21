@@ -18,11 +18,19 @@ The security boundary is fail-closed and evidence-driven. The conformance
 corpus is semantic rather than string-based: it compares decision state,
 blockers, unknowns, safe actions, required checks, authority, and outcome state.
 
-Corpus v2 adds 15 structured adversarial cases with three English, three
-Japanese, and three Chinese wording variants per case. The raw wording is
+Corpus v2 adds 15 structured adversarial cases with five English, five
+Japanese, and five Chinese wording variants per case. The raw wording is
 bound by digest, while operation, risk, authority, scope, and evidence are
-declared facts. A wording change cannot widen a capability or turn repository,
-log, dependency, or provider material into authority.
+declared facts. The integration test compares every variant for identical
+governance output, so a wording change cannot widen a capability or turn
+repository, log, dependency, or provider material into authority.
+
+The manifest also binds named RAI-01 through RAI-12 cases to an explicit
+status (`pass`, `partial`, `not_proven`, or `policy_sensitive`) and expected
+deterministic finding. This keeps unresolved reference boundaries visible:
+for example, RAI-01 remains `not_proven` because callers, reflection,
+monitoring, and external contracts cannot be inferred from a delete request,
+and RAI-04 remains `partial` because provider identity is delegated.
 
 ## Real-absurdity parity boundary
 
