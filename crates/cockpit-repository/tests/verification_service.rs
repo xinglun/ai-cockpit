@@ -73,6 +73,7 @@ fn request(
     }
 }
 
+#[cfg(unix)]
 #[test]
 fn post_command_repository_drift_discards_the_passed_receipt_candidate() {
     let root = repository("drift");

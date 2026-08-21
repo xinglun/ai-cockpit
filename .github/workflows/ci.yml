@@ -17,10 +17,28 @@ jobs:
           components: rustfmt, clippy
       - run: cargo fmt --all --check
       - run: cargo clippy --workspace --all-targets --all-features -- -D warnings
-      # Keep workspace-level process-spawning tests deterministic under the
-      # hosted runner. Tests that exercise the verifier's internal worker cap
-      # still create their own parallel commands.
-      - run: cargo test --workspace -- --test-threads=1
+      # Cargo can run separate package test binaries concurrently even when
+      # each binary receives --test-threads=1. The repository tests spawn
+      # short-lived child processes and must not share that process/descriptor
+      # pressure with another package's test binary. The verifier's internal
+      # worker-cap test still creates parallel commands inside its own binary.
+      - name: run package tests serially
+        shell: bash
+        run: |
+          set -euo pipefail
+          for package in \
+            cockpit-core \
+            cockpit-evidence \
+            cockpit-verification \
+            cockpit-git \
+            cockpit-knowledge \
+            cockpit-protocol \
+            cockpit-repository \
+            cockpit-mcp \
+            cockpit-cli \
+            cockpit-release; do
+            cargo test -p "$package" --all-targets -- --test-threads=1
+          done
       - name: verify three-language work-item counterparts
         shell: bash
         run: |
