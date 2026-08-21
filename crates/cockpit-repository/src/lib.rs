@@ -3409,7 +3409,16 @@ pub fn derive_governance_signals(snapshot: &RepositorySnapshot) -> GovernanceSig
         }
 
         let added_text = change.added_lines.join("\n");
-        if contains_strong_instruction_injection(&added_text) {
+        // Untracked material has no Git patch lines yet, so inspect its bounded
+        // current text. For tracked files, inspect only added lines; scanning
+        // the whole source file would match detector examples embedded in the
+        // Runtime itself and produce a false governance finding.
+        let material_text = if change.added_lines.is_empty() && change.kind == ChangeKind::Added {
+            change.after_text.as_deref().unwrap_or("")
+        } else {
+            &added_text
+        };
+        if contains_strong_instruction_injection(material_text) {
             result.untrusted_material = true;
             result.findings.push("repository_prompt_injection".into());
         }
