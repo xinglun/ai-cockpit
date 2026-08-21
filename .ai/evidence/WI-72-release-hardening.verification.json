@@ -1,12 +1,12 @@
 {
-  "createdAt": "2026-08-21T21:14:33Z",
+  "createdAt": "2026-08-21T21:16:41Z",
   "passed": true,
   "protocolVersion": 1,
   "receipt": {
-    "elapsedMs": 39597,
-    "executionElapsedMs": 39452,
-    "filesHashed": 21,
-    "filesRead": 21,
+    "elapsedMs": 37605,
+    "executionElapsedMs": 37399,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "nodesExecuted": 1,
     "nodesPlanned": 1,
@@ -24,7 +24,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:81c4405a9fb0ece2654166430d0b2c4bdb49ad09fcb97a2cf456a95548dba82b",
+        "outputDigest": "sha256:cd35fccef177ccb75c1c4146c2b168faaf79c1a5f78c2b5b4e0eba66b0c7852a",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -39,7 +39,7 @@
     "runtimeDigest": "sha256:888db7ef59aa4e0fe599d84f6d12c4c140b1b6bda4f6c489e7dd0f39876081dd",
     "runtimeVersion": "0.2.1"
   },
-  "repositorySnapshotDigest": "sha256:8f5a9fd467f277e07f366d8de87d3a7df509b35b492a813435c803fe0f094241",
+  "repositorySnapshotDigest": "sha256:bca25522816337e6797b23ab35d5232b91e606ecb40deacbab5cc5d81d7082e4",
   "runtimeDigest": "sha256:888db7ef59aa4e0fe599d84f6d12c4c140b1b6bda4f6c489e7dd0f39876081dd",
   "runtimeVersion": "0.2.1",
   "workItemId": "WI-72-release-hardening"
