@@ -89,15 +89,14 @@ Contract、evidence、Work Item、knowledge を変更しない。Repository migr
 た versioned operation として実行する。migration receipt は前後の repository digest と
 Runtime version/digest に結び付き、過去の evidence は書き換えない。
 
-[WI-44](../work-items/WI-44-n-minus-one-upgrade-acceptance.ja.md) は旧・新の公開 archive
-でこの境界を検証する。これは公開後 artifact であり、source build fallback や Release
-truth の代替ではない。
+N-1 acceptance harness は旧・新の公開 archive でこの境界を検証します。これは公開後 artifact
+であり、source build fallback や Release truth の代替ではありません。
 
 ## Trust boundary
 
 - `cockpit-release` と release workflow は local release contract、deterministic manifest、Formula projection、
   hosted check、published Release identity を扱います。
-- 現在の immutable public baseline は `v0.2.1` で、WI-40 が最初の public adopter acceptance、WI-44 が N-1 upgrade 受入れを記録しています。
+- 現在の immutable public baseline は `v0.2.2` で、public adopter acceptance と N-1 upgrade 受入れは post-release evidence です。
   external Homebrew tap は別の provider surface であり、この repository が自動的に保証するものではありません。
 - Tap は review 済み Formula projection を受け取り、binary を rebuild しません。
 - Homebrew は delivery path であり governance authority ではありません。repository facts と human decision

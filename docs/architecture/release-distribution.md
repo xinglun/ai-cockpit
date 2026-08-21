@@ -95,18 +95,17 @@ versioned operation selected by the new Runtime when compatibility reports
 `MIGRATION_REQUIRED`. The migration receipt binds the before/after repository
 digests and the Runtime version/digest; historical evidence is not rewritten.
 
-The N-1 acceptance harness in
-[WI-44](../work-items/WI-44-n-minus-one-upgrade-acceptance.md) proves this
-boundary with old and new public archives. It is a post-release artifact, never
-a source-build fallback or a replacement for Release truth.
+The N-1 acceptance harness proves this boundary with old and new public
+archives. It is a post-release artifact, never a source-build fallback or a
+replacement for Release truth.
 
 ## Trust boundaries
 
 - `cockpit-release` and the release workflow own the local release contract,
   deterministic manifest, Formula projection, hosted checks, and published
   Release identity.
-- The current immutable public baseline is `v0.2.1`; WI-40 records the first
-  public adopter acceptance and WI-44 records N-1 upgrade acceptance. An external Homebrew tap is a separate provider surface
+- The current immutable public baseline is `v0.2.2`; the public adopter
+  acceptance and N-1 upgrade acceptance are post-release evidence. An external Homebrew tap is a separate provider surface
   and is not implied by this repository.
 - The tap receives a reviewed Formula projection; it does not rebuild binaries.
 - Homebrew is a delivery path, not a governance authority. Repository facts and
