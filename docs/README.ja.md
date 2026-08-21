@@ -51,6 +51,7 @@ machine-facing contract を定義する technical reference に進んでくだ�
 - [実測パフォーマンスベースライン](performance/baseline.ja.md)
 - [敵対的検証](security/adversarial-validation.ja.md)
 - [Reference](reference/README.ja.md) — command、configuration、recovery。
+- [Reference source parity](reference/reference-parity.ja.md) — adopted scope、意図的な差分、次の Work Item。
 
 ## Maintainer、audit、current work
 

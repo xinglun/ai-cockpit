@@ -14,6 +14,8 @@ capabilityClaims:
 
 # AI Cockpit
 
+[English](README.md) | [日本語](README.ja.md)
+
 AI Cockpit 是面向 AI 辅助工程的 repository 治理 runtime。它把 repository
 事实、声明的范围、验证结果和人的选择转化为可复查的有界决定。
 
@@ -28,6 +30,18 @@ AI 辅助修改可能超出范围、削弱测试、跳过验证，或让审查�
 Protocol v1 保存，Rust 治理核心与应用代码保持独立。典型流程是：
 
 `inspect → attach → preflight → verify → finish/archive/close`
+
+## 30 秒开始
+
+Runtime 只安装一份，然后 attach 当前要治理的 repository：
+
+```bash
+ai-cockpit attach --repo /path/to/repository
+ai-cockpit status --repo /path/to/repository
+```
+
+先读[功能与边界](docs/capabilities.zh-CN.md)了解第一个受治理 Work Item，
+再读[发布与分发](docs/release/distribution.zh-CN.md)了解安装和验证。
 
 Runtime 只安装一份，然后分别 attach 每个目标 repository：
 

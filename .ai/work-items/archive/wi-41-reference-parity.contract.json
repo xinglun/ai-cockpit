@@ -1,0 +1,43 @@
+{
+  "acceptanceCriteria": [
+    "reference tree and current capability inventory are compared with explicit no-change reasons",
+    "reader-first README routes are corrected for all three languages",
+    "missing claims are not invented and V1 boundaries remain explicit"
+  ],
+  "authority": "authorized",
+  "baseRevision": "031f67d3302a6d640d1323b24b11f17d64f47833",
+  "createdAt": "2026-08-21T15:38:50Z",
+  "goal": "Produce evidence-backed parity findings and implement the reader-facing reference route without importing V1 runtime or governance state.",
+  "intent": "Audit and reconcile Rust AI Cockpit against the reference source user journey, capability inventory, and documentation structure.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    "tests/**",
+    ".github/**",
+    ".ai/**",
+    "release/**",
+    "V1 runtime files"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:81b1d21fb214b70710388f3eef5585461e48e85e2c757af82693a362b868719a",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "docs/reference/**",
+    "docs/README.md",
+    "docs/README.zh-CN.md",
+    "docs/README.ja.md",
+    "README.md",
+    "README.zh-CN.md",
+    "README.ja.md",
+    "docs/work-items/WI-41.md",
+    "docs/work-items/WI-41.zh-CN.md",
+    "docs/work-items/WI-41.ja.md"
+  ],
+  "state": "implementation_active",
+  "workItemId": "wi-41-reference-parity"
+}

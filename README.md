@@ -14,6 +14,8 @@ capabilityClaims:
 
 # AI Cockpit
 
+[中文](README.zh-CN.md) | [日本語](README.ja.md)
+
 AI Cockpit is a repository-governance runtime for AI-assisted engineering. It
 turns repository facts, declared scope, verification results, and human choices
 into bounded decisions that can be reviewed later.
@@ -31,6 +33,19 @@ stored through Repository Protocol v1; the Rust governance core remains separate
 from application code. The normal path is:
 
 `inspect → attach → preflight → verify → finish/archive/close`
+
+## Start in 30 seconds
+
+Install the Runtime once, then attach the repository you are working in:
+
+```bash
+ai-cockpit attach --repo /path/to/repository
+ai-cockpit status --repo /path/to/repository
+```
+
+Read [Capabilities and boundaries](docs/capabilities.md) for the first governed
+Work Item and [Release and distribution](docs/release/distribution.md) for
+installation and verification.
 
 Install the Runtime once, then attach each target repository separately:
 
