@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T21:05:17Z",
+  "evidenceDigest": "sha256:ef67705ecc11fa9c35b6555ee5101ae4a87b4d5d4b837a0724a52666ce7e2976",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-71-reader-docs-cleanup.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-71-reader-docs-cleanup"
+}

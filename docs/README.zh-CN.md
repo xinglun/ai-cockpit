@@ -51,14 +51,10 @@ capabilityClaims:
 - [实测性能基线](performance/baseline.zh-CN.md)
 - [对抗性验证](security/adversarial-validation.zh-CN.md)
 - [参考](reference/README.zh-CN.md)——命令、配置和恢复。
-- [参考源对齐](reference/reference-parity.zh-CN.md)——哪些已采用、哪些有意不同、哪些由独立 Work Item 完成。
 
 ## 维护者与审计路线
 
 - [Work Item 规则](work-items/README.zh-CN.md)——本仓库的受治理生命周期。
 - [命令参考](reference/commands.zh-CN.md)——精确的 CLI 边界和输出。
 - [Protocol v1](protocol/v1/specification.zh-CN.md)——repository storage 与 evidence contract。
-- [参考源对齐](reference/reference-parity.zh-CN.md)——与外部 template 的比较和明确差异。
 - [版本策略](architecture/versioning.zh-CN.md)——Runtime、repository schema 和 migration 边界。
-
-历史 Work Item 和实施计划仍可在 Git 中审计，但不会被当作当前产品状态或采用者操作说明展示。

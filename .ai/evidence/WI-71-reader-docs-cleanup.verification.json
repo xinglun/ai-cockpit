@@ -1,0 +1,46 @@
+{
+  "createdAt": "2026-08-21T21:05:10Z",
+  "passed": true,
+  "protocolVersion": 1,
+  "receipt": {
+    "elapsedMs": 94279,
+    "executionElapsedMs": 94121,
+    "filesHashed": 17,
+    "filesRead": 17,
+    "gitCalls": 8,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:78a6626713c583e625d6e17d01c71602524b79d5e8cdc3c9d2a37ed0ff09fb8b",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:888db7ef59aa4e0fe599d84f6d12c4c140b1b6bda4f6c489e7dd0f39876081dd",
+    "runtimeVersion": "0.2.1"
+  },
+  "repositorySnapshotDigest": "sha256:f6d06c1cd47e9737345260219b45483f7ebb69890ac39aa7778e3b26a612324a",
+  "runtimeDigest": "sha256:888db7ef59aa4e0fe599d84f6d12c4c140b1b6bda4f6c489e7dd0f39876081dd",
+  "runtimeVersion": "0.2.1",
+  "workItemId": "WI-71-reader-docs-cleanup"
+}

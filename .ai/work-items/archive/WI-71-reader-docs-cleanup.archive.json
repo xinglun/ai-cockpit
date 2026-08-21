@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T21:05:17Z",
+  "files": {
+    "contractDigest": "sha256:58fc90f8ef444968e91af2bf19fef17c5a9f12f81b4b7f4eb57edd0b31067bd1",
+    "contractPath": ".ai/work-items/archive/WI-71-reader-docs-cleanup.contract.json",
+    "outcomeDigest": "sha256:3695449ebb817e7b81cab777bd502a6777b56c24c929c47d6e04243c6bdf6c5b",
+    "outcomePath": ".ai/work-items/archive/WI-71-reader-docs-cleanup.outcome.json",
+    "summaryDigest": "sha256:ea078b9d21f2fef42929185baf1aec4a63bc7132b61de5565442d1e1fd8b951e",
+    "summaryPath": ".ai/work-items/archive/WI-71-reader-docs-cleanup.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-71-reader-docs-cleanup"
+}

@@ -1,0 +1,35 @@
+{
+  "acceptanceCriteria": [
+    "all root README languages link each other",
+    "reader route leads with outcome and quick start",
+    "internal migration history is absent from product entry pages",
+    "MCP client route is visible"
+  ],
+  "authority": "authorized",
+  "baseRevision": "086c132b6b95ea866a908609f9b22340f27001c4",
+  "createdAt": "2026-08-21T21:02:18Z",
+  "goal": "New adopters see a clear multilingual route without internal project-progress context.",
+  "intent": "Align reader-facing README routes with the reference project and remove internal migration-history messaging from product entry pages.",
+  "mode": "implementation",
+  "outOfScope": [
+    "historical Work Item records and maintainer audit archives"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8230a77f966f9cf0451eebd645b300b64d58549833dff2a5cf7789171606ccb3",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "README.md",
+    "README.zh-CN.md",
+    "README.ja.md",
+    "docs/README.md",
+    "docs/README.zh-CN.md",
+    "docs/README.ja.md"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-71-reader-docs-cleanup"
+}
