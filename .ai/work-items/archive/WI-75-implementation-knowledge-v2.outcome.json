@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T23:02:09Z",
+  "evidenceDigest": "sha256:93f530c1a62c212027b0ff142a580346f2422e1626b692549ad2639ccb5aa45f",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-75-implementation-knowledge-v2.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-75-implementation-knowledge-v2"
+}

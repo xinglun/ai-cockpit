@@ -1,0 +1,19 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved after evidence-only performance gate positive and negative fixtures",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "codex",
+    "authoritySource": "user-authorized-work-item",
+    "decidedAt": "2026-08-21T23:09:20Z",
+    "decision": "approved after evidence-only performance gate positive and negative fixtures",
+    "evidenceRefs": [
+      ".ai/evidence/WI-90-performance-regression-gate.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "Regression gate receipt passed and source fallback is prohibited.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-08-21T23:09:14Z",
+  "workItemId": "WI-90-performance-regression-gate"
+}

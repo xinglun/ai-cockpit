@@ -214,6 +214,11 @@ ai-cockpit close --repo /path/to/repository --id WI-123 \
 receipt；`close` 要求 archive manifest 和 human decision。检查失败时保留 Work Item，修复
 缺失 evidence，不要删除记录。
 
+`finish`、`archive` 和 `close` 的 JSON 结果都会包含绑定的 `outcome` 对象。Agent 必须将该
+Outcome 作为独立的对话消息显式呈现；仅写入文件或被折叠的结果不能视为交付确认。
+`work-item outcome` 默认输出本地化的面向人交接结果；Agent 或脚本需要稳定对象时使用
+`--json`。详见[面向人的 Outcome](reference/outcome-report.zh-CN.md)。
+
 ### Verification 和 reuse
 
 显式命令和绑定 Work Item 的验证总是 fresh：
@@ -248,6 +253,26 @@ ai-cockpit knowledge query --repo /path/to/repository --topic installation
 
 Knowledge 是 repository-local evidence 的 projection，不是第二事实源。缺失、过期或无效的
 Work Item 和 receipt 不能变成新的 claim。
+
+### 可追溯性、Outcome 与并行准备度
+
+v2 intelligence projection 将事实与推导分开，绝不代替人类填写意图或授权：
+
+```bash
+ai-cockpit work-item approach --repo /path/to/repository --id WI-123
+ai-cockpit work-item outcome --repo /path/to/repository --id WI-123
+ai-cockpit work-item inspect --repo /path/to/repository --id WI-123
+ai-cockpit work-item declare --repo /path/to/repository --id WI-123 \
+  --depends-on WI-100 --conflicts-with WI-124 --parallelizable
+ai-cockpit knowledge query --repo /path/to/repository --v2
+ai-cockpit capability show --repo /path/to/repository
+ai-cockpit diagnose --repo /path/to/repository --work-item WI-123
+```
+
+`approach` 输出观察到的事实、命名后的推导、证据引用和仍未知的人类输入。`outcome` 将已验证的实现证据
+与 Human Benefit Report 分开；没有明确声明的用户收益保持为 `unknown`。Capability Registry 区分检测到的能力
+与 profile 确认的验证能力，并记录 confidence 和 evidence。`inspect` 在依赖、冲突或 scope 兼容性未被明确知道时
+对并行执行 fail closed。Diagnosis 只报告实际测得的 snapshot/verification 成本，不伪装成 benchmark。
 
 ### 使用 MCP
 

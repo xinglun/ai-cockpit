@@ -232,6 +232,13 @@ for the same Work Item and current repository snapshot. `close` requires the
 archive manifest and a human decision. If a check fails, preserve the Work Item
 and repair the missing evidence; do not delete its records.
 
+`finish`, `archive`, and `close` each emit the bound `outcome` object in their
+JSON result. Agents must surface that Outcome as an explicit conversation
+message; a file-only or collapsed result is not a delivery confirmation.
+For a readable handoff, `work-item outcome` renders the localized human report
+by default; use `--json` when an Agent or script needs the stable object. See
+[Human-facing Outcome](reference/outcome-report.md).
+
 ### Verify commands and understand reuse
 
 Explicit commands and Work Item-bound verification always execute fresh:
@@ -269,6 +276,31 @@ ai-cockpit knowledge query --repo /path/to/repository --topic installation
 
 Knowledge is a projection of repository-local evidence, not a second source of
 truth. Missing, stale, or invalid Work Items and receipts must not become fresh claims.
+
+### Traceability, outcomes, and parallel readiness
+
+The v2 intelligence projections keep facts separate from derived conclusions and
+never invent human-owned decisions:
+
+```bash
+ai-cockpit work-item approach --repo /path/to/repository --id WI-123
+ai-cockpit work-item outcome --repo /path/to/repository --id WI-123
+ai-cockpit work-item inspect --repo /path/to/repository --id WI-123
+ai-cockpit work-item declare --repo /path/to/repository --id WI-123 \
+  --depends-on WI-100 --conflicts-with WI-124 --parallelizable
+ai-cockpit knowledge query --repo /path/to/repository --v2
+ai-cockpit capability show --repo /path/to/repository
+ai-cockpit diagnose --repo /path/to/repository --work-item WI-123
+```
+
+`approach` emits observed facts, named derivations, evidence references, and
+unknown human inputs. `outcome` distinguishes verified implementation evidence
+from the human-benefit report; an undeclared benefit remains `unknown`. The
+capability registry reports detection versus profile-confirmed verification and
+includes confidence and evidence. `inspect` fails closed for parallel execution
+when dependencies, conflicts, or scope compatibility are not explicitly known.
+Diagnosis reports measured snapshot and verification cost only; it does not
+pretend to be a benchmark.
 
 ### Use MCP
 

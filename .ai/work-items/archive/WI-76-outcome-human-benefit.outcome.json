@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T23:02:47Z",
+  "evidenceDigest": "sha256:0ce8557746038b191ddb2451f10d766a2814d298c22b9448df628afa2fc10e37",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-76-outcome-human-benefit.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-76-outcome-human-benefit"
+}

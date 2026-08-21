@@ -1,0 +1,38 @@
+{
+  "acceptanceCriteria": [
+    "Weighted commands schedule only within budget; zero/overweight inputs are rejected before process spawn and existing DAG behavior passes."
+  ],
+  "authority": "authorized",
+  "baseRevision": "0c507c42ed318a9fb173e2b658ed47743dd6953c",
+  "createdAt": "2026-08-21T23:07:27Z",
+  "goal": "Improve parallel verification throughput while retaining dependency, protected-node, and fail-closed semantics",
+  "intent": "Bound verification DAG execution by explicit resource budgets",
+  "mode": "implementation",
+  "outOfScope": [
+    "release workflow",
+    "migration protocol"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:024d7058a6331354ee4fecfb6133eea4977559affd5b0a93212ecdfb1b80cb45",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-verification/**",
+    "crates/cockpit-repository/**",
+    "crates/cockpit-git/**",
+    "crates/cockpit-knowledge/**",
+    "tests/performance/**",
+    "docs/performance/**",
+    "docs/work-items/**",
+    "Cargo.lock",
+    ".ai/work-items/**",
+    ".ai/evidence/**",
+    ".ai/decisions/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-86-resource-aware-scheduler"
+}

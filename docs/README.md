@@ -52,6 +52,11 @@ journey is clear.
 - [Measured performance baseline](performance/baseline.md)
 - [Adversarial validation](security/adversarial-validation.md)
 - [Reference](reference/README.md) — commands, configuration, and recovery.
+- [Human-facing Outcome](reference/outcome-report.md) — readable results, evidence, risks, and next action.
+- [Final replacement acceptance](reference/final-replacement-acceptance.md) — conformance and no-copy release boundary.
+- [Enterprise governance](security/enterprise-governance.md) — policy layers, delegated evidence, retention, and audit export.
+- [Security and threat model](security/threat-model.md) — deployment boundary and security assumptions.
+- [Vulnerability reporting](security/vulnerability-reporting.md) — supported versions and private reporting route.
 
 ## Maintainer and audit route
 

@@ -4,9 +4,179 @@ use std::collections::{BTreeMap, BTreeSet};
 use std::path::PathBuf;
 use std::path::{Component, Path};
 use std::process::Command;
+use std::time::UNIX_EPOCH;
 use thiserror::Error;
 
 pub const MAX_CHANGE_TEXT_BYTES: usize = 262_144;
+
+/// A bounded, repository-local content identity cache.  It hashes only
+/// declared relative files and derives a deterministic Merkle root from their
+/// path/digest pairs.  Metadata is used solely as a cache hint; an unreadable
+/// or ambiguous path is an error rather than an authorization to reuse a
+/// stale digest.
+#[derive(Clone, Debug, Default, PartialEq, Eq)]
+pub struct IncrementalMerkle {
+    entries: BTreeMap<String, ContentIdentityEntry>,
+    root_digest: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+struct ContentIdentityEntry {
+    size: u64,
+    modified_ns: u128,
+    digest: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct MerkleRefresh {
+    pub root_digest: String,
+    pub files_read: usize,
+    pub files_hashed: usize,
+    pub files_reused: usize,
+}
+
+#[derive(Debug, Error)]
+pub enum ContentIdentityError {
+    #[error("content identity path must be relative: {0}")]
+    AbsolutePath(PathBuf),
+    #[error("content identity path escapes repository: {0}")]
+    PathEscape(PathBuf),
+    #[error("content identity path is not a regular file: {0}")]
+    NotAFile(PathBuf),
+    #[error("failed to inspect content identity path {path}: {source}")]
+    Metadata {
+        path: PathBuf,
+        source: std::io::Error,
+    },
+    #[error("failed to read content identity path {path}: {source}")]
+    Read {
+        path: PathBuf,
+        source: std::io::Error,
+    },
+    #[error("content identity timestamp is before Unix epoch: {0}")]
+    InvalidTimestamp(PathBuf),
+}
+
+impl IncrementalMerkle {
+    /// Refresh the identity for exactly `paths`. A removed path is deleted
+    /// from the Merkle set. The caller must provide the same repository root
+    /// used for all refreshes; no process-global cache is involved.
+    pub fn refresh<I, P>(
+        &mut self,
+        root: &Path,
+        paths: I,
+    ) -> Result<MerkleRefresh, ContentIdentityError>
+    where
+        I: IntoIterator<Item = P>,
+        P: AsRef<Path>,
+    {
+        let mut normalized = BTreeSet::new();
+        for path in paths {
+            normalized.insert(normalize_identity_path(path.as_ref())?);
+        }
+        let old_paths = self.entries.keys().cloned().collect::<BTreeSet<_>>();
+        for removed in old_paths.difference(&normalized) {
+            self.entries.remove(removed);
+        }
+        let mut files_read = 0;
+        let mut files_hashed = 0;
+        let mut files_reused = 0;
+        for relative in normalized {
+            let path = root.join(&relative);
+            let metadata = match std::fs::symlink_metadata(&path) {
+                Ok(metadata) => metadata,
+                Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                    self.entries.remove(&relative);
+                    continue;
+                }
+                Err(source) => {
+                    return Err(ContentIdentityError::Metadata { path, source });
+                }
+            };
+            if !metadata.is_file() {
+                return Err(ContentIdentityError::NotAFile(path));
+            }
+            let modified_ns = metadata
+                .modified()
+                .map_err(|source| ContentIdentityError::Metadata {
+                    path: path.clone(),
+                    source,
+                })?
+                .duration_since(UNIX_EPOCH)
+                .map_err(|_| ContentIdentityError::InvalidTimestamp(path.clone()))?
+                .as_nanos();
+            let unchanged = self.entries.get(&relative).is_some_and(|entry| {
+                entry.size == metadata.len() && entry.modified_ns == modified_ns
+            });
+            if unchanged {
+                files_reused += 1;
+                continue;
+            }
+            let bytes = std::fs::read(&path).map_err(|source| ContentIdentityError::Read {
+                path: path.clone(),
+                source,
+            })?;
+            files_read += 1;
+            files_hashed += 1;
+            self.entries.insert(
+                relative,
+                ContentIdentityEntry {
+                    size: metadata.len(),
+                    modified_ns,
+                    digest: digest(&bytes),
+                },
+            );
+        }
+        self.root_digest = merkle_root(&self.entries);
+        Ok(MerkleRefresh {
+            root_digest: self.root_digest.clone(),
+            files_read,
+            files_hashed,
+            files_reused,
+        })
+    }
+
+    pub fn root_digest(&self) -> Option<&str> {
+        (!self.root_digest.is_empty()).then_some(self.root_digest.as_str())
+    }
+}
+
+fn normalize_identity_path(path: &Path) -> Result<String, ContentIdentityError> {
+    if path.is_absolute() {
+        return Err(ContentIdentityError::AbsolutePath(path.to_path_buf()));
+    }
+    let mut components = Vec::new();
+    for component in path.components() {
+        match component {
+            Component::CurDir => {}
+            Component::Normal(value) => components.push(value.to_string_lossy().into_owned()),
+            Component::ParentDir => {
+                if components.pop().is_none() {
+                    return Err(ContentIdentityError::PathEscape(path.to_path_buf()));
+                }
+            }
+            Component::RootDir | Component::Prefix(_) => {
+                return Err(ContentIdentityError::AbsolutePath(path.to_path_buf()));
+            }
+        }
+    }
+    let normalized = components.join("/");
+    if normalized.is_empty() {
+        return Err(ContentIdentityError::PathEscape(path.to_path_buf()));
+    }
+    Ok(normalized)
+}
+
+fn merkle_root(entries: &BTreeMap<String, ContentIdentityEntry>) -> String {
+    let mut hasher = Sha256::new();
+    for (path, entry) in entries {
+        hasher.update(path.as_bytes());
+        hasher.update([0]);
+        hasher.update(entry.digest.as_bytes());
+        hasher.update([0]);
+    }
+    format!("sha256:{}", hex::encode(hasher.finalize()))
+}
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum ChangeKind {

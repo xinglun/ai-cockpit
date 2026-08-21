@@ -1,0 +1,31 @@
+{
+  "acceptanceCriteria": [
+    "diagnosis API and CLI output are schema-tested",
+    "repository isolation and unknown state are preserved"
+  ],
+  "authority": "authorized",
+  "baseRevision": "0c507c42ed318a9fb173e2b658ed47743dd6953c",
+  "createdAt": "2026-08-21T23:02:49Z",
+  "goal": "Diagnosis reports measured cost and visible unknowns without benchmark claims",
+  "intent": "Add auditable governance cost and performance diagnosis",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/cockpit-release/**",
+    "crates/cockpit-verification/**",
+    "tests/release/**"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:527ed19f535007b2e6df73e7d4b971c6246a964bd368036b044bcc6c54a20a41",
+  "requiredEvidenceClasses": [],
+  "risk": "normal",
+  "scope": [
+    "Cargo.lock",
+    "crates/**",
+    "docs/**",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-78-governance-cost-diagnosis"
+}

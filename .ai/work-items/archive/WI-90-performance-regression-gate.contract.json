@@ -1,0 +1,38 @@
+{
+  "acceptanceCriteria": [
+    "Positive and negative regression gate fixtures pass; gate consumes only captured JSON and rejects identity or budget failures without source fallback."
+  ],
+  "authority": "authorized",
+  "baseRevision": "f5bbb66ef197ec37287ee05ee81a9922aa758a02",
+  "createdAt": "2026-08-21T23:09:03Z",
+  "goal": "Provide a portable post-measurement regression gate that rejects missing evidence, identity drift, and budget regressions",
+  "intent": "Gate performance regressions with immutable identity-bound evidence",
+  "mode": "implementation",
+  "outOfScope": [
+    "release workflow",
+    "migration protocol"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:87a23e4dceede9acd7ce8b684547325818266dd68ccfcf5b025205711c26a3fe",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "tests/performance/**",
+    "crates/cockpit-verification/**",
+    "crates/cockpit-repository/**",
+    "crates/cockpit-git/**",
+    "crates/cockpit-knowledge/**",
+    "docs/performance/**",
+    "docs/work-items/**",
+    "Cargo.lock",
+    ".ai/work-items/**",
+    ".ai/evidence/**",
+    ".ai/decisions/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-90-performance-regression-gate"
+}

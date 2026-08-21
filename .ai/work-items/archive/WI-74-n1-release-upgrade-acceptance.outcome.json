@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T23:12:47Z",
+  "evidenceDigest": "sha256:be5289621c639d5db42a318f56f52a7a533687077ec564798bb251bd873c59a4",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-74-n1-release-upgrade-acceptance.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-74-n1-release-upgrade-acceptance"
+}

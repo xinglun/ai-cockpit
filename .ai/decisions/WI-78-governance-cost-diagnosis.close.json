@@ -1,0 +1,17 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "sei-rinn",
+    "authoritySource": "repository-owner",
+    "decidedAt": "2026-08-21T23:04:00Z",
+    "decision": "approved",
+    "evidenceRefs": [],
+    "policyRefs": [],
+    "reason": "focused tests passed for diagnosis",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-08-21T23:02:50Z",
+  "workItemId": "WI-78-governance-cost-diagnosis"
+}

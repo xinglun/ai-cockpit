@@ -8,12 +8,16 @@ use cockpit_core::{
 use cockpit_git::{ChangeContentState, ChangeKind, RepositorySnapshot};
 use cockpit_protocol::{
     AgentAdapterCompatibility, AgentInterfaceAvailability, AgentInterfaceManifest, AgentInterfaces,
-    AgentRootBinding, ApprovalMode, AuditEvent, AuditExportManifest, Contract, DataClassification,
-    DelegatedEvidence, DelegatedEvidenceReceipt, EvidenceDisposition, EvidenceDispositionItem,
-    EvidencePersistence, EvidenceRetention, EvidenceRetentionPolicy, EvidenceValidity,
-    GovernancePolicy, GovernancePolicyDocument, HumanDecision, PolicyLayer, QualityCommand,
-    RepositoryConfig, RuntimeContext, default_repository_schema_version, merge_policy_layers,
-    validate_evidence_retention, validate_protocol_version,
+    AgentRootBinding, ApprovalMode, AuditEvent, AuditExportManifest, CapabilityConfidence,
+    CapabilityTruth, CapabilityTruthRegistry, Contract, DataClassification, DelegatedEvidence,
+    DelegatedEvidenceReceipt, DiagnosisState, EvidenceDisposition, EvidenceDispositionItem,
+    EvidencePersistence, EvidenceRetention, EvidenceRetentionPolicy, EvidenceValidity, FactOrigin,
+    GovernanceCost, GovernancePolicy, GovernancePolicyDocument, HumanBenefitReport, HumanDecision,
+    ImplementationApproach, OutcomeState, OutcomeV2, PerformanceDiagnosis, PolicyLayer,
+    QualityCommand, RepositoryConfig, RuntimeContext, SchemaMigrationStep, TruthState,
+    WorkItemCompatibility, WorkItemIntelligence, default_repository_schema_version,
+    merge_policy_layers, repository_schema_migration_chain, validate_evidence_retention,
+    validate_protocol_version,
 };
 use serde::{Deserialize, Serialize};
 use sha2::{Digest as ShaDigest, Sha256};
@@ -26,6 +30,7 @@ use std::fs;
 use std::io::{Read, Seek, Write};
 use std::path::{Path, PathBuf};
 use std::sync::atomic::{AtomicU64, Ordering};
+use std::sync::{Arc, Mutex, OnceLock};
 use std::time::{Instant, SystemTime, UNIX_EPOCH};
 use thiserror::Error;
 
@@ -211,6 +216,169 @@ pub struct RepositoryVerificationRun {
     pub final_snapshot: RepositorySnapshot,
 }
 
+/// Request-scoped repository state.  A context captures one immutable Git
+/// snapshot and memoizes the derived observation for the lifetime of the
+/// request.  Callers that need fresh facts must create a new context instead
+/// of mutating or globally replacing this one.
+pub struct RepositoryExecutionContext {
+    root: PathBuf,
+    repository_id: Digest,
+    snapshot: RepositorySnapshot,
+    observation: OnceLock<RepositoryObservation>,
+    observation_guard: Mutex<()>,
+}
+
+impl std::fmt::Debug for RepositoryExecutionContext {
+    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        formatter
+            .debug_struct("RepositoryExecutionContext")
+            .field("root", &self.root)
+            .field("repository_id", &self.repository_id)
+            .field("snapshot", &self.snapshot)
+            .finish_non_exhaustive()
+    }
+}
+
+impl RepositoryExecutionContext {
+    pub fn capture(root: &Path) -> Result<Self, ObserverError> {
+        let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+            path: root.into(),
+            source,
+        })?;
+        let git =
+            cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+                path: root.clone(),
+                message: error.to_string(),
+            })?;
+        let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+        let repository_id = repository_id(&root);
+        Ok(Self {
+            root,
+            repository_id,
+            snapshot,
+            observation: OnceLock::new(),
+            observation_guard: Mutex::new(()),
+        })
+    }
+
+    pub fn root(&self) -> &Path {
+        &self.root
+    }
+
+    pub fn repository_id(&self) -> &Digest {
+        &self.repository_id
+    }
+
+    pub fn snapshot(&self) -> &RepositorySnapshot {
+        &self.snapshot
+    }
+
+    pub fn observe(&self) -> Result<&RepositoryObservation, ObserverError> {
+        if let Some(observation) = self.observation.get() {
+            return Ok(observation);
+        }
+        let _guard = self
+            .observation_guard
+            .lock()
+            .map_err(|_| ObserverError::State {
+                path: self.root.join(".ai"),
+                message: "repository observation mutex was poisoned".into(),
+            })?;
+        if let Some(observation) = self.observation.get() {
+            return Ok(observation);
+        }
+        let observation = observe_cached(&self.root, &self.snapshot)?;
+        let _ = self.observation.set(observation);
+        self.observation.get().ok_or_else(|| ObserverError::State {
+            path: self.root.join(".ai"),
+            message: "repository observation was not initialized".into(),
+        })
+    }
+}
+
+/// Explicitly owned process session for repeated requests. It is not a
+/// global current-repository slot: every lookup receives an explicit path,
+/// and each entry contains an isolated request context. The caller chooses
+/// when to refresh a context after a repository mutation.
+#[derive(Default)]
+pub struct RuntimeSession {
+    contexts: Mutex<BTreeMap<PathBuf, Arc<RepositoryExecutionContext>>>,
+}
+
+impl std::fmt::Debug for RuntimeSession {
+    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        formatter
+            .debug_struct("RuntimeSession")
+            .field(
+                "active_repositories",
+                &self.active_repositories().unwrap_or_default(),
+            )
+            .finish()
+    }
+}
+
+impl RuntimeSession {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn bind(&self, root: &Path) -> Result<Arc<RepositoryExecutionContext>, ObserverError> {
+        let canonical = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+            path: root.into(),
+            source,
+        })?;
+        let mut contexts = self.contexts.lock().map_err(|_| ObserverError::State {
+            path: canonical.clone(),
+            message: "runtime session mutex was poisoned".into(),
+        })?;
+        if let Some(context) = contexts.get(&canonical) {
+            return Ok(Arc::clone(context));
+        }
+        let context = Arc::new(RepositoryExecutionContext::capture(&canonical)?);
+        contexts.insert(canonical, Arc::clone(&context));
+        Ok(context)
+    }
+
+    pub fn refresh(&self, root: &Path) -> Result<Arc<RepositoryExecutionContext>, ObserverError> {
+        let canonical = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+            path: root.into(),
+            source,
+        })?;
+        let context = Arc::new(RepositoryExecutionContext::capture(&canonical)?);
+        let mut contexts = self.contexts.lock().map_err(|_| ObserverError::State {
+            path: canonical.clone(),
+            message: "runtime session mutex was poisoned".into(),
+        })?;
+        contexts.insert(canonical, Arc::clone(&context));
+        Ok(context)
+    }
+
+    pub fn unbind(&self, root: &Path) -> Result<bool, ObserverError> {
+        let canonical = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+            path: root.into(),
+            source,
+        })?;
+        let mut contexts = self.contexts.lock().map_err(|_| ObserverError::State {
+            path: canonical.clone(),
+            message: "runtime session mutex was poisoned".into(),
+        })?;
+        Ok(contexts.remove(&canonical).is_some())
+    }
+
+    pub fn active_repositories(&self) -> Result<Vec<PathBuf>, ObserverError> {
+        self.contexts
+            .lock()
+            .map(|contexts| contexts.keys().cloned().collect())
+            .map_err(|_| ObserverError::State {
+                path: PathBuf::from(".ai"),
+                message: "runtime session mutex was poisoned".into(),
+            })
+    }
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 struct ReceiptStoreIndex {
@@ -254,6 +422,7 @@ pub struct MigrationPlan {
     pub planned_changes: Vec<String>,
     pub unchanged: Vec<String>,
     pub human_approval_required: bool,
+    pub steps: Vec<SchemaMigrationStep>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -270,6 +439,10 @@ pub struct MigrationReceipt {
     pub changes: Vec<String>,
     pub result: String,
     pub created_at: String,
+    pub step: SchemaMigrationStep,
+    pub chain_length: usize,
+    pub preserved_evidence_digest: Digest,
+    pub preserved_paths: Vec<String>,
 }
 
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
@@ -2578,6 +2751,79 @@ fn migration_inputs(
     Ok((config, profile, manifest, before))
 }
 
+const MIGRATION_PRESERVED_PATHS: [&str; 4] = [
+    ".ai/evidence",
+    ".ai/decisions",
+    ".ai/knowledge",
+    ".ai/work-items/archive",
+];
+
+fn collect_preserved_files(
+    directory: &Path,
+    files: &mut Vec<PathBuf>,
+) -> Result<(), ObserverError> {
+    let entries = match fs::read_dir(directory) {
+        Ok(entries) => entries,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(()),
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: directory.to_path_buf(),
+                source,
+            });
+        }
+    };
+    for entry in entries {
+        let entry = entry.map_err(|source| ObserverError::Read {
+            path: directory.to_path_buf(),
+            source,
+        })?;
+        let path = entry.path();
+        let metadata = fs::symlink_metadata(&path).map_err(|source| ObserverError::Read {
+            path: path.clone(),
+            source,
+        })?;
+        if metadata.file_type().is_symlink() {
+            return Err(ObserverError::State {
+                path,
+                message: "migration preservation refuses symlinked historical evidence".into(),
+            });
+        }
+        if metadata.is_dir() {
+            collect_preserved_files(&path, files)?;
+        } else if metadata.is_file() {
+            files.push(path);
+        }
+    }
+    Ok(())
+}
+
+fn preserved_evidence_digest(root: &Path) -> Result<Digest, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let mut files = Vec::new();
+    for relative in MIGRATION_PRESERVED_PATHS {
+        collect_preserved_files(&root.join(relative), &mut files)?;
+    }
+    files.sort();
+    let mut bytes = Vec::new();
+    for path in files {
+        let relative = path.strip_prefix(&root).map_err(|_| ObserverError::State {
+            path: path.clone(),
+            message: "historical evidence path escaped repository root".into(),
+        })?;
+        bytes.extend_from_slice(relative.to_string_lossy().as_bytes());
+        bytes.push(0);
+        bytes.extend_from_slice(&fs::read(&path).map_err(|source| ObserverError::Read {
+            path: path.clone(),
+            source,
+        })?);
+        bytes.push(0);
+    }
+    Ok(Digest::sha256_bytes(&bytes))
+}
+
 pub fn compatibility_report(
     root: &Path,
     runtime: &RuntimeContext,
@@ -2614,22 +2860,35 @@ pub fn compatibility_report(
 pub fn migration_plan(root: &Path) -> Result<MigrationPlan, ObserverError> {
     let (config, _, _, _) = migration_inputs(root)?;
     let target = cockpit_protocol::REPOSITORY_SCHEMA_VERSION;
-    let (state, migration_type, planned_changes) = if config.repository_schema_version == target {
-        ("COMPATIBLE", "none", Vec::new())
-    } else if config.repository_schema_version < target {
-        (
-            "MIGRATION_REQUIRED",
-            "additive",
-            vec![
+    let (state, migration_type, planned_changes, steps) =
+        if config.repository_schema_version == target {
+            ("COMPATIBLE", "none", Vec::new(), Vec::new())
+        } else if config.repository_schema_version < target {
+            let steps = repository_schema_migration_chain(config.repository_schema_version, target)
+                .map_err(|error| ObserverError::State {
+                    path: root.join(".ai/cockpit.toml"),
+                    message: error.to_string(),
+                })?;
+            let mut planned_changes = vec![
                 ".ai/cockpit.toml".into(),
                 ".ai/project.json".into(),
                 ".ai/agent-interface.json".into(),
-                ".ai/migrations/<timestamp>-schema-1-to-2.json".into(),
-            ],
-        )
-    } else {
-        ("INCOMPATIBLE", "unsupported", Vec::new())
-    };
+            ];
+            planned_changes.extend(steps.iter().map(|step| {
+                format!(
+                    ".ai/migrations/<timestamp>-schema-{}-to-{}.json",
+                    step.from_schema, step.to_schema
+                )
+            }));
+            (
+                "MIGRATION_REQUIRED",
+                "adjacent_chain",
+                planned_changes,
+                steps,
+            )
+        } else {
+            ("INCOMPATIBLE", "unsupported", Vec::new(), Vec::new())
+        };
     Ok(MigrationPlan {
         state: state.into(),
         current_schema: config.repository_schema_version,
@@ -2644,6 +2903,7 @@ pub fn migration_plan(root: &Path) -> Result<MigrationPlan, ObserverError> {
             "historical Work Item records".into(),
         ],
         human_approval_required: state == "MIGRATION_REQUIRED",
+        steps,
     })
 }
 
@@ -2664,16 +2924,35 @@ pub fn apply_migration(
         });
     }
     let from_schema = config.repository_schema_version;
+    let chain = repository_schema_migration_chain(from_schema, target).map_err(|error| {
+        ObserverError::State {
+            path: root.join(".ai/cockpit.toml"),
+            message: error.to_string(),
+        }
+    })?;
+    let step = chain.first().cloned().ok_or_else(|| ObserverError::State {
+        path: root.join(".ai/cockpit.toml"),
+        message: "migration chain has no next step".into(),
+    })?;
+    if step.from_schema != from_schema || step.to_schema > target {
+        return Err(ObserverError::State {
+            path: root.join(".ai/cockpit.toml"),
+            message: "migration step is not an adjacent reviewed edge".into(),
+        });
+    }
+    let preserved_before = preserved_evidence_digest(&root)?;
     let migration_id = format!(
-        "schema-{from_schema}-to-{target}-{}",
+        "schema-{}-to-{}-{}",
+        step.from_schema,
+        step.to_schema,
         now().replace([':', '.'], "-")
     );
-    profile.repository_schema_version = target;
-    manifest.repository_schema_version = target;
+    profile.repository_schema_version = step.to_schema;
+    manifest.repository_schema_version = step.to_schema;
     let ai = root.join(".ai");
     let config_text = format!(
         "protocol_version = {}\nrepository_schema_version = {}\nrepository_id = \"{}\"\n",
-        config.protocol_version, target, config.repository_id
+        config.protocol_version, step.to_schema, config.repository_id
     );
     let project_value = serde_json::to_value(&profile).map_err(|error| ObserverError::State {
         path: ai.join("project.json"),
@@ -2701,11 +2980,18 @@ pub fn apply_migration(
             message: error.to_string(),
         })?,
     );
+    let preserved_after = preserved_evidence_digest(&root)?;
+    if preserved_before != preserved_after {
+        return Err(ObserverError::State {
+            path: root.join(".ai"),
+            message: "historical evidence changed while applying migration".into(),
+        });
+    }
     let receipt = MigrationReceipt {
         schema_version: 1,
         migration_id: migration_id.clone(),
         from_schema,
-        to_schema: target,
+        to_schema: step.to_schema,
         runtime_version: runtime.runtime_version.clone(),
         runtime_digest: runtime.runtime_digest.clone(),
         before_digest: Digest::sha256_bytes(&before),
@@ -2717,6 +3003,13 @@ pub fn apply_migration(
         ],
         result: "completed".into(),
         created_at: now(),
+        step,
+        chain_length: chain.len(),
+        preserved_evidence_digest: preserved_after,
+        preserved_paths: MIGRATION_PRESERVED_PATHS
+            .iter()
+            .map(|path| (*path).into())
+            .collect(),
     };
     let migrations = ai.join("migrations");
     fs::create_dir_all(&migrations).map_err(|source| ObserverError::Read {
@@ -3079,14 +3372,43 @@ pub fn finish_work_item(
     summary["state"] = "finish_ready".into();
     summary["updatedAt"] = timestamp.clone().into();
     atomic_json(&summary_path, &summary)?;
-    let outcome = serde_json::json!({
-        "protocolVersion": 1,
-        "workItemId": work_item_id,
-        "state": "finish_ready",
-        "verification": {"status": "verified", "required": true, "evidencePath": format!(".ai/evidence/{work_item_id}.verification.json")},
-        "evidenceDigest": cockpit_protocol::digest_json(&evidence).map_err(|error| ObserverError::State { path: root.join(".ai/evidence"), message: error.to_string() })?,
-        "createdAt": timestamp,
+    let outcome_v2 = OutcomeV2 {
+        schema_version: 2,
+        repository_id: contract.repository_id.clone(),
+        work_item_id: work_item_id.into(),
+        state: OutcomeState::Verified,
+        summary: "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.".into(),
+        acceptance_results: contract.acceptance_criteria.clone(),
+        unknowns: vec!["user_visible_benefit_not_declared".into()],
+        evidence_refs: vec![format!(".ai/evidence/{work_item_id}.verification.json")],
+        human_benefit_report: HumanBenefitReport {
+            state: OutcomeState::Unknown,
+            user_visible_changes: Vec::new(),
+            affected_users: Vec::new(),
+            unknowns: vec!["user_visible_benefit_not_declared".into()],
+            evidence_refs: vec![format!(".ai/evidence/{work_item_id}.verification.json")],
+        },
+    };
+    let mut outcome = serde_json::to_value(&outcome_v2).map_err(|error| ObserverError::State {
+        path: active.join(format!("{work_item_id}.outcome.json")),
+        message: error.to_string(),
+    })?;
+    outcome["protocolVersion"] = serde_json::json!(1);
+    outcome["workItemId"] = serde_json::json!(work_item_id);
+    outcome["state"] = serde_json::json!("finish_ready");
+    outcome["verification"] = serde_json::json!({
+        "status": "verified",
+        "required": true,
+        "evidencePath": format!(".ai/evidence/{work_item_id}.verification.json"),
     });
+    outcome["evidenceDigest"] = cockpit_protocol::digest_json(&evidence)
+        .map_err(|error| ObserverError::State {
+            path: root.join(".ai/evidence"),
+            message: error.to_string(),
+        })?
+        .to_string()
+        .into();
+    outcome["createdAt"] = timestamp.clone().into();
     if let Err(error) = atomic_json(
         &active.join(format!("{work_item_id}.outcome.json")),
         &outcome,
@@ -4992,12 +5314,14 @@ pub fn generate_knowledge(root: &Path) -> Result<cockpit_knowledge::KnowledgeInd
     let archive = root.join(".ai/work-items/archive");
     let knowledge = root.join(".ai/knowledge");
     let index_path = knowledge.join("index.json");
+    let source_digest = knowledge_source_digest(&archive)?;
     if index_path.is_file() {
         let cached = read_json(&index_path)?;
-        return serde_json::from_value(cached).map_err(|error| ObserverError::State {
-            path: index_path,
-            message: error.to_string(),
-        });
+        if let Ok(index) = serde_json::from_value::<cockpit_knowledge::KnowledgeIndex>(cached)
+            && index.source_digest == source_digest
+        {
+            return Ok(index);
+        }
     }
     let mut records = Vec::new();
     for entry in fs::read_dir(&archive).map_err(|source| ObserverError::Read {
@@ -5022,7 +5346,8 @@ pub fn generate_knowledge(root: &Path) -> Result<cockpit_knowledge::KnowledgeInd
             &format!(".ai/work-items/archive/{work_item_id}.archive.json"),
         ));
     }
-    let index = cockpit_knowledge::KnowledgeIndex::from_records(records);
+    let index =
+        cockpit_knowledge::KnowledgeIndex::from_records_with_source_digest(records, source_digest);
     fs::create_dir_all(&knowledge).map_err(|source| ObserverError::Read {
         path: knowledge.clone(),
         source,
@@ -5040,6 +5365,660 @@ pub fn generate_knowledge(root: &Path) -> Result<cockpit_knowledge::KnowledgeInd
         atomic_json(&root.join(&record.knowledge_path), &record_value)?;
     }
     Ok(index)
+}
+
+/// Build a request-scoped, provenance-aware implementation approach.  Facts
+/// are copied from the current Observer snapshot and derivations name the
+/// exact fact keys they consume.  Empty human-owned contract fields remain
+/// unknown rather than being guessed from prose or filenames.
+pub fn implementation_approach(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<ImplementationApproach, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let git =
+        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let contract = read_contract(&contract_path)?;
+    let observation = observe(&root, &snapshot)?;
+    let snapshot_digest = snapshot_digest(&snapshot)?;
+    let evidence_prefix = format!(".ai/work-items/active/{work_item_id}");
+    let mut facts = vec![
+        cockpit_protocol::TraceableFact {
+            key: "repositoryId".into(),
+            value: serde_json::Value::String(contract.repository_id.clone()),
+            origin: FactOrigin::Observed,
+            evidence_refs: vec![".ai/cockpit.toml".into()],
+            confidence: "high".into(),
+        },
+        cockpit_protocol::TraceableFact {
+            key: "baseRevision".into(),
+            value: serde_json::Value::String(contract.base_revision.clone()),
+            origin: FactOrigin::Observed,
+            evidence_refs: vec!["git:HEAD".into()],
+            confidence: "high".into(),
+        },
+        cockpit_protocol::TraceableFact {
+            key: "languages".into(),
+            value: serde_json::to_value(&observation.languages).map_err(|error| {
+                ObserverError::State {
+                    path: root.clone(),
+                    message: error.to_string(),
+                }
+            })?,
+            origin: FactOrigin::Observed,
+            evidence_refs: vec!["repository-snapshot".into()],
+            confidence: "high".into(),
+        },
+        cockpit_protocol::TraceableFact {
+            key: "buildSystems".into(),
+            value: serde_json::to_value(&observation.build_systems).map_err(|error| {
+                ObserverError::State {
+                    path: root.clone(),
+                    message: error.to_string(),
+                }
+            })?,
+            origin: FactOrigin::Observed,
+            evidence_refs: vec!["repository-snapshot".into()],
+            confidence: "high".into(),
+        },
+    ];
+    facts.sort_by(|left, right| left.key.cmp(&right.key));
+    let mut derivations = Vec::new();
+    if !observation.quality_commands.is_empty() {
+        derivations.push(cockpit_protocol::TraceableDerivation {
+            key: "verificationCapability".into(),
+            value: serde_json::to_value(&observation.quality_commands).map_err(|error| {
+                ObserverError::State {
+                    path: root.clone(),
+                    message: error.to_string(),
+                }
+            })?,
+            rule: "observer.quality_commands_from_detected_build_system".into(),
+            input_fact_keys: vec!["buildSystems".into()],
+            evidence_refs: vec!["repository-snapshot".into()],
+            confidence: "medium".into(),
+        });
+    }
+    let mut unknowns = Vec::new();
+    if contract.intent.trim().is_empty() {
+        unknowns.push("intent".into());
+    }
+    if contract.scope.is_empty() {
+        unknowns.push("scope".into());
+    }
+    if contract.acceptance_criteria.is_empty() {
+        unknowns.push("acceptanceCriteria".into());
+    }
+    if contract.authority.trim().is_empty() || contract.authority == "unknown" {
+        unknowns.push("authority".into());
+    }
+    unknowns.sort();
+    unknowns.dedup();
+    let mut evidence_refs = vec![evidence_prefix, "repository-snapshot".into()];
+    evidence_refs.sort();
+    let approach = ImplementationApproach {
+        schema_version: 2,
+        repository_id: contract.repository_id,
+        work_item_id: work_item_id.into(),
+        repository_snapshot_digest: snapshot_digest,
+        facts,
+        derivations,
+        unknowns,
+        evidence_refs,
+    };
+    atomic_json(
+        &root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.approach.json")),
+        &serde_json::to_value(&approach).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?,
+    )?;
+    Ok(approach)
+}
+
+/// Return knowledge v2 projections without replacing the legacy index.  The
+/// projection is derived from archive contracts and bound to one snapshot.
+pub fn generate_knowledge_v2(
+    root: &Path,
+) -> Result<Vec<cockpit_protocol::KnowledgeV2Record>, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let git =
+        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
+    let digest = snapshot_digest(&snapshot)?;
+    let repository_id = repository_id(&root).to_string();
+    let archive = root.join(".ai/work-items/archive");
+    let mut records = Vec::new();
+    for entry in fs::read_dir(&archive).map_err(|source| ObserverError::Read {
+        path: archive.clone(),
+        source,
+    })? {
+        let entry = entry.map_err(|source| ObserverError::Read {
+            path: archive.clone(),
+            source,
+        })?;
+        let name = entry.file_name().to_string_lossy().into_owned();
+        let Some(work_item_id) = name.strip_suffix(".archive.json") else {
+            continue;
+        };
+        let contract: serde_json::Value =
+            read_json(&archive.join(format!("{work_item_id}.contract.json")))?;
+        let intent = contract["intent"].as_str().unwrap_or("unknown");
+        records.push(cockpit_knowledge::project_record_v2(
+            &repository_id,
+            work_item_id,
+            intent,
+            "archived",
+            &format!(".ai/work-items/archive/{work_item_id}.archive.json"),
+            digest.clone(),
+        ));
+    }
+    records.sort_by(|left, right| left.work_item_id.cmp(&right.work_item_id));
+    let path = root.join(".ai/knowledge/index.v2.json");
+    atomic_json(
+        &path,
+        &serde_json::to_value(&records).map_err(|error| ObserverError::State {
+            path: path.clone(),
+            message: error.to_string(),
+        })?,
+    )?;
+    Ok(records)
+}
+
+/// Build a human-benefit-aware outcome while preserving the distinction
+/// between verified implementation evidence and a user-visible benefit claim.
+pub fn outcome_v2(root: &Path, work_item_id: &str) -> Result<OutcomeV2, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let active = root.join(".ai/work-items/active");
+    let archive = root.join(".ai/work-items/archive");
+    let contract_path = [
+        active.join(format!("{work_item_id}.contract.json")),
+        archive.join(format!("{work_item_id}.contract.json")),
+    ]
+    .into_iter()
+    .find(|path| path.is_file())
+    .ok_or_else(|| ObserverError::State {
+        path: active.join(format!("{work_item_id}.contract.json")),
+        message: "work item contract not found".into(),
+    })?;
+    let contract = read_contract(&contract_path)?;
+    let evidence_ref = format!(".ai/evidence/{work_item_id}.verification.json");
+    let evidence_path = root.join(&evidence_ref);
+    let verified = evidence_path.is_file();
+    let state = if verified {
+        OutcomeState::Verified
+    } else {
+        OutcomeState::NotReady
+    };
+    let mut unknowns = vec!["user_visible_benefit_not_declared".into()];
+    if contract.acceptance_criteria.is_empty() {
+        unknowns.push("acceptanceCriteria".into());
+    }
+    unknowns.sort();
+    unknowns.dedup();
+    let report = HumanBenefitReport {
+        state: OutcomeState::Unknown,
+        user_visible_changes: Vec::new(),
+        affected_users: Vec::new(),
+        unknowns: vec!["user_visible_benefit_not_declared".into()],
+        evidence_refs: vec![evidence_ref.clone()],
+    };
+    Ok(OutcomeV2 {
+        schema_version: 2,
+        repository_id: contract.repository_id,
+        work_item_id: work_item_id.into(),
+        state,
+        summary: if verified {
+            "Verification evidence is present; user-visible benefit remains explicitly unknown."
+                .into()
+        } else {
+            "No verification evidence is present; outcome is not ready.".into()
+        },
+        acceptance_results: contract.acceptance_criteria,
+        unknowns,
+        evidence_refs: vec![evidence_ref],
+        human_benefit_report: report,
+    })
+}
+
+/// Derive a repository-local capability truth registry from Observer facts and
+/// profile evidence. Detection is not treated as verification unless a
+/// repository profile explicitly confirmed the command.
+pub fn capability_truth_registry(root: &Path) -> Result<CapabilityTruthRegistry, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let git =
+        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
+    let observation = observe(&root, &snapshot)?;
+    let profile_path = root.join(".ai/project.json");
+    let profile: AttachedProfile = read_json(&profile_path).and_then(|value| {
+        serde_json::from_value(value).map_err(|error| ObserverError::State {
+            path: profile_path.clone(),
+            message: error.to_string(),
+        })
+    })?;
+    let snapshot_ref = snapshot_digest(&snapshot)?.to_string();
+    let mut capabilities = Vec::new();
+    for language in &observation.languages {
+        let capability = format!("language:{language:?}").to_ascii_lowercase();
+        capabilities.push(CapabilityTruth {
+            capability,
+            state: TruthState::Observed,
+            confidence: CapabilityConfidence::High,
+            source: FactOrigin::Observed,
+            evidence_refs: vec![format!("repository-snapshot:{snapshot_ref}")],
+            verification: None,
+            unknowns: Vec::new(),
+        });
+    }
+    for build_system in &observation.build_systems {
+        let capability = format!("build:{build_system:?}").to_ascii_lowercase();
+        capabilities.push(CapabilityTruth {
+            capability,
+            state: TruthState::Observed,
+            confidence: CapabilityConfidence::High,
+            source: FactOrigin::Observed,
+            evidence_refs: vec![format!("repository-snapshot:{snapshot_ref}")],
+            verification: None,
+            unknowns: Vec::new(),
+        });
+    }
+    for command in &observation.quality_commands {
+        let key = format!(
+            "verification:{} {}",
+            command.program,
+            command.args.join(" ")
+        );
+        let confirmed = profile.tests.iter().any(|test| test == command);
+        capabilities.push(CapabilityTruth {
+            capability: key,
+            state: if confirmed {
+                TruthState::Verified
+            } else {
+                TruthState::Observed
+            },
+            confidence: if confirmed {
+                CapabilityConfidence::High
+            } else {
+                CapabilityConfidence::Medium
+            },
+            source: if confirmed {
+                FactOrigin::Declared
+            } else {
+                FactOrigin::Observed
+            },
+            evidence_refs: vec![
+                ".ai/project.json".into(),
+                format!("repository-snapshot:{snapshot_ref}"),
+            ],
+            verification: confirmed.then(|| "project-profile-confirmed".into()),
+            unknowns: if confirmed {
+                Vec::new()
+            } else {
+                vec!["command_not_profile_confirmed".into()]
+            },
+        });
+    }
+    capabilities.sort_by(|left, right| left.capability.cmp(&right.capability));
+    capabilities.dedup_by(|left, right| left.capability == right.capability);
+    Ok(CapabilityTruthRegistry {
+        schema_version: 1,
+        repository_id: repository_id(&root).to_string(),
+        snapshot_digest: snapshot_digest(&snapshot)?,
+        capabilities,
+    })
+}
+
+/// Summarize measurable governance cost from one fresh snapshot and, when
+/// requested, one bound verification receipt. Missing measurements remain
+/// unknown instead of being replaced with benchmark assumptions.
+pub fn performance_diagnosis(
+    root: &Path,
+    work_item_id: Option<&str>,
+) -> Result<PerformanceDiagnosis, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let git =
+        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
+    let mut cost = GovernanceCost {
+        snapshot_git_calls: snapshot.git_calls,
+        snapshot_files_read: snapshot.files_read,
+        snapshot_files_hashed: snapshot.files_hashed,
+        verification_runs: 0,
+        verification_nodes_executed: 0,
+        verification_nodes_reused: 0,
+        elapsed_ms: 0,
+    };
+    let mut evidence_refs = vec!["repository-snapshot".into()];
+    let mut unknowns = Vec::new();
+    if let Some(work_item_id) = work_item_id {
+        let path = root
+            .join(".ai/evidence")
+            .join(format!("{work_item_id}.verification.json"));
+        match read_json(&path) {
+            Ok(evidence) => {
+                cost.verification_runs = 1;
+                let receipt = evidence.get("receipt").unwrap_or(&evidence);
+                cost.verification_nodes_executed =
+                    receipt["nodesExecuted"].as_u64().unwrap_or(0) as usize;
+                cost.verification_nodes_reused =
+                    receipt["nodesReused"].as_u64().unwrap_or(0) as usize;
+                cost.elapsed_ms = receipt["elapsedMs"].as_u64().unwrap_or(0) as u128;
+                evidence_refs.push(format!(".ai/evidence/{work_item_id}.verification.json"));
+            }
+            Err(_) => unknowns.push("verification_receipt_missing".into()),
+        }
+    } else {
+        unknowns.push("work_item_not_selected".into());
+    }
+    let mut bottlenecks = Vec::new();
+    if cost.snapshot_files_hashed > 1000 {
+        bottlenecks.push("snapshot_hashing".into());
+    }
+    if cost.verification_nodes_executed > 0 && cost.verification_nodes_reused == 0 {
+        bottlenecks.push("verification_reuse_not_observed".into());
+    }
+    let state = if unknowns.is_empty() {
+        DiagnosisState::Known
+    } else {
+        DiagnosisState::Unknown
+    };
+    Ok(PerformanceDiagnosis {
+        schema_version: 1,
+        repository_id: repository_id(&root).to_string(),
+        work_item_id: work_item_id.map(str::to_owned),
+        state,
+        cost,
+        bottlenecks,
+        unknowns,
+        evidence_refs,
+    })
+}
+
+fn read_work_item_intelligence(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<Option<WorkItemIntelligence>, ObserverError> {
+    let path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.intelligence.json"));
+    if !path.is_file() {
+        return Ok(None);
+    }
+    let value = read_json(&path)?;
+    serde_json::from_value(value)
+        .map(Some)
+        .map_err(|error| ObserverError::State {
+            path,
+            message: error.to_string(),
+        })
+}
+
+/// Persist an explicit, repository-bound parallelism declaration next to an
+/// active Contract.  This is deliberately separate from the Runtime process:
+/// two repositories can declare identically named Work Items independently.
+pub fn set_work_item_intelligence(
+    root: &Path,
+    work_item_id: &str,
+    depends_on: Vec<String>,
+    conflicts_with: Vec<String>,
+    parallelizable: bool,
+) -> Result<WorkItemIntelligence, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let contract = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    if !contract.is_file() {
+        return Err(ObserverError::State {
+            path: contract,
+            message: "active work item contract not found".into(),
+        });
+    }
+    let intelligence = WorkItemIntelligence {
+        schema_version: 1,
+        repository_id: repository_id(&root).to_string(),
+        work_item_id: work_item_id.into(),
+        depends_on: sorted_unique(depends_on),
+        conflicts_with: sorted_unique(conflicts_with),
+        parallelizable,
+        unknowns: Vec::new(),
+    };
+    let path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.intelligence.json"));
+    atomic_json(
+        &path,
+        &serde_json::to_value(&intelligence).map_err(|error| ObserverError::State {
+            path: path.clone(),
+            message: error.to_string(),
+        })?,
+    )?;
+    Ok(intelligence)
+}
+
+fn sorted_unique(mut values: Vec<String>) -> Vec<String> {
+    values.retain(|value| !value.trim().is_empty());
+    values.sort();
+    values.dedup();
+    values
+}
+
+/// Compare one active Work Item against other active Work Items using only
+/// explicit sidecar dependencies/conflicts and declared scopes. Missing
+/// intelligence is reported as unknown and cannot silently authorize parallel
+/// execution.
+pub fn work_item_compatibility(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<WorkItemCompatibility, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let active = root.join(".ai/work-items/active");
+    let contract_path = active.join(format!("{work_item_id}.contract.json"));
+    if !contract_path.is_file() {
+        return Err(ObserverError::State {
+            path: contract_path,
+            message: "active work item contract not found".into(),
+        });
+    }
+    let target: serde_json::Value = read_json(&contract_path)?;
+    let target_scope = target["scope"]
+        .as_array()
+        .map(|items| {
+            items
+                .iter()
+                .filter_map(|item| item.as_str())
+                .collect::<Vec<_>>()
+        })
+        .unwrap_or_default();
+    let intelligence = read_work_item_intelligence(&root, work_item_id)?;
+    let mut reasons = Vec::new();
+    let mut conflicts = Vec::new();
+    let mut dependencies_satisfied = true;
+    let mut unknowns = Vec::new();
+    let Some(intelligence) = intelligence else {
+        return Ok(WorkItemCompatibility {
+            repository_id: repository_id(&root).to_string(),
+            work_item_id: work_item_id.into(),
+            compatible: false,
+            dependencies_satisfied: false,
+            conflicts,
+            reasons: vec!["parallel_compatibility_not_declared".into()],
+        });
+    };
+    for dependency in &intelligence.depends_on {
+        let path = active.join(format!("{dependency}.contract.json"));
+        if path.is_file() {
+            dependencies_satisfied = false;
+            reasons.push(format!("dependency_active:{dependency}"));
+        } else {
+            unknowns.push(format!("dependency_not_observed:{dependency}"));
+        }
+    }
+    let entries = fs::read_dir(&active).map_err(|source| ObserverError::Read {
+        path: active.clone(),
+        source,
+    })?;
+    for entry in entries {
+        let entry = entry.map_err(|source| ObserverError::Read {
+            path: active.clone(),
+            source,
+        })?;
+        let name = entry.file_name().to_string_lossy().into_owned();
+        let Some(other_id) = name.strip_suffix(".contract.json") else {
+            continue;
+        };
+        if other_id == work_item_id {
+            continue;
+        }
+        let other: serde_json::Value = read_json(&entry.path())?;
+        let other_scope = other["scope"]
+            .as_array()
+            .map(|items| {
+                items
+                    .iter()
+                    .filter_map(|item| item.as_str())
+                    .collect::<Vec<_>>()
+            })
+            .unwrap_or_default();
+        let declared_conflict = intelligence.conflicts_with.iter().any(|id| id == other_id);
+        let overlap = target_scope.iter().any(|left| {
+            other_scope
+                .iter()
+                .any(|right| left == right || left == &"**" || right == &"**")
+        });
+        if declared_conflict || overlap {
+            conflicts.push(other_id.to_string());
+            reasons.push(if declared_conflict {
+                format!("explicit_conflict:{other_id}")
+            } else {
+                format!("scope_overlap:{other_id}")
+            });
+        }
+    }
+    conflicts.sort();
+    conflicts.dedup();
+    if !unknowns.is_empty() {
+        reasons.extend(unknowns);
+    }
+    let compatible = intelligence.parallelizable
+        && dependencies_satisfied
+        && conflicts.is_empty()
+        && reasons
+            .iter()
+            .all(|reason| !reason.starts_with("dependency_not_observed"));
+    Ok(WorkItemCompatibility {
+        repository_id: repository_id(&root).to_string(),
+        work_item_id: work_item_id.into(),
+        compatible,
+        dependencies_satisfied,
+        conflicts,
+        reasons,
+    })
+}
+
+fn knowledge_source_digest(archive: &Path) -> Result<String, ObserverError> {
+    let mut entries = Vec::new();
+    for entry in fs::read_dir(archive).map_err(|source| ObserverError::Read {
+        path: archive.into(),
+        source,
+    })? {
+        let entry = entry.map_err(|source| ObserverError::Read {
+            path: archive.into(),
+            source,
+        })?;
+        let path = entry.path();
+        if !path.is_file() {
+            continue;
+        }
+        let relative = path
+            .strip_prefix(archive)
+            .map_err(|error| ObserverError::State {
+                path: path.clone(),
+                message: error.to_string(),
+            })?
+            .to_string_lossy()
+            .replace('\\', "/");
+        let metadata = fs::metadata(&path).map_err(|source| ObserverError::Read {
+            path: path.clone(),
+            source,
+        })?;
+        if metadata.len() > MAX_RECEIPT_INDEX_BYTES {
+            return Err(ObserverError::State {
+                path,
+                message: "knowledge source file exceeds bounded cache input".into(),
+            });
+        }
+        let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
+            path: path.clone(),
+            source,
+        })?;
+        entries.push((relative, Digest::sha256_bytes(&bytes).to_string()));
+    }
+    entries.sort();
+    Ok(
+        Digest::sha256_bytes(&serde_json::to_vec(&entries).map_err(|error| {
+            ObserverError::State {
+                path: archive.into(),
+                message: error.to_string(),
+            }
+        })?)
+        .to_string(),
+    )
 }
 
 fn validate_work_item_id(id: &str) -> Result<(), ObserverError> {

@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T23:02:47Z",
+  "files": {
+    "contractDigest": "sha256:0c36e72cc1b746ba2f5ef16a2186a8a5b92d8687bee5f833987cc2840c5d5f9a",
+    "contractPath": ".ai/work-items/archive/WI-76-outcome-human-benefit.contract.json",
+    "outcomeDigest": "sha256:3e1f27bff50df3ad8005a5a4103857acade7377f24411ac6ecc70e6ecc49dab6",
+    "outcomePath": ".ai/work-items/archive/WI-76-outcome-human-benefit.outcome.json",
+    "summaryDigest": "sha256:4e2b52c8f623c2c34225cec6d92e2f62f4ae5844c4259a504f81b2e7b70750d0",
+    "summaryPath": ".ai/work-items/archive/WI-76-outcome-human-benefit.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-76-outcome-human-benefit"
+}

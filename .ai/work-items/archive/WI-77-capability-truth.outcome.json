@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T23:02:49Z",
+  "evidenceDigest": "sha256:2dd6dd5e68bb68ee0e5f99aac25c26e3c25e5242788c632dad170cec1398b206",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-77-capability-truth.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-77-capability-truth"
+}

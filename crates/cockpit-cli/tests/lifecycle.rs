@@ -126,7 +126,9 @@ fn work_item_lifecycle_is_atomic_and_archive_is_content_bound() {
         repo.join(".ai/work-items/active/WI-TEST.outcome.json")
             .is_file()
     );
-    run(binary, &["archive", "--id", "WI-TEST"], &repo);
+    let archived = run(binary, &["archive", "--id", "WI-TEST"], &repo);
+    assert_eq!(archived["outcome"]["workItemId"], "WI-TEST");
+    assert_eq!(archived["outcome"]["verification"]["status"], "verified");
     assert!(
         !repo
             .join(".ai/work-items/active/WI-TEST.contract.json")
@@ -136,7 +138,7 @@ fn work_item_lifecycle_is_atomic_and_archive_is_content_bound() {
         repo.join(".ai/work-items/archive/WI-TEST.archive.json")
             .is_file()
     );
-    run(
+    let closed = run(
         binary,
         &[
             "close",
@@ -161,6 +163,8 @@ fn work_item_lifecycle_is_atomic_and_archive_is_content_bound() {
         ],
         &repo,
     );
+    assert_eq!(closed["outcome"]["workItemId"], "WI-TEST");
+    assert_eq!(closed["outcome"]["verification"]["status"], "verified");
     let decision: serde_json::Value = serde_json::from_slice(
         &fs::read(repo.join(".ai/decisions/WI-TEST.close.json")).expect("decision"),
     )

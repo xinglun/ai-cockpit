@@ -1,0 +1,21 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "accepted",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "repository-owner",
+    "authoritySource": "user-authorized-release-work",
+    "decidedAt": "2026-08-21T23:31:00Z",
+    "decision": "accepted",
+    "evidenceRefs": [
+      ".ai/evidence/WI-82-v1-final-replacement-acceptance.verification.json"
+    ],
+    "policyRefs": [
+      "WI-82-v1-final-replacement-acceptance"
+    ],
+    "reason": "Final replacement acceptance passed all bounded gates and produced immutable receipt artifacts.",
+    "resumeCondition": "Reopen only if a subsequent release acceptance detects a regression."
+  },
+  "timestamp": "2026-08-21T23:30:08Z",
+  "workItemId": "WI-82-v1-final-replacement-acceptance"
+}

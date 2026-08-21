@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T23:02:49Z",
+  "files": {
+    "contractDigest": "sha256:18ae95385825f158266315fd6e6445583125b0f46d45871a5f199e707636c4a2",
+    "contractPath": ".ai/work-items/archive/WI-77-capability-truth.contract.json",
+    "outcomeDigest": "sha256:71f77c008ed0ff1cfc36474d0f6db13f2f0f13b8d1bb12cc3f3cdfb84b318672",
+    "outcomePath": ".ai/work-items/archive/WI-77-capability-truth.outcome.json",
+    "summaryDigest": "sha256:44c5e988cf3bcc0f834b3700e53efcb58d14e2287fe5cc4ac621b2bf71b50bff",
+    "summaryPath": ".ai/work-items/archive/WI-77-capability-truth.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-77-capability-truth"
+}

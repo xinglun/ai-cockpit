@@ -14,8 +14,9 @@ capabilityClaims:
 
 # 命令参考
 
-所有 repository 命令都接受显式 `--repo <path>`。产生记录或 decision 的命令输出为 JSON；
-`work-item new` 会先输出简短的人类可读摘要，再输出 JSON 记录。失败或 unknown 不能算 pass。
+所有 repository 命令都接受显式 `--repo <path>`。产生记录或 decision 的命令通常输出 JSON；
+`work-item outcome` 默认输出本地化的面向人交接结果，需要稳定机器接口时使用 `--json`。
+失败或 unknown 不能算 pass。
 
 | 分组 | 命令 | 边界 |
 | --- | --- | --- |
@@ -38,6 +39,8 @@ capabilityClaims:
 - `start` 要求 `--id`、`--intent`、`--goal`；要得到 green governed flow 需要 `--authority authorized`。
 - `work-item new --repo <path> --id <id> --mode <mode>` 创建 `not_ready` 骨架，只填充 snapshot-derived facts，
   人类字段保持空值或 `unknown`；过渡期 `start` 复用同一 writer。
+- `work-item outcome --repo <path> --id <id>` 按已完成内容、问题、停止、风险、未知、决定、验证、影响和下一步的顺序输出面向人的结果。
+  自动化请使用 `--json`。状态标记和语言规则见[面向人的 Outcome](outcome-report.zh-CN.md)。
 - `profile propose --repo <path>` 只读输出 `candidate`/`proposed` amendment，不会应用 profile baseline 修改。
 - `agent list --repo <path>` 是只读操作；`agent install` 是唯一正常的 adapter 写入口，必须指定
   `--provider`（`auto` 只有在恰好一个无歧义安全 surface 时可用；`AGENTS.md` 默认选择 Codex）。`agent doctor --repo <path> --json`
@@ -80,3 +83,6 @@ protocol version。`ai-cockpit --version` 只输出简短的 executable version�
 `tests/release/adopter_acceptance.sh` 是维护者侧的发布后 harness，不是 Runtime 命令。它下载并固定公开
 Release binary，在隔离目录中执行 adopter lifecycle，并生成 `acceptance.json` 与 `SHA256SUMS`。不得用 workspace
 build 或本地 target binary 替代；验收失败也不会改变已发布 Release truth。
+
+`tests/conformance/final_replacement_acceptance.sh` 是源码仓库的最终替代边界，记录安装的 Runtime identity、锁定的
+reference oracle、conformance/adversarial/performance gate 和无复制检查，并生成 `acceptance.json` 与 `SHA256SUMS`。

@@ -215,6 +215,12 @@ ai-cockpit close --repo /path/to/repository --id WI-123 \
 receipt を要求し、`close` は archive manifest と human decision を要求します。失敗したら
 Work Item を残し、evidence を修復します。record を削除して状態を隠してはいけません。
 
+`finish`、`archive`、`close` の JSON 結果には、bound された `outcome` object が必ず含まれます。
+Agent はこの Outcome を独立した会話メッセージとして明示してください。ファイルにだけ保存された結果や、
+折りたたまれた結果は delivery confirmation ではありません。
+`work-item outcome` は既定で localize された人間向け handoff を表示し、Agent や script が安定した object を
+必要とする場合は `--json` を指定します。[人間向け Outcome](reference/outcome-report.ja.md) を参照してください。
+
 ### Verification と reuse
 
 Explicit command と Work Item-bound verification は常に fresh です。
@@ -250,6 +256,28 @@ ai-cockpit knowledge query --repo /path/to/repository --topic installation
 
 Knowledge は repository-local evidence の projection で、第二の source of truth ではありません。
 Work Item や receipt が missing、stale、invalid なら新しい claim に変換しません。
+
+### Traceability、Outcome、parallel readiness
+
+v2 intelligence projection は fact と derivation を分離し、人間が決める intent や authority を補いません。
+
+```bash
+ai-cockpit work-item approach --repo /path/to/repository --id WI-123
+ai-cockpit work-item outcome --repo /path/to/repository --id WI-123
+ai-cockpit work-item inspect --repo /path/to/repository --id WI-123
+ai-cockpit work-item declare --repo /path/to/repository --id WI-123 \
+  --depends-on WI-100 --conflicts-with WI-124 --parallelizable
+ai-cockpit knowledge query --repo /path/to/repository --v2
+ai-cockpit capability show --repo /path/to/repository
+ai-cockpit diagnose --repo /path/to/repository --work-item WI-123
+```
+
+`approach` は observed fact、名前付き derivation、evidence reference、未解決の human input を出力します。
+`outcome` は verified implementation evidence と Human Benefit Report を分離し、宣言されていない user benefit は
+`unknown` のままです。Capability Registry は detection と profile-confirmed verification を区別し、confidence と
+evidence を記録します。`inspect` は dependency、conflict、scope compatibility が明示的に分からない場合に
+parallel execution を fail closed にします。Diagnosis は実測した snapshot/verification cost だけを報告し、benchmark
+を装いません。
 
 ### MCP を使う
 

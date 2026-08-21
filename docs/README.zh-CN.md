@@ -51,6 +51,11 @@ capabilityClaims:
 - [实测性能基线](performance/baseline.zh-CN.md)
 - [对抗性验证](security/adversarial-validation.zh-CN.md)
 - [参考](reference/README.zh-CN.md)——命令、配置和恢复。
+- [面向人的 Outcome](reference/outcome-report.zh-CN.md)——可读结果、证据、风险和下一步。
+- [最终替代验收](reference/final-replacement-acceptance.zh-CN.md)——conformance 和无复制发布边界。
+- [企业治理](security/enterprise-governance.zh-CN.md)——策略层、委托证据、保留和审计导出。
+- [安全与威胁模型](security/threat-model.zh-CN.md)——部署边界与安全假设。
+- [漏洞报告](security/vulnerability-reporting.zh-CN.md)——支持版本和私密报告路径。
 
 ## 维护者与审计路线
 

@@ -91,11 +91,17 @@ receipt 绑定迁移前后 repository digest 以及 Runtime version/digest；历
 N-1 acceptance harness 使用旧、新公开归档证明这个边界。它是发布后 artifact，不是源码构建
 fallback，也不替代 Release truth。
 
+Release tag 只有在发布及其 handoff 完成后才会调用这个 harness；workflow 会解析上一个已发布
+Release，并独立上传 receipt。手动触发必须显式提供公开的 `from_tag` 和 `to_tag`，且永远不会
+发布 Release。如果不存在上一个 Release，workflow 会记录带 checksum 的 `not_applicable` 结果。
+保持同一 schema 的 patch upgrade 仍会执行 harness 并记录
+`migrationState: not_required`；只有 schema 变化的 pair 才进入需要批准的 migration 分支。
+
 ## 信任边界
 
 - `cockpit-release` 与 release workflow 负责本地 release contract、确定性 manifest、Formula 投影、
   hosted checks 和已发布 Release identity。
-- 当前不可变公开基线是 `v0.2.2`；public adopter acceptance 和 N-1 升级验收属于发布后 evidence。外部 Homebrew tap 是
+- 当前不可变公开基线是 `v0.2.3`；public adopter acceptance 和 N-1 升级验收属于发布后 evidence。外部 Homebrew tap 是
   独立 provider surface，不由本仓库自动保证。
 - Tap 接收经过审查的 Formula 投影，不会重新构建 binary。
 - Homebrew 是交付路径，不是治理权威。Repository 事实和人类决策仍来自已 attach 的 repository 与 Work Item。

@@ -16,6 +16,20 @@ keywords: [ai-cockpit, architecture, evidence-flow, boundaries]
 
 # Architecture
 
+## Structured operation requests
+
+Adapters may submit a `RequestedOperationV2` envelope to the Core. It binds a
+request to a repository ID and Work Item ID and carries explicit operation,
+scope, authority, evidence, and policy references. `CapabilityMappingV2` must
+declare the same operation and its deterministic action class; a capability
+cannot widen scope or relabel a destructive operation as an ordinary write.
+
+The Core validates the schema and identity first, then maps the envelope to the
+existing pure governance evaluator. It never derives authority, scope, or an
+operation from the optional `intent` field or from Agent prose. A future
+request-envelope schema is rejected until an adapter explicitly supports it;
+this is independent from repository schema migration.
+
 ## Purpose
 
 This page answers: **how does a human request become a reviewable repository
@@ -116,9 +130,7 @@ Release archive / Homebrew / Cargo Git
 ```
 
 `cockpit.toml` remains the repository configuration format and is stored under
-`.ai/`. The installed
-runtime is not copied into the target repository, and this development checkout
-intentionally remains without `.ai`.
+`.ai/`. The installed runtime is not copied into the target repository.
 
 The full release and Homebrew trust path is documented in
 [Release distribution architecture](architecture/release-distribution.md).

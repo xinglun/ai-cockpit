@@ -1,0 +1,19 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:owner",
+    "authoritySource": "user-instruction",
+    "decidedAt": "2026-08-21T23:17:40Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-90-outcome-dialog-visibility.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "Outcome visibility requirement accepted and regression-tested",
+    "resumeCondition": "rerun if lifecycle output contract changes"
+  },
+  "timestamp": "2026-08-21T23:17:27Z",
+  "workItemId": "WI-90-outcome-dialog-visibility"
+}

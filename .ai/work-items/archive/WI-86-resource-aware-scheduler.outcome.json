@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T23:07:59Z",
+  "evidenceDigest": "sha256:43caa37ad02f30ad04beeb51d6eb9211d4ae399077629cc92565d68362214e7d",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-86-resource-aware-scheduler.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-86-resource-aware-scheduler"
+}

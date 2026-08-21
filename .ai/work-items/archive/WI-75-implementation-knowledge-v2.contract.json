@@ -1,0 +1,35 @@
+{
+  "acceptanceCriteria": [
+    "implementation approach v2 separates observed facts from derived conclusions",
+    "knowledge v2 preserves evidence references and unknowns",
+    "repository isolation remains explicit"
+  ],
+  "authority": "authorized",
+  "baseRevision": "0c507c42ed318a9fb173e2b658ed47743dd6953c",
+  "createdAt": "2026-08-21T22:53:48Z",
+  "goal": "Facts, derivations, unknowns, and evidence provenance are explicit and queryable without creating a second source of truth",
+  "intent": "Add traceable implementation approach and knowledge v2 projections",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/cockpit-release/**",
+    "crates/cockpit-verification/**",
+    "tests/release/**"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:031fdfe388a30dc91a1a03fdef5c8bf3a726141fdb52f8cc6731b936b0f6dac0",
+  "requiredEvidenceClasses": [],
+  "risk": "normal",
+  "scope": [
+    "Cargo.lock",
+    "crates/cockpit-protocol/**",
+    "crates/cockpit-knowledge/**",
+    "crates/cockpit-repository/**",
+    "crates/cockpit-cli/**",
+    "docs/**",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-75-implementation-knowledge-v2"
+}

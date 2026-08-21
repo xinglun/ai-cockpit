@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T23:04:23Z",
+  "files": {
+    "contractDigest": "sha256:d576f7b17e10c9d953a9f8208fd77c020c21faeb9fbdf8c42773eb15e18e341f",
+    "contractPath": ".ai/work-items/archive/WI-79-work-item-intelligence-cli.contract.json",
+    "outcomeDigest": "sha256:4b806e02a602d86e719ad2c7222bd5a1c355d96f51d016a3d115dc332919ebd9",
+    "outcomePath": ".ai/work-items/archive/WI-79-work-item-intelligence-cli.outcome.json",
+    "summaryDigest": "sha256:ebbae960aa9a9d046c24033743b3647bfeda5bd20da914c66d45229b5d23325d",
+    "summaryPath": ".ai/work-items/archive/WI-79-work-item-intelligence-cli.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-79-work-item-intelligence-cli"
+}

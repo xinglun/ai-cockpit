@@ -14,6 +14,13 @@ capabilityClaims:
 
 # Protocol 兼容规则
 
+## Request envelope 兼容性
+
+Core 仅在 envelope 的 `schemaVersion` 为 `2` 时接受
+`RequestedOperationV2` 和 `CapabilityMappingV2`。这个 request-envelope 版本是
+adapter/Core contract，不是 repository schema 版本。未知的未来 envelope 版本会
+fail closed；不会降级为 raw request，也不会被静默当成已授权。
+
 以下是当前 runtime 实现的兼容规则：
 
 1. 在不执行 repository material 的情况下解析 protocol version。

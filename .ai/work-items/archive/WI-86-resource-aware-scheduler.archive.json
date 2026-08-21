@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T23:07:59Z",
+  "files": {
+    "contractDigest": "sha256:8f091b849675864b77e54084cfe28743b6a25b0913436ceacac434b1f81c3e43",
+    "contractPath": ".ai/work-items/archive/WI-86-resource-aware-scheduler.contract.json",
+    "outcomeDigest": "sha256:31eaa3cd68b661556093f9e5ae5d3d32b0ea6a6314cd15dd0e1a454341833dbe",
+    "outcomePath": ".ai/work-items/archive/WI-86-resource-aware-scheduler.outcome.json",
+    "summaryDigest": "sha256:c07b0642d98a6151f7ade919a76864b0bf7dbfda0a9fad691ae85ed136504818",
+    "summaryPath": ".ai/work-items/archive/WI-86-resource-aware-scheduler.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-86-resource-aware-scheduler"
+}

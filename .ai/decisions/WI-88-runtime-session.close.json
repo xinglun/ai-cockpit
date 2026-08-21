@@ -1,0 +1,19 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved after explicit runtime session isolation tests",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "codex",
+    "authoritySource": "user-authorized-work-item",
+    "decidedAt": "2026-08-21T23:08:50Z",
+    "decision": "approved after explicit runtime session isolation tests",
+    "evidenceRefs": [
+      ".ai/evidence/WI-88-runtime-session.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "Focused session binding evidence passed.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-08-21T23:08:37Z",
+  "workItemId": "WI-88-runtime-session"
+}

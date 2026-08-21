@@ -1,0 +1,31 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-82-v1-final-replacement-acceptance.close.json",
+    ".ai/evidence/WI-82-v1-final-replacement-acceptance.verification.json",
+    ".ai/work-items/archive/WI-82-v1-final-replacement-acceptance.archive.json",
+    ".ai/work-items/archive/WI-82-v1-final-replacement-acceptance.contract.json",
+    ".ai/work-items/archive/WI-82-v1-final-replacement-acceptance.outcome.json",
+    ".ai/work-items/archive/WI-82-v1-final-replacement-acceptance.summary.json",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/intelligence.rs",
+    "docs/reference/README.ja.md",
+    "docs/reference/README.md",
+    "docs/reference/README.zh-CN.md",
+    "docs/reference/final-replacement-acceptance.ja.md",
+    "docs/reference/final-replacement-acceptance.md",
+    "docs/reference/final-replacement-acceptance.zh-CN.md",
+    "docs/reference/outcome-report.ja.md",
+    "docs/reference/outcome-report.md",
+    "docs/reference/outcome-report.zh-CN.md",
+    "tests/conformance/final_replacement_acceptance.sh",
+    "tests/conformance/final_replacement_acceptance_test.sh"
+  ],
+  "checkpointCount": 1,
+  "createdAt": "2026-08-21T23:30:48Z",
+  "mode": "implementation",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-21T23:32:14Z",
+  "workItemId": "WI-90a-outcome-presentation-polish"
+}

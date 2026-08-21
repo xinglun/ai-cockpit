@@ -16,6 +16,19 @@ keywords: [ai-cockpit, architecture, evidence-flow, boundaries]
 
 # 架构
 
+## 结构化操作请求
+
+Adapter 可以向 Core 提交 `RequestedOperationV2` envelope。它把请求绑定到
+repository ID 和 Work Item ID，并携带明确的 operation、scope、authority、
+evidence 和 policy reference。`CapabilityMappingV2` 必须声明相同的 operation
+及其确定性的 action class；capability 不能扩大 scope，也不能把 destructive
+operation 重新标记为普通写入。
+
+Core 先验证 schema 和 identity，再将 envelope 映射到现有的纯治理 evaluator。
+它不会从可选的 `intent` 字段或 Agent 文本推导 authority、scope 或 operation。
+未来的 request-envelope schema 会在 adapter 显式支持前被拒绝；它与 repository
+schema migration 相互独立。
+
 ## 目的
 
 本页回答：**人类请求如何成为可审查的 repository 决策，安装后的 runtime 又位于哪里？**
@@ -108,8 +121,7 @@ Release archive / Homebrew / Cargo Git
        目标 repository + `.ai/` scaffold + discovery manifest
 ```
 
-`cockpit.toml` 仍然是 repository 配置格式，并存放在 `.ai/` 下。安装后的 runtime 不会被复制进目标 repository；
-当前 development checkout 也会有意保持没有 `.ai`。
+`cockpit.toml` 仍然是 repository 配置格式，并存放在 `.ai/` 下。安装后的 runtime 不会被复制进目标 repository。
 
 完整的 release 与 Homebrew 信任路径见
 [发布分发架构](architecture/release-distribution.zh-CN.md)。

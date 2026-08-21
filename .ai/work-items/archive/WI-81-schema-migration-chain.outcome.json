@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T23:00:58Z",
+  "evidenceDigest": "sha256:765e0806130332e8aec683ac137ed10666344cd2ec81c1983450c3c2c845f73b",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-81-schema-migration-chain.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-81-schema-migration-chain"
+}

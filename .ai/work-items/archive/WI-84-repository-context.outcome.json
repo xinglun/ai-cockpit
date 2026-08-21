@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T23:06:59Z",
+  "evidenceDigest": "sha256:213e01c8b5461bd6ad0486df14e0b5d9f3cac7985c8264290cd63f5fe54a893a",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-84-repository-context.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-84-repository-context"
+}

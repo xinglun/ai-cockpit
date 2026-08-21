@@ -7,20 +7,16 @@ audience:
   - maintainer
 status: current
 authority: canonical
-lastVerifiedBy: wi-41-reference-parity
+lastVerifiedBy: documentation-acceptance
 capabilityClaims:
   - reference_parity
 ---
 
 # Reference source parity
 
-This page records the comparison between `xinglun/ai-cockpit` and the reference
-source `spirex-ds-dev/ai-cockpit-template`. The reference snapshot used for this
-review was commit `e5acb67`; the Rust runtime baseline was `031f67d`.
-
-The comparison is a boundary audit, not a request to copy the reference
-implementation. The Rust project is a separate V2 runtime and must not install
-V1 Python modules, Makefile helpers, or V1 repository state.
+This page records the capability comparison between the Rust runtime and the
+reference AI Cockpit product. It is a product-boundary reference for adopters
+and reviewers; implementation history is kept outside the reader route.
 
 ## Parity matrix
 
@@ -34,11 +30,10 @@ V1 Python modules, Makefile helpers, or V1 repository state.
 | Work Item lifecycle and governance decisions | Implemented | Contract, preflight, verification evidence, archive, close, and human decision records. |
 | Bounded verification and fail-closed evidence reuse | Implemented | Runtime identity, snapshot/toolchain/environment bindings, receipt store, and workspace verification suite. |
 | MCP repository binding | Implemented | Repository-bound stdio MCP service and CLI/MCP parity tests. |
-| Public Release and fresh-adopter acceptance | Implemented | WI-40 harness, public Release evidence, and post-publication CI job. |
+| Public Release and fresh-adopter acceptance | Implemented | The public-binary harness, Release evidence, and post-publication CI job are available. |
 | Runtime-only upgrade versus repository migration | Implemented | `compatibility`, `migrate plan`, and approved `migrate apply` preserve historical evidence and bind Runtime identity. |
-| N-1 old-adopter upgrade acceptance | Implemented | WI-44 public-artifact harness covers old schema, approval gate, history preservation, and continued operation. |
+| N-1 old-adopter upgrade acceptance | Available as a public-artifact harness | The harness covers old-schema detection, an approval gate, history preservation, and continued operation; each Release workflow must explicitly enable this gate. |
 | Reference installer, Makefile, and V1 helper scripts | Intentionally not copied | The Rust project distributes the Rust binary and keeps installation/provider configuration separate from repository state. |
-| Reference source historical Work Items and internal progress plans | Not a product capability | Internal history is being removed from reader routes by WI-42; archived evidence remains auditable in Git. |
 
 ## What is complete
 
@@ -53,7 +48,7 @@ files where appropriate; changing `cockpit.toml` to JSON is not part of parity.
 
 ## Current boundary
 
-The reader route, Runtime migration boundary, and N-1 release acceptance are
-implemented and documented. Future changes must preserve the separation between
+The reader route, Runtime migration boundary, and public-artifact acceptance
+harnesses are implemented and documented. Future changes must preserve the separation between
 shared Runtime upgrades, explicit repository migration, and repository-local
 evidence.

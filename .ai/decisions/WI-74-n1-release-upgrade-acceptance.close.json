@@ -1,0 +1,17 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "legacy-cli",
+    "authoritySource": "explicit-cli",
+    "decidedAt": "2026-08-21T23:12:51Z",
+    "decision": "approved",
+    "evidenceRefs": [],
+    "policyRefs": [],
+    "reason": "legacy human-decision input; provide structured fields for enterprise assurance",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-08-21T23:12:51Z",
+  "workItemId": "WI-74-n1-release-upgrade-acceptance"
+}

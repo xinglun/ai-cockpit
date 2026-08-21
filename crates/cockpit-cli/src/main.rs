@@ -5,7 +5,8 @@ use cockpit_git::GitRepository;
 use cockpit_knowledge::{Query, query};
 use cockpit_protocol::{
     AgentProvider, Contract, DataClassification, DelegatedEvidence, EvidencePersistence,
-    EvidenceRetention, HumanDecision, RepositoryConfig, validate_protocol_version,
+    EvidenceRetention, HumanDecision, OutcomeState, OutcomeV2, RepositoryConfig,
+    validate_protocol_version,
 };
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
@@ -142,6 +143,16 @@ enum CommandKind {
     WorkItem {
         #[command(subcommand)]
         command: WorkItemCommand,
+    },
+    Capability {
+        #[command(subcommand)]
+        command: CapabilityCommand,
+    },
+    Diagnose {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        work_item: Option<String>,
     },
     Knowledge {
         #[command(subcommand)]
@@ -285,6 +296,8 @@ enum KnowledgeCommand {
         state: Option<String>,
         #[arg(long)]
         work_item_id: Option<String>,
+        #[arg(long)]
+        v2: bool,
     },
 }
 
@@ -297,6 +310,47 @@ enum WorkItemCommand {
         id: String,
         #[arg(long)]
         mode: String,
+    },
+    Approach {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+    },
+    Outcome {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+        /// Emit the stable machine-readable Outcome JSON instead of the human handoff.
+        #[arg(long)]
+        json: bool,
+    },
+    Inspect {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+    },
+    Declare {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+        #[arg(long, value_delimiter = ',')]
+        depends_on: Vec<String>,
+        #[arg(long, value_delimiter = ',')]
+        conflicts_with: Vec<String>,
+        #[arg(long, default_value_t = false)]
+        parallelizable: bool,
+    },
+}
+
+#[derive(Debug, Subcommand)]
+enum CapabilityCommand {
+    Show {
+        #[arg(long)]
+        repo: PathBuf,
     },
 }
 
@@ -328,6 +382,221 @@ enum MigrateCommand {
         #[arg(long)]
         approved: bool,
     },
+}
+
+/// Select the language used by the human handoff. The agent-facing dialog is
+/// localized by the conversation layer; the CLI falls back to the user's
+/// locale so the same report is useful when invoked directly.
+fn output_language() -> &'static str {
+    let value = std::env::var("AI_COCKPIT_LANGUAGE")
+        .or_else(|_| std::env::var("LC_ALL"))
+        .or_else(|_| std::env::var("LANGUAGE"))
+        .or_else(|_| std::env::var("LANG"))
+        .unwrap_or_default()
+        .to_ascii_lowercase();
+    if value.starts_with("zh") {
+        "zh"
+    } else if value.starts_with("ja") {
+        "ja"
+    } else {
+        "en"
+    }
+}
+
+fn bullet_lines(items: &[String], none: &str) -> String {
+    if items.is_empty() {
+        format!("- {none}")
+    } else {
+        items
+            .iter()
+            .map(|item| format!("- {item}"))
+            .collect::<Vec<_>>()
+            .join("\n")
+    }
+}
+
+fn human_acceptance_results(results: &[String]) -> Vec<String> {
+    let mut normalized: Vec<String> = Vec::new();
+    for result in results {
+        if result.starts_with(char::is_whitespace) && !normalized.is_empty() {
+            if let Some(previous) = normalized.last_mut() {
+                previous.push_str(result);
+            }
+        } else {
+            normalized.push(result.clone());
+        }
+    }
+    normalized
+}
+
+fn outcome_status(state: &OutcomeState, language: &str) -> (&'static str, &'static str) {
+    match (language, state) {
+        ("zh", OutcomeState::Verified) => ("🟢", "成功"),
+        ("zh", OutcomeState::Partial) => ("🟡", "部分完成"),
+        ("zh", OutcomeState::NotReady) => ("🟡", "未就绪"),
+        ("zh", OutcomeState::Unknown) => ("🟡", "未知"),
+        ("ja", OutcomeState::Verified) => ("🟢", "成功"),
+        ("ja", OutcomeState::Partial) => ("🟡", "部分完了"),
+        ("ja", OutcomeState::NotReady) => ("🟡", "未準備"),
+        ("ja", OutcomeState::Unknown) => ("🟡", "不明"),
+        (_, OutcomeState::Verified) => ("🟢", "Success"),
+        (_, OutcomeState::Partial) => ("🟡", "Partial"),
+        (_, OutcomeState::NotReady) => ("🟡", "Not ready"),
+        (_, OutcomeState::Unknown) => ("🟡", "Unknown"),
+    }
+}
+
+fn render_human_outcome(outcome: &OutcomeV2) -> String {
+    let language = output_language();
+    let (marker, status) = outcome_status(&outcome.state, language);
+    let report = &outcome.human_benefit_report;
+    let none = match language {
+        "zh" => "无",
+        "ja" => "なし",
+        _ => "None",
+    };
+    let (
+        title,
+        completed,
+        problems,
+        stops,
+        resolved,
+        avoided,
+        remaining,
+        unknowns,
+        decisions,
+        verification,
+        impact,
+        next_action,
+        evidence,
+    ) = match language {
+        "zh" => (
+            "结果",
+            "已完成",
+            "发现的问题",
+            "触发的停止",
+            "已解决的问题",
+            "避免的风险",
+            "剩余风险",
+            "未知项",
+            "人工决定",
+            "验证",
+            "影响",
+            "下一步",
+            "证据",
+        ),
+        "ja" => (
+            "結果",
+            "完了したこと",
+            "発見された問題",
+            "発動した停止",
+            "解決した問題",
+            "回避したリスク",
+            "残存リスク",
+            "不明点",
+            "人間の判断",
+            "検証",
+            "影響",
+            "次のアクション",
+            "証拠",
+        ),
+        _ => (
+            "Task Result",
+            "What was completed",
+            "Problems found",
+            "Stops triggered",
+            "Problems resolved",
+            "Risks avoided",
+            "Remaining risks",
+            "Unknowns",
+            "Human decisions",
+            "Verification",
+            "Impact",
+            "Next action",
+            "Evidence",
+        ),
+    };
+    let not_ready = match language {
+        "zh" => "必需的验证证据尚未生成，不能宣称完成。",
+        "ja" => "必須の検証証拠がまだなく、完了とは言えません。",
+        _ => "Required verification evidence is not present; completion cannot be claimed.",
+    };
+    let no_benefit = match language {
+        "zh" => "用户可见收益尚未声明。",
+        "ja" => "ユーザー向けの効果はまだ宣言されていません。",
+        _ => "User-visible benefit has not been declared.",
+    };
+    let next = match (language, &outcome.state) {
+        ("zh", OutcomeState::Verified) => "审阅证据后再决定是否继续；🟢 不代表已授权合并或发布。",
+        ("zh", _) => "补齐缺失证据并重新验证；在此之前保持停止。",
+        ("ja", OutcomeState::Verified) => {
+            "証拠を確認してから続行を判断してください。🟢 はマージやリリースの承認ではありません。"
+        }
+        ("ja", _) => "不足している証拠を補い、再検証してください。それまでは停止状態を維持します。",
+        (_, OutcomeState::Verified) => {
+            "Review the evidence before deciding whether to proceed; 🟢 does not authorize merge or release."
+        }
+        (_, _) => "Repair the missing evidence and verify again; remain stopped until then.",
+    };
+    let mut unknowns_all = outcome.unknowns.clone();
+    unknowns_all.extend(report.unknowns.iter().cloned());
+    unknowns_all.sort();
+    unknowns_all.dedup();
+    let mut problems_found = Vec::new();
+    if matches!(outcome.state, OutcomeState::NotReady) {
+        problems_found.push(not_ready.into());
+    }
+    let acceptance_results = human_acceptance_results(&outcome.acceptance_results);
+    let completed_items = if acceptance_results.is_empty() {
+        vec![outcome.summary.clone()]
+    } else {
+        let mut items = vec![outcome.summary.clone()];
+        items.extend(acceptance_results);
+        items
+    };
+    let impact_items = if report.user_visible_changes.is_empty() && report.affected_users.is_empty()
+    {
+        vec![no_benefit.into()]
+    } else {
+        report
+            .user_visible_changes
+            .iter()
+            .chain(report.affected_users.iter())
+            .cloned()
+            .collect()
+    };
+    let verification_items = if outcome.evidence_refs.is_empty() {
+        vec![format!("{status}")]
+    } else {
+        outcome
+            .evidence_refs
+            .iter()
+            .map(|reference| format!("{status}: {reference}"))
+            .collect()
+    };
+    let stop_items = if matches!(
+        outcome.state,
+        OutcomeState::NotReady | OutcomeState::Unknown
+    ) {
+        vec![not_ready.into()]
+    } else {
+        Vec::new()
+    };
+    let header = format!("{title} — {}\n{} {status}", outcome.work_item_id, marker);
+    format!(
+        "{header}\n\n{completed}\n{}\n\n{problems}\n{}\n\n{stops}\n{}\n\n{resolved}\n{}\n\n{avoided}\n{}\n\n{remaining}\n{}\n\n{unknowns}\n{}\n\n{decisions}\n{}\n\n{verification}\n{}\n\n{impact}\n{}\n\n{next_action}\n- {next}\n\n{evidence}\n{}",
+        bullet_lines(&completed_items, none),
+        bullet_lines(&problems_found, none),
+        bullet_lines(&stop_items, none),
+        bullet_lines(&Vec::new(), none),
+        bullet_lines(&Vec::new(), none),
+        bullet_lines(&unknowns_all, none),
+        bullet_lines(&unknowns_all, none),
+        bullet_lines(&Vec::new(), none),
+        bullet_lines(&verification_items, none),
+        bullet_lines(&impact_items, none),
+        bullet_lines(&outcome.evidence_refs, none),
+    )
 }
 
 fn main() {
@@ -780,7 +1049,69 @@ fn run() -> Result<()> {
                 println!("\nState: {}", receipt.state);
                 println!("\n{}", serde_json::to_string_pretty(&receipt)?);
             }
+            WorkItemCommand::Approach { repo, id } => {
+                require_compatible(&repo, &runtime_context)?;
+                let approach = cockpit_repository::implementation_approach(&repo, &id)
+                    .context("derive implementation approach")?;
+                println!("{}", serde_json::to_string_pretty(&approach)?);
+            }
+            WorkItemCommand::Outcome { repo, id, json } => {
+                require_compatible(&repo, &runtime_context)?;
+                let outcome =
+                    cockpit_repository::outcome_v2(&repo, &id).context("read Work Item outcome")?;
+                if json {
+                    println!("{}", serde_json::to_string_pretty(&outcome)?);
+                } else {
+                    println!("{}", render_human_outcome(&outcome));
+                }
+            }
+            WorkItemCommand::Inspect { repo, id } => {
+                require_compatible(&repo, &runtime_context)?;
+                let compatibility = cockpit_repository::work_item_compatibility(&repo, &id)
+                    .context("inspect Work Item compatibility")?;
+                let approach = cockpit_repository::implementation_approach(&repo, &id)
+                    .context("derive Work Item implementation approach")?;
+                let output = json!({
+                    "repositoryId": compatibility.repository_id,
+                    "workItemId": id,
+                    "compatibility": compatibility,
+                    "implementationApproach": approach,
+                });
+                println!("{}", serde_json::to_string_pretty(&output)?);
+            }
+            WorkItemCommand::Declare {
+                repo,
+                id,
+                depends_on,
+                conflicts_with,
+                parallelizable,
+            } => {
+                require_compatible(&repo, &runtime_context)?;
+                let intelligence = cockpit_repository::set_work_item_intelligence(
+                    &repo,
+                    &id,
+                    depends_on,
+                    conflicts_with,
+                    parallelizable,
+                )
+                .context("declare Work Item intelligence")?;
+                println!("{}", serde_json::to_string_pretty(&intelligence)?);
+            }
         },
+        CommandKind::Capability { command } => match command {
+            CapabilityCommand::Show { repo } => {
+                require_compatible(&repo, &runtime_context)?;
+                let registry = cockpit_repository::capability_truth_registry(&repo)
+                    .context("derive capability truth registry")?;
+                println!("{}", serde_json::to_string_pretty(&registry)?);
+            }
+        },
+        CommandKind::Diagnose { repo, work_item } => {
+            require_compatible(&repo, &runtime_context)?;
+            let diagnosis = cockpit_repository::performance_diagnosis(&repo, work_item.as_deref())
+                .context("diagnose governance cost and performance")?;
+            println!("{}", serde_json::to_string_pretty(&diagnosis)?);
+        }
         CommandKind::Knowledge { command } => match command {
             KnowledgeCommand::Query {
                 repo,
@@ -788,8 +1119,29 @@ fn run() -> Result<()> {
                 component,
                 state,
                 work_item_id,
+                v2,
             } => {
                 require_compatible(&repo, &runtime_context)?;
+                if v2 {
+                    let records = cockpit_repository::generate_knowledge_v2(&repo)
+                        .context("project knowledge v2")?;
+                    let records = records
+                        .into_iter()
+                        .filter(|record| {
+                            topic.as_ref().is_none_or(|value| &record.topic == value)
+                                && component
+                                    .as_ref()
+                                    .is_none_or(|value| &record.component == value)
+                                && state.as_ref().is_none_or(|value| &record.state == value)
+                                && work_item_id
+                                    .as_ref()
+                                    .is_none_or(|value| &record.work_item_id == value)
+                        })
+                        .collect::<Vec<_>>();
+                    let output = json!({"schemaVersion": 2, "matchCount": records.len(), "results": records});
+                    println!("{}", serde_json::to_string_pretty(&output)?);
+                    return Ok(());
+                }
                 let index = generate_knowledge(&repo).context("project knowledge")?;
                 let results = query(
                     &index,

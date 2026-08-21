@@ -14,10 +14,10 @@ capabilityClaims:
 
 # Command reference
 
-All repository commands accept an explicit `--repo <path>`. Output is JSON
-where the command produces a record or decision; `work-item new` additionally
-prints a short human-readable summary before its JSON record. A failed or
-unknown decision is not a pass.
+All repository commands accept an explicit `--repo <path>`. Commands that
+produce records or decisions use JSON, except `work-item outcome`, which emits
+the localized human handoff by default; add `--json` for the stable
+machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
 
 | Group | Commands | Boundary |
 | --- | --- | --- |
@@ -44,6 +44,10 @@ unknown decision is not a pass.
 - `work-item new --repo <path> --id <id> --mode <mode>` creates a `not_ready`
   skeleton. It fills only snapshot-derived facts and leaves human-owned fields
   empty or `unknown`; `start` remains a compatibility path over the same writer.
+- `work-item outcome --repo <path> --id <id>` presents the result in the order
+  completed work, problems, stops, risks, unknowns, decisions, verification,
+  impact, and next action. Use `--json` for automation. See [Human-facing
+  Outcome](outcome-report.md) for status-marker and localization rules.
 - `profile propose --repo <path>` is read-only and reports a `candidate`/
   `proposed` amendment. It never applies a profile baseline change.
 - `agent list --repo <path>` is read-only. `agent install` is the only normal
@@ -104,3 +108,8 @@ not a Runtime command. It downloads and pins a public Release binary, runs the
 adopter lifecycle in isolated directories, and emits `acceptance.json` and
 `SHA256SUMS`. It must not be replaced with a workspace build or local target
 binary, and a failed acceptance never changes the published Release truth.
+
+`tests/conformance/final_replacement_acceptance.sh` is the source-repository
+replacement boundary. It records installed Runtime identity, the locked
+reference oracle, conformance/adversarial/performance gates, and the no-copy
+check, then emits `acceptance.json` and `SHA256SUMS`.

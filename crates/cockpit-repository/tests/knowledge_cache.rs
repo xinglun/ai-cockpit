@@ -55,8 +55,27 @@ fn knowledge_index_is_reused_and_invalidated_by_new_archive() {
     assert!(path.join(".ai/knowledge/index.json").is_file());
     let cached = generate_knowledge(&path).expect("cached projection");
     assert_eq!(cached, first);
+    assert!(cached.source_digest.starts_with("sha256:"));
     archive_one(&path, "WI-CACHE-2");
     let refreshed = generate_knowledge(&path).expect("refreshed projection");
     assert_eq!(refreshed.records.len(), 2);
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn knowledge_index_cache_is_rebuilt_when_an_archived_input_changes() {
+    let path = repository();
+    archive_one(&path, "WI-CACHE-TAMPER");
+    let first = generate_knowledge(&path).expect("first projection");
+    let index_path = path.join(".ai/knowledge/index.json");
+    let archive_path = path.join(".ai/work-items/archive/WI-CACHE-TAMPER.contract.json");
+    let mut contract = fs::read_to_string(&archive_path).expect("contract");
+    contract.push('\n');
+    fs::write(&archive_path, contract).expect("tamper archive input");
+    let rebuilt = generate_knowledge(&path).expect("rebuild projection");
+    assert_ne!(rebuilt.source_digest, first.source_digest);
+    let persisted: serde_json::Value =
+        serde_json::from_slice(&fs::read(index_path).expect("index")).expect("index JSON");
+    assert_eq!(persisted["sourceDigest"], rebuilt.source_digest);
     fs::remove_dir_all(path).expect("cleanup");
 }

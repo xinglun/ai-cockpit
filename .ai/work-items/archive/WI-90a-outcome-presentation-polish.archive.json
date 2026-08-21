@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T23:32:14Z",
+  "files": {
+    "contractDigest": "sha256:9f1677d8571d520874c753942ac6763635e4059b4024102da0116029de607616",
+    "contractPath": ".ai/work-items/archive/WI-90a-outcome-presentation-polish.contract.json",
+    "outcomeDigest": "sha256:7aa966d842403b86e7fe6e4301061360ab240c87657fa2976b7df733c61ee3ba",
+    "outcomePath": ".ai/work-items/archive/WI-90a-outcome-presentation-polish.outcome.json",
+    "summaryDigest": "sha256:2702d5c2c8263eac229856292604db15c8a0da46616044f75200cee5a1e5d2c6",
+    "summaryPath": ".ai/work-items/archive/WI-90a-outcome-presentation-polish.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-90a-outcome-presentation-polish"
+}

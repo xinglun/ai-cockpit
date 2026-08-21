@@ -1,0 +1,45 @@
+{
+  "acceptanceCriteria": [
+    "RequestedOperation v2 serializes with strict fields",
+    " validates operation/scope/authority/evidence/policy bindings",
+    " maps into existing governance input without widening scope",
+    " and has focused tests and trilingual documentation."
+  ],
+  "authority": "authorized",
+  "baseRevision": "0c507c42ed318a9fb173e2b658ed47743dd6953c",
+  "createdAt": "2026-08-21T22:52:33Z",
+  "goal": "Implement RequestedOperation v2 for adapters and Core with deterministic validation, canonical identity, and no inferred governance decisions.",
+  "intent": "Define a structured RequestedOperation v2 and capability mapping that preserves explicit scope, authority, evidence, and policy decisions.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/cockpit-cli/**",
+    "crates/cockpit-repository/**",
+    ".github/**",
+    "global-agent-or-mcp-config"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9297b90d27dd84b75a94a7efb8de8486bbd1577ef09c6346c71a5a5457350588",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-core/**",
+    "crates/cockpit-protocol/**",
+    "crates/cockpit-core/tests/**",
+    "crates/cockpit-protocol/tests/**",
+    "docs/architecture/**",
+    "docs/architecture.md",
+    "docs/architecture.zh-CN.md",
+    "docs/architecture.ja.md",
+    "docs/protocol/**",
+    "docs/capabilities.md",
+    "docs/capabilities.zh-CN.md",
+    "docs/capabilities.ja.md",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-80-requested-operation-v2"
+}

@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T23:06:59Z",
+  "files": {
+    "contractDigest": "sha256:f243a5474a3ba38a86c8eca066b5a3ace8759b08d193748d0539cb17df800a94",
+    "contractPath": ".ai/work-items/archive/WI-84-repository-context.contract.json",
+    "outcomeDigest": "sha256:7f4f48cc765c2240a89dee89d81911697bdbd8367d607652f76b4e16213dbb31",
+    "outcomePath": ".ai/work-items/archive/WI-84-repository-context.outcome.json",
+    "summaryDigest": "sha256:1475c5db30763b8c6a665dc9d18bbdcee418c20e6236e6a6972392eb3dc69d23",
+    "summaryPath": ".ai/work-items/archive/WI-84-repository-context.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-84-repository-context"
+}

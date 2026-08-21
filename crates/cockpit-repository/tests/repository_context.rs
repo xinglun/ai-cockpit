@@ -5,7 +5,7 @@ use std::{
     time::{SystemTime, UNIX_EPOCH},
 };
 
-use cockpit_repository::{attach, scaffold_work_item};
+use cockpit_repository::{RepositoryExecutionContext, RuntimeSession, attach, scaffold_work_item};
 
 static NEXT_ID: AtomicU64 = AtomicU64::new(0);
 
@@ -83,6 +83,48 @@ fn parallel_repository_contexts_do_not_share_scaffold_state() {
                 .exists()
         );
     });
+    fs::remove_dir_all(left).expect("cleanup left");
+    fs::remove_dir_all(right).expect("cleanup right");
+}
+
+#[test]
+fn execution_context_captures_one_snapshot_and_memoizes_observation() {
+    let root = repository("memoized");
+    fs::write(root.join("src.rs"), "fn value() -> u8 { 1 }\n").expect("source");
+    attach(&root).expect("attach");
+    let context = RepositoryExecutionContext::capture(&root).expect("capture");
+    assert_eq!(context.snapshot().git_calls, 4);
+    let original_tree = context.snapshot().tree_digest.clone();
+    let first = context.observe().expect("observe");
+    let second = context.observe().expect("observe again");
+    assert!(std::ptr::eq(first, second));
+    assert_eq!(first, second);
+
+    fs::write(root.join("src.rs"), "fn value() -> u8 { 2 }\n").expect("change");
+    // The request-scoped context remains bound to its original snapshot. A
+    // caller that wants current facts must explicitly capture a new one.
+    assert!(!context.snapshot().changed_paths.is_empty());
+    assert_eq!(context.snapshot().tree_digest, original_tree);
+    let fresh = RepositoryExecutionContext::capture(&root).expect("fresh context");
+    assert_ne!(context.snapshot().diff_digest, fresh.snapshot().diff_digest);
+    fs::remove_dir_all(root).expect("cleanup");
+}
+
+#[test]
+fn runtime_session_reuses_only_explicit_repository_bindings() {
+    let left = repository("session-left");
+    let right = repository("session-right");
+    attach(&left).expect("left attach");
+    attach(&right).expect("right attach");
+    let session = RuntimeSession::new();
+    let left_first = session.bind(&left).expect("left bind");
+    let left_second = session.bind(&left).expect("left bind again");
+    let right_bound = session.bind(&right).expect("right bind");
+    assert!(std::sync::Arc::ptr_eq(&left_first, &left_second));
+    assert_ne!(left_first.repository_id(), right_bound.repository_id());
+    assert_eq!(session.active_repositories().expect("active").len(), 2);
+    assert!(session.unbind(&left).expect("unbind left"));
+    assert_eq!(session.active_repositories().expect("active").len(), 1);
     fs::remove_dir_all(left).expect("cleanup left");
     fs::remove_dir_all(right).expect("cleanup right");
 }

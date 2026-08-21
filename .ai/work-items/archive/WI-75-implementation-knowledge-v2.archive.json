@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T23:02:13Z",
+  "files": {
+    "contractDigest": "sha256:dc1e4c35c949c9c9bc1ef9e6d36b2eba03cdc187f967167b8986f748f4ccbd43",
+    "contractPath": ".ai/work-items/archive/WI-75-implementation-knowledge-v2.contract.json",
+    "outcomeDigest": "sha256:36824acb6932d1e6f521118fb9244aadf5724369c62300e03b2eede598d5b020",
+    "outcomePath": ".ai/work-items/archive/WI-75-implementation-knowledge-v2.outcome.json",
+    "summaryDigest": "sha256:9a2eeddc236779f0c175698b82a9a3e9a9594420e6ee264f597bd8362390ed38",
+    "summaryPath": ".ai/work-items/archive/WI-75-implementation-knowledge-v2.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-75-implementation-knowledge-v2"
+}

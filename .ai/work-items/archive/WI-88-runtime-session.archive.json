@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T23:08:37Z",
+  "files": {
+    "contractDigest": "sha256:5f35e1f187a87c34d9d214a1d0744c56e352d812c405e120e884e2745c59e193",
+    "contractPath": ".ai/work-items/archive/WI-88-runtime-session.contract.json",
+    "outcomeDigest": "sha256:e149e7109820b5c8fbf0eea9653f95a1a81345c6d760db2e3e29ba0843af9651",
+    "outcomePath": ".ai/work-items/archive/WI-88-runtime-session.outcome.json",
+    "summaryDigest": "sha256:2ab209910d438a80d20f3fb87e9809a7749255bdd29d8b4b644375a8d5277c72",
+    "summaryPath": ".ai/work-items/archive/WI-88-runtime-session.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-88-runtime-session"
+}

@@ -1,0 +1,37 @@
+{
+  "acceptanceCriteria": [
+    "Migration plan resolves only reviewed adjacent steps; unknown/future schemas fail closed; apply requires explicit approval",
+    " writes runtime identity and chain metadata",
+    " and verifies historical evidence digest unchanged; focused protocol/repository/CLI tests and trilingual docs pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "482a7c7dd2d5191100419726d26d77ff54c38e06",
+  "createdAt": "2026-08-21T23:00:16Z",
+  "goal": "Implement future-proof repository schema migration chain with fail-closed planning/apply, runtime-bound receipts, explicit approval, and byte-preserving evidence checks.",
+  "intent": "Replace direct repository schema migration with an explicit adjacent, auditable chain that never skips reviewed steps or rewrites historical evidence.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/cockpit-cli/src/**",
+    ".github/**",
+    "global-agent-or-mcp-config"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:62e045d2da57f869cd8a69b95c1d38ca38499c4f2f2d765fcdab3ee0619250a3",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-protocol/**",
+    "crates/cockpit-repository/**",
+    "crates/cockpit-cli/tests/attach.rs",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-81-schema-migration-chain"
+}

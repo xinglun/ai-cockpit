@@ -7,6 +7,66 @@ pub const PROTOCOL_VERSION: u32 = 1;
 pub const AGENT_INTERFACE_VERSION: u32 = 1;
 pub const REPOSITORY_SCHEMA_VERSION: u32 = 2;
 
+/// The repository schema migration graph is intentionally explicit.  A
+/// Runtime may only apply one adjacent edge at a time; adding a future schema
+/// requires adding another reviewed edge instead of changing a direct
+/// `from -> latest` conversion.
+pub const REPOSITORY_SCHEMA_MIGRATIONS: &[(u32, u32)] = &[(1, 2)];
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SchemaMigrationStep {
+    pub from_schema: u32,
+    pub to_schema: u32,
+}
+
+#[derive(Debug, Error, PartialEq, Eq)]
+pub enum SchemaMigrationError {
+    #[error("repository schema {0} is already current")]
+    AlreadyCurrent(u32),
+    #[error("repository schema {0} is newer than the Runtime target {1}")]
+    FutureSchema(u32, u32),
+    #[error("no reviewed adjacent migration from repository schema {0}")]
+    MissingStep(u32),
+}
+
+/// Resolve the reviewed adjacent migration chain.  The function refuses a
+/// future schema and never returns a step that skips an intermediate schema.
+pub fn repository_schema_migration_chain(
+    from_schema: u32,
+    target_schema: u32,
+) -> Result<Vec<SchemaMigrationStep>, SchemaMigrationError> {
+    if from_schema == target_schema {
+        return Err(SchemaMigrationError::AlreadyCurrent(from_schema));
+    }
+    if from_schema > target_schema {
+        return Err(SchemaMigrationError::FutureSchema(
+            from_schema,
+            target_schema,
+        ));
+    }
+    let mut current = from_schema;
+    let mut chain = Vec::new();
+    while current < target_schema {
+        let Some((from, to)) = REPOSITORY_SCHEMA_MIGRATIONS
+            .iter()
+            .copied()
+            .find(|(from, _)| *from == current)
+        else {
+            return Err(SchemaMigrationError::MissingStep(current));
+        };
+        if to > target_schema || to <= from {
+            return Err(SchemaMigrationError::MissingStep(current));
+        }
+        chain.push(SchemaMigrationStep {
+            from_schema: from,
+            to_schema: to,
+        });
+        current = to;
+    }
+    Ok(chain)
+}
+
 pub fn default_repository_schema_version() -> u32 {
     1
 }
@@ -624,6 +684,201 @@ pub struct Contract {
     pub operation: Option<String>,
     #[serde(default)]
     pub governance_policy: Option<GovernancePolicy>,
+}
+
+/// Provenance for a repository fact.  The Runtime never promotes a derived
+/// interpretation to an observed fact; consumers can therefore distinguish
+/// what the Observer saw from what an implementation approach inferred.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum FactOrigin {
+    Observed,
+    Declared,
+    Derived,
+    External,
+    Unknown,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TraceableFact {
+    pub key: String,
+    pub value: serde_json::Value,
+    pub origin: FactOrigin,
+    pub evidence_refs: Vec<String>,
+    pub confidence: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TraceableDerivation {
+    pub key: String,
+    pub value: serde_json::Value,
+    pub rule: String,
+    pub input_fact_keys: Vec<String>,
+    pub evidence_refs: Vec<String>,
+    pub confidence: String,
+}
+
+/// A request-scoped implementation approach. It is an auditable projection,
+/// not a new authority source: observed facts and derivations remain separate
+/// and unresolved questions stay visible in `unknowns`.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ImplementationApproach {
+    pub schema_version: u32,
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub repository_snapshot_digest: Digest,
+    pub facts: Vec<TraceableFact>,
+    pub derivations: Vec<TraceableDerivation>,
+    pub unknowns: Vec<String>,
+    pub evidence_refs: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum TruthState {
+    Observed,
+    Declared,
+    Verified,
+    Derived,
+    Unknown,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct KnowledgeV2Record {
+    pub schema_version: u32,
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub topic: String,
+    pub component: String,
+    pub state: String,
+    pub truth_state: TruthState,
+    pub confidence: String,
+    pub knowledge_path: String,
+    pub evidence_refs: Vec<String>,
+    pub unknowns: Vec<String>,
+    pub source_snapshot_digest: Digest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum OutcomeState {
+    Verified,
+    Partial,
+    NotReady,
+    Unknown,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HumanBenefitReport {
+    pub state: OutcomeState,
+    pub user_visible_changes: Vec<String>,
+    pub affected_users: Vec<String>,
+    pub unknowns: Vec<String>,
+    pub evidence_refs: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct OutcomeV2 {
+    pub schema_version: u32,
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub state: OutcomeState,
+    pub summary: String,
+    pub acceptance_results: Vec<String>,
+    pub unknowns: Vec<String>,
+    pub evidence_refs: Vec<String>,
+    pub human_benefit_report: HumanBenefitReport,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum CapabilityConfidence {
+    Unknown,
+    Low,
+    Medium,
+    High,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CapabilityTruth {
+    pub capability: String,
+    pub state: TruthState,
+    pub confidence: CapabilityConfidence,
+    pub source: FactOrigin,
+    pub evidence_refs: Vec<String>,
+    pub verification: Option<String>,
+    pub unknowns: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CapabilityTruthRegistry {
+    pub schema_version: u32,
+    pub repository_id: String,
+    pub snapshot_digest: Digest,
+    pub capabilities: Vec<CapabilityTruth>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct GovernanceCost {
+    pub snapshot_git_calls: usize,
+    pub snapshot_files_read: usize,
+    pub snapshot_files_hashed: usize,
+    pub verification_runs: usize,
+    pub verification_nodes_executed: usize,
+    pub verification_nodes_reused: usize,
+    pub elapsed_ms: u128,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum DiagnosisState {
+    Known,
+    Unknown,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct PerformanceDiagnosis {
+    pub schema_version: u32,
+    pub repository_id: String,
+    pub work_item_id: Option<String>,
+    pub state: DiagnosisState,
+    pub cost: GovernanceCost,
+    pub bottlenecks: Vec<String>,
+    pub unknowns: Vec<String>,
+    pub evidence_refs: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct WorkItemIntelligence {
+    pub schema_version: u32,
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub depends_on: Vec<String>,
+    pub conflicts_with: Vec<String>,
+    pub parallelizable: bool,
+    pub unknowns: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct WorkItemCompatibility {
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub compatible: bool,
+    pub dependencies_satisfied: bool,
+    pub conflicts: Vec<String>,
+    pub reasons: Vec<String>,
 }
 
 #[derive(Debug, Error, PartialEq, Eq)]

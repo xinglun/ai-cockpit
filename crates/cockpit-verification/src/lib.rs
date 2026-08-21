@@ -2,7 +2,7 @@ use cockpit_core::Digest;
 use cockpit_evidence::{
     EvidenceContext, ReusableReceipt, ReuseAction, ReuseReason, ReuseState, decide_reuse,
 };
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet, VecDeque};
 use std::io::Read;
 use std::path::PathBuf;
@@ -14,6 +14,115 @@ use thiserror::Error;
 pub const MAX_CAPTURE_BYTES_PER_STREAM: usize = 64 * 1024;
 pub const REUSABLE_RECEIPT_TTL_SECONDS: i64 = 24 * 60 * 60;
 pub const MAX_EXECUTION_SECONDS: u64 = 300;
+
+/// A machine-readable measurement captured by a repository-local performance
+/// fixture.  The identity fields are intentionally required: a timing value
+/// without the runtime and repository that produced it is not release
+/// evidence and must not be used by a gate.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct PerformanceSample {
+    pub name: String,
+    pub elapsed_ms: u128,
+    pub iterations: u32,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct PerformanceBudget {
+    pub name: String,
+    pub max_elapsed_ms: u128,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct PerformanceBaseline {
+    pub schema_version: u32,
+    pub runtime_version: String,
+    pub runtime_digest: String,
+    pub repository_id: String,
+    pub captured_at: String,
+    pub samples: Vec<PerformanceSample>,
+    pub budgets: Vec<PerformanceBudget>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct PerformanceAssessment {
+    pub state: String,
+    pub measured: usize,
+    pub passed: usize,
+    pub failures: Vec<String>,
+}
+
+impl PerformanceBaseline {
+    pub fn assess(&self) -> PerformanceAssessment {
+        let mut failures = Vec::new();
+        if self.schema_version != 1 {
+            failures.push("unsupported_baseline_schema".into());
+        }
+        if self.runtime_version.trim().is_empty()
+            || !valid_hex_digest(&self.runtime_digest)
+            || !valid_hex_digest(&self.repository_id)
+            || self.captured_at.trim().is_empty()
+        {
+            failures.push("runtime_or_repository_identity_missing".into());
+        }
+        let mut sample_names = BTreeSet::new();
+        for sample in &self.samples {
+            if !sample_names.insert(sample.name.as_str()) {
+                failures.push(format!("duplicate_sample:{}", sample.name));
+            }
+        }
+        let mut budget_names = BTreeSet::new();
+        for budget in &self.budgets {
+            if !budget_names.insert(budget.name.as_str()) {
+                failures.push(format!("duplicate_budget:{}", budget.name));
+            }
+        }
+        let mut measured = 0;
+        let mut passed = 0;
+        for budget in &self.budgets {
+            let Some(sample) = self
+                .samples
+                .iter()
+                .find(|sample| sample.name == budget.name)
+            else {
+                failures.push(format!("sample_missing:{}", budget.name));
+                continue;
+            };
+            measured += 1;
+            if sample.iterations == 0 {
+                failures.push(format!("iterations_zero:{}", budget.name));
+            } else if sample.elapsed_ms <= budget.max_elapsed_ms {
+                passed += 1;
+            } else {
+                failures.push(format!(
+                    "budget_exceeded:{}:{}>{}",
+                    budget.name, sample.elapsed_ms, budget.max_elapsed_ms
+                ));
+            }
+        }
+        let state = if failures.is_empty() && measured == self.budgets.len() {
+            "passed"
+        } else {
+            "failed"
+        };
+        PerformanceAssessment {
+            state: state.into(),
+            measured,
+            passed,
+            failures,
+        }
+    }
+}
+
+fn valid_hex_digest(value: &str) -> bool {
+    let Some(hex) = value.strip_prefix("sha256:") else {
+        return false;
+    };
+    hex.len() == 64 && hex.bytes().all(|byte| byte.is_ascii_hexdigit())
+}
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum VerificationNodeKind {
@@ -174,6 +283,7 @@ pub struct VerificationCommand {
     reuse_candidate: Option<ReuseCandidate>,
     logical_identity: Option<(String, Vec<String>)>,
     environment: Vec<(std::ffi::OsString, std::ffi::OsString)>,
+    resource_weight: usize,
 }
 
 impl VerificationCommand {
@@ -193,6 +303,7 @@ impl VerificationCommand {
             reuse_candidate: None,
             logical_identity: None,
             environment: Vec::new(),
+            resource_weight: 1,
         }
     }
 
@@ -239,6 +350,17 @@ impl VerificationCommand {
         self
     }
 
+    /// Assign a resource weight used by the bounded scheduler. Zero is
+    /// rejected at execution time so malformed plans fail closed.
+    pub fn with_resource_weight(mut self, weight: usize) -> Self {
+        self.resource_weight = weight;
+        self
+    }
+
+    pub fn resource_weight(&self) -> usize {
+        self.resource_weight
+    }
+
     pub fn command_digest(&self) -> String {
         let current_dir = self
             .current_dir
@@ -250,7 +372,7 @@ impl VerificationCommand {
             .map_or((&self.program, &self.args), |(program, args)| {
                 (program, args)
             });
-        let identity = serde_json::to_vec(&(program, args, current_dir))
+        let identity = serde_json::to_vec(&(program, args, current_dir, self.resource_weight))
             .expect("verification command identity is serializable");
         Digest::sha256_bytes(&identity).to_string()
     }
@@ -361,10 +483,129 @@ pub struct VerificationReceipt {
     pub passed: bool,
 }
 
+/// Identity used to coalesce concurrent verification requests. Every field
+/// is explicit so a request from another repository, Work Item, runtime, or
+/// command can never observe a different request's result.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct SingleFlightKey {
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub command_digest: String,
+    pub runtime_digest: String,
+}
+
+impl SingleFlightKey {
+    fn map_key(&self) -> String {
+        serde_json::to_string(self).expect("single-flight key is serializable")
+    }
+
+    fn is_valid(&self) -> bool {
+        !self.repository_id.trim().is_empty()
+            && !self.work_item_id.trim().is_empty()
+            && self.command_digest.starts_with("sha256:")
+            && self.runtime_digest.starts_with("sha256:")
+    }
+}
+
+struct SingleFlightState {
+    result: Mutex<Option<Result<Arc<VerificationReceipt>, String>>>,
+    ready: Condvar,
+}
+
+/// In-process single-flight coordinator. It is deliberately an ephemeral
+/// optimization: no result is persisted or treated as evidence by this type;
+/// callers still persist and validate the returned receipt through the normal
+/// repository evidence path.
+#[derive(Default)]
+pub struct SingleFlightCoordinator {
+    flights: Mutex<BTreeMap<String, Arc<SingleFlightState>>>,
+}
+
+impl SingleFlightCoordinator {
+    pub fn execute<F>(
+        &self,
+        key: SingleFlightKey,
+        operation: F,
+    ) -> Result<Arc<VerificationReceipt>, String>
+    where
+        F: FnOnce() -> Result<VerificationReceipt, ExecutionError>,
+    {
+        if !key.is_valid() {
+            return Err("single_flight_key_invalid".into());
+        }
+        let map_key = key.map_key();
+        let (state, leader) = {
+            let mut flights = self
+                .flights
+                .lock()
+                .map_err(|_| "single_flight_registry_poisoned".to_string())?;
+            if let Some(state) = flights.get(&map_key) {
+                (Arc::clone(state), false)
+            } else {
+                let state = Arc::new(SingleFlightState {
+                    result: Mutex::new(None),
+                    ready: Condvar::new(),
+                });
+                flights.insert(map_key.clone(), Arc::clone(&state));
+                (state, true)
+            }
+        };
+
+        if !leader {
+            let mut result = state
+                .result
+                .lock()
+                .map_err(|_| "single_flight_result_poisoned".to_string())?;
+            while result.is_none() {
+                result = state
+                    .ready
+                    .wait(result)
+                    .map_err(|_| "single_flight_result_poisoned".to_string())?;
+            }
+            return result
+                .as_ref()
+                .expect("single-flight result initialized")
+                .clone();
+        }
+
+        let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(operation))
+            .map_err(|_| "single_flight_operation_panicked".to_string())
+            .and_then(|result| result.map(Arc::new).map_err(|error| error.to_string()));
+        {
+            let mut stored = state
+                .result
+                .lock()
+                .map_err(|_| "single_flight_result_poisoned".to_string())?;
+            *stored = Some(result.clone());
+            state.ready.notify_all();
+        }
+        if let Ok(mut flights) = self.flights.lock()
+            && flights
+                .get(&map_key)
+                .is_some_and(|current| Arc::ptr_eq(current, &state))
+        {
+            flights.remove(&map_key);
+        }
+        result
+    }
+
+    pub fn active_count(&self) -> Result<usize, String> {
+        self.flights
+            .lock()
+            .map(|flights| flights.len())
+            .map_err(|_| "single_flight_registry_poisoned".into())
+    }
+}
+
 #[derive(Debug, Error, PartialEq, Eq)]
 pub enum ExecutionError {
     #[error("worker count must be greater than zero")]
     InvalidWorkerCount,
+    #[error("resource budget must be greater than zero")]
+    InvalidResourceBudget,
+    #[error("verification command {0} exceeds the resource budget")]
+    CommandExceedsResourceBudget(String),
     #[error("verification worker mutex was poisoned")]
     WorkerPoisoned,
     #[error(transparent)]
@@ -451,7 +692,65 @@ pub fn execute_bounded_at(
         return Err(ExecutionError::InvalidWorkerCount);
     }
     let plan = plan_verification_commands(commands, now_epoch_seconds)?;
-    execute_verification_plan_bounded_at(plan, max_workers, now_epoch_seconds)
+    execute_verification_plan_bounded_with_budget_at(
+        plan,
+        max_workers,
+        max_workers,
+        now_epoch_seconds,
+    )
+}
+
+/// Execute with independent worker and resource limits. Resource units are
+/// reserved before a process starts and released only after it completes;
+/// dependency readiness and protected-node semantics remain unchanged.
+pub fn execute_bounded_with_resource_budget(
+    commands: Vec<VerificationCommand>,
+    max_workers: usize,
+    max_resource_units: usize,
+) -> Result<VerificationReceipt, ExecutionError> {
+    let now_epoch_seconds = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map(|duration| i64::try_from(duration.as_secs()).unwrap_or(i64::MAX))
+        .unwrap_or(0);
+    execute_bounded_with_resource_budget_at(
+        commands,
+        max_workers,
+        max_resource_units,
+        now_epoch_seconds,
+    )
+}
+
+pub fn execute_bounded_with_resource_budget_at(
+    commands: Vec<VerificationCommand>,
+    max_workers: usize,
+    max_resource_units: usize,
+    now_epoch_seconds: i64,
+) -> Result<VerificationReceipt, ExecutionError> {
+    if max_workers == 0 {
+        return Err(ExecutionError::InvalidWorkerCount);
+    }
+    if max_resource_units == 0 {
+        return Err(ExecutionError::InvalidResourceBudget);
+    }
+    for command in &commands {
+        if command.resource_weight == 0 {
+            return Err(ExecutionError::CommandExceedsResourceBudget(
+                command.id.clone(),
+            ));
+        }
+        if command.resource_weight > max_resource_units {
+            return Err(ExecutionError::CommandExceedsResourceBudget(
+                command.id.clone(),
+            ));
+        }
+    }
+    let plan = plan_verification_commands(commands, now_epoch_seconds)?;
+    execute_verification_plan_bounded_with_budget_at(
+        plan,
+        max_workers,
+        max_resource_units,
+        now_epoch_seconds,
+    )
 }
 
 pub fn execute_verification_plan_bounded(
@@ -462,16 +761,25 @@ pub fn execute_verification_plan_bounded(
         .duration_since(UNIX_EPOCH)
         .map(|duration| i64::try_from(duration.as_secs()).unwrap_or(i64::MAX))
         .unwrap_or(0);
-    execute_verification_plan_bounded_at(plan, max_workers, now_epoch_seconds)
+    execute_verification_plan_bounded_with_budget_at(
+        plan,
+        max_workers,
+        max_workers,
+        now_epoch_seconds,
+    )
 }
 
-fn execute_verification_plan_bounded_at(
+fn execute_verification_plan_bounded_with_budget_at(
     plan: VerificationExecutionPlan,
     max_workers: usize,
+    max_resource_units: usize,
     now_epoch_seconds: i64,
 ) -> Result<VerificationReceipt, ExecutionError> {
     if max_workers == 0 {
         return Err(ExecutionError::InvalidWorkerCount);
+    }
+    if max_resource_units == 0 {
+        return Err(ExecutionError::InvalidResourceBudget);
     }
     let started = Instant::now();
     let planning_elapsed_ms = plan.planning_elapsed_ms;
@@ -507,8 +815,18 @@ fn execute_verification_plan_bounded_at(
         .into_iter()
         .filter_map(|entry| (entry.action == PlannedAction::Execute).then_some(entry.command))
         .collect::<Vec<_>>();
+    for command in &commands {
+        if command.resource_weight == 0 || command.resource_weight > max_resource_units {
+            return Err(ExecutionError::CommandExceedsResourceBudget(
+                command.id.clone(),
+            ));
+        }
+    }
     let worker_count = max_workers.min(commands.len().max(1));
-    let scheduler = Arc::new((Mutex::new(SchedulerState::new(commands)), Condvar::new()));
+    let scheduler = Arc::new((
+        Mutex::new(SchedulerState::new(commands, max_resource_units)),
+        Condvar::new(),
+    ));
     let mut workers = Vec::with_capacity(worker_count);
     for _ in 0..worker_count {
         let scheduler = Arc::clone(&scheduler);
@@ -535,7 +853,12 @@ fn execute_verification_plan_bounded_at(
                 let outcome = execute_captured(&command);
                 let (lock, ready) = &*scheduler;
                 let mut state = lock.lock().map_err(|_| ExecutionError::WorkerPoisoned)?;
-                state.complete(&command.id, command.is_protected(), outcome);
+                state.complete(
+                    &command.id,
+                    command.is_protected(),
+                    command.resource_weight,
+                    outcome,
+                );
                 ready.notify_all();
             }
         }));
@@ -1118,11 +1441,13 @@ struct SchedulerState {
     dependents: BTreeMap<String, Vec<String>>,
     completed: usize,
     total: usize,
+    resource_budget: usize,
+    reserved_resources: usize,
     metrics: RuntimeMetrics,
 }
 
 impl SchedulerState {
-    fn new(commands: Vec<VerificationCommand>) -> Self {
+    fn new(commands: Vec<VerificationCommand>, resource_budget: usize) -> Self {
         let executed_ids = commands
             .iter()
             .map(|command| command.id.clone())
@@ -1158,18 +1483,37 @@ impl SchedulerState {
             dependents,
             completed: 0,
             total,
+            resource_budget,
+            reserved_resources: 0,
             metrics: RuntimeMetrics::new(),
         }
     }
 
     fn take_ready(&mut self) -> Option<VerificationCommand> {
-        self.ready
-            .pop_front()
-            .and_then(|id| self.commands.remove(&id))
+        let position = self.ready.iter().position(|id| {
+            self.commands.get(id).is_some_and(|command| {
+                self.reserved_resources
+                    .saturating_add(command.resource_weight)
+                    <= self.resource_budget
+            })
+        })?;
+        let id = self.ready.remove(position)?;
+        let command = self.commands.remove(&id)?;
+        self.reserved_resources = self
+            .reserved_resources
+            .saturating_add(command.resource_weight);
+        Some(command)
     }
 
-    fn complete(&mut self, id: &str, protected: bool, outcome: ExecutionOutcome) {
+    fn complete(
+        &mut self,
+        id: &str,
+        protected: bool,
+        resource_weight: usize,
+        outcome: ExecutionOutcome,
+    ) {
         self.completed += 1;
+        self.reserved_resources = self.reserved_resources.saturating_sub(resource_weight);
         self.metrics.nodes_executed += 1;
         if outcome.spawned {
             self.metrics.processes_spawned += 1;

@@ -14,12 +14,22 @@ capabilityClaims:
 
 # Versioning
 
+## Adjacent migration chain
+
+Repository schema migration is an explicit chain of reviewed adjacent edges.
+The Runtime resolves the next edge from the current schema and refuses an
+unknown source, a future schema, or a direct jump over an unreviewed
+intermediate version. Each approved step writes a Runtime-bound receipt with
+the step identity, chain length, preserved historical-evidence digest, and
+Runtime version/digest. Historical evidence, decisions, knowledge, and
+archived Work Items are byte-preserved; they are never rewritten by migration.
+
 Runtime version, Repository Protocol version, and the repository schema version
 are independent identities.
 
 ```text
 ai-cockpit --version
-0.2.2
+0.2.3
 
 repository:
 protocol_version = 1

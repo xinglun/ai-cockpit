@@ -1,0 +1,17 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "legacy-cli",
+    "authoritySource": "explicit-cli",
+    "decidedAt": "2026-08-21T23:01:03Z",
+    "decision": "approved",
+    "evidenceRefs": [],
+    "policyRefs": [],
+    "reason": "legacy human-decision input; provide structured fields for enterprise assurance",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-08-21T23:01:04Z",
+  "workItemId": "WI-81-schema-migration-chain"
+}

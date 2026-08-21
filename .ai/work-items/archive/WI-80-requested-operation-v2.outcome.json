@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T22:55:41Z",
+  "evidenceDigest": "sha256:55047b313315fc17175034b67c9f5fd992d11eed5efbfaf037a0fa6d304d3581",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-80-requested-operation-v2.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-80-requested-operation-v2"
+}

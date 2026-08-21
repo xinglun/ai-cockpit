@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T23:38:06Z",
+  "files": {
+    "contractDigest": "sha256:5d0720eb1d8002d0edc0293322c60156abc76900ba5e4ca30d2837e15dd5060a",
+    "contractPath": ".ai/work-items/archive/WI-91-documentation-reader-route.contract.json",
+    "outcomeDigest": "sha256:a7b17adb6fb4f20b0195775debb16c320a3af4f556059ddf9ad3ec7c8b4d2557",
+    "outcomePath": ".ai/work-items/archive/WI-91-documentation-reader-route.outcome.json",
+    "summaryDigest": "sha256:f2c2500903780e29e87107153dc5d013106a776442667ad0aef7a8dd9246a6bb",
+    "summaryPath": ".ai/work-items/archive/WI-91-documentation-reader-route.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-91-documentation-reader-route"
+}

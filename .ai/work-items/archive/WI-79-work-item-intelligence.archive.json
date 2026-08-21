@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T23:02:52Z",
+  "files": {
+    "contractDigest": "sha256:7ed1808d13442e64eada107d7056fa27df4c9c8383e3676afde49fe4fb837f40",
+    "contractPath": ".ai/work-items/archive/WI-79-work-item-intelligence.contract.json",
+    "outcomeDigest": "sha256:3b0558f5f0582f00f695b38afdb7f7ca4e92603376b8e8c078b3f56b40973a6d",
+    "outcomePath": ".ai/work-items/archive/WI-79-work-item-intelligence.outcome.json",
+    "summaryDigest": "sha256:fd59bb5369bb2cb878a1631b4c16911818d0c9bb3d01580032f6a0ab21e7ee94",
+    "summaryPath": ".ai/work-items/archive/WI-79-work-item-intelligence.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-79-work-item-intelligence"
+}

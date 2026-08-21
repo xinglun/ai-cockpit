@@ -1,0 +1,42 @@
+{
+  "acceptanceCriteria": [
+    "locked V1 behavioral oracle and Rust conformance corpus pass",
+    "adversarial negative corpus passes without truth fabrication",
+    "performance regression fixtures pass with negative candidate rejection",
+    "repository contains no copied V1 runtime implementation",
+    "final replacement receipt binds runtime",
+    " repository",
+    " evidence and timestamp"
+  ],
+  "authority": "authorized",
+  "baseRevision": "b92bedd53e20f07ef30712958979054c5f497322",
+  "createdAt": "2026-08-21T23:18:39Z",
+  "goal": "Prove the Rust Runtime is a complete external-runtime replacement with no copied V1 runtime code, preserved repository isolation, and reproducible conformance/adversarial/performance evidence.",
+  "intent": "Establish final replacement acceptance for the Rust Runtime against the locked reference behavior and adversarial governance corpus.",
+  "mode": "implementation",
+  "outOfScope": [
+    "runtime implementation changes already delivered by WI-74 through WI-90",
+    "global agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d15c95d1742647584145c56986a87b2d3f2da7067e44935fb481ed6ca7687155",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scope": [
+    "tests/conformance/**",
+    "tests/adversarial/**",
+    "tests/performance/**",
+    "crates/cockpit-cli/**",
+    ".github/workflows/ci.yml",
+    "docs/reference/**",
+    "docs/conformance/**",
+    "docs/adversarial/**",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-82-v1-final-replacement-acceptance"
+}

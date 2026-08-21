@@ -16,6 +16,11 @@ pub struct KnowledgeRecord {
 #[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
 pub struct KnowledgeIndex {
     pub records: Vec<KnowledgeRecord>,
+    /// Digest of the canonical archived inputs used to build this index.
+    /// This is a cache validator only; archived records remain the source of
+    /// truth and the index is always reconstructible.
+    #[serde(default, rename = "sourceDigest")]
+    pub source_digest: String,
     pub dependencies: BTreeMap<String, Vec<String>>,
     pub by_topic: BTreeMap<String, Vec<String>>,
     pub by_component: BTreeMap<String, Vec<String>>,
@@ -54,12 +59,22 @@ impl KnowledgeIndex {
         }
         Self {
             records,
+            source_digest: String::new(),
             dependencies,
             by_topic,
             by_component,
             by_state,
             by_work_item,
         }
+    }
+
+    pub fn from_records_with_source_digest(
+        records: Vec<KnowledgeRecord>,
+        source_digest: impl Into<String>,
+    ) -> Self {
+        let mut index = Self::from_records(records);
+        index.source_digest = source_digest.into();
+        index
     }
 }
 
@@ -181,5 +196,38 @@ pub fn project_record(
         state: state.into(),
         knowledge_path: format!(".ai/knowledge/{work_item_id}.json"),
         evidence_refs: vec![evidence_ref.into()],
+    }
+}
+
+/// Project the same archive record into the provenance-aware v2 shape.  The
+/// legacy index remains readable; callers opt into v2 when they need to show
+/// the snapshot binding and unresolved facts.
+pub fn project_record_v2(
+    repository_id: &str,
+    work_item_id: &str,
+    intent: &str,
+    state: &str,
+    evidence_ref: &str,
+    snapshot_digest: cockpit_core::Digest,
+) -> cockpit_protocol::KnowledgeV2Record {
+    let topic = intent
+        .split_whitespace()
+        .next()
+        .unwrap_or("unknown")
+        .trim_matches(':')
+        .to_lowercase();
+    cockpit_protocol::KnowledgeV2Record {
+        schema_version: 2,
+        repository_id: repository_id.into(),
+        work_item_id: work_item_id.into(),
+        topic,
+        component: "unknown".into(),
+        state: state.into(),
+        truth_state: cockpit_protocol::TruthState::Derived,
+        confidence: "medium".into(),
+        knowledge_path: format!(".ai/knowledge/{work_item_id}.v2.json"),
+        evidence_refs: vec![evidence_ref.into()],
+        unknowns: vec!["component_not_observed_from_contract".into()],
+        source_snapshot_digest: snapshot_digest,
     }
 }

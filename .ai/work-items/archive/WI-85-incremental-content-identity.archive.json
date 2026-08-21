@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T23:07:21Z",
+  "files": {
+    "contractDigest": "sha256:5f17e14303b9b000118a4bd7d4d9d04b310347f657ff662ce3e743f581fd77d2",
+    "contractPath": ".ai/work-items/archive/WI-85-incremental-content-identity.contract.json",
+    "outcomeDigest": "sha256:dc56787f81ff955c9064b236c8e8072310f5eb7a56f997fab93b3f3a3e2cd8df",
+    "outcomePath": ".ai/work-items/archive/WI-85-incremental-content-identity.outcome.json",
+    "summaryDigest": "sha256:698faae09c3f7c597a9932b3a3bc4cbb15ec53d77dcf8747626e3cb477038583",
+    "summaryPath": ".ai/work-items/archive/WI-85-incremental-content-identity.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-85-incremental-content-identity"
+}

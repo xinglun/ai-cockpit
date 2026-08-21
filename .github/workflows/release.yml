@@ -2,6 +2,20 @@ name: ai-cockpit release evidence
 
 on:
   workflow_dispatch:
+    inputs:
+      from_tag:
+        description: 'Published previous Release tag (vX.Y.Z)'
+        required: true
+        type: string
+      to_tag:
+        description: 'Published new Release tag (vX.Y.Z)'
+        required: true
+        type: string
+      target:
+        description: 'Rust target to exercise'
+        required: false
+        default: x86_64-unknown-linux-gnu
+        type: string
   push:
     tags: ['v*']
 
@@ -524,5 +538,108 @@ jobs:
         with:
           name: release-adopter-acceptance-${{ github.ref_name }}-${{ github.run_id }}
           path: ${{ runner.temp }}/release-adopter-acceptance/
+          if-no-files-found: error
+          retention-days: 30
+
+  adopter_upgrade_acceptance:
+    # Pushes run only after the provider Release and publication handoff are
+    # successful. Manual runs never publish; they consume two explicitly
+    # named public Releases supplied as workflow inputs.
+    if: >-
+      always() &&
+      ((github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') &&
+        needs.publish.result == 'success' &&
+        needs.publish_handoff.result == 'success' &&
+        needs.adopter_acceptance.result != 'skipped') ||
+       (github.event_name == 'workflow_dispatch' &&
+        github.event.inputs.from_tag != '' &&
+        github.event.inputs.to_tag != ''))
+    needs: [publish, publish_handoff, adopter_acceptance]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Resolve immutable public Release pair
+        id: release_pair
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_FROM_TAG: ${{ github.event.inputs.from_tag }}
+          INPUT_TO_TAG: ${{ github.event.inputs.to_tag }}
+        run: |
+          set -euo pipefail
+          if [[ "$EVENT_NAME" == workflow_dispatch ]]; then
+            from_tag="$INPUT_FROM_TAG"
+            to_tag="$INPUT_TO_TAG"
+          else
+            to_tag="$GITHUB_REF_NAME"
+            published_tags="$(gh api --paginate "repos/$GITHUB_REPOSITORY/releases" \
+              --jq '.[] | select(.draft == false and .prerelease == false and (.tag_name | test("^v[0-9]+[.][0-9]+[.][0-9]+$"))) | .tag_name' | sort -V)"
+            from_tag="$(printf '%s\n' "$published_tags" | awk -v current="$to_tag" '$0 != current { candidate=$0 } END { print candidate }')"
+          fi
+          [[ "$to_tag" =~ ^v[0-9]+[.][0-9]+[.][0-9]+$ ]] || {
+            echo "to_tag is not a canonical semantic Release tag" >&2
+            exit 1
+          }
+          if [[ -z "$from_tag" ]]; then
+            echo "No previous published Release exists; N-1 is not applicable."
+            echo "from_tag=" >> "$GITHUB_OUTPUT"
+          else
+            [[ "$from_tag" =~ ^v[0-9]+[.][0-9]+[.][0-9]+$ ]] || {
+              echo "from_tag is not a canonical semantic Release tag" >&2
+              exit 1
+            }
+            [[ "$from_tag" != "$to_tag" ]] || {
+              echo "from_tag and to_tag must be distinct" >&2
+              exit 1
+            }
+            echo "from_tag=$from_tag" >> "$GITHUB_OUTPUT"
+          fi
+          echo "to_tag=$to_tag" >> "$GITHUB_OUTPUT"
+      - name: Run public-artifact N-1 upgrade acceptance
+        if: steps.release_pair.outputs.from_tag != ''
+        shell: bash
+        env:
+          FROM_TAG: ${{ steps.release_pair.outputs.from_tag }}
+          TO_TAG: ${{ steps.release_pair.outputs.to_tag }}
+          TARGET: ${{ github.event.inputs.target || 'x86_64-unknown-linux-gnu' }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/release-adopter-upgrade"
+          tests/release/adopter_upgrade_acceptance.sh \
+            --repository "$GITHUB_REPOSITORY" \
+            --from-tag "$FROM_TAG" \
+            --to-tag "$TO_TAG" \
+            --target "$TARGET" \
+            --source-repo "$GITHUB_WORKSPACE" \
+            --output "$RUNNER_TEMP/release-adopter-upgrade"
+      - name: Record N-1 not-applicable result
+        if: steps.release_pair.outputs.from_tag == ''
+        shell: bash
+        env:
+          TO_TAG: ${{ steps.release_pair.outputs.to_tag }}
+          TARGET: ${{ github.event.inputs.target || 'x86_64-unknown-linux-gnu' }}
+        run: |
+          set -euo pipefail
+          output="$RUNNER_TEMP/release-adopter-upgrade"
+          mkdir -p "$output"
+          jq -n \
+            --arg toTag "$TO_TAG" \
+            --arg target "$TARGET" \
+            '{schemaVersion:1,releasePublished:true,adopterAcceptance:"not_applicable",fromTag:null,toTag:$toTag,target:$target,reason:"no previous published Release"}' \
+            > "$output/acceptance.json"
+          printf '%s  %s\n' "$(sha256sum "$output/acceptance.json" | awk '{print $1}')" acceptance.json \
+            > "$output/SHA256SUMS"
+      - name: Upload N-1 upgrade acceptance evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: release-adopter-upgrade-${{ github.ref_name || github.run_id }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/release-adopter-upgrade/
           if-no-files-found: error
           retention-days: 30

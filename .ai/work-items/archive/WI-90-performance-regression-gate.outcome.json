@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T23:09:14Z",
+  "evidenceDigest": "sha256:df1029e203a074fb3e2363d3125adc575fd1b1916e9ac4b0457bf8a7e767a09c",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-90-performance-regression-gate.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-90-performance-regression-gate"
+}
