@@ -1,0 +1,37 @@
+{
+  "acceptanceCriteria": [
+    "Repository policy is loaded strictly; lower layers cannot weaken organization requirements; preflight",
+    " verify",
+    " close",
+    " and release-facing checks enforce missing authority/evidence/approval requirements; tests cover single authorized human and explicit policy modes."
+  ],
+  "authority": "authorized",
+  "baseRevision": "bfecf684c45efd67dd475cd1bdd552e9aeb0eab4",
+  "createdAt": "2026-08-21T19:57:07Z",
+  "goal": "Lower policy layers cannot weaken higher policy requirements; policy decisions are explicit, auditable, and fail closed.",
+  "intent": "Enforce organization, project, and Work Item policy precedence at runtime without hard-coding organizational structure.",
+  "mode": "implementation",
+  "outOfScope": [
+    "External identity provider implementation",
+    "Multi-party approval workflow implementation",
+    "Release publication"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:dbe2e04ee5e5adf0c85a0861bfe9d24184032c90c3c924e4cdc29836182cfc02",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-protocol/**",
+    "crates/cockpit-repository/**",
+    "crates/cockpit-cli/**",
+    "crates/cockpit-mcp/**",
+    "docs/**",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-66-organization-policy-enforcement"
+}

@@ -47,6 +47,29 @@ Runtime 会验证两个字段并拒绝 identity 不一致。不要把 runtime so
 version 增加，并把选定质量命令记录为 verified。wrapper 包含 `profileVersion`、`repositoryId`、
 `state`、`profileDigest`、`tests` 和 `buildSystems`；未知 profile 字段会被拒绝。
 
+## `.ai/policy.json`
+
+企业采用者可以选择严格的策略文件，而不改变 TOML 配置格式：
+
+```json
+{
+  "schemaVersion": 1,
+  "organization": {
+    "policyId": "org-release-v1",
+    "layer": "organization",
+    "rules": [{
+      "operation": "release",
+      "approvalMode": "single_authorized_human",
+      "requiredEvidence": ["hosted_ci"]
+    }]
+  }
+}
+```
+
+project 层可以增加要求，但不能弱化 organization 层。Work Item contract 可以
+携带 `layer: "work_item"` 的 `governancePolicy`；所有策略对象都会拒绝未知字段。
+`attach` 不会生成此文件，因为策略是治理决定，不是脚手架。
+
 ## Work Item 记录
 
 `start` 在 `.ai/work-items/active/` 下生成：

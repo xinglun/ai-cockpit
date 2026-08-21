@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T20:09:25Z",
+  "evidenceDigest": "sha256:f04566da79149009ad65489205751d701e73e7d2343713bc13f0c24ff6062f01",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-66-organization-policy-enforcement.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-66-organization-policy-enforcement"
+}

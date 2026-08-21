@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-21T20:09:30Z",
+  "files": {
+    "contractDigest": "sha256:c531020a86c9df3df70ca5d668912d8db59d7ab7f6240478be0088fb02165f76",
+    "contractPath": ".ai/work-items/archive/WI-66-organization-policy-enforcement.contract.json",
+    "outcomeDigest": "sha256:f40ddee3341a0f8236b84823d1d8f367600b74a87bac0ac44e33abf65e45e75a",
+    "outcomePath": ".ai/work-items/archive/WI-66-organization-policy-enforcement.outcome.json",
+    "summaryDigest": "sha256:9e031d78016b350742673c0b71bcb6db811dcaf74b51540bb0007d4c55ba7146",
+    "summaryPath": ".ai/work-items/archive/WI-66-organization-policy-enforcement.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-66-organization-policy-enforcement"
+}

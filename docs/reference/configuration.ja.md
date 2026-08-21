@@ -48,6 +48,31 @@ runtime は両方を validate し identity mismatch を拒否します。runtime
 増え、選択した quality command が verified として記録されます。wrapper は `profileVersion`、`repositoryId`、`state`、
 `profileDigest`、`tests`、`buildSystems` を持ちます。unknown profile field は拒否されます。
 
+## `.ai/policy.json`
+
+Enterprise adopter は TOML の設定形式を変更せず、strict な policy document を
+任意で有効にできます。
+
+```json
+{
+  "schemaVersion": 1,
+  "organization": {
+    "policyId": "org-release-v1",
+    "layer": "organization",
+    "rules": [{
+      "operation": "release",
+      "approvalMode": "single_authorized_human",
+      "requiredEvidence": ["hosted_ci"]
+    }]
+  }
+}
+```
+
+Project layer は要求を追加できますが、organization layer を弱化できません。
+Work Item contract には `layer: "work_item"` の `governancePolicy` を含められます。
+すべての policy object は unknown field を拒否します。`attach` は policy を生成
+しません。Policy は governance decision であり scaffold ではないためです。
+
 ## Work Item record
 
 `start` は `.ai/work-items/active/` に次を生成します。

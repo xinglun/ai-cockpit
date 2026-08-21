@@ -269,6 +269,49 @@ fn organization_policy_cannot_be_weakened_by_a_lower_layer() {
 }
 
 #[test]
+fn policy_document_merges_layers_without_allowing_weakening() {
+    let organization = cockpit_protocol::GovernancePolicy {
+        policy_id: "org-release-v1".into(),
+        layer: cockpit_protocol::PolicyLayer::Organization,
+        rules: vec![cockpit_protocol::PolicyRule {
+            operation: "release".into(),
+            approval_mode: cockpit_protocol::ApprovalMode::SingleAuthorizedHuman,
+            required_evidence: vec!["hosted_ci".into()],
+        }],
+    };
+    let project = cockpit_protocol::GovernancePolicy {
+        policy_id: "project-release-v2".into(),
+        layer: cockpit_protocol::PolicyLayer::Project,
+        rules: vec![cockpit_protocol::PolicyRule {
+            operation: "release".into(),
+            approval_mode: cockpit_protocol::ApprovalMode::SingleAuthorizedHuman,
+            required_evidence: vec!["hosted_ci".into(), "sbom".into()],
+        }],
+    };
+    let effective = cockpit_protocol::merge_policy_layers(&[&organization, &project])
+        .expect("stronger project policy is valid");
+    assert_eq!(
+        effective.rules[0].required_evidence,
+        vec!["hosted_ci", "sbom"]
+    );
+    assert_eq!(
+        effective.policy_id,
+        "effective:org-release-v1:project-release-v2"
+    );
+}
+
+#[test]
+fn policy_document_rejects_unknown_fields() {
+    let value = serde_json::json!({
+        "schemaVersion": 1,
+        "organization": null,
+        "project": null,
+        "futureRule": true
+    });
+    assert!(serde_json::from_value::<cockpit_protocol::GovernancePolicyDocument>(value).is_err());
+}
+
+#[test]
 fn sensitive_evidence_policy_rejects_secret_full_capture_and_accepts_digest_only() {
     let full = cockpit_protocol::EvidenceRetention {
         classification: cockpit_protocol::DataClassification::SecretProhibited,

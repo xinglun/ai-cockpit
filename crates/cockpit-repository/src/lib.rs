@@ -7,8 +7,9 @@ use cockpit_core::{
 use cockpit_git::{ChangeContentState, ChangeKind, RepositorySnapshot};
 use cockpit_protocol::{
     AgentAdapterCompatibility, AgentInterfaceAvailability, AgentInterfaceManifest, AgentInterfaces,
-    AgentRootBinding, HumanDecision, QualityCommand, RepositoryConfig, RuntimeContext,
-    default_repository_schema_version, validate_protocol_version,
+    AgentRootBinding, ApprovalMode, Contract, GovernancePolicy, GovernancePolicyDocument,
+    HumanDecision, PolicyLayer, QualityCommand, RepositoryConfig, RuntimeContext,
+    default_repository_schema_version, merge_policy_layers, validate_protocol_version,
 };
 use serde::{Deserialize, Serialize};
 use sha2::{Digest as ShaDigest, Sha256};
@@ -3195,6 +3196,174 @@ pub fn snapshot_digest(snapshot: &RepositorySnapshot) -> Result<Digest, Observer
     })
 }
 
+fn policy_document(root: &Path) -> Result<Option<GovernancePolicyDocument>, ObserverError> {
+    let path = root.join(".ai/policy.json");
+    if !path.is_file() {
+        return Ok(None);
+    }
+    let value = read_json(&path)?;
+    let document: GovernancePolicyDocument =
+        serde_json::from_value(value).map_err(|error| ObserverError::State {
+            path: path.clone(),
+            message: format!("invalid governance policy: {error}"),
+        })?;
+    if document.schema_version != 1 {
+        return Err(ObserverError::State {
+            path,
+            message: format!(
+                "unsupported governance policy schema {}",
+                document.schema_version
+            ),
+        });
+    }
+    if document.organization.is_none() && document.project.is_none() {
+        return Err(ObserverError::State {
+            path,
+            message: "governance policy must define organization or project policy".into(),
+        });
+    }
+    if document
+        .organization
+        .as_ref()
+        .is_some_and(|policy| !matches!(policy.layer, PolicyLayer::Organization))
+        || document
+            .project
+            .as_ref()
+            .is_some_and(|policy| !matches!(policy.layer, PolicyLayer::Project))
+    {
+        return Err(ObserverError::State {
+            path,
+            message: "governance policy layer does not match its document slot".into(),
+        });
+    }
+    Ok(Some(document))
+}
+
+/// Return the effective repository + Work Item policy, if the repository has
+/// opted into policy enforcement. Policy bytes remain repository-local and
+/// are never inferred from natural-language requests.
+pub fn effective_policy_for_contract(
+    root: &Path,
+    contract: &Contract,
+) -> Result<Option<GovernancePolicy>, ObserverError> {
+    let Some(document) = policy_document(root)? else {
+        return Ok(None);
+    };
+    let mut layers = Vec::new();
+    if let Some(organization) = document.organization.as_ref() {
+        layers.push(organization);
+    }
+    if let Some(project) = document.project.as_ref() {
+        layers.push(project);
+    }
+    if let Some(work_item) = contract.governance_policy.as_ref() {
+        if !matches!(work_item.layer, PolicyLayer::WorkItem) {
+            return Err(ObserverError::State {
+                path: root.join(".ai/work-items/active"),
+                message: "Work Item governance policy must use layer=work_item".into(),
+            });
+        }
+        layers.push(work_item);
+    }
+    merge_policy_layers(&layers)
+        .map(Some)
+        .map_err(|error| ObserverError::State {
+            path: root.join(".ai/policy.json"),
+            message: error.to_string(),
+        })
+}
+
+fn contract_policy_rule<'a>(
+    contract: &Contract,
+    policy: &'a GovernancePolicy,
+) -> Option<&'a cockpit_protocol::PolicyRule> {
+    let operation = contract.operation.as_deref().unwrap_or_else(|| {
+        if contract.risk.to_ascii_lowercase().contains("destructive") {
+            "production_destructive"
+        } else {
+            "modify_source"
+        }
+    });
+    policy.rules.iter().find(|rule| rule.operation == operation)
+}
+
+fn apply_policy_to_governance_input(
+    contract: &Contract,
+    policy: Option<&GovernancePolicy>,
+    input: &mut GovernanceInput,
+) {
+    let Some(policy) = policy else {
+        return;
+    };
+    let Some(rule) = contract_policy_rule(contract, policy) else {
+        return;
+    };
+    if rule
+        .required_evidence
+        .iter()
+        .any(|required| !contract.required_evidence_classes.contains(required))
+    {
+        input
+            .explicit_unknowns
+            .push("policy_required_evidence_missing".into());
+    }
+    match rule.approval_mode {
+        ApprovalMode::NoHumanApprovalForLowRisk => {}
+        ApprovalMode::SingleAuthorizedHuman => {
+            if input.authority != AuthorityState::Authorized {
+                input
+                    .explicit_unknowns
+                    .push("human_authority_missing".into());
+            }
+        }
+        ApprovalMode::MultiPartyApproval | ApprovalMode::ExternalProviderApproval => {
+            input
+                .explicit_unknowns
+                .push("policy_approval_receipt_missing".into());
+        }
+    }
+}
+
+/// Verification may collect the evidence required by a policy, but it must
+/// not run when the policy already says the actor lacks authority or when the
+/// selected approval mode requires an unimplemented external receipt.
+pub fn require_policy_for_verification(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<(), ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let contract = read_contract(&contract_path)?;
+    let Some(policy) = effective_policy_for_contract(&root, &contract)? else {
+        return Ok(());
+    };
+    let Some(rule) = contract_policy_rule(&contract, &policy) else {
+        return Ok(());
+    };
+    match rule.approval_mode {
+        ApprovalMode::NoHumanApprovalForLowRisk => Ok(()),
+        ApprovalMode::SingleAuthorizedHuman if contract.authority == "authorized" => Ok(()),
+        ApprovalMode::SingleAuthorizedHuman => Err(ObserverError::State {
+            path: contract_path,
+            message: "policy requires an authorized human before verification".into(),
+        }),
+        ApprovalMode::MultiPartyApproval | ApprovalMode::ExternalProviderApproval => {
+            Err(ObserverError::State {
+                path: contract_path,
+                message: format!(
+                    "policy approval mode {:?} requires an external approval receipt",
+                    rule.approval_mode
+                ),
+            })
+        }
+    }
+}
+
 fn is_test_path(path: &str) -> bool {
     let normalized = path.to_ascii_lowercase();
     normalized.starts_with("tests/")
@@ -3505,7 +3674,7 @@ pub fn governance_decision_for_contract(
         AuthorityState::Missing
     };
     let evidence = evidence_state_for_contract(root, contract, snapshot)?;
-    Ok(evaluate(GovernanceInput {
+    let mut input = GovernanceInput {
         scope: contract.scope.clone(),
         out_of_scope: contract.out_of_scope.clone(),
         changed_paths,
@@ -3519,7 +3688,10 @@ pub fn governance_decision_for_contract(
         explicit_unknowns: signals.unknowns,
         outcome_state_override: None,
         authority_override: None,
-    }))
+    };
+    let policy = effective_policy_for_contract(root, contract)?;
+    apply_policy_to_governance_input(contract, policy.as_ref(), &mut input);
+    Ok(evaluate(input))
 }
 
 fn read_contract(path: &Path) -> Result<cockpit_protocol::Contract, ObserverError> {
@@ -3779,6 +3951,7 @@ pub fn close_work_item_with_structured_decision(
         message: error.to_string(),
     })?;
     require_green_governance(&root, &contract_path, &contract, &snapshot, "close")?;
+    validate_policy_decision(&root, &contract, human_decision)?;
     let outcome = root
         .join(".ai/work-items/archive")
         .join(format!("{work_item_id}.outcome.json"));
@@ -3818,6 +3991,54 @@ pub fn close_work_item_with_structured_decision(
         })?;
     atomic_json(&decision_path, &decision)?;
     Ok(receipt)
+}
+
+fn validate_policy_decision(
+    root: &Path,
+    contract: &Contract,
+    decision: &HumanDecision,
+) -> Result<(), ObserverError> {
+    let Some(policy) = effective_policy_for_contract(root, contract)? else {
+        return Ok(());
+    };
+    let Some(rule) = contract_policy_rule(contract, &policy) else {
+        return Ok(());
+    };
+    match rule.approval_mode {
+        ApprovalMode::NoHumanApprovalForLowRisk => Ok(()),
+        ApprovalMode::SingleAuthorizedHuman => {
+            if decision.actor == "legacy-cli" || decision.authority_source == "explicit-cli" {
+                return Err(ObserverError::State {
+                    path: root.join(".ai/decisions"),
+                    message: "policy-protected close requires structured human identity and authority source".into(),
+                });
+            }
+            let policy_ids = policy
+                .policy_id
+                .strip_prefix("effective:")
+                .unwrap_or(&policy.policy_id)
+                .split(':')
+                .collect::<Vec<_>>();
+            if !decision.policy_refs.iter().any(|reference| {
+                reference == &policy.policy_id || policy_ids.contains(&reference.as_str())
+            }) {
+                return Err(ObserverError::State {
+                    path: root.join(".ai/decisions"),
+                    message: format!("structured decision must bind policy {}", policy.policy_id),
+                });
+            }
+            Ok(())
+        }
+        ApprovalMode::MultiPartyApproval | ApprovalMode::ExternalProviderApproval => {
+            Err(ObserverError::State {
+                path: root.join(".ai/decisions"),
+                message: format!(
+                    "policy approval mode {:?} is fail-closed until its external receipt is bound",
+                    rule.approval_mode
+                ),
+            })
+        }
+    }
 }
 
 fn verify_archive_manifest(

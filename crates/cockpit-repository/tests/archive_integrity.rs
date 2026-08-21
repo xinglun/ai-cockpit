@@ -1,9 +1,10 @@
 use cockpit_core::Digest;
+use cockpit_git::GitRepository;
 use cockpit_protocol::HumanDecision;
 use cockpit_repository::{
-    archive_work_item, attach, close_work_item_with_decision,
-    close_work_item_with_structured_decision, finish_work_item, record_verification,
-    start_work_item,
+    WorkItemStartOptions, archive_work_item, attach, close_work_item_with_decision,
+    close_work_item_with_structured_decision, finish_work_item, governance_decision_for_contract,
+    record_verification, start_work_item, start_work_item_with_options,
 };
 use std::{
     fs,
@@ -113,6 +114,135 @@ fn close_persists_a_structured_human_decision_and_recovery_condition() {
     assert_eq!(
         decision["structuredDecision"]["resumeCondition"],
         "rerun verification if the base changes"
+    );
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn organization_policy_requires_a_bound_structured_decision_at_close() {
+    let path = repository();
+    fs::write(
+        path.join(".ai/policy.json"),
+        r#"{
+          "schemaVersion": 1,
+          "organization": {
+            "policyId": "org-release-v1",
+            "layer": "organization",
+            "rules": [{
+              "operation": "modify_source",
+              "approvalMode": "single_authorized_human",
+              "requiredEvidence": ["verification"]
+            }]
+          }
+        }"#,
+    )
+    .expect("policy");
+    start_work_item_with_options(
+        &path,
+        "WI-POLICY",
+        "policy",
+        "verify",
+        &["**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            required_evidence_classes: vec!["verification".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start");
+    record_verification(
+        &path,
+        "WI-POLICY",
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.2.1",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+    finish_work_item(&path, "WI-POLICY").expect("finish");
+    archive_work_item(&path, "WI-POLICY").expect("archive");
+
+    let missing_binding = close_work_item_with_structured_decision(
+        &path,
+        "WI-POLICY",
+        &HumanDecision {
+            decision: "approved".into(),
+            actor: "human:owner".into(),
+            authority_source: "team-policy".into(),
+            reason: "fresh evidence".into(),
+            evidence_refs: vec![".ai/evidence/WI-POLICY.verification.json".into()],
+            policy_refs: Vec::new(),
+            decided_at: "2026-08-21T19:00:00Z".into(),
+            resume_condition: None,
+        },
+    )
+    .expect_err("policy close must bind the policy reference");
+    assert!(missing_binding.to_string().contains("policy"));
+
+    close_work_item_with_structured_decision(
+        &path,
+        "WI-POLICY",
+        &HumanDecision {
+            decision: "approved".into(),
+            actor: "human:owner".into(),
+            authority_source: "team-policy".into(),
+            reason: "fresh evidence".into(),
+            evidence_refs: vec![".ai/evidence/WI-POLICY.verification.json".into()],
+            policy_refs: vec!["org-release-v1".into()],
+            decided_at: "2026-08-21T19:00:00Z".into(),
+            resume_condition: None,
+        },
+    )
+    .expect("bound policy close");
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn preflight_exposes_policy_authority_and_evidence_gaps() {
+    let path = repository();
+    fs::write(
+        path.join(".ai/policy.json"),
+        r#"{
+          "schemaVersion": 1,
+          "organization": {
+            "policyId": "org-production-v1",
+            "layer": "organization",
+            "rules": [{
+              "operation": "modify_source",
+              "approvalMode": "single_authorized_human",
+              "requiredEvidence": ["hosted_ci"]
+            }]
+          }
+        }"#,
+    )
+    .expect("policy");
+    start_work_item(
+        &path,
+        "WI-PREFLIGHT-POLICY",
+        "policy",
+        "verify",
+        &["**".into()],
+    )
+    .expect("start");
+    let contract: cockpit_protocol::Contract = serde_json::from_slice(
+        &fs::read(path.join(".ai/work-items/active/WI-PREFLIGHT-POLICY.contract.json"))
+            .expect("contract"),
+    )
+    .expect("parse contract");
+    let snapshot = GitRepository::discover(&path)
+        .expect("git")
+        .snapshot()
+        .expect("snapshot");
+    let decision = governance_decision_for_contract(&path, &contract, &snapshot).expect("decision");
+    assert_eq!(decision.state, cockpit_core::DecisionState::Yellow);
+    assert!(
+        decision
+            .unknowns
+            .contains(&"human_authority_missing".into())
+    );
+    assert!(
+        decision
+            .unknowns
+            .contains(&"policy_required_evidence_missing".into())
     );
     fs::remove_dir_all(path).expect("cleanup");
 }
