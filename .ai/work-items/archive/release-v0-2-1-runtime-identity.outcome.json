@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-08-21T17:33:01Z",
+  "evidenceDigest": "sha256:d679ce0734360c97a5300ad24cbe45022261f5ff541babf33accbaa292b49d28",
+  "protocolVersion": 1,
+  "state": "finish_ready",
+  "verification": {
+    "evidencePath": ".ai/evidence/release-v0-2-1-runtime-identity.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "release-v0-2-1-runtime-identity"
+}

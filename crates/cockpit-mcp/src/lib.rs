@@ -191,7 +191,9 @@ fn verify_for_repo(
         },
     )
     .map_err(|error| error.to_string())?;
-    let output = serde_json::to_value(&run.receipt).map_err(|error| error.to_string())?;
+    let mut output = serde_json::to_value(&run.receipt).map_err(|error| error.to_string())?;
+    output["runtimeVersion"] = Value::String(runtime.runtime_version.clone());
+    output["runtimeDigest"] = Value::String(runtime.runtime_digest.to_string());
     if let Some(work_item_id) = arguments.get("workItemId").and_then(Value::as_str) {
         cockpit_repository::record_verification_with_snapshot(
             &root,

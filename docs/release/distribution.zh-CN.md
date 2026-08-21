@@ -15,7 +15,7 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # 发布与分发
 
-当前安装基线是公开且不可变的 `v0.2.0` Release。Homebrew 和手动安装都使用公开 archive
+当前安装基线是公开且不可变的 `v0.2.1` Release。Homebrew 和手动安装都使用公开 archive
 与 manifest；仓库配置仍使用 `cockpit.toml`，安装 runtime 不会在目标仓库创建 `.ai`。
 WI-40 增加发布后的 adopter 验收 harness，它不是发布前 gate，也不是 Runtime 命令。
 
@@ -52,7 +52,7 @@ brew untap xinglun/tap                 # 可选
 校验文件覆盖全部十个 archive/SBOM，因此只校验实际下载的 archive：
 
 ```bash
-archive="ai-cockpit-v0.2.0-aarch64-apple-darwin.tar.gz"
+archive="ai-cockpit-v0.2.1-aarch64-apple-darwin.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -62,13 +62,15 @@ gh attestation verify "$archive" --repo xinglun/ai-cockpit
 如果 Release 已存在，也可以使用 GitHub CLI 下载准确的三个文件：
 
 ```bash
-archive="ai-cockpit-v0.2.0-aarch64-apple-darwin.tar.gz"
-gh release download v0.2.0 --repo xinglun/ai-cockpit \
+archive="ai-cockpit-v0.2.1-aarch64-apple-darwin.tar.gz"
+gh release download v0.2.1 --repo xinglun/ai-cockpit \
   --pattern "$archive" --pattern release-manifest.json --pattern SHA256SUMS
 ```
 
 文件名、target、checksum、manifest 和 attestation subject 必须一致。单独的上传或
 semantic tag 不能证明安装完整。
+CLI 和 MCP 的 `verify` JSON 也会输出 `runtimeVersion` 与 `runtimeDigest`；验收 evidence
+前必须将这两个字段绑定到已下载 binary 的身份。
 
 ## 发布后 adopter 验收
 
@@ -77,7 +79,7 @@ semantic tag 不能证明安装完整。
 ```bash
 tests/release/adopter_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --tag v0.2.0 \
+  --tag v0.2.1 \
   --target aarch64-apple-darwin \
   --output ./release-adopter-acceptance
 ```
@@ -94,8 +96,8 @@ attach/profile/Agent doctor，保持 `first-adopter-smoke` 为 `not_ready`，验
 ```bash
 tests/release/adopter_upgrade_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --from-tag v0.1.1 \
-  --to-tag v0.2.0 \
+  --from-tag v0.2.0 \
+  --to-tag v0.2.1 \
   --target aarch64-apple-darwin \
   --output ./release-adopter-upgrade-acceptance
 ```
@@ -111,7 +113,7 @@ macOS/Linux 用户下载对应的 `.tar.gz` 和 `SHA256SUMS`，选择准确的 R
 
 ```bash
 target="aarch64-apple-darwin" # 选择与机器匹配的 target
-archive="ai-cockpit-v0.2.0-${target}.tar.gz"
+archive="ai-cockpit-v0.2.1-${target}.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -128,7 +130,7 @@ esac
 Windows 用户下载 `.zip` 和 `SHA256SUMS`，比较准确 checksum，解压到用户 bin 目录，并将该目录加入用户 `PATH`：
 
 ```powershell
-$archive = "ai-cockpit-v0.2.0-x86_64-pc-windows-msvc.zip"
+$archive = "ai-cockpit-v0.2.1-x86_64-pc-windows-msvc.zip"
 $expected = Get-Content .\SHA256SUMS |
   Where-Object { ($_ -split '\s+')[1] -eq $archive } |
   ForEach-Object { ($_ -split '\s+')[0].ToLowerInvariant() }
@@ -148,11 +150,11 @@ $env:Path = "$destination;$env:Path"
 
 ## Rust 开发者 fallback
 
-该 fallback 适用于当前已发布的不可变 `v0.2.0` tag。
+该 fallback 适用于当前已发布的不可变 `v0.2.1` tag。
 发布完成后，workspace 含多个 package，必须显式选择 `cockpit-cli`：
 
 ```bash
-cargo install --git https://github.com/xinglun/ai-cockpit.git --tag v0.2.0 --locked --root "$HOME/.local" --bin ai-cockpit cockpit-cli
+cargo install --git https://github.com/xinglun/ai-cockpit.git --tag v0.2.1 --locked --root "$HOME/.local" --bin ai-cockpit cockpit-cli
 "$HOME/.local/bin/ai-cockpit" --version
 cargo uninstall --root "$HOME/.local" cockpit-cli
 ```

@@ -520,7 +520,11 @@ fn run() -> Result<()> {
                 run.final_snapshot = final_snapshot;
             }
             run.receipt.elapsed_ms = service_started.elapsed().as_millis();
-            let output = serde_json::to_value(&run.receipt)?;
+            let mut output = serde_json::to_value(&run.receipt)?;
+            output["runtimeVersion"] =
+                serde_json::Value::String(runtime_context.runtime_version.clone());
+            output["runtimeDigest"] =
+                serde_json::Value::String(runtime_context.runtime_digest.to_string());
             if let Some(work_item) = work_item {
                 cockpit_repository::record_verification_with_snapshot(
                     &root,

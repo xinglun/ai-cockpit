@@ -1,0 +1,33 @@
+{
+  "acceptanceCriteria": [
+    "CLI and MCP verify JSON include runtimeVersion and runtimeDigest; release acceptance can bind output to the downloaded binary; all tests pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "749daf3f8062ba1f6f034a6017b9d02ebac6962d",
+  "createdAt": "2026-08-21T17:28:34Z",
+  "goal": "Bind Runtime version and digest to every CLI and MCP verify output.",
+  "intent": "Make public verification responses self-identifying for auditable release acceptance.",
+  "mode": "implementation",
+  "outOfScope": [
+    "target"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0408f25e48a2ed739c6e1bb9290c0ec6636e67bb038d7710f763f271b99b946e",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-cli/**",
+    "crates/cockpit-mcp/**",
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/**",
+    "docs/architecture/**",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "release-v0-2-1-runtime-identity"
+}
