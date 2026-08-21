@@ -2204,7 +2204,10 @@ fn replace_cap_entry(
         .encode_wide()
         .collect::<Vec<_>>();
     let header_size = std::mem::offset_of!(FILE_RENAME_INFO, FileName);
-    let byte_len = header_size + name.len() * std::mem::size_of::<u16>();
+    // `FILE_RENAME_INFO` declares `FileName[1]`.  Even though
+    // `FileNameLength` excludes a terminator, the buffer passed to
+    // `SetFileInformationByHandle` must still include that inline slot.
+    let byte_len = header_size + (name.len() + 1) * std::mem::size_of::<u16>();
     let word_len = byte_len.div_ceil(std::mem::size_of::<usize>());
     let mut storage = vec![0_usize; word_len];
     let information = storage.as_mut_ptr().cast::<FILE_RENAME_INFO>();
