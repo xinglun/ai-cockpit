@@ -2176,15 +2176,20 @@ fn replace_cap_entry(
     display_path: &Path,
 ) -> std::io::Result<()> {
     use std::os::windows::{ffi::OsStrExt, io::AsRawHandle};
-    use windows_sys::Win32::Storage::FileSystem::{
-        FILE_RENAME_INFO, FILE_RENAME_INFO_0, FileRenameInfo, SetFileInformationByHandle,
+    use windows_sys::Win32::{
+        Storage::FileSystem::{
+            FILE_RENAME_INFO, FILE_RENAME_INFO_0, FileRenameInfoEx, SetFileInformationByHandle,
+        },
+        System::WindowsProgramming::{
+            FILE_RENAME_FLAG_POSIX_SEMANTICS, FILE_RENAME_FLAG_REPLACE_IF_EXISTS,
+        },
     };
 
     // FileRenameInfoEx rejects a relative name paired with RootDirectory on
-    // the Windows runners (ERROR_INVALID_PARAMETER).  The parent capability
+    // the Windows runners (ERROR_INVALID_PARAMETER). The parent capability
     // remains open with delete sharing disabled, so its absolute path cannot
-    // be redirected while this operation is in flight.  FileRenameInfo is
-    // also supported on older Windows versions and retains replace semantics.
+    // be redirected while this operation is in flight. Keeping the Ex class
+    // preserves replace/POSIX semantics for an existing target.
     let name = display_path.as_os_str().encode_wide().collect::<Vec<_>>();
     let header_size = std::mem::offset_of!(FILE_RENAME_INFO, FileName);
     let byte_len = header_size + name.len() * std::mem::size_of::<u16>();
@@ -2193,7 +2198,7 @@ fn replace_cap_entry(
     let information = storage.as_mut_ptr().cast::<FILE_RENAME_INFO>();
     unsafe {
         (*information).Anonymous = FILE_RENAME_INFO_0 {
-            ReplaceIfExists: true,
+            Flags: FILE_RENAME_FLAG_REPLACE_IF_EXISTS | FILE_RENAME_FLAG_POSIX_SEMANTICS,
         };
         (*information).RootDirectory = std::ptr::null_mut();
         (*information).FileNameLength = (name.len() * std::mem::size_of::<u16>()) as u32;
@@ -2206,7 +2211,7 @@ fn replace_cap_entry(
     let result = unsafe {
         SetFileInformationByHandle(
             temporary_file.as_raw_handle().cast(),
-            FileRenameInfo,
+            FileRenameInfoEx,
             information.cast(),
             byte_len as u32,
         )

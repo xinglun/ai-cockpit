@@ -212,6 +212,7 @@ fn calibrated_auto_command_reuses_a_persisted_receipt_in_a_second_process() {
         let output = Command::new(binary)
             .args(["verify", "--repo"])
             .arg(&directory)
+            .env("AI_COCKPIT_DEBUG_SPAWN", "1")
             .output()
             .expect("verify");
         assert!(
@@ -219,7 +220,17 @@ fn calibrated_auto_command_reuses_a_persisted_receipt_in_a_second_process() {
             "{}",
             String::from_utf8_lossy(&output.stderr)
         );
-        serde_json::from_slice::<serde_json::Value>(&output.stdout).expect("JSON")
+        let value = serde_json::from_slice::<serde_json::Value>(&output.stdout).expect("JSON");
+        if value["processSpawnFailures"]
+            .as_u64()
+            .is_some_and(|count| count > 0)
+        {
+            eprintln!(
+                "verification spawn diagnostics: {}",
+                String::from_utf8_lossy(&output.stderr)
+            );
+        }
+        value
     };
 
     let first = run();

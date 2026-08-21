@@ -729,7 +729,10 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
     }
     let mut child = match process.spawn() {
         Ok(child) => child,
-        Err(_) => {
+        Err(error) => {
+            if std::env::var_os("AI_COCKPIT_DEBUG_SPAWN").is_some() {
+                eprintln!("ai-cockpit spawn failed for {:?}: {error}", command.program);
+            }
             return ExecutionOutcome {
                 spawned: false,
                 passed: false,
