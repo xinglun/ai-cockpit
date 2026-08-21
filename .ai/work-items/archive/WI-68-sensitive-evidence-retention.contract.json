@@ -1,0 +1,34 @@
+{
+  "acceptanceCriteria": [
+    "secret_prohibited blocks full/redacted capture",
+    "digest_only omits raw command output",
+    "no_persistence fails closed for completion evidence",
+    "purge-plan is deterministic and never silently deletes"
+  ],
+  "authority": "authorized",
+  "baseRevision": "f9092451d7675d7337645e69581051defb387335",
+  "createdAt": "2026-08-21T20:33:22Z",
+  "goal": "Sensitive evidence handling is explicit, fail-closed, auditable, and suitable for enterprise adoption.",
+  "intent": "Enforce repository-local evidence classification, bounded persistence, retention metadata, and deterministic disposal planning without silent deletion.",
+  "mode": "implementation",
+  "outOfScope": [
+    "external SIEM/WORM delivery implementation"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:18a73a06987e47b8069636f2d30e5631f21acc8e71a1d65c869c75d6888cee93",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-protocol/**",
+    "crates/cockpit-repository/**",
+    "crates/cockpit-cli/**",
+    "crates/cockpit-mcp/**",
+    "docs/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-68-sensitive-evidence-retention"
+}

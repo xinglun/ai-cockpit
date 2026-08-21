@@ -120,7 +120,8 @@ fn work_item_lifecycle_is_atomic_and_archive_is_content_bound() {
         &["verify", "--work-item", "WI-TEST", "--command", "true"],
         &repo,
     );
-    run(binary, &["finish", "--id", "WI-TEST"], &repo);
+    let finished = run(binary, &["finish", "--id", "WI-TEST"], &repo);
+    assert_eq!(finished["outcome"]["verification"]["status"], "verified");
     assert!(
         repo.join(".ai/work-items/active/WI-TEST.outcome.json")
             .is_file()

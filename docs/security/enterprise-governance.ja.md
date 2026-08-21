@@ -77,5 +77,11 @@ metadata は expiry と deterministic な disposal action を記録します。R
 を要求できますが、AI Cockpit は歴史 evidence を黙って削除せず、local archive が法的 retention を
 満たすとも主張しません。
 
+実際の entry point は `evidence policy` と `evidence purge-plan` です。前者は strict policy を Work Item
+に bind し、後者は digest-bound な `retain`/`purge_planned` の決定論的リストを外部責任者の review 用に
+返します。どの command も evidence を黙って削除しません。`digest_only` は receipt digest と governance
+summary だけを残して command output を保存せず、`no_persistence` の場合に保存できない receipt で完了を
+主張しようとすると Runtime は fail closed します。
+
 これらは enterprise compliance を支援する technical control であり、ISO 27001、SOC 2、その他の
 組織認証ではありません。

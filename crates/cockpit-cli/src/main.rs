@@ -4,8 +4,8 @@ use cockpit_agent::AgentExitCode;
 use cockpit_git::GitRepository;
 use cockpit_knowledge::{Query, query};
 use cockpit_protocol::{
-    AgentProvider, Contract, DelegatedEvidence, HumanDecision, RepositoryConfig,
-    validate_protocol_version,
+    AgentProvider, Contract, DataClassification, DelegatedEvidence, EvidencePersistence,
+    EvidenceRetention, HumanDecision, RepositoryConfig, validate_protocol_version,
 };
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
@@ -178,6 +178,28 @@ enum EvidenceCommand {
         repo: PathBuf,
         #[arg(long)]
         work_item: String,
+    },
+    Policy {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        work_item: String,
+        #[arg(long)]
+        classification: String,
+        #[arg(long)]
+        persistence: String,
+        #[arg(long)]
+        retention_days: Option<u64>,
+        #[arg(long)]
+        expires_at: Option<String>,
+        #[arg(long)]
+        disposal_action: String,
+    },
+    PurgePlan {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        now_epoch_seconds: Option<u64>,
     },
 }
 
@@ -445,12 +467,18 @@ fn run() -> Result<()> {
         CommandKind::Finish { repo, id } => {
             require_compatible(&repo, &runtime_context)?;
             let receipt = finish_work_item(&repo, &id).context("finish work item")?;
-            println!("{}", serde_json::to_string_pretty(&receipt)?);
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&lifecycle_output(&repo, &id, &receipt)?)?
+            );
         }
         CommandKind::Archive { repo, id } => {
             require_compatible(&repo, &runtime_context)?;
             let receipt = archive_work_item(&repo, &id).context("archive work item")?;
-            println!("{}", serde_json::to_string_pretty(&receipt)?);
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&lifecycle_output(&repo, &id, &receipt)?)?
+            );
         }
         CommandKind::Close {
             repo,
@@ -499,7 +527,10 @@ fn run() -> Result<()> {
                 close_work_item_with_decision(&repo, &id, &human_decision)
                     .context("close work item")?
             };
-            println!("{}", serde_json::to_string_pretty(&receipt)?);
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&lifecycle_output(&repo, &id, &receipt)?)?
+            );
         }
         CommandKind::Verify {
             repo,
@@ -651,6 +682,47 @@ fn run() -> Result<()> {
                 let receipts = cockpit_repository::list_delegated_evidence(&repo, &work_item)
                     .context("list delegated evidence")?;
                 println!("{}", serde_json::to_string_pretty(&receipts)?);
+            }
+            EvidenceCommand::Policy {
+                repo,
+                work_item,
+                classification,
+                persistence,
+                retention_days,
+                expires_at,
+                disposal_action,
+            } => {
+                require_compatible(&repo, &runtime_context)?;
+                let retention = EvidenceRetention {
+                    classification: parse_classification(&classification)?,
+                    persistence: parse_persistence(&persistence)?,
+                    retention_days,
+                    expires_at,
+                    disposal_action,
+                };
+                let policy = cockpit_repository::set_evidence_retention_policy(
+                    &repo,
+                    &work_item,
+                    retention,
+                    &runtime_context,
+                )
+                .context("set evidence retention policy")?;
+                println!("{}", serde_json::to_string_pretty(&policy)?);
+            }
+            EvidenceCommand::PurgePlan {
+                repo,
+                now_epoch_seconds,
+            } => {
+                require_compatible(&repo, &runtime_context)?;
+                let now_epoch_seconds = now_epoch_seconds.unwrap_or_else(|| {
+                    std::time::SystemTime::now()
+                        .duration_since(std::time::UNIX_EPOCH)
+                        .map(|duration| duration.as_secs())
+                        .unwrap_or_default()
+                });
+                let plan = cockpit_repository::evidence_purge_plan(&repo, now_epoch_seconds)
+                    .context("create deterministic evidence purge plan")?;
+                println!("{}", serde_json::to_string_pretty(&plan)?);
             }
         },
         CommandKind::WorkItem { command } => match command {
@@ -948,6 +1020,48 @@ fn select_single_provider(
         );
     }
     Ok(installed.into_iter().next().expect("one provider"))
+}
+
+fn parse_classification(value: &str) -> Result<DataClassification> {
+    match value.to_ascii_lowercase().as_str() {
+        "public" => Ok(DataClassification::Public),
+        "internal" => Ok(DataClassification::Internal),
+        "confidential" => Ok(DataClassification::Confidential),
+        "restricted" => Ok(DataClassification::Restricted),
+        "secret_prohibited" | "secret-prohibited" => Ok(DataClassification::SecretProhibited),
+        _ => anyhow::bail!("unknown evidence classification: {value}"),
+    }
+}
+
+fn parse_persistence(value: &str) -> Result<EvidencePersistence> {
+    match value.to_ascii_lowercase().as_str() {
+        "full_capture" | "full-capture" => Ok(EvidencePersistence::FullCapture),
+        "redacted_capture" | "redacted-capture" => Ok(EvidencePersistence::RedactedCapture),
+        "digest_only" | "digest-only" => Ok(EvidencePersistence::DigestOnly),
+        "no_persistence" | "no-persistence" => Ok(EvidencePersistence::NoPersistence),
+        _ => anyhow::bail!("unknown evidence persistence: {value}"),
+    }
+}
+
+fn lifecycle_output(
+    repo: &std::path::Path,
+    work_item_id: &str,
+    receipt: &cockpit_repository::LifecycleReceipt,
+) -> Result<serde_json::Value> {
+    let mut output = serde_json::to_value(receipt)?;
+    for directory in ["active", "archive"] {
+        let path = repo
+            .join(".ai/work-items")
+            .join(directory)
+            .join(format!("{work_item_id}.outcome.json"));
+        if path.is_file() {
+            let bytes =
+                std::fs::read(&path).with_context(|| format!("read outcome {}", path.display()))?;
+            output["outcome"] = serde_json::from_slice(&bytes).context("parse outcome")?;
+            break;
+        }
+    }
+    Ok(output)
 }
 
 fn require_compatible(

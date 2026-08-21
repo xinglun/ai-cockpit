@@ -426,12 +426,49 @@ pub struct EvidenceRetention {
     pub disposal_action: String,
 }
 
+/// Repository/work-item binding for sensitive evidence handling.  The policy
+/// is metadata only: it does not manufacture approval or external assurance.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct EvidenceRetentionPolicy {
+    pub schema_version: u32,
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub retention: EvidenceRetention,
+    pub created_at: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum EvidenceDisposition {
+    Retain,
+    Expired,
+    PurgePlanned,
+    Purged,
+    Blocked,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct EvidenceDispositionItem {
+    pub path: String,
+    pub digest: Digest,
+    pub classification: DataClassification,
+    pub persistence: EvidencePersistence,
+    pub disposition: EvidenceDisposition,
+    pub reason: String,
+}
+
 #[derive(Debug, Error, PartialEq, Eq)]
 pub enum EvidenceRetentionError {
     #[error("secret_prohibited evidence cannot use full_capture or redacted_capture")]
     SecretCaptureForbidden,
     #[error("disposal_action must be explicit")]
     MissingDisposalAction,
+    #[error("retention policy must declare retention_days or expires_at")]
+    MissingExpiry,
+    #[error("retention_days and expires_at cannot both be set")]
+    ConflictingExpiry,
 }
 
 pub fn validate_evidence_retention(
@@ -439,6 +476,12 @@ pub fn validate_evidence_retention(
 ) -> Result<(), EvidenceRetentionError> {
     if retention.disposal_action.trim().is_empty() {
         return Err(EvidenceRetentionError::MissingDisposalAction);
+    }
+    if retention.retention_days.is_none() && retention.expires_at.is_none() {
+        return Err(EvidenceRetentionError::MissingExpiry);
+    }
+    if retention.retention_days.is_some() && retention.expires_at.is_some() {
+        return Err(EvidenceRetentionError::ConflictingExpiry);
     }
     if matches!(
         retention.classification,
