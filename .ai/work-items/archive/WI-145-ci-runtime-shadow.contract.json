@@ -1,0 +1,77 @@
+{
+  "acceptanceCriteria": [
+    "A1: CI downloads only the immutable public v0.2.15 Linux Release artifact and verifies archive and binary identity before Runtime use",
+    "A2: CI runs installed ai-cockpit verify and preserves the existing Cargo fmt clippy and package test checks as a shadow comparison",
+    "A3: Runtime shadow output records tag version archive digest binary digest platform download source and verify result",
+    "A4: Missing release asset digest mismatch malformed Runtime output or source fallback fails closed",
+    "A5: Phase 1 does not remove or weaken Cargo YAML checks and documents Phase 2 convergence and Phase 3 policy cleanup as future gates",
+    "A6: Tri-language documentation explains the CI Runtime shadow boundary and immutable Runtime identity"
+  ],
+  "authority": "authorized",
+  "baseRevision": "c513117935faf094de14e814cddb3c8224c95b43",
+  "createdAt": "2026-08-22T20:37:35Z",
+  "goal": "Establish Phase 1 CI convergence evidence: the immutable installed Runtime runs verify and the existing Cargo checks remain as an independent shadow comparison.",
+  "intent": "Add a public-release Runtime verification shadow lane to CI without deleting or weakening existing Cargo quality gates.",
+  "mode": "code",
+  "outOfScope": [
+    "Deleting or replacing existing Cargo quality checks",
+    "Planner tier semantics and affected verification",
+    "Cross-Work-Item physical execution deduplication",
+    "Performance targets or CI result equivalence claims beyond the shadow lane",
+    "Runtime global project state or global Agent/MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6e6be7c039d9737f527e0745c37ea3f673a30028d4351f3eebc3796c6af7d622",
+  "requiredEvidenceClasses": ["verification"],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "scenario": "immutable public Runtime download and shadow verify",
+      "required": true,
+      "expected": "The exact v0.2.15 public binary is verified before it runs verify against the checkout.",
+      "verificationPlan": "Run the shadow script with the public release and inspect its identity-bound JSON output.",
+      "status": "unverified"
+    },
+    {
+      "scenario": "release or Runtime identity tampering",
+      "required": true,
+      "expected": "Archive or binary digest mismatch and malformed output stop the CI lane before any governance claim.",
+      "verificationPlan": "Run shell regression cases with invalid digest, missing asset, and fake source fallback inputs.",
+      "status": "unverified"
+    }
+  ],
+  "scope": [
+    ".github/workflows/ci.yml",
+    "tests/ci/runtime_verify_shadow.sh",
+    "tests/ci/runtime_verify_shadow_test.sh",
+    "docs/reference/ci-runtime-shadow.md",
+    "docs/reference/ci-runtime-shadow.zh-CN.md",
+    "docs/reference/ci-runtime-shadow.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-145-ci-runtime-shadow.md",
+    "docs/work-items/WI-145-ci-runtime-shadow.zh-CN.md",
+    "docs/work-items/WI-145-ci-runtime-shadow.ja.md"
+  ],
+  "sources": [
+    ".github/workflows/ci.yml",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/action_runtime_policy.sh",
+    "docs/reference/verification-semantics.md",
+    "docs/reference/reference-parity.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "bash tests/ci/runtime_verify_shadow_test.sh",
+    "bash tests/ci/runtime_verify_shadow.sh",
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "cargo test --locked --workspace",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/release/action_runtime_policy.sh .github/workflows/ci.yml .github/workflows/release.yml"
+  ],
+  "workItemId": "WI-145-ci-runtime-shadow"
+}
