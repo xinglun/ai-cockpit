@@ -117,7 +117,8 @@ pub fn handle_request_for_repo(
                 .and_then(|_| work_item_outcome(repo, &arguments, runtime))
         }
         "work_item_validate" => {
-            require_compatible(repo, runtime).and_then(|_| work_item_validate(repo, &arguments))
+            require_compatible(repo, runtime)
+                .and_then(|_| work_item_validate(repo, &arguments, runtime))
         }
         "evidence_get" => evidence_get(repo, &arguments),
         "delegated_evidence_list" => {
@@ -401,15 +402,20 @@ fn work_item_outcome(
     }))
 }
 
-fn work_item_validate(repo: &Path, arguments: &Value) -> Result<Value, String> {
+fn work_item_validate(
+    repo: &Path,
+    arguments: &Value,
+    runtime: &cockpit_protocol::RuntimeContext,
+) -> Result<Value, String> {
     let id = arguments
         .get("workItemId")
         .or_else(|| arguments.get("id"))
         .and_then(Value::as_str)
         .ok_or("workItemId argument is required")?;
     validate_id(id)?;
-    let report = cockpit_repository::validate_work_item_governance_controls(repo, id)
-        .map_err(|error| error.to_string())?;
+    let report =
+        cockpit_repository::validate_work_item_governance_controls_with_runtime(repo, id, runtime)
+            .map_err(|error| error.to_string())?;
     serde_json::to_value(report).map_err(|error| error.to_string())
 }
 

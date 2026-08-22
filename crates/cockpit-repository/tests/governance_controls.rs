@@ -1,5 +1,5 @@
 use cockpit_core::Digest;
-use cockpit_protocol::Contract;
+use cockpit_protocol::{Contract, RuntimeContext};
 use cockpit_repository::{
     FINAL_DIMENSIONS, validate_acceptance_evidence_values, validate_final_dimensions_value,
     validate_intent_alignment_values, validate_scenario_coverage_values,
@@ -182,6 +182,40 @@ fn final_dimensions_require_exact_reference_set_and_go_prerequisites() {
     assert_eq!(report.state, "verified");
     assert_eq!(report.decision.as_deref(), Some("GO"));
 
+    let runtime = RuntimeContext {
+        runtime_version: "0.2.10".into(),
+        protocol_version: 1,
+        runtime_digest: "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+            .parse()
+            .unwrap(),
+    };
+    let report = cockpit_repository::validate_final_dimensions_value_with_runtime(
+        &final_receipt("GO"),
+        None,
+        Some("WI-122"),
+        Some(&runtime),
+    );
+    assert_eq!(report.state, "verified");
+    let foreign_runtime = RuntimeContext {
+        runtime_digest: "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+            .parse()
+            .unwrap(),
+        ..runtime
+    };
+    let report = cockpit_repository::validate_final_dimensions_value_with_runtime(
+        &final_receipt("GO"),
+        None,
+        Some("WI-122"),
+        Some(&foreign_runtime),
+    );
+    assert_eq!(report.state, "blocked");
+    assert!(
+        report
+            .findings
+            .iter()
+            .any(|item| item.code == "final_runtime_digest_mismatch")
+    );
+
     let mut malformed = final_receipt("GO");
     malformed["dimensions"]
         .as_object_mut()
@@ -238,4 +272,26 @@ fn recording_controls_is_bounded_to_projection_fields() {
             .to_string()
             .contains("unsupported governance projection")
     );
+}
+
+#[cfg(unix)]
+#[test]
+fn active_control_inputs_reject_summary_symlinks() {
+    use std::os::unix::fs::symlink;
+
+    let directory = tempdir().unwrap();
+    let active = directory.path().join(".ai/work-items/active");
+    fs::create_dir_all(&active).unwrap();
+    fs::write(
+        active.join("WI-SYMLINK.contract.json"),
+        serde_json::to_vec(&contract("normal", "", vec![])).unwrap(),
+    )
+    .unwrap();
+    let real_summary = directory.path().join("summary.json");
+    fs::write(&real_summary, r#"{"state":"checkpointed"}"#).unwrap();
+    symlink(&real_summary, active.join("WI-SYMLINK.summary.json")).unwrap();
+    let error =
+        cockpit_repository::validate_work_item_governance_controls(directory.path(), "WI-SYMLINK")
+            .unwrap_err();
+    assert!(error.to_string().contains("regular non-symlink"));
 }

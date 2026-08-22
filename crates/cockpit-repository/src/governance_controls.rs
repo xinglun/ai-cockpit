@@ -7,7 +7,7 @@
 
 use crate::{ObserverError, repository_id};
 use cockpit_core::Digest;
-use cockpit_protocol::Contract;
+use cockpit_protocol::{Contract, RuntimeContext};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::{BTreeMap, BTreeSet};
@@ -137,6 +137,12 @@ fn nonempty_string(value: Option<&Value>) -> bool {
 
 fn array(value: Option<&Value>) -> Option<&Vec<Value>> {
     value.and_then(Value::as_array)
+}
+
+fn regular_file(path: &Path) -> bool {
+    fs::symlink_metadata(path)
+        .map(|metadata| metadata.is_file() && !metadata.file_type().is_symlink())
+        .unwrap_or(false)
 }
 
 /// Validate Contract/Summary scenario coverage.  A high-risk Contract must
@@ -509,6 +515,20 @@ pub fn validate_final_dimensions_value(
     expected_repository_id: Option<&str>,
     expected_work_item_id: Option<&str>,
 ) -> FinalDimensionsReport {
+    validate_final_dimensions_value_with_runtime(
+        value,
+        expected_repository_id,
+        expected_work_item_id,
+        None,
+    )
+}
+
+pub fn validate_final_dimensions_value_with_runtime(
+    value: &Value,
+    expected_repository_id: Option<&str>,
+    expected_work_item_id: Option<&str>,
+    expected_runtime: Option<&RuntimeContext>,
+) -> FinalDimensionsReport {
     let mut report = FinalDimensionsReport {
         state: "verified".into(),
         ..FinalDimensionsReport::default()
@@ -550,6 +570,32 @@ pub fn validate_final_dimensions_value(
             "final dimensions Work Item does not match context",
             "error",
         ));
+    }
+    if receipt.runtime_version.trim().is_empty() {
+        report.state = "blocked".into();
+        report.findings.push(finding(
+            "final_runtime_version_missing",
+            "final dimensions runtimeVersion must not be empty",
+            "error",
+        ));
+    }
+    if let Some(runtime) = expected_runtime {
+        if receipt.runtime_version != runtime.runtime_version {
+            report.state = "blocked".into();
+            report.findings.push(finding(
+                "final_runtime_version_mismatch",
+                "final dimensions runtimeVersion does not match the current Runtime",
+                "error",
+            ));
+        }
+        if receipt.runtime_digest != runtime.runtime_digest {
+            report.state = "blocked".into();
+            report.findings.push(finding(
+                "final_runtime_digest_mismatch",
+                "final dimensions runtimeDigest does not match the current Runtime",
+                "error",
+            ));
+        }
     }
     let expected: BTreeSet<String> = FINAL_DIMENSIONS.iter().map(|item| (*item).into()).collect();
     let actual: BTreeSet<String> = receipt.dimensions.keys().cloned().collect();
@@ -633,6 +679,22 @@ pub fn validate_work_item_governance_controls(
     root: &Path,
     work_item_id: &str,
 ) -> Result<GovernanceControlsReport, ObserverError> {
+    validate_work_item_governance_controls_internal(root, work_item_id, None)
+}
+
+pub fn validate_work_item_governance_controls_with_runtime(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+) -> Result<GovernanceControlsReport, ObserverError> {
+    validate_work_item_governance_controls_internal(root, work_item_id, Some(runtime))
+}
+
+fn validate_work_item_governance_controls_internal(
+    root: &Path,
+    work_item_id: &str,
+    runtime: Option<&RuntimeContext>,
+) -> Result<GovernanceControlsReport, ObserverError> {
     let ai = root.join(".ai");
     let candidates = [
         ai.join(format!("work-items/active/{work_item_id}.contract.json")),
@@ -640,7 +702,7 @@ pub fn validate_work_item_governance_controls(
     ];
     let path = candidates
         .iter()
-        .find(|path| path.is_file())
+        .find(|path| regular_file(path))
         .ok_or_else(|| ObserverError::State {
             path: candidates[0].clone(),
             message: "Work Item Contract/Archive not found".into(),
@@ -697,7 +759,13 @@ pub fn validate_work_item_governance_controls(
     } else {
         ai.join(format!("work-items/active/{work_item_id}.summary.json"))
     };
-    let summary: Value = if summary_path.is_file() {
+    if fs::symlink_metadata(&summary_path).is_ok() && !regular_file(&summary_path) {
+        return Err(ObserverError::State {
+            path: summary_path,
+            message: "Work Item Summary must be a regular non-symlink file".into(),
+        });
+    }
+    let summary: Value = if regular_file(&summary_path) {
         serde_json::from_slice(
             &fs::read(&summary_path).map_err(|source| ObserverError::Read {
                 path: summary_path.clone(),
@@ -723,10 +791,11 @@ pub fn validate_work_item_governance_controls(
     findings.extend(intent_findings);
     let (final_state, final_unknowns, final_findings) =
         if let Some(receipt) = summary.get("finalDimensions") {
-            let report = validate_final_dimensions_value(
+            let report = validate_final_dimensions_value_with_runtime(
                 receipt,
                 Some(&repository_id(root).to_string()),
                 Some(work_item_id),
+                runtime,
             );
             (report.state, report.unknowns, report.findings)
         } else {
@@ -763,6 +832,12 @@ pub fn record_work_item_governance_controls(
     let summary_path = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.summary.json"));
+    if !regular_file(&summary_path) {
+        return Err(ObserverError::State {
+            path: summary_path,
+            message: "Work Item Summary must be a regular non-symlink file".into(),
+        });
+    }
     let mut summary =
         serde_json::from_slice::<Value>(&fs::read(&summary_path).map_err(|source| {
             ObserverError::Read {

@@ -86,6 +86,8 @@ evidence、intent alignment 和可选的最终维度 receipt。验证器是只�
 字段只会报告 `blocked` 或 `unknown`，不会自动补全。最终 receipt 使用参考源
 完整的 20 个维度；`fourPillarProjection` 是明确命名的可选展示视图，`4D`
 不是协议字段。
+当 adapter 提供当前 Runtime context 时，验证器还会要求 `runtimeVersion` 和
+`runtimeDigest` 匹配；独立 value helper 只保证非空及带版本的 digest 格式。
 
 ## Runtime identity
 

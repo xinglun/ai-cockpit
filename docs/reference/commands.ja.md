@@ -88,6 +88,9 @@ acceptance evidence、intent alignment、任意の final-dimensions receipt を
 `blocked` または `unknown` として返します。final receipt は参照源と同じ
 20 dimensions を使用し、`fourPillarProjection` は明示された任意の表示用
 projection です。`4D` は protocol field ではありません。
+adapter が current Runtime context を渡す場合、validator は `runtimeVersion` と
+`runtimeDigest` の一致も要求します。standalone value helper は non-empty かつ
+versioned digest の shape だけを保証します。
 
 ## Runtime identity
 

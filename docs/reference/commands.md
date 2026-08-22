@@ -116,6 +116,9 @@ receipt. The validator is read-only. It reports `blocked` or `unknown` rather
 than filling missing fields. The final receipt uses the exact twenty
 reference dimensions; `fourPillarProjection` is an explicitly named optional
 view and `4D` is not a protocol field.
+When an adapter supplies the current Runtime context, the validator also
+requires matching `runtimeVersion` and `runtimeDigest`; the standalone value
+helper only guarantees non-empty/versioned digest shape.
 
 ## Runtime identity
 

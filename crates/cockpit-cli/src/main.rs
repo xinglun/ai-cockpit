@@ -934,7 +934,12 @@ fn run() -> Result<()> {
             }
             WorkItemCommand::Validate { repo, id, json } => {
                 require_compatible(&repo, &runtime_context)?;
-                let report = cockpit_repository::validate_work_item_governance_controls(&repo, &id)
+                let report =
+                    cockpit_repository::validate_work_item_governance_controls_with_runtime(
+                        &repo,
+                        &id,
+                        &runtime_context,
+                    )
                     .context("validate Work Item Contract/Summary controls")?;
                 if json {
                     println!("{}", serde_json::to_string_pretty(&report)?);
