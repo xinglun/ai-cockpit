@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "A1: Failed lifecycle gates persist a blocked Outcome with failedGate and recoveryCondition while preserving active state",
+    "A2: Recovery events are strict repository and Work Item bound append-only records and cannot be duplicated or forged",
+    "A3: A later valid finish may append completion after a blocked event without rewriting prior history",
+    "A4: Malformed foreign or symlinked failure records fail closed and never become success",
+    "A5: CLI and MCP expose the same blocked Outcome facts and tri-language human rendering"
+  ],
+  "createdAt": "2026-08-22T15:53:20Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:96963495962710e97d45e072de9296dc1dfedce471fe1edab20bae32af91c250",
+  "evidenceRefs": [
+    ".ai/evidence/WI-139B-recovery-events.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-139B-recovery-events.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-139B-recovery-events.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:818c25dea0976ac07d78b9e304a4790fe9c22488c83bdf9db0014baf48d86e2a",
+      "workItemId": "WI-139B-recovery-events"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139B-recovery-events.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-139B-recovery-events.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139B-recovery-events.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139B-recovery-events.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139B-recovery-events.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139B-recovery-events.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139B-recovery-events.contract.json"
+          ],
+          "inference": false,
+          "text": "Make failed finish and downstream lifecycle gates visible, identity-bound, and recoverable for humans and Agents."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139B-recovery-events.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-139B-recovery-events"
+  },
+  "taskReportDigest": "sha256:956c1c9205688209dfe244895e0e745a9c071127aebaafb61c9874e81a163adc",
+  "taskReportMarkdownDigest": "sha256:9a33d5f1d38fb3075ebd15c63778ff4d2aef680fbd87c8b3bb2b6c1242041a21",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-139B-recovery-events.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-139B-recovery-events"
+}

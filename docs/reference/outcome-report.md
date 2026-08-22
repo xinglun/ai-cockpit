@@ -104,6 +104,13 @@ success claim. Claims without a repository-local evidence reference must carry
 `inference: true`. The report includes `failedGate` and `recoveryCondition`
 when a required control is yellow or red.
 
+When `finish` is blocked, the active Work Item keeps its checkpointed
+lifecycle state and receives an active `state: "blocked"` Outcome projection.
+That projection is repository- and Work Item-bound, has `decisionState: "red"`,
+and names the failed gate and deterministic recovery condition. A later valid
+retry appends a completion event; it does not rewrite the earlier blocked event.
+Malformed, foreign, symlinked, or unknown event records fail closed.
+
 `finish` writes `<id>.events.jsonl` beside the active outcome. The stream is
 append-only and rejects malformed, foreign, secret-like, or relationship-invalid
 events. `archive` moves it byte-for-byte and binds `eventsDigest`; `close`

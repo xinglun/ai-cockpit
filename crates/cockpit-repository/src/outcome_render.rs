@@ -132,6 +132,22 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
         }
         (_, _) => "Repair the missing evidence and verify again; remain stopped until then.",
     };
+    let failed_gate = outcome
+        .failed_gate
+        .as_deref()
+        .or_else(|| task_report.and_then(|report| report.failed_gate.as_deref()));
+    let recovery_label = match language {
+        "zh" => "失败 gate",
+        "ja" => "失敗した gate",
+        _ => "Failed gate",
+    };
+    let recovery_action_label = match language {
+        "zh" => "恢复条件",
+        "ja" => "復旧条件",
+        _ => "Recovery condition",
+    };
+    let failed_gate_item = failed_gate.map(|gate| format!("{recovery_label}: {gate}"));
+    let recovery_action = failed_gate.map(|gate| localized_recovery_action(gate, language));
     let mut unknowns_all = outcome.unknowns.clone();
     unknowns_all.extend(report.unknowns.iter().cloned());
     unknowns_all.sort();
@@ -151,6 +167,9 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
         problems_found.push(invalid_evidence.to_string());
     } else if matches!(outcome.state, OutcomeState::NotReady) {
         problems_found.push(not_ready.to_string());
+    }
+    if let Some(item) = failed_gate_item.as_ref() {
+        problems_found.push(item.clone());
     }
     let acceptance_results = human_acceptance_results(&outcome.acceptance_results);
     let localized_summary =
@@ -213,6 +232,9 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
     ) {
         stop_items = vec![not_ready.to_string()];
     }
+    if let Some(action) = recovery_action.as_ref() {
+        stop_items.push(format!("{recovery_action_label}: {action}"));
+    }
     let resolved_items = task_report
         .map(|report| claim_texts(&report.sections.resolutions))
         .unwrap_or_default();
@@ -237,6 +259,36 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
         bullet_lines(&impact_items, none),
         bullet_lines(&outcome.evidence_refs, none),
     )
+}
+
+fn localized_recovery_action(gate: &str, language: &str) -> String {
+    match (language, gate) {
+        ("zh", "finish.verification") => {
+            "记录当前有效的验证证据，重新 preflight，然后重试 finish。".into()
+        }
+        ("ja", "finish.verification") => {
+            "現在の有効な検証 evidence を記録し、preflight を再実行して finish を再試行します。"
+                .into()
+        }
+        (_, "finish.verification") => {
+            "Record valid current verification evidence, rerun preflight, and retry finish.".into()
+        }
+        ("zh", "finish.preflight") => "记录新的非红色 preflight 结果，然后重试 finish。".into(),
+        ("ja", "finish.preflight") => {
+            "新しい非 red の preflight 結果を記録してから finish を再試行します。".into()
+        }
+        (_, "finish.preflight") => {
+            "Record a fresh non-red preflight result, then retry finish.".into()
+        }
+        ("zh", _) => "修复失败的治理条件，完成新的检查后重试 finish。".into(),
+        ("ja", _) => {
+            "失敗した governance 条件を修正し、新しい check 後に finish を再試行します。".into()
+        }
+        (_, _) => {
+            "Repair the failed governance condition, complete fresh checks, and retry finish."
+                .into()
+        }
+    }
 }
 
 fn claim_texts(claims: &[OutcomeClaim]) -> Vec<String> {

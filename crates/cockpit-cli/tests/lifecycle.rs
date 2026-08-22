@@ -548,11 +548,13 @@ fn in_scope_changes_do_not_stale_contract_and_out_of_scope_changes_cannot_finish
     );
     let finish = run_output(binary, &["finish", "--id", "WI-OUT-OF-SCOPE"], &repo);
     assert!(!finish.status.success(), "red governance must block finish");
-    assert!(
-        !repo
-            .join(".ai/work-items/active/WI-OUT-OF-SCOPE.outcome.json")
-            .exists()
-    );
+    let blocked_outcome: serde_json::Value = serde_json::from_slice(
+        &fs::read(repo.join(".ai/work-items/active/WI-OUT-OF-SCOPE.outcome.json"))
+            .expect("blocked outcome is persisted"),
+    )
+    .expect("blocked outcome JSON");
+    assert_eq!(blocked_outcome["state"], "blocked");
+    assert_eq!(blocked_outcome["decisionState"], "red");
     fs::write(
         repo.join(".ai/work-items/active/WI-OUT-OF-SCOPE.outcome.json"),
         r#"{"verification":{"status":"verified"}}"#,

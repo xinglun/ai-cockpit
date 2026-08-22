@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-22T15:53:23Z",
+  "files": {
+    "contractDigest": "sha256:296cfca57af497a6c3bbc982839bab0dabca6315d983759550ac5ea942f663f8",
+    "contractPath": ".ai/work-items/archive/WI-139B-recovery-events.contract.json",
+    "eventsDigest": "sha256:1a4092da3fe2fe6e8273bb62dfd41e1b6f0b625f6e8c295cb6470254f98af667",
+    "eventsPath": ".ai/work-items/archive/WI-139B-recovery-events.events.jsonl",
+    "outcomeDigest": "sha256:1f9636ed8b25ed57ff1948a6514be4b6e9682da1ee89cce79639c3d89b1a1940",
+    "outcomePath": ".ai/work-items/archive/WI-139B-recovery-events.outcome.json",
+    "summaryDigest": "sha256:33d29823bb33fd7f31932edf34d81275c02c9e7222a5b48ff1859c2e30567699",
+    "summaryPath": ".ai/work-items/archive/WI-139B-recovery-events.summary.json",
+    "taskReportDigest": "sha256:956c1c9205688209dfe244895e0e745a9c071127aebaafb61c9874e81a163adc",
+    "taskReportMarkdownDigest": "sha256:9a33d5f1d38fb3075ebd15c63778ff4d2aef680fbd87c8b3bb2b6c1242041a21",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-139B-recovery-events.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-139B-recovery-events.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-139B-recovery-events"
+}
