@@ -1,0 +1,42 @@
+{
+  "acceptanceResults": [
+    "workspace and release documentation consistently identify v0.2.5 without changing the TOML configuration format",
+    "the release workflow uses Node24-compatible pinned Actions and all release policy, source quality, package, and conformance gates pass",
+    "an immutable public GitHub Release v0.2.5 is published from the main commit with matching annotated tag, manifest, checksums, SBOM, and binary digests",
+    "post-release adopter acceptance uses only the public v0.2.5 binary in an isolated temporary repository and produces runtime identity, acceptance.json, SHA256SUMS, lifecycle evidence, evidence-reuse proof, and repository isolation proof",
+    "the installed v0.2.5 binary is upgraded and configured for this repository, then inspect/status/doctor/agent doctor and the self-governed Work Item lifecycle are re-tested",
+    "no failed post-release acceptance receipt changes Release truth or is reused for a later version",
+    "all active corrective Work Items in this release train have readable human Outcome output and are archived/closed only after current evidence is valid"
+  ],
+  "createdAt": "2026-08-22T02:00:26Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:36556068ca6c4fb1d4bc97595133ea8cffff97ad92f85e819e34d74ad159fb0f",
+  "evidenceRefs": [
+    ".ai/evidence/WI-102-release-v0-2-5.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-102-release-v0-2-5.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-102-release-v0-2-5.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-102-release-v0-2-5"
+}

@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T02:00:40Z",
+  "files": {
+    "contractDigest": "sha256:420942500c0afe3273b74dd9b1d8662ca3db89ab39a628362e86715059a0840e",
+    "contractPath": ".ai/work-items/archive/WI-104-release-v0-2-6.contract.json",
+    "outcomeDigest": "sha256:86c1bec4cf2ed4f40a0961be704660b50a70791f346a74efc70f26801523fbef",
+    "outcomePath": ".ai/work-items/archive/WI-104-release-v0-2-6.outcome.json",
+    "summaryDigest": "sha256:7c4b6ea74f60e1e888093d66fb43ea15e54dbd50033f989fcb7e2516c22104ad",
+    "summaryPath": ".ai/work-items/archive/WI-104-release-v0-2-6.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-104-release-v0-2-6"
+}

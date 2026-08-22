@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T02:00:40Z",
+  "files": {
+    "contractDigest": "sha256:20edc58395a69d96f88846b8b45240aeacaac772de53da66286002e803fdb81b",
+    "contractPath": ".ai/work-items/archive/WI-95-outcome-evidence-fail-closed.contract.json",
+    "outcomeDigest": "sha256:cdd058e0f78b6b2c13ea65cb3259fd017965919db5613c717c3cca45678736f5",
+    "outcomePath": ".ai/work-items/archive/WI-95-outcome-evidence-fail-closed.outcome.json",
+    "summaryDigest": "sha256:1f60108313d5ee1c38868119642376855a909c4f0c75d06606ca8e07436e3765",
+    "summaryPath": ".ai/work-items/archive/WI-95-outcome-evidence-fail-closed.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-95-outcome-evidence-fail-closed"
+}

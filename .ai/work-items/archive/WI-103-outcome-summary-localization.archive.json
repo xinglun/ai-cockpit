@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T02:00:40Z",
+  "files": {
+    "contractDigest": "sha256:bd22799b063a54ffc661c943de06351ee4ce3051ce1d61cdb6624b4fc85691d4",
+    "contractPath": ".ai/work-items/archive/WI-103-outcome-summary-localization.contract.json",
+    "outcomeDigest": "sha256:8c5ab8209e5aaaf1f7f7f2cd8fd10719e7aa4f20205b5c309bfd3f59c2b57f1e",
+    "outcomePath": ".ai/work-items/archive/WI-103-outcome-summary-localization.outcome.json",
+    "summaryDigest": "sha256:0f8d58c17007138c58d51a9e52b9af603500f2f4a395b5bcd381c36c4682f8c9",
+    "summaryPath": ".ai/work-items/archive/WI-103-outcome-summary-localization.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-103-outcome-summary-localization"
+}

@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T02:00:40Z",
+  "files": {
+    "contractDigest": "sha256:4f878fca054fba925a4e84cdc34e738664f49954fc9ddc88aa6d3a0e959a8805",
+    "contractPath": ".ai/work-items/archive/WI-101-outcome-language-acceptance.contract.json",
+    "outcomeDigest": "sha256:c6bf851e313c79ddb4f4398ff919955563abd516fdd63e5e709254efcedb4fb8",
+    "outcomePath": ".ai/work-items/archive/WI-101-outcome-language-acceptance.outcome.json",
+    "summaryDigest": "sha256:a40f8148f52b2680ace32f01972d730f4adb0bd84bd59e0244a7f4f622c1e2c3",
+    "summaryPath": ".ai/work-items/archive/WI-101-outcome-language-acceptance.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-101-outcome-language-acceptance"
+}

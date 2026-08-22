@@ -1,0 +1,31 @@
+{
+  "acceptanceCriteria": [
+    "human Outcome localizes Runtime-generated summary text for zh-CN, ja, and en while preserving authored contract acceptance text verbatim",
+    "localized summaries preserve the existing state and red/yellow/green marker semantics",
+    "CLI regression tests cover all supported presentation languages and machine JSON remains language-independent",
+    "the change does not alter contract bytes, repository identity, or global Agent/MCP configuration"
+  ],
+  "authority": "authorized",
+  "baseRevision": "219fdc2d2022f421e1d46d779d3bf649b66f0c88",
+  "createdAt": "2026-08-22T01:40:47Z",
+  "goal": "Make every Runtime-generated human Outcome sentence follow the selected conversation language.",
+  "intent": "Localize the generated Outcome summary in the human-facing CLI report without translating authored Contract acceptance text.",
+  "mode": "code",
+  "outOfScope": [],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4563e87f27e7163e2826c0a3ffd91bbb75c724cc0e87fcad0dcdfbf77e6ba619",
+  "requiredEvidenceClasses": [],
+  "risk": "unknown",
+  "scope": [
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/intelligence.rs",
+    "docs/reference/outcome-report.md",
+    "docs/reference/outcome-report.zh-CN.md",
+    "docs/reference/outcome-report.ja.md",
+    ".ai/**"
+  ],
+  "state": "not_ready",
+  "workItemId": "WI-103-outcome-summary-localization"
+}

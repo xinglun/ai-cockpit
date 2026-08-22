@@ -1,0 +1,36 @@
+{
+  "acceptanceCriteria": [
+    "workspace and release documentation consistently identify v0.2.6 and preserve cockpit.toml",
+    "the public v0.2.6 Release is built from the reviewed main commit with matching tag, manifest, checksums, SBOM, and binary digests",
+    "the post-release public adopter and N-1 upgrade acceptance jobs pass without source or workspace binary fallback",
+    "the verified v0.2.6 binary is installed locally and its Outcome human summaries follow zh-CN, ja, and en presentation settings",
+    "all release and self-governance evidence is repository-bound and no global Agent or MCP configuration is changed"
+  ],
+  "authority": "authorized",
+  "baseRevision": "219fdc2d2022f421e1d46d779d3bf649b66f0c88",
+  "createdAt": "2026-08-22T01:44:48Z",
+  "goal": "Publish and install the corrective patch that makes human Outcome summaries follow the conversation language.",
+  "intent": "Release v0.2.6 after fixing the remaining Runtime-generated Outcome summary localization gap discovered during v0.2.5 self-acceptance.",
+  "mode": "release",
+  "outOfScope": [],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:924e5c0aa9c1eeecf628ebf48185738fdd471fedd0254e29553cd794aca3ab0d",
+  "requiredEvidenceClasses": [],
+  "risk": "unknown",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/intelligence.rs",
+    "docs/reference/**",
+    "docs/release/**",
+    "docs/architecture/**",
+    "tests/release/**",
+    ".github/workflows/**",
+    ".ai/**"
+  ],
+  "state": "not_ready",
+  "workItemId": "WI-104-release-v0-2-6"
+}

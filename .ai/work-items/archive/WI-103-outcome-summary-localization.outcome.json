@@ -1,0 +1,39 @@
+{
+  "acceptanceResults": [
+    "human Outcome localizes Runtime-generated summary text for zh-CN, ja, and en while preserving authored contract acceptance text verbatim",
+    "localized summaries preserve the existing state and red/yellow/green marker semantics",
+    "CLI regression tests cover all supported presentation languages and machine JSON remains language-independent",
+    "the change does not alter contract bytes, repository identity, or global Agent/MCP configuration"
+  ],
+  "createdAt": "2026-08-22T02:00:26Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:b3730234f9c37c6f2c864c08521fa325dc07594d33f13d987147b3b1c7c0e5b0",
+  "evidenceRefs": [
+    ".ai/evidence/WI-103-outcome-summary-localization.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-103-outcome-summary-localization.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-103-outcome-summary-localization.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-103-outcome-summary-localization"
+}

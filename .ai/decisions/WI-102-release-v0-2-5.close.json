@@ -1,0 +1,21 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:owner",
+    "authoritySource": "release-policy",
+    "decidedAt": "2026-08-22T02:01:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-102-release-v0-2-5.verification.json"
+    ],
+    "policyRefs": [
+      "release-policy:v0.2.6"
+    ],
+    "reason": "Current public Release evidence and self-governed verification reviewed; lifecycle acceptance passed.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-22T02:00:48Z",
+  "workItemId": "WI-102-release-v0-2-5"
+}

@@ -1,0 +1,40 @@
+{
+  "acceptanceResults": [
+    "workspace and release documentation consistently identify v0.2.6 and preserve cockpit.toml",
+    "the public v0.2.6 Release is built from the reviewed main commit with matching tag, manifest, checksums, SBOM, and binary digests",
+    "the post-release public adopter and N-1 upgrade acceptance jobs pass without source or workspace binary fallback",
+    "the verified v0.2.6 binary is installed locally and its Outcome human summaries follow zh-CN, ja, and en presentation settings",
+    "all release and self-governance evidence is repository-bound and no global Agent or MCP configuration is changed"
+  ],
+  "createdAt": "2026-08-22T02:00:26Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:b2730ec5b69566fc19806c82ea4bfb44045fd0bd4a7ae54fe616e35053870ced",
+  "evidenceRefs": [
+    ".ai/evidence/WI-104-release-v0-2-6.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-104-release-v0-2-6.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-104-release-v0-2-6.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-104-release-v0-2-6"
+}

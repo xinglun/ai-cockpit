@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T02:00:40Z",
+  "files": {
+    "contractDigest": "sha256:d5fe0b86d90bd7137c764b5ec597c3ed3a0591218690c45646497d43235e031b",
+    "contractPath": ".ai/work-items/archive/WI-100-agent-usage-handoff.contract.json",
+    "outcomeDigest": "sha256:1d126226fb0a93ea4b1fe45588ce00e01c6f982a3989e3fe88724bcd9df3e443",
+    "outcomePath": ".ai/work-items/archive/WI-100-agent-usage-handoff.outcome.json",
+    "summaryDigest": "sha256:a7cc2e41aacad87dd897127ec88a5e6f96a7f784b66fc1d6d1c274887e077475",
+    "summaryPath": ".ai/work-items/archive/WI-100-agent-usage-handoff.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-100-agent-usage-handoff"
+}
