@@ -1,0 +1,17 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-22T11:57:49Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T11:57:43Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-22T12:00:47Z",
+  "preflightContractDigest": "sha256:2d5d54e614d975cefbac7e8759cc418859595978c45a9cb4275e6e5a44ad1004",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:004c9f0069a386b58d5343764608bbaca633354133cad74ecbb5d753b052131e",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T12:00:47Z",
+  "workItemId": "WI-133-docs-truth"
+}

@@ -7,9 +7,9 @@ audience:
   - adopter
   - contributor
   - maintainer
-status: implementation
+status: implemented
 authority: canonical
-lastVerifiedBy: WI-130-status-closed-projection
+lastVerifiedBy: WI-133-docs-truth
 ---
 
 # WI-130——Closed Work Item 状态投影
@@ -34,4 +34,7 @@ Runtime 已经写入结构化 close decision，但只读 status 过去只读取�
 
 ## 验证
 
-以 active Contract 与 Runtime evidence 中的 focused tests、workspace checks 和文档验收为准。
+以 archived Contract、verification evidence、close decision 与 Runtime evidence 中的
+focused tests、workspace checks 和文档验收为准。证据为
+`.ai/evidence/WI-130-status-closed-projection.verification.json` 与
+`.ai/decisions/WI-130-status-closed-projection.close.json`。

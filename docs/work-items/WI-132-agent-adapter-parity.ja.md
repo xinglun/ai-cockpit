@@ -7,9 +7,9 @@ audience:
   - adopter
   - contributor
   - maintainer
-status: implementation
+status: implemented
 authority: canonical
-lastVerifiedBy: WI-132-agent-adapter-parity
+lastVerifiedBy: WI-133-docs-truth
 ---
 
 # WI-132 — Agent adapter と provider surface の parity
@@ -38,4 +38,6 @@ Python/Make の runtime をコピーせず、adapter は明示的な discovery p
 ## Verification
 
 Focused Agent/CLI test、workspace check、clippy、documentation acceptance の結果は
-active Contract と Runtime evidence を参照してください。
+archived Contract、verification evidence、close decision、Runtime evidence を参照してください。
+証跡は `.ai/evidence/WI-132-agent-adapter-parity.verification.json` と
+`.ai/decisions/WI-132-agent-adapter-parity.close.json` です。

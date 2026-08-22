@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T12:00:47Z",
+  "files": {
+    "contractDigest": "sha256:6c26b443b4657b5406de79b0bd2472afd8aa62ee89b395ff66da9e407181ef38",
+    "contractPath": ".ai/work-items/archive/WI-133-docs-truth.contract.json",
+    "outcomeDigest": "sha256:6b32ed4268c666f10d5311ffeac1afe6c38ee72ef7437ab199229ba4dc4a2c8d",
+    "outcomePath": ".ai/work-items/archive/WI-133-docs-truth.outcome.json",
+    "summaryDigest": "sha256:efbbed891ea0a22643dfd09023849e0e9b27244c18c723d7f4ca8a2c293d91c6",
+    "summaryPath": ".ai/work-items/archive/WI-133-docs-truth.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-133-docs-truth"
+}

@@ -7,9 +7,9 @@ audience:
   - adopter
   - contributor
   - maintainer
-status: implementation
+status: implemented
 authority: canonical
-lastVerifiedBy: WI-131-evidence-timestamp
+lastVerifiedBy: WI-133-docs-truth
 ---
 
 # WI-131 — Fail-closed verification evidence timestamps
@@ -41,5 +41,7 @@ lifecycle transition to look green.
 
 ## Verification
 
-See the active Contract and Runtime evidence for focused repository/CLI tests,
-workspace checks, and documentation acceptance.
+See the archived Contract, verification evidence, close decision, and Runtime
+evidence for focused repository/CLI tests, workspace checks, and documentation
+acceptance: `.ai/evidence/WI-131-evidence-timestamp.verification.json` and
+`.ai/decisions/WI-131-evidence-timestamp.close.json`.

@@ -7,9 +7,9 @@ audience:
   - adopter
   - contributor
   - maintainer
-status: implementation
+status: implemented
 authority: canonical
-lastVerifiedBy: WI-132-agent-adapter-parity
+lastVerifiedBy: WI-133-docs-truth
 ---
 
 # WI-132 — Agent adapter and provider-surface parity
@@ -48,5 +48,7 @@ the shared Rust Runtime.
 
 ## Verification
 
-See the active Contract and Runtime evidence for focused Agent/CLI tests,
-workspace checks, clippy, and documentation acceptance.
+See the archived Contract, verification evidence, close decision, and Runtime
+evidence for focused Agent/CLI tests, workspace checks, clippy, and
+documentation acceptance: `.ai/evidence/WI-132-agent-adapter-parity.verification.json`
+and `.ai/decisions/WI-132-agent-adapter-parity.close.json`.

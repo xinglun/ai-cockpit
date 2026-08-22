@@ -1,0 +1,49 @@
+{
+  "acceptanceCriteria": [
+    "The English Japanese and Simplified Chinese WI-130 WI-131 and WI-132 pages state status implemented and reference their merged evidence or close records",
+    "The English Japanese and Simplified Chinese reference parity current implementation baseline lists WI-130 WI-131 and WI-132 with accurate evidence paths",
+    "Documentation acceptance passes and no Runtime or repository governance bytes are changed",
+    "The reconciliation explicitly preserves the distinction between current implementation truth and historical work-item pages"
+  ],
+  "authority": "authorized",
+  "baseRevision": "d1783eae49cb31f2de6c9bf81798fd179c82bbe5",
+  "createdAt": "2026-08-22T11:57:43Z",
+  "goal": "Reconcile tri-lingual Work Item status and the reference-parity implementation baseline with the merged and closed Runtime truth.",
+  "intent": "Readers and maintainers must not see completed, merged Work Items reported as implementation-only; the documentation baseline should be auditable without changing Runtime behavior.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime source and tests",
+    "Contract or evidence schema changes",
+    "Reference source migration or V1 runtime files",
+    "Release version or installation changes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:58f851ac9f8364533e8e656bedbb4d865745e9e1cbd3dcb8a11000db1a2b244f",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-130-status-closed-projection.md",
+    "docs/work-items/WI-130-status-closed-projection.ja.md",
+    "docs/work-items/WI-130-status-closed-projection.zh-CN.md",
+    "docs/work-items/WI-131-evidence-timestamp.md",
+    "docs/work-items/WI-131-evidence-timestamp.ja.md",
+    "docs/work-items/WI-131-evidence-timestamp.zh-CN.md",
+    "docs/work-items/WI-132-agent-adapter-parity.md",
+    "docs/work-items/WI-132-agent-adapter-parity.ja.md",
+    "docs/work-items/WI-132-agent-adapter-parity.zh-CN.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-133-docs-truth.md",
+    "docs/work-items/WI-133-docs-truth.ja.md",
+    "docs/work-items/WI-133-docs-truth.zh-CN.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-133-docs-truth"
+}

@@ -1,0 +1,39 @@
+{
+  "acceptanceResults": [
+    "The English Japanese and Simplified Chinese WI-130 WI-131 and WI-132 pages state status implemented and reference their merged evidence or close records",
+    "The English Japanese and Simplified Chinese reference parity current implementation baseline lists WI-130 WI-131 and WI-132 with accurate evidence paths",
+    "Documentation acceptance passes and no Runtime or repository governance bytes are changed",
+    "The reconciliation explicitly preserves the distinction between current implementation truth and historical work-item pages"
+  ],
+  "createdAt": "2026-08-22T12:00:47Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:b47099c3bbfbf473b7561803e86a335e96b720b264a7f4353a90e6a6153af6e2",
+  "evidenceRefs": [
+    ".ai/evidence/WI-133-docs-truth.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-133-docs-truth.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-133-docs-truth.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-133-docs-truth"
+}

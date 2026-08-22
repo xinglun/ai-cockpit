@@ -72,6 +72,9 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-126——只读状态与面向人的交接 | 已实现 | [Work Item](../work-items/WI-126-status-outcome.zh-CN.md)；`.ai/evidence/WI-126-status-outcome.verification.json` |
 | WI-128——发布 adopter 验收清理 | 已实现 | [Work Item](../work-items/WI-128-release-acceptance-cleanup.zh-CN.md)；`.ai/evidence/WI-128-release-acceptance-cleanup.verification.json` |
 | WI-129——参考源对齐完整性 | 已实现 | [Work Item](../work-items/WI-129-parity-gate.zh-CN.md)；`.ai/evidence/WI-129-parity-gate.verification.json` |
+| WI-130——已关闭 Work Item 状态投影 | 已实现 | [Work Item](../work-items/WI-130-status-closed-projection.zh-CN.md)；`.ai/evidence/WI-130-status-closed-projection.verification.json`；`.ai/decisions/WI-130-status-closed-projection.close.json` |
+| WI-131——验证证据时间戳 fail-closed 校验 | 已实现 | [Work Item](../work-items/WI-131-evidence-timestamp.zh-CN.md)；`.ai/evidence/WI-131-evidence-timestamp.verification.json`；`.ai/decisions/WI-131-evidence-timestamp.close.json` |
+| WI-132——Agent adapter 与 provider 表面一致性 | 已实现 | [Work Item](../work-items/WI-132-agent-adapter-parity.zh-CN.md)；`.ai/evidence/WI-132-agent-adapter-parity.verification.json`；`.ai/decisions/WI-132-agent-adapter-parity.close.json` |
 
 ## 当前边界
 

@@ -7,9 +7,9 @@ audience:
   - adopter
   - contributor
   - maintainer
-status: implementation
+status: implemented
 authority: canonical
-lastVerifiedBy: WI-131-evidence-timestamp
+lastVerifiedBy: WI-133-docs-truth
 ---
 
 # WI-131 — 検証証拠 timestamp の fail-closed 検査
@@ -36,4 +36,6 @@ lastVerifiedBy: WI-131-evidence-timestamp
 ## Verification
 
 Focused repository/CLI tests、workspace checks、documentation acceptance の結果は
-active Contract と Runtime evidence を参照してください。
+archived Contract、verification evidence、close decision、Runtime evidence を参照してください。
+証跡は `.ai/evidence/WI-131-evidence-timestamp.verification.json` と
+`.ai/decisions/WI-131-evidence-timestamp.close.json` です。

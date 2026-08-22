@@ -7,9 +7,9 @@ audience:
   - adopter
   - contributor
   - maintainer
-status: implementation
+status: implemented
 authority: canonical
-lastVerifiedBy: WI-132-agent-adapter-parity
+lastVerifiedBy: WI-133-docs-truth
 ---
 
 # WI-132 — Agent adapter 与 provider 表面一致性
@@ -38,4 +38,6 @@ Runtime。Adapter 是显式的 discovery 投影，当前治理状态仍由共享
 ## Verification
 
 Focused Agent/CLI 测试、workspace checks、clippy 和 documentation acceptance 的结果
-参见 active Contract 与 Runtime evidence。
+参见 archived Contract、verification evidence、close decision 与 Runtime evidence。证据为
+`.ai/evidence/WI-132-agent-adapter-parity.verification.json` 和
+`.ai/decisions/WI-132-agent-adapter-parity.close.json`。

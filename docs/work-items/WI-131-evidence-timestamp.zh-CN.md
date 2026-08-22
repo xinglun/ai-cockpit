@@ -7,9 +7,9 @@ audience:
   - adopter
   - contributor
   - maintainer
-status: implementation
+status: implemented
 authority: canonical
-lastVerifiedBy: WI-131-evidence-timestamp
+lastVerifiedBy: WI-133-docs-truth
 ---
 
 # WI-131 — 验证证据时间戳 fail-closed 校验
@@ -35,4 +35,7 @@ lastVerifiedBy: WI-131-evidence-timestamp
 
 ## Verification
 
-定向 repository/CLI 测试、workspace 检查和文档验收结果见 active Contract 与 Runtime evidence。
+定向 repository/CLI 测试、workspace 检查和文档验收结果见 archived Contract、
+verification evidence、close decision 与 Runtime evidence。证据为
+`.ai/evidence/WI-131-evidence-timestamp.verification.json` 与
+`.ai/decisions/WI-131-evidence-timestamp.close.json`。

@@ -75,6 +75,9 @@ verification record です。
 | WI-126 — Read-only status と human handoff | Implemented | [Work Item](../work-items/WI-126-status-outcome.ja.md); `.ai/evidence/WI-126-status-outcome.verification.json` |
 | WI-128 — Release acceptance cleanup | Implemented | [Work Item](../work-items/WI-128-release-acceptance-cleanup.ja.md); `.ai/evidence/WI-128-release-acceptance-cleanup.verification.json` |
 | WI-129 — Reference parity completeness | Implemented | [Work Item](../work-items/WI-129-parity-gate.ja.md); `.ai/evidence/WI-129-parity-gate.verification.json` |
+| WI-130 — Closed Work Item status projection | Implemented | [Work Item](../work-items/WI-130-status-closed-projection.ja.md); `.ai/evidence/WI-130-status-closed-projection.verification.json`; `.ai/decisions/WI-130-status-closed-projection.close.json` |
+| WI-131 — 検証証拠 timestamp の fail-closed 検査 | Implemented | [Work Item](../work-items/WI-131-evidence-timestamp.ja.md); `.ai/evidence/WI-131-evidence-timestamp.verification.json`; `.ai/decisions/WI-131-evidence-timestamp.close.json` |
+| WI-132 — Agent adapter と provider surface の parity | Implemented | [Work Item](../work-items/WI-132-agent-adapter-parity.ja.md); `.ai/evidence/WI-132-agent-adapter-parity.verification.json`; `.ai/decisions/WI-132-agent-adapter-parity.close.json` |
 
 ## 現在の境界
 
