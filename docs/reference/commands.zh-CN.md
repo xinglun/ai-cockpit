@@ -25,6 +25,7 @@ capabilityClaims:
 | 迁移 | `migrate apply --approved` | 只应用经过审查的 repository schema migration，并写入绑定 Runtime 的 migration receipt。 |
 | 治理 | `preflight` | 读取 Contract，返回 green/yellow/red decision 与 `reviewState`；不完整或不确定的 Contract 为需人工确认的 yellow，不能越过 checkpoint。 |
 | Work Item | `work-item new`、`start`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls` | 创建骨架、验证或写入显式生命周期记录；`close` 要求 human decision。 |
+| 并行 Work Item | `work-item boundary`、`work-item declare`、`work-item slot acquire|release|list` | 绑定 Contract 并行路径并管理 repository-local slot；unknown 时序列化。 |
 | Verification | `verify` | 执行有界命令、记录 evidence，并可绑定 Work Item。 |
 | 外部 evidence | `evidence import`、`evidence list`、`evidence policy`、`evidence purge-plan` | 将精确 provider bytes 绑定到 Work Item，声明有界持久化策略，或生成确定性的非破坏性处置计划。 |
 | Audit | `audit export` | 生成绑定 repository 的稳定事件包交给外部保留方；不宣称本地 immutable。 |
@@ -36,6 +37,11 @@ capabilityClaims:
   记录该 Work Item 的 receipt，也总是 fresh。
 - 不提供 `--command` 的 `verify` 会检测 Cargo 或 npm，并可能使用已确认 profile 做跨进程 reuse。
 - `verify --workers <n>` 要求正数并限制并发。
+- `work-item boundary --repo <path> --id <id> --file <boundary.json>` 将可选的
+  `concurrencyBoundary` 绑定到 Contract。四类路径和 `maxWorkers` 会被验证；后者是 slot 容量，
+  不等于 `verify --workers`。
+- `work-item slot acquire|release|list` 管理 `.ai/parallel/leases/` 下的独占 lease。lease 绑定
+  repository 与 Work Item；缺失、格式错误、含糊或过期状态都会 fail closed，不存在全局 current Work Item。
 - `start` 要求 `--id`、`--intent`、`--goal`；要得到 green governed flow 需要 `--authority authorized`。
 - `work-item new --repo <path> --id <id> --mode <mode>` 创建 `not_ready` 骨架，只填充 snapshot-derived facts，
   人类字段保持空值或 `unknown`；过渡期 `start` 复用同一 writer。repository-local 独占 reservation

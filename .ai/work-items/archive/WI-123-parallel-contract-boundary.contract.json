@@ -1,0 +1,61 @@
+{
+  "acceptanceCriteria": [
+    "Contract has additive concurrencyBoundary with implementationPaths, generatedEvidencePaths, verificationOutputPaths, serializedProjectionPaths, reason, and schema",
+    "Existing depends/conflicts/parallelizable/scope-overlap sidecar remains backward compatible but is integrated into Contract compatibility",
+    "Repository-local parallel slot lease/reservation is race-safe; duplicate IDs and slot claims fail closed; maxWorkers is distinct from verify --workers",
+    "Unknown scope/boundary/slot state serializes or fails closed; Windows separators and concurrent repositories are covered",
+    "CLI/MCP and English/Chinese/Japanese docs expose the boundary without global configuration changes"
+  ],
+  "authority": "authorized",
+  "baseRevision": "aad170e735ba50abc2ef6184efa8b39f6eca3edf",
+  "createdAt": "2026-08-22T08:00:00Z",
+  "goal": "Parallel Work Items can run only when implementation, evidence, verification, and serialized projection boundaries are compatible and an owned slot lease is valid.",
+  "intent": "Bind Work Item concurrency to explicit Contract boundaries and repository-local race-safe slots.",
+  "mode": "implementation",
+  "outOfScope": [
+    ".github/**",
+    "tests/release/**",
+    "global Agent/MCP configuration",
+    "verify --workers execution semantics",
+    "Runtime release publication"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:355b94c7cdce06979113dc95270c8cb727e33b23e2eb6bcb1aa2119356b168e7",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-protocol/**",
+    "crates/cockpit-repository/**",
+    "crates/cockpit-cli/**",
+    "crates/cockpit-mcp/**",
+    "docs/capabilities.md",
+    "docs/capabilities.zh-CN.md",
+    "docs/capabilities.ja.md",
+    "docs/reference/**",
+    "docs/work-items/**",
+    "tests/docs/documentation_acceptance.sh"
+  ],
+  "sources": [
+    "crates/cockpit-protocol/src/lib.rs:Contract",
+    "crates/cockpit-repository/src/lib.rs:work_item_compatibility",
+    "crates/cockpit-repository/tests/scope_overlap.rs",
+    "WI-121 additive Contract schema integration on origin/main"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test -p cockpit-protocol --all-targets --all-features -- --test-threads=1",
+    "cargo test -p cockpit-repository --all-targets --all-features -- --test-threads=1",
+    "cargo test -p cockpit-cli --all-targets --all-features -- --test-threads=1",
+    "cargo test -p cockpit-mcp --all-targets --all-features -- --test-threads=1",
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "cargo test --locked --workspace",
+    "bash tests/docs/documentation_acceptance.sh",
+    "git diff --check"
+  ],
+  "workItemId": "WI-123-parallel-contract-boundary"
+}

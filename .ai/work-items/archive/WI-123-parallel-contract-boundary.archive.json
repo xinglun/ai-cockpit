@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T08:22:56Z",
+  "files": {
+    "contractDigest": "sha256:e5176394036935763570959c7622387343e3abe62f06aa67067829e3b8e73314",
+    "contractPath": ".ai/work-items/archive/WI-123-parallel-contract-boundary.contract.json",
+    "outcomeDigest": "sha256:12c6c11494e269cdd741eaaa8dddb8506f7bcb2c2f1b340b96d4cbd10f17a369",
+    "outcomePath": ".ai/work-items/archive/WI-123-parallel-contract-boundary.outcome.json",
+    "summaryDigest": "sha256:8e93ee92b5522694180fc0e841a04674b7579509fc84f18b5ee34d8fe4e238c5",
+    "summaryPath": ".ai/work-items/archive/WI-123-parallel-contract-boundary.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-123-parallel-contract-boundary"
+}

@@ -313,7 +313,7 @@ ai-cockpit mcp --repo /path/to/repository
 ```
 
 `status`、`work_item_get`、`work_item_outcome`、`work_item_list`、`blockers`、`safe_actions`、`knowledge_query`、
-`evidence_get`、`delegated_evidence_list`、`repository_observe`、`preflight`、`verify` の 12 tools を提供します。
+`work_item_validate`、`evidence_get`、`delegated_evidence_list`、`repository_observe`、`preflight`、`verify`、`work_item_parallel` の 14 tools を提供します。
 `tools/list` で JSON-RPC schema を確認できます。`preflight` は repository-relative `contract`、
 `verify` は `command`、string array の `args`、optional `workItemId` を受け取ります。repository
 binding のない call は fail closed です。result には `structuredContent`、text content、`isError`
@@ -356,3 +356,17 @@ missing または矛盾した evidence への安全な応答は、停止し、Wo
 2. [アーキテクチャ](architecture.ja.md)
 3. [設計思想](philosophy.ja.md)
 4. [Repository Protocol v1](protocol/v1/specification.ja.md)
+
+## Parallel Work Item の境界
+
+並列実行は Contract が明示的に許可した場合だけ行います。`work-item boundary --repo <path> --id <id> --file <boundary.json>`
+で任意の `concurrencyBoundary` を設定できます。そこには `implementationPaths`、`generatedEvidencePaths`、
+`verificationOutputPaths`、`serializedProjectionPaths`、`reason`、`schemaVersion`、`maxWorkers` を含めます。
+既存の intelligence sidecar は depends/conflicts/parallelizable を宣言する投影として残り、Contract の境界と
+sidecar の両方を満たす必要があります。欠落、壊れた JSON、絶対/親パス、判定できない glob は保守的に serialize
+され、slot の取得を fail closed にします。`maxWorkers` は repository-local slot の容量であり、単一の
+`verify --workers` とは別の値です。
+
+`work-item slot acquire|release|list --repo <path>` で `.ai/parallel/leases/` の lease を管理します。lease は
+repositoryId、workItemId、slot、leaseId を持ち、自動 expiry はありません。repository 間で状態を共有せず、MCP の
+`work_item_parallel` も `inspect`、`acquire`、`release`、`list` を同じ境界で提供します。

@@ -4,8 +4,8 @@ use cockpit_agent::AgentExitCode;
 use cockpit_git::GitRepository;
 use cockpit_knowledge::{Query, query};
 use cockpit_protocol::{
-    AgentProvider, DataClassification, DelegatedEvidence, EvidencePersistence, EvidenceRetention,
-    HumanDecision, RepositoryConfig, validate_protocol_version,
+    AgentProvider, ConcurrencyBoundary, DataClassification, DelegatedEvidence, EvidencePersistence,
+    EvidenceRetention, HumanDecision, RepositoryConfig, validate_protocol_version,
 };
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
@@ -363,6 +363,41 @@ enum WorkItemCommand {
         /// intentAlignment, or finalDimensions.
         #[arg(long)]
         input: PathBuf,
+    },
+    Boundary {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+        /// JSON file containing a Contract concurrencyBoundary object.
+        #[arg(long)]
+        file: PathBuf,
+    },
+    Slot {
+        #[command(subcommand)]
+        command: WorkItemSlotCommand,
+    },
+}
+
+#[derive(Debug, Subcommand)]
+enum WorkItemSlotCommand {
+    Acquire {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+    },
+    Release {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+        #[arg(long)]
+        lease_id: String,
+    },
+    List {
+        #[arg(long)]
+        repo: PathBuf,
     },
 }
 
@@ -906,11 +941,14 @@ fn run() -> Result<()> {
                     .context("inspect Work Item compatibility")?;
                 let approach = cockpit_repository::implementation_approach(&repo, &id)
                     .context("derive Work Item implementation approach")?;
+                let parallel_slots = cockpit_repository::list_parallel_slots(&repo)
+                    .context("inspect repository-local parallel slots")?;
                 let output = json!({
                     "repositoryId": compatibility.repository_id,
                     "workItemId": id,
                     "compatibility": compatibility,
                     "implementationApproach": approach,
+                    "parallelSlots": parallel_slots,
                 });
                 println!("{}", serde_json::to_string_pretty(&output)?);
             }
@@ -968,6 +1006,36 @@ fn run() -> Result<()> {
                         .context("record Work Item governance controls")?;
                 println!("{}", serde_json::to_string_pretty(&summary)?);
             }
+            WorkItemCommand::Boundary { repo, id, file } => {
+                require_compatible(&repo, &runtime_context)?;
+                let bytes = std::fs::read(&file).context("read concurrency boundary JSON")?;
+                let boundary: ConcurrencyBoundary =
+                    serde_json::from_slice(&bytes).context("parse concurrency boundary JSON")?;
+                let boundary =
+                    cockpit_repository::set_work_item_concurrency_boundary(&repo, &id, boundary)
+                        .context("bind Contract concurrency boundary")?;
+                println!("{}", serde_json::to_string_pretty(&boundary)?);
+            }
+            WorkItemCommand::Slot { command } => match command {
+                WorkItemSlotCommand::Acquire { repo, id } => {
+                    require_compatible(&repo, &runtime_context)?;
+                    let lease = cockpit_repository::acquire_parallel_slot(&repo, &id)
+                        .context("acquire repository-local parallel slot")?;
+                    println!("{}", serde_json::to_string_pretty(&lease)?);
+                }
+                WorkItemSlotCommand::Release { repo, id, lease_id } => {
+                    require_compatible(&repo, &runtime_context)?;
+                    let lease = cockpit_repository::release_parallel_slot(&repo, &id, &lease_id)
+                        .context("release repository-local parallel slot")?;
+                    println!("{}", serde_json::to_string_pretty(&lease)?);
+                }
+                WorkItemSlotCommand::List { repo } => {
+                    require_compatible(&repo, &runtime_context)?;
+                    let leases = cockpit_repository::list_parallel_slots(&repo)
+                        .context("list repository-local parallel slots")?;
+                    println!("{}", serde_json::to_string_pretty(&leases)?);
+                }
+            },
         },
         CommandKind::Capability { command } => match command {
             CapabilityCommand::Show { repo } => {

@@ -9,11 +9,12 @@ use cockpit_git::{ChangeContentState, ChangeKind, RepositorySnapshot};
 use cockpit_protocol::{
     AgentAdapterCompatibility, AgentInterfaceAvailability, AgentInterfaceManifest, AgentInterfaces,
     AgentRootBinding, ApprovalMode, AuditEvent, AuditExportManifest, CapabilityConfidence,
-    CapabilityTruth, CapabilityTruthRegistry, Contract, DataClassification, DelegatedEvidence,
-    DelegatedEvidenceReceipt, DiagnosisState, EvidenceDisposition, EvidenceDispositionItem,
-    EvidencePersistence, EvidenceRetention, EvidenceRetentionPolicy, EvidenceValidity, FactOrigin,
-    GovernanceCost, GovernancePolicy, GovernancePolicyDocument, HumanBenefitReport, HumanDecision,
-    ImplementationApproach, OutcomeState, OutcomeV2, PerformanceDiagnosis, PolicyLayer,
+    CapabilityTruth, CapabilityTruthRegistry, ConcurrencyBoundary, Contract, DataClassification,
+    DelegatedEvidence, DelegatedEvidenceReceipt, DiagnosisState, EvidenceDisposition,
+    EvidenceDispositionItem, EvidencePersistence, EvidenceRetention, EvidenceRetentionPolicy,
+    EvidenceValidity, FactOrigin, GovernanceCost, GovernancePolicy, GovernancePolicyDocument,
+    HumanBenefitReport, HumanDecision, ImplementationApproach, OutcomeState, OutcomeV2,
+    PARALLEL_SLOT_LEASE_SCHEMA_VERSION, ParallelSlotLease, PerformanceDiagnosis, PolicyLayer,
     QualityCommand, RepositoryConfig, RuntimeContext, SchemaMigrationStep, TruthState,
     WorkItemCompatibility, WorkItemIntelligence, default_repository_schema_version,
     merge_policy_layers, repository_schema_migration_chain, validate_evidence_retention,
@@ -7285,8 +7286,22 @@ fn read_work_item_intelligence(
     let path = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.intelligence.json"));
-    if !path.is_file() {
-        return Ok(None);
+    match fs::symlink_metadata(&path) {
+        Ok(metadata) if metadata.file_type().is_symlink() => {
+            return Err(ObserverError::State {
+                path,
+                message: "Work Item intelligence sidecar must not be a symlink".into(),
+            });
+        }
+        Ok(metadata) if !metadata.is_file() => {
+            return Err(ObserverError::State {
+                path,
+                message: "Work Item intelligence sidecar must be a regular file".into(),
+            });
+        }
+        Ok(_) => {}
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
+        Err(source) => return Err(ObserverError::Read { path, source }),
     }
     let value = read_json(&path)?;
     serde_json::from_value(value)
@@ -7341,6 +7356,491 @@ pub fn set_work_item_intelligence(
         })?,
     )?;
     Ok(intelligence)
+}
+
+/// Bind an explicit parallelism boundary to the active Contract.  The
+/// Contract is the authority; the legacy intelligence sidecar remains the
+/// compatibility projection for dependency/conflict declarations.
+pub fn set_work_item_concurrency_boundary(
+    root: &Path,
+    work_item_id: &str,
+    boundary: ConcurrencyBoundary,
+) -> Result<ConcurrencyBoundary, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    validate_boundary_for_parallel_use(&boundary).map_err(|message| ObserverError::State {
+        path: root.join(".ai/work-items/active"),
+        message,
+    })?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    if !is_regular_non_symlink(&path)? {
+        return Err(ObserverError::State {
+            path,
+            message: "active work item contract not found or is not a regular file".into(),
+        });
+    }
+    let mut value = read_json(&path)?;
+    let object = value.as_object_mut().ok_or_else(|| ObserverError::State {
+        path: path.clone(),
+        message: "work item contract must be a JSON object".into(),
+    })?;
+    let stored_repository_id = object
+        .get("repositoryId")
+        .and_then(serde_json::Value::as_str)
+        .unwrap_or_default();
+    if stored_repository_id != repository_id(&root).to_string() {
+        return Err(ObserverError::State {
+            path,
+            message: "work item contract repository identity does not match repository".into(),
+        });
+    }
+    object.insert(
+        "concurrencyBoundary".into(),
+        serde_json::to_value(&boundary).map_err(|error| ObserverError::State {
+            path: path.clone(),
+            message: error.to_string(),
+        })?,
+    );
+    atomic_json(&path, &value)?;
+    Ok(boundary)
+}
+
+fn read_contract_boundary(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<Option<ConcurrencyBoundary>, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    if !is_regular_non_symlink(&path)? {
+        return Err(ObserverError::State {
+            path,
+            message: "active work item contract not found or is not a regular file".into(),
+        });
+    }
+    let value = read_json(&path)?;
+    let Some(boundary) = value.get("concurrencyBoundary") else {
+        return Ok(None);
+    };
+    let boundary: ConcurrencyBoundary =
+        serde_json::from_value(boundary.clone()).map_err(|error| ObserverError::State {
+            path: path.clone(),
+            message: format!("invalid concurrencyBoundary: {error}"),
+        })?;
+    validate_boundary_for_parallel_use(&boundary)
+        .map_err(|message| ObserverError::State { path, message })?;
+    Ok(Some(boundary))
+}
+
+fn validate_boundary_for_parallel_use(boundary: &ConcurrencyBoundary) -> Result<(), String> {
+    boundary.validate()?;
+    for (kind, raw_path) in boundary.all_paths() {
+        let normalized = normalized_scope_pattern(raw_path);
+        if normalized.is_empty() || scope_pattern_is_unsafe(raw_path) {
+            return Err(format!(
+                "concurrency boundary {kind} contains an unsafe path"
+            ));
+        }
+        if scope_pattern_has_glob(&normalized)
+            && normalized != "*"
+            && normalized != "**"
+            && simple_scope_prefix(&normalized).is_none()
+        {
+            return Err(format!(
+                "concurrency boundary {kind} contains an unsupported glob"
+            ));
+        }
+    }
+    Ok(())
+}
+
+fn is_regular_non_symlink(path: &Path) -> Result<bool, ObserverError> {
+    let metadata = fs::symlink_metadata(path).map_err(|source| {
+        if source.kind() == std::io::ErrorKind::NotFound {
+            ObserverError::State {
+                path: path.into(),
+                message: "path does not exist".into(),
+            }
+        } else {
+            ObserverError::Read {
+                path: path.into(),
+                source,
+            }
+        }
+    })?;
+    Ok(metadata.file_type().is_file())
+}
+
+fn parallel_state_root(root: &Path) -> PathBuf {
+    root.join(".ai/parallel")
+}
+
+fn parallel_leases_root(root: &Path) -> PathBuf {
+    parallel_state_root(root).join("leases")
+}
+
+fn ensure_parallel_directories(root: &Path) -> Result<PathBuf, ObserverError> {
+    let state = parallel_state_root(root);
+    let leases = parallel_leases_root(root);
+    for path in [&state, &leases] {
+        match fs::symlink_metadata(path) {
+            Ok(metadata) if metadata.file_type().is_symlink() => {
+                return Err(ObserverError::State {
+                    path: path.clone(),
+                    message: "parallel state path must not be a symlink".into(),
+                });
+            }
+            Ok(metadata) if !metadata.is_dir() => {
+                return Err(ObserverError::State {
+                    path: path.clone(),
+                    message: "parallel state path must be a directory".into(),
+                });
+            }
+            Ok(_) => {}
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                fs::create_dir_all(path).map_err(|source| ObserverError::Read {
+                    path: path.clone(),
+                    source,
+                })?;
+            }
+            Err(source) => {
+                return Err(ObserverError::Read {
+                    path: path.clone(),
+                    source,
+                });
+            }
+        }
+    }
+    // Re-check after create_dir_all: another first-use acquirer may have
+    // created the path between metadata and creation, and a symlink must
+    // never become an accepted parallel-state root.
+    for path in [&state, &leases] {
+        let metadata = fs::symlink_metadata(path).map_err(|source| ObserverError::Read {
+            path: path.clone(),
+            source,
+        })?;
+        if metadata.file_type().is_symlink() || !metadata.is_dir() {
+            return Err(ObserverError::State {
+                path: path.clone(),
+                message: "parallel state path must be a non-symlink directory".into(),
+            });
+        }
+    }
+    Ok(leases)
+}
+
+fn slot_lease_path(root: &Path, slot_id: u32) -> PathBuf {
+    parallel_leases_root(root).join(format!("slot-{slot_id}.json"))
+}
+
+fn parallel_slot_lease_id() -> String {
+    let sequence = NEXT_ATOMIC_WRITE_ID.fetch_add(1, Ordering::Relaxed);
+    let timestamp = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map_or(0, |duration| duration.as_nanos());
+    format!("{}-{timestamp}-{sequence}", std::process::id())
+}
+
+fn read_parallel_slot_lease(path: &Path) -> Result<ParallelSlotLease, ObserverError> {
+    if !is_regular_non_symlink(path)? {
+        return Err(ObserverError::State {
+            path: path.into(),
+            message: "parallel slot lease must be a regular non-symlink file".into(),
+        });
+    }
+    let value = read_json(path)?;
+    let lease: ParallelSlotLease =
+        serde_json::from_value(value).map_err(|error| ObserverError::State {
+            path: path.into(),
+            message: format!("invalid parallel slot lease: {error}"),
+        })?;
+    if lease.schema_version != PARALLEL_SLOT_LEASE_SCHEMA_VERSION
+        || lease.work_item_id.trim().is_empty()
+        || lease.lease_id.trim().is_empty()
+        || lease.max_workers == 0
+        || lease.slot_id >= lease.max_workers
+    {
+        return Err(ObserverError::State {
+            path: path.into(),
+            message: "invalid parallel slot lease identity or capacity".into(),
+        });
+    }
+    Ok(lease)
+}
+
+/// Acquire exactly one repository-local parallel execution slot.  A Work
+/// Item may hold only one lease and stale/malformed leases are fail-closed;
+/// there is no implicit expiry that could create a concurrent write window.
+pub fn acquire_parallel_slot(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<ParallelSlotLease, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let boundary =
+        read_contract_boundary(&root, work_item_id)?.ok_or_else(|| ObserverError::State {
+            path: root
+                .join(".ai/work-items/active")
+                .join(format!("{work_item_id}.contract.json")),
+            message:
+                "concurrency boundary is not declared; parallel slot acquisition is serialized"
+                    .into(),
+        })?;
+    let intelligence =
+        read_work_item_intelligence(&root, work_item_id)?.ok_or_else(|| ObserverError::State {
+            path: root
+                .join(".ai/work-items/active")
+                .join(format!("{work_item_id}.intelligence.json")),
+            message: "parallel compatibility declaration is missing".into(),
+        })?;
+    if !intelligence.parallelizable {
+        return Err(ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message: "Work Item is not declared parallelizable".into(),
+        });
+    }
+    let leases = ensure_parallel_directories(&root)?;
+    let reservation_path = parallel_state_root(&root).join(format!(".{work_item_id}.slot.reserve"));
+    let mut reservation = match fs::OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(&reservation_path)
+    {
+        Ok(file) => file,
+        Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => {
+            return Err(ObserverError::State {
+                path: reservation_path,
+                message: "parallel slot reservation is already active".into(),
+            });
+        }
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: reservation_path,
+                source,
+            });
+        }
+    };
+    let reservation_result = reservation
+        .write_all(b"ai-cockpit parallel slot reservation\n")
+        .and_then(|()| reservation.sync_all());
+    if let Err(source) = reservation_result {
+        drop(reservation);
+        let _ = fs::remove_file(&reservation_path);
+        return Err(ObserverError::Read {
+            path: reservation_path,
+            source,
+        });
+    }
+    drop(reservation);
+
+    let result = (|| {
+        for slot_id in 0..boundary.max_workers {
+            let path = slot_lease_path(&root, slot_id);
+            if path.exists() {
+                let existing = read_parallel_slot_lease(&path)?;
+                if existing.repository_id != repository_id(&root).to_string() {
+                    return Err(ObserverError::State {
+                        path,
+                        message: "parallel slot lease repository identity mismatch".into(),
+                    });
+                }
+                if existing.max_workers != boundary.max_workers {
+                    return Err(ObserverError::State {
+                        path,
+                        message: "parallel slot lease capacity conflicts with Contract".into(),
+                    });
+                }
+                if existing.work_item_id == work_item_id {
+                    return Err(ObserverError::State {
+                        path,
+                        message: "Work Item already owns a parallel slot".into(),
+                    });
+                }
+                continue;
+            }
+            let lease = ParallelSlotLease {
+                schema_version: PARALLEL_SLOT_LEASE_SCHEMA_VERSION,
+                repository_id: repository_id(&root).to_string(),
+                work_item_id: work_item_id.into(),
+                slot_id,
+                lease_id: parallel_slot_lease_id(),
+                max_workers: boundary.max_workers,
+                acquired_at: now(),
+            };
+            let bytes =
+                serde_json::to_vec_pretty(&lease).map_err(|error| ObserverError::State {
+                    path: path.clone(),
+                    message: error.to_string(),
+                })?;
+            let mut file = match fs::OpenOptions::new()
+                .write(true)
+                .create_new(true)
+                .open(&path)
+            {
+                Ok(file) => file,
+                Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => continue,
+                Err(source) => return Err(ObserverError::Read { path, source }),
+            };
+            if let Err(source) = file.write_all(&bytes).and_then(|()| file.sync_all()) {
+                drop(file);
+                let _ = fs::remove_file(&path);
+                return Err(ObserverError::Read { path, source });
+            }
+            return Ok(lease);
+        }
+        Err(ObserverError::State {
+            path: leases,
+            message: "no parallel slots available".into(),
+        })
+    })();
+    let _ = fs::remove_file(&reservation_path);
+    result
+}
+
+/// Release a lease only when both Work Item and lease identity match.  A
+/// caller cannot release another Work Item's slot by guessing a slot number.
+pub fn release_parallel_slot(
+    root: &Path,
+    work_item_id: &str,
+    lease_id: &str,
+) -> Result<ParallelSlotLease, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    if lease_id.trim().is_empty() {
+        return Err(ObserverError::State {
+            path: root.join(".ai/parallel/leases"),
+            message: "lease id must not be empty".into(),
+        });
+    }
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let leases = ensure_parallel_directories(&root)?;
+    let entries = fs::read_dir(&leases).map_err(|source| ObserverError::Read {
+        path: leases.clone(),
+        source,
+    })?;
+    for entry in entries {
+        let entry = entry.map_err(|source| ObserverError::Read {
+            path: leases.clone(),
+            source,
+        })?;
+        let path = entry.path();
+        if !path.file_name().is_some_and(|name| {
+            name.to_string_lossy().starts_with("slot-") && name.to_string_lossy().ends_with(".json")
+        }) {
+            continue;
+        }
+        let lease = read_parallel_slot_lease(&path)?;
+        if lease.repository_id != repository_id(&root).to_string() {
+            return Err(ObserverError::State {
+                path,
+                message: "parallel slot lease repository identity mismatch".into(),
+            });
+        }
+        if lease.work_item_id == work_item_id && lease.lease_id == lease_id {
+            fs::remove_file(&path).map_err(|source| ObserverError::Read {
+                path: path.clone(),
+                source,
+            })?;
+            return Ok(lease);
+        }
+    }
+    Err(ObserverError::State {
+        path: leases,
+        message: "matching parallel slot lease not found".into(),
+    })
+}
+
+/// Read all repository-local leases in deterministic slot order.  Any
+/// malformed or symlink lease is an error rather than an ignored slot.
+pub fn list_parallel_slots(root: &Path) -> Result<Vec<ParallelSlotLease>, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let state = parallel_state_root(&root);
+    match fs::symlink_metadata(&state) {
+        Ok(metadata) if metadata.file_type().is_symlink() => {
+            return Err(ObserverError::State {
+                path: state,
+                message: "parallel state path must not be a symlink".into(),
+            });
+        }
+        Ok(metadata) if !metadata.is_dir() => {
+            return Err(ObserverError::State {
+                path: state,
+                message: "parallel state path must be a directory".into(),
+            });
+        }
+        Ok(_) => {}
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(Vec::new()),
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: state,
+                source,
+            });
+        }
+    }
+    let leases = parallel_leases_root(&root);
+    match fs::symlink_metadata(&leases) {
+        Ok(metadata) if metadata.file_type().is_symlink() => {
+            return Err(ObserverError::State {
+                path: leases,
+                message: "parallel leases path must not be a symlink".into(),
+            });
+        }
+        Ok(metadata) if !metadata.is_dir() => {
+            return Err(ObserverError::State {
+                path: leases,
+                message: "parallel leases path must be a directory".into(),
+            });
+        }
+        Ok(_) => {}
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(Vec::new()),
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: leases,
+                source,
+            });
+        }
+    }
+    let entries = fs::read_dir(&leases).map_err(|source| ObserverError::Read {
+        path: leases.clone(),
+        source,
+    })?;
+    let mut result = Vec::new();
+    for entry in entries {
+        let entry = entry.map_err(|source| ObserverError::Read {
+            path: leases.clone(),
+            source,
+        })?;
+        let path = entry.path();
+        if !path.file_name().is_some_and(|name| {
+            name.to_string_lossy().starts_with("slot-") && name.to_string_lossy().ends_with(".json")
+        }) {
+            continue;
+        }
+        let lease = read_parallel_slot_lease(&path)?;
+        if lease.repository_id != repository_id(&root).to_string() {
+            return Err(ObserverError::State {
+                path,
+                message: "parallel slot lease repository identity mismatch".into(),
+            });
+        }
+        result.push(lease);
+    }
+    result.sort_by_key(|lease| lease.slot_id);
+    Ok(result)
 }
 
 fn sorted_unique(mut values: Vec<String>) -> Vec<String> {
@@ -7469,6 +7969,32 @@ fn scope_list_relation(left: &[String], right: &[String]) -> ScopeRelation {
     }
 }
 
+fn concurrency_boundary_relation(
+    left: &ConcurrencyBoundary,
+    right: &ConcurrencyBoundary,
+) -> (ScopeRelation, Option<String>) {
+    let mut unknown = false;
+    for (left_kind, left_path) in left.all_paths() {
+        for (right_kind, right_path) in right.all_paths() {
+            match scope_pattern_relation(left_path, right_path) {
+                ScopeRelation::Overlap => {
+                    return (
+                        ScopeRelation::Overlap,
+                        Some(format!("{left_kind}/{left_path}↔{right_kind}/{right_path}")),
+                    );
+                }
+                ScopeRelation::Unknown => unknown = true,
+                ScopeRelation::Disjoint => {}
+            }
+        }
+    }
+    if unknown {
+        (ScopeRelation::Unknown, None)
+    } else {
+        (ScopeRelation::Disjoint, None)
+    }
+}
+
 /// Compare one active Work Item against other active Work Items using only
 /// explicit sidecar dependencies/conflicts and declared scopes. Missing
 /// intelligence is reported as unknown and cannot silently authorize parallel
@@ -7484,7 +8010,7 @@ pub fn work_item_compatibility(
     })?;
     let active = root.join(".ai/work-items/active");
     let contract_path = active.join(format!("{work_item_id}.contract.json"));
-    if !contract_path.is_file() {
+    if !is_regular_non_symlink(&contract_path)? {
         return Err(ObserverError::State {
             path: contract_path,
             message: "active work item contract not found".into(),
@@ -7501,12 +8027,13 @@ pub fn work_item_compatibility(
                 .collect::<Vec<_>>()
         })
         .unwrap_or_default();
+    let target_boundary = read_contract_boundary(&root, work_item_id)?;
     let intelligence = read_work_item_intelligence(&root, work_item_id)?;
     let mut reasons = Vec::new();
     let mut conflicts = Vec::new();
     let mut dependencies_satisfied = true;
     let mut unknowns = Vec::new();
-    if target_scope.is_empty() {
+    if target_scope.is_empty() && target_boundary.is_none() {
         reasons.push("scope_overlap_unknown:empty_target_scope".into());
     }
     let Some(intelligence) = intelligence else {
@@ -7544,6 +8071,12 @@ pub fn work_item_compatibility(
         if other_id == work_item_id {
             continue;
         }
+        if !is_regular_non_symlink(&entry.path())? {
+            return Err(ObserverError::State {
+                path: entry.path(),
+                message: "active Work Item contract must be a regular non-symlink file".into(),
+            });
+        }
         let other: serde_json::Value = read_json(&entry.path())?;
         let other_scope = other["scope"]
             .as_array()
@@ -7555,21 +8088,53 @@ pub fn work_item_compatibility(
                     .collect::<Vec<_>>()
             })
             .unwrap_or_default();
+        let other_intelligence = read_work_item_intelligence(&root, other_id)?;
+        let other_boundary = read_contract_boundary(&root, other_id)?;
         let declared_conflict = intelligence.conflicts_with.iter().any(|id| id == other_id);
+        let reciprocal_conflict = other_intelligence
+            .as_ref()
+            .is_some_and(|item| item.conflicts_with.iter().any(|id| id == work_item_id));
         if declared_conflict {
             conflicts.push(other_id.to_string());
             reasons.push(format!("explicit_conflict:{other_id}"));
             continue;
         }
-        match scope_list_relation(&target_scope, &other_scope) {
-            ScopeRelation::Overlap => {
-                conflicts.push(other_id.to_string());
-                reasons.push(format!("scope_overlap:{other_id}"));
+        if reciprocal_conflict {
+            conflicts.push(other_id.to_string());
+            reasons.push(format!("explicit_conflict:{other_id}"));
+            continue;
+        }
+        match (&target_boundary, &other_boundary) {
+            (Some(left), Some(right)) => match concurrency_boundary_relation(left, right) {
+                (ScopeRelation::Overlap, Some(detail)) => {
+                    conflicts.push(other_id.to_string());
+                    reasons.push(format!("concurrency_boundary_overlap:{other_id}:{detail}"));
+                }
+                (ScopeRelation::Unknown, _) => {
+                    reasons.push(format!("concurrency_boundary_unknown:{other_id}"));
+                }
+                (ScopeRelation::Disjoint, _) | (ScopeRelation::Overlap, None) => {}
+            },
+            (Some(_), None) | (None, Some(_)) => {
+                reasons.push(format!("concurrency_boundary_unknown:{other_id}"));
             }
-            ScopeRelation::Unknown => {
-                reasons.push(format!("scope_overlap_unknown:{other_id}"));
-            }
-            ScopeRelation::Disjoint => {}
+            (None, None) => match scope_list_relation(&target_scope, &other_scope) {
+                ScopeRelation::Overlap => {
+                    conflicts.push(other_id.to_string());
+                    reasons.push(format!("scope_overlap:{other_id}"));
+                }
+                ScopeRelation::Unknown => {
+                    reasons.push(format!("scope_overlap_unknown:{other_id}"));
+                }
+                ScopeRelation::Disjoint => {}
+            },
+        }
+        if (target_boundary.is_some() || other_boundary.is_some())
+            && other_intelligence
+                .as_ref()
+                .is_none_or(|item| !item.parallelizable)
+        {
+            reasons.push(format!("parallel_compatibility_not_declared:{other_id}"));
         }
     }
     conflicts.sort();
@@ -7583,6 +8148,8 @@ pub fn work_item_compatibility(
         && reasons.iter().all(|reason| {
             !reason.starts_with("dependency_not_observed")
                 && !reason.starts_with("scope_overlap_unknown")
+                && !reason.starts_with("concurrency_boundary_unknown")
+                && !reason.starts_with("parallel_compatibility_not_declared")
         });
     Ok(WorkItemCompatibility {
         repository_id: repository_id(&root).to_string(),
