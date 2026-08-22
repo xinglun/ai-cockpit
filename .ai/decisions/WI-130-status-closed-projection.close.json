@@ -1,0 +1,21 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:owner",
+    "authoritySource": "user-authorized-work-item",
+    "decidedAt": "2026-08-22T12:05:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-130-status-closed-projection.verification.json"
+    ],
+    "policyRefs": [
+      "status-projection"
+    ],
+    "reason": "Merged PR #69 passed hosted checks; status projection and invalid close fail-closed coverage are complete.",
+    "resumeCondition": "Reopen a corrective Work Item if close identity validation regresses."
+  },
+  "timestamp": "2026-08-22T11:08:07Z",
+  "workItemId": "WI-130-status-closed-projection"
+}
