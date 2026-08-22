@@ -56,10 +56,13 @@ the installed Rust Runtime and this repository's Protocol vocabulary.
 - Review receipts are append-only. When a Contract or repository snapshot
   changes, a fresh receipt is written under a digest-suffixed decision path;
   the previous receipt remains historical evidence and is never overwritten.
-  `work-item recover` records a separate, strict `retry` or `successor`
-  decision bound to the predecessor Contract/Summary/Outcome/event digests and
-  current Runtime. It does not make verification green or rewrite the
-  predecessor.
+  `work-item recover` records a separate, strict `retry`, `successor`, or
+  `supersede` decision bound to the predecessor Contract/Summary/Outcome/event
+  digests and current Runtime. `supersede` requires an already-bound successor,
+  archives the predecessor as an explicit historical terminal state, and keeps
+  its original bytes unchanged. It does not make verification green or rewrite
+  the predecessor; the superseded item is neither a current pass nor a current
+  failure, and follow-up belongs to the successor.
 - A required high-risk scenario that can only run after implementation may be
   marked `unverified` in Contract `scenarioCoverage` only when both a non-empty
   `expected` (or `expectedResult`) and a concrete `verificationPlan` are

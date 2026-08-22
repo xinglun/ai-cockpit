@@ -57,10 +57,9 @@
       "verificationPlan": "Run focused protocol/repository/CLI/MCP lifecycle tests, tamper tests, and the installed Runtime lifecycle on WI-137 and its successor."
     }
   ],
+  "state": "not_ready",
   "verification": [
     "cargo test --locked --workspace"
   ],
-  "state": "not_ready",
-  "verification": [],
   "workItemId": "WI-139G-stale-predecessor-supersession"
 }

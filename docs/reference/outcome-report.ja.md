@@ -61,6 +61,11 @@ timestamp は証拠の破損として赤色にし、`finish`、`archive`、`clos
 表示では「受入れ基準（Contract 原文）」として保持し、Contract bytes を勝手に翻訳・変更
 しません。Runtime が生成する固定見出し、要約、状態、不明点、復旧案内だけを会話言語に合わせます。
 
+predecessor に明示的な `supersede` recovery decision がある場合、Outcome は
+`historicalStatus: "superseded"` を含み、黄色の履歴マーカーを表示します。
+これは元の evidence を保持し、現在の結果として再検証していないことを示します。
+赤い失敗でも緑の認可でもありません。
+
 CLI の直接出力は `AI_COCKPIT_LANGUAGE`、次にプロセス locale を使用します。Agent
 の会話では利用者の言語で同じ handoff を表示します。JSON のフィールド名と enum
 値は言語に依存せず安定しています。

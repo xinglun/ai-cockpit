@@ -1740,6 +1740,11 @@ pub struct OutcomeV2 {
     pub recovery_condition: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub recovery_decision: Option<RecoveryDecisionReceipt>,
+    /// A historical terminal projection distinct from a current verification
+    /// failure. `superseded` means the predecessor was closed by an explicit,
+    /// identity-bound decision while its original evidence bytes were kept.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub historical_status: Option<String>,
 }
 
 /// A read-only, evidence-bound Work Item status projection.  Counts are

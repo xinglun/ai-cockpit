@@ -75,11 +75,16 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
   review receipt; it cannot change lifecycle state, Contract facts, or
   verification receipts.
 - `work-item recover --repo <path> --id <id> --input <receipt.json>` records an
-  identity-bound `retry` or `successor` decision. The receipt must bind the
+  identity-bound `retry`, `successor`, or `supersede` decision. `supersede`
+  requires an already-bound successor Work Item and archives the predecessor
+  as an explicit historical `superseded` state without rewriting its original
+  bytes. The receipt must bind the
   predecessor Contract, Summary, Outcome, and event digests when those records
   exist, plus the current Runtime identity. Existing receipts are preserved;
   later decisions use digest-suffixed files. A recovery receipt does not make
-  verification green or silently rewrite the predecessor.
+  verification green or silently rewrite the predecessor. A superseded
+  predecessor is neither a current pass nor a current failure; its successor
+  owns follow-up.
 - `profile propose --repo <path>` is read-only and reports a `candidate`/
   `proposed` amendment. It never applies a profile baseline change.
 - `agent list --repo <path>` is read-only. `agent install` is the only normal

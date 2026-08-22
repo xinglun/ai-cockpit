@@ -81,6 +81,11 @@ the Work Item owner. The report preserves them under “Acceptance criteria
 Runtime-generated headings, summaries, statuses, unknown codes, and recovery
 hints are localized to the conversation language.
 
+When a predecessor has an explicit `supersede` recovery decision, Outcome
+includes `historicalStatus: "superseded"` and uses a yellow historical marker.
+This means the original evidence is preserved and is not being revalidated as
+the current result; it is not a red failure and not a green authorization.
+
 The CLI uses `AI_COCKPIT_LANGUAGE`, then the process locale, for direct human
 output. Agent conversations should render the same handoff in the language of
 the user. JSON field names and enum values remain stable across languages.

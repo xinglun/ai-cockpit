@@ -17,8 +17,16 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
         "zh" | "ja" => language,
         _ => "en",
     };
-    let (marker, status) =
-        outcome_status(&outcome.state, outcome.decision_state.as_ref(), language);
+    let historical = outcome.historical_status.as_deref() == Some("superseded");
+    let (marker, status) = if historical {
+        match language {
+            "zh" => ("🟡", "历史已替代"),
+            "ja" => ("🟡", "履歴として置換済み"),
+            _ => ("🟡", "Superseded historical item"),
+        }
+    } else {
+        outcome_status(&outcome.state, outcome.decision_state.as_ref(), language)
+    };
     let report = &outcome.human_benefit_report;
     let task_report = outcome.task_outcome_report.as_ref();
     let none = match language {
@@ -111,26 +119,46 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
             "Verification evidence is invalid or does not match this Work Item/repository; stopped."
         }
     };
-    let next = match (language, &outcome.state) {
-        ("zh", OutcomeState::Verified) => "审阅证据后再决定是否继续；🟢 不代表已授权合并或发布。",
-        ("zh", _) if outcome.decision_state == Some(DecisionState::Red) => {
-            "修复无效证据并重新验证；在此之前保持停止。"
+    let next = if historical {
+        match language {
+            "zh" => {
+                "保留原始历史证据；后续工作由 successor Work Item 负责，不要重新解释为当前失败。"
+            }
+            "ja" => {
+                "元の履歴 evidence を保持し、後続作業は successor Work Item で行います。現在の失敗とは解釈しません。"
+            }
+            _ => {
+                "Preserve the historical evidence; the successor owns follow-up work, and this is not a current failure."
+            }
         }
-        ("zh", _) => "补齐缺失证据并重新验证；在此之前保持停止。",
-        ("ja", OutcomeState::Verified) if outcome.decision_state != Some(DecisionState::Red) => {
-            "証拠を確認してから続行を判断してください。🟢 はマージやリリースの承認ではありません。"
+    } else {
+        match (language, &outcome.state) {
+            ("zh", OutcomeState::Verified) => {
+                "审阅证据后再决定是否继续；🟢 不代表已授权合并或发布。"
+            }
+            ("zh", _) if outcome.decision_state == Some(DecisionState::Red) => {
+                "修复无效证据并重新验证；在此之前保持停止。"
+            }
+            ("zh", _) => "补齐缺失证据并重新验证；在此之前保持停止。",
+            ("ja", OutcomeState::Verified)
+                if outcome.decision_state != Some(DecisionState::Red) =>
+            {
+                "証拠を確認してから続行を判断してください。🟢 はマージやリリースの承認ではありません。"
+            }
+            ("ja", _) if outcome.decision_state == Some(DecisionState::Red) => {
+                "無効な evidence を修復して再検証してください。それまでは停止します。"
+            }
+            ("ja", _) => {
+                "不足している証拠を補い、再検証してください。それまでは停止状態を維持します。"
+            }
+            (_, OutcomeState::Verified) if outcome.decision_state != Some(DecisionState::Red) => {
+                "Review the evidence before deciding whether to proceed; 🟢 does not authorize merge or release."
+            }
+            (_, _) if outcome.decision_state == Some(DecisionState::Red) => {
+                "Repair the invalid evidence and verify again; remain stopped until then."
+            }
+            (_, _) => "Repair the missing evidence and verify again; remain stopped until then.",
         }
-        ("ja", _) if outcome.decision_state == Some(DecisionState::Red) => {
-            "無効な evidence を修復して再検証してください。それまでは停止します。"
-        }
-        ("ja", _) => "不足している証拠を補い、再検証してください。それまでは停止状態を維持します。",
-        (_, OutcomeState::Verified) if outcome.decision_state != Some(DecisionState::Red) => {
-            "Review the evidence before deciding whether to proceed; 🟢 does not authorize merge or release."
-        }
-        (_, _) if outcome.decision_state == Some(DecisionState::Red) => {
-            "Repair the invalid evidence and verify again; remain stopped until then."
-        }
-        (_, _) => "Repair the missing evidence and verify again; remain stopped until then.",
     };
     let failed_gate = outcome
         .failed_gate
@@ -163,17 +191,30 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
     let mut problems_found = task_report
         .map(|report| claim_texts(&report.sections.findings))
         .unwrap_or_default();
-    if outcome.decision_state == Some(DecisionState::Red) {
+    if !historical && outcome.decision_state == Some(DecisionState::Red) {
         problems_found.push(invalid_evidence.to_string());
-    } else if matches!(outcome.state, OutcomeState::NotReady) {
+    } else if !historical && matches!(outcome.state, OutcomeState::NotReady) {
         problems_found.push(not_ready.to_string());
     }
     if let Some(item) = failed_gate_item.as_ref() {
         problems_found.push(item.clone());
     }
     let acceptance_results = human_acceptance_results(&outcome.acceptance_results);
-    let localized_summary =
-        localized_outcome_summary(&outcome.state, outcome.decision_state.as_ref(), language);
+    let localized_summary = if historical {
+        match language {
+            "zh" => {
+                "该 Work Item 已作为历史 predecessor 被显式替代；原始证据未被重写，也未按当前 Runtime 重验证。"
+            }
+            "ja" => {
+                "この Work Item は履歴 predecessor として明示的に置換されました。元の evidence は書き換えず、現在の Runtime では再検証していません。"
+            }
+            _ => {
+                "This Work Item was explicitly superseded as a historical predecessor; original evidence was not rewritten or revalidated under the current Runtime."
+            }
+        }
+    } else {
+        localized_outcome_summary(&outcome.state, outcome.decision_state.as_ref(), language)
+    };
     let mut completed_items = vec![localized_summary.to_string()];
     if let Some(report) = task_report {
         completed_items.extend(claim_texts(&report.sections.delivered_changes));
@@ -224,7 +265,9 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
     let mut stop_items = task_report
         .map(|report| claim_texts(&report.sections.forced_stops))
         .unwrap_or_default();
-    if stop_items.is_empty() && outcome.decision_state == Some(DecisionState::Red) {
+    if historical {
+        stop_items.clear();
+    } else if stop_items.is_empty() && outcome.decision_state == Some(DecisionState::Red) {
         stop_items = vec![invalid_evidence.to_string()];
     } else if matches!(
         outcome.state,
