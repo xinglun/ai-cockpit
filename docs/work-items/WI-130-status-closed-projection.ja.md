@@ -7,9 +7,9 @@ audience:
   - adopter
   - contributor
   - maintainer
-status: implementation
+status: implemented
 authority: canonical
-lastVerifiedBy: WI-130-status-closed-projection
+lastVerifiedBy: WI-133-docs-truth
 ---
 
 # WI-130 — Closed Work Item status projection
@@ -33,5 +33,7 @@ Runtime は structured close decision を保存しますが、read-only status p
 
 ## 検証
 
-Focused test、workspace check、documentation acceptance の結果は active Contract と Runtime
-evidence に記録します。
+Focused test、workspace check、documentation acceptance の結果は archived Contract、
+verification evidence、close decision、Runtime evidence に記録します。証跡は
+`.ai/evidence/WI-130-status-closed-projection.verification.json` と
+`.ai/decisions/WI-130-status-closed-projection.close.json` です。

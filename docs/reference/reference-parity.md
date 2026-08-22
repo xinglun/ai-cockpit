@@ -78,6 +78,9 @@ record for each boundary.
 | WI-126 — Read-only status and human handoff | Implemented | [Work Item](../work-items/WI-126-status-outcome.md); `.ai/evidence/WI-126-status-outcome.verification.json` |
 | WI-128 — Release acceptance cleanup | Implemented | [Work Item](../work-items/WI-128-release-acceptance-cleanup.md); `.ai/evidence/WI-128-release-acceptance-cleanup.verification.json` |
 | WI-129 — Reference parity completeness | Implemented | [Work Item](../work-items/WI-129-parity-gate.md); `.ai/evidence/WI-129-parity-gate.verification.json` |
+| WI-130 — Closed Work Item status projection | Implemented | [Work Item](../work-items/WI-130-status-closed-projection.md); `.ai/evidence/WI-130-status-closed-projection.verification.json`; `.ai/decisions/WI-130-status-closed-projection.close.json` |
+| WI-131 — Fail-closed verification evidence timestamps | Implemented | [Work Item](../work-items/WI-131-evidence-timestamp.md); `.ai/evidence/WI-131-evidence-timestamp.verification.json`; `.ai/decisions/WI-131-evidence-timestamp.close.json` |
+| WI-132 — Agent adapter and provider-surface parity | Implemented | [Work Item](../work-items/WI-132-agent-adapter-parity.md); `.ai/evidence/WI-132-agent-adapter-parity.verification.json`; `.ai/decisions/WI-132-agent-adapter-parity.close.json` |
 
 ## Current boundary
 

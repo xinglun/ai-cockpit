@@ -7,9 +7,9 @@ audience:
   - adopter
   - contributor
   - maintainer
-status: implementation
+status: implemented
 authority: canonical
-lastVerifiedBy: WI-130-status-closed-projection
+lastVerifiedBy: WI-133-docs-truth
 ---
 
 # WI-130 — Closed Work Item status projection
@@ -40,5 +40,7 @@ projection previously read only the archived Summary and could continue to show
 
 ## Verification
 
-See the active Contract and Runtime evidence for the focused repository/CLI
-tests, workspace checks, and documentation acceptance.
+See the archived Contract, verification evidence, close decision, and Runtime
+evidence for the focused repository/CLI tests, workspace checks, and
+documentation acceptance: `.ai/evidence/WI-130-status-closed-projection.verification.json`
+and `.ai/decisions/WI-130-status-closed-projection.close.json`.
