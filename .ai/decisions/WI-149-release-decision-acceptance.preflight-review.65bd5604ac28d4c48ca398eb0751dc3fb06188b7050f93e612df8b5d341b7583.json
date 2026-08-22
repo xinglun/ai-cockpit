@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:c4a408e47d85b8f48b278382580085220fe66e46ee8b0b3be0b24391179f66a5",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:23ab9d52ca3a22d0e64f878db44b9e8dff77030ece0e3ba4193b923922377a50",
+  "reason": "Confirm the bounded release acceptance review after the Contract was amended with explicit scenario coverage and documentation parity scope.",
+  "recordedAt": "2026-08-22T22:04:45Z",
+  "recordedBy": "human:maintainer",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b16394ca2c318b54e9dc550bdd22f7668ea5f091fce2581ae9548ec944ecfc2b",
+  "schemaVersion": 1,
+  "workItemId": "WI-149-release-decision-acceptance"
+}

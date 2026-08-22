@@ -94,6 +94,7 @@ record for each boundary.
 | WI-145 — CI Runtime verification shadow | Implemented | [Work Item](../work-items/WI-145-ci-runtime-shadow.md); `.ai/evidence/WI-145-ci-runtime-shadow.verification.json`; `.ai/decisions/WI-145-ci-runtime-shadow.close.json` |
 | WI-146 — Verification cost observation | Implemented | [Work Item](../work-items/WI-146-verification-cost-observation.md); [reference](verification-cost.md); `.ai/evidence/WI-146-verification-cost-observation.verification.json`; `.ai/decisions/WI-146-verification-cost-observation.close.json` |
 | WI-148 — Archived Outcome path projection | Implemented | [Work Item](../work-items/WI-148-outcome-archive-path.md); [reference](outcome-report.md); `.ai/evidence/WI-148-outcome-archive-path.verification.json`; `.ai/decisions/WI-148-outcome-archive-path.close.json` |
+| WI-149 — Structured release adopter decisions | Implemented | [Work Item](../work-items/WI-149-release-decision-acceptance.md); [release distribution](../release/distribution.md); `.ai/evidence/WI-149-release-decision-acceptance.verification.json`; `.ai/decisions/WI-149-release-decision-acceptance.close.json` |
 
 ## Current boundary
 

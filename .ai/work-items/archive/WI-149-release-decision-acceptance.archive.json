@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-22T22:10:24Z",
+  "files": {
+    "contractDigest": "sha256:9a317ce23e895cf3ecca3e171844cb6919f3447799ba5c8cddf5f4945f9c809d",
+    "contractPath": ".ai/work-items/archive/WI-149-release-decision-acceptance.contract.json",
+    "eventsDigest": "sha256:704502d5d2cae42ccf2b8517c75d2dd78e41a4278b5ca3b21fa0050973da6ee6",
+    "eventsPath": ".ai/work-items/archive/WI-149-release-decision-acceptance.events.jsonl",
+    "outcomeDigest": "sha256:365f59034e0eeacabe47f1f906a14a32de47171168aca79e458f35ad4fd1a8e7",
+    "outcomePath": ".ai/work-items/archive/WI-149-release-decision-acceptance.outcome.json",
+    "summaryDigest": "sha256:31b42753d9fd835e6b2b3c515eff8e636dfd1232c7350910b648ed525006f864",
+    "summaryPath": ".ai/work-items/archive/WI-149-release-decision-acceptance.summary.json",
+    "taskReportDigest": "sha256:956f01689e44f4ad4b3d5b0132fcdbec65fe8d7cf397cac99adbbe1a15d5a232",
+    "taskReportMarkdownDigest": "sha256:cca08a39a7d32fcab0ea09d874c7ae4fc1f5aebb89ea4f3eac053b107d462d7b",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-149-release-decision-acceptance.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-149-release-decision-acceptance.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-149-release-decision-acceptance"
+}

@@ -1,0 +1,18 @@
+{
+  "boundAt": "2026-08-22T22:09:26Z",
+  "evidence": {
+    "assurance": "repository_verified",
+    "collectedAt": "2026-08-22T22:07:29Z",
+    "digest": "sha256:9e9f18d86a45a8c0b66218db7427fed0a1f4051797630285378e14d63aff2cb8",
+    "origin": "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.15",
+    "provider": "release-adopter-acceptance",
+    "rawEvidenceRef": ".ai/evidence/external/v0.2.15-aarch64-apple-darwin.acceptance.json",
+    "subject": "xinglun/ai-cockpit:v0.2.15:aarch64-apple-darwin",
+    "validity": "valid"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:afbe435a1e666be13b28e4eb53da465327276fa0d3ae3186409d034dc2eae5f1",
+  "runtimeVersion": "0.2.15",
+  "schemaVersion": 1,
+  "workItemId": "WI-149-release-decision-acceptance"
+}

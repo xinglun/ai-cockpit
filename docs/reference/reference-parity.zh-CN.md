@@ -88,6 +88,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-145——CI Runtime Verification Shadow | 已实现 | [Work Item](../work-items/WI-145-ci-runtime-shadow.zh-CN.md)；`.ai/evidence/WI-145-ci-runtime-shadow.verification.json`；`.ai/decisions/WI-145-ci-runtime-shadow.close.json` |
 | WI-146——Verification 成本观测 | 已实现 | [Work Item](../work-items/WI-146-verification-cost-observation.zh-CN.md)；[参考文档](verification-cost.zh-CN.md)；`.ai/evidence/WI-146-verification-cost-observation.verification.json`；`.ai/decisions/WI-146-verification-cost-observation.close.json` |
 | WI-148——归档 Outcome 路径投影 | 已实现 | [Work Item](../work-items/WI-148-outcome-archive-path.zh-CN.md)；[参考文档](outcome-report.zh-CN.md)；`.ai/evidence/WI-148-outcome-archive-path.verification.json`；`.ai/decisions/WI-148-outcome-archive-path.close.json` |
+| WI-149——结构化发布 adopter 决定 | 已实现 | [Work Item](../work-items/WI-149-release-decision-acceptance.zh-CN.md)；[发布分发](../release/distribution.zh-CN.md)；`.ai/evidence/WI-149-release-decision-acceptance.verification.json`；`.ai/decisions/WI-149-release-decision-acceptance.close.json` |
 
 ## 当前边界
 

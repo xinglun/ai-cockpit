@@ -31,6 +31,23 @@ grep -q -- 'exit "$exit_code"' "$script"
 grep -q -- 'local exit_code=\$?' "$script"
 grep -q -- 'isolation_manifest.sh' "$script"
 grep -q -- 'manifest_tree' "$script"
+grep -q -- '--actor human:release-acceptance' "$script"
+grep -q -- '--authority-source release-adopter-upgrade-acceptance' "$script"
+grep -q -- '--evidence-ref' "$script"
+grep -q -- '--policy-ref' "$script"
+grep -q -- '--decided-at' "$script"
+grep -q -- '--resume-condition' "$script"
+grep -q -- 'validate_close_decision' "$script"
+grep -q -- 'close.binding.json' "$script"
+grep -q -- 'closeDecisionValidated' "$script"
+grep -q -- 'adopter repository identity is missing or malformed' "$script"
+grep -q -- 'decisionState == "confirmed"' "$script"
+grep -q -- 'structuredDecision.evidenceRefs' "$script"
+grep -q -- 'structuredDecision.policyRefs' "$script"
+if grep -Eq -- 'close --repo [^[:space:]]+ --id [^[:space:]]+ --human-decision approved$' "$script"; then
+  echo 'adopter upgrade acceptance must not close with an unstructured decision' >&2
+  exit 1
+fi
 grep -q -- 'schemaVersion:2' "$script"
 grep -Fq -- 'allowedPrefixes' "$script"
 grep -Fq -- '<CARGO_HOME>/**' "$script"

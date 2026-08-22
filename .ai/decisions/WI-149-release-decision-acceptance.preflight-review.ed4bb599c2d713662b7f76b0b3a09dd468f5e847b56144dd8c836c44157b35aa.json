@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:1ff0ed726acd5c96b7018082c58f9c5926cbd4a976eaf9faacf8fac8e181caaa",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "Confirm the bounded release acceptance review after the Contract scope was normalized to explicit recursive documentation paths.",
+  "recordedAt": "2026-08-22T22:06:30Z",
+  "recordedBy": "human:maintainer",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b16394ca2c318b54e9dc550bdd22f7668ea5f091fce2581ae9548ec944ecfc2b",
+  "schemaVersion": 1,
+  "workItemId": "WI-149-release-decision-acceptance"
+}

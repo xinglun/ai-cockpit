@@ -108,6 +108,15 @@ workspace or local Runtime binary. A failed post-release acceptance records
 the already-published Release. Coverage for a second technology stack is a
 separate future Work Item.
 
+The lifecycle close in this post-release receipt is a complete structured Human
+Decision. The harness requires the actor, authority source, reason, evidence
+reference, policy reference, decision time, and resume condition. It copies the
+regular, non-symlinked `.ai/decisions/<work-item>.close.json` into the
+acceptance artifact and emits a binding record containing the adopter
+`repositoryId`, Work Item ID, decision digest, and validation result. A missing,
+foreign, incomplete, or mismatched close receipt fails closed; it cannot turn a
+published Release back into an unpublished one.
+
 After the receipt outputs are finalized, every success, failure, or interruption
 path removes only its validated temporary `run_root`. `cleanup.json` and the
 `cleanupState`/`cleanupError` fields in `acceptance.json` record the cleanup

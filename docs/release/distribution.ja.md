@@ -128,6 +128,8 @@ attach/profile/Agent doctor、`first-adopter-smoke` の `not_ready`、Work Item 
 `SHA256SUMS` を出力します。workspace や local Runtime binary は使いません。post-release acceptance が失敗しても
 `releasePublished: true` と `adopterAcceptance: failed` を記録し、公開済み Release を書き換えません。second technology stack は別の Work Item です。
 
+この post-release receipt の lifecycle close は完全な structured Human Decision でなければなりません。harness は actor、authority source、reason、evidence reference、policy reference、決定時刻、resume condition を要求します。通常ファイルかつ symlink ではない `.ai/decisions/<work-item>.close.json` を acceptance artifact にコピーし、adopter の `repositoryId`、Work Item ID、decision digest、検証結果を含む binding record を生成します。close receipt の欠落、foreign、必須項目不足、identity 不一致は fail closed となり、公開済み Release を未公開へ書き戻すことはありません。
+
 receipt の出力を確定した後、success、failure、interrupt のすべての経路で、検証済みの一時 `run_root` だけを削除します。
 `cleanup.json` と `acceptance.json` の `cleanupState` / `cleanupError` が結果を記録します。cleanup failure は
 fail closed とし、プロセスは non-zero で終了して receipt は `adopterAcceptance: failed` になりますが、
