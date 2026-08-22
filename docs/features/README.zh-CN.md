@@ -22,9 +22,9 @@ capabilityClaims:
 - 查看 Outcome、knowledge、status、diagnosis 和 recovery 信号。
 
 AI Cockpit 是 Repository Governance Layer，不是 Agent Runtime、identity provider、security sandbox、
-workflow scheduler 或外部 audit system。MCP 返回 repository-bound structured data；Agent 或对话层负责
-面向人的 projection，并必须保留 unknown 与决定边界。为了获得一致的面向人 handoff，应调用
-repository-bound `work_item_outcome`；它使用与 CLI 相同的 renderer。发布验收还会记录带类型的隔离
+workflow scheduler 或外部 audit system。MCP 返回 repository-bound structured data；`work_item_outcome`
+同时返回由 Runtime 生成并校验的面向人 projection。Agent 或对话层负责选择、展示和传递该 handoff，
+但不能把 projection 变成治理授权来源，并必须保留 unknown 与决定边界。发布验收还会记录带类型的隔离
 manifest 和 digest，只有 TMPDIR 与 CARGO_HOME 被分类为允许 Runtime 写入的 root。
 
 [快速开始](../getting-started/README.zh-CN.md) | [运维](../operations/README.zh-CN.md) |

@@ -1,0 +1,54 @@
+{
+  "acceptanceCriteria": [
+    "All three-language capability and command references enumerate the actual MCP/CLI surface",
+    " including delegated_evidence_list",
+    " capability show",
+    " and diagnose.",
+    "Release documentation clearly distinguishes the complete x86_64-unknown-linux-gnu baseline from additional platform examples.",
+    "Reference parity and feature docs accurately state that Runtime creates validated humanHandoff while Agent/conversation layers choose and display it without granting governance authority.",
+    "Version metadata",
+    " release workflow",
+    " and three-language distribution docs consistently identify v0.2.9 without mutating immutable v0.2.8 truth.",
+    "The exact public v0.2.9 artifact passes adopter and v0.2.8-to-v0.2.9 N-1 acceptance",
+    " including isolation",
+    " cleanup",
+    " first-adopter not_ready",
+    " lifecycle",
+    " and evidence identity.",
+    "Documentation and release acceptance checks pass; human Outcome is visible with markers and unknowns."
+  ],
+  "authority": "authorized",
+  "baseRevision": "155339499047d8b75bb8f9ec9fd6bc1dde4207ca",
+  "createdAt": "2026-08-22T05:33:51Z",
+  "goal": "Create one auditable release Work Item that closes the discovered documentation parity gaps, preserves the shared Runtime/repository boundary, and produces an immutable v0.2.9 Release with public adopter and N-1 acceptance.",
+  "intent": "Publish v0.2.9 from the reviewed default branch and make reference-source Agent guidance, CLI/MCP capability documentation, and release target examples truthful and inheritable.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime behavior",
+    " Protocol schemas",
+    " global Agent/MCP configuration",
+    " Homebrew tap mutation",
+    " rewriting historical Release/evidence truth",
+    " and a second technology-stack adopter."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:23b763989c9fa1e0edb48ab39a866f93ef4217abd48c0dd69c05e1e1fcaa8dd2",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/**",
+    "tests/docs/documentation_acceptance.sh",
+    "Cargo.toml",
+    "Cargo.lock",
+    ".github/workflows/release.yml",
+    "docs/work-items/WI-115-release-v0-2-9.*"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-115-release-v0-2-9"
+}

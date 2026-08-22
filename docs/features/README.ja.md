@@ -22,10 +22,10 @@ capabilityClaims:
 - Outcome、knowledge、status、diagnosis、recovery signal を読む。
 
 AI Cockpit は Repository Governance Layer です。Agent Runtime、identity provider、security sandbox、
-workflow scheduler、外部 audit system ではありません。MCP は repository-bound structured data を返し、
-人間向け projection は Agent または conversation layer の責任です。unknown と decision boundary を保持してください。
-一貫した handoff を表示するには repository-bound の `work_item_outcome` を呼び出してください。CLI と同じ
-renderer を使います。Release acceptance は typed isolation manifest と digest も記録し、Runtime write root として
+workflow scheduler、外部 audit system ではありません。MCP の `work_item_outcome` は Runtime が生成・検証した
+人間向け projection も返します。Agent または conversation layer は handoff を選択・表示・伝達しますが、
+projection をガバナンス権限に変えてはならず、unknown と decision boundary を保持してください。Release acceptance は
+typed isolation manifest と digest も記録し、Runtime write root として
 許可されるのは TMPDIR と CARGO_HOME だけです。
 
 [Getting started](../getting-started/README.ja.md) | [Operations](../operations/README.ja.md) |

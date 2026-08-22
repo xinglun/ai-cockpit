@@ -350,7 +350,7 @@ ai-cockpit mcp --repo /path/to/repository
 
 The server exposes these tools: `status`, `work_item_get`, `work_item_outcome`, `work_item_list`,
 `blockers`, `safe_actions`, `knowledge_query`, `evidence_get`,
-`repository_observe`, `preflight`, and `verify`. Use `tools/list` to inspect the
+`delegated_evidence_list`, `repository_observe`, `preflight`, and `verify`. Use `tools/list` to inspect the
 JSON-RPC schema. `preflight` requires a repository-relative `contract`; `verify`
 accepts `command`, string-array `args`, and optional `workItemId`. Unbound tool
 calls fail closed. Results use `structuredContent`, text content, and `isError`.

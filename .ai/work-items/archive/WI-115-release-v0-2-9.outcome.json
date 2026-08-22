@@ -1,0 +1,51 @@
+{
+  "acceptanceResults": [
+    "All three-language capability and command references enumerate the actual MCP/CLI surface",
+    " including delegated_evidence_list",
+    " capability show",
+    " and diagnose.",
+    "Release documentation clearly distinguishes the complete x86_64-unknown-linux-gnu baseline from additional platform examples.",
+    "Reference parity and feature docs accurately state that Runtime creates validated humanHandoff while Agent/conversation layers choose and display it without granting governance authority.",
+    "Version metadata",
+    " release workflow",
+    " and three-language distribution docs consistently identify v0.2.9 without mutating immutable v0.2.8 truth.",
+    "The exact public v0.2.9 artifact passes adopter and v0.2.8-to-v0.2.9 N-1 acceptance",
+    " including isolation",
+    " cleanup",
+    " first-adopter not_ready",
+    " lifecycle",
+    " and evidence identity.",
+    "Documentation and release acceptance checks pass; human Outcome is visible with markers and unknowns."
+  ],
+  "createdAt": "2026-08-22T05:42:30Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:0233cf3ce35a9b63417467b03fbffdff358c5ba817dde056af8c34b712176d95",
+  "evidenceRefs": [
+    ".ai/evidence/WI-115-release-v0-2-9.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-115-release-v0-2-9.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-115-release-v0-2-9.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-115-release-v0-2-9"
+}
