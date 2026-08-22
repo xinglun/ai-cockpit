@@ -308,3 +308,84 @@ fn cli_status_changes_from_archived_to_closed_only_after_valid_close() {
     );
     fs::remove_dir_all(directory).expect("cleanup");
 }
+
+#[test]
+fn cli_rejects_tampered_verification_timestamp_before_finish() {
+    let directory = repository();
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let id = "WI-CLI-TIMESTAMP";
+    let run = |args: &[&str]| {
+        Command::new(binary)
+            .args(args)
+            .args(["--repo", directory.path().to_str().expect("repo path")])
+            .output()
+            .expect("run ai-cockpit")
+    };
+    assert!(run(&["attach"]).status.success());
+    assert!(
+        run(&[
+            "start",
+            "--id",
+            id,
+            "--intent",
+            "reject malformed evidence timestamps",
+            "--goal",
+            "keep lifecycle fail closed",
+            "--scope",
+            "**",
+            "--authority",
+            "authorized",
+            "--acceptance",
+            "invalid timestamps are rejected",
+            "--required-evidence",
+            "verification",
+        ])
+        .status
+        .success()
+    );
+    let contract = format!(".ai/work-items/active/{id}.contract.json");
+    assert!(
+        run(&["preflight", "--contract", &contract])
+            .status
+            .success()
+    );
+    assert!(run(&["checkpoint", "--id", id]).status.success());
+    assert!(
+        run(&[
+            "verify",
+            "--work-item",
+            id,
+            "--command",
+            "true",
+            "--workers",
+            "1",
+        ])
+        .status
+        .success()
+    );
+
+    let evidence_path = directory
+        .path()
+        .join(format!(".ai/evidence/{id}.verification.json"));
+    let mut evidence: serde_json::Value =
+        serde_json::from_slice(&fs::read(&evidence_path).expect("evidence")).expect("JSON");
+    evidence["createdAt"] = "not-an-rfc3339-time".into();
+    fs::write(
+        &evidence_path,
+        serde_json::to_vec_pretty(&evidence).expect("JSON"),
+    )
+    .expect("tamper timestamp");
+
+    let outcome = run(&["work-item", "outcome", "--id", id, "--json"]);
+    assert!(outcome.status.success());
+    let outcome: serde_json::Value = serde_json::from_slice(&outcome.stdout).expect("outcome");
+    assert_eq!(outcome["decisionState"], "red");
+    assert_ne!(outcome["state"], "verified");
+
+    let finish = run(&["finish", "--id", id]);
+    assert!(
+        !finish.status.success(),
+        "tampered timestamp must block finish"
+    );
+    fs::remove_dir_all(directory).expect("cleanup");
+}

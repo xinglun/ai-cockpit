@@ -68,6 +68,12 @@ projected as yellow `legacy_evidence_historical`: it is historical input, not
 a current failure or a fresh green result. A v2 record with missing identity
 remains red.
 
+The v2 envelope `createdAt`, retention `createdAt`, and optional retention
+`expiresAt` must be RFC3339 timestamps. A malformed or semantically invalid
+timestamp is evidence corruption: Outcome is red and `finish`, `archive`, and
+`close` stop. This check protects both current evidence and retention metadata;
+it does not rewrite historical bytes.
+
 Acceptance criteria, intent, and scope are governance source text authored by
 the Work Item owner. The report preserves them under “Acceptance criteria
 (contract language)” and never silently translates or changes Contract bytes.

@@ -6035,6 +6035,15 @@ fn verification_evidence_state(
         || envelope.evidence_schema_version != 2
         || envelope.work_item_id != contract.work_item_id
         || !envelope.passed
+        || DateTime::parse_from_rfc3339(&envelope.created_at).is_err()
+        || envelope.retention.as_ref().is_some_and(|policy| {
+            DateTime::parse_from_rfc3339(&policy.created_at).is_err()
+                || policy
+                    .retention
+                    .expires_at
+                    .as_deref()
+                    .is_some_and(|value| DateTime::parse_from_rfc3339(value).is_err())
+        })
         || envelope
             .runtime_digest
             .to_string()
