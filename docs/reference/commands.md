@@ -164,6 +164,14 @@ adopter lifecycle in isolated directories, and emits `acceptance.json` and
 `SHA256SUMS`. It must not be replaced with a workspace build or local target
 binary, and a failed acceptance never changes the published Release truth.
 
+The acceptance receipt also records typed before/after manifests for every
+isolated root. `HOME` and `XDG_CONFIG_HOME` have empty `allowedPrefixes` and
+must remain unchanged; `TMPDIR` and `CARGO_HOME` are the only Runtime-write
+roots, and their allowlists are explicitly limited to `<TMPDIR>/**` and
+`<CARGO_HOME>/**`. Cleanup status is recorded in `cleanup.json` and the
+`cleanupState`/`cleanupError` fields; cleanup failure is a failed acceptance,
+not an unpublish or rewrite of Release truth.
+
 `tests/conformance/final_replacement_acceptance.sh` is the source-repository
 replacement boundary. It records installed Runtime identity, the locked
 reference oracle, conformance/adversarial/performance gates, and the no-copy

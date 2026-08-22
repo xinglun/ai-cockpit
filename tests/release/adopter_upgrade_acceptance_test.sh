@@ -32,6 +32,8 @@ grep -q -- 'local exit_code=\$?' "$script"
 grep -q -- 'isolation_manifest.sh' "$script"
 grep -q -- 'manifest_tree' "$script"
 grep -q -- 'schemaVersion:2' "$script"
+grep -Fq -- 'allowedPrefixes' "$script"
+grep -Fq -- '<CARGO_HOME>/**' "$script"
 preflight_line=$(grep -n -- 'old-preflight.json preflight' "$script" | head -1 | cut -d: -f1)
 checkpoint_line=$(grep -n -- 'old-checkpoint.json checkpoint' "$script" | head -1 | cut -d: -f1)
 [[ -n "$preflight_line" && -n "$checkpoint_line" && "$preflight_line" -lt "$checkpoint_line" ]] || {
