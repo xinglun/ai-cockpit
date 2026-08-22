@@ -20,7 +20,7 @@ capabilityClaims:
 - Use [Versioning](../architecture/versioning.md) to distinguish a shared Runtime upgrade from an explicit repository migration.
 - Use [Performance acceptance](../../tests/performance/README.md) and [Adversarial validation](../security/adversarial-validation.md) for measured or negative evidence.
 
-The v0.2.6 public adopter acceptance baseline is complete only for
+The v0.2.7 public adopter acceptance baseline is complete only for
 `x86_64-unknown-linux-gnu`; the other release targets have build or smoke evidence
 unless a separate acceptance run is recorded. Legacy evidence remains historical
 and must not be promoted to fresh green verification.
