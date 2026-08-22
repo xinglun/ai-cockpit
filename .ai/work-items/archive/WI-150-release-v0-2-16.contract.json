@@ -1,0 +1,78 @@
+{
+  "acceptanceCriteria": [
+    "A1: Workspace package metadata and Cargo.lock resolve consistently to v0.2.16, and release tag identity is derived from Cargo metadata.",
+    "A2: English, Japanese, and Simplified Chinese release/version/distribution documentation name v0.2.16 as the current immutable baseline without stale current-version examples.",
+    "A3: Release source-quality, workflow-policy, version-consistency, conformance, performance, and adopter acceptance static gates pass without source fallback or global configuration writes.",
+    "A4: Public Release assets, manifest, checksums, SBOM, provenance, Homebrew formula, and post-release adopter/N-1 acceptance bind the same tag, commit, runtime version, and binary digest.",
+    "A5: Installed v0.2.16 is used to inspect, status, doctor, agent doctor, verify, and render Outcome for this repository after release; no active Work Item remains."
+  ],
+  "authority": "authorized",
+  "baseRevision": "31bd8003fbcd429c65281aa3fb45d7d1b849ce95",
+  "createdAt": "2026-08-22T21:54:32Z",
+  "goal": "Bump the workspace to v0.2.16, update the current release documentation baseline, pass release gates, and produce a public Release candidate without changing repository governance semantics.",
+  "intent": "Prepare and publish the next immutable Runtime release after merged verification-route and Outcome archive fixes, keeping release identity, documentation, and installation evidence consistent.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime governance semantics",
+    "Repository schema migration",
+    "Global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f0984b5f37522c635e49022f69ee29a40c49b5e6f3870f7da9258133e759d5dc",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "version and documentation identity",
+      "required": true,
+      "expected": "Cargo metadata, Cargo.lock, release docs, and release tag all agree on v0.2.16.",
+      "verificationPlan": "Run cargo metadata and version_consistency.sh plus tri-language documentation acceptance.",
+      "status": "unverified"
+    },
+    {
+      "scenario": "release supply chain and adopter acceptance",
+      "required": true,
+      "expected": "Public immutable artifacts and the downloaded binary pass manifest, checksum, provenance, adopter, and N-1 acceptance.",
+      "verificationPlan": "Run the tagged release workflow and post-release adopter acceptance using only public assets.",
+      "status": "unverified"
+    },
+    {
+      "scenario": "installed runtime self-governance",
+      "required": true,
+      "expected": "The installed v0.2.16 binary governs this repository with healthy status/doctor/agent doctor and visible Outcome.",
+      "verificationPlan": "Run explicit --repo inspect/status/doctor/agent doctor/verify/work-item outcome after installation.",
+      "status": "unverified"
+    }
+  ],
+  "risk": "high",
+  "scope": [
+    ".ai/work-items/active/WI-150-release-v0-2-16.contract.json",
+    ".ai/work-items/active/WI-150-release-v0-2-16.controls.json",
+    ".ai/work-items/active/WI-150-release-v0-2-16.summary.json",
+    ".ai/evidence/WI-150-release-v0-2-16.verification.json",
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/**",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/ci-runtime-shadow.md",
+    "docs/reference/ci-runtime-shadow.ja.md",
+    "docs/reference/ci-runtime-shadow.zh-CN.md",
+    "tests/release/**",
+    ".github/workflows/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-150-release-v0-2-16"
+}

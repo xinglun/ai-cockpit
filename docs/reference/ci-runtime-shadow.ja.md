@@ -14,7 +14,7 @@ lastVerifiedBy: WI-145-ci-runtime-shadow
 # CI Runtime verification shadow
 
 WI-145 は CI convergence の Phase 1 を定義します。quality job は公開済みで
-immutable な `v0.2.15` Linux Runtime を download し、archive と binary digest を
+previous stable である immutable な `v0.2.15` Linux Runtime を download し、archive と binary digest を
 検証してから checkout に対して `ai-cockpit verify` を実行します。receipt には tag、
 version、archive digest、binary digest、platform、download source、Runtime verify
 結果を記録します。
@@ -34,3 +34,5 @@ convergence の境界は段階的です。
 
 shadow lane は source build、workspace binary、未固定 release artifact、
 archive/binary digest 不一致、malformed Runtime output を fail closed します。
+現在の installation baseline は新しい Release（現在は `v0.2.16`）へ進められますが、公開前の shadow pin は変更しません。
+Release が公開され immutable な archive/binary identity が記録された後にだけ pin を進め、tag workflow が未公開 artifact に依存しないようにします。
