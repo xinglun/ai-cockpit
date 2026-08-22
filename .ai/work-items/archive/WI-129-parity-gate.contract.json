@@ -1,0 +1,51 @@
+{
+  "acceptanceCriteria": [
+    "A1: The English Simplified Chinese and Japanese parity tables contain a row for WI-128 with its three-language Work Item documentation and verification evidence.",
+    "A2: Documentation acceptance derives the highest implemented Work Item ID from canonical Work Item docs and requires that ID in every parity language.",
+    "A3: The gate fails closed with an actionable omission when the latest implemented Work Item is absent from any parity document.",
+    "A4: The distinction between the implemented status projection and deferred full adopter capability manifest remains explicit.",
+    "A5: The gate remains deterministic and does not mutate Runtime, Contract, Summary, or evidence state."
+  ],
+  "authority": "authorized",
+  "baseRevision": "bf40e97decb72a0cf131edb394fdd3389921b92d",
+  "createdAt": "2026-08-22T10:32:52Z",
+  "goal": "Ensure every latest implemented Work Item is represented in all three parity documents and cannot silently disappear from documentation acceptance.",
+  "intent": "Make reference parity completeness enforceable instead of relying on a manually maintained fixed Work Item list.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime/Core behavior",
+    "Contract or evidence bytes",
+    "Reference-source feature migration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:05a86a7b213d859d8f6b04bd9c801ecae67254ebf3cf4e5aeee10cffb05befb5",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    ".ai/work-items/active/**",
+    "tests/docs/documentation_acceptance.sh",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/**"
+  ],
+  "sources": [
+    "tests/docs/documentation_acceptance.sh",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-128-release-acceptance-cleanup.md",
+    "docs/work-items/WI-128-release-acceptance-cleanup.zh-CN.md",
+    "docs/work-items/WI-128-release-acceptance-cleanup.ja.md",
+    "docs/work-items/WI-129-parity-gate.md",
+    "docs/work-items/WI-129-parity-gate.zh-CN.md",
+    "docs/work-items/WI-129-parity-gate.ja.md"
+  ],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-129-parity-gate"
+}

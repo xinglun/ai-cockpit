@@ -1,0 +1,17 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-22T10:33:24Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T10:32:52Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-22T10:35:05Z",
+  "preflightContractDigest": "sha256:ea8ea42b716b459f075afba938c58132e2c47755edfb9606334e876630b51df4",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:a13c093dcbd8bd4be58f44de8f4dbf7db0a14de7a30695d58c0943bea6902b93",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T10:35:05Z",
+  "workItemId": "WI-129-parity-gate"
+}

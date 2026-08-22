@@ -76,6 +76,8 @@ record for each boundary.
 | WI-123 — Parallel Contract boundary and slots | Implemented | [Work Item](../work-items/WI-123-parallel-contract-boundary.md); `.ai/evidence/WI-123-parallel-contract-boundary.verification.json` |
 | WI-125 — Contract V2 schema boundary | Implemented | [Work Item](../work-items/WI-125-contract-schema.md); `.ai/evidence/WI-125-contract-schema.verification.json` |
 | WI-126 — Read-only status and human handoff | Implemented | [Work Item](../work-items/WI-126-status-outcome.md); `.ai/evidence/WI-126-status-outcome.verification.json` |
+| WI-128 — Release acceptance cleanup | Implemented | [Work Item](../work-items/WI-128-release-acceptance-cleanup.md); `.ai/evidence/WI-128-release-acceptance-cleanup.verification.json` |
+| WI-129 — Reference parity completeness | Implemented | [Work Item](../work-items/WI-129-parity-gate.md); `.ai/evidence/WI-129-parity-gate.verification.json` |
 
 ## Current boundary
 
