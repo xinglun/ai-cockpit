@@ -669,6 +669,8 @@ pub struct Contract {
     pub repository_id: String,
     #[serde(default)]
     pub work_item_id: String,
+    #[serde(default)]
+    pub state: Option<String>,
     pub intent: String,
     pub goal: String,
     pub scope: Vec<String>,
@@ -677,6 +679,14 @@ pub struct Contract {
     pub authority: String,
     pub acceptance_criteria: Vec<String>,
     pub required_evidence_classes: Vec<String>,
+    /// Human/source references used to explain why the Contract is bounded.
+    /// These are additive and default empty for protocol-v1 repositories.
+    #[serde(default)]
+    pub sources: Vec<String>,
+    /// Declared verification commands or capability references.  The Runtime
+    /// treats these as declarations, never as authority to skip verification.
+    #[serde(default)]
+    pub verification: Vec<String>,
     pub base_revision: String,
     pub project_profile_digest: Digest,
     pub repository_snapshot_digest: Digest,

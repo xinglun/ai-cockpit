@@ -43,6 +43,12 @@ fn knowledge_query_projects_archived_work_item_records_deterministically() {
             "query",
             "--scope",
             "**",
+            "--out-of-scope",
+            "target/**",
+            "--acceptance",
+            "query passes",
+            "--authority",
+            "authorized",
         ])
         .output()
         .expect("start");

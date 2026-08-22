@@ -36,6 +36,7 @@ capabilityClaims:
 | Repository attach 和最小 scaffold | 已实现 | `attach` 创建 repository-owned Protocol scaffold，不在项目内安装 Runtime 副本。 |
 | 显式 Agent Discovery / Adapter 层 | 已实现 | Agent 安装是显式、可拥有、可回滚且 repository-local 的操作。 |
 | Work Item 生命周期和治理决定 | 部分实现 | 核心生命周期和 human decision record 已存在；参考源更广的 status、cost、recovery projection 尚未统一为一个 adopter 接口。 |
+| Contract preflight 人工确认门 | 已实现 | 不完整的 scaffold Contract 返回带显式 `reviewState` 的 yellow，持久化 repository/Contract/snapshot 绑定，未经人工确认不能越过 checkpoint。 |
 | 有界验证与 fail-closed evidence reuse | 已实现 | Runtime identity、snapshot/toolchain/environment binding、receipt 和 fail-closed validation 均有记录。 |
 | MCP repository binding | 已实现 | repository-bound stdio MCP 以显式绑定提供相同的治理服务。 |
 | 面向人的 MCP projection | 已实现 | Runtime 校验 OutcomeV2 并生成本地化 `humanHandoff`；Agent 或对话层负责选择、展示和传递，但不能把 presentation 当作治理授权来源。 |

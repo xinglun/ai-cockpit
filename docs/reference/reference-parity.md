@@ -38,6 +38,7 @@ The matrix uses exactly four states:
 | Repository attachment and minimum scaffold | Implemented | `attach` creates the repository-owned Protocol scaffold without installing a Runtime copy. |
 | Explicit Agent Discovery / Adapter layer | Implemented | Agent installation is explicit, owned, reversible, and repository-local. |
 | Work Item lifecycle and governance decisions | Partial | The core lifecycle and human decision records exist; the reference's broader status, cost, and recovery projections are not all exposed as one adopter interface. |
+| Contract preflight human-review gate | Implemented | Incomplete scaffold Contracts are yellow with an explicit `reviewState`, persist repository/Contract/snapshot bindings, and cannot cross checkpoint without human confirmation. |
 | Bounded verification and fail-closed evidence reuse | Implemented | Runtime identity, snapshot/toolchain/environment bindings, receipts, and fail-closed validation are recorded. |
 | MCP repository binding | Implemented | Repository-bound stdio MCP exposes the same governed services with explicit binding. |
 | Human-facing MCP projection | Implemented | Runtime validates OutcomeV2 and emits the localized `humanHandoff`; the Agent or conversation layer chooses, displays, and passes it on without treating presentation as governance authority. |

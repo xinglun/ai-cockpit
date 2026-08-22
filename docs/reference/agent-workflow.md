@@ -33,6 +33,14 @@ the installed Rust Runtime and this repository's Protocol vocabulary.
 - If `preflight` reports `not_ready` or `needs_human_confirmation`, pause and
   show the Preflight Review to the person. An advisory successful exit does not
   authorize implementation.
+- A scaffold with empty intent, goal, scope, out-of-scope, acceptance, or
+  authority is explicitly `yellow` with `reviewState:
+  needs_human_confirmation`; it is never treated as ready. A yellow
+  `verification_pending` result may be checkpointed to collect declared
+  evidence, but a human-confirmation result may not cross the checkpoint.
+- The pre-edit Contract review binds the repository, Work Item, Contract
+  digest, and snapshot digest. Changing either after review requires a fresh
+  preflight before checkpointing.
 - Deliver a separate visible human Outcome with `Outcome: 🟢`, `Outcome: 🟡`,
   or `Outcome: 🔴`, unknowns, evidence, human decision, and next action. A
   missing, folded-only, stale, contradictory, or malformed Outcome fails

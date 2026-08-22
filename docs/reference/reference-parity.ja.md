@@ -37,6 +37,7 @@ matrix は次の 4 state だけを使います。
 | Repository attach と minimum scaffold | Implemented | `attach` は repository-owned Protocol scaffold を作り、Runtime の copy を repository 内に install しない。 |
 | Explicit Agent Discovery / Adapter layer | Implemented | Agent install は explicit、owned、reversible、repository-local である。 |
 | Work Item lifecycle と governance decision | Partial | core lifecycle と human decision record はあるが、reference の広い status、cost、recovery projection は一つの adopter interface に統合されていない。 |
+| Contract preflight human-review gate | Implemented | 不完全な scaffold Contract は明示的な `reviewState` 付き yellow となり、repository/Contract/snapshot binding を保存し、human confirmation なしでは checkpoint を越えない。 |
 | Bounded verification と fail-closed evidence reuse | Implemented | Runtime identity、snapshot/toolchain/environment binding、receipt、fail-closed validation を記録する。 |
 | MCP repository binding | Implemented | repository-bound stdio MCP が explicit binding で同じ governed service を公開する。 |
 | Human-facing MCP projection | Implemented | Runtime が OutcomeV2 を検証し localized `humanHandoff` を生成する。Agent または conversation layer は選択・表示・伝達を担当するが、presentation をガバナンス権限として扱わない。 |

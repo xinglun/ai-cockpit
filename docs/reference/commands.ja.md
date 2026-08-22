@@ -22,7 +22,7 @@ capabilityClaims:
 | Read-only | `inspect`、`observe`、`status`、`compatibility`、`migrate plan`、`knowledge query`、`capability show`、`diagnose`、`doctor` | repository state/evidence を読み、黙って修復しない。 |
 | Setup | `attach`、`profile confirm`、`profile propose` | protocol state の作成/更新、profile の確認、read-only candidate の出力。 |
 | Migration | `migrate apply --approved` | review 済みの repository schema migration だけを適用し、Runtime-bound migration receipt を作る。 |
-| Governance | `preflight` | Contract を読み green/yellow/red decision を返す。 |
+| Governance | `preflight` | Contract を読み green/yellow/red decision と `reviewState` を返す。不完全・不確実な Contract は human-review yellow となり checkpoint を越えられない。 |
 | Work Item | `work-item new`、`start`、`checkpoint`、`finish`、`archive`、`close` | skeleton または lifecycle record を作る。`close` は human decision が必要。 |
 | Verification | `verify` | bounded command を実行し evidence を記録する。Work Item に bind できる。 |
 | External evidence | `evidence import`、`evidence list`、`evidence policy`、`evidence purge-plan` | exact provider bytes の bind、bounded persistence policy の宣言、または決定論的な非破壊 disposal plan の生成。 |
@@ -47,6 +47,8 @@ capabilityClaims:
   は strict state report を返し、0（verified）、1（degraded）、2（configuration error）、3（human intervention）の exit code を使います。
   managed section または ownership record が変更されていれば `repair` と `detach` は fail closed し、global Agent/MCP config は変更しません。
 - `preflight --contract` は通常 `start` が作る `.ai/work-items/active/<id>.contract.json` を指します。
+- `work-item new` は `not_ready` の skeleton を作ります。これを `preflight` すると意図的に
+  `yellow` と `reviewState: needs_human_confirmation` になり、人の項目を埋めてから再度 preflight して checkpoint します。
 - `close --human-decision approved|rejected` は human decision record であり verification evidence ではありません。
 - `evidence import --repo <path> --work-item <id> --metadata <metadata.json>
   --raw <provider-output>` は strict な `DelegatedEvidence` metadata を exact raw-byte
