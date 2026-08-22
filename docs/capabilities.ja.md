@@ -290,6 +290,13 @@ parallel execution を fail closed にします。Scope compatibility は Window
 pattern は `scope_overlap_unknown` になり、unknown または空の scope は parallel execution と互換になりません。
 Diagnosis は実測した snapshot/verification cost だけを報告し、benchmark を装いません。
 
+Verification evidence は strict な v2 envelope です。unknown な envelope field、malformed な captured
+receipt、nested Work Item/repository/Runtime identity の欠落は fail closed になります。現在の CLI lifecycle
+command は実行した Runtime の version と digest に evidence を bind するため、foreign Runtime は current
+Work Item を authorize できません。pre-v2 evidence は immutable な historical input です。Outcome は黄色の
+`legacy_evidence_historical` として表示し、現在の赤い失敗や fresh green として扱いません。current v2 evidence
+を作るには verification を再実行してください。
+
 ### MCP を使う
 
 explicit repository binding で server を起動します。

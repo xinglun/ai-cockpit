@@ -187,6 +187,67 @@ fn work_item_lifecycle_is_atomic_and_archive_is_content_bound() {
 }
 
 #[test]
+fn current_cli_rejects_foreign_runtime_verification_evidence() {
+    let repo = repository();
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    assert!(run_output(binary, &["attach"], &repo).status.success());
+    let start = Command::new(binary)
+        .args(["start", "--repo"])
+        .arg(&repo)
+        .args([
+            "--id",
+            "WI-FOREIGN-RUNTIME",
+            "--intent",
+            "runtime binding",
+            "--goal",
+            "reject foreign evidence",
+            "--scope",
+            "**",
+            "--authority",
+            "authorized",
+        ])
+        .output()
+        .expect("start");
+    assert!(start.status.success());
+    assert!(
+        run_output(
+            binary,
+            &[
+                "verify",
+                "--work-item",
+                "WI-FOREIGN-RUNTIME",
+                "--command",
+                "true"
+            ],
+            &repo,
+        )
+        .status
+        .success()
+    );
+    let evidence_path = repo.join(".ai/evidence/WI-FOREIGN-RUNTIME.verification.json");
+    let mut evidence: serde_json::Value =
+        serde_json::from_slice(&fs::read(&evidence_path).expect("verification evidence"))
+            .expect("evidence JSON");
+    evidence["runtimeDigest"] = format!("sha256:{}", "f".repeat(64)).into();
+    fs::write(
+        &evidence_path,
+        serde_json::to_vec_pretty(&evidence).expect("tampered evidence JSON"),
+    )
+    .expect("tamper evidence");
+    let finish = run_output(binary, &["finish", "--id", "WI-FOREIGN-RUNTIME"], &repo);
+    assert!(
+        !finish.status.success(),
+        "foreign Runtime evidence must fail closed: {}",
+        String::from_utf8_lossy(&finish.stderr)
+    );
+    assert!(
+        repo.join(".ai/work-items/active/WI-FOREIGN-RUNTIME.contract.json")
+            .is_file()
+    );
+    fs::remove_dir_all(repo).expect("cleanup");
+}
+
+#[test]
 fn invalid_work_item_id_is_rejected_without_path_traversal() {
     let repo = repository();
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");

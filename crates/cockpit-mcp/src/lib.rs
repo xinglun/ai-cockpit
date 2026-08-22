@@ -103,11 +103,11 @@ pub fn handle_request_for_repo(
         }
         "blockers" => {
             require_compatible(repo, runtime)
-                .and_then(|_| decision_items(repo, &arguments, "blockers"))
+                .and_then(|_| decision_items(repo, &arguments, "blockers", runtime))
         }
         "safe_actions" => {
             require_compatible(repo, runtime)
-                .and_then(|_| decision_items(repo, &arguments, "safe_actions"))
+                .and_then(|_| decision_items(repo, &arguments, "safe_actions", runtime))
         }
         "work_item_list" => work_item_list(repo),
         "work_item_get" => work_item_get(repo, &arguments),
@@ -130,7 +130,7 @@ pub fn handle_request_for_repo(
         }
         "preflight" => {
             require_compatible(repo, runtime)
-                .and_then(|_| preflight_for_repo(repo, &arguments))
+                .and_then(|_| preflight_for_repo(repo, &arguments, runtime))
         }
         "verify" => verify_for_repo(repo, &arguments, runtime),
         _ => return error_response(id, -32602, "unknown tool"),
@@ -154,7 +154,11 @@ pub fn handle_request_for_repo(
     }
 }
 
-fn preflight_for_repo(repo: &Path, arguments: &Value) -> Result<Value, String> {
+fn preflight_for_repo(
+    repo: &Path,
+    arguments: &Value,
+    runtime: &cockpit_protocol::RuntimeContext,
+) -> Result<Value, String> {
     let contract_path = arguments
         .get("contract")
         .and_then(Value::as_str)
@@ -167,8 +171,10 @@ fn preflight_for_repo(repo: &Path, arguments: &Value) -> Result<Value, String> {
         .map_err(|error| error.to_string())?;
     let git = cockpit_git::GitRepository::discover(repo).map_err(|error| error.to_string())?;
     let snapshot = git.snapshot().map_err(|error| error.to_string())?;
-    let decision = cockpit_repository::governance_decision_for_contract(repo, &contract, &snapshot)
-        .map_err(|error| error.to_string())?;
+    let decision = cockpit_repository::governance_decision_for_contract_with_runtime(
+        repo, &contract, &snapshot, runtime,
+    )
+    .map_err(|error| error.to_string())?;
     serde_json::to_value(decision).map_err(|error| error.to_string())
 }
 
@@ -240,12 +246,11 @@ fn verify_for_repo(
     output["runtimeVersion"] = Value::String(runtime.runtime_version.clone());
     output["runtimeDigest"] = Value::String(runtime.runtime_digest.to_string());
     if let Some(work_item_id) = arguments.get("workItemId").and_then(Value::as_str) {
-        cockpit_repository::record_verification_with_snapshot(
+        cockpit_repository::record_verification_with_runtime(
             &root,
             work_item_id,
             &output,
-            &runtime.runtime_version,
-            &runtime.runtime_digest,
+            runtime,
             &run.final_snapshot,
         )
         .map_err(|error| error.to_string())?;
@@ -305,11 +310,16 @@ fn repository_observe(repo: &Path) -> Result<Value, String> {
     .map_err(|error| error.to_string())
 }
 
-fn decision_items(repo: &Path, arguments: &Value, field: &str) -> Result<Value, String> {
+fn decision_items(
+    repo: &Path,
+    arguments: &Value,
+    field: &str,
+    runtime: &cockpit_protocol::RuntimeContext,
+) -> Result<Value, String> {
     let Some(contract) = arguments.get("contract").and_then(Value::as_str) else {
         return Ok(json!({"items": []}));
     };
-    let decision = preflight_for_repo(repo, &json!({"contract": contract}))?;
+    let decision = preflight_for_repo(repo, &json!({"contract": contract}), runtime)?;
     Ok(json!({"items": decision.get(field).cloned().unwrap_or_else(|| json!([]))}))
 }
 

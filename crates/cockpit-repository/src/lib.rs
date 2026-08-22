@@ -495,6 +495,68 @@ pub struct WorkItemScaffoldReceipt {
     pub human_input_required: Vec<String>,
 }
 
+/// The persisted Work Item verification envelope.  This is deliberately
+/// stricter than the JSON produced by a one-shot execution: every field is
+/// required, unknown envelope fields are rejected, and a captured receipt is
+/// deserialized through `VerificationReceipt` (which has the same strict
+/// policy for its nested result/candidate records).
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum VerificationCaptureMode {
+    FullCapture,
+    RedactedCapture,
+    DigestOnly,
+    /// Compatibility lane for the pre-v2 public Rust API, whose unit tests
+    /// and callers supplied a small arbitrary JSON value instead of the
+    /// Runtime's typed execution receipt.  It is never accepted by a
+    /// Runtime-bound lifecycle operation and is not emitted by the CLI.
+    LegacyUntyped,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct VerificationEvidenceV2 {
+    pub protocol_version: u32,
+    pub evidence_schema_version: u32,
+    pub work_item_id: String,
+    pub repository_id: String,
+    pub runtime_version: String,
+    pub runtime_digest: Digest,
+    pub repository_snapshot_digest: Digest,
+    pub passed: bool,
+    pub receipt_digest: Digest,
+    pub capture_mode: VerificationCaptureMode,
+    pub created_at: String,
+    #[serde(default)]
+    pub receipt: Option<cockpit_verification::VerificationReceipt>,
+    #[serde(default)]
+    pub retention: Option<EvidenceRetentionPolicy>,
+}
+
+/// Strict envelope parser used before nested receipt validation.  Keeping the
+/// raw receipt as a `Value` here lets the compatibility lane read old
+/// untyped payloads while the v2 capture modes below always deserialize it as
+/// `VerificationReceipt` with `deny_unknown_fields`.
+#[derive(Clone, Debug, PartialEq, Eq, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct VerificationEvidenceEnvelope {
+    protocol_version: u32,
+    evidence_schema_version: u32,
+    work_item_id: String,
+    repository_id: String,
+    runtime_version: String,
+    runtime_digest: Digest,
+    repository_snapshot_digest: Digest,
+    passed: bool,
+    receipt_digest: Digest,
+    capture_mode: VerificationCaptureMode,
+    created_at: String,
+    #[serde(default)]
+    receipt: Option<serde_json::Value>,
+    #[serde(default)]
+    retention: Option<EvidenceRetentionPolicy>,
+}
+
 #[derive(Debug, Error)]
 pub enum ObserverError {
     #[error("failed to read repository entry {path}: {source}")]
@@ -3412,6 +3474,26 @@ pub fn finish_work_item(
     root: &Path,
     work_item_id: &str,
 ) -> Result<LifecycleReceipt, ObserverError> {
+    finish_work_item_internal(root, work_item_id, None)
+}
+
+/// Finish a Work Item while requiring evidence produced by the current
+/// Runtime executable.  The unbound wrapper above is retained for embedders
+/// that manage Runtime identity outside this crate; CLI/MCP use this bound
+/// entry point.
+pub fn finish_work_item_with_runtime(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+) -> Result<LifecycleReceipt, ObserverError> {
+    finish_work_item_internal(root, work_item_id, Some(runtime))
+}
+
+fn finish_work_item_internal(
+    root: &Path,
+    work_item_id: &str,
+    current_runtime: Option<&RuntimeContext>,
+) -> Result<LifecycleReceipt, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -3455,13 +3537,26 @@ pub fn finish_work_item(
     }
     let contract_path = active.join(format!("{work_item_id}.contract.json"));
     let contract = read_contract(&contract_path)?;
-    if verification_evidence_state(&root, &contract, &snapshot, false)? != EvidenceState::Complete {
+    if verification_evidence_state(&root, &contract, &snapshot, false, current_runtime)?
+        != EvidenceState::Complete
+    {
         return Err(ObserverError::State {
             path: evidence_path,
             message: "verification evidence is not a valid current receipt".into(),
         });
     }
-    require_green_governance(&root, &contract_path, &contract, &snapshot, "finish")?;
+    if let Some(runtime) = current_runtime {
+        require_green_governance_with_runtime(
+            &root,
+            &contract_path,
+            &contract,
+            &snapshot,
+            "finish",
+            runtime,
+        )?;
+    } else {
+        require_green_governance(&root, &contract_path, &contract, &snapshot, "finish")?;
+    }
     let timestamp = now();
     summary["state"] = "finish_ready".into();
     summary["updatedAt"] = timestamp.clone().into();
@@ -3557,6 +3652,49 @@ pub fn record_verification_with_snapshot(
     runtime_digest: &Digest,
     snapshot: &RepositorySnapshot,
 ) -> Result<serde_json::Value, ObserverError> {
+    record_verification_internal(
+        root,
+        work_item_id,
+        receipt,
+        runtime_version,
+        runtime_digest,
+        snapshot,
+        None,
+    )
+}
+
+/// Record verification evidence while binding it to the Runtime that is
+/// executing the request.  The legacy `*_with_snapshot` API remains available
+/// for embedders that intentionally own their Runtime identity; all CLI/MCP
+/// paths use this function so a foreign but well-formed digest cannot pass a
+/// current lifecycle operation.
+pub fn record_verification_with_runtime(
+    root: &Path,
+    work_item_id: &str,
+    receipt: &serde_json::Value,
+    runtime: &RuntimeContext,
+    snapshot: &RepositorySnapshot,
+) -> Result<serde_json::Value, ObserverError> {
+    record_verification_internal(
+        root,
+        work_item_id,
+        receipt,
+        &runtime.runtime_version,
+        &runtime.runtime_digest,
+        snapshot,
+        Some(runtime),
+    )
+}
+
+fn record_verification_internal(
+    root: &Path,
+    work_item_id: &str,
+    receipt: &serde_json::Value,
+    runtime_version: &str,
+    runtime_digest: &Digest,
+    snapshot: &RepositorySnapshot,
+    current_runtime: Option<&RuntimeContext>,
+) -> Result<serde_json::Value, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -3590,12 +3728,31 @@ pub fn record_verification_with_snapshot(
             message: "verification receipt belongs to another work item".into(),
         });
     }
-    let retention_policy = read_evidence_retention_policy(&root, work_item_id)?;
-    let receipt_digest =
-        cockpit_protocol::digest_json(receipt).map_err(|error| ObserverError::State {
+    if let Some(runtime) = current_runtime
+        && (runtime.runtime_version != runtime_version || runtime.runtime_digest != *runtime_digest)
+    {
+        return Err(ObserverError::State {
             path: root.join(".ai/evidence"),
-            message: error.to_string(),
-        })?;
+            message:
+                "verification receipt Runtime identity arguments do not match the current Runtime"
+                    .into(),
+        });
+    }
+    let expected_repository_id = repository_id(&root).to_string();
+    let typed_receipt = bind_typed_verification_receipt(
+        receipt,
+        work_item_id,
+        &expected_repository_id,
+        runtime_version,
+        runtime_digest,
+    )?;
+    if current_runtime.is_some() && typed_receipt.is_none() {
+        return Err(ObserverError::State {
+            path: root.join(".ai/evidence"),
+            message: "current Runtime requires a strict typed verification receipt".into(),
+        });
+    }
+    let retention_policy = read_evidence_retention_policy(&root, work_item_id)?;
     let (stored_receipt, capture_mode) = match retention_policy
         .as_ref()
         .map(|policy| &policy.retention.persistence)
@@ -3609,24 +3766,38 @@ pub fn record_verification_with_snapshot(
                     "no_persistence cannot produce completion evidence; use an external evidence owner or change the policy".into(),
             });
         }
-        Some(EvidencePersistence::DigestOnly) => (None, "digest_only"),
+        Some(EvidencePersistence::DigestOnly) => (None, VerificationCaptureMode::DigestOnly),
         Some(EvidencePersistence::RedactedCapture) => (
-            Some(redact_verification_receipt(receipt)),
-            "redacted_capture",
+            Some(redact_verification_receipt(
+                typed_receipt.as_ref().unwrap_or(receipt),
+            )),
+            VerificationCaptureMode::RedactedCapture,
         ),
-        Some(EvidencePersistence::FullCapture) | None => (Some(receipt.clone()), "full_capture"),
+        Some(EvidencePersistence::FullCapture) | None => (
+            Some(typed_receipt.clone().unwrap_or_else(|| receipt.clone())),
+            if typed_receipt.is_some() {
+                VerificationCaptureMode::FullCapture
+            } else {
+                VerificationCaptureMode::LegacyUntyped
+            },
+        ),
     };
+    let receipt_digest = cockpit_protocol::digest_json(stored_receipt.as_ref().unwrap_or(receipt))
+        .map_err(|error| ObserverError::State {
+            path: root.join(".ai/evidence"),
+            message: error.to_string(),
+        })?;
     let mut evidence = serde_json::json!({
         "protocolVersion": 1,
         "evidenceSchemaVersion": 2,
         "workItemId": work_item_id,
-        "repositoryId": repository_id(&root),
+        "repositoryId": expected_repository_id,
         "runtimeVersion": runtime_version,
         "runtimeDigest": runtime_digest,
         "repositorySnapshotDigest": snapshot_digest(snapshot)?,
         "passed": true,
         "receiptDigest": receipt_digest,
-        "captureMode": capture_mode,
+        "captureMode": serde_json::to_value(capture_mode).expect("capture mode serializes"),
         "createdAt": now(),
     });
     if let Some(receipt) = stored_receipt {
@@ -3644,6 +3815,76 @@ pub fn record_verification_with_snapshot(
         .join(format!("{work_item_id}.verification.json"));
     atomic_json(&path, &evidence)?;
     Ok(evidence)
+}
+
+/// Bind a raw execution result to its Work Item/repository/Runtime identity
+/// and deserialize it through the strict wire type.  The CLI's raw result has
+/// runtime fields at the envelope level; they are removed before adding the
+/// required nested identity fields to the persisted receipt.
+fn bind_typed_verification_receipt(
+    receipt: &serde_json::Value,
+    work_item_id: &str,
+    repository_id: &str,
+    runtime_version: &str,
+    runtime_digest: &Digest,
+) -> Result<Option<serde_json::Value>, ObserverError> {
+    let Some(object) = receipt.as_object() else {
+        return Ok(None);
+    };
+    if object.get("passed") != Some(&serde_json::Value::Bool(true)) {
+        return Err(ObserverError::State {
+            path: PathBuf::from(".ai/evidence"),
+            message: "failed verification cannot be recorded as completion evidence".into(),
+        });
+    }
+    let mut bound = receipt.clone();
+    let Some(bound_object) = bound.as_object_mut() else {
+        return Ok(None);
+    };
+    bound_object.remove("runtimeVersion");
+    bound_object.remove("runtimeDigest");
+    for (key, expected) in [
+        ("workItemId", serde_json::Value::String(work_item_id.into())),
+        (
+            "repositoryId",
+            serde_json::Value::String(repository_id.into()),
+        ),
+        (
+            "runtimeVersion",
+            serde_json::Value::String(runtime_version.into()),
+        ),
+        (
+            "runtimeDigest",
+            serde_json::Value::String(runtime_digest.to_string()),
+        ),
+    ] {
+        if let Some(existing) = bound_object.get(key)
+            && existing != &expected
+        {
+            return Err(ObserverError::State {
+                path: PathBuf::from(".ai/evidence"),
+                message: format!("verification receipt {key} does not match its binding"),
+            });
+        }
+        bound_object.insert(key.into(), expected);
+    }
+    let typed: cockpit_verification::VerificationReceipt =
+        match serde_json::from_value(bound.clone()) {
+            Ok(value) => value,
+            Err(_) => return Ok(None),
+        };
+    if !typed.passed
+        || typed.work_item_id.as_deref() != Some(work_item_id)
+        || typed.repository_id.as_deref() != Some(repository_id)
+        || typed.runtime_version.as_deref() != Some(runtime_version)
+        || typed.runtime_digest.as_deref() != Some(runtime_digest.to_string().as_str())
+    {
+        return Err(ObserverError::State {
+            path: PathBuf::from(".ai/evidence"),
+            message: "typed verification receipt has missing or mismatched identity".into(),
+        });
+    }
+    Ok(Some(bound))
 }
 
 fn redact_verification_receipt(receipt: &serde_json::Value) -> serde_json::Value {
@@ -4957,6 +5198,28 @@ pub fn governance_decision_for_contract(
     contract: &cockpit_protocol::Contract,
     snapshot: &RepositorySnapshot,
 ) -> Result<GovernanceDecision, ObserverError> {
+    governance_decision_for_contract_internal(root, contract, snapshot, None)
+}
+
+/// Evaluate governance while binding verification evidence to the Runtime
+/// executing the request.  This keeps preflight and lifecycle gates aligned:
+/// a foreign Runtime receipt cannot make a current preflight green and then
+/// fail only later at finish.
+pub fn governance_decision_for_contract_with_runtime(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+    runtime: &RuntimeContext,
+) -> Result<GovernanceDecision, ObserverError> {
+    governance_decision_for_contract_internal(root, contract, snapshot, Some(runtime))
+}
+
+fn governance_decision_for_contract_internal(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+    current_runtime: Option<&RuntimeContext>,
+) -> Result<GovernanceDecision, ObserverError> {
     let explicit_blockers = contract_freshness_findings(root, contract, snapshot)?;
     let signals = derive_governance_signals(snapshot);
     let changed_paths = snapshot
@@ -4975,7 +5238,7 @@ pub fn governance_decision_for_contract(
     } else {
         AuthorityState::Missing
     };
-    let evidence = evidence_state_for_contract(root, contract, snapshot)?;
+    let evidence = evidence_state_for_contract_internal(root, contract, snapshot, current_runtime)?;
     let mut input = GovernanceInput {
         scope: contract.scope.clone(),
         out_of_scope: contract.out_of_scope.clone(),
@@ -5011,7 +5274,37 @@ fn require_green_governance(
     snapshot: &RepositorySnapshot,
     operation: &str,
 ) -> Result<(), ObserverError> {
-    let decision = governance_decision_for_contract(root, contract, snapshot)?;
+    require_green_governance_internal(root, contract_path, contract, snapshot, operation, None)
+}
+
+fn require_green_governance_with_runtime(
+    root: &Path,
+    contract_path: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+    operation: &str,
+    runtime: &RuntimeContext,
+) -> Result<(), ObserverError> {
+    require_green_governance_internal(
+        root,
+        contract_path,
+        contract,
+        snapshot,
+        operation,
+        Some(runtime),
+    )
+}
+
+fn require_green_governance_internal(
+    root: &Path,
+    contract_path: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+    operation: &str,
+    current_runtime: Option<&RuntimeContext>,
+) -> Result<(), ObserverError> {
+    let decision =
+        governance_decision_for_contract_internal(root, contract, snapshot, current_runtime)?;
     if decision.state != DecisionState::Green {
         return Err(ObserverError::State {
             path: contract_path.to_path_buf(),
@@ -5033,6 +5326,7 @@ fn verification_evidence_state(
     contract: &cockpit_protocol::Contract,
     snapshot: &RepositorySnapshot,
     archived: bool,
+    current_runtime: Option<&RuntimeContext>,
 ) -> Result<EvidenceState, ObserverError> {
     let evidence_path = root
         .join(".ai/evidence")
@@ -5051,84 +5345,93 @@ fn verification_evidence_state(
         Ok(value) => value,
         Err(_) => return Ok(EvidenceState::Unknown),
     };
-    if !evidence.is_object()
-        || evidence["protocolVersion"] != serde_json::json!(1)
-        || evidence["evidenceSchemaVersion"] != serde_json::json!(2)
-        || evidence["workItemId"] != serde_json::json!(contract.work_item_id)
-        || evidence["passed"] != serde_json::Value::Bool(true)
+    let envelope = match serde_json::from_value::<VerificationEvidenceEnvelope>(evidence.clone()) {
+        Ok(value) => value,
+        Err(_) => return Ok(EvidenceState::Contradictory),
+    };
+    if envelope.protocol_version != 1
+        || envelope.evidence_schema_version != 2
+        || envelope.work_item_id != contract.work_item_id
+        || !envelope.passed
+        || envelope
+            .runtime_digest
+            .to_string()
+            .parse::<Digest>()
+            .is_err()
+        || envelope
+            .repository_snapshot_digest
+            .to_string()
+            .parse::<Digest>()
+            .is_err()
+        || envelope
+            .receipt_digest
+            .to_string()
+            .parse::<Digest>()
+            .is_err()
     {
         return Ok(EvidenceState::Contradictory);
     }
 
     let expected_repository_id = repository_id(root).to_string();
     if contract.repository_id != expected_repository_id
-        || evidence["repositoryId"] != serde_json::json!(expected_repository_id)
+        || envelope.repository_id != expected_repository_id
     {
         return Ok(EvidenceState::Contradictory);
     }
 
-    let Some(snapshot_value) = evidence["repositorySnapshotDigest"].as_str() else {
-        return Ok(EvidenceState::Contradictory);
-    };
-    if snapshot_value.parse::<Digest>().is_err() {
+    if let Some(runtime) = current_runtime
+        && (envelope.runtime_version != runtime.runtime_version
+            || envelope.runtime_digest != runtime.runtime_digest)
+    {
         return Ok(EvidenceState::Contradictory);
     }
-    if !archived && snapshot_value != snapshot_digest(snapshot)?.as_str() {
+    let current_snapshot_digest = snapshot_digest(snapshot)?;
+    if !archived && envelope.repository_snapshot_digest != current_snapshot_digest {
         return Ok(EvidenceState::Stale);
     }
 
-    let Some(runtime_version) = evidence["runtimeVersion"].as_str() else {
-        return Ok(EvidenceState::Contradictory);
-    };
-    if runtime_version.trim().is_empty()
-        || evidence["runtimeDigest"]
-            .as_str()
-            .is_none_or(|value| value.parse::<Digest>().is_err())
-    {
+    if envelope.runtime_version.trim().is_empty() {
         return Ok(EvidenceState::Contradictory);
     }
-    let Some(receipt_digest) = evidence["receiptDigest"].as_str() else {
-        return Ok(EvidenceState::Contradictory);
-    };
-    if receipt_digest.parse::<Digest>().is_err() {
-        return Ok(EvidenceState::Contradictory);
-    }
-    let capture_mode = evidence["captureMode"].as_str().unwrap_or("");
-    match capture_mode {
-        "digest_only" => {}
-        "full_capture" | "redacted_capture" => {
-            let Some(receipt) = evidence.get("receipt") else {
-                return Ok(EvidenceState::Contradictory);
-            };
-            let Ok(computed) = cockpit_protocol::digest_json(receipt) else {
-                return Ok(EvidenceState::Contradictory);
-            };
-            if computed.to_string() != receipt_digest {
-                return Ok(EvidenceState::Contradictory);
-            }
-            if receipt
-                .get("workItemId")
-                .and_then(serde_json::Value::as_str)
-                .is_some_and(|value| value != contract.work_item_id)
-                || receipt
-                    .get("repositoryId")
-                    .and_then(serde_json::Value::as_str)
-                    .is_some_and(|value| value != expected_repository_id)
-                || receipt
-                    .get("runtimeVersion")
-                    .and_then(serde_json::Value::as_str)
-                    .is_some_and(|value| value != runtime_version)
-                || receipt
-                    .get("runtimeDigest")
-                    .and_then(serde_json::Value::as_str)
-                    .is_some_and(|value| {
-                        value != evidence["runtimeDigest"].as_str().unwrap_or_default()
-                    })
-            {
+    match envelope.capture_mode {
+        VerificationCaptureMode::DigestOnly => {
+            if envelope.receipt.is_some() {
                 return Ok(EvidenceState::Contradictory);
             }
         }
-        _ => return Ok(EvidenceState::Contradictory),
+        VerificationCaptureMode::FullCapture | VerificationCaptureMode::RedactedCapture => {
+            let Some(receipt) = envelope.receipt.as_ref() else {
+                return Ok(EvidenceState::Contradictory);
+            };
+            let typed: cockpit_verification::VerificationReceipt =
+                match serde_json::from_value(receipt.clone()) {
+                    Ok(value) => value,
+                    Err(_) => return Ok(EvidenceState::Contradictory),
+                };
+            if !typed.passed
+                || typed.work_item_id.as_deref() != Some(contract.work_item_id.as_str())
+                || typed.repository_id.as_deref() != Some(expected_repository_id.as_str())
+                || typed.runtime_version.as_deref() != Some(envelope.runtime_version.as_str())
+                || typed.runtime_digest.as_deref()
+                    != Some(envelope.runtime_digest.to_string().as_str())
+            {
+                return Ok(EvidenceState::Contradictory);
+            }
+            let Ok(computed) = cockpit_protocol::digest_json(receipt) else {
+                return Ok(EvidenceState::Contradictory);
+            };
+            if computed != envelope.receipt_digest {
+                return Ok(EvidenceState::Contradictory);
+            }
+        }
+        VerificationCaptureMode::LegacyUntyped => {
+            // This compatibility lane is readable only through the legacy
+            // Rust API.  A Runtime-bound CLI/MCP lifecycle must regenerate a
+            // typed v2 receipt instead of treating the old payload as green.
+            if current_runtime.is_some() {
+                return Ok(EvidenceState::Contradictory);
+            }
+        }
     }
 
     if archived {
@@ -5166,7 +5469,39 @@ pub fn evidence_state_for_contract(
     contract: &cockpit_protocol::Contract,
     snapshot: &RepositorySnapshot,
 ) -> Result<EvidenceState, ObserverError> {
+    evidence_state_for_contract_internal(root, contract, snapshot, None)
+}
+
+pub fn evidence_state_for_contract_with_runtime(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+    runtime: &RuntimeContext,
+) -> Result<EvidenceState, ObserverError> {
+    evidence_state_for_contract_internal(root, contract, snapshot, Some(runtime))
+}
+
+fn evidence_state_for_contract_internal(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+    current_runtime: Option<&RuntimeContext>,
+) -> Result<EvidenceState, ObserverError> {
     if contract.required_evidence_classes.is_empty() {
+        // Verification evidence is an integrity surface even when the
+        // Contract did not declare it as a required class.  Preserve the
+        // historical no-evidence behavior for a fresh Work Item, but never
+        // let an existing tampered receipt be ignored by preflight/governance.
+        let evidence_path = root
+            .join(".ai/evidence")
+            .join(format!("{}.verification.json", contract.work_item_id));
+        if fs::symlink_metadata(&evidence_path).is_ok() {
+            let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+                path: root.into(),
+                source,
+            })?;
+            return verification_evidence_state(&root, contract, snapshot, false, current_runtime);
+        }
         return Ok(EvidenceState::Complete);
     }
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
@@ -5180,7 +5515,16 @@ pub fn evidence_state_for_contract(
         )
     });
     if requires_verification {
-        return verification_evidence_state(&root, contract, snapshot, false);
+        return verification_evidence_state(&root, contract, snapshot, false, current_runtime);
+    }
+    let evidence_path = root
+        .join(".ai/evidence")
+        .join(format!("{}.verification.json", contract.work_item_id));
+    if fs::symlink_metadata(&evidence_path).is_ok() {
+        let state = verification_evidence_state(&root, contract, snapshot, false, current_runtime)?;
+        if state != EvidenceState::Complete {
+            return Ok(state);
+        }
     }
     for class in &contract.required_evidence_classes {
         let normalized = class.to_ascii_lowercase();
@@ -5210,6 +5554,24 @@ pub fn archive_work_item(
     root: &Path,
     work_item_id: &str,
 ) -> Result<LifecycleReceipt, ObserverError> {
+    archive_work_item_internal(root, work_item_id, None)
+}
+
+/// Archive a Work Item only when its evidence was produced by this Runtime
+/// identity.  This is the current CLI/MCP lifecycle boundary.
+pub fn archive_work_item_with_runtime(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+) -> Result<LifecycleReceipt, ObserverError> {
+    archive_work_item_internal(root, work_item_id, Some(runtime))
+}
+
+fn archive_work_item_internal(
+    root: &Path,
+    work_item_id: &str,
+    current_runtime: Option<&RuntimeContext>,
+) -> Result<LifecycleReceipt, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -5229,7 +5591,9 @@ pub fn archive_work_item(
         path: root.clone(),
         message: error.to_string(),
     })?;
-    if verification_evidence_state(&root, &contract, &snapshot, false)? != EvidenceState::Complete {
+    if verification_evidence_state(&root, &contract, &snapshot, false, current_runtime)?
+        != EvidenceState::Complete
+    {
         return Err(ObserverError::State {
             path: root
                 .join(".ai/evidence")
@@ -5237,7 +5601,18 @@ pub fn archive_work_item(
             message: "archive requires valid verification evidence".into(),
         });
     }
-    require_green_governance(&root, &contract_path, &contract, &snapshot, "archive")?;
+    if let Some(runtime) = current_runtime {
+        require_green_governance_with_runtime(
+            &root,
+            &contract_path,
+            &contract,
+            &snapshot,
+            "archive",
+            runtime,
+        )?;
+    } else {
+        require_green_governance(&root, &contract_path, &contract, &snapshot, "archive")?;
+    }
     let outcome_path = active.join(format!("{work_item_id}.outcome.json"));
     let outcome = read_json(&outcome_path)?;
     if outcome["verification"]["status"] != "verified" {
@@ -5355,10 +5730,64 @@ pub fn close_work_item_with_decision(
     )
 }
 
+pub fn close_work_item_with_decision_and_runtime(
+    root: &Path,
+    work_item_id: &str,
+    human_decision: &str,
+    runtime: &RuntimeContext,
+) -> Result<LifecycleReceipt, ObserverError> {
+    if human_decision.trim().is_empty() {
+        return Err(ObserverError::State {
+            path: root.join(".ai/decisions"),
+            message: "human decision must not be empty".into(),
+        });
+    }
+    close_work_item_with_structured_decision_and_runtime(
+        root,
+        work_item_id,
+        &HumanDecision {
+            decision: human_decision.trim().into(),
+            actor: "legacy-cli".into(),
+            authority_source: "explicit-cli".into(),
+            reason:
+                "legacy human-decision input; provide structured fields for enterprise assurance"
+                    .into(),
+            evidence_refs: Vec::new(),
+            policy_refs: Vec::new(),
+            decided_at: now(),
+            resume_condition: None,
+        },
+        runtime,
+    )
+}
+
 pub fn close_work_item_with_structured_decision(
     root: &Path,
     work_item_id: &str,
     human_decision: &HumanDecision,
+) -> Result<LifecycleReceipt, ObserverError> {
+    close_work_item_with_structured_decision_internal(root, work_item_id, human_decision, None)
+}
+
+pub fn close_work_item_with_structured_decision_and_runtime(
+    root: &Path,
+    work_item_id: &str,
+    human_decision: &HumanDecision,
+    runtime: &RuntimeContext,
+) -> Result<LifecycleReceipt, ObserverError> {
+    close_work_item_with_structured_decision_internal(
+        root,
+        work_item_id,
+        human_decision,
+        Some(runtime),
+    )
+}
+
+fn close_work_item_with_structured_decision_internal(
+    root: &Path,
+    work_item_id: &str,
+    human_decision: &HumanDecision,
+    current_runtime: Option<&RuntimeContext>,
 ) -> Result<LifecycleReceipt, ObserverError> {
     validate_work_item_id(work_item_id)?;
     for (field, value) in [
@@ -5397,7 +5826,9 @@ pub fn close_work_item_with_structured_decision(
         path: root.clone(),
         message: error.to_string(),
     })?;
-    if verification_evidence_state(&root, &contract, &snapshot, true)? != EvidenceState::Complete {
+    if verification_evidence_state(&root, &contract, &snapshot, true, current_runtime)?
+        != EvidenceState::Complete
+    {
         return Err(ObserverError::State {
             path: root
                 .join(".ai/evidence")
@@ -5405,7 +5836,18 @@ pub fn close_work_item_with_structured_decision(
             message: "close requires valid verification evidence".into(),
         });
     }
-    require_green_governance(&root, &contract_path, &contract, &snapshot, "close")?;
+    if let Some(runtime) = current_runtime {
+        require_green_governance_with_runtime(
+            &root,
+            &contract_path,
+            &contract,
+            &snapshot,
+            "close",
+            runtime,
+        )?;
+    } else {
+        require_green_governance(&root, &contract_path, &contract, &snapshot, "close")?;
+    }
     validate_policy_decision(&root, &contract, human_decision)?;
     let outcome = root
         .join(".ai/work-items/archive")
@@ -5782,6 +6224,26 @@ pub fn generate_knowledge_v2(
 /// Build a human-benefit-aware outcome while preserving the distinction
 /// between verified implementation evidence and a user-visible benefit claim.
 pub fn outcome_v2(root: &Path, work_item_id: &str) -> Result<OutcomeV2, ObserverError> {
+    outcome_v2_internal(root, work_item_id, None)
+}
+
+/// Runtime-bound outcome projection used by CLI/MCP.  A current Runtime may
+/// render a legacy archived record, but it must explain that the record is
+/// historical and not revalidated rather than presenting it as a current red
+/// failure.
+pub fn outcome_v2_with_runtime(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+) -> Result<OutcomeV2, ObserverError> {
+    outcome_v2_internal(root, work_item_id, Some(runtime))
+}
+
+fn outcome_v2_internal(
+    root: &Path,
+    work_item_id: &str,
+    current_runtime: Option<&RuntimeContext>,
+) -> Result<OutcomeV2, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -5813,38 +6275,58 @@ pub fn outcome_v2(root: &Path, work_item_id: &str) -> Result<OutcomeV2, Observer
     let archived = contract_path
         .parent()
         .is_some_and(|path| path.ends_with("archive"));
-    let evidence_state = verification_evidence_state(&root, &contract, &snapshot, archived)?;
-    let (state, decision_state, summary, evidence_unknown) = match evidence_state {
-        EvidenceState::Complete => (
-            OutcomeState::Verified,
-            DecisionState::Green,
-            "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
-            None,
-        ),
-        EvidenceState::Missing => (
+    let legacy = legacy_verification_evidence(&root, work_item_id);
+    let evidence_state = if legacy {
+        None
+    } else {
+        Some(verification_evidence_state(
+            &root,
+            &contract,
+            &snapshot,
+            archived,
+            current_runtime,
+        )?)
+    };
+    let (state, decision_state, summary, evidence_unknown) = if legacy {
+        (
             OutcomeState::NotReady,
             DecisionState::Yellow,
-            "No verification evidence is present; outcome is not ready.",
-            Some("verification_evidence_missing"),
-        ),
-        EvidenceState::Stale => (
-            OutcomeState::NotReady,
-            DecisionState::Yellow,
-            "Verification evidence is stale for the current repository snapshot; outcome is not ready.",
-            Some("evidence_stale"),
-        ),
-        EvidenceState::Contradictory => (
-            OutcomeState::Unknown,
-            DecisionState::Red,
-            "Verification evidence is contradictory or identity-bound to another context; outcome is stopped.",
-            Some("evidence_contradictory"),
-        ),
-        EvidenceState::Unknown => (
-            OutcomeState::Unknown,
-            DecisionState::Red,
-            "Verification evidence could not be validated; outcome is stopped.",
-            Some("evidence_unknown"),
-        ),
+            "Historical verification evidence uses a legacy schema and is not revalidated as a current result.",
+            Some("legacy_evidence_historical"),
+        )
+    } else {
+        match evidence_state.expect("non-legacy evidence state exists") {
+            EvidenceState::Complete => (
+                OutcomeState::Verified,
+                DecisionState::Green,
+                "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
+                None,
+            ),
+            EvidenceState::Missing => (
+                OutcomeState::NotReady,
+                DecisionState::Yellow,
+                "No verification evidence is present; outcome is not ready.",
+                Some("verification_evidence_missing"),
+            ),
+            EvidenceState::Stale => (
+                OutcomeState::NotReady,
+                DecisionState::Yellow,
+                "Verification evidence is stale for the current repository snapshot; outcome is not ready.",
+                Some("evidence_stale"),
+            ),
+            EvidenceState::Contradictory => (
+                OutcomeState::Unknown,
+                DecisionState::Red,
+                "Verification evidence is contradictory or identity-bound to another context; outcome is stopped.",
+                Some("evidence_contradictory"),
+            ),
+            EvidenceState::Unknown => (
+                OutcomeState::Unknown,
+                DecisionState::Red,
+                "Verification evidence could not be validated; outcome is stopped.",
+                Some("evidence_unknown"),
+            ),
+        }
     };
     let mut unknowns = vec!["user_visible_benefit_not_declared".into()];
     if let Some(code) = evidence_unknown {
@@ -5874,6 +6356,32 @@ pub fn outcome_v2(root: &Path, work_item_id: &str) -> Result<OutcomeV2, Observer
         evidence_refs: vec![evidence_ref],
         human_benefit_report: report,
     })
+}
+
+/// Return true only for a readable, regular legacy evidence file.  Malformed
+/// v2 JSON, symlinks, and v2 records with missing nested identity remain
+/// contradictory/red; this predicate is intentionally narrow so current
+/// corruption cannot hide behind the historical projection.
+fn legacy_verification_evidence(root: &Path, work_item_id: &str) -> bool {
+    let path = root
+        .join(".ai/evidence")
+        .join(format!("{work_item_id}.verification.json"));
+    let Ok(metadata) = fs::symlink_metadata(&path) else {
+        return false;
+    };
+    if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
+        return false;
+    }
+    let Ok(value) = read_json(&path) else {
+        return false;
+    };
+    let Some(object) = value.as_object() else {
+        return false;
+    };
+    // A schema-2 envelope with a deleted repositoryId is current corruption,
+    // not historical evidence.  Only the absence of the v2 discriminator
+    // qualifies for the legacy projection.
+    object.get("evidenceSchemaVersion").is_none()
 }
 
 /// Derive a repository-local capability truth registry from Observer facts and

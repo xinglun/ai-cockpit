@@ -285,6 +285,13 @@ ai-cockpit diagnose --repo /path/to/repository --work-item WI-123
 `src/**` 与 `src/main.rs`、`src/test/**`），无法证明交集的模式会返回 `scope_overlap_unknown`。未知或空 scope
 永远不兼容，不能授权并行执行。Diagnosis 只报告实际测得的 snapshot/verification 成本，不伪装成 benchmark。
 
+Verification evidence 使用严格的 v2 envelope。未知 envelope 字段、格式错误的 captured
+receipt，以及缺少嵌套 Work Item/repository/Runtime identity 都会 fail closed。当前 CLI 的
+生命周期命令把 evidence 绑定到执行它的 Runtime version 和 digest，因此 foreign Runtime
+不能授权当前 Work Item。pre-v2 evidence 是不可变的历史输入；Outcome 将其显示为黄色
+`legacy_evidence_historical`，不会把它伪装成当前红色失败或新的绿色结果。必须重新运行
+verification 生成当前 v2 evidence。
+
 ### 使用 MCP
 
 使用显式 repository 绑定启动服务：

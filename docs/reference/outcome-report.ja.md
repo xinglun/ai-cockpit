@@ -36,6 +36,14 @@ capabilityClaims:
 証拠の欠落または snapshot の期限切れは黄色、改ざん・不正形式・identity 不一致・
 digest 不一致は赤色です。同じ検証を `finish`、`archive`、`close` でも行い、証拠ファイル
 が存在するだけでは成功にしません。旧形式の証拠は自動的に緑へ書き換えず、再検証が必要です。
+現在の CLI は `verify`/`finish`/`archive`/`close` を実行する Runtime の
+`runtimeVersion` と `runtimeDigest` を証拠に bind します。そのため、別 Runtime が作った
+形式上正しい証拠も拒否されます。v2 envelope と保存された receipt は unknown field を拒否し、
+Work Item、repository、Runtime の nested identity を要求します。`digest_only` retention には
+検証可能な captured receipt がありません。読み取り可能な pre-v2 record（
+`evidenceSchemaVersion` がないもの）は黄色の `legacy_evidence_historical` として表示します。
+これは履歴入力であり、現在の失敗でも fresh green でもありません。v2 record の identity 欠落は
+引き続き赤色です。
 
 受入れ基準、intent、scope などは Work Item owner が記述したガバナンス原文です。
 表示では「受入れ基準（Contract 原文）」として保持し、Contract bytes を勝手に翻訳・変更
