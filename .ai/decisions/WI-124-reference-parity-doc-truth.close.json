@@ -1,0 +1,22 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "repository owner",
+    "authoritySource": "direct user instruction in current task",
+    "decidedAt": "2026-08-22T00:00:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-124-reference-parity-doc-truth.verification.json",
+      "PR #57 CI"
+    ],
+    "policyRefs": [
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "WI-124 merged after reference parity review and all PR checks passed.",
+    "resumeCondition": "Reopen only if a subsequent documentation truth check finds drift."
+  },
+  "timestamp": "2026-08-22T09:19:28Z",
+  "workItemId": "WI-124-reference-parity-doc-truth"
+}
