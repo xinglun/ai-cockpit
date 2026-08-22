@@ -1,0 +1,143 @@
+{
+  "acceptanceResults": [
+    "Each Work Item receives an independent identity-bound evidence receipt",
+    "No Work Item can reference another Work Item receipt as authorization evidence",
+    "Forged cost observation identity or counters is rejected or downgraded to unknown",
+    "Shared physical execution can be reused without sharing authority or decisions"
+  ],
+  "createdAt": "2026-08-22T23:38:45Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:baf9c9c23099eb4b7ed404b8eab3e4cf2d43fdc8b792cd12c6370a55bca9b22e",
+  "evidenceRefs": [
+    ".ai/evidence/WI-156-physical-execution-receipt.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-156-physical-execution-receipt.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-156-physical-execution-receipt.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9ccb4d36ba4a9a3c407b4743ecd5e3068dfc35ea3cf6ec1914d443954f48d483",
+      "workItemId": "WI-156-physical-execution-receipt"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-156-physical-execution-receipt.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-156-physical-execution-receipt.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-156-physical-execution-receipt.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-156-physical-execution-receipt.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-156-physical-execution-receipt.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-156-physical-execution-receipt.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-156-physical-execution-receipt.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-156-physical-execution-receipt.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-156-physical-execution-receipt.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-156-physical-execution-receipt.contract.json"
+          ],
+          "inference": false,
+          "text": "Ensure cross-Work-Item physical execution sharing never shares authority or authorization evidence, and cost observations are validated fail-closed."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-156-physical-execution-receipt.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-156-physical-execution-receipt"
+  },
+  "taskReportDigest": "sha256:d595569a7dc2792a2c57f8267e76904ebe7ee9cd8c44f19681aa9eb50dc18cb7",
+  "taskReportMarkdownDigest": "sha256:df1310f48ea4f707f20dcf814ec13325f88384a7a801c596f6e6b0fff6044fbe",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-156-physical-execution-receipt.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-156-physical-execution-receipt"
+}

@@ -1,0 +1,44 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-156-physical-execution-receipt.contract.json",
+    ".ai/work-items/archive/WI-156-physical-execution-receipt.summary.json"
+  ],
+  "checkpointAt": "2026-08-22T23:38:15Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T23:33:59Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-verification/src/lib.rs",
+      "crates/cockpit-verification/tests/physical_execution.rs",
+      "crates/cockpit-verification/tests/cost_observation.rs"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-22T23:38:45Z",
+  "preflightContractDigest": "sha256:93a2a517b0d772b1654969fc02cab37a8b6b83f5306efc6a6bd4b10c48a15e9c",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:9ccb4d36ba4a9a3c407b4743ecd5e3068dfc35ea3cf6ec1914d443954f48d483",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-verification/tests/physical_execution.rs",
+        "crates/cockpit-verification/tests/cost_observation.rs"
+      ],
+      "expected": "Shared execution yields independent Work Item receipts and forged cost telemetry is not trusted.",
+      "required": true,
+      "scenario": "cross-work-item physical execution and tamper rejection",
+      "status": "verified",
+      "verificationPlan": "Run the physical execution, cost observation, and repository lifecycle regression tests."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T23:38:45Z",
+  "workItemId": "WI-156-physical-execution-receipt"
+}

@@ -1,6 +1,7 @@
 use cockpit_core::Digest;
 use cockpit_verification::{
-    ExecutionResult, PhysicalExecutionKey, PhysicalSingleFlightCoordinator, WorkItemEvidenceReceipt,
+    ExecutionResult, PhysicalExecution, PhysicalExecutionKey, PhysicalSingleFlightCoordinator,
+    WorkItemEvidenceReceipt,
 };
 use std::sync::{
     Arc, Barrier,
@@ -89,6 +90,24 @@ fn cross_work_item_receipt_reference_is_rejected() {
     assert!(
         receipt
             .validate_for("WI-A", &physical.repository_id, &result)
+            .is_err()
+    );
+}
+
+#[test]
+fn recomputed_foreign_work_item_receipt_cannot_authorize_original_work_item() {
+    let physical = PhysicalExecution::new(key('b')).expect("physical");
+    let result = ExecutionResult::new(&physical, true, digest('1')).expect("result");
+    let mut foreign = WorkItemEvidenceReceipt::bind("WI-A", &result).expect("receipt");
+    foreign.work_item_id = "WI-B".into();
+    foreign.receipt_digest = foreign.recompute_digest().expect("recompute");
+
+    foreign
+        .validate_for("WI-B", &physical.key.repository_id, &result)
+        .expect("receipt is valid only for its declared Work Item");
+    assert!(
+        foreign
+            .validate_for("WI-A", &physical.key.repository_id, &result)
             .is_err()
     );
 }

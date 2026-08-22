@@ -156,3 +156,55 @@ fn protected_nodes_remain_executed_when_cost_is_observed() {
     assert_eq!(receipt.nodes_executed, 1);
     assert_eq!(receipt.cost_observation().nodes_executed, 1);
 }
+
+#[test]
+fn forged_cached_cost_observation_is_not_authoritative() {
+    let mut receipt = execute_bounded_at(
+        vec![VerificationCommand::new(
+            "ordinary",
+            "true",
+            vec![],
+            VerificationReusePolicy::NeverReuse,
+        )],
+        1,
+        NOW,
+    )
+    .expect("execution");
+    receipt.repository_id = Some(digest('a'));
+    receipt.runtime_version = Some("0.2.16".into());
+    receipt.runtime_digest = Some(digest('b'));
+    let mut cached = receipt.cost_observation();
+    cached.nodes_executed = cached.nodes_executed.saturating_add(99);
+    receipt.cost_observation = Some(cached);
+
+    let projected = receipt.cost_observation();
+    assert_eq!(projected.nodes_executed, receipt.nodes_executed);
+    assert_eq!(projected.confidence, VerificationCostConfidence::Unknown);
+    assert!(
+        projected
+            .unknowns
+            .contains(&"cost_observation_invalid".into())
+    );
+    assert!(
+        receipt
+            .validate_cost_observation(receipt.cost_observation.as_ref().unwrap())
+            .is_err()
+    );
+}
+
+#[test]
+fn uppercase_digest_is_not_a_canonical_complete_identity() {
+    let mut receipt = execute_bounded_at(vec![], 1, NOW).expect("empty execution");
+    receipt.repository_id =
+        Some("sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA".into());
+    receipt.runtime_version = Some("0.2.16".into());
+    receipt.runtime_digest = Some(digest('b'));
+
+    let observation = receipt.cost_observation();
+    assert_eq!(observation.confidence, VerificationCostConfidence::Unknown);
+    assert!(
+        observation
+            .unknowns
+            .contains(&"repository_identity_invalid".into())
+    );
+}
