@@ -1,0 +1,48 @@
+{
+  "captureMode": "full_capture",
+  "createdAt": "2026-08-22T01:11:33Z",
+  "passed": true,
+  "protocolVersion": 1,
+  "receipt": {
+    "elapsedMs": 2252,
+    "executionElapsedMs": 2037,
+    "filesHashed": 15,
+    "filesRead": 15,
+    "gitCalls": 8,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:4a6646e37b4e58043c178712c35bed9022b62abdeb016123846001f0761717c1",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:dda4dd396ce786556d7c2d9416b013228ed3e90e4f46d6879aa848225e7775cb",
+    "runtimeVersion": "0.2.4"
+  },
+  "receiptDigest": "sha256:834e48b1d7ee08dfa66cfb3eca558d0f3b9093c8f084dbb659abb5fecd598548",
+  "repositorySnapshotDigest": "sha256:14110456b8e982706d38165a82454c798020d697020b8495acbee10f4ad5c8a3",
+  "runtimeDigest": "sha256:dda4dd396ce786556d7c2d9416b013228ed3e90e4f46d6879aa848225e7775cb",
+  "runtimeVersion": "0.2.4",
+  "workItemId": "WI-97-scope-overlap"
+}

@@ -299,6 +299,11 @@ from the human-benefit report; an undeclared benefit remains `unknown`. The
 capability registry reports detection versus profile-confirmed verification and
 includes confidence and evidence. `inspect` fails closed for parallel execution
 when dependencies, conflicts, or scope compatibility are not explicitly known.
+Scope compatibility normalizes Windows `\\` separators, detects exact and
+nested-prefix overlaps (`src/**` with `src/main.rs` or `src/test/**`), and
+returns `scope_overlap_unknown` for patterns whose intersection cannot be
+proven. Unknown or empty scopes are not compatible; they never authorize
+parallel execution.
 Diagnosis reports measured snapshot and verification cost only; it does not
 pretend to be a benchmark.
 

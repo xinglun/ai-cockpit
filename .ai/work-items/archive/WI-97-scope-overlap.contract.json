@@ -1,0 +1,38 @@
+{
+  "acceptanceCriteria": [
+    "work_item_compatibility detects exact, wildcard, nested glob, and separator-normalized scope overlaps conservatively",
+    "src/** and src/main.rs, src/** and src/test/**, and Windows separator variants cannot be reported compatible",
+    "scope patterns that cannot be proven disjoint fail closed with scope_overlap_unknown",
+    "regression tests cover disjoint scopes, exact overlap, nested glob overlap, Windows separators, and conservative unknown handling",
+    "reader-facing command or capability documentation describes conservative parallel scope compatibility"
+  ],
+  "authority": "authorized",
+  "baseRevision": "c62c56073e848d35027f50747bf913b0ecc40011",
+  "createdAt": "2026-08-22T00:59:59Z",
+  "goal": "Prevent parallel Work Items with overlapping or uncertain repository scopes from being reported compatible.",
+  "intent": "Fix the repository-local Work Item compatibility check so scope overlap is detected conservatively across exact paths, nested globs, and path separators.",
+  "mode": "code",
+  "outOfScope": [
+    "changing Work Item identity or repository context semantics",
+    "changing verification scheduler execution or resource budgets",
+    "adding a dependency for a full glob engine",
+    "changing global Agent or MCP configuration",
+    "rewriting historical Work Item or release evidence"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:00e0c6a7e66e6324c489b2d9b21893946c69f254be550ad0c6ef0937545b525c",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/**",
+    "crates/cockpit-repository/tests/**",
+    "docs/**",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-97-scope-overlap"
+}
