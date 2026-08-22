@@ -1,0 +1,40 @@
+{
+  "acceptanceResults": [
+    "Contract has additive concurrencyBoundary with implementationPaths, generatedEvidencePaths, verificationOutputPaths, serializedProjectionPaths, reason, and schema",
+    "Existing depends/conflicts/parallelizable/scope-overlap sidecar remains backward compatible but is integrated into Contract compatibility",
+    "Repository-local parallel slot lease/reservation is race-safe; duplicate IDs and slot claims fail closed; maxWorkers is distinct from verify --workers",
+    "Unknown scope/boundary/slot state serializes or fails closed; Windows separators and concurrent repositories are covered",
+    "CLI/MCP and English/Chinese/Japanese docs expose the boundary without global configuration changes"
+  ],
+  "createdAt": "2026-08-22T08:22:52Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:c038a8511f749a282fc95230f7db4a2a0cc952d12599e7ac8c3f69e1c1a3585a",
+  "evidenceRefs": [
+    ".ai/evidence/WI-123-parallel-contract-boundary.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-123-parallel-contract-boundary.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-123-parallel-contract-boundary.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-123-parallel-contract-boundary"
+}

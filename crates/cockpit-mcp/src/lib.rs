@@ -18,6 +18,7 @@ const TOOL_NAMES: [&str; 13] = [
     "repository_observe",
     "preflight",
     "verify",
+    "work_item_parallel",
 ];
 
 pub fn handle_request(request: &Value, runtime: &cockpit_protocol::RuntimeContext) -> Value {
@@ -139,6 +140,10 @@ pub fn handle_request_for_repo(
                 .and_then(|_| preflight_for_repo(repo, &arguments, runtime))
         }
         "verify" => verify_for_repo(repo, &arguments, runtime),
+        "work_item_parallel" => {
+            require_compatible(repo, runtime)
+                .and_then(|_| work_item_parallel(repo, &arguments))
+        }
         _ => return error_response(id, -32602, "unknown tool"),
     };
     match result {
@@ -157,6 +162,64 @@ pub fn handle_request_for_repo(
         Err(error) => {
             json!({"jsonrpc":"2.0","id":id,"result":{"content":[{"type":"text","text":error.to_string()}],"isError":true}})
         }
+    }
+}
+
+fn work_item_parallel(repo: &Path, arguments: &Value) -> Result<Value, String> {
+    let action = arguments
+        .get("action")
+        .and_then(Value::as_str)
+        .unwrap_or("inspect");
+    match action {
+        "inspect" => {
+            let id = arguments
+                .get("workItemId")
+                .or_else(|| arguments.get("id"))
+                .and_then(Value::as_str)
+                .ok_or("workItemId argument is required for inspect")?;
+            validate_id(id)?;
+            let compatibility = cockpit_repository::work_item_compatibility(repo, id)
+                .map_err(|error| error.to_string())?;
+            let leases =
+                cockpit_repository::list_parallel_slots(repo).map_err(|error| error.to_string())?;
+            Ok(json!({
+                "workItemId": id,
+                "compatibility": compatibility,
+                "leases": leases,
+            }))
+        }
+        "acquire" => {
+            let id = arguments
+                .get("workItemId")
+                .or_else(|| arguments.get("id"))
+                .and_then(Value::as_str)
+                .ok_or("workItemId argument is required for acquire")?;
+            validate_id(id)?;
+            let lease = cockpit_repository::acquire_parallel_slot(repo, id)
+                .map_err(|error| error.to_string())?;
+            serde_json::to_value(lease).map_err(|error| error.to_string())
+        }
+        "release" => {
+            let id = arguments
+                .get("workItemId")
+                .or_else(|| arguments.get("id"))
+                .and_then(Value::as_str)
+                .ok_or("workItemId argument is required for release")?;
+            let lease_id = arguments
+                .get("leaseId")
+                .and_then(Value::as_str)
+                .ok_or("leaseId argument is required for release")?;
+            validate_id(id)?;
+            let lease = cockpit_repository::release_parallel_slot(repo, id, lease_id)
+                .map_err(|error| error.to_string())?;
+            serde_json::to_value(lease).map_err(|error| error.to_string())
+        }
+        "list" => {
+            let leases =
+                cockpit_repository::list_parallel_slots(repo).map_err(|error| error.to_string())?;
+            Ok(json!({"leases": leases}))
+        }
+        _ => Err("action must be inspect, acquire, release, or list".into()),
     }
 }
 

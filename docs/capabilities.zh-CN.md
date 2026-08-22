@@ -308,7 +308,7 @@ ai-cockpit mcp --repo /path/to/repository
 ```
 
 服务提供 `status`、`work_item_get`、`work_item_outcome`、`work_item_list`、`blockers`、`safe_actions`、
-`knowledge_query`、`evidence_get`、`delegated_evidence_list`、`repository_observe`、`preflight`、`verify` 十二个工具。
+`knowledge_query`、`evidence_get`、`delegated_evidence_list`、`repository_observe`、`preflight`、`verify`、`work_item_parallel` 十三个工具。
 用 `tools/list` 查看 JSON-RPC schema；`preflight` 要求 repository-relative `contract`，
 `verify` 接受 `command`、字符串数组 `args` 和可选 `workItemId`。未绑定 repository 的调用
 会 fail closed。结果包含 `structuredContent`、文本 content 和 `isError`。CLI 与 MCP 共用同一
@@ -348,3 +348,16 @@ identity provider、合规证书，也不是人工 review 的替代品。外部 
 2. [架构](architecture.zh-CN.md)
 3. [设计思想](philosophy.zh-CN.md)
 4. [Repository Protocol v1](protocol/v1/specification.zh-CN.md)
+
+## 并行 Work Item 边界
+
+并行执行由 Contract 明确授权。可用 `work-item boundary --repo <path> --id <id> --file <boundary.json>`
+写入可选的 `concurrencyBoundary`，包含 `implementationPaths`、`generatedEvidencePaths`、
+`verificationOutputPaths`、`serializedProjectionPaths`、`reason`、`schemaVersion` 和 `maxWorkers`。
+既有 intelligence sidecar 继续声明 depends/conflicts/parallelizable；Contract 边界与 sidecar 必须一致且
+所有路径类别都要保守比较。缺失、格式错误、绝对路径、父路径或无法判定的 glob 都会序列化并 fail closed。
+`maxWorkers` 是 repository-local slot 容量，与单次 `verify --workers` 不同。
+
+使用 `work-item slot acquire|release|list --repo <path>` 管理 `.ai/parallel/leases/` 下的绑定 lease。
+lease 包含 repositoryId、workItemId、slot 和唯一 leaseId，没有自动过期；不同 repository 的状态完全隔离。
+MCP 的 `work_item_parallel` 提供同样的 `inspect`、`acquire`、`release`、`list` 操作。

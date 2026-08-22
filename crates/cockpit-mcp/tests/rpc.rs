@@ -1,4 +1,4 @@
-use cockpit_mcp::handle_request;
+use cockpit_mcp::{handle_request, handle_request_for_repo};
 use std::{
     fs,
     process::Command,
@@ -90,9 +90,36 @@ fn mcp_initialize_and_tool_list_are_read_only_and_deterministic() {
             "delegated_evidence_list",
             "repository_observe",
             "preflight",
-            "verify"
+            "verify",
+            "work_item_parallel"
         ]
     );
+}
+
+#[test]
+fn mcp_parallel_tool_exposes_explicit_repository_bound_slot_list() {
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-mcp-parallel-list-{}",
+        NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed)
+    ));
+    fs::create_dir_all(&directory).expect("repository");
+    let runtime = test_runtime_context();
+    let response = handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc": "2.0",
+            "id": 3,
+            "method": "tools/call",
+            "params": {"name": "work_item_parallel", "arguments": {"action": "list"}}
+        }),
+        &directory,
+        &runtime,
+    );
+    assert_eq!(response["result"]["isError"], false);
+    assert_eq!(
+        response["result"]["structuredContent"]["leases"],
+        serde_json::json!([])
+    );
+    fs::remove_dir_all(directory).expect("cleanup");
 }
 
 #[test]

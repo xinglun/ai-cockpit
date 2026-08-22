@@ -13,6 +13,7 @@ capabilityClaims:
   - mcp_adapter
   - agent_discovery_adapter
   - bounded_verification
+  - parallel_contract_boundary
 ---
 
 # Capabilities and Boundaries
@@ -57,6 +58,7 @@ missing. Review the attached profile before relying on evidence reuse.
 | Work Item scaffold | Create a validator-readable skeleton without inventing governance decisions. | `ai-cockpit work-item new --repo <path> --id <id> --mode <mode>` | `not_ready` Contract with snapshot-derived facts and a list of human inputs still required. |
 | Profile proposal | Derive a candidate profile amendment without changing the formal baseline. | `ai-cockpit profile propose --repo <path>` | Read-only `candidate`/`proposed` output. |
 | Agent adapter | Let a selected Agent host discover this repository through an owned, reversible section. | `ai-cockpit agent list/install/doctor --repo <path>` | Repository-bound discovery, ownership, state, and safe actions; no global configuration. |
+| Parallel boundary and slots | Declare Contract-owned path boundaries and reserve bounded repository-local execution slots. | `ai-cockpit work-item boundary/slot ...` | Compatibility, leases, and fail-closed serialization; independent from `verify --workers`. |
 
 ## User-facing paths
 
@@ -195,6 +197,37 @@ the same ID, exactly one creates the Contract and summary and the other fails
 closed; the reservation is removed after a committed pair. Different
 repositories have independent reservations and can scaffold the same ID in
 parallel.
+
+### Govern parallel Work Items
+
+Parallel execution is Contract-bound. A boundary JSON contains the additive
+`concurrencyBoundary` object with `implementationPaths`,
+`generatedEvidencePaths`, `verificationOutputPaths`,
+`serializedProjectionPaths`, a human reason, schema version, and `maxWorkers`.
+Bind it explicitly:
+
+```bash
+ai-cockpit work-item boundary --repo /path/to/repository --id WI-123 \
+  --file boundary.json
+ai-cockpit work-item declare --repo /path/to/repository --id WI-123 \
+  --parallelizable
+ai-cockpit work-item slot acquire --repo /path/to/repository --id WI-123
+ai-cockpit work-item slot list --repo /path/to/repository
+ai-cockpit work-item slot release --repo /path/to/repository --id WI-123 \
+  --lease-id <lease-id>
+```
+
+The existing intelligence sidecar remains the source for dependencies,
+declared conflicts, and the compatibility projection. When a Contract
+boundary is present, both Work Items must have explicit compatible declarations
+and all four path classes are compared conservatively. Missing, malformed,
+unsupported, absolute, parent, or ambiguous paths serialize execution and
+cannot authorize a slot. `maxWorkers` controls these repository-local slots;
+it is not `verify --workers`, which only bounds one verification run. Leases
+are exclusive files under `.ai/parallel/leases/`, carry repository and Work
+Item identity, and have no implicit expiry. MCP exposes the same bounded
+surface as `work_item_parallel` with explicit `inspect`, `acquire`, `release`,
+and `list` actions.
 
 ### Propose a profile amendment
 

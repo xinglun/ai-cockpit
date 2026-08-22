@@ -24,6 +24,7 @@ capabilityClaims:
 | Migration | `migrate apply --approved` | review 済みの repository schema migration だけを適用し、Runtime-bound migration receipt を作る。 |
 | Governance | `preflight` | Contract を読み green/yellow/red decision と `reviewState` を返す。不完全・不確実な Contract は human-review yellow となり checkpoint を越えられない。 |
 | Work Item | `work-item new`、`start`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls` | skeleton、validation、または lifecycle record を作る。`close` は human decision が必要。 |
+| Parallel Work Item | `work-item boundary`、`work-item declare`、`work-item slot acquire|release|list` | Contract の並列境界を bind し、repository-local slot を管理する。不明な場合は serialize する。 |
 | Verification | `verify` | bounded command を実行し evidence を記録する。Work Item に bind できる。 |
 | External evidence | `evidence import`、`evidence list`、`evidence policy`、`evidence purge-plan` | exact provider bytes の bind、bounded persistence policy の宣言、または決定論的な非破壊 disposal plan の生成。 |
 | Audit | `audit export` | repository-bound な安定 event bundle を外部 retention owner へ handoff する。local immutability は主張しない。 |
@@ -35,6 +36,12 @@ capabilityClaims:
   `--work-item <id>` は receipt を記録し、同じく fresh execution を強制します。
 - `--command` なしの `verify` は Cargo または npm を検出し、confirmed profile で cross-process reuse できます。
 - `verify --workers <n>` は positive worker count を要求し concurrency を制限します。
+- `work-item boundary --repo <path> --id <id> --file <boundary.json>` は optional な
+  `concurrencyBoundary` を Contract に bind します。4 種類の path と `maxWorkers` を検証しますが、
+  `maxWorkers` は slot 容量であり `verify --workers` とは別です。
+- `work-item slot acquire|release|list` は `.ai/parallel/leases/` の exclusive lease を管理します。
+  lease は repository と Work Item に bind され、欠落・壊れた boundary、曖昧な path、stale state は fail closed
+  になります。global な current Work Item は作りません。
 - `start` は `--id`、`--intent`、`--goal` が必須です。green governed flow には `--authority authorized` が必要です。
 - `work-item new --repo <path> --id <id> --mode <mode>` は `not_ready` skeleton を作ります。snapshot-derived facts だけを埋め、
   human field は空または `unknown` のままです。移行期の `start` も同じ writer を使います。repository-local の

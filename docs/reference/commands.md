@@ -26,6 +26,7 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
 | Migration | `migrate apply --approved` | Apply only the reviewed repository-schema migration and write a runtime-bound migration receipt. |
 | Governance | `preflight` | Read a Contract and return a green/yellow/red decision plus `reviewState`; incomplete or uncertain Contracts are human-review yellow and cannot cross checkpoint. |
 | Work Item | `work-item new`, `start`, `checkpoint`, `finish`, `archive`, `close`, `validate`, `controls` | Scaffold, validate, or write explicit lifecycle records; `close` requires a human decision. |
+| Parallel Work Item | `work-item boundary`, `work-item declare`, `work-item slot acquire|release|list` | Bind Contract-owned concurrency paths and reserve repository-local slots; unknown boundaries serialize. |
 | Verification | `verify` | Execute bounded commands, record evidence, and optionally bind it to a Work Item. |
 | External evidence | `evidence import`, `evidence list`, `evidence policy`, `evidence purge-plan` | Bind exact provider bytes, declare bounded persistence, or produce a deterministic non-destructive disposal plan. |
 | Audit | `audit export` | Produce a stable repository-bound event bundle for an external retention owner; never claim local immutability. |
@@ -39,6 +40,14 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
 - `verify` without `--command` detects Cargo or npm and may use a confirmed
   profile for cross-process reuse.
 - `verify --workers <n>` requires a positive worker count and caps concurrency.
+- `work-item boundary --repo <path> --id <id> --file <boundary.json>` binds an
+  additive Contract `concurrencyBoundary`. Its four path classes and
+  `maxWorkers` are validated; `maxWorkers` is a slot capacity and is distinct
+  from `verify --workers`.
+- `work-item slot acquire|release|list` manages exclusive leases under
+  `.ai/parallel/leases/`. Leases carry repository and Work Item identity. A
+  missing, malformed, ambiguous, unsafe, or stale lease/boundary fails closed;
+  there is no implicit expiry or global current Work Item.
 - `start` requires `--id`, `--intent`, and `--goal`; `--authority authorized`
   is needed for a green governed flow.
 - `work-item new --repo <path> --id <id> --mode <mode>` creates a `not_ready`

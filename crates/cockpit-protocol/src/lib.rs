@@ -896,7 +896,11 @@ pub struct Contract {
     #[serde(default)]
     pub scenario_coverage: Option<serde_json::Value>,
     #[serde(default)]
-    pub concurrency_boundary: Option<serde_json::Value>,
+    /// Explicit paths and serialized projections that govern whether this
+    /// Work Item may share a parallel execution slot with another item.
+    /// `None` preserves protocol-v1 Contract compatibility; callers must use
+    /// the legacy intelligence/scope projection in that case.
+    pub concurrency_boundary: Option<ConcurrencyBoundary>,
     #[serde(default)]
     pub checkpoint_policy: Option<serde_json::Value>,
     #[serde(default)]
@@ -917,6 +921,94 @@ pub struct Contract {
     pub restricted_write_approval: Option<serde_json::Value>,
     #[serde(default)]
     pub adoption_bootstrap_paths: Vec<String>,
+}
+
+pub const CONCURRENCY_BOUNDARY_SCHEMA_VERSION: u32 = 1;
+pub const PARALLEL_SLOT_LEASE_SCHEMA_VERSION: u32 = 1;
+
+/// A Contract-owned parallelism boundary.  The path classes are deliberately
+/// separate so an Agent can explain why two Work Items must serialize rather
+/// than treating `scope` as an opaque permission to run concurrently.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ConcurrencyBoundary {
+    #[serde(default = "default_concurrency_boundary_schema_version")]
+    pub schema_version: u32,
+    pub implementation_paths: Vec<String>,
+    pub generated_evidence_paths: Vec<String>,
+    pub verification_output_paths: Vec<String>,
+    pub serialized_projection_paths: Vec<String>,
+    #[serde(default = "default_parallel_max_workers")]
+    pub max_workers: u32,
+    pub reason: String,
+}
+
+fn default_concurrency_boundary_schema_version() -> u32 {
+    CONCURRENCY_BOUNDARY_SCHEMA_VERSION
+}
+
+fn default_parallel_max_workers() -> u32 {
+    1
+}
+
+impl ConcurrencyBoundary {
+    pub fn validate(&self) -> Result<(), String> {
+        if self.schema_version != CONCURRENCY_BOUNDARY_SCHEMA_VERSION {
+            return Err(format!(
+                "unsupported concurrency boundary schema {}",
+                self.schema_version
+            ));
+        }
+        if self.max_workers == 0 {
+            return Err("concurrency boundary maxWorkers must be positive".into());
+        }
+        if self.reason.trim().is_empty() {
+            return Err("concurrency boundary reason must not be empty".into());
+        }
+        if self.all_paths().is_empty() {
+            return Err("concurrency boundary must declare at least one path".into());
+        }
+        Ok(())
+    }
+
+    pub fn all_paths(&self) -> Vec<(&'static str, &str)> {
+        self.implementation_paths
+            .iter()
+            .map(|path| ("implementationPaths", path.as_str()))
+            .chain(
+                self.generated_evidence_paths
+                    .iter()
+                    .map(|path| ("generatedEvidencePaths", path.as_str())),
+            )
+            .chain(
+                self.verification_output_paths
+                    .iter()
+                    .map(|path| ("verificationOutputPaths", path.as_str())),
+            )
+            .chain(
+                self.serialized_projection_paths
+                    .iter()
+                    .map(|path| ("serializedProjectionPaths", path.as_str())),
+            )
+            .collect()
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ParallelSlotLease {
+    #[serde(default = "default_parallel_slot_lease_schema_version")]
+    pub schema_version: u32,
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub slot_id: u32,
+    pub lease_id: String,
+    pub max_workers: u32,
+    pub acquired_at: String,
+}
+
+fn default_parallel_slot_lease_schema_version() -> u32 {
+    PARALLEL_SLOT_LEASE_SCHEMA_VERSION
 }
 
 /// Provenance for a repository fact.  The Runtime never promotes a derived
