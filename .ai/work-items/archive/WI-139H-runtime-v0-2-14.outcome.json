@@ -1,0 +1,135 @@
+{
+  "acceptanceResults": [
+    "Public GitHub Release v0.2.14 exists with immutable assets and checksums",
+    "Installed public binary reports v0.2.14 and matching SHA256 identity",
+    "Installed binary inspect/status/doctor pass for this repository"
+  ],
+  "createdAt": "2026-08-22T18:33:49Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:d957d4719968967e598c6c059e2dccadbf9ce6263c2e354de2c32c04a2c0e798",
+  "evidenceRefs": [
+    ".ai/evidence/WI-139H-runtime-v0-2-14.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-139H-runtime-v0-2-14.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-139H-runtime-v0-2-14.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:aae9aa6ed6903ebf13252e88c3afb6cf3bc4b202c3241ecbabaa012ca1bd2c7d",
+      "workItemId": "WI-139H-runtime-v0-2-14"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139H-runtime-v0-2-14.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-139H-runtime-v0-2-14.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139H-runtime-v0-2-14.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139H-runtime-v0-2-14.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139H-runtime-v0-2-14.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139H-runtime-v0-2-14.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139H-runtime-v0-2-14.contract.json"
+          ],
+          "inference": false,
+          "text": "Release v0.2.14 with public assets and verify the installed binary before using it for WI-139G lifecycle recovery."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139H-runtime-v0-2-14.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-139H-runtime-v0-2-14"
+  },
+  "taskReportDigest": "sha256:ff54f83335fcd5054ea6e7585c4b49d09210ddaf5872efa1d85385ba4a84bd48",
+  "taskReportMarkdownDigest": "sha256:1f2b1c5be2bebf8ac8de850e098a41f51790fb8a30c34ed0803aceee68b1db68",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-139H-runtime-v0-2-14.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-139H-runtime-v0-2-14"
+}

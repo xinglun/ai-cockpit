@@ -1,0 +1,40 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-22T18:26:48Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T18:25:59Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-139H-runtime-v0-2-14.verification.json"
+    ],
+    "reason": "The release acceptance evidence directly addresses the bounded Runtime publication and installation goal.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-22T18:33:15Z",
+  "preflightContractDigest": "sha256:43755c44078323bf317218ef3e2bb6e0d82908460cfa8c7bcddd1f659db169ea",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:aae9aa6ed6903ebf13252e88c3afb6cf3bc4b202c3241ecbabaa012ca1bd2c7d",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-139H-runtime-v0-2-14.verification.json",
+        ".ai/decisions/WI-139H-runtime-v0-2-14.public-release.json"
+      ],
+      "expected": "The immutable public Release binary is installed and its runtime identity and repository health are verified.",
+      "required": true,
+      "scenario": "public v0.2.14 Release binary acceptance",
+      "status": "verified",
+      "verificationPlan": "Download public assets, verify SHA256, install the binary, run inspect/status/doctor, then run the installed Runtime verification."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T18:33:49Z",
+  "workItemId": "WI-139H-runtime-v0-2-14"
+}

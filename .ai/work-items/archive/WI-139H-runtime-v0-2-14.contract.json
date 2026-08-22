@@ -1,0 +1,55 @@
+{
+  "acceptanceCriteria": [
+    "Public GitHub Release v0.2.14 exists with immutable assets and checksums",
+    "Installed public binary reports v0.2.14 and matching SHA256 identity",
+    "Installed binary inspect/status/doctor pass for this repository"
+  ],
+  "authority": "authorized",
+  "baseRevision": "4189983d7c9b2f2c8f0ad3cc84ab9b2ee4281277",
+  "createdAt": "2026-08-22T18:25:59Z",
+  "goal": "Release v0.2.14 with public assets and verify the installed binary before using it for WI-139G lifecycle recovery.",
+  "intent": "Publish the merged stale-predecessor supersession Runtime as v0.2.14 and install only the immutable public Release for adopter validation.",
+  "mode": "implementation",
+  "outOfScope": [
+    "new Runtime behavior beyond merged WI-139G",
+    "source fallback or local target binary acceptance"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:66e6920d07b999f166de8427258fd4c3a26f9db9a863396db4e2996422e72500",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/**",
+    "docs/release/*",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    ".github/workflows/**",
+    "dist/**"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "public v0.2.14 Release binary acceptance",
+      "required": true,
+      "status": "unverified",
+      "expected": "The immutable public Release binary is installed and its runtime identity and repository health are verified.",
+      "verificationPlan": "Download public assets, verify SHA256, install the binary, run inspect/status/doctor, then run the installed Runtime verification."
+    }
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-139H-runtime-v0-2-14"
+}
