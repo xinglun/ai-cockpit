@@ -1,0 +1,21 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "user-authorized-maintainer",
+    "authoritySource": "explicit-user-release-authorization",
+    "decidedAt": "2026-08-22T07:34:04Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-119-contract-preflight-gate.verification.json"
+    ],
+    "policyRefs": [
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "User authorized merge after PR #52 CI passed; Contract preflight human-review gate is approved.",
+    "resumeCondition": "Reopen if a release adopter or audit finds a gate regression."
+  },
+  "timestamp": "2026-08-22T07:34:04Z",
+  "workItemId": "WI-119-contract-preflight-gate"
+}
