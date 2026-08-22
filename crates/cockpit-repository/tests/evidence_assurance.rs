@@ -13,6 +13,7 @@ use serde_json::Value;
 use std::{fs, process::Command};
 
 type EvidenceMutation = (&'static str, fn(&mut Value));
+type RetentionMutation = (&'static str, fn(&mut Value, &mut Value));
 
 fn repository() -> tempfile::TempDir {
     let directory = tempfile::tempdir().expect("tempdir");
@@ -171,7 +172,7 @@ fn strict_evidence_rejects_unknown_envelope_and_nested_fields() {
 
 #[test]
 fn retention_schema_and_identity_are_bound_to_evidence_and_repository() {
-    let mutations: [(&str, fn(&mut Value, &mut Value)); 6] = [
+    let mutations: [RetentionMutation; 6] = [
         ("standalone-schema", |standalone, _embedded| {
             standalone["schemaVersion"] = 999.into();
         }),
