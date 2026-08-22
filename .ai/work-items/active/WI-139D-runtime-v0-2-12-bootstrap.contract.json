@@ -1,0 +1,44 @@
+{
+  "acceptanceCriteria": [
+    "A1: package and documentation versions identify v0.2.12 consistently",
+    "A2: release workflow and policy checks pass with supported action runtime",
+    "A3: immutable release artifacts publish with matching checksums and runtime identity",
+    "A4: installed v0.2.12 exposes decisionEvidence controls and governs a fresh repository-bound review"
+  ],
+  "authority": "authorized",
+  "baseRevision": "9393e74efd43824411f5b04adf6a02042228d9e7",
+  "createdAt": "2026-08-22T16:00:35Z",
+  "goal": "Install a Runtime that can record the bounded human review controls required by subsequent high-risk Work Items",
+  "intent": "Publish the merged Runtime governance capabilities as the next immutable installable release",
+  "mode": "implementation",
+  "outOfScope": [
+    "new governance behavior beyond merged WI-139A and WI-139B",
+    "historical evidence rewriting",
+    "global Agent or MCP configuration",
+    "Homebrew tap repository mutations"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:13598ab98d49b0e74a7bff1f3a224bcf03de09b91902f13ca4628bcf1b39b89e",
+  "requiredEvidenceClasses": [
+    "verification",
+    "release"
+  ],
+  "risk": "medium",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "crates/**/Cargo.toml",
+    "docs/release/**",
+    "docs/architecture/versioning*",
+    ".github/workflows/release.yml",
+    "tests/release/version_consistency.sh",
+    "tests/release/workflow_policy.sh",
+    "tests/release/action_runtime_policy.sh"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-139D-runtime-v0-2-12-bootstrap"
+}
