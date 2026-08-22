@@ -662,16 +662,198 @@ pub struct AuditExportManifest {
     pub events: Vec<AuditEvent>,
 }
 
+/// The reference Contract accepts both the legacy one-line intent and the
+/// structured V2 intent.  Keeping the two representations in one tagged
+/// value lets old repository bytes remain readable while preventing the
+/// Runtime from silently discarding a structured declaration.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[serde(untagged)]
+pub enum ContractIntent {
+    Text(String),
+    Structured(ContractIntentDetails),
+}
+
+impl Default for ContractIntent {
+    fn default() -> Self {
+        Self::Text(String::new())
+    }
+}
+
+impl From<String> for ContractIntent {
+    fn from(value: String) -> Self {
+        Self::Text(value)
+    }
+}
+
+impl From<&str> for ContractIntent {
+    fn from(value: &str) -> Self {
+        Self::Text(value.into())
+    }
+}
+
+impl ContractIntent {
+    pub fn is_empty(&self) -> bool {
+        match self {
+            Self::Text(value) => value.trim().is_empty(),
+            Self::Structured(value) => value.is_empty(),
+        }
+    }
+
+    pub fn as_text(&self) -> Option<&str> {
+        match self {
+            Self::Text(value) => Some(value),
+            Self::Structured(_) => None,
+        }
+    }
+
+    pub fn structured(&self) -> Option<&ContractIntentDetails> {
+        match self {
+            Self::Text(_) => None,
+            Self::Structured(value) => Some(value),
+        }
+    }
+}
+
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ContractIntentDetails {
+    #[serde(default)]
+    pub business_goal: Option<String>,
+    #[serde(default)]
+    pub user_goal: Option<String>,
+    #[serde(default)]
+    pub problem: Option<String>,
+    #[serde(default)]
+    pub constraints: Vec<String>,
+    #[serde(default)]
+    pub non_goals: Vec<String>,
+    #[serde(default)]
+    pub rationale: Option<String>,
+}
+
+impl ContractIntentDetails {
+    fn is_empty(&self) -> bool {
+        self.business_goal
+            .as_deref()
+            .is_none_or(|value| value.trim().is_empty())
+            && self
+                .user_goal
+                .as_deref()
+                .is_none_or(|value| value.trim().is_empty())
+            && self
+                .problem
+                .as_deref()
+                .is_none_or(|value| value.trim().is_empty())
+            && self.constraints.is_empty()
+            && self.non_goals.is_empty()
+            && self
+                .rationale
+                .as_deref()
+                .is_none_or(|value| value.trim().is_empty())
+    }
+}
+
+/// Source references may be legacy strings or explicit path/reason objects.
+/// New V2 authors should use the structured representation; the legacy variant
+/// is retained so archived protocol-v1 Contracts are not rewritten.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum ContractSource {
+    Legacy(String),
+    Structured(ContractSourceDetails),
+}
+
+impl From<String> for ContractSource {
+    fn from(value: String) -> Self {
+        Self::Legacy(value)
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ContractSourceDetails {
+    pub path: String,
+    pub reason: String,
+}
+
+/// Verification declarations are descriptive inputs. They never authorize
+/// skipping execution and can be represented as a legacy command/capability
+/// string or a typed V2 check.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum VerificationDeclaration {
+    Legacy(String),
+    Check(VerificationCheck),
+}
+
+impl From<String> for VerificationDeclaration {
+    fn from(value: String) -> Self {
+        Self::Legacy(value)
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct VerificationCheck {
+    pub check: String,
+    #[serde(default)]
+    pub required: bool,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ContractRiskAssessment {
+    pub level: String,
+    #[serde(default)]
+    pub risk_types: Vec<String>,
+    #[serde(default)]
+    pub reason: Option<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ContractAgentCapability {
+    pub can_implement: bool,
+    pub can_verify: bool,
+    pub needs_human_decision: bool,
+    #[serde(default)]
+    pub blocked_reason: Option<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ContractExecutionDecision {
+    pub status: String,
+    pub reason: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct DestructiveChangePolicy {
+    pub allowed: bool,
+    pub requires_human_approval: bool,
+    #[serde(default)]
+    pub allow_patterns: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct Contract {
     pub protocol_version: u32,
+    #[serde(default)]
+    pub contract_version: Option<u32>,
     pub repository_id: String,
     #[serde(default)]
     pub work_item_id: String,
     #[serde(default)]
+    pub mode: Option<String>,
+    #[serde(default)]
+    pub title: Option<String>,
+    #[serde(default)]
     pub state: Option<String>,
-    pub intent: String,
+    #[serde(default)]
+    pub created_at: Option<String>,
+    pub intent: ContractIntent,
     pub goal: String,
     pub scope: Vec<String>,
     pub out_of_scope: Vec<String>,
@@ -679,14 +861,10 @@ pub struct Contract {
     pub authority: String,
     pub acceptance_criteria: Vec<String>,
     pub required_evidence_classes: Vec<String>,
-    /// Human/source references used to explain why the Contract is bounded.
-    /// These are additive and default empty for protocol-v1 repositories.
     #[serde(default)]
-    pub sources: Vec<String>,
-    /// Declared verification commands or capability references.  The Runtime
-    /// treats these as declarations, never as authority to skip verification.
+    pub sources: Vec<ContractSource>,
     #[serde(default)]
-    pub verification: Vec<String>,
+    pub verification: Vec<VerificationDeclaration>,
     pub base_revision: String,
     pub project_profile_digest: Digest,
     pub repository_snapshot_digest: Digest,
@@ -694,6 +872,51 @@ pub struct Contract {
     pub operation: Option<String>,
     #[serde(default)]
     pub governance_policy: Option<GovernancePolicy>,
+    #[serde(default)]
+    pub problem_statement: Option<String>,
+    #[serde(default)]
+    pub risk_assessment: Option<ContractRiskAssessment>,
+    #[serde(default)]
+    pub agent_capability: Option<ContractAgentCapability>,
+    #[serde(default)]
+    pub execution_decision: Option<ContractExecutionDecision>,
+    #[serde(default)]
+    pub destructive_change_policy: Option<DestructiveChangePolicy>,
+    #[serde(default)]
+    pub rollback_note: Option<String>,
+    #[serde(default)]
+    pub rollback_plan: Option<serde_json::Value>,
+    #[serde(default)]
+    pub unknowns: Vec<String>,
+    #[serde(default)]
+    pub not_codable: Option<bool>,
+    /// Reserved as typed protocol fields by WI-122 and WI-123.  Keeping the
+    /// outer fields explicit now prevents silent top-level drops while their
+    /// domain validators evolve independently.
+    #[serde(default)]
+    pub scenario_coverage: Option<serde_json::Value>,
+    #[serde(default)]
+    pub concurrency_boundary: Option<serde_json::Value>,
+    #[serde(default)]
+    pub checkpoint_policy: Option<serde_json::Value>,
+    #[serde(default)]
+    pub human_decision_points: Option<serde_json::Value>,
+    #[serde(default)]
+    pub documentation_impact: Option<serde_json::Value>,
+    #[serde(default)]
+    pub performance_impact: Option<serde_json::Value>,
+    #[serde(default)]
+    pub residual_risk_expectation: Option<String>,
+    #[serde(default)]
+    pub governance_profile: Option<serde_json::Value>,
+    #[serde(default)]
+    pub requested_operation: Option<String>,
+    #[serde(default)]
+    pub implementation_surface: Option<serde_json::Value>,
+    #[serde(default)]
+    pub restricted_write_approval: Option<serde_json::Value>,
+    #[serde(default)]
+    pub adoption_bootstrap_paths: Vec<String>,
 }
 
 /// Provenance for a repository fact.  The Runtime never promotes a derived

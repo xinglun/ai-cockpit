@@ -385,6 +385,28 @@ pub struct GovernanceInput {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HumanDecisionOption {
+    pub id: String,
+    pub label: String,
+    pub effect: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HumanDecisionRequest {
+    pub decision_id: String,
+    pub status: String,
+    pub what_happened: String,
+    pub why_it_matters: String,
+    pub options: Vec<HumanDecisionOption>,
+    pub recommended_option: String,
+    pub recommendation_reason: String,
+    pub question: String,
+    pub resume_condition: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct GovernanceDecision {
     pub state: DecisionState,
     pub blockers: Vec<String>,
@@ -403,6 +425,15 @@ pub struct GovernanceDecision {
         skip_serializing_if = "Option::is_none"
     )]
     pub review_state: Option<String>,
+    /// Structured, repository-neutral input for the Agent/adapter handoff.
+    /// The repository layer adds identity-bound review receipts; this request
+    /// never constitutes approval by itself.
+    #[serde(
+        rename = "humanDecisionRequest",
+        default,
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub human_decision_request: Option<HumanDecisionRequest>,
 }
 
 fn matches_pattern(path: &str, pattern: &str) -> bool {
@@ -413,6 +444,30 @@ fn matches_pattern(path: &str, pattern: &str) -> bool {
         return path == prefix || path.starts_with(&format!("{prefix}/"));
     }
     path == pattern
+}
+
+fn requires_human_confirmation_unknown(unknown: &str) -> bool {
+    matches!(
+        unknown,
+        "destructive_change_without_authority"
+            | "human_authority_missing"
+            | "coverage_weakening"
+            | "contract_intent_missing"
+            | "contract_goal_missing"
+            | "contract_scope_missing"
+            | "contract_out_of_scope_missing"
+            | "contract_acceptance_missing"
+            | "contract_intent_problem_missing"
+            | "contract_intent_constraints_missing"
+            | "contract_intent_rationale_missing"
+            | "contract_intent_structured_required"
+            | "contract_problem_statement_missing"
+            | "contract_not_codable"
+            | "agent_cannot_implement"
+            | "agent_cannot_verify"
+            | "agent_needs_human_decision"
+    ) || unknown.starts_with("contract_declared_unknown:")
+        || unknown.starts_with("execution_decision:")
 }
 
 pub fn evaluate(input: GovernanceInput) -> GovernanceDecision {
@@ -634,19 +689,9 @@ pub fn evaluate(input: GovernanceInput) -> GovernanceDecision {
     let outcome_state = input.outcome_state_override.unwrap_or_else(|| match state {
         DecisionState::Green => "ready".into(),
         DecisionState::Yellow
-            if unknowns.iter().any(|unknown| {
-                matches!(
-                    unknown.as_str(),
-                    "destructive_change_without_authority"
-                        | "human_authority_missing"
-                        | "coverage_weakening"
-                        | "contract_intent_missing"
-                        | "contract_goal_missing"
-                        | "contract_scope_missing"
-                        | "contract_out_of_scope_missing"
-                        | "contract_acceptance_missing"
-                )
-            }) =>
+            if unknowns
+                .iter()
+                .any(|unknown| requires_human_confirmation_unknown(unknown)) =>
         {
             "needs_human_decision".into()
         }
@@ -663,25 +708,45 @@ pub fn evaluate(input: GovernanceInput) -> GovernanceDecision {
     });
     let review_state = if state == DecisionState::Red {
         Some("blocked".into())
-    } else if unknowns.iter().any(|unknown| {
-        matches!(
-            unknown.as_str(),
-            "human_authority_missing"
-                | "destructive_change_without_authority"
-                | "contract_intent_missing"
-                | "contract_goal_missing"
-                | "contract_scope_missing"
-                | "contract_out_of_scope_missing"
-                | "contract_acceptance_missing"
-                | "coverage_weakening"
-        )
-    }) {
+    } else if unknowns
+        .iter()
+        .any(|unknown| requires_human_confirmation_unknown(unknown))
+    {
         Some("needs_human_confirmation".into())
     } else if state == DecisionState::Yellow {
         Some("verification_pending".into())
     } else {
         Some("ready".into())
     };
+    let human_decision_request = (review_state.as_deref() == Some("needs_human_confirmation"))
+        .then(|| HumanDecisionRequest {
+            decision_id: "contract-preflight-review".into(),
+            status: "needs_human_confirmation".into(),
+            what_happened: "The current Contract contains unresolved governance facts.".into(),
+            why_it_matters:
+                "An Agent must not turn uncertainty about intent, authority, scope, or policy into an implementation decision.".into(),
+            options: vec![
+                HumanDecisionOption {
+                    id: "complete_contract".into(),
+                    label: "Complete or amend the Contract".into(),
+                    effect: "Provide the missing human-owned facts, then rerun preflight.".into(),
+                },
+                HumanDecisionOption {
+                    id: "confirm_review".into(),
+                    label: "Confirm a bounded human decision".into(),
+                    effect: "Bind an identity-matched review receipt before checkpoint.".into(),
+                },
+                HumanDecisionOption {
+                    id: "stop_work".into(),
+                    label: "Stop the Work Item".into(),
+                    effect: "Leave the item recoverable without entering implementation.".into(),
+                },
+            ],
+            recommended_option: "complete_contract".into(),
+            recommendation_reason: "The unresolved fields are human-owned and cannot be inferred from repository facts.".into(),
+            question: "Which bounded decision should authorize the next step?".into(),
+            resume_condition: "A repository-bound human review receipt matches repository, Work Item, Contract, and snapshot digests.".into(),
+        });
     GovernanceDecision {
         state,
         blockers,
@@ -691,6 +756,7 @@ pub fn evaluate(input: GovernanceInput) -> GovernanceDecision {
         authority,
         outcome_state,
         review_state,
+        human_decision_request,
     }
 }
 

@@ -1,0 +1,21 @@
+{
+  "changedPaths": [
+    "docs/work-items/WI-121-contract-v2.ja.md",
+    "docs/work-items/WI-121-contract-v2.md",
+    "docs/work-items/WI-121-contract-v2.zh-CN.md"
+  ],
+  "checkpointAt": "2026-08-22T08:01:54Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T08:01:39Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-22T08:17:00Z",
+  "preflightContractDigest": "sha256:695bb663b58a730ab5f4ca233e822f371cb04a5a8617eba8e7ff617af81814c7",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8fff4ed195892c035acad6725d5f85abdf614f4d3f301589bcc2cf43ad50eb8b",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T08:17:03Z",
+  "workItemId": "WI-121-contract-v2"
+}

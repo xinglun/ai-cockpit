@@ -1,0 +1,59 @@
+{
+  "acceptanceCriteria": [
+    "Contract V2 semantics are typed and unknown governance fields fail closed",
+    "preflight emits structured human review and blocks uncertain work before checkpoint",
+    "invalid lifecycle order and stale review receipts fail closed",
+    "CLI and MCP expose equivalent review and human handoff in three languages",
+    "focused regressions and full locked workspace quality gates pass"
+  ],
+  "authority": "authorized",
+  "baseRevision": "aad170e735ba50abc2ef6184efa8b39f6eca3edf",
+  "createdAt": "2026-08-22T08:01:39Z",
+  "goal": "Make Work Item Contracts explicit, machine-validated, and unable to bypass human review when governance facts are uncertain.",
+  "intent": "Align Contract V2 semantics and fail-closed human review before implementation while preserving immutable historical bytes and repository isolation.",
+  "mode": "implementation",
+  "outOfScope": [
+    "global Agent or MCP configuration",
+    "scenario coverage and final acceptance dimensions",
+    "Contract-level concurrency slots and serialized projection leases",
+    "automatic translation of Contract source text",
+    "rewriting historical evidence"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:699b189ea01e29d2f9d64b57f85dc75e778a30711cb7055ff78bd1879709fd70",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scope": [
+    ".ai/work-items/active/WI-121-contract-v2.contract.json",
+    ".ai/work-items/active/WI-121-contract-v2.summary.json",
+    "crates/cockpit-protocol/src/**",
+    "crates/cockpit-core/src/**",
+    "crates/cockpit-repository/src/**",
+    "crates/cockpit-cli/src/**",
+    "crates/cockpit-mcp/src/**",
+    "crates/cockpit-protocol/tests/**",
+    "crates/cockpit-core/tests/**",
+    "crates/cockpit-repository/tests/**",
+    "crates/cockpit-cli/tests/**",
+    "crates/cockpit-mcp/tests/**",
+    "docs/reference/**",
+    "docs/work-items/**"
+  ],
+  "sources": [
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/blob/e5acb677da6621004d96f0ef353c58fe8d3acfbf/docs/contract-fields.md",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/blob/e5acb677da6621004d96f0ef353c58fe8d3acfbf/tests/test_contract_and_policy.py",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/blob/e5acb677da6621004d96f0ef353c58fe8d3acfbf/tests/test_checkpoint_intent.py",
+    "docs/reference/agent-workflow.zh-CN.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo clippy --workspace --all-targets --all-features -- -D warnings",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-121-contract-v2"
+}

@@ -37,6 +37,10 @@ capabilityClaims:
   `needs_human_confirmation` は checkpoint を越えられません。
 - 事前 Contract review は repository、Work Item、Contract digest、snapshot digest を bind します。
   いずれかが変わった場合は checkpoint 前に preflight をやり直します。
+- `reviewState` が `needs_human_confirmation` の場合、preflight は what happened、why it matters、
+  options、recommendation、question、resume condition を含む構造化 `humanDecisionRequest` も返します。
+  これは人向けの request であり approval ではありません。Agent は request を権限として扱わず、
+  Contract を amend して preflight を再実行します。
 - 人間向け Outcome は独立して提示し、`Outcome: 🟢`、`Outcome: 🟡`、または
   `Outcome: 🔴` で始め、unknown、evidence、human decision、次の action を含めます。
   欠落、折りたたみ表示のみ、stale、contradictory、malformed の Outcome は

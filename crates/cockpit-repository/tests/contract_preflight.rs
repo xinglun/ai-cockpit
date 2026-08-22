@@ -32,6 +32,13 @@ fn scaffold_preflight_is_not_ready_and_records_human_review_requirements() {
         decision.review_state.as_deref(),
         Some("needs_human_confirmation")
     );
+    let request = decision
+        .human_decision_request
+        .as_ref()
+        .expect("structured human decision request");
+    assert_eq!(request.status, "needs_human_confirmation");
+    assert!(!request.question.is_empty());
+    assert!(!request.resume_condition.is_empty());
     for unknown in [
         "contract_intent_missing",
         "contract_scope_missing",
@@ -55,4 +62,30 @@ fn scaffold_preflight_is_not_ready_and_records_human_review_requirements() {
     assert_eq!(summary["preflightState"], "yellow");
     assert!(summary["preflightDecisionDigest"].is_string());
     assert!(checkpoint_work_item(directory.path(), "WI-CONTRACT-SCAFFOLD").is_err());
+}
+
+#[test]
+fn duplicate_or_unknown_contract_json_fails_before_governance_evaluation() {
+    let directory = repository();
+    let receipt =
+        scaffold_work_item(directory.path(), "WI-CONTRACT-STRICT", "code").expect("scaffold");
+    let path = directory.path().join(&receipt.contract_path);
+    let original = fs::read_to_string(&path).expect("contract");
+
+    let mut unknown: serde_json::Value = serde_json::from_str(&original).expect("json");
+    unknown["untrustedInstruction"] = serde_json::json!("must not be accepted");
+    fs::write(&path, serde_json::to_vec_pretty(&unknown).expect("encode")).expect("write");
+    let error = preflight_work_item(directory.path(), &path).expect_err("unknown field fails");
+    assert!(error.to_string().contains("unknown field"));
+
+    fs::write(
+        &path,
+        format!(
+            "{{\"protocolVersion\":1,\"protocolVersion\":1,{}}}",
+            &original[1..]
+        ),
+    )
+    .expect("duplicate write");
+    let error = preflight_work_item(directory.path(), &path).expect_err("duplicate fails");
+    assert!(error.to_string().contains("duplicate JSON object key"));
 }

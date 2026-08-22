@@ -19,13 +19,15 @@ use cockpit_protocol::{
     merge_policy_layers, repository_schema_migration_chain, validate_evidence_retention,
     validate_protocol_version,
 };
-use serde::{Deserialize, Serialize};
+use serde::de::{DeserializeSeed, MapAccess, SeqAccess, Visitor};
+use serde::{Deserialize, Deserializer as _, Serialize};
 use sha2::{Digest as ShaDigest, Sha256};
 use std::collections::BTreeMap;
 #[cfg(unix)]
 use std::collections::BTreeSet;
 #[cfg(unix)]
 use std::ffi::OsStr;
+use std::fmt;
 use std::fs;
 use std::io::{Read, Seek, Write};
 use std::path::{Path, PathBuf};
@@ -5649,7 +5651,7 @@ fn governance_decision_for_contract_internal_with_archive(
 fn contract_review_unknowns(contract: &cockpit_protocol::Contract) -> Vec<String> {
     let mut unknowns = Vec::new();
     if contract.state.as_deref() == Some("not_ready") {
-        if contract.intent.trim().is_empty() {
+        if contract.intent.is_empty() {
             unknowns.push("contract_intent_missing".into());
         }
         if contract.goal.trim().is_empty() {
@@ -5668,11 +5670,190 @@ fn contract_review_unknowns(contract: &cockpit_protocol::Contract) -> Vec<String
             unknowns.push("human_authority_missing".into());
         }
     }
+    if contract.contract_version == Some(2) {
+        match contract.intent.structured() {
+            Some(intent) => {
+                if intent
+                    .problem
+                    .as_deref()
+                    .is_none_or(|value| value.trim().is_empty())
+                {
+                    unknowns.push("contract_intent_problem_missing".into());
+                }
+                if intent.constraints.is_empty() {
+                    unknowns.push("contract_intent_constraints_missing".into());
+                }
+                if intent
+                    .rationale
+                    .as_deref()
+                    .is_none_or(|value| value.trim().is_empty())
+                {
+                    unknowns.push("contract_intent_rationale_missing".into());
+                }
+            }
+            None => unknowns.push("contract_intent_structured_required".into()),
+        }
+        if contract
+            .problem_statement
+            .as_deref()
+            .is_none_or(|value| value.trim().is_empty())
+        {
+            unknowns.push("contract_problem_statement_missing".into());
+        }
+    }
+    if contract.not_codable == Some(true) {
+        unknowns.push("contract_not_codable".into());
+    }
+    unknowns.extend(
+        contract
+            .unknowns
+            .iter()
+            .map(|unknown| format!("contract_declared_unknown:{unknown}")),
+    );
+    if let Some(capability) = &contract.agent_capability {
+        if !capability.can_implement {
+            unknowns.push("agent_cannot_implement".into());
+        }
+        if !capability.can_verify {
+            unknowns.push("agent_cannot_verify".into());
+        }
+        if capability.needs_human_decision {
+            unknowns.push("agent_needs_human_decision".into());
+        }
+    }
+    if let Some(decision) = &contract.execution_decision
+        && !matches!(decision.status.as_str(), "continue")
+    {
+        unknowns.push(format!("execution_decision:{}", decision.status));
+    }
     unknowns
 }
 
+struct DuplicateKeySeed;
+
+struct DuplicateKeyVisitor;
+
+impl<'de> DeserializeSeed<'de> for DuplicateKeySeed {
+    type Value = ();
+
+    fn deserialize<D>(self, deserializer: D) -> Result<Self::Value, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        deserializer.deserialize_any(DuplicateKeyVisitor)
+    }
+}
+
+impl<'de> Visitor<'de> for DuplicateKeyVisitor {
+    type Value = ();
+
+    fn expecting(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        formatter.write_str("a JSON value without duplicate object keys")
+    }
+
+    fn visit_bool<E>(self, _value: bool) -> Result<Self::Value, E>
+    where
+        E: serde::de::Error,
+    {
+        Ok(())
+    }
+
+    fn visit_i64<E>(self, _value: i64) -> Result<Self::Value, E>
+    where
+        E: serde::de::Error,
+    {
+        Ok(())
+    }
+
+    fn visit_u64<E>(self, _value: u64) -> Result<Self::Value, E>
+    where
+        E: serde::de::Error,
+    {
+        Ok(())
+    }
+
+    fn visit_f64<E>(self, _value: f64) -> Result<Self::Value, E>
+    where
+        E: serde::de::Error,
+    {
+        Ok(())
+    }
+
+    fn visit_str<E>(self, _value: &str) -> Result<Self::Value, E>
+    where
+        E: serde::de::Error,
+    {
+        Ok(())
+    }
+
+    fn visit_none<E>(self) -> Result<Self::Value, E>
+    where
+        E: serde::de::Error,
+    {
+        Ok(())
+    }
+
+    fn visit_unit<E>(self) -> Result<Self::Value, E>
+    where
+        E: serde::de::Error,
+    {
+        Ok(())
+    }
+
+    fn visit_some<D>(self, deserializer: D) -> Result<Self::Value, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        deserializer.deserialize_any(DuplicateKeyVisitor)
+    }
+
+    fn visit_seq<A>(self, mut sequence: A) -> Result<Self::Value, A::Error>
+    where
+        A: SeqAccess<'de>,
+    {
+        while sequence.next_element_seed(DuplicateKeySeed)?.is_some() {}
+        Ok(())
+    }
+
+    fn visit_map<A>(self, mut map: A) -> Result<Self::Value, A::Error>
+    where
+        A: MapAccess<'de>,
+    {
+        let mut keys = std::collections::BTreeSet::new();
+        while let Some(key) = map.next_key::<String>()? {
+            if !keys.insert(key.clone()) {
+                return Err(serde::de::Error::custom(format!(
+                    "duplicate JSON object key: {key}"
+                )));
+            }
+            map.next_value_seed(DuplicateKeySeed)?;
+        }
+        Ok(())
+    }
+}
+
+fn reject_duplicate_json_keys(bytes: &[u8]) -> Result<(), String> {
+    let mut deserializer = serde_json::Deserializer::from_slice(bytes);
+    deserializer
+        .deserialize_any(DuplicateKeyVisitor)
+        .map_err(|error| error.to_string())?;
+    deserializer.end().map_err(|error| error.to_string())
+}
+
 fn read_contract(path: &Path) -> Result<cockpit_protocol::Contract, ObserverError> {
-    let value: serde_json::Value = read_json(path)?;
+    let bytes = fs::read(path).map_err(|source| ObserverError::Read {
+        path: path.into(),
+        source,
+    })?;
+    reject_duplicate_json_keys(&bytes).map_err(|message| ObserverError::State {
+        path: path.to_path_buf(),
+        message: format!("invalid Contract JSON: {message}"),
+    })?;
+    let value: serde_json::Value =
+        serde_json::from_slice(&bytes).map_err(|error| ObserverError::State {
+            path: path.to_path_buf(),
+            message: error.to_string(),
+        })?;
     serde_json::from_value(value).map_err(|error| ObserverError::State {
         path: path.to_path_buf(),
         message: format!("invalid work item contract: {error}"),
@@ -6634,7 +6815,7 @@ pub fn implementation_approach(
         });
     }
     let mut unknowns = Vec::new();
-    if contract.intent.trim().is_empty() {
+    if contract.intent.is_empty() {
         unknowns.push("intent".into());
     }
     if contract.scope.is_empty() {

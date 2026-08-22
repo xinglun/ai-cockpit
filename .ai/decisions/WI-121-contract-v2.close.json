@@ -1,0 +1,21 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "user-authorized-maintainer",
+    "authoritySource": "explicit-user-instruction",
+    "decidedAt": "2026-08-22T08:17:30Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-121-contract-v2.verification.json"
+    ],
+    "policyRefs": [
+      "docs/reference/agent-workflow.zh-CN.md"
+    ],
+    "reason": "User confirmed the Contract V2 corrective scope; evidence and full workspace tests passed. The remaining user-visible-benefit unknown is retained explicitly.",
+    "resumeCondition": "Reopen if post-merge review finds a Contract schema or lifecycle regression."
+  },
+  "timestamp": "2026-08-22T08:17:18Z",
+  "workItemId": "WI-121-contract-v2"
+}

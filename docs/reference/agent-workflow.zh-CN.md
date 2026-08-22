@@ -37,6 +37,10 @@ Rust Runtime 与本仓库的 Protocol 词汇。
   `needs_human_confirmation` 不得越过 checkpoint。
 - 事前 Contract review 会绑定 repository、Work Item、Contract digest 与 snapshot digest。
   任一绑定对象变化后，必须重新 preflight 才能 checkpoint。
+- 当 `reviewState` 为 `needs_human_confirmation` 时，preflight 同时返回
+  `humanDecisionRequest`（发生了什么、为什么重要、可选决定、推荐项、问题和恢复条件）。
+  它是面向人的请求，不是批准；只能由人补充或修订 Contract 后重新 preflight，不能由 Agent
+  自行把 request 当作授权。
 - 单独交付面向人的 Outcome，并以 `Outcome: 🟢`、`Outcome: 🟡` 或
   `Outcome: 🔴` 开头，包含 unknown、evidence、人工决定和下一步。Outcome
   缺失、仅折叠显示、过期、矛盾或格式错误时必须 fail closed，不得授权继续。

@@ -1,7 +1,14 @@
 ---
+author: AI Cockpit maintainers
 workItemId: WI-120-release-v0-2-10
 title: 发布 v0.2.10 并完成不可变 adopter 验收
-status: release-preparation
+description: 发布并验证 v0.2.10 及其 adopter 验收基线。
+audience:
+  - adopter
+  - maintainer
+status: implemented
+authority: canonical
+lastVerifiedBy: WI-120-release-v0-2-10
 ---
 
 # WI-120 — 发布 v0.2.10 并完成不可变 adopter 验收

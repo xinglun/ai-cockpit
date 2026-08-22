@@ -110,6 +110,27 @@ facts (`repositoryId`, `baseRevision`, `projectProfileDigest`, and
 authority empty or `unknown`. `profile propose` emits a candidate amendment
 without changing the formal profile bytes or digest.
 
+## Contract V2 semantic boundary
+
+A Contract may opt into `contractVersion: 2` while retaining the repository
+`protocolVersion`. V2 `intent` may be a structured object containing
+`businessGoal`, `userGoal`, `problem`, `constraints`, `nonGoals`, and
+`rationale`, while historical one-line intent remains readable. `sources` and
+`verification` likewise support typed `path/reason` and `check/required`
+objects; legacy strings are retained only for historical compatibility.
+
+Top-level and structured Contract fields use strict unknown-field validation.
+Duplicate JSON keys, wrong types, and incompatible schema versions fail closed.
+Declared unknowns, `notCodable`, Agent capability limits, or a non-continue
+execution decision produce `reviewState: needs_human_confirmation` and a
+structured `humanDecisionRequest`. That request is not approval: the Contract
+must be completed and preflight rerun before checkpoint.
+
+Scenario coverage, final acceptance dimensions, and parallel boundaries are
+separate Contract extensions. `verify --workers` is execution concurrency, not
+Work Item parallel authorization. Contract source text remains in its owner's
+language and is never machine-translated by the Runtime.
+
 `verify --work-item <id>` writes `.ai/evidence/<id>.verification.json`. `finish`
 creates an outcome, `archive` creates an archive manifest, and `close` records the
 human decision. These records are content-bound and must not be hand-edited to make

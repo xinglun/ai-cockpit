@@ -39,6 +39,8 @@ The matrix uses exactly four states:
 | Explicit Agent Discovery / Adapter layer | Implemented | Agent installation is explicit, owned, reversible, and repository-local. |
 | Work Item lifecycle and governance decisions | Partial | The core lifecycle and human decision records exist; the reference's broader status, cost, and recovery projections are not all exposed as one adopter interface. |
 | Contract preflight human-review gate | Implemented | Incomplete scaffold Contracts are yellow with an explicit `reviewState`, persist repository/Contract/snapshot bindings, and cannot cross checkpoint without human confirmation. |
+| Contract V2 structured intent and strict schema | Partial | Structured intent, typed sources/verification, unknown-field/duplicate-key fail-closed checks, and `humanDecisionRequest` are present; scenario, parallel-boundary, and final-dimension work remains in later WIs. |
+| Contract cross-field 4D (intent/scope/evidence/decision) validation | Partial | Base fields and preflight review are bound, but one-to-one acceptance evidence, intent alignment, and an aggregate receipt are not complete. |
 | Bounded verification and fail-closed evidence reuse | Implemented | Runtime identity, snapshot/toolchain/environment bindings, receipts, and fail-closed validation are recorded. |
 | MCP repository binding | Implemented | Repository-bound stdio MCP exposes the same governed services with explicit binding. |
 | Human-facing MCP projection | Implemented | Runtime validates OutcomeV2 and emits the localized `humanHandoff`; the Agent or conversation layer chooses, displays, and passes it on without treating presentation as governance authority. |
