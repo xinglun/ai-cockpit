@@ -1,0 +1,41 @@
+{
+  "acceptanceResults": [
+    "Cargo and release version consistency passes for 0.2.10",
+    "fmt clippy and workspace tests pass",
+    "public v0.2.10 Release artifacts are immutable and digest-bound",
+    "fresh adopter acceptance passes using only the public v0.2.10 binary",
+    "N-1 v0.2.9 to v0.2.10 acceptance passes with cleanup",
+    "published v0.2.10 is installed and current repository inspect status doctor agent doctor pass"
+  ],
+  "createdAt": "2026-08-22T07:44:32Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:943efabf25e606ae5b3791954629f55c5d582fe73f8ca44ea6aa126a9e914f71",
+  "evidenceRefs": [
+    ".ai/evidence/WI-120-release-v0-2-10.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-120-release-v0-2-10.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-120-release-v0-2-10.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-120-release-v0-2-10"
+}
