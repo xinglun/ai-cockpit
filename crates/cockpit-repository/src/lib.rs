@@ -6918,6 +6918,16 @@ fn archive_work_item_internal(
     let contract = read_contract(&contract_path)?;
     let summary_path = active.join(format!("{work_item_id}.summary.json"));
     let summary: serde_json::Value = read_json(&summary_path)?;
+    let active_leases = list_parallel_slots(&root)?;
+    if let Some(lease) = active_leases
+        .iter()
+        .find(|lease| lease.work_item_id == work_item_id)
+    {
+        return Err(ObserverError::State {
+            path: slot_lease_path(&root, lease.slot_id),
+            message: "archive requires releasing the Work Item's active parallel slot".into(),
+        });
+    }
     if let Some(decision) = load_recovery_decision(&root, work_item_id)
         .filter(|decision| decision.decision == "supersede")
     {
@@ -7008,34 +7018,24 @@ fn archive_work_item_internal(
         ("outcome", "outcome.json"),
     ];
     let events_source = task_outcome_event_path(&root, work_item_id, false);
-    if events_source.exists() {
-        if !is_regular_non_symlink(&events_source)? {
-            return Err(ObserverError::State {
-                path: events_source,
-                message: "Task Outcome event stream must be a regular non-symlink file".into(),
-            });
-        }
+    if optional_regular_artifact(&events_source, "Task Outcome event stream")? {
         artifacts.push(("events", "events.jsonl"));
     }
     let report_source = active.join(format!("{work_item_id}.task-report.json"));
-    if report_source.exists() {
-        if !is_regular_non_symlink(&report_source)? {
-            return Err(ObserverError::State {
-                path: report_source,
-                message: "Task Outcome report must be a regular non-symlink file".into(),
-            });
-        }
+    if optional_regular_artifact(&report_source, "Task Outcome report")? {
         artifacts.push(("taskReport", "task-report.json"));
     }
     let markdown_source = active.join(format!("{work_item_id}.task-report.md"));
-    if markdown_source.exists() {
-        if !is_regular_non_symlink(&markdown_source)? {
-            return Err(ObserverError::State {
-                path: markdown_source,
-                message: "Task Outcome Markdown report must be a regular non-symlink file".into(),
-            });
-        }
+    if optional_regular_artifact(&markdown_source, "Task Outcome Markdown report")? {
         artifacts.push(("taskReportMarkdown", "task-report.md"));
+    }
+    let approach_source = active.join(format!("{work_item_id}.approach.json"));
+    if optional_regular_artifact(&approach_source, "Implementation approach")? {
+        artifacts.push(("approach", "approach.json"));
+    }
+    let intelligence_source = active.join(format!("{work_item_id}.intelligence.json"));
+    if optional_regular_artifact(&intelligence_source, "Work Item intelligence sidecar")? {
+        artifacts.push(("intelligence", "intelligence.json"));
     }
     let mut files = serde_json::Map::new();
     let mut pending = Vec::new();
@@ -7121,6 +7121,7 @@ fn archive_superseded_work_item(
         ("summary", "summary.json"),
         ("outcome", "outcome.json"),
         ("approach", "approach.json"),
+        ("intelligence", "intelligence.json"),
         ("events", "events.jsonl"),
         ("taskReport", "task-report.json"),
         ("taskReportMarkdown", "task-report.md"),
@@ -7129,7 +7130,7 @@ fn archive_superseded_work_item(
     let mut pending = Vec::new();
     for (name, suffix) in candidates {
         let source = active.join(format!("{work_item_id}.{suffix}"));
-        if !fs::symlink_metadata(&source).is_ok_and(|metadata| metadata.file_type().is_file()) {
+        if !optional_regular_artifact(&source, name)? {
             continue;
         }
         let target = archive.join(format!("{work_item_id}.{suffix}"));
@@ -7582,6 +7583,8 @@ fn verify_archive_manifest(
     }
     for (name, suffix) in [
         ("events", "events.jsonl"),
+        ("approach", "approach.json"),
+        ("intelligence", "intelligence.json"),
         ("taskReport", "task-report.json"),
         ("taskReportMarkdown", "task-report.md"),
     ] {
@@ -7630,6 +7633,25 @@ fn verify_archive_manifest(
                 return Err(ObserverError::State {
                     path,
                     message: "archived Task Outcome report identity does not match repository or Work Item".into(),
+                });
+            }
+        } else if name == "intelligence" {
+            let value: serde_json::Value =
+                serde_json::from_slice(&bytes).map_err(|error| ObserverError::State {
+                    path: path.clone(),
+                    message: error.to_string(),
+                })?;
+            let intelligence: WorkItemIntelligence =
+                serde_json::from_value(value).map_err(|error| ObserverError::State {
+                    path: path.clone(),
+                    message: format!("archived Work Item intelligence is invalid: {error}"),
+                })?;
+            if intelligence.repository_id != repository_id(root).to_string()
+                || intelligence.work_item_id != work_item_id
+            {
+                return Err(ObserverError::State {
+                    path,
+                    message: "archived Work Item intelligence identity does not match repository or Work Item".into(),
                 });
             }
         }
@@ -9527,6 +9549,25 @@ fn is_regular_non_symlink(path: &Path) -> Result<bool, ObserverError> {
         }
     })?;
     Ok(metadata.file_type().is_file())
+}
+
+fn optional_regular_artifact(path: &Path, label: &str) -> Result<bool, ObserverError> {
+    match fs::symlink_metadata(path) {
+        Ok(metadata) if metadata.file_type().is_symlink() => Err(ObserverError::State {
+            path: path.into(),
+            message: format!("{label} must be a regular non-symlink file"),
+        }),
+        Ok(metadata) if !metadata.is_file() => Err(ObserverError::State {
+            path: path.into(),
+            message: format!("{label} must be a regular non-symlink file"),
+        }),
+        Ok(_) => Ok(true),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(false),
+        Err(source) => Err(ObserverError::Read {
+            path: path.into(),
+            source,
+        }),
+    }
 }
 
 fn parallel_state_root(root: &Path) -> PathBuf {

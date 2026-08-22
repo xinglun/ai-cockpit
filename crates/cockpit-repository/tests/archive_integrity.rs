@@ -1,15 +1,16 @@
 use cockpit_core::Digest;
 use cockpit_git::GitRepository;
 use cockpit_protocol::{
-    AssuranceLevel, DataClassification, DelegatedEvidence, EvidencePersistence, EvidenceRetention,
-    EvidenceValidity, HumanDecision, RuntimeContext,
+    AssuranceLevel, ConcurrencyBoundary, DataClassification, DelegatedEvidence,
+    EvidencePersistence, EvidenceRetention, EvidenceValidity, HumanDecision, RuntimeContext,
 };
 use cockpit_repository::{
-    WorkItemStartOptions, archive_work_item, attach, checkpoint_work_item,
+    WorkItemStartOptions, acquire_parallel_slot, archive_work_item, attach, checkpoint_work_item,
     close_work_item_with_decision, close_work_item_with_structured_decision, evidence_purge_plan,
     evidence_state_for_contract, export_audit_events, finish_work_item,
-    governance_decision_for_contract, import_delegated_evidence, preflight_work_item,
-    record_verification, set_evidence_retention_policy, start_work_item,
+    governance_decision_for_contract, implementation_approach, import_delegated_evidence,
+    preflight_work_item, record_verification, release_parallel_slot, set_evidence_retention_policy,
+    set_work_item_concurrency_boundary, set_work_item_intelligence, start_work_item,
     start_work_item_with_options,
 };
 use std::{
@@ -113,6 +114,189 @@ fn archive_rejects_tampered_verification_even_without_declared_requirement() {
     assert!(
         path.join(".ai/work-items/active/WI-EVIDENCE-TAMPER.contract.json")
             .is_file()
+    );
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn archive_moves_implementation_approach_and_removes_active_orphan() {
+    let path = repository();
+    start_work_item(
+        &path,
+        "WI-APPROACH-ARCHIVE",
+        "approach",
+        "archive generated approach",
+        &["**".into()],
+    )
+    .expect("start");
+    implementation_approach(&path, "WI-APPROACH-ARCHIVE").expect("approach");
+    assert!(
+        path.join(".ai/work-items/active/WI-APPROACH-ARCHIVE.approach.json")
+            .is_file()
+    );
+    prepare_for_verification(&path, "WI-APPROACH-ARCHIVE");
+    record_verification(
+        &path,
+        "WI-APPROACH-ARCHIVE",
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.1.0",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+    finish_work_item(&path, "WI-APPROACH-ARCHIVE").expect("finish");
+    archive_work_item(&path, "WI-APPROACH-ARCHIVE").expect("archive");
+
+    assert!(
+        !path
+            .join(".ai/work-items/active/WI-APPROACH-ARCHIVE.approach.json")
+            .exists()
+    );
+    let archived = path.join(".ai/work-items/archive/WI-APPROACH-ARCHIVE.approach.json");
+    assert!(archived.is_file());
+    let manifest: serde_json::Value = serde_json::from_slice(
+        &fs::read(path.join(".ai/work-items/archive/WI-APPROACH-ARCHIVE.archive.json"))
+            .expect("manifest"),
+    )
+    .expect("manifest JSON");
+    let digest = Digest::sha256_bytes(&fs::read(&archived).expect("archived approach"));
+    assert_eq!(manifest["files"]["approachDigest"], digest.to_string());
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn archive_moves_parallel_intelligence_sidecar_and_binds_digest() {
+    let path = repository();
+    start_work_item(
+        &path,
+        "WI-INTELLIGENCE-ARCHIVE",
+        "intelligence",
+        "archive",
+        &["**".into()],
+    )
+    .expect("start");
+    set_work_item_intelligence(
+        &path,
+        "WI-INTELLIGENCE-ARCHIVE",
+        vec!["WI-DEPENDENCY".into()],
+        Vec::new(),
+        true,
+    )
+    .expect("intelligence");
+    prepare_for_verification(&path, "WI-INTELLIGENCE-ARCHIVE");
+    record_verification(
+        &path,
+        "WI-INTELLIGENCE-ARCHIVE",
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.1.0",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+    finish_work_item(&path, "WI-INTELLIGENCE-ARCHIVE").expect("finish");
+    archive_work_item(&path, "WI-INTELLIGENCE-ARCHIVE").expect("archive");
+
+    let active = path.join(".ai/work-items/active/WI-INTELLIGENCE-ARCHIVE.intelligence.json");
+    let archived = path.join(".ai/work-items/archive/WI-INTELLIGENCE-ARCHIVE.intelligence.json");
+    assert!(!active.exists());
+    assert!(archived.is_file());
+    let manifest: serde_json::Value = serde_json::from_slice(
+        &fs::read(path.join(".ai/work-items/archive/WI-INTELLIGENCE-ARCHIVE.archive.json"))
+            .expect("manifest"),
+    )
+    .expect("manifest JSON");
+    assert_eq!(
+        manifest["files"]["intelligenceDigest"],
+        Digest::sha256_bytes(&fs::read(&archived).expect("archived intelligence")).to_string()
+    );
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn archive_requires_releasing_active_parallel_slot() {
+    let path = repository();
+    start_work_item(
+        &path,
+        "WI-LEASE-ARCHIVE",
+        "lease",
+        "archive",
+        &["src/main.rs".into()],
+    )
+    .expect("start");
+    set_work_item_intelligence(&path, "WI-LEASE-ARCHIVE", Vec::new(), Vec::new(), true)
+        .expect("intelligence");
+    set_work_item_concurrency_boundary(
+        &path,
+        "WI-LEASE-ARCHIVE",
+        ConcurrencyBoundary {
+            schema_version: 1,
+            implementation_paths: vec!["src/main.rs".into()],
+            generated_evidence_paths: vec![
+                ".ai/evidence/WI-LEASE-ARCHIVE.verification.json".into(),
+            ],
+            verification_output_paths: vec!["target/lease-archive".into()],
+            serialized_projection_paths: vec![".ai/work-items/active/WI-LEASE-ARCHIVE".into()],
+            max_workers: 1,
+            reason: "archive lease test".into(),
+        },
+    )
+    .expect("boundary");
+    let lease = acquire_parallel_slot(&path, "WI-LEASE-ARCHIVE").expect("lease");
+    prepare_for_verification(&path, "WI-LEASE-ARCHIVE");
+    record_verification(
+        &path,
+        "WI-LEASE-ARCHIVE",
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.1.0",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+    finish_work_item(&path, "WI-LEASE-ARCHIVE").expect("finish");
+    let error =
+        archive_work_item(&path, "WI-LEASE-ARCHIVE").expect_err("active lease blocks archive");
+    assert!(error.to_string().contains("parallel slot"));
+    assert!(
+        path.join(".ai/work-items/active/WI-LEASE-ARCHIVE.contract.json")
+            .is_file()
+    );
+    release_parallel_slot(&path, "WI-LEASE-ARCHIVE", &lease.lease_id).expect("release");
+    archive_work_item(&path, "WI-LEASE-ARCHIVE").expect("archive after release");
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[cfg(unix)]
+#[test]
+fn archive_rejects_dangling_implementation_approach_symlink() {
+    use std::os::unix::fs::symlink;
+
+    let path = repository();
+    start_work_item(
+        &path,
+        "WI-APPROACH-SYMLINK",
+        "approach",
+        "archive",
+        &["**".into()],
+    )
+    .expect("start");
+    symlink(
+        "missing-approach.json",
+        path.join(".ai/work-items/active/WI-APPROACH-SYMLINK.approach.json"),
+    )
+    .expect("symlink");
+    prepare_for_verification(&path, "WI-APPROACH-SYMLINK");
+    record_verification(
+        &path,
+        "WI-APPROACH-SYMLINK",
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.1.0",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+    finish_work_item(&path, "WI-APPROACH-SYMLINK").expect("finish");
+    let error = archive_work_item(&path, "WI-APPROACH-SYMLINK")
+        .expect_err("dangling approach symlink must fail closed");
+    assert!(error.to_string().contains("Implementation approach"));
+    assert!(
+        fs::symlink_metadata(path.join(".ai/work-items/active/WI-APPROACH-SYMLINK.approach.json"))
+            .is_ok()
     );
     fs::remove_dir_all(path).expect("cleanup");
 }

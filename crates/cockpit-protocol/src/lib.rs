@@ -220,15 +220,120 @@ pub struct QualityCommand {
     pub state: String,
 }
 
+/// Verification strength is deliberately separate from evidence provenance.
+/// A T3 requirement asks for authoritative verification; it does not decide
+/// whether the resulting evidence is provider- or enterprise-verified.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub enum VerificationTier {
+    #[serde(rename = "T0")]
+    T0,
+    #[serde(rename = "T1")]
+    T1,
+    #[serde(rename = "T2")]
+    T2,
+    #[serde(rename = "T3")]
+    T3,
+}
+
+impl VerificationTier {
+    pub const fn rank(self) -> u8 {
+        match self {
+            Self::T0 => 0,
+            Self::T1 => 1,
+            Self::T2 => 2,
+            Self::T3 => 3,
+        }
+    }
+}
+
 /// The assurance source for an authority or delegated evidence claim. These
-/// labels describe provenance, not an automatic approval.
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+/// labels describe provenance, not an automatic approval.  The wire spelling
+/// remains compatible with the pre-existing `AssuranceLevel` vocabulary.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
-pub enum AssuranceLevel {
+pub enum EvidenceAssurance {
     SelfDeclared,
     RepositoryVerified,
     ProviderVerified,
     EnterpriseVerified,
+}
+
+/// Compatibility alias retained for existing protocol consumers.  New code
+/// should use `EvidenceAssurance` to make the orthogonal dimension explicit.
+pub use EvidenceAssurance as AssuranceLevel;
+
+impl EvidenceAssurance {
+    pub const fn rank(self) -> u8 {
+        match self {
+            Self::SelfDeclared => 0,
+            Self::RepositoryVerified => 1,
+            Self::ProviderVerified => 2,
+            Self::EnterpriseVerified => 3,
+        }
+    }
+}
+
+pub const VERIFICATION_SEMANTICS_SCHEMA_VERSION: u32 = 1;
+
+/// A requirement is policy-traceable input to a future planner.  Tier and
+/// assurance are independent: every pair is representable, and an unmet
+/// assurance requirement is a yellow/unknown governance result rather than a
+/// silent upgrade of the evidence provenance.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct VerificationRequirement {
+    pub schema_version: u32,
+    pub required_tier: VerificationTier,
+    pub required_assurance: EvidenceAssurance,
+    pub policy_refs: Vec<String>,
+    pub stage_refs: Vec<String>,
+    pub gate_refs: Vec<String>,
+    pub reason: String,
+}
+
+impl VerificationRequirement {
+    pub fn validate(&self) -> Result<(), String> {
+        if self.schema_version != VERIFICATION_SEMANTICS_SCHEMA_VERSION {
+            return Err(format!(
+                "unsupported verification semantics schema {}",
+                self.schema_version
+            ));
+        }
+        if self.reason.trim().is_empty() {
+            return Err("verification requirement reason must not be empty".into());
+        }
+        let mut refs = std::collections::BTreeSet::new();
+        for reference in self
+            .policy_refs
+            .iter()
+            .chain(self.stage_refs.iter())
+            .chain(self.gate_refs.iter())
+        {
+            if reference.trim().is_empty() {
+                return Err("verification requirement references must not be empty".into());
+            }
+            if !refs.insert(reference) {
+                return Err(format!(
+                    "duplicate verification requirement reference {reference}"
+                ));
+            }
+        }
+        if refs.is_empty() {
+            return Err(
+                "verification requirement must name a policy stage or gate reference".into(),
+            );
+        }
+        Ok(())
+    }
+
+    pub const fn is_satisfied_by(
+        &self,
+        actual_tier: VerificationTier,
+        actual_assurance: EvidenceAssurance,
+    ) -> bool {
+        actual_tier.rank() >= self.required_tier.rank()
+            && actual_assurance.rank() >= self.required_assurance.rank()
+    }
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]

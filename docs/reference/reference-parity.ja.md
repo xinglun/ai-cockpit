@@ -82,6 +82,7 @@ verification record です。
 | WI-133 — Documentation truth の整合 | Implemented | [Work Item](../work-items/WI-133-docs-truth.ja.md); `.ai/evidence/WI-133-docs-truth.verification.json`; `.ai/decisions/WI-133-docs-truth.close.json` |
 | WI-135 — Repository に束縛された retention と close evidence | Implemented | [Work Item](../work-items/WI-135-repository-bound-evidence.ja.md); `.ai/evidence/WI-135-repository-bound-evidence.verification.json`; `.ai/decisions/WI-135-repository-bound-evidence.close.json` |
 | WI-136 — Task Outcome と Human Benefit report | Implemented | [Work Item](../work-items/WI-136-task-outcome-report.ja.md); `.ai/evidence/WI-136-task-outcome-report.verification.json`; `.ai/decisions/WI-136-task-outcome-report.close.json` |
+| WI-140 — Verification semantics と Artifact archive integrity | Implemented | [Work Item](../work-items/WI-140-verification-semantics.ja.md); `.ai/evidence/WI-140-verification-semantics.verification.json`; `.ai/decisions/WI-140-verification-semantics.close.json` |
 
 ## 現在の境界
 
