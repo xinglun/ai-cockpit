@@ -1,0 +1,123 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "one_physical_result_binds_distinct_work_item_receipts",
+          "path": "crates/cockpit-verification/tests/physical_execution.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-verification --all-targets"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "one_physical_result_binds_distinct_work_item_receipts",
+          "path": "crates/cockpit-verification/tests/physical_execution.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-verification --all-targets"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "cross_work_item_receipt_reference_is_rejected",
+          "path": "crates/cockpit-verification/tests/physical_execution.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-verification --all-targets"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "physical_key_mismatch_cannot_coalesce_or_bind_foreign_repository",
+          "path": "crates/cockpit-verification/tests/physical_execution.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-verification --all-targets"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "Physical reuse is an optimization only",
+          "path": "docs/reference/cross-work-item-dedup.md",
+          "type": "document",
+          "verification": "bash tests/docs/documentation_acceptance.sh"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "PhysicalExecution and ExecutionResult",
+          "path": "docs/reference/cross-work-item-dedup.md",
+          "type": "document",
+          "verification": "bash tests/docs/documentation_acceptance.sh"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/active/WI-144-cross-work-item-dedup.contract.json",
+    ".ai/work-items/active/WI-144-cross-work-item-dedup.summary.json"
+  ],
+  "checkpointAt": "2026-08-22T20:29:30Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T20:23:22Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "basis": "The implementation keeps execution cost sharing separate from per-Work-Item authorization evidence and does not change governance tier semantics.",
+    "evidence": [
+      "crates/cockpit-verification/src/lib.rs",
+      "docs/reference/cross-work-item-dedup.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-22T20:31:42Z",
+  "preflightContractDigest": "sha256:75bfb954946f3b72eaeaa76b003ef1dfc8fe8082d65ef860508a95e2fca8c15b",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:e1b867ca007511e924aa0de04f6822f4f40992a96f1877ff972893430f1e9769",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-verification/tests/physical_execution.rs",
+        ".ai/evidence/WI-144-cross-work-item-dedup.verification.json"
+      ],
+      "expected": "Two Work Items may reuse one physical result but each receives an identity-bound receipt and cross-binding is rejected.",
+      "required": true,
+      "scenario": "shared physical execution binds distinct Work Item evidence receipts",
+      "status": "verified",
+      "verificationPlan": "Run physical execution coordinator and receipt binding tests for valid A/B bindings and a tampered cross-Work-Item receipt."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-verification/tests/physical_execution.rs",
+        ".ai/evidence/WI-144-cross-work-item-dedup.verification.json"
+      ],
+      "expected": "Mismatched physical execution keys never coalesce and fail closed.",
+      "required": true,
+      "scenario": "repository snapshot runtime command or toolchain mismatch",
+      "status": "verified",
+      "verificationPlan": "Run key mismatch tests for repository snapshot runtime command and toolchain dimensions."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T20:31:57Z",
+  "workItemId": "WI-144-cross-work-item-dedup"
+}

@@ -86,6 +86,7 @@ verification record です。
 | WI-141 — Policy-driven verification planner | Implemented | [Work Item](../work-items/WI-141-policy-planner.ja.md); `.ai/evidence/WI-141-policy-planner.verification.json`; `.ai/decisions/WI-141-policy-planner.close.json` |
 | WI-142 — Affected verification と dependency confidence | Implemented | [Work Item](../work-items/WI-142-affected-verification.ja.md); `.ai/evidence/WI-142-affected-verification.verification.json`; `.ai/decisions/WI-142-affected-verification.close.json` |
 | WI-143 — Intent scenario and stage binding | Implemented | [Work Item](../work-items/WI-143-intent-scenario-binding.ja.md); `.ai/evidence/WI-143-intent-scenario-binding.verification.json`; `.ai/decisions/WI-143-intent-scenario-binding.close.json` |
+| WI-144 — Work Item 間の物理実行再利用 | Implemented | [Work Item](../work-items/WI-144-cross-work-item-dedup.ja.md); `.ai/evidence/WI-144-cross-work-item-dedup.verification.json`; `.ai/decisions/WI-144-cross-work-item-dedup.close.json` |
 
 ## 現在の境界
 
