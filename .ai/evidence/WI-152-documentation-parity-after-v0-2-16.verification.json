@@ -1,0 +1,91 @@
+{
+  "captureMode": "full_capture",
+  "createdAt": "2026-08-22T22:42:54Z",
+  "evidenceSchemaVersion": 2,
+  "passed": true,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 191,
+      "executionElapsedMs": 119,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": true,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "runtimeDigest": "sha256:0e9e9e85f3a96d22702cf95edab928bd2307c4636e53836bee46ca4e8cabf796",
+      "runtimeVersion": "0.2.16",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 191,
+    "executionElapsedMs": 119,
+    "filesHashed": 23,
+    "filesRead": 23,
+    "gitCalls": 8,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planReceipt": {
+      "assurance": "self_declared",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 119,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:3cd5a2fd94f90a837bf78231ac04ee8beeaf5ae66aaa3882655bde2494765931",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:0e9e9e85f3a96d22702cf95edab928bd2307c4636e53836bee46ca4e8cabf796",
+    "runtimeVersion": "0.2.16",
+    "workItemId": "WI-152-documentation-parity-after-v0-2-16"
+  },
+  "receiptDigest": "sha256:d6bc3d0c6ffc559349d9f20e331a152501b2d28450a9218ba819fb1b4f784c7c",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5ffe6728a9e65088e6b005c1367a8156bdece1a4670243c49e8db33d1697d790",
+  "runtimeDigest": "sha256:0e9e9e85f3a96d22702cf95edab928bd2307c4636e53836bee46ca4e8cabf796",
+  "runtimeVersion": "0.2.16",
+  "workItemId": "WI-152-documentation-parity-after-v0-2-16"
+}
