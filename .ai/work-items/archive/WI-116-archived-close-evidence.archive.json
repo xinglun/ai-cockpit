@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T06:25:04Z",
+  "files": {
+    "contractDigest": "sha256:1c29be015747842901b98bee1d8fbe8d2901fa81ad1d123e281943033a710233",
+    "contractPath": ".ai/work-items/archive/WI-116-archived-close-evidence.contract.json",
+    "outcomeDigest": "sha256:1df4b5ac7683405968ba34c84fd10a7b01474ec035fd309a9e0ffe96096fbe45",
+    "outcomePath": ".ai/work-items/archive/WI-116-archived-close-evidence.outcome.json",
+    "summaryDigest": "sha256:c6e58bd4d74876a55e650787801f1c594f9b3fb25c0b50a2ad54538db96f4799",
+    "summaryPath": ".ai/work-items/archive/WI-116-archived-close-evidence.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-116-archived-close-evidence"
+}

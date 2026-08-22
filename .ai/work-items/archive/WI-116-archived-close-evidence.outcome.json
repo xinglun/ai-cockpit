@@ -1,0 +1,39 @@
+{
+  "acceptanceResults": [
+    "Archived evidence remains valid after a post-archive repository commit and close succeeds with structured human decision",
+    "Tampered archive, evidence identity, manifest digest, and foreign runtime still fail closed",
+    "Large tracked text files remain inspectable from bounded patch facts when the patch itself is within the inspection limit",
+    "Regression tests and tri-language lifecycle documentation describe immutable archive binding"
+  ],
+  "createdAt": "2026-08-22T06:25:01Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:df3ce33dbab85762d22ee4c74d2f5b03642aaf73d764e19c10139c768b55b4bc",
+  "evidenceRefs": [
+    ".ai/evidence/WI-116-archived-close-evidence.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-116-archived-close-evidence.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-116-archived-close-evidence.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-116-archived-close-evidence"
+}
