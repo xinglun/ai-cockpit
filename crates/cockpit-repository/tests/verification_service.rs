@@ -156,6 +156,27 @@ fn missing_profile_executes_as_never_reuse_instead_of_blocking_verification() {
     fs::remove_dir_all(root).expect("cleanup");
 }
 
+#[test]
+fn repository_receipt_projects_the_typed_route_stage() {
+    let root = repository("route-stage");
+    cockpit_repository::attach(&root).expect("attach");
+    let mut route_request = request("true", vec![], RepositoryVerificationPolicy::NeverReuse);
+    route_request.stage = "pre_ci".into();
+    let run = run_repository_verification(&root, &route_request).expect("verify");
+    let plan = run.receipt.plan_receipt.expect("route receipt");
+    assert_eq!(plan.stage.as_str(), "pre_ci");
+    assert_eq!(plan.initial_tier, cockpit_protocol::VerificationTier::T0);
+    assert_eq!(
+        plan.assurance,
+        cockpit_protocol::EvidenceAssurance::SelfDeclared
+    );
+    assert_eq!(
+        run.receipt.repository_id,
+        Some(cockpit_repository::repository_id(&root).to_string())
+    );
+    fs::remove_dir_all(root).expect("cleanup");
+}
+
 #[cfg(unix)]
 #[test]
 fn never_reuse_execution_preserves_the_requested_executable_path() {

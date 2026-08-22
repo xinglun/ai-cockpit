@@ -1,0 +1,138 @@
+{
+  "acceptanceResults": [
+    "A1: VerificationStage is a strict typed vocabulary task pre_ci pr merge release; unknown stages fail closed and repository reuse binds base revision consistently for every non-task stage",
+    "A2: VerificationPlanReceipt binds initial and final VerificationTier, independent EvidenceAssurance, selection reasons, executed/reused/shared nodes, escalations, stage, and elapsed facts; a final tier lower than the initial or policy requirement is rejected without a new explicit decision",
+    "A3: Repository and CLI verification expose route metadata and preserve DependencyConfidence, affected nodes, protected nodes, and policy-required execution; reuse and cost observation cannot lower the required tier, assurance, or protected gate",
+    "A4: Cost observations are automatically present in merged verification output, max concurrent processes is aggregated across parallel runs, empty plans report zero estimated parallelism, and malformed repository/runtime identities are unknown rather than complete",
+    "A5: CI quality-gate boundary remains explicit and structured: local pre_ci feedback and independent CI/provider assurance are distinct, existing Cargo checks remain in Phase 1, and no CI result can override a red governance state",
+    "A6: English Japanese and Simplified Chinese documentation describe the complete route and the principle Share facts and computation, never authority or governance decisions"
+  ],
+  "createdAt": "2026-08-22T21:44:33Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:5e0e7468c63b3376945d202bc289b25902ee3be3262913b088755d8e284f3b2b",
+  "evidenceRefs": [
+    ".ai/evidence/WI-147-verification-route-convergence.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-147-verification-route-convergence.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-147-verification-route-convergence.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:cea2ff134347b98de3eea54d6fdf764101130c5ce258ce1bc6feb9c956571358",
+      "workItemId": "WI-147-verification-route-convergence"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-147-verification-route-convergence.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-147-verification-route-convergence.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-147-verification-route-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-147-verification-route-convergence.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-147-verification-route-convergence.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-147-verification-route-convergence.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-147-verification-route-convergence.contract.json"
+          ],
+          "inference": false,
+          "text": "Complete the verification route from Contract and Policy through Stage, Planner, DAG and reuse, Execution, EvidenceReceipt, CI gate, and Outcome with monotonic fail-closed semantics."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-147-verification-route-convergence.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-147-verification-route-convergence"
+  },
+  "taskReportDigest": "sha256:bac1671f14fb2c45123df41577a428894ed52696d6545f89f0bb3b352e2ab7fd",
+  "taskReportMarkdownDigest": "sha256:eb628337f787972bcaadb6f026c9632867422ad2826c78eb1f0770319b66e96b",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-147-verification-route-convergence.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-147-verification-route-convergence"
+}

@@ -1,0 +1,137 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "typed stage, unknown stage, and monotonic receipt regression tests",
+          "path": "crates/cockpit-protocol/tests/verification_semantics.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-protocol --test verification_semantics"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "plan receipt monotonicity and orthogonal assurance test",
+          "path": "crates/cockpit-verification/tests/route_convergence.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-verification --test route_convergence"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "repository and CLI route receipt projections",
+          "path": "crates/cockpit-repository/tests/verification_service.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-repository --test verification_service"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "cost observation, empty plan, and merged CLI output",
+          "path": "crates/cockpit-cli/tests/verify.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-cli --test verify"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "CI shadow boundary and route documentation",
+          "path": "docs/reference/verification-route.md",
+          "type": "document",
+          "verification": "bash tests/docs/documentation_acceptance.sh"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "tri-language verification route documentation",
+          "path": "docs/reference/verification-route.zh-CN.md",
+          "type": "document",
+          "verification": "bash tests/docs/documentation_acceptance.sh"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [],
+  "checkpointAt": "2026-08-22T21:17:24Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T21:16:05Z",
+  "failedGate": "finish.verification",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-verification/src/lib.rs",
+      "crates/cockpit-repository/src/lib.rs",
+      "docs/reference/verification-route.md"
+    ],
+    "reason": "The route connects typed stage, policy traceability, execution facts, and advisory cost without changing authority or assurance semantics.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-22T21:44:30Z",
+  "preflightContractDigest": "sha256:a769faec9258d6aa8b0c56e66563deb0d96755a02983981b87feb4fa095044eb",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:cea2ff134347b98de3eea54d6fdf764101130c5ce258ce1bc6feb9c956571358",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-protocol/tests/verification_semantics.rs",
+        "crates/cockpit-verification/tests/route_convergence.rs",
+        "crates/cockpit-repository/tests/verification_context.rs",
+        "crates/cockpit-cli/tests/verify.rs"
+      ],
+      "expected": "pre_ci is accepted, unknown stages stop, and a route cannot downgrade its policy-required tier or assurance.",
+      "required": true,
+      "scenario": "typed stage and monotonic route",
+      "status": "verified",
+      "verificationPlan": "Run protocol, verification, repository, and CLI route convergence regression tests with valid, unknown, downgrade, and protected-gate cases."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-verification/tests/route_convergence.rs",
+        "crates/cockpit-cli/tests/verify.rs",
+        "crates/cockpit-verification/tests/cost_observation.rs"
+      ],
+      "expected": "Merged parallel output preserves maximum concurrency, embeds advisory cost observation, and never reports an empty plan as parallelism one.",
+      "required": true,
+      "scenario": "parallel receipt and cost aggregation",
+      "status": "verified",
+      "verificationPlan": "Run multi-command verification and cost observation tests, including missing and malformed identity cases."
+    },
+    {
+      "evidence": [
+        "docs/reference/verification-route.md",
+        "docs/reference/verification-route.zh-CN.md",
+        "docs/reference/verification-route.ja.md",
+        ".github/workflows/ci.yml"
+      ],
+      "expected": "Pre-CI and provider stages remain separate and a red governance state cannot be overridden by a passing command.",
+      "required": true,
+      "scenario": "CI boundary and governance stop",
+      "status": "verified",
+      "verificationPlan": "Run route projection and CI shadow static checks plus existing workspace quality gates."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T21:44:33Z",
+  "workItemId": "WI-147-verification-route-convergence"
+}

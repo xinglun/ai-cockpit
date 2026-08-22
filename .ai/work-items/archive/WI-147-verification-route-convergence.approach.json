@@ -1,0 +1,77 @@
+{
+  "derivations": [
+    {
+      "confidence": "medium",
+      "evidenceRefs": [
+        "repository-snapshot"
+      ],
+      "inputFactKeys": [
+        "buildSystems"
+      ],
+      "key": "verificationCapability",
+      "rule": "observer.quality_commands_from_detected_build_system",
+      "value": [
+        {
+          "args": [
+            "test",
+            "--workspace"
+          ],
+          "program": "cargo",
+          "state": "detected"
+        }
+      ]
+    }
+  ],
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-147-verification-route-convergence",
+    "repository-snapshot"
+  ],
+  "facts": [
+    {
+      "confidence": "high",
+      "evidenceRefs": [
+        "git:HEAD"
+      ],
+      "key": "baseRevision",
+      "origin": "observed",
+      "value": "c495dfb0bf5f12999e20508e0baec4b653508502"
+    },
+    {
+      "confidence": "high",
+      "evidenceRefs": [
+        "repository-snapshot"
+      ],
+      "key": "buildSystems",
+      "origin": "observed",
+      "value": [
+        "Cargo"
+      ]
+    },
+    {
+      "confidence": "high",
+      "evidenceRefs": [
+        "repository-snapshot"
+      ],
+      "key": "languages",
+      "origin": "observed",
+      "value": [
+        "Python",
+        "Rust"
+      ]
+    },
+    {
+      "confidence": "high",
+      "evidenceRefs": [
+        ".ai/cockpit.toml"
+      ],
+      "key": "repositoryId",
+      "origin": "observed",
+      "value": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b"
+    }
+  ],
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6b0b136391994f2897e86258c2330bc1edf98e5877d3a1afe0bb5d9c038c28db",
+  "schemaVersion": 2,
+  "unknowns": [],
+  "workItemId": "WI-147-verification-route-convergence"
+}

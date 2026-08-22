@@ -4,8 +4,9 @@ use cockpit_agent::AgentExitCode;
 use cockpit_git::GitRepository;
 use cockpit_knowledge::{Query, query};
 use cockpit_protocol::{
-    AgentProvider, ConcurrencyBoundary, DataClassification, DelegatedEvidence, EvidencePersistence,
-    EvidenceRetention, HumanDecision, RepositoryConfig, validate_protocol_version,
+    AgentProvider, ConcurrencyBoundary, DataClassification, DelegatedEvidence, EvidenceAssurance,
+    EvidencePersistence, EvidenceRetention, HumanDecision, RepositoryConfig, VerificationStage,
+    VerificationTier, validate_protocol_version,
 };
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
@@ -132,6 +133,8 @@ enum CommandKind {
         args: Vec<String>,
         #[arg(long, default_value_t = 2)]
         workers: usize,
+        #[arg(long, default_value = "task")]
+        stage: String,
     },
     Evidence {
         #[command(subcommand)]
@@ -702,8 +705,10 @@ fn run() -> Result<()> {
             command,
             args,
             workers,
+            stage,
         } => {
             require_compatible(&repo, &runtime_context)?;
+            let stage = VerificationStage::parse(&stage).map_err(|error| anyhow::anyhow!(error))?;
             let root = std::fs::canonicalize(&repo).context("canonicalize repository")?;
             if let Some(work_item_id) = work_item.as_deref() {
                 cockpit_repository::require_policy_for_verification(&root, work_item_id)
@@ -730,7 +735,7 @@ fn run() -> Result<()> {
                     program,
                     args: command_args.clone(),
                     scope: vec!["**".into()],
-                    stage: "task".into(),
+                    stage: stage.as_str().into(),
                     runner: "local".into(),
                     runtime_digest: runtime_context.runtime_digest.to_string(),
                     base_commit: None,
@@ -800,6 +805,38 @@ fn run() -> Result<()> {
                 run.final_snapshot = final_snapshot;
             }
             run.receipt.elapsed_ms = service_started.elapsed().as_millis();
+            run.receipt.repository_id = Some(cockpit_repository::repository_id(&root).to_string());
+            run.receipt.runtime_version = Some(runtime_context.runtime_version.clone());
+            run.receipt.runtime_digest = Some(runtime_context.runtime_digest.to_string());
+            let mut plan_receipt = cockpit_verification::VerificationPlanReceipt::new(
+                stage,
+                VerificationTier::T0,
+                VerificationTier::T0,
+                EvidenceAssurance::SelfDeclared,
+                vec!["cli_route_stage_explicit".into()],
+                Vec::new(),
+            )
+            .map_err(|error| anyhow::anyhow!(error))?;
+            plan_receipt.executed_nodes = run
+                .receipt
+                .results
+                .iter()
+                .filter(|result| !result.reused)
+                .map(|result| result.node_id.clone())
+                .collect();
+            plan_receipt.reused_nodes = run
+                .receipt
+                .results
+                .iter()
+                .filter(|result| result.reused)
+                .map(|result| result.node_id.clone())
+                .collect();
+            plan_receipt.execution_elapsed_ms = run.receipt.execution_elapsed_ms;
+            plan_receipt.planning_elapsed_ms = run.receipt.planning_elapsed_ms;
+            plan_receipt.saved_executions = run.receipt.nodes_reused;
+            run.receipt.plan_receipt = Some(plan_receipt);
+            let cost_observation = run.receipt.cost_observation();
+            run.receipt.cost_observation = Some(cost_observation);
             let mut output = serde_json::to_value(&run.receipt)?;
             output["runtimeVersion"] =
                 serde_json::Value::String(runtime_context.runtime_version.clone());
@@ -1392,6 +1429,10 @@ fn merge_verification_runs(
             .execution_elapsed_ms
             .max(run.receipt.execution_elapsed_ms);
         merged.receipt.processes_spawned += run.receipt.processes_spawned;
+        merged.receipt.max_concurrent_processes = merged
+            .receipt
+            .max_concurrent_processes
+            .max(run.receipt.max_concurrent_processes);
         merged.receipt.process_spawn_failures += run.receipt.process_spawn_failures;
         merged.receipt.git_calls += run.receipt.git_calls;
         merged.receipt.files_read += run.receipt.files_read;

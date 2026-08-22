@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-22T21:44:37Z",
+  "files": {
+    "contractDigest": "sha256:4b7e3746ff02e8aca36e68de5a1815289dd0e0c7345625cf3759bee74033279b",
+    "contractPath": ".ai/work-items/archive/WI-147-verification-route-convergence.contract.json",
+    "eventsDigest": "sha256:118bc9bf330cf7ed91aa74c1055d3815410c2b6e7a93adcc0d21e826322d7add",
+    "eventsPath": ".ai/work-items/archive/WI-147-verification-route-convergence.events.jsonl",
+    "outcomeDigest": "sha256:dfbf5d17b1565bbba2fa1237fdbd375ded51b4e7fe190c13e0130f5f960c1540",
+    "outcomePath": ".ai/work-items/archive/WI-147-verification-route-convergence.outcome.json",
+    "summaryDigest": "sha256:9ad0c3585782a4e7335864549c24948f11e1d1c6fd24111fce5801b7268d2e79",
+    "summaryPath": ".ai/work-items/archive/WI-147-verification-route-convergence.summary.json",
+    "taskReportDigest": "sha256:bac1671f14fb2c45123df41577a428894ed52696d6545f89f0bb3b352e2ab7fd",
+    "taskReportMarkdownDigest": "sha256:eb628337f787972bcaadb6f026c9632867422ad2826c78eb1f0770319b66e96b",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-147-verification-route-convergence.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-147-verification-route-convergence.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-147-verification-route-convergence"
+}

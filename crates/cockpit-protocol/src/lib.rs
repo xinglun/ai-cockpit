@@ -246,6 +246,48 @@ impl VerificationTier {
     }
 }
 
+/// The execution stage is a governance boundary, not an arbitrary display
+/// label.  `pre_ci` is local pre-CI feedback; `pr`, `merge`, and `release`
+/// remain independent provider or protected-gate stages.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, Ord, PartialOrd)]
+#[serde(rename_all = "snake_case")]
+pub enum VerificationStage {
+    Task,
+    #[serde(rename = "pre_ci")]
+    PreCi,
+    #[serde(rename = "pr")]
+    PullRequest,
+    Merge,
+    Release,
+}
+
+impl VerificationStage {
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::Task => "task",
+            Self::PreCi => "pre_ci",
+            Self::PullRequest => "pr",
+            Self::Merge => "merge",
+            Self::Release => "release",
+        }
+    }
+
+    pub fn parse(value: &str) -> Result<Self, String> {
+        match value {
+            "task" => Ok(Self::Task),
+            "pre_ci" => Ok(Self::PreCi),
+            "pr" => Ok(Self::PullRequest),
+            "merge" => Ok(Self::Merge),
+            "release" => Ok(Self::Release),
+            other => Err(format!("unsupported verification stage: {other}")),
+        }
+    }
+
+    pub const fn requires_base_revision(self) -> bool {
+        !matches!(self, Self::Task)
+    }
+}
+
 /// The assurance source for an authority or delegated evidence claim. These
 /// labels describe provenance, not an automatic approval.  The wire spelling
 /// remains compatible with the pre-existing `AssuranceLevel` vocabulary.
