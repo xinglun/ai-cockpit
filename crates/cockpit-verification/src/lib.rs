@@ -146,8 +146,8 @@ pub struct VerificationPlan {
     pub max_workers: usize,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct VerificationResult {
     pub node_id: String,
     pub passed: bool,
@@ -386,14 +386,14 @@ impl VerificationCommand {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum PlannedAction {
     Reuse,
     Execute,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum PlannedState {
     Fresh,
@@ -427,7 +427,7 @@ impl PlannedReason {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum PlannedSatisfaction {
     Execution,
@@ -460,9 +460,21 @@ impl VerificationExecutionPlan {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct VerificationReceipt {
+    /// These fields are omitted from an in-memory execution receipt and are
+    /// populated only when the receipt is persisted as Work Item evidence.
+    /// Persisted evidence validation requires all four fields, so a raw
+    /// execution result cannot be mistaken for repository-bound evidence.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub work_item_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub repository_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub runtime_version: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub runtime_digest: Option<String>,
     pub results: Vec<VerificationResult>,
     pub receipt_candidates: Vec<ReusableReceipt>,
     pub nodes_planned: usize,
@@ -919,6 +931,10 @@ fn execute_verification_plan_bounded_with_budget_at(
         });
     }
     Ok(VerificationReceipt {
+        work_item_id: None,
+        repository_id: None,
+        runtime_version: None,
+        runtime_digest: None,
         results,
         receipt_candidates,
         nodes_planned: planned_count,

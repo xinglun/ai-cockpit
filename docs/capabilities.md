@@ -319,6 +319,15 @@ parallel execution.
 Diagnosis reports measured snapshot and verification cost only; it does not
 pretend to be a benchmark.
 
+Verification evidence is a strict v2 envelope. Unknown envelope fields,
+malformed captured receipts, and missing nested Work Item/repository/Runtime
+identity fail closed. Current CLI lifecycle commands bind evidence to the
+executable's Runtime version and digest, so a foreign Runtime cannot authorize
+the current Work Item. A pre-v2 evidence record is immutable historical input:
+Outcome projects it as yellow `legacy_evidence_historical` and never presents it
+as a current red failure or fresh green result. Re-run verification to produce
+current v2 evidence.
+
 ### Use MCP
 
 Start the server with an explicit repository binding:

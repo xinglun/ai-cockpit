@@ -1,0 +1,43 @@
+{
+  "acceptanceCriteria": [
+    "New verification evidence uses a strict schema and unknown top-level/nested fields fail closed",
+    "Missing nested receipt identity and malformed receipt cannot produce green outcome or pass current lifecycle",
+    "CLI current Runtime identity is required for finish/archive/close/outcome and foreign runtime evidence fails closed",
+    "Legacy historical evidence remains immutable and outcome explains it is not revalidated rather than claiming a current red failure",
+    "Regression tests cover foreign runtime",
+    " missing identity",
+    " unknown fields",
+    " malformed and legacy evidence",
+    "English",
+    " Simplified Chinese",
+    " and Japanese documentation state the assurance and legacy boundary"
+  ],
+  "authority": "authorized",
+  "baseRevision": "d76ec8b88d4c6be4b1280effc00545d9a4e44bb4",
+  "createdAt": "2026-08-22T03:13:41Z",
+  "goal": "Introduce strict typed verification evidence and receipt validation, bind current lifecycle operations to the installed Runtime identity, and distinguish legacy historical evidence from current failures.",
+  "intent": "Strengthen verification evidence assurance and make historical evidence projections honest without rewriting immutable bytes.",
+  "mode": "implementation",
+  "outOfScope": [
+    "External provider attestation implementation",
+    "Rewriting historical evidence bytes",
+    "Changing global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a14abcd1a6fdc35e497d666c6c3016d133ae791bf73047a98e9657332021b395",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation_acceptance"
+  ],
+  "risk": "high",
+  "scope": [
+    "crates/**",
+    "tests/**",
+    "docs/**",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-110-evidence-assurance"
+}

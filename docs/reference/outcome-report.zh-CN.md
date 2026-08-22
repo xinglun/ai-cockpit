@@ -34,7 +34,14 @@ capabilityClaims:
 `evidenceSchemaVersion=2` 验证证据。证据缺失或快照过期显示为黄色；证据被篡改、
 格式错误、身份不匹配或摘要不一致显示为红色。`finish`、`archive`、`close` 在
 相同校验失败时会 fail closed，不会因为证据文件存在就宣称成功。旧版证据不会被
-自动改写为绿色，必须重新验证生成新版证据。
+自动改写为绿色，必须重新验证生成新版证据。当前 CLI 会把执行
+`verify`/`finish`/`archive`/`close` 的 Runtime `runtimeVersion` 和
+`runtimeDigest` 绑定到证据；即使另一个 Runtime 生成的证据格式正确，也会被拒绝。
+v2 envelope 和被保存的 receipt 会拒绝未知字段，并要求嵌套的 Work Item、repository 和
+Runtime identity。`digest_only` 保留模式没有可供校验的 captured receipt。可读取的
+pre-v2 记录（以缺少 `evidenceSchemaVersion` 识别）会投影为黄色
+`legacy_evidence_historical`：它只是历史输入，不是当前失败，也不是新的绿色结果。
+v2 记录若缺少 identity 仍然显示红色。
 
 验收标准、intent、scope 等字段是 Work Item owner 写入的治理原文，报告保留原文并
 标注“验收标准（Contract 原文）”，不会擅自翻译或改变 Contract bytes。只有 Runtime

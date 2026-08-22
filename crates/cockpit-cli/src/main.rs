@@ -9,9 +9,11 @@ use cockpit_protocol::{
 };
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
-    archive_work_item, attach, checkpoint_work_item, close_work_item_with_decision,
-    close_work_item_with_structured_decision, finish_work_item, generate_knowledge,
-    run_repository_verification, scaffold_work_item, start_work_item_with_options, status,
+    archive_work_item_with_runtime, attach, checkpoint_work_item,
+    close_work_item_with_decision_and_runtime,
+    close_work_item_with_structured_decision_and_runtime, finish_work_item_with_runtime,
+    generate_knowledge, run_repository_verification, scaffold_work_item,
+    start_work_item_with_options, status,
 };
 use serde_json::json;
 use std::path::PathBuf;
@@ -442,9 +444,13 @@ fn run() -> Result<()> {
                     .context("parse contract")?;
             cockpit_protocol::validate_protocol_version(contract.protocol_version)
                 .context("validate contract protocol")?;
-            let decision =
-                cockpit_repository::governance_decision_for_contract(&repo, &contract, &snapshot)
-                    .context("evaluate governance decision")?;
+            let decision = cockpit_repository::governance_decision_for_contract_with_runtime(
+                &repo,
+                &contract,
+                &snapshot,
+                &runtime_context,
+            )
+            .context("evaluate governance decision")?;
             println!("{}", serde_json::to_string_pretty(&decision)?);
         }
         CommandKind::Observe { repo } => {
@@ -552,7 +558,8 @@ fn run() -> Result<()> {
         }
         CommandKind::Finish { repo, id } => {
             require_compatible(&repo, &runtime_context)?;
-            let receipt = finish_work_item(&repo, &id).context("finish work item")?;
+            let receipt = finish_work_item_with_runtime(&repo, &id, &runtime_context)
+                .context("finish work item")?;
             println!(
                 "{}",
                 serde_json::to_string_pretty(&lifecycle_output(&repo, &id, &receipt)?)?
@@ -560,7 +567,8 @@ fn run() -> Result<()> {
         }
         CommandKind::Archive { repo, id } => {
             require_compatible(&repo, &runtime_context)?;
-            let receipt = archive_work_item(&repo, &id).context("archive work item")?;
+            let receipt = archive_work_item_with_runtime(&repo, &id, &runtime_context)
+                .context("archive work item")?;
             println!(
                 "{}",
                 serde_json::to_string_pretty(&lifecycle_output(&repo, &id, &receipt)?)?
@@ -607,11 +615,21 @@ fn run() -> Result<()> {
                     })?,
                     resume_condition,
                 };
-                close_work_item_with_structured_decision(&repo, &id, &decision)
-                    .context("close work item with structured decision")?
+                close_work_item_with_structured_decision_and_runtime(
+                    &repo,
+                    &id,
+                    &decision,
+                    &runtime_context,
+                )
+                .context("close work item with structured decision")?
             } else {
-                close_work_item_with_decision(&repo, &id, &human_decision)
-                    .context("close work item")?
+                close_work_item_with_decision_and_runtime(
+                    &repo,
+                    &id,
+                    &human_decision,
+                    &runtime_context,
+                )
+                .context("close work item")?
             };
             println!(
                 "{}",
@@ -728,12 +746,11 @@ fn run() -> Result<()> {
             output["runtimeDigest"] =
                 serde_json::Value::String(runtime_context.runtime_digest.to_string());
             if let Some(work_item) = work_item {
-                cockpit_repository::record_verification_with_snapshot(
+                cockpit_repository::record_verification_with_runtime(
                     &root,
                     &work_item,
                     &output,
-                    &runtime_context.runtime_version,
-                    &runtime_context.runtime_digest,
+                    &runtime_context,
                     &run.final_snapshot,
                 )
                 .context("record verification evidence")?;
@@ -861,7 +878,8 @@ fn run() -> Result<()> {
             WorkItemCommand::Outcome { repo, id, json } => {
                 require_compatible(&repo, &runtime_context)?;
                 let outcome =
-                    cockpit_repository::outcome_v2(&repo, &id).context("read Work Item outcome")?;
+                    cockpit_repository::outcome_v2_with_runtime(&repo, &id, &runtime_context)
+                        .context("read Work Item outcome")?;
                 if json {
                     println!("{}", serde_json::to_string_pretty(&outcome)?);
                 } else {
