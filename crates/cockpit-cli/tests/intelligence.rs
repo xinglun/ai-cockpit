@@ -164,6 +164,22 @@ fn intelligence_commands_emit_repository_bound_json_and_unknowns() {
     let red_text = String::from_utf8(red_outcome.stdout).expect("UTF-8 red outcome");
     assert!(red_text.contains("🔴 停止"));
     assert!(red_text.contains("验证证据无效"));
+    for (language, title, status) in [
+        ("ja", "結果 — WI-INTELLIGENCE", "🔴 停止"),
+        ("en", "Task Result — WI-INTELLIGENCE", "🔴 Stop"),
+    ] {
+        let localized = Command::new(binary)
+            .args(["work-item", "outcome", "--repo"])
+            .arg(directory.path())
+            .args(["--id", "WI-INTELLIGENCE"])
+            .env("AI_COCKPIT_LANGUAGE", language)
+            .output()
+            .expect("localized human outcome");
+        assert!(localized.status.success(), "language={language}");
+        let text = String::from_utf8(localized.stdout).expect("UTF-8 localized outcome");
+        assert!(text.contains(title), "language={language}");
+        assert!(text.contains(status), "language={language}");
+    }
     let machine_outcome = Command::new(binary)
         .args(["work-item", "outcome", "--repo"])
         .arg(directory.path())

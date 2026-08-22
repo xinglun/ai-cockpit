@@ -1,0 +1,34 @@
+{
+  "acceptanceCriteria": [
+    "human Outcome fixed headings, status labels, recovery prompts, and red/yellow/green markers render in Chinese, Japanese, and English according to AI_COCKPIT_LANGUAGE",
+    "machine --json output keeps stable field names and enum values across all three language settings",
+    "human-authored acceptance criteria remain present as Contract-language source text and are never silently translated",
+    "a contradictory verification receipt renders red and never verified or green in any supported language"
+  ],
+  "authority": "authorized",
+  "baseRevision": "9ba3d0aa6eeb6a558ed550d27934f56d557f2bd8",
+  "createdAt": "2026-08-22T01:22:23Z",
+  "goal": "Prove that Outcome presentation is readable and language-aware without changing governance bytes.",
+  "intent": "Extend the Outcome CLI regression matrix to cover zh-CN, ja, and en fixed labels and markers.",
+  "mode": "test",
+  "outOfScope": [
+    "automatic translation of acceptance criteria",
+    "machine JSON schema changes",
+    "new governance decisions"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8a7148d4ecf8c9e39f0f5f147ae9ea499c18bfdf734d4afb1cb01bdbca48e22b",
+  "requiredEvidenceClasses": [],
+  "risk": "low",
+  "scope": [
+    "crates/cockpit-cli/tests/intelligence.rs",
+    "docs/reference/outcome-report.md",
+    "docs/reference/outcome-report.zh-CN.md",
+    "docs/reference/outcome-report.ja.md",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-101-outcome-language-acceptance"
+}
