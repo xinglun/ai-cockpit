@@ -94,6 +94,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-151——v0.2.16 发布后自治理验收 | 已实现 | [Work Item](../work-items/WI-151-post-release-v0-2-16-self-governance.zh-CN.md)；`.ai/evidence/WI-151-post-release-v0-2-16-self-governance.verification.json`；`.ai/decisions/WI-151-post-release-v0-2-16-self-governance.close.json` |
 | WI-152——v0.2.16 文档对齐修正 | 已实现 | [Work Item](../work-items/WI-152-documentation-parity-after-v0-2-16.zh-CN.md)；`.ai/evidence/WI-152-documentation-parity-after-v0-2-16.verification.json`；`.ai/decisions/WI-152-documentation-parity-after-v0-2-16.close.json` |
 | WI-153——历史证据投影 | 已实现 | [Work Item](../work-items/WI-153-historical-evidence-projection.zh-CN.md)；`.ai/evidence/WI-153-historical-evidence-projection.verification.json`；`.ai/decisions/WI-153-historical-evidence-projection.close.json` |
+| WI-155——CI/release gate 对齐 | 已实现 | [Work Item](../work-items/WI-155-ci-release-gate-convergence.zh-CN.md)；[发布分发](../release/distribution.zh-CN.md)；`.ai/evidence/WI-155-ci-release-gate-convergence.verification.json`；`.ai/decisions/WI-155-ci-release-gate-convergence.close.json` |
 
 ## 当前边界
 

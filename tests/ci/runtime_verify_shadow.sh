@@ -5,6 +5,12 @@ repo="${1:-${GITHUB_WORKSPACE:-$(pwd)}}"
 output="${2:-${AI_COCKPIT_SHADOW_OUTPUT:-target/ci-runtime-verify-shadow.json}}"
 runtime_tag="${AI_COCKPIT_RUNTIME_TAG:-v0.2.15}"
 
+# Phase 1 is an execution smoke only. It proves that one immutable public
+# Runtime can execute a repository-bound verification command. It does not
+# claim policy-route/planner coverage, affected-graph completeness, or
+# cross-Work-Item physical execution/evidence-receipt coverage.
+shadow_boundary="execution_smoke"
+
 die() {
   printf 'runtime verify shadow: %s\n' "$1" >&2
   exit 1
@@ -85,9 +91,10 @@ jq -n \
   --arg binaryDigest "$runtime_digest" \
   --arg platform "$target" \
   --arg downloadSource "$download_source" \
+  --arg boundary "$shadow_boundary" \
   --slurpfile verify "$verify_output" \
-  '{schemaVersion:1,phase:1,tag:$tag,version:$version,archiveDigest:$archiveDigest,binaryDigest:$binaryDigest,platform:$platform,downloadSource:$downloadSource,verify:$verify[0],cargoShadowRequired:true}' \
+  '{schemaVersion:1,phase:1,boundary:$boundary,tag:$tag,version:$version,archiveDigest:$archiveDigest,binaryDigest:$binaryDigest,platform:$platform,downloadSource:$downloadSource,verify:$verify[0],cargoShadowRequired:true,nonClaims:["policy_route","affected_graph","physical_execution_receipt"]}' \
   > "$output"
 jq -e --arg tag "$runtime_tag" --arg digest "$runtime_digest" \
-  '.phase == 1 and .tag == $tag and .binaryDigest == $digest and .cargoShadowRequired == true and .verify.passed == true' \
+  '.phase == 1 and .boundary == "execution_smoke" and .tag == $tag and .binaryDigest == $digest and .cargoShadowRequired == true and .verify.passed == true and (.nonClaims | index("policy_route")) != null and (.nonClaims | index("affected_graph")) != null and (.nonClaims | index("physical_execution_receipt")) != null' \
   "$output" >/dev/null || die 'Runtime shadow receipt is malformed'
