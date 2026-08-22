@@ -1,0 +1,147 @@
+{
+  "acceptanceResults": [
+    "Archived v2 evidence created by an older compatible Runtime is presented as historical yellow with historical_evidence_not_revalidated",
+    " not current red failure",
+    "Active Work Items with foreign Runtime evidence remain fail-closed and red",
+    "Malformed",
+    " tampered",
+    " symlink",
+    " identity-mismatched",
+    " or missing archived evidence is not hidden by historical projection",
+    "Regression tests cover archived foreign-runtime projection and active foreign-runtime rejection",
+    "Tri-language parity indexes list WI-147",
+    " WI-148",
+    " WI-149",
+    " WI-150",
+    " WI-151",
+    " and WI-152 with valid links"
+  ],
+  "createdAt": "2026-08-22T22:54:44Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:fe4a109665aa3a050d47b78a3ce4121c06b2ed7e6eddc3d7a2f084312bcf928e",
+  "evidenceRefs": [
+    ".ai/evidence/WI-153-historical-evidence-projection.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-153-historical-evidence-projection.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-153-historical-evidence-projection.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:310e6999206c6be65a2a3cbaad415289db7fea6dd0b230203d554b022c9fdeb2",
+      "workItemId": "WI-153-historical-evidence-projection"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-153-historical-evidence-projection.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-153-historical-evidence-projection.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-153-historical-evidence-projection.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-153-historical-evidence-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-153-historical-evidence-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-153-historical-evidence-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-153-historical-evidence-projection.contract.json"
+          ],
+          "inference": false,
+          "text": "Add a fail-closed historical Outcome projection for archived v2 evidence with a foreign Runtime identity, add regression tests, and index WI-147 through WI-152 in all reader-facing parity documents."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-153-historical-evidence-projection.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-153-historical-evidence-projection"
+  },
+  "taskReportDigest": "sha256:f66e533ea9d1605800b63ecd4e143f6ce1e9090a1ec79fdf6f8701ea66ceaa38",
+  "taskReportMarkdownDigest": "sha256:359e088d3ad9bca00fdd1285ed1e7492be6fae9aca5fd5ce06ec3f5d20d1f3db",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-153-historical-evidence-projection.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-153-historical-evidence-projection"
+}
