@@ -1,0 +1,43 @@
+{
+  "acceptanceCriteria": [
+    "public reader documentation follows the reference project's reader-first language-switching route without exposing internal migration or implementation-history prose",
+    "all documented MCP commands include an explicit --repo binding and no bare repository-less invocation remains",
+    "capability and parity pages describe current user-visible behavior with Implemented, Partial, Deferred, or Out of Scope status instead of overclaiming completeness",
+    "the attach and adoption guidance explains repository-local protocol state and external shared Runtime without mentioning V1 copy or migration history as an adopter prerequisite",
+    "English, Chinese, and Japanese counterparts remain semantically aligned and documentation acceptance checks cover the corrected commands and reader route",
+    "human-facing Outcome output requirements remain visible: readable sections, localized fixed labels, preserved contract-language acceptance text, and red/yellow/green markers"
+  ],
+  "authority": "authorized",
+  "baseRevision": "b974f4aea0eb91763b84e051ca3b5a2545f0121e",
+  "createdAt": "2026-08-22T01:18:10Z",
+  "goal": "Make public documentation understandable to adopters and accurate about current Runtime boundaries.",
+  "intent": "Remove internal migration-history noise and invalid repository-less command examples while preserving explicit repository binding and trilingual reader navigation.",
+  "mode": "docs",
+  "outOfScope": [
+    "runtime behavior changes",
+    "configuration format changes",
+    "rewriting historical Work Item records",
+    "automatic translation of human-authored Contract text"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5715d39d93520b0521140edbe46ddd26bbec778809d72c9d3fcd71b85835885b",
+  "requiredEvidenceClasses": [],
+  "risk": "low",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/capabilities.md",
+    "docs/capabilities.zh-CN.md",
+    "docs/capabilities.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "tests/docs/documentation_acceptance.sh",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-99-reader-docs-cleanup"
+}

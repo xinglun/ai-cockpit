@@ -95,8 +95,8 @@ Attachment creates the minimum repository-owned scaffold:
 └── knowledge/
 ```
 
-It does not copy Rust source, V1 runtime files, Python helpers, provider
-instructions, or runtime schemas into the target. The first profile is `calibration_required` until a person
+It does not copy Runtime implementation or provider configuration into the target.
+The first profile is `calibration_required` until a person
 confirms a quality command:
 
 ```bash

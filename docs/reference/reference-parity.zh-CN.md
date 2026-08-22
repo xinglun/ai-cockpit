@@ -32,13 +32,14 @@ capabilityClaims:
 | 公开 Release 与新 adopter 验收 | 已实现 | 已提供公开 binary harness、Release 证据和发布后 CI job。 |
 | Runtime-only upgrade 与 repository migration | 已实现 | `compatibility`、`migrate plan` 和批准后的 `migrate apply` 保留历史 evidence 并绑定 Runtime identity。 |
 | N-1 旧 adopter 升级验收 | 已提供公开 artifact harness | harness 覆盖旧 schema 检测、批准门控、历史保持与继续运行；每个 Release 是否自动启用该门禁必须由 workflow 明确声明。 |
-| 参考 installer、Makefile 和 V1 helper scripts | 有意不复制 | Rust 项目分发 Rust binary，并把安装/provider 配置与 repository state 分离。 |
+| 安装和 provider 配置 | 外部边界 | Rust 项目分发一份共享 binary，并把安装/provider 配置与 repository state 分离。 |
 
 ## 已完成内容
 
-Rust 实现已经覆盖参考产品的核心用户边界：一份 Runtime 可以治理多个相互
-独立 attach 的 repository；repository state 隔离；Agent discovery 显式且有
-ownership；决定绑定证据；公开 Release 验收可重复执行。
+Rust 实现覆盖当前用户边界：一份 Runtime 可以治理多个相互独立 attach 的
+repository；repository state 隔离；Agent discovery 显式且有 ownership；决定绑定
+证据；公开 Release 验收可重复执行。矩阵中标为部分实现或可用的能力仍是明确的
+后续边界，不应被理解为隐藏的完整对齐声明。
 
 当前项目有意保留 `cockpit.toml` 为 TOML。参考 template 的 JSON
 project/profile records 在适用位置由 Rust Protocol files 表达；不把

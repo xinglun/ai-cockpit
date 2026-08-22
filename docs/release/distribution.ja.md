@@ -194,10 +194,9 @@ rollback selector ではありません。
 
 ## MCP と repository attach
 
-Installed runtime から local MCP adapter を起動します。
+Installed runtime から repository を明示して local MCP adapter を起動します。
 
 ```bash
-ai-cockpit mcp
 ai-cockpit mcp --repo /path/to/attached-repository
 ```
 

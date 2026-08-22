@@ -187,10 +187,9 @@ Homebrew Formula 始终跟踪当前 release，不是回滚选择器。
 
 ## MCP 与 repository attach
 
-从已安装 runtime 启动本地 MCP adapter：
+从已安装 runtime 启动本地 MCP adapter，并显式绑定 repository：
 
 ```bash
-ai-cockpit mcp
 ai-cockpit mcp --repo /path/to/attached-repository
 ```
 

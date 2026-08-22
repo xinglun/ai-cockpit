@@ -92,8 +92,8 @@ Attach は minimum の repository-owned scaffold を作ります。
 └── knowledge/
 ```
 
-Rust source、V1 runtime file、Python helper、provider instruction、runtime schema は target に copy しません。
-初期 profile は `calibration_required` です。controlled reuse の前に quality command を確認します。
+Runtime の実装や provider configuration は target に copy しません。初期 profile は
+`calibration_required` です。controlled reuse の前に quality command を確認します。
 
 ```bash
 ai-cockpit profile confirm --repo /path/to/repository \

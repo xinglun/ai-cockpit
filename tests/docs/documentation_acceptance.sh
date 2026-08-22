@@ -40,6 +40,8 @@ public = '\n'.join(
 for phrase in ('WI-03 至 WI-38', 'WI-36 已在本地验收', 'WI-35 负责', 'internal progress plan', 'development checkout'):
     if phrase in public:
         missing.append(f'public documentation contains internal phrase: {phrase}')
+if re.search(r'(?m)^\s*ai-cockpit mcp\s*$', public):
+    missing.append('public documentation contains repository-less ai-cockpit mcp command')
 if missing:
     raise SystemExit('\n'.join(missing))
 print('documentation acceptance passed')

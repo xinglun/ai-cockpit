@@ -93,8 +93,8 @@ Attach 创建最小的 repository-owned scaffold：
 └── knowledge/
 ```
 
-它不会把 Rust source、V1 runtime file、Python helper、provider instruction 或 runtime schema
-复制到目标。初始 profile 是 `calibration_required`；确认质量命令后才可用于受控 reuse：
+它不会把 Runtime 实现或 provider 配置复制到目标。初始 profile 是
+`calibration_required`；确认质量命令后才可用于受控 reuse：
 
 ```bash
 ai-cockpit profile confirm --repo /path/to/repository \

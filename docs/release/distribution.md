@@ -218,10 +218,9 @@ the current release; it is not a rollback selector.
 
 ## MCP and repository attachment
 
-Start the local MCP adapter from the installed runtime:
+Start the local MCP adapter from the installed runtime with an explicit repository:
 
 ```bash
-ai-cockpit mcp
 ai-cockpit mcp --repo /path/to/attached-repository
 ```
 

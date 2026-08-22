@@ -33,14 +33,15 @@ and reviewers; implementation history is kept outside the reader route.
 | Public Release and fresh-adopter acceptance | Implemented | The public-binary harness, Release evidence, and post-publication CI job are available. |
 | Runtime-only upgrade versus repository migration | Implemented | `compatibility`, `migrate plan`, and approved `migrate apply` preserve historical evidence and bind Runtime identity. |
 | N-1 old-adopter upgrade acceptance | Available as a public-artifact harness | The harness covers old-schema detection, an approval gate, history preservation, and continued operation; each Release workflow must explicitly enable this gate. |
-| Reference installer, Makefile, and V1 helper scripts | Intentionally not copied | The Rust project distributes the Rust binary and keeps installation/provider configuration separate from repository state. |
+| Installation and provider configuration | External boundary | The Rust project distributes one shared binary and keeps installation/provider configuration separate from repository state. |
 
 ## What is complete
 
-The Rust implementation covers the reference product's essential user-visible
-boundary: one installed Runtime can govern many independently attached
-repositories; repository state is isolated; Agent discovery is explicit and
-owned; decisions are evidence-bound; and public-release acceptance is repeatable.
+The Rust implementation covers the current user-visible boundary: one installed
+Runtime can govern many independently attached repositories; repository state is
+isolated; Agent discovery is explicit and owned; decisions are evidence-bound;
+and public-release acceptance is repeatable. Areas marked partial or available
+in this matrix remain explicit follow-up work, not hidden claims of parity.
 
 The current project intentionally keeps `cockpit.toml` as TOML. The reference
 template's JSON project/profile records are represented by the Rust Protocol
