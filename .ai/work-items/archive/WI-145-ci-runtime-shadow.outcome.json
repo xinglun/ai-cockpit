@@ -1,0 +1,145 @@
+{
+  "acceptanceResults": [
+    "A1: CI downloads only the immutable public v0.2.15 Linux Release artifact and verifies archive and binary identity before Runtime use",
+    "A2: CI runs installed ai-cockpit verify and preserves the existing Cargo fmt clippy and package test checks as a shadow comparison",
+    "A3: Runtime shadow output records tag version archive digest binary digest platform download source and verify result",
+    "A4: Missing release asset digest mismatch malformed Runtime output or source fallback fails closed",
+    "A5: Phase 1 does not remove or weaken Cargo YAML checks and documents Phase 2 convergence and Phase 3 policy cleanup as future gates",
+    "A6: Tri-language documentation explains the CI Runtime shadow boundary and immutable Runtime identity"
+  ],
+  "createdAt": "2026-08-22T20:46:04Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:65f240f9a3a8b0dd6bbac7b03bc33d68904f16f1a2aee84926c454230d7e1a37",
+  "evidenceRefs": [
+    ".ai/evidence/WI-145-ci-runtime-shadow.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-145-ci-runtime-shadow.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-145-ci-runtime-shadow.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:583a7a7a5d848ed93ce522aecd5ab85341895b24e5df1571e5028e4cfb8d1734",
+      "workItemId": "WI-145-ci-runtime-shadow"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-145-ci-runtime-shadow.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-145-ci-runtime-shadow.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-145-ci-runtime-shadow.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-145-ci-runtime-shadow.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-145-ci-runtime-shadow.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-145-ci-runtime-shadow.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-145-ci-runtime-shadow.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-145-ci-runtime-shadow.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-145-ci-runtime-shadow.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-145-ci-runtime-shadow.contract.json"
+          ],
+          "inference": false,
+          "text": "Establish Phase 1 CI convergence evidence: the immutable installed Runtime runs verify and the existing Cargo checks remain as an independent shadow comparison."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-145-ci-runtime-shadow.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-145-ci-runtime-shadow"
+  },
+  "taskReportDigest": "sha256:7fd9fe1e827698e5bd8b293b2397a1e3de7ece6bc253fc3c93cdfe0a5536fc4c",
+  "taskReportMarkdownDigest": "sha256:69cd04155f3a6934fa101a185129a664b8b000f7618648c60b5ac78b5251a218",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-145-ci-runtime-shadow.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-145-ci-runtime-shadow"
+}

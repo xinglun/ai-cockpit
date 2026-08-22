@@ -1,0 +1,118 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "archive and binary digest checks",
+          "path": "tests/ci/runtime_verify_shadow.sh",
+          "type": "script",
+          "verification": "bash tests/ci/runtime_verify_shadow.sh"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "verify immutable Runtime shadow plus existing Cargo gates",
+          "path": ".github/workflows/ci.yml",
+          "type": "workflow",
+          "verification": "bash tests/ci/runtime_verify_shadow_test.sh"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "identity-bound JSON receipt",
+          "path": "tests/ci/runtime_verify_shadow.sh",
+          "type": "script",
+          "verification": "jq receipt assertions"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "unsupported Runtime baseline fails closed",
+          "path": "tests/ci/runtime_verify_shadow_test.sh",
+          "type": "test",
+          "verification": "bash tests/ci/runtime_verify_shadow_test.sh"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "Phase 1 Phase 2 Phase 3",
+          "path": "docs/reference/ci-runtime-shadow.md",
+          "type": "document",
+          "verification": "bash tests/docs/documentation_acceptance.sh"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "immutable Runtime identity",
+          "path": "docs/reference/ci-runtime-shadow.md",
+          "type": "document",
+          "verification": "bash tests/docs/documentation_acceptance.sh"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/active/WI-145-ci-runtime-shadow.contract.json",
+    ".ai/work-items/active/WI-145-ci-runtime-shadow.summary.json"
+  ],
+  "checkpointAt": "2026-08-22T20:44:35Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T20:37:35Z",
+  "intentAlignment": {
+    "basis": "Phase 1 adds an immutable public Runtime shadow lane while retaining existing Cargo checks as the independent quality authority.",
+    "evidence": [
+      ".github/workflows/ci.yml",
+      "tests/ci/runtime_verify_shadow.sh"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-08-22T20:45:59Z",
+  "preflightContractDigest": "sha256:a3b3e754dd5bd31b3daabd94bdd5ce09bd9dab25e170fc7935498fdf92592951",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:583a7a7a5d848ed93ce522aecd5ab85341895b24e5df1571e5028e4cfb8d1734",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/runtime_verify_shadow.sh"
+      ],
+      "expected": "The exact v0.2.15 public binary is verified before it runs verify against the checkout.",
+      "required": true,
+      "scenario": "immutable public Runtime download and shadow verify",
+      "status": "verified",
+      "verificationPlan": "Run the shadow script with the public release and inspect its identity-bound JSON output."
+    },
+    {
+      "evidence": [
+        "tests/ci/runtime_verify_shadow_test.sh"
+      ],
+      "expected": "Archive or binary digest mismatch and malformed output stop the CI lane before any governance claim.",
+      "required": true,
+      "scenario": "release or Runtime identity tampering",
+      "status": "verified",
+      "verificationPlan": "Run shell regression cases with invalid digest missing asset and fake source fallback inputs."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T20:46:04Z",
+  "workItemId": "WI-145-ci-runtime-shadow"
+}
