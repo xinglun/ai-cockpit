@@ -1,0 +1,41 @@
+{
+  "acceptanceResults": [
+    "A1: Public adopter and N-1 acceptance harnesses remove their validated run_root on success and ordinary failure while preserving acceptance truth and cleanup receipt.",
+    "A2: A forced cleanup failure records cleanupState failed and exits non-zero without rewriting releasePublished truth or hiding the failure reason.",
+    "A3: The N-1 harness success path does not reference an unset exit status and returns zero when all acceptance steps and cleanup pass.",
+    "A4: Test wrappers cover syntax, success/failure cleanup metadata, no leaked roots, and the N-1 success exit-status regression without downloading a Runtime from source.",
+    "A5: Isolation manifests include files directories symlinks metadata and digests for HOME XDG_CONFIG_HOME TMPDIR and CARGO_HOME, with allowed-write policy explicit.",
+    "A6: Three-language release documentation remains consistent with cleanup and isolation receipt behavior."
+  ],
+  "createdAt": "2026-08-22T10:24:58Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:90fbcec32337cc1632dc3d30eabca21acadcfba75b6bc93b1d19776ec2828103",
+  "evidenceRefs": [
+    ".ai/evidence/WI-128-release-acceptance-cleanup.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-128-release-acceptance-cleanup.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-128-release-acceptance-cleanup.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-128-release-acceptance-cleanup"
+}

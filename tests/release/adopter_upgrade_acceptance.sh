@@ -159,9 +159,9 @@ pass() {
   record "$1" passed "$reason"
 }
 finish() {
-  local code=$? state=failed
+  local exit_code=$? state=failed
   set +e
-  if [[ "$code" -eq 0 ]]; then state=passed; else [[ -n "$failure_reason" ]] || failure_reason="command exited with status $code"; fi
+  if [[ "$exit_code" -eq 0 ]]; then state=passed; else [[ -n "$failure_reason" ]] || failure_reason="command exited with status $exit_code"; fi
   local step_json='[]'
   if [[ -s "$steps" ]]; then step_json="$(jq -s '.' "$steps")"; fi
   jq -n --arg startedAt "$started_at" --arg finishedAt "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \

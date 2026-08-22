@@ -116,6 +116,9 @@ receipt becomes `adopterAcceptance: failed`, while `releasePublished` remains
 true. Target and platform remain explicit, including the Linux x86_64 baseline
 when that target is selected.
 
+The N-1 harness returns zero only when both upgrade acceptance and cleanup pass;
+an unset exit status is never treated as success.
+
 The isolation receipt includes typed before/after manifests for files,
 directories, symlinks, metadata, and digests. HOME and XDG_CONFIG_HOME are
 forbidden-write roots. TMPDIR and CARGO_HOME are explicitly classified as

@@ -100,6 +100,8 @@ fail closed：进程以非零状态结束，receipt 变为 `adopterAcceptance: f
 `true`，不会把已发布的 Release 改写为未发布。
 target 与 platform 始终显式记录；选择 Linux x86_64 target 时也遵循同一验收基线。
 
+N-1 harness 只有在升级验收和清理都通过时才返回零；未设置的退出状态不会被当作成功。
+
 隔离 receipt 包含文件、目录、symlink、metadata 与 digest 的 typed before/after manifest。HOME 和
 XDG_CONFIG_HOME 是禁止写入的 root；TMPDIR 与 CARGO_HOME 明确分类为允许 Runtime 写入的 root，相关写入
 会被记录，不会被误认为全局配置写入。
