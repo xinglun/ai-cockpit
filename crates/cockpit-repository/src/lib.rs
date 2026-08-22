@@ -5529,6 +5529,37 @@ fn governance_decision_for_contract_internal(
     snapshot: &RepositorySnapshot,
     current_runtime: Option<&RuntimeContext>,
 ) -> Result<GovernanceDecision, ObserverError> {
+    governance_decision_for_contract_internal_with_archive(
+        root,
+        contract,
+        snapshot,
+        current_runtime,
+        false,
+    )
+}
+
+fn governance_decision_for_archived_contract_internal(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+    current_runtime: Option<&RuntimeContext>,
+) -> Result<GovernanceDecision, ObserverError> {
+    governance_decision_for_contract_internal_with_archive(
+        root,
+        contract,
+        snapshot,
+        current_runtime,
+        true,
+    )
+}
+
+fn governance_decision_for_contract_internal_with_archive(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+    current_runtime: Option<&RuntimeContext>,
+    archived: bool,
+) -> Result<GovernanceDecision, ObserverError> {
     let explicit_blockers = contract_freshness_findings(root, contract, snapshot)?;
     let signals = derive_governance_signals(snapshot);
     let changed_paths = snapshot
@@ -5547,7 +5578,13 @@ fn governance_decision_for_contract_internal(
     } else {
         AuthorityState::Missing
     };
-    let evidence = evidence_state_for_contract_internal(root, contract, snapshot, current_runtime)?;
+    let evidence = evidence_state_for_contract_internal_with_archive(
+        root,
+        contract,
+        snapshot,
+        current_runtime,
+        archived,
+    )?;
     let mut input = GovernanceInput {
         scope: contract.scope.clone(),
         out_of_scope: contract.out_of_scope.clone(),
@@ -5612,8 +5649,55 @@ fn require_green_governance_internal(
     operation: &str,
     current_runtime: Option<&RuntimeContext>,
 ) -> Result<(), ObserverError> {
-    let decision =
-        governance_decision_for_contract_internal(root, contract, snapshot, current_runtime)?;
+    require_green_governance_internal_with_archive(
+        root,
+        contract_path,
+        contract,
+        snapshot,
+        operation,
+        current_runtime,
+        false,
+    )
+}
+
+fn require_green_governance_for_archived_contract(
+    root: &Path,
+    contract_path: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+    operation: &str,
+    current_runtime: Option<&RuntimeContext>,
+) -> Result<(), ObserverError> {
+    require_green_governance_internal_with_archive(
+        root,
+        contract_path,
+        contract,
+        snapshot,
+        operation,
+        current_runtime,
+        true,
+    )
+}
+
+fn require_green_governance_internal_with_archive(
+    root: &Path,
+    contract_path: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+    operation: &str,
+    current_runtime: Option<&RuntimeContext>,
+    archived: bool,
+) -> Result<(), ObserverError> {
+    let decision = if archived {
+        governance_decision_for_archived_contract_internal(
+            root,
+            contract,
+            snapshot,
+            current_runtime,
+        )?
+    } else {
+        governance_decision_for_contract_internal(root, contract, snapshot, current_runtime)?
+    };
     if decision.state != DecisionState::Green {
         return Err(ObserverError::State {
             path: contract_path.to_path_buf(),
@@ -5796,6 +5880,22 @@ fn evidence_state_for_contract_internal(
     snapshot: &RepositorySnapshot,
     current_runtime: Option<&RuntimeContext>,
 ) -> Result<EvidenceState, ObserverError> {
+    evidence_state_for_contract_internal_with_archive(
+        root,
+        contract,
+        snapshot,
+        current_runtime,
+        false,
+    )
+}
+
+fn evidence_state_for_contract_internal_with_archive(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+    current_runtime: Option<&RuntimeContext>,
+    archived: bool,
+) -> Result<EvidenceState, ObserverError> {
     if contract.required_evidence_classes.is_empty() {
         // Verification evidence is an integrity surface even when the
         // Contract did not declare it as a required class.  Preserve the
@@ -5809,7 +5909,13 @@ fn evidence_state_for_contract_internal(
                 path: root.into(),
                 source,
             })?;
-            return verification_evidence_state(&root, contract, snapshot, false, current_runtime);
+            return verification_evidence_state(
+                &root,
+                contract,
+                snapshot,
+                archived,
+                current_runtime,
+            );
         }
         return Ok(EvidenceState::Complete);
     }
@@ -5824,13 +5930,14 @@ fn evidence_state_for_contract_internal(
         )
     });
     if requires_verification {
-        return verification_evidence_state(&root, contract, snapshot, false, current_runtime);
+        return verification_evidence_state(&root, contract, snapshot, archived, current_runtime);
     }
     let evidence_path = root
         .join(".ai/evidence")
         .join(format!("{}.verification.json", contract.work_item_id));
     if fs::symlink_metadata(&evidence_path).is_ok() {
-        let state = verification_evidence_state(&root, contract, snapshot, false, current_runtime)?;
+        let state =
+            verification_evidence_state(&root, contract, snapshot, archived, current_runtime)?;
         if state != EvidenceState::Complete {
             return Ok(state);
         }
@@ -6176,18 +6283,14 @@ fn close_work_item_with_structured_decision_internal(
             message: "close requires valid verification evidence".into(),
         });
     }
-    if let Some(runtime) = current_runtime {
-        require_green_governance_with_runtime(
-            &root,
-            &contract_path,
-            &contract,
-            &snapshot,
-            "close",
-            runtime,
-        )?;
-    } else {
-        require_green_governance(&root, &contract_path, &contract, &snapshot, "close")?;
-    }
+    require_green_governance_for_archived_contract(
+        &root,
+        &contract_path,
+        &contract,
+        &snapshot,
+        "close",
+        current_runtime,
+    )?;
     validate_policy_decision(&root, &contract, human_decision)?;
     let outcome = root
         .join(".ai/work-items/archive")

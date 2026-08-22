@@ -188,6 +188,81 @@ fn close_persists_a_structured_human_decision_and_recovery_condition() {
 }
 
 #[test]
+fn close_accepts_immutable_archived_evidence_after_a_post_archive_commit() {
+    let path = repository();
+    start_work_item(
+        &path,
+        "WI-ARCHIVE-MERGE",
+        "archive",
+        "close",
+        &["**".into()],
+    )
+    .expect("start");
+    prepare_for_verification(&path, "WI-ARCHIVE-MERGE");
+    record_verification(
+        &path,
+        "WI-ARCHIVE-MERGE",
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.2.9",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+    finish_work_item(&path, "WI-ARCHIVE-MERGE").expect("finish");
+    archive_work_item(&path, "WI-ARCHIVE-MERGE").expect("archive");
+
+    fs::write(
+        path.join("post-archive-change.txt"),
+        b"merged release change\n",
+    )
+    .expect("post-archive change");
+    assert!(
+        Command::new("git")
+            .args(["add", "post-archive-change.txt"])
+            .current_dir(&path)
+            .status()
+            .expect("git add")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args([
+                "-c",
+                "user.name=AI Cockpit Test",
+                "-c",
+                "user.email=ai-cockpit-test@example.invalid",
+                "commit",
+                "-m",
+                "post-archive merge",
+            ])
+            .current_dir(&path)
+            .status()
+            .expect("git commit")
+            .success()
+    );
+
+    close_work_item_with_structured_decision(
+        &path,
+        "WI-ARCHIVE-MERGE",
+        &HumanDecision {
+            decision: "approved".into(),
+            actor: "human:owner".into(),
+            authority_source: "team-policy".into(),
+            reason: "archive was reviewed before the merge commit".into(),
+            evidence_refs: vec![".ai/evidence/WI-ARCHIVE-MERGE.verification.json".into()],
+            policy_refs: Vec::new(),
+            decided_at: "2026-08-22T06:00:00Z".into(),
+            resume_condition: None,
+        },
+    )
+    .expect("close after merge must use immutable archived evidence");
+    assert!(
+        path.join(".ai/decisions/WI-ARCHIVE-MERGE.close.json")
+            .is_file()
+    );
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
 fn organization_policy_requires_a_bound_structured_decision_at_close() {
     let path = repository();
     fs::write(

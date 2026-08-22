@@ -350,7 +350,19 @@ impl GitRepository {
                         || bytes.len() > MAX_CHANGE_TEXT_BYTES
                     {
                         change.after_text = None;
-                        change.content_state = ChangeContentState::TooLarge;
+                        let patch_bytes = change
+                            .added_lines
+                            .iter()
+                            .chain(change.removed_lines.iter())
+                            .map(String::len)
+                            .sum::<usize>();
+                        change.content_state = if patch_bytes <= MAX_CHANGE_TEXT_BYTES
+                            && (!change.added_lines.is_empty() || !change.removed_lines.is_empty())
+                        {
+                            ChangeContentState::Text
+                        } else {
+                            ChangeContentState::TooLarge
+                        };
                     } else if bytes.contains(&0) {
                         change.after_text = None;
                         change.content_state = ChangeContentState::Binary;
@@ -485,8 +497,9 @@ fn push_bounded(
 ) {
     if retained.saturating_add(value.len()) > MAX_CHANGE_TEXT_BYTES {
         target.clear();
+        *retained = MAX_CHANGE_TEXT_BYTES.saturating_add(1);
         *state = ChangeContentState::TooLarge;
-    } else if *state != ChangeContentState::TooLarge {
+    } else {
         target.push(value.to_owned());
         *retained += value.len();
     }
@@ -527,6 +540,23 @@ fn apply_patch_facts(patch: &str, evidence: &mut BTreeMap<String, ChangeEvidence
                     retained,
                 );
             }
+        }
+    }
+    for change in evidence.values_mut() {
+        // A large tracked file can still have a small, bounded patch. Keep
+        // those patch facts available for governance inspection; only a
+        // patch that itself exceeds the bound remains uninspectable.
+        let patch_bytes = change
+            .added_lines
+            .iter()
+            .chain(change.removed_lines.iter())
+            .map(String::len)
+            .sum::<usize>();
+        if change.content_state == ChangeContentState::TooLarge
+            && patch_bytes <= MAX_CHANGE_TEXT_BYTES
+            && (!change.added_lines.is_empty() || !change.removed_lines.is_empty())
+        {
+            change.content_state = ChangeContentState::Text;
         }
     }
 }

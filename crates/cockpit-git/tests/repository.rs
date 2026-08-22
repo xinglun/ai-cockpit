@@ -192,6 +192,49 @@ fn oversized_tracked_patch_remains_uninspectable_when_after_text_is_small() {
 }
 
 #[test]
+fn oversized_tracked_file_with_bounded_patch_keeps_patch_facts_inspectable() {
+    let path = temporary_repository();
+    let mut large = String::new();
+    for _ in 0..(MAX_CHANGE_TEXT_BYTES / 8) {
+        large.push_str("stable-line\n");
+    }
+    fs::write(path.join("large-policy.md"), &large).expect("write");
+    Command::new("git")
+        .args(["add", "large-policy.md"])
+        .current_dir(&path)
+        .status()
+        .expect("git add");
+    Command::new("git")
+        .args(["commit", "-qm", "large policy"])
+        .current_dir(&path)
+        .status()
+        .expect("git commit");
+
+    let mut changed = large;
+    changed = changed.replacen("stable-line", "changed-line", 1);
+    fs::write(path.join("large-policy.md"), changed).expect("write change");
+    let snapshot = GitRepository::discover(&path)
+        .expect("discover")
+        .snapshot()
+        .expect("snapshot");
+    let change = snapshot
+        .change_evidence
+        .iter()
+        .find(|change| change.path == "large-policy.md")
+        .expect("large policy change");
+    assert_eq!(change.content_state, ChangeContentState::Text);
+    assert!(change.added_lines.iter().any(|line| line == "changed-line"));
+    assert!(
+        change
+            .removed_lines
+            .iter()
+            .any(|line| line == "stable-line")
+    );
+    assert!(change.after_text.is_none());
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
 fn snapshot_hashes_overlapping_changed_and_dependency_paths_once() {
     let path = temporary_repository();
     fs::write(path.join("Cargo.toml"), "[workspace]\nmembers=[]\n").expect("write");

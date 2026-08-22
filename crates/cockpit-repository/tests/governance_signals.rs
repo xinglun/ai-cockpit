@@ -98,3 +98,21 @@ fn uninspectable_relevant_test_change_is_explicitly_unknown() {
             .any(|unknown| unknown == "test_weakening_inspection_unavailable")
     );
 }
+
+#[test]
+fn bounded_patch_facts_in_an_oversized_file_are_inspectable() {
+    let assessment = derive_governance_signals(&snapshot(ChangeEvidence {
+        path: "src/lib.rs".into(),
+        kind: ChangeKind::Modified,
+        added_lines: vec!["fn safe_change() {}".into()],
+        removed_lines: vec!["fn old_change() {}".into()],
+        after_text: None,
+        content_state: ChangeContentState::Text,
+    }));
+
+    assert!(
+        !assessment
+            .unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+}

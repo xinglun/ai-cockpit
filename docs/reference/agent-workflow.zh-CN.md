@@ -39,7 +39,9 @@ Rust Runtime 与本仓库的 Protocol 词汇。
   失败交付必须重新交付，或人明确指示时，才创建 successor。
 - 安装和升级验收使用不可变的公开 Release tag 与下载 binary。合并后，closure
   必须核验归档证据、decision、合并 PR head、同步后的 default branch、干净
-  worktree 和精确 branch 删除；任一步失败都保持可恢复的未闭合状态。
+  worktree 和精确 branch 删除。
+  归档证据应依据不可变的 archive manifest 校验；不能仅因合并改变当前
+  repository snapshot 就把它重新判定为 stale。任一步失败都保持可恢复的未闭合状态。
 
 ## 本工程的适配
 
