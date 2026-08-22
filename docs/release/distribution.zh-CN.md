@@ -76,6 +76,10 @@ CLI 和 MCP 的 `verify` JSON 也会输出 `runtimeVersion` 与 `runtimeDigest`�
 
 维护者可以在 Release 发布后重复执行公开 binary 验收基线：
 
+**v0.2.6 的完整 adopter acceptance 基线为 `x86_64-unknown-linux-gnu`。**
+Release workflow 对其他四个已发布 target 提供 build 和 smoke evidence；除非另有独立验收记录，
+不能宣称它们完成了完整 adopter lifecycle。
+
 ```bash
 tests/release/adopter_acceptance.sh \
   --repository xinglun/ai-cockpit \

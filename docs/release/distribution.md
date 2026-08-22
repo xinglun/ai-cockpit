@@ -84,6 +84,11 @@ those fields to the downloaded binary identity before accepting evidence.
 
 Maintainers can repeat the public-binary acceptance baseline after a Release:
 
+**Complete adopter acceptance baseline: `x86_64-unknown-linux-gnu` for v0.2.6.**
+The other four published targets have build and
+smoke evidence in the Release workflow; they are not claimed to have completed
+the full adopter lifecycle unless a separate acceptance run is recorded.
+
 ```bash
 tests/release/adopter_acceptance.sh \
   --repository xinglun/ai-cockpit \

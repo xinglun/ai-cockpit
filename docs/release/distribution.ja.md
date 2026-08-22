@@ -77,6 +77,10 @@ evidence を受け入れる前に、download した binary の identity と結�
 
 Maintainer は Release 公開後に public binary acceptance baseline を再実行できます。
 
+**v0.2.6 の完全な adopter acceptance baseline は `x86_64-unknown-linux-gnu` です。**
+Release workflow は他の 4 target に build と smoke evidence を提供しますが、別の acceptance run が記録されない限り、
+full adopter lifecycle の完了とは主張しません。
+
 ### 過去の N-1 schema migration 受入れ
 
 schema が変わった基準は、過去の v0.1.1 から v0.2.0 への migration です。

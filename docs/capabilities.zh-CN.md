@@ -299,6 +299,8 @@ ai-cockpit mcp --repo /path/to/repository
 `verify` 接受 `command`、字符串数组 `args` 和可选 `workItemId`。未绑定 repository 的调用
 会 fail closed。结果包含 `structuredContent`、文本 content 和 `isError`。CLI 与 MCP 共用同一
 套 repository-bound verification policy。
+JSON-RPC envelope 面向机器；Agent 或对话层负责面向人的 projection、语言选择以及 unknown 的呈现。
+MCP 不翻译 Contract 原文，也不擅自生成人类决定。
 
 ### 诊断准备度
 

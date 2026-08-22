@@ -27,6 +27,17 @@ machine-facing contract を定義する technical reference に進んでくだ�
 - [Release と配布](release/distribution.ja.md) — install と release truth。
 - [30 秒 command guide](capabilities.ja.md#機能一覧) — 現在の機能 index。
 
+## Canonical reader routes
+
+一般の reader は reference source と同じ goal-first の形で、次の route を順に参照してください。
+リンク先はこの Runtime の current documentation だけです。
+
+- [Current](current/README.ja.md) — 既定の route map。
+- [Getting started](getting-started/README.ja.md) — install、verify、attach、Agent 接続。
+- [Features](features/README.ja.md) — capability overview と責任境界。
+- [Operations](operations/README.ja.md) — lifecycle、recovery、upgrade、Release acceptance。
+- [Reference](reference/README.ja.md) — 正確な command、configuration、output。
+
 ## Reader goal から選ぶ
 
 | Goal | Start here | 到達点 |
