@@ -1,0 +1,97 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "v0.2.12 public Release aarch64-apple-darwin adopter run",
+          "path": "/private/tmp/wi139e-acceptance.NzXqey/output/acceptance.json",
+          "type": "release_acceptance",
+          "verification": "adopterAcceptance=passed; cleanupState=passed; validated run_root removed"
+        },
+        {
+          "locator": "failure and cleanup-failure paths",
+          "path": "tests/release/adopter_acceptance_test.sh",
+          "type": "regression_test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "wrapper temporary output cleanup",
+          "path": "tests/release/adopter_acceptance_test.sh",
+          "type": "regression_test",
+          "verification": "passed"
+        },
+        {
+          "locator": "wrapper temporary output cleanup",
+          "path": "tests/release/adopter_upgrade_acceptance_test.sh",
+          "type": "regression_test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "schemaVersion=2 roots manifest",
+          "path": "/private/tmp/wi139e-acceptance.NzXqey/output/isolation.json",
+          "type": "release_acceptance",
+          "verification": "HOME/XDG unchanged; TMPDIR/CARGO_HOME allowlists explicit"
+        },
+        {
+          "locator": "file directory symlink metadata digest mutation",
+          "path": "tests/release/isolation_manifest_test.sh",
+          "type": "regression_test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "post-release adopter jobs",
+          "path": ".github/workflows/release.yml",
+          "type": "release_policy",
+          "verification": "workflow_policy and action_runtime_policy passed"
+        },
+        {
+          "locator": "Release acceptance boundary",
+          "path": "docs/reference/commands.md",
+          "type": "documentation",
+          "verification": "three-language documentation acceptance passed"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [],
+  "checkpointAt": "2026-08-22T16:51:29Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T16:51:25Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "tests/release/adopter_acceptance_test.sh",
+      "/private/tmp/wi139e-acceptance.NzXqey/output/acceptance.json"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-22T17:03:29Z",
+  "preflightContractDigest": "sha256:6cfb70095938e488812aa593b41c25c9df264a2b7d51aebe5995373279127f89",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:c4753f788b3e5f172d7d05676a1bdfb6f14ac753daabe880709349871d2bb5f8",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T17:03:32Z",
+  "workItemId": "WI-139E-release-acceptance-cleanup"
+}

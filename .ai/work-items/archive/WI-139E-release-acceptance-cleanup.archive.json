@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-22T17:03:41Z",
+  "files": {
+    "contractDigest": "sha256:7e78a02057bb7a026692475b71569d7236deb9bab1b6f6b93bd97248c7cbb5b1",
+    "contractPath": ".ai/work-items/archive/WI-139E-release-acceptance-cleanup.contract.json",
+    "eventsDigest": "sha256:06ad1c7619ad7646d40e397cb8be246cbe0f6135a0f41514dd287a9a878bc397",
+    "eventsPath": ".ai/work-items/archive/WI-139E-release-acceptance-cleanup.events.jsonl",
+    "outcomeDigest": "sha256:46016d68b3ace4966c398815c88c85a301ea5b32a456bf78434ce77f9cd3e934",
+    "outcomePath": ".ai/work-items/archive/WI-139E-release-acceptance-cleanup.outcome.json",
+    "summaryDigest": "sha256:305fe0d5b03792dbba2143e90240eaaa952e296a147bd38099d7f0888b5f5d3e",
+    "summaryPath": ".ai/work-items/archive/WI-139E-release-acceptance-cleanup.summary.json",
+    "taskReportDigest": "sha256:83c6c635798fddb62e29fefdba2d81a47d3894ef7956fc910dcde9c393e04b34",
+    "taskReportMarkdownDigest": "sha256:abd3b33558c79117ed153c3d26a531efa1b23939f44bb29016dfeae1f787db12",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-139E-release-acceptance-cleanup.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-139E-release-acceptance-cleanup.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-139E-release-acceptance-cleanup"
+}
