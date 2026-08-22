@@ -15,7 +15,7 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # Release と配布
 
-現在の installation baseline は公開済みで immutable な `v0.2.10` Release です。Homebrew と manual install は
+現在の installation baseline は公開済みで immutable な `v0.2.11` Release です。Homebrew と manual install は
 public archive と manifest を使い、Repository configuration は `cockpit.toml` のままです。runtime の install は
 対象 repository に `.ai` を作成しません。Maintainer は post-release adopter acceptance harness を実行できますが、pre-release gate や Runtime command ではありません。
 
@@ -53,7 +53,7 @@ brew untap xinglun/tap                 # optional
 checksum file は全十個の archive/SBOM を対象にするため、download した archive だけを検証します。
 
 ```bash
-archive="ai-cockpit-v0.2.10-aarch64-apple-darwin.tar.gz"
+archive="ai-cockpit-v0.2.11-aarch64-apple-darwin.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -63,8 +63,8 @@ gh attestation verify "$archive" --repo xinglun/ai-cockpit
 Release 公開後は GitHub CLI で正確な 3 ファイルを取得することもできます。
 
 ```bash
-archive="ai-cockpit-v0.2.10-aarch64-apple-darwin.tar.gz"
-gh release download v0.2.10 --repo xinglun/ai-cockpit \
+archive="ai-cockpit-v0.2.11-aarch64-apple-darwin.tar.gz"
+gh release download v0.2.11 --repo xinglun/ai-cockpit \
   --pattern "$archive" --pattern release-manifest.json --pattern SHA256SUMS
 ```
 
@@ -78,22 +78,22 @@ identity と結び付けます。harness 外で JSON を使う場合の比較責
 
 Maintainer は Release 公開後に public binary acceptance baseline を再実行できます。
 
-**v0.2.10 の完全な adopter acceptance baseline は `x86_64-unknown-linux-gnu` です。**
+**v0.2.11 の完全な adopter acceptance baseline は `x86_64-unknown-linux-gnu` です。**
 Release workflow は他の 4 target に build と smoke evidence を提供しますが、別の acceptance run が記録されない限り、
 full adopter lifecycle の完了とは主張しません。
 
 ### 過去の N-1 schema migration 受入れ
 
 schema が変わった基準は、過去の v0.1.1 から v0.2.0 への migration です。
-v0.2.10 は同じ schema の patch Release ですが、N-1 run は同じ harness を使い、compatibility
+v0.2.11 は同じ schema の patch Release ですが、N-1 run は同じ harness を使い、compatibility
 を確認した後に `migrationState: not_required` を記録します。current N-1 run は直前の
 public Release と current Runtime、例えば次のように実行します。
 
 ```bash
 tests/release/adopter_upgrade_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --from-tag v0.2.9 \
-  --to-tag v0.2.10 \
+  --from-tag v0.2.10 \
+  --to-tag v0.2.11 \
   --target x86_64-unknown-linux-gnu \
   --output ./release-adopter-upgrade-acceptance
 ```
@@ -118,7 +118,7 @@ API から直前の published semantic Release を解決します。最初の pu
 ```bash
 tests/release/adopter_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --tag v0.2.10 \
+  --tag v0.2.11 \
   --target x86_64-unknown-linux-gnu \
   --output ./release-adopter-acceptance
 ```
@@ -160,7 +160,7 @@ verify してから `ai-cockpit` を `$HOME/.local/bin` に置きます。
 
 ```bash
 target="aarch64-apple-darwin" # machine に合う target を選ぶ
-archive="ai-cockpit-v0.2.10-${target}.tar.gz"
+archive="ai-cockpit-v0.2.11-${target}.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -178,7 +178,7 @@ Windows では `.zip` と `SHA256SUMS` を download し、checksum を比較し�
 その directory を user `PATH` に追加します。
 
 ```powershell
-$archive = "ai-cockpit-v0.2.10-x86_64-pc-windows-msvc.zip"
+$archive = "ai-cockpit-v0.2.11-x86_64-pc-windows-msvc.zip"
 $expected = Get-Content .\SHA256SUMS |
   Where-Object { ($_ -split '\s+')[1] -eq $archive } |
   ForEach-Object { ($_ -split '\s+')[0].ToLowerInvariant() }
@@ -198,10 +198,10 @@ $env:Path = "$destination;$env:Path"
 
 ## Rust developer fallback
 
-この fallback は現在公開済みの immutable な `v0.2.10` tag で利用できます。Workspace は複数 package を含むため `cockpit-cli` を明示します。
+この fallback は現在公開済みの immutable な `v0.2.11` tag で利用できます。Workspace は複数 package を含むため `cockpit-cli` を明示します。
 
 ```bash
-cargo install --git https://github.com/xinglun/ai-cockpit.git --tag v0.2.10 --locked --root "$HOME/.local" --bin ai-cockpit cockpit-cli
+cargo install --git https://github.com/xinglun/ai-cockpit.git --tag v0.2.11 --locked --root "$HOME/.local" --bin ai-cockpit cockpit-cli
 "$HOME/.local/bin/ai-cockpit" --version
 cargo uninstall --root "$HOME/.local" cockpit-cli
 ```

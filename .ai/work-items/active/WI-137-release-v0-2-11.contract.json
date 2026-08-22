@@ -1,0 +1,63 @@
+{
+  "acceptanceCriteria": [
+    "Version and release policy identify v0.2.11 consistently; all quality and release checks pass; public fresh-adopter acceptance uses only immutable v0.2.11 artifacts and records runtime identity",
+    " isolation",
+    " cleanup",
+    " not_ready scaffold",
+    " evidence reuse",
+    " and lifecycle; N-1 v0.2.10 to v0.2.11 acceptance passes; installed public binary passes inspect/status/doctor/agent doctor and Outcome on this repository"
+  ],
+  "authority": "authorized",
+  "baseRevision": "3e6ba827b471a4283c323a9193339fd518ad0554",
+  "createdAt": "2026-08-22T14:05:32Z",
+  "goal": "Release v0.2.11, run public fresh-adopter and N-1 acceptance, and install the published binary into this repository.",
+  "intent": "Publish the first immutable Runtime release that contains the merged Task Outcome report and repository-bound evidence fixes, then prove the public binary governs a fresh adopter and the current repository.",
+  "mode": "implementation",
+  "outOfScope": [
+    "new Runtime features after WI-136",
+    "historical evidence rewrites",
+    "global Agent or MCP configuration",
+    "second technology stack",
+    "Homebrew tap repository mutations",
+    "source fallback in acceptance"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3b0450be77a10019a98124df9af3aa7c37a6293ab7b3641001126841aa111369",
+  "requiredEvidenceClasses": [
+    "verification",
+    "release-adopter-acceptance",
+    "release-upgrade-acceptance"
+  ],
+  "risk": "high",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    ".github/workflows/release.yml",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-137-release-v0-2-11.md",
+    "docs/work-items/WI-137-release-v0-2-11.zh-CN.md",
+    "docs/work-items/WI-137-release-v0-2-11.ja.md",
+    "tests/release/version_consistency.sh",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/adopter_acceptance_test.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-137-release-v0-2-11"
+}

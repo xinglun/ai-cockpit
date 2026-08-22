@@ -1,0 +1,41 @@
+{
+  "acceptanceResults": [
+    "Version and release policy identify v0.2.11 consistently; all quality and release checks pass; public fresh-adopter acceptance uses only immutable v0.2.11 artifacts and records runtime identity",
+    " isolation",
+    " cleanup",
+    " not_ready scaffold",
+    " evidence reuse",
+    " and lifecycle; N-1 v0.2.10 to v0.2.11 acceptance passes; installed public binary passes inspect/status/doctor/agent doctor and Outcome on this repository"
+  ],
+  "createdAt": "2026-08-22T14:14:11Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:2080e1cbc150b26c86cec312cdcd5235e273ea20521a64f5a3aeb77246ef4f7a",
+  "evidenceRefs": [
+    ".ai/evidence/WI-137-release-v0-2-11.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-137-release-v0-2-11.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-137-release-v0-2-11.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-137-release-v0-2-11"
+}
