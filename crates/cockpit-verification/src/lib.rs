@@ -231,9 +231,15 @@ pub fn plan_policy_requirement(
         requirement.validate().map_err(|error| {
             PolicyPlannerError::InvalidRequirement(policy.policy_id.clone(), error)
         })?;
-        if !requirement.policy_refs.iter().any(|reference| {
-            reference == &policy.policy_id || reference == &format!("policy:{}", policy.policy_id)
-        }) {
+        let policy_id_is_referenced = requirement.policy_refs.iter().any(|reference| {
+            reference == &policy.policy_id
+                || reference == &format!("policy:{}", policy.policy_id)
+                || policy
+                    .policy_id
+                    .strip_prefix("effective:")
+                    .is_some_and(|ids| ids.split(':').any(|id| reference == id))
+        });
+        if !policy_id_is_referenced {
             return Err(PolicyPlannerError::PolicyReferenceMissing(
                 policy.policy_id.clone(),
             ));
@@ -1059,10 +1065,32 @@ pub const VERIFICATION_PLAN_RECEIPT_SCHEMA_VERSION: u32 = 1;
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct VerificationPlanReceipt {
     pub schema_version: u32,
+    /// Optional identity bindings are omitted by legacy/in-memory receipts,
+    /// but are required on a policy-routed Work Item receipt.  Keeping these
+    /// fields optional preserves deserialization of historical receipts while
+    /// allowing lifecycle validation to fail closed for new routed evidence.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub work_item_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub repository_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub repository_snapshot_digest: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub base_revision: Option<String>,
     pub stage: cockpit_protocol::VerificationStage,
     pub initial_tier: cockpit_protocol::VerificationTier,
     pub final_tier: cockpit_protocol::VerificationTier,
     pub assurance: cockpit_protocol::EvidenceAssurance,
+    #[serde(default)]
+    pub required_tier: Option<cockpit_protocol::VerificationTier>,
+    #[serde(default)]
+    pub required_assurance: Option<cockpit_protocol::EvidenceAssurance>,
+    #[serde(default)]
+    pub policy_refs: Vec<String>,
+    #[serde(default)]
+    pub affected_paths: Vec<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub dependency_confidence: Option<DependencyConfidence>,
     pub selection_reasons: Vec<String>,
     pub executed_nodes: Vec<String>,
     pub reused_nodes: Vec<String>,
@@ -1087,10 +1115,19 @@ impl VerificationPlanReceipt {
         }
         Ok(Self {
             schema_version: VERIFICATION_PLAN_RECEIPT_SCHEMA_VERSION,
+            work_item_id: None,
+            repository_id: None,
+            repository_snapshot_digest: None,
+            base_revision: None,
             stage,
             initial_tier,
             final_tier,
             assurance,
+            required_tier: None,
+            required_assurance: None,
+            policy_refs: Vec::new(),
+            affected_paths: Vec::new(),
+            dependency_confidence: None,
             selection_reasons,
             executed_nodes: Vec::new(),
             reused_nodes: Vec::new(),
@@ -1111,6 +1148,16 @@ impl VerificationPlanReceipt {
         }
         if self.final_tier.rank() < self.initial_tier.rank() {
             return Err("verification tier downgrade requires an explicit decision".into());
+        }
+        if let Some(required_tier) = self.required_tier
+            && self.final_tier.rank() < required_tier.rank()
+        {
+            return Err("verification plan does not satisfy its required tier".into());
+        }
+        if let Some(required_assurance) = self.required_assurance
+            && self.assurance.rank() < required_assurance.rank()
+        {
+            return Err("verification plan does not satisfy its required assurance".into());
         }
         Ok(())
     }

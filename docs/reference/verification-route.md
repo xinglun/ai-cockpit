@@ -27,7 +27,18 @@ The route preserves `DependencyConfidence` (`complete`, `partial`, `unknown`)
 and affected/protected-node facts. Cost and reuse are advisory and cannot lower
 the selected requirement. A `VerificationPlanReceipt` records stage, initial
 and final tier, independent assurance, reasons, escalations, and execution
-facts; tier downgrades fail closed.
+facts. A Work Item route additionally binds `workItemId`, `repositoryId`, the
+repository snapshot digest, `baseRevision`, policy references, required tier
+and assurance, affected paths, and dependency confidence. Lifecycle validation
+recomputes the declared policy requirement and rejects a missing, stale, or
+tampered binding. A `pr`, `merge`, or `release` route must have a valid base
+revision at the execution boundary; `task` remains base-revision independent.
+
+When an effective policy declares `T3` or `ProviderVerified`, a local Runtime
+route cannot claim that requirement: verification stops before completion
+evidence is written. Hosted/provider evidence must come from the actual
+provider. A repository with no typed verification requirement keeps the
+historical no-policy route and its legacy receipt compatibility.
 
 Physical execution may be shared, but each Work Item receives its own bound
 evidence receipt. No Work Item may use another Work Item's receipt as its own

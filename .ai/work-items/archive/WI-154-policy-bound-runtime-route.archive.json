@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-22T23:15:02Z",
+  "files": {
+    "contractDigest": "sha256:92e8be742c1d500d617da4e0893322d76b17b3d1da5aa51d612f17b55f12121d",
+    "contractPath": ".ai/work-items/archive/WI-154-policy-bound-runtime-route.contract.json",
+    "eventsDigest": "sha256:091b7e97c63221c477adfc8155633ae5c86965234edd03f893bd823d149acfb0",
+    "eventsPath": ".ai/work-items/archive/WI-154-policy-bound-runtime-route.events.jsonl",
+    "outcomeDigest": "sha256:64e62909c5746d42282a11289b9bab586c901687ef4bff6bebbdadc08dcb5a35",
+    "outcomePath": ".ai/work-items/archive/WI-154-policy-bound-runtime-route.outcome.json",
+    "summaryDigest": "sha256:76ef02b889297461ed3ebf96394bf2451fc10dc715ba7ef7cf1b4f27fcff3c86",
+    "summaryPath": ".ai/work-items/archive/WI-154-policy-bound-runtime-route.summary.json",
+    "taskReportDigest": "sha256:c4ec0b7a8948ffe5366697109e6b0f3b746fe1feb2cb2d7de8df44ba1d69643a",
+    "taskReportMarkdownDigest": "sha256:a40687677bba429f311e59096143012de0c0297c575c9dff398767dd319025af",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-154-policy-bound-runtime-route.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-154-policy-bound-runtime-route.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-154-policy-bound-runtime-route"
+}

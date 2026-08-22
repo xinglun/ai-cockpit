@@ -13,8 +13,8 @@ use cockpit_repository::{
     archive_work_item_with_runtime, attach, checkpoint_work_item,
     close_work_item_with_decision_and_runtime,
     close_work_item_with_structured_decision_and_runtime, finish_work_item_with_runtime,
-    generate_knowledge, preflight_work_item_with_runtime, run_repository_verification,
-    scaffold_work_item, start_work_item_with_options, status,
+    generate_knowledge, preflight_work_item_with_runtime, resolve_verification_route,
+    run_repository_verification, scaffold_work_item, start_work_item_with_options, status,
 };
 use serde_json::json;
 use std::path::PathBuf;
@@ -135,6 +135,10 @@ enum CommandKind {
         workers: usize,
         #[arg(long, default_value = "task")]
         stage: String,
+        /// Required for pr/merge/release when no Work Item Contract supplies
+        /// the immutable base revision.
+        #[arg(long)]
+        base_revision: Option<String>,
     },
     Evidence {
         #[command(subcommand)]
@@ -706,10 +710,39 @@ fn run() -> Result<()> {
             args,
             workers,
             stage,
+            base_revision,
         } => {
             require_compatible(&repo, &runtime_context)?;
             let stage = VerificationStage::parse(&stage).map_err(|error| anyhow::anyhow!(error))?;
             let root = std::fs::canonicalize(&repo).context("canonicalize repository")?;
+            let initial_snapshot = GitRepository::discover(&root)
+                .context("discover repository for verification route")?
+                .snapshot()
+                .context("capture verification route snapshot")?;
+            let route = if let Some(work_item_id) = work_item.as_deref() {
+                Some(
+                    resolve_verification_route(
+                        &root,
+                        work_item_id,
+                        stage,
+                        "local",
+                        &initial_snapshot,
+                    )
+                    .context("resolve policy-bound verification route")?,
+                )
+            } else {
+                if stage.requires_base_revision()
+                    && base_revision
+                        .as_deref()
+                        .is_none_or(|value| !valid_cli_git_object_id(value))
+                {
+                    anyhow::bail!(
+                        "verification stage {} requires --base-revision when no Work Item Contract is supplied",
+                        stage.as_str()
+                    );
+                }
+                None
+            };
             if let Some(work_item_id) = work_item.as_deref() {
                 cockpit_repository::require_policy_for_verification(&root, work_item_id)
                     .context("enforce verification policy")?;
@@ -738,7 +771,10 @@ fn run() -> Result<()> {
                     stage: stage.as_str().into(),
                     runner: "local".into(),
                     runtime_digest: runtime_context.runtime_digest.to_string(),
-                    base_commit: None,
+                    base_commit: route
+                        .as_ref()
+                        .and_then(|route| route.base_revision.clone())
+                        .or_else(|| base_revision.clone()),
                     workers,
                     policy: if explicit || work_item.is_some() {
                         RepositoryVerificationPolicy::NeverReuse
@@ -808,15 +844,52 @@ fn run() -> Result<()> {
             run.receipt.repository_id = Some(cockpit_repository::repository_id(&root).to_string());
             run.receipt.runtime_version = Some(runtime_context.runtime_version.clone());
             run.receipt.runtime_digest = Some(runtime_context.runtime_digest.to_string());
+            let (initial_tier, final_tier, assurance, selection_reasons, escalations) = route
+                .as_ref()
+                .map(|route| {
+                    (
+                        route.actual_tier,
+                        route.actual_tier,
+                        route.actual_assurance,
+                        route
+                            .policy_plan
+                            .as_ref()
+                            .map(|plan| plan.escalation_reasons.clone())
+                            .unwrap_or_else(|| vec!["cli_route_stage_explicit".into()]),
+                        Vec::new(),
+                    )
+                })
+                .unwrap_or((
+                    VerificationTier::T0,
+                    VerificationTier::T0,
+                    EvidenceAssurance::SelfDeclared,
+                    vec!["cli_route_stage_explicit".into()],
+                    Vec::new(),
+                ));
             let mut plan_receipt = cockpit_verification::VerificationPlanReceipt::new(
                 stage,
-                VerificationTier::T0,
-                VerificationTier::T0,
-                EvidenceAssurance::SelfDeclared,
-                vec!["cli_route_stage_explicit".into()],
-                Vec::new(),
+                initial_tier,
+                final_tier,
+                assurance,
+                selection_reasons,
+                escalations,
             )
             .map_err(|error| anyhow::anyhow!(error))?;
+            if let Some(route) = &route {
+                plan_receipt.work_item_id = Some(route.work_item_id.clone());
+                plan_receipt.repository_id =
+                    Some(cockpit_repository::repository_id(&root).to_string());
+                plan_receipt.repository_snapshot_digest =
+                    Some(cockpit_repository::snapshot_digest(&run.final_snapshot)?.to_string());
+                plan_receipt.base_revision = route.base_revision.clone();
+                plan_receipt.affected_paths = route.affected_paths.clone();
+                plan_receipt.dependency_confidence = Some(route.dependency_confidence);
+                if let Some(plan) = &route.policy_plan {
+                    plan_receipt.required_tier = Some(plan.requirement.required_tier);
+                    plan_receipt.required_assurance = Some(plan.requirement.required_assurance);
+                    plan_receipt.policy_refs = plan.requirement.policy_refs.clone();
+                }
+            }
             plan_receipt.executed_nodes = run
                 .receipt
                 .results
@@ -1445,6 +1518,13 @@ fn merge_verification_runs(
         .results
         .sort_by(|left, right| left.node_id.cmp(&right.node_id));
     Some(merged)
+}
+
+fn valid_cli_git_object_id(value: &str) -> bool {
+    matches!(value.len(), 40 | 64)
+        && value
+            .bytes()
+            .all(|byte| byte.is_ascii_hexdigit() && !byte.is_ascii_uppercase())
 }
 
 fn concurrent_phase_elapsed(durations: impl IntoIterator<Item = u128>) -> u128 {

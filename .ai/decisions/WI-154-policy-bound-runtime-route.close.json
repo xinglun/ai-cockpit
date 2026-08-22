@@ -1,0 +1,126 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-154-policy-bound-runtime-route.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:14aa94984475276e46cae0b2d43e2ffbe80d8aa7dd0db53fe6ff03397cff9b40",
+      "workItemId": "WI-154-policy-bound-runtime-route"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-154-policy-bound-runtime-route.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-154-policy-bound-runtime-route.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-154-policy-bound-runtime-route.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via repository-owner-policy-route-review at 2026-08-22T23:15:02Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-154-policy-bound-runtime-route.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-154-policy-bound-runtime-route.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-154-policy-bound-runtime-route.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-154-policy-bound-runtime-route.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-154-policy-bound-runtime-route.contract.json"
+          ],
+          "inference": false,
+          "text": "Integrate Policy Planner output into verify and lifecycle evidence; bind required tier assurance policy refs affected facts and base revision into the plan receipt; reject unsatisfied policy routes fail-closed."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-154-policy-bound-runtime-route.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-154-policy-bound-runtime-route"
+  },
+  "finalReportDigest": "sha256:a360618468dd4cf5b67b8e73ffe81f6f5c20851a4722502968223b2272089087",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "repository-owner-policy-route-review",
+    "decidedAt": "2026-08-22T23:15:02Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-154-policy-bound-runtime-route.verification.json"
+    ],
+    "policyRefs": [
+      "verification-route-policy"
+    ],
+    "reason": "Reviewed policy-bound verification route implementation, fail-closed policy/base/receipt tests, and tri-language route documentation.",
+    "resumeCondition": "Reopen only with a successor Work Item if later policy route evidence changes."
+  },
+  "timestamp": "2026-08-22T23:15:02Z",
+  "workItemId": "WI-154-policy-bound-runtime-route"
+}

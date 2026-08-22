@@ -100,6 +100,7 @@ record for each boundary.
 | WI-151 — v0.2.16 post-release self-governance acceptance | Implemented | [Work Item](../work-items/WI-151-post-release-v0-2-16-self-governance.md); `.ai/evidence/WI-151-post-release-v0-2-16-self-governance.verification.json`; `.ai/decisions/WI-151-post-release-v0-2-16-self-governance.close.json` |
 | WI-152 — v0.2.16 documentation parity correction | Implemented | [Work Item](../work-items/WI-152-documentation-parity-after-v0-2-16.md); `.ai/evidence/WI-152-documentation-parity-after-v0-2-16.verification.json`; `.ai/decisions/WI-152-documentation-parity-after-v0-2-16.close.json` |
 | WI-153 — Historical evidence projection | Implemented | [Work Item](../work-items/WI-153-historical-evidence-projection.md); `.ai/evidence/WI-153-historical-evidence-projection.verification.json`; `.ai/decisions/WI-153-historical-evidence-projection.close.json` |
+| WI-154 — Policy-bound Runtime verification route | Implemented | [Work Item](../work-items/WI-154-policy-bound-runtime-route.md); [verification route](verification-route.md); `.ai/evidence/WI-154-policy-bound-runtime-route.verification.json`; `.ai/decisions/WI-154-policy-bound-runtime-route.close.json` |
 | WI-155 — CI/release gate convergence | Implemented | [Work Item](../work-items/WI-155-ci-release-gate-convergence.md); [release distribution](../release/distribution.md); `.ai/evidence/WI-155-ci-release-gate-convergence.verification.json`; `.ai/decisions/WI-155-ci-release-gate-convergence.close.json` |
 
 ## Current boundary
