@@ -38,7 +38,7 @@ capabilityClaims:
 
 验收标准、intent、scope 等字段是 Work Item owner 写入的治理原文，报告保留原文并
 标注“验收标准（Contract 原文）”，不会擅自翻译或改变 Contract bytes。只有 Runtime
-生成的固定标题、状态、未知项和恢复提示会按对话语言显示。
+生成的固定标题、摘要、状态、未知项和恢复提示会按对话语言显示。
 
 CLI 直接输出优先使用 `AI_COCKPIT_LANGUAGE`，其次使用进程 locale。Agent 对话应
 使用用户当前语言。JSON 字段名和枚举值在不同语言之间保持稳定。

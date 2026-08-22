@@ -454,6 +454,46 @@ fn outcome_status(
     }
 }
 
+fn localized_outcome_summary(
+    state: &OutcomeState,
+    decision_state: Option<&DecisionState>,
+    language: &str,
+) -> &'static str {
+    let red = decision_state == Some(&DecisionState::Red);
+    match (language, red, state) {
+        ("zh", false, OutcomeState::Verified) => "验证证据有效；用户可见收益尚未声明。",
+        ("zh", false, OutcomeState::NotReady) => "未找到或无法使用验证证据；结果尚未准备好。",
+        ("zh", false, OutcomeState::Partial) => "验证证据部分有效；结果仍需关注。",
+        ("zh", _, OutcomeState::Unknown) | ("zh", true, _) => {
+            "验证证据无法确认或与当前上下文不一致；结果已停止。"
+        }
+        ("ja", false, OutcomeState::Verified) => {
+            "検証 evidence は有効ですが、ユーザー向けの効果はまだ宣言されていません。"
+        }
+        ("ja", false, OutcomeState::NotReady) => {
+            "検証 evidence がないか使用できず、結果はまだ準備できていません。"
+        }
+        ("ja", false, OutcomeState::Partial) => {
+            "検証 evidence は一部有効ですが、結果にはまだ確認が必要です。"
+        }
+        ("ja", _, OutcomeState::Unknown) | ("ja", true, _) => {
+            "検証 evidence を確認できないか現在の context と一致しないため、停止しました。"
+        }
+        (_, false, OutcomeState::Verified) => {
+            "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+        }
+        (_, false, OutcomeState::NotReady) => {
+            "No usable verification evidence is present; the outcome is not ready."
+        }
+        (_, false, OutcomeState::Partial) => {
+            "Verification evidence is partially valid; the outcome still needs attention."
+        }
+        (_, _, OutcomeState::Unknown) | (_, true, _) => {
+            "Verification evidence could not be confirmed or does not match this context; the outcome is stopped."
+        }
+    }
+}
+
 fn render_human_outcome(outcome: &OutcomeV2) -> String {
     let language = output_language();
     let (marker, status) =
@@ -581,10 +621,12 @@ fn render_human_outcome(outcome: &OutcomeV2) -> String {
         problems_found.push(not_ready.into());
     }
     let acceptance_results = human_acceptance_results(&outcome.acceptance_results);
+    let localized_summary =
+        localized_outcome_summary(&outcome.state, outcome.decision_state.as_ref(), language);
     let completed_items = if acceptance_results.is_empty() {
-        vec![outcome.summary.clone()]
+        vec![localized_summary.to_string()]
     } else {
-        let mut items = vec![outcome.summary.clone(), contract_language.into()];
+        let mut items = vec![localized_summary.to_string(), contract_language.into()];
         items.extend(acceptance_results);
         items
     };

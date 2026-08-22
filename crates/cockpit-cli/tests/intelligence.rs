@@ -145,6 +145,8 @@ fn intelligence_commands_emit_repository_bound_json_and_unknowns() {
     let outcome_text = String::from_utf8(outcome.stdout).expect("UTF-8 outcome");
     assert!(outcome_text.contains("结果 — WI-INTELLIGENCE"));
     assert!(outcome_text.contains("🟡 需要关注"));
+    assert!(outcome_text.contains("未找到或无法使用验证证据；结果尚未准备好。"));
+    assert!(!outcome_text.contains("No verification evidence"));
     assert!(outcome_text.contains("下一步"));
     fs::write(
         directory
@@ -179,6 +181,13 @@ fn intelligence_commands_emit_repository_bound_json_and_unknowns() {
         let text = String::from_utf8(localized.stdout).expect("UTF-8 localized outcome");
         assert!(text.contains(title), "language={language}");
         assert!(text.contains(status), "language={language}");
+        let summary = match language {
+            "ja" => "検証 evidence を確認できないか現在の context と一致しないため、停止しました。",
+            _ => {
+                "Verification evidence could not be confirmed or does not match this context; the outcome is stopped."
+            }
+        };
+        assert!(text.contains(summary), "language={language}");
     }
     let machine_outcome = Command::new(binary)
         .args(["work-item", "outcome", "--repo"])

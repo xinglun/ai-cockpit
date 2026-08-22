@@ -39,7 +39,7 @@ digest 不一致は赤色です。同じ検証を `finish`、`archive`、`close`
 
 受入れ基準、intent、scope などは Work Item owner が記述したガバナンス原文です。
 表示では「受入れ基準（Contract 原文）」として保持し、Contract bytes を勝手に翻訳・変更
-しません。Runtime が生成する固定見出し、状態、不明点、復旧案内だけを会話言語に合わせます。
+しません。Runtime が生成する固定見出し、要約、状態、不明点、復旧案内だけを会話言語に合わせます。
 
 CLI の直接出力は `AI_COCKPIT_LANGUAGE`、次にプロセス locale を使用します。Agent
 の会話では利用者の言語で同じ handoff を表示します。JSON のフィールド名と enum
