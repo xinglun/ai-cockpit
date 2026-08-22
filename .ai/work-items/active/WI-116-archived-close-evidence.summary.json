@@ -1,0 +1,17 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-22T05:54:13Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T05:54:13Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-22T06:08:20Z",
+  "preflightContractDigest": "sha256:7bc25725a746d3fc922bebc7a15995a523dda08eeb46e776bca51393fa06b5ea",
+  "preflightDecisionDigest": "sha256:362f14da69fd4d5199e5e7184a16b6b13599859313c3ca0d200bc8863163b067",
+  "preflightRepositorySnapshotDigest": "sha256:187972adb4dbb982daab93afeaa11cf76bb13630fef2edbd15ff3c19724db4e2",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-22T05:54:13Z",
+  "workItemId": "WI-116-archived-close-evidence"
+}

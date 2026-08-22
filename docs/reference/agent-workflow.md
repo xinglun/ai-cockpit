@@ -45,7 +45,10 @@ the installed Rust Runtime and this repository's Protocol vocabulary.
 - Installation and upgrade acceptance use an immutable published Release tag
   and downloaded binary. After merge, closure verifies archived evidence,
   decision, merged PR head, synchronized default branch, clean worktrees, and
-  exact branch removal; a failed step remains open for recovery.
+  exact branch removal; archived evidence is validated against its immutable
+  archive manifest rather than reclassified as stale solely because the merge
+  changed the current repository snapshot. A failed step remains open for
+  recovery.
 
 ## Project-specific adaptation
 

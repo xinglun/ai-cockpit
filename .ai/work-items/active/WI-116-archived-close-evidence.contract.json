@@ -1,0 +1,32 @@
+{
+  "acceptanceCriteria": [
+    "Archived evidence remains valid after a post-archive repository commit and close succeeds with structured human decision",
+    "Tampered archive, evidence identity, manifest digest, and foreign runtime still fail closed",
+    "Large tracked text files remain inspectable from bounded patch facts when the patch itself is within the inspection limit",
+    "Regression tests and tri-language lifecycle documentation describe immutable archive binding"
+  ],
+  "authority": "authorized",
+  "baseRevision": "ee00e3e910a0500ba6e453d29e9f7434bf90c7ca",
+  "createdAt": "2026-08-22T05:54:13Z",
+  "goal": "Allow close to validate immutable archived evidence against its archive manifest after repository HEAD changes, while preserving fail-closed tamper and identity checks",
+  "intent": "Fix archived Work Item close after merge without weakening evidence integrity",
+  "mode": "implementation",
+  "outOfScope": [],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c437615c931f67a4e507e12bfdb2bb23f704fdd54ed908d94a42604c8f72c200",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-git/**",
+    "crates/cockpit-repository/**",
+    "crates/cockpit-repository/tests/**",
+    "docs/reference/**",
+    "docs/work-items/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-116-archived-close-evidence"
+}

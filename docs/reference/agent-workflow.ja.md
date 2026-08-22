@@ -42,7 +42,9 @@ capabilityClaims:
 - install と upgrade の acceptance は immutable な公開 Release tag と download
   binary を使います。merge 後の closure では archive evidence、decision、merged PR
   head、同期済み default branch、clean worktree、正確な branch 削除を検証します。
-  どれかが失敗したら recovery のため未完了のままにします。
+  archive evidence は immutable な archive manifest に対して検証し、merge による
+  current repository snapshot の変更だけを理由に stale と再分類しません。どれかが
+  失敗したら recovery のため未完了のままにします。
 
 ## 本プロジェクトでの適用
 
