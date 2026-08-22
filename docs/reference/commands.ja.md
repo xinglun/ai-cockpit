@@ -48,6 +48,8 @@ capabilityClaims:
   exclusive reservation により重複競合は fail closed になり、同じ ID では 1 件だけが成功し、異なる repository は独立して動作します。
 - `work-item outcome --repo <path> --id <id>` は完了内容、問題、停止、リスク、不明点、判断、検証、影響、次の action の順で人間向け結果を表示します。
   automation には `--json` を使います。status marker と言語規則は[人間向け Outcome](outcome-report.ja.md)を参照してください。
+  Work Item の完了時には型付きの `*.task-report.json`、人間向けの `*.task-report.md`、append-only の `*.events.jsonl` も bind されます。
+  これらは evidence-bound projection であり、追加の authority でも Contract/verification receipt の代替でもありません。
 - `work-item status --repo <path> --id <id>` は read-only で lifecycle、governance、activity health、fact count、blocker、unknown、evidence、source digest を返します。scheduler を動かさず、割合を発明しません。
 - `work-item validate --repo <path> --id <id> [--json]` は Contract/Summary の scenario coverage、stable acceptance evidence、intent alignment、任意の final-dimensions receipt を read-only で検証します。
   `work-item controls --repo <path> --id <id> --input <json>` は明示された四つの projection field だけを記録し、lifecycle state、Contract fact、verification receipt は変更しません。
@@ -75,6 +77,9 @@ capabilityClaims:
   Runtime identity を含む安定した `AuditEvent` を出力します。manifest は
   `externalRetentionRequired: true` を設定し、output file は idempotent です。これは SIEM、WORM、
   S3 Object Lock など外部 retention owner への handoff に限られます。
+- Task Outcome report は strict typed JSON projection です。各 claim は可能な場合 evidence reference を持ち、明示的な inference は verified fact ではありません。
+  event stream は Work Item finish ごとに append-only で、repository/Work Item identity、順序、安全な detail、evidence reference の境界を検証します。
+  archive manifest は event stream と report JSON/Markdown digest を bind し、close receipt は final report と digest を含みます。
 - 監査可能な decision には `--actor`、`--authority-source`、`--reason`、`--decided-at` と、任意の
   `--evidence-ref`、`--policy-ref`、`--resume-condition` を指定します。結果の `structuredDecision` は
   `.ai/decisions/<id>.close.json` に保存されます。legacy flag も明示的なまま、`legacy-cli` provenance を付けて記録します。

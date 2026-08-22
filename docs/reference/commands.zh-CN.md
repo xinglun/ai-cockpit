@@ -47,7 +47,9 @@ capabilityClaims:
   人类字段保持空值或 `unknown`；过渡期 `start` 复用同一 writer。repository-local 独占 reservation
   会让重复竞争 fail closed：同一 ID 只有一个请求成功，另一个失败；不同 repository 仍然相互独立。
 - `work-item outcome --repo <path> --id <id>` 按已完成内容、问题、停止、风险、未知、决定、验证、影响和下一步的顺序输出面向人的结果。
-  自动化请使用 `--json`。状态标记和语言规则见[面向人的 Outcome](outcome-report.zh-CN.md)。
+  自动化请使用 `--json`。状态标记和语言规则见[面向人的 Outcome](outcome-report.zh-CN.md)。Work Item 完成后还会绑定类型化的
+  `*.task-report.json`、面向人的 `*.task-report.md` 和 append-only 的 `*.events.jsonl`；它们是绑定 evidence 的投影，
+  不是额外的 authority，也不能替代 Contract 或 verification receipt。
 - `work-item status --repo <path> --id <id>` 是只读命令，输出生命周期、治理状态、活动健康、事实计数、阻塞项、未知项、evidence 和 source digest；不会调度任务，也不会臆造百分比。
 - `work-item validate --repo <path> --id <id> [--json]` 只读统一检查 Contract/Summary 的 scenario coverage、stable acceptance evidence、intent alignment 和可选最终维度 receipt。
   `work-item controls --repo <path> --id <id> --input <json>` 只记录显式提供的这四类投影字段，不能改变生命周期状态、Contract facts 或 verification receipt。
@@ -74,6 +76,9 @@ capabilityClaims:
 - `audit export --repo <path> [--output <file>]` 输出稳定的 `AuditEvent`，包含 event ID、主题 digest、
   repository/Work Item identity 和 Runtime identity。manifest 会设置 `externalRetentionRequired: true`；
   输出文件幂等，只是交给 SIEM、WORM、S3 Object Lock 或其他外部保留方的 handoff。
+- Task Outcome report 使用严格类型化 JSON。每条 claim 在可用时都绑定 evidence reference；明确标记的 inference 不能当作已验证事实。
+  event stream 在 Work Item finish 时 append-only，并校验 repository/Work Item identity、顺序、安全 detail 内容和 evidence reference 边界。
+  archive manifest 绑定 event stream 与 report JSON/Markdown digest；close receipt 会包含最终 report 及其 digest。
 - 如需可审计决定，请增加 `--actor`、`--authority-source`、`--reason`、`--decided-at`，并可重复提供
   `--evidence-ref`、`--policy-ref`、`--resume-condition`。结果的 `structuredDecision` 写入
   `.ai/decisions/<id>.close.json`；旧 flag 仍保持显式，并以可见的 `legacy-cli` provenance 记录。

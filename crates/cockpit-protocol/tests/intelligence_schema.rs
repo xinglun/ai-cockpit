@@ -1,8 +1,8 @@
 use cockpit_core::{DecisionState, Digest};
 use cockpit_protocol::{
     CapabilityConfidence, CapabilityTruth, CapabilityTruthRegistry, FactOrigin, HumanBenefitReport,
-    ImplementationApproach, OutcomeState, OutcomeV2, TraceableDerivation, TraceableFact,
-    TruthState, WorkItemCompatibility, WorkItemIntelligence,
+    ImplementationApproach, OutcomeState, OutcomeV2, TaskOutcomeReport, TraceableDerivation,
+    TraceableFact, TruthState, WorkItemCompatibility, WorkItemIntelligence,
 };
 
 #[test]
@@ -52,6 +52,7 @@ fn v2_records_round_trip_with_explicit_unknowns_and_provenance() {
             unknowns: vec!["user_visible_benefit_not_declared".into()],
             evidence_refs: vec![".ai/evidence/WI-75.verification.json".into()],
         },
+        task_outcome_report: None,
     };
     let value = serde_json::to_value(&outcome).expect("encode");
     assert_eq!(value["humanBenefitReport"]["state"], "unknown");
@@ -98,4 +99,38 @@ fn capability_and_parallel_records_are_strict_and_repository_bound() {
     };
     let encoded = serde_json::to_vec(&(intelligence, compatibility)).expect("encode");
     assert!(!encoded.is_empty());
+}
+
+#[test]
+fn task_outcome_report_rejects_unknown_fields_and_keeps_claim_provenance() {
+    let report = serde_json::json!({
+        "format": "ai-cockpit.task-outcome",
+        "schemaVersion": 1,
+        "workItemId": "WI-136",
+        "status": "verified",
+        "humanStatusColor": "green",
+        "bindings": {
+            "repositoryId": "sha256:repo",
+            "workItemId": "WI-136",
+            "evidenceRefs": [".ai/evidence/WI-136.verification.json"]
+        },
+        "sections": {
+            "outcomeSummary": [{
+                "text": "verification passed",
+                "evidenceRefs": [".ai/evidence/WI-136.verification.json"],
+                "inference": false
+            }],
+            "taskOverview": [], "deliveredChanges": [], "findings": [],
+            "risks": [], "warnings": [], "limitations": [],
+            "nonRiskExplanations": [], "forbiddenClaims": [],
+            "interventions": [], "forcedStops": [], "resolutions": [],
+            "recurrencePrevention": [], "avoidedImpact": [],
+            "residualRisks": [], "humanDecisions": [], "evidence": []
+        }
+    });
+    let decoded: TaskOutcomeReport = serde_json::from_value(report).expect("report");
+    assert!(!decoded.sections.outcome_summary[0].evidence_refs.is_empty());
+    let mut unknown = serde_json::to_value(&decoded).expect("encode");
+    unknown["unexpected"] = serde_json::json!(true);
+    assert!(serde_json::from_value::<TaskOutcomeReport>(unknown).is_err());
 }

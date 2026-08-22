@@ -13,9 +13,10 @@ use cockpit_protocol::{
     DelegatedEvidence, DelegatedEvidenceReceipt, DiagnosisState, EvidenceDisposition,
     EvidenceDispositionItem, EvidencePersistence, EvidenceRetention, EvidenceRetentionPolicy,
     EvidenceValidity, FactOrigin, GovernanceCost, GovernancePolicy, GovernancePolicyDocument,
-    HumanBenefitReport, HumanDecision, ImplementationApproach, OutcomeState, OutcomeV2,
-    PARALLEL_SLOT_LEASE_SCHEMA_VERSION, ParallelSlotLease, PerformanceDiagnosis, PolicyLayer,
-    QualityCommand, RepositoryConfig, RuntimeContext, SchemaMigrationStep, TruthState,
+    HumanBenefitReport, HumanDecision, ImplementationApproach, OutcomeClaim, OutcomeReportBindings,
+    OutcomeReportSections, OutcomeState, OutcomeV2, PARALLEL_SLOT_LEASE_SCHEMA_VERSION,
+    ParallelSlotLease, PerformanceDiagnosis, PolicyLayer, QualityCommand, RepositoryConfig,
+    RuntimeContext, SchemaMigrationStep, TaskOutcomeEvent, TaskOutcomeReport, TruthState,
     WorkItemCompatibility, WorkItemIntelligence, WorkItemStatusSnapshot,
     default_repository_schema_version, merge_policy_layers, repository_schema_migration_chain,
     validate_evidence_retention, validate_protocol_version,
@@ -3876,6 +3877,21 @@ fn finish_work_item_internal(
     summary["state"] = "finish_ready".into();
     summary["updatedAt"] = timestamp.clone().into();
     atomic_json(&summary_path, &summary)?;
+    let evidence_ref = format!(".ai/evidence/{work_item_id}.verification.json");
+    let task_report = task_outcome_report(TaskOutcomeReportInput {
+        root: &root,
+        contract_path: &contract_path,
+        contract: &contract,
+        summary: Some(&summary),
+        snapshot_digest: snapshot_digest(&snapshot).ok(),
+        state: OutcomeState::Verified,
+        decision_state: DecisionState::Green,
+        summary_text: "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+        unknowns: &["user_visible_benefit_not_declared".into()],
+        evidence_ref: &evidence_ref,
+    });
+    let (task_report_digest, task_report_markdown_digest) =
+        write_task_outcome_artifacts(&root, work_item_id, &task_report)?;
     let outcome_v2 = OutcomeV2 {
         schema_version: 2,
         repository_id: contract.repository_id.clone(),
@@ -3885,7 +3901,7 @@ fn finish_work_item_internal(
         summary: "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.".into(),
         acceptance_results: contract.acceptance_criteria.clone(),
         unknowns: vec!["user_visible_benefit_not_declared".into()],
-        evidence_refs: vec![format!(".ai/evidence/{work_item_id}.verification.json")],
+        evidence_refs: vec![evidence_ref],
         human_benefit_report: HumanBenefitReport {
             state: OutcomeState::Unknown,
             user_visible_changes: Vec::new(),
@@ -3893,6 +3909,7 @@ fn finish_work_item_internal(
             unknowns: vec!["user_visible_benefit_not_declared".into()],
             evidence_refs: vec![format!(".ai/evidence/{work_item_id}.verification.json")],
         },
+        task_outcome_report: Some(task_report.clone()),
     };
     let mut outcome = serde_json::to_value(&outcome_v2).map_err(|error| ObserverError::State {
         path: active.join(format!("{work_item_id}.outcome.json")),
@@ -3913,11 +3930,22 @@ fn finish_work_item_internal(
         })?
         .to_string()
         .into();
+    outcome["taskReportDigest"] = task_report_digest.to_string().into();
+    outcome["taskReportMarkdownDigest"] = task_report_markdown_digest.to_string().into();
     outcome["createdAt"] = timestamp.clone().into();
     if let Err(error) = atomic_json(
         &active.join(format!("{work_item_id}.outcome.json")),
         &outcome,
     ) {
+        let _ = atomic_json(&summary_path, &original_summary);
+        let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.json")));
+        let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.md")));
+        return Err(error);
+    }
+    if let Err(error) = append_task_outcome_events(&root, &contract, &task_report) {
+        let _ = fs::remove_file(active.join(format!("{work_item_id}.outcome.json")));
+        let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.json")));
+        let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.md")));
         let _ = atomic_json(&summary_path, &original_summary);
         return Err(error);
     }
@@ -6412,6 +6440,10 @@ fn archive_work_item_internal(
             message: "archive requires a verified outcome".into(),
         });
     }
+    if outcome.get("taskOutcomeReport").is_some() {
+        let events_path = task_outcome_event_path(&root, work_item_id, false);
+        validate_task_outcome_events(&root, &events_path, &contract.repository_id, work_item_id)?;
+    }
     fs::create_dir_all(&archive).map_err(|source| ObserverError::Read {
         path: archive.clone(),
         source,
@@ -6423,19 +6455,53 @@ fn archive_work_item_internal(
             message: "archive manifest already exists".into(),
         });
     }
-    let names = ["contract", "summary", "outcome"];
+    let mut artifacts = vec![
+        ("contract", "contract.json"),
+        ("summary", "summary.json"),
+        ("outcome", "outcome.json"),
+    ];
+    let events_source = task_outcome_event_path(&root, work_item_id, false);
+    if events_source.exists() {
+        if !is_regular_non_symlink(&events_source)? {
+            return Err(ObserverError::State {
+                path: events_source,
+                message: "Task Outcome event stream must be a regular non-symlink file".into(),
+            });
+        }
+        artifacts.push(("events", "events.jsonl"));
+    }
+    let report_source = active.join(format!("{work_item_id}.task-report.json"));
+    if report_source.exists() {
+        if !is_regular_non_symlink(&report_source)? {
+            return Err(ObserverError::State {
+                path: report_source,
+                message: "Task Outcome report must be a regular non-symlink file".into(),
+            });
+        }
+        artifacts.push(("taskReport", "task-report.json"));
+    }
+    let markdown_source = active.join(format!("{work_item_id}.task-report.md"));
+    if markdown_source.exists() {
+        if !is_regular_non_symlink(&markdown_source)? {
+            return Err(ObserverError::State {
+                path: markdown_source,
+                message: "Task Outcome Markdown report must be a regular non-symlink file".into(),
+            });
+        }
+        artifacts.push(("taskReportMarkdown", "task-report.md"));
+    }
     let mut files = serde_json::Map::new();
     let mut pending = Vec::new();
-    for name in names {
-        let source_path = active.join(format!("{work_item_id}.{name}.json"));
-        let target = archive.join(format!("{work_item_id}.{name}.json"));
+    for (name, suffix) in artifacts {
+        let source_path = active.join(format!("{work_item_id}.{suffix}"));
+        let target = archive.join(format!("{work_item_id}.{suffix}"));
         let bytes = fs::read(&source_path).map_err(|error| ObserverError::Read {
             path: source_path.clone(),
             source: error,
         })?;
         files.insert(
             format!("{name}Path"),
-            serde_json::Value::String(format!(".ai/work-items/archive/{work_item_id}.{name}.json")),
+            serde_json::Value::String(format!(".ai/work-items/archive/{work_item_id}.{suffix}")),
         );
         files.insert(
             format!("{name}Digest"),
@@ -6684,6 +6750,37 @@ fn close_work_item_with_structured_decision_internal(
     decision["repositoryId"] = contract.repository_id.clone().into();
     decision["humanDecision"] = serde_json::Value::String(human_decision.decision.trim().into());
     decision["decisionState"] = serde_json::Value::String("confirmed".into());
+    if let Some(final_report) = outcome_value.get("taskOutcomeReport") {
+        let mut final_report: TaskOutcomeReport = serde_json::from_value(final_report.clone())
+            .map_err(|error| ObserverError::State {
+                path: outcome.clone(),
+                message: format!("archived Task Outcome report is invalid: {error}"),
+            })?;
+        final_report.sections.human_decisions.push(OutcomeClaim {
+            text: format!(
+                "Human decision '{}' by {} via {} at {}.",
+                human_decision.decision,
+                human_decision.actor,
+                human_decision.authority_source,
+                human_decision.decided_at
+            ),
+            evidence_refs: human_decision.evidence_refs.clone(),
+            inference: human_decision.evidence_refs.is_empty(),
+        });
+        let final_report =
+            serde_json::to_value(&final_report).map_err(|error| ObserverError::State {
+                path: outcome.clone(),
+                message: format!("final Task Outcome report cannot be encoded: {error}"),
+            })?;
+        decision["finalReport"] = final_report.clone();
+        decision["finalReportDigest"] = cockpit_protocol::digest_json(&final_report)
+            .map_err(|error| ObserverError::State {
+                path: outcome.clone(),
+                message: error.to_string(),
+            })?
+            .to_string()
+            .into();
+    }
     decision["structuredDecision"] =
         serde_json::to_value(human_decision).map_err(|error| ObserverError::State {
             path: root.join(".ai/decisions"),
@@ -6775,6 +6872,77 @@ fn verify_archive_manifest(
                 path,
                 message: format!("archived {name} digest does not match manifest"),
             });
+        }
+    }
+    let archived_outcome = read_json(&archive.join(format!("{work_item_id}.outcome.json")))?;
+    for name in ["taskReport", "taskReportMarkdown"] {
+        let manifest_digest = manifest["files"][format!("{name}Digest")].as_str();
+        let outcome_key = match name {
+            "taskReport" => "taskReportDigest",
+            _ => "taskReportMarkdownDigest",
+        };
+        let outcome_digest = archived_outcome
+            .get(outcome_key)
+            .and_then(|value| value.as_str());
+        if manifest_digest != outcome_digest {
+            return Err(ObserverError::State {
+                path: archive.join(format!("{work_item_id}.outcome.json")),
+                message: format!("archived outcome and manifest {name} digests are not bound"),
+            });
+        }
+    }
+    for (name, suffix) in [
+        ("events", "events.jsonl"),
+        ("taskReport", "task-report.json"),
+        ("taskReportMarkdown", "task-report.md"),
+    ] {
+        if !manifest["files"][format!("{name}Digest")].is_string() {
+            continue;
+        }
+        let path = archive.join(format!("{work_item_id}.{suffix}"));
+        let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
+            path: path.clone(),
+            source,
+        })?;
+        let expected = manifest["files"][format!("{name}Digest")]
+            .as_str()
+            .ok_or_else(|| ObserverError::State {
+                path: path.clone(),
+                message: format!("archive manifest has an invalid {name} digest"),
+            })?;
+        if Digest::sha256_bytes(&bytes).to_string() != expected {
+            return Err(ObserverError::State {
+                path: path.clone(),
+                message: format!("archived {name} digest does not match manifest"),
+            });
+        }
+        if name == "events" {
+            validate_task_outcome_events(
+                root,
+                &path,
+                &repository_id(root).to_string(),
+                work_item_id,
+            )?;
+        } else if name == "taskReport" {
+            let value: serde_json::Value =
+                serde_json::from_slice(&bytes).map_err(|error| ObserverError::State {
+                    path: path.clone(),
+                    message: error.to_string(),
+                })?;
+            let report: TaskOutcomeReport =
+                serde_json::from_value(value).map_err(|error| ObserverError::State {
+                    path: path.clone(),
+                    message: format!("archived Task Outcome report is invalid: {error}"),
+                })?;
+            if report.bindings.repository_id != repository_id(root).to_string()
+                || report.bindings.work_item_id != work_item_id
+                || report.work_item_id != work_item_id
+            {
+                return Err(ObserverError::State {
+                    path,
+                    message: "archived Task Outcome report identity does not match repository or Work Item".into(),
+                });
+            }
         }
     }
     Ok(())
@@ -7356,6 +7524,442 @@ fn outcome_state_name(state: &OutcomeState) -> &'static str {
     }
 }
 
+fn report_claim(text: impl Into<String>, evidence_refs: &[String]) -> OutcomeClaim {
+    let evidence_refs = evidence_refs.to_vec();
+    OutcomeClaim {
+        text: text.into(),
+        inference: evidence_refs.is_empty(),
+        evidence_refs,
+    }
+}
+
+fn repository_relative_path(root: &Path, path: &Path) -> String {
+    path.strip_prefix(root)
+        .unwrap_or(path)
+        .to_string_lossy()
+        .replace('\\', "/")
+}
+
+struct TaskOutcomeReportInput<'a> {
+    root: &'a Path,
+    contract_path: &'a Path,
+    contract: &'a Contract,
+    summary: Option<&'a serde_json::Value>,
+    snapshot_digest: Option<Digest>,
+    state: OutcomeState,
+    decision_state: DecisionState,
+    summary_text: &'a str,
+    unknowns: &'a [String],
+    evidence_ref: &'a str,
+}
+
+fn task_outcome_report(input: TaskOutcomeReportInput<'_>) -> TaskOutcomeReport {
+    let TaskOutcomeReportInput {
+        root,
+        contract_path,
+        contract,
+        summary,
+        snapshot_digest,
+        state,
+        decision_state,
+        summary_text,
+        unknowns,
+        evidence_ref,
+    } = input;
+    let contract_ref = repository_relative_path(root, contract_path);
+    let summary_ref = contract_path
+        .parent()
+        .map(|parent| {
+            repository_relative_path(
+                root,
+                &parent.join(format!("{}.summary.json", contract.work_item_id)),
+            )
+        })
+        .unwrap_or_else(|| {
+            format!(
+                ".ai/work-items/active/{}.summary.json",
+                contract.work_item_id
+            )
+        });
+    let evidence_refs = if root.join(evidence_ref).is_file() {
+        vec![evidence_ref.to_string()]
+    } else {
+        Vec::new()
+    };
+    let mut sections = OutcomeReportSections {
+        outcome_summary: vec![report_claim(summary_text, &evidence_refs)],
+        task_overview: vec![report_claim(
+            if contract.goal.trim().is_empty() {
+                "Work Item goal is not declared."
+            } else {
+                contract.goal.as_str()
+            },
+            std::slice::from_ref(&contract_ref),
+        )],
+        forbidden_claims: vec![
+            "merge_authorized_without_human_decision".into(),
+            "release_published_without_release_evidence".into(),
+            "provider_or_enterprise_approval_inferred_from_local_records".into(),
+            "user_visible_benefit_invented_from_implementation_facts".into(),
+        ],
+        evidence: vec![report_claim(evidence_ref, &evidence_refs)],
+        ..OutcomeReportSections::default()
+    };
+
+    if let Some(summary) = summary {
+        if let Some(paths) = summary
+            .get("changedPaths")
+            .and_then(serde_json::Value::as_array)
+        {
+            sections
+                .delivered_changes
+                .extend(paths.iter().filter_map(|path| {
+                    path.as_str().map(|path| {
+                        report_claim(
+                            format!("Changed path: {path}"),
+                            std::slice::from_ref(&summary_ref),
+                        )
+                    })
+                }));
+        }
+        if sections.delivered_changes.is_empty()
+            && summary
+                .get("changedPaths")
+                .and_then(serde_json::Value::as_array)
+                .is_some()
+        {
+            sections.non_risk_explanations.push(report_claim(
+                "No repository paths were observed as changed by the current Summary.",
+                std::slice::from_ref(&summary_ref),
+            ));
+        }
+    }
+
+    for unknown in unknowns {
+        sections.residual_risks.push(report_claim(
+            format!("Remaining unknown: {unknown}"),
+            &evidence_refs,
+        ));
+    }
+    sections.warnings.push(report_claim(
+        "User-visible benefit is not declared by the Work Item owner.",
+        std::slice::from_ref(&contract_ref),
+    ));
+    if matches!(decision_state, DecisionState::Red) {
+        sections.forced_stops.push(report_claim(
+            "A required evidence or identity control failed; remain stopped.",
+            &evidence_refs,
+        ));
+    } else if matches!(decision_state, DecisionState::Yellow) {
+        sections.interventions.push(report_claim(
+            "Additional evidence or human input is required before progression.",
+            &evidence_refs,
+        ));
+    }
+    if matches!(state, OutcomeState::Verified) {
+        sections.resolutions.push(report_claim(
+            "The current verification evidence is valid for this repository and Work Item.",
+            &evidence_refs,
+        ));
+    }
+    let failed_gate = match decision_state {
+        DecisionState::Red => Some("evidence_or_identity_control".into()),
+        DecisionState::Yellow => Some("verification_or_human_input".into()),
+        DecisionState::Green => None,
+    };
+    let recovery_condition = match decision_state {
+        DecisionState::Red => {
+            Some("Repair the invalid evidence or identity binding, then rerun verification.".into())
+        }
+        DecisionState::Yellow => Some(
+            "Collect the missing evidence or human input, then rerun preflight/verification."
+                .into(),
+        ),
+        DecisionState::Green => None,
+    };
+
+    TaskOutcomeReport {
+        format: "ai-cockpit.task-outcome".into(),
+        schema_version: 1,
+        work_item_id: contract.work_item_id.clone(),
+        status: state,
+        human_status_color: decision_state,
+        bindings: OutcomeReportBindings {
+            repository_id: contract.repository_id.clone(),
+            work_item_id: contract.work_item_id.clone(),
+            evidence_refs,
+            repository_snapshot_digest: snapshot_digest,
+        },
+        sections,
+        failed_gate,
+        recovery_condition,
+    }
+}
+
+fn task_outcome_event_path(root: &Path, work_item_id: &str, archived: bool) -> PathBuf {
+    let phase = if archived { "archive" } else { "active" };
+    root.join(".ai/work-items")
+        .join(phase)
+        .join(format!("{work_item_id}.events.jsonl"))
+}
+
+fn event_detail_is_safe(detail: &str) -> bool {
+    let lower = detail.to_ascii_lowercase();
+    ![
+        "api_key",
+        "authorization:",
+        "bearer ",
+        "password=",
+        "secret=",
+    ]
+    .iter()
+    .any(|marker| lower.contains(marker))
+}
+
+fn validate_task_outcome_events(
+    root: &Path,
+    path: &Path,
+    expected_repository_id: &str,
+    expected_work_item_id: &str,
+) -> Result<Vec<TaskOutcomeEvent>, ObserverError> {
+    let metadata = fs::symlink_metadata(path).map_err(|source| ObserverError::Read {
+        path: path.to_path_buf(),
+        source,
+    })?;
+    if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
+        return Err(ObserverError::State {
+            path: path.to_path_buf(),
+            message: "Task Outcome event stream must be a regular non-symlink file".into(),
+        });
+    }
+    let text = fs::read_to_string(path).map_err(|source| ObserverError::Read {
+        path: path.to_path_buf(),
+        source,
+    })?;
+    let mut events = Vec::new();
+    let mut ids = std::collections::BTreeSet::new();
+    for (line_number, line) in text.lines().enumerate() {
+        if line.trim().is_empty() {
+            continue;
+        }
+        let event: TaskOutcomeEvent =
+            serde_json::from_str(line).map_err(|error| ObserverError::State {
+                path: path.to_path_buf(),
+                message: format!(
+                    "invalid Task Outcome event at line {}: {error}",
+                    line_number + 1
+                ),
+            })?;
+        if event.schema_version != 1
+            || event.repository_id != expected_repository_id
+            || event.work_item_id != expected_work_item_id
+            || event.event_id.trim().is_empty()
+            || event.event_type.trim().is_empty()
+            || event.timestamp.trim().is_empty()
+            || event.detail.trim().is_empty()
+            || !event_detail_is_safe(&event.detail)
+            || !ids.insert(event.event_id.clone())
+            || event.related_event_ids.iter().any(|id| !ids.contains(id))
+            || event
+                .correction_of
+                .as_ref()
+                .is_some_and(|id| !ids.contains(id))
+        {
+            return Err(ObserverError::State {
+                path: path.to_path_buf(),
+                message: format!(
+                    "Task Outcome event identity or relationship is invalid at line {}",
+                    line_number + 1
+                ),
+            });
+        }
+        if event
+            .evidence_refs
+            .iter()
+            .any(|reference| reference.starts_with('/') || reference.contains(".."))
+        {
+            return Err(ObserverError::State {
+                path: path.to_path_buf(),
+                message: "Task Outcome event evidence reference must be repository-relative".into(),
+            });
+        }
+        events.push(event);
+    }
+    if events.is_empty() {
+        return Err(ObserverError::State {
+            path: path.to_path_buf(),
+            message: "Task Outcome event stream must contain at least one event".into(),
+        });
+    }
+    let _ = root;
+    Ok(events)
+}
+
+fn event_id(event_type: &str, detail: &str, timestamp: &str) -> String {
+    let input = format!("{event_type}\n{detail}\n{timestamp}");
+    format!("event-{}", Digest::sha256_bytes(input.as_bytes()))
+}
+
+fn append_task_outcome_events(
+    root: &Path,
+    contract: &Contract,
+    report: &TaskOutcomeReport,
+) -> Result<(), ObserverError> {
+    let path = task_outcome_event_path(root, &contract.work_item_id, false);
+    if fs::symlink_metadata(&path).is_ok() {
+        let _ = validate_task_outcome_events(
+            root,
+            &path,
+            &contract.repository_id,
+            &contract.work_item_id,
+        )?;
+        return Err(ObserverError::State {
+            path,
+            message: "Task Outcome event stream already exists for this finish operation".into(),
+        });
+    }
+    let timestamp = now();
+    let mut events = Vec::new();
+    let mut append = |event_type: &str, detail: &str, evidence_refs: Vec<String>| {
+        let id = format!(
+            "{}-{}",
+            event_id(event_type, detail, &timestamp),
+            events.len()
+        );
+        events.push(TaskOutcomeEvent {
+            schema_version: 1,
+            event_id: id,
+            repository_id: contract.repository_id.clone(),
+            work_item_id: contract.work_item_id.clone(),
+            event_type: event_type.into(),
+            timestamp: timestamp.clone(),
+            detail: detail.into(),
+            evidence_refs,
+            related_event_ids: events
+                .last()
+                .map(|event: &TaskOutcomeEvent| vec![event.event_id.clone()])
+                .unwrap_or_default(),
+            correction_of: None,
+        });
+    };
+    append(
+        "completed",
+        report
+            .sections
+            .outcome_summary
+            .first()
+            .map(|claim| claim.text.as_str())
+            .unwrap_or("Task Outcome report generated."),
+        report.bindings.evidence_refs.clone(),
+    );
+    for claim in &report.sections.warnings {
+        append("warning", &claim.text, claim.evidence_refs.clone());
+    }
+    for claim in &report.sections.forced_stops {
+        append("stop", &claim.text, claim.evidence_refs.clone());
+    }
+    for claim in &report.sections.resolutions {
+        append("resolution", &claim.text, claim.evidence_refs.clone());
+    }
+    let encoded = events
+        .iter()
+        .map(serde_json::to_string)
+        .collect::<Result<Vec<_>, _>>()
+        .map_err(|error| ObserverError::State {
+            path: path.clone(),
+            message: error.to_string(),
+        })?
+        .join("\n")
+        + "\n";
+    fs::write(&path, encoded).map_err(|source| ObserverError::Read { path, source })
+}
+
+fn task_outcome_markdown(report: &TaskOutcomeReport) -> String {
+    let mut output = format!(
+        "# Task Outcome Report\n\n- Work Item: `{}`\n- Status: `{}`\n- Human status color: `{}`\n\n",
+        report.work_item_id,
+        outcome_state_name(&report.status),
+        serde_json::to_string(&report.human_status_color)
+            .unwrap_or_else(|_| "unknown".into())
+            .trim_matches('"')
+    );
+    let sections = [
+        ("Outcome summary", &report.sections.outcome_summary),
+        ("Task overview", &report.sections.task_overview),
+        ("Delivered changes", &report.sections.delivered_changes),
+        ("Findings", &report.sections.findings),
+        ("Risks", &report.sections.risks),
+        ("Warnings", &report.sections.warnings),
+        ("Limitations", &report.sections.limitations),
+        ("Interventions", &report.sections.interventions),
+        ("Forced stops", &report.sections.forced_stops),
+        ("Resolutions", &report.sections.resolutions),
+        (
+            "Recurrence prevention",
+            &report.sections.recurrence_prevention,
+        ),
+        ("Avoided impact", &report.sections.avoided_impact),
+        ("Residual risks", &report.sections.residual_risks),
+        ("Human decisions", &report.sections.human_decisions),
+        ("Evidence", &report.sections.evidence),
+    ];
+    for (title, claims) in sections {
+        output.push_str(&format!("## {title}\n\n"));
+        if claims.is_empty() {
+            output.push_str("- None\n\n");
+            continue;
+        }
+        for claim in claims {
+            let provenance = if claim.inference { " (inference)" } else { "" };
+            output.push_str(&format!("- {}{}\n", claim.text, provenance));
+        }
+        output.push('\n');
+    }
+    if let Some(gate) = &report.failed_gate {
+        output.push_str(&format!("## Failed gate\n\n- {gate}\n\n"));
+    }
+    if let Some(recovery) = &report.recovery_condition {
+        output.push_str(&format!("## Recovery condition\n\n- {recovery}\n\n"));
+    }
+    output
+}
+
+fn write_task_outcome_artifacts(
+    root: &Path,
+    work_item_id: &str,
+    report: &TaskOutcomeReport,
+) -> Result<(Digest, Digest), ObserverError> {
+    let active = root.join(".ai/work-items/active");
+    let report_value = serde_json::to_value(report).map_err(|error| ObserverError::State {
+        path: active.clone(),
+        message: error.to_string(),
+    })?;
+    let report_bytes =
+        serde_json::to_vec_pretty(&report_value).map_err(|error| ObserverError::State {
+            path: active.clone(),
+            message: error.to_string(),
+        })?;
+    let markdown = task_outcome_markdown(report);
+    let json_digest = Digest::sha256_bytes(&report_bytes);
+    let markdown_digest = Digest::sha256_bytes(markdown.as_bytes());
+    let json_path = active.join(format!("{work_item_id}.task-report.json"));
+    let markdown_path = active.join(format!("{work_item_id}.task-report.md"));
+    for path in [&json_path, &markdown_path] {
+        if fs::symlink_metadata(path).is_ok() {
+            return Err(ObserverError::State {
+                path: path.clone(),
+                message: "Task Outcome report artifact already exists".into(),
+            });
+        }
+    }
+    atomic_write(&json_path, &report_bytes)?;
+    if let Err(error) = atomic_write(&markdown_path, markdown.as_bytes()) {
+        let _ = fs::remove_file(&json_path);
+        return Err(error);
+    }
+    Ok((json_digest, markdown_digest))
+}
+
 fn outcome_v2_internal(
     root: &Path,
     work_item_id: &str,
@@ -7404,7 +8008,7 @@ fn outcome_v2_internal(
             current_runtime,
         )?)
     };
-    let (state, decision_state, summary, evidence_unknown) = if legacy {
+    let (mut state, mut decision_state, mut summary, mut evidence_unknown) = if legacy {
         (
             OutcomeState::NotReady,
             DecisionState::Yellow,
@@ -7445,6 +8049,43 @@ fn outcome_v2_internal(
             ),
         }
     };
+    if archived {
+        let archive_manifest = root
+            .join(".ai/work-items/archive")
+            .join(format!("{work_item_id}.archive.json"));
+        let archived_outcome = root
+            .join(".ai/work-items/archive")
+            .join(format!("{work_item_id}.outcome.json"));
+        let report_present = read_json(&archived_outcome)
+            .ok()
+            .and_then(|value| value.get("taskOutcomeReport").cloned())
+            .is_some();
+        let events_required = read_json(&archive_manifest)
+            .ok()
+            .and_then(|value| value.get("files").cloned())
+            .and_then(|files| files.get("eventsDigest").cloned())
+            .is_some();
+        if report_present {
+            let manifest = read_json(&archive_manifest).ok();
+            let report_valid = manifest.as_ref().is_some_and(|manifest| {
+                verify_archive_manifest(&root, work_item_id, manifest).is_ok()
+            });
+            let events_valid = !events_required
+                || validate_task_outcome_events(
+                    &root,
+                    &task_outcome_event_path(&root, work_item_id, true),
+                    &contract.repository_id,
+                    work_item_id,
+                )
+                .is_ok();
+            if !report_valid || !events_valid {
+                state = OutcomeState::Unknown;
+                decision_state = DecisionState::Red;
+                summary = "Archived Task Outcome evidence is malformed or not bound to the archive manifest; outcome is stopped.";
+                evidence_unknown = Some("outcome_report_invalid");
+            }
+        }
+    }
     let mut unknowns = vec!["user_visible_benefit_not_declared".into()];
     if let Some(code) = evidence_unknown {
         unknowns.push(code.into());
@@ -7461,6 +8102,24 @@ fn outcome_v2_internal(
         unknowns: vec!["user_visible_benefit_not_declared".into()],
         evidence_refs: vec![evidence_ref.clone()],
     };
+    let summary_path = contract_path
+        .parent()
+        .map(|parent| parent.join(format!("{work_item_id}.summary.json")));
+    let summary_value = summary_path
+        .as_deref()
+        .and_then(|path| read_json(path).ok());
+    let task_report = task_outcome_report(TaskOutcomeReportInput {
+        root: &root,
+        contract_path: &contract_path,
+        contract: &contract,
+        summary: summary_value.as_ref(),
+        snapshot_digest: snapshot_digest(&snapshot).ok(),
+        state: state.clone(),
+        decision_state: decision_state.clone(),
+        summary_text: summary,
+        unknowns: &unknowns,
+        evidence_ref: &evidence_ref,
+    });
     Ok(OutcomeV2 {
         schema_version: 2,
         repository_id: contract.repository_id,
@@ -7472,6 +8131,7 @@ fn outcome_v2_internal(
         unknowns,
         evidence_refs: vec![evidence_ref],
         human_benefit_report: report,
+        task_outcome_report: Some(task_report),
     })
 }
 

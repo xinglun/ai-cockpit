@@ -290,7 +290,11 @@ ai-cockpit diagnose --repo /path/to/repository --work-item WI-123
 
 `approach` は observed fact、名前付き derivation、evidence reference、未解決の human input を出力します。
 `outcome` は verified implementation evidence と Human Benefit Report を分離し、宣言されていない user benefit は
-`unknown` のままです。Capability Registry は detection と profile-confirmed verification を区別し、confidence と
+`unknown` のままです。新しい OutcomeV2 には evidence-bound section、`failedGate`/`recoveryCondition`、
+append-only の `<id>.events.jsonl` を持つ strict な `taskOutcomeReport` も含まれます。`finish` が stream を作り、
+`archive` が digest を bind し、`close` が validated report を `finalReport` として receipt に記録します。
+過去の record は backfill しません。これは presentation/evidence projection であり approval source ではなく、
+完全な event-sourced recovery は別 boundary です。Capability Registry は detection と profile-confirmed verification を区別し、confidence と
 evidence を記録します。`inspect` は dependency、conflict、scope compatibility が明示的に分からない場合に
 parallel execution を fail closed にします。Scope compatibility は Windows の `\\` separator を正規化し、exact path
 と nested prefix の overlap（`src/**` と `src/main.rs`、`src/test/**` など）を検出します。交差を証明できない

@@ -1,0 +1,47 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-22T13:12:16Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T13:11:43Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/tests/outcome_report.rs",
+      "crates/cockpit-repository/src/lib.rs"
+    ],
+    "sources": [
+      "docs/reference/reference-parity.md",
+      "docs/features/task-outcome-report.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-08-22T13:50:25Z",
+  "preflightContractDigest": "sha256:ede4ae5f2440c48f0199f3b9fab7645e5e881ac192edc2724039a46a7b83678c",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:1202bc14d93ab19c2d4819d767dd29b17cfc08f27ec3eeead41eef7856c9d9e7",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/outcome_report.rs",
+        "crates/cockpit-repository/tests/archive_integrity.rs"
+      ],
+      "required": true,
+      "scenario": "valid_report_finish_archive_close",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/outcome_report.rs"
+      ],
+      "required": true,
+      "scenario": "tampered_report_or_event_fails_closed",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T13:50:29Z",
+  "workItemId": "WI-136-task-outcome-report"
+}

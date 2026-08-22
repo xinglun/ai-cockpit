@@ -19,6 +19,8 @@ user-facing index. The main paths are:
 - attach and observe a repository;
 - create a governance skeleton without inventing human decisions;
 - run the Work Item lifecycle with bounded verification and evidence reuse;
+- read the evidence-bound [Task Outcome Report](task-outcome-report.md) and
+  [Human Benefit Report](human-benefit-report.md);
 - connect an Agent or repository-bound MCP service explicitly;
 - inspect Outcome, knowledge, status, diagnosis, and recovery signals.
 

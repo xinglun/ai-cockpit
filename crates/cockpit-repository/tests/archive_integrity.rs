@@ -188,6 +188,14 @@ fn close_persists_a_structured_human_decision_and_recovery_condition() {
         decision["structuredDecision"]["resumeCondition"],
         "rerun verification if the base changes"
     );
+    assert_eq!(decision["finalReport"]["format"], "ai-cockpit.task-outcome");
+    assert!(
+        !decision["finalReport"]["sections"]["humanDecisions"]
+            .as_array()
+            .expect("human decision projections")
+            .is_empty()
+    );
+    assert!(decision["finalReportDigest"].as_str().is_some());
     fs::remove_dir_all(path).expect("cleanup");
 }
 

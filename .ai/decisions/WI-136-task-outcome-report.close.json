@@ -1,0 +1,124 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-136-task-outcome-report.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1202bc14d93ab19c2d4819d767dd29b17cfc08f27ec3eeead41eef7856c9d9e7",
+      "workItemId": "WI-136-task-outcome-report"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-136-task-outcome-report.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-136-task-outcome-report.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-136-task-outcome-report.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:owner via user:authorized-instruction at 2026-08-22T13:50:53Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-136-task-outcome-report.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-136-task-outcome-report.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-136-task-outcome-report.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-136-task-outcome-report.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-136-task-outcome-report.contract.json"
+          ],
+          "inference": false,
+          "text": "Provide a readable, validated Task Outcome projection and auditable report artifact lifecycle for CLI and MCP without turning presentation into governance authority."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-136-task-outcome-report.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-136-task-outcome-report"
+  },
+  "finalReportDigest": "sha256:4081a1787971bc5debb33963ad2eded5fe8527ca53f57012037e2dd071084003",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:owner",
+    "authoritySource": "user:authorized-instruction",
+    "decidedAt": "2026-08-22T13:50:53Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-136-task-outcome-report.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "Reviewed the typed report, evidence-bound event stream, archive manifest, and passing verification; approve closure of this Work Item.",
+    "resumeCondition": "Reopen with a new Work Item if post-merge review finds a report, event, or localization defect."
+  },
+  "timestamp": "2026-08-22T13:50:53Z",
+  "workItemId": "WI-136-task-outcome-report"
+}

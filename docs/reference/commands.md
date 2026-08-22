@@ -59,7 +59,11 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
 - `work-item outcome --repo <path> --id <id>` presents the result in the order
   completed work, problems, stops, risks, unknowns, decisions, verification,
   impact, and next action. Use `--json` for automation. See [Human-facing
-  Outcome](outcome-report.md) for status-marker and localization rules.
+  Outcome](outcome-report.md) for status-marker and localization rules. A
+  completed Work Item also binds a typed `*.task-report.json`, a human-readable
+  `*.task-report.md`, and an append-only `*.events.jsonl` stream; these are
+  evidence-bound projections, not extra authority or a replacement for the
+  Contract and verification receipt.
 - `work-item status --repo <path> --id <id>` is read-only and reports lifecycle,
   governance, activity health, fact counts, blockers, unknowns, evidence, and
   source digests. It never schedules work or invents a percentage.
@@ -103,6 +107,13 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
   identity. The manifest sets `externalRetentionRequired: true`; an output file
   is idempotent and is only a handoff to SIEM, WORM, S3 Object Lock, or another
   external retention owner.
+- Task Outcome reports are strict typed JSON projections. Every claim carries
+  evidence references when available; an explicitly marked inference is not a
+  verified fact. The event stream is append-only for a Work Item finish and is
+  validated for repository/Work Item identity, ordering, safe detail content,
+  and evidence-reference boundaries. Archive manifests bind the event stream
+  and report JSON/Markdown digests; close receipts include the final report and
+  its digest.
 - For an auditable decision, add `--actor`, `--authority-source`, `--reason`,
   `--decided-at`, and optional repeated `--evidence-ref`, `--policy-ref`, and
   `--resume-condition`. The resulting `structuredDecision` is stored under
