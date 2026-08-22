@@ -26,6 +26,7 @@ route index は一般利用者の journey と正確な machine-facing detail を
 - [Configuration reference](configuration.ja.md) — `.ai/cockpit.toml`、profile、generated record。
 - [Troubleshooting と recovery](troubleshooting.ja.md) — stop state と安全な次の action。
 - [人間向け Outcome](outcome-report.ja.md) — 読みやすい結果、リスク、証拠、次の action。
+- [Agent ワークフローとレビュー境界](agent-workflow.ja.md) — Work Item、Outcome、release、安全規則の本 project 向け適用。
 - [最終置換 acceptance](final-replacement-acceptance.ja.md) — 再現可能な conformance とコピーなしの境界。
 - [Repository Protocol v1](../protocol/v1/specification.ja.md) — normative storage と receipt contract。
 

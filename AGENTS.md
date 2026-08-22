@@ -51,3 +51,50 @@ Merge only the reviewed PR after its hosted checks pass. Do not use local-main
 as a substitute for pre-merge review. After merge, synchronize the default
 branch, prove the Work Item is closed, and remove only the exact merged branch
 and worktree after cleanup is verified.
+
+## Agent operating boundaries
+
+Before editing code, tests, documentation, CI, build files, or governance
+files, read `.ai/README.md` and `.ai/glossary.md`, then query `inspect`,
+`status`, and `doctor` with the explicit repository path. Establish or identify
+one active Contract with a human-owned intent, scope, out-of-scope boundary,
+authority, acceptance criteria, required evidence, base revision, and declared
+verification commands. Do not edit outside that scope, remove tests or
+evidence records without recording the reason, or hand-edit generated status,
+receipt, or archive files.
+
+Each Work Item starts from the latest commit on the repository's discovered
+remote default branch. Record the remote, default branch, and base revision in
+the Contract. Installation and upgrade acceptance use an immutable published
+Release tag and downloaded artifact; a moving branch, source checkout, or
+workspace binary is not an acceptable release substitute.
+
+An Outcome is a terminal handoff boundary, not an internal log line. Deliver a
+separate visible human Outcome beginning with `Outcome: 🟢`, `Outcome: 🟡`, or
+`Outcome: 🔴` and include status, unknowns, evidence, human decision, and next
+action. For this Runtime, progression requires the equivalent of
+`state=Verified`, `decisionState=green`, current Contract/Summary/evidence
+bindings, and direct human-visible delivery. Missing, folded-only, stale,
+yellow, red, contradictory, or malformed Outcome evidence fails closed.
+
+When a defect is discovered during implementation, verification, finish, or
+handoff, fix it in the current Work Item when its scope, authority, and base
+permit the change. Amend and revalidate the Contract before adding paths or
+authority, preserve retry evidence, and keep a blocked Outcome visible. Create
+a successor only for a genuinely different scope, authority, or base, an
+independent compatible change, an unsafe in-scope fix, immutable failed
+delivery, or explicit human direction; record that reason and linkage.
+
+After a reviewed PR passes hosted checks, close the Work Item only after the
+archive and decision receipts are verified, the merged PR head SHA and
+fast-forward-synchronized default branch are recorded, all relevant worktrees
+are clean, and the exact remote/local Work Item branch is removed. Any failed
+step is fail closed; never merge a feature branch into local `main` as a
+substitute for PR review.
+
+Keep rules language-neutral and project-neutral, never include secrets or local
+credentials, and never modify user-global Agent or MCP configuration. The
+reference template's `make ai-*` commands, `contractVersion: 2`, and V1
+runtime assumptions are not commands or protocol requirements in this Rust
+repository; use the installed Runtime lifecycle and the checks declared by the
+current Contract instead.

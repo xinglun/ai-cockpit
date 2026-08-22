@@ -32,3 +32,26 @@ Do not claim `green`, `passed`, `approved`, `verified`, or `completed` from this
 file. Query the Runtime and read the current repository evidence. Missing,
 stale, contradictory, or unknown evidence requires a rerun, human decision, or
 stop condition.
+
+## Operating boundary inherited by future Work Items
+
+Before editing, an Agent reads this route and `.ai/glossary.md`, queries the
+Runtime with the explicit repository path, and works only inside the active
+Contract's scope. The Contract records the discovered remote default branch and
+base revision, human authority, acceptance criteria, required evidence, and
+verification commands. Generated status, receipt, and archive files are
+written by Runtime commands; tests and evidence are not removed silently.
+
+The visible human Outcome is a terminal handoff. It must retain its
+`Outcome: 🟢`, `Outcome: 🟡`, or `Outcome: 🔴` marker, unknowns, evidence,
+decision, and next action. A missing, folded-only, stale, contradictory, or
+malformed Outcome does not authorize finish, archive, merge, close, or release.
+When a defect remains within the current Contract's scope, authority, and base,
+amend and revalidate that Contract before creating a successor. Independent
+Work Items may run concurrently only with isolated scopes, worktrees, evidence
+ownership, and compatible serialized projections.
+
+Installation and upgrade acceptance binds to an immutable published Release
+tag and downloaded binary. After a reviewed PR is merged, closure verifies the
+archive, decision, merged head, synchronized default branch, clean worktrees,
+and exact branch removal; any failed step remains open for recovery.
