@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T01:11:57Z",
+  "files": {
+    "contractDigest": "sha256:636be48f37917b023f62419b79ef6b48e5c61fb21746a11ece40e1711d4d64d5",
+    "contractPath": ".ai/work-items/archive/WI-97-scope-overlap.contract.json",
+    "outcomeDigest": "sha256:eea59e7598f080ebfb92adab7fffb753fbc2120f3f640eba94325bb39238adf9",
+    "outcomePath": ".ai/work-items/archive/WI-97-scope-overlap.outcome.json",
+    "summaryDigest": "sha256:612c7aaa067de5e55fa882fcb6836434afa725406bc37d9bdaaae754272bc5f6",
+    "summaryPath": ".ai/work-items/archive/WI-97-scope-overlap.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-97-scope-overlap"
+}

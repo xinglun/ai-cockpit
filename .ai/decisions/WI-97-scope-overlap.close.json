@@ -1,0 +1,21 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "repository-owner",
+    "authoritySource": "work-item-contract",
+    "decidedAt": "2026-08-22T01:12:04Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-97-scope-overlap.verification.json"
+    ],
+    "policyRefs": [
+      "WI-97-scope-overlap.contract.json"
+    ],
+    "reason": "Verified conservative parallel scope compatibility; unknown intersections fail closed.",
+    "resumeCondition": "Re-run compatibility checks if scope semantics change."
+  },
+  "timestamp": "2026-08-22T01:12:10Z",
+  "workItemId": "WI-97-scope-overlap"
+}

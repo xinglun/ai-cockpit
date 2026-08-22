@@ -6116,6 +6116,125 @@ fn sorted_unique(mut values: Vec<String>) -> Vec<String> {
     values
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum ScopeRelation {
+    Overlap,
+    Disjoint,
+    Unknown,
+}
+
+fn normalized_scope_pattern(value: &str) -> String {
+    value
+        .trim()
+        .replace('\\', "/")
+        .split('/')
+        .filter(|part| !part.is_empty() && *part != ".")
+        .collect::<Vec<_>>()
+        .join("/")
+}
+
+fn scope_pattern_has_glob(value: &str) -> bool {
+    value
+        .chars()
+        .any(|character| matches!(character, '*' | '?' | '[' | ']' | '{' | '}'))
+}
+
+fn scope_pattern_is_unsafe(value: &str) -> bool {
+    value.starts_with('/')
+        || (value.len() >= 2 && value.as_bytes()[1] == b':')
+        || value.split('/').any(|part| part == "..")
+}
+
+fn simple_scope_prefix(value: &str) -> Option<&str> {
+    if value == "**" {
+        return Some("");
+    }
+    let prefix = value.strip_suffix("/**")?;
+    (!prefix.is_empty() && !scope_pattern_has_glob(prefix)).then_some(prefix)
+}
+
+fn exact_path_is_under_prefix(path: &str, prefix: &str) -> bool {
+    path == prefix || path.starts_with(&format!("{prefix}/"))
+}
+
+fn scope_pattern_relation(left: &str, right: &str) -> ScopeRelation {
+    let left_raw = left.trim().replace('\\', "/");
+    let right_raw = right.trim().replace('\\', "/");
+    if scope_pattern_is_unsafe(&left_raw) || scope_pattern_is_unsafe(&right_raw) {
+        return ScopeRelation::Unknown;
+    }
+    let left = normalized_scope_pattern(left);
+    let right = normalized_scope_pattern(right);
+    if left.is_empty() || right.is_empty() {
+        return ScopeRelation::Unknown;
+    }
+    if left == right {
+        return ScopeRelation::Overlap;
+    }
+    if matches!(left.as_str(), "*" | "**") || matches!(right.as_str(), "*" | "**") {
+        return ScopeRelation::Overlap;
+    }
+
+    let left_exact = !scope_pattern_has_glob(&left);
+    let right_exact = !scope_pattern_has_glob(&right);
+    if left_exact && right_exact {
+        return ScopeRelation::Disjoint;
+    }
+
+    let left_prefix = simple_scope_prefix(&left);
+    let right_prefix = simple_scope_prefix(&right);
+    match (left_prefix, right_prefix, left_exact, right_exact) {
+        (Some(left), Some(right), _, _) => {
+            if left.is_empty()
+                || right.is_empty()
+                || left == right
+                || left.starts_with(&format!("{right}/"))
+                || right.starts_with(&format!("{left}/"))
+            {
+                ScopeRelation::Overlap
+            } else {
+                ScopeRelation::Disjoint
+            }
+        }
+        (Some(prefix), _, _, true) => {
+            if exact_path_is_under_prefix(&right, prefix) {
+                ScopeRelation::Overlap
+            } else {
+                ScopeRelation::Disjoint
+            }
+        }
+        (_, Some(prefix), true, _) => {
+            if exact_path_is_under_prefix(&left, prefix) {
+                ScopeRelation::Overlap
+            } else {
+                ScopeRelation::Disjoint
+            }
+        }
+        _ => ScopeRelation::Unknown,
+    }
+}
+
+fn scope_list_relation(left: &[String], right: &[String]) -> ScopeRelation {
+    if left.is_empty() || right.is_empty() {
+        return ScopeRelation::Unknown;
+    }
+    let mut unknown = false;
+    for left_pattern in left {
+        for right_pattern in right {
+            match scope_pattern_relation(left_pattern, right_pattern) {
+                ScopeRelation::Overlap => return ScopeRelation::Overlap,
+                ScopeRelation::Unknown => unknown = true,
+                ScopeRelation::Disjoint => {}
+            }
+        }
+    }
+    if unknown {
+        ScopeRelation::Unknown
+    } else {
+        ScopeRelation::Disjoint
+    }
+}
+
 /// Compare one active Work Item against other active Work Items using only
 /// explicit sidecar dependencies/conflicts and declared scopes. Missing
 /// intelligence is reported as unknown and cannot silently authorize parallel
@@ -6144,6 +6263,7 @@ pub fn work_item_compatibility(
             items
                 .iter()
                 .filter_map(|item| item.as_str())
+                .map(str::to_owned)
                 .collect::<Vec<_>>()
         })
         .unwrap_or_default();
@@ -6152,6 +6272,9 @@ pub fn work_item_compatibility(
     let mut conflicts = Vec::new();
     let mut dependencies_satisfied = true;
     let mut unknowns = Vec::new();
+    if target_scope.is_empty() {
+        reasons.push("scope_overlap_unknown:empty_target_scope".into());
+    }
     let Some(intelligence) = intelligence else {
         return Ok(WorkItemCompatibility {
             repository_id: repository_id(&root).to_string(),
@@ -6194,22 +6317,25 @@ pub fn work_item_compatibility(
                 items
                     .iter()
                     .filter_map(|item| item.as_str())
+                    .map(str::to_owned)
                     .collect::<Vec<_>>()
             })
             .unwrap_or_default();
         let declared_conflict = intelligence.conflicts_with.iter().any(|id| id == other_id);
-        let overlap = target_scope.iter().any(|left| {
-            other_scope
-                .iter()
-                .any(|right| left == right || left == &"**" || right == &"**")
-        });
-        if declared_conflict || overlap {
+        if declared_conflict {
             conflicts.push(other_id.to_string());
-            reasons.push(if declared_conflict {
-                format!("explicit_conflict:{other_id}")
-            } else {
-                format!("scope_overlap:{other_id}")
-            });
+            reasons.push(format!("explicit_conflict:{other_id}"));
+            continue;
+        }
+        match scope_list_relation(&target_scope, &other_scope) {
+            ScopeRelation::Overlap => {
+                conflicts.push(other_id.to_string());
+                reasons.push(format!("scope_overlap:{other_id}"));
+            }
+            ScopeRelation::Unknown => {
+                reasons.push(format!("scope_overlap_unknown:{other_id}"));
+            }
+            ScopeRelation::Disjoint => {}
         }
     }
     conflicts.sort();
@@ -6220,9 +6346,10 @@ pub fn work_item_compatibility(
     let compatible = intelligence.parallelizable
         && dependencies_satisfied
         && conflicts.is_empty()
-        && reasons
-            .iter()
-            .all(|reason| !reason.starts_with("dependency_not_observed"));
+        && reasons.iter().all(|reason| {
+            !reason.starts_with("dependency_not_observed")
+                && !reason.starts_with("scope_overlap_unknown")
+        });
     Ok(WorkItemCompatibility {
         repository_id: repository_id(&root).to_string(),
         work_item_id: work_item_id.into(),

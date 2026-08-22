@@ -1,0 +1,39 @@
+{
+  "acceptanceResults": [
+    "work_item_compatibility detects exact, wildcard, nested glob, and separator-normalized scope overlaps conservatively",
+    "src/** and src/main.rs, src/** and src/test/**, and Windows separator variants cannot be reported compatible",
+    "scope patterns that cannot be proven disjoint fail closed with scope_overlap_unknown",
+    "regression tests cover disjoint scopes, exact overlap, nested glob overlap, Windows separators, and conservative unknown handling",
+    "reader-facing command or capability documentation describes conservative parallel scope compatibility"
+  ],
+  "createdAt": "2026-08-22T01:11:53Z",
+  "evidenceDigest": "sha256:eb6eb8b01617a32f42d49f4768fec10b95d0572962c0dc97d07284695bac5106",
+  "evidenceRefs": [
+    ".ai/evidence/WI-97-scope-overlap.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-97-scope-overlap.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-97-scope-overlap.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-97-scope-overlap"
+}

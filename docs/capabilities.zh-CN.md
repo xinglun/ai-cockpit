@@ -277,7 +277,9 @@ ai-cockpit diagnose --repo /path/to/repository --work-item WI-123
 `approach` 输出观察到的事实、命名后的推导、证据引用和仍未知的人类输入。`outcome` 将已验证的实现证据
 与 Human Benefit Report 分开；没有明确声明的用户收益保持为 `unknown`。Capability Registry 区分检测到的能力
 与 profile 确认的验证能力，并记录 confidence 和 evidence。`inspect` 在依赖、冲突或 scope 兼容性未被明确知道时
-对并行执行 fail closed。Diagnosis 只报告实际测得的 snapshot/verification 成本，不伪装成 benchmark。
+对并行执行 fail closed。Scope 兼容性会规范化 Windows 的 `\\` 分隔符，识别精确路径和嵌套前缀重叠（例如
+`src/**` 与 `src/main.rs`、`src/test/**`），无法证明交集的模式会返回 `scope_overlap_unknown`。未知或空 scope
+永远不兼容，不能授权并行执行。Diagnosis 只报告实际测得的 snapshot/verification 成本，不伪装成 benchmark。
 
 ### 使用 MCP
 
