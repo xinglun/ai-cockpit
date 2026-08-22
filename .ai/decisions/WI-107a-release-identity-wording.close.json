@@ -1,0 +1,21 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "repository-owner",
+    "authoritySource": "parent-authorized WI-107 corrective review",
+    "decidedAt": "2026-08-22T02:28:30Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-107a-release-identity-wording.verification.json"
+    ],
+    "policyRefs": [
+      "docs/release/distribution.md"
+    ],
+    "reason": "Approved correction after review identified a Core-versus-harness identity binding scope ambiguity.",
+    "resumeCondition": "Open a new Work Item if release identity enforcement behavior changes."
+  },
+  "timestamp": "2026-08-22T02:28:08Z",
+  "workItemId": "WI-107a-release-identity-wording"
+}

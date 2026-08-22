@@ -1,0 +1,37 @@
+{
+  "acceptanceResults": [
+    "All three Release documents state that CLI/MCP expose Runtime identity facts, while the post-release harness owns public binary binding and no Core enforcement is implied.",
+    "The documentation acceptance test and source version consistency check pass after the wording correction."
+  ],
+  "createdAt": "2026-08-22T02:28:02Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:fa2bbe6418930da29b5aad99256e7ad52c2089ca24368bbc3453cd7f0839a3be",
+  "evidenceRefs": [
+    ".ai/evidence/WI-107a-release-identity-wording.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-107a-release-identity-wording.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-107a-release-identity-wording.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-107a-release-identity-wording"
+}

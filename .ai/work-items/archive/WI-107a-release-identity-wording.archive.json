@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T02:28:08Z",
+  "files": {
+    "contractDigest": "sha256:514c86b0c6a04f4982ea4fb655af7f72095275ca1c3f84411331e46e0954b3ae",
+    "contractPath": ".ai/work-items/archive/WI-107a-release-identity-wording.contract.json",
+    "outcomeDigest": "sha256:d18bd9b2dc683ee737c6ff557fefc10fe1c66eed88b57e88c5b843fd681f9b83",
+    "outcomePath": ".ai/work-items/archive/WI-107a-release-identity-wording.outcome.json",
+    "summaryDigest": "sha256:1b4962ed6a24bdaef39ce94014295fe3941181bf0b5ea471de6ca6391adf249d",
+    "summaryPath": ".ai/work-items/archive/WI-107a-release-identity-wording.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-107a-release-identity-wording"
+}

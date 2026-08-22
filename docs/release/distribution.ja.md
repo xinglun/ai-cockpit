@@ -70,8 +70,9 @@ gh release download v0.2.6 --repo xinglun/ai-cockpit \
 
 Filename、target、checksum、manifest、attestation subject は一致しなければなりません。
 Upload や semantic tag だけでは install の完了 evidence になりません。
-CLI と MCP の `verify` JSON には `runtimeVersion` と `runtimeDigest` も含まれます。
-evidence を受け入れる前に、download した binary の identity と結び付けてください。
+CLI と MCP の `verify` JSON は `runtimeVersion` と `runtimeDigest` という Runtime identity fact を返します。
+公開後の acceptance harness（Core 自体ではありません）が Release evidence を受け入れる前に、公開 download binary の
+identity と結び付けます。harness 外で JSON を使う場合の比較責任は caller にあります。
 
 ## Post-release adopter acceptance
 
