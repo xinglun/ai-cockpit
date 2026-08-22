@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "release",
+  "releasePublished": true,
+  "releaseTag": "v0.2.3",
+  "releaseUrl": "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.3",
+  "workflowRun": "https://github.com/xinglun/ai-cockpit/actions/runs/32538358448",
+  "runtime": {
+    "version": "0.2.3",
+    "binaryDigest": "sha256:ffd7a0db5a7caeac85bb3e83879c22f35b5dad0a77f416074b89cf0cd84d4834",
+    "archive": "ai-cockpit-v0.2.3-aarch64-apple-darwin.tar.gz",
+    "archiveDigest": "sha256:33da475e01501f80b9759db540789a65d7dceeea88b7a7302252eaa1a6b0632c",
+    "target": "aarch64-apple-darwin",
+    "downloadSource": "https://github.com/xinglun/ai-cockpit/releases/download/v0.2.3/ai-cockpit-v0.2.3-aarch64-apple-darwin.tar.gz",
+    "manifestDigest": "sha256:fde26e185e75b5e16296fb41fb9c1cadd7efda5fbfa750d7c89a489440a7ea8a"
+  },
+  "sourceRepository": {
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "unchangedAfterAcceptance": true,
+    "globalHomeAndXdgUnchanged": true
+  },
+  "freshAdopter": {
+    "result": "passed",
+    "repositoryId": "sha256:737f980b9834982ab6d11d082b42a5efaba492f454d479f3fb8a7422ccafd93b",
+    "repositoryHadNoAiBeforeAttach": true,
+    "attachProfileAgentDoctor": "passed",
+    "firstAdopterSmoke": "not_ready",
+    "verifyFirst": "passed",
+    "verifyReuse": "passed",
+    "evidenceReuse": "passed",
+    "workItemLifecycle": "passed",
+    "isolation": "passed",
+    "acceptanceJsonSha256": "sha256:0771af44baf262ca81fe8948f752fb96ccc57a1e546f940462e9c6eac5b9905f",
+    "sha256SumsSha256": "sha256:1cc690b14e8043a35cd43ab9e060dbd083e627b5f8d2b26d8666b24844d9e356",
+    "runtimeJsonSha256": "sha256:dc0e3aa3bbaa14ea8647b384beb560ba5d827d404851166b8cee3f1c975e25af",
+    "attachJsonSha256": "sha256:cd2cae02094755c85edf7b9f273c2ceca84ba61f81f23dd54e95e61fcbaaa0ab",
+    "profileJsonSha256": "sha256:87d391b5f97373aded6084f26e952c7f7ebe50c45b7f794726016e7680a9bd44",
+    "agentDoctorJsonSha256": "sha256:96c0d3b36e50ef40907972e6d497da6639c619832e25bc0a17006f3d042cf94d",
+    "firstAdopterSmokeJsonSha256": "sha256:b3a6b1840455c79a039c91098c3018c7aadf2dbbf0754a75ddbc9d759893ea12",
+    "verifyFirstJsonSha256": "sha256:a9fec028466b4b0dab257b76c46dc878e3b0acf3e32f5ef0570354915848590d",
+    "verifyReuseJsonSha256": "sha256:32c66d897c80130b780e55f5e37f7ae154120659f94a791d871e39e0528f2fd3",
+    "isolationJsonSha256": "sha256:c9e2ebe995e72c2317da075cc581524261e4a48ce9f995c103c31837b8b554f5",
+    "repositoryJsonSha256": "sha256:4426110d5f150c43bdd89b5c4fb177fc85361c23a39c70def364cd3b8b012cd1"
+  },
+  "installedRuntime": {
+    "path": "/Users/sei-rinn/.local/bin/ai-cockpit",
+    "version": "0.2.3",
+    "binaryDigest": "sha256:ffd7a0db5a7caeac85bb3e83879c22f35b5dad0a77f416074b89cf0cd84d4834",
+    "compatibility": "COMPATIBLE",
+    "agentDoctor": "VERIFIED",
+    "verifyRuntimeIdentity": "passed"
+  },
+  "acceptance": "passed"
+}

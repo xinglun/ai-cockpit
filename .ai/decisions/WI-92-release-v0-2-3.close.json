@@ -1,0 +1,23 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "sei-rinn",
+    "authoritySource": "repository-owner",
+    "decidedAt": "2026-08-22T00:01:46Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      "target/release-adopter-acceptance-v0.2.3/acceptance.json",
+      "target/release-adopter-upgrade-v0.2.3/acceptance.json",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/32538358448"
+    ],
+    "policyRefs": [
+      "docs/release/release-policy.md"
+    ],
+    "reason": "Public v0.2.3 Release binary passed adopter acceptance and reverified this repository.",
+    "resumeCondition": "Reopen only if public release evidence is revoked."
+  },
+  "timestamp": "2026-08-22T00:01:52Z",
+  "workItemId": "WI-92-release-v0-2-3"
+}
