@@ -1,0 +1,145 @@
+{
+  "acceptanceResults": [
+    "A1: Planner cost estimates expose planned executed reusable resource and parallelism dimensions without changing the selected verification tier or policy decision",
+    "A2: Execution observations report single Work Item and parallel multi-node cost metrics with repository and Runtime identity",
+    "A3: Cost confidence remains explicit and unknown or partial measurements never become a green governance result",
+    "A4: Reuse and affected verification reductions are observable as cost facts and cannot authorize skipping protected or policy-required nodes",
+    "A5: No hard performance target is presented as assurance and no Tier or EvidenceAssurance value is inferred from speed",
+    "A6: Tri-language documentation defines Verification cost as advisory and preserves the principle Verification Truth before Verification Cost"
+  ],
+  "createdAt": "2026-08-22T21:00:30Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:1e7330dc46f75f9da122dab3aea421e6e5920d15ebb5c90ba38cde44a13889fe",
+  "evidenceRefs": [
+    ".ai/evidence/WI-146-verification-cost-observation.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-146-verification-cost-observation.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-146-verification-cost-observation.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b43256cbc0a8c7a98cb14cfe04d52ebb14b8fdcd937b6fc431bc749e95a04fc5",
+      "workItemId": "WI-146-verification-cost-observation"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-146-verification-cost-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-146-verification-cost-observation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-146-verification-cost-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-146-verification-cost-observation.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-146-verification-cost-observation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-146-verification-cost-observation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-146-verification-cost-observation.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-146-verification-cost-observation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-146-verification-cost-observation.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-146-verification-cost-observation.contract.json"
+          ],
+          "inference": false,
+          "text": "Measure single-WI and parallel verification cost so future optimization can reduce execution work while preserving VerificationTier EvidenceAssurance and protected gates."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-146-verification-cost-observation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-146-verification-cost-observation"
+  },
+  "taskReportDigest": "sha256:e1aeaada12eded35bf4ce4fe1a14cb9d44110623adc1c1520dbcc3e6834edf66",
+  "taskReportMarkdownDigest": "sha256:813da5c6b4dc86a11e80e321f26779c1bc5fb12168198e86ec76e7c24e45b72d",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-146-verification-cost-observation.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-146-verification-cost-observation"
+}

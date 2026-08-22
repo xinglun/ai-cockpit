@@ -1,0 +1,73 @@
+{
+  "acceptanceCriteria": [
+    "A1: Planner cost estimates expose planned executed reusable resource and parallelism dimensions without changing the selected verification tier or policy decision",
+    "A2: Execution observations report single Work Item and parallel multi-node cost metrics with repository and Runtime identity",
+    "A3: Cost confidence remains explicit and unknown or partial measurements never become a green governance result",
+    "A4: Reuse and affected verification reductions are observable as cost facts and cannot authorize skipping protected or policy-required nodes",
+    "A5: No hard performance target is presented as assurance and no Tier or EvidenceAssurance value is inferred from speed",
+    "A6: Tri-language documentation defines Verification cost as advisory and preserves the principle Verification Truth before Verification Cost"
+  ],
+  "authority": "authorized",
+  "baseRevision": "cda3c36612fdb22d3f57e2a0b3e1b8664ef36c52",
+  "createdAt": "2026-08-22T20:52:03Z",
+  "goal": "Measure single-WI and parallel verification cost so future optimization can reduce execution work while preserving VerificationTier EvidenceAssurance and protected gates.",
+  "intent": "Expose identity-bound Verification cost estimates and observations without allowing performance heuristics to weaken governance requirements.",
+  "mode": "code",
+  "outOfScope": [
+    "New VerificationTier or EvidenceAssurance values",
+    "Changing policy planner decisions or protected gate execution",
+    "Cross-Work-Item physical execution deduplication",
+    "CI YAML policy removal or release performance targets",
+    "Global Runtime or Agent state"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3eebf2cf9d5b77ff1a1e0a2b57e39d11ff6008492d686d06f60d4fe77b98e409",
+  "requiredEvidenceClasses": ["verification"],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "scenario": "single Work Item cost observation",
+      "required": true,
+      "expected": "A complete identity-bound observation reports planned executed elapsed and resource facts without changing governance state.",
+      "verificationPlan": "Run a one-node verification and assert the cost projection and receipt observation fields.",
+      "status": "unverified"
+    },
+    {
+      "scenario": "parallel multi-node and reuse cost observation",
+      "required": true,
+      "expected": "Parallelism and reuse reductions are visible while protected and policy-required nodes remain executed.",
+      "verificationPlan": "Run independent nodes with workers greater than one plus a reusable receipt and assert advisory-only metrics.",
+      "status": "unverified"
+    }
+  ],
+  "scope": [
+    "crates/cockpit-verification/src/lib.rs",
+    "crates/cockpit-verification/tests/cost_observation.rs",
+    "docs/reference/verification-cost.md",
+    "docs/reference/verification-cost.zh-CN.md",
+    "docs/reference/verification-cost.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-146-verification-cost-observation.md",
+    "docs/work-items/WI-146-verification-cost-observation.zh-CN.md",
+    "docs/work-items/WI-146-verification-cost-observation.ja.md"
+  ],
+  "sources": [
+    "crates/cockpit-verification/src/lib.rs",
+    "crates/cockpit-verification/tests/execution.rs",
+    "crates/cockpit-protocol/src/lib.rs",
+    "docs/performance/baseline.md",
+    "docs/reference/verification-planner.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked -p cockpit-verification --all-targets",
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "bash tests/docs/documentation_acceptance.sh"
+  ],
+  "workItemId": "WI-146-verification-cost-observation"
+}

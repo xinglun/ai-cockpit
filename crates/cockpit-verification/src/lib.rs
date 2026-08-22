@@ -817,6 +817,68 @@ impl VerificationExecutionPlan {
     pub fn planning_elapsed_ms(&self) -> u128 {
         self.planning_elapsed_ms
     }
+
+    /// Return an advisory cost estimate.  It never changes the selected
+    /// action, tier, assurance, or protected-node semantics of the plan.
+    pub fn cost_estimate(
+        &self,
+        max_workers: usize,
+        max_resource_units: usize,
+    ) -> VerificationCostEstimate {
+        let nodes_planned = self.commands.len();
+        let nodes_to_execute = self
+            .commands
+            .iter()
+            .filter(|entry| entry.action == PlannedAction::Execute)
+            .count();
+        let nodes_reused = self
+            .commands
+            .iter()
+            .filter(|entry| entry.action == PlannedAction::Reuse)
+            .count();
+        let resource_units = self
+            .commands
+            .iter()
+            .filter(|entry| entry.action == PlannedAction::Execute)
+            .map(|entry| entry.command.resource_weight)
+            .sum();
+        let mut unknowns = Vec::new();
+        if max_workers == 0 {
+            unknowns.push("worker_budget_unknown".into());
+        }
+        if max_resource_units == 0 {
+            unknowns.push("resource_budget_unknown".into());
+        }
+        if max_resource_units > 0 && resource_units > max_resource_units {
+            unknowns.push("resource_budget_exceeded".into());
+        }
+        if self
+            .commands
+            .iter()
+            .any(|entry| entry.state == PlannedState::Unknown)
+        {
+            unknowns.push("verification_state_unknown".into());
+        }
+        let confidence = if max_workers == 0 || max_resource_units == 0 {
+            VerificationCostConfidence::Unknown
+        } else if unknowns.is_empty() {
+            VerificationCostConfidence::Complete
+        } else {
+            VerificationCostConfidence::Partial
+        };
+        VerificationCostEstimate {
+            schema_version: VERIFICATION_COST_SCHEMA_VERSION,
+            confidence,
+            nodes_planned,
+            nodes_to_execute,
+            nodes_reused,
+            resource_units,
+            estimated_parallelism: max_workers.min(nodes_to_execute.max(1)),
+            planning_elapsed_ms: self.planning_elapsed_ms,
+            advisory_only: true,
+            unknowns,
+        }
+    }
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -846,12 +908,101 @@ pub struct VerificationReceipt {
     pub planning_elapsed_ms: u128,
     pub execution_elapsed_ms: u128,
     pub processes_spawned: usize,
+    #[serde(default)]
+    pub max_concurrent_processes: usize,
     pub process_spawn_failures: usize,
     pub git_calls: usize,
     pub files_read: usize,
     pub files_hashed: usize,
     pub elapsed_ms: u128,
     pub passed: bool,
+}
+
+pub const VERIFICATION_COST_SCHEMA_VERSION: u32 = 1;
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum VerificationCostConfidence {
+    Complete,
+    Partial,
+    Unknown,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct VerificationCostEstimate {
+    pub schema_version: u32,
+    pub confidence: VerificationCostConfidence,
+    pub nodes_planned: usize,
+    pub nodes_to_execute: usize,
+    pub nodes_reused: usize,
+    pub resource_units: usize,
+    pub estimated_parallelism: usize,
+    pub planning_elapsed_ms: u128,
+    pub advisory_only: bool,
+    pub unknowns: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct VerificationCostObservation {
+    pub schema_version: u32,
+    pub confidence: VerificationCostConfidence,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub repository_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub runtime_version: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub runtime_digest: Option<String>,
+    pub nodes_planned: usize,
+    pub nodes_executed: usize,
+    pub nodes_reused: usize,
+    pub protected_nodes_executed: usize,
+    pub processes_spawned: usize,
+    pub max_concurrent_processes: usize,
+    pub planning_elapsed_ms: u128,
+    pub execution_elapsed_ms: u128,
+    pub elapsed_ms: u128,
+    pub passed: bool,
+    pub advisory_only: bool,
+    pub unknowns: Vec<String>,
+}
+
+impl VerificationReceipt {
+    /// Project execution telemetry into an advisory cost observation.  This
+    /// method never changes `passed` or any governance decision.
+    pub fn cost_observation(&self) -> VerificationCostObservation {
+        let mut unknowns = Vec::new();
+        if self.repository_id.is_none() {
+            unknowns.push("repository_identity_unknown".into());
+        }
+        if self.runtime_version.is_none() || self.runtime_digest.is_none() {
+            unknowns.push("runtime_identity_unknown".into());
+        }
+        VerificationCostObservation {
+            schema_version: VERIFICATION_COST_SCHEMA_VERSION,
+            confidence: if unknowns.is_empty() {
+                VerificationCostConfidence::Complete
+            } else {
+                VerificationCostConfidence::Unknown
+            },
+            repository_id: self.repository_id.clone(),
+            runtime_version: self.runtime_version.clone(),
+            runtime_digest: self.runtime_digest.clone(),
+            nodes_planned: self.nodes_planned,
+            nodes_executed: self.nodes_executed,
+            nodes_reused: self.nodes_reused,
+            protected_nodes_executed: self.protected_nodes_executed,
+            processes_spawned: self.processes_spawned,
+            max_concurrent_processes: self.max_concurrent_processes,
+            planning_elapsed_ms: self.planning_elapsed_ms,
+            execution_elapsed_ms: self.execution_elapsed_ms,
+            elapsed_ms: self.elapsed_ms,
+            passed: self.passed,
+            advisory_only: true,
+            unknowns,
+        }
+    }
 }
 
 pub const PHYSICAL_EXECUTION_SCHEMA_VERSION: u32 = 1;
@@ -1673,6 +1824,7 @@ fn execute_verification_plan_bounded_with_budget_at(
         planning_elapsed_ms,
         execution_elapsed_ms,
         processes_spawned: metrics.processes_spawned,
+        max_concurrent_processes: metrics.max_concurrent_processes,
         process_spawn_failures: metrics.process_spawn_failures,
         git_calls: 0,
         files_read: 0,
@@ -2244,6 +2396,11 @@ impl SchedulerState {
         self.reserved_resources = self
             .reserved_resources
             .saturating_add(command.resource_weight);
+        self.metrics.active_processes = self.metrics.active_processes.saturating_add(1);
+        self.metrics.max_concurrent_processes = self
+            .metrics
+            .max_concurrent_processes
+            .max(self.metrics.active_processes);
         Some(command)
     }
 
@@ -2256,6 +2413,7 @@ impl SchedulerState {
     ) {
         self.completed += 1;
         self.reserved_resources = self.reserved_resources.saturating_sub(resource_weight);
+        self.metrics.active_processes = self.metrics.active_processes.saturating_sub(1);
         self.metrics.nodes_executed += 1;
         if outcome.spawned {
             self.metrics.processes_spawned += 1;
@@ -2286,6 +2444,8 @@ impl SchedulerState {
 
 #[derive(Clone)]
 struct RuntimeMetrics {
+    active_processes: usize,
+    max_concurrent_processes: usize,
     nodes_executed: usize,
     processes_spawned: usize,
     process_spawn_failures: usize,
@@ -2297,6 +2457,8 @@ struct RuntimeMetrics {
 impl RuntimeMetrics {
     fn new() -> Self {
         Self {
+            active_processes: 0,
+            max_concurrent_processes: 0,
             nodes_executed: 0,
             processes_spawned: 0,
             process_spawn_failures: 0,
