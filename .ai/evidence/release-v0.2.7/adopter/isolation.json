@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "sourceRepository": "/home/runner/work/ai-cockpit/ai-cockpit",
+  "sourceAiState": "present",
+  "sourceBeforeStatus": "",
+  "sourceAfterStatus": "",
+  "adopterRepository": "/tmp/ai-cockpit-adopter-acceptance.Cfuc0o/adopter",
+  "homeManifest": {
+    "unchanged": true
+  },
+  "xdgConfigManifest": {
+    "unchanged": true
+  },
+  "sourceUnchanged": true,
+  "repositoryIsolation": true
+}

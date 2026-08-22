@@ -1,0 +1,63 @@
+{
+  "acceptanceResults": [
+    "All source",
+    " protocol",
+    " documentation",
+    " CI",
+    " and release metadata checks pass for v0.2.7 without rewriting immutable v0.2.6 truth.",
+    "The public v0.2.7 Release is published from an annotated tag with matching source commit",
+    " archive and binary digests",
+    " SBOM",
+    " Homebrew metadata",
+    " and SHA256SUMS.",
+    "The v0.2.7 public binary is installed into the shared Runtime location and explicitly governs this repository; inspect",
+    " status",
+    " doctor",
+    " agent doctor",
+    " and repository isolation are healthy.",
+    "Post-release adopter acceptance and N-1 upgrade acceptance use only immutable public Release artifacts",
+    " retain acceptance receipts",
+    " clean every validated temporary root on success/failure/interruption",
+    " and preserve first-adopter-smoke as not_ready.",
+    "Human Outcome output in English",
+    " Simplified Chinese",
+    " and Japanese is visible",
+    " localized for Runtime-generated sections",
+    " includes the required marker",
+    " and displays validated structured Human Decision fields without changing machine JSON or Contract source text.",
+    "Release and reader documentation are synchronized in all three languages",
+    " state partial/deferred/external boundaries truthfully",
+    " and contain no internal migration or progress instructions."
+  ],
+  "createdAt": "2026-08-22T03:04:14Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:ffdd8d223edc16ea6f0386167a776e938f1911938c92afd1d98d92ff86d9d0ca",
+  "evidenceRefs": [
+    ".ai/evidence/WI-108-release-v0-2-7.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-108-release-v0-2-7.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-108-release-v0-2-7.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-108-release-v0-2-7"
+}

@@ -1,0 +1,64 @@
+{
+  "elapsedMs": 250,
+  "executionElapsedMs": 174,
+  "filesHashed": 10,
+  "filesRead": 10,
+  "gitCalls": 8,
+  "nodesExecuted": 1,
+  "nodesPlanned": 1,
+  "nodesReused": 0,
+  "passed": true,
+  "planningElapsedMs": 0,
+  "processSpawnFailures": 0,
+  "processesSpawned": 1,
+  "protectedNodesExecuted": 0,
+  "protectedNodesSkipped": 0,
+  "receiptCandidates": [
+    {
+      "context": {
+        "commandDigest": "sha256:cd74b7dadd97eee476be1d6bca54b8b93a78dae2fa994040c0de9e8a262cd017",
+        "contentDigest": "sha256:25cafe2c7531a6bf6475d9ddc450ae60dd8636ce2c493f10d522a04a7698a9e0",
+        "diff": {
+          "baseCommit": "46baa4afac5f1ef467dd93f4ab89eea0d85e4f03",
+          "changedPathsDigest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "headCommit": "46baa4afac5f1ef467dd93f4ab89eea0d85e4f03"
+        },
+        "environmentDigest": "sha256:5e59fc8e163967f225e1b48fc71e05e1c50283f1a91174ee7093e04976dafaeb",
+        "governanceDigest": "sha256:7aebd14eb81b134011486449935b637ef19baa9690a28cc88b6a145ccd933185",
+        "policyDigest": "sha256:6566d24c8ac0490db544ad1fb217b57f344ea25dc70f61058d4b5e5430c0054f",
+        "profileDigest": "sha256:c4c106e2e188026266ae40f9ee13a95f7bf3efdd2ec91976f009117d10e4d88c",
+        "runner": "local",
+        "scopeDigest": "sha256:1078c140b996b711424671640de5d8a0fed342fc5d0027e16717b7016384f8fd",
+        "stage": "task",
+        "toolchainDigest": "sha256:7859050241c63dcf6badec828da6b30b72ae0a5a98738436fc7e656e42a422eb"
+      },
+      "createdAtEpochSeconds": 1787367381,
+      "expiresAtEpochSeconds": 1787453781,
+      "nodeId": "project-command-0",
+      "outputDigest": "sha256:874ea427d10c6e023b689bc0c519bb1a22523458a9487e283ad791fd5023afe5",
+      "passed": true,
+      "receiptId": "sha256:038314f6a8eef0283b6da27e7da2eca69f1921cd52fdcf6bf65defcb7f960028",
+      "schemaVersion": 2
+    }
+  ],
+  "rerunStale": 0,
+  "rerunUnknown": 1,
+  "results": [
+    {
+      "action": "execute",
+      "nodeId": "project-command-0",
+      "outputDigest": "sha256:874ea427d10c6e023b689bc0c519bb1a22523458a9487e283ad791fd5023afe5",
+      "outputTruncated": false,
+      "passed": true,
+      "protected": false,
+      "reason": "evidence_missing",
+      "receiptId": "sha256:038314f6a8eef0283b6da27e7da2eca69f1921cd52fdcf6bf65defcb7f960028",
+      "reused": false,
+      "satisfiedBy": "execution",
+      "state": "unknown",
+      "timedOut": false
+    }
+  ],
+  "runtimeDigest": "sha256:01a4d93ef8aaa27bf83fc917029f93747d8777ed9dbf2eca364ca641c115b37e",
+  "runtimeVersion": "0.2.7"
+}

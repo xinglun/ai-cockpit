@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "tag": "v0.2.6",
+  "version": "0.2.6",
+  "target": "x86_64-unknown-linux-gnu",
+  "platform": "x86_64-unknown-linux-gnu",
+  "archive": "ai-cockpit-v0.2.6-x86_64-unknown-linux-gnu.tar.gz",
+  "archiveDigest": "sha256:ae53b2c6bf8b2282fd0759f7969ca6ae3d2d24d073097b2a1d10237d2f34d78b",
+  "binaryDigest": "sha256:a4b626d7bc78d0a136341db35ebf0cb0d53bddd46a0d4aad93906c1b4baacee2",
+  "downloadSource": "https://github.com/xinglun/ai-cockpit/releases/download/v0.2.6/ai-cockpit-v0.2.6-x86_64-unknown-linux-gnu.tar.gz",
+  "releasePublished": true
+}

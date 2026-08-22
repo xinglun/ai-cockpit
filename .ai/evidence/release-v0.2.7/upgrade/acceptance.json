@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-08-22T02:56:33Z",
+  "finishedAt": "2026-08-22T02:56:49Z",
+  "releasePublished": true,
+  "adopterAcceptance": "passed",
+  "repository": "xinglun/ai-cockpit",
+  "fromTag": "v0.2.6",
+  "toTag": "v0.2.7",
+  "target": "x86_64-unknown-linux-gnu",
+  "fromRuntimeVersion": "0.2.6",
+  "toRuntimeVersion": "0.2.7",
+  "fromRuntimeDigest": "sha256:a4b626d7bc78d0a136341db35ebf0cb0d53bddd46a0d4aad93906c1b4baacee2",
+  "toRuntimeDigest": "sha256:01a4d93ef8aaa27bf83fc917029f93747d8777ed9dbf2eca364ca641c115b37e",
+  "repositoryId": "sha256:df0e9c11c1636cd814719078d775cb79a485a98ac5775fae523bdac4ff2f1794",
+  "cleanupState": "passed",
+  "cleanupError": null,
+  "steps": [
+    {
+      "name": "from-release-pin",
+      "state": "passed"
+    },
+    {
+      "name": "to-release-pin",
+      "state": "passed"
+    },
+    {
+      "name": "public-release-pins",
+      "state": "passed"
+    },
+    {
+      "name": "from-attach.json",
+      "state": "passed"
+    },
+    {
+      "name": "from-profile.json",
+      "state": "passed"
+    },
+    {
+      "name": "from-agent-install.json",
+      "state": "passed"
+    },
+    {
+      "name": "from-agent-doctor.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-protocol-directories",
+      "state": "passed"
+    },
+    {
+      "name": "old-schema-assertion",
+      "state": "passed",
+      "reason": "old Runtime repository schema 2"
+    },
+    {
+      "name": "old-start.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-checkpoint.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-verify.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-verify-runtime-identity",
+      "state": "passed"
+    },
+    {
+      "name": "historical-evidence-captured",
+      "state": "passed"
+    },
+    {
+      "name": "new-compatibility.json",
+      "state": "passed"
+    },
+    {
+      "name": "historical-evidence-preserved",
+      "state": "passed"
+    },
+    {
+      "name": "new-compatibility-after.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-agent-doctor.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-verify.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-finish.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-archive.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-close.json",
+      "state": "passed"
+    },
+    {
+      "name": "continued-operation",
+      "state": "passed"
+    },
+    {
+      "name": "isolation",
+      "state": "passed"
+    }
+  ],
+  "failureReason": null
+}

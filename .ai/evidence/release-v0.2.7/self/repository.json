@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositoryRoot": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit",
+  "head": "b2a55cdd7e98e05419fc22484f0c263aebbdc863",
+  "runtimeVersion": "0.2.7",
+  "runtimeDigest": "sha256:89d5704713f1338c115d4265b44cda9ed09fc333b8a54f6eaa424026f4ddc9a2",
+  "inspect": {
+    "state": "healthy",
+    "runtimeCodeInRepository": false
+  },
+  "status": {
+    "state": "COMPATIBLE",
+    "activeWorkItems": 1
+  },
+  "doctor": {
+    "state": "ok",
+    "runtimeCodeInRepository": false
+  },
+  "agentDoctor": {
+    "state": "VERIFIED",
+    "provider": "codex",
+    "cli": "available",
+    "mcp": "available"
+  }
+}
