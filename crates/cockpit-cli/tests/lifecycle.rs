@@ -219,6 +219,16 @@ fn current_cli_rejects_foreign_runtime_verification_evidence() {
         .output()
         .expect("start");
     assert!(start.status.success());
+    run(
+        binary,
+        &[
+            "preflight",
+            "--contract",
+            ".ai/work-items/active/WI-FOREIGN-RUNTIME.contract.json",
+        ],
+        &repo,
+    );
+    run(binary, &["checkpoint", "--id", "WI-FOREIGN-RUNTIME"], &repo);
     assert!(
         run_output(
             binary,
