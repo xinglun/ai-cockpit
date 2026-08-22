@@ -7,9 +7,9 @@ audience:
   - adopter
   - contributor
   - maintainer
-status: implementation
+status: implemented
 authority: canonical
-lastVerifiedBy: WI-133-docs-truth
+lastVerifiedBy: WI-134-docs-close-finalization
 ---
 
 # WI-133 — Documentation truth reconciliation
@@ -38,5 +38,7 @@ archived evidence and close decision.
 
 ## Verification
 
-The active Contract and Runtime evidence record the documentation acceptance and
-the final diff review.
+The archived Contract, verification evidence, close decision, and Runtime
+evidence record the documentation acceptance and final diff review:
+`.ai/evidence/WI-133-docs-truth.verification.json` and
+`.ai/decisions/WI-133-docs-truth.close.json`.

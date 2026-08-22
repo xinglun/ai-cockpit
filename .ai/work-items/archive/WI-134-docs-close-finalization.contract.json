@@ -1,0 +1,43 @@
+{
+  "acceptanceCriteria": [
+    "All three WI-133 documentation pages state implemented and link verification and close evidence",
+    "The three parity baselines list WI-133 with accurate evidence and documentation paths",
+    "Documentation acceptance passes and no Runtime or historical governance bytes are changed",
+    "The close-finalization rule is explicitly documented for future release audits"
+  ],
+  "authority": "authorized",
+  "baseRevision": "93dd1769a4814e2f4ef935113d27504b95740b18",
+  "createdAt": "2026-08-22T12:09:48Z",
+  "goal": "Finalize the WI-133 documentation status after close and prevent the same status lag from reaching the release baseline.",
+  "intent": "A closed Work Item must not remain documented as implementation-only; closure must update its own tri-lingual documentation and parity baseline.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime source and tests",
+    "Historical Work Item evidence and close records",
+    "Release version and installation",
+    "Reference source migration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7168b5eaa99eba20165b9bbea596d6745c2caa21d06644140e19690fb226dac5",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-133-docs-truth.md",
+    "docs/work-items/WI-133-docs-truth.ja.md",
+    "docs/work-items/WI-133-docs-truth.zh-CN.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-134-docs-close-finalization.md",
+    "docs/work-items/WI-134-docs-close-finalization.ja.md",
+    "docs/work-items/WI-134-docs-close-finalization.zh-CN.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-134-docs-close-finalization"
+}

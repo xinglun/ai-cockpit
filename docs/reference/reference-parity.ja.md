@@ -78,12 +78,17 @@ verification record です。
 | WI-130 — Closed Work Item status projection | Implemented | [Work Item](../work-items/WI-130-status-closed-projection.ja.md); `.ai/evidence/WI-130-status-closed-projection.verification.json`; `.ai/decisions/WI-130-status-closed-projection.close.json` |
 | WI-131 — 検証証拠 timestamp の fail-closed 検査 | Implemented | [Work Item](../work-items/WI-131-evidence-timestamp.ja.md); `.ai/evidence/WI-131-evidence-timestamp.verification.json`; `.ai/decisions/WI-131-evidence-timestamp.close.json` |
 | WI-132 — Agent adapter と provider surface の parity | Implemented | [Work Item](../work-items/WI-132-agent-adapter-parity.ja.md); `.ai/evidence/WI-132-agent-adapter-parity.verification.json`; `.ai/decisions/WI-132-agent-adapter-parity.close.json` |
+| WI-133 — Documentation truth の整合 | Implemented | [Work Item](../work-items/WI-133-docs-truth.ja.md); `.ai/evidence/WI-133-docs-truth.verification.json`; `.ai/decisions/WI-133-docs-truth.close.json` |
 
 ## 現在の境界
 
 1 つの installed Runtime は複数の独立した repository を治理できます。Protocol、Work Item、evidence、
 knowledge、adapter record は repository ごとに分離されます。今後も explicit repository binding、
 evidence isolation、human-owned decision、Runtime delivery と repository state の分離を維持します。
+
+Work Item を close した後は、同じ release-audit cycle で三言語の文書を finalize します。
+status は `implemented`、archived verification/close evidence への link、parity baseline の行を
+一致させます。この documentation-truth rule は過去の evidence を書き換えません。
 
 ## Scenario・Acceptance・最終 dimensions の projection
 

@@ -75,12 +75,17 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-130——已关闭 Work Item 状态投影 | 已实现 | [Work Item](../work-items/WI-130-status-closed-projection.zh-CN.md)；`.ai/evidence/WI-130-status-closed-projection.verification.json`；`.ai/decisions/WI-130-status-closed-projection.close.json` |
 | WI-131——验证证据时间戳 fail-closed 校验 | 已实现 | [Work Item](../work-items/WI-131-evidence-timestamp.zh-CN.md)；`.ai/evidence/WI-131-evidence-timestamp.verification.json`；`.ai/decisions/WI-131-evidence-timestamp.close.json` |
 | WI-132——Agent adapter 与 provider 表面一致性 | 已实现 | [Work Item](../work-items/WI-132-agent-adapter-parity.zh-CN.md)；`.ai/evidence/WI-132-agent-adapter-parity.verification.json`；`.ai/decisions/WI-132-agent-adapter-parity.close.json` |
+| WI-133——文档事实一致性校正 | 已实现 | [Work Item](../work-items/WI-133-docs-truth.zh-CN.md)；`.ai/evidence/WI-133-docs-truth.verification.json`；`.ai/decisions/WI-133-docs-truth.close.json` |
 
 ## 当前边界
 
 一份已安装 Runtime 可以治理多个相互独立 attach 的 repository。每个 repository 独立拥有
 Protocol、Work Item、evidence、knowledge 和 adapter record。后续变化必须保持显式 repository
 绑定、evidence 隔离、人类拥有的决定，以及 Runtime 分发和 repository state 的分离。
+
+Work Item 关闭后，必须在同一轮 release audit 中完成三语文档定稿：状态为
+`implemented`，链接归档 verification/close evidence，并与 parity baseline 行保持一致。
+这条 documentation-truth 规则不会改写历史 evidence。
 
 ## Scenario、Acceptance 与最终维度投影
 
