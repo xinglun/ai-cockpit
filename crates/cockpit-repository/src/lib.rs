@@ -7504,7 +7504,7 @@ fn ensure_parallel_directories(root: &Path) -> Result<PathBuf, ObserverError> {
             }
             Ok(_) => {}
             Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
-                fs::create_dir(path).map_err(|source| ObserverError::Read {
+                fs::create_dir_all(path).map_err(|source| ObserverError::Read {
                     path: path.clone(),
                     source,
                 })?;
@@ -7515,6 +7515,21 @@ fn ensure_parallel_directories(root: &Path) -> Result<PathBuf, ObserverError> {
                     source,
                 });
             }
+        }
+    }
+    // Re-check after create_dir_all: another first-use acquirer may have
+    // created the path between metadata and creation, and a symlink must
+    // never become an accepted parallel-state root.
+    for path in [&state, &leases] {
+        let metadata = fs::symlink_metadata(path).map_err(|source| ObserverError::Read {
+            path: path.clone(),
+            source,
+        })?;
+        if metadata.file_type().is_symlink() || !metadata.is_dir() {
+            return Err(ObserverError::State {
+                path: path.clone(),
+                message: "parallel state path must be a non-symlink directory".into(),
+            });
         }
     }
     Ok(leases)

@@ -1,6 +1,6 @@
 use cockpit_protocol::ConcurrencyBoundary;
 use cockpit_repository::{
-    WorkItemStartOptions, acquire_parallel_slot, attach, list_parallel_slots,
+    WorkItemStartOptions, acquire_parallel_slot, attach, list_parallel_slots, preflight_work_item,
     release_parallel_slot, set_work_item_concurrency_boundary, set_work_item_intelligence,
     start_work_item_with_options, work_item_compatibility,
 };
@@ -74,6 +74,23 @@ fn contract_boundary_overlap_is_conservative_and_windows_safe() {
 }
 
 #[test]
+fn binding_boundary_preserves_contract_readability_for_preflight_and_lifecycle() {
+    let directory = repository();
+    start_item(directory.path(), "WI-CONTRACT-BOUNDARY", "src/main.rs");
+    set_work_item_concurrency_boundary(
+        directory.path(),
+        "WI-CONTRACT-BOUNDARY",
+        boundary("src/main.rs", 1),
+    )
+    .expect("boundary");
+    let contract_path = directory
+        .path()
+        .join(".ai/work-items/active/WI-CONTRACT-BOUNDARY.contract.json");
+    let decision = preflight_work_item(directory.path(), &contract_path).expect("preflight");
+    assert_ne!(decision.state, cockpit_core::DecisionState::Red);
+}
+
+#[test]
 fn malformed_or_missing_boundary_fails_closed_for_slot_acquisition() {
     let directory = repository();
     start_item(directory.path(), "WI-NO-BOUNDARY", "src/**");
@@ -120,6 +137,38 @@ fn slot_capacity_and_duplicate_work_item_are_race_safe() {
     );
     let lease = &successes[0];
     release_parallel_slot(concurrent.path(), "WI-C", &lease.lease_id).expect("release race lease");
+    assert!(list_parallel_slots(concurrent.path()).unwrap().is_empty());
+}
+
+#[test]
+fn first_use_parallel_directories_are_created_race_safe() {
+    let directory = repository();
+    for (id, path) in [
+        ("WI-FIRST-A", "src/first-a.rs"),
+        ("WI-FIRST-B", "src/first-b.rs"),
+    ] {
+        start_item(directory.path(), id, path);
+        set_work_item_concurrency_boundary(directory.path(), id, boundary(path, 2))
+            .expect("boundary");
+    }
+    assert!(!directory.path().join(".ai/parallel").exists());
+    let concurrent = Arc::new(directory);
+    let handles = ["WI-FIRST-A", "WI-FIRST-B"]
+        .into_iter()
+        .map(|id| {
+            let root = Arc::clone(&concurrent);
+            thread::spawn(move || acquire_parallel_slot(root.path(), id))
+        })
+        .collect::<Vec<_>>();
+    let leases = handles
+        .into_iter()
+        .map(|handle| handle.join().expect("thread join").expect("fresh slot"))
+        .collect::<Vec<_>>();
+    assert_eq!(leases.len(), 2);
+    for lease in leases {
+        release_parallel_slot(concurrent.path(), &lease.work_item_id, &lease.lease_id)
+            .expect("release fresh slot");
+    }
     assert!(list_parallel_slots(concurrent.path()).unwrap().is_empty());
 }
 
