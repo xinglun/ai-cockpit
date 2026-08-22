@@ -5887,10 +5887,19 @@ fn read_contract(path: &Path) -> Result<cockpit_protocol::Contract, ObserverErro
             path: path.to_path_buf(),
             message: error.to_string(),
         })?;
-    serde_json::from_value(value).map_err(|error| ObserverError::State {
+    let contract: cockpit_protocol::Contract =
+        serde_json::from_value(value).map_err(|error| ObserverError::State {
+            path: path.to_path_buf(),
+            message: format!("invalid work item contract: {error}"),
+        })?;
+    contract.validate().map_err(|errors| ObserverError::State {
         path: path.to_path_buf(),
-        message: format!("invalid work item contract: {error}"),
-    })
+        message: format!(
+            "invalid work item contract invariants: {}",
+            errors.join("; ")
+        ),
+    })?;
+    Ok(contract)
 }
 
 fn require_green_governance(

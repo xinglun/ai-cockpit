@@ -131,6 +131,38 @@ separate Contract extensions. `verify --workers` is execution concurrency, not
 Work Item parallel authorization. Contract source text remains in its owner's
 language and is never machine-translated by the Runtime.
 
+### Contract V2 lineage and governance fields
+
+The following optional fields are typed Contract data. They are accepted on
+new V2 records and default to absent/empty for protocol-v1 records:
+
+- `baseCommit` and `baselineDirtyPaths` bind the Work Item to its starting
+  revision and record pre-existing dirty files (`path`, `status`, and
+  `fingerprint`). `baseRevision` remains the legacy spelling.
+- `archiveSequence` is positive ordering metadata. It is not a substitute for
+  the archive manifest's own digest binding.
+- `resumeHistory` records a contiguous, closed predecessor transition. Every
+  entry carries the old/new base, branch identity, Contract digest, manifest
+  path, and predecessor closure flags.
+- `synchronizationCheckpoint` requires explicit `authorized: true` and a
+  non-empty reason. `synchronizationHistory` records the resulting base and
+  rebase transition; it cannot be used to hide unrelated dirty paths.
+- `guidelines`, `preReviewWarnings`, and optional `acceptance` preserve
+  human-authored instructions and stable acceptance declarations. Empty
+  guideline entries are rejected.
+- `authorityEvidence` and `restrictedWriteApproval` are repository-local
+  provenance records, not identity authentication. Destructive approval
+  evidence is typed and requires an explicit identity level, actor, scope, and
+  evidence payload; provider/enterprise claims remain subject to external
+  verification.
+
+For `contractVersion: 2`, `mode` is one of `investigate`, `author_todo`,
+`code`, `review`, or `cleanup`; a `code` Contract must have no `unknowns` and
+must set `notCodable: false`. Legacy `mode: implementation` remains readable
+only on records that do not opt into Contract V2. Invalid lineage, approval,
+mode, or cross-field combinations stop at Contract validation. Historical
+Contract bytes are read without backfilling or rewriting these fields.
+
 `verify --work-item <id>` writes `.ai/evidence/<id>.verification.json`. `finish`
 creates an outcome, `archive` creates an archive manifest, and `close` records the
 human decision. These records are content-bound and must not be hand-edited to make

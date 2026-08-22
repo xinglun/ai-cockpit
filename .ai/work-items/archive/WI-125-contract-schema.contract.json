@@ -1,0 +1,53 @@
+{
+  "acceptanceCriteria": [
+    "typed Contract V2 fields round trip without data loss",
+    "unknown and malformed nested Contract input fails closed",
+    "legacy Contract bytes remain readable and are not rewritten",
+    "cross-field mode and approval invariants fail closed",
+    "trilingual Contract field documentation and WI record are synchronized"
+  ],
+  "authority": "authorized",
+  "baseRevision": "85fd8b9bf137fa93c34e1ef7103f6ac3634ea201",
+  "createdAt": "2026-08-22T09:05:16Z",
+  "goal": "Add typed Contract fields for repository baseline and governance declarations with fail-closed validation",
+  "intent": "Complete Contract V2 schema fields and validation while preserving legacy Contract bytes",
+  "mode": "implementation",
+  "outOfScope": [
+    "README files",
+    "docs/reference/reference-parity files",
+    "release scripts and checks",
+    "Summary schema",
+    "WIII schema",
+    "Outcome schema",
+    "evidence strictness",
+    "MCP code",
+    "global Agent or MCP configuration",
+    "Python or Makefile runtime"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1607e6a34681009e7c4d1bebea95876117463d6f6591714b262924ecb366a451",
+  "requiredEvidenceClasses": ["verification"],
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/contract_v2.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/governance_controls.rs",
+    "crates/cockpit-repository/tests/governance_controls.rs",
+    "crates/cockpit-repository/tests/contract_schema.rs",
+    "docs/reference/configuration.md",
+    "docs/reference/configuration.ja.md",
+    "docs/reference/configuration.zh-CN.md",
+    "docs/work-items/WI-125-contract-schema.md",
+    "docs/work-items/WI-125-contract-schema.ja.md",
+    "docs/work-items/WI-125-contract-schema.zh-CN.md",
+    ".ai/work-items",
+    ".ai/evidence"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-125-contract-schema"
+}
