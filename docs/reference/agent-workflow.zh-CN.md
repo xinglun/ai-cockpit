@@ -66,6 +66,19 @@ start → preflight → checkpoint → verify → finish → archive → close
 Work Item 或 project profile。Contract 条件保留其原始语言，只有面向人的表现层
 负责本地化。
 
+## Agent provider 表面
+
+Adapter 只是把上述规则投影到仓库本地的薄层，不是第二套 policy engine。
+`agent install` 必须显式执行并记录 ownership。新的 Cursor 安装使用 provider
+原生的 `.cursor/rules/ai-cockpit.mdc`。如果仓库已经有受管理的
+`.cursor/rules/ai-cockpit.md`，升级时保持这个 legacy target，不重命名也不覆盖
+用户文件。Runtime 不会自动安装 `AGENTS.md`、`CLAUDE.md`、`GEMINI.md`、Cursor
+规则，也不会修改全局 provider/MCP 配置。
+
+生成的 managed section 与上文保持相同的 Contract-first、暂停、Summary、可见
+Outcome 和 closure 语义。它只是 advisory discovery guidance；当前治理状态始终
+以显式 Runtime 查询为准，provider prompt 不能授予权限。
+
 ## 安全边界
 
 规则保持语言中立并属于仓库本地。不得写入 secret 或机器凭据，不得修改用户全局

@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T11:48:19Z",
+  "files": {
+    "contractDigest": "sha256:e6ff0dcc4592521f00bcbf370c8a38b31e1e99ef436ee8e45e5a289e84176444",
+    "contractPath": ".ai/work-items/archive/WI-132-agent-adapter-parity.contract.json",
+    "outcomeDigest": "sha256:33e0dd50c86a0c97b06506744c4d76e158f4ffde7a6bfc525e14031820f35a51",
+    "outcomePath": ".ai/work-items/archive/WI-132-agent-adapter-parity.outcome.json",
+    "summaryDigest": "sha256:d9bcbb6dc9fee83bab48725fd893ba93c2c5e1fdcc9d0c2e9982974dcbc8d2ad",
+    "summaryPath": ".ai/work-items/archive/WI-132-agent-adapter-parity.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-132-agent-adapter-parity"
+}

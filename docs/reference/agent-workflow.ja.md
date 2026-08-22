@@ -70,6 +70,22 @@ start → preflight → checkpoint → verify → finish → archive → close
 current repository、Work Item、project profile はありません。Contract の criteria
 は原文を保持し、人間向け presentation 層だけを localize します。
 
+## Agent provider surface
+
+Adapter はこれらの規則を repository-local に投影する薄い層であり、別の
+policy engine ではありません。`agent install` は明示的かつ ownership 付きで
+実行します。新しい Cursor の install は provider-native な
+`.cursor/rules/ai-cockpit.mdc` を使用します。既に managed な
+`.cursor/rules/ai-cockpit.md` がある repository では、upgrade で rename や
+user file の上書きを行わず、legacy target を維持します。Runtime は
+`AGENTS.md`、`CLAUDE.md`、`GEMINI.md`、Cursor rule、global provider/MCP
+configuration を自動 install しません。
+
+生成される managed section は、上記の Contract-first、pause、Summary、可視の
+Outcome、closure の意味をそのまま伝えます。これは advisory な discovery
+guidance であり、現在の governance state は常に明示的な Runtime query から
+取得します。provider の prompt が authority を付与することはありません。
+
 ## 安全境界
 
 規則は language-neutral かつ repository-local に保ちます。secret や machine

@@ -1,0 +1,39 @@
+{
+  "acceptanceResults": [
+    "A1 provider-native Cursor .mdc discovery is canonical and legacy .md adapters remain safely readable",
+    "A2 managed adapter guidance covers Contract-first unknowns preflight human pause Summary Outcome and closure without copying Make or V1 runtime rules",
+    "A3 provider detection install doctor detach and repository isolation remain deterministic and fail closed",
+    "A4 glossary and three-language reference docs expose the inherited semantics and Rust adaptation boundary"
+  ],
+  "createdAt": "2026-08-22T11:48:15Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:1a6a8e2aff2bdaac34e7372046624bc0a47b7a3934ea9bc0cd2ce2dcaa82bc56",
+  "evidenceRefs": [
+    ".ai/evidence/WI-132-agent-adapter-parity.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-132-agent-adapter-parity.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-132-agent-adapter-parity.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-132-agent-adapter-parity"
+}

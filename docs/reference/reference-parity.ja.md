@@ -36,7 +36,7 @@ matrix は次の 4 state だけを使います。
 | Purpose、problem、architecture、capability overview | Implemented | philosophy、architecture、capability route が current Runtime と責任範囲を説明する。 |
 | Shared Runtime と request-scoped repository context | Implemented | 明示的な `--repo` binding と repository isolation tests で context/evidence を分離する。 |
 | Repository attach と minimum scaffold | Implemented | `attach` は repository-owned Protocol scaffold を作り、Runtime の copy を repository 内に install しない。 |
-| Explicit Agent Discovery / Adapter layer | Implemented | Agent install は explicit、owned、reversible、repository-local である。 |
+| Explicit Agent Discovery / Adapter layer | Implemented | Agent install は explicit、owned、reversible、repository-local であり、生成 guidance は Contract-first/pause/Summary/Outcome/closure を伝える。Cursor の新規 target は `.cursor/rules/ai-cockpit.mdc`、managed な legacy `.md` は保持する。 |
 | Work Item lifecycle と governance decision | Partial | core lifecycle と human decision record はあるが、reference の広い status、cost、recovery projection は一つの adopter interface に統合されていない。 |
 | Contract preflight human-review gate | Implemented | 不完全な scaffold Contract は明示的な `reviewState` 付き yellow となり、repository/Contract/snapshot binding を保存し、human confirmation なしでは checkpoint を越えない。 |
 | Contract V2 の structured intent と strict schema | Implemented | WI-121 は structured intent、typed sources/verification、strict な unknown-field/duplicate-key fail-closed、`humanDecisionRequest`、preflight/checkpoint gate を提供する。 |
