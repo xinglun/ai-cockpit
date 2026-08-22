@@ -1,0 +1,23 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:maintainer",
+    "authoritySource": "repository-owner",
+    "decidedAt": "2026-08-22T11:51:58Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-132-agent-adapter-parity.verification.json",
+      ".ai/work-items/archive/WI-132-agent-adapter-parity.archive.json"
+    ],
+    "policyRefs": [
+      "docs/reference/agent-workflow.md",
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "PR #73 merged after both hosted CI runs passed; archived evidence and repository state rechecked on the synchronized default branch.",
+    "resumeCondition": "none; Work Item closed"
+  },
+  "timestamp": "2026-08-22T11:52:00Z",
+  "workItemId": "WI-132-agent-adapter-parity"
+}
