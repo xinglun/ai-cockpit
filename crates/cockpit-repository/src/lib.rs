@@ -3597,8 +3597,15 @@ fn preflight_work_item_internal(
         path: root.clone(),
         message: error.to_string(),
     })?;
+    let raw_decision = governance_decision_for_contract_base_internal_with_archive(
+        &root,
+        &contract,
+        &snapshot,
+        current_runtime,
+        false,
+    )?;
     let decision =
-        governance_decision_for_contract_internal(&root, &contract, &snapshot, current_runtime)?;
+        apply_preflight_review_evidence(&root, &contract, &snapshot, raw_decision.clone(), false)?;
 
     let active = root.join(".ai/work-items/active");
     let active_contract = active.join(format!("{}.contract.json", contract.work_item_id));
@@ -3629,7 +3636,7 @@ fn preflight_work_item_internal(
         if current_state == "not_ready" {
             let state = decision_state_name(decision.state.clone());
             let decision_value =
-                serde_json::to_value(&decision).map_err(|error| ObserverError::State {
+                serde_json::to_value(&raw_decision).map_err(|error| ObserverError::State {
                     path: active_contract.clone(),
                     message: error.to_string(),
                 })?;
@@ -3659,7 +3666,7 @@ fn preflight_work_item_internal(
         }
         let state = decision_state_name(decision.state.clone());
         let decision_value =
-            serde_json::to_value(&decision).map_err(|error| ObserverError::State {
+            serde_json::to_value(&raw_decision).map_err(|error| ObserverError::State {
                 path: active_contract.clone(),
                 message: error.to_string(),
             })?;
@@ -4194,11 +4201,25 @@ fn record_verification_internal(
         path: root.clone(),
         message: error.to_string(),
     })?;
-    let decision = governance_decision_for_contract(&root, &contract, &refreshed_snapshot)?;
-    let decision_value = serde_json::to_value(&decision).map_err(|error| ObserverError::State {
-        path: contract_path.clone(),
-        message: error.to_string(),
-    })?;
+    let raw_decision = governance_decision_for_contract_base_internal_with_archive(
+        &root,
+        &contract,
+        &refreshed_snapshot,
+        None,
+        false,
+    )?;
+    let decision = apply_preflight_review_evidence(
+        &root,
+        &contract,
+        &refreshed_snapshot,
+        raw_decision.clone(),
+        false,
+    )?;
+    let decision_value =
+        serde_json::to_value(&raw_decision).map_err(|error| ObserverError::State {
+            path: contract_path.clone(),
+            message: error.to_string(),
+        })?;
     let summary_path = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.summary.json"));
@@ -5693,6 +5714,23 @@ fn governance_decision_for_contract_internal_with_archive(
     current_runtime: Option<&RuntimeContext>,
     archived: bool,
 ) -> Result<GovernanceDecision, ObserverError> {
+    let decision = governance_decision_for_contract_base_internal_with_archive(
+        root,
+        contract,
+        snapshot,
+        current_runtime,
+        archived,
+    )?;
+    apply_preflight_review_evidence(root, contract, snapshot, decision, archived)
+}
+
+fn governance_decision_for_contract_base_internal_with_archive(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+    current_runtime: Option<&RuntimeContext>,
+    archived: bool,
+) -> Result<GovernanceDecision, ObserverError> {
     let explicit_blockers = contract_freshness_findings(root, contract, snapshot)?;
     let signals = derive_governance_signals(snapshot);
     let changed_paths = snapshot
@@ -5743,6 +5781,109 @@ fn governance_decision_for_contract_internal_with_archive(
     let policy = effective_policy_for_contract(root, contract)?;
     apply_policy_to_governance_input(contract, policy.as_ref(), &mut input);
     Ok(evaluate(input))
+}
+
+fn apply_preflight_review_evidence(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+    mut decision: GovernanceDecision,
+    archived: bool,
+) -> Result<GovernanceDecision, ObserverError> {
+    if archived {
+        return Ok(decision);
+    }
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{}.contract.json", contract.work_item_id));
+    // `preflight --contract` also supports a read-only standalone Contract
+    // outside the active Work Item directory. Such a document has no place
+    // to persist a decision receipt; retain the normal advisory decision and
+    // do not manufacture an `active/.contract.json` lookup.
+    if contract.work_item_id.trim().is_empty() || !contract_path.is_file() {
+        return Ok(decision);
+    }
+    let contract_digest = contract_digest(&contract_path)?;
+    // Digest the canonical JSON projection, not the Rust struct directly.
+    // serde_json::Value is the wire representation stored in Summary and in
+    // the human decision receipt; hashing two different serialization paths
+    // would make a valid receipt appear stale immediately.
+    let decision_value = serde_json::to_value(&decision).map_err(|error| ObserverError::State {
+        path: contract_path.clone(),
+        message: error.to_string(),
+    })?;
+    let raw_decision_digest =
+        cockpit_protocol::digest_json(&decision_value).map_err(|error| ObserverError::State {
+            path: contract_path.clone(),
+            message: error.to_string(),
+        })?;
+    let current_snapshot_digest = snapshot_digest(snapshot)?;
+    match preflight_decision_evidence_state(
+        root,
+        &contract.work_item_id,
+        &contract_digest,
+        &raw_decision_digest,
+        &current_snapshot_digest,
+    ) {
+        governance_controls::PreflightDecisionEvidenceState::Missing => {}
+        governance_controls::PreflightDecisionEvidenceState::Valid => {
+            if decision.review_state.as_deref() == Some("needs_human_confirmation")
+                && decision.blockers.is_empty()
+            {
+                decision.review_state = Some("human_decision_recorded".into());
+                decision.outcome_state = "verification_pending".into();
+                decision.safe_actions.push("continue_to_checkpoint".into());
+                decision.safe_actions.sort();
+                decision.safe_actions.dedup();
+            }
+        }
+        governance_controls::PreflightDecisionEvidenceState::Invalid => {
+            decision
+                .unknowns
+                .push("preflight_decision_evidence_invalid".into());
+            decision.unknowns.sort();
+            decision.unknowns.dedup();
+            decision
+                .safe_actions
+                .push("record_fresh_preflight_decision".into());
+            decision.safe_actions.sort();
+            decision.safe_actions.dedup();
+            decision.required_checks.push("human_review".into());
+            decision.required_checks.sort();
+            decision.required_checks.dedup();
+            decision.state = DecisionState::Yellow;
+            decision.outcome_state = "needs_human_decision".into();
+            decision.review_state = Some("needs_human_confirmation".into());
+            decision.human_decision_request = Some(cockpit_core::HumanDecisionRequest {
+                decision_id: "contract-preflight-review".into(),
+                status: "needs_human_confirmation".into(),
+                what_happened: "The recorded preflight decision evidence is missing, stale, or invalid.".into(),
+                why_it_matters: "A previous human review cannot authorize a changed or foreign Contract.".into(),
+                options: vec![
+                    cockpit_core::HumanDecisionOption {
+                        id: "complete_contract".into(),
+                        label: "Complete or amend the Contract".into(),
+                        effect: "Provide current human-owned facts and rerun preflight.".into(),
+                    },
+                    cockpit_core::HumanDecisionOption {
+                        id: "confirm_review".into(),
+                        label: "Confirm a bounded human decision".into(),
+                        effect: "Record a new identity-bound receipt for this exact Contract and snapshot.".into(),
+                    },
+                    cockpit_core::HumanDecisionOption {
+                        id: "stop_work".into(),
+                        label: "Stop the Work Item".into(),
+                        effect: "Leave the item recoverable without entering implementation.".into(),
+                    },
+                ],
+                recommended_option: "confirm_review".into(),
+                recommendation_reason: "The previous receipt cannot be reused after its binding facts changed.".into(),
+                question: "Which bounded decision should authorize the next step?".into(),
+                resume_condition: "A fresh repository-bound preflight decision receipt matches the current Contract and snapshot.".into(),
+            });
+        }
+    }
+    Ok(decision)
 }
 
 /// Return only deterministic Contract-completeness gaps.  These are human

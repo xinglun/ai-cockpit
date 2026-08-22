@@ -46,6 +46,18 @@ the installed Rust Runtime and this repository's Protocol vocabulary.
   options, a recommendation, the question, and a resume condition. It is a
   human-facing request, not approval; an Agent must amend the Contract and
   rerun preflight rather than treating the request as authorization.
+- A human may record the bounded review only through the repository-local
+  `decisionEvidence` projection. The strict receipt binds `decisionId`, Work
+  Item, repository, Contract digest, preflight decision digest, snapshot
+  digest, actor, timestamp, and reason. A valid receipt may unlock the
+  checkpoint transition; it never proves a test, scenario, verification, or
+  release result. Missing, stale, foreign, malformed, or symlinked receipts
+  remain stopped.
+- A required high-risk scenario that can only run after implementation may be
+  marked `unverified` in Contract `scenarioCoverage` only when both a non-empty
+  `expected` (or `expectedResult`) and a concrete `verificationPlan` are
+  present. This is implementation planning evidence, not completion evidence;
+  Summary scenario guards and `finish` still require executed evidence.
 - Deliver a separate visible human Outcome with `Outcome: 🟢`, `Outcome: 🟡`,
   or `Outcome: 🔴`, unknowns, evidence, human decision, and next action. A
   missing, folded-only, stale, contradictory, or malformed Outcome fails

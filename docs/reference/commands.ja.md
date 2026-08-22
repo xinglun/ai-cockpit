@@ -52,7 +52,7 @@ capabilityClaims:
   これらは evidence-bound projection であり、追加の authority でも Contract/verification receipt の代替でもありません。
 - `work-item status --repo <path> --id <id>` は read-only で lifecycle、governance、activity health、fact count、blocker、unknown、evidence、source digest を返します。scheduler を動かさず、割合を発明しません。
 - `work-item validate --repo <path> --id <id> [--json]` は Contract/Summary の scenario coverage、stable acceptance evidence、intent alignment、任意の final-dimensions receipt を read-only で検証します。
-  `work-item controls --repo <path> --id <id> --input <json>` は明示された四つの projection field だけを記録し、lifecycle state、Contract fact、verification receipt は変更しません。
+  `work-item controls --repo <path> --id <id> --input <json>` は明示された projection field（identity-bound な `decisionEvidence` review receipt を含む）だけを記録し、lifecycle state、Contract fact、verification receipt は変更しません。
 - `profile propose --repo <path>` は read-only の `candidate`/`proposed` amendment を出力し、profile baseline を適用しません。
 - `agent list --repo <path>` は read-only です。`agent install` だけが通常の adapter write entry point で、
   `--provider` が必要です（`auto` は安全な surface が 1 つだけの場合に限り、`AGENTS.md` では Codex を選びます）。`agent doctor --repo <path> --json`

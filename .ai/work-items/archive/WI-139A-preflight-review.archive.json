@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-22T15:32:12Z",
+  "files": {
+    "contractDigest": "sha256:b1c0d772f95caa886e13cdd9988303de3a0ffd19fc636dee7b68be845c4e55ee",
+    "contractPath": ".ai/work-items/archive/WI-139A-preflight-review.contract.json",
+    "eventsDigest": "sha256:fb05ae5e8f0c29250976f2b077abb722f71bbd8b1ac7304422928ea2e14c35e4",
+    "eventsPath": ".ai/work-items/archive/WI-139A-preflight-review.events.jsonl",
+    "outcomeDigest": "sha256:3dac6fb0cd4a1282cba9ce02053f914c8f61afefec153cb568bc2a43d8c4bb0a",
+    "outcomePath": ".ai/work-items/archive/WI-139A-preflight-review.outcome.json",
+    "summaryDigest": "sha256:bc2d8dc65941b9e4288b15241ab1e9862221db62f1e3bde528b4f67931787a24",
+    "summaryPath": ".ai/work-items/archive/WI-139A-preflight-review.summary.json",
+    "taskReportDigest": "sha256:b66e5c6f52934178d3ee6561745e3105185d2035de3ea8840aaec9d2fc87d6ca",
+    "taskReportMarkdownDigest": "sha256:48405281e07ad1c7313aa7778404f2925abaa1e19812abf4dd2c59ffcb412a6d",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-139A-preflight-review.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-139A-preflight-review.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-139A-preflight-review"
+}

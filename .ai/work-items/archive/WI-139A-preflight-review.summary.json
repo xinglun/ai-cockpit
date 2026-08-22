@@ -1,0 +1,82 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "planned_required_scenario_is_implementation_ready_but_not_completion_evidence",
+          "path": "crates/cockpit-repository/tests/preflight_review.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-repository --test preflight_review"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "preflight_decision_evidence_round_trips_with_bound_identity",
+          "path": "crates/cockpit-protocol/tests/preflight_review.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-protocol --test preflight_review"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "foreign_or_stale_preflight_decision_evidence_is_rejected_without_writes",
+          "path": "crates/cockpit-repository/tests/preflight_review.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-repository --test preflight_review"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "planned_required_scenario_is_implementation_ready_but_not_completion_evidence",
+          "path": "crates/cockpit-repository/tests/preflight_review.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-repository --test preflight_review"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "mcp_work_item_controls_persists_the_same_bound_preflight_receipt_as_cli",
+          "path": "crates/cockpit-mcp/tests/rpc.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-mcp --test rpc"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [],
+  "checkpointAt": "2026-08-22T15:09:37Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T15:09:32Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-protocol/src/lib.rs",
+      "crates/cockpit-repository/src/governance_controls.rs",
+      "crates/cockpit-mcp/src/lib.rs"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-08-22T15:32:02Z",
+  "preflightContractDigest": "sha256:ad46b0cbc93eecc243bceeb0f35ef5d40d7421e80571d8aa657018c9eac0fbd5",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:4f25b0e4b94352288e5ac6f9598967473914e9a17d6866d3776ce47d92f72f52",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T15:32:06Z",
+  "workItemId": "WI-139A-preflight-review"
+}

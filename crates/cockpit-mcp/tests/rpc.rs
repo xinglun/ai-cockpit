@@ -91,10 +91,81 @@ fn mcp_initialize_and_tool_list_are_read_only_and_deterministic() {
             "delegated_evidence_list",
             "repository_observe",
             "preflight",
+            "work_item_controls",
             "verify",
             "work_item_parallel"
         ]
     );
+}
+
+#[test]
+fn mcp_work_item_controls_persists_the_same_bound_preflight_receipt_as_cli() {
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-mcp-controls-{}",
+        NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed)
+    ));
+    fs::create_dir_all(&directory).expect("directory");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(&directory)
+        .status()
+        .expect("git init");
+    cockpit_repository::attach(&directory).expect("attach");
+    cockpit_repository::start_work_item_with_options(
+        &directory,
+        "WI-MCP-CONTROLS",
+        "record bounded review",
+        "exercise MCP decision evidence",
+        &["crates/**".into()],
+        &cockpit_repository::WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    let contract_path = directory.join(".ai/work-items/active/WI-MCP-CONTROLS.contract.json");
+    let preflight = handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0","id":1,"method":"tools/call",
+            "params":{"name":"preflight","arguments":{"contract":contract_path.to_string_lossy()}}
+        }),
+        &directory,
+        &test_runtime_context(),
+    );
+    assert_eq!(preflight["result"]["isError"], false);
+    let summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(directory.join(".ai/work-items/active/WI-MCP-CONTROLS.summary.json")).unwrap(),
+    )
+    .unwrap();
+    let contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).unwrap()).unwrap();
+    let receipt = serde_json::json!({
+        "schemaVersion": 1,
+        "decisionId": "contract-preflight-review",
+        "decision": "confirm_review",
+        "workItemId": "WI-MCP-CONTROLS",
+        "repositoryId": cockpit_repository::repository_id(&directory),
+        "contractDigest": cockpit_protocol::digest_json(&contract).unwrap(),
+        "preflightDecisionDigest": summary["preflightDecisionDigest"].clone(),
+        "repositorySnapshotDigest": summary["preflightRepositorySnapshotDigest"].clone(),
+        "recordedAt": "2026-08-22T00:00:00Z",
+        "recordedBy": "human:mcp-test",
+        "reason": "confirm bounded review"
+    });
+    let response = handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0","id":2,"method":"tools/call",
+            "params":{"name":"work_item_controls","arguments":{"workItemId":"WI-MCP-CONTROLS","controls":{"decisionEvidence":receipt}}}
+        }),
+        &directory,
+        &test_runtime_context(),
+    );
+    assert_eq!(response["result"]["isError"], false);
+    assert_eq!(
+        response["result"]["structuredContent"]["decisionEvidence"]["decision"],
+        "confirm_review"
+    );
+    fs::remove_dir_all(directory).expect("cleanup");
 }
 
 #[test]
