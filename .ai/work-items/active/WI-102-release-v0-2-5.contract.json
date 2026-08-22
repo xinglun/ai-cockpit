@@ -1,0 +1,39 @@
+{
+  "acceptanceCriteria": [
+    "workspace and release documentation consistently identify v0.2.5 without changing the TOML configuration format",
+    "the release workflow uses Node24-compatible pinned Actions and all release policy, source quality, package, and conformance gates pass",
+    "an immutable public GitHub Release v0.2.5 is published from the main commit with matching annotated tag, manifest, checksums, SBOM, and binary digests",
+    "post-release adopter acceptance uses only the public v0.2.5 binary in an isolated temporary repository and produces runtime identity, acceptance.json, SHA256SUMS, lifecycle evidence, evidence-reuse proof, and repository isolation proof",
+    "the installed v0.2.5 binary is upgraded and configured for this repository, then inspect/status/doctor/agent doctor and the self-governed Work Item lifecycle are re-tested",
+    "no failed post-release acceptance receipt changes Release truth or is reused for a later version",
+    "all active corrective Work Items in this release train have readable human Outcome output and are archived/closed only after current evidence is valid"
+  ],
+  "authority": "authorized",
+  "baseRevision": "cc539e290b6031931ba132c942dc4528279a5e77",
+  "createdAt": "2026-08-22T01:26:17Z",
+  "goal": "Publish v0.2.5 and make the released binary the governing Runtime for this repository.",
+  "intent": "Perform the final version update, public release, immutable adopter acceptance, installation upgrade, and self-governed verification.",
+  "mode": "release",
+  "outOfScope": [
+    "reusing v0.2.4 or any existing release tag",
+    "source fallback or cargo run/build in post-release adopter acceptance",
+    "global Agent or MCP configuration",
+    "second technology-stack adopter matrix"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:389185c8fe31f3a0499abcc36aa62aa0b9a8f570f5455196d2c86dcfb88ac338",
+  "requiredEvidenceClasses": [],
+  "risk": "high",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/**",
+    "tests/release/**",
+    ".github/workflows/**",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-102-release-v0-2-5"
+}
