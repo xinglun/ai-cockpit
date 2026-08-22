@@ -1,0 +1,109 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "unknown_graph_is_conservative_and_never_green",
+          "path": "crates/cockpit-verification/tests/affected_verification.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-verification --all-targets"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "complete_graph_returns_only_deterministically_affected_descendants",
+          "path": "crates/cockpit-verification/tests/affected_verification.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-verification --all-targets"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "partial_graph_escalates_only_known_affected_nodes_and_remains_visible",
+          "path": "crates/cockpit-verification/tests/affected_verification.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-verification --all-targets"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "unknown_changed_node_fails_closed",
+          "path": "crates/cockpit-verification/tests/affected_verification.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-verification --all-targets"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "unknown_graph_is_conservative_and_never_green",
+          "path": "crates/cockpit-verification/tests/affected_verification.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-verification --all-targets"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "Affected verification and dependency confidence",
+          "path": "docs/reference/affected-verification.md",
+          "type": "document",
+          "verification": "bash tests/docs/documentation_acceptance.sh"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/active/WI-142-affected-verification.contract.json",
+    ".ai/work-items/active/WI-142-affected-verification.summary.json"
+  ],
+  "checkpointAt": "2026-08-22T20:00:47Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T19:57:19Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/reference/affected-verification.md",
+      "crates/cockpit-verification/src/lib.rs"
+    ],
+    "reason": "The implementation exposes graph confidence and conservative affected-node planning without modifying policy truth.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-08-22T20:05:34Z",
+  "preflightContractDigest": "sha256:4972e7c010026e647e9be29bc74a6aa2747d1aa75da3282e949de8f5a00b93c1",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:5434e24fc3158d5cb3205afce1e81a64e2b34e04f1541c539bd90decf8e31dfa",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-142-affected-verification.verification.json",
+        "crates/cockpit-verification/tests/affected_verification.rs"
+      ],
+      "expected": "Known affected nodes are escalated while graph uncertainty remains visible and cannot produce green governance.",
+      "required": true,
+      "scenario": "partial dependency graph affected verification",
+      "status": "verified",
+      "verificationPlan": "Run complete partial unknown and unsafe graph tests with deterministic node and reason assertions."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T20:05:35Z",
+  "workItemId": "WI-142-affected-verification"
+}

@@ -1,0 +1,67 @@
+{
+  "acceptanceCriteria": [
+    "A1: DependencyConfidence has complete partial and unknown states with strict wire serialization and stable unknown reason codes",
+    "A2: Complete graphs compute affected downstream verification nodes deterministically from changed nodes",
+    "A3: Partial graphs retain known affected nodes and escalate only those nodes to the stronger candidate tier while exposing dependency_graph_partial",
+    "A4: Unknown or unsafe graph inputs fail closed and never become green or silently skip required verification",
+    "A5: Affected verification planning remains separate from policy required truth and does not weaken protected gates or invent authority",
+    "A6: Tri-language documentation explains partial dependency confidence and conservative affected verification behavior"
+  ],
+  "authority": "authorized",
+  "baseRevision": "f866cb66413189abcd13f8cb284695705b661dd4",
+  "createdAt": "2026-08-22T19:57:19Z",
+  "goal": "Represent dependency confidence explicitly and reduce verification cost only for deterministically affected nodes without weakening governance truth.",
+  "intent": "Add complete partial and unknown dependency confidence to the verification graph and produce a conservative affected-node plan.",
+  "mode": "code",
+  "outOfScope": [
+    "policy and stage requirement semantics",
+    "cross-Work-Item physical execution deduplication",
+    "CI workflow migration",
+    "performance targets",
+    "global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:942e6dc4717b871080f2e1a55708d12803f25124904b09c9f336dd998cc65d8c",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "medium",
+  "scenarioCoverage": [
+    {
+      "expected": "Known affected nodes are escalated while graph uncertainty remains visible and cannot produce green governance.",
+      "required": true,
+      "scenario": "partial dependency graph affected verification",
+      "status": "unverified",
+      "verificationPlan": "Run complete partial unknown and unsafe graph tests with deterministic node and reason assertions."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-verification/src/lib.rs",
+    "crates/cockpit-verification/tests/graph.rs",
+    "crates/cockpit-verification/tests/affected_verification.rs",
+    "docs/reference/affected-verification.md",
+    "docs/reference/affected-verification.zh-CN.md",
+    "docs/reference/affected-verification.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-142-affected-verification.md",
+    "docs/work-items/WI-142-affected-verification.zh-CN.md",
+    "docs/work-items/WI-142-affected-verification.ja.md"
+  ],
+  "sources": [
+    "WI-140 verification semantics",
+    "WI-141 policy-driven planner",
+    "reference source dependency-aware verification runtime"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked -p cockpit-verification --all-targets",
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "bash tests/docs/documentation_acceptance.sh"
+  ],
+  "workItemId": "WI-142-affected-verification"
+}

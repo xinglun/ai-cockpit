@@ -327,6 +327,36 @@ impl VerificationNode {
 #[derive(Clone, Debug, Default)]
 pub struct VerificationGraph {
     nodes: BTreeMap<String, VerificationNode>,
+    dependency_confidence: DependencyConfidence,
+}
+
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum DependencyConfidence {
+    #[default]
+    Complete,
+    Partial,
+    Unknown,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct AffectedVerificationPlan {
+    pub schema_version: u32,
+    pub confidence: DependencyConfidence,
+    pub candidate_tier: cockpit_protocol::VerificationTier,
+    pub affected_node_ids: Vec<String>,
+    pub escalated_node_ids: Vec<String>,
+    pub escalated_tier: Option<cockpit_protocol::VerificationTier>,
+    pub unknowns: Vec<String>,
+}
+
+#[derive(Debug, Error, PartialEq, Eq)]
+pub enum AffectedVerificationError {
+    #[error(transparent)]
+    InvalidGraph(#[from] GraphError),
+    #[error("changed verification node is not present in the dependency graph: {0}")]
+    ChangedNodeMissing(String),
 }
 
 #[derive(Debug, Error, PartialEq, Eq)]
@@ -340,6 +370,14 @@ pub enum GraphError {
 }
 
 impl VerificationGraph {
+    pub fn set_dependency_confidence(&mut self, confidence: DependencyConfidence) {
+        self.dependency_confidence = confidence;
+    }
+
+    pub fn dependency_confidence(&self) -> DependencyConfidence {
+        self.dependency_confidence
+    }
+
     pub fn add(&mut self, node: VerificationNode) -> Result<(), GraphError> {
         if self.nodes.contains_key(&node.id) {
             return Err(GraphError::Duplicate(node.id));
@@ -395,6 +433,96 @@ impl VerificationGraph {
             .filter(|node| node.kind == VerificationNodeKind::Protected)
             .map(|node| node.id.clone())
             .collect()
+    }
+
+    /// Compute the conservative affected-node projection. Complete graphs
+    /// return only the changed nodes and their known descendants. Partial
+    /// graphs retain that deterministic set but escalate those nodes to T2;
+    /// unknown graphs conservatively include every node and remain visibly
+    /// unknown. This is cost planning, not a policy override.
+    pub fn affected_verification_plan(
+        &self,
+        changed_node_ids: &[String],
+        candidate_tier: cockpit_protocol::VerificationTier,
+    ) -> Result<AffectedVerificationPlan, AffectedVerificationError> {
+        let order = self.plan()?;
+        let mut reverse: BTreeMap<String, Vec<String>> = BTreeMap::new();
+        for node in self.nodes.values() {
+            for dependency in &node.dependencies {
+                reverse
+                    .entry(dependency.clone())
+                    .or_default()
+                    .push(node.id.clone());
+            }
+        }
+        for changed in changed_node_ids {
+            if !self.nodes.contains_key(changed) {
+                return Err(AffectedVerificationError::ChangedNodeMissing(
+                    changed.clone(),
+                ));
+            }
+        }
+        let mut affected = BTreeSet::new();
+        let mut queue = VecDeque::from(changed_node_ids.to_vec());
+        while let Some(node_id) = queue.pop_front() {
+            if !affected.insert(node_id.clone()) {
+                continue;
+            }
+            if let Some(dependents) = reverse.get(&node_id) {
+                queue.extend(dependents.iter().cloned());
+            }
+        }
+        let (affected_node_ids, escalated_node_ids, escalated_tier, unknowns) =
+            match self.dependency_confidence {
+                DependencyConfidence::Complete => (
+                    order
+                        .iter()
+                        .filter(|id| affected.contains(*id))
+                        .cloned()
+                        .collect(),
+                    Vec::new(),
+                    None,
+                    Vec::new(),
+                ),
+                DependencyConfidence::Partial => {
+                    let ids = order
+                        .iter()
+                        .filter(|id| affected.contains(*id))
+                        .cloned()
+                        .collect::<Vec<_>>();
+                    (
+                        ids.clone(),
+                        ids,
+                        Some(stronger_candidate_tier(candidate_tier)),
+                        vec!["dependency_graph_partial".into()],
+                    )
+                }
+                DependencyConfidence::Unknown => (
+                    order.clone(),
+                    order,
+                    Some(stronger_candidate_tier(candidate_tier)),
+                    vec!["dependency_graph_unknown".into()],
+                ),
+            };
+        Ok(AffectedVerificationPlan {
+            schema_version: 1,
+            confidence: self.dependency_confidence,
+            candidate_tier,
+            affected_node_ids,
+            escalated_node_ids,
+            escalated_tier,
+            unknowns,
+        })
+    }
+}
+
+fn stronger_candidate_tier(
+    candidate: cockpit_protocol::VerificationTier,
+) -> cockpit_protocol::VerificationTier {
+    if candidate.rank() >= cockpit_protocol::VerificationTier::T2.rank() {
+        candidate
+    } else {
+        cockpit_protocol::VerificationTier::T2
     }
 }
 
