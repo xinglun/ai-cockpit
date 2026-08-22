@@ -55,6 +55,7 @@ fn v2_records_round_trip_with_explicit_unknowns_and_provenance() {
         task_outcome_report: None,
         failed_gate: None,
         recovery_condition: None,
+        recovery_decision: None,
     };
     let value = serde_json::to_value(&outcome).expect("encode");
     assert_eq!(value["humanBenefitReport"]["state"], "unknown");

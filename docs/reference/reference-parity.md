@@ -52,7 +52,7 @@ The matrix uses exactly four states:
 | Runtime-only upgrade versus repository migration | Implemented | Compatibility checks and explicit migration preserve historical records and bind Runtime identity. |
 | N-1 old-adopter upgrade acceptance | Implemented | The public-artifact harness covers old-schema detection, approval, history preservation, and continued operation. |
 | Adopter capability manifest and status projection | Deferred | Current `capability show` and `status` are truthful Runtime/repository views, not the reference's full adopter manifest/status projection. |
-| Recovery state machine and rich recovery projections | Partial | Stop and recovery guidance exists; the broader paused/blocked/stale/cancelled/rollback surface remains narrower than the reference. |
+| Recovery state machine and rich recovery projections | Partial | Blocked Outcome, append-only recovery receipts, predecessor-bound retry/successor decisions, and a human/MCP projection now exist; the broader paused/stale/cancelled/rollback surface remains narrower than the reference. |
 | Multilingual semantic parity gate | Partial | CLI human output is localized; full field-by-field semantic parity across all reports is not yet a CI gate. |
 | Legacy evidence boundary | Implemented | Legacy evidence remains historical input and is never promoted to fresh green verification. |
 | Contract source language | Implemented | Contract intent, scope, acceptance, and authority remain source text; translations do not rewrite Contract bytes. |

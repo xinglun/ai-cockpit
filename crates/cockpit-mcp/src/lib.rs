@@ -4,7 +4,7 @@ use std::fs;
 use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
 
-const TOOL_NAMES: [&str; 16] = [
+const TOOL_NAMES: [&str; 17] = [
     "status",
     "work_item_get",
     "work_item_outcome",
@@ -19,6 +19,7 @@ const TOOL_NAMES: [&str; 16] = [
     "repository_observe",
     "preflight",
     "work_item_controls",
+    "work_item_recover",
     "verify",
     "work_item_parallel",
 ];
@@ -149,6 +150,10 @@ pub fn handle_request_for_repo(
             require_compatible(repo, runtime)
                 .and_then(|_| work_item_controls(repo, &arguments))
         }
+        "work_item_recover" => {
+            require_compatible(repo, runtime)
+                .and_then(|_| work_item_recover(repo, &arguments, runtime))
+        }
         "verify" => verify_for_repo(repo, &arguments, runtime),
         "work_item_parallel" => {
             require_compatible(repo, runtime)
@@ -261,6 +266,25 @@ fn work_item_controls(repo: &Path, arguments: &Value) -> Result<Value, String> {
         .or_else(|| arguments.get("input"))
         .ok_or("controls argument is required")?;
     cockpit_repository::record_work_item_governance_controls(repo, work_item_id, controls)
+        .map_err(|error| error.to_string())
+}
+
+fn work_item_recover(
+    repo: &Path,
+    arguments: &Value,
+    runtime: &cockpit_protocol::RuntimeContext,
+) -> Result<Value, String> {
+    let work_item_id = arguments
+        .get("workItemId")
+        .or_else(|| arguments.get("id"))
+        .and_then(Value::as_str)
+        .ok_or("workItemId argument is required")?;
+    validate_id(work_item_id)?;
+    let receipt = arguments
+        .get("receipt")
+        .or_else(|| arguments.get("input"))
+        .ok_or("receipt argument is required")?;
+    cockpit_repository::record_recovery_decision(repo, work_item_id, receipt, runtime)
         .map_err(|error| error.to_string())
 }
 

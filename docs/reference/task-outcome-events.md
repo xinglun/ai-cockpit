@@ -28,8 +28,12 @@ manifest. `close` validates the archived stream before writing the final report.
 The stream is an evidence source, not a lifecycle authority: it cannot approve
 scope, merge, release, provider identity, or enterprise compliance.
 
-Event-sourced paused/blocked/stale/cancelled/rollback reconstruction is not yet
-part of this boundary and remains a separate recovery capability.
+Blocked lifecycle gates are projected as red active Outcomes with a deterministic
+failed gate and recovery condition. A later `work-item recover` receipt may
+authorize a retry or explicitly link a successor, but it never rewrites the
+blocked predecessor or makes verification green. The receipt binds the
+predecessor Contract/Summary/Outcome/event digests and current Runtime; later
+decisions are appended under digest-suffixed paths.
 
 [Task Outcome Report](../features/task-outcome-report.md) | [Outcome reference](outcome-report.md) |
 [中文](../features/task-outcome-report.zh-CN.md) | [日本語](../features/task-outcome-report.ja.md)

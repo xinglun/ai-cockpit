@@ -15,9 +15,9 @@ use cockpit_protocol::{
     EvidenceValidity, FactOrigin, GovernanceCost, GovernancePolicy, GovernancePolicyDocument,
     HumanBenefitReport, HumanDecision, ImplementationApproach, OutcomeClaim, OutcomeReportBindings,
     OutcomeReportSections, OutcomeState, OutcomeV2, PARALLEL_SLOT_LEASE_SCHEMA_VERSION,
-    ParallelSlotLease, PerformanceDiagnosis, PolicyLayer, QualityCommand, RepositoryConfig,
-    RuntimeContext, SchemaMigrationStep, TaskOutcomeEvent, TaskOutcomeReport, TruthState,
-    WorkItemCompatibility, WorkItemIntelligence, WorkItemStatusSnapshot,
+    ParallelSlotLease, PerformanceDiagnosis, PolicyLayer, QualityCommand, RecoveryDecisionReceipt,
+    RepositoryConfig, RuntimeContext, SchemaMigrationStep, TaskOutcomeEvent, TaskOutcomeReport,
+    TruthState, WorkItemCompatibility, WorkItemIntelligence, WorkItemStatusSnapshot,
     default_repository_schema_version, merge_policy_layers, repository_schema_migration_chain,
     validate_evidence_retention, validate_protocol_version,
 };
@@ -3929,6 +3929,7 @@ fn finish_work_item_internal(
         task_outcome_report: Some(task_report.clone()),
         failed_gate: None,
         recovery_condition: None,
+        recovery_decision: None,
     };
     let mut outcome = serde_json::to_value(&outcome_v2).map_err(|error| ObserverError::State {
         path: active.join(format!("{work_item_id}.outcome.json")),
@@ -4004,6 +4005,247 @@ pub fn record_verification(
         runtime_digest,
         &snapshot,
     )
+}
+
+/// Record an immutable, repository-bound retry or successor decision. The
+/// receipt binds the predecessor's exact Contract/Summary/Outcome/Event
+/// digests and the Runtime identity. A second decision is appended under a
+/// digest-suffixed filename; no predecessor bytes are replaced.
+pub fn record_recovery_decision(
+    root: &Path,
+    work_item_id: &str,
+    receipt: &serde_json::Value,
+    runtime: &RuntimeContext,
+) -> Result<serde_json::Value, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let contract_path = work_item_artifact_path(&root, work_item_id, "contract.json")?;
+    let summary_path = work_item_artifact_path(&root, work_item_id, "summary.json")?;
+    let contract = read_contract(&contract_path)?;
+    let summary = read_json(&summary_path)?;
+    let typed: RecoveryDecisionReceipt =
+        serde_json::from_value(receipt.clone()).map_err(|error| ObserverError::State {
+            path: root.join(".ai/decisions"),
+            message: format!("invalid recovery decision receipt: {error}"),
+        })?;
+    if typed.schema_version != 1
+        || typed.decision_id != "work-item-recovery"
+        || !matches!(typed.decision.as_str(), "retry" | "successor")
+        || typed.work_item_id != work_item_id
+        || typed.predecessor_work_item_id != work_item_id
+        || typed.repository_id != repository_id(&root).to_string()
+        || typed.runtime_version != runtime.runtime_version
+        || typed.runtime_digest != runtime.runtime_digest
+        || typed.actor.trim().is_empty()
+        || typed.authority_source.trim().is_empty()
+        || typed.reason.trim().is_empty()
+        || typed.resume_condition.trim().is_empty()
+        || chrono::DateTime::parse_from_rfc3339(&typed.decided_at).is_err()
+    {
+        return Err(ObserverError::State {
+            path: root.join(".ai/decisions"),
+            message: "recovery decision identity, authority, Runtime, or timestamp is invalid"
+                .into(),
+        });
+    }
+    let expected_contract_digest = contract_digest(&contract_path)?;
+    let expected_summary_digest =
+        cockpit_protocol::digest_json(&summary).map_err(|error| ObserverError::State {
+            path: summary_path.clone(),
+            message: error.to_string(),
+        })?;
+    if typed.predecessor_contract_digest != expected_contract_digest
+        || typed.predecessor_summary_digest != expected_summary_digest
+    {
+        return Err(ObserverError::State {
+            path: contract_path,
+            message: "recovery decision predecessor Contract/Summary digest mismatch".into(),
+        });
+    }
+    let outcome_path = work_item_artifact_path_optional(&root, work_item_id, "outcome.json")?;
+    let events_path = work_item_artifact_path_optional(&root, work_item_id, "events.jsonl")?;
+    match (&typed.predecessor_outcome_digest, outcome_path.as_ref()) {
+        (Some(expected), Some(path)) => {
+            let value = read_json(path)?;
+            let actual =
+                cockpit_protocol::digest_json(&value).map_err(|error| ObserverError::State {
+                    path: path.clone(),
+                    message: error.to_string(),
+                })?;
+            if expected != &actual {
+                return Err(ObserverError::State {
+                    path: path.clone(),
+                    message: "recovery decision predecessor Outcome digest mismatch".into(),
+                });
+            }
+        }
+        (Some(_), None) => {
+            return Err(ObserverError::State {
+                path: root.join(".ai/work-items"),
+                message: "recovery decision references a missing predecessor Outcome".into(),
+            });
+        }
+        (None, Some(path)) => {
+            return Err(ObserverError::State {
+                path: path.clone(),
+                message: "recovery decision must bind the existing predecessor Outcome".into(),
+            });
+        }
+        (None, None) => {}
+    }
+    match (&typed.predecessor_events_digest, events_path.as_ref()) {
+        (Some(expected), Some(path)) => {
+            let actual =
+                Digest::sha256_bytes(&fs::read(path).map_err(|source| ObserverError::Read {
+                    path: path.clone(),
+                    source,
+                })?);
+            if expected != &actual {
+                return Err(ObserverError::State {
+                    path: path.clone(),
+                    message: "recovery decision predecessor event digest mismatch".into(),
+                });
+            }
+        }
+        (Some(_), None) => {
+            return Err(ObserverError::State {
+                path: root.join(".ai/work-items"),
+                message: "recovery decision references missing predecessor events".into(),
+            });
+        }
+        (None, Some(path)) => {
+            return Err(ObserverError::State {
+                path: path.clone(),
+                message: "recovery decision must bind the existing predecessor events".into(),
+            });
+        }
+        (None, None) => {}
+    }
+    if typed.decision == "successor" {
+        let Some(successor_id) = typed.successor_work_item_id.as_deref() else {
+            return Err(ObserverError::State {
+                path: root.join(".ai/decisions"),
+                message: "successor recovery decision requires successorWorkItemId".into(),
+            });
+        };
+        validate_work_item_id(successor_id)?;
+        if successor_id == work_item_id
+            || work_item_artifact_path_optional(&root, successor_id, "contract.json")?.is_some()
+        {
+            return Err(ObserverError::State {
+                path: root.join(".ai/work-items"),
+                message: "successor Work Item already exists or equals predecessor".into(),
+            });
+        }
+    } else if typed.successor_work_item_id.is_some() {
+        return Err(ObserverError::State {
+            path: root.join(".ai/decisions"),
+            message: "retry recovery decision must not include successorWorkItemId".into(),
+        });
+    }
+    let value = serde_json::to_value(&typed).map_err(|error| ObserverError::State {
+        path: root.join(".ai/decisions"),
+        message: error.to_string(),
+    })?;
+    let decisions_dir = root.join(".ai/decisions");
+    fs::create_dir_all(&decisions_dir).map_err(|source| ObserverError::Read {
+        path: decisions_dir.clone(),
+        source,
+    })?;
+    let canonical_path = decisions_dir.join(format!("{work_item_id}.recovery.json"));
+    let path = if fs::symlink_metadata(&canonical_path).is_ok() {
+        let digest =
+            cockpit_protocol::digest_json(&value).map_err(|error| ObserverError::State {
+                path: canonical_path.clone(),
+                message: error.to_string(),
+            })?;
+        let digest = digest.to_string();
+        decisions_dir.join(format!(
+            "{work_item_id}.recovery.{}.json",
+            digest.strip_prefix("sha256:").unwrap_or(&digest)
+        ))
+    } else {
+        canonical_path
+    };
+    if fs::symlink_metadata(&path).is_ok() {
+        let existing = read_json(&path)?;
+        if existing == value {
+            return Ok(existing);
+        }
+        return Err(ObserverError::State {
+            path,
+            message: "recovery decision receipt already exists with different content".into(),
+        });
+    }
+    atomic_json(&path, &value)?;
+    if typed.decision == "successor" {
+        let successor_id = typed
+            .successor_work_item_id
+            .as_deref()
+            .expect("validated successor decision");
+        let mode = contract.mode.as_deref().unwrap_or("implementation");
+        scaffold_work_item(&root, successor_id, mode)?;
+        let successor_contract_path = root
+            .join(".ai/work-items/active")
+            .join(format!("{successor_id}.contract.json"));
+        let mut successor_contract = read_json(&successor_contract_path)?;
+        successor_contract["predecessorWorkItemId"] = serde_json::json!(work_item_id);
+        successor_contract["predecessorContractDigest"] =
+            serde_json::json!(typed.predecessor_contract_digest.to_string());
+        successor_contract["recoveryDecisionPath"] =
+            serde_json::json!(repository_relative_path(&root, &path));
+        atomic_json(&successor_contract_path, &successor_contract)?;
+        let successor_summary_path = root
+            .join(".ai/work-items/active")
+            .join(format!("{successor_id}.summary.json"));
+        let mut successor_summary = read_json(&successor_summary_path)?;
+        successor_summary["predecessorWorkItemId"] = serde_json::json!(work_item_id);
+        successor_summary["predecessorContractDigest"] =
+            serde_json::json!(typed.predecessor_contract_digest.to_string());
+        successor_summary["recoveryDecisionPath"] =
+            serde_json::json!(repository_relative_path(&root, &path));
+        atomic_json(&successor_summary_path, &successor_summary)?;
+    }
+    Ok(value)
+}
+
+fn work_item_artifact_path(
+    root: &Path,
+    work_item_id: &str,
+    suffix: &str,
+) -> Result<PathBuf, ObserverError> {
+    work_item_artifact_path_optional(root, work_item_id, suffix)?.ok_or_else(|| {
+        ObserverError::State {
+            path: root.join(".ai/work-items"),
+            message: format!("Work Item artifact not found: {work_item_id}.{suffix}"),
+        }
+    })
+}
+
+fn work_item_artifact_path_optional(
+    root: &Path,
+    work_item_id: &str,
+    suffix: &str,
+) -> Result<Option<PathBuf>, ObserverError> {
+    for phase in ["active", "archive"] {
+        let path = root
+            .join(".ai/work-items")
+            .join(phase)
+            .join(format!("{work_item_id}.{suffix}"));
+        if fs::symlink_metadata(&path).is_ok() {
+            if !is_regular_non_symlink(&path)? {
+                return Err(ObserverError::State {
+                    path,
+                    message: "Work Item artifact must be a regular non-symlink file".into(),
+                });
+            }
+            return Ok(Some(path));
+        }
+    }
+    Ok(None)
 }
 
 pub fn record_verification_with_snapshot(
@@ -7782,6 +8024,7 @@ fn persist_blocked_lifecycle_outcome(
             task_outcome_report: Some(task_report),
             failed_gate: Some(failed_gate.clone()),
             recovery_condition: Some(recovery_condition.clone()),
+            recovery_decision: None,
         };
         let mut value =
             serde_json::to_value(outcome_v2).map_err(|serialization| ObserverError::State {
@@ -8545,7 +8788,39 @@ fn outcome_v2_internal(
         task_outcome_report: Some(task_report),
         failed_gate,
         recovery_condition,
+        recovery_decision: load_recovery_decision(&root, work_item_id),
     })
+}
+
+fn load_recovery_decision(root: &Path, work_item_id: &str) -> Option<RecoveryDecisionReceipt> {
+    let decisions_dir = root.join(".ai/decisions");
+    let prefix = format!("{work_item_id}.recovery");
+    let mut candidates = fs::read_dir(decisions_dir)
+        .ok()?
+        .flatten()
+        .filter_map(|entry| {
+            let path = entry.path();
+            let name = path.file_name()?.to_str()?;
+            if !name.starts_with(&prefix) || !name.ends_with(".json") {
+                return None;
+            }
+            if !is_regular_non_symlink(&path).ok()? {
+                return None;
+            }
+            let value = read_json(&path).ok()?;
+            let receipt = serde_json::from_value::<RecoveryDecisionReceipt>(value).ok()?;
+            if receipt.schema_version != 1
+                || receipt.work_item_id != work_item_id
+                || receipt.predecessor_work_item_id != work_item_id
+                || !matches!(receipt.decision.as_str(), "retry" | "successor")
+            {
+                return None;
+            }
+            Some(receipt)
+        })
+        .collect::<Vec<_>>();
+    candidates.sort_by(|left, right| left.decided_at.cmp(&right.decided_at));
+    candidates.pop()
 }
 
 /// Return true only for a readable, regular legacy evidence file.  Malformed

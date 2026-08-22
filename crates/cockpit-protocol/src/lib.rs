@@ -1018,6 +1018,12 @@ pub struct Contract {
     pub archive_sequence: Option<u64>,
     #[serde(default)]
     pub resume_history: Vec<ResumeHistoryEntry>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub predecessor_work_item_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub predecessor_contract_digest: Option<Digest>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub recovery_decision_path: Option<String>,
     #[serde(default)]
     pub synchronization_checkpoint: Option<SynchronizationCheckpoint>,
     #[serde(default)]
@@ -1169,6 +1175,35 @@ impl Contract {
 
         if self.archive_sequence == Some(0) {
             errors.push("archiveSequence must be a positive integer".into());
+        }
+
+        if self.predecessor_work_item_id.is_some() {
+            if self
+                .predecessor_work_item_id
+                .as_deref()
+                .is_none_or(|value| value.is_empty())
+                || self.predecessor_contract_digest.is_none()
+                || self
+                    .recovery_decision_path
+                    .as_deref()
+                    .is_none_or(|value| value.is_empty())
+            {
+                errors.push(
+                    "successor Contract requires predecessorWorkItemId, predecessorContractDigest, and recoveryDecisionPath".into(),
+                );
+            }
+            if self.predecessor_work_item_id.as_deref() == Some(self.work_item_id.as_str()) {
+                errors.push(
+                    "successor Contract predecessorWorkItemId must differ from workItemId".into(),
+                );
+            }
+        } else if self.predecessor_contract_digest.is_some()
+            || self.recovery_decision_path.is_some()
+        {
+            errors.push(
+                "predecessorContractDigest and recoveryDecisionPath require predecessorWorkItemId"
+                    .into(),
+            );
         }
 
         for (index, item) in self.resume_history.iter().enumerate() {
@@ -1647,6 +1682,39 @@ pub struct TaskOutcomeEvent {
     pub correction_of: Option<String>,
 }
 
+/// Repository-bound human decision that authorizes a retry or creates an
+/// explicitly linked successor. The receipt never rewrites the predecessor
+/// and never asserts that the successor has passed verification.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct RecoveryDecisionReceipt {
+    pub schema_version: u32,
+    pub decision_id: String,
+    pub decision: String,
+    pub work_item_id: String,
+    pub repository_id: String,
+    pub predecessor_work_item_id: String,
+    pub predecessor_contract_digest: Digest,
+    pub predecessor_summary_digest: Digest,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub predecessor_outcome_digest: Option<Digest>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub predecessor_events_digest: Option<Digest>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub successor_work_item_id: Option<String>,
+    pub runtime_version: String,
+    pub runtime_digest: Digest,
+    pub actor: String,
+    pub authority_source: String,
+    pub reason: String,
+    #[serde(default)]
+    pub evidence_refs: Vec<String>,
+    #[serde(default)]
+    pub policy_refs: Vec<String>,
+    pub decided_at: String,
+    pub resume_condition: String,
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct OutcomeV2 {
@@ -1670,6 +1738,8 @@ pub struct OutcomeV2 {
     pub failed_gate: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub recovery_condition: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub recovery_decision: Option<RecoveryDecisionReceipt>,
 }
 
 /// A read-only, evidence-bound Work Item status projection.  Counts are

@@ -25,7 +25,7 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
 | Setup | `attach`, `profile confirm`, `profile propose` | Create/update protocol state, confirm a profile, or emit a read-only candidate. |
 | Migration | `migrate apply --approved` | Apply only the reviewed repository-schema migration and write a runtime-bound migration receipt. |
 | Governance | `preflight` | Read a Contract and return a green/yellow/red decision plus `reviewState`; incomplete or uncertain Contracts are human-review yellow and cannot cross checkpoint. |
-| Work Item | `work-item new`, `start`, `status`, `checkpoint`, `finish`, `archive`, `close`, `validate`, `controls` | Read a request-scoped status projection or write explicit lifecycle records; `close` requires a human decision. |
+| Work Item | `work-item new`, `start`, `status`, `checkpoint`, `finish`, `archive`, `close`, `validate`, `controls`, `recover` | Read a request-scoped status projection or write explicit lifecycle records; `close` and recovery require explicit human decisions. |
 | Parallel Work Item | `work-item boundary`, `work-item declare`, `work-item slot acquire|release|list` | Bind Contract-owned concurrency paths and reserve repository-local slots; unknown boundaries serialize. |
 | Verification | `verify` | Execute bounded commands, record evidence, and optionally bind it to a Work Item. |
 | External evidence | `evidence import`, `evidence list`, `evidence policy`, `evidence purge-plan` | Bind exact provider bytes, declare bounded persistence, or produce a deterministic non-destructive disposal plan. |
@@ -74,6 +74,12 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
   supplied projection fields, including the identity-bound `decisionEvidence`
   review receipt; it cannot change lifecycle state, Contract facts, or
   verification receipts.
+- `work-item recover --repo <path> --id <id> --input <receipt.json>` records an
+  identity-bound `retry` or `successor` decision. The receipt must bind the
+  predecessor Contract, Summary, Outcome, and event digests when those records
+  exist, plus the current Runtime identity. Existing receipts are preserved;
+  later decisions use digest-suffixed files. A recovery receipt does not make
+  verification green or silently rewrite the predecessor.
 - `profile propose --repo <path>` is read-only and reports a `candidate`/
   `proposed` amendment. It never applies a profile baseline change.
 - `agent list --repo <path>` is read-only. `agent install` is the only normal

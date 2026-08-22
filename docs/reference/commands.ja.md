@@ -23,7 +23,7 @@ capabilityClaims:
 | Setup | `attach`、`profile confirm`、`profile propose` | protocol state の作成/更新、profile の確認、read-only candidate の出力。 |
 | Migration | `migrate apply --approved` | review 済みの repository schema migration だけを適用し、Runtime-bound migration receipt を作る。 |
 | Governance | `preflight` | Contract を読み green/yellow/red decision と `reviewState` を返す。不完全・不確実な Contract は human-review yellow となり checkpoint を越えられない。 |
-| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls` | request-scoped status projection を読み、または明示的な lifecycle record を作る。`close` は human decision が必要。 |
+| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`recover` | request-scoped status projection を読み、または明示的な lifecycle record を作る。`close` と recovery には明示的な human decision が必要。 |
 | Parallel Work Item | `work-item boundary`、`work-item declare`、`work-item slot acquire|release|list` | Contract の並列境界を bind し、repository-local slot を管理する。不明な場合は serialize する。 |
 | Verification | `verify` | bounded command を実行し evidence を記録する。Work Item に bind できる。 |
 | External evidence | `evidence import`、`evidence list`、`evidence policy`、`evidence purge-plan` | exact provider bytes の bind、bounded persistence policy の宣言、または決定論的な非破壊 disposal plan の生成。 |
@@ -53,6 +53,7 @@ capabilityClaims:
 - `work-item status --repo <path> --id <id>` は read-only で lifecycle、governance、activity health、fact count、blocker、unknown、evidence、source digest を返します。scheduler を動かさず、割合を発明しません。
 - `work-item validate --repo <path> --id <id> [--json]` は Contract/Summary の scenario coverage、stable acceptance evidence、intent alignment、任意の final-dimensions receipt を read-only で検証します。
   `work-item controls --repo <path> --id <id> --input <json>` は明示された projection field（identity-bound な `decisionEvidence` review receipt を含む）だけを記録し、lifecycle state、Contract fact、verification receipt は変更しません。
+- `work-item recover --repo <path> --id <id> --input <receipt.json>` は identity-bound な `retry` または `successor` decision を記録します。receipt は predecessor の Contract、Summary、Outcome、存在する場合は event digest と current Runtime identity に bind されなければなりません。既存 receipt は上書きせず、後続 decision は digest suffix ファイルに append されます。recovery receipt だけで verification を green にしたり predecessor を書き換えたりすることはありません。
 - `profile propose --repo <path>` は read-only の `candidate`/`proposed` amendment を出力し、profile baseline を適用しません。
 - `agent list --repo <path>` は read-only です。`agent install` だけが通常の adapter write entry point で、
   `--provider` が必要です（`auto` は安全な surface が 1 つだけの場合に限り、`AGENTS.md` では Codex を選びます）。`agent doctor --repo <path> --json`
