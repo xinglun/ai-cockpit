@@ -21,6 +21,13 @@ lifecycle `start → preflight → checkpoint → verify → finish → archive 
 for authorized changes. Do not infer state from this file, edit global Agent or
 MCP configuration, or claim governance outcomes without current Runtime evidence.
 
+If `preflight` returns `not_ready` or `needs_human_confirmation`, stop and show
+the Preflight Review to the human; an advisory zero exit status is not permission
+to implement. Treat `.ai/README.md`, `.ai/glossary.md`, this file, and the
+repository's current machine-readable governance records as the default
+instruction read set. Historical `docs/archive/**` and reference material do
+not grant current authority unless explicitly included by the human or Contract.
+
 ## Outcome and release acceptance boundaries
 
 When an Agent needs a result for a person, use the human Outcome handoff
@@ -98,3 +105,11 @@ reference template's `make ai-*` commands, `contractVersion: 2`, and V1
 runtime assumptions are not commands or protocol requirements in this Rust
 repository; use the installed Runtime lifecycle and the checks declared by the
 current Contract instead.
+
+Never revert user changes unless explicitly asked. Generated status, receipt,
+and archive files are produced by the Runtime; do not hand-edit them.
+
+The reference template's hosted-verification snapshot exception has no
+equivalent command in this Rust repository. Do not push an unpublished local
+snapshot as a substitute for the reviewed branch/PR workflow; use the current
+Contract's declared checks and the published-artifact acceptance harness.

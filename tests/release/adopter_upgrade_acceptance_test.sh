@@ -26,6 +26,19 @@ grep -q -- 'rm -rf --' "$script"
 grep -q -- 'isolation_manifest.sh' "$script"
 grep -q -- 'manifest_tree' "$script"
 grep -q -- 'schemaVersion:2' "$script"
+preflight_line=$(grep -n -- 'old-preflight.json preflight' "$script" | head -1 | cut -d: -f1)
+checkpoint_line=$(grep -n -- 'old-checkpoint.json checkpoint' "$script" | head -1 | cut -d: -f1)
+[[ -n "$preflight_line" && -n "$checkpoint_line" && "$preflight_line" -lt "$checkpoint_line" ]] || {
+  printf 'adopter upgrade acceptance must record preflight before checkpoint\n' >&2
+  exit 1
+}
+new_preflight_line=$(grep -n -- 'new-preflight.json preflight' "$script" | head -1 | cut -d: -f1)
+new_checkpoint_line=$(grep -n -- 'new-checkpoint.json checkpoint' "$script" | head -1 | cut -d: -f1)
+new_verify_line=$(grep -n -- 'new-verify.json verify' "$script" | head -1 | cut -d: -f1)
+[[ -n "$new_preflight_line" && -n "$new_checkpoint_line" && -n "$new_verify_line" && "$new_preflight_line" -lt "$new_checkpoint_line" && "$new_checkpoint_line" -lt "$new_verify_line" ]] || {
+  printf 'adopter upgrade acceptance must run new preflight, checkpoint, then verify\n' >&2
+  exit 1
+}
 if grep -Eq 'cargo (build|run)|target/debug/ai-cockpit|workspace binary' "$script"; then
   echo 'upgrade acceptance must not fall back to source builds or workspace binaries' >&2
   exit 1

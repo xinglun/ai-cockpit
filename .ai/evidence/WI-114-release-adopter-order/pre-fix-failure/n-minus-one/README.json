@@ -1,0 +1,7 @@
+{
+  "releasePublished": true,
+  "adopterAcceptance": "failed",
+  "cleanupState": "passed",
+  "failedStep": "new-verify.json",
+  "failureReason": "new-verify.json failed"
+}

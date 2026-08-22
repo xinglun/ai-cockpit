@@ -1,0 +1,39 @@
+{
+  "acceptanceCriteria": [
+    "Both public Release acceptance harnesses record preflight before checkpoint and pass using immutable v0.2.8 artifacts",
+    "N-1 acceptance closes the legacy Work Item with the old Runtime, preserves its historical evidence, and exercises a fresh post-migration Work Item with the new Runtime lifecycle",
+    "Reference AGENTS.md operational rules that are applicable to this Rust repository are explicitly inherited in AGENTS.md and the tri-language agent workflow documentation, including fail-closed preflight pause behavior and instruction-document authority routing"
+  ],
+  "authority": "authorized",
+  "baseRevision": "8eaf9a8739609177d8fea8d1cfd07da551ac288d",
+  "createdAt": "2026-08-22T04:36:07Z",
+  "goal": "Run preflight before checkpoint in both release harnesses, add regression coverage for the ordering, rerun public adopter and N-1 acceptance, and retain auditable cleanup receipts.",
+  "intent": "Repair public adopter and N-1 acceptance harnesses to honor the Runtime lifecycle order and prove the immutable v0.2.8 Release acceptance baseline.",
+  "mode": "implementation",
+  "outOfScope": [
+    "runtime governance semantics",
+    "global Agent or MCP configuration",
+    "rewriting or retagging published Release truth",
+    "source fallback for acceptance"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e818ecd9a8d1611ac3a4444f5767b9b528c8c4d499b59ac5b4735054a086625d",
+  "requiredEvidenceClasses": [
+    "verification",
+    "release_adopter_acceptance"
+  ],
+  "risk": "normal",
+  "scope": [
+    "tests/release/**",
+    "docs/work-items/**",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "AGENTS.md",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-114-release-adopter-order"
+}

@@ -470,8 +470,8 @@ lifecycle_contract="$adopter_root/.ai/work-items/active/$lifecycle_id.contract.j
 printf '\n// release adopter acceptance mutation\n' >> "$adopter_root/src/lib.rs"
 git -C "$adopter_root" add src/lib.rs
 git -C "$adopter_root" commit -qm 'make deterministic adopter change'
-capture_runtime lifecycle-checkpoint.json checkpoint --repo "$adopter_root" --id "$lifecycle_id"
 capture_runtime lifecycle-preflight.json preflight --repo "$adopter_root" --contract "$lifecycle_contract"
+capture_runtime lifecycle-checkpoint.json checkpoint --repo "$adopter_root" --id "$lifecycle_id"
 capture_runtime lifecycle-verify.json verify --repo "$adopter_root" --work-item "$lifecycle_id" --workers 1
 cp "$adopter_root/.ai/evidence/$lifecycle_id.verification.json" "$output/work-items/lifecycle.evidence.json"
 jq -e --arg version "$runtime_version" --arg digest "$runtime_digest" '.runtimeVersion == $version and .runtimeDigest == $digest and .passed == true' "$output/work-items/lifecycle.evidence.json" >/dev/null || die 'Work Item verification evidence is not bound to the downloaded Runtime'

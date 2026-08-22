@@ -28,6 +28,9 @@ Rust Runtime 与本仓库的 Protocol 词汇。
 - 修改前阅读 `.ai/README.md` 与 `.ai/glossary.md`，查询 `inspect`、`status`、
   `doctor`；修改不得超出声明 scope；保留测试和证据；更新 Summary；执行
   Contract 声明的工程检查。
+- 如果 `preflight` 返回 `not_ready` 或 `needs_human_confirmation`，必须暂停并
+  向人展示 Preflight Review；命令即使以 advisory 模式成功退出，也不代表获得了
+  实施授权。
 - 单独交付面向人的 Outcome，并以 `Outcome: 🟢`、`Outcome: 🟡` 或
   `Outcome: 🔴` 开头，包含 unknown、evidence、人工决定和下一步。Outcome
   缺失、仅折叠显示、过期、矛盾或格式错误时必须 fail closed，不得授权继续。
@@ -56,3 +59,9 @@ Work Item 或 project profile。Contract 条件保留其原始语言，只有面
 规则保持语言中立并属于仓库本地。不得写入 secret 或机器凭据，不得修改用户全局
 Agent/MCP 配置，也不得把 managed Agent prompt 当作治理 authority。不得把 V1
 Runtime 代码、schema、installer 或模板实现复制进本仓库。
+除非人明确要求，不得回退用户变更。默认指令读取集是 `.ai/README.md`、
+`.ai/glossary.md`、`AGENTS.md` 与当前机器可读治理记录；`docs/archive/**` 和参考资料
+属于历史/说明内容，只有人或 Contract 明确纳入时才具有当前指导作用。status、receipt、
+archive 等生成文件必须由 Runtime 生成，不得手工编辑。
+参考源的 hosted-verification snapshot 例外在本 Rust 工程没有对应命令；不得把未发布的
+本地 snapshot 推送出去替代经过评审的 branch/PR 流程。

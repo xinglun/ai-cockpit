@@ -30,6 +30,9 @@ the installed Rust Runtime and this repository's Protocol vocabulary.
 - Before editing, read `.ai/README.md` and `.ai/glossary.md`; query `inspect`,
   `status`, and `doctor`; keep edits inside the declared scope; preserve tests
   and evidence; update the Summary; and run the Contract's project checks.
+- If `preflight` reports `not_ready` or `needs_human_confirmation`, pause and
+  show the Preflight Review to the person. An advisory successful exit does not
+  authorize implementation.
 - Deliver a separate visible human Outcome with `Outcome: 🟢`, `Outcome: 🟡`,
   or `Outcome: 🔴`, unknowns, evidence, human decision, and next action. A
   missing, folded-only, stale, contradictory, or malformed Outcome fails
@@ -64,3 +67,12 @@ Rules remain language-neutral and repository-local. Do not include secrets or
 machine credentials, edit user-global Agent or MCP configuration, or treat
 managed Agent prompts as governance authority. Do not copy V1 runtime code,
 schemas, installers, or template implementation into this repository.
+Never revert user changes unless explicitly asked. The default instruction read
+set is `.ai/README.md`, `.ai/glossary.md`, `AGENTS.md`, and current
+machine-readable governance records; `docs/archive/**` and reference material
+are historical/informational unless explicitly included by a person or Contract.
+Generated status, receipt, and archive files must be produced by the Runtime,
+not hand-edited.
+The reference template's hosted-verification snapshot exception has no
+equivalent command here; never push an unpublished local snapshot as a
+substitute for the reviewed branch/PR workflow.

@@ -1,0 +1,38 @@
+{
+  "acceptanceResults": [
+    "Both public Release acceptance harnesses record preflight before checkpoint and pass using immutable v0.2.8 artifacts",
+    "N-1 acceptance closes the legacy Work Item with the old Runtime, preserves its historical evidence, and exercises a fresh post-migration Work Item with the new Runtime lifecycle",
+    "Reference AGENTS.md operational rules that are applicable to this Rust repository are explicitly inherited in AGENTS.md and the tri-language agent workflow documentation, including fail-closed preflight pause behavior and instruction-document authority routing"
+  ],
+  "createdAt": "2026-08-22T05:16:32Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:f4af24b640a8dd3b44c4e6f30c263be009692f4cc6249dd21dd3b7f2f2232a40",
+  "evidenceRefs": [
+    ".ai/evidence/WI-114-release-adopter-order.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-114-release-adopter-order.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-114-release-adopter-order.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-114-release-adopter-order"
+}

@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 2,
+  "sourceRepository": "/private/tmp/ai-cockpit-wi114",
+  "sourceAiState": "present",
+  "sourceBeforeStatus": " M tests/release/adopter_acceptance.sh\n M tests/release/adopter_acceptance_test.sh\n M tests/release/adopter_upgrade_acceptance.sh\n M tests/release/adopter_upgrade_acceptance_test.sh\n?? .ai/work-items/active/\n?? docs/work-items/WI-114-release-adopter-order.ja.md\n?? docs/work-items/WI-114-release-adopter-order.md\n?? docs/work-items/WI-114-release-adopter-order.zh-CN.md",
+  "sourceAfterStatus": " M tests/release/adopter_acceptance.sh\n M tests/release/adopter_acceptance_test.sh\n M tests/release/adopter_upgrade_acceptance.sh\n M tests/release/adopter_upgrade_acceptance_test.sh\n?? .ai/work-items/active/\n?? docs/work-items/WI-114-release-adopter-order.ja.md\n?? docs/work-items/WI-114-release-adopter-order.md\n?? docs/work-items/WI-114-release-adopter-order.zh-CN.md",
+  "sourceUnchanged": true,
+  "adopterRepository": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-adopter-acceptance.8oq8l7/adopter",
+  "repositoryIsolation": true,
+  "roots": {
+    "HOME": {
+      "classification": "global-config",
+      "allowedWrites": false,
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "unchanged": true
+    },
+    "XDG_CONFIG_HOME": {
+      "classification": "global-config",
+      "allowedWrites": false,
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "unchanged": true
+    },
+    "TMPDIR": {
+      "classification": "runtime-temporary",
+      "allowedWrites": true,
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "CARGO_HOME": {
+      "classification": "dependency-cache",
+      "allowedWrites": true,
+      "beforeDigest": "sha256:7825a71a8db3bebfe9925e64c53ec6d73bc2aaf17c2a539d555df102c992a2ea",
+      "afterDigest": "sha256:f0b0c8fc5ec1353f4abb1a341b35974791794a603948627656d202dc36d9cea2"
+    }
+  }
+}

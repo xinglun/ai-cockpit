@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-08-22T04:33:52Z",
+  "finishedAt": "2026-08-22T04:34:00Z",
+  "releasePublished": true,
+  "adopterAcceptance": "failed",
+  "repository": "xinglun/ai-cockpit",
+  "tag": "v0.2.8",
+  "target": "aarch64-apple-darwin",
+  "runtimeVersion": "0.2.8",
+  "runtimeDigest": "sha256:a3ac6b0d9ccaebc78aab70e527b39a789e06f089e420010e09f3be7428094046",
+  "repositoryId": null,
+  "sourceRepositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "cleanupState": "passed",
+  "cleanupError": null,
+  "steps": [
+    {
+      "name": "release-fetch",
+      "state": "passed"
+    },
+    {
+      "name": "release-download",
+      "state": "passed"
+    },
+    {
+      "name": "runtime-pin",
+      "state": "passed"
+    },
+    {
+      "name": "adopter-scaffold",
+      "state": "passed"
+    },
+    {
+      "name": "attach.json",
+      "state": "passed"
+    },
+    {
+      "name": "inspect.json",
+      "state": "passed"
+    },
+    {
+      "name": "inspect-runtime-identity",
+      "state": "passed"
+    },
+    {
+      "name": "profile-confirm.json",
+      "state": "passed"
+    },
+    {
+      "name": "agent-list.json",
+      "state": "passed"
+    },
+    {
+      "name": "agent-install.json",
+      "state": "passed"
+    },
+    {
+      "name": "agent-doctor.json",
+      "state": "passed"
+    },
+    {
+      "name": "agent-doctor-assertion",
+      "state": "passed"
+    },
+    {
+      "name": "first-adopter-smoke.json",
+      "state": "passed"
+    },
+    {
+      "name": "first-adopter-smoke-assertion",
+      "state": "passed"
+    },
+    {
+      "name": "verify-first.json",
+      "state": "passed"
+    },
+    {
+      "name": "verify-reuse.json",
+      "state": "passed"
+    },
+    {
+      "name": "reuse-assertion",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-start.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-checkpoint.json",
+      "state": "failed",
+      "reason": "runtime command exited with status 1"
+    }
+  ],
+  "failureReason": "lifecycle-checkpoint.json failed"
+}

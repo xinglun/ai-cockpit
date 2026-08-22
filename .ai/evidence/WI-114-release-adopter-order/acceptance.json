@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "releasePublished": true,
+  "releaseTag": "v0.2.8",
+  "runtimeVersion": "0.2.8",
+  "runtimeDigest": "sha256:a3ac6b0d9ccaebc78aab70e527b39a789e06f089e420010e09f3be7428094046",
+  "archiveDigest": "sha256:245d80a791bac224ad8796f95843844fc2010ce8e8cdac02f534b8c3e14bc033",
+  "cases": {
+    "publicAdopter": {
+      "state": "passed",
+      "repositoryId": "sha256:937854a254b16d57304806c5955f2ea93cec6560c7e9d2d4236dcc270cb9c8bc",
+      "acceptanceRef": "public-adopter/acceptance.json",
+      "cleanupState": "passed",
+      "firstAdopterSmoke": "not_ready"
+    },
+    "nMinusOne": {
+      "state": "passed",
+      "repositoryId": "sha256:0b13379e3fd976b1524dcda7d914049b4764d3bcf9aa45c7cb04aaed347918ff",
+      "acceptanceRef": "n-minus-one/acceptance.json",
+      "cleanupState": "passed",
+      "historicalEvidencePreserved": true,
+      "postMigrationLifecycle": "passed"
+    }
+  },
+  "preFixFailures": [
+    "pre-fix-failure/acceptance.json",
+    "pre-fix-failure/n-minus-one/acceptance.json"
+  ],
+  "truthBoundary": "Release truth remains releasePublished=true; pre-release harness failures are retained as failed evidence and are not rewritten."
+}

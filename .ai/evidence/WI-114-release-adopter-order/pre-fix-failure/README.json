@@ -1,0 +1,6 @@
+{
+  "releasePublished": true,
+  "adopterAcceptance": "failed",
+  "cleanupState": "passed",
+  "failedStep": "lifecycle-checkpoint.json"
+}
