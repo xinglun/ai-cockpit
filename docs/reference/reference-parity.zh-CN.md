@@ -45,7 +45,7 @@ capabilityClaims:
 | 有界验证与 fail-closed evidence reuse | 已实现 | Runtime identity、snapshot/toolchain/environment binding、receipt 和 fail-closed validation 均有记录。 |
 | MCP repository binding | 已实现 | repository-bound stdio MCP 以显式绑定提供相同的治理服务。 |
 | 面向人的 MCP projection | 已实现 | Runtime 校验 OutcomeV2 并生成本地化 `humanHandoff`；Agent 或对话层负责选择、展示和传递，但不能把 presentation 当作治理授权来源。 |
-| 公开 Release 与新 adopter 验收 | 部分实现 | v0.2.11 完整 post-release adopter baseline 只在 `x86_64-unknown-linux-gnu` 执行；其他 target 只有 build/smoke evidence。 |
+| 公开 Release 与新 adopter 验收 | 部分实现 | v0.2.12 完整 post-release adopter baseline 只在 `x86_64-unknown-linux-gnu` 执行；其他 target 只有 build/smoke evidence。 |
 | 第二技术栈 adopter 验收 | 延期 | 当前 harness 使用 Cargo adopter；第二技术栈属于后续工作。 |
 | Runtime-only upgrade 与 repository migration | 已实现 | compatibility 检查和显式 migration 保留历史记录并绑定 Runtime identity。 |
 | N-1 旧 adopter 升级验收 | 已实现 | public-artifact harness 覆盖旧 schema 检测、批准、历史保持和继续运行。 |

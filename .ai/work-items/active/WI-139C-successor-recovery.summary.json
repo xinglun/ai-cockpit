@@ -1,0 +1,16 @@
+{
+  "changedPaths": [],
+  "checkpointCount": 0,
+  "createdAt": "2026-08-22T15:58:08Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-22T15:58:45Z",
+  "preflightContractDigest": "sha256:52205ef4f43f6a787fc6cc9fae86c80995c87508cacb36e7376e46a1af2bb5c5",
+  "preflightDecisionDigest": "sha256:3e315f8a457ffd805eaac6562fabf1a19c6043a1e6f4b13f2722ed1c8e540982",
+  "preflightRepositorySnapshotDigest": "sha256:464325a168feb1bb5ff75536267680d5b75a502a3c13490fbd81a0f6410c5b11",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "updatedAt": "2026-08-22T15:58:08Z",
+  "workItemId": "WI-139C-successor-recovery"
+}
