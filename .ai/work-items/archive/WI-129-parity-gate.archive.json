@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T10:35:05Z",
+  "files": {
+    "contractDigest": "sha256:4475a0c5404e954074db162cb5a88c8a30a4ab4e8055feeb53ccea0be9e2cda0",
+    "contractPath": ".ai/work-items/archive/WI-129-parity-gate.contract.json",
+    "outcomeDigest": "sha256:93351d8adfa67bc53a42dad984b027a91988712e72877bcd8f0fcecd220418ca",
+    "outcomePath": ".ai/work-items/archive/WI-129-parity-gate.outcome.json",
+    "summaryDigest": "sha256:7b0ef2b53aa440d8bf625b8c6863870ac25f06d16a3225e86f78bb7f18e45d5e",
+    "summaryPath": ".ai/work-items/archive/WI-129-parity-gate.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-129-parity-gate"
+}

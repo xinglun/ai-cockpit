@@ -73,6 +73,8 @@ verification record です。
 | WI-123 — Parallel Contract boundary と slot | Implemented | [Work Item](../work-items/WI-123-parallel-contract-boundary.ja.md); `.ai/evidence/WI-123-parallel-contract-boundary.verification.json` |
 | WI-125 — Contract V2 schema boundary | Implemented | [Work Item](../work-items/WI-125-contract-schema.ja.md); `.ai/evidence/WI-125-contract-schema.verification.json` |
 | WI-126 — Read-only status と human handoff | Implemented | [Work Item](../work-items/WI-126-status-outcome.ja.md); `.ai/evidence/WI-126-status-outcome.verification.json` |
+| WI-128 — Release acceptance cleanup | Implemented | [Work Item](../work-items/WI-128-release-acceptance-cleanup.ja.md); `.ai/evidence/WI-128-release-acceptance-cleanup.verification.json` |
+| WI-129 — Reference parity completeness | Implemented | [Work Item](../work-items/WI-129-parity-gate.ja.md); `.ai/evidence/WI-129-parity-gate.verification.json` |
 
 ## 現在の境界
 

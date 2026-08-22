@@ -70,6 +70,8 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-123——Contract 并行边界与 Slot | 已实现 | [Work Item](../work-items/WI-123-parallel-contract-boundary.zh-CN.md)；`.ai/evidence/WI-123-parallel-contract-boundary.verification.json` |
 | WI-125——Contract V2 schema boundary | 已实现 | [Work Item](../work-items/WI-125-contract-schema.zh-CN.md)；`.ai/evidence/WI-125-contract-schema.verification.json` |
 | WI-126——只读状态与面向人的交接 | 已实现 | [Work Item](../work-items/WI-126-status-outcome.zh-CN.md)；`.ai/evidence/WI-126-status-outcome.verification.json` |
+| WI-128——发布 adopter 验收清理 | 已实现 | [Work Item](../work-items/WI-128-release-acceptance-cleanup.zh-CN.md)；`.ai/evidence/WI-128-release-acceptance-cleanup.verification.json` |
+| WI-129——参考源对齐完整性 | 已实现 | [Work Item](../work-items/WI-129-parity-gate.zh-CN.md)；`.ai/evidence/WI-129-parity-gate.verification.json` |
 
 ## 当前边界
 

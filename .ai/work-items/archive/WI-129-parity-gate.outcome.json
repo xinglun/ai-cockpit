@@ -1,0 +1,40 @@
+{
+  "acceptanceResults": [
+    "A1: The English Simplified Chinese and Japanese parity tables contain a row for WI-128 with its three-language Work Item documentation and verification evidence.",
+    "A2: Documentation acceptance derives the highest implemented Work Item ID from canonical Work Item docs and requires that ID in every parity language.",
+    "A3: The gate fails closed with an actionable omission when the latest implemented Work Item is absent from any parity document.",
+    "A4: The distinction between the implemented status projection and deferred full adopter capability manifest remains explicit.",
+    "A5: The gate remains deterministic and does not mutate Runtime, Contract, Summary, or evidence state."
+  ],
+  "createdAt": "2026-08-22T10:35:05Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:08ddc72ae0eec3e7b945154117ffc6f100ca0e3930d507f8524a934e15b1c639",
+  "evidenceRefs": [
+    ".ai/evidence/WI-129-parity-gate.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-129-parity-gate.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-129-parity-gate.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-129-parity-gate"
+}
