@@ -963,19 +963,53 @@ pub fn record_work_item_governance_controls(
             message: error.to_string(),
         })?;
         summary_object.insert("decisionEvidence".into(), value.clone());
-        let decision_path = root
-            .join(".ai/decisions")
-            .join(format!("{work_item_id}.preflight-review.json"));
-        // Never replace an existing path (including a symlink) while
-        // persisting a governance receipt.  A replacement would make a
-        // malicious link look like a successful repository-local write.
-        if fs::symlink_metadata(&decision_path).is_ok() {
-            return Err(ObserverError::State {
-                path: decision_path,
-                message: "preflight decision evidence already exists; rerun preflight before recording a replacement".into(),
+        let decisions_dir = root.join(".ai/decisions");
+        let canonical_path = decisions_dir.join(format!("{work_item_id}.preflight-review.json"));
+        // Decision receipts are append-only. A changed Contract or snapshot
+        // requires a fresh review, but an existing receipt must never be
+        // overwritten (including when the path is a symlink). Keep the first
+        // receipt at the canonical path and bind later receipts to the digest
+        // of their exact JSON value.
+        let existing_same = fs::symlink_metadata(&canonical_path)
+            .ok()
+            .is_some_and(|metadata| {
+                !metadata.file_type().is_symlink()
+                    && fs::read(&canonical_path)
+                        .ok()
+                        .and_then(|bytes| serde_json::from_slice::<Value>(&bytes).ok())
+                        .is_some_and(|stored| stored == value)
             });
+        let decision_path = if existing_same {
+            None
+        } else if let Ok(metadata) = fs::symlink_metadata(&canonical_path) {
+            if metadata.file_type().is_symlink() {
+                return Err(ObserverError::State {
+                    path: canonical_path.clone(),
+                    message: "preflight decision evidence destination is a symlink".into(),
+                });
+            }
+            let digest =
+                cockpit_protocol::digest_json(&value).map_err(|error| ObserverError::State {
+                    path: canonical_path.clone(),
+                    message: error.to_string(),
+                })?;
+            let digest = digest.to_string();
+            Some(decisions_dir.join(format!(
+                "{work_item_id}.preflight-review.{}.json",
+                digest.strip_prefix("sha256:").unwrap_or(&digest)
+            )))
+        } else {
+            Some(canonical_path)
+        };
+        if let Some(decision_path) = decision_path {
+            if fs::symlink_metadata(&decision_path).is_ok() {
+                return Err(ObserverError::State {
+                    path: decision_path,
+                    message: "preflight decision evidence receipt already exists; provide a fresh receipt value".into(),
+                });
+            }
+            crate::atomic_json(&decision_path, &value)?;
         }
-        crate::atomic_json(&decision_path, &value)?;
     }
     summary_object.insert("updatedAt".into(), chrono::Utc::now().to_rfc3339().into());
     let bytes = serde_json::to_vec_pretty(&summary).map_err(|error| ObserverError::State {
@@ -1015,9 +1049,12 @@ pub(crate) fn preflight_decision_evidence_state(
     let summary_path = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.summary.json"));
-    let decision_path = root
-        .join(".ai/decisions")
-        .join(format!("{work_item_id}.preflight-review.json"));
+    let decisions_dir = root.join(".ai/decisions");
+    let canonical_path = decisions_dir.join(format!("{work_item_id}.preflight-review.json"));
+    if fs::symlink_metadata(&canonical_path).is_ok_and(|metadata| metadata.file_type().is_symlink())
+    {
+        return PreflightDecisionEvidenceState::Invalid;
+    }
     if !regular_file(&summary_path) {
         return PreflightDecisionEvidenceState::Invalid;
     }
@@ -1028,7 +1065,7 @@ pub(crate) fn preflight_decision_evidence_state(
         return PreflightDecisionEvidenceState::Invalid;
     };
     let Some(value) = summary.get("decisionEvidence").cloned() else {
-        return if fs::symlink_metadata(&decision_path).is_ok() {
+        return if decision_receipt_exists(&decisions_dir, work_item_id) {
             PreflightDecisionEvidenceState::Invalid
         } else {
             PreflightDecisionEvidenceState::Missing
@@ -1048,16 +1085,52 @@ pub(crate) fn preflight_decision_evidence_state(
         && chrono::DateTime::parse_from_rfc3339(&evidence.recorded_at).is_ok()
         && !evidence.recorded_by.trim().is_empty()
         && !evidence.reason.trim().is_empty()
-        && regular_file(&decision_path)
-        && fs::read(&decision_path)
-            .ok()
-            .and_then(|bytes| serde_json::from_slice::<Value>(&bytes).ok())
-            .is_some_and(|stored| stored == value.clone());
+        && decision_receipt_matches_any_regular_file(&decisions_dir, work_item_id, &value);
     if valid {
         PreflightDecisionEvidenceState::Valid
     } else {
         PreflightDecisionEvidenceState::Invalid
     }
+}
+
+fn decision_receipt_matches_any_regular_file(
+    decisions_dir: &Path,
+    work_item_id: &str,
+    expected: &Value,
+) -> bool {
+    let prefix = format!("{work_item_id}.preflight-review");
+    let Ok(entries) = fs::read_dir(decisions_dir) else {
+        return false;
+    };
+    entries.flatten().any(|entry| {
+        let path = entry.path();
+        let Some(name) = path.file_name().and_then(|name| name.to_str()) else {
+            return false;
+        };
+        if !name.starts_with(&prefix) || !name.ends_with(".json") {
+            return false;
+        }
+        regular_file(&path)
+            && fs::read(&path)
+                .ok()
+                .and_then(|bytes| serde_json::from_slice::<Value>(&bytes).ok())
+                .is_some_and(|stored| stored == *expected)
+    })
+}
+
+fn decision_receipt_exists(decisions_dir: &Path, work_item_id: &str) -> bool {
+    let prefix = format!("{work_item_id}.preflight-review");
+    fs::read_dir(decisions_dir)
+        .ok()
+        .into_iter()
+        .flatten()
+        .flatten()
+        .any(|entry| {
+            entry
+                .file_name()
+                .to_str()
+                .is_some_and(|name| name.starts_with(&prefix) && name.ends_with(".json"))
+        })
 }
 
 fn validate_preflight_decision_evidence(

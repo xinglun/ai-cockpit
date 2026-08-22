@@ -50,7 +50,7 @@ capabilityClaims:
 | Runtime-only upgrade 与 repository migration | 已实现 | compatibility 检查和显式 migration 保留历史记录并绑定 Runtime identity。 |
 | N-1 旧 adopter 升级验收 | 已实现 | public-artifact harness 覆盖旧 schema 检测、批准、历史保持和继续运行。 |
 | Adopter capability manifest 与 status projection | 延期 | 当前 `capability show` 和 `status` 是真实的 Runtime/repository 视图，不等同于参考源完整的 adopter manifest/status projection。 |
-| Recovery state machine 与丰富 recovery projection | 部分实现 | 已有停止和恢复指南；paused/blocked/stale/cancelled/rollback 等更广表面仍窄于参考源。 |
+| Recovery state machine 与丰富 recovery projection | 部分实现 | 已有 blocked Outcome、append-only recovery receipt、绑定 predecessor 的 retry/successor decision 及人类/MCP 投影；paused/stale/cancelled/rollback 等更广表面仍窄于参考源。 |
 | 多语言语义 parity gate | 部分实现 | CLI 面向人的输出已本地化；所有报告逐字段语义一致尚未成为 CI gate。 |
 | 历史 evidence 边界 | 已实现 | 历史 evidence 只作为历史输入，永远不能提升为新的 green verification。 |
 | Contract 原文语言 | 已实现 | Contract 的 intent、scope、acceptance、authority 保持原文；翻译不重写 Contract bytes。 |

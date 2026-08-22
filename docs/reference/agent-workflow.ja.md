@@ -46,6 +46,7 @@ capabilityClaims:
   snapshot digest、actor、timestamp、reason を bind します。有効な receipt は checkpoint transition
   だけを許可し、test、scenario、verification、release の完了を証明しません。欠落、stale、foreign、
   malformed、symlink の receipt は停止したままです。
+- review receipt は append-only です。Contract または repository snapshot が変わった場合、新しい receipt は digest suffix の decision path に保存され、以前の receipt は historical evidence として残り上書きされません。`work-item recover` は predecessor の Contract/Summary/Outcome/event digest と current Runtime に bind した strict な `retry` または `successor` decision を記録します。これは verification を自動で green にせず、predecessor も書き換えません。
 - 実装後にしか実行できない high-risk の必須 scenario は、Contract の `scenarioCoverage` で
   `unverified` のままにできますが、空でない `expected`（または `expectedResult`）と具体的な
   `verificationPlan` の両方が必要です。これは実装計画の evidence であり完了 evidence ではありません。

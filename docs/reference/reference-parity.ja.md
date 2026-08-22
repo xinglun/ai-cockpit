@@ -51,7 +51,7 @@ matrix は次の 4 state だけを使います。
 | Runtime-only upgrade と repository migration | Implemented | compatibility check と explicit migration が historical record を保持し Runtime identity を bind する。 |
 | N-1 old-adopter upgrade acceptance | Implemented | public-artifact harness が old-schema detection、approval、history preservation、continued operation を確認する。 |
 | Adopter capability manifest と status projection | Deferred | `capability show` と `status` は truthful な Runtime/repository view であり、reference の full adopter manifest/status projection ではない。 |
-| Recovery state machine と rich recovery projection | Partial | stop と recovery guidance はあるが、paused/blocked/stale/cancelled/rollback の広い surface は reference より狭い。 |
+| Recovery state machine と rich recovery projection | Partial | blocked Outcome、append-only recovery receipt、predecessor に bind された retry/successor decision、人間/MCP projection を追加したが、paused/stale/cancelled/rollback の広い surface は reference より狭い。 |
 | Multilingual semantic parity gate | Partial | CLI human output は localize されるが、全 report の field-by-field semantic parity は CI gate ではない。 |
 | Legacy evidence boundary | Implemented | legacy evidence は historical input のままで、fresh green verification に昇格しない。 |
 | Contract source language | Implemented | Contract の intent、scope、acceptance、authority は source text のまま保持し、翻訳で bytes を変更しない。 |

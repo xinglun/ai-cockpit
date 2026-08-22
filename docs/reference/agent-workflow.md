@@ -53,6 +53,13 @@ the installed Rust Runtime and this repository's Protocol vocabulary.
   checkpoint transition; it never proves a test, scenario, verification, or
   release result. Missing, stale, foreign, malformed, or symlinked receipts
   remain stopped.
+- Review receipts are append-only. When a Contract or repository snapshot
+  changes, a fresh receipt is written under a digest-suffixed decision path;
+  the previous receipt remains historical evidence and is never overwritten.
+  `work-item recover` records a separate, strict `retry` or `successor`
+  decision bound to the predecessor Contract/Summary/Outcome/event digests and
+  current Runtime. It does not make verification green or rewrite the
+  predecessor.
 - A required high-risk scenario that can only run after implementation may be
   marked `unverified` in Contract `scenarioCoverage` only when both a non-empty
   `expected` (or `expectedResult`) and a concrete `verificationPlan` are

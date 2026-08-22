@@ -92,6 +92,7 @@ fn mcp_initialize_and_tool_list_are_read_only_and_deterministic() {
             "repository_observe",
             "preflight",
             "work_item_controls",
+            "work_item_recover",
             "verify",
             "work_item_parallel"
         ]

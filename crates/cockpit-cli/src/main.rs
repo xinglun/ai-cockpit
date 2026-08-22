@@ -368,8 +368,17 @@ enum WorkItemCommand {
         repo: PathBuf,
         #[arg(long)]
         id: String,
-        /// JSON object containing only scenarioCoverage, acceptanceEvidence,
-        /// intentAlignment, or finalDimensions.
+        /// JSON object containing scenarioCoverage, acceptanceEvidence,
+        /// intentAlignment, finalDimensions, or identity-bound decisionEvidence.
+        #[arg(long)]
+        input: PathBuf,
+    },
+    Recover {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+        /// JSON RecoveryDecisionReceipt with retry/successor predecessor bindings.
         #[arg(long)]
         input: PathBuf,
     },
@@ -1063,6 +1072,21 @@ fn run() -> Result<()> {
                     cockpit_repository::record_work_item_governance_controls(&repo, &id, &controls)
                         .context("record Work Item governance controls")?;
                 println!("{}", serde_json::to_string_pretty(&summary)?);
+            }
+            WorkItemCommand::Recover { repo, id, input } => {
+                require_compatible(&repo, &runtime_context)?;
+                let receipt: serde_json::Value = serde_json::from_slice(
+                    &std::fs::read(&input).context("read recovery decision receipt")?,
+                )
+                .context("parse recovery decision receipt")?;
+                let receipt = cockpit_repository::record_recovery_decision(
+                    &repo,
+                    &id,
+                    &receipt,
+                    &runtime_context,
+                )
+                .context("record Work Item recovery decision")?;
+                println!("{}", serde_json::to_string_pretty(&receipt)?);
             }
             WorkItemCommand::Boundary { repo, id, file } => {
                 require_compatible(&repo, &runtime_context)?;

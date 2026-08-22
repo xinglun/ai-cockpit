@@ -24,7 +24,7 @@ capabilityClaims:
 | 准备 | `attach`、`profile confirm`、`profile propose` | 创建/更新协议状态、确认 profile，或输出只读候选。 |
 | 迁移 | `migrate apply --approved` | 只应用经过审查的 repository schema migration，并写入绑定 Runtime 的 migration receipt。 |
 | 治理 | `preflight` | 读取 Contract，返回 green/yellow/red decision 与 `reviewState`；不完整或不确定的 Contract 为需人工确认的 yellow，不能越过 checkpoint。 |
-| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls` | 读取请求级状态投影或写入显式生命周期记录；`close` 要求 human decision。 |
+| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`recover` | 读取请求级状态投影或写入显式生命周期记录；`close` 和 recovery 都要求显式 human decision。 |
 | 并行 Work Item | `work-item boundary`、`work-item declare`、`work-item slot acquire|release|list` | 绑定 Contract 并行路径并管理 repository-local slot；unknown 时序列化。 |
 | Verification | `verify` | 执行有界命令、记录 evidence，并可绑定 Work Item。 |
 | 外部 evidence | `evidence import`、`evidence list`、`evidence policy`、`evidence purge-plan` | 将精确 provider bytes 绑定到 Work Item，声明有界持久化策略，或生成确定性的非破坏性处置计划。 |
@@ -53,6 +53,7 @@ capabilityClaims:
 - `work-item status --repo <path> --id <id>` 是只读命令，输出生命周期、治理状态、活动健康、事实计数、阻塞项、未知项、evidence 和 source digest；不会调度任务，也不会臆造百分比。
 - `work-item validate --repo <path> --id <id> [--json]` 只读统一检查 Contract/Summary 的 scenario coverage、stable acceptance evidence、intent alignment 和可选最终维度 receipt。
   `work-item controls --repo <path> --id <id> --input <json>` 只记录显式提供的 projection 字段（包括绑定 identity 的 `decisionEvidence` review receipt），不能改变生命周期状态、Contract facts 或 verification receipt。
+- `work-item recover --repo <path> --id <id> --input <receipt.json>` 记录绑定 identity 的 `retry` 或 `successor` decision。receipt 必须绑定 predecessor 的 Contract、Summary、Outcome 以及存在时的 event digest，并绑定当前 Runtime identity。既有 receipt 永不覆盖，后续 decision 使用 digest 后缀文件；recovery receipt 不会让 verification 自动变绿，也不会静默重写 predecessor。
 - `profile propose --repo <path>` 只读输出 `candidate`/`proposed` amendment，不会应用 profile baseline 修改。
 - `agent list --repo <path>` 是只读操作；`agent install` 是唯一正常的 adapter 写入口，必须指定
   `--provider`（`auto` 只有在恰好一个无歧义安全 surface 时可用；`AGENTS.md` 默认选择 Codex）。`agent doctor --repo <path> --json`

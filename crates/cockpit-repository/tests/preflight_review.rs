@@ -110,6 +110,64 @@ fn valid_preflight_decision_evidence_is_persisted_and_bound() {
 }
 
 #[test]
+fn refreshed_preflight_decision_is_append_only_after_snapshot_change() {
+    let directory = repository();
+    let first = receipt(&directory);
+    record_work_item_governance_controls(
+        directory.path(),
+        "WI-PREFLIGHT",
+        &serde_json::json!({"decisionEvidence": first.clone()}),
+    )
+    .expect("first receipt");
+
+    fs::write(
+        directory.path().join("reviewed-after.rs"),
+        b"fresh snapshot\n",
+    )
+    .unwrap();
+    let contract = directory
+        .path()
+        .join(".ai/work-items/active/WI-PREFLIGHT.contract.json");
+    preflight_work_item(directory.path(), &contract).expect("refresh preflight");
+    let second = receipt(&directory);
+    assert_ne!(
+        first["repositorySnapshotDigest"],
+        second["repositorySnapshotDigest"]
+    );
+    record_work_item_governance_controls(
+        directory.path(),
+        "WI-PREFLIGHT",
+        &serde_json::json!({"decisionEvidence": second.clone()}),
+    )
+    .expect("fresh receipt must be appended, not overwrite history");
+
+    let decisions = directory.path().join(".ai/decisions");
+    assert!(
+        decisions
+            .join("WI-PREFLIGHT.preflight-review.json")
+            .is_file()
+    );
+    let versioned = fs::read_dir(&decisions)
+        .unwrap()
+        .flatten()
+        .map(|entry| entry.path())
+        .find(|path| {
+            path.file_name()
+                .and_then(|name| name.to_str())
+                .is_some_and(|name| {
+                    name.starts_with("WI-PREFLIGHT.preflight-review.")
+                        && name.ends_with(".json")
+                        && name != "WI-PREFLIGHT.preflight-review.json"
+                })
+        })
+        .expect("versioned receipt");
+    assert_eq!(
+        serde_json::from_slice::<serde_json::Value>(&fs::read(versioned).unwrap()).unwrap(),
+        second
+    );
+}
+
+#[test]
 fn foreign_or_stale_preflight_decision_evidence_is_rejected_without_writes() {
     let directory = repository();
     let mut value = receipt(&directory);
@@ -222,7 +280,7 @@ fn existing_preflight_decision_symlink_is_never_replaced() {
         &serde_json::json!({"decisionEvidence": receipt(&directory)}),
     )
     .expect_err("symlink destination must fail closed");
-    assert!(error.to_string().contains("already exists"));
+    assert!(error.to_string().contains("symlink"));
     assert!(
         fs::symlink_metadata(&decision_path)
             .unwrap()
