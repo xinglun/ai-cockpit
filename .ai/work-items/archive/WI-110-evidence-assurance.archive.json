@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T03:38:05Z",
+  "files": {
+    "contractDigest": "sha256:cc2708d00efbb3d854ea7ae0be6065240ae9dd7d2f0fc08e295c44719294b060",
+    "contractPath": ".ai/work-items/archive/WI-110-evidence-assurance.contract.json",
+    "outcomeDigest": "sha256:981fa405c049f407783e8a3208f2c483af4d9160e0981ea8bc33872e4d818ff9",
+    "outcomePath": ".ai/work-items/archive/WI-110-evidence-assurance.outcome.json",
+    "summaryDigest": "sha256:5e00148c9338b07d16679458fedc3cccef54616fbb532bc379cbda75328a63c9",
+    "summaryPath": ".ai/work-items/archive/WI-110-evidence-assurance.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-110-evidence-assurance"
+}

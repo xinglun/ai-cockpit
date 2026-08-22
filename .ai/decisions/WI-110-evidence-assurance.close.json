@@ -1,0 +1,19 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "confirmed",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "codex",
+    "authoritySource": "repository-owner",
+    "decidedAt": "2026-08-22T03:38:12Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-110-evidence-assurance.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "Strict evidence assurance implementation verified by installed Runtime and full workspace tests.",
+    "resumeCondition": "Reopen if hosted CI or review finds a regression."
+  },
+  "timestamp": "2026-08-22T03:38:12Z",
+  "workItemId": "WI-110-evidence-assurance"
+}

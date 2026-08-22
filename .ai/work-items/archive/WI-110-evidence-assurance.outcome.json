@@ -1,0 +1,46 @@
+{
+  "acceptanceResults": [
+    "New verification evidence uses a strict schema and unknown top-level/nested fields fail closed",
+    "Missing nested receipt identity and malformed receipt cannot produce green outcome or pass current lifecycle",
+    "CLI current Runtime identity is required for finish/archive/close/outcome and foreign runtime evidence fails closed",
+    "Legacy historical evidence remains immutable and outcome explains it is not revalidated rather than claiming a current red failure",
+    "Regression tests cover foreign runtime",
+    " missing identity",
+    " unknown fields",
+    " malformed and legacy evidence",
+    "English",
+    " Simplified Chinese",
+    " and Japanese documentation state the assurance and legacy boundary"
+  ],
+  "createdAt": "2026-08-22T03:37:54Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:9a3872218c68bf616caef36a63374a33839a41b69a5c15d4ee6cedd2b3fbcae6",
+  "evidenceRefs": [
+    ".ai/evidence/WI-110-evidence-assurance.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-110-evidence-assurance.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-110-evidence-assurance.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-110-evidence-assurance"
+}
