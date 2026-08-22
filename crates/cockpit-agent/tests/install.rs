@@ -65,6 +65,13 @@ fn install_creates_only_owned_managed_section() {
     assert!(content.starts_with("user instructions\n"));
     assert!(content.contains("AI_COCKPIT_ADAPTER_BEGIN"));
     assert!(content.contains("Do not infer AI Cockpit state from this file."));
+    assert!(content.contains("Read .ai/README.md before acting"));
+    assert!(
+        content.contains("Every repository-bound command must include an explicit --repo <path>.")
+    );
+    assert!(content.contains(
+        "start or work-item new → preflight → checkpoint → verify → finish → archive → close."
+    ));
     assert!(content.contains("AI_COCKPIT_ADAPTER_END"));
     assert_eq!(
         fs::read(repository.path().join(".ai/cockpit.toml")).expect("config"),

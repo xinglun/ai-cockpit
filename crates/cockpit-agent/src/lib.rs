@@ -841,7 +841,7 @@ fn managed_section<'a>(text: &'a str, path: &Path) -> Result<Option<&'a str>, Ag
 
 fn managed_block(provider: &AgentProvider, repository_id: &str) -> String {
     format!(
-        "<!-- AI_COCKPIT_ADAPTER_BEGIN provider={} adapterVersion=1 repositoryId={} -->\n\nThis repository is attached to AI Cockpit.\n\nCanonical interface: .ai/agent-interface.json\n\nUse AI Cockpit as the repository-governance interface.\nPrefer MCP when available; CLI remains the fallback.\n\nDo not infer AI Cockpit state from this file.\nQuery the Runtime for current governance state.\n\n{}\n",
+        "<!-- AI_COCKPIT_ADAPTER_BEGIN provider={} adapterVersion=1 repositoryId={} -->\n\nThis repository is attached to AI Cockpit.\n\nCanonical interface: .ai/agent-interface.json\nRead .ai/README.md before acting; it is the repository-local Agent route.\n\nUse AI Cockpit as the repository-governance interface.\nEvery repository-bound command must include an explicit --repo <path>.\nPrefer MCP when available; CLI remains the fallback.\n\nBefore changing files, query inspect, status, doctor, and agent doctor.\nFor authorized changes use: start or work-item new → preflight → checkpoint → verify → finish → archive → close.\nKeep Contract intent, scope, acceptance criteria, and authority human-owned; never edit global Agent or MCP configuration.\n\nDo not infer AI Cockpit state from this file.\nQuery the Runtime for current governance state.\n\n{}\n",
         provider_name(provider),
         repository_id,
         ADAPTER_END_MARKER

@@ -154,6 +154,10 @@ ai-cockpit agent detach --repo /path/to/repository --provider codex
 Discovery、adapter 安装、连接、验证和合规是不同状态。MCP 是可选能力；CLI 在没有 MCP 时仍可用，
 这些命令不会修改 provider 的全局配置。
 
+managed section 会把 Agent 指向 `.ai/README.md`，它是 repository-local 的规范使用交接说明。
+每个 repository-bound 命令都必须显式带 `--repo`，并遵循受治理的生命周期；它不会授予 provider
+权限，也不会配置全局 MCP endpoint。
+
 ### 创建 Work Item 骨架
 
 在人类决定尚未准备好时使用 scaffold：

@@ -167,6 +167,11 @@ Discovery, adapter installation, connection, verification, and compliance are
 separate states. MCP is optional; the CLI remains usable without it, and no
 provider-global configuration is changed by these commands.
 
+The managed section points the Agent to `.ai/README.md`, the canonical
+repository-local usage handoff. It requires an explicit `--repo` on every
+repository-bound command and names the governed lifecycle; it does not grant
+provider authorization or configure a global MCP endpoint.
+
 ### Create a Work Item skeleton
 
 Use the scaffold when the human decision is not ready yet:

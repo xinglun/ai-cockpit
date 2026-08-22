@@ -155,6 +155,10 @@ ai-cockpit agent detach --repo /path/to/repository --provider codex
 Discovery、adapter install、connection、verification、compliance は別の state です。MCP は optional であり、
 CLI は MCP なしでも使用できます。これらの command は provider の global configuration を変更しません。
 
+managed section は Agent を `.ai/README.md` に案内します。ここが repository-local の canonical な
+利用 handoff であり、すべての repository-bound command に明示的な `--repo` を要求し、governed
+lifecycle を示します。provider authorization や global MCP endpoint は設定しません。
+
 ### Work Item skeleton を作る
 
 人間の判断がまだ準備できていない場合は scaffold を使います。

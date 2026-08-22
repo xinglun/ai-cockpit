@@ -1,0 +1,38 @@
+{
+  "acceptanceCriteria": [
+    "the repository-owned Agent managed section points the Agent to .ai/README.md before it acts",
+    "the managed handoff states that every repository-bound command needs explicit --repo and that Runtime state is repository-local",
+    "the handoff names the attach, inspect/status/doctor, work-item scaffold, and lifecycle route without injecting provider authorization or global configuration",
+    "install, doctor, detach, and repeated install remain byte-stable and preserve unrelated user content",
+    "Codex-facing tests verify the handoff is visible in English while localized Outcome presentation remains unchanged",
+    "the change does not modify global Agent or MCP configuration"
+  ],
+  "authority": "authorized",
+  "baseRevision": "48c69580eee914e04b60e911898506e85b3a0414",
+  "createdAt": "2026-08-22T01:20:26Z",
+  "goal": "Make the repository-local Agent discovery handoff actionable immediately after installation.",
+  "intent": "Extend the owned managed section with a pointer to the canonical .ai/README.md route and explicit repository-bound lifecycle rules.",
+  "mode": "code",
+  "outOfScope": [
+    "global Agent or MCP configuration",
+    "provider-specific authorization decisions",
+    "automatic installation during attach",
+    "Runtime governance semantics outside the managed handoff"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4007b4a3bbf3318d2f2fc540c7cddabfe3647c952412e8c70be0c5718a991e9c",
+  "requiredEvidenceClasses": [],
+  "risk": "medium",
+  "scope": [
+    "crates/cockpit-agent/src/lib.rs",
+    "crates/cockpit-agent/tests/**",
+    "docs/capabilities.md",
+    "docs/capabilities.zh-CN.md",
+    "docs/capabilities.ja.md",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-100-agent-usage-handoff"
+}
