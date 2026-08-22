@@ -131,6 +131,7 @@ source_before_status=''
 source_after_status=''
 runtime_bin=''
 rustup_home=''
+rustup_toolchain=''
 cleanup_state=not_started
 cleanup_removed=false
 cleanup_validated=false
@@ -139,6 +140,15 @@ if rustup_home="$(printenv RUSTUP_HOME)"; then :; fi
 if [[ -z "$rustup_home" ]] && command -v rustup >/dev/null 2>&1; then
   if rustup_home="$(rustup show home 2>/dev/null)"; then :; fi
 fi
+if command -v rustup >/dev/null 2>&1; then
+  set +e
+  rustup_toolchain="$(rustup show active-toolchain 2>/dev/null | awk 'NR == 1 {print $1}')"
+  rustup_toolchain_status=$?
+  set -e
+  if [[ "$rustup_toolchain_status" -ne 0 ]]; then rustup_toolchain=''; fi
+fi
+[[ -n "$rustup_home" && -d "$rustup_home" ]] || die 'RUSTUP_HOME could not be resolved; refusing implicit toolchain download'
+[[ -n "$rustup_toolchain" ]] || die 'active Rust toolchain could not be resolved; refusing implicit toolchain download'
 
 record_step() {
   local name=$1
@@ -239,7 +249,12 @@ update_acceptance_cleanup() {
   if jq \
     --arg state "$cleanup_state" \
     --arg reason "$cleanup_reason" \
-    '.cleanupState = $state | .cleanupError = (if $state == "failed" then $reason else null end)' \
+    '.cleanupState = $state
+     | .cleanupError = (if $state == "failed" then $reason else null end)
+     | if $state == "failed" then
+         .adopterAcceptance = "failed"
+         | .failureReason = (if (.failureReason == null or .failureReason == "") then ("cleanup failed: " + $reason) else .failureReason end)
+       else . end' \
     "$output/acceptance.json" > "$updated" && mv -f -- "$updated" "$output/acceptance.json"; then
     return 0
   fi
@@ -271,6 +286,7 @@ finalize() {
     --arg target "$target" \
     --arg runtimeVersion "$runtime_version" \
     --arg runtimeDigest "$runtime_digest" \
+    --arg rustToolchain "$rustup_toolchain" \
     --arg repositoryId "$repository_id" \
     --arg sourceRepositoryId "$source_repository_id" \
     --arg failureReason "$failure_reason" \
@@ -284,6 +300,7 @@ finalize() {
       repository: $repository,
       tag: $tag,
       target: $target,
+      rustToolchain: (if $rustToolchain == "" then null else $rustToolchain end),
       runtimeVersion: (if $runtimeVersion == "" then null else $runtimeVersion end),
       runtimeDigest: (if $runtimeDigest == "" then null else $runtimeDigest end),
       repositoryId: (if $repositoryId == "" then null else $repositoryId end),
@@ -295,12 +312,16 @@ finalize() {
     }' > "$output/acceptance.json"
   write_sums
   cleanup_run_root
+  cleanup_result=$?
   update_acceptance_cleanup
+  acceptance_update_result=$?
   write_cleanup_receipt
   write_sums
   if [[ "$cleanup_state" == failed ]]; then
-    printf 'adopter acceptance cleanup warning: %s\n' "$cleanup_reason" >&2
+    printf 'adopter acceptance cleanup failed: %s\n' "$cleanup_reason" >&2
+    [[ "$exit_code" -ne 0 ]] || exit_code=1
   fi
+  [[ "$acceptance_update_result" -eq 0 ]] || exit_code=1
   exit "$exit_code"
 }
 trap finalize EXIT
@@ -320,6 +341,7 @@ capture_runtime() {
     TMPDIR="$isolated_tmp" \
     CARGO_HOME="$isolated_cargo" \
     RUSTUP_HOME="$rustup_home" \
+    RUSTUP_TOOLCHAIN="$rustup_toolchain" \
     PATH="$PATH" \
     LANG=C \
     LC_ALL=C \
@@ -411,9 +433,9 @@ source_before_status="$(git -C "$source_repo" status --porcelain=v1)"
 if [[ -e "$source_repo/.ai" ]]; then source_ai_state=present; else source_ai_state=absent; fi
 source_repository_id=''
 if source_repository_id="$(jq -er '.repositoryId' "$source_repo/.ai/project.json" 2>/dev/null)"; then :; fi
-env -i HOME="$isolated_home" XDG_CONFIG_HOME="$isolated_xdg" TMPDIR="$isolated_tmp" CARGO_HOME="$isolated_cargo" RUSTUP_HOME="$rustup_home" PATH="$PATH" LANG=C LC_ALL=C cargo new --lib --vcs none "$adopter_root" >/dev/null
+env -i HOME="$isolated_home" XDG_CONFIG_HOME="$isolated_xdg" TMPDIR="$isolated_tmp" CARGO_HOME="$isolated_cargo" RUSTUP_HOME="$rustup_home" RUSTUP_TOOLCHAIN="$rustup_toolchain" PATH="$PATH" LANG=C LC_ALL=C cargo new --lib --vcs none "$adopter_root" >/dev/null
 printf 'target/\n' > "$adopter_root/.gitignore"
-env -i HOME="$isolated_home" XDG_CONFIG_HOME="$isolated_xdg" TMPDIR="$isolated_tmp" CARGO_HOME="$isolated_cargo" RUSTUP_HOME="$rustup_home" PATH="$PATH" LANG=C LC_ALL=C cargo generate-lockfile --manifest-path "$adopter_root/Cargo.toml" >/dev/null
+env -i HOME="$isolated_home" XDG_CONFIG_HOME="$isolated_xdg" TMPDIR="$isolated_tmp" CARGO_HOME="$isolated_cargo" RUSTUP_HOME="$rustup_home" RUSTUP_TOOLCHAIN="$rustup_toolchain" PATH="$PATH" LANG=C LC_ALL=C cargo generate-lockfile --manifest-path "$adopter_root/Cargo.toml" >/dev/null
 git -C "$adopter_root" init -q
 git -C "$adopter_root" config user.name 'AI Cockpit Release Acceptance'
 git -C "$adopter_root" config user.email 'ai-cockpit-release-acceptance@example.invalid'

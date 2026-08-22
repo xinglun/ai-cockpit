@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T07:12:49Z",
+  "files": {
+    "contractDigest": "sha256:c8935eae6755655ca889c0f45b41e36514c769882f59698840fb8011b9ca7fd8",
+    "contractPath": ".ai/work-items/archive/WI-118-release-toolchain-corrective.contract.json",
+    "outcomeDigest": "sha256:e160c59a17ce023879bf616dc6e5316546fcdf367b31c7e0dfa798321bb1b34e",
+    "outcomePath": ".ai/work-items/archive/WI-118-release-toolchain-corrective.outcome.json",
+    "summaryDigest": "sha256:7b9ff47ec7a5ff6bece229f4a42914d6fb7b1d4653cc8f1e4c1e2526926b8528",
+    "summaryPath": ".ai/work-items/archive/WI-118-release-toolchain-corrective.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-118-release-toolchain-corrective"
+}

@@ -1,0 +1,41 @@
+{
+  "acceptanceResults": [
+    "Public adopter binds active host toolchain without implicit rustup download",
+    "N-1 adopter binds active host toolchain without implicit rustup download",
+    "Cleanup failure returns nonzero and cannot report a passing acceptance",
+    "releasePublished remains true when post-release cleanup fails",
+    "Static tests cover cleanup and toolchain safeguards",
+    "Documentation is synchronized in all three languages"
+  ],
+  "createdAt": "2026-08-22T07:12:49Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:110bb87095bae57200914b7a0e16da208292fab7afddde1bba566bc7ba174c6b",
+  "evidenceRefs": [
+    ".ai/evidence/WI-118-release-toolchain-corrective.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-118-release-toolchain-corrective.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-118-release-toolchain-corrective.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-118-release-toolchain-corrective"
+}

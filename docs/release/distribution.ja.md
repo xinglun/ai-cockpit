@@ -129,12 +129,17 @@ attach/profile/Agent doctor、`first-adopter-smoke` の `not_ready`、Work Item 
 `releasePublished: true` と `adopterAcceptance: failed` を記録し、公開済み Release を書き換えません。second technology stack は別の Work Item です。
 
 receipt の出力を確定した後、success、failure、interrupt のすべての経路で、検証済みの一時 `run_root` だけを削除します。
-`cleanup.json` と `acceptance.json` の `cleanupState` / `cleanupError` が結果を記録し、cleanup failure が acceptance truth を変更することはありません。
+`cleanup.json` と `acceptance.json` の `cleanupState` / `cleanupError` が結果を記録します。cleanup failure は
+fail closed とし、プロセスは non-zero で終了して receipt は `adopterAcceptance: failed` になりますが、
+`releasePublished` は true のまま維持し、公開済み Release を未公開に書き戻しません。
 target と platform は明示的に保持し、target として Linux x86_64 を選んだ場合も同じ基準で検証します。
 
 isolation receipt には file、directory、symlink、metadata、digest の typed before/after manifest を含めます。
 HOME と XDG_CONFIG_HOME は write forbidden root、TMPDIR と CARGO_HOME は allowed Runtime-write root として
 明示的に分類され、global configuration write と取り違えないよう記録します。
+
+公開と N-1 の両 harness は隔離環境に入る前に host の `RUSTUP_HOME` と active toolchain を解決し、
+`RUSTUP_TOOLCHAIN` を明示的に渡します。解決できない場合は暗黙の Rust toolchain download を拒否します。
 
 Release 後に configuration や documentation の version が取り残されないように、release workflow は
 Cargo metadata から current version を解決し、`tests/release/version_consistency.sh` を実行します。

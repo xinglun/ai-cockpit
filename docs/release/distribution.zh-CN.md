@@ -95,12 +95,17 @@ attach/profile/Agent doctor，保持 `first-adopter-smoke` 为 `not_ready`，验
 `releasePublished: true` 和 `adopterAcceptance: failed`，不会重写已发布的 Release。第二技术栈覆盖属于后续独立 Work Item。
 
 在验收 receipt 输出最终确定后，成功、失败和中断路径都会只清理经过校验的临时 `run_root`。
-`cleanup.json` 以及 `acceptance.json` 中的 `cleanupState` / `cleanupError` 记录清理结果；清理失败不会改写验收 truth。
+`cleanup.json` 以及 `acceptance.json` 中的 `cleanupState` / `cleanupError` 记录清理结果。清理失败时必须
+fail closed：进程以非零状态结束，receipt 变为 `adopterAcceptance: failed`，但 `releasePublished` 保持
+`true`，不会把已发布的 Release 改写为未发布。
 target 与 platform 始终显式记录；选择 Linux x86_64 target 时也遵循同一验收基线。
 
 隔离 receipt 包含文件、目录、symlink、metadata 与 digest 的 typed before/after manifest。HOME 和
 XDG_CONFIG_HOME 是禁止写入的 root；TMPDIR 与 CARGO_HOME 明确分类为允许 Runtime 写入的 root，相关写入
 会被记录，不会被误认为全局配置写入。
+
+公开和 N-1 harness 都会在进入隔离环境前解析宿主机的 `RUSTUP_HOME` 与 active toolchain，显式传入
+`RUSTUP_TOOLCHAIN`；无法解析时拒绝隐式下载 Rust toolchain。
 
 为避免发布后遗漏配置或文档版本，release workflow 会从 Cargo metadata 推导当前版本，并运行
 `tests/release/version_consistency.sh`。source check 会校验三种语言的入口和当前 archive 示例，
