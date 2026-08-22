@@ -134,6 +134,8 @@ fail closed とし、プロセスは non-zero で終了して receipt は `adopt
 `releasePublished` は true のまま維持し、公開済み Release を未公開に書き戻しません。
 target と platform は明示的に保持し、target として Linux x86_64 を選んだ場合も同じ基準で検証します。
 
+N-1 harness は upgrade acceptance と cleanup の両方が成功した場合だけ zero を返し、未設定の exit status を成功として扱いません。
+
 isolation receipt には file、directory、symlink、metadata、digest の typed before/after manifest を含めます。
 HOME と XDG_CONFIG_HOME は write forbidden root、TMPDIR と CARGO_HOME は allowed Runtime-write root として
 明示的に分類され、global configuration write と取り違えないよう記録します。

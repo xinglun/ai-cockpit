@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T10:24:58Z",
+  "files": {
+    "contractDigest": "sha256:c9e540a2ca90699494c7666381b3a8044c8b45187454f3b0afa9b44e62334ecb",
+    "contractPath": ".ai/work-items/archive/WI-128-release-acceptance-cleanup.contract.json",
+    "outcomeDigest": "sha256:2ad1a036ca2131721bc2fad98eed2acba79c2818371e48c93c2dc0cd058775a8",
+    "outcomePath": ".ai/work-items/archive/WI-128-release-acceptance-cleanup.outcome.json",
+    "summaryDigest": "sha256:00a087c5f38d3b31c2c442c162fac7dbbb613d55f9662c7d1a4801a451e66f12",
+    "summaryPath": ".ai/work-items/archive/WI-128-release-acceptance-cleanup.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-128-release-acceptance-cleanup"
+}
