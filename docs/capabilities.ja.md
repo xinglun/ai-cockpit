@@ -313,7 +313,7 @@ ai-cockpit mcp --repo /path/to/repository
 ```
 
 `status`、`work_item_get`、`work_item_outcome`、`work_item_list`、`blockers`、`safe_actions`、`knowledge_query`、
-`evidence_get`、`repository_observe`、`preflight`、`verify` の 10 tools を提供します。
+`evidence_get`、`delegated_evidence_list`、`repository_observe`、`preflight`、`verify` の 12 tools を提供します。
 `tools/list` で JSON-RPC schema を確認できます。`preflight` は repository-relative `contract`、
 `verify` は `command`、string array の `args`、optional `workItemId` を受け取ります。repository
 binding のない call は fail closed です。result には `structuredContent`、text content、`isError`

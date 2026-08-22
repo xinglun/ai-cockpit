@@ -40,7 +40,7 @@ The matrix uses exactly four states:
 | Work Item lifecycle and governance decisions | Partial | The core lifecycle and human decision records exist; the reference's broader status, cost, and recovery projections are not all exposed as one adopter interface. |
 | Bounded verification and fail-closed evidence reuse | Implemented | Runtime identity, snapshot/toolchain/environment bindings, receipts, and fail-closed validation are recorded. |
 | MCP repository binding | Implemented | Repository-bound stdio MCP exposes the same governed services with explicit binding. |
-| Human-facing MCP projection | External boundary | MCP emits structured content; an Agent or conversation layer renders the human handoff and preserves unknowns and decision boundaries. |
+| Human-facing MCP projection | Implemented | Runtime validates OutcomeV2 and emits the localized `humanHandoff`; the Agent or conversation layer chooses, displays, and passes it on without treating presentation as governance authority. |
 | Public Release and fresh-adopter acceptance | Partial | The complete v0.2.8 post-release adopter baseline runs on `x86_64-unknown-linux-gnu`; the other targets have build/smoke evidence, not the full lifecycle. |
 | Second-technology-stack adopter acceptance | Deferred | The current harness uses a Cargo adopter; a separate technology stack remains future work. |
 | Runtime-only upgrade versus repository migration | Implemented | Compatibility checks and explicit migration preserve historical records and bind Runtime identity. |

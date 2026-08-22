@@ -88,6 +88,42 @@ for path, phrase in boundary_phrases.items():
     if phrase not in path.read_text(encoding='utf-8'):
         missing.append(f'{path}: missing explicit boundary statement: {phrase}')
 
+# Keep the user-facing command/capability inventory synchronized with the
+# actual Runtime surfaces.  This is intentionally a small static contract:
+# the MCP implementation remains the source of truth for the tool names, while
+# the three language pages must expose every name and the CLI reference must
+# expose every top-level read-only diagnostic entry.
+mcp_docs = [Path('docs/capabilities.md'), Path('docs/capabilities.zh-CN.md'), Path('docs/capabilities.ja.md')]
+for path in mcp_docs:
+    text = path.read_text(encoding='utf-8')
+    for tool in ('status', 'work_item_get', 'work_item_outcome', 'work_item_list',
+                 'blockers', 'safe_actions', 'knowledge_query', 'evidence_get',
+                 'delegated_evidence_list', 'repository_observe', 'preflight', 'verify'):
+        if f'`{tool}`' not in text:
+            missing.append(f'{path}: MCP tool inventory omits {tool}')
+
+for path in [Path('docs/reference/commands.md'), Path('docs/reference/commands.zh-CN.md'), Path('docs/reference/commands.ja.md')]:
+    text = path.read_text(encoding='utf-8')
+    for command in ('capability show', 'diagnose'):
+        if f'`{command}`' not in text:
+            missing.append(f'{path}: CLI command inventory omits {command}')
+
+for path in [Path('docs/release/distribution.md'), Path('docs/release/distribution.zh-CN.md'), Path('docs/release/distribution.ja.md')]:
+    text = path.read_text(encoding='utf-8')
+    if 'x86_64-unknown-linux-gnu' not in text:
+        missing.append(f'{path}: release acceptance baseline target is missing')
+    acceptance_calls = re.findall(
+        r'tests/release/adopter(?:_upgrade)?_acceptance\.sh[\s\S]*?--target\s+([^\s]+)',
+        text,
+    )
+    if not acceptance_calls or any(target != 'x86_64-unknown-linux-gnu' for target in acceptance_calls):
+        missing.append(f'{path}: acceptance example target must match the documented complete baseline')
+
+for path in [Path('docs/reference/reference-parity.md'), Path('docs/reference/reference-parity.zh-CN.md'), Path('docs/reference/reference-parity.ja.md')]:
+    text = path.read_text(encoding='utf-8')
+    if 'humanHandoff' not in text or 'Implemented' not in text and '已实现' not in text:
+        missing.append(f'{path}: human-facing MCP projection status is stale')
+
 for phrase in ('WI-03 至 WI-38', 'WI-36 已在本地验收', 'WI-35 负责', 'internal progress plan', 'development checkout'):
     if phrase in public:
         missing.append(f'public documentation contains internal phrase: {phrase}')
