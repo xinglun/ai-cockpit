@@ -112,7 +112,8 @@ pub fn handle_request_for_repo(
         "work_item_list" => work_item_list(repo),
         "work_item_get" => work_item_get(repo, &arguments),
         "work_item_outcome" => {
-            require_compatible(repo, runtime).and_then(|_| work_item_outcome(repo, &arguments))
+            require_compatible(repo, runtime)
+                .and_then(|_| work_item_outcome(repo, &arguments, runtime))
         }
         "evidence_get" => evidence_get(repo, &arguments),
         "delegated_evidence_list" => {
@@ -380,14 +381,19 @@ fn work_item_get(repo: &Path, arguments: &Value) -> Result<Value, String> {
     Ok(Value::Object(result))
 }
 
-fn work_item_outcome(repo: &Path, arguments: &Value) -> Result<Value, String> {
+fn work_item_outcome(
+    repo: &Path,
+    arguments: &Value,
+    runtime: &cockpit_protocol::RuntimeContext,
+) -> Result<Value, String> {
     let id = arguments
         .get("workItemId")
         .or_else(|| arguments.get("id"))
         .and_then(Value::as_str)
         .ok_or("workItemId argument is required")?;
     validate_id(id)?;
-    let outcome = cockpit_repository::outcome_v2(repo, id).map_err(|error| error.to_string())?;
+    let outcome = cockpit_repository::outcome_v2_with_runtime(repo, id, runtime)
+        .map_err(|error| error.to_string())?;
     let language = requested_language(arguments);
     let handoff = cockpit_repository::render_human_outcome(repo, &outcome, language);
     Ok(json!({
