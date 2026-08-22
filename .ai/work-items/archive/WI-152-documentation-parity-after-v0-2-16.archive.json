@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-22T22:44:34Z",
+  "files": {
+    "contractDigest": "sha256:ea805f1adcfc1bbe5329075926935f83bd2f22fbb33142a841bcd3c5db722028",
+    "contractPath": ".ai/work-items/archive/WI-152-documentation-parity-after-v0-2-16.contract.json",
+    "eventsDigest": "sha256:39a9e491543ffe533f28f154b5e7fa7ecf67800fded20edee958ea9451460bb0",
+    "eventsPath": ".ai/work-items/archive/WI-152-documentation-parity-after-v0-2-16.events.jsonl",
+    "outcomeDigest": "sha256:5c35beb865b6454357db609dd1eaabeb9ed5d7a7d6335f19bd94f4958101a324",
+    "outcomePath": ".ai/work-items/archive/WI-152-documentation-parity-after-v0-2-16.outcome.json",
+    "summaryDigest": "sha256:288bc86922b379345d85e8fa08b88fa5912e4fcec4a2540d05a421ec47d721f1",
+    "summaryPath": ".ai/work-items/archive/WI-152-documentation-parity-after-v0-2-16.summary.json",
+    "taskReportDigest": "sha256:c13157b3855e24110c25b1695312c3673dc5bb622bcd4fe0551b09171b3b7aa4",
+    "taskReportMarkdownDigest": "sha256:a7ff24e2f5b5dbfb3eb54da3316943fc30d91c65d6e04f05dc274ce96245bee6",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-152-documentation-parity-after-v0-2-16.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-152-documentation-parity-after-v0-2-16.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-152-documentation-parity-after-v0-2-16"
+}

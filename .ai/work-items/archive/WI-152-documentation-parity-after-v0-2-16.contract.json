@@ -1,0 +1,42 @@
+{
+  "acceptanceCriteria": [
+    "WI-150 and WI-151 each have synchronized English Japanese and Simplified Chinese reader-facing Work Item pages",
+    "All three reference-parity pages list WI-150 release baseline and WI-151 post-release self-governance with accurate evidence and release boundary links",
+    "Documentation acceptance and link/navigation checks pass without changing runtime behavior or historical archive bytes"
+  ],
+  "authority": "authorized",
+  "baseRevision": "3685bc1e3038254a89c79ea381b89005d1fd3945",
+  "createdAt": "2026-08-22T22:41:03Z",
+  "goal": "Add tri-language Work Item pages for WI-150 and WI-151 and reference-parity rows that link to their evidence and explain the release/self-governance boundary.",
+  "intent": "Restore the reader-facing and reference-parity documentation projection for the completed v0.2.16 release and post-release self-governance acceptance without rewriting immutable Work Item archives.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime source and protocol semantics",
+    "Historical archive and evidence bytes",
+    "Global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3df4b801824ed6310768343291d5900c7037ca618de9ff088cac2c5fc7a4025e",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    ".ai/work-items/active/**",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-150-release-v0-2-16.md",
+    "docs/work-items/WI-150-release-v0-2-16.ja.md",
+    "docs/work-items/WI-150-release-v0-2-16.zh-CN.md",
+    "docs/work-items/WI-151-post-release-v0-2-16-self-governance.md",
+    "docs/work-items/WI-151-post-release-v0-2-16-self-governance.ja.md",
+    "docs/work-items/WI-151-post-release-v0-2-16-self-governance.zh-CN.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-152-documentation-parity-after-v0-2-16"
+}

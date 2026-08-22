@@ -95,6 +95,8 @@ record for each boundary.
 | WI-146 — Verification cost observation | Implemented | [Work Item](../work-items/WI-146-verification-cost-observation.md); [reference](verification-cost.md); `.ai/evidence/WI-146-verification-cost-observation.verification.json`; `.ai/decisions/WI-146-verification-cost-observation.close.json` |
 | WI-148 — Archived Outcome path projection | Implemented | [Work Item](../work-items/WI-148-outcome-archive-path.md); [reference](outcome-report.md); `.ai/evidence/WI-148-outcome-archive-path.verification.json`; `.ai/decisions/WI-148-outcome-archive-path.close.json` |
 | WI-149 — Structured release adopter decisions | Implemented | [Work Item](../work-items/WI-149-release-decision-acceptance.md); [release distribution](../release/distribution.md); `.ai/evidence/WI-149-release-decision-acceptance.verification.json`; `.ai/decisions/WI-149-release-decision-acceptance.close.json` |
+| WI-150 — v0.2.16 release baseline | Implemented | [Work Item](../work-items/WI-150-release-v0-2-16.md); [v0.2.16 Release](https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.16); `.ai/evidence/WI-150-release-v0-2-16.verification.json` |
+| WI-151 — v0.2.16 post-release self-governance acceptance | Implemented | [Work Item](../work-items/WI-151-post-release-v0-2-16-self-governance.md); `.ai/evidence/WI-151-post-release-v0-2-16-self-governance.verification.json`; `.ai/decisions/WI-151-post-release-v0-2-16-self-governance.close.json` |
 
 ## Current boundary
 

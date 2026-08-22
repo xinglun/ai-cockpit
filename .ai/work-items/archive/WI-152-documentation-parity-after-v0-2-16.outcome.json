@@ -1,0 +1,135 @@
+{
+  "acceptanceResults": [
+    "WI-150 and WI-151 each have synchronized English Japanese and Simplified Chinese reader-facing Work Item pages",
+    "All three reference-parity pages list WI-150 release baseline and WI-151 post-release self-governance with accurate evidence and release boundary links",
+    "Documentation acceptance and link/navigation checks pass without changing runtime behavior or historical archive bytes"
+  ],
+  "createdAt": "2026-08-22T22:44:31Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:e2e8e283ed454ff0ac8f22c18b0e35f4fccc5b02159c557f2bab64e32292fc54",
+  "evidenceRefs": [
+    ".ai/evidence/WI-152-documentation-parity-after-v0-2-16.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-152-documentation-parity-after-v0-2-16.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-152-documentation-parity-after-v0-2-16.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5ffe6728a9e65088e6b005c1367a8156bdece1a4670243c49e8db33d1697d790",
+      "workItemId": "WI-152-documentation-parity-after-v0-2-16"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-152-documentation-parity-after-v0-2-16.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-152-documentation-parity-after-v0-2-16.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-152-documentation-parity-after-v0-2-16.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-152-documentation-parity-after-v0-2-16.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-152-documentation-parity-after-v0-2-16.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-152-documentation-parity-after-v0-2-16.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-152-documentation-parity-after-v0-2-16.contract.json"
+          ],
+          "inference": false,
+          "text": "Add tri-language Work Item pages for WI-150 and WI-151 and reference-parity rows that link to their evidence and explain the release/self-governance boundary."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-152-documentation-parity-after-v0-2-16.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-152-documentation-parity-after-v0-2-16"
+  },
+  "taskReportDigest": "sha256:c13157b3855e24110c25b1695312c3673dc5bb622bcd4fe0551b09171b3b7aa4",
+  "taskReportMarkdownDigest": "sha256:a7ff24e2f5b5dbfb3eb54da3316943fc30d91c65d6e04f05dc274ce96245bee6",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-152-documentation-parity-after-v0-2-16.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-152-documentation-parity-after-v0-2-16"
+}

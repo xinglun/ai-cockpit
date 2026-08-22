@@ -89,6 +89,8 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-146——Verification 成本观测 | 已实现 | [Work Item](../work-items/WI-146-verification-cost-observation.zh-CN.md)；[参考文档](verification-cost.zh-CN.md)；`.ai/evidence/WI-146-verification-cost-observation.verification.json`；`.ai/decisions/WI-146-verification-cost-observation.close.json` |
 | WI-148——归档 Outcome 路径投影 | 已实现 | [Work Item](../work-items/WI-148-outcome-archive-path.zh-CN.md)；[参考文档](outcome-report.zh-CN.md)；`.ai/evidence/WI-148-outcome-archive-path.verification.json`；`.ai/decisions/WI-148-outcome-archive-path.close.json` |
 | WI-149——结构化发布 adopter 决定 | 已实现 | [Work Item](../work-items/WI-149-release-decision-acceptance.zh-CN.md)；[发布分发](../release/distribution.zh-CN.md)；`.ai/evidence/WI-149-release-decision-acceptance.verification.json`；`.ai/decisions/WI-149-release-decision-acceptance.close.json` |
+| WI-150——v0.2.16 发布基线 | 已实现 | [Work Item](../work-items/WI-150-release-v0-2-16.zh-CN.md)；[v0.2.16 Release](https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.16)；`.ai/evidence/WI-150-release-v0-2-16.verification.json` |
+| WI-151——v0.2.16 发布后自治理验收 | 已实现 | [Work Item](../work-items/WI-151-post-release-v0-2-16-self-governance.zh-CN.md)；`.ai/evidence/WI-151-post-release-v0-2-16-self-governance.verification.json`；`.ai/decisions/WI-151-post-release-v0-2-16-self-governance.close.json` |
 
 ## 当前边界
 
