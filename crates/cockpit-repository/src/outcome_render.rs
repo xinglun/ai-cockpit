@@ -4,6 +4,8 @@ use serde_json::Value;
 use std::fs;
 use std::path::Path;
 
+use crate::repository_id;
+
 /// Render the repository Outcome as an explicit, human-facing handoff.
 ///
 /// This is intentionally shared by the CLI and MCP adapters. The OutcomeV2
@@ -329,6 +331,12 @@ fn load_human_decision(root: &Path, work_item_id: &str) -> HumanDecisionProjecti
     if record.get("workItemId").and_then(Value::as_str) != Some(work_item_id) {
         return HumanDecisionProjection::Invalid(
             "decision record Work Item binding is missing or mismatched",
+        );
+    }
+    let expected_repository_id = repository_id(root).to_string();
+    if record.get("repositoryId").and_then(Value::as_str) != Some(expected_repository_id.as_str()) {
+        return HumanDecisionProjection::Invalid(
+            "decision record repository binding is missing or mismatched",
         );
     }
     if record.get("state").and_then(Value::as_str) != Some("closed") {

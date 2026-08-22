@@ -1,0 +1,54 @@
+{
+  "acceptanceResults": [
+    "retention policies require schemaVersion=1 and repositoryId/workItemId binding",
+    "embedded and standalone retention metadata must agree",
+    "foreign",
+    " missing",
+    " malformed",
+    " or unknown retention metadata fails closed in outcome",
+    " MCP",
+    " finish",
+    " archive",
+    " close",
+    " and purge paths",
+    "close receipts write repositoryId and status projection rejects missing or foreign decisions",
+    "three-language docs and regression tests cover valid",
+    " foreign",
+    " missing",
+    " malformed",
+    " unknown-field",
+    " legacy",
+    " and cross-repository cases"
+  ],
+  "createdAt": "2026-08-22T12:47:20Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:0fc42e52fc9180eab2ae37130b80c4309e257814c886836d0045648dd3b5866a",
+  "evidenceRefs": [
+    ".ai/evidence/WI-135-repository-bound-evidence.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-135-repository-bound-evidence.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-135-repository-bound-evidence.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-135-repository-bound-evidence"
+}

@@ -49,8 +49,8 @@ pre-v2 记录（以缺少 `evidenceSchemaVersion` 识别）会投影为黄色
 `legacy_evidence_historical`：它只是历史输入，不是当前失败，也不是新的绿色结果。
 v2 记录若缺少 identity 仍然显示红色。
 
-v2 envelope 的 `createdAt`、retention 的 `createdAt` 以及可选的 `expiresAt` 必须是
-RFC3339 时间戳。格式错误或语义无效的时间戳视为证据损坏，Outcome 显示红色，
+v2 envelope 的 `createdAt` 和 retention 的 `createdAt` 必须是 RFC3339 时间戳；可选的
+`expiresAt` 接受 RFC3339 或保留兼容性的 epoch seconds。格式错误或语义无效的时间戳视为证据损坏，Outcome 显示红色，
 `finish`、`archive`、`close` 会停止。该检查同时保护当前证据和 retention 元数据，
 但不会改写历史 bytes。
 

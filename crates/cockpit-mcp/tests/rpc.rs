@@ -152,6 +152,7 @@ fn mcp_work_item_outcome_returns_explicit_human_handoff_with_cli_parity() {
         directory.join(".ai/decisions/WI-MCP-HANDOFF.close.json"),
         serde_json::to_vec_pretty(&serde_json::json!({
             "workItemId": "WI-MCP-HANDOFF",
+            "repositoryId": cockpit_repository::repository_id(&directory).to_string(),
             "state": "closed",
             "decisionState": "confirmed",
             "humanDecision": "continue",

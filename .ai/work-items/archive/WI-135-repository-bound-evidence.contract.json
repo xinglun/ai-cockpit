@@ -1,0 +1,63 @@
+{
+  "acceptanceCriteria": [
+    "retention policies require schemaVersion=1 and repositoryId/workItemId binding",
+    "embedded and standalone retention metadata must agree",
+    "foreign",
+    " missing",
+    " malformed",
+    " or unknown retention metadata fails closed in outcome",
+    " MCP",
+    " finish",
+    " archive",
+    " close",
+    " and purge paths",
+    "close receipts write repositoryId and status projection rejects missing or foreign decisions",
+    "three-language docs and regression tests cover valid",
+    " foreign",
+    " missing",
+    " malformed",
+    " unknown-field",
+    " legacy",
+    " and cross-repository cases"
+  ],
+  "authority": "authorized",
+  "baseRevision": "0102802a9fc343f2a62ca9659e26edcb1ff2d53c",
+  "createdAt": "2026-08-22T12:33:27Z",
+  "goal": "Make retention and close evidence repository-bound and fail closed across every lifecycle and presentation path.",
+  "intent": "Prevent retention metadata and close receipts from being accepted when schema or repository/work-item identity is missing, foreign, or inconsistent.",
+  "mode": "implementation",
+  "outOfScope": [
+    "new Task Outcome sections or recovery state model",
+    "rewriting historical evidence bytes",
+    "global Agent",
+    " MCP",
+    " provider",
+    " or user configuration changes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8b9066262e64cbf62374920a6396f546b3c43ba4acb125eb3505252e709f3b4a",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "medium",
+  "scope": [
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "crates/cockpit-repository/tests/evidence_assurance.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "docs/reference/outcome-report.ja.md",
+    "docs/reference/outcome-report.md",
+    "docs/reference/outcome-report.zh-CN.md",
+    "docs/work-items/WI-135-repository-bound-evidence.en.md",
+    "docs/work-items/WI-135-repository-bound-evidence.ja.md",
+    "docs/work-items/WI-135-repository-bound-evidence.zh-CN.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-135-repository-bound-evidence"
+}
