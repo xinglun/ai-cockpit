@@ -1,0 +1,40 @@
+{
+  "acceptanceResults": [
+    "A1: The English Simplified Chinese and Japanese reference parity baselines list WI-126 with its Work Item documentation and verification evidence.",
+    "A2: Documentation acceptance requires every current implementation-baseline Work Item row including WI-126 and rejects omission.",
+    "A3: Three-language docs preserve the distinction between implemented status projection and deferred full adopter capability manifest.",
+    "A4: The Contract facts and archived evidence bytes of WI-126 remain unchanged.",
+    "A5: Documentation acceptance passes without modifying runtime behavior."
+  ],
+  "createdAt": "2026-08-22T10:13:04Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:837445b89d6f1fc4b59fbf58b64f5a87a551f29f2d1cf0887cbf79896d7b0e8c",
+  "evidenceRefs": [
+    ".ai/evidence/WI-127-docs-parity.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-127-docs-parity.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-127-docs-parity.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-127-docs-parity"
+}

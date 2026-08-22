@@ -72,6 +72,7 @@ verification record です。
 | WI-122 — Scenario、Acceptance、最終 dimensions | Implemented | [Work Item](../work-items/WI-122-scenarios-acceptance-final-dimensions.ja.md); `.ai/evidence/WI-122-scenarios-acceptance-final-dimensions.verification.json` |
 | WI-123 — Parallel Contract boundary と slot | Implemented | [Work Item](../work-items/WI-123-parallel-contract-boundary.ja.md); `.ai/evidence/WI-123-parallel-contract-boundary.verification.json` |
 | WI-125 — Contract V2 schema boundary | Implemented | [Work Item](../work-items/WI-125-contract-schema.ja.md); `.ai/evidence/WI-125-contract-schema.verification.json` |
+| WI-126 — Read-only status と human handoff | Implemented | [Work Item](../work-items/WI-126-status-outcome.ja.md); `.ai/evidence/WI-126-status-outcome.verification.json` |
 
 ## 現在の境界
 

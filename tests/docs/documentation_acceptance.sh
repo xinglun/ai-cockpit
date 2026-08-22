@@ -131,7 +131,7 @@ for path in [Path('docs/reference/reference-parity.md'), Path('docs/reference/re
     if 'humanHandoff' not in text or 'Implemented' not in text and '已实现' not in text:
         missing.append(f'{path}: human-facing MCP projection status is stale')
     parity_status = '已实现' if path.name.endswith('.zh-CN.md') else 'Implemented'
-    for work_item in ('WI-121', 'WI-122', 'WI-123', 'WI-125'):
+    for work_item in ('WI-121', 'WI-122', 'WI-123', 'WI-125', 'WI-126'):
         if work_item not in text:
             missing.append(f'{path}: current implementation baseline omits {work_item}')
     if parity_status not in text:

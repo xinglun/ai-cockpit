@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T10:13:04Z",
+  "files": {
+    "contractDigest": "sha256:540cbb58865cfab8279518d35f54cdab002858b797d168911964a9d046c88730",
+    "contractPath": ".ai/work-items/archive/WI-127-docs-parity.contract.json",
+    "outcomeDigest": "sha256:aa1198b5a9f0f782f891d26e038a8b21a9fd649898275701bb84e38f56cb94d2",
+    "outcomePath": ".ai/work-items/archive/WI-127-docs-parity.outcome.json",
+    "summaryDigest": "sha256:e2711f25fb6b1283a40a2b7add931b519ba06aba13442856f29c26f19e6b5711",
+    "summaryPath": ".ai/work-items/archive/WI-127-docs-parity.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-127-docs-parity"
+}

@@ -1,0 +1,48 @@
+{
+  "acceptanceCriteria": [
+    "A1: The English Simplified Chinese and Japanese reference parity baselines list WI-126 with its Work Item documentation and verification evidence.",
+    "A2: Documentation acceptance requires every current implementation-baseline Work Item row including WI-126 and rejects omission.",
+    "A3: Three-language docs preserve the distinction between implemented status projection and deferred full adopter capability manifest.",
+    "A4: The Contract facts and archived evidence bytes of WI-126 remain unchanged.",
+    "A5: Documentation acceptance passes without modifying runtime behavior."
+  ],
+  "authority": "authorized",
+  "baseRevision": "6f2980a25520e194f244c57830b9fd2570f8f6e3",
+  "createdAt": "2026-08-22T10:11:51Z",
+  "goal": "Prevent a merged implementation from being omitted from the documented reference parity baseline.",
+  "intent": "Restore the three-language reference parity and documentation acceptance baseline after WI-126.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime code",
+    "CLI or MCP behavior",
+    "Release adopter harness cleanup",
+    "Reference-source feature migration",
+    "Contract or evidence mutation"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0a6a87f9d7c103d981757b2fe2c0fe2a3194bdfa91005e5e03d25107c7557b35",
+  "requiredEvidenceClasses": ["verification"],
+  "risk": "normal",
+  "scope": [
+    ".ai/work-items/active/**",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "tests/docs/documentation_acceptance.sh",
+    "docs/work-items/**"
+  ],
+  "sources": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-126-status-outcome.md",
+    "docs/work-items/WI-126-status-outcome.zh-CN.md",
+    "docs/work-items/WI-126-status-outcome.ja.md",
+    "tests/docs/documentation_acceptance.sh"
+  ],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-127-docs-parity"
+}
