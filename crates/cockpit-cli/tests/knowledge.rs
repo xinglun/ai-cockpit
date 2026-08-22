@@ -51,6 +51,24 @@ fn knowledge_query_projects_archived_work_item_records_deterministically() {
         "stderr: {}",
         String::from_utf8_lossy(&start.stderr)
     );
+    let preflight = Command::new(binary)
+        .args(["preflight", "--repo"])
+        .arg(&directory)
+        .args(["--contract", ".ai/work-items/active/WI-K.contract.json"])
+        .output()
+        .expect("preflight");
+    assert!(preflight.status.success());
+    let checkpoint = Command::new(binary)
+        .args(["checkpoint", "--repo"])
+        .arg(&directory)
+        .args(["--id", "WI-K"])
+        .output()
+        .expect("checkpoint");
+    assert!(
+        checkpoint.status.success(),
+        "stderr: {}",
+        String::from_utf8_lossy(&checkpoint.stderr)
+    );
     let verify = Command::new(binary)
         .args(["verify", "--repo"])
         .arg(&directory)

@@ -436,6 +436,9 @@ fn repository_bound_verify_binds_evidence_after_command_side_effects() {
         },
     )
     .expect("start");
+    let contract_path = directory.join(".ai/work-items/active/WI-MCP-SIDE-EFFECT.contract.json");
+    cockpit_repository::preflight_work_item(&directory, &contract_path).expect("preflight");
+    cockpit_repository::checkpoint_work_item(&directory, "WI-MCP-SIDE-EFFECT").expect("checkpoint");
     let runtime = test_runtime_context();
     let response = cockpit_mcp::handle_request_for_repo(
         &serde_json::json!({

@@ -93,7 +93,15 @@ receipts.
 
 - `<id>.contract.json` — intent, scope, authority, acceptance, required evidence,
   base revision, profile digest, and repository snapshot digest;
-- `<id>.summary.json` — lifecycle state and checkpoint count.
+- `<id>.summary.json` — lifecycle state, exactly-one checkpoint receipt, and the
+  repository/Contract-bound preflight decision (`preflightState`, decision
+  digest, snapshot digest, and timestamp).
+
+The serial lifecycle is fail-closed: a Work Item must record a non-red
+preflight before its single checkpoint; verification refreshes that decision and
+`finish` requires it to be green. Duplicate checkpoints and out-of-order
+finish/archive/close operations are rejected. Failed transitions leave active
+records in place for recovery.
 
 `work-item new --repo <path> --id <id> --mode <mode>` uses the same contract
 writer to create a `not_ready` skeleton. It fills only the four deterministic

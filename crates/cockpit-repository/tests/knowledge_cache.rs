@@ -1,7 +1,7 @@
 use cockpit_core::Digest;
 use cockpit_repository::{
-    archive_work_item, attach, finish_work_item, generate_knowledge, record_verification,
-    start_work_item,
+    archive_work_item, attach, checkpoint_work_item, finish_work_item, generate_knowledge,
+    preflight_work_item, record_verification, start_work_item,
 };
 use std::{
     fs,
@@ -34,6 +34,11 @@ fn repository() -> std::path::PathBuf {
 
 fn archive_one(path: &std::path::Path, id: &str) {
     start_work_item(path, id, "cache topic", "cache goal", &["**".into()]).expect("start");
+    let contract = path
+        .join(".ai/work-items/active")
+        .join(format!("{id}.contract.json"));
+    preflight_work_item(path, &contract).expect("preflight");
+    checkpoint_work_item(path, id).expect("checkpoint");
     record_verification(
         path,
         id,

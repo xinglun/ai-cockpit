@@ -62,11 +62,12 @@ The Work Item state path is explicit:
 ```mermaid
 stateDiagram-v2
     [*] --> implementation_active
-    implementation_active --> checkpointed: checkpoint
-    checkpointed --> finish_ready: passed Work Item verification
+    implementation_active --> checkpointed: non-red preflight + one checkpoint
+    checkpointed --> finish_ready: passed verification + green preflight refresh
     finish_ready --> archived: archive
     archived --> closed: human decision
-    checkpointed --> implementation_active: repair and continue
+    implementation_active --> implementation_active: red/missing preflight (stop)
+    checkpointed --> checkpointed: failed verification (repair and retry)
     finish_ready --> implementation_active: stale or failed evidence
 ```
 

@@ -1,0 +1,40 @@
+{
+  "acceptanceResults": [
+    "skipped preflight or checkpoint cannot finish",
+    "duplicate checkpoint fails closed",
+    "valid recovery remains possible",
+    "CLI and MCP preflight persist the same lifecycle receipt",
+    "three language lifecycle documentation is synchronized"
+  ],
+  "createdAt": "2026-08-22T03:36:02Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:415d5a4be51f58bac2e3448d6111b90649ac5d8d2a4b98a58ab68ff38412a0e9",
+  "evidenceRefs": [
+    ".ai/evidence/WI-109-lifecycle-order.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-109-lifecycle-order.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-109-lifecycle-order.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-109-lifecycle-order"
+}

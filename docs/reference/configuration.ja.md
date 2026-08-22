@@ -82,7 +82,12 @@ External proof は `evidence import` で別途取り込みます。Metadata JSON
 `start` は `.ai/work-items/active/` に次を生成します。
 
 - `<id>.contract.json` — intent、scope、authority、acceptance、required evidence、base revision、profile digest、repository snapshot digest。
-- `<id>.summary.json` — lifecycle state と checkpoint count。
+- `<id>.summary.json` — lifecycle state、ちょうど 1 回の checkpoint receipt、repository/Contract に bind された preflight
+  decision（`preflightState`、decision digest、snapshot digest、timestamp）。
+
+serial lifecycle は fail-closed です。Work Item は non-red の preflight を記録してから 1 回だけ checkpoint を行い、
+verification 完了時に decision を refresh します。`finish` には green の結果が必要で、重複 checkpoint や順序外の
+finish/archive/close は拒否されます。失敗した transition の active record は復旧のため保持されます。
 
 `work-item new --repo <path> --id <id> --mode <mode>` は同じ contract writer を使って `not_ready` skeleton を作ります。自動入力は
 4 つの deterministic fact（`repositoryId`、`baseRevision`、`projectProfileDigest`、`repositorySnapshotDigest`）だけで、intent、scope、

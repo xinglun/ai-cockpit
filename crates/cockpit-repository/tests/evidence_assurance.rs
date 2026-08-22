@@ -2,7 +2,8 @@ use cockpit_core::{DecisionState, Digest};
 use cockpit_protocol::RuntimeContext;
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions, attach,
-    finish_work_item_with_runtime, outcome_v2_with_runtime, record_verification_with_runtime,
+    checkpoint_work_item, finish_work_item_with_runtime, outcome_v2_with_runtime,
+    preflight_work_item_with_runtime, record_verification_with_runtime,
     run_repository_verification, start_work_item_with_options,
 };
 use serde_json::Value;
@@ -48,6 +49,11 @@ fn start(directory: &tempfile::TempDir, id: &str) {
 }
 
 fn record_typed(directory: &tempfile::TempDir, id: &str, current: &RuntimeContext) -> Value {
+    let contract = directory
+        .path()
+        .join(format!(".ai/work-items/active/{id}.contract.json"));
+    preflight_work_item_with_runtime(directory.path(), &contract, current).expect("preflight");
+    checkpoint_work_item(directory.path(), id).expect("checkpoint");
     let run = run_repository_verification(
         directory.path(),
         &RepositoryVerificationRequest {

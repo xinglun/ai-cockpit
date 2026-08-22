@@ -363,6 +363,27 @@ fn verification_evidence_uses_snapshot_after_command_side_effects() {
     );
     assert!(
         Command::new(binary)
+            .args(["preflight", "--repo"])
+            .arg(&directory)
+            .args([
+                "--contract",
+                ".ai/work-items/active/WI-SIDE-EFFECT.contract.json"
+            ])
+            .status()
+            .expect("preflight")
+            .success()
+    );
+    assert!(
+        Command::new(binary)
+            .args(["checkpoint", "--repo"])
+            .arg(&directory)
+            .args(["--id", "WI-SIDE-EFFECT"])
+            .status()
+            .expect("checkpoint")
+            .success()
+    );
+    assert!(
+        Command::new(binary)
             .args(["verify", "--repo"])
             .arg(&directory)
             .args([
@@ -483,6 +504,27 @@ fn multi_command_evidence_uses_one_snapshot_after_all_workers_finish() {
             ])
             .status()
             .expect("start")
+            .success()
+    );
+    assert!(
+        Command::new(binary)
+            .args(["preflight", "--repo"])
+            .arg(&directory)
+            .args([
+                "--contract",
+                ".ai/work-items/active/WI-FINAL-SNAPSHOT.contract.json"
+            ])
+            .status()
+            .expect("preflight")
+            .success()
+    );
+    assert!(
+        Command::new(binary)
+            .args(["checkpoint", "--repo"])
+            .arg(&directory)
+            .args(["--id", "WI-FINAL-SNAPSHOT"])
+            .status()
+            .expect("checkpoint")
             .success()
     );
     let verify = Command::new(binary)

@@ -114,6 +114,16 @@ fn work_item_lifecycle_is_atomic_and_archive_is_content_bound() {
     )
     .expect("contract JSON");
     assert_eq!(contract["authority"], "missing");
+    let preflight = run_output(
+        binary,
+        &[
+            "preflight",
+            "--contract",
+            ".ai/work-items/active/WI-TEST.contract.json",
+        ],
+        &repo,
+    );
+    assert!(preflight.status.success());
     run(binary, &["checkpoint", "--id", "WI-TEST"], &repo);
     run(
         binary,
@@ -209,6 +219,16 @@ fn current_cli_rejects_foreign_runtime_verification_evidence() {
         .output()
         .expect("start");
     assert!(start.status.success());
+    run(
+        binary,
+        &[
+            "preflight",
+            "--contract",
+            ".ai/work-items/active/WI-FOREIGN-RUNTIME.contract.json",
+        ],
+        &repo,
+    );
+    run(binary, &["checkpoint", "--id", "WI-FOREIGN-RUNTIME"], &repo);
     assert!(
         run_output(
             binary,
@@ -303,6 +323,18 @@ fn archive_failure_keeps_active_files_for_recovery() {
         .output()
         .expect("start");
     assert!(start.status.success());
+    let preflight = run_output(
+        binary,
+        &[
+            "preflight",
+            "--contract",
+            ".ai/work-items/active/WI-RECOVER.contract.json",
+        ],
+        &repo,
+    );
+    assert!(preflight.status.success());
+    let checkpoint = run_output(binary, &["checkpoint", "--id", "WI-RECOVER"], &repo);
+    assert!(checkpoint.status.success());
     let finish = Command::new(binary)
         .args(["verify", "--repo"])
         .arg(&repo)
@@ -430,6 +462,8 @@ fn in_scope_changes_do_not_stale_contract_and_out_of_scope_changes_cannot_finish
             .iter()
             .any(|value| value == "stale_contract")
     );
+    let checkpoint = run_output(binary, &["checkpoint", "--id", "WI-SCOPE"], &repo);
+    assert!(checkpoint.status.success());
     assert!(
         run_output(
             binary,
@@ -486,20 +520,25 @@ fn in_scope_changes_do_not_stale_contract_and_out_of_scope_changes_cannot_finish
     let preflight_json: serde_json::Value =
         serde_json::from_slice(&preflight.stdout).expect("preflight JSON");
     assert_eq!(preflight_json["state"], "red");
+    let checkpoint = run_output(binary, &["checkpoint", "--id", "WI-OUT-OF-SCOPE"], &repo);
     assert!(
-        run_output(
-            binary,
-            &[
-                "verify",
-                "--work-item",
-                "WI-OUT-OF-SCOPE",
-                "--command",
-                "true"
-            ],
-            &repo,
-        )
-        .status
-        .success()
+        !checkpoint.status.success(),
+        "red preflight must block checkpoint"
+    );
+    let verify = run_output(
+        binary,
+        &[
+            "verify",
+            "--work-item",
+            "WI-OUT-OF-SCOPE",
+            "--command",
+            "true",
+        ],
+        &repo,
+    );
+    assert!(
+        !verify.status.success(),
+        "uncheckpointed verification must stop"
     );
     let finish = run_output(binary, &["finish", "--id", "WI-OUT-OF-SCOPE"], &repo);
     assert!(!finish.status.success(), "red governance must block finish");
@@ -551,6 +590,18 @@ fn close_rechecks_governance_after_archive() {
         .status
         .success()
     );
+    let preflight = run_output(
+        binary,
+        &[
+            "preflight",
+            "--contract",
+            ".ai/work-items/active/WI-CLOSE-GATE.contract.json",
+        ],
+        &repo,
+    );
+    assert!(preflight.status.success());
+    let checkpoint = run_output(binary, &["checkpoint", "--id", "WI-CLOSE-GATE"], &repo);
+    assert!(checkpoint.status.success());
     assert!(
         run_output(
             binary,
@@ -636,6 +687,8 @@ fn preflight_derives_prompt_injection_and_terminal_steps_remain_blocked() {
         serde_json::json!(["repository_material_untrusted"])
     );
     assert!(!String::from_utf8_lossy(&output.stdout).contains("SENTINEL_PRIVATE_TEXT"));
+    let checkpoint = run_output(binary, &["checkpoint", "--id", "WI-INPUT-TRUST"], &repo);
+    assert!(checkpoint.status.success());
     assert!(
         run_output(
             binary,

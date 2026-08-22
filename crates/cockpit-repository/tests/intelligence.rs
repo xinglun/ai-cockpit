@@ -1,8 +1,8 @@
 use cockpit_core::Digest;
 use cockpit_repository::{
-    WorkItemStartOptions, capability_truth_registry, implementation_approach, outcome_v2,
-    performance_diagnosis, record_verification, start_work_item_with_options,
-    work_item_compatibility,
+    WorkItemStartOptions, capability_truth_registry, checkpoint_work_item, implementation_approach,
+    outcome_v2, performance_diagnosis, preflight_work_item, record_verification,
+    start_work_item_with_options, work_item_compatibility,
 };
 use std::{fs, process::Command};
 
@@ -17,6 +17,15 @@ fn repository() -> tempfile::TempDir {
             .success()
     );
     directory
+}
+
+fn prepare_for_verification(path: &std::path::Path, work_item_id: &str) {
+    let contract = path
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let decision = preflight_work_item(path, &contract).expect("preflight");
+    assert_ne!(decision.state, cockpit_core::DecisionState::Red);
+    checkpoint_work_item(path, work_item_id).expect("checkpoint");
 }
 
 #[test]
@@ -123,6 +132,7 @@ fn verified_outcome_fixture() -> tempfile::TempDir {
         },
     )
     .expect("start");
+    prepare_for_verification(directory.path(), "WI-OUTCOME-MATRIX");
     record_verification(
         directory.path(),
         "WI-OUTCOME-MATRIX",

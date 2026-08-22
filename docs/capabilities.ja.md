@@ -204,6 +204,12 @@ ai-cockpit preflight --repo /path/to/repository \
 current snapshot に対して contract を評価します。authority の欠落、stale contract、scope
 violation、矛盾した fact は stop condition です。
 
+active Work Item に対する `preflight` は、decision、Contract digest、snapshot digest も summary に記録します。
+次のステップで収集する verification evidence がまだないための yellow は checkpoint へ進めますが、red は進めません。
+verification 完了時、Runtime は最終 snapshot に対して記録済み decision を再評価します。`finish` にはその結果の green と
+ちょうど 1 回の checkpoint が必要です。checkpoint は一度だけの直列 transition であり、重複または順序外の command は
+fail closed になります。失敗しても active record は残り、不足したステップを再実行して復旧できます。
+
 ### Governed Work Item を実行する
 
 **依頼の例:** 「bounded change を開始し、進捗を記録し、review 後にだけ close して。」
@@ -220,9 +226,10 @@ ai-cockpit close --repo /path/to/repository --id WI-123 \
 ```
 
 期待される state は `implementation_active`、`checkpointed`、`finish_ready`、`archived`、
-`closed` です。`finish` は同じ Work Item と current repository snapshot の passed verification
-receipt を要求し、`close` は archive manifest と human decision を要求します。失敗したら
-Work Item を残し、evidence を修復します。record を削除して状態を隠してはいけません。
+`closed` です。`finish` は同じ Work Item と current repository snapshot の passed verification receipt、記録済みの
+green preflight decision、ちょうど 1 回の checkpoint を要求します。Contract の `requiredEvidenceClasses` に verification
+がなくても、`archive` と `close` は同じ serial state と verification evidence を再検証します。失敗したら Work Item を
+残し、evidence を修復します。record を削除して状態を隠してはいけません。
 
 `finish`、`archive`、`close` の JSON 結果には、bound された `outcome` object が必ず含まれます。
 Agent はこの Outcome を独立した会話メッセージとして明示してください。ファイルにだけ保存された結果や、

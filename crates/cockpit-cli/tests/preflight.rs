@@ -158,6 +158,27 @@ fn preflight_turns_green_after_matching_verification_evidence() {
         "stderr: {}",
         String::from_utf8_lossy(&start.stderr)
     );
+    let initial_preflight = Command::new(binary)
+        .args(["preflight", "--repo"])
+        .arg(&directory)
+        .args([
+            "--contract",
+            ".ai/work-items/active/WI-PREFLIGHT.contract.json",
+        ])
+        .output()
+        .expect("initial preflight");
+    assert!(initial_preflight.status.success());
+    let checkpoint = Command::new(binary)
+        .args(["checkpoint", "--repo"])
+        .arg(&directory)
+        .args(["--id", "WI-PREFLIGHT"])
+        .output()
+        .expect("checkpoint");
+    assert!(
+        checkpoint.status.success(),
+        "stderr: {}",
+        String::from_utf8_lossy(&checkpoint.stderr)
+    );
     let verify = Command::new(binary)
         .args(["verify", "--repo"])
         .arg(&directory)

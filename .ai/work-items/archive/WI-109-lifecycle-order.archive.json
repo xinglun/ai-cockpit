@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T03:36:05Z",
+  "files": {
+    "contractDigest": "sha256:edb8ef955fd4fe81fbeba98fb06e7478164fd343f6a11c3e457b8dd08b19647a",
+    "contractPath": ".ai/work-items/archive/WI-109-lifecycle-order.contract.json",
+    "outcomeDigest": "sha256:83fef348f651900058bf02f7b3d333a543f55696683be6abd548c174edcbfc2b",
+    "outcomePath": ".ai/work-items/archive/WI-109-lifecycle-order.outcome.json",
+    "summaryDigest": "sha256:8b79f37819ce682e6ee3d9fd9f27b867af183000bd6ea96f6bbb47eea867c2bf",
+    "summaryPath": ".ai/work-items/archive/WI-109-lifecycle-order.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-109-lifecycle-order"
+}
