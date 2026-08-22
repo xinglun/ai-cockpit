@@ -30,5 +30,15 @@ capabilityClaims:
 空章节会明确显示为 `无`。报告不会通过推断补全治理决定；绿色结果也不授权
 合并、发布、公开或安全性声明。
 
+绿色只表示 Runtime 已验证一份完整、未过期且绑定当前 Work Item 与 repository 的
+`evidenceSchemaVersion=2` 验证证据。证据缺失或快照过期显示为黄色；证据被篡改、
+格式错误、身份不匹配或摘要不一致显示为红色。`finish`、`archive`、`close` 在
+相同校验失败时会 fail closed，不会因为证据文件存在就宣称成功。旧版证据不会被
+自动改写为绿色，必须重新验证生成新版证据。
+
+验收标准、intent、scope 等字段是 Work Item owner 写入的治理原文，报告保留原文并
+标注“验收标准（Contract 原文）”，不会擅自翻译或改变 Contract bytes。只有 Runtime
+生成的固定标题、状态、未知项和恢复提示会按对话语言显示。
+
 CLI 直接输出优先使用 `AI_COCKPIT_LANGUAGE`，其次使用进程 locale。Agent 对话应
 使用用户当前语言。JSON 字段名和枚举值在不同语言之间保持稳定。

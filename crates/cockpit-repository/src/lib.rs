@@ -3451,6 +3451,12 @@ pub fn finish_work_item(
     }
     let contract_path = active.join(format!("{work_item_id}.contract.json"));
     let contract = read_contract(&contract_path)?;
+    if verification_evidence_state(&root, &contract, &snapshot, false)? != EvidenceState::Complete {
+        return Err(ObserverError::State {
+            path: evidence_path,
+            message: "verification evidence is not a valid current receipt".into(),
+        });
+    }
     require_green_governance(&root, &contract_path, &contract, &snapshot, "finish")?;
     let timestamp = now();
     summary["state"] = "finish_ready".into();
@@ -3461,6 +3467,7 @@ pub fn finish_work_item(
         repository_id: contract.repository_id.clone(),
         work_item_id: work_item_id.into(),
         state: OutcomeState::Verified,
+        decision_state: Some(DecisionState::Green),
         summary: "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.".into(),
         acceptance_results: contract.acceptance_criteria.clone(),
         unknowns: vec!["user_visible_benefit_not_declared".into()],
@@ -3607,7 +3614,9 @@ pub fn record_verification_with_snapshot(
     };
     let mut evidence = serde_json::json!({
         "protocolVersion": 1,
+        "evidenceSchemaVersion": 2,
         "workItemId": work_item_id,
+        "repositoryId": repository_id(&root),
         "runtimeVersion": runtime_version,
         "runtimeDigest": runtime_digest,
         "repositorySnapshotDigest": snapshot_digest(snapshot)?,
@@ -5011,6 +5020,143 @@ fn require_green_governance(
     Ok(())
 }
 
+/// Validate the repository-local verification receipt at every lifecycle
+/// boundary.  A file existing at the expected path is not evidence: the
+/// receipt must be schema-versioned, passed, identity-bound, snapshot-bound,
+/// and internally digest-consistent.
+fn verification_evidence_state(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+    archived: bool,
+) -> Result<EvidenceState, ObserverError> {
+    let evidence_path = root
+        .join(".ai/evidence")
+        .join(format!("{}.verification.json", contract.work_item_id));
+    let metadata = match fs::symlink_metadata(&evidence_path) {
+        Ok(metadata) => metadata,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+            return Ok(EvidenceState::Missing);
+        }
+        Err(_) => return Ok(EvidenceState::Unknown),
+    };
+    if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
+        return Ok(EvidenceState::Contradictory);
+    }
+    let evidence = match read_json(&evidence_path) {
+        Ok(value) => value,
+        Err(_) => return Ok(EvidenceState::Unknown),
+    };
+    if !evidence.is_object()
+        || evidence["protocolVersion"] != serde_json::json!(1)
+        || evidence["evidenceSchemaVersion"] != serde_json::json!(2)
+        || evidence["workItemId"] != serde_json::json!(contract.work_item_id)
+        || evidence["passed"] != serde_json::Value::Bool(true)
+    {
+        return Ok(EvidenceState::Contradictory);
+    }
+
+    let expected_repository_id = repository_id(root).to_string();
+    if contract.repository_id != expected_repository_id
+        || evidence["repositoryId"] != serde_json::json!(expected_repository_id)
+    {
+        return Ok(EvidenceState::Contradictory);
+    }
+
+    let Some(snapshot_value) = evidence["repositorySnapshotDigest"].as_str() else {
+        return Ok(EvidenceState::Contradictory);
+    };
+    if snapshot_value.parse::<Digest>().is_err() {
+        return Ok(EvidenceState::Contradictory);
+    }
+    if !archived && snapshot_value != snapshot_digest(snapshot)?.as_str() {
+        return Ok(EvidenceState::Stale);
+    }
+
+    let Some(runtime_version) = evidence["runtimeVersion"].as_str() else {
+        return Ok(EvidenceState::Contradictory);
+    };
+    if runtime_version.trim().is_empty()
+        || evidence["runtimeDigest"]
+            .as_str()
+            .is_none_or(|value| value.parse::<Digest>().is_err())
+    {
+        return Ok(EvidenceState::Contradictory);
+    }
+    let Some(receipt_digest) = evidence["receiptDigest"].as_str() else {
+        return Ok(EvidenceState::Contradictory);
+    };
+    if receipt_digest.parse::<Digest>().is_err() {
+        return Ok(EvidenceState::Contradictory);
+    }
+    let capture_mode = evidence["captureMode"].as_str().unwrap_or("");
+    match capture_mode {
+        "digest_only" => {}
+        "full_capture" | "redacted_capture" => {
+            let Some(receipt) = evidence.get("receipt") else {
+                return Ok(EvidenceState::Contradictory);
+            };
+            let Ok(computed) = cockpit_protocol::digest_json(receipt) else {
+                return Ok(EvidenceState::Contradictory);
+            };
+            if computed.to_string() != receipt_digest {
+                return Ok(EvidenceState::Contradictory);
+            }
+            if receipt
+                .get("workItemId")
+                .and_then(serde_json::Value::as_str)
+                .is_some_and(|value| value != contract.work_item_id)
+                || receipt
+                    .get("repositoryId")
+                    .and_then(serde_json::Value::as_str)
+                    .is_some_and(|value| value != expected_repository_id)
+                || receipt
+                    .get("runtimeVersion")
+                    .and_then(serde_json::Value::as_str)
+                    .is_some_and(|value| value != runtime_version)
+                || receipt
+                    .get("runtimeDigest")
+                    .and_then(serde_json::Value::as_str)
+                    .is_some_and(|value| {
+                        value != evidence["runtimeDigest"].as_str().unwrap_or_default()
+                    })
+            {
+                return Ok(EvidenceState::Contradictory);
+            }
+        }
+        _ => return Ok(EvidenceState::Contradictory),
+    }
+
+    if archived {
+        let archive = root.join(".ai/work-items/archive");
+        let outcome_path = archive.join(format!("{}.outcome.json", contract.work_item_id));
+        let manifest_path = archive.join(format!("{}.archive.json", contract.work_item_id));
+        let outcome = match read_json(&outcome_path) {
+            Ok(value) => value,
+            Err(_) => return Ok(EvidenceState::Contradictory),
+        };
+        let manifest = match read_json(&manifest_path) {
+            Ok(value) => value,
+            Err(_) => return Ok(EvidenceState::Contradictory),
+        };
+        let Ok(evidence_digest) = cockpit_protocol::digest_json(&evidence) else {
+            return Ok(EvidenceState::Contradictory);
+        };
+        let outcome_bytes = match fs::read(&outcome_path) {
+            Ok(bytes) => bytes,
+            Err(_) => return Ok(EvidenceState::Contradictory),
+        };
+        let outcome_file_digest = Digest::sha256_bytes(&outcome_bytes);
+        if outcome["evidenceDigest"] != serde_json::json!(evidence_digest.to_string())
+            || manifest["files"]["outcomeDigest"]
+                != serde_json::json!(outcome_file_digest.to_string())
+        {
+            return Ok(EvidenceState::Contradictory);
+        }
+    }
+    Ok(EvidenceState::Complete)
+}
+
 pub fn evidence_state_for_contract(
     root: &Path,
     contract: &cockpit_protocol::Contract,
@@ -5030,28 +5176,7 @@ pub fn evidence_state_for_contract(
         )
     });
     if requires_verification {
-        let evidence_path = root
-            .join(".ai/evidence")
-            .join(format!("{}.verification.json", contract.work_item_id));
-        let evidence = match read_json(&evidence_path) {
-            Ok(value) => value,
-            Err(ObserverError::Read { source, .. })
-                if source.kind() == std::io::ErrorKind::NotFound =>
-            {
-                return Ok(EvidenceState::Missing);
-            }
-            Err(error) => return Err(error),
-        };
-        if evidence["workItemId"] != serde_json::Value::String(contract.work_item_id.clone())
-            || evidence["passed"] != serde_json::Value::Bool(true)
-        {
-            return Ok(EvidenceState::Contradictory);
-        }
-        if evidence["repositorySnapshotDigest"]
-            != serde_json::Value::String(snapshot_digest(snapshot)?.to_string())
-        {
-            return Ok(EvidenceState::Stale);
-        }
+        return verification_evidence_state(&root, contract, snapshot, false);
     }
     for class in &contract.required_evidence_classes {
         let normalized = class.to_ascii_lowercase();
@@ -5100,6 +5225,14 @@ pub fn archive_work_item(
         path: root.clone(),
         message: error.to_string(),
     })?;
+    if verification_evidence_state(&root, &contract, &snapshot, false)? != EvidenceState::Complete {
+        return Err(ObserverError::State {
+            path: root
+                .join(".ai/evidence")
+                .join(format!("{work_item_id}.verification.json")),
+            message: "archive requires valid verification evidence".into(),
+        });
+    }
     require_green_governance(&root, &contract_path, &contract, &snapshot, "archive")?;
     let outcome_path = active.join(format!("{work_item_id}.outcome.json"));
     let outcome = read_json(&outcome_path)?;
@@ -5260,6 +5393,14 @@ pub fn close_work_item_with_structured_decision(
         path: root.clone(),
         message: error.to_string(),
     })?;
+    if verification_evidence_state(&root, &contract, &snapshot, true)? != EvidenceState::Complete {
+        return Err(ObserverError::State {
+            path: root
+                .join(".ai/evidence")
+                .join(format!("{work_item_id}.verification.json")),
+            message: "close requires valid verification evidence".into(),
+        });
+    }
     require_green_governance(&root, &contract_path, &contract, &snapshot, "close")?;
     validate_policy_decision(&root, &contract, human_decision)?;
     let outcome = root
@@ -5655,15 +5796,56 @@ pub fn outcome_v2(root: &Path, work_item_id: &str) -> Result<OutcomeV2, Observer
         message: "work item contract not found".into(),
     })?;
     let contract = read_contract(&contract_path)?;
+    let git =
+        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
     let evidence_ref = format!(".ai/evidence/{work_item_id}.verification.json");
-    let evidence_path = root.join(&evidence_ref);
-    let verified = evidence_path.is_file();
-    let state = if verified {
-        OutcomeState::Verified
-    } else {
-        OutcomeState::NotReady
+    let archived = contract_path
+        .parent()
+        .is_some_and(|path| path.ends_with("archive"));
+    let evidence_state = verification_evidence_state(&root, &contract, &snapshot, archived)?;
+    let (state, decision_state, summary, evidence_unknown) = match evidence_state {
+        EvidenceState::Complete => (
+            OutcomeState::Verified,
+            DecisionState::Green,
+            "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
+            None,
+        ),
+        EvidenceState::Missing => (
+            OutcomeState::NotReady,
+            DecisionState::Yellow,
+            "No verification evidence is present; outcome is not ready.",
+            Some("verification_evidence_missing"),
+        ),
+        EvidenceState::Stale => (
+            OutcomeState::NotReady,
+            DecisionState::Yellow,
+            "Verification evidence is stale for the current repository snapshot; outcome is not ready.",
+            Some("evidence_stale"),
+        ),
+        EvidenceState::Contradictory => (
+            OutcomeState::Unknown,
+            DecisionState::Red,
+            "Verification evidence is contradictory or identity-bound to another context; outcome is stopped.",
+            Some("evidence_contradictory"),
+        ),
+        EvidenceState::Unknown => (
+            OutcomeState::Unknown,
+            DecisionState::Red,
+            "Verification evidence could not be validated; outcome is stopped.",
+            Some("evidence_unknown"),
+        ),
     };
     let mut unknowns = vec!["user_visible_benefit_not_declared".into()];
+    if let Some(code) = evidence_unknown {
+        unknowns.push(code.into());
+    }
     if contract.acceptance_criteria.is_empty() {
         unknowns.push("acceptanceCriteria".into());
     }
@@ -5681,12 +5863,8 @@ pub fn outcome_v2(root: &Path, work_item_id: &str) -> Result<OutcomeV2, Observer
         repository_id: contract.repository_id,
         work_item_id: work_item_id.into(),
         state,
-        summary: if verified {
-            "Verification evidence is present; user-visible benefit remains explicitly unknown."
-                .into()
-        } else {
-            "No verification evidence is present; outcome is not ready.".into()
-        },
+        decision_state: Some(decision_state),
+        summary: summary.into(),
         acceptance_results: contract.acceptance_criteria,
         unknowns,
         evidence_refs: vec![evidence_ref],

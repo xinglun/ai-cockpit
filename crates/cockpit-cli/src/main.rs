@@ -1,6 +1,7 @@
 use anyhow::{Context, Result};
 use clap::{ArgAction, Parser, Subcommand};
 use cockpit_agent::AgentExitCode;
+use cockpit_core::DecisionState;
 use cockpit_git::GitRepository;
 use cockpit_knowledge::{Query, query};
 use cockpit_protocol::{
@@ -429,26 +430,34 @@ fn human_acceptance_results(results: &[String]) -> Vec<String> {
     normalized
 }
 
-fn outcome_status(state: &OutcomeState, language: &str) -> (&'static str, &'static str) {
-    match (language, state) {
-        ("zh", OutcomeState::Verified) => ("🟢", "成功"),
-        ("zh", OutcomeState::Partial) => ("🟡", "部分完成"),
-        ("zh", OutcomeState::NotReady) => ("🟡", "未就绪"),
-        ("zh", OutcomeState::Unknown) => ("🟡", "未知"),
-        ("ja", OutcomeState::Verified) => ("🟢", "成功"),
-        ("ja", OutcomeState::Partial) => ("🟡", "部分完了"),
-        ("ja", OutcomeState::NotReady) => ("🟡", "未準備"),
-        ("ja", OutcomeState::Unknown) => ("🟡", "不明"),
-        (_, OutcomeState::Verified) => ("🟢", "Success"),
-        (_, OutcomeState::Partial) => ("🟡", "Partial"),
-        (_, OutcomeState::NotReady) => ("🟡", "Not ready"),
-        (_, OutcomeState::Unknown) => ("🟡", "Unknown"),
+fn outcome_status(
+    state: &OutcomeState,
+    decision_state: Option<&DecisionState>,
+    language: &str,
+) -> (&'static str, &'static str) {
+    let decision_state = decision_state.unwrap_or(match state {
+        OutcomeState::Verified => &DecisionState::Green,
+        OutcomeState::Partial | OutcomeState::NotReady | OutcomeState::Unknown => {
+            &DecisionState::Yellow
+        }
+    });
+    match (language, decision_state) {
+        ("zh", DecisionState::Green) => ("🟢", "成功"),
+        ("zh", DecisionState::Yellow) => ("🟡", "需要关注"),
+        ("zh", DecisionState::Red) => ("🔴", "停止"),
+        ("ja", DecisionState::Green) => ("🟢", "成功"),
+        ("ja", DecisionState::Yellow) => ("🟡", "要確認"),
+        ("ja", DecisionState::Red) => ("🔴", "停止"),
+        (_, DecisionState::Green) => ("🟢", "Success"),
+        (_, DecisionState::Yellow) => ("🟡", "Needs attention"),
+        (_, DecisionState::Red) => ("🔴", "Stop"),
     }
 }
 
 fn render_human_outcome(outcome: &OutcomeV2) -> String {
     let language = output_language();
-    let (marker, status) = outcome_status(&outcome.state, language);
+    let (marker, status) =
+        outcome_status(&outcome.state, outcome.decision_state.as_ref(), language);
     let report = &outcome.human_benefit_report;
     let none = match language {
         "zh" => "无",
@@ -526,15 +535,38 @@ fn render_human_outcome(outcome: &OutcomeV2) -> String {
         "ja" => "ユーザー向けの効果はまだ宣言されていません。",
         _ => "User-visible benefit has not been declared.",
     };
+    let contract_language = match language {
+        "zh" => "验收标准（Contract 原文）",
+        "ja" => "受入れ基準（Contract 原文）",
+        _ => "Acceptance criteria (contract language)",
+    };
+    let invalid_evidence = match language {
+        "zh" => "验证证据无效或与当前 Work Item / repository 不匹配，已停止。",
+        "ja" => {
+            "検証 evidence が無効、または Work Item / repository と一致しないため停止しました。"
+        }
+        _ => {
+            "Verification evidence is invalid or does not match this Work Item/repository; stopped."
+        }
+    };
     let next = match (language, &outcome.state) {
         ("zh", OutcomeState::Verified) => "审阅证据后再决定是否继续；🟢 不代表已授权合并或发布。",
+        ("zh", _) if outcome.decision_state == Some(DecisionState::Red) => {
+            "修复无效证据并重新验证；在此之前保持停止。"
+        }
         ("zh", _) => "补齐缺失证据并重新验证；在此之前保持停止。",
-        ("ja", OutcomeState::Verified) => {
+        ("ja", OutcomeState::Verified) if outcome.decision_state != Some(DecisionState::Red) => {
             "証拠を確認してから続行を判断してください。🟢 はマージやリリースの承認ではありません。"
         }
+        ("ja", _) if outcome.decision_state == Some(DecisionState::Red) => {
+            "無効な evidence を修復して再検証してください。それまでは停止します。"
+        }
         ("ja", _) => "不足している証拠を補い、再検証してください。それまでは停止状態を維持します。",
-        (_, OutcomeState::Verified) => {
+        (_, OutcomeState::Verified) if outcome.decision_state != Some(DecisionState::Red) => {
             "Review the evidence before deciding whether to proceed; 🟢 does not authorize merge or release."
+        }
+        (_, _) if outcome.decision_state == Some(DecisionState::Red) => {
+            "Repair the invalid evidence and verify again; remain stopped until then."
         }
         (_, _) => "Repair the missing evidence and verify again; remain stopped until then.",
     };
@@ -543,14 +575,16 @@ fn render_human_outcome(outcome: &OutcomeV2) -> String {
     unknowns_all.sort();
     unknowns_all.dedup();
     let mut problems_found = Vec::new();
-    if matches!(outcome.state, OutcomeState::NotReady) {
+    if outcome.decision_state == Some(DecisionState::Red) {
+        problems_found.push(invalid_evidence.into());
+    } else if matches!(outcome.state, OutcomeState::NotReady) {
         problems_found.push(not_ready.into());
     }
     let acceptance_results = human_acceptance_results(&outcome.acceptance_results);
     let completed_items = if acceptance_results.is_empty() {
         vec![outcome.summary.clone()]
     } else {
-        let mut items = vec![outcome.summary.clone()];
+        let mut items = vec![outcome.summary.clone(), contract_language.into()];
         items.extend(acceptance_results);
         items
     };
@@ -574,7 +608,9 @@ fn render_human_outcome(outcome: &OutcomeV2) -> String {
             .map(|reference| format!("{status}: {reference}"))
             .collect()
     };
-    let stop_items = if matches!(
+    let stop_items = if outcome.decision_state == Some(DecisionState::Red) {
+        vec![invalid_evidence.into()]
+    } else if matches!(
         outcome.state,
         OutcomeState::NotReady | OutcomeState::Unknown
     ) {

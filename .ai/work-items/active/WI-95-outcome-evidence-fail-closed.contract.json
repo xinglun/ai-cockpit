@@ -1,0 +1,44 @@
+{
+  "acceptanceCriteria": [
+    "work-item outcome never reports green or verified from file presence alone",
+    "verification evidence is schema-checked and must bind passed=true, the requested workItemId, repositoryId, repositorySnapshotDigest, and runtime identity before a green Outcome is possible",
+    "tampering with passed, workItemId, repositoryId, repositorySnapshotDigest, runtime identity, or malformed evidence produces a fail-closed red or not-ready Outcome and never a green claim",
+    "recorded verification evidence includes repositoryId and remains compatible with existing runtime and protocol evidence readers",
+    "human Outcome preserves a readable section layout and emits localized red/yellow/green markers for Chinese, Japanese, and English",
+    "regression tests cover missing, malformed, tampered, cross-work-item, cross-repository, stale-snapshot, and runtime-mismatch verification evidence",
+    "trilingual Outcome documentation describes evidence validation, fail-closed behavior, and the distinction between authored acceptance text and localized system labels"
+  ],
+  "authority": "authorized",
+  "baseRevision": "c62c56073e848d35027f50747bf913b0ecc40011",
+  "createdAt": "2026-08-22T00:55:54Z",
+  "goal": "根治 Outcome 仅凭 evidence 文件存在就宣称成功的 fail-open 路径，并让验证证据绑定 repository identity 后再供人类结果展示使用。",
+  "intent": "修复被篡改、跨 Work Item、跨 repository、过期或 runtime 不匹配的 verification evidence 仍显示 🟢 成功的问题；同时保留面向人的三语 Outcome 和状态标记。",
+  "mode": "code",
+  "outOfScope": [
+    "rewriting historical archived verification evidence",
+    "changing the public v0.2.4 Release truth or tag",
+    "changing repository configuration format or migration semantics",
+    "global Agent or MCP configuration",
+    "translating arbitrary user-authored acceptance criteria without a source-language contract"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ded71b1dcf45e71c5b6d20a96f8fc9860c64da51cc80f11c88384517ae3a7843",
+  "requiredEvidenceClasses": [],
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/**",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/**",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/**",
+    "docs/reference/outcome-report.md",
+    "docs/reference/outcome-report.ja.md",
+    "docs/reference/outcome-report.zh-CN.md",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-95-outcome-evidence-fail-closed"
+}

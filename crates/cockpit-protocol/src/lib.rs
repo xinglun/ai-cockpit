@@ -1,4 +1,4 @@
-use cockpit_core::Digest;
+use cockpit_core::{DecisionState, Digest};
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
 use thiserror::Error;
@@ -789,6 +789,8 @@ pub struct OutcomeV2 {
     pub repository_id: String,
     pub work_item_id: String,
     pub state: OutcomeState,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub decision_state: Option<DecisionState>,
     pub summary: String,
     pub acceptance_results: Vec<String>,
     pub unknowns: Vec<String>,

@@ -144,8 +144,26 @@ fn intelligence_commands_emit_repository_bound_json_and_unknowns() {
     assert!(outcome.status.success());
     let outcome_text = String::from_utf8(outcome.stdout).expect("UTF-8 outcome");
     assert!(outcome_text.contains("结果 — WI-INTELLIGENCE"));
-    assert!(outcome_text.contains("🟡 未就绪"));
+    assert!(outcome_text.contains("🟡 需要关注"));
     assert!(outcome_text.contains("下一步"));
+    fs::write(
+        directory
+            .path()
+            .join(".ai/evidence/WI-INTELLIGENCE.verification.json"),
+        br#"{"protocolVersion":1,"evidenceSchemaVersion":2,"workItemId":"WI-INTELLIGENCE","passed":false}"#,
+    )
+    .expect("tampered evidence");
+    let red_outcome = Command::new(binary)
+        .args(["work-item", "outcome", "--repo"])
+        .arg(directory.path())
+        .args(["--id", "WI-INTELLIGENCE"])
+        .env("AI_COCKPIT_LANGUAGE", "zh-CN")
+        .output()
+        .expect("red human outcome");
+    assert!(red_outcome.status.success());
+    let red_text = String::from_utf8(red_outcome.stdout).expect("UTF-8 red outcome");
+    assert!(red_text.contains("🔴 停止"));
+    assert!(red_text.contains("验证证据无效"));
     let machine_outcome = Command::new(binary)
         .args(["work-item", "outcome", "--repo"])
         .arg(directory.path())

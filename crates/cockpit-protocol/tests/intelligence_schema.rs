@@ -1,4 +1,4 @@
-use cockpit_core::Digest;
+use cockpit_core::{DecisionState, Digest};
 use cockpit_protocol::{
     CapabilityConfidence, CapabilityTruth, CapabilityTruthRegistry, FactOrigin, HumanBenefitReport,
     ImplementationApproach, OutcomeState, OutcomeV2, TraceableDerivation, TraceableFact,
@@ -40,6 +40,7 @@ fn v2_records_round_trip_with_explicit_unknowns_and_provenance() {
         repository_id: "sha256:repo".into(),
         work_item_id: "WI-75".into(),
         state: OutcomeState::Verified,
+        decision_state: Some(DecisionState::Green),
         summary: "verification passed".into(),
         acceptance_results: vec!["tests pass".into()],
         unknowns: vec!["user_visible_benefit_not_declared".into()],

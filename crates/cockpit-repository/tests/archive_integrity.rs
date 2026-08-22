@@ -66,6 +66,46 @@ fn close_rejects_tampered_archived_artifacts() {
 }
 
 #[test]
+fn archive_rejects_tampered_verification_even_without_declared_requirement() {
+    let path = repository();
+    start_work_item(
+        &path,
+        "WI-EVIDENCE-TAMPER",
+        "tamper",
+        "verify",
+        &["**".into()],
+    )
+    .expect("start");
+    record_verification(
+        &path,
+        "WI-EVIDENCE-TAMPER",
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.1.0",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+    finish_work_item(&path, "WI-EVIDENCE-TAMPER").expect("finish");
+    let evidence_path = path.join(".ai/evidence/WI-EVIDENCE-TAMPER.verification.json");
+    let mut evidence: serde_json::Value =
+        serde_json::from_slice(&fs::read(&evidence_path).expect("evidence"))
+            .expect("evidence JSON");
+    evidence["passed"] = serde_json::Value::Bool(false);
+    fs::write(
+        &evidence_path,
+        serde_json::to_vec_pretty(&evidence).expect("tampered evidence"),
+    )
+    .expect("write tampered evidence");
+    let error = archive_work_item(&path, "WI-EVIDENCE-TAMPER")
+        .expect_err("archive must fail closed on tampered evidence");
+    assert!(error.to_string().contains("valid verification evidence"));
+    assert!(
+        path.join(".ai/work-items/active/WI-EVIDENCE-TAMPER.contract.json")
+            .is_file()
+    );
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
 fn verification_receipt_cannot_cross_work_items() {
     let path = repository();
     start_work_item(&path, "WI-A", "first", "verify", &["**".into()]).expect("start A");
@@ -94,6 +134,15 @@ fn close_persists_a_structured_human_decision_and_recovery_condition() {
         &Digest::sha256_bytes(b"runtime"),
     )
     .expect("verification");
+    let evidence: serde_json::Value = serde_json::from_slice(
+        &fs::read(path.join(".ai/evidence/WI-DECISION.verification.json")).expect("evidence"),
+    )
+    .expect("evidence JSON");
+    assert_eq!(evidence["evidenceSchemaVersion"], 2);
+    assert_eq!(
+        evidence["repositoryId"],
+        cockpit_repository::repository_id(&path).to_string()
+    );
     finish_work_item(&path, "WI-DECISION").expect("finish");
     archive_work_item(&path, "WI-DECISION").expect("archive");
     close_work_item_with_structured_decision(
