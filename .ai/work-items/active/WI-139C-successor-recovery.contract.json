@@ -1,0 +1,63 @@
+{
+  "acceptanceCriteria": [
+    "A1: strict repository-bound recovery receipt records retry or successor decision and predecessor digests",
+    "A2: stale or blocked predecessor remains immutable and cannot be silently promoted",
+    "A3: retry path requires fresh current evidence and successor path creates explicit predecessor binding",
+    "A4: foreign malformed duplicate and symlinked recovery receipts fail closed",
+    "A5: CLI MCP and tri-language Outcome expose recovery decision and resume condition consistently"
+  ],
+  "authority": "authorized",
+  "baseRevision": "c8cc11ac4488c4d02f8bd6a0b241ce42d69cf887",
+  "createdAt": "2026-08-22T15:58:08Z",
+  "goal": "Bind every retry or successor to immutable predecessor evidence without rewriting historical bytes",
+  "intent": "Introduce explicit retry and successor recovery receipts for stale or blocked Work Items",
+  "mode": "implementation",
+  "outOfScope": [
+    "historical archive rewriting",
+    "release harness and distribution",
+    "global Agent or MCP configuration",
+    "automatic governance decisions"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:464325a168feb1bb5ff75536267680d5b75a502a3c13490fbd81a0f6410c5b11",
+  "requiredEvidenceClasses": [
+    "verification",
+    "recovery-receipt"
+  ],
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-protocol/**",
+    "crates/cockpit-repository/**",
+    "crates/cockpit-cli/**",
+    "crates/cockpit-mcp/**",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/troubleshooting.md",
+    "docs/reference/troubleshooting.zh-CN.md",
+    "docs/reference/troubleshooting.ja.md",
+    "docs/reference/task-outcome-events.md",
+    "docs/reference/task-outcome-events.zh-CN.md",
+    "docs/reference/task-outcome-events.ja.md",
+    "crates/cockpit-protocol/tests/**",
+    "crates/cockpit-repository/tests/**",
+    "crates/cockpit-cli/tests/**",
+    "crates/cockpit-mcp/tests/**"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "recovery receipt tamper and predecessor binding",
+      "required": true,
+      "status": "unverified",
+      "expected": "Foreign malformed duplicate and symlinked receipts are rejected and valid retry or successor preserves predecessor digests",
+      "verificationPlan": "Run focused protocol repository CLI and MCP recovery tests and retain the installed Runtime verification receipt",
+      "evidence": []
+    }
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-139C-successor-recovery"
+}
