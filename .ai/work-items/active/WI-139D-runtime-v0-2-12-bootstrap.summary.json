@@ -26,10 +26,21 @@
       "acceptanceId": "A3",
       "evidence": [
         {
-          "locator": "workspace package version 0.2.12",
-          "path": "Cargo.toml",
-          "type": "test",
-          "verification": "cargo test --locked --workspace"
+          "locator": "public v0.2.12 Release manifest, checksums and aarch64 archive",
+          "path": "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.12",
+          "type": "release",
+          "verification": "GitHub Actions run 32584030544: release_policy, verify, attest, publish, adopter_acceptance, adopter_upgrade_acceptance, post_release_version_consistency all passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "v0.2.12 installed binary accepted identity-bound decisionEvidence for WI-139C",
+          "path": ".ai/decisions/WI-139C-successor-recovery.preflight-review.json",
+          "type": "runtime",
+          "verification": "/Users/sei-rinn/.local/bin/ai-cockpit work-item controls --repo /Users/sei-rinn/dev/workspace_rust/ai-cockpit --id WI-139C-successor-recovery --input /private/tmp/wi139c-review.json"
         }
       ]
     }
@@ -42,19 +53,20 @@
     "evidence": [
       "Cargo.toml",
       "docs/release/distribution.md",
-      ".github/workflows/release.yml"
+      ".github/workflows/release.yml",
+      ".ai/decisions/WI-139C-successor-recovery.preflight-review.json"
     ],
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-08-22T16:12:09Z",
+  "preflightAt": "2026-08-22T16:24:37Z",
   "preflightContractDigest": "sha256:2fd768b4fe7fcca91cd0a5d168130bd1c5c12bb5db9270c04d06c4ff24e14939",
-  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:a27f42cb082edf50a6702f5d0f9348402d0961250a4dfd4459fdc11651bfeeeb",
-  "preflightState": "green",
+  "preflightDecisionDigest": "sha256:b01568b44e1b8ca238a099adc09d4b6d20698baacadac354fd392dbc937880c4",
+  "preflightRepositorySnapshotDigest": "sha256:e352a8dbbf27fabb9037c80be065ef497804a2779877d1f6112827da26f1d18f",
+  "preflightState": "red",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
-  "updatedAt": "2026-08-22T16:07:56.363084+00:00",
+  "updatedAt": "2026-08-22T16:24:33.460733+00:00",
   "workItemId": "WI-139D-runtime-v0-2-12-bootstrap"
 }
