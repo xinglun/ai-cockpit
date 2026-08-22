@@ -29,7 +29,7 @@ are independent identities.
 
 ```text
 ai-cockpit --version
-0.2.12
+0.2.13
 
 repository:
 protocol_version = 1

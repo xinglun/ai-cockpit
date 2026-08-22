@@ -1,0 +1,103 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "source release version gate",
+          "path": "tests/release/version_consistency.sh",
+          "type": "planned_gate",
+          "verification": "pending"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "hosted publish and supply-chain jobs",
+          "path": ".github/workflows/release.yml",
+          "type": "planned_gate",
+          "verification": "pending"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "public v0.2.13 adopter acceptance",
+          "path": "tests/release/adopter_acceptance.sh",
+          "type": "planned_gate",
+          "verification": "pending"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "v0.2.12 to v0.2.13 upgrade acceptance",
+          "path": "tests/release/adopter_upgrade_acceptance.sh",
+          "type": "planned_gate",
+          "verification": "pending"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "installed Runtime current-repository acceptance",
+          "path": "docs/reference/commands.md",
+          "type": "planned_gate",
+          "verification": "pending"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [],
+  "checkpointAt": "2026-08-22T17:18:01Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T17:16:34Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:51bbe95325c80cb1a6956dc937b4c665e041ab7d91a6183b4057d3bb02f815a4",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+    "reason": "Confirm bounded high-risk release bootstrap review for the current main snapshot; only immutable public artifacts and explicit post-release acceptance may satisfy completion.",
+    "recordedAt": "2026-08-23T02:18:00+09:00",
+    "recordedBy": "human:maintainer",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:37b00ab0352f189ce283836af51aecbd460203d28d2ef26d44cbd89b66d20bff",
+    "schemaVersion": 1,
+    "workItemId": "WI-139F-runtime-v0-2-13"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".github/workflows/release.yml",
+      "docs/release/distribution.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-08-22T17:30:07Z",
+  "preflightContractDigest": "sha256:51bbe95325c80cb1a6956dc937b4c665e041ab7d91a6183b4057d3bb02f815a4",
+  "preflightDecisionDigest": "sha256:23ab9d52ca3a22d0e64f878db44b9e8dff77030ece0e3ba4193b923922377a50",
+  "preflightRepositorySnapshotDigest": "sha256:51060759e52a94683351e6c3dc6f1f1a7ea9d142aa8fe0228b332c67408d331a",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "reason": "Release and adopter evidence is collected only after the public tag and binary exist.",
+      "required": true,
+      "scenario": "public release identity and adopter isolation",
+      "status": "unverified"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-08-22T17:18:01Z",
+  "workItemId": "WI-139F-runtime-v0-2-13"
+}
