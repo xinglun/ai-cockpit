@@ -1,0 +1,133 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-143-intent-scenario-binding.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9a5fc9d562814db2d0dc214e0bb57bd4f11ee161b3cebfd7294b46e530707d2f",
+      "workItemId": "WI-143-intent-scenario-binding"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-143-intent-scenario-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-143-intent-scenario-binding.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-143-intent-scenario-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-143-intent-scenario-binding.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-143-intent-scenario-binding.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-143-intent-scenario-binding.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-143-intent-scenario-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:owner via explicit-user-authorization at 2026-08-22T20:16:30Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-143-intent-scenario-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-143-intent-scenario-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-143-intent-scenario-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-143-intent-scenario-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "Bind human-declared intent and scenario coverage to policy-derived operation and stage requirements without inventing governance decisions."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-143-intent-scenario-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-143-intent-scenario-binding"
+  },
+  "finalReportDigest": "sha256:8b8a3ad7de1c3fc4f94286f9df848f99a00c5b6ccd23bfd51069d753d380dc82",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-22T20:16:30Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-143-intent-scenario-binding.verification.json"
+    ],
+    "policyRefs": [
+      "repository-governance-v1"
+    ],
+    "reason": "Reviewed intent scenario stage binding and fail-closed route tests including four-pillar presentation boundary.",
+    "resumeCondition": "Reopen if later route integration changes contract-language boundaries."
+  },
+  "timestamp": "2026-08-22T20:16:16Z",
+  "workItemId": "WI-143-intent-scenario-binding"
+}

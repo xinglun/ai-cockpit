@@ -82,6 +82,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-140——Verification 语义与 Artifact 归档完整性 | 已实现 | [Work Item](../work-items/WI-140-verification-semantics.zh-CN.md)；`.ai/evidence/WI-140-verification-semantics.verification.json`；`.ai/decisions/WI-140-verification-semantics.close.json` |
 | WI-141——Policy 驱动的 Verification Planner | 已实现 | [Work Item](../work-items/WI-141-policy-planner.zh-CN.md)；`.ai/evidence/WI-141-policy-planner.verification.json`；`.ai/decisions/WI-141-policy-planner.close.json` |
 | WI-142——受影响 Verification 与依赖置信度 | 已实现 | [Work Item](../work-items/WI-142-affected-verification.zh-CN.md)；`.ai/evidence/WI-142-affected-verification.verification.json`；`.ai/decisions/WI-142-affected-verification.close.json` |
+| WI-143——Intent、Scenario 与 Stage 绑定 | 已实现 | [Work Item](../work-items/WI-143-intent-scenario-binding.zh-CN.md)；`.ai/evidence/WI-143-intent-scenario-binding.verification.json`；`.ai/decisions/WI-143-intent-scenario-binding.close.json` |
 
 ## 当前边界
 
