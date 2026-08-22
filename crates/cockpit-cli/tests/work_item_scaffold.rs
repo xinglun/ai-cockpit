@@ -143,6 +143,45 @@ fn new_work_item_reports_facts_and_keeps_human_decisions_empty() {
 }
 
 #[test]
+fn work_item_new_recreates_active_directory_after_archival() {
+    let root = repository();
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let attach = Command::new(binary)
+        .args(["attach", "--repo"])
+        .arg(&root)
+        .output()
+        .expect("attach");
+    assert!(attach.status.success());
+    let active = root.join(".ai/work-items/active");
+    fs::remove_dir_all(&active).expect("remove empty active directory");
+    assert!(!active.exists());
+
+    let output = Command::new(binary)
+        .args(["work-item", "new", "--repo"])
+        .arg(&root)
+        .args(["--id", "after-archive", "--mode", "code"])
+        .output()
+        .expect("work item scaffold");
+    assert!(
+        output.status.success(),
+        "stderr: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    assert!(active.is_dir());
+    assert!(active.join("after-archive.contract.json").is_file());
+    let contract: serde_json::Value = serde_json::from_slice(
+        &fs::read(active.join("after-archive.contract.json")).expect("contract"),
+    )
+    .expect("contract JSON");
+    assert_eq!(contract["state"], "not_ready");
+    assert_eq!(contract["intent"], "");
+    assert_eq!(contract["scope"], serde_json::json!([]));
+    assert_eq!(contract["acceptanceCriteria"], serde_json::json!([]));
+    assert_eq!(contract["authority"], "unknown");
+    fs::remove_dir_all(root).expect("cleanup");
+}
+
+#[test]
 fn work_item_new_requires_an_explicit_repository() {
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     let output = Command::new(binary)

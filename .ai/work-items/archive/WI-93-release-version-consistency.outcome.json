@@ -1,0 +1,40 @@
+{
+  "acceptanceResults": [
+    "source-quality fails closed when Cargo workspace version is not reflected in all current trilingual release and architecture installation baselines",
+    "the consistency gate validates current release evidence, archive naming, and workflow invocation from Cargo metadata while allowing explicit historical N-1 references",
+    "release workflow policy and hosted source-quality job execute the consistency gate before publication",
+    "work-item new creates .ai/work-items/active when a repository has no active Work Items, without inventing governance decisions",
+    "a regression test covers an attached repository whose active directory was removed after archival",
+    "current v0.2.3 docs, evidence, static checks, and installed Runtime verification remain green"
+  ],
+  "createdAt": "2026-08-22T00:17:54Z",
+  "evidenceDigest": "sha256:680ad60f6b232c262512e909c03c1d28a0f39893335b05a6e08737d477c50ddb",
+  "evidenceRefs": [
+    ".ai/evidence/WI-93-release-version-consistency.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-93-release-version-consistency.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-93-release-version-consistency.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-93-release-version-consistency"
+}

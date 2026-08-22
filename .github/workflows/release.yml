@@ -124,6 +124,7 @@ jobs:
           cargo metadata --locked --format-version 1 > /tmp/cargo-metadata.json
           version="$(jq -er '.packages[] | select(.name == "cockpit-cli") | .version' /tmp/cargo-metadata.json)"
           jq -e --arg version "$version" '[.packages[] | select(.source == null) | .version == $version] | all' /tmp/cargo-metadata.json
+          tests/release/version_consistency.sh --repo "$GITHUB_WORKSPACE"
           tests/release/workflow_policy.sh .github/workflows/release.yml
           tests/release/annotated_tag_identity.sh
           tests/release/adopter_acceptance_test.sh
@@ -506,6 +507,35 @@ jobs:
           path: dist/homebrew-handoff.json
           if-no-files-found: error
           retention-days: 7
+
+  post_release_version_consistency:
+    # This is a post-publication truth check. It never rewrites or unpublishes
+    # a Release; it fails the workflow if public assets drift from the source
+    # version or the current trilingual installation docs.
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    needs: [publish, publish_handoff]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+        with:
+          toolchain: 1.94.1
+      - name: Verify public Release and current documentation version
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          tests/release/version_consistency.sh \
+            --repo "$GITHUB_WORKSPACE" \
+            --post-release \
+            --repository "$GITHUB_REPOSITORY" \
+            --tag "$GITHUB_REF_NAME"
 
   adopter_acceptance:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')

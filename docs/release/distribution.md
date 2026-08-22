@@ -101,6 +101,13 @@ workspace or local Runtime binary. A failed post-release acceptance records
 the already-published Release. Coverage for a second technology stack is a
 separate future Work Item.
 
+To prevent a release from leaving configuration or documentation behind, the
+release workflow derives the current version from Cargo metadata and runs
+`tests/release/version_consistency.sh`. The source check validates all three
+language routes and current archive examples; the post-release check validates
+the public Release manifest and asset names. Historical N-1 references remain
+explicit and are not mistaken for the current baseline.
+
 ### Historical N-1 schema migration acceptance
 
 The schema-changing baseline is the historical v0.1.1 to v0.2.0 migration.

@@ -1,0 +1,22 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "sei-rinn",
+    "authoritySource": "repository-owner",
+    "decidedAt": "2026-08-22T00:20:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-93-release-version-consistency.verification.json"
+    ],
+    "policyRefs": [
+      "docs/release/distribution.md",
+      ".github/workflows/release.yml"
+    ],
+    "reason": "Release version drift and empty active scaffold directory are covered by executable gates and regression evidence.",
+    "resumeCondition": "Reopen if a future release changes version-bound docs/assets without a failing gate."
+  },
+  "timestamp": "2026-08-22T00:17:54Z",
+  "workItemId": "WI-93-release-version-consistency"
+}

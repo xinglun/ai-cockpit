@@ -1,0 +1,48 @@
+{
+  "acceptanceCriteria": [
+    "source-quality fails closed when Cargo workspace version is not reflected in all current trilingual release and architecture installation baselines",
+    "the consistency gate validates current release evidence, archive naming, and workflow invocation from Cargo metadata while allowing explicit historical N-1 references",
+    "release workflow policy and hosted source-quality job execute the consistency gate before publication",
+    "work-item new creates .ai/work-items/active when a repository has no active Work Items, without inventing governance decisions",
+    "a regression test covers an attached repository whose active directory was removed after archival",
+    "current v0.2.3 docs, evidence, static checks, and installed Runtime verification remain green"
+  ],
+  "authority": "authorized",
+  "baseRevision": "cf66cc207c068c52e40de79eef8b8ea77b97d260",
+  "createdAt": "2026-08-22T00:07:35Z",
+  "goal": "让发布 gate 从 Cargo workspace 版本自动验证当前三语安装/架构文档、Release evidence 与 workflow，并保证 work-item new 在归档后仓库仍可幂等创建治理骨架。",
+  "intent": "根治发布后版本漂移，并修复新 Work Item 脚手架在 active 目录不存在时的失败路径。",
+  "mode": "code",
+  "outOfScope": [
+    "rewriting historical Work Item or release evidence",
+    "changing the public v0.2.3 Release truth or tag",
+    "changing the repository configuration format",
+    "global Agent or MCP configuration",
+    "business project templates"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:014f25cbc691a20732461c1869e4c7e69f3ca28e000eea79101364cae837491d",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "unknown",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/tests/work_item_scaffold.rs",
+    "tests/release/version_consistency.sh",
+    "tests/release/version_consistency_test.sh",
+    "tests/release/workflow_policy.sh",
+    ".github/workflows/release.yml",
+    "docs/release/distribution.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-93-release-version-consistency"
+}
