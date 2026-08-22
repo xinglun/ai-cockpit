@@ -1,0 +1,36 @@
+{
+  "acceptanceCriteria": [
+    "A1: adopter_acceptance and adopter_upgrade_acceptance clean run roots on success and failure without altering acceptance truth",
+    "A2: test wrappers clean temporary output directories and assert cleanup",
+    "A3: isolation manifests cover files directories symlink metadata and digests",
+    " with explicit Cargo cache allowlists",
+    "A4: release workflow remains immutable and post-release failure cannot rewrite Release truth"
+  ],
+  "authority": "authorized",
+  "baseRevision": "bbde8a6b5aed65950a1c10550b674318ac29ae10",
+  "createdAt": "2026-08-22T16:51:25Z",
+  "goal": "Make post-release acceptance cleanup deterministic on success and failure while retaining auditable receipts and complete isolated-root manifests.",
+  "intent": "Eliminate release adopter acceptance temporary-directory leaks and strengthen isolation manifests before the next public Runtime release.",
+  "mode": "implementation",
+  "outOfScope": [],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1eee7b318130bcb85b97928d3430c9b8e6506ea5f4812754190bf2be3e0fa8e5",
+  "requiredEvidenceClasses": [
+    "verification",
+    "release"
+  ],
+  "risk": "medium",
+  "scope": [
+    "tests/release/**",
+    ".github/workflows/**",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-139E-release-acceptance-cleanup"
+}
