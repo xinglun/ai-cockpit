@@ -79,6 +79,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-133——文档事实一致性校正 | 已实现 | [Work Item](../work-items/WI-133-docs-truth.zh-CN.md)；`.ai/evidence/WI-133-docs-truth.verification.json`；`.ai/decisions/WI-133-docs-truth.close.json` |
 | WI-135——Repository 绑定的 retention 与关闭证据 | 已实现 | [Work Item](../work-items/WI-135-repository-bound-evidence.zh-CN.md)；`.ai/evidence/WI-135-repository-bound-evidence.verification.json`；`.ai/decisions/WI-135-repository-bound-evidence.close.json` |
 | WI-136——Task Outcome 与 Human Benefit report | 已实现 | [Work Item](../work-items/WI-136-task-outcome-report.zh-CN.md)；`.ai/evidence/WI-136-task-outcome-report.verification.json`；`.ai/decisions/WI-136-task-outcome-report.close.json` |
+| WI-140——Verification 语义与 Artifact 归档完整性 | 已实现 | [Work Item](../work-items/WI-140-verification-semantics.zh-CN.md)；`.ai/evidence/WI-140-verification-semantics.verification.json`；`.ai/decisions/WI-140-verification-semantics.close.json` |
 
 ## 当前边界
 

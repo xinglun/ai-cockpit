@@ -1,0 +1,64 @@
+{
+  "acceptanceCriteria": [
+    "A1: VerificationTier is a strict T0 T1 T2 T3 vocabulary and EvidenceAssurance is a strict SelfDeclared RepositoryVerified ProviderVerified EnterpriseVerified vocabulary; the two dimensions remain independent",
+    "A2: A verification requirement can record required tier assurance requirement and traceable policy stage gate references without allowing T3 to imply ProviderVerified or EnterpriseVerified",
+    "A3: Existing verification reuse and execution remains fail closed and legacy records do not become green through an implicit tier or assurance mapping",
+    "A4: Normal archive lifecycle moves every generated Work Item artifact including implementation approach or leaves no orphan active artifact",
+    "A5: Unknown fields invalid tier assurance or contradictory combinations are rejected deterministically and no global project state is introduced",
+    "A6: English Japanese and Simplified Chinese documentation explains the orthogonal dimensions and records implementation evidence paths"
+  ],
+  "authority": "authorized",
+  "baseRevision": "8e6529f97b38a2b4bdb2a980e7d5dbc0e1d664fe",
+  "createdAt": "2026-08-22T19:10:54Z",
+  "goal": "Introduce VerificationTier and EvidenceAssurance as independent typed governance dimensions and close the generated-artifact archive gap found during self-audit.",
+  "intent": "Define explicit orthogonal verification truth dimensions before planner and performance work.",
+  "mode": "code",
+  "outOfScope": [
+    "Planner policy selection and organization or project policy resolution",
+    "CI migration and hard performance targets",
+    "Release publication and installer changes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d73a0093d7a8eba26b2ce61989d3cff8275a87108fc50fdca416b64faca518ac",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "medium",
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/**",
+    "crates/cockpit-verification/src/lib.rs",
+    "crates/cockpit-verification/tests/**",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/**",
+    "docs/reference/verification-semantics.md",
+    "docs/reference/verification-semantics.zh-CN.md",
+    "docs/reference/verification-semantics.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-140-verification-semantics.md",
+    "docs/work-items/WI-140-verification-semantics.zh-CN.md",
+    "docs/work-items/WI-140-verification-semantics.ja.md"
+  ],
+  "sources": [
+    "User-approved WI-140 to WI-147 verification semantics baseline",
+    "docs/superpowers/specs/2026-08-21-fail-closed-evidence-reuse-planner-design.md",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-verification/src/lib.rs",
+    "crates/cockpit-repository/src/lib.rs"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked -p cockpit-protocol --all-targets",
+    "cargo test --locked -p cockpit-verification --all-targets",
+    "cargo test --locked -p cockpit-repository --test archive_integrity --test lifecycle_order",
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "bash tests/docs/documentation_acceptance.sh"
+  ],
+  "workItemId": "WI-140-verification-semantics"
+}

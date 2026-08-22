@@ -1,0 +1,108 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "tier_and_assurance_are_orthogonal_and_strictly_serialized",
+          "path": "crates/cockpit-protocol/tests/verification_semantics.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-protocol --test verification_semantics"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "requirement_validation_needs_traceable_references_and_reason",
+          "path": "crates/cockpit-protocol/tests/verification_semantics.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-protocol --test verification_semantics"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "all",
+          "path": "crates/cockpit-verification/tests/execution.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-verification --all-targets"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "archive_moves_implementation_approach_and_removes_active_orphan",
+          "path": "crates/cockpit-repository/tests/archive_integrity.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-repository --test archive_integrity"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "unknown_fields_and_invalid_enum_values_fail_closed",
+          "path": "crates/cockpit-protocol/tests/verification_semantics.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-protocol --test verification_semantics"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "Verification semantics",
+          "path": "docs/reference/verification-semantics.md",
+          "type": "document",
+          "verification": "bash tests/docs/documentation_acceptance.sh"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/active/WI-140-verification-semantics.contract.json",
+    ".ai/work-items/active/WI-140-verification-semantics.summary.json"
+  ],
+  "checkpointAt": "2026-08-22T19:12:21Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T19:10:54Z",
+  "failedGate": "finish.verification",
+  "intentAlignment": {
+    "evidence": [
+      "docs/reference/verification-semantics.md",
+      "crates/cockpit-protocol/src/lib.rs"
+    ],
+    "reason": "Implementation and tests directly define the requested orthogonal verification semantics.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-22T19:31:24Z",
+  "preflightContractDigest": "sha256:bfda23fc978cc91ba595590633ac19f77bcb05982caf4af567874c8cc5332b4d",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:cf692eb283d6e307cc9e6420115f37bb720c2fc58db28e951bf73c8765533a97",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "expected": "Tier and assurance remain independent and generated artifacts archive without orphan state.",
+      "required": true,
+      "scenario": "verification truth semantics and archive integrity",
+      "status": "verified",
+      "verificationPlan": "Run protocol, verification, repository archive, formatting, lint, and documentation gates."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T19:31:24Z",
+  "workItemId": "WI-140-verification-semantics"
+}

@@ -1,0 +1,145 @@
+{
+  "acceptanceResults": [
+    "A1: VerificationTier is a strict T0 T1 T2 T3 vocabulary and EvidenceAssurance is a strict SelfDeclared RepositoryVerified ProviderVerified EnterpriseVerified vocabulary; the two dimensions remain independent",
+    "A2: A verification requirement can record required tier assurance requirement and traceable policy stage gate references without allowing T3 to imply ProviderVerified or EnterpriseVerified",
+    "A3: Existing verification reuse and execution remains fail closed and legacy records do not become green through an implicit tier or assurance mapping",
+    "A4: Normal archive lifecycle moves every generated Work Item artifact including implementation approach or leaves no orphan active artifact",
+    "A5: Unknown fields invalid tier assurance or contradictory combinations are rejected deterministically and no global project state is introduced",
+    "A6: English Japanese and Simplified Chinese documentation explains the orthogonal dimensions and records implementation evidence paths"
+  ],
+  "createdAt": "2026-08-22T19:31:24Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:8a8f81ded9c04a5ca9531d596214b57e35e58ac695835e1718b026e0feab9983",
+  "evidenceRefs": [
+    ".ai/evidence/WI-140-verification-semantics.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-140-verification-semantics.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-140-verification-semantics.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:cf692eb283d6e307cc9e6420115f37bb720c2fc58db28e951bf73c8765533a97",
+      "workItemId": "WI-140-verification-semantics"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-140-verification-semantics.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-140-verification-semantics.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-140-verification-semantics.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-140-verification-semantics.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-140-verification-semantics.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-140-verification-semantics.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-140-verification-semantics.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-140-verification-semantics.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-140-verification-semantics.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-140-verification-semantics.contract.json"
+          ],
+          "inference": false,
+          "text": "Introduce VerificationTier and EvidenceAssurance as independent typed governance dimensions and close the generated-artifact archive gap found during self-audit."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-140-verification-semantics.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-140-verification-semantics"
+  },
+  "taskReportDigest": "sha256:d007997c6b888b2205ccf3bd2e2fbf6764ebe8d69c5e309971d421b8dc7039dd",
+  "taskReportMarkdownDigest": "sha256:b793d80ba930982b526c4fa98667680e5ea388c63dccd23fa0009179a4c35741",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-140-verification-semantics.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-140-verification-semantics"
+}

@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-22T19:31:27Z",
+  "files": {
+    "contractDigest": "sha256:898ea27395a14020818c839f654e6cf877ff803ab43ecdadc7633a9e2a5742c3",
+    "contractPath": ".ai/work-items/archive/WI-140-verification-semantics.contract.json",
+    "eventsDigest": "sha256:c91a237c06e703092a81c2e477b07b35b3f81bacdefea7e68502254630a3af6d",
+    "eventsPath": ".ai/work-items/archive/WI-140-verification-semantics.events.jsonl",
+    "outcomeDigest": "sha256:cd28f2b413fa7cf518459177fc68dac8d273e1e00b30eecbff1bfc3ef1767f21",
+    "outcomePath": ".ai/work-items/archive/WI-140-verification-semantics.outcome.json",
+    "summaryDigest": "sha256:3256f4de4223fd1e6eec24e5de18549707d2bba26ba7da9cbef42025edd7e601",
+    "summaryPath": ".ai/work-items/archive/WI-140-verification-semantics.summary.json",
+    "taskReportDigest": "sha256:d007997c6b888b2205ccf3bd2e2fbf6764ebe8d69c5e309971d421b8dc7039dd",
+    "taskReportMarkdownDigest": "sha256:b793d80ba930982b526c4fa98667680e5ea388c63dccd23fa0009179a4c35741",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-140-verification-semantics.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-140-verification-semantics.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-140-verification-semantics"
+}
