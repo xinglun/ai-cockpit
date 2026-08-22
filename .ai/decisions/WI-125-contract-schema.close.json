@@ -1,0 +1,22 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "repository owner",
+    "authoritySource": "direct user instruction in current task",
+    "decidedAt": "2026-08-22T00:00:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-125-contract-schema.verification.json",
+      "PR #59 CI"
+    ],
+    "policyRefs": [
+      "docs/reference/configuration.md"
+    ],
+    "reason": "WI-125 merged after Contract V2 compatibility review and all PR checks passed.",
+    "resumeCondition": "Reopen only if Contract schema compatibility or field mapping review finds drift."
+  },
+  "timestamp": "2026-08-22T09:34:45Z",
+  "workItemId": "WI-125-contract-schema"
+}
