@@ -1,0 +1,80 @@
+{
+  "acceptanceCriteria": [
+    "A1: GovernancePolicy rules can declare an explicit VerificationRequirement with tier assurance and policy stage gate traceability; T3 never implies ProviderVerified or EnterpriseVerified",
+    "A2: Planner output is derived only from ordered Organization Project and Work Item policy layers and records source policy ids and escalation reasons and fails closed when a requirement or traceability reference is missing",
+    "A3: Lower policy layers cannot weaken a higher layer verification tier assurance or required evidence; planner does not hide policy inside operation heuristics",
+    "A4: Historical generated artifact orphans WI-139C and WI-139F are reconciled into their immutable archive records with manifest-bound digests leaving no active approach orphan",
+    "A5: Unknown policy fields invalid requirements missing operation rules and unsupported stage or protected-gate references fail closed with stable errors",
+    "A6: Tri-language documentation explains policy-to-planner traceability the independent tier and assurance dimensions and the historical artifact reconciliation"
+  ],
+  "authority": "authorized",
+  "baseRevision": "4725bbe31b96ee0c1d697ba88af9cd5e6f31ab4b",
+  "createdAt": "2026-08-22T19:36:46Z",
+  "goal": "Make policy and stage the sole source of verification requirements while preserving independent assurance semantics and repairing known historical artifact orphans.",
+  "intent": "Implement a traceable policy-driven verification planner without introducing a second tier semantic or inferring governance decisions from operation names.",
+  "mode": "code",
+  "outOfScope": [
+    "dependency confidence and affected verification graph",
+    "cross-Work-Item physical execution deduplication",
+    "CI workflow migration",
+    "performance targets",
+    "global Agent or MCP configuration",
+    "rewriting historical evidence bytes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:45738ffdebf2d783f0907cefbedf07005552b237227d304709e5b32bd6d9c646",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "scenario": "policy-driven release verification",
+      "required": true,
+      "status": "unverified",
+      "expected": "An ordered policy stack yields a traceable independent tier and assurance requirement or stops with a stable reason.",
+      "verificationPlan": "Run protocol policy overlay tests, planner tests, archive reconciliation checks, lint, and documentation acceptance."
+    }
+  ],
+  "scope": [
+    "Cargo.lock",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/**",
+    "crates/cockpit-verification/Cargo.toml",
+    "crates/cockpit-verification/src/lib.rs",
+    "crates/cockpit-verification/tests/**",
+    "crates/cockpit-repository/tests/**",
+    ".ai/work-items/active/WI-139C-successor-recovery.approach.json",
+    ".ai/work-items/active/WI-139F-runtime-v0-2-13.approach.json",
+    ".ai/work-items/archive/WI-139C-successor-recovery.archive.json",
+    ".ai/work-items/archive/WI-139C-successor-recovery.approach.json",
+    ".ai/work-items/archive/WI-139F-runtime-v0-2-13.archive.json",
+    ".ai/work-items/archive/WI-139F-runtime-v0-2-13.approach.json",
+    "docs/reference/verification-planner.md",
+    "docs/reference/verification-planner.zh-CN.md",
+    "docs/reference/verification-planner.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-141-policy-planner.md",
+    "docs/work-items/WI-141-policy-planner.zh-CN.md",
+    "docs/work-items/WI-141-policy-planner.ja.md"
+  ],
+  "sources": [
+    "spirex-ds-dev/ai-cockpit-template verification policy and runtime planner",
+    "WI-140 verification semantics and user-approved WI-141 baseline",
+    "repository artifact/lifecycle audit: historical active approach orphans"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked -p cockpit-protocol --all-targets",
+    "cargo test --locked -p cockpit-verification --all-targets",
+    "cargo test --locked -p cockpit-repository --test archive_integrity --test lifecycle_order",
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "bash tests/docs/documentation_acceptance.sh"
+  ],
+  "workItemId": "WI-141-policy-planner"
+}

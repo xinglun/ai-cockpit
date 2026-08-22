@@ -334,6 +334,11 @@ impl VerificationRequirement {
         actual_tier.rank() >= self.required_tier.rank()
             && actual_assurance.rank() >= self.required_assurance.rank()
     }
+
+    pub const fn is_at_least_as_strict_as(&self, parent: &Self) -> bool {
+        self.required_tier.rank() >= parent.required_tier.rank()
+            && self.required_assurance.rank() >= parent.required_assurance.rank()
+    }
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -439,6 +444,8 @@ pub struct PolicyRule {
     pub operation: String,
     pub approval_mode: ApprovalMode,
     pub required_evidence: Vec<String>,
+    #[serde(default)]
+    pub verification_requirement: Option<VerificationRequirement>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -525,6 +532,16 @@ pub fn validate_policy_overlay(
                 field: "requiredEvidence".into(),
             });
         }
+        if let (Some(parent_requirement), Some(child_requirement)) = (
+            &parent_rule.verification_requirement,
+            &child_rule.verification_requirement,
+        ) && !child_requirement.is_at_least_as_strict_as(parent_requirement)
+        {
+            return Err(PolicyError::Weakening {
+                operation: parent_rule.operation.clone(),
+                field: "verificationRequirement".into(),
+            });
+        }
     }
     Ok(())
 }
@@ -594,6 +611,20 @@ pub fn merge_policy_layers(layers: &[&GovernancePolicy]) -> Result<GovernancePol
                 }
                 existing.approval_mode = rule.approval_mode.clone();
                 existing.required_evidence = evidence;
+                if let Some(child_requirement) = &rule.verification_requirement {
+                    existing.verification_requirement = Some(
+                        existing
+                            .verification_requirement
+                            .as_ref()
+                            .map(|parent_requirement| {
+                                merge_verification_requirements(
+                                    parent_requirement,
+                                    child_requirement,
+                                )
+                            })
+                            .unwrap_or_else(|| child_requirement.clone()),
+                    );
+                }
             } else {
                 effective.rules.push(rule.clone());
             }
@@ -605,6 +636,36 @@ pub fn merge_policy_layers(layers: &[&GovernancePolicy]) -> Result<GovernancePol
         effective.policy_id = format!("effective:{}", ids.join(":"));
     }
     Ok(effective)
+}
+
+fn merge_verification_requirements(
+    parent: &VerificationRequirement,
+    child: &VerificationRequirement,
+) -> VerificationRequirement {
+    let mut merged = parent.clone();
+    if child.required_tier.rank() > merged.required_tier.rank() {
+        merged.required_tier = child.required_tier;
+    }
+    if child.required_assurance.rank() > merged.required_assurance.rank() {
+        merged.required_assurance = child.required_assurance;
+    }
+    for reference in &child.policy_refs {
+        if !merged.policy_refs.contains(reference) {
+            merged.policy_refs.push(reference.clone());
+        }
+    }
+    for reference in &child.stage_refs {
+        if !merged.stage_refs.contains(reference) {
+            merged.stage_refs.push(reference.clone());
+        }
+    }
+    for reference in &child.gate_refs {
+        if !merged.gate_refs.contains(reference) {
+            merged.gate_refs.push(reference.clone());
+        }
+    }
+    merged.reason = format!("{}; {}", parent.reason, child.reason);
+    merged
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]

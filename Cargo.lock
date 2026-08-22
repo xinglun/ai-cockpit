@@ -375,6 +375,7 @@ version = "0.2.15"
 dependencies = [
  "cockpit-core",
  "cockpit-evidence",
+ "cockpit-protocol",
  "libc",
  "serde",
  "serde_json",

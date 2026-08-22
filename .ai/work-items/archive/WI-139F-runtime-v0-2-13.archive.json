@@ -5,6 +5,8 @@
     "contractPath": ".ai/work-items/archive/WI-139F-runtime-v0-2-13.contract.json",
     "eventsDigest": "sha256:f29f688a2ef58752a62228719ea84e54ef9b57b01a58319648c1518f2ec34e3f",
     "eventsPath": ".ai/work-items/archive/WI-139F-runtime-v0-2-13.events.jsonl",
+    "approachDigest": "sha256:6f9b728e3de8c52904d6366d35a90a2a01691369fa136b3ba542e2332bd8a5c3",
+    "approachPath": ".ai/work-items/archive/WI-139F-runtime-v0-2-13.approach.json",
     "outcomeDigest": "sha256:84ccc680b7ec26c4253bd06e5dffc75a20492d50bd03b995d44f59618250635b",
     "outcomePath": ".ai/work-items/archive/WI-139F-runtime-v0-2-13.outcome.json",
     "summaryDigest": "sha256:828d987dcb8e023d5d0553e470b2ce01e5f9fe1c83327d5d98559f1f311915ca",

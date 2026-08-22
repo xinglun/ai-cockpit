@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-22T19:52:40Z",
+  "files": {
+    "contractDigest": "sha256:f804f90ef59413785cafa65bc6ffdc9d079c4d248ad2379ddb94dbcb0ce9e971",
+    "contractPath": ".ai/work-items/archive/WI-141-policy-planner.contract.json",
+    "eventsDigest": "sha256:c5a1ad56c9d9e87d61cf32566d72c68131c3880199e5ccd6316404755e6c8174",
+    "eventsPath": ".ai/work-items/archive/WI-141-policy-planner.events.jsonl",
+    "approachDigest": "sha256:61a56547f0ea71fa2a74118b0e545e3dbf8f97ab5a966c520195f2fbb667c25b",
+    "approachPath": ".ai/work-items/archive/WI-141-policy-planner.approach.json",
+    "outcomeDigest": "sha256:ce53229d4ccc20e8ff9ec2b300a9aea68d3bb6e3349873197f0ae1b327b1f2bf",
+    "outcomePath": ".ai/work-items/archive/WI-141-policy-planner.outcome.json",
+    "summaryDigest": "sha256:7655c479099238a7a6827f17396965772d7873f5f241e0ee7244cde173827996",
+    "summaryPath": ".ai/work-items/archive/WI-141-policy-planner.summary.json",
+    "taskReportDigest": "sha256:dbaf5d6e92fe52bba2e763e636e5483205137dad1b1b6a33f87b165369885903",
+    "taskReportMarkdownDigest": "sha256:8f51ff41a099d1c87e7dae380a8f7177e4f55847eda97afaf66ce49c291199cd",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-141-policy-planner.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-141-policy-planner.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-141-policy-planner"
+}

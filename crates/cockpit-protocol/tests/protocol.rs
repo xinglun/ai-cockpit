@@ -300,6 +300,7 @@ fn organization_policy_cannot_be_weakened_by_a_lower_layer() {
             operation: "production_destructive".into(),
             approval_mode: cockpit_protocol::ApprovalMode::SingleAuthorizedHuman,
             required_evidence: vec!["hosted_ci".into()],
+            verification_requirement: None,
         }],
     };
     let weakened = cockpit_protocol::GovernancePolicy {
@@ -309,6 +310,7 @@ fn organization_policy_cannot_be_weakened_by_a_lower_layer() {
             operation: "production_destructive".into(),
             approval_mode: cockpit_protocol::ApprovalMode::NoHumanApprovalForLowRisk,
             required_evidence: vec![],
+            verification_requirement: None,
         }],
     };
     let error = cockpit_protocol::validate_policy_overlay(&organization, &weakened)
@@ -328,6 +330,7 @@ fn policy_document_merges_layers_without_allowing_weakening() {
             operation: "release".into(),
             approval_mode: cockpit_protocol::ApprovalMode::SingleAuthorizedHuman,
             required_evidence: vec!["hosted_ci".into()],
+            verification_requirement: None,
         }],
     };
     let project = cockpit_protocol::GovernancePolicy {
@@ -337,6 +340,7 @@ fn policy_document_merges_layers_without_allowing_weakening() {
             operation: "release".into(),
             approval_mode: cockpit_protocol::ApprovalMode::SingleAuthorizedHuman,
             required_evidence: vec!["hosted_ci".into(), "sbom".into()],
+            verification_requirement: None,
         }],
     };
     let effective = cockpit_protocol::merge_policy_layers(&[&organization, &project])

@@ -5,6 +5,8 @@
     "contractPath": ".ai/work-items/archive/WI-139C-successor-recovery.contract.json",
     "eventsDigest": "sha256:c2a83ed4b26276cf6ef3a7c24803781fa703d28dc007a2d7212cde5d94369806",
     "eventsPath": ".ai/work-items/archive/WI-139C-successor-recovery.events.jsonl",
+    "approachDigest": "sha256:8bebf4cbf8d99ab3da8e44beb07d2dff08121e7abcfc11ade1e61bc8114b3bd3",
+    "approachPath": ".ai/work-items/archive/WI-139C-successor-recovery.approach.json",
     "outcomeDigest": "sha256:22d0a7435de88c39c277ad7c3decd0b1f48e0499bf99e1c5609800109d645012",
     "outcomePath": ".ai/work-items/archive/WI-139C-successor-recovery.outcome.json",
     "summaryDigest": "sha256:3e64e3ddcaece2f67d30424930fe1821768259d0ee36f8471f1de1995df456d4",

@@ -146,6 +146,157 @@ pub struct VerificationPlan {
     pub max_workers: usize,
 }
 
+/// Input to the policy-driven verification planner.  The planner consumes
+/// explicit policy layers; it never invents a T3 requirement from an
+/// operation name or silently treats T3 as provider/enterprise assurance.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct PolicyPlannerInput {
+    pub operation: String,
+    pub stage: String,
+    pub protected_gate: Option<String>,
+    pub policies: Vec<cockpit_protocol::GovernancePolicy>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct PolicyVerificationPlan {
+    pub schema_version: u32,
+    pub operation: String,
+    pub stage: String,
+    pub requirement: cockpit_protocol::VerificationRequirement,
+    pub source_policy_ids: Vec<String>,
+    pub escalation_reasons: Vec<String>,
+}
+
+#[derive(Debug, Error, PartialEq, Eq)]
+pub enum PolicyPlannerError {
+    #[error("policy planner requires at least one ordered policy layer")]
+    NoPolicies,
+    #[error("policy layer {0} has an empty policy id")]
+    EmptyPolicyId(String),
+    #[error("policy layer {0} is missing a rule for operation {1}")]
+    OperationRuleMissing(String, String),
+    #[error("policy {0} has no verification requirement for operation {1}")]
+    VerificationRequirementMissing(String, String),
+    #[error("policy {0} verification requirement is not traceable to its policy id")]
+    PolicyReferenceMissing(String),
+    #[error("policy {0} verification requirement does not reference stage {1}")]
+    StageReferenceMissing(String, String),
+    #[error("policy {0} verification requirement does not reference protected gate {1}")]
+    GateReferenceMissing(String, String),
+    #[error("invalid verification requirement in policy {0}: {1}")]
+    InvalidRequirement(String, String),
+    #[error("policy merge failed: {0}")]
+    PolicyMerge(String),
+}
+
+pub const POLICY_PLANNER_SCHEMA_VERSION: u32 = 1;
+
+/// Resolve the required verification truth from explicit policy/stage/gate
+/// inputs.  Missing policy input or missing traceability is an error rather
+/// than a default T3 (or a green plan).  Higher tiers and assurance levels
+/// are merged independently by the protocol policy overlay rules.
+pub fn plan_policy_requirement(
+    input: &PolicyPlannerInput,
+) -> Result<PolicyVerificationPlan, PolicyPlannerError> {
+    if input.policies.is_empty() {
+        return Err(PolicyPlannerError::NoPolicies);
+    }
+    let policy_refs = input.policies.iter().collect::<Vec<_>>();
+    for policy in &input.policies {
+        if policy.policy_id.trim().is_empty() {
+            return Err(PolicyPlannerError::EmptyPolicyId(format!(
+                "{:?}",
+                policy.layer
+            )));
+        }
+        let rule = policy
+            .rules
+            .iter()
+            .find(|rule| rule.operation == input.operation)
+            .ok_or_else(|| {
+                PolicyPlannerError::OperationRuleMissing(
+                    policy.policy_id.clone(),
+                    input.operation.clone(),
+                )
+            })?;
+        let requirement = rule.verification_requirement.as_ref().ok_or_else(|| {
+            PolicyPlannerError::VerificationRequirementMissing(
+                policy.policy_id.clone(),
+                input.operation.clone(),
+            )
+        })?;
+        requirement.validate().map_err(|error| {
+            PolicyPlannerError::InvalidRequirement(policy.policy_id.clone(), error)
+        })?;
+        if !requirement.policy_refs.iter().any(|reference| {
+            reference == &policy.policy_id || reference == &format!("policy:{}", policy.policy_id)
+        }) {
+            return Err(PolicyPlannerError::PolicyReferenceMissing(
+                policy.policy_id.clone(),
+            ));
+        }
+        if !requirement
+            .stage_refs
+            .iter()
+            .any(|reference| reference == &input.stage)
+        {
+            return Err(PolicyPlannerError::StageReferenceMissing(
+                policy.policy_id.clone(),
+                input.stage.clone(),
+            ));
+        }
+        if let Some(gate) = &input.protected_gate
+            && !requirement
+                .gate_refs
+                .iter()
+                .any(|reference| reference == gate)
+        {
+            return Err(PolicyPlannerError::GateReferenceMissing(
+                policy.policy_id.clone(),
+                gate.clone(),
+            ));
+        }
+    }
+    let effective = cockpit_protocol::merge_policy_layers(&policy_refs)
+        .map_err(|error| PolicyPlannerError::PolicyMerge(error.to_string()))?;
+    let requirement = effective
+        .rules
+        .iter()
+        .find(|rule| rule.operation == input.operation)
+        .and_then(|rule| rule.verification_requirement.clone())
+        .ok_or_else(|| {
+            PolicyPlannerError::VerificationRequirementMissing(
+                effective.policy_id.clone(),
+                input.operation.clone(),
+            )
+        })?;
+    let escalation_reasons = input
+        .policies
+        .iter()
+        .filter_map(|policy| {
+            policy
+                .rules
+                .iter()
+                .find(|rule| rule.operation == input.operation)
+                .and_then(|rule| rule.verification_requirement.as_ref())
+                .map(|requirement| format!("{}: {}", policy.policy_id, requirement.reason))
+        })
+        .collect();
+    Ok(PolicyVerificationPlan {
+        schema_version: POLICY_PLANNER_SCHEMA_VERSION,
+        operation: input.operation.clone(),
+        stage: input.stage.clone(),
+        requirement,
+        source_policy_ids: input
+            .policies
+            .iter()
+            .map(|policy| policy.policy_id.clone())
+            .collect(),
+        escalation_reasons,
+    })
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct VerificationResult {

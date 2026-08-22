@@ -1,0 +1,77 @@
+{
+  "derivations": [
+    {
+      "confidence": "medium",
+      "evidenceRefs": [
+        "repository-snapshot"
+      ],
+      "inputFactKeys": [
+        "buildSystems"
+      ],
+      "key": "verificationCapability",
+      "rule": "observer.quality_commands_from_detected_build_system",
+      "value": [
+        {
+          "args": [
+            "test",
+            "--workspace"
+          ],
+          "program": "cargo",
+          "state": "detected"
+        }
+      ]
+    }
+  ],
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-141-policy-planner",
+    "repository-snapshot"
+  ],
+  "facts": [
+    {
+      "confidence": "high",
+      "evidenceRefs": [
+        "git:HEAD"
+      ],
+      "key": "baseRevision",
+      "origin": "observed",
+      "value": "4725bbe31b96ee0c1d697ba88af9cd5e6f31ab4b"
+    },
+    {
+      "confidence": "high",
+      "evidenceRefs": [
+        "repository-snapshot"
+      ],
+      "key": "buildSystems",
+      "origin": "observed",
+      "value": [
+        "Cargo"
+      ]
+    },
+    {
+      "confidence": "high",
+      "evidenceRefs": [
+        "repository-snapshot"
+      ],
+      "key": "languages",
+      "origin": "observed",
+      "value": [
+        "Python",
+        "Rust"
+      ]
+    },
+    {
+      "confidence": "high",
+      "evidenceRefs": [
+        ".ai/cockpit.toml"
+      ],
+      "key": "repositoryId",
+      "origin": "observed",
+      "value": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b"
+    }
+  ],
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1c11bc44b13416aa48ab873a7d8b60ee4210b452d48b1ec288a5f0486e8a0b5b",
+  "schemaVersion": 2,
+  "unknowns": [],
+  "workItemId": "WI-141-policy-planner"
+}
