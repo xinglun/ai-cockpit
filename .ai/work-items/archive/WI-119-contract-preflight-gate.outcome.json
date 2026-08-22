@@ -1,0 +1,42 @@
+{
+  "acceptanceResults": [
+    "Scaffold Work Item with empty intent scope and acceptance is not ready at preflight",
+    "Human confirmation uncertainty cannot cross checkpoint",
+    "Verification pending remains yellow and can be resumed only after required evidence",
+    "Preflight and checkpoint bind repository Work Item Contract and snapshot identity",
+    "CLI and MCP expose equivalent review state and blockers",
+    "Contract sources and verification declarations remain explicit and backward compatible",
+    "Trilingual documentation explains the pre-edit human review boundary"
+  ],
+  "createdAt": "2026-08-22T07:31:03Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:e3f2befd428fad6119028723180977f6a870a89e8a0f6433705d5a6f43c48fd0",
+  "evidenceRefs": [
+    ".ai/evidence/WI-119-contract-preflight-gate.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-119-contract-preflight-gate.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-119-contract-preflight-gate.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-119-contract-preflight-gate"
+}

@@ -23,7 +23,7 @@ capabilityClaims:
 | 只读 | `inspect`、`observe`、`status`、`compatibility`、`migrate plan`、`knowledge query`、`capability show`、`diagnose`、`doctor` | 读取 repository 状态或 evidence，不静默修复。 |
 | 准备 | `attach`、`profile confirm`、`profile propose` | 创建/更新协议状态、确认 profile，或输出只读候选。 |
 | 迁移 | `migrate apply --approved` | 只应用经过审查的 repository schema migration，并写入绑定 Runtime 的 migration receipt。 |
-| 治理 | `preflight` | 读取 Contract，返回 green/yellow/red decision。 |
+| 治理 | `preflight` | 读取 Contract，返回 green/yellow/red decision 与 `reviewState`；不完整或不确定的 Contract 为需人工确认的 yellow，不能越过 checkpoint。 |
 | Work Item | `work-item new`、`start`、`checkpoint`、`finish`、`archive`、`close` | 创建骨架或写入显式生命周期记录；`close` 要求 human decision。 |
 | Verification | `verify` | 执行有界命令、记录 evidence，并可绑定 Work Item。 |
 | 外部 evidence | `evidence import`、`evidence list`、`evidence policy`、`evidence purge-plan` | 将精确 provider bytes 绑定到 Work Item，声明有界持久化策略，或生成确定性的非破坏性处置计划。 |
@@ -48,6 +48,8 @@ capabilityClaims:
   返回严格状态报告，并使用 0（verified）、1（degraded）、2（配置错误）、3（需要人工介入）退出码。
   如果 managed section 或 ownership record 被修改，`repair` 和 `detach` 会 fail closed；任何命令都不会写入全局 Agent/MCP 配置。
 - `preflight --contract` 通常指向 `start` 生成的 `.ai/work-items/active/<id>.contract.json`。
+- `work-item new` 生成的骨架状态是 `not_ready`。对它执行 `preflight` 会有意返回
+  `yellow` 与 `reviewState: needs_human_confirmation`；补齐人工字段后必须重新 preflight 才能 checkpoint。
 - `close --human-decision approved|rejected` 是 human decision 记录，不是 verification evidence。
 - `evidence import --repo <path> --work-item <id> --metadata <metadata.json>
   --raw <provider-output>` 会用精确 raw bytes 的 digest 校验严格的

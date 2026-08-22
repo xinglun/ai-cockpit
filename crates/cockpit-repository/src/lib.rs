@@ -3355,6 +3355,8 @@ fn create_work_item_scaffold(
         "authority": input.options.authority.clone(),
         "acceptanceCriteria": input.options.acceptance_criteria.clone(),
         "requiredEvidenceClasses": input.options.required_evidence_classes.clone(),
+        "sources": [],
+        "verification": [],
         "baseRevision": facts.base_revision,
         "projectProfileDigest": facts.project_profile_digest,
         "repositorySnapshotDigest": facts.repository_snapshot_digest,
@@ -3619,6 +3621,26 @@ fn preflight_work_item_internal(
         // callers can inspect the candidate decision before `start` supplies
         // the human governance fields and activates the item.
         if current_state == "not_ready" {
+            let state = decision_state_name(decision.state.clone());
+            let decision_value =
+                serde_json::to_value(&decision).map_err(|error| ObserverError::State {
+                    path: active_contract.clone(),
+                    message: error.to_string(),
+                })?;
+            summary["preflightState"] = state.into();
+            summary["preflightDecisionDigest"] = cockpit_protocol::digest_json(&decision_value)
+                .map_err(|error| ObserverError::State {
+                    path: active_contract.clone(),
+                    message: error.to_string(),
+                })?
+                .to_string()
+                .into();
+            summary["preflightRepositorySnapshotDigest"] =
+                snapshot_digest(&snapshot)?.to_string().into();
+            summary["preflightContractDigest"] =
+                contract_digest(&active_contract)?.to_string().into();
+            summary["preflightAt"] = now().into();
+            atomic_json(&summary_path, &summary)?;
             return Ok(decision);
         }
         if !matches!(current_state, "implementation_active" | "checkpointed") {
@@ -3684,6 +3706,19 @@ fn require_green_or_yellow_preflight_governance(
                 "checkpoint requires a non-red governance result (preflight={preflight_state}, current={})",
                 current_state
             ),
+        });
+    }
+    if preflight_state == "yellow"
+        && matches!(
+            decision.review_state.as_deref(),
+            Some("needs_human_confirmation")
+        )
+    {
+        return Err(ObserverError::State {
+            path: contract_path.to_path_buf(),
+            message:
+                "checkpoint requires human confirmation for an incomplete or uncertain Contract"
+                    .into(),
         });
     }
     Ok(())
@@ -5585,6 +5620,8 @@ fn governance_decision_for_contract_internal_with_archive(
         current_runtime,
         archived,
     )?;
+    let mut explicit_unknowns = signals.unknowns;
+    explicit_unknowns.extend(contract_review_unknowns(contract));
     let mut input = GovernanceInput {
         scope: contract.scope.clone(),
         out_of_scope: contract.out_of_scope.clone(),
@@ -5596,13 +5633,42 @@ fn governance_decision_for_contract_internal_with_archive(
         test_weakening: signals.test_weakening,
         coverage_weakening: signals.coverage_weakening,
         explicit_blockers,
-        explicit_unknowns: signals.unknowns,
+        explicit_unknowns,
         outcome_state_override: None,
         authority_override: None,
     };
     let policy = effective_policy_for_contract(root, contract)?;
     apply_policy_to_governance_input(contract, policy.as_ref(), &mut input);
     Ok(evaluate(input))
+}
+
+/// Return only deterministic Contract-completeness gaps.  These are human
+/// decisions, not facts the Observer is allowed to invent.  A scaffold (or a
+/// Contract with missing authority) therefore remains yellow and must stop at
+/// the pre-edit review boundary.
+fn contract_review_unknowns(contract: &cockpit_protocol::Contract) -> Vec<String> {
+    let mut unknowns = Vec::new();
+    if contract.state.as_deref() == Some("not_ready") {
+        if contract.intent.trim().is_empty() {
+            unknowns.push("contract_intent_missing".into());
+        }
+        if contract.goal.trim().is_empty() {
+            unknowns.push("contract_goal_missing".into());
+        }
+        if contract.scope.is_empty() {
+            unknowns.push("contract_scope_missing".into());
+        }
+        if contract.out_of_scope.is_empty() {
+            unknowns.push("contract_out_of_scope_missing".into());
+        }
+        if contract.acceptance_criteria.is_empty() {
+            unknowns.push("contract_acceptance_missing".into());
+        }
+        if !matches!(contract.authority.as_str(), "authorized") {
+            unknowns.push("human_authority_missing".into());
+        }
+    }
+    unknowns
 }
 
 fn read_contract(path: &Path) -> Result<cockpit_protocol::Contract, ObserverError> {

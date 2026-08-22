@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T07:31:03Z",
+  "files": {
+    "contractDigest": "sha256:6ad045bf409d4c6cdfb4bcf46eca018e1c5565f2283aa9fd919972ffea913dae",
+    "contractPath": ".ai/work-items/archive/WI-119-contract-preflight-gate.contract.json",
+    "outcomeDigest": "sha256:39ad4d1d3f6465e070072495cadebd5e0c36953423fa6773d133a4ee43dd46d6",
+    "outcomePath": ".ai/work-items/archive/WI-119-contract-preflight-gate.outcome.json",
+    "summaryDigest": "sha256:5df5806c477c9f28a094746404774afe1364c21d9b065cf270a5d376fe5ce5a6",
+    "summaryPath": ".ai/work-items/archive/WI-119-contract-preflight-gate.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-119-contract-preflight-gate"
+}

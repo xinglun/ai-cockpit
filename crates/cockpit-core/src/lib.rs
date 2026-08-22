@@ -393,6 +393,16 @@ pub struct GovernanceDecision {
     pub required_checks: Vec<String>,
     pub authority: String,
     pub outcome_state: String,
+    /// Explicit pre-edit review state.  This is additive for older clients:
+    /// the existing `outcome_state` vocabulary remains stable while adapters
+    /// can distinguish verification-pending yellow from human-confirmation
+    /// yellow without inferring from free-form unknowns.
+    #[serde(
+        rename = "reviewState",
+        default,
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub review_state: Option<String>,
 }
 
 fn matches_pattern(path: &str, pattern: &str) -> bool {
@@ -433,6 +443,15 @@ pub fn evaluate(input: GovernanceInput) -> GovernanceDecision {
             "human_authority_missing" => {
                 safe_actions.push("request_human_decision".into());
                 required_checks.push("authority".into());
+            }
+            "contract_intent_missing"
+            | "contract_goal_missing"
+            | "contract_scope_missing"
+            | "contract_out_of_scope_missing"
+            | "contract_acceptance_missing" => {
+                safe_actions.push("complete_contract".into());
+                safe_actions.push("request_human_decision".into());
+                required_checks.push("contract_review".into());
             }
             "archive_invalid" => {
                 safe_actions.push("preserve_active_work_item".into());
@@ -510,6 +529,15 @@ pub fn evaluate(input: GovernanceInput) -> GovernanceDecision {
             "human_authority_missing" => {
                 safe_actions.push("request_human_decision".into());
                 required_checks.push("authority".into());
+            }
+            "contract_intent_missing"
+            | "contract_goal_missing"
+            | "contract_scope_missing"
+            | "contract_out_of_scope_missing"
+            | "contract_acceptance_missing" => {
+                safe_actions.push("complete_contract".into());
+                safe_actions.push("request_human_decision".into());
+                required_checks.push("contract_review".into());
             }
             "coverage_weakening" => {
                 safe_actions.push("restore_coverage_requirement".into());
@@ -612,6 +640,11 @@ pub fn evaluate(input: GovernanceInput) -> GovernanceDecision {
                     "destructive_change_without_authority"
                         | "human_authority_missing"
                         | "coverage_weakening"
+                        | "contract_intent_missing"
+                        | "contract_goal_missing"
+                        | "contract_scope_missing"
+                        | "contract_out_of_scope_missing"
+                        | "contract_acceptance_missing"
                 )
             }) =>
         {
@@ -628,6 +661,27 @@ pub fn evaluate(input: GovernanceInput) -> GovernanceDecision {
         }
         .into()
     });
+    let review_state = if state == DecisionState::Red {
+        Some("blocked".into())
+    } else if unknowns.iter().any(|unknown| {
+        matches!(
+            unknown.as_str(),
+            "human_authority_missing"
+                | "destructive_change_without_authority"
+                | "contract_intent_missing"
+                | "contract_goal_missing"
+                | "contract_scope_missing"
+                | "contract_out_of_scope_missing"
+                | "contract_acceptance_missing"
+                | "coverage_weakening"
+        )
+    }) {
+        Some("needs_human_confirmation".into())
+    } else if state == DecisionState::Yellow {
+        Some("verification_pending".into())
+    } else {
+        Some("ready".into())
+    };
     GovernanceDecision {
         state,
         blockers,
@@ -636,6 +690,7 @@ pub fn evaluate(input: GovernanceInput) -> GovernanceDecision {
         required_checks,
         authority,
         outcome_state,
+        review_state,
     }
 }
 

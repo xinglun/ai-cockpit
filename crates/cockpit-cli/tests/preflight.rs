@@ -148,6 +148,12 @@ fn preflight_turns_green_after_matching_verification_evidence() {
             "green after evidence",
             "--scope",
             "src/**",
+            "--out-of-scope",
+            "target/**",
+            "--acceptance",
+            "verification passes",
+            "--authority",
+            "authorized",
             "--required-evidence",
             "verification",
         ])

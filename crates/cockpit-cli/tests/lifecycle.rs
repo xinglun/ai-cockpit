@@ -77,6 +77,8 @@ fn work_item_lifecycle_is_atomic_and_archive_is_content_bound() {
             "preserve evidence",
             "--scope",
             "src/**",
+            "--authority",
+            "authorized",
         ])
         .output()
         .expect("start");
@@ -113,7 +115,7 @@ fn work_item_lifecycle_is_atomic_and_archive_is_content_bound() {
         &fs::read(repo.join(".ai/work-items/active/WI-TEST.contract.json")).expect("contract"),
     )
     .expect("contract JSON");
-    assert_eq!(contract["authority"], "missing");
+    assert_eq!(contract["authority"], "authorized");
     let preflight = run_output(
         binary,
         &[
@@ -319,6 +321,8 @@ fn archive_failure_keeps_active_files_for_recovery() {
             "test",
             "--scope",
             "**",
+            "--authority",
+            "authorized",
         ])
         .output()
         .expect("start");
@@ -391,6 +395,8 @@ fn finish_rejects_self_declared_completion_without_receipt() {
             "must block",
             "--scope",
             "**",
+            "--authority",
+            "authorized",
         ])
         .output()
         .expect("start");

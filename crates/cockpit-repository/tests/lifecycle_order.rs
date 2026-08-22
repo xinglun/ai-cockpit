@@ -28,6 +28,8 @@ fn start(path: &std::path::Path, id: &str, required: &[&str]) {
         &["**".into()],
         &WorkItemStartOptions {
             authority: "authorized".into(),
+            out_of_scope: vec!["target/**".into()],
+            acceptance_criteria: vec!["lifecycle remains bounded".into()],
             required_evidence_classes: required.iter().map(|value| (*value).into()).collect(),
             ..WorkItemStartOptions::default()
         },

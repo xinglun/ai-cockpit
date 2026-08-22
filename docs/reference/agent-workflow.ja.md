@@ -31,6 +31,12 @@ capabilityClaims:
   Summary を更新し、Contract の project checks を実行します。
 - `preflight` が `not_ready` または `needs_human_confirmation` を返した場合は停止し、
   Preflight Review を人に提示します。advisory の成功終了は実装の許可を意味しません。
+- scaffold の intent、goal、scope、out-of-scope、acceptance、authority のいずれかが空なら、
+  Runtime は `yellow` と `reviewState: needs_human_confirmation` を返し、ready として扱いません。
+  `verification_pending` の yellow は Contract が宣言した evidence の収集だけに使え、
+  `needs_human_confirmation` は checkpoint を越えられません。
+- 事前 Contract review は repository、Work Item、Contract digest、snapshot digest を bind します。
+  いずれかが変わった場合は checkpoint 前に preflight をやり直します。
 - 人間向け Outcome は独立して提示し、`Outcome: 🟢`、`Outcome: 🟡`、または
   `Outcome: 🔴` で始め、unknown、evidence、human decision、次の action を含めます。
   欠落、折りたたみ表示のみ、stale、contradictory、malformed の Outcome は

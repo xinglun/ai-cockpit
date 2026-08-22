@@ -31,6 +31,12 @@ Rust Runtime 与本仓库的 Protocol 词汇。
 - 如果 `preflight` 返回 `not_ready` 或 `needs_human_confirmation`，必须暂停并
   向人展示 Preflight Review；命令即使以 advisory 模式成功退出，也不代表获得了
   实施授权。
+- 如果脚手架的 intent、goal、scope、out-of-scope、acceptance 或 authority 为空，
+  Runtime 必须返回 `yellow` 并标记 `reviewState: needs_human_confirmation`，绝不能当作
+  ready。`verification_pending` 的 yellow 只允许用于收集 Contract 已声明的证据；
+  `needs_human_confirmation` 不得越过 checkpoint。
+- 事前 Contract review 会绑定 repository、Work Item、Contract digest 与 snapshot digest。
+  任一绑定对象变化后，必须重新 preflight 才能 checkpoint。
 - 单独交付面向人的 Outcome，并以 `Outcome: 🟢`、`Outcome: 🟡` 或
   `Outcome: 🔴` 开头，包含 unknown、evidence、人工决定和下一步。Outcome
   缺失、仅折叠显示、过期、矛盾或格式错误时必须 fail closed，不得授权继续。
