@@ -111,15 +111,18 @@ separate future Work Item.
 After the receipt outputs are finalized, every success, failure, or interruption
 path removes only its validated temporary `run_root`. `cleanup.json` and the
 `cleanupState`/`cleanupError` fields in `acceptance.json` record the cleanup
-result; a cleanup failure never changes the acceptance truth. Target and
-platform remain explicit, including the Linux x86_64 baseline when that target
-is selected.
+result. A cleanup failure is fail-closed: the process exits non-zero and the
+receipt becomes `adopterAcceptance: failed`, while `releasePublished` remains
+true. Target and platform remain explicit, including the Linux x86_64 baseline
+when that target is selected.
 
 The isolation receipt includes typed before/after manifests for files,
 directories, symlinks, metadata, and digests. HOME and XDG_CONFIG_HOME are
 forbidden-write roots. TMPDIR and CARGO_HOME are explicitly classified as
 allowed Runtime-write roots; their writes are recorded rather than mistaken
-for global configuration writes.
+for global configuration writes. Both public and N-1 harnesses resolve the
+host `RUSTUP_HOME` and active toolchain before entering isolation, pass
+`RUSTUP_TOOLCHAIN` explicitly, and refuse an implicit toolchain download.
 
 To prevent a release from leaving configuration or documentation behind, the
 release workflow derives the current version from Cargo metadata and runs
