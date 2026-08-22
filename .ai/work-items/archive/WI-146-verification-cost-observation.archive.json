@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-22T21:00:33Z",
+  "files": {
+    "contractDigest": "sha256:27cb999d202ad5ec93441e8fb42eb565785931d8e3664e908d0e22c09e21d0fe",
+    "contractPath": ".ai/work-items/archive/WI-146-verification-cost-observation.contract.json",
+    "eventsDigest": "sha256:7fc7ca92453ced9da415f654310a072ec87cdf3350ad7465d7a17fd45e4949ae",
+    "eventsPath": ".ai/work-items/archive/WI-146-verification-cost-observation.events.jsonl",
+    "outcomeDigest": "sha256:47a270ee71f49d8c1bc9a21e0f075ba74c8e95bb6f043fc31a2b06eebebb0721",
+    "outcomePath": ".ai/work-items/archive/WI-146-verification-cost-observation.outcome.json",
+    "summaryDigest": "sha256:83049ee0c47fccc62dabcb2f9ff944501d1567da080ef1d7aaf85f93d1730fdb",
+    "summaryPath": ".ai/work-items/archive/WI-146-verification-cost-observation.summary.json",
+    "taskReportDigest": "sha256:e1aeaada12eded35bf4ce4fe1a14cb9d44110623adc1c1520dbcc3e6834edf66",
+    "taskReportMarkdownDigest": "sha256:813da5c6b4dc86a11e80e321f26779c1bc5fb12168198e86ec76e7c24e45b72d",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-146-verification-cost-observation.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-146-verification-cost-observation.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-146-verification-cost-observation"
+}

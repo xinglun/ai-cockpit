@@ -91,6 +91,7 @@ record for each boundary.
 | WI-143 — Intent scenario and stage binding | Implemented | [Work Item](../work-items/WI-143-intent-scenario-binding.md); `.ai/evidence/WI-143-intent-scenario-binding.verification.json`; `.ai/decisions/WI-143-intent-scenario-binding.close.json` |
 | WI-144 — Cross-Work-Item physical execution reuse | Implemented | [Work Item](../work-items/WI-144-cross-work-item-dedup.md); `.ai/evidence/WI-144-cross-work-item-dedup.verification.json`; `.ai/decisions/WI-144-cross-work-item-dedup.close.json` |
 | WI-145 — CI Runtime verification shadow | Implemented | [Work Item](../work-items/WI-145-ci-runtime-shadow.md); `.ai/evidence/WI-145-ci-runtime-shadow.verification.json`; `.ai/decisions/WI-145-ci-runtime-shadow.close.json` |
+| WI-146 — Verification cost observation | Implemented | [Work Item](../work-items/WI-146-verification-cost-observation.md); [reference](verification-cost.md); `.ai/evidence/WI-146-verification-cost-observation.verification.json`; `.ai/decisions/WI-146-verification-cost-observation.close.json` |
 
 ## Current boundary
 
