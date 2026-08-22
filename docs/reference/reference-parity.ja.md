@@ -1,10 +1,10 @@
 ---
 author: AI Cockpit maintainers
 title: "Reference source parity"
-description: "Rust runtime と reference AI Cockpit template の evidence-based 比較。"
+description: "Maintainer と reviewer 向けの evidence-based product boundary 比較。"
 audience:
-  - adopter
   - maintainer
+  - reviewer
 status: current
 authority: canonical
 lastVerifiedBy: documentation-acceptance
@@ -14,41 +14,49 @@ capabilityClaims:
 
 # Reference source parity
 
-このページは Rust runtime と reference AI Cockpit product の capability boundary を
-比較します。adopter と reviewer のための product reference であり、実装履歴は reader
-route に含めません。
+これは audit comparison であり、adopter の操作手順ではありません。Rust Runtime が
+reference product boundary と一致する部分、partial/deferred の部分、external responsibility
+を記録します。一般利用者は [Current reader route](../current/README.ja.md) から開始してください。
+
+## Truth state
+
+matrix は次の 4 state だけを使います。
+
+- **Implemented** — 記載した boundary が実装され、current evidence で確認できる。
+- **Partial** — core boundary はあるが、reference surface または assurance の方が広い。
+- **Deferred** — 現在の Runtime boundary には意図的に含めない。
+- **External boundary** — Agent host、provider、organization、外部 system が担当する。
 
 ## Parity matrix
 
-| Reference concern | Rust runtime status | Evidence と boundary |
+| Reference concern | Rust Runtime status | Evidence と boundary |
 | --- | --- | --- |
-| Reader-first の入口と言語切替 | Implemented | root README は相互リンクし、adopter と maintainer の導線を分離している。 |
-| Purpose、problem、architecture、capability overview | Implemented | `docs/philosophy*`、`docs/architecture*`、`docs/capabilities*` が Rust runtime と外部責任を説明。 |
-| Shared Runtime と request-scoped repository context | Implemented | `docs/architecture/runtime-topology*`、明示的な `--repo`、repository isolation tests。 |
-| Repository attach と minimum scaffold | Implemented | `attach`、`.ai/cockpit.toml`、`.ai/project.json`、`.ai/agent-interface.json`、attach tests。 |
-| Explicit Agent Discovery / Adapter layer | Implemented | `agent list/install/doctor/repair/detach`、ownership 付き managed section、`.ai/adapters/<provider>.json`。`attach` は Agent file を変更しない。 |
-| Work Item lifecycle と governance decision | Implemented | Contract、preflight、verification evidence、archive、close、human decision records。 |
-| Bounded verification と fail-closed evidence reuse | Implemented | Runtime identity、snapshot/toolchain/environment binding、receipt store、workspace verification suite。 |
-| MCP repository binding | Implemented | repository-bound stdio MCP service と CLI/MCP parity tests。 |
-| Public Release と fresh-adopter acceptance | Implemented | 公開 binary harness、Release evidence、post-publication CI job を提供します。 |
-| Runtime-only upgrade と repository migration | Implemented | `compatibility`、`migrate plan`、承認済み `migrate apply` が履歴 evidence を保持し Runtime identity を bind する。 |
-| N-1 old-adopter upgrade acceptance | Public-artifact harness available | harness は旧 schema 検出、approval gate、履歴保持、継続動作を検証します。各 Release workflow でこの gate を自動化するかは明示的に定義します。 |
-| Installation と provider configuration | External boundary | Rust binary を 1 つ配布し、install/provider configuration と repository state を分離。 |
+| Reader-first entry と language switching | Implemented | root と route README は English、Simplified Chinese、日本語で相互リンクする。 |
+| Purpose、problem、architecture、capability overview | Implemented | philosophy、architecture、capability route が current Runtime と責任範囲を説明する。 |
+| Shared Runtime と request-scoped repository context | Implemented | 明示的な `--repo` binding と repository isolation tests で context/evidence を分離する。 |
+| Repository attach と minimum scaffold | Implemented | `attach` は repository-owned Protocol scaffold を作り、Runtime の copy を repository 内に install しない。 |
+| Explicit Agent Discovery / Adapter layer | Implemented | Agent install は explicit、owned、reversible、repository-local である。 |
+| Work Item lifecycle と governance decision | Partial | core lifecycle と human decision record はあるが、reference の広い status、cost、recovery projection は一つの adopter interface に統合されていない。 |
+| Bounded verification と fail-closed evidence reuse | Implemented | Runtime identity、snapshot/toolchain/environment binding、receipt、fail-closed validation を記録する。 |
+| MCP repository binding | Implemented | repository-bound stdio MCP が explicit binding で同じ governed service を公開する。 |
+| Human-facing MCP projection | External boundary | MCP は structured content を返し、人間向け handoff は Agent または conversation layer が生成する。unknown と decision boundary を保持する。 |
+| Public Release と fresh-adopter acceptance | Partial | v0.2.6 の complete post-release adopter baseline は `x86_64-unknown-linux-gnu` のみ。他の target は build/smoke evidence である。 |
+| Second-technology-stack adopter acceptance | Deferred | current harness は Cargo adopter を使い、第二の technology stack は future work とする。 |
+| Runtime-only upgrade と repository migration | Implemented | compatibility check と explicit migration が historical record を保持し Runtime identity を bind する。 |
+| N-1 old-adopter upgrade acceptance | Implemented | public-artifact harness が old-schema detection、approval、history preservation、continued operation を確認する。 |
+| Adopter capability manifest と status projection | Deferred | `capability show` と `status` は truthful な Runtime/repository view であり、reference の full adopter manifest/status projection ではない。 |
+| Recovery state machine と rich recovery projection | Partial | stop と recovery guidance はあるが、paused/blocked/stale/cancelled/rollback の広い surface は reference より狭い。 |
+| Multilingual semantic parity gate | Partial | CLI human output は localize されるが、全 report の field-by-field semantic parity は CI gate ではない。 |
+| Legacy evidence boundary | Implemented | legacy evidence は historical input のままで、fresh green verification に昇格しない。 |
+| Contract source language | Implemented | Contract の intent、scope、acceptance、authority は source text のまま保持し、翻訳で bytes を変更しない。 |
+| Installation と provider configuration | External boundary | binary delivery と provider/global configuration は repository governance state の外部で分離される。 |
 
-## 完了している範囲
-
-Rust implementation は現在の user-visible boundary を満たします。1 つの Runtime が
-複数の独立した repository を治理し、repository state は分離され、Agent discovery は
-明示的かつ ownership 付きで、decision は evidence に bind され、public Release
-acceptance は繰り返し実行できます。Partial または Available と記載した項目は、
-隠れた parity 完了宣言ではなく、明示された follow-up boundary です。
-
-現在の project は意図的に `cockpit.toml` を TOML のまま保持します。reference
-template の JSON project/profile record は必要な場所で Rust Protocol files として
-表現されます。`cockpit.toml` を JSON に変更することは parity の対象ではありません。
+この matrix は working core と full reference surface parity を意図的に区別します。1 行の
+green はその boundary だけを証明し、external identity、provider authorization、branch protection、
+production readiness、organization approval を与えるものではありません。
 
 ## 現在の境界
 
-Reader route、Runtime migration boundary、公開 artifact acceptance harness は実装・文書化済みである。
-今後の変更でも、共有 Runtime upgrade、明示的 repository migration、repository-local
-evidence の分離を維持する。
+1 つの installed Runtime は複数の独立した repository を治理できます。Protocol、Work Item、evidence、
+knowledge、adapter record は repository ごとに分離されます。今後も explicit repository binding、
+evidence isolation、human-owned decision、Runtime delivery と repository state の分離を維持します。

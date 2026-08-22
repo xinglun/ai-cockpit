@@ -1,0 +1,29 @@
+---
+author: AI Cockpit maintainers
+title: "Features"
+description: "AI Cockpit の現在の capability と責任境界を goal-first で読むための index。"
+audience:
+  - adopter
+status: current
+authority: canonical
+lastVerifiedBy: documentation-acceptance
+capabilityClaims:
+  - capability_index
+---
+
+# Features
+
+完全な利用者向け index は[Capabilities and boundaries](../capabilities.ja.md)です。主な path は次のとおりです。
+
+- repository を attach して observe する;
+- human decision を発明せず governance skeleton を作る;
+- bounded verification と evidence reuse で Work Item lifecycle を実行する;
+- Agent または repository-bound MCP service を明示的に接続する;
+- Outcome、knowledge、status、diagnosis、recovery signal を読む。
+
+AI Cockpit は Repository Governance Layer です。Agent Runtime、identity provider、security sandbox、
+workflow scheduler、外部 audit system ではありません。MCP は repository-bound structured data を返し、
+人間向け projection は Agent または conversation layer の責任です。unknown と decision boundary を保持してください。
+
+[Getting started](../getting-started/README.ja.md) | [Operations](../operations/README.ja.md) |
+[Reference](../reference/README.ja.md) | [English](README.md) | [中文](README.zh-CN.md)

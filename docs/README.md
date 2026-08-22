@@ -28,6 +28,17 @@ journey is clear.
 - [Release and distribution](release/distribution.md) — installation and release truth.
 - [30-second command orientation](capabilities.md#capability-overview) — the current feature index.
 
+## Canonical reader routes
+
+The ordinary reader route follows the same goal-first shape as the reference
+source while pointing only to this Runtime's current documentation:
+
+- [Current](current/README.md) — the default route map.
+- [Getting started](getting-started/README.md) — install, verify, attach, and connect an Agent.
+- [Features](features/README.md) — capability overview and responsibility boundaries.
+- [Operations](operations/README.md) — lifecycle, recovery, upgrade, and Release acceptance.
+- [Reference](reference/README.md) — exact commands, configuration, and output.
+
 ## Choose a reader goal
 
 | Goal | Start here | What you should be able to do |

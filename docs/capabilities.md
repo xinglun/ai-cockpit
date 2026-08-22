@@ -334,6 +334,9 @@ JSON-RPC schema. `preflight` requires a repository-relative `contract`; `verify`
 accepts `command`, string-array `args`, and optional `workItemId`. Unbound tool
 calls fail closed. Results use `structuredContent`, text content, and `isError`.
 The CLI and repository-bound MCP service share the same verification policy.
+The JSON-RPC envelope is machine-facing; the Agent or conversation layer owns
+the human-facing projection, language choice, and presentation of unknowns. MCP
+does not translate Contract source text or invent a human decision.
 
 ### Diagnose readiness
 

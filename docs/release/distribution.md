@@ -77,12 +77,19 @@ gh release download v0.2.6 --repo xinglun/ai-cockpit \
 
 The filename, target, checksum, manifest, and attestation subject must agree.
 Do not treat an upload or a semantic tag alone as installation evidence.
-CLI and MCP `verify` JSON also expose `runtimeVersion` and `runtimeDigest`; bind
-those fields to the downloaded binary identity before accepting evidence.
+CLI and MCP `verify` JSON expose `runtimeVersion` and `runtimeDigest` as Runtime
+identity facts. The post-release acceptance harness—not the Core by itself—must
+bind those fields to the downloaded public binary before accepting release
+evidence; a caller using the JSON outside that harness owns the comparison.
 
 ## Post-release adopter acceptance
 
 Maintainers can repeat the public-binary acceptance baseline after a Release:
+
+**Complete adopter acceptance baseline: `x86_64-unknown-linux-gnu` for v0.2.6.**
+The other four published targets have build and
+smoke evidence in the Release workflow; they are not claimed to have completed
+the full adopter lifecycle unless a separate acceptance run is recorded.
 
 ```bash
 tests/release/adopter_acceptance.sh \

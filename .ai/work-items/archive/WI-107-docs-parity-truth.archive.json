@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T02:25:42Z",
+  "files": {
+    "contractDigest": "sha256:3730e68837bde8f04b48419bd67e711cc2458b060e1997a3fbac5440bb887169",
+    "contractPath": ".ai/work-items/archive/WI-107-docs-parity-truth.contract.json",
+    "outcomeDigest": "sha256:bf29e3a01005b67486283728fe9ab8e846da3c916d0abcc4621c983169dd1783",
+    "outcomePath": ".ai/work-items/archive/WI-107-docs-parity-truth.outcome.json",
+    "summaryDigest": "sha256:995f1b410a1a9341d7724296259b808f1ba4545bf4d7769068ce54181aa5e59b",
+    "summaryPath": ".ai/work-items/archive/WI-107-docs-parity-truth.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-107-docs-parity-truth"
+}

@@ -1,0 +1,57 @@
+{
+  "acceptanceCriteria": [
+    "The reference parity matrix uses exactly Implemented, Partial, Deferred, and External boundary labels and does not describe known partial or future surfaces as complete.",
+    "The ordinary reader route exposes current, getting-started, features, operations, and reference entry points in English, Simplified Chinese, and Japanese, with valid counterpart links.",
+    "Release documentation states that the v0.2.6 complete adopter acceptance baseline is x86_64-unknown-linux-gnu; the other four targets have build or smoke evidence only unless separately accepted.",
+    "Documentation states that legacy evidence is historical input only and cannot be treated as fresh green verification, Contract source text is preserved verbatim and is not automatically translated, and MCP structured output requires a conversation or Agent layer to produce the human-facing projection.",
+    "Documentation acceptance checks the new three-language route, parity status vocabulary, release baseline wording, and required boundary statements without changing runtime behavior."
+  ],
+  "authority": "authorized",
+  "baseRevision": "eee230a6e89aa8b8f394dfe5e63e1161dea83da9",
+  "createdAt": "2026-08-22T02:19:17Z",
+  "goal": "Make the reference-source comparison and ordinary-reader documentation truthful, navigable, and synchronized across three languages.",
+  "intent": "Correct the public documentation boundary after the v0.2.6 parity audit without changing Runtime behavior or exposing internal migration history as an adopter instruction.",
+  "mode": "docs",
+  "outOfScope": [
+    ".ai/**",
+    "crates/**",
+    "tests/release/**",
+    ".github/**",
+    "provider-global configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e2e3ceecb89a58b1d2991d8fc225aa1c86feeb1d6eb83ae51c470968d0ab7951",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "docs/README.md",
+    "docs/README.zh-CN.md",
+    "docs/README.ja.md",
+    "docs/current/**",
+    "docs/getting-started/**",
+    "docs/features/**",
+    "docs/operations/**",
+    "docs/reference/README.md",
+    "docs/reference/README.zh-CN.md",
+    "docs/reference/README.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/capabilities.md",
+    "docs/capabilities.zh-CN.md",
+    "docs/capabilities.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/reference/outcome-report.md",
+    "docs/reference/outcome-report.zh-CN.md",
+    "docs/reference/outcome-report.ja.md",
+    "tests/docs/documentation_acceptance.sh"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-107-docs-parity-truth"
+}

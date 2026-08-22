@@ -304,6 +304,8 @@ ai-cockpit mcp --repo /path/to/repository
 `verify` は `command`、string array の `args`、optional `workItemId` を受け取ります。repository
 binding のない call は fail closed です。result には `structuredContent`、text content、`isError`
 が含まれ、CLI と同じ repository-bound verification policy を使います。
+JSON-RPC envelope は machine-facing です。人間向け projection、言語選択、unknown の表示は Agent または
+conversation layer の責任です。MCP は Contract source text を翻訳せず、人間の decision も発明しません。
 
 ### Readiness を診断する
 

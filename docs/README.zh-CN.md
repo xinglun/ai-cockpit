@@ -27,6 +27,16 @@ capabilityClaims:
 - [发布与分发](release/distribution.zh-CN.md)——安装方式和发布事实。
 - [30 秒命令导览](capabilities.zh-CN.md#功能一览)——当前功能索引。
 
+## 规范读者路线
+
+普通读者路线采用与参考源相同的 goal-first 结构，但只链接本 Runtime 的当前文档：
+
+- [当前路线](current/README.zh-CN.md)——默认路线地图。
+- [快速开始](getting-started/README.zh-CN.md)——安装、验证、attach 和连接 Agent。
+- [功能](features/README.zh-CN.md)——功能概览与责任边界。
+- [运维](operations/README.zh-CN.md)——生命周期、恢复、升级和 Release 验收。
+- [参考](reference/README.zh-CN.md)——精确命令、配置和输出。
+
 ## 按读者目标选择
 
 | 目标 | 从这里开始 | 读完后应能做到 |

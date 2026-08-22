@@ -69,12 +69,17 @@ gh release download v0.2.6 --repo xinglun/ai-cockpit \
 
 文件名、target、checksum、manifest 和 attestation subject 必须一致。单独的上传或
 semantic tag 不能证明安装完整。
-CLI 和 MCP 的 `verify` JSON 也会输出 `runtimeVersion` 与 `runtimeDigest`；验收 evidence
-前必须将这两个字段绑定到已下载 binary 的身份。
+CLI 和 MCP 的 `verify` JSON 会输出 `runtimeVersion` 与 `runtimeDigest` 这两个 Runtime identity fact。
+发布后 acceptance harness（不是 Core 自身）必须在接受 Release evidence 前，将它们绑定到公开下载的 binary；
+在 harness 之外使用这些 JSON 时，比较责任属于调用者。
 
 ## 发布后 adopter 验收
 
 维护者可以在 Release 发布后重复执行公开 binary 验收基线：
+
+**v0.2.6 的完整 adopter acceptance 基线为 `x86_64-unknown-linux-gnu`。**
+Release workflow 对其他四个已发布 target 提供 build 和 smoke evidence；除非另有独立验收记录，
+不能宣称它们完成了完整 adopter lifecycle。
 
 ```bash
 tests/release/adopter_acceptance.sh \

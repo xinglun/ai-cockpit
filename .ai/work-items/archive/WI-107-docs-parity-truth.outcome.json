@@ -1,0 +1,40 @@
+{
+  "acceptanceResults": [
+    "The reference parity matrix uses exactly Implemented, Partial, Deferred, and External boundary labels and does not describe known partial or future surfaces as complete.",
+    "The ordinary reader route exposes current, getting-started, features, operations, and reference entry points in English, Simplified Chinese, and Japanese, with valid counterpart links.",
+    "Release documentation states that the v0.2.6 complete adopter acceptance baseline is x86_64-unknown-linux-gnu; the other four targets have build or smoke evidence only unless separately accepted.",
+    "Documentation states that legacy evidence is historical input only and cannot be treated as fresh green verification, Contract source text is preserved verbatim and is not automatically translated, and MCP structured output requires a conversation or Agent layer to produce the human-facing projection.",
+    "Documentation acceptance checks the new three-language route, parity status vocabulary, release baseline wording, and required boundary statements without changing runtime behavior."
+  ],
+  "createdAt": "2026-08-22T02:25:30Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:b65c72e611d2954c7fa8ac51b350159793745b63adf0af2dda636d77f60b0d54",
+  "evidenceRefs": [
+    ".ai/evidence/WI-107-docs-parity-truth.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-107-docs-parity-truth.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-107-docs-parity-truth.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-107-docs-parity-truth"
+}
