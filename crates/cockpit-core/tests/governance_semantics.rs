@@ -75,6 +75,13 @@ fn destructive_action_without_authority_is_yellow_and_requires_human_decision() 
             .any(|item| item == "destructive_change_without_authority")
     );
     assert_eq!(decision.outcome_state, "needs_human_decision");
+    let request = decision
+        .human_decision_request
+        .expect("structured human decision request");
+    assert_eq!(request.status, "needs_human_confirmation");
+    assert_eq!(request.recommended_option, "complete_contract");
+    assert!(!request.options.is_empty());
+    assert!(!request.resume_condition.is_empty());
 }
 
 #[test]

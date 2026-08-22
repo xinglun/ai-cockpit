@@ -94,6 +94,25 @@ finish/archive/close は拒否されます。失敗した transition の active 
 acceptance criteria、authority は空または `unknown` のままです。`profile propose` は candidate amendment を出力するだけで、formal
 profile の bytes/digest を変更しません。
 
+## Contract V2 の意味論境界
+
+Contract は repository の `protocolVersion` を維持したまま `contractVersion: 2` を
+選択できる。V2 の `intent` は `businessGoal`、`userGoal`、`problem`、`constraints`、
+`nonGoals`、`rationale` を持つ object にでき、過去の一行 intent も読み取り可能である。
+`sources` と `verification` も `path/reason`、`check/required` の typed object をサポートし、
+legacy の string は過去 bytes の互換性のためだけに残す。
+
+Contract の top-level と構造化フィールドは strict な unknown-field validation を使う。
+duplicate JSON key、型不正、互換性のない schema は fail closed になる。宣言された unknown、
+`notCodable`、Agent capability の制限、または `continue` 以外の execution decision がある
+場合、preflight は `reviewState: needs_human_confirmation` と structured
+`humanDecisionRequest` を返す。これは approval ではなく、Contract を補完して preflight を
+再実行するまで checkpoint できない。
+
+scenario coverage、final acceptance dimensions、parallel boundary は別の Contract extension
+である。`verify --workers` は実行時 concurrency であり Work Item の parallel authorization
+ではない。Contract 原文は owner の言語で保持し、Runtime は自動翻訳しない。
+
 `verify --work-item <id>` は `.ai/evidence/<id>.verification.json` を書きます。`finish` は outcome、`archive` は archive manifest、
 `close` は human decision を記録します。green に見せるため手編集してはいけません。
 

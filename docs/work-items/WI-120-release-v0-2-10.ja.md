@@ -1,7 +1,14 @@
 ---
+author: AI Cockpit maintainers
 workItemId: WI-120-release-v0-2-10
 title: v0.2.10 の公開と immutable adopter acceptance
-status: release-preparation
+description: v0.2.10 と adopter acceptance baseline を公開・検証する。
+audience:
+  - adopter
+  - maintainer
+status: implemented
+authority: canonical
+lastVerifiedBy: WI-120-release-v0-2-10
 ---
 
 # WI-120 — v0.2.10 の公開と immutable adopter acceptance

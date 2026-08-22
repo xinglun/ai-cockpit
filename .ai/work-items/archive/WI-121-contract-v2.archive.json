@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T08:17:12Z",
+  "files": {
+    "contractDigest": "sha256:d1f996f8a4a3c0029951c4259ee0494704468e939a54113f3fbfc83a79ff3c38",
+    "contractPath": ".ai/work-items/archive/WI-121-contract-v2.contract.json",
+    "outcomeDigest": "sha256:01ed2c8a3004f692457d337cefba1dbba6755489ba20ade50061ef2fe8e603ee",
+    "outcomePath": ".ai/work-items/archive/WI-121-contract-v2.outcome.json",
+    "summaryDigest": "sha256:220c924245bcef279e26604242180fa783c310db9f676ca51c1cd98d1efac4e3",
+    "summaryPath": ".ai/work-items/archive/WI-121-contract-v2.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-121-contract-v2"
+}

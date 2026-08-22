@@ -41,6 +41,11 @@ the installed Rust Runtime and this repository's Protocol vocabulary.
 - The pre-edit Contract review binds the repository, Work Item, Contract
   digest, and snapshot digest. Changing either after review requires a fresh
   preflight before checkpointing.
+- When `reviewState` is `needs_human_confirmation`, preflight also returns a
+  structured `humanDecisionRequest` containing what happened, why it matters,
+  options, a recommendation, the question, and a resume condition. It is a
+  human-facing request, not approval; an Agent must amend the Contract and
+  rerun preflight rather than treating the request as authorization.
 - Deliver a separate visible human Outcome with `Outcome: 🟢`, `Outcome: 🟡`,
   or `Outcome: 🔴`, unknowns, evidence, human decision, and next action. A
   missing, folded-only, stale, contradictory, or malformed Outcome fails

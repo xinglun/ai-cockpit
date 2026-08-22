@@ -1,0 +1,40 @@
+{
+  "acceptanceResults": [
+    "Contract V2 semantics are typed and unknown governance fields fail closed",
+    "preflight emits structured human review and blocks uncertain work before checkpoint",
+    "invalid lifecycle order and stale review receipts fail closed",
+    "CLI and MCP expose equivalent review and human handoff in three languages",
+    "focused regressions and full locked workspace quality gates pass"
+  ],
+  "createdAt": "2026-08-22T08:17:03Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:06f3c71bb32813dde53524211d22db8620cc407ca048d02e56bd0b9b8037486b",
+  "evidenceRefs": [
+    ".ai/evidence/WI-121-contract-v2.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-121-contract-v2.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-121-contract-v2.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-121-contract-v2"
+}

@@ -91,6 +91,21 @@ project 层可以增加要求，但不能弱化 organization 层。Work Item con
 推导事实（`repositoryId`、`baseRevision`、`projectProfileDigest`、`repositorySnapshotDigest`），intent、scope、acceptance criteria
 和 authority 保持空值或 `unknown`。`profile propose` 只输出候选 amendment，不改变正式 profile 的 bytes 或 digest。
 
+## Contract V2 语义边界
+
+Contract 可以在保持 `protocolVersion` 不变的情况下选择性声明 `contractVersion: 2`。
+V2 的 `intent` 可以是结构化对象（`businessGoal`、`userGoal`、`problem`、`constraints`、
+`nonGoals`、`rationale`），也可以继续读取历史的一行字符串。`sources` 和 `verification`
+支持带有 `path/reason`、`check/required` 的结构化形式；旧字符串形式只用于兼容历史 bytes。
+
+Contract 顶层和结构化字段均采用严格未知字段校验，重复 JSON 键、错误类型和不兼容 schema
+必须 fail closed。未知项、`notCodable`、Agent capability 或 execution decision 表明需要
+人工判断时，preflight 会返回 `reviewState: needs_human_confirmation` 和结构化
+`humanDecisionRequest`；该请求不是批准，必须完成 Contract 并重新 preflight 后才能 checkpoint。
+
+场景覆盖、最终验收维度和并行边界是后续 Contract 扩展，不能把 `verify --workers` 当作
+Work Item 并行授权。Contract 原文仍保持 owner 的语言，不由 Runtime 自动翻译。
+
 `verify --work-item <id>` 写入 `.ai/evidence/<id>.verification.json`。`finish` 创建 outcome，`archive`
 创建 archive manifest，`close` 记录 human decision。这些记录与内容绑定，不应手工修改来伪造 green。
 
