@@ -22,6 +22,7 @@ capabilityClaims:
 | Preflight `red` | scope、authority、protocol、repository state が invalid。 | 停止し、指定された fact/authority を修復する。 |
 | `finish` が receipt missing/stale | current snapshot の passed Work Item verification がない。 | 最終 edit 後に `verify --work-item <id>`。bypass しない。 |
 | `finish_ready` の Work Item が archive 前に stale になった | verification が bind した snapshot の後で repository が変わった。 | summary/receipt を編集しない。historical bytes を残し、現在の snapshot から新しい認可済み Work Item を作る。 |
+| stale predecessor を再試行すべきでない | evidence が履歴であり、bind 済み successor が作業を引き継いでいる。 | identity-bound な `supersede` recovery decision を記録し、predecessor を履歴項目として archive/close する。古い evidence を書き換えたり再検証したりしない。 |
 | `archive`/`close` が失敗 | governance が green でない、または archive identity が invalid。 | active record を残し evidence を修復して失敗した step を再実行する。 |
 | Verification が reuse でなく rerun | identity binding が変化、または reuse が未承認。 | rerun を安全な動作として扱い receipt reason を確認する。 |
 | MCP が repository binding を要求 | repository-bound adapter なしで server を起動した。 | `mcp --repo <path>` を設定し path を明示する。 |

@@ -23,7 +23,7 @@
     }
   ],
   "evidenceRefs": [
-    ".ai/work-items/active/WI-139C-successor-recovery",
+    ".ai/work-items/active/WI-137-release-v0-2-11",
     "repository-snapshot"
   ],
   "facts": [
@@ -34,7 +34,7 @@
       ],
       "key": "baseRevision",
       "origin": "observed",
-      "value": "c8cc11ac4488c4d02f8bd6a0b241ce42d69cf887"
+      "value": "3e6ba827b471a4283c323a9193339fd518ad0554"
     },
     {
       "confidence": "high",
@@ -73,5 +73,5 @@
   "repositorySnapshotDigest": "sha256:76258c7c82557be7a38cb56fd0e28343bca43bed542e927b8875ecc9531be021",
   "schemaVersion": 2,
   "unknowns": [],
-  "workItemId": "WI-139C-successor-recovery"
+  "workItemId": "WI-137-release-v0-2-11"
 }

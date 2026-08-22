@@ -58,6 +58,10 @@ v2 envelope 的 `createdAt` 和 retention 的 `createdAt` 必须是 RFC3339 时�
 标注“验收标准（Contract 原文）”，不会擅自翻译或改变 Contract bytes。只有 Runtime
 生成的固定标题、摘要、状态、未知项和恢复提示会按对话语言显示。
 
+当 predecessor 有明确的 `supersede` recovery decision 时，Outcome 会包含
+`historicalStatus: "superseded"` 并显示黄色历史标记。这表示原始 evidence
+被保留，未作为当前结果重新验证；它不是红色失败，也不是绿色授权。
+
 CLI 直接输出优先使用 `AI_COCKPIT_LANGUAGE`，其次使用进程 locale。Agent 对话应
 使用用户当前语言。JSON 字段名和枚举值在不同语言之间保持稳定。
 
