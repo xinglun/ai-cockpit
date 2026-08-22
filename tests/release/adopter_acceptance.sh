@@ -155,13 +155,7 @@ mark_passed() {
   record_step "$1" passed "$reason"
 }
 
-sha256_file() {
-  if command -v shasum >/dev/null 2>&1; then
-    shasum -a 256 "$1" | awk '{print $1}'
-  else
-    sha256sum "$1" | awk '{print $1}'
-  fi
-}
+source "$(cd "$(dirname "$0")" && pwd)/isolation_manifest.sh"
 
 write_sums() {
   : > "$output/SHA256SUMS"
@@ -417,9 +411,6 @@ source_before_status="$(git -C "$source_repo" status --porcelain=v1)"
 if [[ -e "$source_repo/.ai" ]]; then source_ai_state=present; else source_ai_state=absent; fi
 source_repository_id=''
 if source_repository_id="$(jq -er '.repositoryId' "$source_repo/.ai/project.json" 2>/dev/null)"; then :; fi
-find "$isolated_home" -type f -print | LC_ALL=C sort > "$run_root/home-before.manifest"
-find "$isolated_xdg" -type f -print | LC_ALL=C sort > "$run_root/xdg-before.manifest"
-
 env -i HOME="$isolated_home" XDG_CONFIG_HOME="$isolated_xdg" TMPDIR="$isolated_tmp" CARGO_HOME="$isolated_cargo" RUSTUP_HOME="$rustup_home" PATH="$PATH" LANG=C LC_ALL=C cargo new --lib --vcs none "$adopter_root" >/dev/null
 printf 'target/\n' > "$adopter_root/.gitignore"
 env -i HOME="$isolated_home" XDG_CONFIG_HOME="$isolated_xdg" TMPDIR="$isolated_tmp" CARGO_HOME="$isolated_cargo" RUSTUP_HOME="$rustup_home" PATH="$PATH" LANG=C LC_ALL=C cargo generate-lockfile --manifest-path "$adopter_root/Cargo.toml" >/dev/null
@@ -429,6 +420,13 @@ git -C "$adopter_root" config user.email 'ai-cockpit-release-acceptance@example.
 git -C "$adopter_root" add .
 git -C "$adopter_root" commit -qm 'initial adopter scaffold'
 mark_passed adopter-scaffold
+
+# Cargo scaffolding is allowed to warm the isolated dependency cache. Capture
+# all isolated roots immediately before Runtime operations, after scaffolding.
+manifest_tree "$isolated_home" "$run_root/home-before.manifest"
+manifest_tree "$isolated_xdg" "$run_root/xdg-before.manifest"
+manifest_tree "$isolated_tmp" "$run_root/tmp-before.manifest"
+manifest_tree "$isolated_cargo" "$run_root/cargo-before.manifest"
 
 : > "$adopter_root/AGENTS.md"
 capture_runtime attach.json attach --repo "$adopter_root"
@@ -491,8 +489,10 @@ done
 mark_passed lifecycle-assertion
 
 source_after_status="$(git -C "$source_repo" status --porcelain=v1)"
-find "$isolated_home" -type f -print | LC_ALL=C sort > "$run_root/home-after.manifest"
-find "$isolated_xdg" -type f -print | LC_ALL=C sort > "$run_root/xdg-after.manifest"
+manifest_tree "$isolated_home" "$run_root/home-after.manifest"
+manifest_tree "$isolated_xdg" "$run_root/xdg-after.manifest"
+manifest_tree "$isolated_tmp" "$run_root/tmp-after.manifest"
+manifest_tree "$isolated_cargo" "$run_root/cargo-after.manifest"
 home_unchanged=true
 xdg_unchanged=true
 cmp -s "$run_root/home-before.manifest" "$run_root/home-after.manifest" || home_unchanged=false
@@ -503,6 +503,10 @@ if [[ "$source_ai_state" == present ]]; then
 else
   [[ ! -e "$source_repo/.ai" ]] || die 'acceptance created .ai in an initially unattached source checkout'
 fi
+mkdir -p "$output/isolation-manifests"
+for name in home-before home-after xdg-before xdg-after tmp-before tmp-after cargo-before cargo-after; do
+  cp "$run_root/$name.manifest" "$output/isolation-manifests/$name.manifest"
+done
 jq -n \
   --arg sourceRepository "$source_repo" \
   --arg sourceAiState "$source_ai_state" \
@@ -511,8 +515,16 @@ jq -n \
   --arg adopterRepository "$adopter_root" \
   --argjson homeUnchanged "$home_unchanged" \
   --argjson xdgUnchanged "$xdg_unchanged" \
-  '{schemaVersion:1,sourceRepository:$sourceRepository,sourceAiState:$sourceAiState,sourceBeforeStatus:$sourceBeforeStatus,sourceAfterStatus:$sourceAfterStatus,adopterRepository:$adopterRepository,homeManifest:{unchanged:$homeUnchanged},xdgConfigManifest:{unchanged:$xdgUnchanged},sourceUnchanged:($sourceBeforeStatus == $sourceAfterStatus),repositoryIsolation:($sourceRepository != $adopterRepository)}' > "$output/isolation.json"
-[[ "$home_unchanged" == true && "$xdg_unchanged" == true ]] || die 'isolated HOME/XDG changed during acceptance'
+  --arg homeBeforeDigest "sha256:$(sha256_file "$run_root/home-before.manifest")" \
+  --arg homeAfterDigest "sha256:$(sha256_file "$run_root/home-after.manifest")" \
+  --arg xdgBeforeDigest "sha256:$(sha256_file "$run_root/xdg-before.manifest")" \
+  --arg xdgAfterDigest "sha256:$(sha256_file "$run_root/xdg-after.manifest")" \
+  --arg tmpBeforeDigest "sha256:$(sha256_file "$run_root/tmp-before.manifest")" \
+  --arg tmpAfterDigest "sha256:$(sha256_file "$run_root/tmp-after.manifest")" \
+  --arg cargoBeforeDigest "sha256:$(sha256_file "$run_root/cargo-before.manifest")" \
+  --arg cargoAfterDigest "sha256:$(sha256_file "$run_root/cargo-after.manifest")" \
+  '{schemaVersion:2,sourceRepository:$sourceRepository,sourceAiState:$sourceAiState,sourceBeforeStatus:$sourceBeforeStatus,sourceAfterStatus:$sourceAfterStatus,sourceUnchanged:($sourceBeforeStatus == $sourceAfterStatus),adopterRepository:$adopterRepository,repositoryIsolation:($sourceRepository != $adopterRepository),roots:{HOME:{classification:"global-config",allowedWrites:false,beforeDigest:$homeBeforeDigest,afterDigest:$homeAfterDigest,unchanged:$homeUnchanged},XDG_CONFIG_HOME:{classification:"global-config",allowedWrites:false,beforeDigest:$xdgBeforeDigest,afterDigest:$xdgAfterDigest,unchanged:$xdgUnchanged},TMPDIR:{classification:"runtime-temporary",allowedWrites:true,beforeDigest:$tmpBeforeDigest,afterDigest:$tmpAfterDigest},CARGO_HOME:{classification:"dependency-cache",allowedWrites:true,beforeDigest:$cargoBeforeDigest,afterDigest:$cargoAfterDigest}}}' > "$output/isolation.json"
+jq -e '.schemaVersion == 2 and .sourceUnchanged and .roots.HOME.unchanged and .roots.XDG_CONFIG_HOME.unchanged and .roots.TMPDIR.allowedWrites and .roots.CARGO_HOME.allowedWrites and .repositoryIsolation' "$output/isolation.json" >/dev/null || die 'isolation proof failed'
 mark_passed isolation-assertion
 
 repository_id="$(jq -er '.repositoryId' "$output/agent-doctor.json")"

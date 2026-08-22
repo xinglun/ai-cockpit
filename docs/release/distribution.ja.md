@@ -132,6 +132,10 @@ receipt の出力を確定した後、success、failure、interrupt のすべて
 `cleanup.json` と `acceptance.json` の `cleanupState` / `cleanupError` が結果を記録し、cleanup failure が acceptance truth を変更することはありません。
 target と platform は明示的に保持し、target として Linux x86_64 を選んだ場合も同じ基準で検証します。
 
+isolation receipt には file、directory、symlink、metadata、digest の typed before/after manifest を含めます。
+HOME と XDG_CONFIG_HOME は write forbidden root、TMPDIR と CARGO_HOME は allowed Runtime-write root として
+明示的に分類され、global configuration write と取り違えないよう記録します。
+
 Release 後に configuration や documentation の version が取り残されないように、release workflow は
 Cargo metadata から current version を解決し、`tests/release/version_consistency.sh` を実行します。
 source check は三言語の route と archive example を検証し、post-release check は公開 Release の manifest
@@ -214,6 +218,9 @@ Install と repository attach は別操作です。対象 Work Item を review �
 ```bash
 ai-cockpit attach --repo /path/to/repository
 ```
+
+人間向けの MCP result が必要な場合は、明示的な `workItemId` と任意の `language` で `work_item_outcome` を
+呼び出します。text content は CLI と同じ human handoff であり、`work_item_get` は raw machine lookup のままです。
 
 MCP client configuration の例です（client ごとに configuration key は異なります）。
 

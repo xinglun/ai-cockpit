@@ -8,9 +8,7 @@ USAGE
 }
 die() { failure_reason="$*"; printf 'adopter upgrade acceptance failed: %s\n' "$failure_reason" >&2; exit 1; }
 need() { command -v "$1" >/dev/null 2>&1 || die "required command is unavailable: $1"; }
-sha256_file() {
-  if command -v shasum >/dev/null 2>&1; then shasum -a 256 "$1" | awk '{print $1}'; else sha256sum "$1" | awk '{print $1}'; fi
-}
+source "$(cd "$(dirname "$0")" && pwd)/isolation_manifest.sh"
 
 write_sums() {
   : > "$output/SHA256SUMS"
@@ -252,8 +250,10 @@ git -C "$adopter" add .; git -C "$adopter" commit -qm 'initial adopter'
 # Cargo/rustup may populate the intentionally isolated HOME while scaffolding
 # the fixture.  Capture the baseline after that setup and before any Runtime
 # operation, so the proof detects Runtime escape into global directories.
-find "$isolated_home" -type f -print | LC_ALL=C sort > "$run_root/home-before"
-find "$isolated_xdg" -type f -print | LC_ALL=C sort > "$run_root/xdg-before"
+manifest_tree "$isolated_home" "$run_root/home-before.manifest"
+manifest_tree "$isolated_xdg" "$run_root/xdg-before.manifest"
+manifest_tree "$isolated_tmp" "$run_root/tmp-before.manifest"
+manifest_tree "$isolated_cargo" "$run_root/cargo-before.manifest"
 run "$from_bin" from-attach.json attach --repo "$adopter"
 run "$from_bin" from-profile.json profile confirm --repo "$adopter" --program cargo --args test,--workspace
 run "$from_bin" from-agent-install.json agent install --repo "$adopter" --provider auto
@@ -339,14 +339,37 @@ run "$to_bin" new-close.json close --repo "$adopter" --id "$work_item" --human-d
 pass continued-operation
 
 source_after_status="$(git -C "$source_repo" status --porcelain=v1)"
-find "$isolated_home" -type f -print | LC_ALL=C sort > "$run_root/home-after"
-find "$isolated_xdg" -type f -print | LC_ALL=C sort > "$run_root/xdg-after"
+manifest_tree "$isolated_home" "$run_root/home-after.manifest"
+manifest_tree "$isolated_xdg" "$run_root/xdg-after.manifest"
+manifest_tree "$isolated_tmp" "$run_root/tmp-after.manifest"
+manifest_tree "$isolated_cargo" "$run_root/cargo-after.manifest"
 home_unchanged=true; xdg_unchanged=true
-cmp -s "$run_root/home-before" "$run_root/home-after" || home_unchanged=false
-cmp -s "$run_root/xdg-before" "$run_root/xdg-after" || xdg_unchanged=false
+cmp -s "$run_root/home-before.manifest" "$run_root/home-after.manifest" || home_unchanged=false
+cmp -s "$run_root/xdg-before.manifest" "$run_root/xdg-after.manifest" || xdg_unchanged=false
 [[ "$source_before_status" == "$source_after_status" ]] || die 'acceptance modified source checkout'
 [[ "$home_unchanged" == true && "$xdg_unchanged" == true ]] || die 'acceptance escaped isolated HOME/XDG'
 repository_id="$(jq -er '.repositoryId' "$output/from-agent-doctor.json")"
-jq -n --arg sourceRepository "$source_repo" --arg sourceAiDigest "$source_ai_digest" --arg sourceBeforeStatus "$source_before_status" --arg sourceAfterStatus "$source_after_status" --arg adopterRepository "$adopter" --arg repositoryId "$repository_id" --argjson homeUnchanged "$home_unchanged" --argjson xdgUnchanged "$xdg_unchanged" '{schemaVersion:1,sourceRepository:$sourceRepository,sourceAiDigest:(if $sourceAiDigest=="" then null else $sourceAiDigest end),sourceBeforeStatus:$sourceBeforeStatus,sourceAfterStatus:$sourceAfterStatus,adopterRepository:$adopterRepository,repositoryId:$repositoryId,homeUnchanged:$homeUnchanged,xdgConfigUnchanged:$xdgUnchanged,sourceUnchanged:($sourceBeforeStatus==$sourceAfterStatus),repositoryIsolation:($adopterRepository!=$sourceRepository),releasePublished:true}' > "$output/isolation.json"
-jq -e '.sourceUnchanged and .homeUnchanged and .xdgConfigUnchanged and .repositoryIsolation' "$output/isolation.json" >/dev/null || die 'isolation proof failed'
+mkdir -p "$output/isolation-manifests"
+for name in home-before home-after xdg-before xdg-after tmp-before tmp-after cargo-before cargo-after; do
+  cp "$run_root/$name.manifest" "$output/isolation-manifests/$name.manifest"
+done
+jq -n \
+  --arg sourceRepository "$source_repo" \
+  --arg sourceAiDigest "$source_ai_digest" \
+  --arg sourceBeforeStatus "$source_before_status" \
+  --arg sourceAfterStatus "$source_after_status" \
+  --arg adopterRepository "$adopter" \
+  --arg repositoryId "$repository_id" \
+  --argjson homeUnchanged "$home_unchanged" \
+  --argjson xdgUnchanged "$xdg_unchanged" \
+  --arg homeBeforeDigest "sha256:$(sha256_file "$run_root/home-before.manifest")" \
+  --arg homeAfterDigest "sha256:$(sha256_file "$run_root/home-after.manifest")" \
+  --arg xdgBeforeDigest "sha256:$(sha256_file "$run_root/xdg-before.manifest")" \
+  --arg xdgAfterDigest "sha256:$(sha256_file "$run_root/xdg-after.manifest")" \
+  --arg tmpBeforeDigest "sha256:$(sha256_file "$run_root/tmp-before.manifest")" \
+  --arg tmpAfterDigest "sha256:$(sha256_file "$run_root/tmp-after.manifest")" \
+  --arg cargoBeforeDigest "sha256:$(sha256_file "$run_root/cargo-before.manifest")" \
+  --arg cargoAfterDigest "sha256:$(sha256_file "$run_root/cargo-after.manifest")" \
+  '{schemaVersion:2,sourceRepository:$sourceRepository,sourceAiDigest:(if $sourceAiDigest=="" then null else $sourceAiDigest end),sourceBeforeStatus:$sourceBeforeStatus,sourceAfterStatus:$sourceAfterStatus,sourceUnchanged:($sourceBeforeStatus==$sourceAfterStatus),adopterRepository:$adopterRepository,repositoryId:$repositoryId,repositoryIsolation:($adopterRepository!=$sourceRepository),roots:{HOME:{classification:"global-config",allowedWrites:false,beforeDigest:$homeBeforeDigest,afterDigest:$homeAfterDigest,unchanged:$homeUnchanged},XDG_CONFIG_HOME:{classification:"global-config",allowedWrites:false,beforeDigest:$xdgBeforeDigest,afterDigest:$xdgAfterDigest,unchanged:$xdgUnchanged},TMPDIR:{classification:"runtime-temporary",allowedWrites:true,beforeDigest:$tmpBeforeDigest,afterDigest:$tmpAfterDigest},CARGO_HOME:{classification:"dependency-cache",allowedWrites:true,beforeDigest:$cargoBeforeDigest,afterDigest:$cargoAfterDigest}},releasePublished:true}' > "$output/isolation.json"
+jq -e '.schemaVersion==2 and .sourceUnchanged and .roots.HOME.unchanged and .roots.XDG_CONFIG_HOME.unchanged and .roots.TMPDIR.allowedWrites and .roots.CARGO_HOME.allowedWrites and .repositoryIsolation' "$output/isolation.json" >/dev/null || die 'isolation proof failed'
 pass isolation

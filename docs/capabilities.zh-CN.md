@@ -293,14 +293,17 @@ ai-cockpit diagnose --repo /path/to/repository --work-item WI-123
 ai-cockpit mcp --repo /path/to/repository
 ```
 
-服务提供 `status`、`work_item_get`、`work_item_list`、`blockers`、`safe_actions`、
+服务提供 `status`、`work_item_get`、`work_item_outcome`、`work_item_list`、`blockers`、`safe_actions`、
 `knowledge_query`、`evidence_get`、`repository_observe`、`preflight`、`verify` 十个工具。
 用 `tools/list` 查看 JSON-RPC schema；`preflight` 要求 repository-relative `contract`，
 `verify` 接受 `command`、字符串数组 `args` 和可选 `workItemId`。未绑定 repository 的调用
 会 fail closed。结果包含 `structuredContent`、文本 content 和 `isError`。CLI 与 MCP 共用同一
 套 repository-bound verification policy。
-JSON-RPC envelope 面向机器；Agent 或对话层负责面向人的 projection、语言选择以及 unknown 的呈现。
-MCP 不翻译 Contract 原文，也不擅自生成人类决定。
+`work_item_get` 是面向机器的记录查询。需要面向人的结果时，Agent 必须用明确的 `workItemId` 调用
+`work_item_outcome`，并可传入对话 `language`。它的文本 content 与 CLI 使用相同的本地化 human handoff，
+而 `structuredContent.outcome` 仍是稳定的 OutcomeV2 对象。handoff 显示状态标记、unknown、证据、有效的
+结构化人工决定和下一步。MCP 不翻译 Contract 原文，也不擅自生成人类决定。
+面向人的 projection 只是已校验 OutcomeV2 之上的 presentation layer，不是治理授权来源。
 
 ### 诊断准备度
 

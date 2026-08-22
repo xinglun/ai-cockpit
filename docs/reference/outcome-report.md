@@ -61,3 +61,14 @@ hints are localized to the conversation language.
 The CLI uses `AI_COCKPIT_LANGUAGE`, then the process locale, for direct human
 output. Agent conversations should render the same handoff in the language of
 the user. JSON field names and enum values remain stable across languages.
+
+## MCP human handoff
+
+When an Agent needs to show a result to a person, it must call the
+repository-bound `work_item_outcome` tool with an explicit `workItemId`. Its
+text content is the same localized handoff rendered by the CLI, not a raw JSON
+dump. `structuredContent.outcome` remains the stable OutcomeV2 object;
+`humanHandoff` is only a presentation projection and cannot authorize a merge,
+release, or decision. `work_item_get` remains a machine record lookup. The
+optional `language` selects `en`, `zh`, or `ja` for Runtime-generated labels;
+Contract source text remains unchanged.

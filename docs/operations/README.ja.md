@@ -24,5 +24,9 @@ v0.2.7 の public adopter acceptance baseline が完全に通過した target �
 他の Release target は、別の acceptance run が記録されない限り build または smoke evidence です。Legacy evidence は
 過去の記録であり、新しい green verification に昇格させません。
 
+MCP で結果を渡すときは human handoff 用に `work_item_outcome`、machine lookup 用に `work_item_get` を使います。
+Release adopter receipt には typed isolation manifest と cleanup proof を含め、許可される temporary write は明示的に
+isolated な TMPDIR と CARGO_HOME に限定します。
+
 [Current route](../current/README.ja.md) | [Getting started](../getting-started/README.ja.md) |
 [English](README.md) | [中文](README.zh-CN.md)

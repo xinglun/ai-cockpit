@@ -26,6 +26,10 @@ AI Cockpit is a Repository Governance Layer. It does not become an Agent Runtime
 identity provider, security sandbox, workflow scheduler, or external audit system.
 MCP returns repository-bound structured data; the Agent or conversation layer owns
 the human-facing projection and must preserve unknowns and decision boundaries.
+For a consistent visible handoff, call the repository-bound `work_item_outcome`
+tool; it uses the same renderer as the CLI. Release acceptance also records
+typed isolation manifests and digests, with only TMPDIR and CARGO_HOME
+classified as allowed Runtime-write roots.
 
 [Getting started](../getting-started/README.md) | [Operations](../operations/README.md) |
 [Reference](../reference/README.md) | [中文](README.zh-CN.md) | [日本語](README.ja.md)

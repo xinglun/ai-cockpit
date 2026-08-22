@@ -1,0 +1,23 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:owner",
+    "authoritySource": "release-acceptance-policy",
+    "decidedAt": "2026-08-22T03:33:22Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-111-mcp-handoff-isolation.verification.json",
+      "tests/release/isolation_manifest_test.sh",
+      "docs/reference/outcome-report.md"
+    ],
+    "policyRefs": [
+      "docs/release/distribution.md"
+    ],
+    "reason": "MCP human handoff parity and typed release isolation manifests passed focused tests and public v0.2.7 adopter acceptance.",
+    "resumeCondition": "If a handoff, isolation manifest, cleanup receipt, or repository boundary is invalid, reopen a corrective Work Item before release."
+  },
+  "timestamp": "2026-08-22T03:33:23Z",
+  "workItemId": "WI-111-mcp-handoff-isolation"
+}

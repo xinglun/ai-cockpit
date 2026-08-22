@@ -4,9 +4,10 @@ use std::fs;
 use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
 
-const TOOL_NAMES: [&str; 11] = [
+const TOOL_NAMES: [&str; 12] = [
     "status",
     "work_item_get",
+    "work_item_outcome",
     "work_item_list",
     "blockers",
     "safe_actions",
@@ -110,6 +111,9 @@ pub fn handle_request_for_repo(
         }
         "work_item_list" => work_item_list(repo),
         "work_item_get" => work_item_get(repo, &arguments),
+        "work_item_outcome" => {
+            require_compatible(repo, runtime).and_then(|_| work_item_outcome(repo, &arguments))
+        }
         "evidence_get" => evidence_get(repo, &arguments),
         "delegated_evidence_list" => {
             require_compatible(repo, runtime).and_then(|_| {
@@ -133,7 +137,16 @@ pub fn handle_request_for_repo(
     };
     match result {
         Ok(value) => {
-            json!({"jsonrpc":"2.0","id":id,"result":{"content":[{"type":"text","text":serde_json::to_string(&value).unwrap_or_default()}],"structuredContent":value,"isError":false}})
+            let text = if name == "work_item_outcome" {
+                value
+                    .get("humanHandoff")
+                    .and_then(Value::as_str)
+                    .unwrap_or_default()
+                    .to_owned()
+            } else {
+                serde_json::to_string(&value).unwrap_or_default()
+            };
+            json!({"jsonrpc":"2.0","id":id,"result":{"content":[{"type":"text","text":text}],"structuredContent":value,"isError":false}})
         }
         Err(error) => {
             json!({"jsonrpc":"2.0","id":id,"result":{"content":[{"type":"text","text":error.to_string()}],"isError":true}})
@@ -355,6 +368,50 @@ fn work_item_get(repo: &Path, arguments: &Value) -> Result<Value, String> {
         return Err("work item not found".into());
     }
     Ok(Value::Object(result))
+}
+
+fn work_item_outcome(repo: &Path, arguments: &Value) -> Result<Value, String> {
+    let id = arguments
+        .get("workItemId")
+        .or_else(|| arguments.get("id"))
+        .and_then(Value::as_str)
+        .ok_or("workItemId argument is required")?;
+    validate_id(id)?;
+    let outcome = cockpit_repository::outcome_v2(repo, id).map_err(|error| error.to_string())?;
+    let language = requested_language(arguments);
+    let handoff = cockpit_repository::render_human_outcome(repo, &outcome, language);
+    Ok(json!({
+        "workItemId": id,
+        "outcome": outcome,
+        "humanHandoff": handoff,
+        "language": language,
+        "contractLanguageBoundary": "Acceptance criteria remain in their original Contract language and are not machine-translated."
+    }))
+}
+
+fn requested_language(arguments: &Value) -> &'static str {
+    let requested = arguments
+        .get("language")
+        .and_then(Value::as_str)
+        .map(str::to_ascii_lowercase)
+        .or_else(|| {
+            std::env::var("AI_COCKPIT_LANGUAGE")
+                .ok()
+                .map(|value| value.to_ascii_lowercase())
+        })
+        .or_else(|| {
+            std::env::var("LANG")
+                .ok()
+                .map(|value| value.to_ascii_lowercase())
+        })
+        .unwrap_or_default();
+    if requested.starts_with("zh") {
+        "zh"
+    } else if requested.starts_with("ja") {
+        "ja"
+    } else {
+        "en"
+    }
 }
 
 fn evidence_get(repo: &Path, arguments: &Value) -> Result<Value, String> {
