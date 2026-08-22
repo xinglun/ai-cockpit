@@ -7,7 +7,7 @@ audience:
   - adopter
   - contributor
   - maintainer
-status: implementation
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-135-repository-bound-evidence
 ---
@@ -38,5 +38,6 @@ lastVerifiedBy: WI-135-repository-bound-evidence
 
 ## 検証
 
-Lifecycle 完了後に archived verification evidence と close decision のリンクを追加する。
-この WI は Task Report や Recovery state 機能を導入しない。
+Archived verification evidence は `.ai/evidence/WI-135-repository-bound-evidence.verification.json`、
+close decision は `.ai/decisions/WI-135-repository-bound-evidence.close.json` である。この WI は
+Task Report や Recovery state 機能を導入しない。

@@ -79,6 +79,7 @@ verification record です。
 | WI-131 — 検証証拠 timestamp の fail-closed 検査 | Implemented | [Work Item](../work-items/WI-131-evidence-timestamp.ja.md); `.ai/evidence/WI-131-evidence-timestamp.verification.json`; `.ai/decisions/WI-131-evidence-timestamp.close.json` |
 | WI-132 — Agent adapter と provider surface の parity | Implemented | [Work Item](../work-items/WI-132-agent-adapter-parity.ja.md); `.ai/evidence/WI-132-agent-adapter-parity.verification.json`; `.ai/decisions/WI-132-agent-adapter-parity.close.json` |
 | WI-133 — Documentation truth の整合 | Implemented | [Work Item](../work-items/WI-133-docs-truth.ja.md); `.ai/evidence/WI-133-docs-truth.verification.json`; `.ai/decisions/WI-133-docs-truth.close.json` |
+| WI-135 — Repository に束縛された retention と close evidence | Implemented | [Work Item](../work-items/WI-135-repository-bound-evidence.ja.md); `.ai/evidence/WI-135-repository-bound-evidence.verification.json`; `.ai/decisions/WI-135-repository-bound-evidence.close.json` |
 
 ## 現在の境界
 
