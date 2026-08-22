@@ -1,12 +1,12 @@
 {
   "captureMode": "full_capture",
-  "createdAt": "2026-08-22T16:12:09Z",
+  "createdAt": "2026-08-22T16:27:42Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
   "receipt": {
-    "elapsedMs": 248764,
-    "executionElapsedMs": 248604,
+    "elapsedMs": 56326,
+    "executionElapsedMs": 56154,
     "filesHashed": 5,
     "filesRead": 5,
     "gitCalls": 8,
@@ -27,7 +27,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:256081ffa93ee6cf02ce2d46b0b290bdae1369cdf4f2a8c5de1cf5a1a8c2903a",
+        "outputDigest": "sha256:b961faf2a122233282d0f5b9d5fc413bbaa349568683d53bd71524c884b4a31d",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -43,9 +43,9 @@
     "runtimeVersion": "0.2.11",
     "workItemId": "WI-139D-runtime-v0-2-12-bootstrap"
   },
-  "receiptDigest": "sha256:1bb90820c9595ff36777c1b4d272c81bcdb6b2ebeb436620c294e1965c5d0c30",
+  "receiptDigest": "sha256:eab28d38f190b2988f22fabe9d96a40405c61f716ed0ac5ab453eb03e855f5ea",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:a27f42cb082edf50a6702f5d0f9348402d0961250a4dfd4459fdc11651bfeeeb",
+  "repositorySnapshotDigest": "sha256:bbcaf55ed346c4843ebf646dbe083e30c6851f87a765f9cc1b32ab15c82b2fdb",
   "runtimeDigest": "sha256:13f7cb5717a8fdb0b93afe0779c54de1f61dd4130c21e13e9b4b9b7454f86682",
   "runtimeVersion": "0.2.11",
   "workItemId": "WI-139D-runtime-v0-2-12-bootstrap"

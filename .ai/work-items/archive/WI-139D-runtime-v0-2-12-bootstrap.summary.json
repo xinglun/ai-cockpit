@@ -59,14 +59,14 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-08-22T16:24:37Z",
+  "preflightAt": "2026-08-22T16:27:47Z",
   "preflightContractDigest": "sha256:2fd768b4fe7fcca91cd0a5d168130bd1c5c12bb5db9270c04d06c4ff24e14939",
-  "preflightDecisionDigest": "sha256:b01568b44e1b8ca238a099adc09d4b6d20698baacadac354fd392dbc937880c4",
-  "preflightRepositorySnapshotDigest": "sha256:e352a8dbbf27fabb9037c80be065ef497804a2779877d1f6112827da26f1d18f",
-  "preflightState": "red",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:bbcaf55ed346c4843ebf646dbe083e30c6851f87a765f9cc1b32ab15c82b2fdb",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-08-22T16:24:33.460733+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T16:27:47Z",
   "workItemId": "WI-139D-runtime-v0-2-12-bootstrap"
 }

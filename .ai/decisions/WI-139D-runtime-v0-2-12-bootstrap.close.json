@@ -1,0 +1,126 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-139D-runtime-v0-2-12-bootstrap.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bbcaf55ed346c4843ebf646dbe083e30c6851f87a765f9cc1b32ab15c82b2fdb",
+      "workItemId": "WI-139D-runtime-v0-2-12-bootstrap"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139D-runtime-v0-2-12-bootstrap.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-139D-runtime-v0-2-12-bootstrap.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139D-runtime-v0-2-12-bootstrap.verification.json",
+            "https://github.com/xinglun/ai-cockpit/actions/runs/32584030544"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:maintainer via repository-local at 2026-08-23T00:30:00+09:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139D-runtime-v0-2-12-bootstrap.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139D-runtime-v0-2-12-bootstrap.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139D-runtime-v0-2-12-bootstrap.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139D-runtime-v0-2-12-bootstrap.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139D-runtime-v0-2-12-bootstrap.contract.json"
+          ],
+          "inference": false,
+          "text": "Install a Runtime that can record the bounded human review controls required by subsequent high-risk Work Items"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139D-runtime-v0-2-12-bootstrap.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-139D-runtime-v0-2-12-bootstrap"
+  },
+  "finalReportDigest": "sha256:a2f67525aa229aa5e0828a0f7f79d6751388a6d9c62b5fe3a19ef2f76e6934d0",
+  "humanDecision": "confirmed",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:maintainer",
+    "authoritySource": "repository-local",
+    "decidedAt": "2026-08-23T00:30:00+09:00",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-139D-runtime-v0-2-12-bootstrap.verification.json",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/32584030544"
+    ],
+    "policyRefs": [],
+    "reason": "Release v0.2.12 was published and its public artifact acceptance completed; historical verification was re-run under the Runtime that produced the receipt.",
+    "resumeCondition": "None; release bootstrap is closed."
+  },
+  "timestamp": "2026-08-22T16:27:54Z",
+  "workItemId": "WI-139D-runtime-v0-2-12-bootstrap"
+}
