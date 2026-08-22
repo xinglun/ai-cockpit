@@ -94,6 +94,7 @@ require_match 'adopter_acceptance:[[:space:]]*$' 'post-release adopter acceptanc
 require_match 'tests/release/adopter_acceptance\.sh' 'post-release job must invoke the adopter acceptance harness'
 require_match 'needs: \[publish, publish_handoff\]' 'adopter acceptance must run after publication and handoff'
 require_match 'tests/release/version_consistency\.sh' 'release workflow must run the version consistency gate'
+require_match 'tests/release/action_runtime_policy\.sh \.github/workflows/ci\.yml \.github/workflows/release\.yml' 'release workflow must run the Node24 action runtime policy'
 require_match '--post-release' 'post-publication version consistency must validate public assets'
 require_match 'if: github\.event_name == '\''push'\'' && startsWith\(github\.ref, '\''refs/tags/'\''\)' 'adopter acceptance must be tag-only and post-publication'
 require_match 'if: always\(\)' 'adopter acceptance evidence must upload after success or failure'

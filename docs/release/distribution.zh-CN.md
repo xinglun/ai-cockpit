@@ -93,6 +93,10 @@ attach/profile/Agent doctor，保持 `first-adopter-smoke` 为 `not_ready`，验
 `tests/release/version_consistency.sh`。source check 会校验三种语言的入口和当前 archive 示例，
 post-release check 会校验公开 Release 的 manifest 与 asset 名称。历史 N-1 引用会明确保留，不会被误认为当前基线。
 
+CI 和 release workflow 中的 action 都固定到完整 commit SHA；其中基于 Node 的 action 使用官方稳定的
+Node24-compatible 基线。`tests/release/action_runtime_policy.sh` 会同时检查两个 workflow，发现旧 ref、未固定
+ref 或缺少必需 action 时 fail closed。今后更新 action runtime 时，必须同步更新该 policy 与本节说明。
+
 ### 历史 N-1 schema 迁移验收
 
 发生 schema 变化的基线是历史上的 v0.1.1 到 v0.2.0 迁移。v0.2.4 是保持同一

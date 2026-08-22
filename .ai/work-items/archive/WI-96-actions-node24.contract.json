@@ -1,0 +1,46 @@
+{
+  "acceptanceCriteria": [
+    "All action references in .github/workflows/ci.yml and .github/workflows/release.yml use the declared latest stable Node24-compatible pinned SHAs for checkout, artifact upload/download, attestation, SBOM, and GitHub Release publication.",
+    "A fail-closed action runtime policy test detects stale refs, unpinned refs, missing workflow coverage, and a Node20 action runtime; both CI and release source-quality paths execute the policy.",
+    "Existing release workflow policy, version consistency static checks, documentation acceptance, and YAML parsing remain green after the ref upgrade.",
+    "Trilingual release documentation records the Node24-compatible action baseline and its purpose without changing the public v0.2.4 Release truth or installation contract.",
+    "The v0.2.4 tag target, provider Release assets, installed Runtime, Cargo package versions, and Rust source behavior remain unchanged.",
+    "WI-96 lifecycle evidence records the exact ref map, official tag identity, test output, and hosted-check handoff without modifying the main worktree."
+  ],
+  "authority": "authorized",
+  "baseRevision": "c62c56073e848d35027f50747bf913b0ecc40011",
+  "createdAt": "2026-08-22T00:59:04Z",
+  "goal": "消除 GitHub Actions 的 Node.js 20 弃用警告，同时保持发布供应链的 pinned action identity、fail-closed policy 和 v0.2.4 Release truth 不变。",
+  "intent": "将 CI 与 release workflow 的 Node20 action refs 升级为官方最新稳定 Node24-compatible refs，并用可执行 policy 防止回退。",
+  "mode": "implementation",
+  "outOfScope": [
+    "changing Rust source",
+    "Cargo versions or Cargo.lock",
+    "changing v0.2.4 Release truth",
+    "changing external tap",
+    "changing global Agent or MCP configuration",
+    "changing repository configuration format"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5a7f14365a358b57eafb027538a91536e8dcaa67da7919063c33305d505bbb99",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    ".github/workflows/ci.yml",
+    ".github/workflows/release.yml",
+    "tests/release/action_runtime_policy.sh",
+    "tests/release/action_runtime_policy_test.sh",
+    "tests/release/workflow_policy.sh",
+    "tests/release/version_consistency_test.sh",
+    "docs/release/distribution.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.zh-CN.md",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-96-actions-node24"
+}
