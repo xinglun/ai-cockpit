@@ -1,0 +1,228 @@
+{
+  "acceptanceResults": [
+    "A1: A newly archived Work Item outcome and embedded Task Outcome report contain only repository-valid archive references for Contract, Summary, and generated report artifacts; no generated human-facing claim points to an active artifact that no longer exists",
+    "A2: Archived changedPaths, task-report JSON/Markdown, and event evidenceRefs are normalized only at archive creation, retain their digest bindings, and do not rewrite existing archive bytes",
+    "A3: Outcome and human handoff projections for an archived Work Item resolve and display valid archive references while preserving Contract-language text and evidence identity",
+    "A4: Regression tests cover normal finish-to-archive output, raw archived outcome/task-report/events, human Outcome projection, archive manifest digests, and an existing historical archive that is not modified",
+    "A5: English, Japanese, and Simplified Chinese documentation states the active-to-archive projection boundary and the immutable historical archive rule"
+  ],
+  "createdAt": "2026-08-22T21:42:37Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:52e4a3dfc9d82a43a8ce141d15d175b8a047cbe5f96901cc1770c537659eeb59",
+  "evidenceRefs": [
+    ".ai/evidence/WI-148-outcome-archive-path.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-148-outcome-archive-path.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-148-outcome-archive-path.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:911566482de2937fd46ef9dba3b9a523896b5b61ee4a6d810292c8265b72a5e5",
+      "workItemId": "WI-148-outcome-archive-path"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-148-outcome-archive-path.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-148-outcome-archive-path.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-148-outcome-archive-path.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-148-outcome-archive-path.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-148-outcome-archive-path.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/intelligence.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-148-outcome-archive-path.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-148-outcome-archive-path.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/archive_integrity.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-148-outcome-archive-path.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/outcome-report.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-148-outcome-archive-path.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/outcome-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-148-outcome-archive-path.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/outcome-report.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-148-outcome-archive-path.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-148-outcome-archive-path.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-148-outcome-archive-path.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-148-outcome-archive-path.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-148-outcome-archive-path.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-148-outcome-archive-path.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-148-outcome-archive-path.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-148-outcome-archive-path.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-148-outcome-archive-path.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-148-outcome-archive-path.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-148-outcome-archive-path.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-148-outcome-archive-path.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-148-outcome-archive-path.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-148-outcome-archive-path.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-148-outcome-archive-path.contract.json"
+          ],
+          "inference": false,
+          "text": "Ensure archived Outcome and human handoff records reference valid archive artifacts after active files move"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-148-outcome-archive-path.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-148-outcome-archive-path"
+  },
+  "taskReportDigest": "sha256:6ed2aa2adc51904f0966e442934208700d5b95c0674ae15064d75041fa3d6710",
+  "taskReportMarkdownDigest": "sha256:7c8b6d8718248616fcda5c3cbf3833542e53845aa3c8c99e6ea5fe0838493e43",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-148-outcome-archive-path.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-148-outcome-archive-path"
+}

@@ -1,0 +1,50 @@
+{
+  "acceptanceCriteria": [
+    "A1: A newly archived Work Item outcome and embedded Task Outcome report contain only repository-valid archive references for Contract, Summary, and generated report artifacts; no generated human-facing claim points to an active artifact that no longer exists",
+    "A2: Archived changedPaths, task-report JSON/Markdown, and event evidenceRefs are normalized only at archive creation, retain their digest bindings, and do not rewrite existing archive bytes",
+    "A3: Outcome and human handoff projections for an archived Work Item resolve and display valid archive references while preserving Contract-language text and evidence identity",
+    "A4: Regression tests cover normal finish-to-archive output, raw archived outcome/task-report/events, human Outcome projection, archive manifest digests, and an existing historical archive that is not modified",
+    "A5: English, Japanese, and Simplified Chinese documentation states the active-to-archive projection boundary and the immutable historical archive rule"
+  ],
+  "authority": "explicit-user-authorization",
+  "baseRevision": "c495dfb0bf5f12999e20508e0baec4b653508502",
+  "createdAt": "2026-08-22T21:37:24Z",
+  "goal": "Ensure archived Outcome and human handoff records reference valid archive artifacts after active files move",
+  "intent": "Fix generated archive Outcome references that point to removed active artifacts",
+  "mode": "code",
+  "outOfScope": [
+    "Rewriting existing archive bytes",
+    "Changing verification or release semantics",
+    "Modifying global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:911566482de2937fd46ef9dba3b9a523896b5b61ee4a6d810292c8265b72a5e5",
+  "requiredEvidenceClasses": [],
+  "risk": "medium",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "crates/cockpit-repository/tests/outcome_report.rs",
+    "crates/cockpit-cli/tests/intelligence.rs",
+    "docs/reference/outcome-report.md",
+    "docs/reference/outcome-report.zh-CN.md",
+    "docs/reference/outcome-report.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-148-outcome-archive-path.md",
+    "docs/work-items/WI-148-outcome-archive-path.zh-CN.md",
+    "docs/work-items/WI-148-outcome-archive-path.ja.md"
+  ],
+  "sources": [
+    "reported archive Outcome changedPaths active-path defect",
+    "reference outcome-report documentation and existing archive integrity tests"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-148-outcome-archive-path"
+}

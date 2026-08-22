@@ -1,0 +1,95 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "archived_outcome_references_archive_paths",
+          "path": "crates/cockpit-repository/tests/archive_integrity.rs",
+          "type": "test",
+          "verification": "targeted repository archive regression"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "archive_projection_preserves_manifest_digests",
+          "path": "crates/cockpit-repository/tests/archive_integrity.rs",
+          "type": "test",
+          "verification": "targeted repository archive regression"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "archived_outcome_human_projection_uses_archive_paths",
+          "path": "crates/cockpit-repository/tests/outcome_report.rs",
+          "type": "test",
+          "verification": "targeted outcome report regression"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "archive_projection_preserves_historical_archive_bytes",
+          "path": "crates/cockpit-repository/tests/archive_integrity.rs",
+          "type": "test",
+          "verification": "targeted archive and manifest regression"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "active_to_archive_projection_boundary",
+          "path": "docs/reference/outcome-report.md",
+          "type": "documentation",
+          "verification": "three-language documentation review"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-148-outcome-archive-path.contract.json",
+    ".ai/work-items/archive/WI-148-outcome-archive-path.summary.json",
+    "crates/cockpit-cli/tests/intelligence.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "docs/reference/outcome-report.ja.md",
+    "docs/reference/outcome-report.md",
+    "docs/reference/outcome-report.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-148-outcome-archive-path.ja.md",
+    "docs/work-items/WI-148-outcome-archive-path.md",
+    "docs/work-items/WI-148-outcome-archive-path.zh-CN.md"
+  ],
+  "checkpointAt": "2026-08-22T21:39:11Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T21:37:24Z",
+  "intentAlignment": {
+    "evidence": [
+      "the reported archived Outcome active-path defect and its regression tests"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-08-22T21:42:34Z",
+  "preflightContractDigest": "sha256:fd09aef9fb2831a15516723c340ae704952945cd3d195e10c428a582bcc4b152",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:911566482de2937fd46ef9dba3b9a523896b5b61ee4a6d810292c8265b72a5e5",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T21:42:37Z",
+  "workItemId": "WI-148-outcome-archive-path"
+}

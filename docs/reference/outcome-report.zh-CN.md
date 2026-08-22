@@ -87,6 +87,9 @@ Agent 需要向人展示结果时，必须使用明确 `workItemId` 调用 repos
 fail closed。
 
 `finish` 会在 active outcome 旁写入 `<id>.events.jsonl`。事件流追加写入，并拒绝
-malformed、foreign、疑似 secret 或关系无效的事件。`archive` 逐字节移动并绑定
-`eventsDigest`；`close` 校验后在 close receipt 中记录 `finalReport` 与
-`finalReportDigest`。没有该增量投影的历史记录仍可读取，不会回填或重写。
+malformed、foreign、疑似 secret 或关系无效的事件。归档时，Runtime 会在绑定 archive
+manifest 前，将生成的报告引用和 `changedPaths` 从 `.ai/work-items/active/` 投影到对应的
+`.ai/work-items/archive/` 路径；`eventsDigest` 与报告摘要覆盖投影后的归档 bytes。
+`close` 校验投影后的事件流，并在 close receipt 中记录 `finalReport` 与
+`finalReportDigest`。已有历史 archive bytes 永远不会被重写或回填；只有新创建的归档执行
+active 到 archive 的投影。

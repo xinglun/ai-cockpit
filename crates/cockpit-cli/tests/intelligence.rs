@@ -263,6 +263,19 @@ fn cli_status_changes_from_archived_to_closed_only_after_valid_close() {
         String::from_utf8_lossy(&finish.stderr)
     );
     assert!(run(&["archive", "--id", id]).status.success());
+    let archived_outcome = run(&["work-item", "outcome", "--id", id, "--json"]);
+    assert!(archived_outcome.status.success());
+    let archived_outcome_json: serde_json::Value =
+        serde_json::from_slice(&archived_outcome.stdout).expect("archived outcome JSON");
+    let archived_report = serde_json::to_string(&archived_outcome_json["taskOutcomeReport"])
+        .expect("archived task report JSON");
+    assert!(!archived_report.contains(&format!(".ai/work-items/active/{id}")));
+    let archived_handoff = run(&["work-item", "outcome", "--id", id]);
+    assert!(archived_handoff.status.success());
+    assert!(
+        !String::from_utf8_lossy(&archived_handoff.stdout)
+            .contains(&format!(".ai/work-items/active/{id}"))
+    );
     let archived = run(&["work-item", "status", "--id", id, "--json"]);
     assert!(archived.status.success());
     let archived: serde_json::Value =

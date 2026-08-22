@@ -1,0 +1,53 @@
+{
+  "captureMode": "full_capture",
+  "createdAt": "2026-08-22T21:42:34Z",
+  "evidenceSchemaVersion": 2,
+  "passed": true,
+  "protocolVersion": 1,
+  "receipt": {
+    "elapsedMs": 12673,
+    "executionElapsedMs": 12452,
+    "filesHashed": 29,
+    "filesRead": 29,
+    "gitCalls": 8,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:30470d2b4bb452e5c81aa9aea93bee3e0df5b89c700ee78c0632861f14e02f43",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:366cea7a258df2bb42d83d96fe1da792f959d3f6e5161b8920b1b3400f3c0bd5",
+    "runtimeVersion": "0.2.15",
+    "workItemId": "WI-148-outcome-archive-path"
+  },
+  "receiptDigest": "sha256:21dde87f9fef0776b27440d0009e1f7e8818b96fd4e6b1f0bf9880274261cfad",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:911566482de2937fd46ef9dba3b9a523896b5b61ee4a6d810292c8265b72a5e5",
+  "runtimeDigest": "sha256:366cea7a258df2bb42d83d96fe1da792f959d3f6e5161b8920b1b3400f3c0bd5",
+  "runtimeVersion": "0.2.15",
+  "workItemId": "WI-148-outcome-archive-path"
+}
