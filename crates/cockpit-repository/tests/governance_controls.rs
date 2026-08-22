@@ -1,7 +1,8 @@
 use cockpit_core::Digest;
 use cockpit_protocol::{Contract, RuntimeContext};
 use cockpit_repository::{
-    FINAL_DIMENSIONS, validate_acceptance_evidence_values, validate_final_dimensions_value,
+    FINAL_DIMENSIONS, scenario_coverage_preflight_unknowns, validate_acceptance_evidence_values,
+    validate_contract_summary_controls_with_runtime, validate_final_dimensions_value,
     validate_intent_alignment_values, validate_scenario_coverage_values,
 };
 use serde_json::{Value, json};
@@ -101,6 +102,18 @@ fn high_risk_scenario_coverage_fails_closed_until_verified() {
         findings
             .iter()
             .any(|item| item.code == "scenario_contract_summary_mismatch")
+    );
+
+    assert_eq!(
+        scenario_coverage_preflight_unknowns(&json!({"risk":"high"})),
+        vec!["scenario_coverage_required_for_high_risk"]
+    );
+    assert_eq!(
+        scenario_coverage_preflight_unknowns(&json!({
+            "risk":"high",
+            "scenarioCoverage":[{"scenario":"rollback","required":true,"status":"unverified"}]
+        })),
+        vec!["required_scenario_unverified:rollback"]
     );
 }
 
@@ -239,6 +252,32 @@ fn final_dimensions_require_exact_reference_set_and_go_prerequisites() {
             .findings
             .iter()
             .any(|item| item.code == "ambiguous_four_dimension_field")
+    );
+}
+
+#[test]
+fn summary_final_dimensions_are_bound_to_current_runtime_in_lifecycle_controls() {
+    let contract = contract("normal", "", vec![]);
+    let current = RuntimeContext {
+        runtime_version: "0.2.10".into(),
+        protocol_version: 1,
+        runtime_digest: "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+            .parse()
+            .unwrap(),
+    };
+    let summary = json!({"finalDimensions": final_receipt("CONDITIONAL_GO")});
+    let report = validate_contract_summary_controls_with_runtime(
+        &contract,
+        &serde_json::to_value(&contract).unwrap(),
+        &summary,
+        &current,
+    );
+    assert_eq!(report.state, "blocked");
+    assert!(
+        report
+            .findings
+            .iter()
+            .any(|item| item.code == "final_runtime_digest_mismatch")
     );
 }
 

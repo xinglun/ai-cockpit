@@ -1,5 +1,8 @@
 use cockpit_core::DecisionState;
-use cockpit_repository::{attach, checkpoint_work_item, preflight_work_item, scaffold_work_item};
+use cockpit_repository::{
+    WorkItemStartOptions, attach, checkpoint_work_item, preflight_work_item, scaffold_work_item,
+    start_work_item_with_options,
+};
 use std::{fs, process::Command};
 
 fn repository() -> tempfile::TempDir {
@@ -62,6 +65,45 @@ fn scaffold_preflight_is_not_ready_and_records_human_review_requirements() {
     assert_eq!(summary["preflightState"], "yellow");
     assert!(summary["preflightDecisionDigest"].is_string());
     assert!(checkpoint_work_item(directory.path(), "WI-CONTRACT-SCAFFOLD").is_err());
+}
+
+#[test]
+fn high_risk_scenario_coverage_stops_at_preflight_for_human_review() {
+    let directory = repository();
+    start_work_item_with_options(
+        directory.path(),
+        "WI-SCENARIO-PREFLIGHT",
+        "review high risk scenario",
+        "require explicit scenario evidence",
+        &["crates/**".into()],
+        &WorkItemStartOptions {
+            risk: "high".into(),
+            authority: "authorized".into(),
+            out_of_scope: vec!["target/**".into()],
+            acceptance_criteria: vec!["scenario gate".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start");
+    let decision = preflight_work_item(
+        directory.path(),
+        &directory
+            .path()
+            .join(".ai/work-items/active/WI-SCENARIO-PREFLIGHT.contract.json"),
+    )
+    .expect("preflight");
+    assert_eq!(decision.state, DecisionState::Yellow);
+    assert_eq!(
+        decision.review_state.as_deref(),
+        Some("needs_human_confirmation")
+    );
+    assert!(
+        decision
+            .unknowns
+            .iter()
+            .any(|unknown| unknown == "scenario_coverage_required_for_high_risk")
+    );
+    assert!(checkpoint_work_item(directory.path(), "WI-SCENARIO-PREFLIGHT").is_err());
 }
 
 #[test]

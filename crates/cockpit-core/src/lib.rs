@@ -468,6 +468,8 @@ fn requires_human_confirmation_unknown(unknown: &str) -> bool {
             | "agent_needs_human_decision"
     ) || unknown.starts_with("contract_declared_unknown:")
         || unknown.starts_with("execution_decision:")
+        || unknown.starts_with("scenario_coverage_")
+        || unknown.starts_with("required_scenario_unverified:")
 }
 
 pub fn evaluate(input: GovernanceInput) -> GovernanceDecision {

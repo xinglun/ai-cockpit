@@ -304,6 +304,51 @@ pub fn validate_scenario_coverage_values(
     }
 }
 
+/// Preflight-only scenario unknowns. This deliberately inspects Contract
+/// declarations without requiring the later Summary evidence projection, so
+/// a high-risk item stops for human review before checkpoint/verification.
+pub fn scenario_coverage_preflight_unknowns(contract: &Value) -> Vec<String> {
+    if !high_risk(contract) {
+        return Vec::new();
+    }
+    let Some(entries) = array(contract.get("scenarioCoverage")) else {
+        return vec!["scenario_coverage_required_for_high_risk".into()];
+    };
+    if entries.is_empty() {
+        return vec!["scenario_coverage_empty".into()];
+    }
+    let mut unknowns = Vec::new();
+    for entry in entries {
+        let name = entry
+            .get("scenario")
+            .and_then(Value::as_str)
+            .filter(|value| !value.trim().is_empty())
+            .unwrap_or("unknown");
+        let status = entry
+            .get("status")
+            .and_then(Value::as_str)
+            .unwrap_or_default();
+        match status {
+            "unverified" if entry.get("required").and_then(Value::as_bool) == Some(true) => {
+                unknowns.push(format!("required_scenario_unverified:{name}"));
+            }
+            "verified" => {
+                if array(entry.get("evidence")).is_none_or(|items| items.is_empty()) {
+                    unknowns.push(format!("scenario_coverage_evidence_missing:{name}"));
+                }
+            }
+            "not_applicable" => {
+                if !nonempty_string(entry.get("reason")) {
+                    unknowns.push(format!("scenario_coverage_reason_missing:{name}"));
+                }
+            }
+            "unverified" => {}
+            _ => unknowns.push(format!("scenario_coverage_status_invalid:{name}")),
+        }
+    }
+    unknowns
+}
+
 fn acceptance_ids(contract: &Contract) -> (Vec<String>, bool, Vec<GovernanceFinding>) {
     let mut ids = Vec::new();
     let mut numbered = false;
@@ -909,6 +954,24 @@ pub fn validate_contract_summary_controls(
     contract_value: &Value,
     summary: &Value,
 ) -> GovernanceControlsReport {
+    validate_contract_summary_controls_internal(contract, contract_value, summary, None)
+}
+
+pub fn validate_contract_summary_controls_with_runtime(
+    contract: &Contract,
+    contract_value: &Value,
+    summary: &Value,
+    runtime: &RuntimeContext,
+) -> GovernanceControlsReport {
+    validate_contract_summary_controls_internal(contract, contract_value, summary, Some(runtime))
+}
+
+fn validate_contract_summary_controls_internal(
+    contract: &Contract,
+    contract_value: &Value,
+    summary: &Value,
+    runtime: Option<&RuntimeContext>,
+) -> GovernanceControlsReport {
     let (scenario_state, mut unknowns, mut findings) =
         validate_scenario_coverage_values(contract_value, summary);
     let (acceptance_state, acceptance_unknowns, acceptance_findings) =
@@ -922,7 +985,12 @@ pub fn validate_contract_summary_controls(
     let (final_state, final_unknowns, final_findings) = summary
         .get("finalDimensions")
         .map(|value| {
-            let report = validate_final_dimensions_value(value, None, Some(&contract.work_item_id));
+            let report = validate_final_dimensions_value_with_runtime(
+                value,
+                None,
+                Some(&contract.work_item_id),
+                runtime,
+            );
             (report.state, report.unknowns, report.findings)
         })
         .unwrap_or_else(|| ("not_applicable".into(), Vec::new(), Vec::new()));

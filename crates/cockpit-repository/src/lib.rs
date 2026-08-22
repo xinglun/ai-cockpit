@@ -3827,7 +3827,16 @@ fn finish_work_item_internal(
     let contract_path = active.join(format!("{work_item_id}.contract.json"));
     let contract = read_contract(&contract_path)?;
     let contract_value = read_json(&contract_path)?;
-    let controls = validate_contract_summary_controls(&contract, &contract_value, &summary);
+    let controls = if let Some(runtime) = current_runtime {
+        validate_contract_summary_controls_with_runtime(
+            &contract,
+            &contract_value,
+            &summary,
+            runtime,
+        )
+    } else {
+        validate_contract_summary_controls(&contract, &contract_value, &summary)
+    };
     if controls.state == "blocked" {
         return Err(ObserverError::State {
             path: contract_path,
@@ -5642,6 +5651,11 @@ fn governance_decision_for_contract_internal_with_archive(
     )?;
     let mut explicit_unknowns = signals.unknowns;
     explicit_unknowns.extend(contract_review_unknowns(contract));
+    let contract_value = serde_json::to_value(contract).map_err(|error| ObserverError::State {
+        path: root.join(".ai/work-items"),
+        message: error.to_string(),
+    })?;
+    explicit_unknowns.extend(scenario_coverage_preflight_unknowns(&contract_value));
     let mut input = GovernanceInput {
         scope: contract.scope.clone(),
         out_of_scope: contract.out_of_scope.clone(),
