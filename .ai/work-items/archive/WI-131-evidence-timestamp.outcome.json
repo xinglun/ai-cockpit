@@ -1,0 +1,40 @@
+{
+  "acceptanceResults": [
+    "A1: valid v2 createdAt RFC3339 evidence remains green",
+    "A2: malformed missing and semantically invalid createdAt never produce verified or green Outcome",
+    "A3: finish archive and close fail closed on invalid current evidence while legacy v1 remains historical yellow",
+    "A4: repository and CLI regression tests cover active archived and foreign runtime paths",
+    "A5: three-language Outcome documentation describes timestamp validation and historical evidence boundary"
+  ],
+  "createdAt": "2026-08-22T11:19:21Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:8031dfb9b67b1d5fc983231f012a128d2110b01bc4b587e2ed28b207abee59f0",
+  "evidenceRefs": [
+    ".ai/evidence/WI-131-evidence-timestamp.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-131-evidence-timestamp.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-131-evidence-timestamp.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-131-evidence-timestamp"
+}

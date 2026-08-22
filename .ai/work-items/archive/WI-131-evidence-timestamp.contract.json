@@ -1,0 +1,43 @@
+{
+  "acceptanceCriteria": [
+    "A1: valid v2 createdAt RFC3339 evidence remains green",
+    "A2: malformed missing and semantically invalid createdAt never produce verified or green Outcome",
+    "A3: finish archive and close fail closed on invalid current evidence while legacy v1 remains historical yellow",
+    "A4: repository and CLI regression tests cover active archived and foreign runtime paths",
+    "A5: three-language Outcome documentation describes timestamp validation and historical evidence boundary"
+  ],
+  "authority": "authorized",
+  "baseRevision": "96ed583a9f175f6e8347dd19bab6fd2226113ae2",
+  "createdAt": "2026-08-22T11:12:03Z",
+  "goal": "Validate verification evidence createdAt as RFC3339 across Outcome and finish archive close while preserving legacy historical projection.",
+  "intent": "Reject malformed verification timestamps before any green Outcome or lifecycle transition.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/cockpit-core/**",
+    "crates/cockpit-agent/**",
+    "global-MCP-configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:eb63024dffc5abee1a8aaddb3d1e6e79cdcb4de65bc253f8fbc9be64d6c66792",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/evidence_assurance.rs",
+    "crates/cockpit-cli/tests/intelligence.rs",
+    "docs/reference/outcome-report.md",
+    "docs/reference/outcome-report.ja.md",
+    "docs/reference/outcome-report.zh-CN.md",
+    "docs/work-items/WI-131-evidence-timestamp.md",
+    "docs/work-items/WI-131-evidence-timestamp.ja.md",
+    "docs/work-items/WI-131-evidence-timestamp.zh-CN.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-131-evidence-timestamp"
+}

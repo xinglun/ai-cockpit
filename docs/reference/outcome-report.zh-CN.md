@@ -49,6 +49,11 @@ pre-v2 记录（以缺少 `evidenceSchemaVersion` 识别）会投影为黄色
 `legacy_evidence_historical`：它只是历史输入，不是当前失败，也不是新的绿色结果。
 v2 记录若缺少 identity 仍然显示红色。
 
+v2 envelope 的 `createdAt`、retention 的 `createdAt` 以及可选的 `expiresAt` 必须是
+RFC3339 时间戳。格式错误或语义无效的时间戳视为证据损坏，Outcome 显示红色，
+`finish`、`archive`、`close` 会停止。该检查同时保护当前证据和 retention 元数据，
+但不会改写历史 bytes。
+
 验收标准、intent、scope 等字段是 Work Item owner 写入的治理原文，报告保留原文并
 标注“验收标准（Contract 原文）”，不会擅自翻译或改变 Contract bytes。只有 Runtime
 生成的固定标题、摘要、状态、未知项和恢复提示会按对话语言显示。

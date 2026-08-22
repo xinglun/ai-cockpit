@@ -52,6 +52,11 @@ Work Item、repository、Runtime の nested identity を要求します。`diges
 これは履歴入力であり、現在の失敗でも fresh green でもありません。v2 record の identity 欠落は
 引き続き赤色です。
 
+v2 envelope の `createdAt`、retention の `createdAt`、および任意の
+`expiresAt` は RFC3339 timestamp でなければなりません。形式または意味が不正な
+timestamp は証拠の破損として赤色にし、`finish`、`archive`、`close` を停止します。
+この検査は現在の証拠と retention metadata を保護しますが、過去の bytes は書き換えません。
+
 受入れ基準、intent、scope などは Work Item owner が記述したガバナンス原文です。
 表示では「受入れ基準（Contract 原文）」として保持し、Contract bytes を勝手に翻訳・変更
 しません。Runtime が生成する固定見出し、要約、状態、不明点、復旧案内だけを会話言語に合わせます。

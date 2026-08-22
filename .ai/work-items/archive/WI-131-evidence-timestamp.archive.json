@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T11:19:21Z",
+  "files": {
+    "contractDigest": "sha256:b0cef14b30b309cb038ac1a70a60fe68455cd54bd5f7d50a9f20d9bc4044a51c",
+    "contractPath": ".ai/work-items/archive/WI-131-evidence-timestamp.contract.json",
+    "outcomeDigest": "sha256:aa35f244dbc6c26047a71222a75ca9c6438cc124a634c86a29c99744e91b3153",
+    "outcomePath": ".ai/work-items/archive/WI-131-evidence-timestamp.outcome.json",
+    "summaryDigest": "sha256:3250234353c1090b7c3e07e093cf34f7b718a16cc48c51557ba47b3b01f55190",
+    "summaryPath": ".ai/work-items/archive/WI-131-evidence-timestamp.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-131-evidence-timestamp"
+}

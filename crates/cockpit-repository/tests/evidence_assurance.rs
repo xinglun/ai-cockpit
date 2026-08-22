@@ -1,9 +1,10 @@
 use cockpit_core::{DecisionState, Digest};
-use cockpit_protocol::RuntimeContext;
+use cockpit_protocol::{HumanDecision, RuntimeContext};
 use cockpit_repository::{
-    RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions, attach,
-    checkpoint_work_item, finish_work_item_with_runtime, outcome_v2_with_runtime,
-    preflight_work_item_with_runtime, record_verification_with_runtime,
+    RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
+    archive_work_item_with_runtime, attach, checkpoint_work_item,
+    close_work_item_with_structured_decision_and_runtime, finish_work_item_with_runtime,
+    outcome_v2_with_runtime, preflight_work_item_with_runtime, record_verification_with_runtime,
     run_repository_verification, start_work_item_with_options,
 };
 use serde_json::Value;
@@ -79,7 +80,7 @@ fn record_typed(directory: &tempfile::TempDir, id: &str, current: &RuntimeContex
 
 #[test]
 fn strict_evidence_rejects_unknown_envelope_and_nested_fields() {
-    let cases: [EvidenceMutation; 5] = [
+    let cases: [EvidenceMutation; 9] = [
         ("unknown-envelope", |evidence: &mut Value| {
             evidence["unexpected"] = true.into();
         }),
@@ -101,6 +102,45 @@ fn strict_evidence_rejects_unknown_envelope_and_nested_fields() {
         }),
         ("malformed-receipt", |evidence: &mut Value| {
             evidence["receipt"] = Value::String("not-a-receipt".into());
+        }),
+        ("invalid-created-at", |evidence: &mut Value| {
+            evidence["createdAt"] = "not-an-rfc3339-time".into();
+        }),
+        ("missing-created-at", |evidence: &mut Value| {
+            evidence
+                .as_object_mut()
+                .expect("evidence object")
+                .remove("createdAt");
+        }),
+        ("invalid-retention-created-at", |evidence: &mut Value| {
+            evidence["retention"] = serde_json::json!({
+                "schemaVersion": 1,
+                "repositoryId": evidence["repositoryId"].clone(),
+                "workItemId": evidence["workItemId"].clone(),
+                "retention": {
+                    "classification": "internal",
+                    "persistence": "full_capture",
+                    "retentionDays": 30,
+                    "expiresAt": null,
+                    "disposalAction": "retain"
+                },
+                "createdAt": "not-an-rfc3339-time"
+            });
+        }),
+        ("invalid-retention-expires-at", |evidence: &mut Value| {
+            evidence["retention"] = serde_json::json!({
+                "schemaVersion": 1,
+                "repositoryId": evidence["repositoryId"].clone(),
+                "workItemId": evidence["workItemId"].clone(),
+                "retention": {
+                    "classification": "internal",
+                    "persistence": "full_capture",
+                    "retentionDays": null,
+                    "expiresAt": "not-an-rfc3339-time",
+                    "disposalAction": "retain"
+                },
+                "createdAt": "2026-08-22T11:00:00Z"
+            });
         }),
     ];
     for (name, mutate) in cases {
@@ -125,6 +165,61 @@ fn strict_evidence_rejects_unknown_envelope_and_nested_fields() {
             "{name}"
         );
     }
+}
+
+#[test]
+fn invalid_created_at_blocks_finish_and_archived_close() {
+    let directory = repository();
+    let current = runtime("timestamp-lifecycle");
+    start(&directory, "WI-131-TIMESTAMP-FINISH");
+    record_typed(&directory, "WI-131-TIMESTAMP-FINISH", &current);
+    let path = directory
+        .path()
+        .join(".ai/evidence/WI-131-TIMESTAMP-FINISH.verification.json");
+    let mut evidence: Value =
+        serde_json::from_slice(&fs::read(&path).expect("evidence")).expect("evidence JSON");
+    evidence["createdAt"] = "not-an-rfc3339-time".into();
+    fs::write(&path, serde_json::to_vec_pretty(&evidence).expect("JSON"))
+        .expect("tamper timestamp");
+    let outcome = outcome_v2_with_runtime(directory.path(), "WI-131-TIMESTAMP-FINISH", &current)
+        .expect("outcome");
+    assert_eq!(outcome.decision_state, Some(DecisionState::Red));
+    assert!(
+        finish_work_item_with_runtime(directory.path(), "WI-131-TIMESTAMP-FINISH", &current)
+            .is_err(),
+        "invalid timestamp must block finish"
+    );
+
+    start(&directory, "WI-131-TIMESTAMP-CLOSE");
+    record_typed(&directory, "WI-131-TIMESTAMP-CLOSE", &current);
+    finish_work_item_with_runtime(directory.path(), "WI-131-TIMESTAMP-CLOSE", &current)
+        .expect("finish");
+    archive_work_item_with_runtime(directory.path(), "WI-131-TIMESTAMP-CLOSE", &current)
+        .expect("archive");
+    let path = directory
+        .path()
+        .join(".ai/evidence/WI-131-TIMESTAMP-CLOSE.verification.json");
+    let mut evidence: Value =
+        serde_json::from_slice(&fs::read(&path).expect("evidence")).expect("evidence JSON");
+    evidence["createdAt"] = "not-an-rfc3339-time".into();
+    fs::write(&path, serde_json::to_vec_pretty(&evidence).expect("JSON"))
+        .expect("tamper archived timestamp");
+    let close = close_work_item_with_structured_decision_and_runtime(
+        directory.path(),
+        "WI-131-TIMESTAMP-CLOSE",
+        &HumanDecision {
+            decision: "approved".into(),
+            actor: "human:owner".into(),
+            authority_source: "timestamp-regression".into(),
+            reason: "invalid evidence must stop close".into(),
+            evidence_refs: vec![".ai/evidence/WI-131-TIMESTAMP-CLOSE.verification.json".into()],
+            policy_refs: vec!["evidence-assurance".into()],
+            decided_at: "2026-08-22T12:00:00Z".into(),
+            resume_condition: Some("rerun verification".into()),
+        },
+        &current,
+    );
+    assert!(close.is_err(), "invalid timestamp must block close");
 }
 
 #[test]
