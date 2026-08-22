@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T02:24:54Z",
+  "files": {
+    "contractDigest": "sha256:e4c07cf7bb78a7bf2a9d064abd1d34648fc28facb3c1f7738dc7a7fde36fa38d",
+    "contractPath": ".ai/work-items/archive/WI-106-outcome-human-decision-projection.contract.json",
+    "outcomeDigest": "sha256:7c1397c1644cb6b57b15391056f2f69195013f6212843d8052a97bd194595dab",
+    "outcomePath": ".ai/work-items/archive/WI-106-outcome-human-decision-projection.outcome.json",
+    "summaryDigest": "sha256:57d033b25603d4b752f0a4aa6496b2cfa7b8ce2ecac5973e5d38f1df7b68ff99",
+    "summaryPath": ".ai/work-items/archive/WI-106-outcome-human-decision-projection.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-106-outcome-human-decision-projection"
+}

@@ -16,7 +16,7 @@ use cockpit_repository::{
     run_repository_verification, scaffold_work_item, start_work_item_with_options, status,
 };
 use serde_json::json;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 mod runtime_identity;
 
@@ -494,7 +494,141 @@ fn localized_outcome_summary(
     }
 }
 
-fn render_human_outcome(outcome: &OutcomeV2) -> String {
+#[derive(Debug)]
+enum HumanDecisionProjection {
+    Missing,
+    Valid(HumanDecision),
+    Invalid(&'static str),
+}
+
+fn load_human_decision(repo: &Path, work_item_id: &str) -> HumanDecisionProjection {
+    let path = repo
+        .join(".ai/decisions")
+        .join(format!("{work_item_id}.close.json"));
+    let Ok(metadata) = std::fs::symlink_metadata(&path) else {
+        return HumanDecisionProjection::Missing;
+    };
+    if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
+        return HumanDecisionProjection::Invalid("decision record is not a regular file");
+    }
+    let Ok(bytes) = std::fs::read(&path) else {
+        return HumanDecisionProjection::Invalid("decision record cannot be read");
+    };
+    let Ok(record): Result<serde_json::Value, _> = serde_json::from_slice(&bytes) else {
+        return HumanDecisionProjection::Invalid("decision record is not valid JSON");
+    };
+    if record.get("workItemId").and_then(serde_json::Value::as_str) != Some(work_item_id) {
+        return HumanDecisionProjection::Invalid(
+            "decision record Work Item binding is missing or mismatched",
+        );
+    }
+    if record.get("state").and_then(serde_json::Value::as_str) != Some("closed") {
+        return HumanDecisionProjection::Invalid("decision record state is not closed");
+    }
+    if record
+        .get("decisionState")
+        .and_then(serde_json::Value::as_str)
+        != Some("confirmed")
+    {
+        return HumanDecisionProjection::Invalid("decision record is not confirmed");
+    }
+    let Some(structured) = record.get("structuredDecision").cloned() else {
+        return HumanDecisionProjection::Invalid("structured decision is missing");
+    };
+    let Ok(decision): Result<HumanDecision, _> = serde_json::from_value(structured) else {
+        return HumanDecisionProjection::Invalid(
+            "structured decision fields are incomplete or unknown",
+        );
+    };
+    for value in [
+        decision.decision.as_str(),
+        decision.actor.as_str(),
+        decision.authority_source.as_str(),
+        decision.reason.as_str(),
+        decision.decided_at.as_str(),
+    ] {
+        if value.trim().is_empty() {
+            return HumanDecisionProjection::Invalid(
+                "structured decision contains an empty required field",
+            );
+        }
+    }
+    if record
+        .get("humanDecision")
+        .and_then(serde_json::Value::as_str)
+        != Some(decision.decision.as_str())
+    {
+        return HumanDecisionProjection::Invalid(
+            "decision record summary does not match structured decision",
+        );
+    }
+    HumanDecisionProjection::Valid(decision)
+}
+
+fn render_human_decision(decision: &HumanDecision, language: &str, none: &str) -> String {
+    let (
+        decision_label,
+        actor_label,
+        authority_label,
+        reason_label,
+        evidence_label,
+        policy_label,
+        decided_label,
+        resume_label,
+    ) = match language {
+        "zh" => (
+            "决定",
+            "执行人",
+            "授权来源",
+            "理由",
+            "证据引用",
+            "策略引用",
+            "决定时间",
+            "恢复条件",
+        ),
+        "ja" => (
+            "判断",
+            "実行者",
+            "権限の出所",
+            "理由",
+            "evidence 参照",
+            "policy 参照",
+            "判断日時",
+            "再開条件",
+        ),
+        _ => (
+            "Decision",
+            "Actor",
+            "Authority source",
+            "Reason",
+            "Evidence refs",
+            "Policy refs",
+            "Decided at",
+            "Resume condition",
+        ),
+    };
+    let evidence_refs = if decision.evidence_refs.is_empty() {
+        none.to_string()
+    } else {
+        decision.evidence_refs.join(", ")
+    };
+    let policy_refs = if decision.policy_refs.is_empty() {
+        none.to_string()
+    } else {
+        decision.policy_refs.join(", ")
+    };
+    let resume_condition = decision.resume_condition.as_deref().unwrap_or(none);
+    format!(
+        "{decision_label}: {}\n  {actor_label}: {}\n  {authority_label}: {}\n  {reason_label}: {}\n  {evidence_label}: {evidence_refs}\n  {policy_label}: {policy_refs}\n  {decided_label}: {}\n  {resume_label}: {resume_condition}",
+        decision.decision,
+        decision.actor,
+        decision.authority_source,
+        decision.reason,
+        decision.decided_at,
+    )
+}
+
+fn render_human_outcome(repo: &Path, outcome: &OutcomeV2) -> String {
     let language = output_language();
     let (marker, status) =
         outcome_status(&outcome.state, outcome.decision_state.as_ref(), language);
@@ -650,6 +784,20 @@ fn render_human_outcome(outcome: &OutcomeV2) -> String {
             .map(|reference| format!("{status}: {reference}"))
             .collect()
     };
+    let decision_items = match load_human_decision(repo, &outcome.work_item_id) {
+        HumanDecisionProjection::Missing => Vec::new(),
+        HumanDecisionProjection::Valid(decision) => {
+            vec![render_human_decision(&decision, language, none)]
+        }
+        HumanDecisionProjection::Invalid(reason) => {
+            let label = match language {
+                "zh" => "未知：结构化人工决定记录无效",
+                "ja" => "不明：構造化された人間の判断記録が無効です",
+                _ => "Unknown: structured human decision record is invalid",
+            };
+            vec![format!("{label} ({reason})")]
+        }
+    };
     let stop_items = if outcome.decision_state == Some(DecisionState::Red) {
         vec![invalid_evidence.into()]
     } else if matches!(
@@ -670,7 +818,7 @@ fn render_human_outcome(outcome: &OutcomeV2) -> String {
         bullet_lines(&Vec::new(), none),
         bullet_lines(&unknowns_all, none),
         bullet_lines(&unknowns_all, none),
-        bullet_lines(&Vec::new(), none),
+        bullet_lines(&decision_items, none),
         bullet_lines(&verification_items, none),
         bullet_lines(&impact_items, none),
         bullet_lines(&outcome.evidence_refs, none),
@@ -1140,7 +1288,7 @@ fn run() -> Result<()> {
                 if json {
                     println!("{}", serde_json::to_string_pretty(&outcome)?);
                 } else {
-                    println!("{}", render_human_outcome(&outcome));
+                    println!("{}", render_human_outcome(&repo, &outcome));
                 }
             }
             WorkItemCommand::Inspect { repo, id } => {
