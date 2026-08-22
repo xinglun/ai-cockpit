@@ -1,0 +1,23 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:maintainer",
+    "authoritySource": "repository-owner",
+    "decidedAt": "2026-08-22T12:15:14Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-134-docs-close-finalization.verification.json",
+      ".ai/work-items/archive/WI-134-docs-close-finalization.archive.json"
+    ],
+    "policyRefs": [
+      "docs/reference/reference-parity.md",
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "PR #77 merged after both hosted CI runs passed; documentation acceptance and close-finalization evidence were rechecked on the synchronized default branch.",
+    "resumeCondition": "none; Work Item closed"
+  },
+  "timestamp": "2026-08-22T12:15:16Z",
+  "workItemId": "WI-134-docs-close-finalization"
+}
