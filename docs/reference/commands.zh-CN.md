@@ -38,7 +38,8 @@ capabilityClaims:
 - `verify --workers <n>` 要求正数并限制并发。
 - `start` 要求 `--id`、`--intent`、`--goal`；要得到 green governed flow 需要 `--authority authorized`。
 - `work-item new --repo <path> --id <id> --mode <mode>` 创建 `not_ready` 骨架，只填充 snapshot-derived facts，
-  人类字段保持空值或 `unknown`；过渡期 `start` 复用同一 writer。
+  人类字段保持空值或 `unknown`；过渡期 `start` 复用同一 writer。repository-local 独占 reservation
+  会让重复竞争 fail closed：同一 ID 只有一个请求成功，另一个失败；不同 repository 仍然相互独立。
 - `work-item outcome --repo <path> --id <id>` 按已完成内容、问题、停止、风险、未知、决定、验证、影响和下一步的顺序输出面向人的结果。
   自动化请使用 `--json`。状态标记和语言规则见[面向人的 Outcome](outcome-report.zh-CN.md)。
 - `profile propose --repo <path>` 只读输出 `candidate`/`proposed` amendment，不会应用 profile baseline 修改。

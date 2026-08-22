@@ -184,6 +184,13 @@ and summary state is `not_ready`, never `passed`, `approved`, `verified`, or
 The older `start` command remains available and delegates to the same scaffold
 writer with explicit human fields.
 
+Scaffold creation is serialized per repository and Work Item ID by a
+repository-local exclusive reservation. If two `work-item new` calls race for
+the same ID, exactly one creates the Contract and summary and the other fails
+closed; the reservation is removed after a committed pair. Different
+repositories have independent reservations and can scaffold the same ID in
+parallel.
+
 ### Propose a profile amendment
 
 ```bash

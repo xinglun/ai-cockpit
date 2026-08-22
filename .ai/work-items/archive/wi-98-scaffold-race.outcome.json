@@ -1,0 +1,35 @@
+{
+  "acceptanceResults": [
+    "Concurrent work-item new calls in one repository with the same ID yield exactly one success and one fail-closed result; no duplicate contract or summary and no partial committed pair; concurrent calls in independent repositories both succeed; existing duplicate detection remains fail closed; reservation cleanup preserves retry/recovery semantics; atomic file writes remain used; focused and required repository checks pass; three-language docs describe the duplicate-race boundary."
+  ],
+  "createdAt": "2026-08-22T01:10:06Z",
+  "evidenceDigest": "sha256:e85495c4da7a669d8bac7ec42561f3faad0f010a57c654366cbb0a08a9af74e0",
+  "evidenceRefs": [
+    ".ai/evidence/wi-98-scaffold-race.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/wi-98-scaffold-race.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/wi-98-scaffold-race.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "wi-98-scaffold-race"
+}

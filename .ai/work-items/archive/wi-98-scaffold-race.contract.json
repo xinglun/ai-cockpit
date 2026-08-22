@@ -1,0 +1,43 @@
+{
+  "acceptanceCriteria": [
+    "Concurrent work-item new calls in one repository with the same ID yield exactly one success and one fail-closed result; no duplicate contract or summary and no partial committed pair; concurrent calls in independent repositories both succeed; existing duplicate detection remains fail closed; reservation cleanup preserves retry/recovery semantics; atomic file writes remain used; focused and required repository checks pass; three-language docs describe the duplicate-race boundary."
+  ],
+  "authority": "authorized",
+  "baseRevision": "c62c56073e848d35027f50747bf913b0ecc40011",
+  "createdAt": "2026-08-22T01:01:20Z",
+  "goal": "Introduce a repository-local reservation for Work Item scaffolding that provides exactly-one success under same-repository duplicate races, preserves atomic contract and summary writes, and keeps independent repositories isolated.",
+  "intent": "Make concurrent work-item new scaffolding fail closed so one repository and one work-item ID produce exactly one committed skeleton.",
+  "mode": "implementation",
+  "outOfScope": [
+    "CLI command redesign",
+    " provider Agent configuration",
+    " global locks or global current repository state",
+    " Work Item lifecycle semantics outside scaffold creation",
+    " release publication",
+    " migration",
+    " unrelated documentation restructuring"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:192b74ccb0f4c6afabba399899524f941698886548f07afb92221f6fa51d7396",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/tests/work_item_scaffold.rs",
+    "docs/capabilities.md",
+    "docs/capabilities.zh-CN.md",
+    "docs/capabilities.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    ".ai/work-items/**",
+    ".ai/evidence/**",
+    ".ai/decisions/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "wi-98-scaffold-race"
+}

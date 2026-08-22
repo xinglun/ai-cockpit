@@ -37,7 +37,8 @@ capabilityClaims:
 - `verify --workers <n>` は positive worker count を要求し concurrency を制限します。
 - `start` は `--id`、`--intent`、`--goal` が必須です。green governed flow には `--authority authorized` が必要です。
 - `work-item new --repo <path> --id <id> --mode <mode>` は `not_ready` skeleton を作ります。snapshot-derived facts だけを埋め、
-  human field は空または `unknown` のままです。移行期の `start` も同じ writer を使います。
+  human field は空または `unknown` のままです。移行期の `start` も同じ writer を使います。repository-local の
+  exclusive reservation により重複競合は fail closed になり、同じ ID では 1 件だけが成功し、異なる repository は独立して動作します。
 - `work-item outcome --repo <path> --id <id>` は完了内容、問題、停止、リスク、不明点、判断、検証、影響、次の action の順で人間向け結果を表示します。
   automation には `--json` を使います。status marker と言語規則は[人間向け Outcome](outcome-report.ja.md)を参照してください。
 - `profile propose --repo <path>` は read-only の `candidate`/`proposed` amendment を出力し、profile baseline を適用しません。

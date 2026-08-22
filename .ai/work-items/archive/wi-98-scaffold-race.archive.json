@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T01:10:15Z",
+  "files": {
+    "contractDigest": "sha256:1e644e711a200bb1094ad640985a31c2105d1ad92488c233dd5cbab75593288f",
+    "contractPath": ".ai/work-items/archive/wi-98-scaffold-race.contract.json",
+    "outcomeDigest": "sha256:2b122fa13bc3df04a2a3e499c751a11c69f5bb4dbcd610a2c3ca189d965839c4",
+    "outcomePath": ".ai/work-items/archive/wi-98-scaffold-race.outcome.json",
+    "summaryDigest": "sha256:571d8b40993e7c3a31880d0d7698a028c04603f65ecfecd28f8d0a9060883a8c",
+    "summaryPath": ".ai/work-items/archive/wi-98-scaffold-race.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "wi-98-scaffold-race"
+}

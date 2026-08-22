@@ -3201,6 +3201,43 @@ struct ContractScaffoldInput<'a> {
     state: &'a str,
 }
 
+struct WorkItemScaffoldReservation {
+    reservation_path: PathBuf,
+    contract_path: PathBuf,
+    summary_path: PathBuf,
+    contract_created: bool,
+    summary_created: bool,
+    committed: bool,
+}
+
+impl WorkItemScaffoldReservation {
+    fn mark_contract_created(&mut self) {
+        self.contract_created = true;
+    }
+
+    fn mark_summary_created(&mut self) {
+        self.summary_created = true;
+    }
+
+    fn commit(&mut self) {
+        self.committed = true;
+    }
+}
+
+impl Drop for WorkItemScaffoldReservation {
+    fn drop(&mut self) {
+        if !self.committed {
+            if self.summary_created {
+                let _ = fs::remove_file(&self.summary_path);
+            }
+            if self.contract_created {
+                let _ = fs::remove_file(&self.contract_path);
+            }
+        }
+        let _ = fs::remove_file(&self.reservation_path);
+    }
+}
+
 fn create_work_item_scaffold(
     root: &Path,
     input: &ContractScaffoldInput<'_>,
@@ -3280,13 +3317,51 @@ fn create_work_item_scaffold(
         })?;
     }
     let contract_path = active.join(format!("{}.contract.json", input.work_item_id));
-    if [
-        contract_path.clone(),
-        active.join(format!("{}.summary.json", input.work_item_id)),
-        archive.join(format!("{}.archive.json", input.work_item_id)),
-    ]
-    .iter()
-    .any(|path| path.exists())
+    let summary_path = active.join(format!("{}.summary.json", input.work_item_id));
+    let archive_path = archive.join(format!("{}.archive.json", input.work_item_id));
+    let reservation_path = active.join(format!(".{}.scaffold.reserve", input.work_item_id));
+    let mut reservation_file = match fs::OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(&reservation_path)
+    {
+        Ok(file) => file,
+        Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => {
+            return Err(ObserverError::State {
+                path: reservation_path,
+                message: "work item already exists or scaffold reservation is active".into(),
+            });
+        }
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: reservation_path,
+                source,
+            });
+        }
+    };
+    if let Err(source) = reservation_file
+        .write_all(b"ai-cockpit work-item scaffold reservation\n")
+        .and_then(|()| reservation_file.sync_all())
+    {
+        drop(reservation_file);
+        let _ = fs::remove_file(&reservation_path);
+        return Err(ObserverError::Read {
+            path: reservation_path,
+            source,
+        });
+    }
+    drop(reservation_file);
+    let mut reservation = WorkItemScaffoldReservation {
+        reservation_path,
+        contract_path: contract_path.clone(),
+        summary_path: summary_path.clone(),
+        contract_created: false,
+        summary_created: false,
+        committed: false,
+    };
+    if [contract_path.clone(), summary_path.clone(), archive_path]
+        .iter()
+        .any(|path| path.exists())
     {
         return Err(ObserverError::State {
             path: contract_path,
@@ -3294,10 +3369,10 @@ fn create_work_item_scaffold(
         });
     }
     atomic_json(&contract_path, &contract)?;
-    atomic_json(
-        &active.join(format!("{}.summary.json", input.work_item_id)),
-        &summary,
-    )?;
+    reservation.mark_contract_created();
+    atomic_json(&summary_path, &summary)?;
+    reservation.mark_summary_created();
+    reservation.commit();
     Ok(CreatedWorkItemScaffold {
         contract_path: contract_path.to_string_lossy().into_owned(),
         facts,
