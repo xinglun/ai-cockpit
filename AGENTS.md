@@ -38,11 +38,14 @@ digests, and must prove the temporary run root was cleaned up.
 
 ## Work Item change discipline
 
-Use one active Work Item, one dedicated branch, and one pull request for a
-change. Start the branch from the latest remote default branch and keep the
-Contract scope, out-of-scope boundary, evidence, and verification commands
-current. If an in-scope defect is discovered, amend and verify the current
-Contract before opening another Work Item; do not hide it in a later task.
+Use one active Work Item per branch, worktree, and repository context, with one
+dedicated branch and one pull request for that Work Item. Compatible,
+independent Work Items may run in parallel when their scopes and repository
+contexts are isolated and the Runtime declares them compatible. Start each
+branch from the latest remote default branch and keep the Contract scope,
+out-of-scope boundary, evidence, and verification commands current. If an
+in-scope defect is discovered, amend and verify the current Contract before
+opening another Work Item; do not hide it in a later task.
 
 Merge only the reviewed PR after its hosted checks pass. Do not use local-main
 as a substitute for pre-merge review. After merge, synchronize the default
