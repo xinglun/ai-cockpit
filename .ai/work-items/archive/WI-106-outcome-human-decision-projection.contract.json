@@ -1,0 +1,56 @@
+{
+  "acceptanceCriteria": [
+    "Outcome human rendering reads an existing close decision record only after validating decision",
+    " actor",
+    " authoritySource",
+    " reason",
+    " evidenceRefs",
+    " policyRefs",
+    " decidedAt",
+    " and resumeCondition.",
+    "Valid human decisions render with localized system labels and 🔴 🟡 🟢 markers for English",
+    " Simplified Chinese",
+    " and Japanese; malformed or mismatched decision records fail closed and remain visible as unknown.",
+    "Existing machine-readable Outcome JSON and persisted contract",
+    " evidence",
+    " archive",
+    " and decision facts remain unchanged; regression tests cover valid",
+    " malformed",
+    " mismatched",
+    " and all three language projections.",
+    "Focused CLI tests",
+    " cargo fmt --check",
+    " cargo clippy --workspace --all-targets -- -D warnings",
+    " and required workspace quality checks pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "eee230a6e89aa8b8f394dfe5e63e1161dea83da9",
+  "createdAt": "2026-08-22T02:17:43Z",
+  "goal": "Project validated structured Human Decision records in the human-readable Outcome handoff without changing machine-readable facts.",
+  "intent": "Make an existing close decision visible to people in Outcome output, with fail-closed validation and localized English, Simplified Chinese, and Japanese labels.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Changing the Outcome JSON schema or persisted decision/evidence facts",
+    "Changing policy evaluation or close authorization semantics",
+    "Translating authored Contract acceptance criteria",
+    "MCP protocol redesign or global Agent/MCP configuration",
+    "Foreign-runtime identity binding",
+    "Release publication or unrelated documentation restructuring"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:732975b59283caf406c6e8b8c8ebeb98f30327d2dcd835de0c42f4b63b0c529e",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "medium",
+  "scope": [
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/**",
+    ".ai/work-items/**",
+    ".ai/evidence/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-106-outcome-human-decision-projection"
+}

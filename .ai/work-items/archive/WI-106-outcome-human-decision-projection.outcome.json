@@ -1,0 +1,57 @@
+{
+  "acceptanceResults": [
+    "Outcome human rendering reads an existing close decision record only after validating decision",
+    " actor",
+    " authoritySource",
+    " reason",
+    " evidenceRefs",
+    " policyRefs",
+    " decidedAt",
+    " and resumeCondition.",
+    "Valid human decisions render with localized system labels and 🔴 🟡 🟢 markers for English",
+    " Simplified Chinese",
+    " and Japanese; malformed or mismatched decision records fail closed and remain visible as unknown.",
+    "Existing machine-readable Outcome JSON and persisted contract",
+    " evidence",
+    " archive",
+    " and decision facts remain unchanged; regression tests cover valid",
+    " malformed",
+    " mismatched",
+    " and all three language projections.",
+    "Focused CLI tests",
+    " cargo fmt --check",
+    " cargo clippy --workspace --all-targets -- -D warnings",
+    " and required workspace quality checks pass."
+  ],
+  "createdAt": "2026-08-22T02:24:44Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:8217de45e467d03a7dc162989f4d89d447f4caf15c75ac6e8b64a9160dbb2551",
+  "evidenceRefs": [
+    ".ai/evidence/WI-106-outcome-human-decision-projection.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-106-outcome-human-decision-projection.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-106-outcome-human-decision-projection.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-106-outcome-human-decision-projection"
+}
