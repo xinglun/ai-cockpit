@@ -1,0 +1,128 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-151-post-release-v0-2-16-self-governance.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:67ef5290fb24856fc9665342ef22b3574c6d09d656f22c21a687cf1b991c84cc",
+      "workItemId": "WI-151-post-release-v0-2-16-self-governance"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-151-post-release-v0-2-16-self-governance.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-151-post-release-v0-2-16-self-governance.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-151-post-release-v0-2-16-self-governance.verification.json",
+            "https://github.com/xinglun/ai-cockpit/actions/runs/32602194567"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via repository-owner-release-acceptance at 2026-08-22T22:34:30Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-151-post-release-v0-2-16-self-governance.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-151-post-release-v0-2-16-self-governance.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-151-post-release-v0-2-16-self-governance.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-151-post-release-v0-2-16-self-governance.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-151-post-release-v0-2-16-self-governance.contract.json"
+          ],
+          "inference": false,
+          "text": "Use the installed v0.2.16 binary to inspect, status, doctor, agent doctor, verify a real repository command, and render a human-readable Outcome with visible status markers."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-151-post-release-v0-2-16-self-governance.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-151-post-release-v0-2-16-self-governance"
+  },
+  "finalReportDigest": "sha256:bc93a5e749e11e255ec6bb155d1efb0f4ed7f7f8643a7db29888d01fbb82eded",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "repository-owner-release-acceptance",
+    "decidedAt": "2026-08-22T22:34:30Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-151-post-release-v0-2-16-self-governance.verification.json",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/32602194567"
+    ],
+    "policyRefs": [
+      "release-v0.2.16-public-artifact-acceptance"
+    ],
+    "reason": "Reviewed the public v0.2.16 release manifest, checksum, binary identity, complete release workflow, and installed Runtime self-governance evidence.",
+    "resumeCondition": "Reopen only with a new Work Item and fresh release evidence."
+  },
+  "timestamp": "2026-08-22T22:33:33Z",
+  "workItemId": "WI-151-post-release-v0-2-16-self-governance"
+}

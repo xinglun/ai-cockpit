@@ -1,0 +1,17 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-22T22:31:24Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T22:31:13Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-22T22:33:25Z",
+  "preflightContractDigest": "sha256:d77dc9cfdf72579fcdb8dbc8cafdb869822ea45ca4a8046866bd25e94173cd51",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:67ef5290fb24856fc9665342ef22b3574c6d09d656f22c21a687cf1b991c84cc",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T22:33:25Z",
+  "workItemId": "WI-151-post-release-v0-2-16-self-governance"
+}

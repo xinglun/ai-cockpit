@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-22T22:33:25Z",
+  "files": {
+    "contractDigest": "sha256:54afce0d3064bda55257835c0d0ca6206a0db4ce7b975001a6f9df98dcd55ce7",
+    "contractPath": ".ai/work-items/archive/WI-151-post-release-v0-2-16-self-governance.contract.json",
+    "eventsDigest": "sha256:a060cf988221af779a3a90234d219db59da079a8c85a5dab8a077d4fe365eed7",
+    "eventsPath": ".ai/work-items/archive/WI-151-post-release-v0-2-16-self-governance.events.jsonl",
+    "outcomeDigest": "sha256:2bc42ab8e3fbf15c74850b9806eca490323662695b4f9f31884593dbf2a60588",
+    "outcomePath": ".ai/work-items/archive/WI-151-post-release-v0-2-16-self-governance.outcome.json",
+    "summaryDigest": "sha256:e5f7cbce350968e6c218b7205205d5cfc28583405d466cd5cfd23ee68921d824",
+    "summaryPath": ".ai/work-items/archive/WI-151-post-release-v0-2-16-self-governance.summary.json",
+    "taskReportDigest": "sha256:29ce9a2042b17f18695fc2f930f888dc6d3877a2d6b43ce07248be5e2ce2f105",
+    "taskReportMarkdownDigest": "sha256:139f4015241542257dc5a3cf3d8e6183dad72e64b7ef0dd600ea9a57cb3d5522",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-151-post-release-v0-2-16-self-governance.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-151-post-release-v0-2-16-self-governance.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-151-post-release-v0-2-16-self-governance"
+}

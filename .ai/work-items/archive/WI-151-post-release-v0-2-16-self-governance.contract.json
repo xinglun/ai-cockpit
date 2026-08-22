@@ -1,0 +1,33 @@
+{
+  "acceptanceCriteria": [
+    "Installed Runtime identity is v0.2.16 with the verified public binary digest",
+    "inspect status doctor and agent doctor are healthy for this repository",
+    "verify passes with current runtime identity and explicit repository context",
+    "Outcome is human-readable and preserves visible status marker semantics"
+  ],
+  "authority": "authorized",
+  "baseRevision": "521177b2d7a1e57c3ee7b8e1383bd07f69bf1aff",
+  "createdAt": "2026-08-22T22:31:13Z",
+  "goal": "Use the installed v0.2.16 binary to inspect, status, doctor, agent doctor, verify a real repository command, and render a human-readable Outcome with visible status markers.",
+  "intent": "Validate that the immutable public v0.2.16 Runtime can govern this repository after installation, with explicit repository context and no source fallback.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Source implementation changes",
+    "Global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:67ef5290fb24856fc9665342ef22b3574c6d09d656f22c21a687cf1b991c84cc",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    ".ai/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-151-post-release-v0-2-16-self-governance"
+}

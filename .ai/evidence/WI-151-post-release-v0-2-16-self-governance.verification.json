@@ -1,0 +1,91 @@
+{
+  "captureMode": "full_capture",
+  "createdAt": "2026-08-22T22:33:19Z",
+  "evidenceSchemaVersion": 2,
+  "passed": true,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 109187,
+      "executionElapsedMs": 109046,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": true,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "runtimeDigest": "sha256:0e9e9e85f3a96d22702cf95edab928bd2307c4636e53836bee46ca4e8cabf796",
+      "runtimeVersion": "0.2.16",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 109187,
+    "executionElapsedMs": 109046,
+    "filesHashed": 5,
+    "filesRead": 5,
+    "gitCalls": 8,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planReceipt": {
+      "assurance": "self_declared",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 109046,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:d06ee9ddb33b521d126ca6c2298f4247ad5cbc346d8844bc01af4e40217becf6",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:0e9e9e85f3a96d22702cf95edab928bd2307c4636e53836bee46ca4e8cabf796",
+    "runtimeVersion": "0.2.16",
+    "workItemId": "WI-151-post-release-v0-2-16-self-governance"
+  },
+  "receiptDigest": "sha256:d331fcea119b36b3f094c9bccce9f3e776b7c770d71877217e4b500bd494fab1",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:67ef5290fb24856fc9665342ef22b3574c6d09d656f22c21a687cf1b991c84cc",
+  "runtimeDigest": "sha256:0e9e9e85f3a96d22702cf95edab928bd2307c4636e53836bee46ca4e8cabf796",
+  "runtimeVersion": "0.2.16",
+  "workItemId": "WI-151-post-release-v0-2-16-self-governance"
+}
