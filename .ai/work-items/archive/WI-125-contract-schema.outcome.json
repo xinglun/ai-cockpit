@@ -1,0 +1,40 @@
+{
+  "acceptanceResults": [
+    "typed Contract V2 fields round trip without data loss",
+    "unknown and malformed nested Contract input fails closed",
+    "legacy Contract bytes remain readable and are not rewritten",
+    "cross-field mode and approval invariants fail closed",
+    "trilingual Contract field documentation and WI record are synchronized"
+  ],
+  "createdAt": "2026-08-22T09:27:53Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:e9c01062eadf8446b98237f817c8d59ef7112b90154228784791b50722c8a783",
+  "evidenceRefs": [
+    ".ai/evidence/WI-125-contract-schema.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-125-contract-schema.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-125-contract-schema.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-125-contract-schema"
+}

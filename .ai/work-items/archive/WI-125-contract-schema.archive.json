@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T09:27:57Z",
+  "files": {
+    "contractDigest": "sha256:1d03e48fe605b99dc980193290911b7b815bc53fc6f61482cc87063e61ae899d",
+    "contractPath": ".ai/work-items/archive/WI-125-contract-schema.contract.json",
+    "outcomeDigest": "sha256:7a25a6ec2e451b9f5fe76bddba0aa20ab56d4cc0a7d4abf84ca3854e05f95b9d",
+    "outcomePath": ".ai/work-items/archive/WI-125-contract-schema.outcome.json",
+    "summaryDigest": "sha256:79d5d4f6c52e155eb2fd1a09f1709794d743839d8ee2b317e2fabb0be27b30a1",
+    "summaryPath": ".ai/work-items/archive/WI-125-contract-schema.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-125-contract-schema"
+}

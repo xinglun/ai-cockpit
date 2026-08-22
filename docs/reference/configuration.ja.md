@@ -113,6 +113,29 @@ scenario coverage、final acceptance dimensions、parallel boundary は別の Co
 である。`verify --workers` は実行時 concurrency であり Work Item の parallel authorization
 ではない。Contract 原文は owner の言語で保持し、Runtime は自動翻訳しない。
 
+### Contract V2 の lineage と governance field
+
+次の optional field は typed な Contract data です。protocol-v1 record では
+省略または空のまま読み取り、V2 record で利用できます。
+
+- `baseCommit` と `baselineDirtyPaths` は Work Item の開始 revision と開始前の dirty file
+  （`path`、`status`、`fingerprint`）を bind します。legacy spelling の `baseRevision` も残します。
+- `archiveSequence` は順序 metadata です。archive manifest 自身の digest binding の代わりにはなりません。
+- `resumeHistory` は closed predecessor への連続した transition を記録します。old/new base、branch identity、Contract digest、
+  manifest path、predecessor closure flag を各 entry に持ちます。
+- `synchronizationCheckpoint` は明示的な `authorized: true` と空でない reason が必要です。
+  `synchronizationHistory` は base と rebase transition を記録し、無関係な dirty path を隠すためには使えません。
+- `guidelines`、`preReviewWarnings`、optional な `acceptance` は人間が記述した指示と stable な受入宣言を保持します。
+  空の guideline は拒否されます。
+- `authorityEvidence` と `restrictedWriteApproval` は repository-local の provenance record であり、identity authentication ではありません。
+  destructive approval evidence は identity level、actor、scope、evidence payload を typed に持ち、provider/enterprise claim は外部検証の対象です。
+
+`contractVersion: 2` の `mode` は `investigate`、`author_todo`、`code`、`review`、`cleanup` のいずれかです。
+`code` Contract では `unknowns` を空にし、`notCodable: false` にする必要があります。
+legacy の `mode: implementation` は Contract V2 を選択していない record だけ読み取り可能です。
+不正な lineage、approval、mode、cross-field combination は Contract validation で停止します。
+過去の Contract bytes に対する backfill や rewrite は行いません。
+
 `verify --work-item <id>` は `.ai/evidence/<id>.verification.json` を書きます。`finish` は outcome、`archive` は archive manifest、
 `close` は human decision を記録します。green に見せるため手編集してはいけません。
 

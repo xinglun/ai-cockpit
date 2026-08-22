@@ -106,6 +106,23 @@ Contract 顶层和结构化字段均采用严格未知字段校验，重复 JSON
 场景覆盖、最终验收维度和并行边界是后续 Contract 扩展，不能把 `verify --workers` 当作
 Work Item 并行授权。Contract 原文仍保持 owner 的语言，不由 Runtime 自动翻译。
 
+### Contract V2 的 lineage 与治理字段
+
+以下可选字段是 typed Contract 数据。protocol-v1 记录会保持省略或空值，
+Contract V2 记录可以使用它们：
+
+- `baseCommit` 和 `baselineDirtyPaths` 绑定 Work Item 的起始 revision，并记录开始前已存在的 dirty 文件（`path`、`status`、`fingerprint`）。
+  旧字段名 `baseRevision` 继续保留。
+- `archiveSequence` 只是正整数顺序 metadata，不能替代 archive manifest 自身的 digest 绑定。
+- `resumeHistory` 记录连续且已关闭的 predecessor transition；每项包含 old/new base、分支 identity、Contract digest、manifest path 和 predecessor closure flags。
+- `synchronizationCheckpoint` 必须明确写入 `authorized: true` 和非空 reason。`synchronizationHistory` 记录 base/rebase transition，不能用来隐藏无关 dirty path。
+- `guidelines`、`preReviewWarnings` 和可选 `acceptance` 保留人工编写的指示与稳定的验收声明；空 guideline 会被拒绝。
+- `authorityEvidence` 与 `restrictedWriteApproval` 是 repository-local provenance record，不是身份认证。Destructive approval evidence 必须 typed 地包含 identity level、actor、scope 和 evidence payload；provider/enterprise 声明仍需外部验证。
+
+对于 `contractVersion: 2`，`mode` 必须是 `investigate`、`author_todo`、`code`、`review` 或 `cleanup` 之一；`code` Contract 的 `unknowns` 必须为空且 `notCodable: false`。
+未选择 Contract V2 的历史记录仍可读取 legacy `mode: implementation`。
+非法 lineage、approval、mode 或 cross-field 组合会在 Contract validation 阶段停止。历史 Contract bytes 不会被回填或重写。
+
 `verify --work-item <id>` 写入 `.ai/evidence/<id>.verification.json`。`finish` 创建 outcome，`archive`
 创建 archive manifest，`close` 记录 human decision。这些记录与内容绑定，不应手工修改来伪造 green。
 

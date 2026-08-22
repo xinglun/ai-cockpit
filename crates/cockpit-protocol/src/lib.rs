@@ -827,6 +827,121 @@ pub struct ContractExecutionDecision {
     pub reason: String,
 }
 
+/// A file that was already dirty when a Work Item started.  The fingerprint
+/// is intentionally an opaque digest string: the Contract records the
+/// repository's observed baseline without claiming a particular Git hash
+/// algorithm.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct BaselineDirtyPath {
+    pub path: String,
+    pub status: String,
+    pub fingerprint: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ResumePredecessorClosure {
+    pub status_closed: bool,
+    pub pr_merged: bool,
+    pub closure_succeeded: bool,
+    pub local_branch_deleted: bool,
+    pub remote_branch_deleted: bool,
+    pub base_synchronized: bool,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ResumeHistoryEntry {
+    pub resume_version: u32,
+    pub from_base_commit: String,
+    pub to_base_commit: String,
+    pub base_remote: String,
+    pub base_branch: String,
+    pub work_branch: String,
+    pub recorded_at: String,
+    pub prior_contract_digest: Digest,
+    pub predecessor_work_item_id: String,
+    pub predecessor_merge_commit: String,
+    pub predecessor_manifest_path: String,
+    pub predecessor_closure: ResumePredecessorClosure,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct SynchronizationCheckpoint {
+    pub authorized: bool,
+    pub reason: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct SynchronizationHistoryEntry {
+    pub synchronization_version: u32,
+    pub from_base_commit: String,
+    pub to_base_commit: String,
+    pub base_remote: String,
+    pub base_branch: String,
+    pub work_branch: String,
+    pub recorded_at: String,
+    pub prior_contract_digest: Digest,
+    pub prior_summary_digest: Digest,
+    pub rebase_head_before: String,
+    pub rebase_head_after: String,
+    #[serde(default)]
+    pub checkpoint_paths: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ApprovalIdentityEvidencePayload {
+    #[serde(default)]
+    pub repository: Option<String>,
+    #[serde(default)]
+    pub pull_request: Option<u64>,
+    #[serde(default)]
+    pub review_id: Option<u64>,
+    #[serde(default)]
+    pub commit_sha: Option<String>,
+    #[serde(default)]
+    pub direct_user_instruction_ref: Option<String>,
+    #[serde(default)]
+    pub direct_user_instruction_digest: Option<Digest>,
+    #[serde(default)]
+    pub authorized_at: Option<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ApprovalIdentityEvidence {
+    pub schema_version: u32,
+    pub approval_type: String,
+    pub identity_level: String,
+    pub actor: String,
+    #[serde(default)]
+    pub provider: Option<String>,
+    pub evidence: ApprovalIdentityEvidencePayload,
+    pub scope: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ApprovalEvidence {
+    pub approved: bool,
+    pub approved_by: String,
+    pub reason: String,
+    #[serde(default)]
+    pub identity_evidence: Option<ApprovalIdentityEvidence>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct RestrictedWriteApproval {
+    pub approved: bool,
+    pub approved_by: String,
+    pub reason: String,
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct DestructiveChangePolicy {
@@ -834,6 +949,10 @@ pub struct DestructiveChangePolicy {
     pub requires_human_approval: bool,
     #[serde(default)]
     pub allow_patterns: Vec<String>,
+    #[serde(default)]
+    /// Kept as raw JSON for protocol-v1 compatibility. Contract V2 validation
+    /// parses this value as the strict `ApprovalEvidence` type below.
+    pub approval_evidence: Option<serde_json::Value>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -868,6 +987,28 @@ pub struct Contract {
     pub base_revision: String,
     pub project_profile_digest: Digest,
     pub repository_snapshot_digest: Digest,
+    /// Reference V2 calls this field `baseCommit`; `baseRevision` remains the
+    /// protocol-v1 spelling and is never rewritten.
+    #[serde(default)]
+    pub base_commit: Option<String>,
+    #[serde(default)]
+    pub baseline_dirty_paths: Vec<BaselineDirtyPath>,
+    #[serde(default)]
+    pub archive_sequence: Option<u64>,
+    #[serde(default)]
+    pub resume_history: Vec<ResumeHistoryEntry>,
+    #[serde(default)]
+    pub synchronization_checkpoint: Option<SynchronizationCheckpoint>,
+    #[serde(default)]
+    pub synchronization_history: Vec<SynchronizationHistoryEntry>,
+    #[serde(default)]
+    pub guidelines: Vec<String>,
+    #[serde(default)]
+    pub acceptance: Option<Vec<String>>,
+    #[serde(default)]
+    pub pre_review_warnings: Vec<String>,
+    #[serde(default)]
+    pub authority_evidence: Option<AuthorityEvidence>,
     #[serde(default)]
     pub operation: Option<String>,
     #[serde(default)]
@@ -918,9 +1059,298 @@ pub struct Contract {
     #[serde(default)]
     pub implementation_surface: Option<serde_json::Value>,
     #[serde(default)]
+    /// Kept as raw JSON so historical repositories with provider-specific
+    /// fields remain readable. Contract V2 validates it as
+    /// `RestrictedWriteApproval` and rejects unknown fields.
     pub restricted_write_approval: Option<serde_json::Value>,
     #[serde(default)]
     pub adoption_bootstrap_paths: Vec<String>,
+}
+
+impl Contract {
+    /// Validate Contract-owned schema and cross-field invariants.
+    ///
+    /// Deserialization rejects unknown fields and malformed typed nested
+    /// records.  This second pass rejects combinations that are individually
+    /// well-typed but would widen authority, lose lineage, or make a `code`
+    /// Work Item appear ready while it still has unresolved unknowns.
+    pub fn validate(&self) -> Result<(), Vec<String>> {
+        let mut errors = Vec::new();
+        let is_v2 = self.contract_version == Some(2);
+
+        if let Some(version) = self.contract_version
+            && version != 2
+        {
+            errors.push(format!("unsupported contractVersion {version}"));
+        }
+
+        if is_v2 {
+            match self.mode.as_deref() {
+                Some("investigate" | "author_todo" | "code" | "review" | "cleanup") => {}
+                Some(other) => {
+                    errors.push(format!("mode {other} is not a supported Contract V2 mode"))
+                }
+                None => errors.push("mode is required for Contract V2".into()),
+            }
+            if self
+                .title
+                .as_deref()
+                .is_none_or(|value| value.trim().is_empty())
+            {
+                errors.push("title is required for Contract V2".into());
+            }
+            if self.not_codable.is_none() {
+                errors.push("notCodable is required for Contract V2".into());
+            }
+        }
+
+        if let Some(base_commit) = &self.base_commit
+            && base_commit != &self.base_revision
+        {
+            errors.push("baseCommit must match baseRevision when both are present".into());
+        }
+        if let Some(base_commit) = &self.base_commit
+            && base_commit.trim().is_empty()
+        {
+            errors.push("baseCommit must be non-empty when present".into());
+        }
+        if let Some(acceptance) = &self.acceptance
+            && acceptance != &self.acceptance_criteria
+        {
+            errors.push("acceptance must match acceptanceCriteria when both are present".into());
+        }
+
+        if self.mode.as_deref() == Some("code") {
+            if !self.unknowns.is_empty() {
+                errors.push("code mode requires unknowns to be empty".into());
+            }
+            if self.not_codable == Some(true) {
+                errors.push("code mode requires notCodable to be false".into());
+            }
+        }
+
+        for (index, item) in self.baseline_dirty_paths.iter().enumerate() {
+            if item.path.trim().is_empty() || item.path.starts_with('/') || item.path.contains("..")
+            {
+                errors.push(format!(
+                    "baselineDirtyPaths[{index}].path must be repository-relative"
+                ));
+            }
+            if item.status.trim().is_empty() {
+                errors.push(format!("baselineDirtyPaths[{index}].status is required"));
+            }
+            if item.fingerprint.trim().is_empty() {
+                errors.push(format!(
+                    "baselineDirtyPaths[{index}].fingerprint is required"
+                ));
+            }
+        }
+
+        if self.archive_sequence == Some(0) {
+            errors.push("archiveSequence must be a positive integer".into());
+        }
+
+        for (index, item) in self.resume_history.iter().enumerate() {
+            if item.resume_version != (index as u32 + 1) {
+                errors.push(format!(
+                    "resumeHistory[{index}].resumeVersion must be contiguous"
+                ));
+            }
+            if item.from_base_commit.trim().is_empty()
+                || item.to_base_commit.trim().is_empty()
+                || item.base_remote.trim().is_empty()
+                || item.base_branch.trim().is_empty()
+                || item.work_branch.trim().is_empty()
+                || item.recorded_at.trim().is_empty()
+                || item.predecessor_work_item_id.trim().is_empty()
+                || item.predecessor_merge_commit.trim().is_empty()
+                || item.predecessor_manifest_path.trim().is_empty()
+            {
+                errors.push(format!("resumeHistory[{index}] has an empty lineage field"));
+            }
+            let closure = &item.predecessor_closure;
+            if !(closure.status_closed
+                && closure.pr_merged
+                && closure.closure_succeeded
+                && closure.local_branch_deleted
+                && closure.remote_branch_deleted
+                && closure.base_synchronized)
+            {
+                errors.push(format!(
+                    "resumeHistory[{index}].predecessorClosure must prove closed predecessor"
+                ));
+            }
+            if let Some(base_commit) = &self.base_commit
+                && index + 1 == self.resume_history.len()
+                && &item.to_base_commit != base_commit
+            {
+                errors.push("resumeHistory final toBaseCommit must match baseCommit".into());
+            }
+        }
+
+        if let Some(checkpoint) = &self.synchronization_checkpoint {
+            if !checkpoint.authorized {
+                errors
+                    .push("synchronizationCheckpoint.authorized must be true when present".into());
+            }
+            if checkpoint.reason.trim().is_empty() {
+                errors.push("synchronizationCheckpoint.reason is required".into());
+            }
+        }
+        if !self.synchronization_history.is_empty() && self.synchronization_checkpoint.is_none() {
+            errors.push("synchronizationHistory requires synchronizationCheckpoint".into());
+        }
+        for (index, item) in self.synchronization_history.iter().enumerate() {
+            if item.synchronization_version != (index as u32 + 1) {
+                errors.push(format!(
+                    "synchronizationHistory[{index}].synchronizationVersion must be contiguous"
+                ));
+            }
+            if item.from_base_commit.trim().is_empty()
+                || item.to_base_commit.trim().is_empty()
+                || item.base_remote.trim().is_empty()
+                || item.base_branch.trim().is_empty()
+                || item.work_branch.trim().is_empty()
+                || item.recorded_at.trim().is_empty()
+                || item.rebase_head_before.trim().is_empty()
+                || item.rebase_head_after.trim().is_empty()
+            {
+                errors.push(format!(
+                    "synchronizationHistory[{index}] has an empty lineage field"
+                ));
+            }
+            if item
+                .checkpoint_paths
+                .iter()
+                .any(|path| path.trim().is_empty())
+            {
+                errors.push(format!(
+                    "synchronizationHistory[{index}].checkpointPaths contains an empty path"
+                ));
+            }
+            if is_v2 && item.checkpoint_paths.is_empty() {
+                errors.push(format!(
+                    "synchronizationHistory[{index}].checkpointPaths must be non-empty for Contract V2"
+                ));
+            }
+        }
+
+        if self.guidelines.iter().any(|value| value.trim().is_empty()) {
+            errors.push("guidelines must contain only non-empty strings".into());
+        }
+        if let Some(acceptance) = &self.acceptance {
+            for (index, criterion) in acceptance.iter().enumerate() {
+                if criterion.trim().is_empty() {
+                    errors.push(format!("acceptance[{index}] must be non-empty"));
+                }
+                if is_v2 {
+                    let Some((prefix, _)) = criterion.split_once(':') else {
+                        errors.push(format!(
+                            "acceptance[{index}] must use a stable A<n>: prefix"
+                        ));
+                        continue;
+                    };
+                    if !prefix.strip_prefix('A').is_some_and(|suffix| {
+                        !suffix.is_empty() && suffix.bytes().all(|byte| byte.is_ascii_digit())
+                    }) {
+                        errors.push(format!(
+                            "acceptance[{index}] has an invalid stable identifier"
+                        ));
+                    }
+                }
+            }
+        }
+        if let Some(policy) = &self.destructive_change_policy
+            && policy.allowed
+            && policy.requires_human_approval
+        {
+            match policy.approval_evidence.as_ref() {
+                Some(value) if is_v2 => match serde_json::from_value::<ApprovalEvidence>(value.clone()) {
+                    Ok(evidence) => validate_approval_evidence(&evidence, &policy.allow_patterns, &mut errors),
+                    Err(error) => errors.push(format!("invalid destructiveChangePolicy.approvalEvidence: {error}")),
+                },
+                Some(_) => {}
+                None => errors.push("destructiveChangePolicy.approvalEvidence is required for approved destructive changes".into()),
+            }
+        }
+        if let Some(value) = &self.restricted_write_approval
+            && is_v2
+        {
+            match serde_json::from_value::<RestrictedWriteApproval>(value.clone()) {
+                Ok(approval)
+                    if approval.approved
+                        && (approval.approved_by.trim().is_empty()
+                            || approval.reason.trim().is_empty()) =>
+                {
+                    errors.push(
+                        "restrictedWriteApproval approved records require approvedBy and reason"
+                            .into(),
+                    );
+                }
+                Ok(_) => {}
+                Err(error) => errors.push(format!("invalid restrictedWriteApproval: {error}")),
+            }
+        }
+
+        if errors.is_empty() {
+            Ok(())
+        } else {
+            Err(errors)
+        }
+    }
+}
+
+fn validate_approval_evidence(
+    evidence: &ApprovalEvidence,
+    allow_patterns: &[String],
+    errors: &mut Vec<String>,
+) {
+    if !evidence.approved
+        || evidence.approved_by.trim().is_empty()
+        || evidence.reason.trim().is_empty()
+    {
+        errors.push("approvalEvidence requires approved=true, approvedBy, and reason".into());
+    }
+    let Some(identity) = evidence.identity_evidence.as_ref() else {
+        errors.push("approvalEvidence.identityEvidence is required".into());
+        return;
+    };
+    if identity.schema_version != 1 {
+        errors.push("approvalEvidence.identityEvidence.schemaVersion must be 1".into());
+    }
+    if !matches!(
+        identity.identity_level.as_str(),
+        "provider_verified" | "enterprise_verified" | "direct_user_authorized"
+    ) {
+        errors.push(
+            "approvalEvidence.identityEvidence.identityLevel is not sufficiently assured".into(),
+        );
+    }
+    if identity.actor.trim().is_empty() || identity.approval_type.trim().is_empty() {
+        errors.push("approvalEvidence.identityEvidence requires approvalType and actor".into());
+    }
+    if identity.scope != allow_patterns {
+        errors.push(
+            "approvalEvidence.identityEvidence.scope must exactly match allowPatterns".into(),
+        );
+    }
+    if identity.identity_level == "direct_user_authorized" {
+        if identity.provider.is_some() {
+            errors.push("direct_user_authorized identity must not name a provider".into());
+        }
+        let payload = &identity.evidence;
+        if payload
+            .direct_user_instruction_ref
+            .as_deref()
+            .is_none_or(str::is_empty)
+            || payload.direct_user_instruction_digest.is_none()
+            || payload.authorized_at.as_deref().is_none_or(str::is_empty)
+        {
+            errors.push("direct_user_authorized evidence requires direct instruction reference, digest, and time".into());
+        }
+    } else if identity.provider.as_deref().is_none_or(str::is_empty) {
+        errors.push("provider or enterprise identity requires provider".into());
+    }
 }
 
 pub const CONCURRENCY_BOUNDARY_SCHEMA_VERSION: u32 = 1;
