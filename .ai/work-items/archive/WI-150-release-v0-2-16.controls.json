@@ -1,0 +1,36 @@
+{
+  "scenarioCoverage": [
+    {
+      "scenario": "version and documentation identity",
+      "required": true,
+      "expected": "Cargo metadata, Cargo.lock, release docs, and release tag all agree on v0.2.16.",
+      "verificationPlan": "Run cargo metadata and version_consistency.sh plus tri-language documentation acceptance.",
+      "status": "verified",
+      "evidence": ["Cargo.toml", "Cargo.lock", "tests/release/version_consistency.sh", "tests/docs/documentation_acceptance.sh"]
+    },
+    {
+      "scenario": "release supply chain and adopter acceptance",
+      "required": true,
+      "expected": "Public immutable artifacts and the downloaded binary pass manifest, checksum, provenance, adopter, and N-1 acceptance.",
+      "verificationPlan": "Run the tagged release workflow and post-release adopter acceptance using only public assets.",
+      "status": "verified",
+      "evidence": [".github/workflows/release.yml", "tests/release/adopter_acceptance.sh", "tests/release/adopter_upgrade_acceptance.sh"]
+    },
+    {
+      "scenario": "installed runtime self-governance",
+      "required": true,
+      "expected": "The installed v0.2.16 binary governs this repository with healthy status/doctor/agent doctor and visible Outcome.",
+      "verificationPlan": "Run explicit --repo inspect/status/doctor/agent doctor/verify/work-item outcome after installation.",
+      "status": "verified",
+      "evidence": ["tests/release/adopter_acceptance.sh", "docs/release/distribution.md"]
+    }
+  ],
+  "acceptanceEvidence": [
+    {"acceptanceId":"A1","evidence":[{"locator":"workspace metadata and lock identity","path":"Cargo.toml","type":"release","verification":"cargo metadata --locked --format-version 1"}]},
+    {"acceptanceId":"A2","evidence":[{"locator":"tri-language current release baseline","path":"tests/release/version_consistency.sh","type":"test","verification":"bash tests/release/version_consistency_test.sh"}]},
+    {"acceptanceId":"A3","evidence":[{"locator":"source quality and release static gates","path":".github/workflows/release.yml","type":"workflow","verification":"release workflow source_quality"}]},
+    {"acceptanceId":"A4","evidence":[{"locator":"immutable public adopter and N-1 receipts","path":"tests/release/adopter_acceptance.sh","type":"test","verification":"post-release public binary acceptance"}]},
+    {"acceptanceId":"A5","evidence":[{"locator":"installed Runtime self-governance","path":"docs/release/distribution.md","type":"document","verification":"post-install explicit --repo acceptance"}]}
+  ],
+  "intentAlignment":{"evidence":["Cargo.toml","docs/release/distribution.md",".github/workflows/release.yml"],"reason":"Release preparation binds the Runtime identity and public supply chain without changing repository governance semantics.","state":"resolved"}
+}

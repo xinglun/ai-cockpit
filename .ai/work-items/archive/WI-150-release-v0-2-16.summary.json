@@ -1,0 +1,124 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "workspace metadata and lock identity",
+          "path": "Cargo.toml",
+          "type": "release",
+          "verification": "cargo metadata --locked --format-version 1"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "tri-language current release baseline",
+          "path": "tests/release/version_consistency.sh",
+          "type": "test",
+          "verification": "bash tests/release/version_consistency_test.sh"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "source quality and release static gates",
+          "path": ".github/workflows/release.yml",
+          "type": "workflow",
+          "verification": "release workflow source_quality"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "immutable public adopter and N-1 receipts",
+          "path": "tests/release/adopter_acceptance.sh",
+          "type": "test",
+          "verification": "post-release public binary acceptance"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "installed Runtime self-governance",
+          "path": "docs/release/distribution.md",
+          "type": "document",
+          "verification": "post-install explicit --repo acceptance"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [],
+  "checkpointAt": "2026-08-22T21:55:32Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T21:54:32Z",
+  "failedGate": "finish.verification",
+  "intentAlignment": {
+    "evidence": [
+      "Cargo.toml",
+      "docs/release/distribution.md",
+      ".github/workflows/release.yml"
+    ],
+    "reason": "Release preparation binds the Runtime identity and public supply chain without changing repository governance semantics.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-22T22:09:25Z",
+  "preflightContractDigest": "sha256:9422b8809a9d87ed342530dd63e76da000d8bf86dd26854f7dce15426849e51c",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:ef342102adba440e3baabfd99b5d1a34baa78da52f2984939ccbd530624ea95e",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "tests/release/version_consistency.sh",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "expected": "Cargo metadata, Cargo.lock, release docs, and release tag all agree on v0.2.16.",
+      "required": true,
+      "scenario": "version and documentation identity",
+      "status": "verified",
+      "verificationPlan": "Run cargo metadata and version_consistency.sh plus tri-language documentation acceptance."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh"
+      ],
+      "expected": "Public immutable artifacts and the downloaded binary pass manifest, checksum, provenance, adopter, and N-1 acceptance.",
+      "required": true,
+      "scenario": "release supply chain and adopter acceptance",
+      "status": "verified",
+      "verificationPlan": "Run the tagged release workflow and post-release adopter acceptance using only public assets."
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance.sh",
+        "docs/release/distribution.md"
+      ],
+      "expected": "The installed v0.2.16 binary governs this repository with healthy status/doctor/agent doctor and visible Outcome.",
+      "required": true,
+      "scenario": "installed runtime self-governance",
+      "status": "verified",
+      "verificationPlan": "Run explicit --repo inspect/status/doctor/agent doctor/verify/work-item outcome after installation."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T22:09:28Z",
+  "workItemId": "WI-150-release-v0-2-16"
+}
