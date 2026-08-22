@@ -67,3 +67,25 @@ repository owns its Protocol, Work Items, evidence, knowledge, and adapter
 records. Future changes must preserve explicit repository binding, evidence
 isolation, human-owned decisions, and the separation between Runtime delivery
 and repository state.
+
+## Scenario, acceptance, and final-dimension projections
+
+The Runtime validates (but never invents) three optional governance
+projections. A high-risk Contract must declare `scenarioCoverage`, and its
+Summary must provide entries with `required`, `status`, and `evidence`, plus a
+`reason` when `status` is `not_applicable`. A required unverified scenario is
+fail-closed for high-risk work.
+
+Numbered acceptance criteria such as `A1: ...` opt into stable IDs and a
+Summary `acceptanceEvidence` mapping. Legacy unnumbered criteria remain
+readable and are not assigned IDs by the Runtime. `intentAlignment` is an
+optional projection: missing alignment remains `unknown`, and resolved or
+unresolved claims require explicit evidence or a reason.
+
+Final acceptance uses the reference's exact twenty dimension names and a
+receipt decision of `GO`, `CONDITIONAL_GO`, or `NO_GO`. `GO` requires verified
+`real_adopter` and `provider_evidence`; missing, extra, malformed, or
+identity-mismatched dimensions fail closed. An optional
+`fourPillarProjection` is presentation-only. There is deliberately no
+ambiguous `4D` protocol field, and the Runtime does not synthesize evidence or
+turn a local projection into provider/enterprise assurance.

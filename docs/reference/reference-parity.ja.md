@@ -63,3 +63,26 @@ production readiness、organization approval を与えるものではありま�
 1 つの installed Runtime は複数の独立した repository を治理できます。Protocol、Work Item、evidence、
 knowledge、adapter record は repository ごとに分離されます。今後も explicit repository binding、
 evidence isolation、human-owned decision、Runtime delivery と repository state の分離を維持します。
+
+## Scenario・Acceptance・最終 dimensions の projection
+
+Runtime は次の三つの任意 projection を検証します（ただし内容や証拠を
+生成しません）。高リスク Contract では `scenarioCoverage` が必須です。
+Summary の各項目には `required`、`status`、`evidence` が必要で、
+`status` が `not_applicable` の場合は `reason` も必要です。required な
+scenario が未検証のままなら、高リスク Work Item は fail-closed になります。
+
+`A1: ...` のような番号付き Acceptance は stable ID と Summary の
+`acceptanceEvidence` mapping を有効にします。番号のない旧 Acceptance は
+読み取り可能なまま保持され、Runtime が ID を推測することはありません。
+`intentAlignment` は任意の projection で、欠落は `unknown` のままです。
+`resolved` または `unresolved` を示す場合は、それぞれ明示的な evidence または
+reason が必要です。
+
+最終 acceptance は参照源と同じ 20 個の dimension 名を使用し、decision は
+`GO`、`CONDITIONAL_GO`、`NO_GO` のいずれかです。`GO` には検証済みの
+`real_adopter` と `provider_evidence` が必要です。欠落・余分・不正形式・
+identity 不一致は fail-closed になります。任意の `fourPillarProjection` は
+表示用であり、曖昧な文字列 `4D` の protocol field は導入しません。Runtime は
+evidence を合成せず、local projection を provider/enterprise assurance として
+扱いません。

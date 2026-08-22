@@ -61,3 +61,21 @@ capabilityClaims:
 一份已安装 Runtime 可以治理多个相互独立 attach 的 repository。每个 repository 独立拥有
 Protocol、Work Item、evidence、knowledge 和 adapter record。后续变化必须保持显式 repository
 绑定、evidence 隔离、人类拥有的决定，以及 Runtime 分发和 repository state 的分离。
+
+## Scenario、Acceptance 与最终维度投影
+
+Runtime 现在验证（但绝不替代人生成）三类可选治理投影。高风险 Contract
+必须声明 `scenarioCoverage`，Summary 必须提供 `required`、`status`、
+`evidence`；当 `status` 为 `not_applicable` 时还必须提供 `reason`。高风险
+Work Item 中 required scenario 若仍为未验证状态，则 fail-closed。
+
+形如 `A1: ...` 的编号 Acceptance 会启用稳定 ID 和 Summary 的
+`acceptanceEvidence` 映射。没有编号的旧 Acceptance 仍可读取，Runtime 不会
+擅自为它们分配 ID。`intentAlignment` 是可选投影：缺失时保持 `unknown`；
+`resolved` 或 `unresolved` 必须分别提供明确证据或理由。
+
+最终验收使用参考源的完整 20 个维度名称，决定只能是 `GO`、
+`CONDITIONAL_GO` 或 `NO_GO`。`GO` 必须同时具备已验证的 `real_adopter` 和
+`provider_evidence`；缺失、额外、格式错误或身份不匹配的维度都会 fail-closed。
+可选的 `fourPillarProjection` 仅用于展示；协议中不会引入含义不明确的字面
+`4D` 字段，Runtime 也不会合成证据或把本地投影冒充 provider/enterprise assurance。

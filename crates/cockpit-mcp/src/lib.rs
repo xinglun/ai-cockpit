@@ -4,10 +4,11 @@ use std::fs;
 use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
 
-const TOOL_NAMES: [&str; 12] = [
+const TOOL_NAMES: [&str; 13] = [
     "status",
     "work_item_get",
     "work_item_outcome",
+    "work_item_validate",
     "work_item_list",
     "blockers",
     "safe_actions",
@@ -114,6 +115,9 @@ pub fn handle_request_for_repo(
         "work_item_outcome" => {
             require_compatible(repo, runtime)
                 .and_then(|_| work_item_outcome(repo, &arguments, runtime))
+        }
+        "work_item_validate" => {
+            require_compatible(repo, runtime).and_then(|_| work_item_validate(repo, &arguments))
         }
         "evidence_get" => evidence_get(repo, &arguments),
         "delegated_evidence_list" => {
@@ -395,6 +399,18 @@ fn work_item_outcome(
         "language": language,
         "contractLanguageBoundary": "Acceptance criteria remain in their original Contract language and are not machine-translated."
     }))
+}
+
+fn work_item_validate(repo: &Path, arguments: &Value) -> Result<Value, String> {
+    let id = arguments
+        .get("workItemId")
+        .or_else(|| arguments.get("id"))
+        .and_then(Value::as_str)
+        .ok_or("workItemId argument is required")?;
+    validate_id(id)?;
+    let report = cockpit_repository::validate_work_item_governance_controls(repo, id)
+        .map_err(|error| error.to_string())?;
+    serde_json::to_value(report).map_err(|error| error.to_string())
 }
 
 fn requested_language(arguments: &Value) -> &'static str {

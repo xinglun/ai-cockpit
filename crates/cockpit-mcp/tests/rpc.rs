@@ -81,6 +81,7 @@ fn mcp_initialize_and_tool_list_are_read_only_and_deterministic() {
             "status",
             "work_item_get",
             "work_item_outcome",
+            "work_item_validate",
             "work_item_list",
             "blockers",
             "safe_actions",

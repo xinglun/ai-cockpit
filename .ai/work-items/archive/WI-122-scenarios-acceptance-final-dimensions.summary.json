@@ -1,0 +1,94 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "high_risk_scenario_coverage_fails_closed_until_verified",
+          "path": "crates/cockpit-repository/tests/governance_controls.rs",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "acceptance_ids_preserve_legacy_and_validate_numbered_evidence",
+          "path": "crates/cockpit-repository/tests/governance_controls.rs",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "intent_alignment_never_invents_resolution",
+          "path": "crates/cockpit-repository/tests/governance_controls.rs",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "final_dimensions_require_exact_reference_set_and_go_prerequisites",
+          "path": "crates/cockpit-repository/tests/governance_controls.rs",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "Scenario, acceptance, and final-dimension projections",
+          "path": "docs/reference/reference-parity.md",
+          "type": "documentation",
+          "verification": "reviewed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "mcp_initialize_and_tool_list_are_read_only_and_deterministic",
+          "path": "crates/cockpit-mcp/tests/rpc.rs",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [],
+  "checkpointAt": "2026-08-22T08:02:52Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T08:02:37Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/tests/governance_controls.rs"
+    ],
+    "sources": [
+      "docs/reference/reference-parity.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-08-22T08:19:08Z",
+  "preflightContractDigest": "sha256:a1b0625e8e21f29045ec5349494076b9fad70dc66b50d8c2e3bfb3123809b27b",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:43c4f804139185942600c2d8ca1ad3cf8da5a90d0c75455e91782d135ae53e47",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T08:19:44Z",
+  "workItemId": "WI-122-scenarios-acceptance-final-dimensions"
+}
