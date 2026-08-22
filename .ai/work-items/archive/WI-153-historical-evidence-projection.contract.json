@@ -1,0 +1,61 @@
+{
+  "acceptanceCriteria": [
+    "Archived v2 evidence created by an older compatible Runtime is presented as historical yellow with historical_evidence_not_revalidated",
+    " not current red failure",
+    "Active Work Items with foreign Runtime evidence remain fail-closed and red",
+    "Malformed",
+    " tampered",
+    " symlink",
+    " identity-mismatched",
+    " or missing archived evidence is not hidden by historical projection",
+    "Regression tests cover archived foreign-runtime projection and active foreign-runtime rejection",
+    "Tri-language parity indexes list WI-147",
+    " WI-148",
+    " WI-149",
+    " WI-150",
+    " WI-151",
+    " and WI-152 with valid links"
+  ],
+  "authority": "authorized",
+  "baseRevision": "94c987f501c45758188e0bfcbfaf5c55ee81924d",
+  "createdAt": "2026-08-22T22:50:43Z",
+  "goal": "Add a fail-closed historical Outcome projection for archived v2 evidence with a foreign Runtime identity, add regression tests, and index WI-147 through WI-152 in all reader-facing parity documents.",
+  "intent": "Preserve immutable archived verification truth while projecting archived evidence from older compatible Runtime identities as historical rather than current failure, and keep the tri-language reference parity index complete through WI-152.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Existing archived contract",
+    " summary",
+    " evidence",
+    " outcome",
+    " manifest",
+    " or decision bytes",
+    "Runtime policy planner or physical execution integration",
+    "Global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:957deedd577e817289222a7641651047fd7b1d56f7d61cd31b73f1599c73ee6d",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/**",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-152-documentation-parity-after-v0-2-16.md",
+    "docs/work-items/WI-152-documentation-parity-after-v0-2-16.zh-CN.md",
+    "docs/work-items/WI-152-documentation-parity-after-v0-2-16.ja.md",
+    "docs/work-items/WI-153-historical-evidence-projection.md",
+    "docs/work-items/WI-153-historical-evidence-projection.zh-CN.md",
+    "docs/work-items/WI-153-historical-evidence-projection.ja.md",
+    ".ai/work-items/active/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-153-historical-evidence-projection"
+}

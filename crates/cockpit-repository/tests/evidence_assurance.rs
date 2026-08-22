@@ -326,6 +326,29 @@ fn current_runtime_lifecycle_rejects_foreign_runtime_evidence() {
 }
 
 #[test]
+fn archived_foreign_runtime_evidence_is_historical_yellow() {
+    let directory = repository();
+    let recorded = runtime("recorded");
+    let current = runtime("current");
+    start(&directory, "WI-110-HISTORICAL-V2");
+    record_typed(&directory, "WI-110-HISTORICAL-V2", &recorded);
+    finish_work_item_with_runtime(directory.path(), "WI-110-HISTORICAL-V2", &recorded)
+        .expect("finish");
+    archive_work_item_with_runtime(directory.path(), "WI-110-HISTORICAL-V2", &recorded)
+        .expect("archive");
+
+    let outcome = outcome_v2_with_runtime(directory.path(), "WI-110-HISTORICAL-V2", &current)
+        .expect("historical outcome");
+    assert_eq!(outcome.state, cockpit_protocol::OutcomeState::NotReady);
+    assert_eq!(outcome.decision_state, Some(DecisionState::Yellow));
+    assert!(
+        outcome
+            .unknowns
+            .contains(&"historical_evidence_not_revalidated".into())
+    );
+}
+
+#[test]
 fn legacy_evidence_is_projected_as_historical_yellow_without_rewriting_bytes() {
     let directory = repository();
     let current = runtime("legacy-reader");

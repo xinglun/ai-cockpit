@@ -9183,7 +9183,18 @@ fn outcome_v2_internal(
         .parent()
         .is_some_and(|path| path.ends_with("archive"));
     let legacy = legacy_verification_evidence(&root, work_item_id);
-    let evidence_state = if legacy {
+    // Archived v2 evidence is immutable historical truth. When the bytes are
+    // otherwise valid but were produced by an older Runtime, the current
+    // Runtime must not relabel that historical result as a current failure.
+    // Active Work Items retain the strict foreign-runtime red path below.
+    let historical_runtime = archived
+        && current_runtime.is_some()
+        && verification_evidence_state(&root, &contract, &snapshot, true, None)?
+            == EvidenceState::Complete
+        && verification_evidence_state(&root, &contract, &snapshot, true, current_runtime)?
+            != EvidenceState::Complete;
+    let historical = legacy || historical_runtime;
+    let evidence_state = if historical {
         None
     } else {
         Some(verification_evidence_state(
@@ -9194,12 +9205,20 @@ fn outcome_v2_internal(
             current_runtime,
         )?)
     };
-    let (mut state, mut decision_state, mut summary, mut evidence_unknown) = if legacy {
+    let (mut state, mut decision_state, mut summary, mut evidence_unknown) = if historical {
         (
             OutcomeState::NotReady,
             DecisionState::Yellow,
-            "Historical verification evidence uses a legacy schema and is not revalidated as a current result.",
-            Some("legacy_evidence_historical"),
+            if legacy {
+                "Historical verification evidence uses a legacy schema and is not revalidated as a current result."
+            } else {
+                "Historical verification evidence was produced by an older Runtime and is not revalidated as a current result."
+            },
+            Some(if legacy {
+                "legacy_evidence_historical"
+            } else {
+                "historical_evidence_not_revalidated"
+            }),
         )
     } else {
         match evidence_state.expect("non-legacy evidence state exists") {

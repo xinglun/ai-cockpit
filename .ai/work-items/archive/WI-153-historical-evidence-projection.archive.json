@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-22T22:54:50Z",
+  "files": {
+    "contractDigest": "sha256:146218e68994472c3d6a4160aee167b64202af671fa43f4c20eebdf047f36e41",
+    "contractPath": ".ai/work-items/archive/WI-153-historical-evidence-projection.contract.json",
+    "eventsDigest": "sha256:d2035c5808396198c7dd21cfde8dc8e155c02eb6df3204c59d80f7c0a42b8623",
+    "eventsPath": ".ai/work-items/archive/WI-153-historical-evidence-projection.events.jsonl",
+    "outcomeDigest": "sha256:917bf97e3c78f9af0145a71b973a130d20dae18e3e38fd636c8496001fd41d6f",
+    "outcomePath": ".ai/work-items/archive/WI-153-historical-evidence-projection.outcome.json",
+    "summaryDigest": "sha256:17e60133d6c28a07c2754b58b45a64bbf94065712cef697b3101a1cbe907f075",
+    "summaryPath": ".ai/work-items/archive/WI-153-historical-evidence-projection.summary.json",
+    "taskReportDigest": "sha256:f66e533ea9d1605800b63ecd4e143f6ce1e9090a1ec79fdf6f8701ea66ceaa38",
+    "taskReportMarkdownDigest": "sha256:359e088d3ad9bca00fdd1285ed1e7492be6fae9aca5fd5ce06ec3f5d20d1f3db",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-153-historical-evidence-projection.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-153-historical-evidence-projection.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-153-historical-evidence-projection"
+}

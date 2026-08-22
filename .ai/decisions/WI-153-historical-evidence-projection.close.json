@@ -1,0 +1,126 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-153-historical-evidence-projection.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:310e6999206c6be65a2a3cbaad415289db7fea6dd0b230203d554b022c9fdeb2",
+      "workItemId": "WI-153-historical-evidence-projection"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-153-historical-evidence-projection.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-153-historical-evidence-projection.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-153-historical-evidence-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via repository-owner-runtime-audit at 2026-08-22T22:55:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-153-historical-evidence-projection.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-153-historical-evidence-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-153-historical-evidence-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-153-historical-evidence-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-153-historical-evidence-projection.contract.json"
+          ],
+          "inference": false,
+          "text": "Add a fail-closed historical Outcome projection for archived v2 evidence with a foreign Runtime identity, add regression tests, and index WI-147 through WI-152 in all reader-facing parity documents."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-153-historical-evidence-projection.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-153-historical-evidence-projection"
+  },
+  "finalReportDigest": "sha256:79f0fba7bf916070286e07f886c89c71ecab04c6d4766676cab12533e7d060f6",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "repository-owner-runtime-audit",
+    "decidedAt": "2026-08-22T22:55:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-153-historical-evidence-projection.verification.json"
+    ],
+    "policyRefs": [
+      "historical-evidence-compatibility"
+    ],
+    "reason": "Reviewed historical v2 Runtime projection, active fail-closed behavior, regression tests, and complete tri-language parity links.",
+    "resumeCondition": "Reopen only with a successor Work Item if archived evidence compatibility policy changes."
+  },
+  "timestamp": "2026-08-22T22:54:50Z",
+  "workItemId": "WI-153-historical-evidence-projection"
+}
