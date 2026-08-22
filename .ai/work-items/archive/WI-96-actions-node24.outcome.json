@@ -1,0 +1,40 @@
+{
+  "acceptanceResults": [
+    "All action references in .github/workflows/ci.yml and .github/workflows/release.yml use the declared latest stable Node24-compatible pinned SHAs for checkout, artifact upload/download, attestation, SBOM, and GitHub Release publication.",
+    "A fail-closed action runtime policy test detects stale refs, unpinned refs, missing workflow coverage, and a Node20 action runtime; both CI and release source-quality paths execute the policy.",
+    "Existing release workflow policy, version consistency static checks, documentation acceptance, and YAML parsing remain green after the ref upgrade.",
+    "Trilingual release documentation records the Node24-compatible action baseline and its purpose without changing the public v0.2.4 Release truth or installation contract.",
+    "The v0.2.4 tag target, provider Release assets, installed Runtime, Cargo package versions, and Rust source behavior remain unchanged.",
+    "WI-96 lifecycle evidence records the exact ref map, official tag identity, test output, and hosted-check handoff without modifying the main worktree."
+  ],
+  "createdAt": "2026-08-22T01:08:46Z",
+  "evidenceDigest": "sha256:3aece49c9fe3f8ef46e3e78d228ea412e0c646dd86d20be1aadaec211eb5d4c5",
+  "evidenceRefs": [
+    ".ai/evidence/WI-96-actions-node24.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-96-actions-node24.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-96-actions-node24.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-96-actions-node24"
+}

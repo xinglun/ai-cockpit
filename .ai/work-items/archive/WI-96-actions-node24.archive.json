@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T01:08:50Z",
+  "files": {
+    "contractDigest": "sha256:a328ec8e0fdabba6a79c48951721ef64b14dbd1a1e72f3caa7504c348b7aa205",
+    "contractPath": ".ai/work-items/archive/WI-96-actions-node24.contract.json",
+    "outcomeDigest": "sha256:f682a53a569b1c5a59810c4119fb45d5955dee7659fca8914dcc0834f9f6bee7",
+    "outcomePath": ".ai/work-items/archive/WI-96-actions-node24.outcome.json",
+    "summaryDigest": "sha256:e078e5976ab59f130372816af8b61b5cf8f6b3f07f0fa738811a52529fece708",
+    "summaryPath": ".ai/work-items/archive/WI-96-actions-node24.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-96-actions-node24"
+}

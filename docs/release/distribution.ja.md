@@ -128,6 +128,11 @@ Cargo metadata から current version を解決し、`tests/release/version_cons
 source check は三言語の route と archive example を検証し、post-release check は公開 Release の manifest
 と asset name を検証します。過去の N-1 reference は明示的に保持され、current baseline と混同されません。
 
+CI と release workflow の action はすべて full commit SHA に pin しています。Node を使う action は公式の
+stable Node24-compatible baseline を使い、`tests/release/action_runtime_policy.sh` が両 workflow の stale、
+unpinned、missing ref を fail closed で検査します。将来 action runtime を更新するときは、この policy と
+この release note を同時に更新します。
+
 ## Manual archive install
 
 macOS/Linux では対応する `.tar.gz` と `SHA256SUMS` を download し、Rust target を選び、archive を

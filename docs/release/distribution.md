@@ -108,6 +108,12 @@ language routes and current archive examples; the post-release check validates
 the public Release manifest and asset names. Historical N-1 references remain
 explicit and are not mistaken for the current baseline.
 
+The CI and release workflows pin every action to a full commit SHA. Their
+Node-based actions use the official stable Node24-compatible baseline, and
+`tests/release/action_runtime_policy.sh` checks both workflows for stale,
+unpinned, or missing action refs. A future action-runtime change must update
+that policy and this release note together.
+
 ### Historical N-1 schema migration acceptance
 
 The schema-changing baseline is the historical v0.1.1 to v0.2.0 migration.
