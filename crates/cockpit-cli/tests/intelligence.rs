@@ -201,3 +201,110 @@ fn intelligence_commands_emit_repository_bound_json_and_unknowns() {
     assert_eq!(machine_json["schemaVersion"], 2);
     fs::remove_dir_all(directory).expect("cleanup");
 }
+
+#[test]
+fn cli_status_changes_from_archived_to_closed_only_after_valid_close() {
+    let directory = repository();
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let id = "WI-CLI-STATUS-CLOSED";
+    let run = |args: &[&str]| {
+        Command::new(binary)
+            .args(args)
+            .args(["--repo", directory.path().to_str().expect("repo path")])
+            .output()
+            .expect("run ai-cockpit")
+    };
+    assert!(run(&["attach"]).status.success());
+    assert!(
+        run(&[
+            "start",
+            "--id",
+            id,
+            "--intent",
+            "project terminal status",
+            "--goal",
+            "show closed status",
+            "--scope",
+            "**",
+            "--authority",
+            "authorized",
+            "--acceptance",
+            "status is terminal after close",
+            "--required-evidence",
+            "verification",
+        ])
+        .status
+        .success()
+    );
+    let contract = format!(".ai/work-items/active/{id}.contract.json");
+    assert!(
+        run(&["preflight", "--contract", &contract])
+            .status
+            .success()
+    );
+    assert!(run(&["checkpoint", "--id", id]).status.success());
+    assert!(
+        run(&[
+            "verify",
+            "--work-item",
+            id,
+            "--command",
+            "true",
+            "--workers",
+            "1",
+        ])
+        .status
+        .success()
+    );
+    let finish = run(&["finish", "--id", id]);
+    assert!(
+        finish.status.success(),
+        "finish stderr: {}",
+        String::from_utf8_lossy(&finish.stderr)
+    );
+    assert!(run(&["archive", "--id", id]).status.success());
+    let archived = run(&["work-item", "status", "--id", id, "--json"]);
+    assert!(archived.status.success());
+    let archived: serde_json::Value =
+        serde_json::from_slice(&archived.stdout).expect("archived JSON");
+    assert_eq!(archived["lifecyclePhase"], "archived");
+    assert_eq!(archived["completionDomains"]["closure"], "archived");
+
+    let evidence_ref = format!(".ai/evidence/{id}.verification.json");
+    let close = run(&[
+        "close",
+        "--id",
+        id,
+        "--human-decision",
+        "approved",
+        "--actor",
+        "human:owner",
+        "--authority-source",
+        "user-authorized-work-item",
+        "--reason",
+        "fresh evidence",
+        "--evidence-ref",
+        &evidence_ref,
+        "--policy-ref",
+        "status-projection",
+        "--decided-at",
+        "2026-08-22T12:00:00Z",
+        "--resume-condition",
+        "rerun verification if the base changes",
+    ]);
+    assert!(
+        close.status.success(),
+        "close stderr: {}",
+        String::from_utf8_lossy(&close.stderr)
+    );
+    let closed = run(&["work-item", "status", "--id", id, "--json"]);
+    assert!(closed.status.success());
+    let closed: serde_json::Value = serde_json::from_slice(&closed.stdout).expect("closed JSON");
+    assert_eq!(closed["lifecyclePhase"], "closed");
+    assert_eq!(closed["completionDomains"]["closure"], "closed");
+    assert_eq!(
+        closed["humanDecisions"],
+        serde_json::json!(["close_decision_recorded"])
+    );
+    fs::remove_dir_all(directory).expect("cleanup");
+}

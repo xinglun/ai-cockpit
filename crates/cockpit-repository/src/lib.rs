@@ -7014,11 +7014,23 @@ pub fn work_item_status_snapshot_with_runtime(
         .unwrap_or(&active)
         .join(format!("{work_item_id}.summary.json"));
     let summary = read_json(&summary_path).unwrap_or_else(|_| serde_json::json!({}));
-    let lifecycle_phase = summary["state"]
-        .as_str()
-        .or_else(|| Some(outcome_state_name(&outcome.state)))
-        .unwrap_or(if archived { "archived" } else { "unknown" })
-        .to_string();
+    let close_decision_path = root
+        .join(".ai/decisions")
+        .join(format!("{work_item_id}.close.json"));
+    let close_decision_present = fs::symlink_metadata(&close_decision_path).is_ok();
+    let close_decision_valid = archived
+        && close_decision_is_valid_for_status(&root, work_item_id, &contract.repository_id);
+    let lifecycle_phase = if close_decision_valid {
+        "closed".to_string()
+    } else if archived {
+        "archived".to_string()
+    } else {
+        summary["state"]
+            .as_str()
+            .or_else(|| Some(outcome_state_name(&outcome.state)))
+            .unwrap_or(if archived { "archived" } else { "unknown" })
+            .to_string()
+    };
     let governance_state = match outcome.decision_state {
         Some(DecisionState::Green) => "green",
         Some(DecisionState::Yellow) => "yellow",
@@ -7070,6 +7082,9 @@ pub fn work_item_status_snapshot_with_runtime(
     let mut unknowns = outcome.unknowns.clone();
     if historical {
         unknowns.push("legacy_evidence_historical".into());
+    }
+    if archived && close_decision_present && !close_decision_valid {
+        unknowns.push("close_decision_invalid".into());
     }
     unknowns.sort();
     unknowns.dedup();
@@ -7141,7 +7156,7 @@ pub fn work_item_status_snapshot_with_runtime(
     );
     completion_domains.insert(
         "closure".into(),
-        if summary["closedAt"].is_string() {
+        if close_decision_valid {
             "closed"
         } else if archived {
             "archived"
@@ -7165,20 +7180,18 @@ pub fn work_item_status_snapshot_with_runtime(
     {
         source_digests.insert("verificationEvidence".into(), digest);
     }
-    let human_decisions = if root
-        .join(".ai/decisions")
-        .join(format!("{work_item_id}.close.json"))
-        .is_file()
-    {
+    let human_decisions = if close_decision_valid {
         vec!["close_decision_recorded".into()]
     } else {
         Vec::new()
     };
-    let diagnostics = if historical {
-        vec!["historical_evidence_not_revalidated".into()]
-    } else {
-        Vec::new()
-    };
+    let mut diagnostics = Vec::new();
+    if historical {
+        diagnostics.push("historical_evidence_not_revalidated".into());
+    }
+    if archived && close_decision_present && !close_decision_valid {
+        diagnostics.push("close_decision_not_accepted".into());
+    }
     Ok(WorkItemStatusSnapshot {
         schema_version: 1,
         repository_id: contract.repository_id,
@@ -7201,6 +7214,66 @@ pub fn work_item_status_snapshot_with_runtime(
         snapshot_digest,
         historical,
     })
+}
+
+/// Validate the close receipt before exposing a terminal `closed` status.
+/// Merely finding a decision file is not enough: the record must be a regular
+/// repository-local file with the same Work Item identity, a confirmed closed
+/// state, and a strict structured human decision whose summary agrees with
+/// the structured value. Invalid records remain visible as unknowns and can
+/// never promote an archived Work Item to `closed`.
+fn close_decision_is_valid_for_status(
+    root: &Path,
+    work_item_id: &str,
+    repository_id: &str,
+) -> bool {
+    let path = root
+        .join(".ai/decisions")
+        .join(format!("{work_item_id}.close.json"));
+    let Ok(metadata) = fs::symlink_metadata(&path) else {
+        return false;
+    };
+    if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
+        return false;
+    }
+    let Ok(value) = read_json(&path) else {
+        return false;
+    };
+    if value.get("workItemId").and_then(serde_json::Value::as_str) != Some(work_item_id)
+        || value
+            .get("repositoryId")
+            .and_then(serde_json::Value::as_str)
+            .is_some_and(|value| value != repository_id)
+        || value.get("state").and_then(serde_json::Value::as_str) != Some("closed")
+        || value
+            .get("decisionState")
+            .and_then(serde_json::Value::as_str)
+            != Some("confirmed")
+    {
+        return false;
+    }
+    let Some(structured) = value.get("structuredDecision").cloned() else {
+        return false;
+    };
+    let Ok(decision) = serde_json::from_value::<HumanDecision>(structured) else {
+        return false;
+    };
+    if [
+        decision.decision.as_str(),
+        decision.actor.as_str(),
+        decision.authority_source.as_str(),
+        decision.reason.as_str(),
+        decision.decided_at.as_str(),
+    ]
+    .iter()
+    .any(|value| value.trim().is_empty())
+    {
+        return false;
+    }
+    value
+        .get("humanDecision")
+        .and_then(serde_json::Value::as_str)
+        == Some(decision.decision.as_str())
 }
 
 fn outcome_state_name(state: &OutcomeState) -> &'static str {

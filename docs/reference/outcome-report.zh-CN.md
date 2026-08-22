@@ -21,6 +21,8 @@ capabilityClaims:
 第一行固定为 `Outcome: 🔴/🟡/🟢 ...`；CLI stdout 与 MCP 的
 `content[0].text` 都直接返回 handoff，Agent 或 UI 不得把它隐藏在折叠日志中。
 `work_item_status` 是独立的只读状态投影。
+归档后其生命周期阶段为 `archived`；只有 repository 绑定且已确认的 close decision
+通过校验后才会变为 `closed`。缺失或无效的 decision 不能把归档提升为 `closed`。
 
 输出顺序为：结果和状态、已完成内容、发现的问题、触发的停止、已解决的问题、
 避免的风险、剩余风险、未知项、人工决定、验证与证据、影响、下一步。

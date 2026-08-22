@@ -1,0 +1,40 @@
+{
+  "acceptanceResults": [
+    "A1: status reports implementation_active checkpointed finish_ready archived and closed for the corresponding lifecycle phase",
+    "A2: a valid repository-bound confirmed close decision changes status to closed without rewriting archived summary bytes",
+    "A3: missing foreign malformed unconfirmed or symlinked close decisions fail closed and never project closed",
+    "A4: repository and CLI status projections remain consistent with regression coverage for archive-before-close and close-after-archive",
+    "A5: three-language Outcome documentation explains closed as a terminal projection and preserves the human handoff boundary"
+  ],
+  "createdAt": "2026-08-22T11:03:10Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:d9a141f83f267e9bab8e49db3b284b6e038d7c225fdfae150aa557dc3e9ba02c",
+  "evidenceRefs": [
+    ".ai/evidence/WI-130-status-closed-projection.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-130-status-closed-projection.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-130-status-closed-projection.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-130-status-closed-projection"
+}
