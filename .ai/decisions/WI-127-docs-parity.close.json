@@ -1,0 +1,21 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:owner",
+    "authoritySource": "user-authorized-work-item",
+    "decidedAt": "2026-08-22T19:15:00+09:00",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-127-docs-parity.verification.json"
+    ],
+    "policyRefs": [
+      "documentation-governance"
+    ],
+    "reason": "WI-127 merged with passing hosted CI; three-language parity baseline and documentation acceptance omission corrected.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-22T10:16:21Z",
+  "workItemId": "WI-127-docs-parity"
+}
