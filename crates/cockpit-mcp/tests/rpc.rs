@@ -81,6 +81,7 @@ fn mcp_initialize_and_tool_list_are_read_only_and_deterministic() {
             "status",
             "work_item_get",
             "work_item_outcome",
+            "work_item_status",
             "work_item_validate",
             "work_item_list",
             "blockers",
@@ -185,7 +186,7 @@ fn mcp_work_item_outcome_returns_explicit_human_handoff_with_cli_parity() {
     assert_eq!(response["result"]["content"][0]["text"], handoff);
     assert_eq!(structured["language"], "zh");
     assert_eq!(structured["outcome"]["state"], "not_ready");
-    assert!(handoff.starts_with("结果 — WI-MCP-HANDOFF\n🟡 需要关注"));
+    assert!(handoff.starts_with("Outcome: 🟡 需要关注 — WI-MCP-HANDOFF\n结果"));
     assert!(handoff.contains("人工决定"));
     assert!(handoff.contains("决定: continue"));
     let outcome: cockpit_protocol::OutcomeV2 =
@@ -304,6 +305,50 @@ fn repository_bound_status_tool_returns_protocol_state() {
     assert_eq!(
         response["result"]["structuredContent"]["state"],
         "calibration_required"
+    );
+    fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[test]
+fn repository_bound_work_item_status_is_read_only_and_repository_scoped() {
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-mcp-work-item-status-{}-{}",
+        std::process::id(),
+        NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed)
+    ));
+    fs::create_dir_all(&directory).expect("directory");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(&directory)
+        .status()
+        .expect("git init");
+    cockpit_repository::attach(&directory).expect("attach");
+    cockpit_repository::start_work_item_with_options(
+        &directory,
+        "WI-MCP-STATUS",
+        "status projection",
+        "read-only MCP status",
+        &["src/**".into()],
+        &cockpit_repository::WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    let response = handle_request_for_repo(
+        &serde_json::json!({"jsonrpc":"2.0","id":12,"method":"tools/call","params":{"name":"work_item_status","arguments":{"workItemId":"WI-MCP-STATUS"}}}),
+        &directory,
+        &test_runtime_context(),
+    );
+    assert_eq!(response["result"]["isError"], false);
+    assert_eq!(
+        response["result"]["structuredContent"]["workItemId"],
+        "WI-MCP-STATUS"
+    );
+    assert_eq!(response["result"]["structuredContent"]["schemaVersion"], 1);
+    assert_eq!(
+        response["result"]["structuredContent"]["governanceState"],
+        "yellow"
     );
     fs::remove_dir_all(directory).expect("cleanup");
 }

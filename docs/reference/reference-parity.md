@@ -74,6 +74,7 @@ record for each boundary.
 | WI-121 — Contract V2 | Implemented | [Work Item](../work-items/WI-121-contract-v2.md); `.ai/evidence/WI-121-contract-v2.verification.json` |
 | WI-122 — Scenario, acceptance, and final dimensions | Implemented | [Work Item](../work-items/WI-122-scenarios-acceptance-final-dimensions.md); `.ai/evidence/WI-122-scenarios-acceptance-final-dimensions.verification.json` |
 | WI-123 — Parallel Contract boundary and slots | Implemented | [Work Item](../work-items/WI-123-parallel-contract-boundary.md); `.ai/evidence/WI-123-parallel-contract-boundary.verification.json` |
+| WI-125 — Contract V2 schema boundary | Implemented | [Work Item](../work-items/WI-125-contract-schema.md); `.ai/evidence/WI-125-contract-schema.verification.json` |
 
 ## Current boundary
 

@@ -4,10 +4,11 @@ use std::fs;
 use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
 
-const TOOL_NAMES: [&str; 14] = [
+const TOOL_NAMES: [&str; 15] = [
     "status",
     "work_item_get",
     "work_item_outcome",
+    "work_item_status",
     "work_item_validate",
     "work_item_list",
     "blockers",
@@ -116,6 +117,10 @@ pub fn handle_request_for_repo(
         "work_item_outcome" => {
             require_compatible(repo, runtime)
                 .and_then(|_| work_item_outcome(repo, &arguments, runtime))
+        }
+        "work_item_status" => {
+            require_compatible(repo, runtime)
+                .and_then(|_| work_item_status(repo, &arguments, runtime))
         }
         "work_item_validate" => {
             require_compatible(repo, runtime)
@@ -463,6 +468,22 @@ fn work_item_outcome(
         "language": language,
         "contractLanguageBoundary": "Acceptance criteria remain in their original Contract language and are not machine-translated."
     }))
+}
+
+fn work_item_status(
+    repo: &Path,
+    arguments: &Value,
+    runtime: &cockpit_protocol::RuntimeContext,
+) -> Result<Value, String> {
+    let id = arguments
+        .get("workItemId")
+        .or_else(|| arguments.get("id"))
+        .and_then(Value::as_str)
+        .ok_or("workItemId argument is required")?;
+    validate_id(id)?;
+    let snapshot = cockpit_repository::work_item_status_snapshot_with_runtime(repo, id, runtime)
+        .map_err(|error| error.to_string())?;
+    serde_json::to_value(snapshot).map_err(|error| error.to_string())
 }
 
 fn work_item_validate(

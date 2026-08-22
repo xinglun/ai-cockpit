@@ -25,7 +25,7 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
 | Setup | `attach`, `profile confirm`, `profile propose` | Create/update protocol state, confirm a profile, or emit a read-only candidate. |
 | Migration | `migrate apply --approved` | Apply only the reviewed repository-schema migration and write a runtime-bound migration receipt. |
 | Governance | `preflight` | Read a Contract and return a green/yellow/red decision plus `reviewState`; incomplete or uncertain Contracts are human-review yellow and cannot cross checkpoint. |
-| Work Item | `work-item new`, `start`, `checkpoint`, `finish`, `archive`, `close`, `validate`, `controls` | Scaffold, validate, or write explicit lifecycle records; `close` requires a human decision. |
+| Work Item | `work-item new`, `start`, `status`, `checkpoint`, `finish`, `archive`, `close`, `validate`, `controls` | Read a request-scoped status projection or write explicit lifecycle records; `close` requires a human decision. |
 | Parallel Work Item | `work-item boundary`, `work-item declare`, `work-item slot acquire|release|list` | Bind Contract-owned concurrency paths and reserve repository-local slots; unknown boundaries serialize. |
 | Verification | `verify` | Execute bounded commands, record evidence, and optionally bind it to a Work Item. |
 | External evidence | `evidence import`, `evidence list`, `evidence policy`, `evidence purge-plan` | Bind exact provider bytes, declare bounded persistence, or produce a deterministic non-destructive disposal plan. |
@@ -60,6 +60,9 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
   completed work, problems, stops, risks, unknowns, decisions, verification,
   impact, and next action. Use `--json` for automation. See [Human-facing
   Outcome](outcome-report.md) for status-marker and localization rules.
+- `work-item status --repo <path> --id <id>` is read-only and reports lifecycle,
+  governance, activity health, fact counts, blockers, unknowns, evidence, and
+  source digests. It never schedules work or invents a percentage.
 - `work-item validate --repo <path> --id <id> [--json]` is a read-only unified
   Contract/Summary check for scenario coverage, stable acceptance evidence,
   intent alignment, and an optional final-dimensions receipt. `work-item

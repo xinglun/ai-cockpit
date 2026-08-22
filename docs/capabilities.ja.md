@@ -312,13 +312,13 @@ explicit repository binding で server を起動します。
 ai-cockpit mcp --repo /path/to/repository
 ```
 
-`status`、`work_item_get`、`work_item_outcome`、`work_item_list`、`blockers`、`safe_actions`、`knowledge_query`、
-`work_item_validate`、`evidence_get`、`delegated_evidence_list`、`repository_observe`、`preflight`、`verify`、`work_item_parallel` の 14 tools を提供します。
+`status`、`work_item_get`、`work_item_outcome`、`work_item_status`、`work_item_list`、`blockers`、`safe_actions`、`knowledge_query`、
+`work_item_validate`、`evidence_get`、`delegated_evidence_list`、`repository_observe`、`preflight`、`verify`、`work_item_parallel` の 15 tools を提供します。
 `tools/list` で JSON-RPC schema を確認できます。`preflight` は repository-relative `contract`、
 `verify` は `command`、string array の `args`、optional `workItemId` を受け取ります。repository
 binding のない call は fail closed です。result には `structuredContent`、text content、`isError`
 が含まれ、CLI と同じ repository-bound verification policy を使います。
-`work_item_get` は machine-oriented な record lookup です。人間向けの結果が必要な場合、Agent は明示的な
+`work_item_get` は machine-oriented な record lookup です。`work_item_status` は read-only の request-scoped lifecycle projection です。人間向けの結果が必要な場合、Agent は明示的な
 `workItemId` で `work_item_outcome` を呼び、conversation の `language` を任意で渡します。text content は
 CLI と同じ localized human handoff であり、`structuredContent.outcome` は安定した OutcomeV2 object です。
 handoff には status marker、unknown、evidence、有効な structured human decision、次の action が含まれます。

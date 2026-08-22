@@ -19,6 +19,10 @@ capabilityClaims:
 人間向けの handoff を表示します。機械処理用の安定した `OutcomeV2` が必要な
 場合は `--json` を指定します。
 
+先頭行は常に `Outcome: 🔴/🟡/🟢 ...` です。CLI stdout と MCP の
+`content[0].text` が handoff を直接返すため、Agent や UI は折りたたんだログに
+隠してはいけません。`work_item_status` は別の read-only status projection です。
+
 表示順は、結果と状態、完了したこと、発見された問題、発動した停止、解決した問題、
 回避したリスク、残存リスク、不明点、人間の判断、検証と証拠、影響、次のアクションです。
 

@@ -143,7 +143,7 @@ fn intelligence_commands_emit_repository_bound_json_and_unknowns() {
         .expect("human outcome");
     assert!(outcome.status.success());
     let outcome_text = String::from_utf8(outcome.stdout).expect("UTF-8 outcome");
-    assert!(outcome_text.contains("结果 — WI-INTELLIGENCE"));
+    assert!(outcome_text.starts_with("Outcome: 🟡 需要关注 — WI-INTELLIGENCE"));
     assert!(outcome_text.contains("🟡 需要关注"));
     assert!(outcome_text.contains("未找到或无法使用验证证据；结果尚未准备好。"));
     assert!(!outcome_text.contains("No verification evidence"));
@@ -167,8 +167,8 @@ fn intelligence_commands_emit_repository_bound_json_and_unknowns() {
     assert!(red_text.contains("🔴 停止"));
     assert!(red_text.contains("验证证据无效"));
     for (language, title, status) in [
-        ("ja", "結果 — WI-INTELLIGENCE", "🔴 停止"),
-        ("en", "Task Result — WI-INTELLIGENCE", "🔴 Stop"),
+        ("ja", "Outcome: 🔴 停止 — WI-INTELLIGENCE", "🔴 停止"),
+        ("en", "Outcome: 🔴 Stop — WI-INTELLIGENCE", "🔴 Stop"),
     ] {
         let localized = Command::new(binary)
             .args(["work-item", "outcome", "--repo"])

@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T10:00:43Z",
+  "files": {
+    "contractDigest": "sha256:c595fb25ad2d35ce10601dfb13233a0373a2b36725fc6d2f0a45a19b0703ec4b",
+    "contractPath": ".ai/work-items/archive/WI-126-status-outcome.contract.json",
+    "outcomeDigest": "sha256:1b3736ec4c4a3bf79646e02bc07b5d53b398846f14eb03ed9a5b0a3bd62382fb",
+    "outcomePath": ".ai/work-items/archive/WI-126-status-outcome.outcome.json",
+    "summaryDigest": "sha256:299784903e7fc5dd19f77748af76cfd134bf4510020a0c6f97b06e8e4e20044b",
+    "summaryPath": ".ai/work-items/archive/WI-126-status-outcome.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-126-status-outcome"
+}

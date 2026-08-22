@@ -381,14 +381,15 @@ Start the server with an explicit repository binding:
 ai-cockpit mcp --repo /path/to/repository
 ```
 
-The server exposes these tools: `status`, `work_item_get`, `work_item_outcome`, `work_item_validate`,
+The server exposes these tools: `status`, `work_item_get`, `work_item_outcome`, `work_item_status`, `work_item_validate`,
 `work_item_list`, `blockers`, `safe_actions`, `knowledge_query`, `evidence_get`,
 `delegated_evidence_list`, `repository_observe`, `preflight`, `verify`, and `work_item_parallel`. Use `tools/list` to inspect the
 JSON-RPC schema. `preflight` requires a repository-relative `contract`; `verify`
 accepts `command`, string-array `args`, and optional `workItemId`. Unbound tool
 calls fail closed. Results use `structuredContent`, text content, and `isError`.
 The CLI and repository-bound MCP service share the same verification policy.
-`work_item_get` is a machine-oriented record lookup. For a person-facing
+`work_item_get` is a machine-oriented record lookup. `work_item_status` is a
+read-only request-scoped lifecycle projection. For a person-facing
 result, the Agent must call `work_item_outcome` with the explicit `workItemId`
 and optional conversation `language`. Its text content is the same localized
 human handoff rendered by the CLI, while `structuredContent.outcome` remains

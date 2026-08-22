@@ -43,6 +43,11 @@ Status の意味：
 | `verification` | legacy verification string または typed `{check, required}` declaration。fresh execution の代わりにはならない。 | Implemented |
 | `baseRevision` | Work Item の開始 revision。snapshot から導く。 | Implemented |
 | `projectProfileDigest`、`repositorySnapshotDigest` | project profile と repository snapshot の content binding。 | Implemented |
+| `baseCommit`、`baselineDirtyPaths` | V2 lineage と開始時に観測した既存 dirty path の fingerprint。両方ある場合 `baseCommit` は `baseRevision` と一致する必要がある。 | Implemented |
+| `archiveSequence`、`resumeHistory` | 正の archive 順序と、closed predecessor を連続して記録する lineage。 | Implemented |
+| `synchronizationCheckpoint`、`synchronizationHistory` | 明示的に authorized された base synchronization と digest-bound rebase history。不完全な entry は fail-closed。 | Implemented |
+| `guidelines`、`preReviewWarnings`、`acceptance` | human-authored guidance、review warning、optional alias。`acceptance` は `acceptanceCriteria` と一致する必要がある。 | Implemented |
+| `authorityEvidence`、`restrictedWriteApproval`、`destructiveChangePolicy.approvalEvidence` | typed repository-local provenance と approval payload。V2 は malformed/unknown nested field を拒否し、legacy provider extension は読み取り可能。 | Implemented / External identity boundary |
 | `problemStatement`、`riskAssessment`、`agentCapability`、`executionDecision` | strict typed な optional V2 safety/review input。non-continue decision は preflight を止める。 | Implemented |
 | `destructiveChangePolicy`、`rollbackNote`、`unknowns`、`notCodable` | explicit safety、recovery、unresolved state declaration。 | Implemented |
 | `scenarioCoverage` | optional high-risk scenario projection。required/unverified scenario は checkpoint 前に fail-closed。 | Implemented |
