@@ -945,7 +945,10 @@ fn is_sha256_digest(value: &str) -> bool {
     let Some(hex) = value.strip_prefix("sha256:") else {
         return false;
     };
-    hex.len() == 64 && hex.bytes().all(|byte| byte.is_ascii_hexdigit())
+    hex.len() == 64
+        && hex
+            .bytes()
+            .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte))
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -1000,9 +1003,32 @@ impl VerificationReceipt {
     /// Project execution telemetry into an advisory cost observation.  This
     /// method never changes `passed` or any governance decision.
     pub fn cost_observation(&self) -> VerificationCostObservation {
-        if let Some(observation) = &self.cost_observation {
-            return observation.clone();
+        let mut observation = self.derive_cost_observation();
+        if let Some(cached) = &self.cost_observation
+            && self.validate_cost_observation(cached).is_err()
+        {
+            observation.confidence = VerificationCostConfidence::Unknown;
+            observation.unknowns.push("cost_observation_invalid".into());
         }
+        observation.unknowns.sort();
+        observation.unknowns.dedup();
+        observation
+    }
+
+    /// Validate a persisted cost projection against the execution receipt.
+    /// Cost is advisory telemetry, but a forged cache must never be accepted
+    /// as if it were a fresh observation.
+    pub fn validate_cost_observation(
+        &self,
+        observation: &VerificationCostObservation,
+    ) -> Result<(), CostObservationError> {
+        if observation != &self.derive_cost_observation() {
+            return Err(CostObservationError::Mismatch);
+        }
+        Ok(())
+    }
+
+    fn derive_cost_observation(&self) -> VerificationCostObservation {
         let mut unknowns = Vec::new();
         if self
             .repository_id
@@ -1054,6 +1080,12 @@ impl VerificationReceipt {
             unknowns,
         }
     }
+}
+
+#[derive(Clone, Debug, Error, PartialEq, Eq)]
+pub enum CostObservationError {
+    #[error("persisted cost observation does not match its execution receipt")]
+    Mismatch,
 }
 
 pub const VERIFICATION_PLAN_RECEIPT_SCHEMA_VERSION: u32 = 1;

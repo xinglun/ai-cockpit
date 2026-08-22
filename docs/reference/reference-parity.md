@@ -102,6 +102,7 @@ record for each boundary.
 | WI-153 — Historical evidence projection | Implemented | [Work Item](../work-items/WI-153-historical-evidence-projection.md); `.ai/evidence/WI-153-historical-evidence-projection.verification.json`; `.ai/decisions/WI-153-historical-evidence-projection.close.json` |
 | WI-154 — Policy-bound Runtime verification route | Implemented | [Work Item](../work-items/WI-154-policy-bound-runtime-route.md); [verification route](verification-route.md); `.ai/evidence/WI-154-policy-bound-runtime-route.verification.json`; `.ai/decisions/WI-154-policy-bound-runtime-route.close.json` |
 | WI-155 — CI/release gate convergence | Implemented | [Work Item](../work-items/WI-155-ci-release-gate-convergence.md); [release distribution](../release/distribution.md); `.ai/evidence/WI-155-ci-release-gate-convergence.verification.json`; `.ai/decisions/WI-155-ci-release-gate-convergence.close.json` |
+| WI-156 — Physical execution and Work Item evidence receipts | Implemented | [Work Item](../work-items/WI-156-physical-execution-receipt.md); `.ai/evidence/WI-156-physical-execution-receipt.verification.json`; `.ai/decisions/WI-156-physical-execution-receipt.close.json` |
 
 ## Current boundary
 

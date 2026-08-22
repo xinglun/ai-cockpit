@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-22T23:42:39Z",
+  "files": {
+    "contractDigest": "sha256:be74d37ed749654ff1370ad5e1c12b79ec0f75520c6f8678a2db54555148ee17",
+    "contractPath": ".ai/work-items/archive/WI-156-physical-execution-receipt.contract.json",
+    "eventsDigest": "sha256:7a4c3edc5467bca524432a259b1c645d3b7f262102bdc42d63807da640feede0",
+    "eventsPath": ".ai/work-items/archive/WI-156-physical-execution-receipt.events.jsonl",
+    "outcomeDigest": "sha256:d9b2dfbeffea3ffca20139e17c025daf3eb9440a8b880f7316cf03cfea94c4d8",
+    "outcomePath": ".ai/work-items/archive/WI-156-physical-execution-receipt.outcome.json",
+    "summaryDigest": "sha256:15f88c3aefbdb6ed4f0787a84124aa9ecc6a677ba7d64f6a04d0bfdfcafac8d6",
+    "summaryPath": ".ai/work-items/archive/WI-156-physical-execution-receipt.summary.json",
+    "taskReportDigest": "sha256:d595569a7dc2792a2c57f8267e76904ebe7ee9cd8c44f19681aa9eb50dc18cb7",
+    "taskReportMarkdownDigest": "sha256:df1310f48ea4f707f20dcf814ec13325f88384a7a801c596f6e6b0fff6044fbe",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-156-physical-execution-receipt.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-156-physical-execution-receipt.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-156-physical-execution-receipt"
+}

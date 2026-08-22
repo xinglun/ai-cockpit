@@ -1,0 +1,48 @@
+{
+  "acceptanceCriteria": [
+    "Each Work Item receives an independent identity-bound evidence receipt",
+    "No Work Item can reference another Work Item receipt as authorization evidence",
+    "Forged cost observation identity or counters is rejected or downgraded to unknown",
+    "Shared physical execution can be reused without sharing authority or decisions"
+  ],
+  "authority": "authorized",
+  "baseRevision": "e8567ed846d216531fe41ea88fe364c406b23f8e",
+  "createdAt": "2026-08-22T23:33:59Z",
+  "goal": "Ensure cross-Work-Item physical execution sharing never shares authority or authorization evidence, and cost observations are validated fail-closed.",
+  "intent": "Bind shared physical verification facts to independent Work Item evidence receipts and reject forged cost telemetry.",
+  "mode": "code",
+  "outOfScope": [
+    "CI policy deletion",
+    "new provider integration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:394ae374855b3a77f16565fcaaf260474a2b9db943592fdb8da4884a15c8ef49",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-verification/**",
+    "crates/cockpit-repository/**",
+    "tests/**",
+    "docs/**"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "cross-work-item physical execution and tamper rejection",
+      "required": true,
+      "status": "unverified",
+      "expected": "Shared execution yields independent Work Item receipts and forged cost telemetry is not trusted.",
+      "verificationPlan": "Run the physical execution, cost observation, and repository lifecycle regression tests.",
+      "evidence": []
+    }
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-156-physical-execution-receipt"
+}
