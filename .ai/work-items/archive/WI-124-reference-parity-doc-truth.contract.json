@@ -1,0 +1,67 @@
+{
+  "acceptanceCriteria": [
+    "Three root README language variants expose a consistent reader-first route and document the complete lifecycle including checkpoint.",
+    "Three reference-parity documents accurately describe WI-121, WI-122, and WI-123 status and do not claim deferred or absent capabilities as complete.",
+    "Three operations README variants derive the current release baseline from Cargo metadata in executable documentation checks instead of hard-coding v0.2.8.",
+    "Documentation acceptance and release version consistency checks detect drift in lifecycle documentation, parity status, and current baseline without changing Runtime behavior.",
+    "WI-124 documentation and generated lifecycle evidence are available in English, Simplified Chinese, and Japanese; no out-of-scope Runtime, Agent, MCP, or historical Work Item changes are made."
+  ],
+  "authority": "authorized",
+  "baseRevision": "85fd8b9bf137fa93c34e1ef7103f6ac3634ea201",
+  "createdAt": "2026-08-22T09:05:13Z",
+  "goal": "Make the public documentation describe the current Rust Runtime truth and complete lifecycle consistently in English, Simplified Chinese, and Japanese, with release-baseline checks derived from Cargo metadata.",
+  "intent": "Correct public documentation truth and release consistency after WI-121 through WI-123.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Rust Runtime or protocol implementation changes",
+    "Agent adapter, MCP, or global configuration changes",
+    "WI-125 and later corrective Work Items",
+    "Rewriting historical Work Item archive bytes except for new WI-124 lifecycle receipts"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:23511f00d1616c57409ba55154a9834575080d7b8012a0619c27bba011e44d69",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "medium",
+  "scope": [
+    "README.md",
+    "README.zh-CN.md",
+    "README.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/contract-fields.md",
+    "docs/reference/contract-fields.zh-CN.md",
+    "docs/reference/contract-fields.ja.md",
+    "docs/operations/README.md",
+    "docs/operations/README.zh-CN.md",
+    "docs/operations/README.ja.md",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/release/version_consistency.sh",
+    "docs/work-items/WI-124-reference-parity-doc-truth.md",
+    "docs/work-items/WI-124-reference-parity-doc-truth.zh-CN.md",
+    "docs/work-items/WI-124-reference-parity-doc-truth.ja.md"
+  ],
+  "sources": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    "Cargo.toml",
+    "docs/reference/reference-parity.md",
+    "docs/operations/README.md",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/release/version_consistency.sh",
+    "origin/main@85fd8b9bf137fa93c34e1ef7103f6ac3634ea201"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/release/version_consistency.sh",
+    "git diff --check",
+    "git status --short --branch"
+  ],
+  "workItemId": "WI-124-reference-parity-doc-truth"
+}

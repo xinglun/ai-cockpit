@@ -16,7 +16,8 @@ capabilityClaims:
 
 これは audit comparison であり、adopter の操作手順ではありません。Rust Runtime が
 reference product boundary と一致する部分、partial/deferred の部分、external responsibility
-を記録します。一般利用者は [Current reader route](../current/README.ja.md) から開始してください。
+を記録します。一般利用者は [Current reader route](../current/README.ja.md) から開始し、field-level
+mapping は [Contract と Summary の fields](contract-fields.ja.md) を参照してください。
 
 ## Truth state
 
@@ -38,8 +39,9 @@ matrix は次の 4 state だけを使います。
 | Explicit Agent Discovery / Adapter layer | Implemented | Agent install は explicit、owned、reversible、repository-local である。 |
 | Work Item lifecycle と governance decision | Partial | core lifecycle と human decision record はあるが、reference の広い status、cost、recovery projection は一つの adopter interface に統合されていない。 |
 | Contract preflight human-review gate | Implemented | 不完全な scaffold Contract は明示的な `reviewState` 付き yellow となり、repository/Contract/snapshot binding を保存し、human confirmation なしでは checkpoint を越えない。 |
-| Contract V2 の structured intent と strict schema | Partial | structured intent、typed sources/verification、unknown-field/duplicate-key の fail-closed、`humanDecisionRequest` を実装した。scenario、parallel boundary、final dimension は後続 WI の範囲である。 |
-| Contract の cross-field 4D（intent/scope/evidence/decision）validation | Partial | 基本 field と preflight review は bind されるが、acceptance と evidence の一対一対応、intent alignment、aggregate receipt は未完了である。 |
+| Contract V2 の structured intent と strict schema | Implemented | WI-121 は structured intent、typed sources/verification、strict な unknown-field/duplicate-key fail-closed、`humanDecisionRequest`、preflight/checkpoint gate を提供する。 |
+| Contract の cross-field dimensions（intent/scope/evidence/decision）validation | Implemented | WI-122 は high-risk scenario coverage、stable acceptance evidence、intent alignment、参照源と同じ 20 dimension の final receipt を検証する。任意の `fourPillarProjection` は表示用であり、literal `4D` protocol field はない。 |
+| Contract parallel boundary と slot | Implemented | WI-123 は repository-local boundary validation、保守的な overlap 判定、exclusive slot lease を提供し、unknown または malformed state は fail-closed になる。 |
 | Bounded verification と fail-closed evidence reuse | Implemented | Runtime identity、snapshot/toolchain/environment binding、receipt、fail-closed validation を記録する。 |
 | MCP repository binding | Implemented | repository-bound stdio MCP が explicit binding で同じ governed service を公開する。 |
 | Human-facing MCP projection | Implemented | Runtime が OutcomeV2 を検証し localized `humanHandoff` を生成する。Agent または conversation layer は選択・表示・伝達を担当するが、presentation をガバナンス権限として扱わない。 |
@@ -57,6 +59,18 @@ matrix は次の 4 state だけを使います。
 この matrix は working core と full reference surface parity を意図的に区別します。1 行の
 green はその boundary だけを証明し、external identity、provider authorization、branch protection、
 production readiness、organization approval を与えるものではありません。
+
+## 現在の実装 baseline
+
+現在の `main` branch には、次の Contract と governance boundary が含まれます。Work Item
+document は利用者向けの範囲を示し、repository evidence path は各 boundary の machine-readable
+verification record です。
+
+| Work Item | Current Runtime status | Evidence と document |
+| --- | --- | --- |
+| WI-121 — Contract V2 | Implemented | [Work Item](../work-items/WI-121-contract-v2.ja.md); `.ai/evidence/WI-121-contract-v2.verification.json` |
+| WI-122 — Scenario、Acceptance、最終 dimensions | Implemented | [Work Item](../work-items/WI-122-scenarios-acceptance-final-dimensions.ja.md); `.ai/evidence/WI-122-scenarios-acceptance-final-dimensions.verification.json` |
+| WI-123 — Parallel Contract boundary と slot | Implemented | [Work Item](../work-items/WI-123-parallel-contract-boundary.ja.md); `.ai/evidence/WI-123-parallel-contract-boundary.verification.json` |
 
 ## 現在の境界
 

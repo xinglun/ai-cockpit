@@ -20,10 +20,11 @@ capabilityClaims:
 - Use [Versioning](../architecture/versioning.md) to distinguish a shared Runtime upgrade from an explicit repository migration.
 - Use [Performance acceptance](../../tests/performance/README.md) and [Adversarial validation](../security/adversarial-validation.md) for measured or negative evidence.
 
-The v0.2.8 public adopter acceptance baseline is complete only for
-`x86_64-unknown-linux-gnu`; the other release targets have build or smoke evidence
-unless a separate acceptance run is recorded. Legacy evidence remains historical
-and must not be promoted to fresh green verification.
+The current public adopter acceptance baseline is complete only for
+`x86_64-unknown-linux-gnu`; the release consistency gate resolves the baseline
+version from Cargo workspace metadata. Other release targets have build or smoke
+evidence unless a separate acceptance run is recorded. Legacy evidence remains
+historical and must not be promoted to fresh green verification.
 
 For MCP result delivery, use `work_item_outcome` for the visible human handoff
 and retain `work_item_get` for machine lookup. Release adopter receipts must

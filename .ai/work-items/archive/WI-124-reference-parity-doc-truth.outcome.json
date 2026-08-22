@@ -1,0 +1,40 @@
+{
+  "acceptanceResults": [
+    "Three root README language variants expose a consistent reader-first route and document the complete lifecycle including checkpoint.",
+    "Three reference-parity documents accurately describe WI-121, WI-122, and WI-123 status and do not claim deferred or absent capabilities as complete.",
+    "Three operations README variants derive the current release baseline from Cargo metadata in executable documentation checks instead of hard-coding v0.2.8.",
+    "Documentation acceptance and release version consistency checks detect drift in lifecycle documentation, parity status, and current baseline without changing Runtime behavior.",
+    "WI-124 documentation and generated lifecycle evidence are available in English, Simplified Chinese, and Japanese; no out-of-scope Runtime, Agent, MCP, or historical Work Item changes are made."
+  ],
+  "createdAt": "2026-08-22T09:15:33Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:ae42b7bdf02a3ca24b8b33e79abb72d8c0dcfa08ab77c8790bc04a8fb259d70b",
+  "evidenceRefs": [
+    ".ai/evidence/WI-124-reference-parity-doc-truth.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-124-reference-parity-doc-truth.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-124-reference-parity-doc-truth.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-124-reference-parity-doc-truth"
+}

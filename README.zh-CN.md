@@ -29,7 +29,11 @@ AI 辅助修改可能超出范围、削弱测试、跳过验证，或让审查�
 人和工具通过 CLI 或本地 MCP adapter 使用它；repository 状态通过 Repository
 Protocol v1 保存，Rust 治理核心与应用代码保持独立。典型流程是：
 
-`inspect → attach → preflight → verify → finish/archive/close`
+`inspect → attach → start → preflight → checkpoint → verify → finish → archive → close`
+
+`start` 记录由人负责的 Contract，`preflight` 判断是否可以开始，`checkpoint` 是
+实现继续之前的串行门。`verify` 记录新鲜 evidence；`finish` 绑定结果，`archive`
+保存不可变的 Work Item bundle，`close` 记录明确的人类决定。
 
 ## 30 秒开始
 

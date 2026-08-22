@@ -17,7 +17,8 @@ capabilityClaims:
 This is an audit comparison, not an adopter instruction. It records where the
 Rust Runtime matches the reference product boundary, where it is partial or
 deferred, and which responsibilities remain external. The ordinary user route
-starts at [Current reader route](../current/README.md).
+starts at [Current reader route](../current/README.md). For field-level
+mapping, see [Contract and Summary fields](contract-fields.md).
 
 ## Truth states
 
@@ -39,8 +40,9 @@ The matrix uses exactly four states:
 | Explicit Agent Discovery / Adapter layer | Implemented | Agent installation is explicit, owned, reversible, and repository-local. |
 | Work Item lifecycle and governance decisions | Partial | The core lifecycle and human decision records exist; the reference's broader status, cost, and recovery projections are not all exposed as one adopter interface. |
 | Contract preflight human-review gate | Implemented | Incomplete scaffold Contracts are yellow with an explicit `reviewState`, persist repository/Contract/snapshot bindings, and cannot cross checkpoint without human confirmation. |
-| Contract V2 structured intent and strict schema | Partial | Structured intent, typed sources/verification, unknown-field/duplicate-key fail-closed checks, and `humanDecisionRequest` are present; scenario, parallel-boundary, and final-dimension work remains in later WIs. |
-| Contract cross-field 4D (intent/scope/evidence/decision) validation | Partial | Base fields and preflight review are bound, but one-to-one acceptance evidence, intent alignment, and an aggregate receipt are not complete. |
+| Contract V2 structured intent and strict schema | Implemented | WI-121 provides structured intent, typed sources/verification, strict unknown-field/duplicate-key fail-closed checks, `humanDecisionRequest`, and the preflight/checkpoint gate. |
+| Contract cross-field dimensions (intent/scope/evidence/decision) | Implemented | WI-122 validates high-risk scenario coverage, stable acceptance evidence, intent alignment, and the exact twenty-dimension final receipt. The optional `fourPillarProjection` is presentation-only; there is no literal `4D` protocol field. |
+| Contract-bound parallel boundary and slots | Implemented | WI-123 provides repository-local boundary validation, conservative overlap handling, and exclusive slot leases; unknown or malformed state fails closed. |
 | Bounded verification and fail-closed evidence reuse | Implemented | Runtime identity, snapshot/toolchain/environment bindings, receipts, and fail-closed validation are recorded. |
 | MCP repository binding | Implemented | Repository-bound stdio MCP exposes the same governed services with explicit binding. |
 | Human-facing MCP projection | Implemented | Runtime validates OutcomeV2 and emits the localized `humanHandoff`; the Agent or conversation layer chooses, displays, and passes it on without treating presentation as governance authority. |
@@ -59,6 +61,19 @@ The matrix deliberately distinguishes a working core from complete reference
 surface parity. A green row proves only the named boundary; it does not grant
 external identity, provider authorization, branch protection, production
 readiness, or organizational approval.
+
+## Current implementation baseline
+
+The current `main` branch contains the following reviewed Contract and
+governance boundaries. The Work Item documents describe the user-visible
+scope; the repository evidence paths are the machine-readable verification
+record for each boundary.
+
+| Work Item | Current Runtime status | Evidence and documentation |
+| --- | --- | --- |
+| WI-121 — Contract V2 | Implemented | [Work Item](../work-items/WI-121-contract-v2.md); `.ai/evidence/WI-121-contract-v2.verification.json` |
+| WI-122 — Scenario, acceptance, and final dimensions | Implemented | [Work Item](../work-items/WI-122-scenarios-acceptance-final-dimensions.md); `.ai/evidence/WI-122-scenarios-acceptance-final-dimensions.verification.json` |
+| WI-123 — Parallel Contract boundary and slots | Implemented | [Work Item](../work-items/WI-123-parallel-contract-boundary.md); `.ai/evidence/WI-123-parallel-contract-boundary.verification.json` |
 
 ## Current boundary
 

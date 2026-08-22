@@ -55,6 +55,12 @@ for path in route_readmes:
     if not path.exists():
         missing.append(f'{path}: missing three-language reader route entry')
 
+for path in [Path('README.md'), Path('README.zh-CN.md'), Path('README.ja.md')]:
+    text = path.read_text(encoding='utf-8')
+    for marker in ('start', 'preflight', 'checkpoint', 'verify', 'finish', 'archive', 'close'):
+        if marker not in text:
+            missing.append(f'{path}: lifecycle route omits {marker}')
+
 parity_statuses = {
     Path('docs/reference/reference-parity.md'): ('Implemented', 'Partial', 'Deferred', 'External boundary'),
     Path('docs/reference/reference-parity.zh-CN.md'): ('已实现', '部分实现', '延期', '外部边界'),
@@ -124,6 +130,28 @@ for path in [Path('docs/reference/reference-parity.md'), Path('docs/reference/re
     text = path.read_text(encoding='utf-8')
     if 'humanHandoff' not in text or 'Implemented' not in text and '已实现' not in text:
         missing.append(f'{path}: human-facing MCP projection status is stale')
+    parity_status = '已实现' if path.name.endswith('.zh-CN.md') else 'Implemented'
+    for work_item in ('WI-121', 'WI-122', 'WI-123'):
+        if work_item not in text:
+            missing.append(f'{path}: current implementation baseline omits {work_item}')
+    if parity_status not in text:
+        missing.append(f'{path}: current implementation baseline omits {parity_status}')
+
+for path in [Path('docs/operations/README.md'), Path('docs/operations/README.zh-CN.md'), Path('docs/operations/README.ja.md')]:
+    text = path.read_text(encoding='utf-8')
+    if 'x86_64-unknown-linux-gnu' not in text:
+        missing.append(f'{path}: current adopter baseline target is missing')
+    if re.search(r'v[0-9]+\.[0-9]+\.[0-9]+', text):
+        missing.append(f'{path}: operations baseline must not hard-code a release version')
+
+for path in [Path('docs/reference/contract-fields.md'), Path('docs/reference/contract-fields.zh-CN.md'), Path('docs/reference/contract-fields.ja.md')]:
+    text = path.read_text(encoding='utf-8')
+    for status in ('Implemented', 'Partial', 'External'):
+        if status not in text:
+            missing.append(f'{path}: Contract/Summary field mapping omits {status}')
+    for section in ('Contract', 'Summary'):
+        if section not in text:
+            missing.append(f'{path}: Contract/Summary field mapping omits {section}')
 
 for phrase in ('WI-03 至 WI-38', 'WI-36 已在本地验收', 'WI-35 负责', 'internal progress plan', 'development checkout'):
     if phrase in public:
