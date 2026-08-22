@@ -1,0 +1,21 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "user-authorized-maintainer",
+    "authoritySource": "explicit-user-instruction",
+    "decidedAt": "2026-08-22T08:50:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-123-parallel-contract-boundary.verification.json"
+    ],
+    "policyRefs": [
+      "docs/reference/commands.md"
+    ],
+    "reason": "Reviewed PR #55, hosted CI passed, Contract parallel boundary and repository-local slot evidence are complete; retain explicit user-visible-benefit unknown.",
+    "resumeCondition": "Reopen if parallel boundary overlap, lease isolation, race safety, or MCP/CLI projection regresses."
+  },
+  "timestamp": "2026-08-22T08:48:52Z",
+  "workItemId": "WI-123-parallel-contract-boundary"
+}
