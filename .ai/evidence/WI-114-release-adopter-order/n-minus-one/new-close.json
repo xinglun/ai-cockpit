@@ -1,0 +1,41 @@
+{
+  "outcome": {
+    "acceptanceResults": [
+      "cargo test passes"
+    ],
+    "createdAt": "2026-08-22T05:14:36Z",
+    "decisionState": "green",
+    "evidenceDigest": "sha256:0652835bea2dc1c114ed23ebed9de1d13925c3f1737a89d5576fa722999479f1",
+    "evidenceRefs": [
+      ".ai/evidence/n-minus-one-post-migration.verification.json"
+    ],
+    "humanBenefitReport": {
+      "affectedUsers": [],
+      "evidenceRefs": [
+        ".ai/evidence/n-minus-one-post-migration.verification.json"
+      ],
+      "state": "unknown",
+      "unknowns": [
+        "user_visible_benefit_not_declared"
+      ],
+      "userVisibleChanges": []
+    },
+    "protocolVersion": 1,
+    "repositoryId": "sha256:0b13379e3fd976b1524dcda7d914049b4764d3bcf9aa45c7cb04aaed347918ff",
+    "schemaVersion": 2,
+    "state": "finish_ready",
+    "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "verification": {
+      "evidencePath": ".ai/evidence/n-minus-one-post-migration.verification.json",
+      "required": true,
+      "status": "verified"
+    },
+    "workItemId": "n-minus-one-post-migration"
+  },
+  "state": "closed",
+  "timestamp": "2026-08-22T05:14:37Z",
+  "workItemId": "n-minus-one-post-migration"
+}

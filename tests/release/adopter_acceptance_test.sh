@@ -20,6 +20,12 @@ grep -q -- 'rm -rf --' "$script"
 grep -q -- 'isolation_manifest.sh' "$script"
 grep -q -- 'manifest_tree' "$script"
 grep -q -- 'schemaVersion:2' "$script"
+preflight_line=$(grep -n -- 'lifecycle-preflight.json preflight' "$script" | head -1 | cut -d: -f1)
+checkpoint_line=$(grep -n -- 'lifecycle-checkpoint.json checkpoint' "$script" | head -1 | cut -d: -f1)
+[[ -n "$preflight_line" && -n "$checkpoint_line" && "$preflight_line" -lt "$checkpoint_line" ]] || {
+  printf 'adopter acceptance must record preflight before checkpoint\n' >&2
+  exit 1
+}
 if grep -Eq 'cargo[[:space:]]+(build|run)' "$script"; then
   printf 'acceptance harness must not obtain Runtime through cargo build/run\n' >&2
   exit 1

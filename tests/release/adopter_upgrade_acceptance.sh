@@ -276,6 +276,7 @@ pass old-schema-assertion "old Runtime repository schema $old_schema"
 work_item=n-minus-one-lifecycle
 run "$from_bin" old-start.json start --repo "$adopter" --id "$work_item" --intent 'Validate upgrade without losing governed history.' --goal 'Prove N-1 compatibility and explicit migration.' --scope '**' --out-of-scope target --risk normal --authority authorized --acceptance 'cargo test passes' --required-evidence verification
 printf '\n// N-1 acceptance mutation\n' >> "$adopter/src/lib.rs"; git -C "$adopter" add src/lib.rs; git -C "$adopter" commit -qm 'adopter change before upgrade'
+run "$from_bin" old-preflight.json preflight --repo "$adopter" --contract "$adopter/.ai/work-items/active/$work_item.contract.json"
 run "$from_bin" old-checkpoint.json checkpoint --repo "$adopter" --id "$work_item"
 run "$from_bin" old-verify.json verify --repo "$adopter" --work-item "$work_item" --command true --workers 1
 if jq -e --arg version "$from_version" --arg digest "$from_digest" '.runtimeVersion==$version and .runtimeDigest==$digest' "$output/old-verify.json" >/dev/null; then
@@ -294,6 +295,10 @@ else
       ;;
   esac
 fi
+run "$from_bin" old-finish.json finish --repo "$adopter" --id "$work_item"
+run "$from_bin" old-archive.json archive --repo "$adopter" --id "$work_item"
+run "$from_bin" old-close.json close --repo "$adopter" --id "$work_item" --human-decision approved
+pass old-lifecycle-closed
 find "$adopter/.ai/evidence" -type f -print | LC_ALL=C sort | while IFS= read -r path; do printf '%s  %s\n' "$(sha256_file "$path")" "$(printf '%s' "$path" | sed "s#^$adopter/##")"; done > "$run_root/evidence-before"
 cp "$run_root/evidence-before" "$output/evidence-before.sha256"; pass historical-evidence-captured
 
@@ -325,17 +330,21 @@ pass historical-evidence-preserved
 
 run "$to_bin" new-compatibility-after.json compatibility --repo "$adopter"
 jq -e '.state=="COMPATIBLE" and .repositorySchemaVersion==2' "$output/new-compatibility-after.json" >/dev/null || die 'migrated adopter is not compatible'
+new_work_item=n-minus-one-post-migration
+run "$to_bin" new-start.json start --repo "$adopter" --id "$new_work_item" --intent 'Validate operation after an approved repository migration.' --goal 'Prove the new Runtime can govern a fresh Work Item after N-1 migration.' --scope '**' --out-of-scope target --risk normal --authority authorized --acceptance 'cargo test passes' --required-evidence verification
+run "$to_bin" new-preflight.json preflight --repo "$adopter" --contract "$adopter/.ai/work-items/active/$new_work_item.contract.json"
+run "$to_bin" new-checkpoint.json checkpoint --repo "$adopter" --id "$new_work_item"
 run "$to_bin" new-agent-doctor.json agent doctor --repo "$adopter" --json
 jq -e '.state=="VERIFIED" and (.problems|length==0)' "$output/new-agent-doctor.json" >/dev/null || die 'new Agent doctor did not verify'
-run "$to_bin" new-verify.json verify --repo "$adopter" --work-item "$work_item" --command true --workers 1
+run "$to_bin" new-verify.json verify --repo "$adopter" --work-item "$new_work_item" --command true --workers 1
 jq -e --arg version "$to_version" --arg digest "$to_digest" '.runtimeVersion==$version and .runtimeDigest==$digest and .passed==true' "$output/new-verify.json" >/dev/null || die 'new verification output lacks new Runtime identity'
 jq -e '.passed==true' "$output/new-verify.json" >/dev/null || die 'new Runtime did not continue operation'
-new_evidence="$adopter/.ai/evidence/$work_item.verification.json"
+new_evidence="$adopter/.ai/evidence/$new_work_item.verification.json"
 [[ -f "$new_evidence" ]] || die 'new Runtime did not record verification evidence'
 jq -e --arg version "$to_version" --arg digest "$to_digest" '.runtimeVersion==$version and .runtimeDigest==$digest and .passed==true' "$new_evidence" >/dev/null || die 'new verification evidence lacks Runtime identity'
-run "$to_bin" new-finish.json finish --repo "$adopter" --id "$work_item"
-run "$to_bin" new-archive.json archive --repo "$adopter" --id "$work_item"
-run "$to_bin" new-close.json close --repo "$adopter" --id "$work_item" --human-decision approved
+run "$to_bin" new-finish.json finish --repo "$adopter" --id "$new_work_item"
+run "$to_bin" new-archive.json archive --repo "$adopter" --id "$new_work_item"
+run "$to_bin" new-close.json close --repo "$adopter" --id "$new_work_item" --human-decision approved
 pass continued-operation
 
 source_after_status="$(git -C "$source_repo" status --porcelain=v1)"

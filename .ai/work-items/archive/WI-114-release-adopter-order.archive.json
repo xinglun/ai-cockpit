@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T05:18:48Z",
+  "files": {
+    "contractDigest": "sha256:966121748103c57452fd0cedc1aa523c78de8976aaab759f17b90415f9394518",
+    "contractPath": ".ai/work-items/archive/WI-114-release-adopter-order.contract.json",
+    "outcomeDigest": "sha256:12e0c5fb0f8770f6b42c90b905917e393b1e35b5f5f5b8c939d44261136f72c7",
+    "outcomePath": ".ai/work-items/archive/WI-114-release-adopter-order.outcome.json",
+    "summaryDigest": "sha256:53aab0728ff602eafcd164353233b848d63327b198c5d84b8efb9e2969482ad8",
+    "summaryPath": ".ai/work-items/archive/WI-114-release-adopter-order.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-114-release-adopter-order"
+}

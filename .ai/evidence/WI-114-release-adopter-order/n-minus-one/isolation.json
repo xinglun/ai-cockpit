@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 2,
+  "sourceRepository": "/private/tmp/ai-cockpit-wi114",
+  "sourceAiDigest": "sha256:0c853e8218af0a93ac53d078b34abd519d54e8a77667fe5ab6fbbfd4c388d03d",
+  "sourceBeforeStatus": " M AGENTS.md\n M docs/reference/agent-workflow.ja.md\n M docs/reference/agent-workflow.md\n M docs/reference/agent-workflow.zh-CN.md\n M tests/release/adopter_acceptance.sh\n M tests/release/adopter_acceptance_test.sh\n M tests/release/adopter_upgrade_acceptance.sh\n M tests/release/adopter_upgrade_acceptance_test.sh\n?? .ai/evidence/WI-114-release-adopter-order.verification.json\n?? .ai/evidence/WI-114-release-adopter-order/\n?? .ai/work-items/active/\n?? docs/work-items/WI-114-release-adopter-order.ja.md\n?? docs/work-items/WI-114-release-adopter-order.md\n?? docs/work-items/WI-114-release-adopter-order.zh-CN.md",
+  "sourceAfterStatus": " M AGENTS.md\n M docs/reference/agent-workflow.ja.md\n M docs/reference/agent-workflow.md\n M docs/reference/agent-workflow.zh-CN.md\n M tests/release/adopter_acceptance.sh\n M tests/release/adopter_acceptance_test.sh\n M tests/release/adopter_upgrade_acceptance.sh\n M tests/release/adopter_upgrade_acceptance_test.sh\n?? .ai/evidence/WI-114-release-adopter-order.verification.json\n?? .ai/evidence/WI-114-release-adopter-order/\n?? .ai/work-items/active/\n?? docs/work-items/WI-114-release-adopter-order.ja.md\n?? docs/work-items/WI-114-release-adopter-order.md\n?? docs/work-items/WI-114-release-adopter-order.zh-CN.md",
+  "sourceUnchanged": true,
+  "adopterRepository": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-n-minus-one.xNXcSL/adopter",
+  "repositoryId": "sha256:0b13379e3fd976b1524dcda7d914049b4764d3bcf9aa45c7cb04aaed347918ff",
+  "repositoryIsolation": true,
+  "roots": {
+    "HOME": {
+      "classification": "global-config",
+      "allowedWrites": false,
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "unchanged": true
+    },
+    "XDG_CONFIG_HOME": {
+      "classification": "global-config",
+      "allowedWrites": false,
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "unchanged": true
+    },
+    "TMPDIR": {
+      "classification": "runtime-temporary",
+      "allowedWrites": true,
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "CARGO_HOME": {
+      "classification": "dependency-cache",
+      "allowedWrites": true,
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "releasePublished": true
+}

@@ -29,6 +29,8 @@ capabilityClaims:
 - 変更前に `.ai/README.md` と `.ai/glossary.md` を読み、`inspect`、`status`、
   `doctor` を実行します。宣言した scope 外を変更せず、test と evidence を保持し、
   Summary を更新し、Contract の project checks を実行します。
+- `preflight` が `not_ready` または `needs_human_confirmation` を返した場合は停止し、
+  Preflight Review を人に提示します。advisory の成功終了は実装の許可を意味しません。
 - 人間向け Outcome は独立して提示し、`Outcome: 🟢`、`Outcome: 🟡`、または
   `Outcome: 🔴` で始め、unknown、evidence、human decision、次の action を含めます。
   欠落、折りたたみ表示のみ、stale、contradictory、malformed の Outcome は
@@ -62,3 +64,11 @@ current repository、Work Item、project profile はありません。Contract �
 credential を含めず、user-global Agent/MCP configuration を変更せず、managed Agent
 prompt を governance authority として扱いません。V1 Runtime code、schema、installer、
 template implementation を本 repository にコピーしません。
+人から明示的に依頼されない限り、ユーザーの変更を revert しません。既定の指示読込集合は
+`.ai/README.md`、`.ai/glossary.md`、`AGENTS.md`、現在の machine-readable governance
+records です。`docs/archive/**` と reference material は、人または Contract が明示的に
+含めない限り、過去/参考情報であり現在の指示権限を持ちません。status、receipt、archive
+などの生成ファイルは Runtime が生成し、手編集しません。
+参照元の hosted-verification snapshot 例外に相当する command は本 Rust project には
+ありません。未公開の local snapshot を reviewed branch/PR workflow の代わりに push
+しないでください。

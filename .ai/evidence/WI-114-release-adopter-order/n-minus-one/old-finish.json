@@ -1,0 +1,41 @@
+{
+  "outcome": {
+    "acceptanceResults": [
+      "cargo test passes"
+    ],
+    "createdAt": "2026-08-22T05:14:35Z",
+    "decisionState": "green",
+    "evidenceDigest": "sha256:c7ef3adc9eb4634cb664ffec92aa712a1e938e5249d53526788faadcfc74d9b5",
+    "evidenceRefs": [
+      ".ai/evidence/n-minus-one-lifecycle.verification.json"
+    ],
+    "humanBenefitReport": {
+      "affectedUsers": [],
+      "evidenceRefs": [
+        ".ai/evidence/n-minus-one-lifecycle.verification.json"
+      ],
+      "state": "unknown",
+      "unknowns": [
+        "user_visible_benefit_not_declared"
+      ],
+      "userVisibleChanges": []
+    },
+    "protocolVersion": 1,
+    "repositoryId": "sha256:0b13379e3fd976b1524dcda7d914049b4764d3bcf9aa45c7cb04aaed347918ff",
+    "schemaVersion": 2,
+    "state": "finish_ready",
+    "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "verification": {
+      "evidencePath": ".ai/evidence/n-minus-one-lifecycle.verification.json",
+      "required": true,
+      "status": "verified"
+    },
+    "workItemId": "n-minus-one-lifecycle"
+  },
+  "state": "finish_ready",
+  "timestamp": "2026-08-22T05:14:35Z",
+  "workItemId": "n-minus-one-lifecycle"
+}
