@@ -117,5 +117,10 @@ versioned digest の shape だけを保証します。
 public Release binary を download して pin し、isolated directory で adopter lifecycle を実行し、`acceptance.json` と `SHA256SUMS` を生成します。
 workspace build や local target binary で代用してはならず、acceptance failure が公開済み Release truth を変更することもありません。
 
+acceptance receipt には各 isolated root の typed before/after manifest も記録されます。`HOME` と `XDG_CONFIG_HOME` の
+`allowedPrefixes` は空で、変更されてはいけません。Runtime が書き込めるのは `TMPDIR` と `CARGO_HOME` だけで、allowlist は
+`<TMPDIR>/**` と `<CARGO_HOME>/**` に限定されます。cleanup の結果は `cleanup.json` と `cleanupState`/`cleanupError` に記録され、
+cleanup failure は acceptance を失敗させますが、公開済み Release truth を unpublish または書き換えません。
+
 `tests/conformance/final_replacement_acceptance.sh` は source repository の最終置換 boundary です。installed Runtime identity、固定した
 reference oracle、conformance/adversarial/performance gate、コピーなし検査を記録し、`acceptance.json` と `SHA256SUMS` を生成します。

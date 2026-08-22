@@ -113,5 +113,10 @@ protocol version。`ai-cockpit --version` 只输出简短的 executable version�
 Release binary，在隔离目录中执行 adopter lifecycle，并生成 `acceptance.json` 与 `SHA256SUMS`。不得用 workspace
 build 或本地 target binary 替代；验收失败也不会改变已发布 Release truth。
 
+验收 receipt 还会为每个隔离 root 保存带类型的 before/after manifest。`HOME` 与 `XDG_CONFIG_HOME` 的
+`allowedPrefixes` 必须为空且保持不变；只有 `TMPDIR` 与 `CARGO_HOME` 允许 Runtime 写入，且 allowlist 明确限制为
+`<TMPDIR>/**` 与 `<CARGO_HOME>/**`。清理状态记录在 `cleanup.json` 以及 `cleanupState`/`cleanupError` 中；清理失败
+会使验收失败，但不会撤销或改写已发布 Release truth。
+
 `tests/conformance/final_replacement_acceptance.sh` 是源码仓库的最终替代边界，记录安装的 Runtime identity、锁定的
 reference oracle、conformance/adversarial/performance gate 和无复制检查，并生成 `acceptance.json` 与 `SHA256SUMS`。

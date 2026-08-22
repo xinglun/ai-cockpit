@@ -2,8 +2,7 @@
   "acceptanceCriteria": [
     "A1: adopter_acceptance and adopter_upgrade_acceptance clean run roots on success and failure without altering acceptance truth",
     "A2: test wrappers clean temporary output directories and assert cleanup",
-    "A3: isolation manifests cover files directories symlink metadata and digests",
-    " with explicit Cargo cache allowlists",
+    "A3: isolation manifests cover files directories symlink metadata and digests with explicit Cargo cache allowlists",
     "A4: release workflow remains immutable and post-release failure cannot rewrite Release truth"
   ],
   "authority": "authorized",
