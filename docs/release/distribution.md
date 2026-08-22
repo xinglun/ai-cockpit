@@ -15,7 +15,7 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # Release and Distribution
 
-The public immutable `v0.2.3` Release is the current installation baseline.
+The public immutable `v0.2.4` Release is the current installation baseline.
 Homebrew and manual installation use the published archive and manifest; the
 repository configuration remains `cockpit.toml`, and installing the runtime
 never creates `.ai` in a target repository. A post-release adopter acceptance
@@ -59,7 +59,7 @@ immutable GitHub Release. The checksum file covers all ten archive/SBOM files,
 so validate the exact archive you downloaded:
 
 ```bash
-archive="ai-cockpit-v0.2.3-aarch64-apple-darwin.tar.gz"
+archive="ai-cockpit-v0.2.4-aarch64-apple-darwin.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -70,8 +70,8 @@ gh attestation verify "$archive" \
 If you use GitHub CLI after the Release exists, the equivalent download is:
 
 ```bash
-archive="ai-cockpit-v0.2.3-aarch64-apple-darwin.tar.gz"
-gh release download v0.2.3 --repo xinglun/ai-cockpit \
+archive="ai-cockpit-v0.2.4-aarch64-apple-darwin.tar.gz"
+gh release download v0.2.4 --repo xinglun/ai-cockpit \
   --pattern "$archive" --pattern release-manifest.json --pattern SHA256SUMS
 ```
 
@@ -87,7 +87,7 @@ Maintainers can repeat the public-binary acceptance baseline after a Release:
 ```bash
 tests/release/adopter_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --tag v0.2.3 \
+  --tag v0.2.4 \
   --target aarch64-apple-darwin \
   --output ./release-adopter-acceptance
 ```
@@ -111,7 +111,7 @@ explicit and are not mistaken for the current baseline.
 ### Historical N-1 schema migration acceptance
 
 The schema-changing baseline is the historical v0.1.1 to v0.2.0 migration.
-v0.2.3 is a same-schema patch release: its N-1 run follows the same harness
+v0.2.4 is a same-schema patch release: its N-1 run follows the same harness
 but records `migrationState: not_required` after compatibility is proven. To
 reproduce a current N-1 run, use the immediately previous public Release and
 the current Runtime:
@@ -119,8 +119,8 @@ the current Runtime:
 ```bash
 tests/release/adopter_upgrade_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --from-tag v0.2.2 \
-  --to-tag v0.2.3 \
+  --from-tag v0.2.3 \
+  --to-tag v0.2.4 \
   --target aarch64-apple-darwin \
   --output ./release-adopter-upgrade-acceptance
 ```
@@ -154,7 +154,7 @@ the exact Rust target, verify the archive, and place `ai-cockpit` in
 
 ```bash
 target="aarch64-apple-darwin" # choose the target matching your machine
-archive="ai-cockpit-v0.2.3-${target}.tar.gz"
+archive="ai-cockpit-v0.2.4-${target}.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -172,7 +172,7 @@ Windows users download the `.zip` and `SHA256SUMS`, compare the exact checksum,
 extract it to a user bin directory, and add that directory to the user `PATH`:
 
 ```powershell
-$archive = "ai-cockpit-v0.2.3-x86_64-pc-windows-msvc.zip"
+$archive = "ai-cockpit-v0.2.4-x86_64-pc-windows-msvc.zip"
 $expected = Get-Content .\SHA256SUMS |
   Where-Object { ($_ -split '\s+')[1] -eq $archive } |
   ForEach-Object { ($_ -split '\s+')[0].ToLowerInvariant() }
@@ -192,13 +192,13 @@ $env:Path = "$destination;$env:Path"
 
 ## Rust developer fallback
 
-This fallback is available for the current immutable `v0.2.3` tag.
+This fallback is available for the current immutable `v0.2.4` tag.
 
 After that publication, the workspace package must be selected explicitly:
 
 ```bash
 cargo install --git https://github.com/xinglun/ai-cockpit.git \
-  --tag v0.2.3 --locked --root "$HOME/.local" \
+  --tag v0.2.4 --locked --root "$HOME/.local" \
   --bin ai-cockpit cockpit-cli
 "$HOME/.local/bin/ai-cockpit" --version
 cargo uninstall --root "$HOME/.local" cockpit-cli

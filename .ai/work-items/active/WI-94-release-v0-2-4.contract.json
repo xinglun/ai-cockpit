@@ -1,0 +1,46 @@
+{
+  "acceptanceCriteria": [
+    "workspace and all local package versions are 0.2.4 and Cargo.lock is synchronized",
+    "all three language installation and architecture release guides identify v0.2.4 while preserving explicit historical N-1 references",
+    "source quality, version consistency, release policy, cross-platform build/smoke, attestation, and publication gates pass",
+    "public v0.2.4 adopter acceptance and N-1 upgrade acceptance pass using only immutable public assets",
+    "the public v0.2.4 binary is installed into this repository and verifies compatibility, Agent doctor, and work-item scaffold recovery",
+    "runtime identity, release tag, adopter repository identity, isolation, and lifecycle evidence are archived"
+  ],
+  "authority": "authorized",
+  "baseRevision": "7a6ba202f732451f22621a98f10eb3e23da44292",
+  "createdAt": "2026-08-22T00:21:16Z",
+  "goal": "发布包含版本一致性根治与 Work Item 脚手架恢复修复的 v0.2.4，并用该公开 binary 升级治理当前仓库。",
+  "intent": "将 WI-93 修复发布为公开 Runtime，完成发布后 adopter/N-1 验收，并安装到当前工程。",
+  "mode": "implementation",
+  "outOfScope": [
+    "rewriting historical release evidence",
+    "changing the public v0.2.3 Release truth or tag",
+    "global Agent or MCP configuration",
+    "second technology stack adopter matrix"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:bf486083d39cae61ed3c139266eda202e2d63311c9d520d8a297b2ff6003327d",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "unknown",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/distribution.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-94-release-v0-2-4"
+}
