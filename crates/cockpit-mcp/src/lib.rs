@@ -4,7 +4,7 @@ use std::fs;
 use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
 
-const TOOL_NAMES: [&str; 13] = [
+const TOOL_NAMES: [&str; 14] = [
     "status",
     "work_item_get",
     "work_item_outcome",

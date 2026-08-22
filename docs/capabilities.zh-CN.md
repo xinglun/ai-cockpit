@@ -307,8 +307,8 @@ verification 生成当前 v2 evidence。
 ai-cockpit mcp --repo /path/to/repository
 ```
 
-服务提供 `status`、`work_item_get`、`work_item_outcome`、`work_item_list`、`blockers`、`safe_actions`、
-`knowledge_query`、`evidence_get`、`delegated_evidence_list`、`repository_observe`、`preflight`、`verify`、`work_item_parallel` 十三个工具。
+服务提供 `status`、`work_item_get`、`work_item_outcome`、`work_item_validate`、`work_item_list`、`blockers`、`safe_actions`、
+`knowledge_query`、`evidence_get`、`delegated_evidence_list`、`repository_observe`、`preflight`、`verify`、`work_item_parallel` 十四个工具。
 用 `tools/list` 查看 JSON-RPC schema；`preflight` 要求 repository-relative `contract`，
 `verify` 接受 `command`、字符串数组 `args` 和可选 `workItemId`。未绑定 repository 的调用
 会 fail closed。结果包含 `structuredContent`、文本 content 和 `isError`。CLI 与 MCP 共用同一

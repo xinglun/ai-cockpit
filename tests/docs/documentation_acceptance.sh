@@ -99,7 +99,7 @@ for path in mcp_docs:
     for tool in ('status', 'work_item_get', 'work_item_outcome', 'work_item_list',
                  'blockers', 'safe_actions', 'knowledge_query', 'evidence_get',
                  'delegated_evidence_list', 'repository_observe', 'preflight', 'verify',
-                 'work_item_parallel'):
+                 'work_item_validate', 'work_item_parallel'):
         if f'`{tool}`' not in text:
             missing.append(f'{path}: MCP tool inventory omits {tool}')
 
