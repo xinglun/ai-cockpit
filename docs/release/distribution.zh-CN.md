@@ -89,6 +89,10 @@ attach/profile/Agent doctor，保持 `first-adopter-smoke` 为 `not_ready`，验
 并生成 `acceptance.json` 与 `SHA256SUMS`。它不会使用 workspace 或本地 Runtime binary。发布后验收失败时仍记录
 `releasePublished: true` 和 `adopterAcceptance: failed`，不会重写已发布的 Release。第二技术栈覆盖属于后续独立 Work Item。
 
+在验收 receipt 输出最终确定后，成功、失败和中断路径都会只清理经过校验的临时 `run_root`。
+`cleanup.json` 以及 `acceptance.json` 中的 `cleanupState` / `cleanupError` 记录清理结果；清理失败不会改写验收 truth。
+target 与 platform 始终显式记录；选择 Linux x86_64 target 时也遵循同一验收基线。
+
 为避免发布后遗漏配置或文档版本，release workflow 会从 Cargo metadata 推导当前版本，并运行
 `tests/release/version_consistency.sh`。source check 会校验三种语言的入口和当前 archive 示例，
 post-release check 会校验公开 Release 的 manifest 与 asset 名称。历史 N-1 引用会明确保留，不会被误认为当前基线。

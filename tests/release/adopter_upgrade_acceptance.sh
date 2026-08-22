@@ -12,6 +12,94 @@ sha256_file() {
   if command -v shasum >/dev/null 2>&1; then shasum -a 256 "$1" | awk '{print $1}'; else sha256sum "$1" | awk '{print $1}'; fi
 }
 
+write_sums() {
+  : > "$output/SHA256SUMS"
+  find "$output" -type f ! -name SHA256SUMS -print | LC_ALL=C sort | while IFS= read -r path; do
+    printf '%s  %s\n' "$(sha256_file "$path")" "$(printf '%s' "$path" | sed "s#^$output/##")" >> "$output/SHA256SUMS"
+  done
+}
+
+cleanup_run_root() {
+  local parent_real root_real root_name
+  cleanup_state=failed
+  cleanup_removed=false
+  cleanup_validated=false
+  cleanup_reason='run_root cleanup was not attempted'
+
+  [[ -n "${run_root:-}" && -n "${run_parent:-}" ]] || {
+    cleanup_reason='run_root cleanup path was not initialized'
+    return 1
+  }
+  [[ -d "$run_parent" ]] || {
+    cleanup_reason='run_root parent directory is missing'
+    return 1
+  }
+  [[ -d "$run_root" ]] || {
+    cleanup_state=passed
+    cleanup_removed=true
+    cleanup_validated=true
+    cleanup_reason='run_root was already absent'
+    return 0
+  }
+
+  parent_real="$(cd "$run_parent" 2>/dev/null && pwd -P)" || {
+    cleanup_reason='run_root parent could not be canonicalized'
+    return 1
+  }
+  root_real="$(cd "$run_root" 2>/dev/null && pwd -P)" || {
+    cleanup_reason='run_root could not be canonicalized'
+    return 1
+  }
+  root_name="${root_real##*/}"
+  [[ "$parent_real" != / && "$root_real" != "$parent_real" ]] || {
+    cleanup_reason='run_root safety boundary rejected the path'
+    return 1
+  }
+  case "$root_real" in
+    "$parent_real"/ai-cockpit-n-minus-one.*) ;;
+    *)
+      cleanup_reason='run_root name or parent did not match the N-1 temp boundary'
+      return 1
+      ;;
+  esac
+  [[ "$root_name" == ai-cockpit-n-minus-one.* ]] || {
+    cleanup_reason='run_root basename did not match the N-1 temp boundary'
+    return 1
+  }
+  cleanup_validated=true
+  if rm -rf -- "$root_real" && [[ ! -e "$root_real" ]]; then
+    cleanup_state=passed
+    cleanup_removed=true
+    cleanup_reason='validated run_root removed'
+    return 0
+  fi
+  cleanup_reason='validated run_root removal failed'
+  return 1
+}
+
+write_cleanup_receipt() {
+  jq -n \
+    --arg state "$cleanup_state" \
+    --arg reason "$cleanup_reason" \
+    --argjson removed "$cleanup_removed" \
+    --argjson validated "$cleanup_validated" \
+    '{schemaVersion:1,kind:"run_root_cleanup",state:$state,removed:$removed,validated:$validated,reason:(if $reason == "" then null else $reason end)}' \
+    > "$output/cleanup.json"
+}
+
+update_acceptance_cleanup() {
+  local updated="$output/.acceptance.json.cleanup.tmp"
+  if jq \
+    --arg state "$cleanup_state" \
+    --arg reason "$cleanup_reason" \
+    '.cleanupState = $state | .cleanupError = (if $state == "failed" then $reason else null end)' \
+    "$output/acceptance.json" > "$updated" && mv -f -- "$updated" "$output/acceptance.json"; then
+    return 0
+  fi
+  printf 'adopter upgrade acceptance cleanup warning: acceptance cleanup metadata could not be updated\n' >&2
+  return 1
+}
+
 repository='' from_tag='' to_tag='' target='' output='' source_repo=''
 while (($# > 0)); do
   case "$1" in
@@ -44,13 +132,15 @@ mkdir -p "$output"; output="$(cd "$output" && pwd)"
 [[ -z "$(find "$output" -mindepth 1 -print -quit 2>/dev/null)" ]] || die "output directory must be empty: $output"
 
 tmp_parent="$(printenv TMPDIR 2>/dev/null || printf '/tmp')"; [[ -d "$tmp_parent" ]] || tmp_parent=/tmp
-run_root="$(mktemp -d "$tmp_parent/ai-cockpit-n-minus-one.XXXXXX")"
+run_parent="$(cd "$tmp_parent" 2>/dev/null && pwd -P)" || die "TMPDIR is not a directory: $tmp_parent"
+run_root="$(mktemp -d "$run_parent/ai-cockpit-n-minus-one.XXXXXX")"
 download_root="$run_root/downloads"; from_root="$run_root/from"; to_root="$run_root/to"; adopter="$run_root/adopter"
 isolated_home="$run_root/home"; isolated_xdg="$run_root/xdg"; isolated_tmp="$run_root/tmp"; isolated_cargo="$run_root/cargo"
 mkdir -p "$download_root" "$from_root" "$to_root" "$isolated_home" "$isolated_xdg" "$isolated_tmp" "$isolated_cargo"
 steps="$run_root/steps.jsonl"; : > "$steps"
 started_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"; failure_reason=''; release_published=false
 from_bin='' to_bin='' from_version='' to_version='' from_digest='' to_digest='' repository_id=''
+cleanup_state=not_started cleanup_removed=false cleanup_validated=false cleanup_reason=''
 if rustup_home="$(printenv RUSTUP_HOME 2>/dev/null)"; then :; else rustup_home=''; fi
 
 record() {
@@ -76,14 +166,20 @@ finish() {
     --arg fromVersion "$from_version" --arg toVersion "$to_version" --arg fromDigest "$from_digest" \
     --arg toDigest "$to_digest" --arg repositoryId "$repository_id" --arg reason "$failure_reason" \
     --argjson steps "$step_json" \
-    '{schemaVersion:1,startedAt:$startedAt,finishedAt:$finishedAt,releasePublished:($published=="true"),adopterAcceptance:$state,repository:$repository,fromTag:$fromTag,toTag:$toTag,target:$target,fromRuntimeVersion:(if $fromVersion=="" then null else $fromVersion end),toRuntimeVersion:(if $toVersion=="" then null else $toVersion end),fromRuntimeDigest:(if $fromDigest=="" then null else $fromDigest end),toRuntimeDigest:(if $toDigest=="" then null else $toDigest end),repositoryId:(if $repositoryId=="" then null else $repositoryId end),steps:$steps,failureReason:(if $reason=="" then null else $reason end)}' > "$output/acceptance.json"
-  : > "$output/SHA256SUMS"
-  find "$output" -type f ! -name SHA256SUMS -print | LC_ALL=C sort | while IFS= read -r path; do
-    printf '%s  %s\n' "$(sha256_file "$path")" "$(printf '%s' "$path" | sed "s#^$output/##")" >> "$output/SHA256SUMS"
-  done
+    '{schemaVersion:1,startedAt:$startedAt,finishedAt:$finishedAt,releasePublished:($published=="true"),adopterAcceptance:$state,repository:$repository,fromTag:$fromTag,toTag:$toTag,target:$target,fromRuntimeVersion:(if $fromVersion=="" then null else $fromVersion end),toRuntimeVersion:(if $toVersion=="" then null else $toVersion end),fromRuntimeDigest:(if $fromDigest=="" then null else $fromDigest end),toRuntimeDigest:(if $toDigest=="" then null else $toDigest end),repositoryId:(if $repositoryId=="" then null else $repositoryId end),cleanupState:"pending",cleanupError:null,steps:$steps,failureReason:(if $reason=="" then null else $reason end)}' > "$output/acceptance.json"
+  write_sums
+  cleanup_run_root
+  update_acceptance_cleanup
+  write_cleanup_receipt
+  write_sums
+  if [[ "$cleanup_state" == failed ]]; then
+    printf 'adopter upgrade acceptance cleanup warning: %s\n' "$cleanup_reason" >&2
+  fi
   exit "$code"
 }
 trap finish EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
 
 download() {
   local tag="$1" label="$2" root="$3" version archive api manifest sums actual expected url

@@ -123,6 +123,10 @@ attach/profile/Agent doctor、`first-adopter-smoke` の `not_ready`、Work Item 
 `SHA256SUMS` を出力します。workspace や local Runtime binary は使いません。post-release acceptance が失敗しても
 `releasePublished: true` と `adopterAcceptance: failed` を記録し、公開済み Release を書き換えません。second technology stack は別の Work Item です。
 
+receipt の出力を確定した後、success、failure、interrupt のすべての経路で、検証済みの一時 `run_root` だけを削除します。
+`cleanup.json` と `acceptance.json` の `cleanupState` / `cleanupError` が結果を記録し、cleanup failure が acceptance truth を変更することはありません。
+target と platform は明示的に保持し、target として Linux x86_64 を選んだ場合も同じ基準で検証します。
+
 Release 後に configuration や documentation の version が取り残されないように、release workflow は
 Cargo metadata から current version を解決し、`tests/release/version_consistency.sh` を実行します。
 source check は三言語の route と archive example を検証し、post-release check は公開 Release の manifest

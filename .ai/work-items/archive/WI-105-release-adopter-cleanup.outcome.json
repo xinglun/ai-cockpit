@@ -1,0 +1,36 @@
+{
+  "acceptanceResults": [
+    "Both harnesses clean only their validated run_root after final acceptance outputs; success and failure paths are covered by static and executable regression tests; cleanup failure is recorded without changing adopterAcceptance/releasePublished; required release/documentation checks pass."
+  ],
+  "createdAt": "2026-08-22T02:24:57Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:2e2e6ea532ae52b3ca83b05b09a54107d25ecb1df91f843d098cf3bf1ab54d28",
+  "evidenceRefs": [
+    ".ai/evidence/WI-105-release-adopter-cleanup.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-105-release-adopter-cleanup.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-105-release-adopter-cleanup.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-105-release-adopter-cleanup"
+}

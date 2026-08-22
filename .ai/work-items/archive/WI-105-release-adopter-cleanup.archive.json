@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T02:25:00Z",
+  "files": {
+    "contractDigest": "sha256:49e06275cf6742c404da6c4064884c37d0929c87ef733cf3d01de8c02d5184c6",
+    "contractPath": ".ai/work-items/archive/WI-105-release-adopter-cleanup.contract.json",
+    "outcomeDigest": "sha256:bc19c9f1992f3f516adfc1f6e3452114e4295e41bc76627b7b0ac98bb983674c",
+    "outcomePath": ".ai/work-items/archive/WI-105-release-adopter-cleanup.outcome.json",
+    "summaryDigest": "sha256:aa30b182b0901e109f029a3baf8d9078801828b873bb971f3ec4adc06094e803",
+    "summaryPath": ".ai/work-items/archive/WI-105-release-adopter-cleanup.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-105-release-adopter-cleanup"
+}
