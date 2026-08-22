@@ -1,0 +1,36 @@
+{
+  "acceptanceCriteria": [
+    "skipped preflight or checkpoint cannot finish",
+    "duplicate checkpoint fails closed",
+    "valid recovery remains possible",
+    "CLI and MCP preflight persist the same lifecycle receipt",
+    "three language lifecycle documentation is synchronized"
+  ],
+  "authority": "authorized",
+  "baseRevision": "d76ec8b88d4c6be4b1280effc00545d9a4e44bb4",
+  "createdAt": "2026-08-22T03:15:19Z",
+  "goal": "Require recorded preflight, exactly one checkpoint, valid verification, and ordered finish/archive/close transitions.",
+  "intent": "Enforce serial Work Item lifecycle transitions and fail closed on skipped governance steps.",
+  "mode": "implementation",
+  "outOfScope": [
+    "release/**",
+    "packaging/**",
+    "global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:db939761979ab4116d36e54b15428f90f3a3802b40542b4ae03680ae9495fffb",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/**",
+    "crates/cockpit-cli/**",
+    "crates/cockpit-mcp/**",
+    "docs/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-109-lifecycle-order"
+}

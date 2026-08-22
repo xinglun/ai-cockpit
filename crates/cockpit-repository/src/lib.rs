@@ -3368,6 +3368,7 @@ fn create_work_item_scaffold(
         "state": input.state,
         "changedPaths": snapshot.changed_paths,
         "checkpointCount": 0,
+        "preflightState": "not_run",
         "createdAt": now,
         "updatedAt": now,
     });
@@ -3458,9 +3459,77 @@ pub fn checkpoint_work_item(
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.summary.json"));
     let mut summary: serde_json::Value = read_json(&path)?;
-    let count = summary["checkpointCount"].as_u64().unwrap_or(0) + 1;
+    let count = summary["checkpointCount"].as_u64().unwrap_or(0);
+    if count != 0 {
+        return Err(ObserverError::State {
+            path: path.clone(),
+            message: "work item already has a checkpoint; duplicate checkpoint is not allowed"
+                .into(),
+        });
+    }
+    let state = summary["state"].as_str().unwrap_or("");
+    if state != "implementation_active" {
+        return Err(ObserverError::State {
+            path: path.clone(),
+            message: format!(
+                "checkpoint is invalid from state {state:?}; expected implementation_active"
+            ),
+        });
+    }
+    let preflight_state = summary["preflightState"].as_str().unwrap_or("");
+    if !matches!(preflight_state, "green" | "yellow") {
+        return Err(ObserverError::State {
+            path: path.clone(),
+            message: format!(
+                "checkpoint requires a recorded non-red preflight result (state={preflight_state:?})"
+            ),
+        });
+    }
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let contract = read_contract(&contract_path)?;
+    let git =
+        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
+    let current_snapshot_digest = snapshot_digest(&snapshot)?.to_string();
+    if summary["preflightRepositorySnapshotDigest"]
+        .as_str()
+        .is_none_or(|value| value != current_snapshot_digest)
+    {
+        return Err(ObserverError::State {
+            path: path.clone(),
+            message: "checkpoint requires a preflight result for the current repository snapshot"
+                .into(),
+        });
+    }
+    let current_contract_digest = contract_digest(&contract_path)?.to_string();
+    if summary["preflightContractDigest"]
+        .as_str()
+        .is_none_or(|value| value != current_contract_digest)
+    {
+        return Err(ObserverError::State {
+            path: path.clone(),
+            message: "checkpoint requires a preflight result for the current contract".into(),
+        });
+    }
+    require_green_or_yellow_preflight_governance(
+        &root,
+        &contract_path,
+        &contract,
+        &snapshot,
+        preflight_state,
+    )?;
     let timestamp = now();
-    summary["checkpointCount"] = count.into();
+    summary["checkpointCount"] = 1.into();
+    summary["state"] = "checkpointed".into();
+    summary["checkpointAt"] = timestamp.clone().into();
     summary["updatedAt"] = timestamp.clone().into();
     atomic_json(&path, &summary)?;
     Ok(LifecycleReceipt {
@@ -3468,6 +3537,156 @@ pub fn checkpoint_work_item(
         state: "checkpointed".into(),
         timestamp,
     })
+}
+
+/// Evaluate and persist the preflight decision for an active Work Item.
+///
+/// Preflight is intentionally a repository-local receipt rather than process
+/// state.  A yellow result may be recorded before verification (for example,
+/// when the Contract requires a verification receipt that does not exist yet),
+/// but `finish` requires a fresh green result.  This keeps the documented
+/// start -> preflight -> checkpoint -> verify path usable without weakening the
+/// finish gate.
+pub fn preflight_work_item(
+    root: &Path,
+    contract_path: &Path,
+) -> Result<GovernanceDecision, ObserverError> {
+    preflight_work_item_internal(root, contract_path, None)
+}
+
+/// Evaluate and persist preflight while binding evidence checks to the
+/// Runtime executing the request.  CLI and MCP use this entry point so a
+/// foreign Runtime receipt cannot make the lifecycle appear green.
+pub fn preflight_work_item_with_runtime(
+    root: &Path,
+    contract_path: &Path,
+    runtime: &RuntimeContext,
+) -> Result<GovernanceDecision, ObserverError> {
+    preflight_work_item_internal(root, contract_path, Some(runtime))
+}
+
+fn preflight_work_item_internal(
+    root: &Path,
+    contract_path: &Path,
+    current_runtime: Option<&RuntimeContext>,
+) -> Result<GovernanceDecision, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let contract_path = if contract_path.is_absolute() {
+        contract_path.to_path_buf()
+    } else {
+        root.join(contract_path)
+    };
+    let contract = read_contract(&contract_path)?;
+    let git =
+        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
+    let decision =
+        governance_decision_for_contract_internal(&root, &contract, &snapshot, current_runtime)?;
+
+    let active = root.join(".ai/work-items/active");
+    let active_contract = active.join(format!("{}.contract.json", contract.work_item_id));
+    let summary_path = active.join(format!("{}.summary.json", contract.work_item_id));
+    if active_contract.is_file() && summary_path.is_file() {
+        let active_contract =
+            fs::canonicalize(&active_contract).map_err(|source| ObserverError::Read {
+                path: active_contract.clone(),
+                source,
+            })?;
+        let requested_contract =
+            fs::canonicalize(&contract_path).map_err(|source| ObserverError::Read {
+                path: contract_path.clone(),
+                source,
+            })?;
+        if active_contract != requested_contract {
+            return Err(ObserverError::State {
+                path: contract_path,
+                message: "preflight contract is not the active Work Item contract".into(),
+            });
+        }
+        let mut summary: serde_json::Value = read_json(&summary_path)?;
+        let current_state = summary["state"].as_str().unwrap_or("");
+        // A scaffold is intentionally not an active lifecycle item yet.  Keep
+        // the historical read-only preflight behavior for this state so
+        // callers can inspect the candidate decision before `start` supplies
+        // the human governance fields and activates the item.
+        if current_state == "not_ready" {
+            return Ok(decision);
+        }
+        if !matches!(current_state, "implementation_active" | "checkpointed") {
+            return Err(ObserverError::State {
+                path: summary_path,
+                message: format!(
+                    "preflight is invalid from state {current_state:?}; expected implementation_active or checkpointed"
+                ),
+            });
+        }
+        let state = decision_state_name(decision.state.clone());
+        let decision_value =
+            serde_json::to_value(&decision).map_err(|error| ObserverError::State {
+                path: active_contract.clone(),
+                message: error.to_string(),
+            })?;
+        summary["preflightState"] = state.into();
+        summary["preflightDecisionDigest"] = cockpit_protocol::digest_json(&decision_value)
+            .map_err(|error| ObserverError::State {
+                path: active_contract.clone(),
+                message: error.to_string(),
+            })?
+            .to_string()
+            .into();
+        summary["preflightRepositorySnapshotDigest"] =
+            snapshot_digest(&snapshot)?.to_string().into();
+        summary["preflightContractDigest"] = contract_digest(&active_contract)?.to_string().into();
+        summary["preflightAt"] = now().into();
+        atomic_json(&summary_path, &summary)?;
+    }
+    Ok(decision)
+}
+
+fn decision_state_name(state: DecisionState) -> &'static str {
+    match state {
+        DecisionState::Green => "green",
+        DecisionState::Yellow => "yellow",
+        DecisionState::Red => "red",
+    }
+}
+
+fn contract_digest(path: &Path) -> Result<Digest, ObserverError> {
+    let contract: serde_json::Value = read_json(path)?;
+    cockpit_protocol::digest_json(&contract).map_err(|error| ObserverError::State {
+        path: path.to_path_buf(),
+        message: error.to_string(),
+    })
+}
+
+fn require_green_or_yellow_preflight_governance(
+    root: &Path,
+    contract_path: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+    preflight_state: &str,
+) -> Result<(), ObserverError> {
+    let decision = governance_decision_for_contract(root, contract, snapshot)?;
+    let current_state = decision_state_name(decision.state.clone());
+    if current_state == "red" || preflight_state == "red" {
+        return Err(ObserverError::State {
+            path: contract_path.to_path_buf(),
+            message: format!(
+                "checkpoint requires a non-red governance result (preflight={preflight_state}, current={})",
+                current_state
+            ),
+        });
+    }
+    Ok(())
 }
 
 pub fn finish_work_item(
@@ -3502,6 +3721,27 @@ fn finish_work_item_internal(
     let active = root.join(".ai/work-items/active");
     let summary_path = active.join(format!("{work_item_id}.summary.json"));
     let mut summary: serde_json::Value = read_json(&summary_path)?;
+    let summary_state = summary["state"].as_str().unwrap_or("");
+    if summary_state != "checkpointed" {
+        return Err(ObserverError::State {
+            path: summary_path.clone(),
+            message: format!(
+                "finish is invalid from state {summary_state:?}; expected checkpointed"
+            ),
+        });
+    }
+    if summary["checkpointCount"] != serde_json::json!(1) {
+        return Err(ObserverError::State {
+            path: summary_path.clone(),
+            message: "finish requires exactly one checkpoint".into(),
+        });
+    }
+    if summary["preflightState"] != serde_json::json!("green") {
+        return Err(ObserverError::State {
+            path: summary_path.clone(),
+            message: "finish requires a green preflight result after verification".into(),
+        });
+    }
     let original_summary = summary.clone();
     let evidence_path = root
         .join(".ai/evidence")
@@ -3528,6 +3768,16 @@ fn finish_work_item_internal(
         message: error.to_string(),
     })?;
     let current_digest = snapshot_digest(&snapshot)?;
+    if summary["preflightRepositorySnapshotDigest"]
+        .as_str()
+        .is_none_or(|value| value != current_digest.as_str())
+    {
+        return Err(ObserverError::State {
+            path: summary_path.clone(),
+            message: "finish requires a green preflight result for the current repository snapshot"
+                .into(),
+        });
+    }
     if evidence["repositorySnapshotDigest"] != serde_json::Value::String(current_digest.to_string())
     {
         return Err(ObserverError::State {
@@ -3712,6 +3962,24 @@ fn record_verification_internal(
             message: "verification evidence requires an active work item contract".into(),
         });
     }
+    let summary_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.summary.json"));
+    let summary: serde_json::Value = read_json(&summary_path)?;
+    if summary["state"] != serde_json::json!("checkpointed")
+        || summary["checkpointCount"] != serde_json::json!(1)
+    {
+        return Err(ObserverError::State {
+            path: summary_path.clone(),
+            message: "verification requires exactly one completed checkpoint".into(),
+        });
+    }
+    if !matches!(summary["preflightState"].as_str(), Some("green" | "yellow")) {
+        return Err(ObserverError::State {
+            path: summary_path,
+            message: "verification requires a recorded non-red preflight result".into(),
+        });
+    }
     if receipt["passed"] != serde_json::Value::Bool(true) {
         return Err(ObserverError::State {
             path: root.join(".ai/evidence"),
@@ -3814,6 +4082,47 @@ fn record_verification_internal(
         .join(".ai/evidence")
         .join(format!("{work_item_id}.verification.json"));
     atomic_json(&path, &evidence)?;
+
+    // Verification can satisfy a Contract's required evidence.  Refresh the
+    // recorded governance result against the same non-.ai snapshot so the
+    // canonical lifecycle remains start -> preflight (possibly yellow) ->
+    // checkpoint -> verify -> finish, without requiring an otherwise
+    // redundant second CLI preflight invocation.
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let contract = read_contract(&contract_path)?;
+    let git =
+        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+    let refreshed_snapshot = git.snapshot().map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
+    let decision = governance_decision_for_contract(&root, &contract, &refreshed_snapshot)?;
+    let decision_value = serde_json::to_value(&decision).map_err(|error| ObserverError::State {
+        path: contract_path.clone(),
+        message: error.to_string(),
+    })?;
+    let summary_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.summary.json"));
+    let mut summary: serde_json::Value = read_json(&summary_path)?;
+    summary["preflightState"] = decision_state_name(decision.state.clone()).into();
+    summary["preflightDecisionDigest"] = cockpit_protocol::digest_json(&decision_value)
+        .map_err(|error| ObserverError::State {
+            path: contract_path.clone(),
+            message: error.to_string(),
+        })?
+        .to_string()
+        .into();
+    summary["preflightRepositorySnapshotDigest"] =
+        snapshot_digest(&refreshed_snapshot)?.to_string().into();
+    summary["preflightContractDigest"] = contract_digest(&contract_path)?.to_string().into();
+    summary["preflightAt"] = now().into();
+    atomic_json(&summary_path, &summary)?;
     Ok(evidence)
 }
 
@@ -5582,6 +5891,22 @@ fn archive_work_item_internal(
     let archive = ai.join("work-items/archive");
     let contract_path = active.join(format!("{work_item_id}.contract.json"));
     let contract = read_contract(&contract_path)?;
+    let summary_path = active.join(format!("{work_item_id}.summary.json"));
+    let summary: serde_json::Value = read_json(&summary_path)?;
+    if summary["state"] != serde_json::json!("finish_ready") {
+        return Err(ObserverError::State {
+            path: summary_path.clone(),
+            message: "archive requires a finish_ready Work Item state".into(),
+        });
+    }
+    if summary["checkpointCount"] != serde_json::json!(1)
+        || summary["preflightState"] != serde_json::json!("green")
+    {
+        return Err(ObserverError::State {
+            path: summary_path,
+            message: "archive requires one checkpoint and a green preflight result".into(),
+        });
+    }
     let git =
         cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
             path: root.clone(),
@@ -5817,6 +6142,21 @@ fn close_work_item_with_structured_decision_internal(
         .join(".ai/work-items/archive")
         .join(format!("{work_item_id}.contract.json"));
     let contract = read_contract(&contract_path)?;
+    let summary_path = root
+        .join(".ai/work-items/archive")
+        .join(format!("{work_item_id}.summary.json"));
+    let summary: serde_json::Value = read_json(&summary_path)?;
+    if summary["state"] != serde_json::json!("finish_ready")
+        || summary["checkpointCount"] != serde_json::json!(1)
+        || summary["preflightState"] != serde_json::json!("green")
+    {
+        return Err(ObserverError::State {
+            path: summary_path,
+            message:
+                "close requires archived finish_ready state, one checkpoint, and green preflight"
+                    .into(),
+        });
+    }
     let git =
         cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
             path: root.clone(),

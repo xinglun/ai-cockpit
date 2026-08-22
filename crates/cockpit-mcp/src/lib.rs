@@ -165,17 +165,9 @@ fn preflight_for_repo(
         .and_then(Value::as_str)
         .ok_or("contract argument is required")?;
     let contract_path = repository_path(repo, contract_path)?;
-    let contract: cockpit_protocol::Contract =
-        serde_json::from_slice(&std::fs::read(contract_path).map_err(|error| error.to_string())?)
+    let decision =
+        cockpit_repository::preflight_work_item_with_runtime(repo, &contract_path, runtime)
             .map_err(|error| error.to_string())?;
-    cockpit_protocol::validate_protocol_version(contract.protocol_version)
-        .map_err(|error| error.to_string())?;
-    let git = cockpit_git::GitRepository::discover(repo).map_err(|error| error.to_string())?;
-    let snapshot = git.snapshot().map_err(|error| error.to_string())?;
-    let decision = cockpit_repository::governance_decision_for_contract_with_runtime(
-        repo, &contract, &snapshot, runtime,
-    )
-    .map_err(|error| error.to_string())?;
     serde_json::to_value(decision).map_err(|error| error.to_string())
 }
 

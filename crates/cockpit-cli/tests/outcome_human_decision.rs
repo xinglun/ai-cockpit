@@ -59,6 +59,15 @@ fn closed_work_item(binary: &str) -> tempfile::TempDir {
     );
     run(
         binary,
+        &[
+            "preflight",
+            "--contract",
+            ".ai/work-items/active/WI-OUTCOME-DECISION.contract.json",
+        ],
+        repo.path(),
+    );
+    run(
+        binary,
         &["checkpoint", "--id", "WI-OUTCOME-DECISION"],
         repo.path(),
     );

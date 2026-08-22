@@ -4,16 +4,16 @@ use cockpit_agent::AgentExitCode;
 use cockpit_git::GitRepository;
 use cockpit_knowledge::{Query, query};
 use cockpit_protocol::{
-    AgentProvider, Contract, DataClassification, DelegatedEvidence, EvidencePersistence,
-    EvidenceRetention, HumanDecision, RepositoryConfig, validate_protocol_version,
+    AgentProvider, DataClassification, DelegatedEvidence, EvidencePersistence, EvidenceRetention,
+    HumanDecision, RepositoryConfig, validate_protocol_version,
 };
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
     archive_work_item_with_runtime, attach, checkpoint_work_item,
     close_work_item_with_decision_and_runtime,
     close_work_item_with_structured_decision_and_runtime, finish_work_item_with_runtime,
-    generate_knowledge, run_repository_verification, scaffold_work_item,
-    start_work_item_with_options, status,
+    generate_knowledge, preflight_work_item_with_runtime, run_repository_verification,
+    scaffold_work_item, start_work_item_with_options, status,
 };
 use serde_json::json;
 use std::path::PathBuf;
@@ -437,20 +437,8 @@ fn run() -> Result<()> {
         }
         CommandKind::Preflight { repo, contract } => {
             require_compatible(&repo, &runtime_context)?;
-            let git = GitRepository::discover(&repo).context("discover repository")?;
-            let snapshot = git.snapshot().context("create repository snapshot")?;
-            let contract: Contract =
-                serde_json::from_slice(&std::fs::read(&contract).context("read contract")?)
-                    .context("parse contract")?;
-            cockpit_protocol::validate_protocol_version(contract.protocol_version)
-                .context("validate contract protocol")?;
-            let decision = cockpit_repository::governance_decision_for_contract_with_runtime(
-                &repo,
-                &contract,
-                &snapshot,
-                &runtime_context,
-            )
-            .context("evaluate governance decision")?;
+            let decision = preflight_work_item_with_runtime(&repo, &contract, &runtime_context)
+                .context("evaluate and record preflight decision")?;
             println!("{}", serde_json::to_string_pretty(&decision)?);
         }
         CommandKind::Observe { repo } => {

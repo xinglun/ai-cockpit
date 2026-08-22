@@ -60,11 +60,12 @@ Work Item 状态转换也是显式的：
 ```mermaid
 stateDiagram-v2
     [*] --> implementation_active
-    implementation_active --> checkpointed: checkpoint
-    checkpointed --> finish_ready: Work Item verification passed
+    implementation_active --> checkpointed: non-red preflight + 一次 checkpoint
+    checkpointed --> finish_ready: verification 通过 + preflight 刷新为 green
     finish_ready --> archived: archive
     archived --> closed: human decision
-    checkpointed --> implementation_active: 修复后继续
+    implementation_active --> implementation_active: preflight red/缺失（停止）
+    checkpointed --> checkpointed: verification 失败（修复后重试）
     finish_ready --> implementation_active: evidence 过期或失败
 ```
 

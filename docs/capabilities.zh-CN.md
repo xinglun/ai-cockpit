@@ -203,6 +203,12 @@ ai-cockpit preflight --repo /path/to/repository \
 Preflight 针对当前 snapshot 评估 contract。authority 缺失、contract 过期、超出 scope
 或事实矛盾都会停止流程。
 
+对于 active Work Item，`preflight` 还会把决策、Contract digest 和 snapshot digest 记录到 summary。
+如果只是因为下一步将收集的 verification evidence 尚未存在而得到 yellow，可以继续执行 checkpoint；red
+结果不能推进。验证完成后，Runtime 会针对最终 snapshot 刷新该记录；`finish` 要求刷新后的结果为 green，且
+必须恰好存在一个 checkpoint。checkpoint 是一次性的串行转换，重复或乱序命令都会 fail closed。检查失败时
+保留 active 记录，重新执行缺失步骤即可恢复。
+
 ### 运行受治理的 Work Item
 
 **可以这样理解：**“开始有界修改，记录进度，并只在 review 后关闭。”
@@ -220,8 +226,9 @@ ai-cockpit close --repo /path/to/repository --id WI-123 \
 
 预期状态依次为 `implementation_active`、`checkpointed`、`finish_ready`、`archived`、
 `closed`。`finish` 要求同一 Work Item、同一 repository snapshot 的 passed verification
-receipt；`close` 要求 archive manifest 和 human decision。检查失败时保留 Work Item，修复
-缺失 evidence，不要删除记录。
+receipt、已记录的 green preflight 决策以及恰好一个 checkpoint。即使 Contract 的
+`requiredEvidenceClasses` 没有列出 verification，`archive` 和 `close` 也会重新验证相同的串行状态与
+verification evidence。检查失败时保留 Work Item，修复缺失 evidence，不要删除记录。
 
 `finish`、`archive` 和 `close` 的 JSON 结果都会包含绑定的 `outcome` 对象。Agent 必须将该
 Outcome 作为独立的对话消息显式呈现；仅写入文件或被折叠的结果不能视为交付确认。

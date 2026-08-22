@@ -61,11 +61,12 @@ Work Item の state transition も明示されています。
 ```mermaid
 stateDiagram-v2
     [*] --> implementation_active
-    implementation_active --> checkpointed: checkpoint
-    checkpointed --> finish_ready: passed Work Item verification
+    implementation_active --> checkpointed: non-red preflight + 1 回の checkpoint
+    checkpointed --> finish_ready: verification passed + preflight refresh が green
     finish_ready --> archived: archive
     archived --> closed: human decision
-    checkpointed --> implementation_active: 修復して継続
+    implementation_active --> implementation_active: preflight が red/未実施（停止）
+    checkpointed --> checkpointed: verification failed（修復して再試行）
     finish_ready --> implementation_active: evidence が stale または failed
 ```
 

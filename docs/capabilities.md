@@ -223,6 +223,16 @@ ai-cockpit preflight --repo /path/to/repository \
 Preflight evaluates the current snapshot. Missing authority, stale contract,
 scope violation, or contradictory facts are stop conditions.
 
+For an active Work Item, `preflight` also records the decision, Contract digest,
+and snapshot digest in the summary. A yellow result (for example, missing
+verification evidence that the next step is expected to collect) may be
+checkpointed, but a red result cannot advance. Verification refreshes the
+recorded decision for the resulting snapshot; `finish` requires that refresh to
+be green and requires exactly one checkpoint. A checkpoint is a single serial
+transition: duplicate or out-of-order lifecycle commands fail closed. Failed
+checks preserve the active records so the Work Item can recover by rerunning the
+missing step.
+
 ### Run a governed Work Item
 
 **Ask:** “Start this bounded change, record progress, and close it only after review.”
@@ -240,9 +250,11 @@ ai-cockpit close --repo /path/to/repository --id WI-123 \
 
 The expected states are `implementation_active`, `checkpointed`, `finish_ready`,
 `archived`, and then `closed`. `finish` requires a passed verification receipt
-for the same Work Item and current repository snapshot. `close` requires the
-archive manifest and a human decision. If a check fails, preserve the Work Item
-and repair the missing evidence; do not delete its records.
+for the same Work Item and current repository snapshot, a green recorded
+preflight decision, and exactly one checkpoint. `archive` and `close` revalidate
+the same ordered state and verification evidence even when the Contract does
+not list verification in `requiredEvidenceClasses`. If a check fails, preserve
+the Work Item and repair the missing evidence; do not delete its records.
 
 `finish`, `archive`, and `close` each emit the bound `outcome` object in their
 JSON result. Agents must surface that Outcome as an explicit conversation

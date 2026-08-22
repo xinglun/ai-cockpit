@@ -1,0 +1,21 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "confirmed",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "codex",
+    "authoritySource": "repository-authorized",
+    "decidedAt": "2026-08-22T03:36:30Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-109-lifecycle-order.verification.json"
+    ],
+    "policyRefs": [
+      "docs/reference/configuration.md"
+    ],
+    "reason": "Lifecycle serial-order contract implemented and regression-tested.",
+    "resumeCondition": "Reopen only with a new Work Item if future lifecycle policy changes."
+  },
+  "timestamp": "2026-08-22T03:36:13Z",
+  "workItemId": "WI-109-lifecycle-order"
+}

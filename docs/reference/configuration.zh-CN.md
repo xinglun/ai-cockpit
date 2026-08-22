@@ -80,7 +80,12 @@ project 层可以增加要求，但不能弱化 organization 层。Work Item con
 
 - `<id>.contract.json`——intent、scope、authority、acceptance、required evidence、base revision、
   profile digest 和 repository snapshot digest；
-- `<id>.summary.json`——生命周期状态和 checkpoint 数量。
+- `<id>.summary.json`——生命周期状态、恰好一次的 checkpoint 记录，以及绑定 repository/Contract 的 preflight 决策
+  （`preflightState`、decision digest、snapshot digest 和时间）。
+
+生命周期采用 fail-closed 串行规则：Work Item 必须先记录非 red 的 preflight，再执行唯一一次 checkpoint；verification
+完成后会刷新该决策，`finish` 要求结果为 green。重复 checkpoint 或乱序执行 finish/archive/close 都会被拒绝。失败的转换
+会保留 active 记录，以便修复后恢复。
 
 `work-item new --repo <path> --id <id> --mode <mode>` 复用同一 contract writer，生成 `not_ready` 骨架。它只填充四个可确定
 推导事实（`repositoryId`、`baseRevision`、`projectProfileDigest`、`repositorySnapshotDigest`），intent、scope、acceptance criteria

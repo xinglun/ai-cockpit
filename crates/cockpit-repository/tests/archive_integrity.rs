@@ -5,10 +5,11 @@ use cockpit_protocol::{
     EvidenceValidity, HumanDecision, RuntimeContext,
 };
 use cockpit_repository::{
-    WorkItemStartOptions, archive_work_item, attach, close_work_item_with_decision,
-    close_work_item_with_structured_decision, evidence_purge_plan, evidence_state_for_contract,
-    export_audit_events, finish_work_item, governance_decision_for_contract,
-    import_delegated_evidence, record_verification, set_evidence_retention_policy, start_work_item,
+    WorkItemStartOptions, archive_work_item, attach, checkpoint_work_item,
+    close_work_item_with_decision, close_work_item_with_structured_decision, evidence_purge_plan,
+    evidence_state_for_contract, export_audit_events, finish_work_item,
+    governance_decision_for_contract, import_delegated_evidence, preflight_work_item,
+    record_verification, set_evidence_retention_policy, start_work_item,
     start_work_item_with_options,
 };
 use std::{
@@ -40,10 +41,20 @@ fn repository() -> std::path::PathBuf {
     path
 }
 
+fn prepare_for_verification(path: &std::path::Path, work_item_id: &str) {
+    let contract = path
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let decision = preflight_work_item(path, &contract).expect("preflight");
+    assert_ne!(decision.state, cockpit_core::DecisionState::Red);
+    checkpoint_work_item(path, work_item_id).expect("checkpoint");
+}
+
 #[test]
 fn close_rejects_tampered_archived_artifacts() {
     let path = repository();
     start_work_item(&path, "WI-INTEGRITY", "integrity", "verify", &["**".into()]).expect("start");
+    prepare_for_verification(&path, "WI-INTEGRITY");
     record_verification(
         &path,
         "WI-INTEGRITY",
@@ -76,6 +87,7 @@ fn archive_rejects_tampered_verification_even_without_declared_requirement() {
         &["**".into()],
     )
     .expect("start");
+    prepare_for_verification(&path, "WI-EVIDENCE-TAMPER");
     record_verification(
         &path,
         "WI-EVIDENCE-TAMPER",
@@ -110,6 +122,8 @@ fn verification_receipt_cannot_cross_work_items() {
     let path = repository();
     start_work_item(&path, "WI-A", "first", "verify", &["**".into()]).expect("start A");
     start_work_item(&path, "WI-B", "second", "verify", &["**".into()]).expect("start B");
+    prepare_for_verification(&path, "WI-A");
+    prepare_for_verification(&path, "WI-B");
     let error = record_verification(
         &path,
         "WI-B",
@@ -126,6 +140,7 @@ fn verification_receipt_cannot_cross_work_items() {
 fn close_persists_a_structured_human_decision_and_recovery_condition() {
     let path = repository();
     start_work_item(&path, "WI-DECISION", "decision", "verify", &["**".into()]).expect("start");
+    prepare_for_verification(&path, "WI-DECISION");
     record_verification(
         &path,
         "WI-DECISION",
@@ -204,6 +219,7 @@ fn organization_policy_requires_a_bound_structured_decision_at_close() {
         },
     )
     .expect("start");
+    prepare_for_verification(&path, "WI-POLICY");
     let raw = br#"{"run":999}"#;
     import_delegated_evidence(
         &path,
@@ -327,6 +343,7 @@ fn preflight_exposes_policy_authority_and_evidence_gaps() {
 fn digest_only_retention_never_persists_command_output() {
     let path = repository();
     start_work_item(&path, "WI-DIGEST", "digest", "verify", &["**".into()]).expect("start");
+    prepare_for_verification(&path, "WI-DIGEST");
     set_evidence_retention_policy(
         &path,
         "WI-DIGEST",
@@ -375,6 +392,7 @@ fn no_persistence_fails_closed_instead_of_claiming_completion() {
         &["**".into()],
     )
     .expect("start");
+    prepare_for_verification(&path, "WI-NOPERSIST");
     set_evidence_retention_policy(
         &path,
         "WI-NOPERSIST",
@@ -413,6 +431,7 @@ fn no_persistence_fails_closed_instead_of_claiming_completion() {
 fn purge_plan_is_deterministic_and_never_deletes_evidence() {
     let path = repository();
     start_work_item(&path, "WI-EXPIRE", "expiry", "verify", &["**".into()]).expect("start");
+    prepare_for_verification(&path, "WI-EXPIRE");
     set_evidence_retention_policy(
         &path,
         "WI-EXPIRE",
@@ -456,6 +475,7 @@ fn purge_plan_is_deterministic_and_never_deletes_evidence() {
 fn audit_export_is_deterministic_and_marks_external_retention_boundary() {
     let path = repository();
     start_work_item(&path, "WI-AUDIT", "audit", "export", &["**".into()]).expect("start");
+    prepare_for_verification(&path, "WI-AUDIT");
     record_verification(
         &path,
         "WI-AUDIT",

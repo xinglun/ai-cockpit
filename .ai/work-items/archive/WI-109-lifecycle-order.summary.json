@@ -1,0 +1,20 @@
+{
+  "changedPaths": [
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-repository/src/lib.rs"
+  ],
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T03:15:19Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-22T03:35:34Z",
+  "preflightContractDigest": "sha256:0412b939d9f29e5dda7b668bc6bc98b65a1c12e5a7b00506f7776134f8fd6f2b",
+  "preflightDecisionDigest": "sha256:1c57d299b5f3777f3321d377d4b1fcf5dc4fd879961a1bf0f0d02ad660182c57",
+  "preflightRepositorySnapshotDigest": "sha256:cb942542f8f6cc4b10d1a83efe525d128e52399b9a12edee2baee47b7b7f25c9",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T03:36:02Z",
+  "workItemId": "WI-109-lifecycle-order"
+}
