@@ -3741,7 +3741,11 @@ pub fn finish_work_item(
     root: &Path,
     work_item_id: &str,
 ) -> Result<LifecycleReceipt, ObserverError> {
-    finish_work_item_internal(root, work_item_id, None)
+    let result = finish_work_item_internal(root, work_item_id, None);
+    if let Err(error) = &result {
+        let _ = persist_blocked_lifecycle_outcome(root, work_item_id, error);
+    }
+    result
 }
 
 /// Finish a Work Item while requiring evidence produced by the current
@@ -3753,7 +3757,11 @@ pub fn finish_work_item_with_runtime(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<LifecycleReceipt, ObserverError> {
-    finish_work_item_internal(root, work_item_id, Some(runtime))
+    let result = finish_work_item_internal(root, work_item_id, Some(runtime));
+    if let Err(error) = &result {
+        let _ = persist_blocked_lifecycle_outcome(root, work_item_id, error);
+    }
+    result
 }
 
 fn finish_work_item_internal(
@@ -3896,6 +3904,8 @@ fn finish_work_item_internal(
         summary_text: "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
         unknowns: &["user_visible_benefit_not_declared".into()],
         evidence_ref: &evidence_ref,
+        failed_gate_override: None,
+        recovery_condition_override: None,
     });
     let (task_report_digest, task_report_markdown_digest) =
         write_task_outcome_artifacts(&root, work_item_id, &task_report)?;
@@ -3917,6 +3927,8 @@ fn finish_work_item_internal(
             evidence_refs: vec![format!(".ai/evidence/{work_item_id}.verification.json")],
         },
         task_outcome_report: Some(task_report.clone()),
+        failed_gate: None,
+        recovery_condition: None,
     };
     let mut outcome = serde_json::to_value(&outcome_v2).map_err(|error| ObserverError::State {
         path: active.join(format!("{work_item_id}.outcome.json")),
@@ -7681,6 +7693,147 @@ fn repository_relative_path(root: &Path, path: &Path) -> String {
         .replace('\\', "/")
 }
 
+/// Preserve a machine-readable recovery handoff when a lifecycle gate fails.
+/// The helper is deliberately best-effort: the original gate error remains
+/// authoritative, while any persisted projection is identity-bound and never
+/// changes the lifecycle state to a terminal success.
+fn persist_blocked_lifecycle_outcome(
+    root: &Path,
+    work_item_id: &str,
+    error: &ObserverError,
+) -> Result<(), ObserverError> {
+    if validate_work_item_id(work_item_id).is_err() {
+        return Ok(());
+    }
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let active = root.join(".ai/work-items/active");
+    let contract_path = active.join(format!("{work_item_id}.contract.json"));
+    if !is_regular_non_symlink(&contract_path)? {
+        return Ok(());
+    }
+    let contract = read_contract(&contract_path)?;
+    let summary_path = active.join(format!("{work_item_id}.summary.json"));
+    let mut summary = if is_regular_non_symlink(&summary_path)? {
+        Some(read_json(&summary_path)?)
+    } else {
+        None
+    };
+    let (failed_gate, recovery_condition) = lifecycle_failure_metadata(error);
+    let evidence_ref = format!(".ai/evidence/{work_item_id}.verification.json");
+    let snapshot = cockpit_git::GitRepository::discover(&root)
+        .ok()
+        .and_then(|git| git.snapshot().ok());
+    let snapshot_digest = snapshot
+        .as_ref()
+        .and_then(|value| snapshot_digest(value).ok());
+    let unknowns = vec!["lifecycle_gate_failed".to_string()];
+    let task_report = task_outcome_report(TaskOutcomeReportInput {
+        root: &root,
+        contract_path: &contract_path,
+        contract: &contract,
+        summary: summary.as_ref(),
+        snapshot_digest,
+        state: OutcomeState::Unknown,
+        decision_state: DecisionState::Red,
+        summary_text: "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+        unknowns: &unknowns,
+        evidence_ref: &evidence_ref,
+        failed_gate_override: Some(&failed_gate),
+        recovery_condition_override: Some(&recovery_condition),
+    });
+    append_task_outcome_recovery_event(
+        &root,
+        &contract,
+        &failed_gate,
+        &recovery_condition,
+        if root.join(&evidence_ref).is_file() {
+            vec![evidence_ref.clone()]
+        } else {
+            Vec::new()
+        },
+    )?;
+    let outcome_path = active.join(format!("{work_item_id}.outcome.json"));
+    if !fs::symlink_metadata(&outcome_path).is_ok_and(|metadata| metadata.file_type().is_symlink())
+    {
+        let outcome_v2 = OutcomeV2 {
+            schema_version: 2,
+            repository_id: contract.repository_id.clone(),
+            work_item_id: work_item_id.into(),
+            state: OutcomeState::Unknown,
+            decision_state: Some(DecisionState::Red),
+            summary: "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.".into(),
+            acceptance_results: contract.acceptance_criteria.clone(),
+            unknowns,
+            evidence_refs: if root.join(&evidence_ref).is_file() {
+                vec![evidence_ref.clone()]
+            } else {
+                Vec::new()
+            },
+            human_benefit_report: HumanBenefitReport {
+                state: OutcomeState::Unknown,
+                user_visible_changes: Vec::new(),
+                affected_users: Vec::new(),
+                unknowns: vec!["user_visible_benefit_not_declared".into()],
+                evidence_refs: Vec::new(),
+            },
+            task_outcome_report: Some(task_report),
+            failed_gate: Some(failed_gate.clone()),
+            recovery_condition: Some(recovery_condition.clone()),
+        };
+        let mut value =
+            serde_json::to_value(outcome_v2).map_err(|serialization| ObserverError::State {
+                path: outcome_path.clone(),
+                message: serialization.to_string(),
+            })?;
+        value["protocolVersion"] = serde_json::json!(1);
+        value["workItemId"] = serde_json::json!(work_item_id);
+        value["state"] = serde_json::json!("blocked");
+        value["verification"] = serde_json::json!({
+            "status": "blocked",
+            "required": true,
+            "evidencePath": evidence_ref,
+        });
+        atomic_json(&outcome_path, &value)?;
+    }
+    if let Some(summary) = summary.as_mut() {
+        summary["outcomeState"] = "blocked".into();
+        summary["failedGate"] = failed_gate.into();
+        summary["recoveryCondition"] = recovery_condition.into();
+        summary["updatedAt"] = now().into();
+        atomic_json(&summary_path, summary)?;
+    }
+    Ok(())
+}
+
+fn lifecycle_failure_metadata(error: &ObserverError) -> (String, String) {
+    let text = error.to_string().to_ascii_lowercase();
+    if text.contains("verification") {
+        (
+            "finish.verification".into(),
+            "Record valid current verification evidence, rerun preflight, and retry finish.".into(),
+        )
+    } else if text.contains("preflight") {
+        (
+            "finish.preflight".into(),
+            "Record a fresh non-red preflight result, then retry finish.".into(),
+        )
+    } else if text.contains("contract") || text.contains("governance") {
+        (
+            "finish.governance".into(),
+            "Repair the Contract or governance projection, rerun preflight, and retry finish."
+                .into(),
+        )
+    } else {
+        (
+            "finish.lifecycle".into(),
+            "Restore the required lifecycle state and retry finish after fresh checks.".into(),
+        )
+    }
+}
+
 struct TaskOutcomeReportInput<'a> {
     root: &'a Path,
     contract_path: &'a Path,
@@ -7692,6 +7845,8 @@ struct TaskOutcomeReportInput<'a> {
     summary_text: &'a str,
     unknowns: &'a [String],
     evidence_ref: &'a str,
+    failed_gate_override: Option<&'a str>,
+    recovery_condition_override: Option<&'a str>,
 }
 
 fn task_outcome_report(input: TaskOutcomeReportInput<'_>) -> TaskOutcomeReport {
@@ -7706,6 +7861,8 @@ fn task_outcome_report(input: TaskOutcomeReportInput<'_>) -> TaskOutcomeReport {
         summary_text,
         unknowns,
         evidence_ref,
+        failed_gate_override,
+        recovery_condition_override,
     } = input;
     let contract_ref = repository_relative_path(root, contract_path);
     let summary_ref = contract_path
@@ -7803,21 +7960,28 @@ fn task_outcome_report(input: TaskOutcomeReportInput<'_>) -> TaskOutcomeReport {
             &evidence_refs,
         ));
     }
-    let failed_gate = match decision_state {
-        DecisionState::Red => Some("evidence_or_identity_control".into()),
-        DecisionState::Yellow => Some("verification_or_human_input".into()),
-        DecisionState::Green => None,
-    };
-    let recovery_condition = match decision_state {
-        DecisionState::Red => {
-            Some("Repair the invalid evidence or identity binding, then rerun verification.".into())
+    let failed_gate = failed_gate_override
+        .map(str::to_owned)
+        .or_else(|| match decision_state {
+            DecisionState::Red => Some("evidence_or_identity_control".into()),
+            DecisionState::Yellow => Some("verification_or_human_input".into()),
+            DecisionState::Green => None,
+        });
+    let recovery_condition =
+        recovery_condition_override
+            .map(str::to_owned)
+            .or_else(|| {
+                match decision_state {
+            DecisionState::Red => Some(
+                "Repair the invalid evidence or identity binding, then rerun verification.".into(),
+            ),
+            DecisionState::Yellow => Some(
+                "Collect the missing evidence or human input, then rerun preflight/verification."
+                    .into(),
+            ),
+            DecisionState::Green => None,
         }
-        DecisionState::Yellow => Some(
-            "Collect the missing evidence or human input, then rerun preflight/verification."
-                .into(),
-        ),
-        DecisionState::Green => None,
-    };
+            });
 
     TaskOutcomeReport {
         format: "ai-cockpit.task-outcome".into(),
@@ -7855,6 +8019,60 @@ fn event_detail_is_safe(detail: &str) -> bool {
     ]
     .iter()
     .any(|marker| lower.contains(marker))
+}
+
+fn append_task_outcome_recovery_event(
+    root: &Path,
+    contract: &Contract,
+    failed_gate: &str,
+    recovery_condition: &str,
+    evidence_refs: Vec<String>,
+) -> Result<(), ObserverError> {
+    let path = task_outcome_event_path(root, &contract.work_item_id, false);
+    let mut events = if fs::symlink_metadata(&path).is_ok() {
+        validate_task_outcome_events(root, &path, &contract.repository_id, &contract.work_item_id)?
+    } else {
+        Vec::new()
+    };
+    let detail = format!("Lifecycle gate blocked: {failed_gate}. {recovery_condition}");
+    if events
+        .iter()
+        .any(|event| event.event_type == "blocked" && event.detail == detail)
+    {
+        return Ok(());
+    }
+    let timestamp = now();
+    let event_id = format!(
+        "{}-{}",
+        event_id("blocked", &detail, &timestamp),
+        events.len()
+    );
+    events.push(TaskOutcomeEvent {
+        schema_version: 1,
+        event_id,
+        repository_id: contract.repository_id.clone(),
+        work_item_id: contract.work_item_id.clone(),
+        event_type: "blocked".into(),
+        timestamp,
+        detail,
+        evidence_refs,
+        related_event_ids: events
+            .last()
+            .map(|event| vec![event.event_id.clone()])
+            .unwrap_or_default(),
+        correction_of: None,
+    });
+    let encoded = events
+        .iter()
+        .map(serde_json::to_string)
+        .collect::<Result<Vec<_>, _>>()
+        .map_err(|error| ObserverError::State {
+            path: path.clone(),
+            message: error.to_string(),
+        })?
+        .join("\n")
+        + "\n";
+    atomic_write(&path, encoded.as_bytes())
 }
 
 fn validate_task_outcome_events(
@@ -7905,6 +8123,10 @@ fn validate_task_outcome_events(
                 .correction_of
                 .as_ref()
                 .is_some_and(|id| !ids.contains(id))
+            || !matches!(
+                event.event_type.as_str(),
+                "blocked" | "completed" | "warning" | "stop" | "resolution" | "recovered"
+            )
         {
             return Err(ObserverError::State {
                 path: path.to_path_buf(),
@@ -7947,20 +8169,24 @@ fn append_task_outcome_events(
     report: &TaskOutcomeReport,
 ) -> Result<(), ObserverError> {
     let path = task_outcome_event_path(root, &contract.work_item_id, false);
-    if fs::symlink_metadata(&path).is_ok() {
-        let _ = validate_task_outcome_events(
+    let mut events = if fs::symlink_metadata(&path).is_ok() {
+        let existing = validate_task_outcome_events(
             root,
             &path,
             &contract.repository_id,
             &contract.work_item_id,
         )?;
-        return Err(ObserverError::State {
-            path,
-            message: "Task Outcome event stream already exists for this finish operation".into(),
-        });
-    }
+        if existing.iter().any(|event| event.event_type == "completed") {
+            return Err(ObserverError::State {
+                path,
+                message: "Task Outcome event stream already contains a completion event".into(),
+            });
+        }
+        existing
+    } else {
+        Vec::new()
+    };
     let timestamp = now();
-    let mut events = Vec::new();
     let mut append = |event_type: &str, detail: &str, evidence_refs: Vec<String>| {
         let id = format!(
             "{}-{}",
@@ -8227,6 +8453,44 @@ fn outcome_v2_internal(
             }
         }
     }
+    // A failed lifecycle gate is persisted as an active, repository-bound
+    // blocked projection.  Prefer that projection over recomputing the
+    // evidence-only view so a failed finish cannot be presented as merely
+    // "not ready" (or, worse, as verified after a later evidence change).
+    let persisted_failure = if !archived {
+        let path = active.join(format!("{work_item_id}.outcome.json"));
+        is_regular_non_symlink(&path)
+            .ok()
+            .filter(|valid| *valid)
+            .and_then(|_| read_json(&path).ok())
+            .and_then(|value| {
+                if value.get("state").and_then(serde_json::Value::as_str) != Some("blocked")
+                    || value.get("workItemId").and_then(serde_json::Value::as_str)
+                        != Some(work_item_id)
+                    || value
+                        .get("repositoryId")
+                        .and_then(serde_json::Value::as_str)
+                        != Some(contract.repository_id.as_str())
+                {
+                    return None;
+                }
+                let gate = value
+                    .get("failedGate")
+                    .and_then(serde_json::Value::as_str)?;
+                let recovery = value
+                    .get("recoveryCondition")
+                    .and_then(serde_json::Value::as_str)?;
+                Some((gate.to_owned(), recovery.to_owned()))
+            })
+    } else {
+        None
+    };
+    if persisted_failure.is_some() {
+        state = OutcomeState::Unknown;
+        decision_state = DecisionState::Red;
+        summary = "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.";
+        evidence_unknown = Some("lifecycle_gate_failed");
+    }
     let mut unknowns = vec!["user_visible_benefit_not_declared".into()];
     if let Some(code) = evidence_unknown {
         unknowns.push(code.into());
@@ -8260,7 +8524,13 @@ fn outcome_v2_internal(
         summary_text: summary,
         unknowns: &unknowns,
         evidence_ref: &evidence_ref,
+        failed_gate_override: persisted_failure.as_ref().map(|(gate, _)| gate.as_str()),
+        recovery_condition_override: persisted_failure
+            .as_ref()
+            .map(|(_, recovery)| recovery.as_str()),
     });
+    let failed_gate = task_report.failed_gate.clone();
+    let recovery_condition = task_report.recovery_condition.clone();
     Ok(OutcomeV2 {
         schema_version: 2,
         repository_id: contract.repository_id,
@@ -8273,6 +8543,8 @@ fn outcome_v2_internal(
         evidence_refs: vec![evidence_ref],
         human_benefit_report: report,
         task_outcome_report: Some(task_report),
+        failed_gate,
+        recovery_condition,
     })
 }
 

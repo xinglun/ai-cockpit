@@ -1663,6 +1663,13 @@ pub struct OutcomeV2 {
     pub human_benefit_report: HumanBenefitReport,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub task_outcome_report: Option<TaskOutcomeReport>,
+    /// Explicit lifecycle failure metadata. These fields are additive so
+    /// archived protocol-v1/v2 records remain readable; they never imply
+    /// that a failed gate was repaired or that completion is authorized.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub failed_gate: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub recovery_condition: Option<String>,
 }
 
 /// A read-only, evidence-bound Work Item status projection.  Counts are

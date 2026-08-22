@@ -76,6 +76,12 @@ Agent 需要向人展示结果时，必须使用明确 `workItemId` 调用 repos
 带 `inference: true`。当必需控制为 yellow 或 red 时，报告包含 `failedGate` 和
 `recoveryCondition`。
 
+当 `finish` 被阻止时，active Work Item 会保留 checkpointed 生命周期状态，并写入
+一个 active 的 `state: "blocked"` Outcome 投影。该投影绑定当前 repository 与 Work Item，
+使用 `decisionState: "red"`，并明确失败 gate 与确定性的恢复条件。之后的有效重试只追加
+完成事件，不改写之前的 blocked 事件。格式错误、外部身份、符号链接或未知类型的事件都会
+fail closed。
+
 `finish` 会在 active outcome 旁写入 `<id>.events.jsonl`。事件流追加写入，并拒绝
 malformed、foreign、疑似 secret 或关系无效的事件。`archive` 逐字节移动并绑定
 `eventsDigest`；`close` 校验后在 close receipt 中记录 `finalReport` 与

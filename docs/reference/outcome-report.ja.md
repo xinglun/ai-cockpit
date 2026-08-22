@@ -81,6 +81,12 @@ Agent が人間に結果を示す場合、明示的な `workItemId` を指定し
 repository-local evidence reference がない claim には `inference: true` が必要です。
 必須の control が yellow または red の場合は `failedGate` と `recoveryCondition` を含めます。
 
+`finish` がブロックされた場合、active Work Item は checkpointed の lifecycle state を保持し、
+active な `state: "blocked"` Outcome projection が記録されます。この projection は現在の
+repository と Work Item に bind され、`decisionState: "red"` と失敗した gate、決定的な復旧条件を
+示します。その後の有効な retry は completion event を追加するだけで、先行する blocked event を
+書き換えません。不正形式、外部 identity、symlink、未知の event type は fail closed になります。
+
 `finish` は active outcome と同じ場所に `<id>.events.jsonl` を書きます。event stream は
 append-only で、malformed、foreign、secret らしい内容、関係不正の event を拒否します。
 `archive` は byte-for-byte で移動し `eventsDigest` を束縛し、`close` は検証後に close

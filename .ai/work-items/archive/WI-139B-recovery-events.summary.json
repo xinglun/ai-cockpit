@@ -1,0 +1,94 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "failed_finish_persists_blocked_outcome_and_recovery_event_without_terminal_state",
+          "path": "crates/cockpit-repository/tests/recovery_events.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-repository --test recovery_events"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "malformed_recovery_event_is_rejected_before_archive_success",
+          "path": "crates/cockpit-repository/tests/recovery_events.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-repository --test recovery_events"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "valid_finish_appends_completion_after_blocked_event_without_rewriting_history",
+          "path": "crates/cockpit-repository/tests/recovery_events.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-repository --test recovery_events"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "foreign_blocked_outcome_is_not_projected_as_a_current_failure",
+          "path": "crates/cockpit-repository/tests/recovery_events.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-repository --test recovery_events"
+        },
+        {
+          "locator": "symlinked_blocked_outcome_is_not_trusted",
+          "path": "crates/cockpit-repository/tests/recovery_events.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-repository --test recovery_events"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "mcp_blocked_outcome_exposes_the_same_recovery_facts_as_cli",
+          "path": "crates/cockpit-mcp/tests/rpc.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-mcp --test rpc"
+        },
+        {
+          "locator": "blocked_outcome_handoff_contains_recovery_facts_in_all_languages",
+          "path": "crates/cockpit-repository/tests/recovery_events.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-repository --test recovery_events"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [],
+  "checkpointAt": "2026-08-22T15:37:57Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T15:37:49Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lib.rs",
+      "crates/cockpit-repository/src/outcome_render.rs",
+      "crates/cockpit-mcp/tests/rpc.rs"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-08-22T15:53:17Z",
+  "preflightContractDigest": "sha256:03f05e2cf8ca01e7322a195111a1636b6ca283a35518d1130095c9d44e678751",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:818c25dea0976ac07d78b9e304a4790fe9c22488c83bdf9db0014baf48d86e2a",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T15:53:20Z",
+  "workItemId": "WI-139B-recovery-events"
+}

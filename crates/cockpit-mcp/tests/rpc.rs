@@ -279,6 +279,82 @@ fn mcp_work_item_outcome_returns_explicit_human_handoff_with_cli_parity() {
 }
 
 #[test]
+fn mcp_blocked_outcome_exposes_the_same_recovery_facts_as_cli() {
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-mcp-blocked-outcome-{}",
+        NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed)
+    ));
+    fs::create_dir_all(&directory).expect("directory");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(&directory)
+        .status()
+        .expect("git init");
+    cockpit_repository::attach(&directory).expect("attach");
+    cockpit_repository::start_work_item_with_options(
+        &directory,
+        "WI-MCP-BLOCKED",
+        "exercise blocked outcome",
+        "expose recovery facts through MCP",
+        &["crates/**".into()],
+        &cockpit_repository::WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["blocked outcome is recoverable".into()],
+            required_evidence_classes: vec!["verification".into()],
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    let contract = directory.join(".ai/work-items/active/WI-MCP-BLOCKED.contract.json");
+    cockpit_repository::preflight_work_item(&directory, &contract).expect("preflight");
+    cockpit_repository::checkpoint_work_item(&directory, "WI-MCP-BLOCKED").expect("checkpoint");
+    cockpit_repository::record_work_item_governance_controls(
+        &directory,
+        "WI-MCP-BLOCKED",
+        &serde_json::json!({
+            "intentAlignment": {
+                "state": "resolved",
+                "evidence": ["crates/cockpit-mcp/tests/rpc.rs"]
+            }
+        }),
+    )
+    .expect("intent alignment");
+    cockpit_repository::finish_work_item(&directory, "WI-MCP-BLOCKED")
+        .expect_err("missing verification must block");
+
+    let cli_outcome = cockpit_repository::outcome_v2(&directory, "WI-MCP-BLOCKED")
+        .expect("CLI outcome projection");
+    assert_eq!(
+        cli_outcome.failed_gate.as_deref(),
+        Some("finish.verification")
+    );
+    let response = handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0",
+            "id":12,
+            "method":"tools/call",
+            "params":{"name":"work_item_outcome","arguments":{"workItemId":"WI-MCP-BLOCKED","language":"zh-CN"}}
+        }),
+        &directory,
+        &test_runtime_context(),
+    );
+    assert_eq!(response["result"]["isError"], false);
+    let structured = &response["result"]["structuredContent"];
+    assert_eq!(structured["outcome"]["failedGate"], "finish.verification");
+    assert_eq!(
+        structured["outcome"]["recoveryCondition"].as_str(),
+        cli_outcome.recovery_condition.as_deref()
+    );
+    assert!(
+        structured["humanHandoff"]
+            .as_str()
+            .unwrap()
+            .starts_with("Outcome: 🔴")
+    );
+    fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[test]
 fn delegated_evidence_list_exposes_only_repository_bound_receipts() {
     let directory = std::env::temp_dir().join(format!(
         "cockpit-mcp-delegated-{}",
