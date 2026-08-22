@@ -1,13 +1,13 @@
 {
   "captureMode": "full_capture",
-  "createdAt": "2026-08-22T00:26:48Z",
+  "createdAt": "2026-08-22T00:41:12Z",
   "passed": true,
   "protocolVersion": 1,
   "receipt": {
-    "elapsedMs": 346,
-    "executionElapsedMs": 258,
-    "filesHashed": 23,
-    "filesRead": 23,
+    "elapsedMs": 396,
+    "executionElapsedMs": 320,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "nodesExecuted": 1,
     "nodesPlanned": 1,
@@ -37,12 +37,12 @@
         "timedOut": false
       }
     ],
-    "runtimeDigest": "sha256:ffd7a0db5a7caeac85bb3e83879c22f35b5dad0a77f416074b89cf0cd84d4834",
-    "runtimeVersion": "0.2.3"
+    "runtimeDigest": "sha256:dda4dd396ce786556d7c2d9416b013228ed3e90e4f46d6879aa848225e7775cb",
+    "runtimeVersion": "0.2.4"
   },
-  "receiptDigest": "sha256:f22504104f4f47f66b1fc8a35d85e0612d5fb21e9d3b77daec73bd17e4452d46",
-  "repositorySnapshotDigest": "sha256:f25b0d0d75be05feb95aac216189af62606309fc237963bd40c6854709645526",
-  "runtimeDigest": "sha256:ffd7a0db5a7caeac85bb3e83879c22f35b5dad0a77f416074b89cf0cd84d4834",
-  "runtimeVersion": "0.2.3",
+  "receiptDigest": "sha256:ea51a69c901dcffd638768444bc75f093a99652f23fdc630fb5c65be7b1e48d4",
+  "repositorySnapshotDigest": "sha256:9f44b5d07231b187eae679b94b1a081076e10ae3e4cca68f61f0e3eb155c6f97",
+  "runtimeDigest": "sha256:dda4dd396ce786556d7c2d9416b013228ed3e90e4f46d6879aa848225e7775cb",
+  "runtimeVersion": "0.2.4",
   "workItemId": "WI-94-release-v0-2-4"
 }

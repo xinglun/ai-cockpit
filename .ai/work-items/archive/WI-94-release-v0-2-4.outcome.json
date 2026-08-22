@@ -1,0 +1,40 @@
+{
+  "acceptanceResults": [
+    "workspace and all local package versions are 0.2.4 and Cargo.lock is synchronized",
+    "all three language installation and architecture release guides identify v0.2.4 while preserving explicit historical N-1 references",
+    "source quality, version consistency, release policy, cross-platform build/smoke, attestation, and publication gates pass",
+    "public v0.2.4 adopter acceptance and N-1 upgrade acceptance pass using only immutable public assets",
+    "the public v0.2.4 binary is installed into this repository and verifies compatibility, Agent doctor, and work-item scaffold recovery",
+    "runtime identity, release tag, adopter repository identity, isolation, and lifecycle evidence are archived"
+  ],
+  "createdAt": "2026-08-22T00:42:41Z",
+  "evidenceDigest": "sha256:52ad306cf075e1b45fd68983fa0882b8a876720ee8da739c7ce418c809febe02",
+  "evidenceRefs": [
+    ".ai/evidence/WI-94-release-v0-2-4.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-94-release-v0-2-4.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-94-release-v0-2-4.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-94-release-v0-2-4"
+}

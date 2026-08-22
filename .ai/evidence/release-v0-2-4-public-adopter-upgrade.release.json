@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "release-upgrade",
+  "releasePublished": true,
+  "fromTag": "v0.2.3",
+  "toTag": "v0.2.4",
+  "target": "aarch64-apple-darwin",
+  "workflowRun": "https://github.com/xinglun/ai-cockpit/actions/runs/32540526900",
+  "fromRuntime": {
+    "version": "0.2.3",
+    "binaryDigest": "sha256:ffd7a0db5a7caeac85bb3e83879c22f35b5dad0a77f416074b89cf0cd84d4834"
+  },
+  "toRuntime": {
+    "version": "0.2.4",
+    "binaryDigest": "sha256:dda4dd396ce786556d7c2d9416b013228ed3e90e4f46d6879aa848225e7775cb",
+    "archiveDigest": "sha256:f9a5350a69c330916f71a7421995e2105c5e1edf608584b45d4f8aa4acef4df0"
+  },
+  "adopter": {
+    "repositoryId": "sha256:6b0a16850a4b21a53880f546e591434deb0ec009662146b07fbe8ac5cde95185",
+    "historicalEvidencePreserved": true,
+    "continuedOperation": true,
+    "isolation": true,
+    "scaffoldRecovery": true
+  },
+  "acceptanceArtifact": {
+    "result": "passed",
+    "acceptanceJsonSha256": "sha256:12fdaeaf0dfbadc188b7e0385f8447603cbb7ad40177fae01005ac97af9d8fab",
+    "sha256SumsSha256": "sha256:7dff1137085e3522022da30e616484c939c20955f4139d6986fa7d240dbb95fe"
+  },
+  "acceptance": "passed"
+}
