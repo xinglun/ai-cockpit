@@ -91,6 +91,7 @@ verification record です。
 | WI-145 — CI Runtime verification shadow | Implemented | [Work Item](../work-items/WI-145-ci-runtime-shadow.ja.md); `.ai/evidence/WI-145-ci-runtime-shadow.verification.json`; `.ai/decisions/WI-145-ci-runtime-shadow.close.json` |
 | WI-146 — Verification コスト観測 | Implemented | [Work Item](../work-items/WI-146-verification-cost-observation.ja.md); [参考文書](verification-cost.ja.md); `.ai/evidence/WI-146-verification-cost-observation.verification.json`; `.ai/decisions/WI-146-verification-cost-observation.close.json` |
 | WI-148 — Archive 済み Outcome の path projection | Implemented | [Work Item](../work-items/WI-148-outcome-archive-path.ja.md); [参考文書](outcome-report.ja.md); `.ai/evidence/WI-148-outcome-archive-path.verification.json`; `.ai/decisions/WI-148-outcome-archive-path.close.json` |
+| WI-149 — 構造化された Release adopter decision | Implemented | [Work Item](../work-items/WI-149-release-decision-acceptance.ja.md); [Release distribution](../release/distribution.ja.md); `.ai/evidence/WI-149-release-decision-acceptance.verification.json`; `.ai/decisions/WI-149-release-decision-acceptance.close.json` |
 
 ## 現在の境界
 

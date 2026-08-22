@@ -136,6 +136,12 @@ cleanup_state=not_started
 cleanup_removed=false
 cleanup_validated=false
 cleanup_reason=''
+adopter_repository_id=''
+close_decision_work_item=''
+close_decision_repository_id=''
+close_decision_digest=''
+close_decision_path=''
+close_decision_validated=false
 if rustup_home="$(printenv RUSTUP_HOME)"; then :; fi
 if [[ -z "$rustup_home" ]] && command -v rustup >/dev/null 2>&1; then
   if rustup_home="$(rustup show home 2>/dev/null)"; then :; fi
@@ -244,6 +250,49 @@ write_cleanup_receipt() {
     > "$output/cleanup.json"
 }
 
+validate_close_decision() {
+  local work_item_id="$1"
+  local decision_path="$adopter_root/.ai/decisions/$work_item_id.close.json"
+  local artifact_path="$output/work-items/$work_item_id.close.json"
+  local binding_path="$output/work-items/$work_item_id.close.binding.json"
+
+  mkdir -p "$output/work-items"
+  [[ "$adopter_repository_id" =~ ^sha256:[0-9a-f]{64}$ ]] || die 'adopter repository identity is missing or malformed for close decision binding'
+  [[ -f "$decision_path" && ! -L "$decision_path" ]] || die "missing or symlinked close decision: $decision_path"
+  jq -e \
+    --arg workItemId "$work_item_id" \
+    '(
+      .workItemId == $workItemId
+      and .state == "closed"
+      and .decisionState == "confirmed"
+      and .humanDecision == "approved"
+      and (.structuredDecision | type == "object")
+      and (.structuredDecision.decision == "approved")
+      and (.structuredDecision.actor | type == "string" and length > 0)
+      and (.structuredDecision.authoritySource | type == "string" and length > 0)
+      and (.structuredDecision.reason | type == "string" and length > 0)
+      and (.structuredDecision.decidedAt | type == "string" and length > 0)
+      and (.structuredDecision.resumeCondition | type == "string" and length > 0)
+      and (.structuredDecision.evidenceRefs | type == "array" and length > 0)
+      and (.structuredDecision.policyRefs | type == "array" and length > 0)
+    )' "$decision_path" >/dev/null || die "close decision is incomplete for Work Item $work_item_id"
+
+  cp "$decision_path" "$artifact_path"
+  close_decision_work_item="$work_item_id"
+  close_decision_repository_id="$adopter_repository_id"
+  close_decision_digest="sha256:$(sha256_file "$decision_path")"
+  close_decision_path="work-items/$work_item_id.close.json"
+  close_decision_validated=true
+  jq -n \
+    --arg workItemId "$work_item_id" \
+    --arg repositoryId "$adopter_repository_id" \
+    --arg decisionPath ".ai/decisions/$work_item_id.close.json" \
+    --arg artifactPath "$close_decision_path" \
+    --arg decisionDigest "$close_decision_digest" \
+    '{schemaVersion:1,validated:true,workItemId:$workItemId,repositoryId:$repositoryId,decisionPath:$decisionPath,artifactPath:$artifactPath,decisionDigest:$decisionDigest}' \
+    > "$binding_path"
+}
+
 update_acceptance_cleanup() {
   local updated="$output/.acceptance.json.cleanup.tmp"
   if jq \
@@ -289,6 +338,11 @@ finalize() {
     --arg rustToolchain "$rustup_toolchain" \
     --arg repositoryId "$repository_id" \
     --arg sourceRepositoryId "$source_repository_id" \
+    --arg closeDecisionWorkItem "$close_decision_work_item" \
+    --arg closeDecisionRepositoryId "$close_decision_repository_id" \
+    --arg closeDecisionDigest "$close_decision_digest" \
+    --arg closeDecisionPath "$close_decision_path" \
+    --argjson closeDecisionValidated "$close_decision_validated" \
     --arg failureReason "$failure_reason" \
     --argjson steps "$steps" \
     '{
@@ -305,6 +359,13 @@ finalize() {
       runtimeDigest: (if $runtimeDigest == "" then null else $runtimeDigest end),
       repositoryId: (if $repositoryId == "" then null else $repositoryId end),
       sourceRepositoryId: (if $sourceRepositoryId == "" then null else $sourceRepositoryId end),
+      closeDecision: {
+        validated: $closeDecisionValidated,
+        workItemId: (if $closeDecisionWorkItem == "" then null else $closeDecisionWorkItem end),
+        repositoryId: (if $closeDecisionRepositoryId == "" then null else $closeDecisionRepositoryId end),
+        artifactPath: (if $closeDecisionPath == "" then null else $closeDecisionPath end),
+        digest: (if $closeDecisionDigest == "" then null else $closeDecisionDigest end)
+      },
       cleanupState: "pending",
       cleanupError: null,
       steps: $steps,
@@ -462,6 +523,8 @@ capture_runtime agent-list.json agent list --repo "$adopter_root"
 capture_runtime agent-install.json agent install --repo "$adopter_root" --provider auto
 capture_runtime agent-doctor.json agent doctor --repo "$adopter_root" --json
 jq -e '.state == "VERIFIED" and .repositoryId != null and (.problems | length == 0)' "$output/agent-doctor.json" >/dev/null || die 'Agent doctor did not verify the fresh adopter'
+adopter_repository_id="$(jq -er '.repositoryId' "$output/agent-doctor.json")"
+repository_id="$adopter_repository_id"
 mark_passed agent-doctor-assertion
 
 capture_runtime first-adopter-smoke.json work-item new --repo "$adopter_root" --id first-adopter-smoke --mode code
@@ -500,7 +563,16 @@ jq -e --arg version "$runtime_version" --arg digest "$runtime_digest" '.runtimeV
 mark_passed lifecycle-runtime-identity
 capture_runtime lifecycle-finish.json finish --repo "$adopter_root" --id "$lifecycle_id"
 capture_runtime lifecycle-archive.json archive --repo "$adopter_root" --id "$lifecycle_id"
-capture_runtime lifecycle-close.json close --repo "$adopter_root" --id "$lifecycle_id" --human-decision approved
+capture_runtime lifecycle-close.json close --repo "$adopter_root" --id "$lifecycle_id" \
+  --human-decision approved \
+  --actor human:release-acceptance \
+  --authority-source release-adopter-acceptance \
+  --reason 'Confirm the published Runtime adopter lifecycle after the pinned Release evidence passed.' \
+  --evidence-ref ".ai/evidence/$lifecycle_id.verification.json" \
+  --policy-ref "release-adopter-acceptance:$tag" \
+  --decided-at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+  --resume-condition none
+validate_close_decision "$lifecycle_id"
 for lifecycle_file in \
   "$adopter_root/.ai/work-items/archive/$lifecycle_id.contract.json" \
   "$adopter_root/.ai/work-items/archive/$lifecycle_id.outcome.json" \

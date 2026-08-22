@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:5fdbc456c931ba6a99aa5f4970d8fc311fd89a3932cfb0d336822664f813e4e6",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "Confirm the bounded release acceptance review after binding the public adopter receipt as delegated release_acceptance evidence.",
+  "recordedAt": "2026-08-22T22:10:30Z",
+  "recordedBy": "human:maintainer",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b16394ca2c318b54e9dc550bdd22f7668ea5f091fce2581ae9548ec944ecfc2b",
+  "schemaVersion": 1,
+  "workItemId": "WI-149-release-decision-acceptance"
+}

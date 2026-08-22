@@ -85,6 +85,49 @@ write_cleanup_receipt() {
     > "$output/cleanup.json"
 }
 
+validate_close_decision() {
+  local work_item_id="$1"
+  local decision_path="$adopter/.ai/decisions/$work_item_id.close.json"
+  local artifact_path="$output/work-items/$work_item_id.close.json"
+  local binding_path="$output/work-items/$work_item_id.close.binding.json"
+
+  mkdir -p "$output/work-items"
+  [[ "$adopter_repository_id" =~ ^sha256:[0-9a-f]{64}$ ]] || die 'adopter repository identity is missing or malformed for close decision binding'
+  [[ -f "$decision_path" && ! -L "$decision_path" ]] || die "missing or symlinked close decision: $decision_path"
+  jq -e \
+    --arg workItemId "$work_item_id" \
+    '(
+      .workItemId == $workItemId
+      and .state == "closed"
+      and .decisionState == "confirmed"
+      and .humanDecision == "approved"
+      and (.structuredDecision | type == "object")
+      and (.structuredDecision.decision == "approved")
+      and (.structuredDecision.actor | type == "string" and length > 0)
+      and (.structuredDecision.authoritySource | type == "string" and length > 0)
+      and (.structuredDecision.reason | type == "string" and length > 0)
+      and (.structuredDecision.decidedAt | type == "string" and length > 0)
+      and (.structuredDecision.resumeCondition | type == "string" and length > 0)
+      and (.structuredDecision.evidenceRefs | type == "array" and length > 0)
+      and (.structuredDecision.policyRefs | type == "array" and length > 0)
+    )' "$decision_path" >/dev/null || die "close decision is incomplete for Work Item $work_item_id"
+
+  cp "$decision_path" "$artifact_path"
+  close_decision_work_item="$work_item_id"
+  close_decision_repository_id="$adopter_repository_id"
+  close_decision_digest="sha256:$(sha256_file "$decision_path")"
+  close_decision_path="work-items/$work_item_id.close.json"
+  close_decision_validated=true
+  jq -n \
+    --arg workItemId "$work_item_id" \
+    --arg repositoryId "$adopter_repository_id" \
+    --arg decisionPath ".ai/decisions/$work_item_id.close.json" \
+    --arg artifactPath "$close_decision_path" \
+    --arg decisionDigest "$close_decision_digest" \
+    '{schemaVersion:1,validated:true,workItemId:$workItemId,repositoryId:$repositoryId,decisionPath:$decisionPath,artifactPath:$artifactPath,decisionDigest:$decisionDigest}' \
+    > "$binding_path"
+}
+
 update_acceptance_cleanup() {
   local updated="$output/.acceptance.json.cleanup.tmp"
   if jq \
@@ -144,6 +187,12 @@ steps="$run_root/steps.jsonl"; : > "$steps"
 started_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"; failure_reason=''; release_published=false
 from_bin='' to_bin='' from_version='' to_version='' from_digest='' to_digest='' repository_id=''
 cleanup_state=not_started cleanup_removed=false cleanup_validated=false cleanup_reason=''
+adopter_repository_id=''
+close_decision_work_item=''
+close_decision_repository_id=''
+close_decision_digest=''
+close_decision_path=''
+close_decision_validated=false
 rustup_home=''
 rustup_toolchain=''
 
@@ -169,8 +218,13 @@ finish() {
     --arg fromTag "$from_tag" --arg toTag "$to_tag" --arg target "$target" \
     --arg fromVersion "$from_version" --arg toVersion "$to_version" --arg fromDigest "$from_digest" \
     --arg toDigest "$to_digest" --arg repositoryId "$repository_id" --arg rustToolchain "$rustup_toolchain" --arg reason "$failure_reason" \
+    --arg closeDecisionWorkItem "$close_decision_work_item" \
+    --arg closeDecisionRepositoryId "$close_decision_repository_id" \
+    --arg closeDecisionDigest "$close_decision_digest" \
+    --arg closeDecisionPath "$close_decision_path" \
+    --argjson closeDecisionValidated "$close_decision_validated" \
     --argjson steps "$step_json" \
-    '{schemaVersion:1,startedAt:$startedAt,finishedAt:$finishedAt,releasePublished:($published=="true"),adopterAcceptance:$state,repository:$repository,fromTag:$fromTag,toTag:$toTag,target:$target,rustToolchain:(if $rustToolchain=="" then null else $rustToolchain end),fromRuntimeVersion:(if $fromVersion=="" then null else $fromVersion end),toRuntimeVersion:(if $toVersion=="" then null else $toVersion end),fromRuntimeDigest:(if $fromDigest=="" then null else $fromDigest end),toRuntimeDigest:(if $toDigest=="" then null else $toDigest end),repositoryId:(if $repositoryId=="" then null else $repositoryId end),cleanupState:"pending",cleanupError:null,steps:$steps,failureReason:(if $reason=="" then null else $reason end)}' > "$output/acceptance.json"
+    '{schemaVersion:1,startedAt:$startedAt,finishedAt:$finishedAt,releasePublished:($published=="true"),adopterAcceptance:$state,repository:$repository,fromTag:$fromTag,toTag:$toTag,target:$target,rustToolchain:(if $rustToolchain=="" then null else $rustToolchain end),fromRuntimeVersion:(if $fromVersion=="" then null else $fromVersion end),toRuntimeVersion:(if $toVersion=="" then null else $toVersion end),fromRuntimeDigest:(if $fromDigest=="" then null else $fromDigest end),toRuntimeDigest:(if $toDigest=="" then null else $toDigest end),repositoryId:(if $repositoryId=="" then null else $repositoryId end),closeDecision:{validated:$closeDecisionValidated,workItemId:(if $closeDecisionWorkItem=="" then null else $closeDecisionWorkItem end),repositoryId:(if $closeDecisionRepositoryId=="" then null else $closeDecisionRepositoryId end),artifactPath:(if $closeDecisionPath=="" then null else $closeDecisionPath end),digest:(if $closeDecisionDigest=="" then null else $closeDecisionDigest end)},cleanupState:"pending",cleanupError:null,steps:$steps,failureReason:(if $reason=="" then null else $reason end)}' > "$output/acceptance.json"
   write_sums
   cleanup_run_root
   cleanup_result=$?
@@ -283,6 +337,8 @@ run "$from_bin" from-profile.json profile confirm --repo "$adopter" --program ca
 run "$from_bin" from-agent-install.json agent install --repo "$adopter" --provider auto
 run "$from_bin" from-agent-doctor.json agent doctor --repo "$adopter" --json
 jq -e '.state=="VERIFIED" and (.problems|length==0)' "$output/from-agent-doctor.json" >/dev/null || die 'old Agent doctor did not verify'
+adopter_repository_id="$(jq -er '.repositoryId' "$output/from-agent-doctor.json")"
+repository_id="$adopter_repository_id"
 # Older public Runtimes may create protocol directories lazily.  Preparing the
 # repository-owned evidence directory is fixture scaffolding, not a Runtime
 # fallback or a source checkout; it lets the old binary record its first
@@ -321,7 +377,16 @@ else
 fi
 run "$from_bin" old-finish.json finish --repo "$adopter" --id "$work_item"
 run "$from_bin" old-archive.json archive --repo "$adopter" --id "$work_item"
-run "$from_bin" old-close.json close --repo "$adopter" --id "$work_item" --human-decision approved
+run "$from_bin" old-close.json close --repo "$adopter" --id "$work_item" \
+  --human-decision approved \
+  --actor human:release-acceptance \
+  --authority-source release-adopter-upgrade-acceptance \
+  --reason 'Confirm the N-1 Runtime lifecycle and preserved history after public Release evidence passed.' \
+  --evidence-ref ".ai/evidence/$work_item.verification.json" \
+  --policy-ref "release-adopter-upgrade-acceptance:$from_tag" \
+  --decided-at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+  --resume-condition none
+validate_close_decision "$work_item"
 pass old-lifecycle-closed
 find "$adopter/.ai/evidence" -type f -print | LC_ALL=C sort | while IFS= read -r path; do printf '%s  %s\n' "$(sha256_file "$path")" "$(printf '%s' "$path" | sed "s#^$adopter/##")"; done > "$run_root/evidence-before"
 cp "$run_root/evidence-before" "$output/evidence-before.sha256"; pass historical-evidence-captured
@@ -368,7 +433,16 @@ new_evidence="$adopter/.ai/evidence/$new_work_item.verification.json"
 jq -e --arg version "$to_version" --arg digest "$to_digest" '.runtimeVersion==$version and .runtimeDigest==$digest and .passed==true' "$new_evidence" >/dev/null || die 'new verification evidence lacks Runtime identity'
 run "$to_bin" new-finish.json finish --repo "$adopter" --id "$new_work_item"
 run "$to_bin" new-archive.json archive --repo "$adopter" --id "$new_work_item"
-run "$to_bin" new-close.json close --repo "$adopter" --id "$new_work_item" --human-decision approved
+run "$to_bin" new-close.json close --repo "$adopter" --id "$new_work_item" \
+  --human-decision approved \
+  --actor human:release-acceptance \
+  --authority-source release-adopter-upgrade-acceptance \
+  --reason 'Confirm continued governed operation after approved migration and public Release evidence passed.' \
+  --evidence-ref ".ai/evidence/$new_work_item.verification.json" \
+  --policy-ref "release-adopter-upgrade-acceptance:$to_tag" \
+  --decided-at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+  --resume-condition none
+validate_close_decision "$new_work_item"
 pass continued-operation
 
 source_after_status="$(git -C "$source_repo" status --porcelain=v1)"

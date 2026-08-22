@@ -1,0 +1,80 @@
+{
+  "acceptanceCriteria": [
+    "Both harnesses pass complete structured close fields; acceptance artifacts retain validated close decision receipts; static wrappers fail closed when structured decision handling is removed; tri-language release documentation records the boundary; no source-build fallback or isolation boundary changes."
+  ],
+  "authority": "authorized",
+  "baseRevision": "31bd8003fbcd429c65281aa3fb45d7d1b849ce95",
+  "createdAt": "2026-08-22T21:52:35Z",
+  "goal": "Ensure both release acceptance harnesses and their static wrappers close governed Work Items with structured decision evidence, copy that receipt into acceptance artifacts, and reject missing or mismatched decision records.",
+  "intent": "Bind post-release adopter acceptance to a complete structured Human Decision without weakening release truth or isolation proof.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime core",
+    " protocol schemas",
+    " CLI close semantics",
+    " release version bump",
+    " public Release assets",
+    " global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5a6ff0575506359330d6d1cfeeedc6832656da536e4e0defffb6a8db2f97e0db",
+  "requiredEvidenceClasses": [
+    "verification",
+    "delegated:release_acceptance"
+  ],
+  "risk": "high",
+  "scope": [
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/adopter_acceptance_test.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh",
+    "docs/release/**",
+    "docs/work-items/**",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/adopter_acceptance_test.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh",
+    "docs/release/adopter-acceptance.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "structured close invocation",
+      "required": true,
+      "expected": "Both release acceptance harnesses provide all structured Human Decision fields to the downloaded Runtime binary.",
+      "verificationPlan": "Run both harness static wrappers and one public adopter plus one N-1 acceptance execution.",
+      "status": "unverified"
+    },
+    {
+      "scenario": "decision artifact binding",
+      "required": true,
+      "expected": "The copied close receipt is regular, repository-bound through its binding record, identity-matched, complete, and checksummed.",
+      "verificationPlan": "Inspect acceptance.json, copied close receipt, binding record, and SHA256SUMS from both harness executions.",
+      "status": "unverified"
+    },
+    {
+      "scenario": "static negative enforcement",
+      "required": true,
+      "expected": "Missing structured close arguments or decision validation markers cause static acceptance checks to fail closed.",
+      "verificationPlan": "Run bash syntax, static acceptance wrappers, and documentation acceptance checks.",
+      "status": "unverified"
+    }
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "bash -n tests/release/adopter_acceptance.sh tests/release/adopter_upgrade_acceptance.sh tests/release/adopter_acceptance_test.sh tests/release/adopter_upgrade_acceptance_test.sh",
+    "bash tests/release/adopter_acceptance_test.sh",
+    "bash tests/release/adopter_upgrade_acceptance_test.sh",
+    "make check-ai-pr AI_BASE_COMMIT=31bd8003fbcd429c65281aa3fb45d7d1b849ce95"
+  ],
+  "workItemId": "WI-149-release-decision-acceptance"
+}

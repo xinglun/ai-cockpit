@@ -1,0 +1,139 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "structured close arguments in adopter acceptance harness",
+          "path": "tests/release/adopter_acceptance.sh",
+          "type": "script",
+          "verification": "bash tests/release/adopter_acceptance_test.sh"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "structured close arguments in N-1 upgrade harness",
+          "path": "tests/release/adopter_upgrade_acceptance.sh",
+          "type": "script",
+          "verification": "bash tests/release/adopter_upgrade_acceptance_test.sh"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "public adopter acceptance close decision artifact",
+          "path": "/private/tmp/wi149-acceptance-temp.nJI1Vl/output/acceptance.json",
+          "type": "acceptance",
+          "verification": "v0.2.15 public Release binary acceptance passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "N-1 upgrade close decision artifacts",
+          "path": "/private/tmp/wi149-upgrade-temp.sFRdaF/output/acceptance.json",
+          "type": "acceptance",
+          "verification": "v0.2.14 to v0.2.15 public Release binary acceptance passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "tri-language release acceptance documentation",
+          "path": "docs/release/distribution.md",
+          "type": "document",
+          "verification": "bash tests/docs/documentation_acceptance.sh"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [],
+  "checkpointAt": "2026-08-22T21:55:53Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T21:52:35Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:5fdbc456c931ba6a99aa5f4970d8fc311fd89a3932cfb0d336822664f813e4e6",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Confirm the bounded release acceptance review after binding the public adopter receipt as delegated release_acceptance evidence.",
+    "recordedAt": "2026-08-22T22:10:30Z",
+    "recordedBy": "human:maintainer",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:b16394ca2c318b54e9dc550bdd22f7668ea5f091fce2581ae9548ec944ecfc2b",
+    "schemaVersion": 1,
+    "workItemId": "WI-149-release-decision-acceptance"
+  },
+  "failedGate": "finish.verification",
+  "intentAlignment": {
+    "evidence": [
+      "tests/release/adopter_acceptance.sh",
+      "tests/release/adopter_upgrade_acceptance.sh",
+      "docs/release/distribution.md"
+    ],
+    "reason": "The release acceptance boundary proves complete structured human decisions without changing Runtime authority or published Release truth.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-22T22:10:14Z",
+  "preflightContractDigest": "sha256:5fdbc456c931ba6a99aa5f4970d8fc311fd89a3932cfb0d336822664f813e4e6",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:b16394ca2c318b54e9dc550bdd22f7668ea5f091fce2581ae9548ec944ecfc2b",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "/private/tmp/wi149-acceptance-temp.nJI1Vl/output/acceptance.json",
+        "/private/tmp/wi149-upgrade-temp.sFRdaF/output/acceptance.json"
+      ],
+      "expected": "Both release acceptance harnesses provide all structured Human Decision fields to the downloaded Runtime binary.",
+      "required": true,
+      "scenario": "structured close invocation",
+      "status": "verified",
+      "verificationPlan": "Run both harness static wrappers and one public adopter plus one N-1 acceptance execution."
+    },
+    {
+      "evidence": [
+        "/private/tmp/wi149-acceptance-temp.nJI1Vl/output/work-items/release-adopter-lifecycle.close.json",
+        "/private/tmp/wi149-acceptance-temp.nJI1Vl/output/work-items/release-adopter-lifecycle.close.binding.json",
+        "/private/tmp/wi149-upgrade-temp.sFRdaF/output/work-items/n-minus-one-post-migration.close.json",
+        "/private/tmp/wi149-upgrade-temp.sFRdaF/output/work-items/n-minus-one-post-migration.close.binding.json"
+      ],
+      "expected": "The copied close receipt is regular, repository-bound through its binding record, identity-matched, complete, and checksummed.",
+      "required": true,
+      "scenario": "decision artifact binding",
+      "status": "verified",
+      "verificationPlan": "Inspect acceptance.json, copied close receipt, binding record, and SHA256SUMS from both harness executions."
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance_test.sh",
+        "tests/release/adopter_upgrade_acceptance_test.sh",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "expected": "Missing structured close arguments or decision validation markers cause static acceptance checks to fail closed.",
+      "required": true,
+      "scenario": "static negative enforcement",
+      "status": "verified",
+      "verificationPlan": "Run bash syntax, static acceptance wrappers, and documentation acceptance checks."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T22:10:19Z",
+  "workItemId": "WI-149-release-decision-acceptance"
+}
