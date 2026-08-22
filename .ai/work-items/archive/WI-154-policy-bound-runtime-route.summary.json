@@ -1,0 +1,61 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-22T23:13:53Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T22:59:20Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/tests/verification_route.rs",
+      "docs/reference/verification-route.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-22T23:14:07Z",
+  "preflightContractDigest": "sha256:8e43c4f98835c07bb356cf84e0c195411b40e1061f5c4effe86997cdb824cdb0",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:14aa94984475276e46cae0b2d43e2ffbe80d8aa7dd0db53fe6ff03397cff9b40",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/verification_route.rs"
+      ],
+      "required": true,
+      "scenario": "policy_requirement_satisfied",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/verification_route.rs"
+      ],
+      "required": true,
+      "scenario": "policy_requirement_unsatisfied",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/verification_route.rs"
+      ],
+      "required": true,
+      "scenario": "base_revision_boundary",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/verification_route.rs"
+      ],
+      "required": true,
+      "scenario": "receipt_tamper",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T23:14:52Z",
+  "workItemId": "WI-154-policy-bound-runtime-route"
+}

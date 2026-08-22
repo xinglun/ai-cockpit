@@ -1,0 +1,77 @@
+{
+  "acceptanceCriteria": [
+    "A1 Policy Planner requirements are resolved from repository policy and Work Item policy when present and are bound into the actual verification plan receipt",
+    "A2 Actual tier and assurance are checked against the policy requirement and an unsatisfied T3 or ProviderVerified requirement fails closed before evidence is recorded",
+    "A3 pr merge and release stages require a valid base revision at the execution boundary while task remains base-revision independent",
+    "A4 Plan receipt binds repository identity Work Item identity stage base revision policy references affected paths and dependency confidence without inventing unknown facts",
+    "A5 Regression tests cover policy route success and unsatisfied tier assurance plus missing base revision and receipt tampering",
+    "A6 Existing no-policy repositories retain current behavior and tri-language route docs state protocol capability versus lifecycle integration"
+  ],
+  "authority": "authorized",
+  "baseRevision": "b3f7c2996c404e4a94f3c5e1f292c2e4395fc530",
+  "createdAt": "2026-08-22T22:59:20Z",
+  "goal": "Integrate Policy Planner output into verify and lifecycle evidence; bind required tier assurance policy refs affected facts and base revision into the plan receipt; reject unsatisfied policy routes fail-closed.",
+  "intent": "Connect policy-derived verification requirements and stage facts to the real CLI and Repository verification route so Runtime evidence cannot claim a weaker tier or missing base revision.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Provider or Enterprise evidence fabrication",
+    "Physical execution cross-Work-Item store integration",
+    "CI workflow changes",
+    "Global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:63088c7c08fde7f0809a5415ca5213df9426920af3cab1bb23d087a2bf988695",
+  "requiredEvidenceClasses": ["verification"],
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-verification/src/lib.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-repository/tests/**",
+    "crates/cockpit-verification/tests/**",
+    "docs/reference/verification-route.md",
+    "docs/reference/verification-route.zh-CN.md",
+    "docs/reference/verification-route.ja.md",
+    "docs/work-items/WI-154-policy-bound-runtime-route.md",
+    "docs/work-items/WI-154-policy-bound-runtime-route.zh-CN.md",
+    "docs/work-items/WI-154-policy-bound-runtime-route.ja.md",
+    ".ai/work-items/active/**"
+  ],
+  "sources": [],
+  "scenarioCoverage": [
+    {
+      "scenario": "policy_requirement_satisfied",
+      "required": true,
+      "status": "unverified",
+      "expected": "A declared policy requirement is bound to the verification plan receipt.",
+      "verificationPlan": "crates/cockpit-repository/tests/verification_route.rs::policy_t3_provider_requirement_fails_before_execution_and_evidence"
+    },
+    {
+      "scenario": "policy_requirement_unsatisfied",
+      "required": true,
+      "status": "unverified",
+      "expected": "T3 or ProviderVerified requirements stop before completion evidence is recorded.",
+      "verificationPlan": "crates/cockpit-repository/tests/verification_route.rs::policy_t3_provider_requirement_fails_before_execution_and_evidence"
+    },
+    {
+      "scenario": "base_revision_boundary",
+      "required": true,
+      "status": "unverified",
+      "expected": "pr, merge, and release routes reject a missing base revision.",
+      "verificationPlan": "crates/cockpit-repository/tests/verification_route.rs::release_route_requires_contract_base_revision"
+    },
+    {
+      "scenario": "receipt_tamper",
+      "required": true,
+      "status": "unverified",
+      "expected": "A tampered plan receipt cannot become a green Outcome.",
+      "verificationPlan": "crates/cockpit-repository/tests/verification_route.rs::tampered_policy_plan_required_tier_blocks_outcome"
+    }
+  ],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-154-policy-bound-runtime-route"
+}

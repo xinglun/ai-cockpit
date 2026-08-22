@@ -162,6 +162,14 @@ fn repository_receipt_projects_the_typed_route_stage() {
     cockpit_repository::attach(&root).expect("attach");
     let mut route_request = request("true", vec![], RepositoryVerificationPolicy::NeverReuse);
     route_request.stage = "pre_ci".into();
+    route_request.base_commit = Some(
+        cockpit_git::GitRepository::discover(&root)
+            .expect("git")
+            .snapshot()
+            .expect("snapshot")
+            .head
+            .expect("head"),
+    );
     let run = run_repository_verification(&root, &route_request).expect("verify");
     let plan = run.receipt.plan_receipt.expect("route receipt");
     assert_eq!(plan.stage.as_str(), "pre_ci");
@@ -206,7 +214,7 @@ fn never_reuse_execution_preserves_the_requested_executable_path() {
 }
 
 #[test]
-fn early_reuse_denial_does_not_report_identity_files_that_were_never_read() {
+fn invalid_stage_fails_closed_before_reuse_or_identity_access() {
     let root = repository("early-denial-metrics");
     cockpit_repository::attach(&root).expect("attach");
     let mut profile_request = request(
@@ -218,11 +226,11 @@ fn early_reuse_denial_does_not_report_identity_files_that_were_never_read() {
     let mut never_request = profile_request.clone();
     never_request.policy = RepositoryVerificationPolicy::NeverReuse;
 
-    let denied = run_repository_verification(&root, &profile_request).expect("denied reuse");
-    let never = run_repository_verification(&root, &never_request).expect("never reuse");
-
-    assert_eq!(denied.receipt.files_read, never.receipt.files_read);
-    assert_eq!(denied.receipt.files_hashed, never.receipt.files_hashed);
+    // Stage parsing is an execution-boundary guard.  It must reject before
+    // either reuse policy can inspect identity files or create a receipt.
+    assert!(run_repository_verification(&root, &profile_request).is_err());
+    assert!(run_repository_verification(&root, &never_request).is_err());
+    assert!(!root.join(".ai/evidence/reuse/index.json").exists());
     fs::remove_dir_all(root).expect("cleanup");
 }
 

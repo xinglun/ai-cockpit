@@ -22,6 +22,10 @@ Planner 可以提出 tier，但要求必须可追溯到 Organization Policy、Pr
 成本与复用仅是建议，不能降低要求。`VerificationPlanReceipt` 记录阶段、起始/最终 tier、独立 assurance、
 理由、升级和执行事实；tier 降级直接 fail-closed。
 
+Work Item route 还会绑定 `workItemId`、`repositoryId`、repository snapshot digest、`baseRevision`、Policy 引用、所需 tier/assurance、受影响路径和 dependency confidence。生命周期校验会重新解析声明的 Policy requirement，并拒绝缺失、过期或被篡改的绑定。`pr`、`merge`、`release` route 在执行边界必须有有效 base revision；`task` 仍不依赖 base revision。
+
+如果 effective Policy 声明 `T3` 或 `ProviderVerified`，本地 Runtime 不能声称满足该要求：验证会在写入完成证据前停止。Hosted/provider 证据必须来自实际 provider。没有 typed verification requirement 的仓库继续使用无 Policy 兼容路径和历史 receipt 兼容行为。
+
 物理执行可以共享，但每个 Work Item 必须拥有自己的绑定证据回执；不得把另一个 Work Item 的回执当作授权证据。
 
 ## CI 边界

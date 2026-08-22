@@ -10,16 +10,17 @@ use cockpit_protocol::{
     AgentAdapterCompatibility, AgentInterfaceAvailability, AgentInterfaceManifest, AgentInterfaces,
     AgentRootBinding, ApprovalMode, AuditEvent, AuditExportManifest, CapabilityConfidence,
     CapabilityTruth, CapabilityTruthRegistry, ConcurrencyBoundary, Contract, DataClassification,
-    DelegatedEvidence, DelegatedEvidenceReceipt, DiagnosisState, EvidenceDisposition,
-    EvidenceDispositionItem, EvidencePersistence, EvidenceRetention, EvidenceRetentionPolicy,
-    EvidenceValidity, FactOrigin, GovernanceCost, GovernancePolicy, GovernancePolicyDocument,
-    HumanBenefitReport, HumanDecision, ImplementationApproach, OutcomeClaim, OutcomeReportBindings,
-    OutcomeReportSections, OutcomeState, OutcomeV2, PARALLEL_SLOT_LEASE_SCHEMA_VERSION,
-    ParallelSlotLease, PerformanceDiagnosis, PolicyLayer, QualityCommand, RecoveryDecisionReceipt,
-    RepositoryConfig, RuntimeContext, SchemaMigrationStep, TaskOutcomeEvent, TaskOutcomeReport,
-    TruthState, VerificationStage, WorkItemCompatibility, WorkItemIntelligence,
-    WorkItemStatusSnapshot, default_repository_schema_version, merge_policy_layers,
-    repository_schema_migration_chain, validate_evidence_retention, validate_protocol_version,
+    DelegatedEvidence, DelegatedEvidenceReceipt, DiagnosisState, EvidenceAssurance,
+    EvidenceDisposition, EvidenceDispositionItem, EvidencePersistence, EvidenceRetention,
+    EvidenceRetentionPolicy, EvidenceValidity, FactOrigin, GovernanceCost, GovernancePolicy,
+    GovernancePolicyDocument, HumanBenefitReport, HumanDecision, ImplementationApproach,
+    OutcomeClaim, OutcomeReportBindings, OutcomeReportSections, OutcomeState, OutcomeV2,
+    PARALLEL_SLOT_LEASE_SCHEMA_VERSION, ParallelSlotLease, PerformanceDiagnosis, PolicyLayer,
+    QualityCommand, RecoveryDecisionReceipt, RepositoryConfig, RuntimeContext, SchemaMigrationStep,
+    TaskOutcomeEvent, TaskOutcomeReport, TruthState, VerificationStage, VerificationTier,
+    WorkItemCompatibility, WorkItemIntelligence, WorkItemStatusSnapshot,
+    default_repository_schema_version, merge_policy_layers, repository_schema_migration_chain,
+    validate_evidence_retention, validate_protocol_version,
 };
 use serde::de::{DeserializeSeed, MapAccess, SeqAccess, Visitor};
 use serde::{Deserialize, Deserializer as _, Serialize};
@@ -224,6 +225,22 @@ pub struct RepositoryVerificationRequest {
 pub struct RepositoryVerificationRun {
     pub receipt: cockpit_verification::VerificationReceipt,
     pub final_snapshot: RepositorySnapshot,
+}
+
+/// The request-scoped route selected for a Work Item.  Policy is optional for
+/// protocol-v1/no-policy repositories; when present, the requirement and its
+/// traceability facts are carried into the execution receipt.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct VerificationRoute {
+    pub work_item_id: String,
+    pub operation: String,
+    pub stage: VerificationStage,
+    pub policy_plan: Option<cockpit_verification::PolicyVerificationPlan>,
+    pub actual_tier: VerificationTier,
+    pub actual_assurance: EvidenceAssurance,
+    pub base_revision: Option<String>,
+    pub affected_paths: Vec<String>,
+    pub dependency_confidence: cockpit_verification::DependencyConfidence,
 }
 
 /// Request-scoped repository state.  A context captures one immutable Git
@@ -1788,6 +1805,24 @@ pub fn run_repository_verification(
     request: &RepositoryVerificationRequest,
 ) -> Result<RepositoryVerificationRun, ObserverError> {
     let service_started = Instant::now();
+    let stage = VerificationStage::parse(&request.stage).map_err(|error| ObserverError::State {
+        path: root.to_path_buf(),
+        message: error,
+    })?;
+    if stage.requires_base_revision()
+        && request
+            .base_commit
+            .as_deref()
+            .is_none_or(|value| !valid_git_object_id(value))
+    {
+        return Err(ObserverError::State {
+            path: root.to_path_buf(),
+            message: format!(
+                "verification stage {} requires a valid base revision",
+                stage.as_str()
+            ),
+        });
+    }
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -2052,7 +2087,7 @@ pub fn run_repository_verification(
         .saturating_add(executable_files_hashed);
     receipt.elapsed_ms = service_started.elapsed().as_millis();
     receipt.repository_id = Some(repository_id(&root).to_string());
-    if let Ok(stage) = VerificationStage::parse(&request.stage) {
+    {
         let mut plan_receipt = cockpit_verification::VerificationPlanReceipt::new(
             stage,
             cockpit_protocol::VerificationTier::T0,
@@ -5703,17 +5738,142 @@ pub fn effective_policy_for_contract(
         })
 }
 
-fn contract_policy_rule<'a>(
-    contract: &Contract,
-    policy: &'a GovernancePolicy,
-) -> Option<&'a cockpit_protocol::PolicyRule> {
-    let operation = contract.operation.as_deref().unwrap_or_else(|| {
+/// Resolve the policy-bound verification route for one Work Item.  This is a
+/// request-scoped projection: it reads only the active Contract, the
+/// repository-local policy, and the supplied snapshot.  No policy means the
+/// historical route remains available with no invented requirement.
+pub fn resolve_verification_route(
+    root: &Path,
+    work_item_id: &str,
+    stage: VerificationStage,
+    runner: &str,
+    snapshot: &RepositorySnapshot,
+) -> Result<VerificationRoute, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    if fs::canonicalize(&snapshot.root).ok().as_ref() != Some(&root) {
+        return Err(ObserverError::SnapshotRootMismatch);
+    }
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let contract = read_contract(&contract_path)?;
+    let operation = verification_operation_for_contract(&contract).to_owned();
+    let base_revision = if stage.requires_base_revision() {
+        if !valid_git_object_id(&contract.base_revision) {
+            return Err(ObserverError::State {
+                path: contract_path.clone(),
+                message: format!(
+                    "verification stage {} requires a valid Contract baseRevision",
+                    stage.as_str()
+                ),
+            });
+        }
+        Some(contract.base_revision.clone())
+    } else {
+        valid_git_object_id(&contract.base_revision).then(|| contract.base_revision.clone())
+    };
+    let policy_plan = if let Some(policy) = effective_policy_for_contract(&root, &contract)? {
+        // Existing policy files may govern approval/evidence without opting
+        // into the typed verification route. Preserve that no-requirement
+        // compatibility lane; a declared requirement is always planned and
+        // validated fail-closed.
+        let has_requirement = policy
+            .rules
+            .iter()
+            .find(|rule| rule.operation == operation)
+            .and_then(|rule| rule.verification_requirement.as_ref())
+            .is_some();
+        if has_requirement {
+            Some(
+                cockpit_verification::plan_policy_requirement(
+                    &cockpit_verification::PolicyPlannerInput {
+                        operation: operation.clone(),
+                        stage: stage.as_str().into(),
+                        protected_gate: None,
+                        policies: vec![policy],
+                    },
+                )
+                .map_err(|error| ObserverError::State {
+                    path: root.join(".ai/policy.json"),
+                    message: error.to_string(),
+                })?,
+            )
+        } else {
+            None
+        }
+    } else {
+        None
+    };
+    let actual_tier = match stage {
+        VerificationStage::Task => VerificationTier::T0,
+        VerificationStage::PreCi => VerificationTier::T1,
+        VerificationStage::PullRequest | VerificationStage::Merge | VerificationStage::Release => {
+            VerificationTier::T2
+        }
+    };
+    let actual_assurance = if runner == "hosted" {
+        EvidenceAssurance::ProviderVerified
+    } else {
+        EvidenceAssurance::RepositoryVerified
+    };
+    if let Some(plan) = &policy_plan
+        && !plan
+            .requirement
+            .is_satisfied_by(actual_tier, actual_assurance)
+    {
+        return Err(ObserverError::State {
+            path: root.join(".ai/policy.json"),
+            message: format!(
+                "verification requirement is not satisfied: required tier {:?}/assurance {:?}, actual {:?}/{:?}",
+                plan.requirement.required_tier,
+                plan.requirement.required_assurance,
+                actual_tier,
+                actual_assurance
+            ),
+        });
+    }
+    let mut affected_paths = snapshot
+        .changed_paths
+        .iter()
+        .map(|path| path.replace('\\', "/"))
+        .filter(|path| path != ".ai" && !path.starts_with(".ai/"))
+        .collect::<Vec<_>>();
+    affected_paths.sort();
+    affected_paths.dedup();
+    Ok(VerificationRoute {
+        work_item_id: work_item_id.into(),
+        operation,
+        stage,
+        policy_plan,
+        actual_tier,
+        actual_assurance,
+        base_revision,
+        affected_paths,
+        // The repository observer does not infer a dependency graph from
+        // changed paths.  Unknown is the truthful, conservative projection.
+        dependency_confidence: cockpit_verification::DependencyConfidence::Unknown,
+    })
+}
+
+pub fn verification_operation_for_contract(contract: &cockpit_protocol::Contract) -> &str {
+    contract.operation.as_deref().unwrap_or_else(|| {
         if contract.risk.to_ascii_lowercase().contains("destructive") {
             "production_destructive"
         } else {
             "modify_source"
         }
-    });
+    })
+}
+
+fn contract_policy_rule<'a>(
+    contract: &Contract,
+    policy: &'a GovernancePolicy,
+) -> Option<&'a cockpit_protocol::PolicyRule> {
+    let operation = verification_operation_for_contract(contract);
     policy.rules.iter().find(|rule| rule.operation == operation)
 }
 
@@ -6753,6 +6913,15 @@ fn verification_evidence_state(
                     Ok(value) => value,
                     Err(_) => return Ok(EvidenceState::Contradictory),
                 };
+            if !validate_plan_receipt_binding(
+                root,
+                contract,
+                snapshot,
+                &envelope,
+                typed.plan_receipt.as_ref(),
+            )? {
+                return Ok(EvidenceState::Contradictory);
+            }
             if !typed.passed
                 || typed.work_item_id.as_deref() != Some(contract.work_item_id.as_str())
                 || typed.repository_id.as_deref() != Some(expected_repository_id.as_str())
@@ -6807,6 +6976,117 @@ fn verification_evidence_state(
         }
     }
     Ok(EvidenceState::Complete)
+}
+
+/// Validate the policy route projection embedded in a typed verification
+/// receipt.  Historical receipts without a route projection remain readable;
+/// a receipt for a currently policy-routed Work Item must carry every binding
+/// needed to prevent a weaker or foreign route from becoming lifecycle truth.
+fn validate_plan_receipt_binding(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+    envelope: &VerificationEvidenceEnvelope,
+    plan: Option<&cockpit_verification::VerificationPlanReceipt>,
+) -> Result<bool, ObserverError> {
+    let Some(plan) = plan else {
+        let has_policy_requirement = effective_policy_for_contract(root, contract)?
+            .as_ref()
+            .and_then(|policy| {
+                policy
+                    .rules
+                    .iter()
+                    .find(|rule| rule.operation == verification_operation_for_contract(contract))
+            })
+            .and_then(|rule| rule.verification_requirement.as_ref())
+            .is_some();
+        return Ok(!has_policy_requirement);
+    };
+    if plan.validate_monotonic().is_err() {
+        return Ok(false);
+    }
+    let expected_repository_id = repository_id(root).to_string();
+    let expected = effective_policy_requirement_for_contract(root, contract, plan.stage.as_str())?;
+    let Some(requirement) = expected else {
+        // A non-policy route may retain a historical unbound plan. Newer
+        // routes may carry identity/fact bindings, but they must not smuggle
+        // a policy requirement that the repository never declared.
+        if plan.required_tier.is_some()
+            || plan.required_assurance.is_some()
+            || !plan.policy_refs.is_empty()
+        {
+            return Ok(false);
+        }
+        if plan.work_item_id.is_none()
+            && plan.repository_id.is_none()
+            && plan.repository_snapshot_digest.is_none()
+        {
+            return Ok(true);
+        }
+        let expected_snapshot = snapshot_digest(snapshot)?;
+        return Ok(
+            plan.work_item_id.as_deref() == Some(contract.work_item_id.as_str())
+                && plan.repository_id.as_deref() == Some(expected_repository_id.as_str())
+                && plan.repository_snapshot_digest.as_deref()
+                    == Some(expected_snapshot.to_string().as_str())
+                && plan.repository_snapshot_digest.as_deref()
+                    == Some(envelope.repository_snapshot_digest.to_string().as_str()),
+        );
+    };
+    if plan.work_item_id.as_deref() != Some(contract.work_item_id.as_str())
+        || plan.repository_id.as_deref() != Some(expected_repository_id.as_str())
+        || plan.repository_snapshot_digest.as_deref()
+            != Some(envelope.repository_snapshot_digest.to_string().as_str())
+    {
+        return Ok(false);
+    }
+    let expected_snapshot = snapshot_digest(snapshot)?;
+    if plan
+        .repository_snapshot_digest
+        .as_deref()
+        .is_none_or(|digest| digest != expected_snapshot.to_string())
+    {
+        return Ok(false);
+    }
+    if plan.required_tier != Some(requirement.required_tier)
+        || plan.required_assurance != Some(requirement.required_assurance)
+        || plan.policy_refs != requirement.policy_refs
+        || plan.dependency_confidence.is_none()
+        || plan.base_revision.as_deref() != Some(contract.base_revision.as_str())
+        || !requirement.is_satisfied_by(plan.final_tier, plan.assurance)
+    {
+        return Ok(false);
+    }
+    Ok(true)
+}
+
+fn effective_policy_requirement_for_contract(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    stage: &str,
+) -> Result<Option<cockpit_protocol::VerificationRequirement>, ObserverError> {
+    let Some(policy) = effective_policy_for_contract(root, contract)? else {
+        return Ok(None);
+    };
+    let operation = verification_operation_for_contract(contract);
+    let Some(rule) = policy.rules.iter().find(|rule| rule.operation == operation) else {
+        return Ok(None);
+    };
+    if rule.verification_requirement.is_none() {
+        return Ok(None);
+    }
+    let plan =
+        cockpit_verification::plan_policy_requirement(&cockpit_verification::PolicyPlannerInput {
+            operation: operation.into(),
+            stage: stage.into(),
+            protected_gate: None,
+            policies: vec![policy],
+        })
+        .map_err(|error| ObserverError::State {
+            path: root.join(".ai/policy.json"),
+            message: error.to_string(),
+        })?;
+    Ok(Some(plan.requirement))
 }
 
 pub fn evidence_state_for_contract(
