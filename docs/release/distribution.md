@@ -121,6 +121,11 @@ forbidden-write roots. TMPDIR and CARGO_HOME are explicitly classified as
 allowed Runtime-write roots; their writes are recorded rather than mistaken
 for global configuration writes.
 
+The N-1 harness also resolves the host's existing `RUSTUP_HOME` and active
+toolchain before entering the isolated environment, passes `RUSTUP_TOOLCHAIN`
+explicitly, and fails closed if either identity is unavailable. It never lets
+an empty isolated HOME trigger an implicit Rust toolchain download.
+
 To prevent a release from leaving configuration or documentation behind, the
 release workflow derives the current version from Cargo metadata and runs
 `tests/release/version_consistency.sh`. The source check validates all three

@@ -1,0 +1,39 @@
+{
+  "acceptanceCriteria": [
+    "RUSTUP_HOME resolution is explicit and validated before isolated cargo scaffolding",
+    "Acceptance failure and success paths clean the validated run root without changing release truth",
+    "Regression proves missing or invalid toolchain identity fails closed without a network fallback"
+  ],
+  "authority": "authorized",
+  "baseRevision": "64dc9eba4a7ed59dfbf9bee2cb66c6d576cc47ff",
+  "createdAt": "2026-08-22T06:42:27Z",
+  "goal": "Ensure public Release adopter and N-1 upgrade acceptance completes with bounded isolated runtime roots and records toolchain identity.",
+  "intent": "Make post-release adopter acceptance deterministic by binding the isolated Rust toolchain and preventing implicit rustup downloads or unbounded cache growth.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime protocol semantics",
+    "global Rust installation",
+    "public Release mutation"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f71ff343acebc30be8fdf19b3764fd352d5afb87f0154c82dcdfd581f5c13886",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_acceptance_test.sh",
+    "docs/reference/**",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/work-items/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-117-release-toolchain-isolation"
+}

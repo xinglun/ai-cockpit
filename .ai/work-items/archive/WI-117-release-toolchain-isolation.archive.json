@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T06:56:11Z",
+  "files": {
+    "contractDigest": "sha256:c98ba7e3a955d5b38b3994cdc2c3d497ea0fabdda51f7779376e544dce452991",
+    "contractPath": ".ai/work-items/archive/WI-117-release-toolchain-isolation.contract.json",
+    "outcomeDigest": "sha256:8e6755bba250192a585a17fe3a6f54c0b2c60d8b14b450c7e887f22bb2952f1c",
+    "outcomePath": ".ai/work-items/archive/WI-117-release-toolchain-isolation.outcome.json",
+    "summaryDigest": "sha256:85c24600f637da97cd7f4fd0cbe617f9cdfc85025fd654e0f81b72f8cd82a42a",
+    "summaryPath": ".ai/work-items/archive/WI-117-release-toolchain-isolation.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-117-release-toolchain-isolation"
+}

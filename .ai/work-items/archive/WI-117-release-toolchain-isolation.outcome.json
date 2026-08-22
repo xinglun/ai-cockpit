@@ -1,0 +1,38 @@
+{
+  "acceptanceResults": [
+    "RUSTUP_HOME resolution is explicit and validated before isolated cargo scaffolding",
+    "Acceptance failure and success paths clean the validated run root without changing release truth",
+    "Regression proves missing or invalid toolchain identity fails closed without a network fallback"
+  ],
+  "createdAt": "2026-08-22T06:55:51Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:a979948aa963c8d61e3f5218e19c905ef8e8c644f6cf79f200b1899d0018b97e",
+  "evidenceRefs": [
+    ".ai/evidence/WI-117-release-toolchain-isolation.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-117-release-toolchain-isolation.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-117-release-toolchain-isolation.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-117-release-toolchain-isolation"
+}

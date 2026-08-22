@@ -74,6 +74,10 @@ CLI と MCP の `verify` JSON は `runtimeVersion` と `runtimeDigest` という
 公開後の acceptance harness（Core 自体ではありません）が Release evidence を受け入れる前に、公開 download binary の
 identity と結び付けます。harness 外で JSON を使う場合の比較責任は caller にあります。
 
+N-1 harness は隔離環境に入る前にホストの既存 `RUSTUP_HOME` と active toolchain を解決し、
+`RUSTUP_TOOLCHAIN` を明示的に渡します。どちらかの identity を取得できない場合は fail closed とし、
+空の隔離 HOME による暗黙の Rust toolchain download を許しません。
+
 ## Post-release adopter acceptance
 
 Maintainer は Release 公開後に public binary acceptance baseline を再実行できます。

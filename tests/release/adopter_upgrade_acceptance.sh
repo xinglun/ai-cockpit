@@ -139,7 +139,8 @@ steps="$run_root/steps.jsonl"; : > "$steps"
 started_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"; failure_reason=''; release_published=false
 from_bin='' to_bin='' from_version='' to_version='' from_digest='' to_digest='' repository_id=''
 cleanup_state=not_started cleanup_removed=false cleanup_validated=false cleanup_reason=''
-if rustup_home="$(printenv RUSTUP_HOME 2>/dev/null)"; then :; else rustup_home=''; fi
+rustup_home=''
+rustup_toolchain=''
 
 record() {
   local name="$1" state="$2" reason=''
@@ -162,9 +163,9 @@ finish() {
     --arg state "$state" --arg published "$release_published" --arg repository "$repository" \
     --arg fromTag "$from_tag" --arg toTag "$to_tag" --arg target "$target" \
     --arg fromVersion "$from_version" --arg toVersion "$to_version" --arg fromDigest "$from_digest" \
-    --arg toDigest "$to_digest" --arg repositoryId "$repository_id" --arg reason "$failure_reason" \
+    --arg toDigest "$to_digest" --arg repositoryId "$repository_id" --arg rustToolchain "$rustup_toolchain" --arg reason "$failure_reason" \
     --argjson steps "$step_json" \
-    '{schemaVersion:1,startedAt:$startedAt,finishedAt:$finishedAt,releasePublished:($published=="true"),adopterAcceptance:$state,repository:$repository,fromTag:$fromTag,toTag:$toTag,target:$target,fromRuntimeVersion:(if $fromVersion=="" then null else $fromVersion end),toRuntimeVersion:(if $toVersion=="" then null else $toVersion end),fromRuntimeDigest:(if $fromDigest=="" then null else $fromDigest end),toRuntimeDigest:(if $toDigest=="" then null else $toDigest end),repositoryId:(if $repositoryId=="" then null else $repositoryId end),cleanupState:"pending",cleanupError:null,steps:$steps,failureReason:(if $reason=="" then null else $reason end)}' > "$output/acceptance.json"
+    '{schemaVersion:1,startedAt:$startedAt,finishedAt:$finishedAt,releasePublished:($published=="true"),adopterAcceptance:$state,repository:$repository,fromTag:$fromTag,toTag:$toTag,target:$target,rustToolchain:(if $rustToolchain=="" then null else $rustToolchain end),fromRuntimeVersion:(if $fromVersion=="" then null else $fromVersion end),toRuntimeVersion:(if $toVersion=="" then null else $toVersion end),fromRuntimeDigest:(if $fromDigest=="" then null else $fromDigest end),toRuntimeDigest:(if $toDigest=="" then null else $toDigest end),repositoryId:(if $repositoryId=="" then null else $repositoryId end),cleanupState:"pending",cleanupError:null,steps:$steps,failureReason:(if $reason=="" then null else $reason end)}' > "$output/acceptance.json"
   write_sums
   cleanup_run_root
   update_acceptance_cleanup
@@ -178,6 +179,20 @@ finish() {
 trap finish EXIT
 trap 'exit 130' INT
 trap 'exit 143' TERM
+
+if rustup_home="$(printenv RUSTUP_HOME 2>/dev/null)"; then :; else rustup_home=''; fi
+if [[ -z "$rustup_home" ]] && command -v rustup >/dev/null 2>&1; then
+  if rustup_home="$(rustup show home 2>/dev/null)"; then :; fi
+fi
+if command -v rustup >/dev/null 2>&1; then
+  set +e
+  rustup_toolchain="$(rustup show active-toolchain 2>/dev/null | awk 'NR == 1 {print $1}')"
+  rustup_toolchain_status=$?
+  set -e
+  if [[ "$rustup_toolchain_status" -ne 0 ]]; then rustup_toolchain=''; fi
+fi
+[[ -n "$rustup_home" && -d "$rustup_home" ]] || die 'RUSTUP_HOME could not be resolved; refusing implicit toolchain download'
+[[ -n "$rustup_toolchain" ]] || die 'active Rust toolchain could not be resolved; refusing implicit toolchain download'
 
 download() {
   local tag="$1" label="$2" root="$3" version archive api manifest sums actual expected url
@@ -220,7 +235,7 @@ run() {
   local stem stderr result
   stem="$(printf '%s' "$name" | sed 's/\.json$//')"; stderr="$run_root/$stem.stderr"
   set +e
-  env -i HOME="$isolated_home" XDG_CONFIG_HOME="$isolated_xdg" TMPDIR="$isolated_tmp" CARGO_HOME="$isolated_cargo" RUSTUP_HOME="$rustup_home" PATH="$PATH" LANG=C LC_ALL=C GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null "$binary" "$@" > "$output/$name" 2> "$stderr"
+  env -i HOME="$isolated_home" XDG_CONFIG_HOME="$isolated_xdg" TMPDIR="$isolated_tmp" CARGO_HOME="$isolated_cargo" RUSTUP_HOME="$rustup_home" RUSTUP_TOOLCHAIN="$rustup_toolchain" PATH="$PATH" LANG=C LC_ALL=C GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null "$binary" "$@" > "$output/$name" 2> "$stderr"
   result=$?; set -e
   [[ "$result" -eq 0 ]] || { cp "$stderr" "$output/$stem.stderr" 2>/dev/null || true; failure_reason="$name failed"; record "$name" failed "exit $result"; return "$result"; }
   pass "$name"
@@ -230,7 +245,7 @@ expected_fail() {
   local stem stderr result
   stem="$(printf '%s' "$name" | sed 's/\.json$//')"; stderr="$run_root/$stem.stderr"
   set +e
-  env -i HOME="$isolated_home" XDG_CONFIG_HOME="$isolated_xdg" TMPDIR="$isolated_tmp" CARGO_HOME="$isolated_cargo" RUSTUP_HOME="$rustup_home" PATH="$PATH" LANG=C LC_ALL=C "$binary" "$@" > "$output/$name" 2> "$stderr"
+  env -i HOME="$isolated_home" XDG_CONFIG_HOME="$isolated_xdg" TMPDIR="$isolated_tmp" CARGO_HOME="$isolated_cargo" RUSTUP_HOME="$rustup_home" RUSTUP_TOOLCHAIN="$rustup_toolchain" PATH="$PATH" LANG=C LC_ALL=C "$binary" "$@" > "$output/$name" 2> "$stderr"
   result=$?; set -e
   [[ "$result" -ne 0 ]] || die "$name unexpectedly succeeded"
   cp "$stderr" "$output/$stem.stderr" 2>/dev/null || true
@@ -243,7 +258,7 @@ source_before_status="$(git -C "$source_repo" status --porcelain=v1)"
 source_ai_digest=''; [[ -f "$source_repo/.ai/project.json" ]] && source_ai_digest="sha256:$(sha256_file "$source_repo/.ai/project.json")"
 pass public-release-pins
 
-env -i HOME="$isolated_home" XDG_CONFIG_HOME="$isolated_xdg" TMPDIR="$isolated_tmp" CARGO_HOME="$isolated_cargo" RUSTUP_HOME="$rustup_home" PATH="$PATH" LANG=C LC_ALL=C cargo new --lib --vcs none "$adopter" >/dev/null
+env -i HOME="$isolated_home" XDG_CONFIG_HOME="$isolated_xdg" TMPDIR="$isolated_tmp" CARGO_HOME="$isolated_cargo" RUSTUP_HOME="$rustup_home" RUSTUP_TOOLCHAIN="$rustup_toolchain" PATH="$PATH" LANG=C LC_ALL=C cargo new --lib --vcs none "$adopter" >/dev/null
 printf 'target/\n' > "$adopter/.gitignore"; : > "$adopter/AGENTS.md"
 git -C "$adopter" init -q; git -C "$adopter" config user.name 'AI Cockpit N-1 Acceptance'; git -C "$adopter" config user.email 'ai-cockpit-n-minus-one@example.invalid'
 git -C "$adopter" add .; git -C "$adopter" commit -qm 'initial adopter'

@@ -102,6 +102,9 @@ target 与 platform 始终显式记录；选择 Linux x86_64 target 时也遵循
 XDG_CONFIG_HOME 是禁止写入的 root；TMPDIR 与 CARGO_HOME 明确分类为允许 Runtime 写入的 root，相关写入
 会被记录，不会被误认为全局配置写入。
 
+N-1 harness 在进入隔离环境前会解析宿主机已有的 `RUSTUP_HOME` 与 active toolchain，显式传入
+`RUSTUP_TOOLCHAIN`；任一 identity 不可用就 fail closed。空的隔离 HOME 不会触发隐式 Rust toolchain 下载。
+
 为避免发布后遗漏配置或文档版本，release workflow 会从 Cargo metadata 推导当前版本，并运行
 `tests/release/version_consistency.sh`。source check 会校验三种语言的入口和当前 archive 示例，
 post-release check 会校验公开 Release 的 manifest 与 asset 名称。历史 N-1 引用会明确保留，不会被误认为当前基线。
