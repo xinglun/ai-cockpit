@@ -18,6 +18,8 @@ capabilityClaims:
 - attach 并观察 repository；
 - 创建治理骨架，但不擅自生成人类决定；
 - 使用有界验证和 evidence reuse 执行 Work Item 生命周期；
+- 阅读 evidence-bound 的 [Task Outcome 报告](task-outcome-report.zh-CN.md) 和
+  [Human Benefit 报告](human-benefit-report.zh-CN.md)；
 - 显式连接 Agent 或 repository-bound MCP service；
 - 查看 Outcome、knowledge、status、diagnosis 和 recovery 信号。
 

@@ -73,3 +73,16 @@ Agent が人間に結果を示す場合、明示的な `workItemId` を指定し
 `humanHandoff` は presentation projection であり、merge、release、human decision を認可しません。
 `work_item_get` は machine record lookup です。任意の `language` で `en`、`zh`、`ja` の Runtime label を
 選択できますが、Contract source text は変更されません。
+
+## Task Outcome report と event
+
+新しく生成された OutcomeV2 には strict な `taskOutcomeReport` も含まれます。section
+は evidence に束縛され、空でもよいですが、空であることは成功を意味しません。
+repository-local evidence reference がない claim には `inference: true` が必要です。
+必須の control が yellow または red の場合は `failedGate` と `recoveryCondition` を含めます。
+
+`finish` は active outcome と同じ場所に `<id>.events.jsonl` を書きます。event stream は
+append-only で、malformed、foreign、secret らしい内容、関係不正の event を拒否します。
+`archive` は byte-for-byte で移動し `eventsDigest` を束縛し、`close` は検証後に close
+receipt へ `finalReport` と `finalReportDigest` を記録します。この additive projection
+を持たない historical record は読み取り可能なままで、backfill や書き換えは行いません。

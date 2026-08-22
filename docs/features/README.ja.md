@@ -18,6 +18,8 @@ capabilityClaims:
 - repository を attach して observe する;
 - human decision を発明せず governance skeleton を作る;
 - bounded verification と evidence reuse で Work Item lifecycle を実行する;
+- evidence-bound の [Task Outcome レポート](task-outcome-report.ja.md) と
+  [Human Benefit レポート](human-benefit-report.ja.md) を読む;
 - Agent または repository-bound MCP service を明示的に接続する;
 - Outcome、knowledge、status、diagnosis、recovery signal を読む。
 

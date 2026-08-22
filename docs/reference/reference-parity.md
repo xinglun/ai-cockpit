@@ -39,6 +39,7 @@ The matrix uses exactly four states:
 | Repository attachment and minimum scaffold | Implemented | `attach` creates the repository-owned Protocol scaffold without installing a Runtime copy. |
 | Explicit Agent Discovery / Adapter layer | Implemented | Agent installation is explicit, owned, reversible, and repository-local; generated guidance carries Contract-first/pause/Summary/Outcome/closure semantics, Cursor uses canonical `.cursor/rules/ai-cockpit.mdc`, and managed legacy `.md` remains readable. |
 | Work Item lifecycle and governance decisions | Partial | The core lifecycle and human decision records exist; the reference's broader status, cost, and recovery projections are not all exposed as one adopter interface. |
+| Task Outcome and Human Benefit report | Partial | WI-136 adds a Rust-native strict report projection, append-only generated event stream, archive binding, and close final-report receipt; full reference recovery/event reconstruction remains outside this boundary. Evidence: `.ai/evidence/WI-136-task-outcome-report.verification.json`. |
 | Contract preflight human-review gate | Implemented | Incomplete scaffold Contracts are yellow with an explicit `reviewState`, persist repository/Contract/snapshot bindings, and cannot cross checkpoint without human confirmation. |
 | Contract V2 structured intent and strict schema | Implemented | WI-121 provides structured intent, typed sources/verification, strict unknown-field/duplicate-key fail-closed checks, `humanDecisionRequest`, and the preflight/checkpoint gate. |
 | Contract cross-field dimensions (intent/scope/evidence/decision) | Implemented | WI-122 validates high-risk scenario coverage, stable acceptance evidence, intent alignment, and the exact twenty-dimension final receipt. The optional `fourPillarProjection` is presentation-only; there is no literal `4D` protocol field. |
@@ -83,6 +84,7 @@ record for each boundary.
 | WI-132 — Agent adapter and provider-surface parity | Implemented | [Work Item](../work-items/WI-132-agent-adapter-parity.md); `.ai/evidence/WI-132-agent-adapter-parity.verification.json`; `.ai/decisions/WI-132-agent-adapter-parity.close.json` |
 | WI-133 — Documentation truth reconciliation | Implemented | [Work Item](../work-items/WI-133-docs-truth.md); `.ai/evidence/WI-133-docs-truth.verification.json`; `.ai/decisions/WI-133-docs-truth.close.json` |
 | WI-135 — Repository-bound retention and close evidence | Implemented | [Work Item](../work-items/WI-135-repository-bound-evidence.md); `.ai/evidence/WI-135-repository-bound-evidence.verification.json`; `.ai/decisions/WI-135-repository-bound-evidence.close.json` |
+| WI-136 — Task Outcome and Human Benefit report | Implemented | [Work Item](../work-items/WI-136-task-outcome-report.md); `.ai/evidence/WI-136-task-outcome-report.verification.json`; `.ai/decisions/WI-136-task-outcome-report.close.json` |
 
 ## Current boundary
 

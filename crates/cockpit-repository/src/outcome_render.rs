@@ -1,5 +1,5 @@
 use cockpit_core::DecisionState;
-use cockpit_protocol::{HumanDecision, OutcomeState, OutcomeV2};
+use cockpit_protocol::{HumanDecision, OutcomeClaim, OutcomeState, OutcomeV2};
 use serde_json::Value;
 use std::fs;
 use std::path::Path;
@@ -20,6 +20,7 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
     let (marker, status) =
         outcome_status(&outcome.state, outcome.decision_state.as_ref(), language);
     let report = &outcome.human_benefit_report;
+    let task_report = outcome.task_outcome_report.as_ref();
     let none = match language {
         "zh" => "无",
         "ja" => "なし",
@@ -135,7 +136,17 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
     unknowns_all.extend(report.unknowns.iter().cloned());
     unknowns_all.sort();
     unknowns_all.dedup();
-    let mut problems_found = Vec::new();
+    let mut remaining_risks = unknowns_all.clone();
+    if let Some(task_report) = task_report {
+        remaining_risks.extend(claim_texts(&task_report.sections.risks));
+        remaining_risks.extend(claim_texts(&task_report.sections.warnings));
+        remaining_risks.extend(claim_texts(&task_report.sections.residual_risks));
+    }
+    remaining_risks.sort();
+    remaining_risks.dedup();
+    let mut problems_found = task_report
+        .map(|report| claim_texts(&report.sections.findings))
+        .unwrap_or_default();
     if outcome.decision_state == Some(DecisionState::Red) {
         problems_found.push(invalid_evidence.to_string());
     } else if matches!(outcome.state, OutcomeState::NotReady) {
@@ -144,13 +155,19 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
     let acceptance_results = human_acceptance_results(&outcome.acceptance_results);
     let localized_summary =
         localized_outcome_summary(&outcome.state, outcome.decision_state.as_ref(), language);
-    let completed_items = if acceptance_results.is_empty() {
-        vec![localized_summary.to_string()]
-    } else {
-        let mut items = vec![localized_summary.to_string(), contract_language.to_string()];
-        items.extend(acceptance_results);
-        items
-    };
+    let mut completed_items = vec![localized_summary.to_string()];
+    if let Some(report) = task_report {
+        completed_items.extend(claim_texts(&report.sections.delivered_changes));
+    }
+    if completed_items.len() == 1 && !acceptance_results.is_empty() {
+        completed_items.push(contract_language.to_string());
+        completed_items.extend(acceptance_results.clone());
+    }
+    if !acceptance_results.is_empty()
+        && !completed_items.iter().any(|item| item == contract_language)
+    {
+        completed_items.push(contract_language.to_string());
+    }
     let impact_items = if report.user_visible_changes.is_empty() && report.affected_users.is_empty()
     {
         vec![no_benefit.to_string()]
@@ -185,16 +202,23 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
             vec![format!("{label} ({reason})")]
         }
     };
-    let stop_items = if outcome.decision_state == Some(DecisionState::Red) {
-        vec![invalid_evidence.to_string()]
+    let mut stop_items = task_report
+        .map(|report| claim_texts(&report.sections.forced_stops))
+        .unwrap_or_default();
+    if stop_items.is_empty() && outcome.decision_state == Some(DecisionState::Red) {
+        stop_items = vec![invalid_evidence.to_string()];
     } else if matches!(
         outcome.state,
         OutcomeState::NotReady | OutcomeState::Unknown
     ) {
-        vec![not_ready.to_string()]
-    } else {
-        Vec::new()
-    };
+        stop_items = vec![not_ready.to_string()];
+    }
+    let resolved_items = task_report
+        .map(|report| claim_texts(&report.sections.resolutions))
+        .unwrap_or_default();
+    let avoided_items = task_report
+        .map(|report| claim_texts(&report.sections.avoided_impact))
+        .unwrap_or_default();
     let header = format!(
         "Outcome: {marker} {status} — {}\n{title}",
         outcome.work_item_id
@@ -204,15 +228,29 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
         bullet_lines(&completed_items, none),
         bullet_lines(&problems_found, none),
         bullet_lines(&stop_items, none),
-        bullet_lines(&Vec::new(), none),
-        bullet_lines(&Vec::new(), none),
-        bullet_lines(&unknowns_all, none),
+        bullet_lines(&resolved_items, none),
+        bullet_lines(&avoided_items, none),
+        bullet_lines(&remaining_risks, none),
         bullet_lines(&unknowns_all, none),
         bullet_lines(&decision_items, none),
         bullet_lines(&verification_items, none),
         bullet_lines(&impact_items, none),
         bullet_lines(&outcome.evidence_refs, none),
     )
+}
+
+fn claim_texts(claims: &[OutcomeClaim]) -> Vec<String> {
+    claims
+        .iter()
+        .filter(|claim| !claim.text.trim().is_empty())
+        .map(|claim| {
+            if claim.inference {
+                format!("Inference: {}", claim.text)
+            } else {
+                claim.text.clone()
+            }
+        })
+        .collect()
 }
 
 fn bullet_lines(items: &[String], none: &str) -> String {

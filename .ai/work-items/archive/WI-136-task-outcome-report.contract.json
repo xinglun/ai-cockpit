@@ -1,0 +1,111 @@
+{
+  "acceptanceCriteria": [
+    "OutcomeV2 keeps backward-compatible parsing for historical records while every newly generated outcome contains a strict Task Outcome report projection and a repository-bound recovery condition.",
+    "The report exposes evidence-bound sections for outcome summary, task overview, delivered changes, findings, risks, warnings, limitations, interventions, forced stops, resolutions, recurrence prevention, avoided impact, residual risks, human decisions, implementation approach, and evidence.",
+    "Every non-empty generated report claim carries at least one repository-local evidence reference or is explicitly marked inference; the Runtime never invents a benefit, approval, merge, release, provider, or security claim.",
+    "CLI and repository-bound MCP expose the same validated report and localized human handoff; labels and generated summaries switch among English, Simplified Chinese, and Japanese while Contract source text remains unchanged.",
+    "A repository-local append-only event stream records findings, warnings, stops, resolutions, confirmations, and completion without silently rewriting prior events; malformed, secret-bearing, cross-Work-Item, and broken relationship events fail closed.",
+    "finish writes the validated outcome/report/event artifacts, archive preserves them byte-for-byte and binds them in the archive manifest, and close emits a repository-bound final human report without changing governance authority.",
+    "Report generation and validation are covered by Rust protocol, repository, CLI, and MCP regression tests, including malformed, missing, foreign Work Item, stale binding, event relationship, archive, and close cases.",
+    "Reference parity and feature documentation in English, Simplified Chinese, and Japanese describe the report boundary, evidence claim rules, event lifecycle, and the fact that second-stack adopter/provider assurance remains external or deferred."
+  ],
+  "authority": "authorized",
+  "baseRevision": "3f2b65285143a1ff1a809dd78da5d8e561128811",
+  "createdAt": "2026-08-22T13:11:43Z",
+  "goal": "Provide a readable, validated Task Outcome projection and auditable report artifact lifecycle for CLI and MCP without turning presentation into governance authority.",
+  "intent": "Add a deterministic evidence-bound Task Outcome and Human Benefit projection, append-only event source, and finish/archive/close report artifacts while preserving historical bytes and human-owned decisions.",
+  "mode": "implementation",
+  "outOfScope": [
+    "tests/release/*",
+    "crates/cockpit-release/*",
+    ".github/*",
+    "docs/operations/recovery.*",
+    "docs/getting-started/*",
+    "adopter capability manifest and second-technology-stack acceptance",
+    "Global Agent or MCP configuration",
+    "Reference-source Python files or copied V1 runtime assets"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c55d7d0d29726097b9be8815e38cc1a16e0c44dec13891dd611a726062903aef",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "scenario": "valid_report_finish_archive_close",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "crates/cockpit-repository/tests/outcome_report.rs",
+        "crates/cockpit-repository/tests/archive_integrity.rs"
+      ]
+    },
+    {
+      "scenario": "tampered_report_or_event_fails_closed",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "crates/cockpit-repository/tests/outcome_report.rs"
+      ]
+    }
+  ],
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/intelligence_schema.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/tests/intelligence.rs",
+    "crates/cockpit-repository/tests/outcome_report.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "crates/cockpit-repository/tests/lifecycle_order.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/outcome_human_decision.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "docs/work-items/WI-136-task-outcome-report.md",
+    "docs/work-items/WI-136-task-outcome-report.zh-CN.md",
+    "docs/work-items/WI-136-task-outcome-report.ja.md",
+    "docs/features/README.md",
+    "docs/features/README.zh-CN.md",
+    "docs/features/README.ja.md",
+    "docs/features/task-outcome-report.md",
+    "docs/features/task-outcome-report.zh-CN.md",
+    "docs/features/task-outcome-report.ja.md",
+    "docs/features/human-benefit-report.md",
+    "docs/features/human-benefit-report.zh-CN.md",
+    "docs/features/human-benefit-report.ja.md",
+    "docs/reference/outcome-report.md",
+    "docs/reference/outcome-report.zh-CN.md",
+    "docs/reference/outcome-report.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/task-outcome-events.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/capabilities.md",
+    "docs/capabilities.zh-CN.md",
+    "docs/capabilities.ja.md"
+  ],
+  "sources": [
+    "Reference source task-outcome-report.md: typed Task Outcome sections and claim boundary.",
+    "Reference source human-benefit-report.md: human-facing result order and evidence language.",
+    "Reference source .ai/schemas/task_outcome.schema.json: report fields and status/recovery bindings.",
+    "Reference source task-outcome-events.md and ai_task_event_log.py: append-only event and correction rules.",
+    "docs/reference/reference-parity.md: current Rust parity boundary and deferred recovery responsibilities.",
+    "docs/reference/outcome-report.md: current Rust Outcome presentation and localization contract."
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked --workspace --all-targets --all-features",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "tests/docs/documentation_acceptance.sh",
+    "git diff --check"
+  ],
+  "workItemId": "WI-136-task-outcome-report"
+}

@@ -38,6 +38,7 @@ matrix は次の 4 state だけを使います。
 | Repository attach と minimum scaffold | Implemented | `attach` は repository-owned Protocol scaffold を作り、Runtime の copy を repository 内に install しない。 |
 | Explicit Agent Discovery / Adapter layer | Implemented | Agent install は explicit、owned、reversible、repository-local であり、生成 guidance は Contract-first/pause/Summary/Outcome/closure を伝える。Cursor の新規 target は `.cursor/rules/ai-cockpit.mdc`、managed な legacy `.md` は保持する。 |
 | Work Item lifecycle と governance decision | Partial | core lifecycle と human decision record はあるが、reference の広い status、cost、recovery projection は一つの adopter interface に統合されていない。 |
+| Task Outcome と Human Benefit report | Partial | WI-136 は Rust-native strict projection、append-only event stream、archive binding、close final report を追加する。完全な recovery/event reconstruction はこの境界外。Evidence: `.ai/evidence/WI-136-task-outcome-report.verification.json`。 |
 | Contract preflight human-review gate | Implemented | 不完全な scaffold Contract は明示的な `reviewState` 付き yellow となり、repository/Contract/snapshot binding を保存し、human confirmation なしでは checkpoint を越えない。 |
 | Contract V2 の structured intent と strict schema | Implemented | WI-121 は structured intent、typed sources/verification、strict な unknown-field/duplicate-key fail-closed、`humanDecisionRequest`、preflight/checkpoint gate を提供する。 |
 | Contract の cross-field dimensions（intent/scope/evidence/decision）validation | Implemented | WI-122 は high-risk scenario coverage、stable acceptance evidence、intent alignment、参照源と同じ 20 dimension の final receipt を検証する。任意の `fourPillarProjection` は表示用であり、literal `4D` protocol field はない。 |
@@ -80,6 +81,7 @@ verification record です。
 | WI-132 — Agent adapter と provider surface の parity | Implemented | [Work Item](../work-items/WI-132-agent-adapter-parity.ja.md); `.ai/evidence/WI-132-agent-adapter-parity.verification.json`; `.ai/decisions/WI-132-agent-adapter-parity.close.json` |
 | WI-133 — Documentation truth の整合 | Implemented | [Work Item](../work-items/WI-133-docs-truth.ja.md); `.ai/evidence/WI-133-docs-truth.verification.json`; `.ai/decisions/WI-133-docs-truth.close.json` |
 | WI-135 — Repository に束縛された retention と close evidence | Implemented | [Work Item](../work-items/WI-135-repository-bound-evidence.ja.md); `.ai/evidence/WI-135-repository-bound-evidence.verification.json`; `.ai/decisions/WI-135-repository-bound-evidence.close.json` |
+| WI-136 — Task Outcome と Human Benefit report | Implemented | [Work Item](../work-items/WI-136-task-outcome-report.ja.md); `.ai/evidence/WI-136-task-outcome-report.verification.json`; `.ai/decisions/WI-136-task-outcome-report.close.json` |
 
 ## 現在の境界
 

@@ -150,6 +150,14 @@ fn human_outcome_projects_structured_decision_in_all_supported_languages() {
     let machine_json: serde_json::Value = serde_json::from_slice(&machine.stdout).expect("JSON");
     assert_eq!(machine_json["schemaVersion"], 2);
     assert!(machine_json.get("humanDecision").is_none());
+    assert_eq!(
+        machine_json["taskOutcomeReport"]["format"],
+        "ai-cockpit.task-outcome"
+    );
+    assert_eq!(
+        machine_json["taskOutcomeReport"]["bindings"]["workItemId"],
+        "WI-OUTCOME-DECISION"
+    );
 
     for (language, heading, labels) in [
         (

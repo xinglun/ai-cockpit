@@ -1,0 +1,140 @@
+{
+  "acceptanceResults": [
+    "OutcomeV2 keeps backward-compatible parsing for historical records while every newly generated outcome contains a strict Task Outcome report projection and a repository-bound recovery condition.",
+    "The report exposes evidence-bound sections for outcome summary, task overview, delivered changes, findings, risks, warnings, limitations, interventions, forced stops, resolutions, recurrence prevention, avoided impact, residual risks, human decisions, implementation approach, and evidence.",
+    "Every non-empty generated report claim carries at least one repository-local evidence reference or is explicitly marked inference; the Runtime never invents a benefit, approval, merge, release, provider, or security claim.",
+    "CLI and repository-bound MCP expose the same validated report and localized human handoff; labels and generated summaries switch among English, Simplified Chinese, and Japanese while Contract source text remains unchanged.",
+    "A repository-local append-only event stream records findings, warnings, stops, resolutions, confirmations, and completion without silently rewriting prior events; malformed, secret-bearing, cross-Work-Item, and broken relationship events fail closed.",
+    "finish writes the validated outcome/report/event artifacts, archive preserves them byte-for-byte and binds them in the archive manifest, and close emits a repository-bound final human report without changing governance authority.",
+    "Report generation and validation are covered by Rust protocol, repository, CLI, and MCP regression tests, including malformed, missing, foreign Work Item, stale binding, event relationship, archive, and close cases.",
+    "Reference parity and feature documentation in English, Simplified Chinese, and Japanese describe the report boundary, evidence claim rules, event lifecycle, and the fact that second-stack adopter/provider assurance remains external or deferred."
+  ],
+  "createdAt": "2026-08-22T13:50:29Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:1cd5c22da963524d91fb6ce623c00cadaaeed77bcc04fa7c5959d4b2a32d98e5",
+  "evidenceRefs": [
+    ".ai/evidence/WI-136-task-outcome-report.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-136-task-outcome-report.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-136-task-outcome-report.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1202bc14d93ab19c2d4819d767dd29b17cfc08f27ec3eeead41eef7856c9d9e7",
+      "workItemId": "WI-136-task-outcome-report"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-136-task-outcome-report.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-136-task-outcome-report.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-136-task-outcome-report.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-136-task-outcome-report.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-136-task-outcome-report.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-136-task-outcome-report.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-136-task-outcome-report.contract.json"
+          ],
+          "inference": false,
+          "text": "Provide a readable, validated Task Outcome projection and auditable report artifact lifecycle for CLI and MCP without turning presentation into governance authority."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-136-task-outcome-report.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-136-task-outcome-report"
+  },
+  "taskReportDigest": "sha256:674f69fc808b4b0a9eff054f162dbe7a6d2e831ce432e6bcfda447a83ba8f48e",
+  "taskReportMarkdownDigest": "sha256:4d78e1fe4509cb069d079adcc622a429cb8dff7869a2df4c0c30c699f9982f0c",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-136-task-outcome-report.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-136-task-outcome-report"
+}

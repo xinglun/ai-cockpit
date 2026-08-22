@@ -95,3 +95,18 @@ dump. `structuredContent.outcome` remains the stable OutcomeV2 object;
 release, or decision. `work_item_get` remains a machine record lookup. The
 optional `language` selects `en`, `zh`, or `ja` for Runtime-generated labels;
 Contract source text remains unchanged.
+
+## Task Outcome report and events
+
+Newly generated OutcomeV2 records also contain a strict `taskOutcomeReport`.
+Its sections are evidence-bound and may be empty; an empty section is not a
+success claim. Claims without a repository-local evidence reference must carry
+`inference: true`. The report includes `failedGate` and `recoveryCondition`
+when a required control is yellow or red.
+
+`finish` writes `<id>.events.jsonl` beside the active outcome. The stream is
+append-only and rejects malformed, foreign, secret-like, or relationship-invalid
+events. `archive` moves it byte-for-byte and binds `eventsDigest`; `close`
+validates it and records `finalReport` plus `finalReportDigest` in the close
+receipt. Historical records without this additive projection remain readable;
+they are not backfilled or rewritten.

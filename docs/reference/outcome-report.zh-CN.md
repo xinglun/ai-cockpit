@@ -68,3 +68,15 @@ Agent 需要向人展示结果时，必须使用明确 `workItemId` 调用 repos
 `structuredContent.outcome` 仍是稳定的 OutcomeV2 对象；`humanHandoff` 只是 presentation projection，
 不能授权 merge、release 或人工决定。`work_item_get` 仍是面向机器的记录查询。可选 `language` 用于选择
 `en`、`zh` 或 `ja` 的 Runtime 标签；Contract 原文保持不变。
+
+## Task Outcome 报告与事件
+
+新生成的 OutcomeV2 还包含严格的 `taskOutcomeReport`。各 section 都绑定 evidence，
+可以为空；空 section 不是成功声明。没有 repository-local evidence 引用的 claim 必须
+带 `inference: true`。当必需控制为 yellow 或 red 时，报告包含 `failedGate` 和
+`recoveryCondition`。
+
+`finish` 会在 active outcome 旁写入 `<id>.events.jsonl`。事件流追加写入，并拒绝
+malformed、foreign、疑似 secret 或关系无效的事件。`archive` 逐字节移动并绑定
+`eventsDigest`；`close` 校验后在 close receipt 中记录 `finalReport` 与
+`finalReportDigest`。没有该增量投影的历史记录仍可读取，不会回填或重写。

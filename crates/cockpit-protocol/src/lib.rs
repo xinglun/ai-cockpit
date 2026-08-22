@@ -1538,6 +1538,95 @@ pub struct HumanBenefitReport {
     pub evidence_refs: Vec<String>,
 }
 
+/// An auditable claim used by the Task Outcome projection.  A claim is either
+/// backed by repository-local evidence references or explicitly marked as an
+/// inference; the Runtime never silently turns prose into a fact.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct OutcomeClaim {
+    pub text: String,
+    #[serde(default)]
+    pub evidence_refs: Vec<String>,
+    #[serde(default)]
+    pub inference: bool,
+}
+
+/// A deterministic, typed section set aligned with the reference Task Outcome
+/// report. Empty sections are intentional and render as `None`; they do not
+/// imply that a check was performed or that a benefit exists.
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct OutcomeReportSections {
+    pub outcome_summary: Vec<OutcomeClaim>,
+    pub task_overview: Vec<OutcomeClaim>,
+    pub delivered_changes: Vec<OutcomeClaim>,
+    pub findings: Vec<OutcomeClaim>,
+    pub risks: Vec<OutcomeClaim>,
+    pub warnings: Vec<OutcomeClaim>,
+    pub limitations: Vec<OutcomeClaim>,
+    pub non_risk_explanations: Vec<OutcomeClaim>,
+    pub forbidden_claims: Vec<String>,
+    pub interventions: Vec<OutcomeClaim>,
+    pub forced_stops: Vec<OutcomeClaim>,
+    pub resolutions: Vec<OutcomeClaim>,
+    pub recurrence_prevention: Vec<OutcomeClaim>,
+    pub avoided_impact: Vec<OutcomeClaim>,
+    pub residual_risks: Vec<OutcomeClaim>,
+    pub human_decisions: Vec<OutcomeClaim>,
+    pub evidence: Vec<OutcomeClaim>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub implementation_approach: Option<ImplementationApproach>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct OutcomeReportBindings {
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub evidence_refs: Vec<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub repository_snapshot_digest: Option<Digest>,
+}
+
+/// The machine-readable report source for the human handoff.  It is additive
+/// on OutcomeV2 so archived pre-report records remain readable, while every
+/// newly generated OutcomeV2 contains this projection.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TaskOutcomeReport {
+    pub format: String,
+    pub schema_version: u32,
+    pub work_item_id: String,
+    pub status: OutcomeState,
+    pub human_status_color: DecisionState,
+    pub bindings: OutcomeReportBindings,
+    pub sections: OutcomeReportSections,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub failed_gate: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub recovery_condition: Option<String>,
+}
+
+/// One append-only Task Outcome event.  Events are evidence inputs to the
+/// report projection; they never grant authority or replace lifecycle receipts.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TaskOutcomeEvent {
+    pub schema_version: u32,
+    pub event_id: String,
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub event_type: String,
+    pub timestamp: String,
+    pub detail: String,
+    #[serde(default)]
+    pub evidence_refs: Vec<String>,
+    #[serde(default)]
+    pub related_event_ids: Vec<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub correction_of: Option<String>,
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct OutcomeV2 {
@@ -1552,6 +1641,8 @@ pub struct OutcomeV2 {
     pub unknowns: Vec<String>,
     pub evidence_refs: Vec<String>,
     pub human_benefit_report: HumanBenefitReport,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub task_outcome_report: Option<TaskOutcomeReport>,
 }
 
 /// A read-only, evidence-bound Work Item status projection.  Counts are

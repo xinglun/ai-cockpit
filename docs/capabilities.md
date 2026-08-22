@@ -353,6 +353,12 @@ ai-cockpit diagnose --repo /path/to/repository --work-item WI-123
 `approach` emits observed facts, named derivations, evidence references, and
 unknown human inputs. `outcome` distinguishes verified implementation evidence
 from the human-benefit report; an undeclared benefit remains `unknown`. The
+newly generated OutcomeV2 also contains a strict `taskOutcomeReport` with
+evidence-bound sections, `failedGate`/`recoveryCondition`, and an append-only
+`<id>.events.jsonl` source. `finish` creates the stream, `archive` binds its
+digest, and `close` records the validated report as `finalReport`. Historical
+records are not backfilled. The report is presentation/evidence projection,
+not an approval source; full event-sourced recovery remains a separate boundary.
 capability registry reports detection versus profile-confirmed verification and
 includes confidence and evidence. `inspect` fails closed for parallel execution
 when dependencies, conflicts, or scope compatibility are not explicitly known.

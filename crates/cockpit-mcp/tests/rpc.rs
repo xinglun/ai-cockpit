@@ -187,6 +187,14 @@ fn mcp_work_item_outcome_returns_explicit_human_handoff_with_cli_parity() {
     assert_eq!(response["result"]["content"][0]["text"], handoff);
     assert_eq!(structured["language"], "zh");
     assert_eq!(structured["outcome"]["state"], "not_ready");
+    assert_eq!(
+        structured["outcome"]["taskOutcomeReport"]["format"],
+        "ai-cockpit.task-outcome"
+    );
+    assert_eq!(
+        structured["outcome"]["taskOutcomeReport"]["bindings"]["workItemId"],
+        "WI-MCP-HANDOFF"
+    );
     assert!(handoff.starts_with("Outcome: 🟡 需要关注 — WI-MCP-HANDOFF\n结果"));
     assert!(handoff.contains("人工决定"));
     assert!(handoff.contains("决定: continue"));
