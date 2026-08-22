@@ -1,0 +1,21 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-22T13:00:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-135-repository-bound-evidence.verification.json"
+    ],
+    "policyRefs": [
+      "repository-bound-evidence"
+    ],
+    "reason": "Repository-bound retention and close receipt integrity is implemented, tested, and CI-verified; the archived evidence remains bound to Work Item, repository, snapshot, and Runtime.",
+    "resumeCondition": "Re-run verification if repository, Runtime, or evidence policy changes.,"
+  },
+  "timestamp": "2026-08-22T12:59:10Z",
+  "workItemId": "WI-135-repository-bound-evidence"
+}

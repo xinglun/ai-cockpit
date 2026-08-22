@@ -7,7 +7,7 @@ audience:
   - adopter
   - contributor
   - maintainer
-status: implementation
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-135-repository-bound-evidence
 ---
@@ -37,5 +37,6 @@ repository 的真实治理事实接受。
 
 ## 验证
 
-生命周期完成后补充归档 verification evidence 与 close decision 链接。本 WI 不引入
+归档 verification evidence：`.ai/evidence/WI-135-repository-bound-evidence.verification.json`。
+关闭 decision：`.ai/decisions/WI-135-repository-bound-evidence.close.json`。本 WI 不引入
 Task Report 或 Recovery 状态功能。

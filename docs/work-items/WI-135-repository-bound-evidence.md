@@ -7,7 +7,7 @@ audience:
   - adopter
   - contributor
   - maintainer
-status: implementation
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-135-repository-bound-evidence
 ---
@@ -39,5 +39,6 @@ accepted as current repository truth.
 
 ## Verification
 
-The archived verification evidence and close decision are linked after the lifecycle is
-complete. This WI does not introduce Task Report or recovery-state features.
+Archived verification evidence: `.ai/evidence/WI-135-repository-bound-evidence.verification.json`.
+Close decision: `.ai/decisions/WI-135-repository-bound-evidence.close.json`. This WI does not
+introduce Task Report or recovery-state features.
