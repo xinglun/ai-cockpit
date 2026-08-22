@@ -7,9 +7,9 @@ audience:
   - adopter
   - contributor
   - maintainer
-status: implementation
+status: implemented
 authority: canonical
-lastVerifiedBy: WI-133-docs-truth
+lastVerifiedBy: WI-134-docs-close-finalization
 ---
 
 # WI-133 — Documentation truth の整合
@@ -34,4 +34,7 @@ archived evidence と close decision へ安定して追跡できるようにし�
 
 ## Verification
 
-documentation acceptance と最終 diff review の結果は active Contract と Runtime evidence に記録します。
+documentation acceptance と最終 diff review の結果は archived Contract、verification evidence、
+close decision、Runtime evidence に記録します。証跡は
+`.ai/evidence/WI-133-docs-truth.verification.json` と
+`.ai/decisions/WI-133-docs-truth.close.json` です。

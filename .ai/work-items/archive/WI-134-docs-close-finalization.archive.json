@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T12:11:53Z",
+  "files": {
+    "contractDigest": "sha256:5afce04bb49e6501c5d17cdbe484171cf23b69ccf90792faf1809af6d1d9f669",
+    "contractPath": ".ai/work-items/archive/WI-134-docs-close-finalization.contract.json",
+    "outcomeDigest": "sha256:475b9d8555af6438e0d712428c6c16183733cfd180f2f606ed3705e92ffabbf5",
+    "outcomePath": ".ai/work-items/archive/WI-134-docs-close-finalization.outcome.json",
+    "summaryDigest": "sha256:a91ed1efda1b646310bee511424cae10415a799df0c13dcdc9b05ad8a554bd04",
+    "summaryPath": ".ai/work-items/archive/WI-134-docs-close-finalization.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-134-docs-close-finalization"
+}

@@ -81,6 +81,7 @@ record for each boundary.
 | WI-130 — Closed Work Item status projection | Implemented | [Work Item](../work-items/WI-130-status-closed-projection.md); `.ai/evidence/WI-130-status-closed-projection.verification.json`; `.ai/decisions/WI-130-status-closed-projection.close.json` |
 | WI-131 — Fail-closed verification evidence timestamps | Implemented | [Work Item](../work-items/WI-131-evidence-timestamp.md); `.ai/evidence/WI-131-evidence-timestamp.verification.json`; `.ai/decisions/WI-131-evidence-timestamp.close.json` |
 | WI-132 — Agent adapter and provider-surface parity | Implemented | [Work Item](../work-items/WI-132-agent-adapter-parity.md); `.ai/evidence/WI-132-agent-adapter-parity.verification.json`; `.ai/decisions/WI-132-agent-adapter-parity.close.json` |
+| WI-133 — Documentation truth reconciliation | Implemented | [Work Item](../work-items/WI-133-docs-truth.md); `.ai/evidence/WI-133-docs-truth.verification.json`; `.ai/decisions/WI-133-docs-truth.close.json` |
 
 ## Current boundary
 
@@ -89,6 +90,11 @@ repository owns its Protocol, Work Items, evidence, knowledge, and adapter
 records. Future changes must preserve explicit repository binding, evidence
 isolation, human-owned decisions, and the separation between Runtime delivery
 and repository state.
+
+After a Work Item is closed, the same release-audit cycle finalizes its
+tri-lingual documentation: status `implemented`, links to archived
+verification/close evidence, and a matching parity-baseline row. This
+documentation-truth rule does not rewrite historical evidence.
 
 ## Scenario, acceptance, and final-dimension projections
 

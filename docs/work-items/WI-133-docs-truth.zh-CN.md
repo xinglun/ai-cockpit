@@ -7,9 +7,9 @@ audience:
   - adopter
   - contributor
   - maintainer
-status: implementation
+status: implemented
 authority: canonical
-lastVerifiedBy: WI-133-docs-truth
+lastVerifiedBy: WI-134-docs-close-finalization
 ---
 
 # WI-133 — 文档事实一致性校正
@@ -34,4 +34,7 @@ lastVerifiedBy: WI-133-docs-truth
 
 ## Verification
 
-documentation acceptance 与最终 diff review 结果记录在 active Contract 和 Runtime evidence 中。
+documentation acceptance 与最终 diff review 结果记录在 archived Contract、verification evidence、
+close decision 和 Runtime evidence 中。证据为
+`.ai/evidence/WI-133-docs-truth.verification.json` 与
+`.ai/decisions/WI-133-docs-truth.close.json`。
