@@ -77,6 +77,21 @@ Every repository-bound command carries `--repo`. The Runtime has no global
 current repository, Work Item, or project profile. Contract criteria remain in
 their source language; only the human presentation layer is localized.
 
+## Agent provider surfaces
+
+The adapter is a thin repository-local projection of these rules; it is not a
+second policy engine. `agent install` is explicit and owned. New Cursor
+installations use the provider-native `.cursor/rules/ai-cockpit.mdc` surface.
+Repositories that already have a managed `.cursor/rules/ai-cockpit.md` keep that
+legacy target so an upgrade does not rename or overwrite user files. The
+Runtime never auto-installs `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, Cursor rules,
+or global provider/MCP configuration.
+
+The generated managed section carries the same Contract-first, pause,
+Summary, visible Outcome, and closure semantics documented above. It is
+advisory discovery guidance: current governance state must always come from
+the explicit Runtime query, and a provider's prompt cannot grant authority.
+
 ## Safety boundary
 
 Rules remain language-neutral and repository-local. Do not include secrets or

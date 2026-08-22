@@ -204,7 +204,7 @@ pub fn detect_providers(root: &Path) -> Result<Vec<DetectionResult>, AgentError>
     let context = load_agent_context(root)?;
     let mut results = Vec::new();
     for provider in all_providers() {
-        let target = provider_target(&context.root, &provider);
+        let target = resolve_provider_target(&context.root, &provider)?;
         if !surface_is_discoverable(&context.root, &provider, &target) {
             continue;
         }
@@ -216,7 +216,7 @@ pub fn detect_providers(root: &Path) -> Result<Vec<DetectionResult>, AgentError>
 
 pub fn plan_install(root: &Path, provider: AgentProvider) -> Result<AdapterPlan, AgentError> {
     let context = load_agent_context(root)?;
-    let target = provider_target(&context.root, &provider);
+    let target = resolve_provider_target(&context.root, &provider)?;
     let inspection = inspect_target(&provider, target.clone())?;
     Ok(AdapterPlan {
         provider,
@@ -230,7 +230,7 @@ pub fn plan_install(root: &Path, provider: AgentProvider) -> Result<AdapterPlan,
 
 pub fn install_adapter(root: &Path, provider: AgentProvider) -> Result<AdapterReceipt, AgentError> {
     let context = load_agent_context(root)?;
-    let target = provider_target(&context.root, &provider);
+    let target = resolve_provider_target(&context.root, &provider)?;
     if !target.starts_with(&context.root) {
         return Err(AgentError::State {
             path: target,
@@ -399,7 +399,20 @@ pub fn doctor(root: &Path) -> Result<cockpit_protocol::AgentDoctorReport, AgentE
     let mut problems = Vec::new();
     let mut installed_count = 0_usize;
     for provider in all_providers() {
-        let target = provider_target(&context.root, &provider);
+        let target = match resolve_provider_target(&context.root, &provider) {
+            Ok(target) => target,
+            Err(error) => {
+                let target = canonical_provider_target(&context.root, &provider);
+                let target_name = relative_target(&context.root, &target)?;
+                adapters.push(cockpit_protocol::AgentDoctorAdapter {
+                    provider,
+                    state: "conflict".into(),
+                    target: target_name.clone(),
+                });
+                problems.push(format!("{target_name}: {error}"));
+                continue;
+            }
+        };
         let target_name = relative_target(&context.root, &target)?;
         let ownership_path = context
             .root
@@ -555,7 +568,7 @@ pub fn doctor(root: &Path) -> Result<cockpit_protocol::AgentDoctorReport, AgentE
 
 pub fn detach_adapter(root: &Path, provider: AgentProvider) -> Result<(), AgentError> {
     let context = load_agent_context(root)?;
-    let target = provider_target(&context.root, &provider);
+    let target = resolve_provider_target(&context.root, &provider)?;
     let ownership_path = context
         .root
         .join(".ai/adapters")
@@ -580,7 +593,7 @@ pub fn detach_adapter(root: &Path, provider: AgentProvider) -> Result<(), AgentE
 
 pub fn repair_adapter(root: &Path, provider: AgentProvider) -> Result<AdapterReceipt, AgentError> {
     let context = load_agent_context(root)?;
-    let target = provider_target(&context.root, &provider);
+    let target = resolve_provider_target(&context.root, &provider)?;
     let ownership_path = context
         .root
         .join(".ai/adapters")
@@ -719,13 +732,89 @@ fn all_providers() -> [AgentProvider; 5] {
     ]
 }
 
-fn provider_target(root: &Path, provider: &AgentProvider) -> PathBuf {
+fn canonical_provider_target(root: &Path, provider: &AgentProvider) -> PathBuf {
     match provider {
         AgentProvider::GenericAgentsMd | AgentProvider::Codex => root.join("AGENTS.md"),
         AgentProvider::Claude => root.join("CLAUDE.md"),
         AgentProvider::Gemini => root.join("GEMINI.md"),
-        AgentProvider::Cursor => root.join(".cursor/rules/ai-cockpit.md"),
+        AgentProvider::Cursor => root.join(".cursor/rules/ai-cockpit.mdc"),
     }
+}
+
+fn resolve_provider_target(root: &Path, provider: &AgentProvider) -> Result<PathBuf, AgentError> {
+    let canonical = canonical_provider_target(root, provider);
+    if !matches!(provider, AgentProvider::Cursor) {
+        return Ok(canonical);
+    }
+
+    // A repository that already has an owned Cursor adapter keeps its recorded
+    // target, so upgrading the Runtime never silently renames a legacy .md
+    // surface. The record is validated before it can influence any path.
+    let ownership_path = root
+        .join(".ai/adapters")
+        .join(format!("{}.json", provider_name(provider)));
+    if ownership_path.exists() {
+        reject_symlink(&ownership_path)?;
+        let record = read_managed_record(&ownership_path)?;
+        if record.provider != *provider
+            || record.adapter_version != 1
+            || record.mode != "managed-section"
+            || record.repository_id.is_empty()
+        {
+            return Err(AgentError::State {
+                path: ownership_path,
+                message: "invalid Cursor adapter ownership record".into(),
+            });
+        }
+        let target = root.join(&record.target);
+        validate_cursor_target(root, &target)?;
+        return Ok(target);
+    }
+
+    if canonical.exists() {
+        return Ok(canonical);
+    }
+
+    // Legacy .md is selected only when it contains an adapter marker. A
+    // user-owned .md file is left untouched and a new install uses .mdc.
+    let legacy = root.join(".cursor/rules/ai-cockpit.md");
+    if legacy.exists() {
+        reject_symlink(&legacy)?;
+        let text = read_bounded_text(&legacy)?;
+        if text.contains(ADAPTER_BEGIN_MARKER) || text.contains(ADAPTER_END_MARKER) {
+            return Ok(legacy);
+        }
+    }
+    Ok(canonical)
+}
+
+fn validate_cursor_target(root: &Path, target: &Path) -> Result<(), AgentError> {
+    let relative = target.strip_prefix(root).map_err(|_| AgentError::State {
+        path: target.into(),
+        message: "Cursor adapter target escaped repository root".into(),
+    })?;
+    if relative.components().any(|component| {
+        matches!(
+            component,
+            std::path::Component::Prefix(_)
+                | std::path::Component::RootDir
+                | std::path::Component::ParentDir
+        )
+    }) {
+        return Err(AgentError::State {
+            path: target.into(),
+            message: "Cursor adapter target must be repository-relative".into(),
+        });
+    }
+    let canonical = root.join(".cursor/rules/ai-cockpit.mdc");
+    let legacy = root.join(".cursor/rules/ai-cockpit.md");
+    if target != canonical && target != legacy {
+        return Err(AgentError::State {
+            path: target.into(),
+            message: "Cursor adapter target is not a supported provider surface".into(),
+        });
+    }
+    Ok(())
 }
 
 fn surface_is_discoverable(root: &Path, provider: &AgentProvider, target: &Path) -> bool {
@@ -841,7 +930,7 @@ fn managed_section<'a>(text: &'a str, path: &Path) -> Result<Option<&'a str>, Ag
 
 fn managed_block(provider: &AgentProvider, repository_id: &str) -> String {
     format!(
-        "<!-- AI_COCKPIT_ADAPTER_BEGIN provider={} adapterVersion=1 repositoryId={} -->\n\nThis repository is attached to AI Cockpit.\n\nCanonical interface: .ai/agent-interface.json\nRead .ai/README.md before acting; it is the repository-local Agent route.\n\nUse AI Cockpit as the repository-governance interface.\nEvery repository-bound command must include an explicit --repo <path>.\nPrefer MCP when available; CLI remains the fallback.\n\nBefore changing files, query inspect, status, doctor, and agent doctor.\nFor authorized changes use: start or work-item new → preflight → checkpoint → verify → finish → archive → close.\nKeep Contract intent, scope, acceptance criteria, and authority human-owned; never edit global Agent or MCP configuration.\n\nDo not infer AI Cockpit state from this file.\nQuery the Runtime for current governance state.\n\n{}\n",
+        "<!-- AI_COCKPIT_ADAPTER_BEGIN provider={} adapterVersion=1 repositoryId={} -->\n\nThis repository is attached to AI Cockpit.\n\nCanonical interface: .ai/agent-interface.json\nRead .ai/README.md before acting; read .ai/glossary.md for the repository-local Agent route and vocabulary.\n\nUse the installed shared Rust Runtime as the repository-governance interface.\nEvery repository-bound command must include an explicit --repo <path>.\nPrefer MCP when available; CLI remains the fallback. Do not infer AI Cockpit state from this file. Query the Runtime for current governance state.\n\nBefore editing, query inspect, status, doctor, and agent doctor. Use one bounded Work Item, branch, and worktree. Keep all edits inside the Contract scope; amend and re-run preflight before expanding it.\n\nContract first: intent, scope, outOfScope, sources, unknowns, acceptance criteria, verification, and authority are human-owned. For code mode, unresolved unknowns or notCodable conditions stop implementation. Do not invent intent, approval, evidence, or completion.\n\nA preflight result of not_ready or needs_human_confirmation is a mandatory human pause. Show the humanDecisionRequest and resume condition; a successful command or yellow result is not authorization.\n\nFor authorized changes use: start or work-item new → preflight → checkpoint → verify → finish → archive → close. Keep the Summary current with changed paths and reasons, sources, verification commands/results, guideline compliance, unknowns, risk, generated/destructive changes, and observed issues.\n\nBefore archive, present a visible human Outcome with 🟢/🟡/🔴, facts, unknowns, evidence, human decision, and next action. A raw MCP record or folded-only output is not a human handoff. Close only after the merged PR, archive, decision, default-branch synchronization, clean worktrees, and exact branch removal are verified.\n\nNever edit global Agent or MCP configuration, secrets, or credentials. Do not copy V1 runtime code, Python modules, Make commands, installers, or schemas into this repository.\n\n{}\n",
         provider_name(provider),
         repository_id,
         ADAPTER_END_MARKER

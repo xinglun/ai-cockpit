@@ -98,6 +98,35 @@ fn provider_target_is_repository_relative() {
 }
 
 #[test]
+fn cursor_uses_provider_native_mdc_target() {
+    let repository = repository();
+    fs::create_dir_all(repository.path().join(".cursor/rules")).expect("cursor rules");
+    let plan = cockpit_agent::plan_install(repository.path(), AgentProvider::Cursor).expect("plan");
+    let canonical_root = repository.path().canonicalize().expect("canonical root");
+    assert_eq!(
+        plan.target,
+        canonical_root.join(".cursor/rules/ai-cockpit.mdc")
+    );
+}
+
+#[test]
+fn cursor_legacy_managed_md_remains_discoverable() {
+    let repository = repository();
+    let target = repository.path().join(".cursor/rules/ai-cockpit.md");
+    fs::create_dir_all(target.parent().expect("rules")).expect("cursor rules");
+    fs::write(
+        &target,
+        "<!-- AI_COCKPIT_ADAPTER_BEGIN provider=cursor -->\nlegacy\n<!-- AI_COCKPIT_ADAPTER_END -->\n",
+    )
+    .expect("legacy adapter");
+    let plan = cockpit_agent::plan_install(repository.path(), AgentProvider::Cursor).expect("plan");
+    assert_eq!(
+        plan.target,
+        target.canonicalize().expect("canonical target")
+    );
+}
+
+#[test]
 fn duplicate_marker_is_a_conflict() {
     let repository = repository();
     let target = repository.path().join("AGENTS.md");

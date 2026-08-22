@@ -37,7 +37,7 @@ The matrix uses exactly four states:
 | Purpose, problem, architecture, and capability overview | Implemented | The philosophy, architecture, and capability routes describe the current Runtime and its owners. |
 | Shared Runtime with request-scoped repository contexts | Implemented | Explicit `--repo` binding and repository isolation tests keep context and evidence separate. |
 | Repository attachment and minimum scaffold | Implemented | `attach` creates the repository-owned Protocol scaffold without installing a Runtime copy. |
-| Explicit Agent Discovery / Adapter layer | Implemented | Agent installation is explicit, owned, reversible, and repository-local. |
+| Explicit Agent Discovery / Adapter layer | Implemented | Agent installation is explicit, owned, reversible, and repository-local; generated guidance carries Contract-first/pause/Summary/Outcome/closure semantics, Cursor uses canonical `.cursor/rules/ai-cockpit.mdc`, and managed legacy `.md` remains readable. |
 | Work Item lifecycle and governance decisions | Partial | The core lifecycle and human decision records exist; the reference's broader status, cost, and recovery projections are not all exposed as one adopter interface. |
 | Contract preflight human-review gate | Implemented | Incomplete scaffold Contracts are yellow with an explicit `reviewState`, persist repository/Contract/snapshot bindings, and cannot cross checkpoint without human confirmation. |
 | Contract V2 structured intent and strict schema | Implemented | WI-121 provides structured intent, typed sources/verification, strict unknown-field/duplicate-key fail-closed checks, `humanDecisionRequest`, and the preflight/checkpoint gate. |

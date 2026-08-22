@@ -1,0 +1,48 @@
+{
+  "acceptanceCriteria": [
+    "A1 provider-native Cursor .mdc discovery is canonical and legacy .md adapters remain safely readable",
+    "A2 managed adapter guidance covers Contract-first unknowns preflight human pause Summary Outcome and closure without copying Make or V1 runtime rules",
+    "A3 provider detection install doctor detach and repository isolation remain deterministic and fail closed",
+    "A4 glossary and three-language reference docs expose the inherited semantics and Rust adaptation boundary"
+  ],
+  "authority": "authorized",
+  "baseRevision": "2d4e469eb5452029e92589150b5c6694455b036b",
+  "createdAt": "2026-08-22T11:33:56Z",
+  "goal": "Provide repository-local Agent guidance that carries Contract-first and visible Outcome rules and make Cursor adapter discovery compatible with the reference .mdc surface.",
+  "intent": "Align explicit Agent adapter instructions and provider-native discovery surfaces with the reference semantics while preserving the Rust Runtime boundary.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/cockpit-core/**",
+    "global-MCP-configuration",
+    "user-global-Agent-configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:498a10c63fa1a8391a8f890f87b82c753700e95c24ed5d20ed40b9f0848264ad",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-agent/src/lib.rs",
+    "crates/cockpit-agent/tests/detection.rs",
+    "crates/cockpit-agent/tests/install.rs",
+    "crates/cockpit-agent/tests/doctor.rs",
+    "crates/cockpit-cli/tests/agent.rs",
+    ".ai/glossary.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-132-agent-adapter-parity.md",
+    "docs/work-items/WI-132-agent-adapter-parity.ja.md",
+    "docs/work-items/WI-132-agent-adapter-parity.zh-CN.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-132-agent-adapter-parity"
+}

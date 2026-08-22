@@ -137,3 +137,31 @@ fn cli_agent_operation_does_not_require_mcp() {
     );
     assert!(output.status.success(), "stderr: {:?}", output.stderr);
 }
+
+#[test]
+fn cli_cursor_install_uses_mdc_without_overwriting_legacy_user_rules() {
+    let repository = repository();
+    attach(repository.path());
+    let legacy = repository.path().join(".cursor/rules/ai-cockpit.md");
+    fs::create_dir_all(legacy.parent().expect("rules")).expect("cursor rules");
+    fs::write(&legacy, "user Cursor rules\n").expect("legacy");
+    let install = run(
+        repository.path(),
+        &["agent", "install", "--provider", "cursor"],
+    );
+    assert!(
+        install.status.success(),
+        "install stderr: {:?}",
+        install.stderr
+    );
+    assert_eq!(
+        fs::read_to_string(&legacy).expect("legacy"),
+        "user Cursor rules\n"
+    );
+    assert!(
+        repository
+            .path()
+            .join(".cursor/rules/ai-cockpit.mdc")
+            .is_file()
+    );
+}

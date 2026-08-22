@@ -150,6 +150,80 @@ fn install_rejects_duplicate_or_malformed_markers() {
     assert!(cockpit_agent::install_adapter(repository.path(), AgentProvider::Codex).is_err());
 }
 
+#[test]
+fn cursor_install_writes_mdc_and_preserves_user_owned_legacy_md() {
+    let repository = repository(&id('a'));
+    let legacy = repository.path().join(".cursor/rules/ai-cockpit.md");
+    fs::create_dir_all(legacy.parent().expect("rules")).expect("cursor rules");
+    fs::write(&legacy, "user Cursor rules\n").expect("legacy user rules");
+    let receipt =
+        cockpit_agent::install_adapter(repository.path(), AgentProvider::Cursor).expect("install");
+    assert_eq!(
+        receipt.target,
+        repository
+            .path()
+            .canonicalize()
+            .expect("canonical root")
+            .join(".cursor/rules/ai-cockpit.mdc")
+    );
+    assert_eq!(
+        fs::read_to_string(legacy).expect("legacy"),
+        "user Cursor rules\n"
+    );
+    assert!(
+        repository
+            .path()
+            .join(".cursor/rules/ai-cockpit.mdc")
+            .is_file()
+    );
+}
+
+#[test]
+fn cursor_legacy_managed_adapter_is_repaired_in_place() {
+    let repository = repository(&id('a'));
+    let canonical_root = repository.path().canonicalize().expect("canonical root");
+    let legacy = canonical_root.join(".cursor/rules/ai-cockpit.md");
+    fs::create_dir_all(legacy.parent().expect("rules")).expect("cursor rules");
+    let canonical = canonical_root.join(".cursor/rules/ai-cockpit.mdc");
+    let first =
+        cockpit_agent::install_adapter(repository.path(), AgentProvider::Cursor).expect("install");
+    let mut record: ManagedAdapterRecord = serde_json::from_slice(
+        &fs::read(repository.path().join(".ai/adapters/cursor.json")).expect("record"),
+    )
+    .expect("record JSON");
+    fs::rename(&canonical, &legacy).expect("legacy rename");
+    record.target = ".cursor/rules/ai-cockpit.md".into();
+    fs::write(
+        repository.path().join(".ai/adapters/cursor.json"),
+        serde_json::to_vec_pretty(&record).expect("record bytes"),
+    )
+    .expect("legacy record");
+    assert_eq!(first.target, canonical);
+    let legacy_plan =
+        cockpit_agent::plan_install(repository.path(), AgentProvider::Cursor).expect("legacy plan");
+    assert_eq!(legacy_plan.target, legacy);
+    let mut content = fs::read_to_string(&legacy).expect("content");
+    content = content.replace("This repository is attached", "This repository was edited");
+    fs::write(&legacy, content).expect("edit");
+    assert!(cockpit_agent::repair_adapter(repository.path(), AgentProvider::Cursor).is_err());
+    assert!(repository.path().join(".ai/adapters/cursor.json").is_file());
+}
+
+#[test]
+fn cursor_legacy_managed_adapter_detaches_only_owned_bytes() {
+    let repository = repository(&id('a'));
+    let legacy = repository.path().join(".cursor/rules/ai-cockpit.md");
+    fs::create_dir_all(legacy.parent().expect("rules")).expect("cursor rules");
+    fs::write(&legacy, "user Cursor rules\n").expect("legacy");
+    cockpit_agent::install_adapter(repository.path(), AgentProvider::Cursor).expect("install");
+    cockpit_agent::detach_adapter(repository.path(), AgentProvider::Cursor).expect("detach");
+    assert_eq!(
+        fs::read_to_string(&legacy).expect("legacy"),
+        "user Cursor rules\n"
+    );
+    assert!(!repository.path().join(".ai/adapters/cursor.json").exists());
+}
+
 #[cfg(unix)]
 #[test]
 fn install_rejects_symlink_target() {

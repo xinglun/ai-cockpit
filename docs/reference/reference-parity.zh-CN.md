@@ -35,7 +35,7 @@ capabilityClaims:
 | 目的、问题、架构和功能概览 | 已实现 | 设计思想、架构和功能路线描述当前 Runtime 及其责任方。 |
 | 共享 Runtime 与 request-scoped repository context | 已实现 | 显式 `--repo` 绑定和 repository isolation tests 保持 context 与 evidence 隔离。 |
 | Repository attach 和最小 scaffold | 已实现 | `attach` 创建 repository-owned Protocol scaffold，不在项目内安装 Runtime 副本。 |
-| 显式 Agent Discovery / Adapter 层 | 已实现 | Agent 安装是显式、可拥有、可回滚且 repository-local 的操作。 |
+| 显式 Agent Discovery / Adapter 层 | 已实现 | Agent 安装是显式、可拥有、可回滚且 repository-local；生成的 guidance 继承 Contract-first/暂停/Summary/Outcome/closure 语义，Cursor 新安装使用 `.cursor/rules/ai-cockpit.mdc`，已管理的 legacy `.md` 保持可读。 |
 | Work Item 生命周期和治理决定 | 部分实现 | 核心生命周期和 human decision record 已存在；参考源更广的 status、cost、recovery projection 尚未统一为一个 adopter 接口。 |
 | Contract preflight 人工确认门 | 已实现 | 不完整的 scaffold Contract 返回带显式 `reviewState` 的 yellow，持久化 repository/Contract/snapshot 绑定，未经人工确认不能越过 checkpoint。 |
 | Contract V2 结构化 intent 与严格 schema | 已实现 | WI-121 提供结构化 intent、typed sources/verification、严格的 unknown-field/duplicate-key fail-closed、`humanDecisionRequest` 以及 preflight/checkpoint gate。 |
