@@ -24,7 +24,7 @@ capabilityClaims:
 | 准备 | `attach`、`profile confirm`、`profile propose` | 创建/更新协议状态、确认 profile，或输出只读候选。 |
 | 迁移 | `migrate apply --approved` | 只应用经过审查的 repository schema migration，并写入绑定 Runtime 的 migration receipt。 |
 | 治理 | `preflight` | 读取 Contract，返回 green/yellow/red decision 与 `reviewState`；不完整或不确定的 Contract 为需人工确认的 yellow，不能越过 checkpoint。 |
-| Work Item | `work-item new`、`start`、`checkpoint`、`finish`、`archive`、`close` | 创建骨架或写入显式生命周期记录；`close` 要求 human decision。 |
+| Work Item | `work-item new`、`start`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls` | 创建骨架、验证或写入显式生命周期记录；`close` 要求 human decision。 |
 | Verification | `verify` | 执行有界命令、记录 evidence，并可绑定 Work Item。 |
 | 外部 evidence | `evidence import`、`evidence list`、`evidence policy`、`evidence purge-plan` | 将精确 provider bytes 绑定到 Work Item，声明有界持久化策略，或生成确定性的非破坏性处置计划。 |
 | Audit | `audit export` | 生成绑定 repository 的稳定事件包交给外部保留方；不宣称本地 immutable。 |
@@ -42,6 +42,8 @@ capabilityClaims:
   会让重复竞争 fail closed：同一 ID 只有一个请求成功，另一个失败；不同 repository 仍然相互独立。
 - `work-item outcome --repo <path> --id <id>` 按已完成内容、问题、停止、风险、未知、决定、验证、影响和下一步的顺序输出面向人的结果。
   自动化请使用 `--json`。状态标记和语言规则见[面向人的 Outcome](outcome-report.zh-CN.md)。
+- `work-item validate --repo <path> --id <id> [--json]` 只读统一检查 Contract/Summary 的 scenario coverage、stable acceptance evidence、intent alignment 和可选最终维度 receipt。
+  `work-item controls --repo <path> --id <id> --input <json>` 只记录显式提供的这四类投影字段，不能改变生命周期状态、Contract facts 或 verification receipt。
 - `profile propose --repo <path>` 只读输出 `candidate`/`proposed` amendment，不会应用 profile baseline 修改。
 - `agent list --repo <path>` 是只读操作；`agent install` 是唯一正常的 adapter 写入口，必须指定
   `--provider`（`auto` 只有在恰好一个无歧义安全 surface 时可用；`AGENTS.md` 默认选择 Codex）。`agent doctor --repo <path> --json`
@@ -75,6 +77,17 @@ capabilityClaims:
 - 当 attached protocol files 完整存在时，有状态治理命令必须先得到 `COMPATIBLE`；
   `MIGRATION_REQUIRED` 和 `INCOMPATIBLE` 会在创建新 Work Item、生命周期 record、verification evidence、
   profile/adapter 写入或受治理 MCP 操作前 fail closed。迁移审查所需的只读诊断仍可用。
+
+## Contract/Summary 控制验证
+
+repository library 提供 `validate_work_item_governance_controls`，供
+Agent/MCP adapter 使用一个稳定报告同时检查 scenario coverage、acceptance
+evidence、intent alignment 和可选的最终维度 receipt。验证器是只读的；缺失
+字段只会报告 `blocked` 或 `unknown`，不会自动补全。最终 receipt 使用参考源
+完整的 20 个维度；`fourPillarProjection` 是明确命名的可选展示视图，`4D`
+不是协议字段。
+当 adapter 提供当前 Runtime context 时，验证器还会要求 `runtimeVersion` 和
+`runtimeDigest` 匹配；独立 value helper 只保证非空及带版本的 digest 格式。
 
 ## Runtime identity
 

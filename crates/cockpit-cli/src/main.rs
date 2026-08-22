@@ -345,6 +345,25 @@ enum WorkItemCommand {
         #[arg(long, default_value_t = false)]
         parallelizable: bool,
     },
+    Validate {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+        /// Emit the stable machine-readable validation report.
+        #[arg(long)]
+        json: bool,
+    },
+    Controls {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+        /// JSON object containing only scenarioCoverage, acceptanceEvidence,
+        /// intentAlignment, or finalDimensions.
+        #[arg(long)]
+        input: PathBuf,
+    },
 }
 
 #[derive(Debug, Subcommand)]
@@ -912,6 +931,42 @@ fn run() -> Result<()> {
                 )
                 .context("declare Work Item intelligence")?;
                 println!("{}", serde_json::to_string_pretty(&intelligence)?);
+            }
+            WorkItemCommand::Validate { repo, id, json } => {
+                require_compatible(&repo, &runtime_context)?;
+                let report =
+                    cockpit_repository::validate_work_item_governance_controls_with_runtime(
+                        &repo,
+                        &id,
+                        &runtime_context,
+                    )
+                    .context("validate Work Item Contract/Summary controls")?;
+                if json {
+                    println!("{}", serde_json::to_string_pretty(&report)?);
+                } else {
+                    println!("Governance controls: {}", report.state);
+                    println!("  scenario coverage: {}", report.scenario_coverage);
+                    println!("  acceptance evidence: {}", report.acceptance_evidence);
+                    println!("  intent alignment: {}", report.intent_alignment);
+                    println!("  final dimensions: {}", report.final_dimensions);
+                    if !report.unknowns.is_empty() {
+                        println!("  unknowns: {}", report.unknowns.join(", "));
+                    }
+                    for item in report.findings {
+                        println!("  [{}] {}: {}", item.severity, item.code, item.message);
+                    }
+                }
+            }
+            WorkItemCommand::Controls { repo, id, input } => {
+                require_compatible(&repo, &runtime_context)?;
+                let controls: serde_json::Value = serde_json::from_slice(
+                    &std::fs::read(&input).context("read governance controls input")?,
+                )
+                .context("parse governance controls input")?;
+                let summary =
+                    cockpit_repository::record_work_item_governance_controls(&repo, &id, &controls)
+                        .context("record Work Item governance controls")?;
+                println!("{}", serde_json::to_string_pretty(&summary)?);
             }
         },
         CommandKind::Capability { command } => match command {

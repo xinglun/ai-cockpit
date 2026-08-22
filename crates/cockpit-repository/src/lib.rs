@@ -36,8 +36,10 @@ use std::sync::{Arc, Mutex, OnceLock};
 use std::time::{Instant, SystemTime, UNIX_EPOCH};
 use thiserror::Error;
 
+mod governance_controls;
 mod outcome_render;
 
+pub use governance_controls::*;
 pub use outcome_render::render_human_outcome;
 
 static NEXT_ATOMIC_WRITE_ID: AtomicU64 = AtomicU64::new(0);
@@ -3824,6 +3826,31 @@ fn finish_work_item_internal(
     }
     let contract_path = active.join(format!("{work_item_id}.contract.json"));
     let contract = read_contract(&contract_path)?;
+    let contract_value = read_json(&contract_path)?;
+    let controls = if let Some(runtime) = current_runtime {
+        validate_contract_summary_controls_with_runtime(
+            &contract,
+            &contract_value,
+            &summary,
+            runtime,
+        )
+    } else {
+        validate_contract_summary_controls(&contract, &contract_value, &summary)
+    };
+    if controls.state == "blocked" {
+        return Err(ObserverError::State {
+            path: contract_path,
+            message: format!(
+                "Contract/Summary governance controls are blocked: {}",
+                controls
+                    .findings
+                    .iter()
+                    .map(|item| item.code.as_str())
+                    .collect::<Vec<_>>()
+                    .join(", ")
+            ),
+        });
+    }
     if verification_evidence_state(&root, &contract, &snapshot, false, current_runtime)?
         != EvidenceState::Complete
     {
@@ -5624,6 +5651,11 @@ fn governance_decision_for_contract_internal_with_archive(
     )?;
     let mut explicit_unknowns = signals.unknowns;
     explicit_unknowns.extend(contract_review_unknowns(contract));
+    let contract_value = serde_json::to_value(contract).map_err(|error| ObserverError::State {
+        path: root.join(".ai/work-items"),
+        message: error.to_string(),
+    })?;
+    explicit_unknowns.extend(scenario_coverage_preflight_unknowns(&contract_value));
     let mut input = GovernanceInput {
         scope: contract.scope.clone(),
         out_of_scope: contract.out_of_scope.clone(),

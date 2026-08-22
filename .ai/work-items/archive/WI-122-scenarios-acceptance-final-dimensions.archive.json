@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T08:19:47Z",
+  "files": {
+    "contractDigest": "sha256:be7b282456b7e53e4077e2062e337ed69858a38c83b441ff393fc08647dd554e",
+    "contractPath": ".ai/work-items/archive/WI-122-scenarios-acceptance-final-dimensions.contract.json",
+    "outcomeDigest": "sha256:da77dc16ae1f3547575e2e431bb8f82f41dfbcf3f7f78f68e3814fb6e7288bb9",
+    "outcomePath": ".ai/work-items/archive/WI-122-scenarios-acceptance-final-dimensions.outcome.json",
+    "summaryDigest": "sha256:436e8b6641a7cc34233203c0157d5849d7ac7f9e6776be54ef2f523a41428145",
+    "summaryPath": ".ai/work-items/archive/WI-122-scenarios-acceptance-final-dimensions.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-122-scenarios-acceptance-final-dimensions"
+}

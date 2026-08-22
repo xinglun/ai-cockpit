@@ -1,0 +1,41 @@
+{
+  "acceptanceResults": [
+    "A1: scenarioCoverage validates required status evidence and reason with high-risk fail-closed behavior",
+    "A2: stable acceptance IDs and summary acceptanceEvidence preserve legacy unnumbered acceptance compatibility",
+    "A3: intentAlignment is optional compatible and reports resolved unknown or unresolved without inventing facts",
+    "A4: final dimensions receipt validates the exact twenty reference dimension names and GO prerequisites",
+    "A5: four-pillar projection is explicit and does not create a literal 4D field",
+    "A6: CLI lifecycle and three-language docs expose boundaries without fabricating facts"
+  ],
+  "createdAt": "2026-08-22T08:19:44Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:887d6e9765cdc75316d81e9bd32c042a66fe338ab678373374b336bb0b42bcec",
+  "evidenceRefs": [
+    ".ai/evidence/WI-122-scenarios-acceptance-final-dimensions.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-122-scenarios-acceptance-final-dimensions.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-122-scenarios-acceptance-final-dimensions.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-122-scenarios-acceptance-final-dimensions"
+}
