@@ -118,7 +118,11 @@ Malformed, foreign, symlinked, or unknown event records fail closed.
 
 `finish` writes `<id>.events.jsonl` beside the active outcome. The stream is
 append-only and rejects malformed, foreign, secret-like, or relationship-invalid
-events. `archive` moves it byte-for-byte and binds `eventsDigest`; `close`
-validates it and records `finalReport` plus `finalReportDigest` in the close
-receipt. Historical records without this additive projection remain readable;
-they are not backfilled or rewritten.
+events. When a Work Item is archived, generated report references and
+`changedPaths` are projected from `.ai/work-items/active/` to the corresponding
+`.ai/work-items/archive/` paths before the archive manifest is bound; the
+resulting `eventsDigest` and report digests cover those archived bytes.
+`close` validates the projected stream and records `finalReport` plus
+`finalReportDigest` in the close receipt. Existing historical archive bytes are
+never rewritten or backfilled; only a newly created archive receives this
+active-to-archive projection.

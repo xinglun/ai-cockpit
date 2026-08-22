@@ -9,9 +9,9 @@ use cockpit_repository::{
     close_work_item_with_decision, close_work_item_with_structured_decision, evidence_purge_plan,
     evidence_state_for_contract, export_audit_events, finish_work_item,
     governance_decision_for_contract, implementation_approach, import_delegated_evidence,
-    preflight_work_item, record_verification, release_parallel_slot, set_evidence_retention_policy,
-    set_work_item_concurrency_boundary, set_work_item_intelligence, start_work_item,
-    start_work_item_with_options,
+    preflight_work_item, record_verification, release_parallel_slot, render_human_outcome,
+    set_evidence_retention_policy, set_work_item_concurrency_boundary, set_work_item_intelligence,
+    start_work_item, start_work_item_with_options,
 };
 use std::{
     fs,
@@ -160,6 +160,85 @@ fn archive_moves_implementation_approach_and_removes_active_orphan() {
     .expect("manifest JSON");
     let digest = Digest::sha256_bytes(&fs::read(&archived).expect("archived approach"));
     assert_eq!(manifest["files"]["approachDigest"], digest.to_string());
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn archive_rewrites_generated_outcome_references_to_archive_paths() {
+    let path = repository();
+    let work_item_id = "WI-ARCHIVE-PROJECTION";
+    start_work_item(
+        &path,
+        work_item_id,
+        "archive projection",
+        "keep generated Outcome references valid after archive",
+        &["**".into()],
+    )
+    .expect("start");
+    prepare_for_verification(&path, work_item_id);
+    record_verification(
+        &path,
+        work_item_id,
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.2.15",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+    finish_work_item(&path, work_item_id).expect("finish");
+    archive_work_item(&path, work_item_id).expect("archive");
+
+    let archive = path.join(".ai/work-items/archive");
+    let active_reference = format!(".ai/work-items/active/{work_item_id}");
+    let archive_reference = format!(".ai/work-items/archive/{work_item_id}");
+    for suffix in [
+        "outcome.json",
+        "summary.json",
+        "task-report.json",
+        "task-report.md",
+        "events.jsonl",
+    ] {
+        let bytes = fs::read(archive.join(format!("{work_item_id}.{suffix}")))
+            .unwrap_or_else(|error| panic!("read archived {suffix}: {error}"));
+        let text = String::from_utf8(bytes).expect("archived artifact is UTF-8");
+        assert!(
+            !text.contains(&active_reference),
+            "archived {suffix} still references a removed active artifact"
+        );
+        if matches!(suffix, "outcome.json" | "task-report.json" | "events.jsonl") {
+            assert!(
+                text.contains(&archive_reference),
+                "archived {suffix} does not expose its archive reference"
+            );
+        }
+    }
+
+    let handoff = render_human_outcome(
+        &path,
+        &cockpit_repository::outcome_v2(&path, work_item_id).expect("outcome"),
+        "en",
+    );
+    assert!(!handoff.contains(&active_reference));
+
+    let manifest: serde_json::Value = serde_json::from_slice(
+        &fs::read(archive.join(format!("{work_item_id}.archive.json"))).expect("manifest"),
+    )
+    .expect("manifest JSON");
+    for (name, suffix) in [
+        ("outcome", "outcome.json"),
+        ("summary", "summary.json"),
+        ("taskReport", "task-report.json"),
+        ("taskReportMarkdown", "task-report.md"),
+        ("events", "events.jsonl"),
+    ] {
+        let bytes =
+            fs::read(archive.join(format!("{work_item_id}.{suffix}"))).expect("archived artifact");
+        assert_eq!(
+            manifest["files"][format!("{name}Digest")],
+            Digest::sha256_bytes(&bytes).to_string(),
+            "manifest digest for {name}"
+        );
+    }
+
     fs::remove_dir_all(path).expect("cleanup");
 }
 

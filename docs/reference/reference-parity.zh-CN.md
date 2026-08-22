@@ -38,6 +38,7 @@ capabilityClaims:
 | 显式 Agent Discovery / Adapter 层 | 已实现 | Agent 安装是显式、可拥有、可回滚且 repository-local；生成的 guidance 继承 Contract-first/暂停/Summary/Outcome/closure 语义，Cursor 新安装使用 `.cursor/rules/ai-cockpit.mdc`，已管理的 legacy `.md` 保持可读。 |
 | Work Item 生命周期和治理决定 | 部分实现 | 核心生命周期和 human decision record 已存在；参考源更广的 status、cost、recovery projection 尚未统一为一个 adopter 接口。 |
 | Task Outcome 与 Human Benefit 报告 | 部分实现 | WI-136 增加 Rust-native 严格报告投影、追加事件流、archive 绑定和 close final report；完整 recovery/event 重建仍不在本边界。证据：`.ai/evidence/WI-136-task-outcome-report.verification.json`。 |
+| 归档 Outcome 路径投影 | 已实现 | WI-148 在绑定 manifest 前将新归档生成的报告引用和 `changedPaths` 从 active 投影到 archive；历史 archive bytes 保持不可变。 |
 | Contract preflight 人工确认门 | 已实现 | 不完整的 scaffold Contract 返回带显式 `reviewState` 的 yellow，持久化 repository/Contract/snapshot 绑定，未经人工确认不能越过 checkpoint。 |
 | Contract V2 结构化 intent 与严格 schema | 已实现 | WI-121 提供结构化 intent、typed sources/verification、严格的 unknown-field/duplicate-key fail-closed、`humanDecisionRequest` 以及 preflight/checkpoint gate。 |
 | Contract 跨字段维度（intent/scope/evidence/decision）校验 | 已实现 | WI-122 校验高风险 scenario coverage、稳定 acceptance evidence、intent alignment 和完整 20 维度最终 receipt。可选 `fourPillarProjection` 仅用于展示，协议不含字面 `4D` 字段。 |
@@ -86,6 +87,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-144——跨 Work Item 的物理执行复用 | 已实现 | [Work Item](../work-items/WI-144-cross-work-item-dedup.zh-CN.md)；`.ai/evidence/WI-144-cross-work-item-dedup.verification.json`；`.ai/decisions/WI-144-cross-work-item-dedup.close.json` |
 | WI-145——CI Runtime Verification Shadow | 已实现 | [Work Item](../work-items/WI-145-ci-runtime-shadow.zh-CN.md)；`.ai/evidence/WI-145-ci-runtime-shadow.verification.json`；`.ai/decisions/WI-145-ci-runtime-shadow.close.json` |
 | WI-146——Verification 成本观测 | 已实现 | [Work Item](../work-items/WI-146-verification-cost-observation.zh-CN.md)；[参考文档](verification-cost.zh-CN.md)；`.ai/evidence/WI-146-verification-cost-observation.verification.json`；`.ai/decisions/WI-146-verification-cost-observation.close.json` |
+| WI-148——归档 Outcome 路径投影 | 已实现 | [Work Item](../work-items/WI-148-outcome-archive-path.zh-CN.md)；[参考文档](outcome-report.zh-CN.md)；`.ai/evidence/WI-148-outcome-archive-path.verification.json`；`.ai/decisions/WI-148-outcome-archive-path.close.json` |
 
 ## 当前边界
 

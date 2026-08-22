@@ -7037,43 +7037,117 @@ fn archive_work_item_internal(
     if optional_regular_artifact(&intelligence_source, "Work Item intelligence sidecar")? {
         artifacts.push(("intelligence", "intelligence.json"));
     }
-    let mut files = serde_json::Map::new();
     let mut pending = Vec::new();
     for (name, suffix) in artifacts {
         let source_path = active.join(format!("{work_item_id}.{suffix}"));
         let target = archive.join(format!("{work_item_id}.{suffix}"));
-        let bytes = fs::read(&source_path).map_err(|error| ObserverError::Read {
+        let source_bytes = fs::read(&source_path).map_err(|error| ObserverError::Read {
             path: source_path.clone(),
             source: error,
         })?;
-        files.insert(
-            format!("{name}Path"),
-            serde_json::Value::String(format!(".ai/work-items/archive/{work_item_id}.{suffix}")),
-        );
-        files.insert(
-            format!("{name}Digest"),
-            serde_json::Value::String(Digest::sha256_bytes(&bytes).to_string()),
-        );
+        let archived_bytes =
+            normalized_archive_artifact_bytes(suffix, &source_bytes, work_item_id)?;
         if target.exists() {
             return Err(ObserverError::State {
                 path: target,
                 message: "archive target already exists".into(),
             });
         }
-        pending.push((source_path, target));
+        pending.push((
+            name.to_string(),
+            suffix.to_string(),
+            source_path,
+            target,
+            source_bytes,
+            archived_bytes,
+        ));
     }
-    let mut moved = Vec::new();
-    for (source, target) in &pending {
-        if let Err(source_error) = fs::rename(source, target) {
-            for (moved_source, moved_target) in moved.into_iter().rev() {
-                let _ = fs::rename(moved_target, moved_source);
+    let task_report_digest = pending
+        .iter()
+        .find(|(_, suffix, ..)| suffix == "task-report.json")
+        .map(|(_, _, _, _, _, bytes)| Digest::sha256_bytes(bytes).to_string());
+    let task_report_markdown_digest = pending
+        .iter()
+        .find(|(_, suffix, ..)| suffix == "task-report.md")
+        .map(|(_, _, _, _, _, bytes)| Digest::sha256_bytes(bytes).to_string());
+    if let Some((_, suffix, _, _, _, archived_bytes)) = pending
+        .iter_mut()
+        .find(|(_, suffix, ..)| suffix == "outcome.json")
+    {
+        let mut outcome: serde_json::Value =
+            serde_json::from_slice(archived_bytes).map_err(|error| ObserverError::State {
+                path: archive.join(format!("{work_item_id}.{suffix}")),
+                message: format!("invalid normalized Outcome while archiving: {error}"),
+            })?;
+        if let Some(digest) = task_report_digest {
+            outcome["taskReportDigest"] = serde_json::Value::String(digest);
+        }
+        if let Some(digest) = task_report_markdown_digest {
+            outcome["taskReportMarkdownDigest"] = serde_json::Value::String(digest);
+        }
+        *archived_bytes =
+            serde_json::to_vec_pretty(&outcome).map_err(|error| ObserverError::State {
+                path: archive.join(format!("{work_item_id}.{suffix}")),
+                message: format!("serialize normalized Outcome while archiving: {error}"),
+            })?;
+    }
+    let mut files = serde_json::Map::new();
+    for (name, suffix, _, _, _, archived_bytes) in &pending {
+        files.insert(
+            format!("{name}Path"),
+            serde_json::Value::String(format!(".ai/work-items/archive/{work_item_id}.{suffix}")),
+        );
+        files.insert(
+            format!("{name}Digest"),
+            serde_json::Value::String(Digest::sha256_bytes(archived_bytes).to_string()),
+        );
+    }
+    let mut moved: Vec<(PathBuf, PathBuf, Vec<u8>, bool)> = Vec::new();
+    for (_, _, source, target, source_bytes, archived_bytes) in &pending {
+        let normalized = source_bytes != archived_bytes;
+        let result: Result<(), ObserverError> = if normalized {
+            atomic_write(target, archived_bytes)
+        } else {
+            fs::rename(source, target).map_err(|source_error| ObserverError::Read {
+                path: target.clone(),
+                source: source_error,
+            })
+        };
+        if let Err(error) = result {
+            for (moved_source, moved_target, original, moved_normalized) in moved.into_iter().rev()
+            {
+                if moved_normalized {
+                    let _ = fs::remove_file(moved_target);
+                    let _ = atomic_write(&moved_source, &original);
+                } else {
+                    let _ = fs::rename(moved_target, moved_source);
+                }
+            }
+            return Err(error);
+        }
+        moved.push((
+            source.clone(),
+            target.clone(),
+            source_bytes.clone(),
+            normalized,
+        ));
+    }
+    for (source, _target, _original, normalized) in &moved {
+        if *normalized && let Err(source_error) = fs::remove_file(source) {
+            for (moved_source, moved_target, moved_original, moved_normalized) in moved.iter().rev()
+            {
+                if *moved_normalized {
+                    let _ = fs::remove_file(moved_target);
+                    let _ = atomic_write(moved_source, moved_original);
+                } else {
+                    let _ = fs::rename(moved_target, moved_source);
+                }
             }
             return Err(ObserverError::Read {
-                path: target.clone(),
+                path: source.clone(),
                 source: source_error,
             });
         }
-        moved.push((source.clone(), target.clone()));
     }
     let timestamp = now();
     let manifest = serde_json::json!({
@@ -7084,8 +7158,13 @@ fn archive_work_item_internal(
         "createdAt": timestamp,
     });
     if let Err(error) = atomic_json(&manifest_path, &manifest) {
-        for (moved_source, moved_target) in moved.into_iter().rev() {
-            let _ = fs::rename(moved_target, moved_source);
+        for (moved_source, moved_target, original, normalized) in moved.into_iter().rev() {
+            if normalized {
+                let _ = fs::remove_file(moved_target);
+                let _ = atomic_write(&moved_source, &original);
+            } else {
+                let _ = fs::rename(moved_target, moved_source);
+            }
         }
         return Err(error);
     }
@@ -8249,6 +8328,152 @@ fn repository_relative_path(root: &Path, path: &Path) -> String {
         .unwrap_or(path)
         .to_string_lossy()
         .replace('\\', "/")
+}
+
+fn archived_work_item_reference(work_item_id: &str, value: &str) -> String {
+    value.replace(
+        &format!(".ai/work-items/active/{work_item_id}"),
+        &format!(".ai/work-items/archive/{work_item_id}"),
+    )
+}
+
+fn normalize_archived_task_report_value(value: &mut serde_json::Value, work_item_id: &str) {
+    match value {
+        serde_json::Value::Object(object) => {
+            for (key, child) in object.iter_mut() {
+                match key.as_str() {
+                    "evidenceRefs" => {
+                        if let serde_json::Value::Array(items) = child {
+                            for item in items {
+                                if let serde_json::Value::String(reference) = item {
+                                    *reference =
+                                        archived_work_item_reference(work_item_id, reference);
+                                }
+                            }
+                        }
+                    }
+                    "text" => {
+                        if let serde_json::Value::String(text) = child {
+                            *text = archived_work_item_reference(work_item_id, text);
+                        }
+                    }
+                    _ => normalize_archived_task_report_value(child, work_item_id),
+                }
+            }
+        }
+        serde_json::Value::Array(items) => {
+            for item in items {
+                normalize_archived_task_report_value(item, work_item_id);
+            }
+        }
+        _ => {}
+    }
+}
+
+fn normalize_archived_summary_value(value: &mut serde_json::Value, work_item_id: &str) {
+    let Some(changed_paths) = value
+        .get_mut("changedPaths")
+        .and_then(serde_json::Value::as_array_mut)
+    else {
+        return;
+    };
+    for path in changed_paths {
+        if let serde_json::Value::String(path) = path {
+            *path = archived_work_item_reference(work_item_id, path);
+        }
+    }
+}
+
+fn normalize_archived_events_bytes(
+    bytes: &[u8],
+    work_item_id: &str,
+) -> Result<Vec<u8>, ObserverError> {
+    let mut normalized = Vec::with_capacity(bytes.len());
+    for line in bytes.split_inclusive(|byte| *byte == b'\n') {
+        let (content, newline) = if line.last().is_some_and(|byte| *byte == b'\n') {
+            (&line[..line.len() - 1], b'\n')
+        } else {
+            (line, 0)
+        };
+        if content.is_empty() {
+            normalized.extend_from_slice(line);
+            continue;
+        }
+        let mut value: serde_json::Value =
+            serde_json::from_slice(content).map_err(|error| ObserverError::State {
+                path: PathBuf::from(".ai/work-items/active"),
+                message: format!("invalid Task Outcome event while archiving: {error}"),
+            })?;
+        normalize_archived_task_report_value(&mut value, work_item_id);
+        let encoded = serde_json::to_vec(&value).map_err(|error| ObserverError::State {
+            path: PathBuf::from(".ai/work-items/archive"),
+            message: format!("serialize Task Outcome event while archiving: {error}"),
+        })?;
+        normalized.extend_from_slice(&encoded);
+        if newline != 0 {
+            normalized.push(newline);
+        }
+    }
+    Ok(normalized)
+}
+
+fn normalized_archive_artifact_bytes(
+    suffix: &str,
+    bytes: &[u8],
+    work_item_id: &str,
+) -> Result<Vec<u8>, ObserverError> {
+    let active_reference = format!(".ai/work-items/active/{work_item_id}");
+    if !String::from_utf8_lossy(bytes).contains(&active_reference) {
+        return Ok(bytes.to_vec());
+    }
+    match suffix {
+        "outcome.json" => {
+            let mut value: serde_json::Value =
+                serde_json::from_slice(bytes).map_err(|error| ObserverError::State {
+                    path: PathBuf::from(".ai/work-items/active"),
+                    message: format!("invalid Outcome while archiving: {error}"),
+                })?;
+            if let Some(report) = value.get_mut("taskOutcomeReport") {
+                normalize_archived_task_report_value(report, work_item_id);
+            }
+            serde_json::to_vec_pretty(&value).map_err(|error| ObserverError::State {
+                path: PathBuf::from(".ai/work-items/archive"),
+                message: format!("serialize Outcome while archiving: {error}"),
+            })
+        }
+        "task-report.json" => {
+            let mut value: serde_json::Value =
+                serde_json::from_slice(bytes).map_err(|error| ObserverError::State {
+                    path: PathBuf::from(".ai/work-items/active"),
+                    message: format!("invalid Task Outcome report while archiving: {error}"),
+                })?;
+            normalize_archived_task_report_value(&mut value, work_item_id);
+            serde_json::to_vec_pretty(&value).map_err(|error| ObserverError::State {
+                path: PathBuf::from(".ai/work-items/archive"),
+                message: format!("serialize Task Outcome report while archiving: {error}"),
+            })
+        }
+        "summary.json" => {
+            let mut value: serde_json::Value =
+                serde_json::from_slice(bytes).map_err(|error| ObserverError::State {
+                    path: PathBuf::from(".ai/work-items/active"),
+                    message: format!("invalid Summary while archiving: {error}"),
+                })?;
+            normalize_archived_summary_value(&mut value, work_item_id);
+            serde_json::to_vec_pretty(&value).map_err(|error| ObserverError::State {
+                path: PathBuf::from(".ai/work-items/archive"),
+                message: format!("serialize Summary while archiving: {error}"),
+            })
+        }
+        "events.jsonl" => normalize_archived_events_bytes(bytes, work_item_id),
+        "task-report.md" => String::from_utf8(bytes.to_vec())
+            .map(|text| archived_work_item_reference(work_item_id, &text).into_bytes())
+            .map_err(|error| ObserverError::State {
+                path: PathBuf::from(".ai/work-items/active"),
+                message: format!("invalid Task Outcome Markdown while archiving: {error}"),
+            }),
+        _ => Ok(bytes.to_vec()),
+    }
 }
 
 /// Preserve a machine-readable recovery handoff when a lifecycle gate fails.

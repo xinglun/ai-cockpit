@@ -39,6 +39,7 @@ matrix は次の 4 state だけを使います。
 | Explicit Agent Discovery / Adapter layer | Implemented | Agent install は explicit、owned、reversible、repository-local であり、生成 guidance は Contract-first/pause/Summary/Outcome/closure を伝える。Cursor の新規 target は `.cursor/rules/ai-cockpit.mdc`、managed な legacy `.md` は保持する。 |
 | Work Item lifecycle と governance decision | Partial | core lifecycle と human decision record はあるが、reference の広い status、cost、recovery projection は一つの adopter interface に統合されていない。 |
 | Task Outcome と Human Benefit report | Partial | WI-136 は Rust-native strict projection、append-only event stream、archive binding、close final report を追加する。完全な recovery/event reconstruction はこの境界外。Evidence: `.ai/evidence/WI-136-task-outcome-report.verification.json`。 |
+| Archive 済み Outcome の path projection | Implemented | WI-148 は manifest を束縛する前に、新規 archive の生成 report reference と `changedPaths` を active から archive へ投影する。既存の historical archive bytes は不変のまま。 |
 | Contract preflight human-review gate | Implemented | 不完全な scaffold Contract は明示的な `reviewState` 付き yellow となり、repository/Contract/snapshot binding を保存し、human confirmation なしでは checkpoint を越えない。 |
 | Contract V2 の structured intent と strict schema | Implemented | WI-121 は structured intent、typed sources/verification、strict な unknown-field/duplicate-key fail-closed、`humanDecisionRequest`、preflight/checkpoint gate を提供する。 |
 | Contract の cross-field dimensions（intent/scope/evidence/decision）validation | Implemented | WI-122 は high-risk scenario coverage、stable acceptance evidence、intent alignment、参照源と同じ 20 dimension の final receipt を検証する。任意の `fourPillarProjection` は表示用であり、literal `4D` protocol field はない。 |
@@ -89,6 +90,7 @@ verification record です。
 | WI-144 — Work Item 間の物理実行再利用 | Implemented | [Work Item](../work-items/WI-144-cross-work-item-dedup.ja.md); `.ai/evidence/WI-144-cross-work-item-dedup.verification.json`; `.ai/decisions/WI-144-cross-work-item-dedup.close.json` |
 | WI-145 — CI Runtime verification shadow | Implemented | [Work Item](../work-items/WI-145-ci-runtime-shadow.ja.md); `.ai/evidence/WI-145-ci-runtime-shadow.verification.json`; `.ai/decisions/WI-145-ci-runtime-shadow.close.json` |
 | WI-146 — Verification コスト観測 | Implemented | [Work Item](../work-items/WI-146-verification-cost-observation.ja.md); [参考文書](verification-cost.ja.md); `.ai/evidence/WI-146-verification-cost-observation.verification.json`; `.ai/decisions/WI-146-verification-cost-observation.close.json` |
+| WI-148 — Archive 済み Outcome の path projection | Implemented | [Work Item](../work-items/WI-148-outcome-archive-path.ja.md); [参考文書](outcome-report.ja.md); `.ai/evidence/WI-148-outcome-archive-path.verification.json`; `.ai/decisions/WI-148-outcome-archive-path.close.json` |
 
 ## 現在の境界
 

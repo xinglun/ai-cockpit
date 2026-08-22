@@ -94,6 +94,9 @@ repository と Work Item に bind され、`decisionState: "red"` と失敗し�
 
 `finish` は active outcome と同じ場所に `<id>.events.jsonl` を書きます。event stream は
 append-only で、malformed、foreign、secret らしい内容、関係不正の event を拒否します。
-`archive` は byte-for-byte で移動し `eventsDigest` を束縛し、`close` は検証後に close
-receipt へ `finalReport` と `finalReportDigest` を記録します。この additive projection
-を持たない historical record は読み取り可能なままで、backfill や書き換えは行いません。
+archive の作成時には、manifest を束縛する前に、生成された report reference と
+`changedPaths` を `.ai/work-items/active/` から対応する
+`.ai/work-items/archive/` へ投影します。`eventsDigest` と report digest は投影後の
+archive bytes を対象にします。`close` は投影済み stream を検証し、close receipt へ
+`finalReport` と `finalReportDigest` を記録します。既存の historical archive bytes は
+書き換えず backfill もしません。この active から archive への投影は新規 archive のみで行います。
