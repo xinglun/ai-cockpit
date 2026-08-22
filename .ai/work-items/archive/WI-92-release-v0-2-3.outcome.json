@@ -1,0 +1,38 @@
+{
+  "acceptanceResults": [
+    "version and release assets are bound to the same immutable tag",
+    "public release adopter acceptance passes without source fallback",
+    "current repository is reverified by the installed public binary",
+    "release and installation documents identify v0.2.3"
+  ],
+  "createdAt": "2026-08-22T00:01:46Z",
+  "evidenceDigest": "sha256:d84a46be94d9497c40ffa3c62f9811373bf98c4d284d05342e676706e4a1d6b6",
+  "evidenceRefs": [
+    ".ai/evidence/WI-92-release-v0-2-3.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-92-release-v0-2-3.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-92-release-v0-2-3.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-92-release-v0-2-3"
+}
