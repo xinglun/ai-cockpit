@@ -3,11 +3,11 @@
   "decision": "confirm_review",
   "decisionId": "contract-preflight-review",
   "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "reason": "Reconfirm bounded implementation review after the repository snapshot changed; verification remains required before completion.",
-  "recordedAt": "2026-08-23T00:45:00+09:00",
+  "reason": "Confirm bounded implementation review; verification remains required before completion.",
+  "recordedAt": "2026-08-23T00:00:00+09:00",
   "recordedBy": "human:maintainer",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:2f909d9793d8d1a62928b13f9e60c04a6023dcecd5ea642bf53a78c2e91baf05",
+  "repositorySnapshotDigest": "sha256:e352a8dbbf27fabb9037c80be065ef497804a2779877d1f6112827da26f1d18f",
   "schemaVersion": 1,
   "workItemId": "WI-139C-successor-recovery"
 }
