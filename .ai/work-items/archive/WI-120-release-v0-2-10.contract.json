@@ -1,0 +1,54 @@
+{
+  "acceptanceCriteria": [
+    "Cargo and release version consistency passes for 0.2.10",
+    "fmt clippy and workspace tests pass",
+    "public v0.2.10 Release artifacts are immutable and digest-bound",
+    "fresh adopter acceptance passes using only the public v0.2.10 binary",
+    "N-1 v0.2.9 to v0.2.10 acceptance passes with cleanup",
+    "published v0.2.10 is installed and current repository inspect status doctor agent doctor pass"
+  ],
+  "authority": "authorized",
+  "baseRevision": "c7b2e0581d87bbd5beee63f405728d8031eddb80",
+  "createdAt": "2026-08-22T07:37:32Z",
+  "goal": "Release v0.2.10 as an immutable public artifact, complete fresh-adopter and N-1 acceptance, then install the published binary into the current repository.",
+  "intent": "Publish the first release containing the Contract preflight human-review gate and install it for self-governed adopter acceptance.",
+  "mode": "implementation",
+  "outOfScope": [
+    "new runtime features after WI-119",
+    "global Agent or MCP configuration",
+    "rewriting historical evidence"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f166210d39a5475cd6f7d5233d3db9591a8022708529f3f3df294319d0c548bc",
+  "requiredEvidenceClasses": [
+    "verification",
+    "release-adopter-acceptance",
+    "release-upgrade-acceptance"
+  ],
+  "risk": "high",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-120-release-v0-2-10.md",
+    "docs/work-items/WI-120-release-v0-2-10.zh-CN.md",
+    "docs/work-items/WI-120-release-v0-2-10.ja.md",
+    "tests/release/version_consistency.sh",
+    ".github/workflows/release.yml"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-120-release-v0-2-10"
+}

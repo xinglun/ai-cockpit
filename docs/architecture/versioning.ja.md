@@ -28,7 +28,7 @@ Runtime version、Repository Protocol version、repository schema version は独
 
 ```text
 ai-cockpit --version
-0.2.9
+0.2.10
 
 repository:
 protocol_version = 1
