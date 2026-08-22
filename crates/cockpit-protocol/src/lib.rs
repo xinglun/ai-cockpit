@@ -1,5 +1,6 @@
 use cockpit_core::{DecisionState, Digest};
 use serde::{Deserialize, Serialize};
+use std::collections::BTreeMap;
 use std::path::PathBuf;
 use thiserror::Error;
 
@@ -1551,6 +1552,34 @@ pub struct OutcomeV2 {
     pub unknowns: Vec<String>,
     pub evidence_refs: Vec<String>,
     pub human_benefit_report: HumanBenefitReport,
+}
+
+/// A read-only, evidence-bound Work Item status projection.  Counts are
+/// deliberately facts; the Runtime never turns them into a percentage or a
+/// completion promise.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct WorkItemStatusSnapshot {
+    pub schema_version: u32,
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub lifecycle_phase: String,
+    pub governance_state: String,
+    pub activity_health: String,
+    pub progress_facts: BTreeMap<String, u64>,
+    pub blockers: Vec<String>,
+    pub missing_evidence: Vec<String>,
+    pub dependencies: Vec<String>,
+    pub human_decisions: Vec<String>,
+    pub risks: Vec<String>,
+    pub verification: String,
+    pub completion_domains: BTreeMap<String, String>,
+    pub governance_permissions: Vec<String>,
+    pub source_digests: BTreeMap<String, Digest>,
+    pub unknowns: Vec<String>,
+    pub diagnostics: Vec<String>,
+    pub snapshot_digest: Digest,
+    pub historical: bool,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]

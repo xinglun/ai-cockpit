@@ -16,9 +16,9 @@ use cockpit_protocol::{
     HumanBenefitReport, HumanDecision, ImplementationApproach, OutcomeState, OutcomeV2,
     PARALLEL_SLOT_LEASE_SCHEMA_VERSION, ParallelSlotLease, PerformanceDiagnosis, PolicyLayer,
     QualityCommand, RepositoryConfig, RuntimeContext, SchemaMigrationStep, TruthState,
-    WorkItemCompatibility, WorkItemIntelligence, default_repository_schema_version,
-    merge_policy_layers, repository_schema_migration_chain, validate_evidence_retention,
-    validate_protocol_version,
+    WorkItemCompatibility, WorkItemIntelligence, WorkItemStatusSnapshot,
+    default_repository_schema_version, merge_policy_layers, repository_schema_migration_chain,
+    validate_evidence_retention, validate_protocol_version,
 };
 use serde::de::{DeserializeSeed, MapAccess, SeqAccess, Visitor};
 use serde::{Deserialize, Deserializer as _, Serialize};
@@ -6969,6 +6969,247 @@ pub fn outcome_v2_with_runtime(
     runtime: &RuntimeContext,
 ) -> Result<OutcomeV2, ObserverError> {
     outcome_v2_internal(root, work_item_id, Some(runtime))
+}
+
+/// Derive a request-scoped Work Item status without writing any repository
+/// state.  This is intentionally a projection over the existing Contract,
+/// Summary, Outcome, and evidence records; it is not a second scheduler or
+/// governance authority.
+pub fn work_item_status_snapshot_with_runtime(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+) -> Result<WorkItemStatusSnapshot, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let active = root.join(".ai/work-items/active");
+    let archive = root.join(".ai/work-items/archive");
+    let (contract_path, archived) = [
+        (active.join(format!("{work_item_id}.contract.json")), false),
+        (archive.join(format!("{work_item_id}.contract.json")), true),
+    ]
+    .into_iter()
+    .find(|(path, _)| path.is_file())
+    .ok_or_else(|| ObserverError::State {
+        path: active.join(format!("{work_item_id}.contract.json")),
+        message: "work item contract not found".into(),
+    })?;
+    let contract = read_contract(&contract_path)?;
+    let git =
+        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
+    let snapshot_digest = snapshot_digest(&snapshot)?;
+    let outcome = outcome_v2_with_runtime(&root, work_item_id, runtime)?;
+    let summary_path = contract_path
+        .parent()
+        .unwrap_or(&active)
+        .join(format!("{work_item_id}.summary.json"));
+    let summary = read_json(&summary_path).unwrap_or_else(|_| serde_json::json!({}));
+    let lifecycle_phase = summary["state"]
+        .as_str()
+        .or_else(|| Some(outcome_state_name(&outcome.state)))
+        .unwrap_or(if archived { "archived" } else { "unknown" })
+        .to_string();
+    let governance_state = match outcome.decision_state {
+        Some(DecisionState::Green) => "green",
+        Some(DecisionState::Yellow) => "yellow",
+        Some(DecisionState::Red) => "red",
+        None => "unknown",
+    }
+    .to_string();
+    let verification = match outcome.state {
+        OutcomeState::Verified => "verified",
+        OutcomeState::Partial => "partial",
+        OutcomeState::NotReady => "not_ready",
+        OutcomeState::Unknown => "unknown",
+    }
+    .to_string();
+    let historical = legacy_verification_evidence(&root, work_item_id);
+    let activity_health = if historical {
+        "historical"
+    } else if verification == "unknown" {
+        "degraded"
+    } else if verification == "not_ready" {
+        "waiting"
+    } else if archived {
+        "inactive"
+    } else {
+        "active"
+    }
+    .to_string();
+
+    let acceptance_total = contract.acceptance_criteria.len() as u64;
+    let acceptance_evidence = summary["acceptanceEvidence"]
+        .as_object()
+        .map(|value| value.len() as u64)
+        .unwrap_or_default();
+    let mut progress_facts = BTreeMap::new();
+    progress_facts.insert("acceptanceCriteriaDeclared".into(), acceptance_total);
+    progress_facts.insert("acceptanceEvidenceEntries".into(), acceptance_evidence);
+    progress_facts.insert(
+        "checkpointCount".into(),
+        summary["checkpointCount"].as_u64().unwrap_or_default(),
+    );
+    progress_facts.insert(
+        "changedPathCount".into(),
+        summary["changedPaths"]
+            .as_array()
+            .map(|value| value.len() as u64)
+            .unwrap_or_default(),
+    );
+
+    let mut unknowns = outcome.unknowns.clone();
+    if historical {
+        unknowns.push("legacy_evidence_historical".into());
+    }
+    unknowns.sort();
+    unknowns.dedup();
+    let mut blockers = Vec::new();
+    if governance_state == "red" {
+        blockers.push("governance_red".into());
+    }
+    let missing_evidence = unknowns
+        .iter()
+        .filter(|value| value.contains("evidence") || value.contains("verification"))
+        .cloned()
+        .collect::<Vec<_>>();
+    let dependencies = summary["dependencies"]
+        .as_array()
+        .or_else(|| summary["dependsOn"].as_array())
+        .map(|items| {
+            items
+                .iter()
+                .filter_map(|item| item.as_str().map(str::to_owned))
+                .collect()
+        })
+        .unwrap_or_default();
+    let mut risks = Vec::new();
+    if !contract.risk.trim().is_empty() {
+        risks.push(contract.risk.clone());
+    }
+    if let Some(items) = summary["risks"].as_array() {
+        risks.extend(
+            items
+                .iter()
+                .filter_map(|item| item.as_str().map(str::to_owned)),
+        );
+    }
+    risks.sort();
+    risks.dedup();
+    let mut completion_domains = BTreeMap::new();
+    completion_domains.insert(
+        "implementation".into(),
+        if matches!(
+            lifecycle_phase.as_str(),
+            "implementation_active" | "checkpointed"
+        ) {
+            "active"
+        } else if archived {
+            "recorded"
+        } else {
+            "not_started"
+        }
+        .into(),
+    );
+    completion_domains.insert("verification".into(), verification.clone());
+    completion_domains.insert(
+        "review".into(),
+        if governance_state == "green" {
+            "available"
+        } else {
+            "required"
+        }
+        .into(),
+    );
+    completion_domains.insert(
+        "integration".into(),
+        if archived {
+            "recorded"
+        } else {
+            "not_applicable"
+        }
+        .into(),
+    );
+    completion_domains.insert(
+        "closure".into(),
+        if summary["closedAt"].is_string() {
+            "closed"
+        } else if archived {
+            "archived"
+        } else {
+            "open"
+        }
+        .into(),
+    );
+    let mut governance_permissions = vec!["read_status".into(), "read_outcome".into()];
+    if governance_state == "green" && !historical {
+        governance_permissions.push("review_evidence".into());
+    }
+    let mut source_digests = BTreeMap::new();
+    source_digests.insert("contract".into(), contract_digest(&contract_path)?);
+    source_digests.insert("repositorySnapshot".into(), snapshot_digest.clone());
+    let evidence_path = root
+        .join(".ai/evidence")
+        .join(format!("{work_item_id}.verification.json"));
+    if let Ok(evidence) = read_json(&evidence_path)
+        && let Ok(digest) = cockpit_protocol::digest_json(&evidence)
+    {
+        source_digests.insert("verificationEvidence".into(), digest);
+    }
+    let human_decisions = if root
+        .join(".ai/decisions")
+        .join(format!("{work_item_id}.close.json"))
+        .is_file()
+    {
+        vec!["close_decision_recorded".into()]
+    } else {
+        Vec::new()
+    };
+    let diagnostics = if historical {
+        vec!["historical_evidence_not_revalidated".into()]
+    } else {
+        Vec::new()
+    };
+    Ok(WorkItemStatusSnapshot {
+        schema_version: 1,
+        repository_id: contract.repository_id,
+        work_item_id: work_item_id.into(),
+        lifecycle_phase,
+        governance_state,
+        activity_health,
+        progress_facts,
+        blockers,
+        missing_evidence,
+        dependencies,
+        human_decisions,
+        risks,
+        verification,
+        completion_domains,
+        governance_permissions,
+        source_digests,
+        unknowns,
+        diagnostics,
+        snapshot_digest,
+        historical,
+    })
+}
+
+fn outcome_state_name(state: &OutcomeState) -> &'static str {
+    match state {
+        OutcomeState::Verified => "verified",
+        OutcomeState::Partial => "partial",
+        OutcomeState::NotReady => "not_ready",
+        OutcomeState::Unknown => "unknown",
+    }
 }
 
 fn outcome_v2_internal(

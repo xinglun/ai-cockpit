@@ -19,6 +19,10 @@ capabilityClaims:
 human handoff by default. Use `--json` when a machine needs the stable
 `OutcomeV2` object.
 
+The first line is always `Outcome: 🔴/🟡/🟢 ...`; the handoff is returned directly
+by CLI stdout and MCP `content[0].text`, so an Agent or UI must not hide it in a
+collapsed log. `work_item_status` is the separate read-only status projection.
+
 The handoff follows the reader-first order:
 
 1. Task Result and status marker

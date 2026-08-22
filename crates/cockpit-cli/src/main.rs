@@ -327,6 +327,15 @@ enum WorkItemCommand {
         #[arg(long)]
         json: bool,
     },
+    Status {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+        /// Emit the stable machine-readable status snapshot.
+        #[arg(long)]
+        json: bool,
+    },
     Inspect {
         #[arg(long)]
         repo: PathBuf,
@@ -932,6 +941,55 @@ fn run() -> Result<()> {
                             &outcome,
                             output_language(),
                         )
+                    );
+                }
+            }
+            WorkItemCommand::Status { repo, id, json } => {
+                require_compatible(&repo, &runtime_context)?;
+                let snapshot = cockpit_repository::work_item_status_snapshot_with_runtime(
+                    &repo,
+                    &id,
+                    &runtime_context,
+                )
+                .context("read Work Item status")?;
+                if json {
+                    println!("{}", serde_json::to_string_pretty(&snapshot)?);
+                } else {
+                    let language = output_language();
+                    let (label, phase, governance, activity, unknowns, next) = match language {
+                        "zh" => ("状态", "生命周期", "治理", "活动健康", "未知项", "下一步"),
+                        "ja" => (
+                            "Status",
+                            "Lifecycle",
+                            "Governance",
+                            "Activity health",
+                            "不明点",
+                            "次のアクション",
+                        ),
+                        _ => (
+                            "Status",
+                            "Lifecycle",
+                            "Governance",
+                            "Activity health",
+                            "Unknowns",
+                            "Next action",
+                        ),
+                    };
+                    println!("{label}: {}", snapshot.work_item_id);
+                    println!("{phase}: {}", snapshot.lifecycle_phase);
+                    println!("{governance}: {}", snapshot.governance_state);
+                    println!("{activity}: {}", snapshot.activity_health);
+                    println!(
+                        "{unknowns}: {}",
+                        if snapshot.unknowns.is_empty() {
+                            "None".into()
+                        } else {
+                            snapshot.unknowns.join(", ")
+                        }
+                    );
+                    println!(
+                        "{next}: read `work-item outcome --repo <path> --id {}`",
+                        snapshot.work_item_id
                     );
                 }
             }

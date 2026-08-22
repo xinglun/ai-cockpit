@@ -42,6 +42,11 @@ capabilityClaims:
 | `verification` | 旧验证字符串或 typed `{check, required}` 声明；声明不能替代新鲜执行。 | Implemented |
 | `baseRevision` | Work Item 起始 revision，由 snapshot 推导。 | Implemented |
 | `projectProfileDigest`、`repositorySnapshotDigest` | 绑定 project profile 和 repository snapshot 的内容 digest。 | Implemented |
+| `baseCommit`、`baselineDirtyPaths` | V2 lineage 与开始时观察到的既有脏路径 fingerprint；两者同时存在时 `baseCommit` 必须与 `baseRevision` 一致。 | Implemented |
+| `archiveSequence`、`resumeHistory` | 正数 archive 顺序和连续、已关闭前序 Work Item 的 lineage。 | Implemented |
+| `synchronizationCheckpoint`、`synchronizationHistory` | 明确授权的基线同步及其 digest-bound rebase 历史；不完整条目 fail-closed。 | Implemented |
+| `guidelines`、`preReviewWarnings`、`acceptance` | 人类编写的指导、review 警告和可选别名；`acceptance` 必须与 `acceptanceCriteria` 一致。 | Implemented |
+| `authorityEvidence`、`restrictedWriteApproval`、`destructiveChangePolicy.approvalEvidence` | typed repository-local provenance 和审批 payload；V2 拒绝 malformed/unknown nested 字段，历史 provider 扩展仍可读。 | Implemented / External identity boundary |
 | `problemStatement`、`riskAssessment`、`agentCapability`、`executionDecision` | 严格 typed 的可选 V2 安全和 review 输入；非 continue 决定会停止 preflight。 | Implemented |
 | `destructiveChangePolicy`、`rollbackNote`、`unknowns`、`notCodable` | 显式安全、恢复和未决状态声明。 | Implemented |
 | `scenarioCoverage` | 可选高风险 scenario projection；required/unverified scenario 会在 checkpoint 前 fail-closed。 | Implemented |

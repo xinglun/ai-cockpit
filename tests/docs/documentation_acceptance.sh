@@ -102,7 +102,7 @@ for path, phrase in boundary_phrases.items():
 mcp_docs = [Path('docs/capabilities.md'), Path('docs/capabilities.zh-CN.md'), Path('docs/capabilities.ja.md')]
 for path in mcp_docs:
     text = path.read_text(encoding='utf-8')
-    for tool in ('status', 'work_item_get', 'work_item_outcome', 'work_item_list',
+    for tool in ('status', 'work_item_get', 'work_item_outcome', 'work_item_status', 'work_item_list',
                  'blockers', 'safe_actions', 'knowledge_query', 'evidence_get',
                  'delegated_evidence_list', 'repository_observe', 'preflight', 'verify',
                  'work_item_validate', 'work_item_parallel'):
@@ -131,7 +131,7 @@ for path in [Path('docs/reference/reference-parity.md'), Path('docs/reference/re
     if 'humanHandoff' not in text or 'Implemented' not in text and '已实现' not in text:
         missing.append(f'{path}: human-facing MCP projection status is stale')
     parity_status = '已实现' if path.name.endswith('.zh-CN.md') else 'Implemented'
-    for work_item in ('WI-121', 'WI-122', 'WI-123'):
+    for work_item in ('WI-121', 'WI-122', 'WI-123', 'WI-125'):
         if work_item not in text:
             missing.append(f'{path}: current implementation baseline omits {work_item}')
     if parity_status not in text:

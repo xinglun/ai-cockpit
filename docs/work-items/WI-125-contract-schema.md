@@ -9,6 +9,7 @@ audience:
   - maintainer
 status: implemented
 authority: canonical
+lastVerifiedBy: documentation-acceptance
 ---
 
 # WI-125 — Contract V2 schema completeness

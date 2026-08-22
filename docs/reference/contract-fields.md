@@ -47,6 +47,11 @@ Status meanings:
 | `verification` | Legacy verification strings or typed `{check, required}` declarations; declarations never replace fresh execution. | Implemented |
 | `baseRevision` | Snapshot-derived starting revision for the Work Item. | Implemented |
 | `projectProfileDigest`, `repositorySnapshotDigest` | Content bindings for the attached project profile and repository snapshot. | Implemented |
+| `baseCommit`, `baselineDirtyPaths` | V2 lineage and pre-existing dirty-path fingerprints; `baseCommit` must agree with `baseRevision` when both are present. | Implemented |
+| `archiveSequence`, `resumeHistory` | Positive archive ordering and contiguous, closed predecessor lineage for a resumed Work Item. | Implemented |
+| `synchronizationCheckpoint`, `synchronizationHistory` | Explicitly authorized base synchronization and digest-bound rebase history; incomplete entries fail closed. | Implemented |
+| `guidelines`, `preReviewWarnings`, `acceptance` | Human-authored guidance, review warnings, and an optional alias that must match `acceptanceCriteria`. | Implemented |
+| `authorityEvidence`, `restrictedWriteApproval`, `destructiveChangePolicy.approvalEvidence` | Typed repository-local provenance and approval payloads; V2 rejects malformed/unknown nested fields while legacy provider extensions remain readable. | Implemented / External identity boundary |
 | `problemStatement`, `riskAssessment`, `agentCapability`, `executionDecision` | Strictly typed optional V2 safety and review inputs. Non-continue decisions stop preflight. | Implemented |
 | `destructiveChangePolicy`, `rollbackNote`, `unknowns`, `notCodable` | Explicit safety, recovery, and unresolved-state declarations. | Implemented |
 | `scenarioCoverage` | Optional high-risk scenario projection; required/unverified scenarios fail closed before checkpoint. | Implemented |

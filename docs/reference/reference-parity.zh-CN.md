@@ -68,6 +68,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-121——Contract V2 | 已实现 | [Work Item](../work-items/WI-121-contract-v2.zh-CN.md)；`.ai/evidence/WI-121-contract-v2.verification.json` |
 | WI-122——Scenario、Acceptance 与最终维度 | 已实现 | [Work Item](../work-items/WI-122-scenarios-acceptance-final-dimensions.zh-CN.md)；`.ai/evidence/WI-122-scenarios-acceptance-final-dimensions.verification.json` |
 | WI-123——Contract 并行边界与 Slot | 已实现 | [Work Item](../work-items/WI-123-parallel-contract-boundary.zh-CN.md)；`.ai/evidence/WI-123-parallel-contract-boundary.verification.json` |
+| WI-125——Contract V2 schema boundary | 已实现 | [Work Item](../work-items/WI-125-contract-schema.zh-CN.md)；`.ai/evidence/WI-125-contract-schema.verification.json` |
 
 ## 当前边界
 

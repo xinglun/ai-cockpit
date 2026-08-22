@@ -95,9 +95,9 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
         _ => "User-visible benefit has not been declared.",
     };
     let contract_language = match language {
-        "zh" => "验收标准（Contract 原文）",
-        "ja" => "受入れ基準（Contract 原文）",
-        _ => "Acceptance criteria (contract language)",
+        "zh" => "验收标准（Contract 原文） / Acceptance criteria (Contract language)",
+        "ja" => "受入れ基準（Contract 原文） / Acceptance criteria (Contract language)",
+        _ => "Acceptance criteria (Contract language)",
     };
     let invalid_evidence = match language {
         "zh" => "验证证据无效或与当前 Work Item / repository 不匹配，已停止。",
@@ -193,7 +193,10 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
     } else {
         Vec::new()
     };
-    let header = format!("{title} — {}\n{} {status}", outcome.work_item_id, marker);
+    let header = format!(
+        "Outcome: {marker} {status} — {}\n{title}",
+        outcome.work_item_id
+    );
     format!(
         "{header}\n\n{completed}\n{}\n\n{problems}\n{}\n\n{stops}\n{}\n\n{resolved}\n{}\n\n{avoided}\n{}\n\n{remaining}\n{}\n\n{unknowns}\n{}\n\n{decisions}\n{}\n\n{verification}\n{}\n\n{impact}\n{}\n\n{next_action}\n- {next}\n\n{evidence}\n{}",
         bullet_lines(&completed_items, none),
