@@ -1,0 +1,133 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-144-cross-work-item-dedup.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e1b867ca007511e924aa0de04f6822f4f40992a96f1877ff972893430f1e9769",
+      "workItemId": "WI-144-cross-work-item-dedup"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-144-cross-work-item-dedup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-144-cross-work-item-dedup.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-144-cross-work-item-dedup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-144-cross-work-item-dedup.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-144-cross-work-item-dedup.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-144-cross-work-item-dedup.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-144-cross-work-item-dedup.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:owner via explicit-user-authorization at 2026-08-22T20:32:30Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-144-cross-work-item-dedup.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-144-cross-work-item-dedup.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-144-cross-work-item-dedup.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-144-cross-work-item-dedup.contract.json"
+          ],
+          "inference": false,
+          "text": "Separate shared physical verification work from Work Item-specific authorization evidence so parallel Work Items can reuse execution cost without sharing governance receipts."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-144-cross-work-item-dedup.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-144-cross-work-item-dedup"
+  },
+  "finalReportDigest": "sha256:7ff6f2dcbcbfcd9e6ea0e9f09900ca79617d62f4f369f1013a527e7be3990cce",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-22T20:32:30Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-144-cross-work-item-dedup.verification.json"
+    ],
+    "policyRefs": [
+      "repository-governance-v1"
+    ],
+    "reason": "Reviewed PhysicalExecution and ExecutionResult separation, distinct Work Item receipts, and fail-closed cross-binding tests.",
+    "resumeCondition": "Reopen if future planner integration changes physical execution or EvidenceReceipt binding semantics."
+  },
+  "timestamp": "2026-08-22T20:32:06Z",
+  "workItemId": "WI-144-cross-work-item-dedup"
+}

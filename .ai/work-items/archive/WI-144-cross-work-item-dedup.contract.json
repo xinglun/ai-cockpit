@@ -1,0 +1,73 @@
+{
+  "acceptanceCriteria": [
+    "A1: PhysicalExecution identity excludes Work Item identity and includes repository snapshot command environment runtime and toolchain bindings",
+    "A2: A shared physical execution result can bind to two Work Items while producing distinct Work Item Evidence Receipts",
+    "A3: No Work Item may reference another Work Item's Evidence Receipt as its own authorization evidence",
+    "A4: Cross repository snapshot runtime command or toolchain mismatch cannot coalesce and fails closed",
+    "A5: Physical execution reuse is an optimization only and does not weaken required verification or governance evidence",
+    "A6: Tri-language documentation explains PhysicalExecution ExecutionResult and per-Work-Item EvidenceReceipt boundaries"
+  ],
+  "authority": "authorized",
+  "baseRevision": "8f5123fcb26fd32a798beb0571916d07e9aacbbc",
+  "createdAt": "2026-08-22T20:23:22Z",
+  "goal": "Separate shared physical verification work from Work Item-specific authorization evidence so parallel Work Items can reuse execution cost without sharing governance receipts.",
+  "intent": "Introduce an explicit PhysicalExecution and ExecutionResult identity that can be independently bound to per-Work-Item EvidenceReceipt records without cross-Work-Item authorization reuse.",
+  "mode": "code",
+  "outOfScope": [
+    "New VerificationTier or EvidenceAssurance values",
+    "Policy planner or affected dependency semantics",
+    "CI workflow migration",
+    "Performance targets or cross-process persistent cache",
+    "Runtime global project state or global Agent configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:467ae17566cc328a901fead473be1bd8cebadcdce4e9cc756bee23f17932cc41",
+  "requiredEvidenceClasses": ["verification"],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "scenario": "shared physical execution binds distinct Work Item evidence receipts",
+      "required": true,
+      "expected": "Two Work Items may reuse one physical result but each receives an identity-bound receipt and cross-binding is rejected.",
+      "verificationPlan": "Run physical execution coordinator and receipt binding tests for valid A/B bindings and a tampered cross-Work-Item receipt.",
+      "status": "unverified"
+    },
+    {
+      "scenario": "repository snapshot runtime command or toolchain mismatch",
+      "required": true,
+      "expected": "Mismatched physical execution keys never coalesce and fail closed.",
+      "verificationPlan": "Run key mismatch tests for repository snapshot runtime command and toolchain dimensions.",
+      "status": "unverified"
+    }
+  ],
+  "scope": [
+    "crates/cockpit-verification/src/lib.rs",
+    "crates/cockpit-verification/tests/physical_execution.rs",
+    "docs/reference/cross-work-item-dedup.md",
+    "docs/reference/cross-work-item-dedup.zh-CN.md",
+    "docs/reference/cross-work-item-dedup.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-144-cross-work-item-dedup.md",
+    "docs/work-items/WI-144-cross-work-item-dedup.zh-CN.md",
+    "docs/work-items/WI-144-cross-work-item-dedup.ja.md"
+  ],
+  "sources": [
+    "crates/cockpit-verification/src/lib.rs",
+    "crates/cockpit-verification/tests/execution.rs",
+    "docs/reference/verification-semantics.md",
+    "docs/reference/affected-verification.md",
+    "docs/reference/reference-parity.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked -p cockpit-verification --all-targets",
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "bash tests/docs/documentation_acceptance.sh"
+  ],
+  "workItemId": "WI-144-cross-work-item-dedup"
+}

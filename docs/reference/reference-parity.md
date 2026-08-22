@@ -89,6 +89,7 @@ record for each boundary.
 | WI-141 — Policy-driven verification planner | Implemented | [Work Item](../work-items/WI-141-policy-planner.md); `.ai/evidence/WI-141-policy-planner.verification.json`; `.ai/decisions/WI-141-policy-planner.close.json` |
 | WI-142 — Affected verification and dependency confidence | Implemented | [Work Item](../work-items/WI-142-affected-verification.md); `.ai/evidence/WI-142-affected-verification.verification.json`; `.ai/decisions/WI-142-affected-verification.close.json` |
 | WI-143 — Intent scenario and stage binding | Implemented | [Work Item](../work-items/WI-143-intent-scenario-binding.md); `.ai/evidence/WI-143-intent-scenario-binding.verification.json`; `.ai/decisions/WI-143-intent-scenario-binding.close.json` |
+| WI-144 — Cross-Work-Item physical execution reuse | Implemented | [Work Item](../work-items/WI-144-cross-work-item-dedup.md); `.ai/evidence/WI-144-cross-work-item-dedup.verification.json`; `.ai/decisions/WI-144-cross-work-item-dedup.close.json` |
 
 ## Current boundary
 

@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-22T20:32:06Z",
+  "files": {
+    "contractDigest": "sha256:4efd5029accf1f07305f1e5414ceb2cad590d3f1e001b2a9a67e88764d9931f6",
+    "contractPath": ".ai/work-items/archive/WI-144-cross-work-item-dedup.contract.json",
+    "eventsDigest": "sha256:6a6ca63ddf57bdc3abe5f255ce0c233d84f9e670fe1a58197ca55cb20928ff3f",
+    "eventsPath": ".ai/work-items/archive/WI-144-cross-work-item-dedup.events.jsonl",
+    "outcomeDigest": "sha256:ac13bd74fbe03b9d2c8a9a610deeb967fa44517f9c3749e02cc320ab9990fab4",
+    "outcomePath": ".ai/work-items/archive/WI-144-cross-work-item-dedup.outcome.json",
+    "summaryDigest": "sha256:c8c90729fcce44cbe7f6d6e905b349259de14a64dde719c57305c865cde46865",
+    "summaryPath": ".ai/work-items/archive/WI-144-cross-work-item-dedup.summary.json",
+    "taskReportDigest": "sha256:c02bfd0549f130371f574555e10d3d9dd145bdc90e7c3dcd3c48ba201ee255ed",
+    "taskReportMarkdownDigest": "sha256:47118cfffd404593f7451b905770b34e510b89c62794e4f9bdd8d75ea1cdf646",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-144-cross-work-item-dedup.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-144-cross-work-item-dedup.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-144-cross-work-item-dedup"
+}

@@ -854,6 +854,373 @@ pub struct VerificationReceipt {
     pub passed: bool,
 }
 
+pub const PHYSICAL_EXECUTION_SCHEMA_VERSION: u32 = 1;
+pub const WORK_ITEM_EVIDENCE_RECEIPT_SCHEMA_VERSION: u32 = 1;
+
+/// Identity of work that can be shared physically.  Work Item identity is
+/// deliberately absent: authorization belongs to the receipt binding below,
+/// never to the physical execution cache key.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct PhysicalExecutionKey {
+    pub schema_version: u32,
+    pub repository_id: Digest,
+    pub repository_snapshot_digest: Digest,
+    pub command_digest: Digest,
+    pub environment_digest: Digest,
+    pub runtime_digest: Digest,
+    pub toolchain_digest: Digest,
+}
+
+impl PhysicalExecutionKey {
+    pub fn new(
+        repository_id: Digest,
+        repository_snapshot_digest: Digest,
+        command_digest: Digest,
+        environment_digest: Digest,
+        runtime_digest: Digest,
+        toolchain_digest: Digest,
+    ) -> Self {
+        Self {
+            schema_version: PHYSICAL_EXECUTION_SCHEMA_VERSION,
+            repository_id,
+            repository_snapshot_digest,
+            command_digest,
+            environment_digest,
+            runtime_digest,
+            toolchain_digest,
+        }
+    }
+
+    pub fn validate(&self) -> Result<(), PhysicalExecutionError> {
+        if self.schema_version != PHYSICAL_EXECUTION_SCHEMA_VERSION {
+            return Err(PhysicalExecutionError::UnsupportedSchema);
+        }
+        for (name, digest) in [
+            ("repository_id", &self.repository_id),
+            (
+                "repository_snapshot_digest",
+                &self.repository_snapshot_digest,
+            ),
+            ("command_digest", &self.command_digest),
+            ("environment_digest", &self.environment_digest),
+            ("runtime_digest", &self.runtime_digest),
+            ("toolchain_digest", &self.toolchain_digest),
+        ] {
+            if digest.as_str().parse::<Digest>().is_err() {
+                return Err(PhysicalExecutionError::InvalidDigest(name));
+            }
+        }
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct PhysicalExecution {
+    pub schema_version: u32,
+    pub key: PhysicalExecutionKey,
+    pub execution_id: Digest,
+}
+
+impl PhysicalExecution {
+    pub fn new(key: PhysicalExecutionKey) -> Result<Self, PhysicalExecutionError> {
+        key.validate()?;
+        let execution_id = cockpit_protocol::digest_json(&key)
+            .map_err(|_| PhysicalExecutionError::Serialization)?;
+        Ok(Self {
+            schema_version: PHYSICAL_EXECUTION_SCHEMA_VERSION,
+            key,
+            execution_id,
+        })
+    }
+
+    pub fn validate(&self) -> Result<(), PhysicalExecutionError> {
+        if self.schema_version != PHYSICAL_EXECUTION_SCHEMA_VERSION {
+            return Err(PhysicalExecutionError::UnsupportedSchema);
+        }
+        self.key.validate()?;
+        let expected = Self::new(self.key.clone())?;
+        if expected.execution_id != self.execution_id {
+            return Err(PhysicalExecutionError::IdentityMismatch);
+        }
+        Ok(())
+    }
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ExecutionResultBody<'a> {
+    schema_version: u32,
+    physical_execution_id: &'a Digest,
+    key: &'a PhysicalExecutionKey,
+    passed: bool,
+    output_digest: &'a Digest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ExecutionResult {
+    pub schema_version: u32,
+    pub physical_execution_id: Digest,
+    pub key: PhysicalExecutionKey,
+    pub passed: bool,
+    pub output_digest: Digest,
+    pub result_digest: Digest,
+}
+
+impl ExecutionResult {
+    pub fn new(
+        physical_execution: &PhysicalExecution,
+        passed: bool,
+        output_digest: Digest,
+    ) -> Result<Self, PhysicalExecutionError> {
+        physical_execution.validate()?;
+        let mut result = Self {
+            schema_version: PHYSICAL_EXECUTION_SCHEMA_VERSION,
+            physical_execution_id: physical_execution.execution_id.clone(),
+            key: physical_execution.key.clone(),
+            passed,
+            output_digest,
+            result_digest: Digest::sha256_bytes(b"uninitialized"),
+        };
+        result.result_digest = result.recompute_digest()?;
+        Ok(result)
+    }
+
+    pub fn recompute_digest(&self) -> Result<Digest, PhysicalExecutionError> {
+        let body = ExecutionResultBody {
+            schema_version: self.schema_version,
+            physical_execution_id: &self.physical_execution_id,
+            key: &self.key,
+            passed: self.passed,
+            output_digest: &self.output_digest,
+        };
+        let bytes = serde_json::to_vec(&body).map_err(|_| PhysicalExecutionError::Serialization)?;
+        Ok(Digest::sha256_bytes(&bytes))
+    }
+
+    pub fn validate(&self) -> Result<(), PhysicalExecutionError> {
+        if self.schema_version != PHYSICAL_EXECUTION_SCHEMA_VERSION {
+            return Err(PhysicalExecutionError::UnsupportedSchema);
+        }
+        self.key.validate()?;
+        let physical = PhysicalExecution::new(self.key.clone())?;
+        if physical.execution_id != self.physical_execution_id {
+            return Err(PhysicalExecutionError::IdentityMismatch);
+        }
+        if self.output_digest.as_str().parse::<Digest>().is_err()
+            || self.recompute_digest()? != self.result_digest
+        {
+            return Err(PhysicalExecutionError::IdentityMismatch);
+        }
+        Ok(())
+    }
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+struct WorkItemEvidenceReceiptBody<'a> {
+    schema_version: u32,
+    work_item_id: &'a str,
+    repository_id: &'a Digest,
+    physical_execution_id: &'a Digest,
+    execution_result_digest: &'a Digest,
+    passed: bool,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct WorkItemEvidenceReceipt {
+    pub schema_version: u32,
+    pub work_item_id: String,
+    pub repository_id: Digest,
+    pub physical_execution_id: Digest,
+    pub execution_result_digest: Digest,
+    pub passed: bool,
+    pub receipt_digest: Digest,
+}
+
+impl WorkItemEvidenceReceipt {
+    pub fn bind(
+        work_item_id: &str,
+        execution_result: &ExecutionResult,
+    ) -> Result<Self, PhysicalExecutionError> {
+        execution_result.validate()?;
+        if work_item_id.trim().is_empty() {
+            return Err(PhysicalExecutionError::EmptyWorkItemIdentity);
+        }
+        let mut receipt = Self {
+            schema_version: WORK_ITEM_EVIDENCE_RECEIPT_SCHEMA_VERSION,
+            work_item_id: work_item_id.into(),
+            repository_id: execution_result.key.repository_id.clone(),
+            physical_execution_id: execution_result.physical_execution_id.clone(),
+            execution_result_digest: execution_result.result_digest.clone(),
+            passed: execution_result.passed,
+            receipt_digest: Digest::sha256_bytes(b"uninitialized"),
+        };
+        receipt.receipt_digest = receipt.recompute_digest()?;
+        Ok(receipt)
+    }
+
+    pub fn recompute_digest(&self) -> Result<Digest, PhysicalExecutionError> {
+        let body = WorkItemEvidenceReceiptBody {
+            schema_version: self.schema_version,
+            work_item_id: &self.work_item_id,
+            repository_id: &self.repository_id,
+            physical_execution_id: &self.physical_execution_id,
+            execution_result_digest: &self.execution_result_digest,
+            passed: self.passed,
+        };
+        let bytes = serde_json::to_vec(&body).map_err(|_| PhysicalExecutionError::Serialization)?;
+        Ok(Digest::sha256_bytes(&bytes))
+    }
+
+    pub fn validate_for(
+        &self,
+        expected_work_item_id: &str,
+        expected_repository_id: &Digest,
+        execution_result: &ExecutionResult,
+    ) -> Result<(), PhysicalExecutionError> {
+        if self.schema_version != WORK_ITEM_EVIDENCE_RECEIPT_SCHEMA_VERSION {
+            return Err(PhysicalExecutionError::UnsupportedSchema);
+        }
+        execution_result.validate()?;
+        if self.work_item_id != expected_work_item_id
+            || &self.repository_id != expected_repository_id
+            || self.physical_execution_id != execution_result.physical_execution_id
+            || self.execution_result_digest != execution_result.result_digest
+            || self.passed != execution_result.passed
+            || self.recompute_digest()? != self.receipt_digest
+        {
+            return Err(PhysicalExecutionError::WorkItemBindingMismatch);
+        }
+        Ok(())
+    }
+}
+
+#[derive(Debug, Error, PartialEq, Eq)]
+pub enum PhysicalExecutionError {
+    #[error("unsupported physical execution schema version")]
+    UnsupportedSchema,
+    #[error("{0} must be a valid SHA-256 digest")]
+    InvalidDigest(&'static str),
+    #[error("physical execution identity does not match its key")]
+    IdentityMismatch,
+    #[error("physical execution result cannot be serialized")]
+    Serialization,
+    #[error("Work Item identity must not be empty")]
+    EmptyWorkItemIdentity,
+    #[error("Work Item evidence receipt does not match its Work Item and execution result")]
+    WorkItemBindingMismatch,
+    #[error("physical execution key is invalid")]
+    InvalidKey,
+    #[error("physical execution operation failed: {0}")]
+    Operation(String),
+}
+
+struct PhysicalFlightState {
+    result: Mutex<Option<Result<Arc<ExecutionResult>, String>>>,
+    ready: Condvar,
+}
+
+/// In-process single-flight coordinator keyed only by PhysicalExecution.
+/// Callers must create a separate [`WorkItemEvidenceReceipt`] after receiving
+/// the shared result; the coordinator never stores or returns authorization
+/// evidence for a Work Item.
+#[derive(Default)]
+pub struct PhysicalSingleFlightCoordinator {
+    flights: Mutex<BTreeMap<String, Arc<PhysicalFlightState>>>,
+}
+
+impl PhysicalSingleFlightCoordinator {
+    pub fn execute<F>(
+        &self,
+        key: PhysicalExecutionKey,
+        operation: F,
+    ) -> Result<Arc<ExecutionResult>, String>
+    where
+        F: FnOnce(PhysicalExecution) -> Result<ExecutionResult, PhysicalExecutionError>,
+    {
+        let physical = PhysicalExecution::new(key).map_err(|_| "physical_execution_key_invalid")?;
+        let map_key = physical.execution_id.to_string();
+        let (state, leader) = {
+            let mut flights = self
+                .flights
+                .lock()
+                .map_err(|_| "physical_single_flight_registry_poisoned".to_string())?;
+            if let Some(state) = flights.get(&map_key) {
+                (Arc::clone(state), false)
+            } else {
+                let state = Arc::new(PhysicalFlightState {
+                    result: Mutex::new(None),
+                    ready: Condvar::new(),
+                });
+                flights.insert(map_key.clone(), Arc::clone(&state));
+                (state, true)
+            }
+        };
+
+        if !leader {
+            let mut result = state
+                .result
+                .lock()
+                .map_err(|_| "physical_single_flight_result_poisoned".to_string())?;
+            while result.is_none() {
+                result = state
+                    .ready
+                    .wait(result)
+                    .map_err(|_| "physical_single_flight_result_poisoned".to_string())?;
+            }
+            return result
+                .as_ref()
+                .expect("physical single-flight result initialized")
+                .clone();
+        }
+
+        let expected_physical = physical.clone();
+        let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| operation(physical)))
+            .map_err(|_| "physical_single_flight_operation_panicked".to_string())
+            .and_then(|result| match result {
+                Ok(result) => {
+                    if result.physical_execution_id != expected_physical.execution_id
+                        || result.key != expected_physical.key
+                    {
+                        return Err("physical_execution_result_identity_mismatch".into());
+                    }
+                    result
+                        .validate()
+                        .map(|()| Arc::new(result))
+                        .map_err(|error| error.to_string())
+                }
+                Err(error) => Err(error.to_string()),
+            });
+        {
+            let mut stored = state
+                .result
+                .lock()
+                .map_err(|_| "physical_single_flight_result_poisoned".to_string())?;
+            *stored = Some(result.clone());
+            state.ready.notify_all();
+        }
+        if let Ok(mut flights) = self.flights.lock()
+            && flights
+                .get(&map_key)
+                .is_some_and(|current| Arc::ptr_eq(current, &state))
+        {
+            flights.remove(&map_key);
+        }
+        result
+    }
+
+    pub fn active_count(&self) -> Result<usize, String> {
+        self.flights
+            .lock()
+            .map(|flights| flights.len())
+            .map_err(|_| "physical_single_flight_registry_poisoned".into())
+    }
+}
+
 /// Identity used to coalesce concurrent verification requests. Every field
 /// is explicit so a request from another repository, Work Item, runtime, or
 /// command can never observe a different request's result.
