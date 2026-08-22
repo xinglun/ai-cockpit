@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-22T14:43:31Z",
+  "files": {
+    "contractDigest": "sha256:4f82f2b2e30df1b8cd15150279263a9b36f3c5cc09e1c3ba990cd411e0464cbe",
+    "contractPath": ".ai/work-items/archive/WI-138-post-release-adoption-recovery.contract.json",
+    "eventsDigest": "sha256:7105f1c1b59cee230b00862a732a42102aa233f4b90c360cf2393d25677ae77e",
+    "eventsPath": ".ai/work-items/archive/WI-138-post-release-adoption-recovery.events.jsonl",
+    "outcomeDigest": "sha256:417b1b787bcea1f0c547ce9702bed3376a68a3b4aaaff8b7ae2c8e54714bc1a4",
+    "outcomePath": ".ai/work-items/archive/WI-138-post-release-adoption-recovery.outcome.json",
+    "summaryDigest": "sha256:0fb8c112396d95abc1dc170acf6ff55d60049d12cfe7f7db9d3521e3330103eb",
+    "summaryPath": ".ai/work-items/archive/WI-138-post-release-adoption-recovery.summary.json",
+    "taskReportDigest": "sha256:2bff1bb52423c790304319032521994c0b1c1852d3049a1921db4ed2de57b006",
+    "taskReportMarkdownDigest": "sha256:3a3049f4c55c2ccaacafbd5f07f6c4b73314cd454799bc11d803904f9b09531a",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-138-post-release-adoption-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-138-post-release-adoption-recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-138-post-release-adoption-recovery"
+}

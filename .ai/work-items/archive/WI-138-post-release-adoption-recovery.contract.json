@@ -1,0 +1,35 @@
+{
+  "acceptanceCriteria": [
+    "public release manifest and binary digest match",
+    "fresh adopter and N-1 receipts are preserved",
+    "stale finish_ready recovery is fail-closed and auditable",
+    "lifecycle and Outcome checks pass"
+  ],
+  "authority": "authorized",
+  "baseRevision": "f030bb89ce69e0e5f89c66eaf45e05900e3d2546",
+  "createdAt": "2026-08-22T14:38:42Z",
+  "goal": "Use published v0.2.11 for post-release adopter acceptance and close the snapshot-boundary gap.",
+  "intent": "Rebind post-release adoption evidence to the published v0.2.11 Runtime and provide an auditable recovery path for stale finish_ready state without rewriting historical evidence.",
+  "mode": "implementation",
+  "outOfScope": [
+    "historical evidence rewrite",
+    "source fallback",
+    "global Agent and MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a7277477e2776dde93462fea934bdaed35415b23a085cdddfbc0637b3d80f4fd",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "docs/**",
+    ".ai/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-138-post-release-adoption-recovery"
+}

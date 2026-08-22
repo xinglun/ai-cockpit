@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "workItemId": "WI-138-post-release-adoption-recovery",
+  "release": {
+    "tag": "v0.2.11",
+    "commit": "f030bb89ce69e0e5f89c66eaf45e05900e3d2546",
+    "releaseUrl": "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.11",
+    "manifestSha256": "sha256:c3b1986c8f133f923a0a80a88cdadbf2fb25f393d2f557a475c3dbddf0bb0e13",
+    "arm64MacArchiveSha256": "sha256:3c77e9c415eb4013172697f4c9d5a68931526867b8a92d0108e87c87e4768e3a",
+    "installedRuntimeVersion": "0.2.11",
+    "installedRuntimeDigest": "sha256:13f7cb5717a8fdb0b93afe0779c54de1f61dd4130c21e13e9b4b9b7454f86682",
+    "installedTarget": "aarch64-apple-darwin",
+    "installedBinarySource": "https://github.com/xinglun/ai-cockpit/releases/download/v0.2.11/ai-cockpit-v0.2.11-aarch64-apple-darwin.tar.gz"
+  },
+  "workflowRun": {
+    "id": 32578324451,
+    "url": "https://github.com/xinglun/ai-cockpit/actions/runs/32578324451",
+    "releasePublished": true,
+    "freshArtifactUrl": "https://github.com/xinglun/ai-cockpit/actions/runs/32578324451/artifacts/9477249990",
+    "upgradeArtifactUrl": "https://github.com/xinglun/ai-cockpit/actions/runs/32578324451/artifacts/9477256331"
+  },
+  "freshAdopter": {
+    "state": "passed",
+    "target": "x86_64-unknown-linux-gnu",
+    "runtimeVersion": "0.2.11",
+    "runtimeDigest": "sha256:117f3cd1ee48c7dc3f859db0848a0ce6745ef317e831777ebe4e85debb5d9733",
+    "repositoryId": "sha256:4b7c4a7044e19dbe32d776846568381d9238873826cc9559be523f5875b4eac0",
+    "firstAdopterSmoke": "not_ready",
+    "evidenceReuse": "passed",
+    "lifecycle": "passed",
+    "isolation": "passed",
+    "cleanup": "passed"
+  },
+  "upgradeAdopter": {
+    "state": "passed",
+    "fromTag": "v0.2.10",
+    "toTag": "v0.2.11",
+    "fromRuntimeDigest": "sha256:8db2f5aa41efe02e41339b47dc3354a2e28700fa2aec6c4ba936703a497b5a08",
+    "toRuntimeDigest": "sha256:117f3cd1ee48c7dc3f859db0848a0ce6745ef317e831777ebe4e85debb5d9733",
+    "repositoryId": "sha256:3d95d20ccddd55ee14c62cb2382f72df8478760dd5b5aa4474dacf99a975a896",
+    "historicalEvidencePreserved": "passed",
+    "continuedOperation": "passed",
+    "isolation": "passed",
+    "cleanup": "passed"
+  },
+  "sourceOfTruth": "The referenced GitHub Release assets and workflow artifacts are immutable public evidence; this summary does not replace them."
+}

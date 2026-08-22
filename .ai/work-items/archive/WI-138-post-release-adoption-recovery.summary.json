@@ -1,0 +1,19 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json"
+  ],
+  "checkpointAt": "2026-08-22T14:38:54Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T14:38:42Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-22T14:43:03Z",
+  "preflightContractDigest": "sha256:d123f39f860f798cf659b87beccda50afb08c15f59d6731ec8d22ece664a5a81",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:22e38f374cd4ddbbc6c1da43df659a8195f35414c2de7f4aa40810fb7aac7ce7",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T14:43:06Z",
+  "workItemId": "WI-138-post-release-adoption-recovery"
+}
