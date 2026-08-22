@@ -297,6 +297,86 @@ pub fn plan_policy_requirement(
     })
 }
 
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct IntentScenarioRouteInput {
+    pub intent: String,
+    pub scenarios: Vec<String>,
+    pub required_scenarios: Vec<String>,
+    pub operation: String,
+    pub stage: String,
+    pub high_risk: bool,
+    pub policy_plan: PolicyVerificationPlan,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct IntentScenarioRoute {
+    pub schema_version: u32,
+    pub operation: String,
+    pub stage: String,
+    pub intent_present: bool,
+    pub scenario_ids: Vec<String>,
+    pub high_risk: bool,
+    pub requirement: cockpit_protocol::VerificationRequirement,
+}
+
+#[derive(Debug, Error, PartialEq, Eq)]
+pub enum IntentScenarioRouteError {
+    #[error("contract intent is missing")]
+    IntentMissing,
+    #[error("required scenario is missing: {0}")]
+    RequiredScenarioMissing(String),
+    #[error("policy planner operation does not match route operation")]
+    OperationMismatch,
+    #[error("policy planner stage does not match route stage")]
+    StageMismatch,
+    #[error("policy requirement is not bound to route stage")]
+    RequirementStageUnbound,
+}
+
+/// Bind human-declared Contract facts to an already policy-derived plan. The
+/// route validator never parses implementation text, infers authority, or
+/// creates a tier requirement. It only proves that required intent/scenarios
+/// and the requested operation/stage are present before execution.
+pub fn bind_intent_scenario_route(
+    input: &IntentScenarioRouteInput,
+) -> Result<IntentScenarioRoute, IntentScenarioRouteError> {
+    if input.intent.trim().is_empty() {
+        return Err(IntentScenarioRouteError::IntentMissing);
+    }
+    for required in &input.required_scenarios {
+        if !input.scenarios.iter().any(|scenario| scenario == required) {
+            return Err(IntentScenarioRouteError::RequiredScenarioMissing(
+                required.clone(),
+            ));
+        }
+    }
+    if input.operation != input.policy_plan.operation {
+        return Err(IntentScenarioRouteError::OperationMismatch);
+    }
+    if input.stage != input.policy_plan.stage {
+        return Err(IntentScenarioRouteError::StageMismatch);
+    }
+    if !input
+        .policy_plan
+        .requirement
+        .stage_refs
+        .iter()
+        .any(|stage| stage == &input.stage)
+    {
+        return Err(IntentScenarioRouteError::RequirementStageUnbound);
+    }
+    Ok(IntentScenarioRoute {
+        schema_version: 1,
+        operation: input.operation.clone(),
+        stage: input.stage.clone(),
+        intent_present: true,
+        scenario_ids: input.scenarios.clone(),
+        high_risk: input.high_risk,
+        requirement: input.policy_plan.requirement.clone(),
+    })
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct VerificationResult {

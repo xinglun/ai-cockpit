@@ -1,0 +1,145 @@
+{
+  "acceptanceResults": [
+    "A1: Contract intent scenario and stage binding is an explicit typed route and never inferred from implementation text",
+    "A2: Missing intent missing required scenario or stage mismatch fails closed with stable reason codes before verification execution",
+    "A3: A policy planner requirement is bound to the requested operation and stage without changing tier assurance or authority semantics",
+    "A4: High-risk scenario routing requires an explicit policy requirement and does not hide T3 decisions inside Planner heuristics",
+    "A5: FourPillarProjection remains presentation-only and final dimensions remain the exact governed receipt set",
+    "A6: Tri-language documentation explains intent scenario stage binding and the boundary between contract language and verification routing"
+  ],
+  "createdAt": "2026-08-22T20:16:09Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:91d247f405fa5528fbf302e054cb28dedf52338b09190c8b22c7728ec07f0768",
+  "evidenceRefs": [
+    ".ai/evidence/WI-143-intent-scenario-binding.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-143-intent-scenario-binding.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-143-intent-scenario-binding.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9a5fc9d562814db2d0dc214e0bb57bd4f11ee161b3cebfd7294b46e530707d2f",
+      "workItemId": "WI-143-intent-scenario-binding"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-143-intent-scenario-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-143-intent-scenario-binding.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-143-intent-scenario-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-143-intent-scenario-binding.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-143-intent-scenario-binding.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-143-intent-scenario-binding.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-143-intent-scenario-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-143-intent-scenario-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-143-intent-scenario-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-143-intent-scenario-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "Bind human-declared intent and scenario coverage to policy-derived operation and stage requirements without inventing governance decisions."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-143-intent-scenario-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-143-intent-scenario-binding"
+  },
+  "taskReportDigest": "sha256:773f2dd32b819db913fe48b35f7e4ba1e93db925e9c070c8a21fc614e7ec4c64",
+  "taskReportMarkdownDigest": "sha256:5a3f1ec4a4d5e87f07bb0acc683af5742c400122b1ae01931ea9ae4268bd50c1",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-143-intent-scenario-binding.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-143-intent-scenario-binding"
+}

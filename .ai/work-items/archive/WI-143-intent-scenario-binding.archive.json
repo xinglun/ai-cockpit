@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-22T20:16:16Z",
+  "files": {
+    "contractDigest": "sha256:dfdc4edd25fc0fd8970615e9cde079055dcf23915e7e4a0251a1ba0abc63335a",
+    "contractPath": ".ai/work-items/archive/WI-143-intent-scenario-binding.contract.json",
+    "eventsDigest": "sha256:b7a349718bac369511af30c60530847a8850b3cbbc47ca3cd3e39e8c3cce8fa9",
+    "eventsPath": ".ai/work-items/archive/WI-143-intent-scenario-binding.events.jsonl",
+    "outcomeDigest": "sha256:bcfd771b2e3481b31b0cc65d7a895a45e3e4d4ce2c4d51437f93cbfdbe71a1dd",
+    "outcomePath": ".ai/work-items/archive/WI-143-intent-scenario-binding.outcome.json",
+    "summaryDigest": "sha256:0c2aa928f040ca9c33c59498462e78ff865cd307c443e3f51acc4f0ffc4d5ce7",
+    "summaryPath": ".ai/work-items/archive/WI-143-intent-scenario-binding.summary.json",
+    "taskReportDigest": "sha256:773f2dd32b819db913fe48b35f7e4ba1e93db925e9c070c8a21fc614e7ec4c64",
+    "taskReportMarkdownDigest": "sha256:5a3f1ec4a4d5e87f07bb0acc683af5742c400122b1ae01931ea9ae4268bd50c1",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-143-intent-scenario-binding.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-143-intent-scenario-binding.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-143-intent-scenario-binding"
+}

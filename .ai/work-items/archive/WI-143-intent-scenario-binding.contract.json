@@ -1,0 +1,67 @@
+{
+  "acceptanceCriteria": [
+    "A1: Contract intent scenario and stage binding is an explicit typed route and never inferred from implementation text",
+    "A2: Missing intent missing required scenario or stage mismatch fails closed with stable reason codes before verification execution",
+    "A3: A policy planner requirement is bound to the requested operation and stage without changing tier assurance or authority semantics",
+    "A4: High-risk scenario routing requires an explicit policy requirement and does not hide T3 decisions inside Planner heuristics",
+    "A5: FourPillarProjection remains presentation-only and final dimensions remain the exact governed receipt set",
+    "A6: Tri-language documentation explains intent scenario stage binding and the boundary between contract language and verification routing"
+  ],
+  "authority": "authorized",
+  "baseRevision": "ec832a512fcd3ba53796697135d148725270628e",
+  "createdAt": "2026-08-22T20:09:07Z",
+  "goal": "Bind human-declared intent and scenario coverage to policy-derived operation and stage requirements without inventing governance decisions.",
+  "intent": "Add a fail-closed contract route validator that connects intent scenario and stage to an existing policy planner requirement.",
+  "mode": "code",
+  "outOfScope": [
+    "new VerificationTier or EvidenceAssurance values",
+    "dependency confidence and affected verification",
+    "cross-Work-Item physical execution deduplication",
+    "CI workflow migration",
+    "performance targets",
+    "global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:78868c3d232c31094009149a9651e775875f5bf0ca90f5d5cfb81441ad71bfdd",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "medium",
+  "scenarioCoverage": [
+    {
+      "expected": "Human-declared contract facts are bound to policy-derived routing or the Runtime stops before execution.",
+      "required": true,
+      "scenario": "contract intent scenario stage verification route",
+      "status": "unverified",
+      "verificationPlan": "Run valid and missing intent scenario stage and policy requirement route tests with stable fail-closed reasons."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-verification/src/lib.rs",
+    "crates/cockpit-verification/tests/intent_scenario_binding.rs",
+    "docs/reference/intent-scenario-binding.md",
+    "docs/reference/intent-scenario-binding.zh-CN.md",
+    "docs/reference/intent-scenario-binding.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-143-intent-scenario-binding.md",
+    "docs/work-items/WI-143-intent-scenario-binding.zh-CN.md",
+    "docs/work-items/WI-143-intent-scenario-binding.ja.md"
+  ],
+  "sources": [
+    "WI-140 verification semantics",
+    "WI-141 policy-driven planner",
+    "reference source contract intent scenario and stage routing"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked -p cockpit-verification --all-targets",
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "bash tests/docs/documentation_acceptance.sh"
+  ],
+  "workItemId": "WI-143-intent-scenario-binding"
+}
