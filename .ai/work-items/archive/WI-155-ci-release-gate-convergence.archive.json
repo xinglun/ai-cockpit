@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-22T23:08:09Z",
+  "files": {
+    "contractDigest": "sha256:e951e8e1298d69f7318d43e10dcb40dd5bbcd9fb5944ed38d9c4fefad44ce23e",
+    "contractPath": ".ai/work-items/archive/WI-155-ci-release-gate-convergence.contract.json",
+    "eventsDigest": "sha256:db0838a1eff341b2e88a2fd6e72c9baa83c4a3b61cb4c1669dd22c12d099284a",
+    "eventsPath": ".ai/work-items/archive/WI-155-ci-release-gate-convergence.events.jsonl",
+    "outcomeDigest": "sha256:6b7a4e65e7750fe62611ee6440b2fa97322f06b0306127d2ec17cdb341b473c3",
+    "outcomePath": ".ai/work-items/archive/WI-155-ci-release-gate-convergence.outcome.json",
+    "summaryDigest": "sha256:bd86a357a93d49892ed3d25bd39d65453162a9676e28138cf8c25ee080e00c7e",
+    "summaryPath": ".ai/work-items/archive/WI-155-ci-release-gate-convergence.summary.json",
+    "taskReportDigest": "sha256:17aeff29831392edec1d41b784db34cefd3e59fcf9493b397247156fba4c8cee",
+    "taskReportMarkdownDigest": "sha256:a7197f0a535ee62cb7ac6c1c1cfedee98b933dc77ee117e640ddb15354c14870",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-155-ci-release-gate-convergence.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-155-ci-release-gate-convergence.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-155-ci-release-gate-convergence"
+}

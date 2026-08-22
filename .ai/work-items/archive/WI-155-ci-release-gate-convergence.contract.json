@@ -1,0 +1,46 @@
+{
+  "acceptanceCriteria": [
+    "Release workspace tests use the same deterministic serial strategy as CI and no release-only parallel fixture race is introduced",
+    "Runtime shadow script explicitly identifies itself as execution smoke and does not claim policy route coverage",
+    "Negative and positive static checks cover the release command and shadow boundary text",
+    "Tri-language release docs and Work Item page agree with the Phase 1 shadow boundary"
+  ],
+  "authority": "authorized",
+  "baseRevision": "b3f7c2996c404e4a94f3c5e1f292c2e4395fc530",
+  "createdAt": "2026-08-22T23:07:46Z",
+  "goal": "Make release workflow test execution deterministic like CI and document or test that the Runtime shadow is execution smoke only until policy route integration is complete.",
+  "intent": "Keep Release quality gates aligned with the serial CI test strategy and state the exact scope of the Runtime shadow check without claiming complete policy governance coverage.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Removing Cargo shadow checks",
+    "Policy planner or physical execution implementation",
+    "Global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e41a78b1b6e63af82c25cc796e170437742e5cae088c072d26d80202337157af",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    ".github/workflows/release.yml",
+    "tests/ci/runtime_verify_shadow.sh",
+    "tests/ci/**",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-155-ci-release-gate-convergence.md",
+    "docs/work-items/WI-155-ci-release-gate-convergence.zh-CN.md",
+    "docs/work-items/WI-155-ci-release-gate-convergence.ja.md",
+    ".ai/work-items/active/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-155-ci-release-gate-convergence"
+}

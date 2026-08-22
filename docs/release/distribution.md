@@ -22,6 +22,23 @@ never creates `.ai` in a target repository. A post-release adopter acceptance
 harness is available for maintainers; it is not a pre-publication gate or a
 Runtime command.
 
+## CI quality and Runtime shadow boundary
+
+The release source-quality gate uses the same deterministic package-by-package
+test strategy as CI. Each workspace package is tested with
+`cargo test -p <package> --all-targets -- --test-threads=1`; Cargo test
+binaries are not launched concurrently. The verifier's own declared worker
+cap can still exercise parallel commands inside a test binary. This keeps the
+release gate aligned with CI without removing the Cargo checks.
+
+The `tests/ci/runtime_verify_shadow.sh` receipt is a Phase 1 **execution
+smoke**. It downloads and verifies an immutable public Runtime, then proves
+that it can execute one repository-bound verification command. Its receipt
+explicitly does not claim policy-route or planner coverage, affected-graph
+completeness, cross-Work-Item physical execution, or per-Work-Item evidence
+receipt coverage. Those claims require the corresponding Runtime and external
+evidence gates; a passing shadow is not a substitute for them.
+
 ## Before you start
 
 You need a published immutable Release, a repository path, and a matching

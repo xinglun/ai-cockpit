@@ -19,6 +19,17 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 与 manifest；仓库配置仍使用 `cockpit.toml`，安装 runtime 不会在目标仓库创建 `.ai`。
 维护者可以使用发布后的 adopter 验收 harness；它不是发布前 gate，也不是 Runtime 命令。
 
+## CI 质量门与 Runtime shadow 边界
+
+release source-quality gate 使用与 CI 相同的确定性逐 package 测试策略。每个 workspace package 都执行
+`cargo test -p <package> --all-targets -- --test-threads=1`，Cargo test binary 不会并发启动。验证器自身声明的
+worker 上限仍可以在单个 test binary 内执行并行命令。这样既保持 release gate 与 CI 一致，也不删除 Cargo 检查。
+
+`tests/ci/runtime_verify_shadow.sh` 生成的 receipt 是 Phase 1 **execution smoke（执行冒烟）**。它下载并校验不可变的公开
+Runtime，然后证明该 Runtime 能执行一次绑定 repository 的 verification command。该 receipt 明确不宣称覆盖 policy route 或
+planner、affected graph 完整性、跨 Work Item 的 physical execution，或每个 Work Item 独立的 evidence receipt。这些结论需要
+对应的 Runtime 和外部 evidence gate；shadow 通过不能替代它们。
+
 ## 开始前
 
 你需要一个已发布且不可变的 Release、目标 repository 路径，以及与操作系统匹配的 archive。Homebrew

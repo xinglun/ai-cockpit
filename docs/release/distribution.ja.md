@@ -19,6 +19,18 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 public archive と manifest を使い、Repository configuration は `cockpit.toml` のままです。runtime の install は
 対象 repository に `.ai` を作成しません。Maintainer は post-release adopter acceptance harness を実行できますが、pre-release gate や Runtime command ではありません。
 
+## CI quality gate と Runtime shadow の境界
+
+release の source-quality gate は CI と同じ deterministic な package-by-package test strategy を使用します。
+各 workspace package は `cargo test -p <package> --all-targets -- --test-threads=1` で実行され、Cargo の test binary は
+同時起動しません。Verifier 自身の宣言済み worker cap は、単一の test binary 内で parallel command を実行できます。
+これにより Cargo check を削除せず、release gate と CI の実行戦略を一致させます。
+
+`tests/ci/runtime_verify_shadow.sh` の receipt は Phase 1 の **execution smoke** です。immutable な public Runtime を download と
+検証した後、repository-bound verification command を一つ実行できることだけを証明します。この receipt は policy route/planner、
+affected graph の完全性、Work Item 間の physical execution、または Work Item ごとの evidence receipt coverage を主張しません。
+これらの主張には対応する Runtime および external evidence gate が必要であり、shadow の成功は代替になりません。
+
 ## 開始前
 
 公開済みの immutable Release、対象 repository path、OS に合う archive が必要です。Homebrew install

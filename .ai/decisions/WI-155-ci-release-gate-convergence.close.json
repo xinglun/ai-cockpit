@@ -1,0 +1,210 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-155-ci-release-gate-convergence.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e41a78b1b6e63af82c25cc796e170437742e5cae088c072d26d80202337157af",
+      "workItemId": "WI-155-ci-release-gate-convergence"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-155-ci-release-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .github/workflows/release.yml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-155-ci-release-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-155-ci-release-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-155-ci-release-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-155-ci-release-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-155-ci-release-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-155-ci-release-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-155-ci-release-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-155-ci-release-gate-convergence.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-155-ci-release-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-155-ci-release-gate-convergence.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-155-ci-release-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-155-ci-release-gate-convergence.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-155-ci-release-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/release_gate_policy_test.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-155-ci-release-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/runtime_verify_shadow.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-155-ci-release-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/runtime_verify_shadow_test.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-155-ci-release-gate-convergence.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-155-ci-release-gate-convergence.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-155-ci-release-gate-convergence.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via repository-owner-ci-release-review at 2026-08-22T23:08:14Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-155-ci-release-gate-convergence.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-155-ci-release-gate-convergence.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-155-ci-release-gate-convergence.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-155-ci-release-gate-convergence.contract.json"
+          ],
+          "inference": false,
+          "text": "Make release workflow test execution deterministic like CI and document or test that the Runtime shadow is execution smoke only until policy route integration is complete."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-155-ci-release-gate-convergence.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-155-ci-release-gate-convergence"
+  },
+  "finalReportDigest": "sha256:2c8d9985d333cdfcb8640caedc65365db6b4d9c11bb21d3b37090663deade863",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "repository-owner-ci-release-review",
+    "decidedAt": "2026-08-22T23:08:14Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-155-ci-release-gate-convergence.verification.json"
+    ],
+    "policyRefs": [
+      "release-gate-convergence"
+    ],
+    "reason": "Reviewed deterministic release package test strategy, Phase 1 execution-smoke boundary, static policy checks, and tri-language release/parity documentation.",
+    "resumeCondition": "Reopen only with a new Work Item if CI/release policy or Runtime shadow scope changes."
+  },
+  "timestamp": "2026-08-22T23:08:14Z",
+  "workItemId": "WI-155-ci-release-gate-convergence"
+}

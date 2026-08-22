@@ -1,0 +1,31 @@
+{
+  "changedPaths": [
+    ".github/workflows/release.yml",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/work-items/WI-155-ci-release-gate-convergence.ja.md",
+    "docs/work-items/WI-155-ci-release-gate-convergence.md",
+    "docs/work-items/WI-155-ci-release-gate-convergence.zh-CN.md",
+    "tests/ci/release_gate_policy_test.sh",
+    "tests/ci/runtime_verify_shadow.sh",
+    "tests/ci/runtime_verify_shadow_test.sh"
+  ],
+  "checkpointAt": "2026-08-22T23:07:53Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T23:07:46Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-22T23:08:05Z",
+  "preflightContractDigest": "sha256:d4fd124fa8ed200996dd65ed52a0c5c4c9f9c699b5cd82a94c871da54f09d758",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:e41a78b1b6e63af82c25cc796e170437742e5cae088c072d26d80202337157af",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T23:08:05Z",
+  "workItemId": "WI-155-ci-release-gate-convergence"
+}
