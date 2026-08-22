@@ -1,0 +1,123 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "planner_merges_tier_and_assurance_independently_with_traceability",
+          "path": "crates/cockpit-verification/tests/policy_planner.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-verification --all-targets"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "planner_merges_tier_and_assurance_independently_with_traceability",
+          "path": "crates/cockpit-verification/tests/policy_planner.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-verification --all-targets"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "organization_policy_cannot_be_weakened_by_a_lower_layer",
+          "path": "crates/cockpit-protocol/tests/protocol.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-protocol --all-targets"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "approachDigest",
+          "path": ".ai/work-items/archive/WI-139C-successor-recovery.archive.json",
+          "type": "archive",
+          "verification": "archive manifest digest matches preserved approach bytes and active orphan paths are absent"
+        },
+        {
+          "locator": "approachDigest",
+          "path": ".ai/work-items/archive/WI-139F-runtime-v0-2-13.archive.json",
+          "type": "archive",
+          "verification": "archive manifest digest matches preserved approach bytes and active orphan paths are absent"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "planner_does_not_infer_t3_without_an_explicit_policy_requirement",
+          "path": "crates/cockpit-verification/tests/policy_planner.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-verification --all-targets"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "Policy-driven verification planner",
+          "path": "docs/reference/verification-planner.md",
+          "type": "document",
+          "verification": "bash tests/docs/documentation_acceptance.sh"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/active/WI-141-policy-planner.contract.json",
+    ".ai/work-items/active/WI-141-policy-planner.summary.json",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/protocol.rs",
+    "crates/cockpit-verification/Cargo.toml",
+    "crates/cockpit-verification/src/lib.rs",
+    "crates/cockpit-verification/tests/policy_planner.rs"
+  ],
+  "checkpointAt": "2026-08-22T19:45:37Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T19:36:46Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "docs/reference/verification-planner.md",
+      "crates/cockpit-verification/src/lib.rs"
+    ],
+    "reason": "The implementation makes policy and stage traceability explicit and refuses hidden planner defaults.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-22T19:52:36Z",
+  "preflightContractDigest": "sha256:d8e485233ff83b8f9ad9baeef439669265e9a50e77111ea5b3bede597530b902",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:1c11bc44b13416aa48ab873a7d8b60ee4210b452d48b1ec288a5f0486e8a0b5b",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-141-policy-planner.verification.json",
+        "crates/cockpit-verification/tests/policy_planner.rs"
+      ],
+      "expected": "An ordered policy stack yields a traceable independent tier and assurance requirement or stops with a stable reason.",
+      "required": true,
+      "scenario": "policy-driven release verification",
+      "status": "verified",
+      "verificationPlan": "Run protocol policy overlay tests, planner tests, archive reconciliation checks, lint, and documentation acceptance."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T19:52:36Z",
+  "workItemId": "WI-141-policy-planner"
+}

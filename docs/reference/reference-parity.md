@@ -86,6 +86,7 @@ record for each boundary.
 | WI-135 — Repository-bound retention and close evidence | Implemented | [Work Item](../work-items/WI-135-repository-bound-evidence.md); `.ai/evidence/WI-135-repository-bound-evidence.verification.json`; `.ai/decisions/WI-135-repository-bound-evidence.close.json` |
 | WI-136 — Task Outcome and Human Benefit report | Implemented | [Work Item](../work-items/WI-136-task-outcome-report.md); `.ai/evidence/WI-136-task-outcome-report.verification.json`; `.ai/decisions/WI-136-task-outcome-report.close.json` |
 | WI-140 — Verification semantics and artifact archive integrity | Implemented | [Work Item](../work-items/WI-140-verification-semantics.md); `.ai/evidence/WI-140-verification-semantics.verification.json`; `.ai/decisions/WI-140-verification-semantics.close.json` |
+| WI-141 — Policy-driven verification planner | Implemented | [Work Item](../work-items/WI-141-policy-planner.md); `.ai/evidence/WI-141-policy-planner.verification.json`; `.ai/decisions/WI-141-policy-planner.close.json` |
 
 ## Current boundary
 

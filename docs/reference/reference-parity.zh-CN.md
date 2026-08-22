@@ -80,6 +80,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-135——Repository 绑定的 retention 与关闭证据 | 已实现 | [Work Item](../work-items/WI-135-repository-bound-evidence.zh-CN.md)；`.ai/evidence/WI-135-repository-bound-evidence.verification.json`；`.ai/decisions/WI-135-repository-bound-evidence.close.json` |
 | WI-136——Task Outcome 与 Human Benefit report | 已实现 | [Work Item](../work-items/WI-136-task-outcome-report.zh-CN.md)；`.ai/evidence/WI-136-task-outcome-report.verification.json`；`.ai/decisions/WI-136-task-outcome-report.close.json` |
 | WI-140——Verification 语义与 Artifact 归档完整性 | 已实现 | [Work Item](../work-items/WI-140-verification-semantics.zh-CN.md)；`.ai/evidence/WI-140-verification-semantics.verification.json`；`.ai/decisions/WI-140-verification-semantics.close.json` |
+| WI-141——Policy 驱动的 Verification Planner | 已实现 | [Work Item](../work-items/WI-141-policy-planner.zh-CN.md)；`.ai/evidence/WI-141-policy-planner.verification.json`；`.ai/decisions/WI-141-policy-planner.close.json` |
 
 ## 当前边界
 
