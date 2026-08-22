@@ -1,0 +1,21 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "user-authorized-maintainer",
+    "authoritySource": "explicit-user-release-authorization",
+    "decidedAt": "2026-08-22T07:16:07Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-118-release-toolchain-corrective.verification.json"
+    ],
+    "policyRefs": [
+      "docs/release/distribution.md"
+    ],
+    "reason": "User authorized merge after PR #51 CI passed; release acceptance cleanup and toolchain correction is approved.",
+    "resumeCondition": "Reopen only if a post-release acceptance or audit finds a regression."
+  },
+  "timestamp": "2026-08-22T07:16:07Z",
+  "workItemId": "WI-118-release-toolchain-corrective"
+}
