@@ -202,6 +202,8 @@ pub fn plan_policy_requirement(
     if input.policies.is_empty() {
         return Err(PolicyPlannerError::NoPolicies);
     }
+    cockpit_protocol::VerificationStage::parse(&input.stage)
+        .map_err(|error| PolicyPlannerError::InvalidRequirement("route".into(), error))?;
     let policy_refs = input.policies.iter().collect::<Vec<_>>();
     for policy in &input.policies {
         if policy.policy_id.trim().is_empty() {
@@ -866,6 +868,11 @@ impl VerificationExecutionPlan {
         } else {
             VerificationCostConfidence::Partial
         };
+        let estimated_parallelism = if nodes_to_execute == 0 {
+            0
+        } else {
+            max_workers.min(nodes_to_execute)
+        };
         VerificationCostEstimate {
             schema_version: VERIFICATION_COST_SCHEMA_VERSION,
             confidence,
@@ -873,7 +880,7 @@ impl VerificationExecutionPlan {
             nodes_to_execute,
             nodes_reused,
             resource_units,
-            estimated_parallelism: max_workers.min(nodes_to_execute.max(1)),
+            estimated_parallelism,
             planning_elapsed_ms: self.planning_elapsed_ms,
             advisory_only: true,
             unknowns,
@@ -916,9 +923,24 @@ pub struct VerificationReceipt {
     pub files_hashed: usize,
     pub elapsed_ms: u128,
     pub passed: bool,
+    /// Optional route projection.  It is presentation/evidence metadata and
+    /// never substitutes for policy or human authority.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub plan_receipt: Option<VerificationPlanReceipt>,
+    /// Materialized advisory cost facts for consumers that only receive the
+    /// merged verification receipt.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub cost_observation: Option<VerificationCostObservation>,
 }
 
 pub const VERIFICATION_COST_SCHEMA_VERSION: u32 = 1;
+
+fn is_sha256_digest(value: &str) -> bool {
+    let Some(hex) = value.strip_prefix("sha256:") else {
+        return false;
+    };
+    hex.len() == 64 && hex.bytes().all(|byte| byte.is_ascii_hexdigit())
+}
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -972,12 +994,35 @@ impl VerificationReceipt {
     /// Project execution telemetry into an advisory cost observation.  This
     /// method never changes `passed` or any governance decision.
     pub fn cost_observation(&self) -> VerificationCostObservation {
-        let mut unknowns = Vec::new();
-        if self.repository_id.is_none() {
-            unknowns.push("repository_identity_unknown".into());
+        if let Some(observation) = &self.cost_observation {
+            return observation.clone();
         }
-        if self.runtime_version.is_none() || self.runtime_digest.is_none() {
+        let mut unknowns = Vec::new();
+        if self
+            .repository_id
+            .as_deref()
+            .is_none_or(|value| !is_sha256_digest(value))
+        {
+            unknowns.push("repository_identity_unknown".into());
+            if self.repository_id.is_some() {
+                unknowns.push("repository_identity_invalid".into());
+            }
+        }
+        if self.runtime_version.as_deref().is_none_or(str::is_empty)
+            || self
+                .runtime_digest
+                .as_deref()
+                .is_none_or(|value| !is_sha256_digest(value))
+        {
             unknowns.push("runtime_identity_unknown".into());
+            if self.runtime_version.as_deref().is_some_and(str::is_empty)
+                || self
+                    .runtime_digest
+                    .as_deref()
+                    .is_some_and(|value| !is_sha256_digest(value))
+            {
+                unknowns.push("runtime_identity_invalid".into());
+            }
         }
         VerificationCostObservation {
             schema_version: VERIFICATION_COST_SCHEMA_VERSION,
@@ -1002,6 +1047,72 @@ impl VerificationReceipt {
             advisory_only: true,
             unknowns,
         }
+    }
+}
+
+pub const VERIFICATION_PLAN_RECEIPT_SCHEMA_VERSION: u32 = 1;
+
+/// Identity-bound projection of the route selected by policy and executed by
+/// the verification scheduler.  It records facts and monotonic escalation;
+/// it does not grant authority or turn speed into assurance.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct VerificationPlanReceipt {
+    pub schema_version: u32,
+    pub stage: cockpit_protocol::VerificationStage,
+    pub initial_tier: cockpit_protocol::VerificationTier,
+    pub final_tier: cockpit_protocol::VerificationTier,
+    pub assurance: cockpit_protocol::EvidenceAssurance,
+    pub selection_reasons: Vec<String>,
+    pub executed_nodes: Vec<String>,
+    pub reused_nodes: Vec<String>,
+    pub shared_nodes: Vec<String>,
+    pub escalations: Vec<String>,
+    pub planning_elapsed_ms: u128,
+    pub execution_elapsed_ms: u128,
+    pub saved_executions: usize,
+}
+
+impl VerificationPlanReceipt {
+    pub fn new(
+        stage: cockpit_protocol::VerificationStage,
+        initial_tier: cockpit_protocol::VerificationTier,
+        final_tier: cockpit_protocol::VerificationTier,
+        assurance: cockpit_protocol::EvidenceAssurance,
+        selection_reasons: Vec<String>,
+        escalations: Vec<String>,
+    ) -> Result<Self, String> {
+        if final_tier.rank() < initial_tier.rank() {
+            return Err("verification tier downgrade requires an explicit decision".into());
+        }
+        Ok(Self {
+            schema_version: VERIFICATION_PLAN_RECEIPT_SCHEMA_VERSION,
+            stage,
+            initial_tier,
+            final_tier,
+            assurance,
+            selection_reasons,
+            executed_nodes: Vec::new(),
+            reused_nodes: Vec::new(),
+            shared_nodes: Vec::new(),
+            escalations,
+            planning_elapsed_ms: 0,
+            execution_elapsed_ms: 0,
+            saved_executions: 0,
+        })
+    }
+
+    pub fn validate_monotonic(&self) -> Result<(), String> {
+        if self.schema_version != VERIFICATION_PLAN_RECEIPT_SCHEMA_VERSION {
+            return Err(format!(
+                "unsupported verification plan receipt schema {}",
+                self.schema_version
+            ));
+        }
+        if self.final_tier.rank() < self.initial_tier.rank() {
+            return Err("verification tier downgrade requires an explicit decision".into());
+        }
+        Ok(())
     }
 }
 
@@ -1831,6 +1942,8 @@ fn execute_verification_plan_bounded_with_budget_at(
         files_hashed: 0,
         elapsed_ms: planning_elapsed_ms.saturating_add(execution_elapsed_ms),
         passed: metrics.passed && protected_nodes_skipped == 0,
+        plan_receipt: None,
+        cost_observation: None,
     })
 }
 

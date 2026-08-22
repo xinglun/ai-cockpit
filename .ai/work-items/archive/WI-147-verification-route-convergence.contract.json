@@ -1,0 +1,100 @@
+{
+  "acceptanceCriteria": [
+    "A1: VerificationStage is a strict typed vocabulary task pre_ci pr merge release; unknown stages fail closed and repository reuse binds base revision consistently for every non-task stage",
+    "A2: VerificationPlanReceipt binds initial and final VerificationTier, independent EvidenceAssurance, selection reasons, executed/reused/shared nodes, escalations, stage, and elapsed facts; a final tier lower than the initial or policy requirement is rejected without a new explicit decision",
+    "A3: Repository and CLI verification expose route metadata and preserve DependencyConfidence, affected nodes, protected nodes, and policy-required execution; reuse and cost observation cannot lower the required tier, assurance, or protected gate",
+    "A4: Cost observations are automatically present in merged verification output, max concurrent processes is aggregated across parallel runs, empty plans report zero estimated parallelism, and malformed repository/runtime identities are unknown rather than complete",
+    "A5: CI quality-gate boundary remains explicit and structured: local pre_ci feedback and independent CI/provider assurance are distinct, existing Cargo checks remain in Phase 1, and no CI result can override a red governance state",
+    "A6: English Japanese and Simplified Chinese documentation describe the complete route and the principle Share facts and computation, never authority or governance decisions"
+  ],
+  "authority": "authorized",
+  "baseRevision": "c495dfb0bf5f12999e20508e0baec4b653508502",
+  "createdAt": "2026-08-22T21:16:05Z",
+  "goal": "Complete the verification route from Contract and Policy through Stage, Planner, DAG and reuse, Execution, EvidenceReceipt, CI gate, and Outcome with monotonic fail-closed semantics.",
+  "intent": "Connect Contract and Policy requirements to typed VerificationStage, execution planning, evidence receipts, and CI gate boundary without allowing stage, reuse, or cost optimization to weaken governance.",
+  "mode": "code",
+  "outOfScope": [
+    "Removing existing Cargo CI checks or changing Phase 1 release shadow policy",
+    "Hard latency or throughput targets",
+    "Rewriting historical WI-140 through WI-146 evidence bytes",
+    "Global Runtime, Agent, or MCP state",
+    "Provider or Enterprise assurance fabrication"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:70b38ca1f428bd33beae993776404a2ceaac62e51ff60c06f8ac531111ca9768",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scope": [
+    ".ai/work-items/active/WI-147-verification-route-convergence.*",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/verification_semantics.rs",
+    "crates/cockpit-verification/src/lib.rs",
+    "crates/cockpit-verification/tests/route_convergence.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/verification_service.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/verify.rs",
+    "docs/reference/verification-route.md",
+    "docs/reference/verification-route.zh-CN.md",
+    "docs/reference/verification-route.ja.md",
+    "docs/reference/README.md",
+    "docs/reference/README.zh-CN.md",
+    "docs/reference/README.ja.md",
+    "docs/work-items/WI-147-verification-route-convergence.md",
+    "docs/work-items/WI-147-verification-route-convergence.zh-CN.md",
+    "docs/work-items/WI-147-verification-route-convergence.ja.md"
+  ],
+  "sources": [
+    "docs/reference/verification-semantics.md",
+    "docs/reference/verification-planner.md",
+    "docs/reference/affected-verification.md",
+    "docs/reference/cross-work-item-dedup.md",
+    "docs/reference/ci-runtime-shadow.md",
+    "docs/reference/verification-cost.md",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-verification/src/lib.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "User-approved quality-gate and Verification route recommendations"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "typed stage and monotonic route",
+      "required": true,
+      "expected": "pre_ci is accepted, unknown stages stop, and a route cannot downgrade its policy-required tier or assurance.",
+      "verificationPlan": "Run protocol, verification, repository, and CLI route convergence regression tests with valid, unknown, downgrade, and protected-gate cases.",
+      "status": "unverified"
+    },
+    {
+      "scenario": "parallel receipt and cost aggregation",
+      "required": true,
+      "expected": "Merged parallel output preserves maximum concurrency, embeds advisory cost observation, and never reports an empty plan as parallelism one.",
+      "verificationPlan": "Run multi-command verification and cost observation tests, including missing and malformed identity cases.",
+      "status": "unverified"
+    },
+    {
+      "scenario": "CI boundary and governance stop",
+      "required": true,
+      "expected": "Pre-CI and provider stages remain separate and a red governance state cannot be overridden by a passing command.",
+      "verificationPlan": "Run route projection and CI shadow static checks plus existing workspace quality gates.",
+      "status": "unverified"
+    }
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked -p cockpit-protocol --all-targets",
+    "cargo test --locked -p cockpit-verification --all-targets",
+    "cargo test --locked -p cockpit-repository --all-targets",
+    "cargo test --locked -p cockpit-cli --all-targets",
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "cargo test --locked --workspace --all-targets -- --test-threads=1",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/ci/runtime_verify_shadow_test.sh"
+  ],
+  "workItemId": "WI-147-verification-route-convergence"
+}

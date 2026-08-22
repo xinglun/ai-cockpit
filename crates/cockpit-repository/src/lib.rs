@@ -17,9 +17,9 @@ use cockpit_protocol::{
     OutcomeReportSections, OutcomeState, OutcomeV2, PARALLEL_SLOT_LEASE_SCHEMA_VERSION,
     ParallelSlotLease, PerformanceDiagnosis, PolicyLayer, QualityCommand, RecoveryDecisionReceipt,
     RepositoryConfig, RuntimeContext, SchemaMigrationStep, TaskOutcomeEvent, TaskOutcomeReport,
-    TruthState, WorkItemCompatibility, WorkItemIntelligence, WorkItemStatusSnapshot,
-    default_repository_schema_version, merge_policy_layers, repository_schema_migration_chain,
-    validate_evidence_retention, validate_protocol_version,
+    TruthState, VerificationStage, WorkItemCompatibility, WorkItemIntelligence,
+    WorkItemStatusSnapshot, default_repository_schema_version, merge_policy_layers,
+    repository_schema_migration_chain, validate_evidence_retention, validate_protocol_version,
 };
 use serde::de::{DeserializeSeed, MapAccess, SeqAccess, Visitor};
 use serde::{Deserialize, Deserializer as _, Serialize};
@@ -651,14 +651,16 @@ fn assess_verification_reuse_measured(
     else {
         return Ok(denied_reuse("source_revision_unknown"));
     };
+    let Ok(stage) = VerificationStage::parse(&input.stage) else {
+        return Ok(denied_reuse("verification_context_invalid"));
+    };
     if input.program.is_empty()
         || input.scope.is_empty()
-        || !matches!(input.stage.as_str(), "task" | "pr" | "release")
         || !matches!(input.runner.as_str(), "local" | "hosted")
     {
         return Ok(denied_reuse("verification_context_invalid"));
     }
-    let base_commit = if input.stage == "task" {
+    let base_commit = if !stage.requires_base_revision() {
         head.clone()
     } else {
         let Some(base) = input
@@ -847,7 +849,8 @@ fn refresh_verification_context(
     else {
         return Ok(None);
     };
-    let base_commit = if input.stage == "task" {
+    let stage = VerificationStage::parse(&input.stage).ok();
+    let base_commit = if stage.is_some_and(|value| !value.requires_base_revision()) {
         head.clone()
     } else {
         let Some(base) = input
@@ -2048,6 +2051,37 @@ pub fn run_repository_verification(
         .saturating_add(snapshot_files_hashed)
         .saturating_add(executable_files_hashed);
     receipt.elapsed_ms = service_started.elapsed().as_millis();
+    receipt.repository_id = Some(repository_id(&root).to_string());
+    if let Ok(stage) = VerificationStage::parse(&request.stage) {
+        let mut plan_receipt = cockpit_verification::VerificationPlanReceipt::new(
+            stage,
+            cockpit_protocol::VerificationTier::T0,
+            cockpit_protocol::VerificationTier::T0,
+            cockpit_protocol::EvidenceAssurance::SelfDeclared,
+            vec!["repository_route_stage_explicit".into()],
+            Vec::new(),
+        )
+        .map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error,
+        })?;
+        plan_receipt.executed_nodes = receipt
+            .results
+            .iter()
+            .filter(|result| !result.reused)
+            .map(|result| result.node_id.clone())
+            .collect();
+        plan_receipt.reused_nodes = receipt
+            .results
+            .iter()
+            .filter(|result| result.reused)
+            .map(|result| result.node_id.clone())
+            .collect();
+        plan_receipt.planning_elapsed_ms = receipt.planning_elapsed_ms;
+        plan_receipt.execution_elapsed_ms = receipt.execution_elapsed_ms;
+        plan_receipt.saved_executions = receipt.nodes_reused;
+        receipt.plan_receipt = Some(plan_receipt);
+    }
     Ok(RepositoryVerificationRun {
         receipt,
         final_snapshot,

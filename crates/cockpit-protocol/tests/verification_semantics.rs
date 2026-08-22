@@ -1,6 +1,6 @@
 use cockpit_protocol::{
     EvidenceAssurance, VERIFICATION_SEMANTICS_SCHEMA_VERSION, VerificationRequirement,
-    VerificationTier,
+    VerificationStage, VerificationTier,
 };
 use serde_json::json;
 
@@ -67,4 +67,23 @@ fn unknown_fields_and_invalid_enum_values_fail_closed() {
         .expect("object")
         .remove("schemaVersion");
     assert!(serde_json::from_value::<VerificationRequirement>(missing_schema).is_err());
+}
+
+#[test]
+fn verification_stage_is_typed_and_pre_ci_is_distinct() {
+    for (wire, expected) in [
+        ("task", VerificationStage::Task),
+        ("pre_ci", VerificationStage::PreCi),
+        ("pr", VerificationStage::PullRequest),
+        ("merge", VerificationStage::Merge),
+        ("release", VerificationStage::Release),
+    ] {
+        assert_eq!(
+            VerificationStage::parse(wire).expect("known stage"),
+            expected
+        );
+        assert_eq!(expected.as_str(), wire);
+    }
+    assert!(VerificationStage::parse("ci").is_err());
+    assert!(serde_json::from_value::<VerificationStage>(json!("ci")).is_err());
 }
