@@ -32,7 +32,12 @@ AI による変更は範囲を越えたり、テストを弱めたり、検証�
 Repository Protocol v1 に保存し、Rust governance core は application code から独立
 しています。基本の流れは次のとおりです。
 
-`inspect → attach → preflight → verify → finish/archive/close`
+`inspect → attach → start → preflight → checkpoint → verify → finish → archive → close`
+
+`start` は human-owned Contract を記録し、`preflight` は開始できるかを評価します。
+`checkpoint` は実装を進める前の serial gate です。`verify` は fresh evidence を記録し、
+`finish` は結果を bind、`archive` は immutable な Work Item bundle を保存し、`close` は
+明示的な human decision を記録します。
 
 ## 30 秒で開始
 

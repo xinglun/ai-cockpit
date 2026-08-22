@@ -101,6 +101,19 @@ for file in \
   require_text "$file" "$version"
 done
 
+# Operations pages describe the current baseline target without pinning a
+# release number. The version is resolved from Cargo metadata above so a
+# Runtime release cannot silently leave an old version in the operator route.
+for file in \
+  docs/operations/README.md \
+  docs/operations/README.ja.md \
+  docs/operations/README.zh-CN.md; do
+  require_text "$file" 'x86_64-unknown-linux-gnu'
+  if grep -Eq 'v[0-9]+\.[0-9]+\.[0-9]+' "$file"; then
+    die "$file hard-codes a release version in the current operations baseline"
+  fi
+done
+
 # A current-baseline line must never name a different semantic version. This
 # deliberately ignores historical N-1/migration prose elsewhere in the docs.
 while IFS= read -r line; do

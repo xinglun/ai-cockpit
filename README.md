@@ -32,7 +32,12 @@ People and tools use the CLI or the local MCP adapter. Repository-facing state i
 stored through Repository Protocol v1; the Rust governance core remains separate
 from application code. The normal path is:
 
-`inspect → attach → preflight → verify → finish/archive/close`
+`inspect → attach → start → preflight → checkpoint → verify → finish → archive → close`
+
+`start` records the human-owned Contract, `preflight` evaluates whether work
+may begin, and `checkpoint` is the serial gate before implementation proceeds.
+`verify` records fresh evidence; `finish` binds the result, `archive` preserves
+the immutable Work Item bundle, and `close` records the explicit human decision.
 
 ## Start in 30 seconds
 

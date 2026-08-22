@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T09:15:42Z",
+  "files": {
+    "contractDigest": "sha256:7da5957e64a02d7e2d6443ad27b1e16d633d2e34881d7fa6f6c6e0373e731a97",
+    "contractPath": ".ai/work-items/archive/WI-124-reference-parity-doc-truth.contract.json",
+    "outcomeDigest": "sha256:0f332b72c0508a92a5945cf8dba832325c834321221270bb6ddd695514fd62cc",
+    "outcomePath": ".ai/work-items/archive/WI-124-reference-parity-doc-truth.outcome.json",
+    "summaryDigest": "sha256:49b9e070351e59df47547db030240a5341a12ed70a4fbc769d39fbca6d590f08",
+    "summaryPath": ".ai/work-items/archive/WI-124-reference-parity-doc-truth.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-124-reference-parity-doc-truth"
+}
