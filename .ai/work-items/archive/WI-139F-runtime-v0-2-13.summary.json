@@ -1,0 +1,110 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "v0.2.13 source/version consistency and trilingual distribution",
+          "path": "tests/release/version_consistency.sh",
+          "type": "release-gate",
+          "verification": "GitHub Actions run 32588139536 post_release_version_consistency passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "public assets manifest checksums SBOM provenance",
+          "path": "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.13",
+          "type": "release",
+          "verification": "GitHub Actions run 32588139536 release_policy verify attest publish passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "fresh adopter acceptance with isolation cleanup not_ready reuse lifecycle",
+          "path": "tests/release/adopter_acceptance.sh",
+          "type": "release-gate",
+          "verification": "GitHub Actions run 32588139536 adopter_acceptance passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "v0.2.12 to v0.2.13 public-artifact upgrade acceptance",
+          "path": "tests/release/adopter_upgrade_acceptance.sh",
+          "type": "release-gate",
+          "verification": "GitHub Actions run 32588139536 adopter_upgrade_acceptance passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "installed public v0.2.13 current-repository inspect/status/doctor/agent doctor",
+          "path": ".ai/evidence/WI-139F-runtime-v0-2-13.verification.json",
+          "type": "runtime",
+          "verification": "Installed /Users/sei-rinn/.local/bin/ai-cockpit 0.2.13; SHA256 64917ffab52ca686a75daa993360f3df34c29949b62a15d7c8891db40077d4d7; inspect changedPaths=[]; status COMPATIBLE; doctor ok; agent doctor VERIFIED; runtimeCodeInRepository=false"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [],
+  "checkpointAt": "2026-08-22T17:18:01Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T17:16:34Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:51bbe95325c80cb1a6956dc937b4c665e041ab7d91a6183b4057d3bb02f815a4",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Confirm bounded post-release review after fresh v0.2.13 verification on the installed public Runtime.",
+    "recordedAt": "2026-08-22T17:52:46Z",
+    "recordedBy": "human:maintainer",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:76258c7c82557be7a38cb56fd0e28343bca43bed542e927b8875ecc9531be021",
+    "schemaVersion": 1,
+    "workItemId": "WI-139F-runtime-v0-2-13"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "Cargo.toml",
+      ".github/workflows/release.yml",
+      "docs/release/distribution.md",
+      "docs/reference/commands.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-08-22T17:53:15Z",
+  "preflightContractDigest": "sha256:51bbe95325c80cb1a6956dc937b4c665e041ab7d91a6183b4057d3bb02f815a4",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:76258c7c82557be7a38cb56fd0e28343bca43bed542e927b8875ecc9531be021",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "https://github.com/xinglun/ai-cockpit/actions/runs/32588139536",
+        "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.13",
+        "/private/tmp/ai-cockpit-v0213-public/SHA256SUMS",
+        ".ai/evidence/WI-139F-runtime-v0-2-13.verification.json"
+      ],
+      "reason": "GitHub Actions run 32588139536 verified immutable v0.2.13 assets, public adopter isolation/cleanup/not_ready/lifecycle acceptance, N-1 handoff, and post-release consistency; the installed arm64 archive was independently checksum and digest verified.",
+      "required": true,
+      "scenario": "public release identity and adopter isolation",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T17:53:20Z",
+  "workItemId": "WI-139F-runtime-v0-2-13"
+}

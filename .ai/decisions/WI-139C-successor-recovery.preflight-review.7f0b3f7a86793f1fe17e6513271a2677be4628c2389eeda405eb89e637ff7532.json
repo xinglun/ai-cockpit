@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:52205ef4f43f6a787fc6cc9fae86c80995c87508cacb36e7376e46a1af2bb5c5",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "Confirm bounded post-release review against the installed public Runtime and current repository snapshot.",
+  "recordedAt": "2026-08-22T17:45:39Z",
+  "recordedBy": "human:maintainer",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:76258c7c82557be7a38cb56fd0e28343bca43bed542e927b8875ecc9531be021",
+  "schemaVersion": 1,
+  "workItemId": "WI-139C-successor-recovery"
+}

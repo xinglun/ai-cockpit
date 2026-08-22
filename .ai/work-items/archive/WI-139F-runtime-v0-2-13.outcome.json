@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "A1: Source version, release policy, and trilingual distribution documentation identify v0.2.13 consistently",
+    "A2: Hosted Release workflow produces immutable public v0.2.13 assets, manifests, checksums, SBOM, and provenance",
+    "A3: Public v0.2.13 fresh-adopter acceptance passes with runtime identity, isolation, cleanup, not_ready scaffold, evidence reuse, and lifecycle evidence",
+    "A4: Public v0.2.12 to v0.2.13 N-1 upgrade acceptance preserves historical evidence and completes post-migration operation",
+    "A5: Installed v0.2.13 passes inspect/status/doctor/agent doctor and Outcome on this repository without source runtime code"
+  ],
+  "createdAt": "2026-08-22T17:53:20Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:172ebcb75645044a1b5f11706bd09501296384ee77605348fe40d72737f3b42c",
+  "evidenceRefs": [
+    ".ai/evidence/WI-139F-runtime-v0-2-13.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-139F-runtime-v0-2-13.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-139F-runtime-v0-2-13.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:76258c7c82557be7a38cb56fd0e28343bca43bed542e927b8875ecc9531be021",
+      "workItemId": "WI-139F-runtime-v0-2-13"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139F-runtime-v0-2-13.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-139F-runtime-v0-2-13.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139F-runtime-v0-2-13.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139F-runtime-v0-2-13.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139F-runtime-v0-2-13.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139F-runtime-v0-2-13.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139F-runtime-v0-2-13.contract.json"
+          ],
+          "inference": false,
+          "text": "Release v0.2.13 with WI-139C recovery and WI-139E acceptance fixes, then complete public adopter, N-1 upgrade, installation, and current-repository acceptance."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139F-runtime-v0-2-13.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-139F-runtime-v0-2-13"
+  },
+  "taskReportDigest": "sha256:fac26d0b0869ff33ae4ffa41882daa90bfe0e6707be5e89acb2a685d595a21df",
+  "taskReportMarkdownDigest": "sha256:26fc407e45663915c432f729f26316444a5db7b54935eaff4d0f6950e131247a",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-139F-runtime-v0-2-13.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-139F-runtime-v0-2-13"
+}

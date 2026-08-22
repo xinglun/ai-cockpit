@@ -1,0 +1,111 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "strict repository-bound recovery receipt",
+          "path": "crates/cockpit-repository/tests/recovery_decision.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-repository --test recovery_decision"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "immutable predecessor and fail-closed recovery",
+          "path": "crates/cockpit-repository/tests/recovery_decision.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-repository --test recovery_decision"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "fresh evidence and explicit successor binding",
+          "path": "docs/reference/commands.md",
+          "type": "documentation",
+          "verification": "manual review against work-item recover contract"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "foreign malformed duplicate and symlink rejection",
+          "path": "crates/cockpit-repository/tests/recovery_decision.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-repository --test recovery_decision"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "CLI MCP and tri-language recovery projection",
+          "path": "crates/cockpit-mcp/tests/rpc.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-mcp --test rpc"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [],
+  "checkpointAt": "2026-08-22T16:29:27Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T15:58:08Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:52205ef4f43f6a787fc6cc9fae86c80995c87508cacb36e7376e46a1af2bb5c5",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Confirm bounded post-release review after fresh verification on the installed public Runtime.",
+    "recordedAt": "2026-08-22T17:50:37Z",
+    "recordedBy": "human:maintainer",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:76258c7c82557be7a38cb56fd0e28343bca43bed542e927b8875ecc9531be021",
+    "schemaVersion": 1,
+    "workItemId": "WI-139C-successor-recovery"
+  },
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/governance_controls.rs",
+      "docs/reference/commands.md",
+      "docs/reference/agent-workflow.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-22T17:50:37Z",
+  "preflightContractDigest": "sha256:52205ef4f43f6a787fc6cc9fae86c80995c87508cacb36e7376e46a1af2bb5c5",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:76258c7c82557be7a38cb56fd0e28343bca43bed542e927b8875ecc9531be021",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        "crates/cockpit-repository/tests/recovery_events.rs",
+        ".ai/evidence/WI-139C-successor-recovery.verification.json"
+      ],
+      "reason": "Append-only recovery, predecessor binding, and fail-closed recovery paths are covered by the merged recovery decision and lifecycle tests.",
+      "required": true,
+      "scenario": "recovery receipt tamper and predecessor binding",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T17:51:20Z",
+  "workItemId": "WI-139C-successor-recovery"
+}
