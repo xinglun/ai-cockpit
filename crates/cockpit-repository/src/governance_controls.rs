@@ -444,7 +444,7 @@ pub fn validate_intent_alignment_values(
     contract: &Contract,
     summary: &Value,
 ) -> (String, Vec<String>, Vec<GovernanceFinding>) {
-    if contract.intent.trim().is_empty() {
+    if contract.intent.is_empty() {
         return ("not_applicable".into(), Vec::new(), Vec::new());
     }
     let Some(alignment) = summary.get("intentAlignment") else {

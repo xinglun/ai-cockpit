@@ -12,11 +12,15 @@ use tempfile::tempdir;
 fn contract(risk: &str, intent: &str, acceptance: Vec<&str>) -> Contract {
     Contract {
         protocol_version: 1,
+        contract_version: None,
         repository_id: "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
             .parse()
             .unwrap(),
         work_item_id: "WI-122".into(),
+        mode: Some("implementation".into()),
+        title: None,
         state: Some("implementation_active".into()),
+        created_at: None,
         intent: intent.into(),
         goal: "test".into(),
         scope: vec!["crates/**".into()],
@@ -32,6 +36,27 @@ fn contract(risk: &str, intent: &str, acceptance: Vec<&str>) -> Contract {
         repository_snapshot_digest: Digest::sha256_bytes(b"snapshot"),
         operation: None,
         governance_policy: None,
+        problem_statement: None,
+        risk_assessment: None,
+        agent_capability: None,
+        execution_decision: None,
+        destructive_change_policy: None,
+        rollback_note: None,
+        rollback_plan: None,
+        unknowns: Vec::new(),
+        not_codable: None,
+        scenario_coverage: None,
+        concurrency_boundary: None,
+        checkpoint_policy: None,
+        human_decision_points: None,
+        documentation_impact: None,
+        performance_impact: None,
+        residual_risk_expectation: None,
+        governance_profile: None,
+        requested_operation: None,
+        implementation_surface: None,
+        restricted_write_approval: None,
+        adoption_bootstrap_paths: Vec::new(),
     }
 }
 
