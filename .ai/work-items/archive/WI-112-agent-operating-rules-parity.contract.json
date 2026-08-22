@@ -1,0 +1,47 @@
+{
+  "acceptanceCriteria": [
+    "applicable reference workflow rules are explicitly classified and documented",
+    "AGENTS.md and repository reference route state the inherited rules in English",
+    "three language reference pages and Work Item records are synchronized",
+    "template-specific make ai commands and V1 contractVersion assumptions are explicitly excluded",
+    "documentation acceptance and link checks pass"
+  ],
+  "authority": "authorized",
+  "baseRevision": "92dba0dcb86e0dc9092564fb9aed015f5ec0f5da",
+  "createdAt": "2026-08-22T03:57:12Z",
+  "goal": "Make future Work Items inherit explicit review, Outcome, safety, branch, release, and documentation discipline.",
+  "intent": "Align repository-local Agent operating rules with the applicable governance workflow from the reference source without copying template-specific commands or V1 protocol assumptions.",
+  "mode": "implementation",
+  "outOfScope": [
+    "runtime code",
+    "protocol schema",
+    "global Agent or MCP configuration",
+    "V1 make ai commands",
+    "contractVersion migration",
+    "release packaging"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:52ecd2f5135a00009b7a7ed58131420b3efe771d9da85355af3e5cd341c4e2cb",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "risk": "normal",
+  "scope": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/README.md",
+    "docs/reference/README.zh-CN.md",
+    "docs/reference/README.ja.md",
+    "docs/work-items/WI-112-agent-operating-rules-parity.md",
+    "docs/work-items/WI-112-agent-operating-rules-parity.zh-CN.md",
+    "docs/work-items/WI-112-agent-operating-rules-parity.ja.md"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-112-agent-operating-rules-parity"
+}

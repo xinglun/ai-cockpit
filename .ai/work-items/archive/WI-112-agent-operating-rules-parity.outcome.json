@@ -1,0 +1,40 @@
+{
+  "acceptanceResults": [
+    "applicable reference workflow rules are explicitly classified and documented",
+    "AGENTS.md and repository reference route state the inherited rules in English",
+    "three language reference pages and Work Item records are synchronized",
+    "template-specific make ai commands and V1 contractVersion assumptions are explicitly excluded",
+    "documentation acceptance and link checks pass"
+  ],
+  "createdAt": "2026-08-22T04:01:07Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:984f948fbabffa25d16ea504ea4326b93a4914a1e324f112469f652d9943811b",
+  "evidenceRefs": [
+    ".ai/evidence/WI-112-agent-operating-rules-parity.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-112-agent-operating-rules-parity.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-112-agent-operating-rules-parity.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-112-agent-operating-rules-parity"
+}

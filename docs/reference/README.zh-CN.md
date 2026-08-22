@@ -26,6 +26,7 @@ capabilityClaims:
 - [配置参考](configuration.zh-CN.md)——`.ai/cockpit.toml`、profile 和生成记录。
 - [排查与恢复](troubleshooting.zh-CN.md)——停止状态和安全下一步。
 - [面向人的 Outcome](outcome-report.zh-CN.md)——可读结果、风险、证据和下一步。
+- [Agent 工作流与评审边界](agent-workflow.zh-CN.md)——Work Item、Outcome、发布与安全规则的本工程适配。
 - [最终替代验收](final-replacement-acceptance.zh-CN.md)——可重复的 conformance 和无复制边界。
 - [Repository Protocol v1](../protocol/v1/specification.zh-CN.md)——规范存储和 receipt contract。
 

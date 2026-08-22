@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T04:01:16Z",
+  "files": {
+    "contractDigest": "sha256:30cd257ef16f3e27eea46c297d120b4f7401d6f2781513347c860bd5c0f091e7",
+    "contractPath": ".ai/work-items/archive/WI-112-agent-operating-rules-parity.contract.json",
+    "outcomeDigest": "sha256:b1ca3060f3a42147d2687eebf805de711a44ba969e5bbd85b2b783cc753755ad",
+    "outcomePath": ".ai/work-items/archive/WI-112-agent-operating-rules-parity.outcome.json",
+    "summaryDigest": "sha256:a1465c2352d91eff5528472f8988ef16bad06ffb636d8a230d5127fce40adacf",
+    "summaryPath": ".ai/work-items/archive/WI-112-agent-operating-rules-parity.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-112-agent-operating-rules-parity"
+}
