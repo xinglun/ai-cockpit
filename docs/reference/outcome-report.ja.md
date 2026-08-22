@@ -22,6 +22,9 @@ capabilityClaims:
 先頭行は常に `Outcome: 🔴/🟡/🟢 ...` です。CLI stdout と MCP の
 `content[0].text` が handoff を直接返すため、Agent や UI は折りたたんだログに
 隠してはいけません。`work_item_status` は別の read-only status projection です。
+archive 後の lifecycle phase は `archived` で、repository に bind された confirmed
+close decision が有効な場合だけ `closed` になります。欠落または不正な decision は
+archive を `closed` に昇格させません。
 
 表示順は、結果と状態、完了したこと、発見された問題、発動した停止、解決した問題、
 回避したリスク、残存リスク、不明点、人間の判断、検証と証拠、影響、次のアクションです。

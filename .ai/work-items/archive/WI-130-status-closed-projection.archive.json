@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T11:03:13Z",
+  "files": {
+    "contractDigest": "sha256:ddaf35640654ad9b28838aad1a16d58a539508958a0b42101626a715ec8647dc",
+    "contractPath": ".ai/work-items/archive/WI-130-status-closed-projection.contract.json",
+    "outcomeDigest": "sha256:cff2043ab8592ae132fd3e4a7a2883d5c4a5c0058695e2b0fbb798016bfd6aea",
+    "outcomePath": ".ai/work-items/archive/WI-130-status-closed-projection.outcome.json",
+    "summaryDigest": "sha256:440be51d08d9bb37ad386f4bbebf15182ccaae181ee3bd2aa5a8c39ebd01306f",
+    "summaryPath": ".ai/work-items/archive/WI-130-status-closed-projection.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-130-status-closed-projection"
+}

@@ -1,0 +1,44 @@
+{
+  "acceptanceCriteria": [
+    "A1: status reports implementation_active checkpointed finish_ready archived and closed for the corresponding lifecycle phase",
+    "A2: a valid repository-bound confirmed close decision changes status to closed without rewriting archived summary bytes",
+    "A3: missing foreign malformed unconfirmed or symlinked close decisions fail closed and never project closed",
+    "A4: repository and CLI status projections remain consistent with regression coverage for archive-before-close and close-after-archive",
+    "A5: three-language Outcome documentation explains closed as a terminal projection and preserves the human handoff boundary"
+  ],
+  "authority": "authorized",
+  "baseRevision": "69826e0640408a5f3da9cff88c7ada08c45a7457",
+  "createdAt": "2026-08-22T10:54:08Z",
+  "goal": "Make status and MCP projections reflect the terminal close decision with identity-bound fail-closed validation.",
+  "intent": "Correct the request-scoped Work Item status projection so a valid close receipt is visible as closed without rewriting archive truth.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/cockpit-core/**",
+    "crates/cockpit-agent/**",
+    "AGENTS.md",
+    "global MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2f05aa0226f554ab3e386276075441c885e892ac379db4ba69110b79ad7053e4",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "crates/cockpit-cli/tests/intelligence.rs",
+    "docs/reference/outcome-report.md",
+    "docs/reference/outcome-report.ja.md",
+    "docs/reference/outcome-report.zh-CN.md",
+    "docs/work-items/WI-130-status-closed-projection.md",
+    "docs/work-items/WI-130-status-closed-projection.ja.md",
+    "docs/work-items/WI-130-status-closed-projection.zh-CN.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-130-status-closed-projection"
+}

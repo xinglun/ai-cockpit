@@ -1,7 +1,9 @@
 use cockpit_core::Digest;
-use cockpit_protocol::RuntimeContext;
+use cockpit_protocol::{HumanDecision, RuntimeContext};
 use cockpit_repository::{
-    WorkItemStartOptions, attach, start_work_item_with_options,
+    WorkItemStartOptions, archive_work_item, attach, checkpoint_work_item,
+    close_work_item_with_structured_decision, finish_work_item, preflight_work_item,
+    record_verification, start_work_item, start_work_item_with_options,
     work_item_status_snapshot_with_runtime,
 };
 use std::{fs, process::Command};
@@ -22,9 +24,9 @@ fn repository() -> tempfile::TempDir {
 
 fn runtime() -> RuntimeContext {
     RuntimeContext {
-        runtime_version: "test-runtime".into(),
+        runtime_version: "0.1.0".into(),
         protocol_version: 1,
-        runtime_digest: Digest::sha256_bytes(b"status"),
+        runtime_digest: Digest::sha256_bytes(b"status-runtime"),
     }
 }
 
@@ -99,4 +101,126 @@ fn status_projection_isolated_between_repositories() {
     assert_ne!(left_status.repository_id, right_status.repository_id);
     assert_eq!(left_status.work_item_id, "WI-LEFT");
     assert_eq!(right_status.work_item_id, "WI-RIGHT");
+}
+
+#[test]
+fn status_projection_distinguishes_archived_from_valid_closed_decision() {
+    let directory = repository();
+    let work_item_id = "WI-STATUS-CLOSED";
+    start_work_item(
+        directory.path(),
+        work_item_id,
+        "status close projection",
+        "show terminal close state",
+        &["**".into()],
+    )
+    .expect("start");
+    let contract = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    preflight_work_item(directory.path(), &contract).expect("preflight");
+    checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+    record_verification(
+        directory.path(),
+        work_item_id,
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.1.0",
+        &Digest::sha256_bytes(b"status-runtime"),
+    )
+    .expect("verification");
+    finish_work_item(directory.path(), work_item_id).expect("finish");
+    archive_work_item(directory.path(), work_item_id).expect("archive");
+
+    let archived =
+        work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime())
+            .expect("archived status");
+    assert_eq!(archived.lifecycle_phase, "archived");
+    assert_eq!(archived.completion_domains["closure"], "archived");
+    assert!(archived.human_decisions.is_empty());
+
+    close_work_item_with_structured_decision(
+        directory.path(),
+        work_item_id,
+        &HumanDecision {
+            decision: "approved".into(),
+            actor: "human:owner".into(),
+            authority_source: "user-authorized-work-item".into(),
+            reason: "status projection has fresh evidence".into(),
+            evidence_refs: vec![format!(".ai/evidence/{work_item_id}.verification.json")],
+            policy_refs: vec!["status-projection".into()],
+            decided_at: "2026-08-22T12:00:00Z".into(),
+            resume_condition: Some("rerun verification if the base changes".into()),
+        },
+    )
+    .expect("close");
+    let closed = work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime())
+        .expect("closed status");
+    assert_eq!(closed.lifecycle_phase, "closed");
+    assert_eq!(closed.completion_domains["closure"], "closed");
+    assert_eq!(closed.human_decisions, vec!["close_decision_recorded"]);
+
+    let decision_path = directory
+        .path()
+        .join(format!(".ai/decisions/{work_item_id}.close.json"));
+    let decision_bytes = fs::read(&decision_path).expect("decision bytes");
+    let archived_summary = fs::read(directory.path().join(format!(
+        ".ai/work-items/archive/{work_item_id}.summary.json"
+    )))
+    .expect("archived summary");
+    assert!(!decision_bytes.is_empty());
+    assert!(
+        archived_summary
+            .windows(b"finish_ready".len())
+            .any(|window| window == b"finish_ready")
+    );
+}
+
+#[test]
+fn invalid_close_decision_never_promotes_archived_status() {
+    let directory = repository();
+    let work_item_id = "WI-STATUS-INVALID-CLOSE";
+    start_work_item(
+        directory.path(),
+        work_item_id,
+        "status invalid close",
+        "reject invalid close projection",
+        &["**".into()],
+    )
+    .expect("start");
+    let contract = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    preflight_work_item(directory.path(), &contract).expect("preflight");
+    checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+    record_verification(
+        directory.path(),
+        work_item_id,
+        &serde_json::json!({"passed": true}),
+        "0.1.0",
+        &Digest::sha256_bytes(b"status-runtime"),
+    )
+    .expect("verification");
+    finish_work_item(directory.path(), work_item_id).expect("finish");
+    archive_work_item(directory.path(), work_item_id).expect("archive");
+    let path = directory
+        .path()
+        .join(format!(".ai/decisions/{work_item_id}.close.json"));
+    fs::write(
+        &path,
+        serde_json::json!({
+            "workItemId": work_item_id,
+            "state": "closed",
+            "decisionState": "confirmed",
+            "humanDecision": "approved",
+            "structuredDecision": {"decision": "approved"}
+        })
+        .to_string(),
+    )
+    .expect("invalid decision");
+    let status = work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime())
+        .expect("status");
+    assert_eq!(status.lifecycle_phase, "archived");
+    assert_eq!(status.completion_domains["closure"], "archived");
+    assert!(status.human_decisions.is_empty());
+    assert!(status.unknowns.contains(&"close_decision_invalid".into()));
 }

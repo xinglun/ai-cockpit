@@ -22,6 +22,9 @@ human handoff by default. Use `--json` when a machine needs the stable
 The first line is always `Outcome: 🔴/🟡/🟢 ...`; the handoff is returned directly
 by CLI stdout and MCP `content[0].text`, so an Agent or UI must not hide it in a
 collapsed log. `work_item_status` is the separate read-only status projection.
+Its lifecycle phase is `archived` after archive and becomes `closed` only when
+the repository-bound, confirmed close decision is valid; an invalid or missing
+decision never promotes an archive to `closed`.
 
 The handoff follows the reader-first order:
 
