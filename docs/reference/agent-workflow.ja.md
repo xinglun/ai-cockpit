@@ -41,6 +41,15 @@ capabilityClaims:
   options、recommendation、question、resume condition を含む構造化 `humanDecisionRequest` も返します。
   これは人向けの request であり approval ではありません。Agent は request を権限として扱わず、
   Contract を amend して preflight を再実行します。
+- 人は repository-local の `decisionEvidence` projection だけを使って、この限定された review を記録できます。
+  strict receipt は `decisionId`、Work Item、repository、Contract digest、preflight decision digest、
+  snapshot digest、actor、timestamp、reason を bind します。有効な receipt は checkpoint transition
+  だけを許可し、test、scenario、verification、release の完了を証明しません。欠落、stale、foreign、
+  malformed、symlink の receipt は停止したままです。
+- 実装後にしか実行できない high-risk の必須 scenario は、Contract の `scenarioCoverage` で
+  `unverified` のままにできますが、空でない `expected`（または `expectedResult`）と具体的な
+  `verificationPlan` の両方が必要です。これは実装計画の evidence であり完了 evidence ではありません。
+  Summary scenario guard と `finish` は引き続き実行済み evidence を要求します。
 - 人間向け Outcome は独立して提示し、`Outcome: 🟢`、`Outcome: 🟡`、または
   `Outcome: 🔴` で始め、unknown、evidence、human decision、次の action を含めます。
   欠落、折りたたみ表示のみ、stale、contradictory、malformed の Outcome は

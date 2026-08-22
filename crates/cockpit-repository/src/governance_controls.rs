@@ -7,7 +7,7 @@
 
 use crate::{ObserverError, repository_id};
 use cockpit_core::Digest;
-use cockpit_protocol::{Contract, RuntimeContext};
+use cockpit_protocol::{Contract, PreflightDecisionEvidence, RuntimeContext};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::{BTreeMap, BTreeSet};
@@ -330,7 +330,19 @@ pub fn scenario_coverage_preflight_unknowns(contract: &Value) -> Vec<String> {
             .unwrap_or_default();
         match status {
             "unverified" if entry.get("required").and_then(Value::as_bool) == Some(true) => {
-                unknowns.push(format!("required_scenario_unverified:{name}"));
+                // A required scenario that can only be executed after the
+                // implementation may authorize implementation when its
+                // expected result and concrete verification plan are both
+                // declared. This is planning evidence only; the Summary
+                // guard and finish gate still require executed evidence.
+                let expected = entry
+                    .get("expected")
+                    .or_else(|| entry.get("expectedResult"));
+                let planned =
+                    nonempty_string(expected) && nonempty_string(entry.get("verificationPlan"));
+                if !planned {
+                    unknowns.push(format!("required_scenario_unverified:{name}"));
+                }
             }
             "verified" => {
                 if array(entry.get("evidence")).is_none_or(|items| items.is_empty()) {
@@ -867,8 +879,9 @@ fn validate_work_item_governance_controls_internal(
 }
 
 /// Persist an explicitly supplied governance projection into the active
-/// Summary. The Runtime only accepts the four known projection keys and never
-/// changes Contract facts, lifecycle state, or verification receipts.
+/// Summary. The Runtime only accepts the known projection keys (including the
+/// identity-bound preflight decision receipt) and never changes Contract facts,
+/// lifecycle state, or verification receipts.
 pub fn record_work_item_governance_controls(
     root: &Path,
     work_item_id: &str,
@@ -903,7 +916,11 @@ pub fn record_work_item_governance_controls(
     for key in object.keys() {
         if !matches!(
             key.as_str(),
-            "scenarioCoverage" | "acceptanceEvidence" | "intentAlignment" | "finalDimensions"
+            "scenarioCoverage"
+                | "acceptanceEvidence"
+                | "intentAlignment"
+                | "finalDimensions"
+                | "decisionEvidence"
         ) {
             return Err(ObserverError::State {
                 path: summary_path,
@@ -916,6 +933,15 @@ pub fn record_work_item_governance_controls(
             path: summary_path,
             message: "Work Item Summary must be a JSON object".into(),
         });
+    };
+    let decision_evidence = if let Some(value) = object.get("decisionEvidence") {
+        Some(validate_preflight_decision_evidence(
+            root,
+            work_item_id,
+            value,
+        )?)
+    } else {
+        None
     };
     for key in [
         "scenarioCoverage",
@@ -930,6 +956,26 @@ pub fn record_work_item_governance_controls(
                 summary_object.insert(key.into(), value.clone());
             }
         }
+    }
+    if let Some(evidence) = decision_evidence {
+        let value = serde_json::to_value(&evidence).map_err(|error| ObserverError::State {
+            path: summary_path.clone(),
+            message: error.to_string(),
+        })?;
+        summary_object.insert("decisionEvidence".into(), value.clone());
+        let decision_path = root
+            .join(".ai/decisions")
+            .join(format!("{work_item_id}.preflight-review.json"));
+        // Never replace an existing path (including a symlink) while
+        // persisting a governance receipt.  A replacement would make a
+        // malicious link look like a successful repository-local write.
+        if fs::symlink_metadata(&decision_path).is_ok() {
+            return Err(ObserverError::State {
+                path: decision_path,
+                message: "preflight decision evidence already exists; rerun preflight before recording a replacement".into(),
+            });
+        }
+        crate::atomic_json(&decision_path, &value)?;
     }
     summary_object.insert("updatedAt".into(), chrono::Utc::now().to_rfc3339().into());
     let bytes = serde_json::to_vec_pretty(&summary).map_err(|error| ObserverError::State {
@@ -946,6 +992,182 @@ pub fn record_work_item_governance_controls(
         source,
     })?;
     Ok(summary)
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub(crate) enum PreflightDecisionEvidenceState {
+    Missing,
+    Valid,
+    Invalid,
+}
+
+/// Inspect the active Summary and its repository-local receipt without
+/// mutating either file. A malformed, stale, foreign, or partially written
+/// receipt is deliberately distinguishable from an absent receipt so callers
+/// can stop rather than silently treat tampering as a missing optional field.
+pub(crate) fn preflight_decision_evidence_state(
+    root: &Path,
+    work_item_id: &str,
+    contract_digest: &Digest,
+    preflight_decision_digest: &Digest,
+    snapshot_digest: &Digest,
+) -> PreflightDecisionEvidenceState {
+    let summary_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.summary.json"));
+    let decision_path = root
+        .join(".ai/decisions")
+        .join(format!("{work_item_id}.preflight-review.json"));
+    if !regular_file(&summary_path) {
+        return PreflightDecisionEvidenceState::Invalid;
+    }
+    let Some(summary) = fs::read(&summary_path)
+        .ok()
+        .and_then(|bytes| serde_json::from_slice::<Value>(&bytes).ok())
+    else {
+        return PreflightDecisionEvidenceState::Invalid;
+    };
+    let Some(value) = summary.get("decisionEvidence").cloned() else {
+        return if fs::symlink_metadata(&decision_path).is_ok() {
+            PreflightDecisionEvidenceState::Invalid
+        } else {
+            PreflightDecisionEvidenceState::Missing
+        };
+    };
+    let Ok(evidence) = serde_json::from_value::<PreflightDecisionEvidence>(value.clone()) else {
+        return PreflightDecisionEvidenceState::Invalid;
+    };
+    let valid = evidence.schema_version == 1
+        && evidence.decision_id == "contract-preflight-review"
+        && evidence.decision == "confirm_review"
+        && evidence.work_item_id == work_item_id
+        && evidence.repository_id == repository_id(root).to_string()
+        && evidence.contract_digest == *contract_digest
+        && evidence.preflight_decision_digest == *preflight_decision_digest
+        && evidence.repository_snapshot_digest == *snapshot_digest
+        && chrono::DateTime::parse_from_rfc3339(&evidence.recorded_at).is_ok()
+        && !evidence.recorded_by.trim().is_empty()
+        && !evidence.reason.trim().is_empty()
+        && regular_file(&decision_path)
+        && fs::read(&decision_path)
+            .ok()
+            .and_then(|bytes| serde_json::from_slice::<Value>(&bytes).ok())
+            .is_some_and(|stored| stored == value.clone());
+    if valid {
+        PreflightDecisionEvidenceState::Valid
+    } else {
+        PreflightDecisionEvidenceState::Invalid
+    }
+}
+
+fn validate_preflight_decision_evidence(
+    root: &Path,
+    work_item_id: &str,
+    value: &Value,
+) -> Result<PreflightDecisionEvidence, ObserverError> {
+    let summary_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.summary.json"));
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let evidence: PreflightDecisionEvidence =
+        serde_json::from_value(value.clone()).map_err(|error| ObserverError::State {
+            path: summary_path.clone(),
+            message: format!("invalid preflight decision evidence: {error}"),
+        })?;
+    if evidence.schema_version != 1 {
+        return Err(ObserverError::State {
+            path: summary_path.clone(),
+            message: "unsupported preflight decision evidence schemaVersion".into(),
+        });
+    }
+    if evidence.decision_id != "contract-preflight-review" || evidence.decision != "confirm_review"
+    {
+        return Err(ObserverError::State {
+            path: summary_path.clone(),
+            message: "preflight decision evidence must select confirm_review".into(),
+        });
+    }
+    if evidence.work_item_id != work_item_id {
+        return Err(ObserverError::State {
+            path: summary_path.clone(),
+            message: "preflight decision evidence Work Item identity mismatch".into(),
+        });
+    }
+    let expected_repository_id = repository_id(root).to_string();
+    if evidence.repository_id != expected_repository_id {
+        return Err(ObserverError::State {
+            path: summary_path.clone(),
+            message: "preflight decision evidence repository identity mismatch".into(),
+        });
+    }
+    let expected_contract_digest = crate::contract_digest(&contract_path)?;
+    if evidence.contract_digest != expected_contract_digest {
+        return Err(ObserverError::State {
+            path: contract_path,
+            message: "preflight decision evidence Contract digest mismatch".into(),
+        });
+    }
+    let summary: Value =
+        serde_json::from_slice(
+            &fs::read(&summary_path).map_err(|source| ObserverError::Read {
+                path: summary_path.clone(),
+                source,
+            })?,
+        )
+        .map_err(|error| ObserverError::State {
+            path: summary_path.clone(),
+            message: error.to_string(),
+        })?;
+    let expected_preflight = summary
+        .get("preflightDecisionDigest")
+        .and_then(Value::as_str)
+        .ok_or_else(|| ObserverError::State {
+            path: summary_path.clone(),
+            message: "preflight decision must be recorded before decision evidence".into(),
+        })?
+        .parse::<Digest>()
+        .map_err(|error| ObserverError::State {
+            path: summary_path.clone(),
+            message: format!("invalid recorded preflight decision digest: {error}"),
+        })?;
+    if evidence.preflight_decision_digest != expected_preflight {
+        return Err(ObserverError::State {
+            path: summary_path.clone(),
+            message: "preflight decision evidence digest mismatch".into(),
+        });
+    }
+    let expected_snapshot = summary
+        .get("preflightRepositorySnapshotDigest")
+        .and_then(Value::as_str)
+        .ok_or_else(|| ObserverError::State {
+            path: summary_path.clone(),
+            message: "preflight snapshot digest is missing".into(),
+        })?
+        .parse::<Digest>()
+        .map_err(|error| ObserverError::State {
+            path: summary_path.clone(),
+            message: format!("invalid recorded preflight snapshot digest: {error}"),
+        })?;
+    if evidence.repository_snapshot_digest != expected_snapshot {
+        return Err(ObserverError::State {
+            path: summary_path.clone(),
+            message: "preflight decision evidence snapshot digest mismatch".into(),
+        });
+    }
+    if evidence.recorded_by.trim().is_empty()
+        || evidence.reason.trim().is_empty()
+        || chrono::DateTime::parse_from_rfc3339(&evidence.recorded_at).is_err()
+    {
+        return Err(ObserverError::State {
+            path: summary_path,
+            message:
+                "preflight decision evidence requires a valid RFC3339 timestamp, actor, and reason"
+                    .into(),
+        });
+    }
+    Ok(evidence)
 }
 
 /// Helper for callers that already hold a typed Contract and Summary.

@@ -828,6 +828,26 @@ pub struct ContractExecutionDecision {
     pub reason: String,
 }
 
+/// Repository-bound evidence that a human selected the bounded preflight
+/// review option. This receipt authorizes only the workflow transition from
+/// `needs_human_confirmation` to implementation; it never asserts that an
+/// unverified scenario, test, or release requirement has passed.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct PreflightDecisionEvidence {
+    pub schema_version: u32,
+    pub decision_id: String,
+    pub decision: String,
+    pub work_item_id: String,
+    pub repository_id: String,
+    pub contract_digest: Digest,
+    pub preflight_decision_digest: Digest,
+    pub repository_snapshot_digest: Digest,
+    pub recorded_at: String,
+    pub recorded_by: String,
+    pub reason: String,
+}
+
 /// A file that was already dirty when a Work Item started.  The fingerprint
 /// is intentionally an opaque digest string: the Contract records the
 /// repository's observed baseline without claiming a particular Git hash

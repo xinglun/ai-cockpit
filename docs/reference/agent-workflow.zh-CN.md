@@ -41,6 +41,13 @@ Rust Runtime 与本仓库的 Protocol 词汇。
   `humanDecisionRequest`（发生了什么、为什么重要、可选决定、推荐项、问题和恢复条件）。
   它是面向人的请求，不是批准；只能由人补充或修订 Contract 后重新 preflight，不能由 Agent
   自行把 request 当作授权。
+- 人可以且只能通过 repository-local 的 `decisionEvidence` projection 记录这个有界 review。
+  严格 receipt 必须绑定 `decisionId`、Work Item、repository、Contract digest、preflight 决定 digest、
+  snapshot digest、actor、时间戳和理由。有效 receipt 只允许跨过 checkpoint；它不能证明测试、scenario、
+  verification 或 release 已完成。缺失、过期、foreign、格式错误或符号链接 receipt 都必须保持停止。
+- 只能在实现后才能执行的高风险必需 scenario，可以在 Contract `scenarioCoverage` 中保持 `unverified`，
+  但必须同时提供非空 `expected`（或 `expectedResult`）和具体 `verificationPlan`。这只是实现计划证据，
+  不是完成证据；Summary scenario guard 与 `finish` 仍然要求真实执行 evidence。
 - 单独交付面向人的 Outcome，并以 `Outcome: 🟢`、`Outcome: 🟡` 或
   `Outcome: 🔴` 开头，包含 unknown、evidence、人工决定和下一步。Outcome
   缺失、仅折叠显示、过期、矛盾或格式错误时必须 fail closed，不得授权继续。

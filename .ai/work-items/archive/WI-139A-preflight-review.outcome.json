@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "A1: Required unverified scenarios with expectedResult and verificationPlan are implementation-ready but not verified",
+    "A2: Human preflight decision evidence binds repository Work Item Contract and preflight identity",
+    "A3: Missing malformed stale or foreign decision evidence fails closed and cannot authorize checkpoint",
+    "A4: Planned implementation never authorizes finish archive close or release without executed scenario evidence",
+    "A5: CLI and MCP expose equivalent preflight review facts and tri-language docs describe the boundary"
+  ],
+  "createdAt": "2026-08-22T15:32:06Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:a6e6ecb700bec7cd0ba7c7fce4ceeaac54f4ee46ded5343fc80defc4b9379084",
+  "evidenceRefs": [
+    ".ai/evidence/WI-139A-preflight-review.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-139A-preflight-review.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-139A-preflight-review.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4f25b0e4b94352288e5ac6f9598967473914e9a17d6866d3776ce47d92f72f52",
+      "workItemId": "WI-139A-preflight-review"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139A-preflight-review.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-139A-preflight-review.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139A-preflight-review.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139A-preflight-review.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139A-preflight-review.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139A-preflight-review.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139A-preflight-review.contract.json"
+          ],
+          "inference": false,
+          "text": "Implement the preflight planned-scenario and human-decision receipt foundation with fail-closed identity binding and CLI/MCP parity."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139A-preflight-review.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-139A-preflight-review"
+  },
+  "taskReportDigest": "sha256:b66e5c6f52934178d3ee6561745e3105185d2035de3ea8840aaec9d2fc87d6ca",
+  "taskReportMarkdownDigest": "sha256:48405281e07ad1c7313aa7778404f2925abaa1e19812abf4dd2c59ffcb412a6d",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-139A-preflight-review.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-139A-preflight-review"
+}

@@ -70,9 +70,10 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
 - `work-item validate --repo <path> --id <id> [--json]` is a read-only unified
   Contract/Summary check for scenario coverage, stable acceptance evidence,
   intent alignment, and an optional final-dimensions receipt. `work-item
-  controls --repo <path> --id <id> --input <json>` records only those four
-  explicitly supplied projection fields; it cannot change lifecycle state,
-  Contract facts, or verification receipts.
+  controls --repo <path> --id <id> --input <json>` records only the explicitly
+  supplied projection fields, including the identity-bound `decisionEvidence`
+  review receipt; it cannot change lifecycle state, Contract facts, or
+  verification receipts.
 - `profile propose --repo <path>` is read-only and reports a `candidate`/
   `proposed` amendment. It never applies a profile baseline change.
 - `agent list --repo <path>` is read-only. `agent install` is the only normal
