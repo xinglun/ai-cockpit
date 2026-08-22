@@ -1,0 +1,42 @@
+{
+  "acceptanceResults": [
+    "workspace and package versions are canonical 0.2.8",
+    "current documentation and tri-language version references are synchronized",
+    "release workflow and publication supply-chain gates pass for v0.2.8",
+    "public v0.2.8 archive and binary digests are recorded",
+    "installed v0.2.8 passes inspect status doctor agent doctor and self-governance lifecycle",
+    "post-release adopter and N-1 acceptance use immutable public artifacts with isolation cleanup",
+    "Outcome is visible in English Chinese and Japanese with required markers"
+  ],
+  "createdAt": "2026-08-22T04:19:20Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:183d52df34aa6b5bafdb9185b2fd9c2fa6313679c7a3212e85d57555a0162cff",
+  "evidenceRefs": [
+    ".ai/evidence/WI-113-release-v0-2-8.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-113-release-v0-2-8.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-113-release-v0-2-8.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-113-release-v0-2-8"
+}

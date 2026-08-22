@@ -1,0 +1,42 @@
+{
+  "acceptanceCriteria": [
+    "workspace and package versions are canonical 0.2.8",
+    "current documentation and tri-language version references are synchronized",
+    "release workflow and publication supply-chain gates pass for v0.2.8",
+    "public v0.2.8 archive and binary digests are recorded",
+    "installed v0.2.8 passes inspect status doctor agent doctor and self-governance lifecycle",
+    "post-release adopter and N-1 acceptance use immutable public artifacts with isolation cleanup",
+    "Outcome is visible in English Chinese and Japanese with required markers"
+  ],
+  "authority": "authorized",
+  "baseRevision": "771982b0512e2bbcf336f228b8ec047973aaf1bf",
+  "createdAt": "2026-08-22T04:10:26Z",
+  "goal": "Bump version metadata and current documentation, pass release gates, publish immutable artifacts, install the public binary, and complete post-release adopter and self-governance acceptance.",
+  "intent": "Publish v0.2.8 from the merged, self-governed main line and make the public Release the only installable Runtime baseline.",
+  "mode": "implementation",
+  "outOfScope": [
+    "runtime governance semantics",
+    "global Agent or MCP configuration",
+    "external Homebrew tap default branch",
+    "V1 installation",
+    "source fallback for acceptance"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f55e5cee3b2096f759062e7f630b746fad5d4b5d224c730116bdda4bd4de3695",
+  "requiredEvidenceClasses": [
+    "verification",
+    "release_adopter_acceptance"
+  ],
+  "risk": "normal",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "crates/cockpit-repository/tests/lifecycle_order.rs",
+    "docs/**",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-113-release-v0-2-8"
+}

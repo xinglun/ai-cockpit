@@ -49,7 +49,7 @@ fn skipped_preflight_and_checkpoint_fail_closed() {
         directory.path(),
         "WI-ORDER-SKIP",
         &serde_json::json!({"passed": true}),
-        "0.2.7",
+        "0.2.8",
         &Digest::sha256_bytes(b"runtime"),
     )
     .expect_err("verification before checkpoint must fail closed");
@@ -115,7 +115,7 @@ fn verification_promotes_initial_yellow_preflight_and_allows_recovery() {
         directory.path(),
         "WI-ORDER-RECOVER",
         &serde_json::json!({"passed": true, "nodesPlanned": 1}),
-        "0.2.7",
+        "0.2.8",
         &Digest::sha256_bytes(b"runtime"),
     )
     .expect("verification");
