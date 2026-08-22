@@ -1,0 +1,21 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "user-authorized-maintainer",
+    "authoritySource": "explicit-user-release-authorization",
+    "decidedAt": "2026-08-22T06:25:30Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-116-archived-close-evidence.verification.json"
+    ],
+    "policyRefs": [
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "PR #48 CI passed and merged; public v0.2.9 Release binary passed immutable artifact verification and this WI was reverified with the installed runtime.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-22T06:25:11Z",
+  "workItemId": "WI-116-archived-close-evidence"
+}
