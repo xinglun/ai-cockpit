@@ -1,0 +1,21 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:owner",
+    "authoritySource": "user-authorized-work-item",
+    "decidedAt": "2026-08-22T11:30:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-131-evidence-timestamp.verification.json"
+    ],
+    "policyRefs": [
+      "evidence-assurance"
+    ],
+    "reason": "merged PR #71 and hosted CI passed",
+    "resumeCondition": "rerun verification if the base or runtime changes"
+  },
+  "timestamp": "2026-08-22T11:25:47Z",
+  "workItemId": "WI-131-evidence-timestamp"
+}
