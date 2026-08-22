@@ -1,0 +1,46 @@
+{
+  "acceptanceCriteria": [
+    "A1: Public v0.2.15 Release assets and checksums are immutable and publicly downloadable.",
+    "A2: The installed public binary reports v0.2.15 and matching SHA256 identity.",
+    "A3: Installed inspect status doctor and historical Outcome are healthy."
+  ],
+  "authority": "authorized",
+  "baseRevision": "4d25fd5d34228ca547c16b1b234e2bf5c6ee5134",
+  "createdAt": "2026-08-22T18:49:15Z",
+  "goal": "Release v0.2.15 with the corrected human-facing historical Outcome and verify public installation.",
+  "intent": "Publish the historical Outcome projection fix as v0.2.15 and validate the installed public binary.",
+  "mode": "implementation",
+  "outOfScope": [
+    "new Runtime behavior beyond WI-139I",
+    "source fallback acceptance"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a052a42412846429c60c49c8da2b14246917e8833824e38fa2ce03885902445e",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/**",
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-139J-runtime-v0-2-15"
+}

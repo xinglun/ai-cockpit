@@ -1,0 +1,24 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "superseded",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:maintainer",
+    "authoritySource": "repository-owner",
+    "decidedAt": "2026-08-22T18:47:30Z",
+    "decision": "superseded",
+    "evidenceRefs": [
+      ".ai/decisions/WI-137-release-v0-2-11.recovery.c9c711750239f8fdeae6fcf7b3791bc79664971cbff16c328f5e96169d6af9d8.json",
+      ".ai/evidence/WI-139G-stale-predecessor-supersession.verification.json"
+    ],
+    "policyRefs": [
+      "docs/reference/agent-workflow.md",
+      "docs/reference/outcome-report.md"
+    ],
+    "reason": "The stale predecessor is explicitly superseded after its bound successor completed the replacement lifecycle; original evidence remains immutable and historical.",
+    "resumeCondition": "Continue work only through WI-139G or a later explicit successor; do not revalidate this predecessor as current."
+  },
+  "timestamp": "2026-08-22T18:46:53Z",
+  "workItemId": "WI-137-release-v0-2-11"
+}

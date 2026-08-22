@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-22T18:50:55Z",
+  "files": {
+    "contractDigest": "sha256:d8f292f322ff722a69213659262395595dea466326e21a9dc29df603c91d5802",
+    "contractPath": ".ai/work-items/archive/WI-139J-runtime-v0-2-15.contract.json",
+    "eventsDigest": "sha256:232426e3fff2c58ef3462f5c83cd4d5dda12ce66136156dbcc272976900dd9d5",
+    "eventsPath": ".ai/work-items/archive/WI-139J-runtime-v0-2-15.events.jsonl",
+    "outcomeDigest": "sha256:0f16429a13dc98905da3bda0f786dba7afbe8bcf45a25e4c8a03850b1b3475fb",
+    "outcomePath": ".ai/work-items/archive/WI-139J-runtime-v0-2-15.outcome.json",
+    "summaryDigest": "sha256:a480f7675092e4758e84d9aca6925cbc03b13dcfe0a02b54c67d45d472ac18f4",
+    "summaryPath": ".ai/work-items/archive/WI-139J-runtime-v0-2-15.summary.json",
+    "taskReportDigest": "sha256:3bc6ee1f5a9b487787c29ba62443ef92de102af8e12c039480d4aaa4183ca685",
+    "taskReportMarkdownDigest": "sha256:f15ae09107bacb22db72a65902f5e6507513a176f320d22d6e036eeb6e8ca93f",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-139J-runtime-v0-2-15.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-139J-runtime-v0-2-15.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-139J-runtime-v0-2-15"
+}

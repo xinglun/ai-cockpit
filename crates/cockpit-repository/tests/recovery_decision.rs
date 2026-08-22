@@ -294,6 +294,8 @@ fn superseded_predecessor_preserves_bytes_and_closes_without_current_verificatio
     );
     let handoff = render_human_outcome(directory.path(), &outcome, "zh");
     assert!(handoff.starts_with("Outcome: 🟡"), "{handoff}");
+    assert!(!handoff.contains("失败 gate"), "{handoff}");
+    assert!(!handoff.contains("修复失败的治理条件"), "{handoff}");
 }
 
 #[test]

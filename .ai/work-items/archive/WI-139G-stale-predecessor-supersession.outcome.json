@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "A1: stale or historical verification evidence remains immutable and is never rewritten by supersession",
+    "A2: an explicit repository-bound superseded terminal state records predecessor and successor digests plus human decision",
+    "A3: archive and close accept superseded predecessors only with a strict historical-evidence receipt; current green verification remains required for ordinary completion",
+    "A4: foreign, malformed, duplicate, and symlinked supersession receipts fail closed",
+    "A5: CLI, MCP, Outcome, and tri-language documentation distinguish superseded historical evidence from current verification failure"
+  ],
+  "createdAt": "2026-08-22T18:46:16Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:ee846f1d73d799fe65e32ee995d27408cc7469126393290c0a48bf07170f3c99",
+  "evidenceRefs": [
+    ".ai/evidence/WI-139G-stale-predecessor-supersession.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-139G-stale-predecessor-supersession.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-139G-stale-predecessor-supersession.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:630157e55d63ac6835fc624662ccf4a6262c237bb94e81386f149c611a7d42eb",
+      "workItemId": "WI-139G-stale-predecessor-supersession"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139G-stale-predecessor-supersession.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-139G-stale-predecessor-supersession.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139G-stale-predecessor-supersession.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139G-stale-predecessor-supersession.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139G-stale-predecessor-supersession.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139G-stale-predecessor-supersession.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139G-stale-predecessor-supersession.contract.json"
+          ],
+          "inference": false,
+          "text": "Provide an auditable terminal path for stale historical predecessors without rewriting immutable evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139G-stale-predecessor-supersession.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-139G-stale-predecessor-supersession"
+  },
+  "taskReportDigest": "sha256:afe27bfacb87f6525b3566f197864745b40eb79348659f0bb2e43e381228339d",
+  "taskReportMarkdownDigest": "sha256:930c587cdf9142640f7c05de83a43bdad4cac1139fcdb8e3545742e28f1d0bbf",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-139G-stale-predecessor-supersession.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-139G-stale-predecessor-supersession"
+}

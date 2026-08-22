@@ -160,10 +160,14 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
             (_, _) => "Repair the missing evidence and verify again; remain stopped until then.",
         }
     };
-    let failed_gate = outcome
-        .failed_gate
-        .as_deref()
-        .or_else(|| task_report.and_then(|report| report.failed_gate.as_deref()));
+    let failed_gate = if historical {
+        None
+    } else {
+        outcome
+            .failed_gate
+            .as_deref()
+            .or_else(|| task_report.and_then(|report| report.failed_gate.as_deref()))
+    };
     let recovery_label = match language {
         "zh" => "失败 gate",
         "ja" => "失敗した gate",

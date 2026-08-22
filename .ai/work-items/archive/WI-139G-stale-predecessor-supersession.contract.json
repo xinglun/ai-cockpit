@@ -7,10 +7,10 @@
     "A5: CLI, MCP, Outcome, and tri-language documentation distinguish superseded historical evidence from current verification failure"
   ],
   "authority": "authorized",
-  "baseRevision": "fda38029f825b6eb3ae87a2a36cea56844cd8fe6",
+  "baseRevision": "4d25fd5d34228ca547c16b1b234e2bf5c6ee5134",
   "createdAt": "2026-08-22T17:56:25Z",
   "goal": "Provide an auditable terminal path for stale historical predecessors without rewriting immutable evidence.",
-  "intent": "Add explicit supersession semantics for a stale predecessor whose historical evidence cannot be revalidated under the current Runtime.",
+  "intent": "Add explicit supersession semantics for the stale WI-137 predecessor while preserving immutable historical evidence.",
   "mode": "implementation",
   "outOfScope": [
     "rewriting or replacing WI-137 historical evidence",
@@ -24,9 +24,24 @@
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-137-release-v0-2-11.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:76258c7c82557be7a38cb56fd0e28343bca43bed542e927b8875ecc9531be021",
-  "requiredEvidenceClasses": ["verification"],
+  "repositorySnapshotDigest": "sha256:630157e55d63ac6835fc624662ccf4a6262c237bb94e81386f149c611a7d42eb",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "expected": "A stale predecessor can be closed through an explicit supersession receipt while its historical evidence bytes remain unchanged; ordinary current Work Items retain strict green verification gates.",
+      "required": true,
+      "scenario": "historical predecessor supersession",
+      "status": "verified",
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        ".ai/evidence/WI-139G-stale-predecessor-supersession.verification.json"
+      ],
+      "verificationPlan": "Run focused protocol/repository/CLI/MCP lifecycle tests, tamper tests, and the installed Runtime lifecycle on WI-137 and its successor."
+    }
+  ],
   "scope": [
     "crates/cockpit-protocol/**",
     "crates/cockpit-repository/**",
@@ -48,16 +63,7 @@
     "docs/reference/agent-workflow.md",
     "docs/reference/troubleshooting.md"
   ],
-  "scenarioCoverage": [
-    {
-      "scenario": "historical predecessor supersession",
-      "required": true,
-      "status": "unverified",
-      "expected": "A stale predecessor can be closed through an explicit supersession receipt while its historical evidence bytes remain unchanged; ordinary current Work Items retain strict green verification gates.",
-      "verificationPlan": "Run focused protocol/repository/CLI/MCP lifecycle tests, tamper tests, and the installed Runtime lifecycle on WI-137 and its successor."
-    }
-  ],
-  "state": "not_ready",
+  "state": "implementation_active",
   "verification": [
     "cargo test --locked --workspace"
   ],

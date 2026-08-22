@@ -46,7 +46,7 @@ matrix は次の 4 state だけを使います。
 | Bounded verification と fail-closed evidence reuse | Implemented | Runtime identity、snapshot/toolchain/environment binding、receipt、fail-closed validation を記録する。 |
 | MCP repository binding | Implemented | repository-bound stdio MCP が explicit binding で同じ governed service を公開する。 |
 | Human-facing MCP projection | Implemented | Runtime が OutcomeV2 を検証し localized `humanHandoff` を生成する。Agent または conversation layer は選択・表示・伝達を担当するが、presentation をガバナンス権限として扱わない。 |
-| Public Release と fresh-adopter acceptance | Partial | v0.2.14 の complete post-release adopter baseline は `x86_64-unknown-linux-gnu` のみ。他の target は build/smoke evidence である。 |
+| Public Release と fresh-adopter acceptance | Partial | v0.2.15 の complete post-release adopter baseline は `x86_64-unknown-linux-gnu` のみ。他の target は build/smoke evidence である。 |
 | Second-technology-stack adopter acceptance | Deferred | current harness は Cargo adopter を使い、第二の technology stack は future work とする。 |
 | Runtime-only upgrade と repository migration | Implemented | compatibility check と explicit migration が historical record を保持し Runtime identity を bind する。 |
 | N-1 old-adopter upgrade acceptance | Implemented | public-artifact harness が old-schema detection、approval、history preservation、continued operation を確認する。 |

@@ -1,0 +1,35 @@
+{
+  "acceptanceCriteria": [
+    "A1: Superseded historical Outcome omits stale failed-gate and recovery-stop text in human output.",
+    "A2: Current red and yellow Outcomes retain their existing stop and recovery behavior.",
+    "A3: Chinese Japanese and English human Outcome projections remain clear and machine JSON remains stable."
+  ],
+  "authority": "authorized",
+  "baseRevision": "4d25fd5d34228ca547c16b1b234e2bf5c6ee5134",
+  "createdAt": "2026-08-22T18:47:31Z",
+  "goal": "Prevent a historical predecessor Outcome from presenting stale failed-gate text as a current human stop.",
+  "intent": "Ensure superseded historical Work Items are rendered as historical yellow outcomes without current failure or stop language.",
+  "mode": "implementation",
+  "outOfScope": [
+    "changing ordinary current evidence semantics",
+    "VerificationTier and Planner design",
+    "rewriting historical evidence bytes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:630157e55d63ac6835fc624662ccf4a6262c237bb94e81386f149c611a7d42eb",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/**",
+    "docs/reference/outcome-report*",
+    "docs/reference/troubleshooting*"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-139I-historical-outcome-projection"
+}

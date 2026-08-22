@@ -47,7 +47,7 @@ The matrix uses exactly four states:
 | Bounded verification and fail-closed evidence reuse | Implemented | Runtime identity, snapshot/toolchain/environment bindings, receipts, and fail-closed validation are recorded. |
 | MCP repository binding | Implemented | Repository-bound stdio MCP exposes the same governed services with explicit binding. |
 | Human-facing MCP projection | Implemented | Runtime validates OutcomeV2 and emits the localized `humanHandoff`; the Agent or conversation layer chooses, displays, and passes it on without treating presentation as governance authority. |
-| Public Release and fresh-adopter acceptance | Partial | The complete v0.2.14 post-release adopter baseline runs on `x86_64-unknown-linux-gnu`; the other targets have build/smoke evidence, not the full lifecycle. |
+| Public Release and fresh-adopter acceptance | Partial | The complete v0.2.15 post-release adopter baseline runs on `x86_64-unknown-linux-gnu`; the other targets have build/smoke evidence, not the full lifecycle. |
 | Second-technology-stack adopter acceptance | Deferred | The current harness uses a Cargo adopter; a separate technology stack remains future work. |
 | Runtime-only upgrade versus repository migration | Implemented | Compatibility checks and explicit migration preserve historical records and bind Runtime identity. |
 | N-1 old-adopter upgrade acceptance | Implemented | The public-artifact harness covers old-schema detection, approval, history preservation, and continued operation. |

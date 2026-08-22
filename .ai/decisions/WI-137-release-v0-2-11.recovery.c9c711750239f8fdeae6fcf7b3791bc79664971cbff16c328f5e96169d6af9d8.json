@@ -1,0 +1,27 @@
+{
+  "actor": "human:maintainer",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-22T18:47:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-137-release-v0-2-11.verification.json",
+    ".ai/evidence/WI-139G-stale-predecessor-supersession.verification.json"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md",
+    "docs/reference/troubleshooting.md"
+  ],
+  "predecessorContractDigest": "sha256:61a47f0b61a2773d5efb04c54f4ac290a56e93003e48b3b0fd04ffebb55df54d",
+  "predecessorOutcomeDigest": "sha256:7dd9ccf7307aac1fbd6058c02c868e4d4a6b45b22b8198937bf872cd72136826",
+  "predecessorSummaryDigest": "sha256:035ac155d17c44a83595884ba9ba141cf55e01ddda0e57baabcb87a7449a16f0",
+  "predecessorWorkItemId": "WI-137-release-v0-2-11",
+  "reason": "Explicitly supersede the stale historical predecessor after verifying and closing its successor, without rewriting immutable v0.2.10 evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Continue current development on the explicitly bound successor; predecessor remains historical and immutable.",
+  "runtimeDigest": "sha256:af7556bd2218992b97359197b6d1d6c11af668df943803547e1bcb8f32495c06",
+  "runtimeVersion": "0.2.14",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-139G-stale-predecessor-supersession",
+  "workItemId": "WI-137-release-v0-2-11"
+}

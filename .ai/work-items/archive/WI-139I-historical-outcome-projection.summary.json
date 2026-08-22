@@ -1,0 +1,82 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "superseded_predecessor_preserves_bytes_and_closes_without_current_verification",
+          "path": "crates/cockpit-repository/tests/recovery_decision.rs",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "superseded_predecessor_preserves_bytes_and_closes_without_current_verification",
+          "path": "crates/cockpit-repository/tests/recovery_decision.rs",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "superseded_predecessor_preserves_bytes_and_closes_without_current_verification",
+          "path": "crates/cockpit-repository/tests/recovery_decision.rs",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-137-release-v0-2-11.close.json",
+    ".ai/decisions/WI-137-release-v0-2-11.recovery.c9c711750239f8fdeae6fcf7b3791bc79664971cbff16c328f5e96169d6af9d8.json",
+    ".ai/decisions/WI-139G-stale-predecessor-supersession.close.json",
+    ".ai/evidence/WI-139G-stale-predecessor-supersession.verification.json",
+    ".ai/work-items/active/WI-137-release-v0-2-11.approach.json",
+    ".ai/work-items/active/WI-137-release-v0-2-11.contract.json",
+    ".ai/work-items/active/WI-137-release-v0-2-11.outcome.json",
+    ".ai/work-items/active/WI-137-release-v0-2-11.summary.json",
+    ".ai/work-items/active/WI-139G-stale-predecessor-supersession.contract.json",
+    ".ai/work-items/active/WI-139G-stale-predecessor-supersession.summary.json",
+    ".ai/work-items/archive/WI-137-release-v0-2-11.approach.json",
+    ".ai/work-items/archive/WI-137-release-v0-2-11.archive.json",
+    ".ai/work-items/archive/WI-137-release-v0-2-11.contract.json",
+    ".ai/work-items/archive/WI-137-release-v0-2-11.outcome.json",
+    ".ai/work-items/archive/WI-137-release-v0-2-11.summary.json",
+    ".ai/work-items/archive/WI-139G-stale-predecessor-supersession.archive.json",
+    ".ai/work-items/archive/WI-139G-stale-predecessor-supersession.contract.json",
+    ".ai/work-items/archive/WI-139G-stale-predecessor-supersession.events.jsonl",
+    ".ai/work-items/archive/WI-139G-stale-predecessor-supersession.outcome.json",
+    ".ai/work-items/archive/WI-139G-stale-predecessor-supersession.summary.json",
+    ".ai/work-items/archive/WI-139G-stale-predecessor-supersession.task-report.json",
+    ".ai/work-items/archive/WI-139G-stale-predecessor-supersession.task-report.md"
+  ],
+  "checkpointAt": "2026-08-22T18:48:01Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T18:47:31Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-139I-historical-outcome-projection.verification.json"
+    ],
+    "reason": "The focused regression confirms that historical superseded Outcome output no longer presents stale current-stop language while the marker and next action remain human-readable.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-08-22T18:48:57Z",
+  "preflightContractDigest": "sha256:ef5a45ca3d205abdc7654a567206bb4ae6f0bd9c525bbb12bcef55f1a33ddf17",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:a052a42412846429c60c49c8da2b14246917e8833824e38fa2ce03885902445e",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T18:49:01Z",
+  "workItemId": "WI-139I-historical-outcome-projection"
+}

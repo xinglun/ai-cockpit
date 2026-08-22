@@ -1,0 +1,95 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "passed=true",
+          "path": ".ai/evidence/WI-139J-runtime-v0-2-15.verification.json",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "runtimeVersion=0.2.14 during public-release preparation",
+          "path": ".ai/evidence/WI-139J-runtime-v0-2-15.verification.json",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "superseded_predecessor_preserves_bytes_and_closes_without_current_verification",
+          "path": "crates/cockpit-repository/tests/recovery_decision.rs",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-137-release-v0-2-11.close.json",
+    ".ai/decisions/WI-137-release-v0-2-11.recovery.c9c711750239f8fdeae6fcf7b3791bc79664971cbff16c328f5e96169d6af9d8.json",
+    ".ai/decisions/WI-139G-stale-predecessor-supersession.close.json",
+    ".ai/evidence/WI-139G-stale-predecessor-supersession.verification.json",
+    ".ai/evidence/WI-139I-historical-outcome-projection.verification.json",
+    ".ai/work-items/active/WI-137-release-v0-2-11.approach.json",
+    ".ai/work-items/active/WI-137-release-v0-2-11.contract.json",
+    ".ai/work-items/active/WI-137-release-v0-2-11.outcome.json",
+    ".ai/work-items/active/WI-137-release-v0-2-11.summary.json",
+    ".ai/work-items/active/WI-139G-stale-predecessor-supersession.contract.json",
+    ".ai/work-items/active/WI-139G-stale-predecessor-supersession.summary.json",
+    ".ai/work-items/archive/WI-137-release-v0-2-11.approach.json",
+    ".ai/work-items/archive/WI-137-release-v0-2-11.archive.json",
+    ".ai/work-items/archive/WI-137-release-v0-2-11.contract.json",
+    ".ai/work-items/archive/WI-137-release-v0-2-11.outcome.json",
+    ".ai/work-items/archive/WI-137-release-v0-2-11.summary.json",
+    ".ai/work-items/archive/WI-139G-stale-predecessor-supersession.archive.json",
+    ".ai/work-items/archive/WI-139G-stale-predecessor-supersession.contract.json",
+    ".ai/work-items/archive/WI-139G-stale-predecessor-supersession.events.jsonl",
+    ".ai/work-items/archive/WI-139G-stale-predecessor-supersession.outcome.json",
+    ".ai/work-items/archive/WI-139G-stale-predecessor-supersession.summary.json",
+    ".ai/work-items/archive/WI-139G-stale-predecessor-supersession.task-report.json",
+    ".ai/work-items/archive/WI-139G-stale-predecessor-supersession.task-report.md",
+    ".ai/work-items/archive/WI-139I-historical-outcome-projection.archive.json",
+    ".ai/work-items/archive/WI-139I-historical-outcome-projection.contract.json",
+    ".ai/work-items/archive/WI-139I-historical-outcome-projection.events.jsonl",
+    ".ai/work-items/archive/WI-139I-historical-outcome-projection.outcome.json",
+    ".ai/work-items/archive/WI-139I-historical-outcome-projection.summary.json",
+    ".ai/work-items/archive/WI-139I-historical-outcome-projection.task-report.json",
+    ".ai/work-items/archive/WI-139I-historical-outcome-projection.task-report.md",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs"
+  ],
+  "checkpointAt": "2026-08-22T18:49:34Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T18:49:15Z",
+  "failedGate": "finish.verification",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-139J-runtime-v0-2-15.verification.json"
+    ],
+    "reason": "The release preparation and targeted installed-Runtime verification directly address the bounded v0.2.15 publication and historical Outcome correction.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-22T18:50:47Z",
+  "preflightContractDigest": "sha256:a6fec7e35507742187b006544ebce19d7cee3a5f3331af53041e7acdaaf43533",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:5db50cb3565f2159aaddb9b6e3f6a8992e8f6934d7be1404fe646bad92ceaeb6",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T18:50:51Z",
+  "workItemId": "WI-139J-runtime-v0-2-15"
+}

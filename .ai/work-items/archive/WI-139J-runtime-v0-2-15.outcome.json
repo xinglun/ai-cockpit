@@ -1,0 +1,352 @@
+{
+  "acceptanceResults": [
+    "A1: Public v0.2.15 Release assets and checksums are immutable and publicly downloadable.",
+    "A2: The installed public binary reports v0.2.15 and matching SHA256 identity.",
+    "A3: Installed inspect status doctor and historical Outcome are healthy."
+  ],
+  "createdAt": "2026-08-22T18:50:51Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:afeb514a82932d116c3a24b6bf4d4f04603cc79e80a4b8debc8cf253ed3faefa",
+  "evidenceRefs": [
+    ".ai/evidence/WI-139J-runtime-v0-2-15.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-139J-runtime-v0-2-15.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-139J-runtime-v0-2-15.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5db50cb3565f2159aaddb9b6e3f6a8992e8f6934d7be1404fe646bad92ceaeb6",
+      "workItemId": "WI-139J-runtime-v0-2-15"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-137-release-v0-2-11.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-137-release-v0-2-11.recovery.c9c711750239f8fdeae6fcf7b3791bc79664971cbff16c328f5e96169d6af9d8.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-139G-stale-predecessor-supersession.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-139G-stale-predecessor-supersession.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-139I-historical-outcome-projection.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-137-release-v0-2-11.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-137-release-v0-2-11.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-137-release-v0-2-11.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-137-release-v0-2-11.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-139G-stale-predecessor-supersession.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-139G-stale-predecessor-supersession.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-137-release-v0-2-11.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-137-release-v0-2-11.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-137-release-v0-2-11.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-137-release-v0-2-11.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-137-release-v0-2-11.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-139G-stale-predecessor-supersession.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-139G-stale-predecessor-supersession.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-139G-stale-predecessor-supersession.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-139G-stale-predecessor-supersession.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-139G-stale-predecessor-supersession.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-139G-stale-predecessor-supersession.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-139G-stale-predecessor-supersession.task-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-139I-historical-outcome-projection.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-139I-historical-outcome-projection.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-139I-historical-outcome-projection.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-139I-historical-outcome-projection.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-139I-historical-outcome-projection.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-139I-historical-outcome-projection.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-139I-historical-outcome-projection.task-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/outcome_render.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/recovery_decision.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139J-runtime-v0-2-15.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-139J-runtime-v0-2-15.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139J-runtime-v0-2-15.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139J-runtime-v0-2-15.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-139J-runtime-v0-2-15.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.contract.json"
+          ],
+          "inference": false,
+          "text": "Release v0.2.15 with the corrected human-facing historical Outcome and verify public installation."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-139J-runtime-v0-2-15.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-139J-runtime-v0-2-15"
+  },
+  "taskReportDigest": "sha256:3bc6ee1f5a9b487787c29ba62443ef92de102af8e12c039480d4aaa4183ca685",
+  "taskReportMarkdownDigest": "sha256:f15ae09107bacb22db72a65902f5e6507513a176f320d22d6e036eeb6e8ca93f",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-139J-runtime-v0-2-15.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-139J-runtime-v0-2-15"
+}

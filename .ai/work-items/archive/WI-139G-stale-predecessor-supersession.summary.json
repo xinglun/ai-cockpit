@@ -1,0 +1,100 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "superseded_predecessor_preserves_bytes_and_closes_without_current_verification",
+          "path": "crates/cockpit-repository/tests/recovery_decision.rs",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "superseded_predecessor_preserves_bytes_and_closes_without_current_verification",
+          "path": "crates/cockpit-repository/tests/recovery_decision.rs",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "superseded_predecessor_preserves_bytes_and_closes_without_current_verification",
+          "path": "crates/cockpit-repository/tests/recovery_decision.rs",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "supersede_requires_a_matching_existing_successor",
+          "path": "crates/cockpit-repository/tests/recovery_decision.rs",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "superseded_predecessor_preserves_bytes_and_closes_without_current_verification",
+          "path": "crates/cockpit-repository/tests/recovery_decision.rs",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [],
+  "checkpointAt": "2026-08-22T18:44:06Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T17:56:25Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-139G-stale-predecessor-supersession.verification.json"
+    ],
+    "reason": "The implementation, focused tests, documentation, and installed Runtime evidence directly address the bounded historical predecessor supersession intent.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:61a47f0b61a2773d5efb04c54f4ac290a56e93003e48b3b0fd04ffebb55df54d",
+  "predecessorWorkItemId": "WI-137-release-v0-2-11",
+  "preflightAt": "2026-08-22T18:46:12Z",
+  "preflightContractDigest": "sha256:352913ea18b3d443138d0c6f1cca969be914d8c8fe36aa1547ccf2e5dfe0e6ce",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:630157e55d63ac6835fc624662ccf4a6262c237bb94e81386f149c611a7d42eb",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryDecisionPath": ".ai/decisions/WI-137-release-v0-2-11.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        ".ai/evidence/WI-139G-stale-predecessor-supersession.verification.json"
+      ],
+      "expected": "A stale predecessor can be closed through an explicit supersession receipt while its historical evidence bytes remain unchanged; ordinary current Work Items retain strict green verification gates.",
+      "required": true,
+      "scenario": "historical predecessor supersession",
+      "status": "verified",
+      "verificationPlan": "Run focused recovery tests and the installed Runtime full workspace verification on WI-139G and its predecessor."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T18:46:16Z",
+  "workItemId": "WI-139G-stale-predecessor-supersession"
+}
