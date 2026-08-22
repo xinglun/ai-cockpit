@@ -179,6 +179,10 @@ fn close_persists_a_structured_human_decision_and_recovery_condition() {
         &fs::read(path.join(".ai/decisions/WI-DECISION.close.json")).expect("decision"),
     )
     .expect("decision JSON");
+    assert_eq!(
+        decision["repositoryId"],
+        cockpit_repository::repository_id(&path).to_string()
+    );
     assert_eq!(decision["structuredDecision"]["actor"], "human:owner");
     assert_eq!(
         decision["structuredDecision"]["resumeCondition"],

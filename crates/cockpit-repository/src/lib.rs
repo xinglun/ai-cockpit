@@ -4316,12 +4316,12 @@ pub fn set_evidence_retention_policy(
         .join(".ai/evidence")
         .join(format!("{work_item_id}.retention.json"));
     if path.exists() {
-        let existing = read_json(&path)?;
-        let existing: EvidenceRetentionPolicy =
-            serde_json::from_value(existing).map_err(|error| ObserverError::State {
+        let existing = read_evidence_retention_policy(&root, work_item_id)?.ok_or_else(|| {
+            ObserverError::State {
                 path: path.clone(),
-                message: error.to_string(),
-            })?;
+                message: "retention policy disappeared while reading".into(),
+            }
+        })?;
         if existing.repository_id != policy.repository_id
             || existing.work_item_id != policy.work_item_id
             || existing.retention != policy.retention
@@ -4368,19 +4368,59 @@ pub fn read_evidence_retention_policy(
             path: path.clone(),
             message: error.to_string(),
         })?;
-    if policy.repository_id != repository_id(&root).to_string()
-        || policy.work_item_id != work_item_id
+    validate_retention_policy_binding(
+        &policy,
+        &repository_id(&root).to_string(),
+        work_item_id,
+        &path,
+    )?;
+    validate_evidence_retention(&policy.retention).map_err(|error| ObserverError::State {
+        path: path.clone(),
+        message: error.to_string(),
+    })?;
+    if DateTime::parse_from_rfc3339(&policy.created_at).is_err()
+        || policy
+            .retention
+            .expires_at
+            .as_deref()
+            .is_some_and(|value| !valid_retention_expiry(value))
     {
         return Err(ObserverError::State {
             path,
+            message: "retention policy timestamps must be RFC3339".into(),
+        });
+    }
+    Ok(Some(policy))
+}
+
+fn validate_retention_policy_binding(
+    policy: &EvidenceRetentionPolicy,
+    expected_repository_id: &str,
+    expected_work_item_id: &str,
+    path: &Path,
+) -> Result<(), ObserverError> {
+    if policy.schema_version != 1 {
+        return Err(ObserverError::State {
+            path: path.to_path_buf(),
+            message: format!(
+                "unsupported retention policy schemaVersion {}; expected 1",
+                policy.schema_version
+            ),
+        });
+    }
+    if policy.repository_id != expected_repository_id
+        || policy.work_item_id != expected_work_item_id
+    {
+        return Err(ObserverError::State {
+            path: path.to_path_buf(),
             message: "retention policy repository/work item binding mismatch".into(),
         });
     }
-    validate_evidence_retention(&policy.retention).map_err(|error| ObserverError::State {
-        path,
-        message: error.to_string(),
-    })?;
-    Ok(Some(policy))
+    Ok(())
+}
+
+fn valid_retention_expiry(value: &str) -> bool {
+    DateTime::parse_from_rfc3339(value).is_ok() || parse_epoch_seconds(value).is_some()
 }
 
 pub fn evidence_purge_plan(
@@ -6042,7 +6082,7 @@ fn verification_evidence_state(
                     .retention
                     .expires_at
                     .as_deref()
-                    .is_some_and(|value| DateTime::parse_from_rfc3339(value).is_err())
+                    .is_some_and(|value| !valid_retention_expiry(value))
         })
         || envelope
             .runtime_digest
@@ -6068,6 +6108,27 @@ fn verification_evidence_state(
         || envelope.repository_id != expected_repository_id
     {
         return Ok(EvidenceState::Contradictory);
+    }
+
+    if let Some(embedded_retention) = envelope.retention.as_ref() {
+        let retention_path = root
+            .join(".ai/evidence")
+            .join(format!("{}.retention.json", contract.work_item_id));
+        if validate_retention_policy_binding(
+            embedded_retention,
+            &expected_repository_id,
+            &contract.work_item_id,
+            &retention_path,
+        )
+        .is_err()
+            || validate_evidence_retention(&embedded_retention.retention).is_err()
+        {
+            return Ok(EvidenceState::Contradictory);
+        }
+        match read_evidence_retention_policy(root, &contract.work_item_id) {
+            Ok(Some(standalone_retention)) if standalone_retention == *embedded_retention => {}
+            _ => return Ok(EvidenceState::Contradictory),
+        }
     }
 
     if let Some(runtime) = current_runtime
@@ -6620,6 +6681,7 @@ fn close_work_item_with_structured_decision_internal(
         });
     }
     let mut decision = receipt_value;
+    decision["repositoryId"] = contract.repository_id.clone().into();
     decision["humanDecision"] = serde_json::Value::String(human_decision.decision.trim().into());
     decision["decisionState"] = serde_json::Value::String("confirmed".into());
     decision["structuredDecision"] =
@@ -7252,7 +7314,7 @@ fn close_decision_is_valid_for_status(
         || value
             .get("repositoryId")
             .and_then(serde_json::Value::as_str)
-            .is_some_and(|value| value != repository_id)
+            != Some(repository_id)
         || value.get("state").and_then(serde_json::Value::as_str) != Some("closed")
         || value
             .get("decisionState")

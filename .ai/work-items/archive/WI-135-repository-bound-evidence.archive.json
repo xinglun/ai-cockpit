@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T12:47:31Z",
+  "files": {
+    "contractDigest": "sha256:504d0e30c89e8e81eff3e73057dd0a1bcd415f511a1d87f6d433d23a35d0dc36",
+    "contractPath": ".ai/work-items/archive/WI-135-repository-bound-evidence.contract.json",
+    "outcomeDigest": "sha256:e6018bb46424b9b0a4255141a0c8ecb2e6aaa8e9501871bca0cea6649f664874",
+    "outcomePath": ".ai/work-items/archive/WI-135-repository-bound-evidence.outcome.json",
+    "summaryDigest": "sha256:830d8986a4dada86ffc231ce273f236dffdc94bfc36756eb4b69985d6706fcd3",
+    "summaryPath": ".ai/work-items/archive/WI-135-repository-bound-evidence.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-135-repository-bound-evidence"
+}

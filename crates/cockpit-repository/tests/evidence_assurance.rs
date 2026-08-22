@@ -1,16 +1,19 @@
 use cockpit_core::{DecisionState, Digest};
-use cockpit_protocol::{HumanDecision, RuntimeContext};
+use cockpit_protocol::{
+    DataClassification, EvidencePersistence, EvidenceRetention, HumanDecision, RuntimeContext,
+};
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
     archive_work_item_with_runtime, attach, checkpoint_work_item,
     close_work_item_with_structured_decision_and_runtime, finish_work_item_with_runtime,
     outcome_v2_with_runtime, preflight_work_item_with_runtime, record_verification_with_runtime,
-    run_repository_verification, start_work_item_with_options,
+    run_repository_verification, set_evidence_retention_policy, start_work_item_with_options,
 };
 use serde_json::Value;
 use std::{fs, process::Command};
 
 type EvidenceMutation = (&'static str, fn(&mut Value));
+type RetentionMutation = (&'static str, fn(&mut Value, &mut Value));
 
 fn repository() -> tempfile::TempDir {
     let directory = tempfile::tempdir().expect("tempdir");
@@ -163,6 +166,90 @@ fn strict_evidence_rejects_unknown_envelope_and_nested_fields() {
             outcome.state,
             cockpit_protocol::OutcomeState::Verified,
             "{name}"
+        );
+    }
+}
+
+#[test]
+fn retention_schema_and_identity_are_bound_to_evidence_and_repository() {
+    let mutations: [RetentionMutation; 6] = [
+        ("standalone-schema", |standalone, _embedded| {
+            standalone["schemaVersion"] = 999.into();
+        }),
+        ("standalone-repository", |standalone, _embedded| {
+            standalone["repositoryId"] = "sha256:foreign".into();
+        }),
+        ("embedded-repository", |_standalone, embedded| {
+            embedded["repositoryId"] = "sha256:foreign".into();
+        }),
+        ("embedded-work-item", |_standalone, embedded| {
+            embedded["workItemId"] = "WI-FOREIGN".into();
+        }),
+        ("embedded-unknown", |_standalone, embedded| {
+            embedded["unexpected"] = true.into();
+        }),
+        ("standalone-embedded-mismatch", |standalone, _embedded| {
+            standalone["retention"]["retentionDays"] = 31.into();
+        }),
+    ];
+
+    for (name, mutate) in mutations {
+        let directory = repository();
+        let current = runtime(name);
+        start(&directory, "WI-135-RETENTION");
+        set_evidence_retention_policy(
+            directory.path(),
+            "WI-135-RETENTION",
+            EvidenceRetention {
+                classification: DataClassification::Internal,
+                persistence: EvidencePersistence::FullCapture,
+                retention_days: Some(30),
+                expires_at: None,
+                disposal_action: "retain_after_review".into(),
+            },
+            &current,
+        )
+        .expect("retention policy");
+        record_typed(&directory, "WI-135-RETENTION", &current);
+
+        let standalone_path = directory
+            .path()
+            .join(".ai/evidence/WI-135-RETENTION.retention.json");
+        let evidence_path = directory
+            .path()
+            .join(".ai/evidence/WI-135-RETENTION.verification.json");
+        let mut standalone: Value =
+            serde_json::from_slice(&fs::read(&standalone_path).expect("standalone retention"))
+                .expect("retention JSON");
+        let mut evidence: Value =
+            serde_json::from_slice(&fs::read(&evidence_path).expect("evidence")).expect("JSON");
+        let mut embedded = evidence["retention"].clone();
+        mutate(&mut standalone, &mut embedded);
+        if name.starts_with("standalone") {
+            fs::write(
+                &standalone_path,
+                serde_json::to_vec_pretty(&standalone).expect("retention bytes"),
+            )
+            .expect("tamper standalone retention");
+        } else {
+            evidence["retention"] = embedded;
+            fs::write(
+                &evidence_path,
+                serde_json::to_vec_pretty(&evidence).expect("evidence bytes"),
+            )
+            .expect("tamper embedded retention");
+        }
+        let outcome = outcome_v2_with_runtime(directory.path(), "WI-135-RETENTION", &current)
+            .expect("outcome");
+        assert_eq!(outcome.decision_state, Some(DecisionState::Red), "{name}");
+        assert_ne!(
+            outcome.state,
+            cockpit_protocol::OutcomeState::Verified,
+            "{name}"
+        );
+        assert!(
+            finish_work_item_with_runtime(directory.path(), "WI-135-RETENTION", &current).is_err(),
+            "{name} must block finish"
         );
     }
 }

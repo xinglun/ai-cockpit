@@ -52,8 +52,8 @@ Work Item、repository、Runtime の nested identity を要求します。`diges
 これは履歴入力であり、現在の失敗でも fresh green でもありません。v2 record の identity 欠落は
 引き続き赤色です。
 
-v2 envelope の `createdAt`、retention の `createdAt`、および任意の
-`expiresAt` は RFC3339 timestamp でなければなりません。形式または意味が不正な
+v2 envelope の `createdAt` と retention の `createdAt` は RFC3339 timestamp でなければなりません。
+任意の retention `expiresAt` は RFC3339 または互換性のための epoch seconds 形式を受け付けます。形式または意味が不正な
 timestamp は証拠の破損として赤色にし、`finish`、`archive`、`close` を停止します。
 この検査は現在の証拠と retention metadata を保護しますが、過去の bytes は書き換えません。
 

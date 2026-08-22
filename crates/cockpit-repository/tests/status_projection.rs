@@ -224,3 +224,63 @@ fn invalid_close_decision_never_promotes_archived_status() {
     assert!(status.human_decisions.is_empty());
     assert!(status.unknowns.contains(&"close_decision_invalid".into()));
 }
+
+#[test]
+fn foreign_close_repository_identity_never_promotes_archived_status() {
+    let directory = repository();
+    let work_item_id = "WI-STATUS-FOREIGN-CLOSE";
+    start_work_item(
+        directory.path(),
+        work_item_id,
+        "status foreign close",
+        "reject cross-repository close receipt",
+        &["**".into()],
+    )
+    .expect("start");
+    let contract = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    preflight_work_item(directory.path(), &contract).expect("preflight");
+    checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+    record_verification(
+        directory.path(),
+        work_item_id,
+        &serde_json::json!({"passed": true}),
+        "0.1.0",
+        &Digest::sha256_bytes(b"status-runtime"),
+    )
+    .expect("verification");
+    finish_work_item(directory.path(), work_item_id).expect("finish");
+    archive_work_item(directory.path(), work_item_id).expect("archive");
+    close_work_item_with_structured_decision(
+        directory.path(),
+        work_item_id,
+        &HumanDecision {
+            decision: "approved".into(),
+            actor: "human:owner".into(),
+            authority_source: "status-projection".into(),
+            reason: "valid close before tamper".into(),
+            evidence_refs: vec![format!(".ai/evidence/{work_item_id}.verification.json")],
+            policy_refs: vec!["status-projection".into()],
+            decided_at: "2026-08-22T12:00:00Z".into(),
+            resume_condition: Some("rerun verification".into()),
+        },
+    )
+    .expect("close");
+    let path = directory
+        .path()
+        .join(format!(".ai/decisions/{work_item_id}.close.json"));
+    let mut decision: serde_json::Value =
+        serde_json::from_slice(&fs::read(&path).expect("decision")).expect("decision JSON");
+    decision["repositoryId"] = "sha256:foreign".into();
+    fs::write(
+        &path,
+        serde_json::to_vec_pretty(&decision).expect("decision bytes"),
+    )
+    .expect("tamper decision");
+    let status = work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime())
+        .expect("status");
+    assert_eq!(status.lifecycle_phase, "archived");
+    assert_eq!(status.completion_domains["closure"], "archived");
+    assert!(status.unknowns.contains(&"close_decision_invalid".into()));
+}
