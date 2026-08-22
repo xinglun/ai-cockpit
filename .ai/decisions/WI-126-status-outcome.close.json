@@ -1,0 +1,21 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:owner",
+    "authoritySource": "user-authorized-work-item",
+    "decidedAt": "2026-08-22T19:05:00+09:00",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-126-status-outcome.verification.json"
+    ],
+    "policyRefs": [
+      "release-policy:v0.2.10"
+    ],
+    "reason": "WI-126 merged with passing hosted CI; status projection, human Outcome handoff, three-language documentation, and repository isolation evidence reviewed.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-22T10:04:50Z",
+  "workItemId": "WI-126-status-outcome"
+}
