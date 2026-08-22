@@ -1,0 +1,21 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "user-authorized-maintainer",
+    "authoritySource": "explicit-user-release-authorization",
+    "decidedAt": "2026-08-22T07:48:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-120-release-v0-2-10.verification.json"
+    ],
+    "policyRefs": [
+      "docs/release/distribution.md"
+    ],
+    "reason": "User authorized the final release after PR #53 CI passed; v0.2.10 contains the Contract preflight human-review gate and is ready for public adopter acceptance.",
+    "resumeCondition": "Reopen if public Release, adopter acceptance, installation, or reference-process audit fails."
+  },
+  "timestamp": "2026-08-22T07:47:36Z",
+  "workItemId": "WI-120-release-v0-2-10"
+}
