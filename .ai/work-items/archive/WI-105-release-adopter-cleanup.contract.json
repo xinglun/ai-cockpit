@@ -1,0 +1,41 @@
+{
+  "acceptanceCriteria": [
+    "Both harnesses clean only their validated run_root after final acceptance outputs; success and failure paths are covered by static and executable regression tests; cleanup failure is recorded without changing adopterAcceptance/releasePublished; required release/documentation checks pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "eee230a6e89aa8b8f394dfe5e63e1161dea83da9",
+  "createdAt": "2026-08-22T02:10:39Z",
+  "goal": "Ensure both public Release adopter acceptance harnesses safely clean their own validated run_root on success and failure, and record cleanup failures without changing acceptance truth.",
+  "intent": "Prevent release adopter acceptance temporary-directory leakage while preserving immutable acceptance truth.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Rust Runtime source",
+    " CLI behavior",
+    " v0.2.6 tag",
+    " v0.2.6 Release assets and metadata",
+    " GitHub workflow behavior",
+    " external Homebrew tap",
+    " global Agent/MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:428d8b0476fb92e82e02545841805eafb00db8bbeb1bfc3c36549dd05403da92",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/adopter_acceptance_test.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh",
+    "tests/release/workflow_policy.sh",
+    "docs/release/distribution.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.zh-CN.md",
+    ".ai/**"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-105-release-adopter-cleanup"
+}

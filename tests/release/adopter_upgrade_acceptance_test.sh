@@ -19,12 +19,69 @@ grep -q -- 'chainLength' "$script"
 grep -q -- 'oldEvidenceDigest' "$script"
 grep -q -- 'byte-identical' "$script"
 grep -q -- 'SHA256SUMS' "$script"
+grep -q -- 'cleanup_run_root' "$script"
+grep -q -- 'cleanupState' "$script"
+grep -q -- 'cleanup.json' "$script"
+grep -q -- 'rm -rf --' "$script"
 if grep -Eq 'cargo (build|run)|target/debug/ai-cockpit|workspace binary' "$script"; then
   echo 'upgrade acceptance must not fall back to source builds or workspace binaries' >&2
   exit 1
 fi
-if "$script" --repository xinglun/ai-cockpit --from-tag v0.1.1 --to-tag v0.1.1 --target aarch64-apple-darwin --output "$(mktemp -d)" --source-repo "$(git rev-parse --show-toplevel)" >/dev/null 2>&1; then
+test_parent="${TMPDIR:-/tmp}"
+regression_root="$(mktemp -d "$test_parent/ai-cockpit-n-minus-one-regression.XXXXXX")"
+cleanup_regression_root() { find "$regression_root" -depth -mindepth 0 -delete; }
+trap cleanup_regression_root EXIT
+same_output="$regression_root/same-output"
+mkdir -p "$same_output"
+if "$script" --repository xinglun/ai-cockpit --from-tag v0.1.1 --to-tag v0.1.1 --target aarch64-apple-darwin --output "$same_output" --source-repo "$(git rev-parse --show-toplevel)" >/dev/null 2>&1; then
   echo 'same Release tags must be rejected' >&2
   exit 1
 fi
+
+fake_bin="$regression_root/fake-bin"
+mkdir -p "$fake_bin"
+printf '#!/bin/sh\nexit 97\n' > "$fake_bin/curl"
+chmod +x "$fake_bin/curl"
+failure_tmp="$regression_root/failure-tmp"
+failure_output="$regression_root/failure-output"
+mkdir -p "$failure_tmp" "$failure_output"
+set +e
+PATH="$fake_bin:$PATH" TMPDIR="$failure_tmp" "$script" \
+  --repository xinglun/ai-cockpit --from-tag v0.2.5 --to-tag v0.2.6 \
+  --target x86_64-unknown-linux-gnu --output "$failure_output" \
+  --source-repo "$(git rev-parse --show-toplevel)" >/dev/null 2>&1
+failure_exit=$?
+set -e
+[[ "$failure_exit" -eq 1 ]] || { printf 'upgrade failure path must preserve the original exit code\n' >&2; exit 1; }
+[[ -z "$(find "$failure_tmp" -mindepth 1 -maxdepth 1 -type d -name 'ai-cockpit-n-minus-one.*' -print -quit)" ]] || {
+  printf 'upgrade failure path left a run_root behind\n' >&2
+  exit 1
+}
+jq -e '.adopterAcceptance == "failed" and .releasePublished == false and .cleanupState == "passed" and .cleanupError == null' "$failure_output/acceptance.json" >/dev/null
+jq -e '.state == "passed" and .removed == true and .validated == true' "$failure_output/cleanup.json" >/dev/null
+(cd "$failure_output" && shasum -a 256 -c SHA256SUMS >/dev/null)
+
+blocked_rm_bin="$regression_root/blocked-rm-bin"
+mkdir -p "$blocked_rm_bin"
+printf '#!/bin/sh\nexit 71\n' > "$blocked_rm_bin/rm"
+chmod +x "$blocked_rm_bin/rm"
+blocked_tmp="$regression_root/blocked-tmp"
+blocked_output="$regression_root/blocked-output"
+mkdir -p "$blocked_tmp" "$blocked_output"
+set +e
+PATH="$blocked_rm_bin:$fake_bin:$PATH" TMPDIR="$blocked_tmp" "$script" \
+  --repository xinglun/ai-cockpit --from-tag v0.2.5 --to-tag v0.2.6 \
+  --target x86_64-unknown-linux-gnu --output "$blocked_output" \
+  --source-repo "$(git rev-parse --show-toplevel)" >/dev/null 2>&1
+blocked_exit=$?
+set -e
+[[ "$blocked_exit" -eq 1 ]] || { printf 'upgrade cleanup-failure path must preserve the acceptance exit code\n' >&2; exit 1; }
+jq -e '.adopterAcceptance == "failed" and .releasePublished == false and .cleanupState == "failed" and (.cleanupError | length) > 0' "$blocked_output/acceptance.json" >/dev/null
+jq -e '.state == "failed" and .removed == false and .validated == true' "$blocked_output/cleanup.json" >/dev/null
+(cd "$blocked_output" && shasum -a 256 -c SHA256SUMS >/dev/null)
+[[ -n "$(find "$blocked_tmp" -mindepth 1 -maxdepth 1 -type d -name 'ai-cockpit-n-minus-one.*' -print -quit)" ]] || {
+  printf 'upgrade cleanup-failure regression did not leave the forced failure root for inspection\n' >&2
+  exit 1
+}
+find "$blocked_tmp" -depth -mindepth 0 -delete
 echo 'adopter upgrade acceptance static checks passed'

@@ -101,6 +101,13 @@ workspace or local Runtime binary. A failed post-release acceptance records
 the already-published Release. Coverage for a second technology stack is a
 separate future Work Item.
 
+After the receipt outputs are finalized, every success, failure, or interruption
+path removes only its validated temporary `run_root`. `cleanup.json` and the
+`cleanupState`/`cleanupError` fields in `acceptance.json` record the cleanup
+result; a cleanup failure never changes the acceptance truth. Target and
+platform remain explicit, including the Linux x86_64 baseline when that target
+is selected.
+
 To prevent a release from leaving configuration or documentation behind, the
 release workflow derives the current version from Cargo metadata and runs
 `tests/release/version_consistency.sh`. The source check validates all three
