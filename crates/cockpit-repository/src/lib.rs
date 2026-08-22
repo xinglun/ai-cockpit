@@ -3270,6 +3270,15 @@ fn create_work_item_scaffold(
     });
     let active = ai.join("work-items/active");
     let archive = ai.join("work-items/archive");
+    // A repository may legitimately have no active Work Items after all
+    // previous work has been archived.  Scaffolding a new item must restore
+    // the protocol directories instead of failing on the first atomic write.
+    for directory in [&active, &archive] {
+        fs::create_dir_all(directory).map_err(|source| ObserverError::Read {
+            path: directory.clone(),
+            source,
+        })?;
+    }
     let contract_path = active.join(format!("{}.contract.json", input.work_item_id));
     if [
         contract_path.clone(),

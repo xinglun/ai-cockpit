@@ -123,6 +123,11 @@ attach/profile/Agent doctor、`first-adopter-smoke` の `not_ready`、Work Item 
 `SHA256SUMS` を出力します。workspace や local Runtime binary は使いません。post-release acceptance が失敗しても
 `releasePublished: true` と `adopterAcceptance: failed` を記録し、公開済み Release を書き換えません。second technology stack は別の Work Item です。
 
+Release 後に configuration や documentation の version が取り残されないように、release workflow は
+Cargo metadata から current version を解決し、`tests/release/version_consistency.sh` を実行します。
+source check は三言語の route と archive example を検証し、post-release check は公開 Release の manifest
+と asset name を検証します。過去の N-1 reference は明示的に保持され、current baseline と混同されません。
+
 ## Manual archive install
 
 macOS/Linux では対応する `.tar.gz` と `SHA256SUMS` を download し、Rust target を選び、archive を
