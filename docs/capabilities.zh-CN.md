@@ -168,6 +168,11 @@ ai-cockpit work-item new --repo /path/to/repository \
 `not_ready`，不会生成 `passed`、`approved`、`verified` 或 `completed`。CLI 会直接列出已知事实和仍需人类输入的字段。
 旧的 `start` 命令仍可用，但会复用同一底层 scaffold writer 并接受显式人类字段。
 
+骨架创建会按 repository 和 Work Item ID 使用 repository-local 的独占 reservation 串行化。
+如果两个 `work-item new` 同时竞争同一个 ID，只允许一个创建 Contract 与 summary，另一个必须
+fail closed；成功提交成对文件后 reservation 会被清理。不同 repository 的 reservation 相互独立，
+可以并行创建相同 ID。
+
 ### 提议 profile amendment
 
 ```bash

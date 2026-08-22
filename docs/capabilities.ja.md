@@ -169,6 +169,11 @@ ai-cockpit work-item new --repo /path/to/repository \
 `not_ready` になり、`passed`、`approved`、`verified`、`completed` は生成しません。CLI は既知の fact と不足している
 人間入力を表示します。移行期の `start` は同じ scaffold writer を明示的な human field とともに使います。
 
+skeleton の作成は repository と Work Item ID ごとに repository-local の exclusive reservation で
+直列化されます。同じ ID に対する `work-item new` が競合した場合、Contract と summary を作成できるのは
+正確に 1 件だけで、もう 1 件は fail closed になります。ペアのファイルが commit された後に reservation
+は削除されます。異なる repository では reservation が分離され、同じ ID を並行して作成できます。
+
 ### Profile amendment を提案する
 
 ```bash

@@ -1,7 +1,10 @@
 use std::{
     fs,
     process::Command,
-    sync::atomic::{AtomicU64, Ordering},
+    sync::{
+        Arc, Barrier,
+        atomic::{AtomicU64, Ordering},
+    },
     time::{SystemTime, UNIX_EPOCH},
 };
 
@@ -139,6 +142,167 @@ fn new_work_item_reports_facts_and_keeps_human_decisions_empty() {
     assert!(preflight.status.success());
     let decision: serde_json::Value = serde_json::from_slice(&preflight.stdout).expect("decision");
     assert_ne!(decision["state"], "Green");
+    fs::remove_dir_all(root).expect("cleanup");
+}
+
+#[test]
+fn concurrent_work_item_new_same_id_has_exactly_one_success() {
+    let root = repository();
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let attach = Command::new(binary)
+        .args(["attach", "--repo"])
+        .arg(&root)
+        .output()
+        .expect("attach");
+    assert!(
+        attach.status.success(),
+        "stderr: {}",
+        String::from_utf8_lossy(&attach.stderr)
+    );
+
+    for attempt in 0..32 {
+        let id = format!("duplicate-race-{attempt}");
+        let barrier = Arc::new(Barrier::new(2));
+        let first_id = id.clone();
+        let first_root = root.clone();
+        let first_barrier = Arc::clone(&barrier);
+        let first = std::thread::spawn(move || {
+            first_barrier.wait();
+            Command::new(binary)
+                .args(["work-item", "new", "--repo"])
+                .arg(first_root)
+                .args(["--id", first_id.as_str(), "--mode", "code"])
+                .output()
+                .expect("first scaffold process")
+        });
+        let second_id = id.clone();
+        let second_root = root.clone();
+        let second_barrier = Arc::clone(&barrier);
+        let second = std::thread::spawn(move || {
+            second_barrier.wait();
+            Command::new(binary)
+                .args(["work-item", "new", "--repo"])
+                .arg(second_root)
+                .args(["--id", second_id.as_str(), "--mode", "code"])
+                .output()
+                .expect("second scaffold process")
+        });
+
+        let first = first.join().expect("first scaffold thread");
+        let second = second.join().expect("second scaffold thread");
+        let successes = [first.status.success(), second.status.success()]
+            .into_iter()
+            .filter(|success| *success)
+            .count();
+        assert_eq!(
+            successes,
+            1,
+            "same-repository duplicate race must have exactly one success; first stderr: {}; second stderr: {}",
+            String::from_utf8_lossy(&first.stderr),
+            String::from_utf8_lossy(&second.stderr)
+        );
+
+        let active = root.join(".ai/work-items/active");
+        assert!(active.join(format!("{id}.contract.json")).is_file());
+        assert!(active.join(format!("{id}.summary.json")).is_file());
+        assert!(!active.join(format!(".{id}.scaffold.reserve")).exists());
+    }
+
+    fs::remove_dir_all(root).expect("cleanup");
+}
+
+#[test]
+fn concurrent_work_item_new_same_id_isolated_between_repositories() {
+    let first_root = repository();
+    let second_root = repository();
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    for root in [&first_root, &second_root] {
+        let attach = Command::new(binary)
+            .args(["attach", "--repo"])
+            .arg(root)
+            .output()
+            .expect("attach");
+        assert!(
+            attach.status.success(),
+            "stderr: {}",
+            String::from_utf8_lossy(&attach.stderr)
+        );
+    }
+
+    let barrier = Arc::new(Barrier::new(2));
+    let first_root_for_thread = first_root.clone();
+    let first_barrier = Arc::clone(&barrier);
+    let first = std::thread::spawn(move || {
+        first_barrier.wait();
+        Command::new(binary)
+            .args(["work-item", "new", "--repo"])
+            .arg(first_root_for_thread)
+            .args(["--id", "same-id", "--mode", "code"])
+            .output()
+            .expect("first repository scaffold")
+    });
+    let second_root_for_thread = second_root.clone();
+    let second_barrier = Arc::clone(&barrier);
+    let second = std::thread::spawn(move || {
+        second_barrier.wait();
+        Command::new(binary)
+            .args(["work-item", "new", "--repo"])
+            .arg(second_root_for_thread)
+            .args(["--id", "same-id", "--mode", "code"])
+            .output()
+            .expect("second repository scaffold")
+    });
+
+    let first = first.join().expect("first repository thread");
+    let second = second.join().expect("second repository thread");
+    assert!(
+        first.status.success(),
+        "first stderr: {}",
+        String::from_utf8_lossy(&first.stderr)
+    );
+    assert!(
+        second.status.success(),
+        "second stderr: {}",
+        String::from_utf8_lossy(&second.stderr)
+    );
+
+    for root in [first_root.as_path(), second_root.as_path()] {
+        let active = root.join(".ai/work-items/active");
+        assert!(active.join("same-id.contract.json").is_file());
+        assert!(active.join("same-id.summary.json").is_file());
+        assert!(!active.join(".same-id.scaffold.reserve").exists());
+        fs::remove_dir_all(root).expect("cleanup");
+    }
+}
+
+#[test]
+fn work_item_new_existing_id_fails_closed_without_reservation_left_behind() {
+    let root = repository();
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let first = Command::new(binary)
+        .args(["work-item", "new", "--repo"])
+        .arg(&root)
+        .args(["--id", "existing-id", "--mode", "code"])
+        .output()
+        .expect("first scaffold");
+    assert!(
+        first.status.success(),
+        "stderr: {}",
+        String::from_utf8_lossy(&first.stderr)
+    );
+    let second = Command::new(binary)
+        .args(["work-item", "new", "--repo"])
+        .arg(&root)
+        .args(["--id", "existing-id", "--mode", "code"])
+        .output()
+        .expect("duplicate scaffold");
+    assert!(!second.status.success());
+    assert!(String::from_utf8_lossy(&second.stderr).contains("already exists"));
+    assert!(
+        !root
+            .join(".ai/work-items/active/.existing-id.scaffold.reserve")
+            .exists()
+    );
     fs::remove_dir_all(root).expect("cleanup");
 }
 

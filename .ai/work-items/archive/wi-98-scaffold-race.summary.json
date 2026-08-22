@@ -1,0 +1,56 @@
+{
+  "changedFiles": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/tests/work_item_scaffold.rs",
+    "docs/capabilities.md",
+    "docs/capabilities.zh-CN.md",
+    "docs/capabilities.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md"
+  ],
+  "changedPaths": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/tests/work_item_scaffold.rs",
+    "docs/capabilities.md",
+    "docs/capabilities.zh-CN.md",
+    "docs/capabilities.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md"
+  ],
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T01:01:20Z",
+  "mode": "implementation",
+  "observedIssues": [],
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "sourcesUsed": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/tests/work_item_scaffold.rs"
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-22T01:10:06Z",
+  "verification": [
+    {
+      "command": "cargo test -p cockpit-cli --test work_item_scaffold",
+      "passed": true
+    },
+    {
+      "command": "cargo test --workspace",
+      "passed": true
+    },
+    {
+      "command": "cargo clippy --workspace --all-targets -- -D warnings",
+      "passed": true
+    },
+    {
+      "command": "bash tests/docs/documentation_acceptance.sh",
+      "passed": true
+    }
+  ],
+  "workItemId": "wi-98-scaffold-race"
+}

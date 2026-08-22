@@ -44,6 +44,9 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
 - `work-item new --repo <path> --id <id> --mode <mode>` creates a `not_ready`
   skeleton. It fills only snapshot-derived facts and leaves human-owned fields
   empty or `unknown`; `start` remains a compatibility path over the same writer.
+  A repository-local exclusive reservation makes duplicate races fail closed:
+  one same-ID request succeeds, the other fails, while different repositories
+  remain independent.
 - `work-item outcome --repo <path> --id <id>` presents the result in the order
   completed work, problems, stops, risks, unknowns, decisions, verification,
   impact, and next action. Use `--json` for automation. See [Human-facing
