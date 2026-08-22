@@ -44,3 +44,12 @@ digest 不一致は赤色です。同じ検証を `finish`、`archive`、`close`
 CLI の直接出力は `AI_COCKPIT_LANGUAGE`、次にプロセス locale を使用します。Agent
 の会話では利用者の言語で同じ handoff を表示します。JSON のフィールド名と enum
 値は言語に依存せず安定しています。
+
+## MCP の human handoff
+
+Agent が人間に結果を示す場合、明示的な `workItemId` を指定して repository-bound の
+`work_item_outcome` を呼び出します。text content は CLI と同じ localized handoff であり、raw JSON dump
+ではありません。`structuredContent.outcome` は安定した OutcomeV2 object のままです。
+`humanHandoff` は presentation projection であり、merge、release、human decision を認可しません。
+`work_item_get` は machine record lookup です。任意の `language` で `en`、`zh`、`ja` の Runtime label を
+選択できますが、Contract source text は変更されません。

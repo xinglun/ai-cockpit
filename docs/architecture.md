@@ -195,3 +195,15 @@ repository services, evidence, verification, knowledge, and adapters in separate
 crates. CLI and MCP share the same repository services. Repository Protocol
 versioning is independent from runtime versioning, and runtime code is never
 installed into an adopter repository.
+
+### Agent handoff and isolation evidence
+
+The repository-bound MCP adapter exposes `work_item_outcome` beside the raw
+`work_item_get` lookup. It calls the same validated OutcomeV2 and human
+renderer as the CLI, so text content includes the visible marker, unknowns,
+evidence, structured human decision projection, and next action. `language`
+localizes Runtime-generated presentation only; Contract source text and
+machine JSON remain unchanged. Release acceptance additionally records
+file/directory/symlink metadata and digests for every isolated root: HOME and
+XDG_CONFIG_HOME are forbidden-write roots, while TMPDIR and CARGO_HOME are
+explicitly classified runtime-write roots.

@@ -42,3 +42,11 @@ capabilityClaims:
 
 CLI 直接输出优先使用 `AI_COCKPIT_LANGUAGE`，其次使用进程 locale。Agent 对话应
 使用用户当前语言。JSON 字段名和枚举值在不同语言之间保持稳定。
+
+## MCP 面向人的 handoff
+
+Agent 需要向人展示结果时，必须使用明确 `workItemId` 调用 repository-bound
+`work_item_outcome`。其文本 content 与 CLI 使用相同的本地化 handoff，而不是原始 JSON dump。
+`structuredContent.outcome` 仍是稳定的 OutcomeV2 对象；`humanHandoff` 只是 presentation projection，
+不能授权 merge、release 或人工决定。`work_item_get` 仍是面向机器的记录查询。可选 `language` 用于选择
+`en`、`zh` 或 `ja` 的 Runtime 标签；Contract 原文保持不变。

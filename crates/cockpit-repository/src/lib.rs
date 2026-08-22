@@ -34,6 +34,10 @@ use std::sync::{Arc, Mutex, OnceLock};
 use std::time::{Instant, SystemTime, UNIX_EPOCH};
 use thiserror::Error;
 
+mod outcome_render;
+
+pub use outcome_render::render_human_outcome;
+
 static NEXT_ATOMIC_WRITE_ID: AtomicU64 = AtomicU64::new(0);
 static NEXT_REPOSITORY_ID: AtomicU64 = AtomicU64::new(0);
 const MAX_RECEIPT_INDEX_BYTES: u64 = 8 * 1024 * 1024;

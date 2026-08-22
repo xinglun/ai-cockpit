@@ -182,3 +182,12 @@ local record を external control の proof として使う場合は停止しま
 Rust workspace は protocol type、pure governance core、Git access、repository service、evidence、
 verification、knowledge、adapter を別 crate に分けます。CLI と MCP は同じ repository service を共有します。
 Repository Protocol version は runtime version と独立し、runtime code を adopter repository に install しません。
+
+### Agent handoff と isolation evidence
+
+repository-bound MCP adapter は raw `work_item_get` lookup に加えて `work_item_outcome` を提供します。
+これは CLI と同じ validated OutcomeV2 と human renderer を使うため、text content に status marker、unknown、
+evidence、structured human decision projection、次の action が表示されます。`language` は Runtime が生成する
+presentation だけを localize し、Contract source text と machine JSON は変更しません。Release acceptance は
+各 isolated root の file、directory、symlink metadata と digest も記録します。HOME と XDG_CONFIG_HOME は
+write forbidden root、TMPDIR と CARGO_HOME は明示的に分類された Runtime write root です。

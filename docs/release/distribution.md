@@ -115,6 +115,12 @@ result; a cleanup failure never changes the acceptance truth. Target and
 platform remain explicit, including the Linux x86_64 baseline when that target
 is selected.
 
+The isolation receipt includes typed before/after manifests for files,
+directories, symlinks, metadata, and digests. HOME and XDG_CONFIG_HOME are
+forbidden-write roots. TMPDIR and CARGO_HOME are explicitly classified as
+allowed Runtime-write roots; their writes are recorded rather than mistaken
+for global configuration writes.
+
 To prevent a release from leaving configuration or documentation behind, the
 release workflow derives the current version from Cargo metadata and runs
 `tests/release/version_consistency.sh`. The source check validates all three
@@ -244,6 +250,10 @@ after reviewing the target Work Item:
 ```bash
 ai-cockpit attach --repo /path/to/repository
 ```
+
+For a person-facing MCP result, call `work_item_outcome` with an explicit
+`workItemId` and optional `language`. Its text content is the same human
+handoff as the CLI; `work_item_get` remains a raw machine lookup.
 
 An illustrative MCP client configuration is:
 

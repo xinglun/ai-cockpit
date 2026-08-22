@@ -1,0 +1,42 @@
+{
+  "acceptanceResults": [
+    "MCP exposes a repository-bound human Outcome handoff using the same validated outcome_v2 and renderer semantics as the CLI including localized markers structured decisions evidence references and a visible next action.",
+    "MCP machine JSON remains stable and repository-bound; the human handoff never changes Contract bytes or invents governance decisions.",
+    "CLI and MCP human Outcome projections have parity tests for English Chinese and Japanese including valid missing and invalid human decision records.",
+    "Release adopter and upgrade isolation evidence records files directories symlinks metadata and SHA-256 digests for source and explicitly isolated runtime roots; allowed TMPDIR and CARGO_HOME writes are classified and cannot mask source or global-config writes.",
+    "Isolation regression tests cover file directory symlink metadata and digest mutations success and failure cleanup and leave no temporary run roots behind.",
+    "Trilingual architecture capabilities release operations feature and Outcome reference documentation describes the MCP human handoff boundary and isolation evidence model.",
+    "All targeted tests formatting clippy workspace tests release static tests and Runtime lifecycle checks pass."
+  ],
+  "createdAt": "2026-08-22T03:33:12Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:95d99ccbe20f3c41b060ac2918540475e5b1ebebc5f24b62e54ca528a4739f84",
+  "evidenceRefs": [
+    ".ai/evidence/WI-111-mcp-handoff-isolation.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-111-mcp-handoff-isolation.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-111-mcp-handoff-isolation.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-111-mcp-handoff-isolation"
+}

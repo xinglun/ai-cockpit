@@ -23,6 +23,9 @@ grep -q -- 'cleanup_run_root' "$script"
 grep -q -- 'cleanupState' "$script"
 grep -q -- 'cleanup.json' "$script"
 grep -q -- 'rm -rf --' "$script"
+grep -q -- 'isolation_manifest.sh' "$script"
+grep -q -- 'manifest_tree' "$script"
+grep -q -- 'schemaVersion:2' "$script"
 if grep -Eq 'cargo (build|run)|target/debug/ai-cockpit|workspace binary' "$script"; then
   echo 'upgrade acceptance must not fall back to source builds or workspace binaries' >&2
   exit 1

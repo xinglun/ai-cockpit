@@ -25,5 +25,10 @@ The v0.2.7 public adopter acceptance baseline is complete only for
 unless a separate acceptance run is recorded. Legacy evidence remains historical
 and must not be promoted to fresh green verification.
 
+For MCP result delivery, use `work_item_outcome` for the visible human handoff
+and retain `work_item_get` for machine lookup. Release adopter receipts must
+include the typed isolation manifests and cleanup proof; allowed temporary
+writes are limited to the explicitly isolated TMPDIR and CARGO_HOME roots.
+
 [Current route](../current/README.md) | [Getting started](../getting-started/README.md) |
 [中文](README.zh-CN.md) | [日本語](README.ja.md)

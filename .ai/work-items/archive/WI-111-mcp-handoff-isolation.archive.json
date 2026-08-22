@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-08-22T03:33:16Z",
+  "files": {
+    "contractDigest": "sha256:d2305038b3286c4097845dfdf8cd7e8fc4034ccf6ca7aa2302956c80a4b9dfd1",
+    "contractPath": ".ai/work-items/archive/WI-111-mcp-handoff-isolation.contract.json",
+    "outcomeDigest": "sha256:7169f1b0176787742e6a26eeb76501de9206e477cf59fe64a5b70736746bbe00",
+    "outcomePath": ".ai/work-items/archive/WI-111-mcp-handoff-isolation.outcome.json",
+    "summaryDigest": "sha256:a01aa77feac3073a549e0ccca876d6137bee658e5afebd78526ee45cbbe66b88",
+    "summaryPath": ".ai/work-items/archive/WI-111-mcp-handoff-isolation.summary.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-111-mcp-handoff-isolation"
+}

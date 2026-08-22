@@ -20,3 +20,31 @@ command. Query `inspect`, `status`, and `doctor` before acting; use the Work Ite
 lifecycle `start → preflight → checkpoint → verify → finish → archive → close`
 for authorized changes. Do not infer state from this file, edit global Agent or
 MCP configuration, or claim governance outcomes without current Runtime evidence.
+
+## Outcome and release acceptance boundaries
+
+When an Agent needs a result for a person, use the human Outcome handoff
+(`work-item outcome` or the repository-bound MCP `work_item_outcome` tool).
+`work_item_get` is a machine-oriented record lookup and is not a substitute for
+the visible handoff. Preserve Contract acceptance criteria in their original
+language; presentation localization must not alter governance facts or create
+human decisions.
+
+Release adopter acceptance must retain its isolation receipt and manifests.
+HOME and XDG_CONFIG_HOME are forbidden-write roots; TMPDIR and CARGO_HOME are
+explicitly isolated, classified runtime-write roots. A passing receipt must bind
+the source repository, repository identity, root manifests, metadata, and
+digests, and must prove the temporary run root was cleaned up.
+
+## Work Item change discipline
+
+Use one active Work Item, one dedicated branch, and one pull request for a
+change. Start the branch from the latest remote default branch and keep the
+Contract scope, out-of-scope boundary, evidence, and verification commands
+current. If an in-scope defect is discovered, amend and verify the current
+Contract before opening another Work Item; do not hide it in a later task.
+
+Merge only the reviewed PR after its hosted checks pass. Do not use local-main
+as a substitute for pre-merge review. After merge, synchronize the default
+branch, prove the Work Item is closed, and remove only the exact merged branch
+and worktree after cleanup is verified.

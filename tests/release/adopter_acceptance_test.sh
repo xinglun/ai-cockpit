@@ -3,8 +3,11 @@ set -euo pipefail
 
 script="$(cd "$(dirname "$0")" && pwd)/adopter_acceptance.sh"
 repo="$(git rev-parse --show-toplevel)"
+manifest_test="$(cd "$(dirname "$0")" && pwd)/isolation_manifest_test.sh"
 
 bash -n "$script"
+bash -n "$manifest_test"
+bash "$manifest_test"
 grep -q -- '--repository OWNER/REPOSITORY' "$script"
 grep -q -- 'releasePublished' "$script"
 grep -q -- 'first-adopter-smoke' "$script"
@@ -14,6 +17,9 @@ grep -q -- 'cleanup_run_root' "$script"
 grep -q -- 'cleanupState' "$script"
 grep -q -- 'cleanup.json' "$script"
 grep -q -- 'rm -rf --' "$script"
+grep -q -- 'isolation_manifest.sh' "$script"
+grep -q -- 'manifest_tree' "$script"
+grep -q -- 'schemaVersion:2' "$script"
 if grep -Eq 'cargo[[:space:]]+(build|run)' "$script"; then
   printf 'acceptance harness must not obtain Runtime through cargo build/run\n' >&2
   exit 1

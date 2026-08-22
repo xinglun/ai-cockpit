@@ -176,3 +176,11 @@ MCP 进程也必须用同一显式 repository 绑定启动；repository-local ma
 Rust workspace 将 protocol type、纯 governance core、Git access、repository service、evidence、
 verification、knowledge 和 adapter 分成独立 crate。CLI 与 MCP 共享相同的 repository service。
 Repository Protocol version 独立于 runtime version；runtime code 永远不会被安装进 adopter repository。
+
+### Agent handoff 与隔离证据
+
+repository-bound MCP adapter 除了原始 `work_item_get` 查询，还提供 `work_item_outcome`。它调用与 CLI
+相同的已校验 OutcomeV2 和 human renderer，因此文本 content 会显示状态标记、unknown、证据、结构化人工
+决定投影和下一步。`language` 只本地化 Runtime 生成的 presentation；Contract 原文和机器 JSON 保持不变。
+发布验收还会为每个隔离 root 记录文件、目录、symlink 的 metadata 与 digest：HOME 和 XDG_CONFIG_HOME
+是禁止写入的 root，TMPDIR 和 CARGO_HOME 是明确分类的 Runtime 写入 root。

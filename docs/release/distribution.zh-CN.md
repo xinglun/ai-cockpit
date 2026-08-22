@@ -98,6 +98,10 @@ attach/profile/Agent doctor，保持 `first-adopter-smoke` 为 `not_ready`，验
 `cleanup.json` 以及 `acceptance.json` 中的 `cleanupState` / `cleanupError` 记录清理结果；清理失败不会改写验收 truth。
 target 与 platform 始终显式记录；选择 Linux x86_64 target 时也遵循同一验收基线。
 
+隔离 receipt 包含文件、目录、symlink、metadata 与 digest 的 typed before/after manifest。HOME 和
+XDG_CONFIG_HOME 是禁止写入的 root；TMPDIR 与 CARGO_HOME 明确分类为允许 Runtime 写入的 root，相关写入
+会被记录，不会被误认为全局配置写入。
+
 为避免发布后遗漏配置或文档版本，release workflow 会从 Cargo metadata 推导当前版本，并运行
 `tests/release/version_consistency.sh`。source check 会校验三种语言的入口和当前 archive 示例，
 post-release check 会校验公开 Release 的 manifest 与 asset 名称。历史 N-1 引用会明确保留，不会被误认为当前基线。
@@ -207,6 +211,9 @@ ai-cockpit mcp --repo /path/to/attached-repository
 ```bash
 ai-cockpit attach --repo /path/to/repository
 ```
+
+需要面向人的 MCP 结果时，使用明确 `workItemId` 和可选 `language` 调用 `work_item_outcome`。其文本 content
+与 CLI 使用相同的 human handoff；`work_item_get` 仍是原始机器查询。
 
 MCP client 配置示例（不同 client 的配置键可能不同）：
 

@@ -23,5 +23,8 @@ capabilityClaims:
 v0.2.7 的公开 adopter acceptance 基线只有 `x86_64-unknown-linux-gnu` 完整通过；其他 Release target
 只有 build 或 smoke evidence，除非另有独立验收记录。历史 evidence 仍是历史资料，不能提升为新的 green verification。
 
+通过 MCP 交付结果时，用 `work_item_outcome` 输出面向人的 handoff，用 `work_item_get` 做机器查询。发布
+adopter receipt 必须包含带类型的隔离 manifest 和清理证明；允许的临时写入只限于明确隔离的 TMPDIR 与 CARGO_HOME。
+
 [当前路线](../current/README.zh-CN.md) | [快速开始](../getting-started/README.zh-CN.md) |
 [English](README.md) | [日本語](README.ja.md)
