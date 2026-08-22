@@ -1,0 +1,21 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "user-authorized-maintainer",
+    "authoritySource": "explicit-user-instruction",
+    "decidedAt": "2026-08-22T08:41:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-122-scenarios-acceptance-final-dimensions.verification.json"
+    ],
+    "policyRefs": [
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "Reviewed PR #56, hosted CI passed, Runtime evidence and governance control validation are complete; retain the explicit unknown user-visible benefit.",
+    "resumeCondition": "Reopen if scenario, acceptance-evidence, final-dimension, or preflight regression is found."
+  },
+  "timestamp": "2026-08-22T08:40:29Z",
+  "workItemId": "WI-122-scenarios-acceptance-final-dimensions"
+}
