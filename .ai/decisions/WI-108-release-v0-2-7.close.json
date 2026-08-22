@@ -1,0 +1,23 @@
+{
+  "decisionState": "confirmed",
+  "humanDecision": "approved",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:owner",
+    "authoritySource": "release-policy",
+    "decidedAt": "2026-08-22T03:04:24Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/release-v0.2.7/adopter/acceptance.json",
+      ".ai/evidence/release-v0.2.7/upgrade/acceptance.json",
+      ".ai/evidence/release-v0.2.7/self/runtime.json"
+    ],
+    "policyRefs": [
+      "docs/release/distribution.md"
+    ],
+    "reason": "v0.2.7 public Release, public adopter acceptance, N-1 acceptance, and installed self-governance checks passed.",
+    "resumeCondition": "If any public artifact identity, acceptance receipt, or installed Runtime health check is invalid, reopen a corrective Work Item."
+  },
+  "timestamp": "2026-08-22T03:04:24Z",
+  "workItemId": "WI-108-release-v0-2-7"
+}

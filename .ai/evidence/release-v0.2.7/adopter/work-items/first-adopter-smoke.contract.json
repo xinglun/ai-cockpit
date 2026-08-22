@@ -1,0 +1,19 @@
+{
+  "acceptanceCriteria": [],
+  "authority": "unknown",
+  "baseRevision": "44e9ed9e61e631594bbcdfe9cf362a98f63c57db",
+  "createdAt": "2026-08-22T02:56:21Z",
+  "goal": "",
+  "intent": "",
+  "mode": "code",
+  "outOfScope": [],
+  "projectProfileDigest": "sha256:c4c106e2e188026266ae40f9ee13a95f7bf3efdd2ec91976f009117d10e4d88c",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:d5d124870d39bf36f1b10ca0ebe1eddeeeaa12983c13d2f6f4c71a3085c240fe",
+  "repositorySnapshotDigest": "sha256:2228231c45a225be451f10212211308d1270c73f32e9bcdde91bcb8d2837192a",
+  "requiredEvidenceClasses": [],
+  "risk": "unknown",
+  "scope": [],
+  "state": "not_ready",
+  "workItemId": "first-adopter-smoke"
+}

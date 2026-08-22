@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "sourceRepository": "/home/runner/work/ai-cockpit/ai-cockpit",
+  "sourceAiDigest": "sha256:0c853e8218af0a93ac53d078b34abd519d54e8a77667fe5ab6fbbfd4c388d03d",
+  "sourceBeforeStatus": "",
+  "sourceAfterStatus": "",
+  "adopterRepository": "/tmp/ai-cockpit-n-minus-one.jeGHRU/adopter",
+  "repositoryId": "sha256:df0e9c11c1636cd814719078d775cb79a485a98ac5775fae523bdac4ff2f1794",
+  "homeUnchanged": true,
+  "xdgConfigUnchanged": true,
+  "sourceUnchanged": true,
+  "repositoryIsolation": true,
+  "releasePublished": true
+}
