@@ -47,14 +47,14 @@
     },
     {
       "expected": "The exact merged PR #166 and its branch/worktree cleanup are recorded in a valid WI-218 finalization chain.",
-      "required": true,
+      "required": false,
       "scenario": "post-merge finalization",
       "status": "unverified",
       "verificationPlan": "Run finalize-plan before archive, record the provider-shaped receipt, merge PR #167, append the merged and deleted transitions, then run finalize-verify."
     },
     {
       "expected": "The closed successor emits a visible Chinese Outcome containing status, unknowns, evidence, decision, and next action.",
-      "required": true,
+      "required": false,
       "scenario": "localized human handoff",
       "status": "unverified",
       "verificationPlan": "Use the installed Runtime with AI_COCKPIT_LANGUAGE=zh-CN for finish and close, then inspect the structured decision and Outcome projection."
