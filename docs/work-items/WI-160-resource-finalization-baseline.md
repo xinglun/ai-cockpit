@@ -39,9 +39,9 @@ open for recovery. `retain` is allowed only as an explicit, bounded human
 decision with owner, reason, scope, and expiry/review condition; it is never a
 silent cleanup success. `close` before successful finalization is forbidden.
 
-Runtime `0.2.17` does not expose these names as CLI commands. This Work Item
-adds a docs/static policy baseline only; Runtime command, receipt, and provider
-integration are pending a separately scoped Runtime Work Item.
+Runtime `0.2.17` now exposes these commands; WI-159 supplies the typed Runtime
+command and receipt integration. WI-161 adds the historical-evidence close
+compatibility rule without rewriting archived bytes.
 
 Verification: `.ai/evidence/WI-160-resource-finalization-baseline.verification.json`.
 Archive: `.ai/work-items/archive/WI-160-resource-finalization-baseline.archive.json`.
@@ -52,8 +52,8 @@ Decision: `.ai/decisions/WI-160-resource-finalization-baseline.close.json`.
 - Three-language `agent-workflow` and `reference-parity` contract language.
 - A static/regression gate at `tests/workflow/resource_finalization_policy.sh`
   and its test wrapper.
-- A tri-lingual Work Item description of the boundary and its pending-runtime
-  status.
+- A tri-lingual Work Item description of the boundary and its Runtime evidence
+  compatibility status.
 
 ## Out of scope
 
@@ -66,9 +66,9 @@ Decision: `.ai/decisions/WI-160-resource-finalization-baseline.close.json`.
 
 1. All three workflow pages require `finalize-plan`, `finalize`, and
    `finalize-verify`, preserve `unknown`/`retain`, forbid silent deletion and
-   close-before-cleanup, and label Runtime integration as pending.
-2. All three parity pages state the same partial boundary and do not claim the
-   Runtime already exposes the proposed commands.
+   close-before-cleanup, and describe the Runtime command boundary.
+2. All three parity pages state the same implemented boundary and identify the
+   historical-evidence compatibility rule.
 3. The static gate passes for the repository and fails when a required closure
    rule is removed from any language page.
 4. The change remains limited to `docs/` and `tests/`; no Runtime source or
@@ -77,6 +77,5 @@ Decision: `.ai/decisions/WI-160-resource-finalization-baseline.close.json`.
 ## Verification
 
 Run `tests/workflow/resource_finalization_policy_test.sh` and the repository
-documentation acceptance gate. Runtime lifecycle evidence will bind this
-Contract and the resulting verification receipt; CLI integration remains a
-future Work Item.
+documentation acceptance gate. Runtime lifecycle evidence binds this Contract
+and the resulting verification receipt; historical evidence remains immutable.

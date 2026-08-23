@@ -26,7 +26,10 @@ for path in \
   docs/reference/reference-parity.zh-CN.md \
   docs/work-items/WI-160-resource-finalization-baseline.md \
   docs/work-items/WI-160-resource-finalization-baseline.ja.md \
-  docs/work-items/WI-160-resource-finalization-baseline.zh-CN.md; do
+  docs/work-items/WI-160-resource-finalization-baseline.zh-CN.md \
+  docs/work-items/WI-161-historical-runtime-close.md \
+  docs/work-items/WI-161-historical-runtime-close.ja.md \
+  docs/work-items/WI-161-historical-runtime-close.zh-CN.md; do
   mkdir -p "$fixture/$(dirname "$path")"
   cp "$root/$path" "$fixture/$path"
 done

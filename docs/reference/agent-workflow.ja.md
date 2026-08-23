@@ -89,9 +89,13 @@ branch と worktree は別の resource-finalization 境界で処理します。
 finalize-plan → finalize → finalize-verify → close
 ```
 
-これは WI-160 の policy baseline であり、Runtime `0.2.17` が提供する command
-ではありません。Runtime 統合は後続の明示的な Work Item で保留します。この文書と
-static gate は CLI が既に実装済みだとは主張しません。
+これは Runtime が提供する command です。すべて `--repo` を明示し、型付きで
+identity-bound な context/receipt を要求します。暗黙の削除は行いません。Work Item は
+verification 後にだけ archive でき、`finalize-verify` が `Deleted` または明示的に認可された
+`Retained` receipt を受理した後にだけ close できます。Archived verification evidence は
+不変の historical truth として保持され、Runtime upgrade 後に current result として再検証
+されません。一方、新しい finalization receipt は close を実行する Runtime に必ず bind
+されます。
 
 - `finalize-plan` は正確な Work Item branch/worktree、provider PR、merge head、
   remote、default branch、cleanup 計画を記録します。branch や worktree を削除しません。

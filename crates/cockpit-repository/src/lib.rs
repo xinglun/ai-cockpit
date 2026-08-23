@@ -6291,11 +6291,21 @@ fn governance_decision_for_archived_contract_internal(
     snapshot: &RepositorySnapshot,
     current_runtime: Option<&RuntimeContext>,
 ) -> Result<GovernanceDecision, ObserverError> {
+    // Archived evidence remains immutable historical truth.  A Runtime
+    // upgrade must not turn an otherwise valid archived Contract red merely
+    // because its receipt was produced by an older executable.  Active
+    // Work Items still use the strict current-runtime binding below.
+    let effective_runtime =
+        if archived_evidence_is_historical(root, contract, snapshot, current_runtime)? {
+            None
+        } else {
+            current_runtime
+        };
     governance_decision_for_contract_internal_with_archive(
         root,
         contract,
         snapshot,
-        current_runtime,
+        effective_runtime,
         true,
     )
 }
@@ -6985,6 +6995,30 @@ fn verification_evidence_state(
         }
     }
     Ok(EvidenceState::Complete)
+}
+
+/// Return true when an archived receipt is integrity-valid as historical
+/// evidence but was produced by a different Runtime identity.  This is an
+/// explicit compatibility lane: active Work Items never call it, and callers
+/// must still require a fresh current Runtime receipt for any new operation
+/// such as resource finalization.
+fn archived_evidence_is_historical(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+    current_runtime: Option<&RuntimeContext>,
+) -> Result<bool, ObserverError> {
+    let Some(current_runtime) = current_runtime else {
+        return Ok(false);
+    };
+    if verification_evidence_state(root, contract, snapshot, true, None)? != EvidenceState::Complete
+    {
+        return Ok(false);
+    }
+    Ok(
+        verification_evidence_state(root, contract, snapshot, true, Some(current_runtime))?
+            != EvidenceState::Complete,
+    )
 }
 
 /// Validate the policy route projection embedded in a typed verification
@@ -8147,9 +8181,11 @@ fn close_work_item_with_structured_decision_internal(
             path: root.clone(),
             message: error.to_string(),
         })?;
-        if verification_evidence_state(&root, &contract, &snapshot, true, current_runtime)?
-            != EvidenceState::Complete
-        {
+        let evidence_state =
+            verification_evidence_state(&root, &contract, &snapshot, true, current_runtime)?;
+        let historical_compatible = evidence_state != EvidenceState::Complete
+            && archived_evidence_is_historical(&root, &contract, &snapshot, current_runtime)?;
+        if evidence_state != EvidenceState::Complete && !historical_compatible {
             return Err(ObserverError::State {
                 path: root
                     .join(".ai/evidence")

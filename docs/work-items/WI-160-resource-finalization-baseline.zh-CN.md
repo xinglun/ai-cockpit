@@ -36,8 +36,8 @@ branch 和清理意图，但不执行删除。`finalize` 只有在 identity、�
 具备 owner、理由、范围和过期/复核条件的明确且有界人类决定时允许，不能静默转成清理成功。
 在 finalize 成功前 `close` 一律禁止。
 
-Runtime `0.2.17` 尚未把这些名称作为 CLI 命令提供。本 Work Item 只增加 docs/static
-policy baseline；Runtime command、receipt 和 provider 集成留给后续的独立 Runtime Work Item。
+Runtime `0.2.17` 已提供这些 CLI 命令。WI-159 实现 typed Runtime command 与 receipt 集成，
+WI-161 增加不改写归档 bytes 的历史 evidence close 兼容规则。
 
 验证：`.ai/evidence/WI-160-resource-finalization-baseline.verification.json`。
 归档：`.ai/work-items/archive/WI-160-resource-finalization-baseline.archive.json`。
@@ -47,7 +47,7 @@ policy baseline；Runtime command、receipt 和 provider 集成留给后续的�
 
 - 三语 `agent-workflow` 和 `reference-parity` 契约文本。
 - `tests/workflow/resource_finalization_policy.sh` 及其 test wrapper 静态/回归 gate。
-- 说明该边界及 Runtime pending 状态的三语 Work Item 文档。
+- 说明该边界及 Runtime evidence 兼容状态的三语 Work Item 文档。
 
 ## Out of scope
 
@@ -58,12 +58,13 @@ policy baseline；Runtime command、receipt 和 provider 集成留给后续的�
 ## Acceptance
 
 1. 三语 workflow 页面都要求 `finalize-plan`、`finalize`、`finalize-verify`，保留
-   `unknown`/`retain` 语义，禁止静默删除和清理前 close，并标明 Runtime 集成 pending。
-2. 三语 parity 页面描述相同的 Partial 边界，不声称 Runtime 已提供这些命令。
+   `unknown`/`retain` 语义，禁止静默删除和清理前 close，并说明 Runtime 命令边界。
+2. 三语 parity 页面描述相同的已实现边界和历史 evidence 兼容规则。
 3. repository 静态 gate 通过；从任一语言页面移除必要收尾规则时，测试必须失败。
 4. 修改限定在 `docs/` 与 `tests/`，不手动编辑 Runtime source 或生成的 governance receipt。
 
 ## Verification
 
 运行 `tests/workflow/resource_finalization_policy_test.sh` 和文档 acceptance gate。Runtime
-lifecycle evidence 会绑定本 Contract 与 verification receipt；CLI 集成属于后续 Work Item。
+lifecycle evidence 会绑定本 Contract 与 verification receipt；CLI 集成由 WI-159 实现，历史
+evidence close 兼容由 WI-161 覆盖。

@@ -37,7 +37,7 @@ capabilityClaims:
 | Repository attach 和最小 scaffold | 已实现 | `attach` 创建 repository-owned Protocol scaffold，不在项目内安装 Runtime 副本。 |
 | 显式 Agent Discovery / Adapter 层 | 已实现 | Agent 安装是显式、可拥有、可回滚且 repository-local；生成的 guidance 继承 Contract-first/暂停/Summary/Outcome/closure 语义，Cursor 新安装使用 `.cursor/rules/ai-cockpit.mdc`，已管理的 legacy `.md` 保持可读。 |
 | Work Item 生命周期和治理决定 | 部分实现 | 核心生命周期和 human decision record 已存在；参考源更广的 status、cost、recovery projection 尚未统一为一个 adopter 接口。 |
-| 资源收尾与准确的 branch/worktree 关闭 | 部分实现 | WI-160 定义 `finalize-plan` → `finalize` → `finalize-verify` policy 边界、明确的 `unknown`/`retain` 处理和静态回归 gate。Runtime 命令与 receipt 集成仍待后续；本基线不声称已支持静默清理或清理前 close。 |
+| 资源收尾与准确的 branch/worktree 关闭 | 已实现 | Runtime 提供 `finalize-plan`、`finalize`、`finalize-verify`；严格 typed receipt 绑定 repository、Work Item、Contract、PR、branch、worktree 和 Runtime identity。缺失/unknown 清理会 fail-closed，Runtime 升级后的归档证据明确作为历史事实投影。 |
 | Task Outcome 与 Human Benefit 报告 | 部分实现 | WI-136 增加 Rust-native 严格报告投影、追加事件流、archive 绑定和 close final report；完整 recovery/event 重建仍不在本边界。证据：`.ai/evidence/WI-136-task-outcome-report.verification.json`。 |
 | 归档 Outcome 路径投影 | 已实现 | WI-148 在绑定 manifest 前将新归档生成的报告引用和 `changedPaths` 从 active 投影到 archive；历史 archive bytes 保持不可变。 |
 | Contract preflight 人工确认门 | 已实现 | 不完整的 scaffold Contract 返回带显式 `reviewState` 的 yellow，持久化 repository/Contract/snapshot 绑定，未经人工确认不能越过 checkpoint。 |
@@ -99,7 +99,8 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-155——CI/release gate 对齐 | 已实现 | [Work Item](../work-items/WI-155-ci-release-gate-convergence.zh-CN.md)；[发布分发](../release/distribution.zh-CN.md)；`.ai/evidence/WI-155-ci-release-gate-convergence.verification.json`；`.ai/decisions/WI-155-ci-release-gate-convergence.close.json` |
 | WI-156——物理执行与 Work Item 证据回执 | 已实现 | [Work Item](../work-items/WI-156-physical-execution-receipt.zh-CN.md)；`.ai/evidence/WI-156-physical-execution-receipt.verification.json`；`.ai/decisions/WI-156-physical-execution-receipt.close.json` |
 | WI-157——v0.2.17 发布与 adopter 验收 | 已实现 | [Work Item](../work-items/WI-157-release-v0-2-17-adopter-acceptance.zh-CN.md)；[公开 Release](https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.17)；`.ai/evidence/external/v0.2.17/adopter/`、`.ai/evidence/external/v0.2.17/upgrade/` 与 `.ai/evidence/WI-157-release-v0-2-17-adopter-acceptance.verification.json`。 |
-| WI-160——资源收尾与 branch/worktree 关闭基线 | 部分实现 | [Work Item](../work-items/WI-160-resource-finalization-baseline.zh-CN.md)；`.ai/evidence/WI-160-resource-finalization-baseline.verification.json`；`.ai/work-items/archive/WI-160-resource-finalization-baseline.archive.json`；`.ai/decisions/WI-160-resource-finalization-baseline.close.json`。Runtime 命令/receipt 集成仍是单独的 pending 边界。 |
+| WI-160——资源收尾与 branch/worktree 关闭基线 | 已实现 | [Work Item](../work-items/WI-160-resource-finalization-baseline.zh-CN.md)；`.ai/evidence/WI-160-resource-finalization-baseline.verification.json`；`.ai/work-items/archive/WI-160-resource-finalization-baseline.archive.json`；`.ai/decisions/WI-160-resource-finalization-baseline.close.json`。Runtime 命令/receipt 集成由 WI-159 实现，Runtime 升级后的历史 evidence close 兼容由 WI-161 覆盖。 |
+| WI-161——历史 Runtime evidence 的关闭兼容 | 已实现 | [Work Item](../work-items/WI-161-historical-runtime-close.zh-CN.md)；归档 evidence 保持不可变，foreign Runtime bytes 作为历史事实投影。回归证据：`.ai/evidence/WI-161-historical-runtime-close.verification.json` |
 
 ## 当前边界
 
@@ -114,7 +115,9 @@ Work Item 关闭后，必须在同一轮 release audit 中完成三语文档定�
 资源收尾是独立的关闭边界：准确的 branch 和 worktree 必须先通过
 `finalize-plan` → `finalize` → `finalize-verify`，之后才能 `close`。provider/resource
 状态为 `unknown` 时保持 open；保留 resource 必须有明确且有期限的人类决定。WI-160
-记录这条 policy 和静态 gate，但 Runtime 命令/receipt 集成仍待后续实现。
+记录这条 policy 和静态 gate，WI-159 实现 Runtime 命令与 receipt。Runtime 升级后不改写历史
+verification evidence，也不把它当成当前失败；只有新的 finalization receipt 绑定执行 close
+的 Runtime。
 
 ## Scenario、Acceptance 与最终维度投影
 

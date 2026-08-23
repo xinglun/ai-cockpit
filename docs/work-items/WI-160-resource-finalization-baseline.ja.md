@@ -39,9 +39,9 @@ local/remote branch 削除を証明します。
 された Human Decision の場合だけ許可し、cleanup 成功へ黙って変換しません。finalize
 成功前の `close` は禁止です。
 
-Runtime `0.2.17` はこれらを CLI command として提供していません。本 Work Item は
-docs/static policy baseline だけを追加し、Runtime command、receipt、provider 統合は
-別途 scope を持つ Runtime Work Item に保留します。
+Runtime `0.2.17` はこれらを CLI command として提供します。WI-159 が typed Runtime
+command と receipt 統合を実装し、WI-161 が archived bytes を書き換えない historical
+evidence close compatibility を追加します。
 
 Verification: `.ai/evidence/WI-160-resource-finalization-baseline.verification.json`。
 Archive: `.ai/work-items/archive/WI-160-resource-finalization-baseline.archive.json`。
@@ -51,7 +51,7 @@ Decision: `.ai/decisions/WI-160-resource-finalization-baseline.close.json`。
 
 - 三言語の `agent-workflow` と `reference-parity` の契約文。
 - `tests/workflow/resource_finalization_policy.sh` と test wrapper による static/regression gate。
-- 境界と Runtime pending 状態を説明する三言語 Work Item 文書。
+- 境界と Runtime evidence compatibility を説明する三言語 Work Item 文書。
 
 ## Out of scope
 
@@ -63,9 +63,8 @@ Decision: `.ai/decisions/WI-160-resource-finalization-baseline.close.json`。
 
 1. 三言語 workflow page が `finalize-plan`、`finalize`、`finalize-verify` を要求し、
    `unknown`/`retain` を保持し、silent deletion と cleanup 前の close を禁止し、Runtime
-   統合が pending であることを明示する。
-2. 三言語 parity page が同じ Partial boundary を記載し、Runtime が command を提供済みと
-   誤って主張しない。
+   Runtime command boundary を明示する。
+2. 三言語 parity page が同じ Implemented boundary と historical evidence compatibility を記載する。
 3. repository の static gate が通り、任意の言語 page から closure rule を削ると test が失敗する。
 4. 変更は `docs/` と `tests/` に限定され、Runtime source と生成された governance receipt は
    手編集しない。
@@ -74,4 +73,4 @@ Decision: `.ai/decisions/WI-160-resource-finalization-baseline.close.json`。
 
 `tests/workflow/resource_finalization_policy_test.sh` と documentation acceptance gate を
 実行します。Runtime lifecycle evidence が Contract と verification receipt を bind し、
-CLI 統合は後続 Work Item で扱います。
+CLI 統合は WI-159、historical evidence close compatibility は WI-161 で扱います。

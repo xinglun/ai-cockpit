@@ -108,10 +108,14 @@ worktree are a separate resource-finalization boundary:
 finalize-plan → finalize → finalize-verify → close
 ```
 
-These names are the WI-160 policy baseline, not commands exposed by Runtime
-`0.2.17`. Runtime integration is pending a later, explicitly scoped Work Item;
-this document and its static gate must not be read as claiming that the CLI
-already implements them.
+These are Runtime commands. They require an explicit `--repo` and a typed,
+identity-bound context/receipt; they do not delete resources implicitly. A
+Work Item may be archived only after verification, and it may be closed only
+after `finalize-verify` accepts `Deleted` or an explicitly authorized
+`Retained` receipt. Archived verification evidence remains immutable historical
+truth: after a Runtime upgrade it is projected as historical rather than
+revalidated as a current result, while the new finalization receipt is always
+bound to the Runtime executing the close request.
 
 - `finalize-plan` records the exact Work Item branch and worktree, provider PR,
   merged head, remote, default branch, and intended cleanup. It never deletes a

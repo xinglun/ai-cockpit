@@ -1,13 +1,15 @@
 use cockpit_core::{DecisionState, Digest};
 use cockpit_protocol::{
-    DataClassification, EvidencePersistence, EvidenceRetention, HumanDecision, RuntimeContext,
+    DataClassification, EvidencePersistence, EvidenceRetention, HumanDecision,
+    ResourceFinalizationContext, RuntimeContext,
 };
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
     archive_work_item_with_runtime, attach, checkpoint_work_item,
     close_work_item_with_structured_decision_and_runtime, finish_work_item_with_runtime,
-    outcome_v2_with_runtime, preflight_work_item_with_runtime, record_verification_with_runtime,
-    run_repository_verification, set_evidence_retention_policy, start_work_item_with_options,
+    outcome_v2_with_runtime, plan_resource_finalization, preflight_work_item_with_runtime,
+    record_resource_finalization, record_verification_with_runtime, run_repository_verification,
+    set_evidence_retention_policy, start_work_item_with_options,
 };
 use serde_json::Value;
 use std::{fs, process::Command};
@@ -345,6 +347,133 @@ fn archived_foreign_runtime_evidence_is_historical_yellow() {
         outcome
             .unknowns
             .contains(&"historical_evidence_not_revalidated".into())
+    );
+}
+
+#[test]
+fn archived_foreign_runtime_evidence_can_close_without_rewriting_history() {
+    let directory = repository();
+    let recorded = runtime("recorded-close");
+    let current = runtime("upgraded-close");
+    start(&directory, "WI-161-HISTORICAL-CLOSE");
+    let context = ResourceFinalizationContext {
+        branch: "feature/historical-close".into(),
+        worktree: "/tmp/removed-historical-close".into(),
+        base_branch: "main".into(),
+        base_remote: "origin".into(),
+        provider: "github".into(),
+        pull_request: "https://github.com/example/ai-cockpit/pull/161".into(),
+    };
+    plan_resource_finalization(directory.path(), "WI-161-HISTORICAL-CLOSE", &context)
+        .expect("resource context plan");
+    record_typed(&directory, "WI-161-HISTORICAL-CLOSE", &recorded);
+    finish_work_item_with_runtime(directory.path(), "WI-161-HISTORICAL-CLOSE", &recorded)
+        .expect("finish");
+    archive_work_item_with_runtime(directory.path(), "WI-161-HISTORICAL-CLOSE", &recorded)
+        .expect("archive");
+
+    let contract_path = directory
+        .path()
+        .join(".ai/work-items/archive/WI-161-HISTORICAL-CLOSE.contract.json");
+    let contract_digest = Digest::sha256_bytes(&fs::read(&contract_path).expect("contract"));
+    let receipt = serde_json::json!({
+        "schemaVersion": 1,
+        "receiptId": "receipt-historical-close",
+        "operationId": "operation-historical-close",
+        "repositoryId": cockpit_repository::repository_id(directory.path()).to_string(),
+        "workItemId": "WI-161-HISTORICAL-CLOSE",
+        "runtimeVersion": current.runtime_version.clone(),
+        "runtimeDigest": current.runtime_digest.to_string(),
+        "provider": "github",
+        "pullRequest": {
+            "number": 161,
+            "url": context.pull_request,
+            "headRevision": "abcdef1",
+            "baseBranch": "main",
+            "baseRemote": "origin",
+            "baseRevision": "abcdef0",
+            "mergeCommit": "1234567"
+        },
+        "branch": {
+            "name": context.branch,
+            "remote": "origin",
+            "headRevision": "abcdef1"
+        },
+        "worktree": {
+            "worktreeId": "removed-historical-close",
+            "path": context.worktree,
+            "branch": context.branch,
+            "headRevision": "abcdef1"
+        },
+        "before": {
+            "pullRequest": "merged",
+            "branch": "present",
+            "worktree": "clean"
+        },
+        "after": {
+            "pullRequest": "merged",
+            "branch": "deleted",
+            "worktree": "removed"
+        },
+        "result": {
+            "disposition": "deleted",
+            "failureCodes": [],
+            "unknownCodes": []
+        },
+        "actor": "human:test",
+        "authoritySource": "historical-runtime-compatibility",
+        "reason": "provider cleanup after Runtime upgrade",
+        "timestamp": "2026-08-23T01:00:00Z",
+        "contractDigest": contract_digest,
+        "resourceContext": context
+    });
+    let receipt_path = directory
+        .path()
+        .join(".ai/decisions/WI-161-HISTORICAL-CLOSE.receipt.json");
+    fs::write(
+        &receipt_path,
+        serde_json::to_vec_pretty(&receipt).expect("receipt JSON"),
+    )
+    .expect("receipt");
+    record_resource_finalization(
+        directory.path(),
+        "WI-161-HISTORICAL-CLOSE",
+        &receipt_path,
+        &current,
+    )
+    .expect("resource finalization");
+
+    let close = close_work_item_with_structured_decision_and_runtime(
+        directory.path(),
+        "WI-161-HISTORICAL-CLOSE",
+        &HumanDecision {
+            decision: "approved".into(),
+            actor: "human:owner".into(),
+            authority_source: "historical-runtime-compatibility".into(),
+            reason: "close the already archived item after a Runtime upgrade".into(),
+            evidence_refs: vec![".ai/evidence/WI-161-HISTORICAL-CLOSE.verification.json".into()],
+            policy_refs: vec!["historical-evidence-policy".into()],
+            decided_at: "2026-08-23T01:00:00Z".into(),
+            resume_condition: None,
+        },
+        &current,
+    );
+    assert!(
+        close.is_ok(),
+        "historical evidence should not block close: {close:?}"
+    );
+
+    let bytes = fs::read(
+        directory
+            .path()
+            .join(".ai/evidence/WI-161-HISTORICAL-CLOSE.verification.json"),
+    )
+    .expect("historical evidence");
+    let evidence: Value = serde_json::from_slice(&bytes).expect("evidence JSON");
+    assert_eq!(evidence["runtimeVersion"], recorded.runtime_version);
+    assert_eq!(
+        evidence["runtimeDigest"],
+        recorded.runtime_digest.to_string()
     );
 }
 
