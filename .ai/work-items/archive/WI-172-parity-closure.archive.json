@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-23T04:52:57Z",
+  "files": {
+    "contractDigest": "sha256:e46ca2a393fd0b8847e3d41ed56af9e9c9b39d14316dea8989a13ae2cd5ff1ba",
+    "contractPath": ".ai/work-items/archive/WI-172-parity-closure.contract.json",
+    "eventsDigest": "sha256:a7e23ce7add169198c762b0aa0d1874402b2112a3348299173758c764f108b3d",
+    "eventsPath": ".ai/work-items/archive/WI-172-parity-closure.events.jsonl",
+    "outcomeDigest": "sha256:fba56619d3dea5b0693f7fca127d3a951adf4c8d437f294c043f88d93949a854",
+    "outcomePath": ".ai/work-items/archive/WI-172-parity-closure.outcome.json",
+    "summaryDigest": "sha256:f326e09ab3d5bb4c443a2c5df3becae67579f78dfa593a32740576ad12c41142",
+    "summaryPath": ".ai/work-items/archive/WI-172-parity-closure.summary.json",
+    "taskReportDigest": "sha256:a6ded3a8e6d929234d767fea22d7d3da941bbbf959adcb43ed6ffcaa92e02a78",
+    "taskReportMarkdownDigest": "sha256:c7d31fc6701246aa92e8d754f674eccc696ff61b564b14151e9ec9cfa39dd6d0",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-172-parity-closure.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-172-parity-closure.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-172-parity-closure"
+}
