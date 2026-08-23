@@ -1,0 +1,37 @@
+{
+  "acceptanceCriteria": [
+    "Active lifecycle rejects foreign Runtime evidence.",
+    "Archived historical evidence is explicitly projected as historical and remains integrity-bound.",
+    "Close after Runtime upgrade requires current resource finalization receipt but does not require historical evidence to match current Runtime.",
+    "Finalization documentation describes the Runtime-vs-historical evidence boundary in all three languages.",
+    "Regression tests cover active rejection and archived close compatibility."
+  ],
+  "authority": "authorized",
+  "baseRevision": "65118258b31e5463181decefec7ed007d81e53d9",
+  "createdAt": "2026-08-23T01:28:48Z",
+  "goal": "Preserve immutable evidence and prevent Runtime-version changes from leaving merged Work Items permanently uncloseable.",
+  "intent": "Allow archived Work Items to close after Runtime upgrades without revalidating historical verification bytes, while keeping active Work Items strictly bound to the executing Runtime.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Rewriting archived evidence bytes or weakening active Work Item Runtime binding.",
+    "Provider cleanup automation or global Agent/MCP configuration."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4bbbfb476d3a9616087cb4d875c05f2fb09d1008bafed46ffd21a6a9ad9a2e1b",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/**",
+    "crates/cockpit-cli/**",
+    "docs/**",
+    "tests/workflow/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-161-historical-runtime-close"
+}

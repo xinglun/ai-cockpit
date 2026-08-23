@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-23T01:39:37Z",
+  "files": {
+    "contractDigest": "sha256:9af41c0a6c2581b2588b2585f3859ca1c21aab0bc453391f6cb801a99cfb12dc",
+    "contractPath": ".ai/work-items/archive/WI-161-historical-runtime-close.contract.json",
+    "eventsDigest": "sha256:3dae8ed07830dc334c6e4dc0960ac7290dd34f405927b9cae3910c22e15db5b0",
+    "eventsPath": ".ai/work-items/archive/WI-161-historical-runtime-close.events.jsonl",
+    "outcomeDigest": "sha256:3dca0a34db64a1ebcd1591279a9090defbd09fac654aa3f7cd50d1138f8595ff",
+    "outcomePath": ".ai/work-items/archive/WI-161-historical-runtime-close.outcome.json",
+    "summaryDigest": "sha256:edaf71723deb67d0f585cc3971ade3a28469d9601c57bfbccb7c2e0f86fb16d1",
+    "summaryPath": ".ai/work-items/archive/WI-161-historical-runtime-close.summary.json",
+    "taskReportDigest": "sha256:6366e1130fb16caae677cd099add5fabe17fb42069e9c128c9c0cdd44d77b7a1",
+    "taskReportMarkdownDigest": "sha256:a471478ada0d41c5f13de17db6dfbe398e6fc0b20beda46814fc80024d982be2",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-161-historical-runtime-close.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-161-historical-runtime-close.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-161-historical-runtime-close"
+}
