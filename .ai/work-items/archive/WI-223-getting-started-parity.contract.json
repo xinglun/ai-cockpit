@@ -27,14 +27,14 @@
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:ef04432d43dedc9d67e7fa8151f26ecfb78f6fc9ba6c09d8eab9c5c3d2106dc4",
   "requiredEvidenceClasses": [
-    ".ai/evidence/WI-223-getting-started-parity.verification.json"
+    "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-223-getting-started-parity",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/171",
     "worktree": "/private/tmp/ai-cockpit-wi223-getting-started-parity"
   },
   "risk": "normal",
@@ -57,12 +57,12 @@
     "https://github.com/spirex-ds-dev/ai-cockpit-template/blob/e5acb677da6621004d96f0ef353c58fe8d3acfbf/docs/installation-security.md",
     "tests/conformance/reference_file_inventory.json"
   ],
+  "state": "implementation_active",
   "verification": [
     "bash tests/docs/documentation_acceptance.sh",
     "bash tests/docs/getting_started_semantic.sh",
     "bash tests/conformance/reference_file_inventory_test.sh",
     "bash tests/workflow/resource_finalization_policy_test.sh"
   ],
-  "state": "implementation_active",
   "workItemId": "WI-223-getting-started-parity"
 }
