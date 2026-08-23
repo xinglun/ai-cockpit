@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-23T04:36:04Z",
+  "files": {
+    "contractDigest": "sha256:9351b974330c372edaa37314acec64f09ba1637deafd628dacd436c0b7149dd5",
+    "contractPath": ".ai/work-items/archive/WI-170-post-release-parity-branch-reconciliation.contract.json",
+    "eventsDigest": "sha256:c0b70c75a8139e73e59fbaa617bb676b39d6adf21fe36fe236b0f95d958b93bd",
+    "eventsPath": ".ai/work-items/archive/WI-170-post-release-parity-branch-reconciliation.events.jsonl",
+    "outcomeDigest": "sha256:58020b88c86486012be4cbb985e9b5e11be9f950de8dd202301eaaca57ec4c05",
+    "outcomePath": ".ai/work-items/archive/WI-170-post-release-parity-branch-reconciliation.outcome.json",
+    "summaryDigest": "sha256:790efaebe5a5e7cee85e0d579dff6f2be034dbdf0d568643404cdabc5fa0cea8",
+    "summaryPath": ".ai/work-items/archive/WI-170-post-release-parity-branch-reconciliation.summary.json",
+    "taskReportDigest": "sha256:1fe71d2b2b7de8780796154eb9185f28d99c7b208ead3de49d37e2fbbbc72848",
+    "taskReportMarkdownDigest": "sha256:39b9a80e97bf43559449c6255d508df0183c6527605ee397394a93b3ddc2cff1",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-170-post-release-parity-branch-reconciliation.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-170-post-release-parity-branch-reconciliation.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-170-post-release-parity-branch-reconciliation"
+}

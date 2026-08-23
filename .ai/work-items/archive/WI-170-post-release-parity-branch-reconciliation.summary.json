@@ -1,0 +1,20 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-23T04:31:35Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T04:31:29Z",
+  "failedGate": "finish.verification",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-23T04:35:49Z",
+  "preflightContractDigest": "sha256:fee753027bbf052ece0864beef2009a374ec854be3f1a729b834c2aa06c2630f",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:17958770ada2f0b090f9d434a72a78a9a5d8133189e9dae1a0887fc4409ed956",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T04:35:55Z",
+  "workItemId": "WI-170-post-release-parity-branch-reconciliation"
+}

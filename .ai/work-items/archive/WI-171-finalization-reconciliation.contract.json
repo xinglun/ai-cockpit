@@ -1,0 +1,54 @@
+{
+  "acceptanceCriteria": [
+    "The predecessor WI-170 remains immutable and is explicitly linked through the recovery decision.",
+    "Resource finalization is planned before verification and a strict retained receipt binds the current main repository context to Runtime v0.2.20.",
+    "The receipt and finalize-verify prove the main worktree is clean while retaining the protected default branch; no uncertain or dirty historical worktree is deleted.",
+    "The successor completes visible Outcome and structured close without rewriting the v0.2.20 Release or predecessor evidence."
+  ],
+  "authority": "authorized",
+  "baseRevision": "aca65f8f43e4191696e829d92039976ef8a31197",
+  "createdAt": "2026-08-23T04:39:25Z",
+  "goal": "Close the post-release reconciliation successor with an explicit resource-finalization receipt while preserving all historical evidence.",
+  "intent": "Correct the lifecycle omission where WI-170 was archived before finalize-plan by binding a successor to immutable predecessor bytes and completing the missing finalization boundary.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Historical WI-170 archive bytes and v0.2.20 Release truth",
+    "Unmerged or dirty retained worktrees",
+    "Runtime/core implementation changes",
+    "Additional feature work"
+  ],
+  "predecessorContractDigest": "sha256:fee753027bbf052ece0864beef2009a374ec854be3f1a729b834c2aa06c2630f",
+  "predecessorWorkItemId": "WI-170-post-release-parity-branch-reconciliation",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-170-post-release-parity-branch-reconciliation.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:17958770ada2f0b090f9d434a72a78a9a5d8133189e9dae1a0887fc4409ed956",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "main",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/124",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "risk": "medium",
+  "scope": [
+    ".ai/work-items/active/**",
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/archive/**",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-171-finalization-reconciliation"
+}
