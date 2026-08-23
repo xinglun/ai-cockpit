@@ -1,12 +1,17 @@
 {
   "changedPaths": [],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-08-23T23:06:46Z",
+  "checkpointCount": 1,
   "createdAt": "2026-08-23T23:02:06Z",
   "mode": "implementation",
-  "preflightState": "not_run",
+  "preflightAt": "2026-08-23T23:06:40Z",
+  "preflightContractDigest": "sha256:e38528aea050a9e0adc3bdd81c9e054edcb147c2189b1bf2edff87a27ede8ca8",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:f9be450982b894c712d28550083a21cd4c76449b9981d1db49ecf779c9556299",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "implementation_active",
-  "updatedAt": "2026-08-23T23:02:06Z",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-23T23:06:46Z",
   "workItemId": "WI-227-getting-started-capability-parity-integration"
 }
