@@ -13,18 +13,18 @@ sha256_file() {
 }
 
 stat_metadata() {
-  if stat -f $'%Lp\t%z\t%m' "$1" 2>/dev/null; then
+  if stat -c $'%a\t%s\t%Y' "$1" 2>/dev/null; then
     :
   else
-    stat -c $'%a\t%s\t%Y' "$1"
+    stat -f $'%Lp\t%z\t%m' "$1"
   fi
 }
 
 path_identity() {
-  if stat -f $'%d\t%i' "$1" 2>/dev/null; then
+  if stat -c $'%d\t%i' "$1" 2>/dev/null; then
     :
   else
-    stat -c $'%d\t%i' "$1"
+    stat -f $'%d\t%i' "$1"
   fi
 }
 

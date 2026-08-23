@@ -22,6 +22,13 @@ printf 'alpha\n' > "$root/nested/file.txt"
 ln -s nested/file.txt "$root/file-link"
 manifest_tree "$root" "$manifest_before"
 
+identity_before="$(path_identity "$root")"
+printf 'identity-stability\n' > "$root/nested/identity.txt"
+[[ "$(path_identity "$root")" == "$identity_before" ]] || {
+  printf 'path identity changed after contents were written below the root\n' >&2
+  exit 1
+}
+
 jq -e 'select(.path == "empty-directory" and .type == "directory")' "$manifest_before" >/dev/null
 jq -e 'select(.path == "nested/file.txt" and .type == "file")' "$manifest_before" >/dev/null
 jq -e --arg target 'nested/file.txt' --arg resolved "$root/nested/file.txt" \
