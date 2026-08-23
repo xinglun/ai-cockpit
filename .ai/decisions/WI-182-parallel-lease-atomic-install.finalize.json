@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "post-merge-resource-finalization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "296fdc4ffa145a296f480c78c0be6315974cc447",
+    "name": "codex/wi-182-parallel-lease-atomic-install",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:f6af688ff7e09f8123b6fbbb55992f433dbd9034c1a8e110d6c1feba6693c963",
+  "operationId": "operation-WI-182-parallel-lease-atomic-install",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "66d97903ed0b67c168758e6f27b3d57405053c66",
+    "headRevision": "296fdc4ffa145a296f480c78c0be6315974cc447",
+    "mergeCommit": "6d6c73295d872ec28054b147f3cfe5e9bb9a9353",
+    "number": 142,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/142"
+  },
+  "reason": "Finalize the merged parallel lease race correction branch and prove exact remote branch cleanup while retaining the shared main worktree clean.",
+  "receiptId": "ai-cockpit-WI-182-parallel-lease-atomic-install",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-182-parallel-lease-atomic-install",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/142",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:fff455d0d88d9ca4fa96b5caba85d8a6a198e131bd6ecc5a33dd9bc5cc180ab2",
+  "runtimeVersion": "0.2.22",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-23T07:43:05Z",
+  "workItemId": "WI-182-parallel-lease-atomic-install",
+  "worktree": {
+    "branch": "codex/wi-182-parallel-lease-atomic-install",
+    "headRevision": "296fdc4ffa145a296f480c78c0be6315974cc447",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit",
+    "worktreeId": "WI-182-parallel-lease-atomic-install"
+  }
+}
