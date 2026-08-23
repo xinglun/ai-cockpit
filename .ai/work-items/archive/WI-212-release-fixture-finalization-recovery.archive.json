@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-23T17:51:17Z",
+  "files": {
+    "approachDigest": "sha256:eca550cf74ed453a943d6122d63a65bb1c6c7560fbc8a5b5bd27c4e53416c084",
+    "approachPath": ".ai/work-items/archive/WI-212-release-fixture-finalization-recovery.approach.json",
+    "contractDigest": "sha256:f0d6b4a3dd978d83c89a841242f7c22c26adefca63c1f9b969e5b6d7c27b2a94",
+    "contractPath": ".ai/work-items/archive/WI-212-release-fixture-finalization-recovery.contract.json",
+    "eventsDigest": "sha256:9226d075a2acb96a210b424a8d7a8f53b00f1619ca01a6b23d84ce0ed6ff5847",
+    "eventsPath": ".ai/work-items/archive/WI-212-release-fixture-finalization-recovery.events.jsonl",
+    "outcomeDigest": "sha256:51246a18f49dd62553de1f33f1fe6f615e71aca329db5b4d0e85a92ebbb1c259",
+    "outcomePath": ".ai/work-items/archive/WI-212-release-fixture-finalization-recovery.outcome.json",
+    "summaryDigest": "sha256:8ed9d2d15e6c3b2949efd0c602b3fd6a2e388f68440841e50e51abf44e1c9725",
+    "summaryPath": ".ai/work-items/archive/WI-212-release-fixture-finalization-recovery.summary.json",
+    "taskReportDigest": "sha256:d94436a07c5ebdde67bf0c1d6cb776087d36ee8c286be7beb72a65514f83f31b",
+    "taskReportMarkdownDigest": "sha256:e721695ac0ced0d2d50e4fd8280ac5ac0d87a1c61861d533e9fbfe142fffcce7",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-212-release-fixture-finalization-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-212-release-fixture-finalization-recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-212-release-fixture-finalization-recovery"
+}

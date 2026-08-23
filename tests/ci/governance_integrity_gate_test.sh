@@ -24,11 +24,16 @@ run_case() {
   if [[ "$name" == release-tag-* ]]; then
     GITHUB_EVENT_NAME=push \
     GITHUB_REF=refs/tags/v9.9.9 \
-    GITHUB_REF_NAME=v9.9.9 \
+      GITHUB_REF_NAME=v9.9.9 \
     GITHUB_SHA="$(git -C "$repo" rev-parse HEAD)" \
       python3 "$gate" --repo "$repo" --report "$report" >/dev/null
   else
-    python3 "$gate" --repo "$repo" --report "$report" >/dev/null
+    # A release workflow exports tag context globally.  Ordinary fixtures
+    # must explicitly clear it so their expected lifecycle is independent of
+    # the event that launched this regression script.
+    env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+      -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+      python3 "$gate" --repo "$repo" --report "$report" >/dev/null
   fi
   local actual_code=$?
   set -e
@@ -82,6 +87,7 @@ build_fixture "$fixtures/awaiting-merge-close.json" "$fallback_repo"
 git -C "$fallback_repo" symbolic-ref --delete refs/remotes/origin/HEAD
 git -C "$fallback_repo" checkout --detach -q
 env -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF -u GITHUB_REF \
+  -u GITHUB_REF_NAME -u GITHUB_SHA \
   GITHUB_EVENT_NAME=pull_request \
   python3 "$gate" --repo "$fallback_repo" --report "$fallback_report" >/dev/null
 python3 - "$fallback_report" <<'PY'
@@ -104,7 +110,8 @@ build_fixture "$fixtures/spoofed-base-premerge-finalize.json" "$mismatch_repo"
 git -C "$mismatch_repo" symbolic-ref --delete refs/remotes/origin/HEAD
 git -C "$mismatch_repo" checkout --detach -q
 set +e
-env -u GITHUB_EVENT_PATH GITHUB_EVENT_NAME=pull_request GITHUB_BASE_REF=main \
+env -u GITHUB_EVENT_PATH -u GITHUB_REF -u GITHUB_REF_NAME -u GITHUB_SHA \
+  GITHUB_EVENT_NAME=pull_request GITHUB_BASE_REF=main \
   python3 "$gate" --repo "$mismatch_repo" --report "$mismatch_report" >/dev/null
 mismatch_code=$?
 set -e
@@ -126,7 +133,9 @@ PY
 
 # The same repository snapshot must produce a byte-identical report.
 cp "$tmp/valid-report.json" "$tmp/valid-report-first.json"
-python3 "$gate" --repo "$tmp/valid" --report "$tmp/valid-report.json" >/dev/null
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$tmp/valid" --report "$tmp/valid-report.json" >/dev/null
 cmp "$tmp/valid-report-first.json" "$tmp/valid-report.json"
 
 python3 - "$tmp/archive-timestamp-current-report.json" <<'PY'
@@ -208,7 +217,9 @@ spec["workItems"].append({"id": "WI-999-release-v9-9-9-extra", "classification":
 json.dump(spec, open(sys.argv[2], "w", encoding="utf-8"), indent=2, sort_keys=True)
 PY
 build_fixture "$tmp/dynamic.json" "$tmp/dynamic"
-python3 "$gate" --repo "$tmp/dynamic" --report "$tmp/dynamic-report.json" >/dev/null
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$tmp/dynamic" --report "$tmp/dynamic-report.json" >/dev/null
 python3 - "$tmp/dynamic-report.json" <<'PY'
 import json
 import sys

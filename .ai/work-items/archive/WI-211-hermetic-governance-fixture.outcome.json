@@ -1,0 +1,178 @@
+{
+  "acceptanceResults": [
+    "A1: governance_integrity_gate_test.sh passes when executed with release-tag GITHUB_* environment variables, proving fixture cases explicitly control their event context.",
+    "A2: the regression test proves the same fixture report and exit status under ordinary and release-tag environments, while real release-tag fixtures retain strict tag validation.",
+    "A3: release source_quality gates pass locally and in GitHub Actions without changing immutable v0.2.26 or using source/workspace fallback.",
+    "A4: the Work Item records verification evidence and a visible human Outcome; no unrelated Agent/MCP/global configuration is modified."
+  ],
+  "createdAt": "2026-08-23T17:33:50Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:c7b7d5e1a1272234f220b0b710f81b03a32fc0c0b7712f51210d44386951d52b",
+  "evidenceRefs": [
+    ".ai/evidence/WI-211-hermetic-governance-fixture.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-211-hermetic-governance-fixture.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-211-hermetic-governance-fixture.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c0ea7982d5160c86924e17383f240cb54d071e4a7c7578a3808653218436b829",
+      "workItemId": "WI-211-hermetic-governance-fixture"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-211-hermetic-governance-fixture.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-211-hermetic-governance-fixture.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-211-hermetic-governance-fixture.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-211-hermetic-governance-fixture.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-211-hermetic-governance-fixture.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-211-hermetic-governance-fixture.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-211-hermetic-governance-fixture.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-211-hermetic-governance-fixture.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-211-hermetic-governance-fixture.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-211-hermetic-governance-fixture.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/governance_integrity_gate_test.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-211-hermetic-governance-fixture.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-211-hermetic-governance-fixture.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-211-hermetic-governance-fixture.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-211-hermetic-governance-fixture.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-211-hermetic-governance-fixture.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-211-hermetic-governance-fixture.contract.json"
+          ],
+          "inference": false,
+          "text": "根治发布治理回归测试受 GitHub release 环境变量污染而产生本地/CI 分歧的问题。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-211-hermetic-governance-fixture.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-211-hermetic-governance-fixture"
+  },
+  "taskReportDigest": "sha256:fbcc681b97d35f88b7604ac754d8e079f95c31168e7fc5574bbd0a593a8ae275",
+  "taskReportMarkdownDigest": "sha256:228b1c0a6887d200451309d28465b6b08f0db0829da1dc96f6095fd0af18c4b5",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-211-hermetic-governance-fixture.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-211-hermetic-governance-fixture"
+}

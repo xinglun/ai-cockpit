@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-pre-merge-finalization-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "14b67d18d754089310b95484761b1aca6f932d14",
+    "name": "codex/wi-211-hermetic-governance-fixture",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:f0d6b4a3dd978d83c89a841242f7c22c26adefca63c1f9b969e5b6d7c27b2a94",
+  "operationId": "operation-WI-212-release-fixture-finalization-recovery-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "ab4e3844c6d113ab4fddbb9ae20fec4b4303249b",
+    "headRevision": "14b67d18d754089310b95484761b1aca6f932d14",
+    "number": 160,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/160"
+  },
+  "reason": "awaiting_merge_close: PR #160 is unmerged; retain the reviewed governance recovery boundary until hosted checks pass and the merged default branch is available.",
+  "receiptId": "ai-cockpit-WI-212-release-fixture-finalization-recovery-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-211-hermetic-governance-fixture",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/160",
+    "worktree": "/private/tmp/ai-cockpit-wi211-hermetic-governance-fixture"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+  "runtimeVersion": "0.2.23",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-24T02:55:00+09:00",
+  "workItemId": "WI-212-release-fixture-finalization-recovery",
+  "worktree": {
+    "branch": "codex/wi-211-hermetic-governance-fixture",
+    "headRevision": "14b67d18d754089310b95484761b1aca6f932d14",
+    "path": "/private/tmp/ai-cockpit-wi211-hermetic-governance-fixture",
+    "worktreeId": "WI-212-release-fixture-finalization-recovery"
+  }
+}

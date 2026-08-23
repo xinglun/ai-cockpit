@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-23T17:33:53Z",
+  "files": {
+    "contractDigest": "sha256:66141d1be4135287cdc430a2de04f6adca5e58dce85a1148efd17951fe4fd0d2",
+    "contractPath": ".ai/work-items/archive/WI-211-hermetic-governance-fixture.contract.json",
+    "eventsDigest": "sha256:18bb4dc5ff37c77b1efdff2a63c2b7d8c0447866f346b99bf4c949957c07a5b6",
+    "eventsPath": ".ai/work-items/archive/WI-211-hermetic-governance-fixture.events.jsonl",
+    "outcomeDigest": "sha256:6b0380b67c3bd169ff01f343c702bf1777da681c943dcc85c5adebe1736a8ea1",
+    "outcomePath": ".ai/work-items/archive/WI-211-hermetic-governance-fixture.outcome.json",
+    "summaryDigest": "sha256:3e0ef2d0d9680431e8d8b4b68810436b26883ceee4e2f63f17a68f737574d79f",
+    "summaryPath": ".ai/work-items/archive/WI-211-hermetic-governance-fixture.summary.json",
+    "taskReportDigest": "sha256:fbcc681b97d35f88b7604ac754d8e079f95c31168e7fc5574bbd0a593a8ae275",
+    "taskReportMarkdownDigest": "sha256:228b1c0a6887d200451309d28465b6b08f0db0829da1dc96f6095fd0af18c4b5",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-211-hermetic-governance-fixture.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-211-hermetic-governance-fixture.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-211-hermetic-governance-fixture"
+}

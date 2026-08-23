@@ -1,0 +1,111 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "successorWorkItemId",
+          "path": ".ai/decisions/WI-211-hermetic-governance-fixture.recovery.json",
+          "type": "decision",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "pre-merge resource context",
+          "path": ".ai/work-items/active/WI-212-release-fixture-finalization-recovery.contract.json",
+          "type": "contract",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "docs_governance_integrity",
+          "path": "target/repository-gates.json",
+          "type": "gate",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "structured close",
+          "path": ".ai/decisions/WI-212-release-fixture-finalization-recovery.close.json",
+          "type": "decision",
+          "verification": "pending"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-212-release-fixture-finalization-recovery.contract.json",
+    ".ai/work-items/archive/WI-212-release-fixture-finalization-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-08-23T17:42:54Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T17:42:06Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/decisions/WI-211-hermetic-governance-fixture.recovery.json",
+      ".ai/work-items/active/WI-212-release-fixture-finalization-recovery.contract.json",
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "This successor restores the missing immutable recovery and resource-finalization chain without rewriting WI-211.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-23T17:51:09Z",
+  "preflightContractDigest": "sha256:28dbc39e197b2d17df115211cc66e56e963744346f87c987ba56946abc1b52ab",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:9ca4c9d9e43530cac0301e1b13710b84a738780c51317aa78a34aec259a31bf5",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/decisions/WI-211-hermetic-governance-fixture.recovery.json"
+      ],
+      "expected": "WI-211 remains byte-identical and is classified as recovered through an explicit successor receipt.",
+      "required": true,
+      "scenario": "immutable predecessor recovery",
+      "status": "verified",
+      "verificationPlan": "Use the Runtime recovery receipt and repository governance gate."
+    },
+    {
+      "evidence": [
+        ".ai/work-items/active/WI-212-release-fixture-finalization-recovery.contract.json"
+      ],
+      "expected": "PR #160 context is bound before successor verification and a blocked pre-merge receipt is valid.",
+      "required": true,
+      "scenario": "pre-merge resource finalization",
+      "status": "verified",
+      "verificationPlan": "Run finalize-plan before verification, then record an awaiting-merge-close finalization receipt."
+    },
+    {
+      "evidence": [
+        ".ai/work-items/active/WI-212-release-fixture-finalization-recovery.contract.json"
+      ],
+      "expected": "After PR merge, finalize-verify and structured close bind the merged head and exact cleanup.",
+      "reason": "Hosted merge and terminal close are a post-merge boundary and cannot be completed before PR #160 review.",
+      "required": false,
+      "scenario": "hosted merge close",
+      "status": "not_applicable",
+      "verificationPlan": "Run hosted checks, merge PR #160, synchronize main, finalize, finalize-verify, and close."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T17:51:14Z",
+  "workItemId": "WI-212-release-fixture-finalization-recovery"
+}

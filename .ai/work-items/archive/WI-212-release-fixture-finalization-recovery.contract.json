@@ -1,0 +1,93 @@
+{
+  "acceptanceCriteria": [
+    "A1: WI-211 is linked to this explicit successor recovery without rewriting its immutable archive, evidence, or Outcome.",
+    "A2: finalize-plan is bound to PR #160 before successor verification and the pre-merge finalization receipt is valid and deterministic.",
+    "A3: repository governance gates pass with WI-211 recovered and this successor awaiting merge close.",
+    "A4: the successor closes only after hosted PR merge, finalize-verify, exact cleanup, and a visible human Outcome."
+  ],
+  "authority": "authorized",
+  "baseRevision": "ab4e3844c6d113ab4fddbb9ae20fec4b4303249b",
+  "createdAt": "2026-08-23T17:42:06Z",
+  "goal": "根治 Work Item 在资源收尾计划之前归档后无法生成有效 pre-merge finalization receipt 的流程缺口。",
+  "intent": "恢复 WI-211 在 finalize-plan 前归档造成的不可闭合发布治理边界，并在当前 PR 上建立正确的资源上下文与收尾顺序。",
+  "mode": "implementation",
+  "outOfScope": [
+    "Rewriting WI-211 archived Contract",
+    " Summary",
+    " Outcome",
+    " evidence",
+    " or archive manifest",
+    "Moving or rewriting immutable v0.2.26 history",
+    "Reference-source file-by-file parity expansion",
+    "User-global Agent or MCP configuration"
+  ],
+  "predecessorContractDigest": "sha256:c206631ddae4a412396007c1570d105877eb801765d9dd6e59459d8491e1234a",
+  "predecessorWorkItemId": "WI-211-hermetic-governance-fixture",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-211-hermetic-governance-fixture.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7ef8511eaeee7aa8ea21af0f8448e0fc4e3de87ace9d3f4058c7d7e6d034f536",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-211-hermetic-governance-fixture",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/160",
+    "worktree": "/private/tmp/ai-cockpit-wi211-hermetic-governance-fixture"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/decisions/WI-211-hermetic-governance-fixture.recovery.json"
+      ],
+      "expected": "WI-211 remains byte-identical and is classified as recovered through an explicit successor receipt.",
+      "required": true,
+      "scenario": "immutable predecessor recovery",
+      "status": "unverified",
+      "verificationPlan": "Record a Runtime recovery receipt binding WI-211 and this successor, then run the governance gate."
+    },
+    {
+      "evidence": [
+        ".ai/work-items/active/WI-212-release-fixture-finalization-recovery.contract.json"
+      ],
+      "expected": "PR #160 context is bound before successor verification and a blocked pre-merge receipt is valid.",
+      "required": true,
+      "scenario": "pre-merge resource finalization",
+      "status": "verified",
+      "verificationPlan": "Run finalize-plan before verification, then record an awaiting-merge-close finalization receipt."
+    },
+    {
+      "evidence": [
+        ".ai/work-items/active/WI-212-release-fixture-finalization-recovery.contract.json"
+      ],
+      "expected": "After PR merge, finalize-verify and structured close bind the merged head and exact cleanup.",
+      "required": false,
+      "scenario": "hosted merge close",
+      "status": "not_applicable",
+      "reason": "Hosted merge and terminal close are a post-merge boundary and cannot be completed before PR #160 review.",
+      "verificationPlan": "Run hosted checks, merge PR #160, synchronize main, finalize, finalize-verify, and close."
+    }
+  ],
+  "scope": [
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/**",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-212-release-fixture-finalization-recovery.md",
+    "docs/work-items/WI-212-release-fixture-finalization-recovery.zh-CN.md",
+    "docs/work-items/WI-212-release-fixture-finalization-recovery.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-212-release-fixture-finalization-recovery"
+}
