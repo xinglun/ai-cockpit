@@ -1,0 +1,104 @@
+{
+  "acceptanceCriteria": [
+    "Every scoped reference artifact is classified as equivalent, different-by-design, or a concrete bounded gap with a counterpart or no-counterpart reason.",
+    "Capability and status projections are deterministic JSON, explicit --repo bound, and include repositoryId plus current snapshot/digest bindings.",
+    "Observed facts are not presented as verified implementation; missing or malformed profile/evidence fails closed and unknowns remain visible.",
+    "No Work Item or source repository state is shared across two repositories; parallel isolation regression covers concurrent A/B repositories.",
+    "Three-language capability and command documentation describes the projection boundary without claiming the reference Python/Make runtime was copied.",
+    "The six scoped deferred inventory records name exact Rust counterparts or explicit no-counterpart reasons, none remains deferred-next-batch, and the inventory regression rejects an empty classification result.",
+    "The scoped tests and current repository quality gates pass, and a visible human Outcome is produced."
+  ],
+  "authority": "authorized",
+  "baseRevision": "72320be00d3340ad328aa93ac1a7e80e8e828085",
+  "createdAt": "2026-08-23T21:47:13Z",
+  "goal": "Provide a truthful Rust-native adopter capability/status projection with explicit repository identity and snapshot bindings.",
+  "intent": "Compare and, where necessary, implement the reference adopter capability manifest and machine-readable Work Item status boundary without copying the reference Python or Make runtime; expose only repository-bound, evidence-derived facts.",
+  "mode": "implementation",
+  "outOfScope": [
+    ".ai/project/**",
+    ".ai/cockpit/**",
+    ".github/**",
+    "docs/getting-started/**",
+    "docs/reference/reference-parity.*",
+    "reference Python runtime",
+    "reference Makefile",
+    "global Agent/MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7060d3216b8b64205ebfdce66e6f181875aab6896f4aba7dece7fca7dee543e8",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-222-capability-manifest-status",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi222-capability-manifest"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "scenario": "parallel repository isolation",
+      "required": true,
+      "status": "unverified",
+      "expected": "Concurrent capability and Work Item status projections for repositories A and B remain identity- and snapshot-bound without cross-repository state.",
+      "verificationPlan": "Run repository isolation tests with concurrent A/B projections and verify repositoryId, snapshot digest, and output paths.",
+      "evidence": []
+    },
+    {
+      "scenario": "read-only projection no-write",
+      "required": true,
+      "status": "unverified",
+      "expected": "observe, capability, and status projections leave repository bytes unchanged.",
+      "verificationPlan": "Capture byte and metadata manifests before and after repeated projection commands, including symlinks and directories.",
+      "evidence": []
+    },
+    {
+      "scenario": "stale or foreign capability evidence",
+      "required": true,
+      "status": "unverified",
+      "expected": "Missing, malformed, stale, or foreign capability/status inputs remain non-green and expose stable unknowns.",
+      "verificationPlan": "Run tamper and identity regression fixtures against capability and all-Work-Item status projections.",
+      "evidence": []
+    }
+  ],
+  "scope": [
+    "crates/cockpit-core/src/lib.rs",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-core/tests/**",
+    "crates/cockpit-protocol/tests/**",
+    "crates/cockpit-repository/tests/**",
+    "crates/cockpit-cli/tests/**",
+    "crates/cockpit-mcp/tests/**",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/capabilities.md",
+    "docs/capabilities.zh-CN.md",
+    "docs/capabilities.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md"
+  ],
+  "sources": [
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/tree/e5acb677da6621004d96f0ef353c58fe8d3acfbf/.ai/project",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/blob/e5acb677da6621004d96f0ef353c58fe8d3acfbf/.ai/cockpit/work-items/index.json",
+    "tests/conformance/reference_file_inventory.json"
+  ],
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "cargo test --locked --workspace",
+    "bash tests/conformance/reference_file_inventory_test.sh",
+    "bash tests/docs/documentation_acceptance.sh"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-222-capability-manifest-status"
+}

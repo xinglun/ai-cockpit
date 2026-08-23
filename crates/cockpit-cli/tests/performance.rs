@@ -96,7 +96,11 @@ fn observation_medium_fixture_is_measured_once() {
     let elapsed = started.elapsed();
     let json: serde_json::Value = serde_json::from_slice(&output.stdout).expect("JSON");
     assert!(json["filesRead"].as_u64().unwrap_or_default() >= 200);
-    assert_eq!(json["cacheHit"], true);
+    assert_eq!(json["cacheHit"], false);
+    assert!(
+        !repo.join(".ai/decisions/observer-snapshot.json").exists(),
+        "read-only observe must not persist its cache"
+    );
     eprintln!(
         "{{\"benchmark\":\"observation-medium\",\"filesRead\":{},\"elapsedMs\":{}}}",
         json["filesRead"],

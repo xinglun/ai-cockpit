@@ -53,6 +53,15 @@ capabilityClaims:
   `*.task-report.json`、面向人的 `*.task-report.md` 和 append-only 的 `*.events.jsonl`；它们是绑定 evidence 的投影，
   不是额外的 authority，也不能替代 Contract 或 verification receipt。
 - `work-item status --repo <path> --id <id>` 是只读命令，输出生命周期、治理状态、活动健康、事实计数、阻塞项、未知项、evidence 和 source digest；不会调度任务，也不会臆造百分比。
+- `work-item status --repo <path> --all --json` 按稳定 ID 顺序聚合 active 与 archived Work Item，输出固定的
+  green/yellow/red/unknown 计数、成员 diagnostics/digest、当前 repository snapshot digest 与确定性的 index digest。
+  格式错误或 foreign 的成员会成为显式 unknown entry，其他成员仍然可见。这个动态 counterpart 不会写入
+  `.ai/cockpit/work-items/index.json` 或逐项 status 文件；MCP 使用 `work_item_status` 和 `{"all": true}`。
+- `capability show --repo <path>` 输出绑定 Runtime identity 与 repository 的 registry。观察到的技术能力、profile
+  confirmation、repository binding、adopter acceptance 与 external ownership 是不同状态；仅有文件不能证明
+  `adopter_accepted`，缺失、格式错误、过期或 foreign 输入保持 unknown。MCP 使用 `capability_show`。
+- 重复执行 `observe`、`capability show`、顶层 `status` 和单项/全量 Work Item status，不会写入 tracked
+  repository bytes 或 observer cache。
 - `work-item validate --repo <path> --id <id> [--json]` 只读统一检查 Contract/Summary 的 scenario coverage、stable acceptance evidence、intent alignment 和可选最终维度 receipt。
   `work-item controls --repo <path> --id <id> --input <json>` 只记录显式提供的 projection 字段（包括绑定 identity 的 `decisionEvidence` review receipt），不能改变生命周期状态、Contract facts 或 verification receipt。
 - `work-item recover --repo <path> --id <id> --input <receipt.json>` 记录绑定 identity 的 `retry`、`successor` 或 `supersede` decision。`supersede` 要求已经绑定的 successor Work Item，并把 predecessor 归档为明确的历史 `superseded` 状态；原始 bytes 不会改写。receipt 必须绑定 predecessor 的 Contract、Summary、Outcome 以及存在时的 event digest，并绑定当前 Runtime identity。既有 receipt 永不覆盖，后续 decision 使用 digest 后缀文件；recovery receipt 不会让 verification 自动变绿，也不会静默重写 predecessor。被替代的 predecessor 不是当前成功或失败，后续工作由 successor 负责。

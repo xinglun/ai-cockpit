@@ -7,23 +7,25 @@ use cockpit_core::{
 };
 use cockpit_git::{ChangeContentState, ChangeKind, RepositorySnapshot};
 use cockpit_protocol::{
-    AgentAdapterCompatibility, AgentInterfaceAvailability, AgentInterfaceManifest, AgentInterfaces,
-    AgentRootBinding, ApprovalMode, AuditEvent, AuditExportManifest, CapabilityConfidence,
-    CapabilityTruth, CapabilityTruthRegistry, ConcurrencyBoundary, Contract, DataClassification,
-    DelegatedEvidence, DelegatedEvidenceReceipt, DiagnosisState, EvidenceAssurance,
-    EvidenceDisposition, EvidenceDispositionItem, EvidencePersistence, EvidenceRetention,
-    EvidenceRetentionPolicy, EvidenceValidity, FactOrigin, GovernanceCost, GovernancePolicy,
-    GovernancePolicyDocument, HumanBenefitReport, HumanDecision, ImplementationApproach,
-    OutcomeClaim, OutcomeReportBindings, OutcomeReportSections, OutcomeState, OutcomeV2,
-    PARALLEL_SLOT_LEASE_SCHEMA_VERSION, ParallelSlotLease, PerformanceDiagnosis, PolicyLayer,
-    QualityCommand, RecoveryDecisionReceipt, RepositoryConfig, ResourceFinalizationContext,
-    ResourceFinalizationDisposition, ResourceFinalizationReceipt,
+    AdopterCapabilityState, AdopterCapabilityTruth, AgentAdapterCompatibility,
+    AgentInterfaceAvailability, AgentInterfaceManifest, AgentInterfaces, AgentRootBinding,
+    ApprovalMode, AuditEvent, AuditExportManifest, CapabilityConfidence, CapabilityExclusion,
+    CapabilityOwnership, CapabilityTruth, CapabilityTruthRegistry, ConcurrencyBoundary, Contract,
+    DataClassification, DelegatedEvidence, DelegatedEvidenceReceipt, DiagnosisState,
+    EvidenceAssurance, EvidenceDisposition, EvidenceDispositionItem, EvidencePersistence,
+    EvidenceRetention, EvidenceRetentionPolicy, EvidenceValidity, FactOrigin, GovernanceCost,
+    GovernancePolicy, GovernancePolicyDocument, HumanBenefitReport, HumanDecision,
+    ImplementationApproach, OutcomeClaim, OutcomeReportBindings, OutcomeReportSections,
+    OutcomeState, OutcomeV2, PARALLEL_SLOT_LEASE_SCHEMA_VERSION, ParallelSlotLease,
+    PerformanceDiagnosis, PolicyLayer, QualityCommand, RecoveryDecisionReceipt, RepositoryConfig,
+    ResourceFinalizationContext, ResourceFinalizationDisposition, ResourceFinalizationReceipt,
     ResourceFinalizationTransitionReceipt, RuntimeContext, SchemaMigrationStep, TaskOutcomeEvent,
     TaskOutcomeReport, TruthState, VerificationStage, VerificationTier, WorkItemCompatibility,
-    WorkItemIntelligence, WorkItemStatusSnapshot, default_repository_schema_version,
-    merge_policy_layers, repository_schema_migration_chain, validate_evidence_retention,
-    validate_protocol_version, validate_resource_finalization_receipt_for,
-    validate_resource_finalization_replay, validate_resource_finalization_transition,
+    WorkItemEvidenceFreshness, WorkItemIntelligence, WorkItemStatusIndex, WorkItemStatusIndexEntry,
+    WorkItemStatusSnapshot, default_repository_schema_version, merge_policy_layers,
+    repository_schema_migration_chain, validate_evidence_retention, validate_protocol_version,
+    validate_resource_finalization_receipt_for, validate_resource_finalization_replay,
+    validate_resource_finalization_transition,
 };
 use serde::de::{DeserializeSeed, MapAccess, SeqAccess, Visitor};
 use serde::{Deserialize, Deserializer as _, Serialize};
@@ -9145,6 +9147,24 @@ pub fn work_item_status_snapshot_with_runtime(
         message: "work item contract not found".into(),
     })?;
     let contract = read_contract(&contract_path)?;
+    let expected_repository_id = repository_id(&root).to_string();
+    if contract.repository_id != expected_repository_id {
+        return Err(ObserverError::State {
+            path: contract_path,
+            message: format!(
+                "contract repository identity mismatch: expected {expected_repository_id}, found {}",
+                contract.repository_id
+            ),
+        });
+    }
+    let base_commit = contract
+        .base_commit
+        .clone()
+        .unwrap_or_else(|| contract.base_revision.clone());
+    let branch = contract
+        .resource_context
+        .as_ref()
+        .map(|context| context.branch.clone());
     let git =
         cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
             path: root.clone(),
@@ -9239,6 +9259,9 @@ pub fn work_item_status_snapshot_with_runtime(
     if governance_state == "red" {
         blockers.push("governance_red".into());
     }
+    let blocking = !blockers.is_empty();
+    let human_decision_required =
+        summary["preflightState"] == "yellow" && summary["decisionEvidence"].is_null();
     let missing_evidence = unknowns
         .iter()
         .filter(|value| value.contains("evidence") || value.contains("verification"))
@@ -9319,14 +9342,52 @@ pub fn work_item_status_snapshot_with_runtime(
     let mut source_digests = BTreeMap::new();
     source_digests.insert("contract".into(), contract_digest(&contract_path)?);
     source_digests.insert("repositorySnapshot".into(), snapshot_digest.clone());
+    if summary_path.is_file()
+        && let Ok(digest) = cockpit_protocol::digest_json(&summary)
+    {
+        source_digests.insert("summary".into(), digest);
+    }
     let evidence_path = root
         .join(".ai/evidence")
         .join(format!("{work_item_id}.verification.json"));
-    if let Ok(evidence) = read_json(&evidence_path)
+    let evidence = read_json(&evidence_path).ok();
+    if let Some(evidence) = &evidence
         && let Ok(digest) = cockpit_protocol::digest_json(&evidence)
     {
         source_digests.insert("verificationEvidence".into(), digest);
     }
+    let last_verification_at = evidence
+        .as_ref()
+        .and_then(|value| value["createdAt"].as_str())
+        .map(str::to_owned);
+    let evidence_freshness = if historical {
+        WorkItemEvidenceFreshness {
+            state: "historical".into(),
+            reason: "verification evidence is immutable historical input and was not revalidated"
+                .into(),
+        }
+    } else if evidence.is_none() {
+        WorkItemEvidenceFreshness {
+            state: "missing".into(),
+            reason: "verification evidence is missing".into(),
+        }
+    } else if verification == "verified" {
+        WorkItemEvidenceFreshness {
+            state: "fresh".into(),
+            reason: "verification evidence matches the current repository and Runtime bindings"
+                .into(),
+        }
+    } else {
+        WorkItemEvidenceFreshness {
+            state: "stale_or_invalid".into(),
+            reason: "verification evidence exists but does not authorize the current status".into(),
+        }
+    };
+    let updated_at = summary["updatedAt"]
+        .as_str()
+        .or_else(|| summary["createdAt"].as_str())
+        .or(contract.created_at.as_deref())
+        .map(str::to_owned);
     let human_decisions = if close_decision_valid {
         vec!["close_decision_recorded".into()]
     } else {
@@ -9339,13 +9400,67 @@ pub fn work_item_status_snapshot_with_runtime(
     if archived && close_decision_present && !close_decision_valid {
         diagnostics.push("close_decision_not_accepted".into());
     }
+    let mut safe_actions = if blocking {
+        vec!["resolve_blockers".into(), "stop".into()]
+    } else {
+        match lifecycle_phase.as_str() {
+            "implementation_active" => vec!["run_preflight".into()],
+            "checkpointed" if verification != "verified" => vec!["run_verification".into()],
+            "finish_ready" => vec!["archive_when_reviewed".into()],
+            "archived" => vec!["read_outcome".into()],
+            "closed" => Vec::new(),
+            _ if verification != "verified" => vec!["run_verification".into()],
+            _ => vec!["read_outcome".into()],
+        }
+    };
+    safe_actions.push("refresh_status".into());
+    safe_actions.sort();
+    safe_actions.dedup();
+    let status_digest = cockpit_protocol::digest_json(&serde_json::json!({
+        "schemaVersion": 1,
+        "repositoryId": contract.repository_id,
+        "workItemId": work_item_id,
+        "baseCommit": base_commit,
+        "branch": branch,
+        "lifecyclePhase": lifecycle_phase,
+        "governanceState": governance_state,
+        "activityHealth": activity_health,
+        "blocking": blocking,
+        "humanDecisionRequired": human_decision_required,
+        "progressFacts": progress_facts,
+        "blockers": blockers,
+        "missingEvidence": missing_evidence,
+        "dependencies": dependencies,
+        "humanDecisions": human_decisions,
+        "risks": risks,
+        "verification": verification,
+        "completionDomains": completion_domains,
+        "governancePermissions": governance_permissions,
+        "sourceDigests": source_digests,
+        "unknowns": unknowns,
+        "diagnostics": diagnostics,
+        "snapshotDigest": snapshot_digest,
+        "evidenceFreshness": evidence_freshness,
+        "lastVerificationAt": last_verification_at,
+        "updatedAt": updated_at,
+        "safeActions": safe_actions,
+        "historical": historical,
+    }))
+    .map_err(|error| ObserverError::State {
+        path: contract_path.clone(),
+        message: error.to_string(),
+    })?;
     Ok(WorkItemStatusSnapshot {
         schema_version: 1,
         repository_id: contract.repository_id,
         work_item_id: work_item_id.into(),
+        base_commit,
+        branch,
         lifecycle_phase,
         governance_state,
         activity_health,
+        blocking,
+        human_decision_required,
         progress_facts,
         blockers,
         missing_evidence,
@@ -9359,7 +9474,146 @@ pub fn work_item_status_snapshot_with_runtime(
         unknowns,
         diagnostics,
         snapshot_digest,
+        evidence_freshness,
+        last_verification_at,
+        updated_at,
+        safe_actions,
+        status_digest,
         historical,
+    })
+}
+
+/// Aggregate every active and archived Work Item into a stable read-only
+/// projection. An unreadable member is retained as an explicit unknown entry;
+/// it cannot hide other members or promote any count to green.
+pub fn work_item_status_index_with_runtime(
+    root: &Path,
+    runtime: &RuntimeContext,
+) -> Result<WorkItemStatusIndex, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let git =
+        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
+    let repository_snapshot_digest = snapshot_digest(&snapshot)?;
+    let expected_repository_id = repository_id(&root).to_string();
+
+    let mut work_item_ids = BTreeMap::<String, ()>::new();
+    let mut index_unknowns = Vec::new();
+    let mut index_diagnostics = Vec::new();
+    for relative in [".ai/work-items/active", ".ai/work-items/archive"] {
+        let directory = root.join(relative);
+        let entries = match fs::read_dir(&directory) {
+            Ok(entries) => entries,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => continue,
+            Err(error) => {
+                index_unknowns.push(format!("work_item_directory_unreadable:{relative}"));
+                index_diagnostics
+                    .push(format!("work_item_directory_unreadable:{relative}:{error}"));
+                continue;
+            }
+        };
+        for entry in entries.flatten() {
+            let name = entry.file_name().to_string_lossy().to_string();
+            let Some(work_item_id) = name.strip_suffix(".contract.json") else {
+                continue;
+            };
+            let is_regular = fs::symlink_metadata(entry.path())
+                .ok()
+                .is_some_and(|metadata| metadata.file_type().is_file());
+            if is_regular {
+                work_item_ids.insert(work_item_id.to_string(), ());
+            } else {
+                index_unknowns.push(format!("contract_not_regular:{work_item_id}"));
+            }
+        }
+    }
+
+    let mut counts = BTreeMap::from([
+        ("green".into(), 0_u64),
+        ("red".into(), 0_u64),
+        ("unknown".into(), 0_u64),
+        ("yellow".into(), 0_u64),
+    ]);
+    let mut items = Vec::with_capacity(work_item_ids.len());
+    for work_item_id in work_item_ids.keys() {
+        let entry = match work_item_status_snapshot_with_runtime(&root, work_item_id, runtime) {
+            Ok(status) => {
+                let status_digest = status.status_digest.clone();
+                WorkItemStatusIndexEntry {
+                    work_item_id: work_item_id.clone(),
+                    governance_state: status.governance_state.clone(),
+                    status_digest,
+                    unknowns: status.unknowns.clone(),
+                    diagnostics: status.diagnostics.clone(),
+                    status: Some(status),
+                }
+            }
+            Err(error) => {
+                let unknowns = vec!["status_projection_failed".into()];
+                let diagnostics = vec![format!("status_projection_failed:{error}")];
+                let stable = serde_json::json!({
+                    "workItemId": work_item_id,
+                    "governanceState": "unknown",
+                    "unknowns": unknowns,
+                    "diagnostics": diagnostics,
+                });
+                let status_digest = cockpit_protocol::digest_json(&stable).map_err(|error| {
+                    ObserverError::State {
+                        path: root.clone(),
+                        message: error.to_string(),
+                    }
+                })?;
+                WorkItemStatusIndexEntry {
+                    work_item_id: work_item_id.clone(),
+                    governance_state: "unknown".into(),
+                    status_digest,
+                    status: None,
+                    unknowns,
+                    diagnostics,
+                }
+            }
+        };
+        *counts.entry(entry.governance_state.clone()).or_default() += 1;
+        items.push(entry);
+    }
+    index_unknowns.sort();
+    index_unknowns.dedup();
+    index_diagnostics.sort();
+    index_diagnostics.dedup();
+    index_diagnostics.push(format!("work_items_aggregated:{}", items.len()));
+    let stable = serde_json::json!({
+        "schemaVersion": 1,
+        "repositoryId": expected_repository_id,
+        "snapshotDigest": repository_snapshot_digest,
+        "counts": counts,
+        "items": items,
+        "unknowns": index_unknowns,
+        "diagnostics": index_diagnostics,
+    });
+    let index_digest =
+        cockpit_protocol::digest_json(&stable).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+
+    Ok(WorkItemStatusIndex {
+        schema_version: 1,
+        repository_id: expected_repository_id,
+        snapshot_digest: repository_snapshot_digest,
+        counts,
+        items,
+        unknowns: index_unknowns,
+        diagnostics: index_diagnostics,
+        index_digest,
     })
 }
 
@@ -10568,6 +10822,20 @@ fn legacy_verification_evidence(root: &Path, work_item_id: &str) -> bool {
 /// profile evidence. Detection is not treated as verification unless a
 /// repository profile explicitly confirmed the command.
 pub fn capability_truth_registry(root: &Path) -> Result<CapabilityTruthRegistry, ObserverError> {
+    capability_truth_registry_internal(root, None)
+}
+
+pub fn capability_truth_registry_with_runtime(
+    root: &Path,
+    runtime: &RuntimeContext,
+) -> Result<CapabilityTruthRegistry, ObserverError> {
+    capability_truth_registry_internal(root, Some(runtime))
+}
+
+fn capability_truth_registry_internal(
+    root: &Path,
+    runtime: Option<&RuntimeContext>,
+) -> Result<CapabilityTruthRegistry, ObserverError> {
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -10583,12 +10851,24 @@ pub fn capability_truth_registry(root: &Path) -> Result<CapabilityTruthRegistry,
     })?;
     let observation = observe(&root, &snapshot)?;
     let profile_path = root.join(".ai/project.json");
-    let profile: AttachedProfile = read_json(&profile_path).and_then(|value| {
-        serde_json::from_value(value).map_err(|error| ObserverError::State {
-            path: profile_path.clone(),
-            message: error.to_string(),
-        })
-    })?;
+    let profile_is_regular = fs::symlink_metadata(&profile_path)
+        .ok()
+        .is_some_and(|metadata| metadata.file_type().is_file());
+    let expected_repository_id = repository_id(&root).to_string();
+    let (profile, profile_unknown) = if !profile_is_regular {
+        (None, Some("project_profile_missing".to_string()))
+    } else {
+        match read_json(&profile_path)
+            .ok()
+            .and_then(|value| serde_json::from_value::<AttachedProfile>(value).ok())
+        {
+            Some(profile) if profile.repository_id == expected_repository_id => {
+                (Some(profile), None)
+            }
+            Some(_) => (None, Some("project_profile_repository_mismatch".into())),
+            None => (None, Some("project_profile_invalid".into())),
+        }
+    };
     let snapshot_ref = snapshot_digest(&snapshot)?.to_string();
     let mut capabilities = Vec::new();
     for language in &observation.languages {
@@ -10621,7 +10901,9 @@ pub fn capability_truth_registry(root: &Path) -> Result<CapabilityTruthRegistry,
             command.program,
             command.args.join(" ")
         );
-        let confirmed = profile.tests.iter().any(|test| test == command);
+        let confirmed = profile
+            .as_ref()
+            .is_some_and(|profile| profile.tests.iter().any(|test| test == command));
         capabilities.push(CapabilityTruth {
             capability: key,
             state: if confirmed {
@@ -10646,6 +10928,8 @@ pub fn capability_truth_registry(root: &Path) -> Result<CapabilityTruthRegistry,
             verification: confirmed.then(|| "project-profile-confirmed".into()),
             unknowns: if confirmed {
                 Vec::new()
+            } else if let Some(unknown) = &profile_unknown {
+                vec![unknown.clone()]
             } else {
                 vec!["command_not_profile_confirmed".into()]
             },
@@ -10653,11 +10937,119 @@ pub fn capability_truth_registry(root: &Path) -> Result<CapabilityTruthRegistry,
     }
     capabilities.sort_by(|left, right| left.capability.cmp(&right.capability));
     capabilities.dedup_by(|left, right| left.capability == right.capability);
+    let unknown_runtime_digest = Digest::sha256_bytes(b"runtime_identity_not_supplied");
+    let runtime_version = runtime
+        .map(|value| value.runtime_version.clone())
+        .unwrap_or_else(|| "unknown".into());
+    let runtime_digest = runtime
+        .map(|value| value.runtime_digest.clone())
+        .unwrap_or_else(|| unknown_runtime_digest.clone());
+    let interface_path = root.join(".ai/agent-interface.json");
+    let interface_is_regular = fs::symlink_metadata(&interface_path)
+        .ok()
+        .is_some_and(|metadata| metadata.file_type().is_file());
+    let (interface_valid, interface_unknown) = if !interface_is_regular {
+        (false, Some("agent_interface_missing".to_string()))
+    } else {
+        match read_json(&interface_path)
+            .ok()
+            .and_then(|value| serde_json::from_value::<AgentInterfaceManifest>(value).ok())
+        {
+            Some(manifest) if manifest.repository_id != expected_repository_id => {
+                (false, Some("agent_interface_repository_mismatch".into()))
+            }
+            Some(manifest)
+                if manifest.protocol_version != cockpit_protocol::PROTOCOL_VERSION
+                    || manifest.root_binding.binding_type != "manifest-parent"
+                    || !manifest.interfaces.cli.available =>
+            {
+                (false, Some("agent_interface_invalid".into()))
+            }
+            Some(_) => (true, None),
+            None => (false, Some("agent_interface_invalid".into())),
+        }
+    };
+    let state = if runtime.is_some() && interface_valid {
+        AdopterCapabilityState::RepositoryBound
+    } else {
+        AdopterCapabilityState::Unknown
+    };
+    let runtime_ref = format!("runtime:{runtime_digest}");
+    let mut adopter_unknowns = if runtime.is_some() {
+        Vec::new()
+    } else {
+        vec!["runtime_identity_not_supplied".into()]
+    };
+    if let Some(unknown) = interface_unknown {
+        adopter_unknowns.push(unknown);
+    }
+    adopter_unknowns.sort();
+    adopter_unknowns.dedup();
+    let mut registry_unknowns = adopter_unknowns.clone();
+    if let Some(unknown) = profile_unknown {
+        registry_unknowns.push(unknown);
+    }
+    registry_unknowns.sort();
+    registry_unknowns.dedup();
+    let mut adopter_capabilities = [
+        "capability_manifest",
+        "governance_cost_metrics",
+        "implementation_knowledge_query",
+        "implementation_knowledge_reports",
+        "repository_observe",
+        "repository_status",
+        "work_item_status_aggregation",
+        "work_item_status_interface",
+    ]
+    .into_iter()
+    .map(|id| AdopterCapabilityTruth {
+        id: id.into(),
+        state: state.clone(),
+        ownership: CapabilityOwnership::Runtime,
+        adopter_facing: true,
+        evidence_refs: vec![runtime_ref.clone(), ".ai/agent-interface.json".into()],
+        unknowns: adopter_unknowns.clone(),
+    })
+    .collect::<Vec<_>>();
+    adopter_capabilities.sort_by(|left, right| left.id.cmp(&right.id));
+    let mut exclusions = [
+        ("codeql", CapabilityOwnership::ExternalProvider),
+        (
+            "digital_signing",
+            CapabilityOwnership::AdopterOrReleaseDomain,
+        ),
+        (
+            "enterprise_iam",
+            CapabilityOwnership::AdopterOrReleaseDomain,
+        ),
+        ("external_audit", CapabilityOwnership::ExternalProvider),
+        ("hosted_ci", CapabilityOwnership::ExternalProvider),
+        (
+            "production_sandbox",
+            CapabilityOwnership::AdopterOrReleaseDomain,
+        ),
+        ("provenance", CapabilityOwnership::AdopterOrReleaseDomain),
+        ("sbom", CapabilityOwnership::AdopterOrReleaseDomain),
+    ]
+    .into_iter()
+    .map(|(id, ownership)| CapabilityExclusion {
+        id: id.into(),
+        ownership,
+        reason: "External evidence is not proven by this repository-local Runtime projection."
+            .into(),
+    })
+    .collect::<Vec<_>>();
+    exclusions.sort_by(|left, right| left.id.cmp(&right.id));
     Ok(CapabilityTruthRegistry {
         schema_version: 1,
         repository_id: repository_id(&root).to_string(),
         snapshot_digest: snapshot_digest(&snapshot)?,
+        runtime_version,
+        runtime_digest,
         capabilities,
+        adopter_capabilities,
+        exclusions,
+        unknowns: registry_unknowns,
     })
 }
 

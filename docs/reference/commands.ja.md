@@ -53,6 +53,18 @@ capabilityClaims:
   Work Item の完了時には型付きの `*.task-report.json`、人間向けの `*.task-report.md`、append-only の `*.events.jsonl` も bind されます。
   これらは evidence-bound projection であり、追加の authority でも Contract/verification receipt の代替でもありません。
 - `work-item status --repo <path> --id <id>` は read-only で lifecycle、governance、activity health、fact count、blocker、unknown、evidence、source digest を返します。scheduler を動かさず、割合を発明しません。
+- `work-item status --repo <path> --all --json` は active/archived Work Item を stable な ID 順で集約し、
+  固定の green/yellow/red/unknown count、member diagnostic/digest、current repository snapshot digest、
+  deterministic な index digest を返します。malformed または foreign な member は explicit unknown entry
+  となり、他の member は可視のままです。この dynamic counterpart は
+  `.ai/cockpit/work-items/index.json` や item ごとの status file を書きません。MCP では
+  `work_item_status` に `{"all": true}` を渡します。
+- `capability show --repo <path>` は Runtime identity と repository に bind した registry を返します。
+  observed technical capability、profile confirmation、repository binding、adopter acceptance、external ownership
+  は別 state です。file の存在だけでは `adopter_accepted` を証明せず、missing、malformed、stale、foreign
+  input は unknown のままです。MCP では `capability_show` を使います。
+- `observe`、`capability show`、top-level `status`、single/all Work Item status を繰り返しても、tracked
+  repository bytes や observer cache は書きません。
 - `work-item validate --repo <path> --id <id> [--json]` は Contract/Summary の scenario coverage、stable acceptance evidence、intent alignment、任意の final-dimensions receipt を read-only で検証します。
   `work-item controls --repo <path> --id <id> --input <json>` は明示された projection field（identity-bound な `decisionEvidence` review receipt を含む）だけを記録し、lifecycle state、Contract fact、verification receipt は変更しません。
 - `work-item recover --repo <path> --id <id> --input <receipt.json>` は identity-bound な `retry`、`successor`、または `supersede` decision を記録します。`supersede` には bind 済みの successor Work Item が必要で、predecessor を明示的な履歴 `superseded` 状態へ archive します。元の bytes は書き換えません。receipt は predecessor の Contract、Summary、Outcome、存在する場合は event digest と current Runtime identity に bind されなければなりません。既存 receipt は上書きせず、後続 decision は digest suffix ファイルに append されます。recovery receipt だけで verification を green にしたり predecessor を書き換えたりすることはありません。superseded predecessor は現在の成功・失敗ではなく、後続処理は successor が担います。

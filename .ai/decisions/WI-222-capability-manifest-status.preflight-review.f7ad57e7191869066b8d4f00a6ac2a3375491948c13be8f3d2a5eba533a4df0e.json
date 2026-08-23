@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:e1210bde154001d60a7e45191dcee8ad431ad7689561aac2662df95ac3f4b2d5",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "User approved the bounded Rust-native design and the exact inventory scope amendment for the current Contract.",
+  "recordedAt": "2026-08-24T00:00:00Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7060d3216b8b64205ebfdce66e6f181875aab6896f4aba7dece7fca7dee543e8",
+  "schemaVersion": 1,
+  "workItemId": "WI-222-capability-manifest-status"
+}

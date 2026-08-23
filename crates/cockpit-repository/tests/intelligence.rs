@@ -1,8 +1,9 @@
 use cockpit_core::Digest;
 use cockpit_repository::{
-    WorkItemStartOptions, capability_truth_registry, checkpoint_work_item, implementation_approach,
-    outcome_v2, performance_diagnosis, preflight_work_item, record_verification,
-    start_work_item_with_options, work_item_compatibility,
+    WorkItemStartOptions, capability_truth_registry, capability_truth_registry_with_runtime,
+    checkpoint_work_item, implementation_approach, outcome_v2, performance_diagnosis,
+    preflight_work_item, record_verification, start_work_item_with_options,
+    work_item_compatibility,
 };
 use std::{fs, process::Command};
 
@@ -264,5 +265,111 @@ fn capability_and_diagnosis_are_snapshot_bound_and_parallel_check_fails_closed()
         compatibility
             .reasons
             .contains(&"parallel_compatibility_not_declared".into())
+    );
+}
+
+#[test]
+fn adopter_capability_manifest_binds_runtime_truth_and_exclusions() {
+    let directory = repository();
+    cockpit_repository::attach(directory.path()).expect("attach");
+    let runtime = cockpit_protocol::RuntimeContext {
+        runtime_version: "0.2.28".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"runtime-0.2.28"),
+    };
+
+    let registry = capability_truth_registry_with_runtime(directory.path(), &runtime)
+        .expect("runtime-bound registry");
+
+    assert_eq!(registry.runtime_version, "0.2.28");
+    assert_eq!(registry.runtime_digest, runtime.runtime_digest);
+    assert!(
+        registry
+            .adopter_capabilities
+            .iter()
+            .any(|item| item.id == "work_item_status_interface"
+                && item.state == cockpit_protocol::AdopterCapabilityState::RepositoryBound)
+    );
+    assert!(registry.exclusions.iter().any(|item| item.id == "hosted_ci"
+        && item.ownership == cockpit_protocol::CapabilityOwnership::ExternalProvider));
+    assert!(
+        registry
+            .adopter_capabilities
+            .windows(2)
+            .all(|pair| pair[0].id < pair[1].id),
+        "adopter capabilities must have deterministic ordering"
+    );
+}
+
+#[test]
+fn malformed_profile_keeps_capability_truth_non_verified_and_visible() {
+    let directory = repository();
+    fs::write(
+        directory.path().join("Cargo.toml"),
+        "[package]\nname='fixture'\nversion='0.1.0'\n",
+    )
+    .expect("Cargo manifest");
+    cockpit_repository::attach(directory.path()).expect("attach");
+    fs::write(
+        directory.path().join(".ai/project.json"),
+        br#"{"profileVersion":"broken"}"#,
+    )
+    .expect("malformed profile");
+    let runtime = cockpit_protocol::RuntimeContext {
+        runtime_version: "0.2.28".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"runtime-0.2.28"),
+    };
+
+    let registry = capability_truth_registry_with_runtime(directory.path(), &runtime)
+        .expect("malformed profile remains a visible unknown");
+
+    assert!(
+        registry
+            .unknowns
+            .contains(&"project_profile_invalid".into())
+    );
+    assert!(
+        registry
+            .capabilities
+            .iter()
+            .filter(|item| item.capability.starts_with("verification:"))
+            .all(|item| item.state != cockpit_protocol::TruthState::Verified)
+    );
+}
+
+#[test]
+fn foreign_agent_interface_keeps_adopter_capabilities_unknown() {
+    let directory = repository();
+    cockpit_repository::attach(directory.path()).expect("attach");
+    let manifest_path = directory.path().join(".ai/agent-interface.json");
+    let mut manifest: serde_json::Value =
+        serde_json::from_slice(&fs::read(&manifest_path).expect("manifest bytes"))
+            .expect("manifest JSON");
+    manifest["repositoryId"] = serde_json::json!("sha256:foreign");
+    fs::write(
+        &manifest_path,
+        serde_json::to_vec_pretty(&manifest).expect("manifest bytes"),
+    )
+    .expect("foreign manifest");
+    let runtime = cockpit_protocol::RuntimeContext {
+        runtime_version: "0.2.28".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"runtime-0.2.28"),
+    };
+
+    let registry = capability_truth_registry_with_runtime(directory.path(), &runtime)
+        .expect("foreign manifest remains visible");
+
+    assert!(
+        registry
+            .unknowns
+            .contains(&"agent_interface_repository_mismatch".into())
+    );
+    assert!(
+        registry
+            .adopter_capabilities
+            .iter()
+            .all(|item| item.state == cockpit_protocol::AdopterCapabilityState::Unknown)
     );
 }

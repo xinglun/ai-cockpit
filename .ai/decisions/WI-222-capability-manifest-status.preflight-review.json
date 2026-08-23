@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:87eb2bc44676551b4d689dcf18077b711b02b79b8e0345b3823a432a5be34609",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
+  "reason": "User-authorized bounded reference parity implementation and review.",
+  "recordedAt": "2026-08-24T00:00:00Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7060d3216b8b64205ebfdce66e6f181875aab6896f4aba7dece7fca7dee543e8",
+  "schemaVersion": 1,
+  "workItemId": "WI-222-capability-manifest-status"
+}

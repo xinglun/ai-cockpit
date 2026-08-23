@@ -368,8 +368,11 @@ enum WorkItemCommand {
     Status {
         #[arg(long)]
         repo: PathBuf,
-        #[arg(long)]
-        id: String,
+        #[arg(long, required_unless_present = "all", conflicts_with = "all")]
+        id: Option<String>,
+        /// Aggregate every active and archived Work Item in stable ID order.
+        #[arg(long, conflicts_with = "id")]
+        all: bool,
         /// Emit the stable machine-readable status snapshot.
         #[arg(long)]
         json: bool,
@@ -554,7 +557,7 @@ fn run() -> Result<()> {
         CommandKind::Observe { repo } => {
             let git = GitRepository::discover(&repo).context("discover repository")?;
             let snapshot = git.snapshot().context("create repository snapshot")?;
-            let observation = cockpit_repository::observe_cached(&snapshot.root, &snapshot)
+            let observation = cockpit_repository::observe(&snapshot.root, &snapshot)
                 .context("observe repository")?;
             let (evolution, profile_update_proposal) =
                 std::fs::read(snapshot.root.join(".ai/project.json"))
@@ -1116,8 +1119,38 @@ fn run() -> Result<()> {
                     .context("verify resource finalization")?;
                 println!("{}", serde_json::to_string_pretty(&result)?);
             }
-            WorkItemCommand::Status { repo, id, json } => {
+            WorkItemCommand::Status {
+                repo,
+                id,
+                all,
+                json,
+            } => {
                 require_compatible(&repo, &runtime_context)?;
+                if all {
+                    let index = cockpit_repository::work_item_status_index_with_runtime(
+                        &repo,
+                        &runtime_context,
+                    )
+                    .context("read all Work Item statuses")?;
+                    if json {
+                        println!("{}", serde_json::to_string_pretty(&index)?);
+                    } else {
+                        println!("Status: all Work Items");
+                        println!("Repository: {}", index.repository_id);
+                        println!("Snapshot: {}", index.snapshot_digest);
+                        println!("Index digest: {}", index.index_digest);
+                        println!("Items: {}", index.items.len());
+                        println!(
+                            "Counts: green={}, yellow={}, red={}, unknown={}",
+                            index.counts["green"],
+                            index.counts["yellow"],
+                            index.counts["red"],
+                            index.counts["unknown"]
+                        );
+                    }
+                    return Ok(());
+                }
+                let id = id.context("--id is required unless --all is present")?;
                 let snapshot = cockpit_repository::work_item_status_snapshot_with_runtime(
                     &repo,
                     &id,
@@ -1285,8 +1318,11 @@ fn run() -> Result<()> {
         CommandKind::Capability { command } => match command {
             CapabilityCommand::Show { repo } => {
                 require_compatible(&repo, &runtime_context)?;
-                let registry = cockpit_repository::capability_truth_registry(&repo)
-                    .context("derive capability truth registry")?;
+                let registry = cockpit_repository::capability_truth_registry_with_runtime(
+                    &repo,
+                    &runtime_context,
+                )
+                .context("derive capability truth registry")?;
                 println!("{}", serde_json::to_string_pretty(&registry)?);
             }
         },
