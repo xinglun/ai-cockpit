@@ -1,6 +1,6 @@
 {
   "captureMode": "full_capture",
-  "createdAt": "2026-08-23T23:21:07Z",
+  "createdAt": "2026-08-23T23:27:06Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -8,8 +8,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 209481,
-      "executionElapsedMs": 209309,
+      "elapsedMs": 145191,
+      "executionElapsedMs": 144981,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -24,8 +24,8 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 209481,
-    "executionElapsedMs": 209309,
+    "elapsedMs": 145191,
+    "executionElapsedMs": 144981,
     "filesHashed": 5,
     "filesRead": 5,
     "gitCalls": 8,
@@ -43,13 +43,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 209309,
+      "executionElapsedMs": 144981,
       "finalTier": "T2",
       "initialTier": "T2",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:23d68c31b42ca0867cdb709e733cc7960665c4edfdbb983e7c3366df6d9340df",
+      "repositorySnapshotDigest": "sha256:c413ad3a7327d97b54894347e63130e842922f1d18cc951ad8b7c342d281ae59",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -75,7 +75,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:b0fa196466b16e4539a0f777dcde5cf5dde8bdd53449aa879e072888912a4327",
+        "outputDigest": "sha256:362c9a17e3fdf50a836875e233e798411bd7e59f7c1f238cf295069a37464f06",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -91,9 +91,9 @@
     "runtimeVersion": "0.2.28",
     "workItemId": "WI-227-getting-started-capability-parity-integration"
   },
-  "receiptDigest": "sha256:d2d23a2e7377d02ebee5f0fe35986a7f5eb87ad0ea6035d8d9609831d5b33980",
+  "receiptDigest": "sha256:92e27fb32e85d892e6a8f59f84552ca12754fe3b34ab39811fedff90a580da27",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:23d68c31b42ca0867cdb709e733cc7960665c4edfdbb983e7c3366df6d9340df",
+  "repositorySnapshotDigest": "sha256:c413ad3a7327d97b54894347e63130e842922f1d18cc951ad8b7c342d281ae59",
   "runtimeDigest": "sha256:23e9a9824f35b9e0d3706bdcbad34777bca5b0a4d362b4101407412a905dcb5b",
   "runtimeVersion": "0.2.28",
   "workItemId": "WI-227-getting-started-capability-parity-integration"
