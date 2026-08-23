@@ -19,4 +19,18 @@ if python3 "$script" --manifest "$tmp/invalid.json" --source-commit e5acb677da66
   exit 1
 fi
 
+cp "$manifest" "$tmp/getting-started.json"
+python3 "$script" \
+  --manifest "$tmp/getting-started.json" \
+  --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf \
+  --target-commit 46e426625a8cae450f1190d0bdbafd6d8e648a90 \
+  --apply-getting-started-batch
+test "$(jq '[.records[] | select(.referencePath | startswith("docs/getting-started/"))] | length' "$tmp/getting-started.json")" -eq 35
+test "$(jq '[.records[] | select((.referencePath | startswith("docs/getting-started/")) and .batch == "getting-started-onboarding" and .classification == "implemented-different-by-design" and (.rustCounterparts | length) > 0)] | length' "$tmp/getting-started.json")" -eq 35
+python3 "$script" \
+  --manifest "$tmp/getting-started.json" \
+  --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf \
+  --target-commit 46e426625a8cae450f1190d0bdbafd6d8e648a90 \
+  --check
+
 echo "reference file inventory regression passed"
