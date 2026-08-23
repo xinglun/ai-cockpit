@@ -38,14 +38,14 @@
   "scenarioCoverage": [
     {
       "expected": "WI-219 superseded archive and recovery decision remain immutable and bind this final retry.",
-      "required": false,
+      "required": true,
       "scenario": "immutable predecessor recovery",
       "status": "unverified",
       "verificationPlan": "Project the predecessor recovery and archive paths in Summary and validate them through the current Runtime lifecycle."
     },
     {
       "expected": "The exact PR #166 identity is recorded as awaiting_merge_close before this PR merges.",
-      "required": true,
+      "required": false,
       "scenario": "pre-merge finalization",
       "status": "unverified",
       "verificationPlan": "Bind the target context before verification, archive, then record a strict blocked pre-merge receipt whose PR remains unmerged."

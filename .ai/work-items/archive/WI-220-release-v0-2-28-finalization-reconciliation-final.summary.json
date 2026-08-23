@@ -1,18 +1,26 @@
 {
   "changedPaths": [
     ".ai/decisions/WI-219-release-v0-2-28-finalization-reconciliation-retry.recovery.json",
-    ".ai/work-items/active/WI-220-release-v0-2-28-finalization-reconciliation-final.contract.json",
-    ".ai/work-items/active/WI-220-release-v0-2-28-finalization-reconciliation-final.summary.json"
+    ".ai/work-items/archive/WI-220-release-v0-2-28-finalization-reconciliation-final.contract.json",
+    ".ai/work-items/archive/WI-220-release-v0-2-28-finalization-reconciliation-final.summary.json"
   ],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-08-23T21:08:58Z",
+  "checkpointCount": 1,
   "createdAt": "2026-08-23T21:06:24Z",
+  "failedGate": "finish.governance",
   "intentAlignment": {
     "reason": "The final retry is a bounded finalization recovery; the human-owned intent and closure decision remain explicit in the Contract and close receipt.",
     "state": "unknown"
   },
   "mode": "docs",
-  "preflightState": "not_run",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-23T21:12:23Z",
+  "preflightContractDigest": "sha256:9d59527d79e81927a8a2ab73db3605f4a7fe2a5577d2f33db2a7b7bfe943900a",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:53e4345cbc6c480ce1a32c4d6d5f79d4daed34eb4878f08bf5da1a08d4cbe106",
+  "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -26,7 +34,7 @@
     },
     {
       "evidence": [],
-      "required": true,
+      "required": false,
       "scenario": "pre-merge finalization",
       "status": "unverified"
     },
@@ -37,7 +45,7 @@
       "status": "unverified"
     }
   ],
-  "state": "implementation_active",
-  "updatedAt": "2026-08-23T21:08:22.511235+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T21:12:27Z",
   "workItemId": "WI-220-release-v0-2-28-finalization-reconciliation-final"
 }

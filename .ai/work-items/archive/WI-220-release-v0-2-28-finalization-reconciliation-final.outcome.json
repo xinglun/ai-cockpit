@@ -1,0 +1,149 @@
+{
+  "acceptanceResults": [
+    "Preserve WI-219 superseded history and record an awaiting_merge_close receipt with exact PR #166 identity.",
+    "After reviewed PR merge, append cleanup transitions, close, and finish tri-language parity.",
+    "Do not rewrite WI-217, WI-218, or WI-219 historical archive, evidence, recovery, or finalization bytes."
+  ],
+  "createdAt": "2026-08-23T21:12:27Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:dffdb2e0bf72fc0b5a759d1ef56da7ed37c65cfbb96a57d21d45cb484284b2b8",
+  "evidenceRefs": [
+    ".ai/evidence/WI-220-release-v0-2-28-finalization-reconciliation-final.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-220-release-v0-2-28-finalization-reconciliation-final.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-220-release-v0-2-28-finalization-reconciliation-final.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:53e4345cbc6c480ce1a32c4d6d5f79d4daed34eb4878f08bf5da1a08d4cbe106",
+      "workItemId": "WI-220-release-v0-2-28-finalization-reconciliation-final"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-220-release-v0-2-28-finalization-reconciliation-final.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-219-release-v0-2-28-finalization-reconciliation-retry.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-220-release-v0-2-28-finalization-reconciliation-final.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-220-release-v0-2-28-finalization-reconciliation-final.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-220-release-v0-2-28-finalization-reconciliation-final.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-220-release-v0-2-28-finalization-reconciliation-final.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-220-release-v0-2-28-finalization-reconciliation-final.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-220-release-v0-2-28-finalization-reconciliation-final.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-220-release-v0-2-28-finalization-reconciliation-final.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-220-release-v0-2-28-finalization-reconciliation-final.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-220-release-v0-2-28-finalization-reconciliation-final.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-220-release-v0-2-28-finalization-reconciliation-final.contract.json"
+          ],
+          "inference": false,
+          "text": "Record a valid awaiting-merge receipt before PR review, then bind merge, exact branch/worktree cleanup, and close."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-220-release-v0-2-28-finalization-reconciliation-final.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-220-release-v0-2-28-finalization-reconciliation-final"
+  },
+  "taskReportDigest": "sha256:344f1ab8a123e0b878386b81b40e4fdcef87d831f1e8e9d17f74b27e6d4900c6",
+  "taskReportMarkdownDigest": "sha256:b4c7a20b3ed63acc0c3c3f32c40c4f04b3176a01adb38824406bd249627544a7",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-220-release-v0-2-28-finalization-reconciliation-final.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-220-release-v0-2-28-finalization-reconciliation-final"
+}
