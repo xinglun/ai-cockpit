@@ -136,9 +136,41 @@ fn transition(previous: &Value, sequence: u64, deleted: bool) -> Value {
         transition_id: format!("transition-{sequence}"),
         sequence,
         predecessor_receipt_digest: cockpit_protocol::digest_json(previous).unwrap(),
+        governance_append_revision: None,
         receipt: next,
     })
     .unwrap()
+}
+
+fn set_receipt_head(value: &mut Value, head: &str) {
+    value["pullRequest"]["headRevision"] = head.into();
+    value["branch"]["headRevision"] = head.into();
+    value["worktree"]["headRevision"] = head.into();
+}
+
+fn git(directory: &tempfile::TempDir, args: &[&str]) -> String {
+    let output = Command::new("git")
+        .args(args)
+        .current_dir(directory.path())
+        .output()
+        .unwrap();
+    assert!(
+        output.status.success(),
+        "git {args:?} failed: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    String::from_utf8(output.stdout).unwrap().trim().into()
+}
+
+fn commit_archive(directory: &tempfile::TempDir) -> String {
+    git(
+        directory,
+        &["config", "user.email", "tests@example.invalid"],
+    );
+    git(directory, &["config", "user.name", "AI Cockpit Tests"]);
+    git(directory, &["add", "."]);
+    git(directory, &["commit", "-q", "-m", "archive"]);
+    git(directory, &["rev-parse", "HEAD"])
 }
 
 fn write_input(directory: &tempfile::TempDir, name: &str, value: &Value) -> std::path::PathBuf {
@@ -214,6 +246,98 @@ fn wi190_topology_appends_two_transitions_and_resolves_deleted_head() {
     assert_eq!(
         close["resourceFinalizationHeadDigest"],
         verified["headDigest"]
+    );
+}
+
+#[test]
+fn wi191_governance_receipt_append_allows_bounded_merge_observation() {
+    // This models the real WI-191 governance-only 70c17e4 -> 8f5a025 append:
+    // the second commit adds only the canonical finalization receipt.
+    let (directory, context, contract) = repository();
+    let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+    let archive_head = commit_archive(&directory);
+    let mut blocked = blocked(&repository_id, &context, &contract);
+    set_receipt_head(&mut blocked, &archive_head);
+    let canonical_input = write_input(&directory, "blocked.json", &blocked);
+    record_resource_finalization(directory.path(), ID, &canonical_input, &runtime()).unwrap();
+    let canonical_relative = format!(".ai/decisions/{ID}.finalize.json");
+    git(&directory, &["add", &canonical_relative]);
+    git(
+        &directory,
+        &["commit", "-q", "-m", "append canonical governance receipt"],
+    );
+    let append_head = git(&directory, &["rev-parse", "HEAD"]);
+
+    let mut observed = transition(&blocked, 1, false);
+    set_receipt_head(&mut observed["receipt"], &append_head);
+    observed["governanceAppendRevision"] = append_head.clone().into();
+    let observed_input = write_input(&directory, "observed.json", &observed);
+    record_resource_finalization(directory.path(), ID, &observed_input, &runtime()).unwrap();
+
+    let observed_receipt = observed["receipt"].clone();
+    let deleted = transition(&observed_receipt, 2, true);
+    let deleted_input = write_input(&directory, "deleted.json", &deleted);
+    record_resource_finalization(directory.path(), ID, &deleted_input, &runtime()).unwrap();
+    let verified = verify_resource_finalization(directory.path(), ID, &runtime()).unwrap();
+    assert_eq!(verified["sequence"], 2);
+    assert_eq!(verified["disposition"], "deleted");
+}
+
+#[test]
+fn unrelated_or_malformed_governance_append_fails_closed() {
+    for foreign in [
+        "unrelated.txt".to_string(),
+        format!(".ai/decisions/{ID}.finalize.bad.json"),
+    ] {
+        let (directory, context, contract) = repository();
+        let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+        let archive_head = commit_archive(&directory);
+        let mut blocked = blocked(&repository_id, &context, &contract);
+        set_receipt_head(&mut blocked, &archive_head);
+        let canonical_input = write_input(&directory, "blocked.json", &blocked);
+        record_resource_finalization(directory.path(), ID, &canonical_input, &runtime()).unwrap();
+        fs::write(directory.path().join(&foreign), b"foreign").unwrap();
+        let canonical_relative = format!(".ai/decisions/{ID}.finalize.json");
+        git(&directory, &["add", &canonical_relative, &foreign]);
+        git(&directory, &["commit", "-q", "-m", "foreign append"]);
+        let append_head = git(&directory, &["rev-parse", "HEAD"]);
+        let mut observed = transition(&blocked, 1, false);
+        set_receipt_head(&mut observed["receipt"], &append_head);
+        observed["governanceAppendRevision"] = append_head.into();
+        let observed_input = write_input(&directory, "observed.json", &observed);
+        assert!(
+            record_resource_finalization(directory.path(), ID, &observed_input, &runtime())
+                .is_err()
+        );
+    }
+}
+
+#[cfg(unix)]
+#[test]
+fn symlinked_governance_append_receipt_fails_closed() {
+    let (directory, context, contract) = repository();
+    let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+    let archive_head = commit_archive(&directory);
+    let mut blocked = blocked(&repository_id, &context, &contract);
+    set_receipt_head(&mut blocked, &archive_head);
+    let canonical_input = write_input(&directory, "blocked.json", &blocked);
+    record_resource_finalization(directory.path(), ID, &canonical_input, &runtime()).unwrap();
+    let canonical_relative = format!(".ai/decisions/{ID}.finalize.json");
+    let symlink_relative = format!(".ai/decisions/{ID}.finalize.{}.json", "0".repeat(64));
+    std::os::unix::fs::symlink(
+        format!("{ID}.finalize.json"),
+        directory.path().join(&symlink_relative),
+    )
+    .unwrap();
+    git(&directory, &["add", &canonical_relative, &symlink_relative]);
+    git(&directory, &["commit", "-q", "-m", "symlink append"]);
+    let append_head = git(&directory, &["rev-parse", "HEAD"]);
+    let mut observed = transition(&blocked, 1, false);
+    set_receipt_head(&mut observed["receipt"], &append_head);
+    observed["governanceAppendRevision"] = append_head.into();
+    let observed_input = write_input(&directory, "observed.json", &observed);
+    assert!(
+        record_resource_finalization(directory.path(), ID, &observed_input, &runtime()).is_err()
     );
 }
 

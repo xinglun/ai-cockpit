@@ -1004,6 +1004,8 @@ pub struct ResourceFinalizationTransitionReceipt {
     pub transition_id: String,
     pub sequence: u64,
     pub predecessor_receipt_digest: Digest,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub governance_append_revision: Option<String>,
     pub receipt: ResourceFinalizationReceipt,
 }
 
@@ -1439,22 +1441,70 @@ pub fn validate_resource_finalization_transition(
             "predecessor digest",
         ));
     }
+    let previous_heads = (
+        previous.pull_request.head_revision.as_str(),
+        previous.branch.head_revision.as_str(),
+        previous.worktree.head_revision.as_str(),
+    );
+    let next_heads = (
+        next.pull_request.head_revision.as_str(),
+        next.branch.head_revision.as_str(),
+        next.worktree.head_revision.as_str(),
+    );
+    if previous_heads.0 != previous_heads.1
+        || previous_heads.1 != previous_heads.2
+        || next_heads.0 != next_heads.1
+        || next_heads.1 != next_heads.2
+    {
+        return Err(ResourceFinalizationError::IdentityMismatch(
+            "pull request, branch, and worktree head revisions differ",
+        ));
+    }
+    let head_changed = previous_heads != next_heads;
     if previous.repository_id != next.repository_id
         || previous.work_item_id != next.work_item_id
         || previous.provider != next.provider
         || previous.pull_request.number != next.pull_request.number
         || previous.pull_request.url != next.pull_request.url
-        || previous.pull_request.head_revision != next.pull_request.head_revision
         || previous.pull_request.base_branch != next.pull_request.base_branch
         || previous.pull_request.base_remote != next.pull_request.base_remote
         || previous.pull_request.base_revision != next.pull_request.base_revision
-        || previous.branch != next.branch
-        || previous.worktree != next.worktree
+        || previous.branch.name != next.branch.name
+        || previous.branch.remote != next.branch.remote
+        || previous.worktree.worktree_id != next.worktree.worktree_id
+        || previous.worktree.path != next.worktree.path
+        || previous.worktree.branch != next.worktree.branch
         || previous.contract_digest != next.contract_digest
         || previous.resource_context != next.resource_context
     {
         return Err(ResourceFinalizationError::IdentityMismatch(
             "finalization transition identity",
+        ));
+    }
+    if head_changed {
+        let bounded_merge_observation = transition.sequence == 1
+            && transition.governance_append_revision.as_deref() == Some(next_heads.0)
+            && matches!(
+                previous.after.pull_request,
+                ResourceFinalizationPullRequestState::Unmerged
+            )
+            && matches!(
+                next.after.pull_request,
+                ResourceFinalizationPullRequestState::Merged
+            )
+            && next.pull_request.merge_commit.is_some()
+            && matches!(
+                next.result.disposition,
+                ResourceFinalizationDisposition::Retained
+            );
+        if !bounded_merge_observation {
+            return Err(ResourceFinalizationError::IdentityMismatch(
+                "unbound finalization head revision change",
+            ));
+        }
+    } else if transition.governance_append_revision.is_some() {
+        return Err(ResourceFinalizationError::IdentityMismatch(
+            "governance append revision without head change",
         ));
     }
     if previous.pull_request.merge_commit.is_some()

@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "post-archive corrective authorization",
+  "decidedAt": "2026-08-23T11:06:54Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-191-finalization-transition-chain.finalize.json",
+    ".ai/work-items/archive/WI-191-finalization-transition-chain.archive.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md#work-item-change-discipline"
+  ],
+  "predecessorContractDigest": "sha256:f7f439073aa350b710eaf97f43658d8e3977ff1e30d6c58c4e8d3f01f23305f2",
+  "predecessorEventsDigest": "sha256:1bf1474dd5fa223b7045382a165bf971641b49c91dc357c24f36febabf5cfa97",
+  "predecessorOutcomeDigest": "sha256:4e6e25940be70785cca746f01d09d21e831f0905ec6b0324399ef675bc3c3955",
+  "predecessorSummaryDigest": "sha256:6afc8ea633dfaaae3eaa4b02c17ca81bea23922dbfe0d61c51a8a573c35eb012",
+  "predecessorWorkItemId": "WI-191-finalization-transition-chain",
+  "reason": "Correct the self-referential governance receipt head transition without rewriting WI-191 archive or canonical finalization evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Verify an explicitly bound governance-append head transition and reject arbitrary head drift.",
+  "runtimeDigest": "sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+  "runtimeVersion": "0.2.23",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-191H-finalization-head-binding",
+  "workItemId": "WI-191-finalization-transition-chain"
+}

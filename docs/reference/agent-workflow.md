@@ -101,7 +101,7 @@ their source language; only the human presentation layer is localized.
 
 ## Resource finalization boundary
 
-Finalization evidence is append-only. The canonical `<id>.finalize.json` is the immutable chain root; later provider observations use `<id>.finalize.<digest>.json` and bind the predecessor digest and sequence. `finalize-verify` and `close` require one unique linear head. Stale predecessors, forks, malformed records, symlinks, and identity drift fail closed. A pre-merge blocked root advances through continuous merge-observation (`retained`) and cleanup (`deleted`) transitions.
+Finalization evidence is append-only. The canonical `<id>.finalize.json` is the immutable chain root; later provider observations use `<id>.finalize.<digest>.json` and bind the predecessor digest and sequence. `finalize-verify` and `close` require one unique linear head. Stale predecessors, forks, malformed records, symlinks, and identity drift fail closed. A pre-merge blocked root advances through continuous merge-observation (`retained`) and cleanup (`deleted`) transitions. If committing the canonical governance receipt advances the PR head, only the first unmerged-to-merged observation may declare `governanceAppendRevision`: all PR, branch, and worktree heads must move together, Git must prove the old head is its ancestor, and the range may add only regular same-Work-Item finalization receipt JSON. Cleanup retains that head; unrelated, non-append, non-merge, or later head drift is rejected.
 
 Merge is not Work Item closure. After hosted checks pass, the exact branch and
 worktree are a separate resource-finalization boundary:

@@ -98,8 +98,50 @@ fn transition(previous: &ResourceFinalizationReceipt) -> ResourceFinalizationTra
             &serde_json::to_value(previous).unwrap(),
         )
         .unwrap(),
+        governance_append_revision: None,
         receipt: next,
     }
+}
+
+#[test]
+fn merge_observation_requires_explicit_governance_append_for_head_drift() {
+    let mut previous = receipt();
+    previous.pull_request.merge_commit = None;
+    previous.before.pull_request = ResourceFinalizationPullRequestState::Unmerged;
+    previous.after = previous.before.clone();
+    previous.result.disposition = ResourceFinalizationDisposition::Blocked;
+    previous.result.failure_codes = vec![RESOURCE_FINALIZATION_CODE_UNMERGED_PULL_REQUEST.into()];
+
+    let mut observed = transition(&previous);
+    for head in [
+        &mut observed.receipt.pull_request.head_revision,
+        &mut observed.receipt.branch.head_revision,
+        &mut observed.receipt.worktree.head_revision,
+    ] {
+        *head = "governance-append-head".into();
+    }
+    assert!(validate_resource_finalization_transition(&previous, &observed, 1).is_err());
+    observed.governance_append_revision = Some("governance-append-head".into());
+    validate_resource_finalization_transition(&previous, &observed, 1).unwrap();
+
+    let mut branch_only = transition(&previous);
+    branch_only.receipt.branch.head_revision = "governance-append-head".into();
+    branch_only.governance_append_revision = Some("governance-append-head".into());
+    assert!(validate_resource_finalization_transition(&previous, &branch_only, 1).is_err());
+
+    let mut worktree_only = transition(&previous);
+    worktree_only.receipt.worktree.head_revision = "governance-append-head".into();
+    worktree_only.governance_append_revision = Some("governance-append-head".into());
+    assert!(validate_resource_finalization_transition(&previous, &worktree_only, 1).is_err());
+
+    let mut arbitrary = transition(&observed.receipt);
+    arbitrary.sequence = 2;
+    arbitrary.transition_id = "transition-2".into();
+    arbitrary.receipt.pull_request.head_revision = "arbitrary-head".into();
+    arbitrary.receipt.branch.head_revision = "arbitrary-head".into();
+    arbitrary.receipt.worktree.head_revision = "arbitrary-head".into();
+    arbitrary.governance_append_revision = Some("arbitrary-head".into());
+    assert!(validate_resource_finalization_transition(&observed.receipt, &arbitrary, 2).is_err());
 }
 
 #[test]

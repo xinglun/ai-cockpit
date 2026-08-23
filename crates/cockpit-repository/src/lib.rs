@@ -7885,6 +7885,111 @@ fn read_resource_finalization_transition(
     })
 }
 
+fn validate_governance_append_revision(
+    root: &Path,
+    work_item_id: &str,
+    previous: &ResourceFinalizationReceipt,
+    transition: &ResourceFinalizationTransitionReceipt,
+    path: &Path,
+) -> Result<(), ObserverError> {
+    let Some(append_revision) = transition.governance_append_revision.as_deref() else {
+        return Ok(());
+    };
+    let previous_spec = format!("{}^{{commit}}", previous.pull_request.head_revision);
+    let append_spec = format!("{append_revision}^{{commit}}");
+    let previous_revision = git_text(
+        root,
+        &["rev-parse", "--verify", "--end-of-options", &previous_spec],
+    )
+    .ok_or_else(|| ObserverError::State {
+        path: path.into(),
+        message: "governance append predecessor revision is not a local commit".into(),
+    })?;
+    let append_revision = git_text(
+        root,
+        &["rev-parse", "--verify", "--end-of-options", &append_spec],
+    )
+    .ok_or_else(|| ObserverError::State {
+        path: path.into(),
+        message: "governance append revision is not a local commit".into(),
+    })?;
+    if git_text(
+        root,
+        &[
+            "merge-base",
+            "--is-ancestor",
+            &previous_revision,
+            &append_revision,
+        ],
+    )
+    .is_none()
+    {
+        return Err(ObserverError::State {
+            path: path.into(),
+            message: "governance append revision does not descend from the predecessor head".into(),
+        });
+    }
+    let changes = git_text(
+        root,
+        &[
+            "diff",
+            "--name-status",
+            &previous_revision,
+            &append_revision,
+            "--",
+        ],
+    )
+    .ok_or_else(|| ObserverError::State {
+        path: path.into(),
+        message: "cannot inspect governance append revision changes".into(),
+    })?;
+    let canonical = format!(".ai/decisions/{work_item_id}.finalize.json");
+    let transition_prefix = format!(".ai/decisions/{work_item_id}.finalize.");
+    let allowed = |candidate: &str| {
+        candidate == canonical
+            || candidate
+                .strip_prefix(&transition_prefix)
+                .and_then(|suffix| suffix.strip_suffix(".json"))
+                .is_some_and(|digest| {
+                    digest.len() == 64 && digest.bytes().all(|byte| byte.is_ascii_hexdigit())
+                })
+    };
+    let mut count = 0usize;
+    for change in changes.lines() {
+        let Some(candidate) = change.strip_prefix("A\t") else {
+            return Err(ObserverError::State {
+                path: path.into(),
+                message: "governance append revision contains a non-append change".into(),
+            });
+        };
+        if !allowed(candidate) {
+            return Err(ObserverError::State {
+                path: path.into(),
+                message: "governance append revision contains a foreign path".into(),
+            });
+        }
+        let tree_entry = git_text(root, &["ls-tree", &append_revision, "--", candidate])
+            .ok_or_else(|| ObserverError::State {
+                path: path.into(),
+                message: "cannot inspect governance append receipt file mode".into(),
+            })?;
+        if !tree_entry.starts_with("100644 blob ") || !tree_entry.ends_with(candidate) {
+            return Err(ObserverError::State {
+                path: path.into(),
+                message: "governance append receipt is not a regular non-symlink JSON file".into(),
+            });
+        }
+        count += 1;
+    }
+    if count == 0 {
+        return Err(ObserverError::State {
+            path: path.into(),
+            message: "governance append revision contains no finalization receipt append".into(),
+        });
+    }
+    Ok(())
+}
+
 fn resolve_resource_finalization_head(
     root: &Path,
     work_item_id: &str,
@@ -7965,6 +8070,7 @@ fn resolve_resource_finalization_head(
                 message: error.to_string(),
             },
         )?;
+        validate_governance_append_revision(root, work_item_id, &receipt, &transition, &next_path)?;
         sequence += 1;
         receipt = transition.receipt;
         path = next_path;
@@ -8107,6 +8213,13 @@ pub fn record_resource_finalization(
                     path: receipt_path.into(),
                     message: error.to_string(),
                 })?;
+            validate_governance_append_revision(
+                &root,
+                work_item_id,
+                &existing,
+                &transition,
+                receipt_path,
+            )?;
             let value =
                 serde_json::to_value(&transition).map_err(|error| ObserverError::State {
                     path: receipt_path.into(),
@@ -8221,8 +8334,31 @@ pub fn verify_resource_finalization(
     let (receipt, path, receipt_digest, sequence) =
         resolve_resource_finalization_head(&root, work_item_id)?;
     let (contract, contract_digest) = archived_contract_digest(&root, work_item_id)?;
+    let mut receipt_for_context_validation = receipt.clone();
+    if sequence > 0
+        && matches!(
+            receipt.result.disposition,
+            ResourceFinalizationDisposition::Retained
+        )
+        && matches!(
+            receipt.before.pull_request,
+            cockpit_protocol::ResourceFinalizationPullRequestState::Unmerged
+        )
+        && matches!(
+            receipt.after.pull_request,
+            cockpit_protocol::ResourceFinalizationPullRequestState::Merged
+        )
+        && receipt.before.branch == receipt.after.branch
+        && receipt.before.worktree == receipt.after.worktree
+    {
+        // The resolver has already validated this member in transition
+        // context. Normalize only the intrinsic precondition while binding
+        // the unchanged repository, Contract, and resource identities below.
+        receipt_for_context_validation.before.pull_request =
+            cockpit_protocol::ResourceFinalizationPullRequestState::Merged;
+    }
     validate_resource_finalization_receipt_for(
-        &receipt,
+        &receipt_for_context_validation,
         &contract.repository_id,
         work_item_id,
         Some(&contract_digest),

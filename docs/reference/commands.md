@@ -14,7 +14,7 @@ capabilityClaims:
 
 # Command reference
 
-`work-item finalize` stores the first receipt at `.ai/decisions/<id>.finalize.json`. If that immutable root exists, a typed transition envelope must bind the unique head's predecessor digest and next sequence; Runtime appends `.finalize.<digest>.json`. `finalize-verify` reports `headPath`, `headDigest`, and `sequence`, which `close` binds.
+`work-item finalize` stores the first receipt at `.ai/decisions/<id>.finalize.json`. If that immutable root exists, a typed transition envelope must bind the unique head's predecessor digest and next sequence; Runtime appends `.finalize.<digest>.json`. `finalize-verify` reports `headPath`, `headDigest`, and `sequence`, which `close` binds. A sequence-1 merge observation may additionally bind `governanceAppendRevision` when the receipt commit advanced all aligned heads; Runtime accepts it only when Git proves an ancestor range containing exclusively regular same-Work-Item finalization receipt additions.
 
 All repository commands accept an explicit `--repo <path>`. Commands that
 produce records or decisions use JSON, except `work-item outcome`, which emits

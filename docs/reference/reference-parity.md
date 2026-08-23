@@ -177,4 +177,4 @@ identity-mismatched dimensions fail closed. An optional
 ambiguous `4D` protocol field, and the Runtime does not synthesize evidence or
 turn a local projection into provider/enterprise assurance.
 
-WI-191 adds an append-only finalization transition chain: immutable canonical blocked evidence can advance through merge observation and exact cleanup without rewriting history; verification and close bind the unique latest head.
+WI-191 adds an append-only finalization transition chain: immutable canonical blocked evidence can advance through merge observation and exact cleanup without rewriting history; verification and close bind the unique latest head. WI-191H closes the receipt-commit head-binding loop: the observed `70c17e4` archive head may advance to `8f5a025` only through an explicit, Git-proven governance receipt append during the first merge observation; arbitrary head drift remains rejected.

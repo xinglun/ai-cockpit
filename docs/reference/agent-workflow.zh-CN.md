@@ -76,7 +76,7 @@ Work Item 或 project profile。Contract 条件保留其原始语言，只有面
 
 ## 资源收尾边界
 
-资源收尾 evidence 使用 append-only 链。canonical `<id>.finalize.json` 是不可变链根；后续 provider 观察写入 `<id>.finalize.<digest>.json`，并绑定 predecessor digest 与 sequence。`finalize-verify` 和 `close` 要求唯一线性 head；stale predecessor、fork、malformed record、symlink 或 identity drift 都会 fail closed。pre-merge blocked 链根通过连续的 merge observation（`retained`）与 cleanup（`deleted`）transition 推进。
+资源收尾 evidence 使用 append-only 链。canonical `<id>.finalize.json` 是不可变链根；后续 provider 观察写入 `<id>.finalize.<digest>.json`，并绑定 predecessor digest 与 sequence。`finalize-verify` 和 `close` 要求唯一线性 head；stale predecessor、fork、malformed record、symlink 或 identity drift 都会 fail closed。pre-merge blocked 链根通过连续的 merge observation（`retained`）与 cleanup（`deleted`）transition 推进。如果提交 canonical 治理 receipt 导致 PR head 前移，只有第一次 unmerged-to-merged observation 可以声明 `governanceAppendRevision`：PR、branch 与 worktree 的 head 必须同步变化，Git 必须证明旧 head 是新 head 的祖先，并且该区间只能新增同一 Work Item 的普通 finalization receipt JSON。cleanup 必须保持该 head；无关、非追加、非 merge 或后续 head 漂移都会被拒绝。
 
 合并不等于 Work Item 关闭。Hosted checks 通过后，准确的 branch 和 worktree 还必须经过
 独立的资源收尾边界：
