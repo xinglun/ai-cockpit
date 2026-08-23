@@ -1,0 +1,106 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "ordinary and release-tag runs",
+          "path": "tests/ci/governance_integrity_gate_test.sh",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "explicit env clearing and release-tag fixtures",
+          "path": "tests/ci/governance_integrity_gate_test.sh",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "ci_governance_integrity_regression",
+          "path": "target/repository-gates.json",
+          "type": "gate",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "outOfScope immutable release history",
+          "path": ".ai/work-items/active/WI-211-hermetic-governance-fixture.contract.json",
+          "type": "contract",
+          "verification": "passed"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-211-hermetic-governance-fixture.ja.md",
+    "docs/work-items/WI-211-hermetic-governance-fixture.md",
+    "docs/work-items/WI-211-hermetic-governance-fixture.zh-CN.md",
+    "tests/ci/governance_integrity_gate_test.sh"
+  ],
+  "checkpointAt": "2026-08-23T17:33:31Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T17:32:48Z",
+  "intentAlignment": {
+    "evidence": [
+      "tests/ci/governance_integrity_gate_test.sh",
+      ".ai/work-items/active/WI-211-hermetic-governance-fixture.contract.json"
+    ],
+    "reason": "The change isolates fixture event context so release CI and local runs exercise the same governance cases without weakening real tag validation.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-08-23T17:33:43Z",
+  "preflightContractDigest": "sha256:c206631ddae4a412396007c1570d105877eb801765d9dd6e59459d8491e1234a",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:c0ea7982d5160c86924e17383f240cb54d071e4a7c7578a3808653218436b829",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "required": true,
+      "scenario": "release-tag CI environment",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "required": true,
+      "scenario": "ordinary local environment",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/work-items/active/WI-211-hermetic-governance-fixture.contract.json"
+      ],
+      "reason": "This successor fixes the test harness on origin/main and cannot mutate an already-created release tag.",
+      "required": false,
+      "scenario": "immutable v0.2.26 history",
+      "status": "not_applicable"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T17:33:50Z",
+  "workItemId": "WI-211-hermetic-governance-fixture"
+}

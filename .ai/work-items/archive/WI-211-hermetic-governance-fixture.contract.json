@@ -1,0 +1,83 @@
+{
+  "acceptanceCriteria": [
+    "A1: governance_integrity_gate_test.sh passes when executed with release-tag GITHUB_* environment variables, proving fixture cases explicitly control their event context.",
+    "A2: the regression test proves the same fixture report and exit status under ordinary and release-tag environments, while real release-tag fixtures retain strict tag validation.",
+    "A3: release source_quality gates pass locally and in GitHub Actions without changing immutable v0.2.26 or using source/workspace fallback.",
+    "A4: the Work Item records verification evidence and a visible human Outcome; no unrelated Agent/MCP/global configuration is modified."
+  ],
+  "authority": "authorized",
+  "baseRevision": "ab4e3844c6d113ab4fddbb9ae20fec4b4303249b",
+  "createdAt": "2026-08-23T17:32:48Z",
+  "goal": "根治发布治理回归测试受 GitHub release 环境变量污染而产生本地/CI 分歧的问题。",
+  "intent": "让 governance_integrity_gate_test.sh 在任何 CI 事件上下文中都显式设置每个 fixture 的事件环境，避免 awaiting-merge-close 等非 tag fixture 被误判为真实 release tag，同时保留真实 release-tag fixture 的严格验证。",
+  "mode": "implementation",
+  "outOfScope": [
+    "Moving",
+    " overwriting",
+    " or reusing the immutable v0.2.26 tag",
+    "Changing Runtime governance semantics unrelated to fixture event isolation",
+    "Reference-source file-by-file parity expansion (next batch)",
+    "User-global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c0ea7982d5160c86924e17383f240cb54d071e4a7c7578a3808653218436b829",
+  "requiredEvidenceClasses": [
+    "verification",
+    "release"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-211-hermetic-governance-fixture",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi211-hermetic-governance-fixture"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "scenario": "release-tag CI environment",
+      "expected": "Fixture event context is explicit and the regression passes under release-tag environment variables.",
+      "verificationPlan": "Run governance_integrity_gate_test.sh with GITHUB_EVENT_NAME=push and GITHUB_REF=refs/tags/v0.2.26.",
+      "status": "verified",
+      "required": true,
+      "evidence": ["tests/ci/governance_integrity_gate_test.sh"]
+    },
+    {
+      "scenario": "ordinary local environment",
+      "expected": "The same fixture cases produce the same findings and exit status without release environment variables.",
+      "verificationPlan": "Run governance_integrity_gate_test.sh in a clean non-release environment and compare the deterministic report.",
+      "status": "verified",
+      "required": true,
+      "evidence": ["tests/ci/governance_integrity_gate_test.sh"]
+    },
+    {
+      "scenario": "immutable v0.2.26 history",
+      "expected": "The failed v0.2.26 publication remains immutable and is not rewritten by this fix.",
+      "verificationPlan": "Verify tag object and release history remain unchanged.",
+      "status": "not_applicable",
+      "reason": "This successor fixes the test harness on origin/main and cannot mutate an already-created release tag.",
+      "required": false,
+      "evidence": [".ai/work-items/active/WI-211-hermetic-governance-fixture.contract.json"]
+    }
+  ],
+  "scope": [
+    "tests/ci/governance_integrity_gate_test.sh",
+    "tests/ci/repository_gate_manifest.json",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-211-hermetic-governance-fixture.md",
+    "docs/work-items/WI-211-hermetic-governance-fixture.zh-CN.md",
+    "docs/work-items/WI-211-hermetic-governance-fixture.ja.md",
+    ".ai/evidence/**",
+    ".ai/decisions/**",
+    ".ai/work-items/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-211-hermetic-governance-fixture"
+}
