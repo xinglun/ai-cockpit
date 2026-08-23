@@ -1,0 +1,136 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "version and docs baseline",
+          "path": "tests/release/version_consistency.sh",
+          "type": "test",
+          "verification": "passed"
+        },
+        {
+          "locator": "documentation acceptance",
+          "path": "tests/docs/documentation_acceptance.sh",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "PR #161 pre-merge resource context",
+          "path": ".ai/work-items/active/WI-213-release-v0-2-27.contract.json",
+          "type": "contract",
+          "verification": "finalize-plan recorded before verification"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "public adopter receipt",
+          "path": "tests/release/adopter_acceptance.sh",
+          "type": "test",
+          "verification": "pending until public Release"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "isolation and cleanup receipt",
+          "path": "tests/release/adopter_acceptance.sh",
+          "type": "test",
+          "verification": "pending until public Release"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "installed Runtime WI-212 close",
+          "path": ".ai/decisions/WI-212-release-fixture-finalization-recovery.close.json",
+          "type": "decision",
+          "verification": "pending until post-merge public Runtime"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "immutable failed history",
+          "path": ".ai/work-items/archive/WI-210-release-v0-2-26.archive.json",
+          "type": "archive",
+          "verification": "preserved"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-213-release-v0-2-27.contract.json",
+    ".ai/work-items/archive/WI-213-release-v0-2-27.summary.json"
+  ],
+  "checkpointAt": "2026-08-23T18:06:10Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T18:00:12Z",
+  "intentAlignment": {
+    "evidence": [
+      "Cargo.toml",
+      "docs/release/distribution.md",
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "The release Work Item binds merged source, immutable public artifact, and installed Runtime acceptance without expanding into the next reference-source parity batch.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-08-23T18:11:13Z",
+  "preflightContractDigest": "sha256:ffb122d5faa491bdc62a96f84babcce77795c8aa5bdfe731d2c7100b2711b67c",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:b382bb250b4c4e8a8085a0c2d3383a4477a653dc729f6d9299eb72ade8f36f79",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "tests/release/version_consistency.sh",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "expected": "All current version, distribution, architecture, and parity baselines resolve to v0.2.27.",
+      "required": true,
+      "scenario": "version and release baseline",
+      "status": "verified",
+      "verificationPlan": "Run version consistency, documentation, parity, and hosted release checks."
+    },
+    {
+      "evidence": [],
+      "expected": "Downloaded v0.2.27 completes isolated adopter acceptance without source fallback.",
+      "reason": "The public Release asset does not exist until the reviewed PR is merged and the immutable tag is published; post-release evidence is bound after publication.",
+      "required": false,
+      "scenario": "immutable public adopter",
+      "status": "not_applicable",
+      "verificationPlan": "Run tests/release/adopter_acceptance.sh against the published tag."
+    },
+    {
+      "evidence": [],
+      "expected": "The public v0.2.27 Runtime completes N-1 acceptance and WI-212 post-merge finalization, finalize-verify, and close.",
+      "reason": "The public Runtime and immutable Release are not available until post-merge publication; transition evidence is bound after publication.",
+      "required": false,
+      "scenario": "N-1 upgrade and Runtime close",
+      "status": "not_applicable",
+      "verificationPlan": "Run tests/release/adopter_upgrade_acceptance.sh and post-release lifecycle with the downloaded binary."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T18:11:58Z",
+  "workItemId": "WI-213-release-v0-2-27"
+}
