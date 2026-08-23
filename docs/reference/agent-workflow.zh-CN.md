@@ -91,6 +91,14 @@ context/receipt；Runtime 不会隐式删除资源。Work Item 只有在 verific
 Archived verification evidence 保持为不可变的历史事实；Runtime 升级后不把它重新标记为当前
 结果，而是显示为历史 evidence。新的 finalization receipt 始终绑定执行 close 的 Runtime。
 
+## Release tag 的 transition 顺序
+
+只有 PR 已合并且有效的 pre-merge finalization receipt 已提交后，才能创建 Release tag。
+Source quality 只在该不可变 tag 的 receipt 已绑定身份，并且 Git 证明 receipt 中记录的
+PR head 是 tag commit 的祖先时，才将其识别为 `awaiting_merge_close` 边界。这不会关闭
+Work Item，也不会豁免清理。发布后的 binary 必须继续执行 `finalize`、`finalize-verify`
+和结构化 human `close`；普通分支、无法证明的 tag 或格式错误 receipt 仍然 fail-closed。
+
 - `finalize-plan` 记录准确的 Work Item branch/worktree、provider PR、合并 head、remote、
   default branch 和清理计划；绝不删除 branch 或 worktree。
 - `finalize` 只有在 PR、head、dirty 状态和保护检查通过后，才能处理准确的已合并

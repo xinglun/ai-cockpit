@@ -272,5 +272,39 @@ if repository_phase:
     )
     if repository_phase == "feature":
         subprocess.run(["git", "checkout", "-qb", "codex/fixture"], cwd=root, check=True)
+    elif repository_phase == "release_tag":
+        # Model the provider merge that makes a pre-merge head an ancestor of
+        # the immutable release tag.  Update the fixture receipt with the
+        # actual feature commit after the history exists.
+        subprocess.run(["git", "checkout", "-qb", "codex/fixture"], cwd=root, check=True)
+        write(root / "fixture-change.txt", "merged feature\n")
+        subprocess.run(["git", "add", "fixture-change.txt"], cwd=root, check=True)
+        subprocess.run(["git", "commit", "-qm", "fixture change"], cwd=root, check=True)
+        feature_head = subprocess.run(
+            ["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True
+        ).stdout.strip()
+        release_item = next(
+            item
+            for item in spec.get("workItems", [])
+            if item.get("terminalDecision") == "finalize"
+        )
+        receipt_path = root / ".ai/decisions" / f"{release_item['id']}.finalize.json"
+        receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+        receipt["branch"]["headRevision"] = feature_head
+        receipt["pullRequest"]["headRevision"] = feature_head
+        receipt["worktree"]["headRevision"] = feature_head
+        if spec.get("mutation") == "non_ancestor":
+            receipt["branch"]["headRevision"] = "f" * 40
+            receipt["pullRequest"]["headRevision"] = "f" * 40
+            receipt["worktree"]["headRevision"] = "f" * 40
+        write(receipt_path, receipt)
+        subprocess.run(["git", "add", str(receipt_path.relative_to(root))], cwd=root, check=True)
+        subprocess.run(["git", "commit", "-qm", "bind fixture finalization"], cwd=root, check=True)
+        subprocess.run(["git", "checkout", "-q", "main"], cwd=root, check=True)
+        subprocess.run(["git", "merge", "--no-ff", "-m", "merge fixture", "codex/fixture"], cwd=root, check=True)
+        tagged_head = subprocess.run(
+            ["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True
+        ).stdout.strip()
+        subprocess.run(["git", "tag", "v9.9.9", tagged_head], cwd=root, check=True)
     elif repository_phase != "main":
         raise SystemExit(f"unsupported repositoryPhase fixture: {repository_phase}")

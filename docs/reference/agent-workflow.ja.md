@@ -99,6 +99,16 @@ verification 後にだけ archive でき、`finalize-verify` が `Deleted` ま�
 されません。一方、新しい finalization receipt は close を実行する Runtime に必ず bind
 されます。
 
+## Release tag の transition 順序
+
+PR の merge と有効な pre-merge finalization receipt の commit が完了してから Release
+tag を作成します。Source quality は、不変の tag 上で receipt が identity-bound であり、
+receipt に記録された PR head が tag commit の ancestor であることを Git が証明できる
+場合に限り、`awaiting_merge_close` 境界として扱います。これは Work Item の close や
+cleanup の免除ではありません。公開後の binary で `finalize`、`finalize-verify`、構造化
+human `close` を続けて実行します。通常 branch、証明できない tag、malformed receipt は
+引き続き fail-closed です。
+
 - `finalize-plan` は正確な Work Item branch/worktree、provider PR、merge head、
   remote、default branch、cleanup 計画を記録します。branch や worktree を削除しません。
 - `finalize` は PR、head、dirty state、protection の確認が通った後だけ、正確な

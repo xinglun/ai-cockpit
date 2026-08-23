@@ -1,0 +1,57 @@
+{
+  "acceptanceCriteria": [
+    "On a release tag, a valid pre-merge finalization receipt whose recorded branch head is an ancestor of the tagged merge commit is classified as awaiting_merge_close.",
+    "On feature branches, pull requests, default branches, and invalid or unproven tag contexts, missing close remains blocking.",
+    "Regression fixtures cover valid tag transition, non-ancestor tag, malformed receipt, and ordinary branch behavior.",
+    "Documentation records the release ordering and post-release closure boundary in English, Simplified Chinese, and Japanese."
+  ],
+  "authority": "authorized",
+  "baseRevision": "56b5e8d0584743d4442d50156adf25a6e933eaf3",
+  "createdAt": "2026-08-23T16:19:45Z",
+  "goal": "Release tags must not deadlock between immutable publication and post-merge closure; ordinary branches remain fail-closed.",
+  "intent": "Correct release-tag governance ordering so a verified merge-bound pre-merge finalization may pass source quality until post-release Runtime closure.",
+  "mode": "code",
+  "outOfScope": [
+    "Runtime protocol/schema changes",
+    "Public Release artifact creation"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:dcbf1816e5f68fcdf6ecc6838f0d556e1a54d83ddfbecc5a7055f2a22ab18802",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-206-release-tag-pending-close",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi206-release-tag-pending-close"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/work-items/active/WI-206-release-tag-pending-close.contract.json",
+    ".ai/work-items/active/WI-206-release-tag-pending-close.summary.json",
+    ".ai/work-items/active/WI-206-release-tag-pending-close.approach.json",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "tests/ci/fixtures/governance-integrity/**",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/work-items/WI-206-release-tag-pending-close.md",
+    "docs/work-items/WI-206-release-tag-pending-close.zh-CN.md",
+    "docs/work-items/WI-206-release-tag-pending-close.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-206-release-tag-pending-close"
+}

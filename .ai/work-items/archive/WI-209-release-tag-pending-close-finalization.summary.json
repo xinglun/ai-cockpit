@@ -1,0 +1,65 @@
+{
+  "acceptanceEvidence": [
+    {
+      "criterion": "truthful baseRevision",
+      "evidenceRefs": [
+        ".ai/work-items/active/WI-209-release-tag-pending-close-finalization.contract.json"
+      ]
+    },
+    {
+      "criterion": "finalize-plan before verification",
+      "evidenceRefs": [
+        ".ai/decisions/WI-209-release-tag-pending-close-finalization.finalize.json"
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-208-release-tag-pending-close-finalization.recovery.json",
+    ".ai/work-items/archive/WI-209-release-tag-pending-close-finalization.contract.json",
+    ".ai/work-items/archive/WI-209-release-tag-pending-close-finalization.summary.json",
+    "tests/ci/__pycache__/governance_integrity_gate.cpython-314.pyc"
+  ],
+  "checkpointAt": "2026-08-23T16:40:57Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T16:40:14Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/decisions/WI-209-release-tag-pending-close-finalization.finalize.json",
+      "https://github.com/xinglun/ai-cockpit/pull/158",
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "The successor binds the actual synchronized default-branch base and exact PR context before verification.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "predecessorContractDigest": "sha256:f4fc12d02fdd7f99b792ef888369a805a24e6a4a159f38f677a363c65cf8c480",
+  "predecessorWorkItemId": "WI-208-release-tag-pending-close-finalization",
+  "preflightAt": "2026-08-23T16:41:01Z",
+  "preflightContractDigest": "sha256:d55761f4c8bdf575be380e5f89fdc026f86747dadd36748566f8e996ed15da6d",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:7da8c6e2d8b716f27885b3b6db6b7cd008b7e82de3865104580cb49f83d2a6df",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-208-release-tag-pending-close-finalization.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "required": true,
+      "scenario": "synchronized default-branch base",
+      "status": "unverified"
+    },
+    {
+      "required": true,
+      "scenario": "exact PR resource context",
+      "status": "unverified"
+    },
+    {
+      "required": false,
+      "scenario": "published Runtime post-merge closure",
+      "status": "unverified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T16:41:01Z",
+  "workItemId": "WI-209-release-tag-pending-close-finalization"
+}

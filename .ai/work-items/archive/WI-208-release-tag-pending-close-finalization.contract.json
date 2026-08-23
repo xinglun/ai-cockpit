@@ -1,0 +1,54 @@
+{
+  "acceptanceCriteria": [
+    "finalize-plan is recorded before any WI-208 verification evidence exists.",
+    "The exact PR #158, branch, worktree, provider, base branch, and remote are bound and remain immutable.",
+    "The successor remains pending for the published Runtime to perform finalize, finalize-verify, and structured close after merge."
+  ],
+  "authority": "authorized",
+  "baseRevision": "2260760f5cc1f18d1d320f2b38480130619c1ce0",
+  "createdAt": "2026-08-23T16:35:23Z",
+  "goal": "Make PR #158 source-quality-compatible without rewriting WI-206 or WI-207, and leave an auditable receipt ready for published Runtime closure.",
+  "intent": "Execute the release-tag governance successor in the Runtime-required order: finalize-plan before verification evidence, then preserve the post-merge closure boundary.",
+  "mode": "code",
+  "outOfScope": [
+    "Source implementation already archived under WI-206",
+    "Public Release artifact creation"
+  ],
+  "predecessorContractDigest": "sha256:a6238d03b051553f498d81524f8c414c39fd99d337181bb6117afdbedafec5bb",
+  "predecessorWorkItemId": "WI-207-release-tag-pending-close-finalization",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-207-release-tag-pending-close-finalization.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:38e0df2b3ba3a00f38418d71902e73ff00ca0c37fb5cfb20ec97d1f838d5bd71",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-206-release-tag-pending-close",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/158",
+    "worktree": "/private/tmp/ai-cockpit-wi206-release-tag-pending-close"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/**",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-207-release-tag-pending-close-finalization.md",
+    "docs/work-items/WI-207-release-tag-pending-close-finalization.zh-CN.md",
+    "docs/work-items/WI-207-release-tag-pending-close-finalization.ja.md",
+    "docs/work-items/WI-208-release-tag-pending-close-finalization.md",
+    "docs/work-items/WI-208-release-tag-pending-close-finalization.zh-CN.md",
+    "docs/work-items/WI-208-release-tag-pending-close-finalization.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-208-release-tag-pending-close-finalization"
+}

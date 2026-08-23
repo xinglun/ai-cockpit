@@ -1,0 +1,12 @@
+{
+  "currentRelease": "9.9.9",
+  "repositoryPhase": "release_tag",
+  "mutation": "non_ancestor",
+  "workItems": [
+    {
+      "classification": "current_archive_timestamp",
+      "id": "WI-901-release-v9-9-9",
+      "terminalDecision": "finalize"
+    }
+  ]
+}

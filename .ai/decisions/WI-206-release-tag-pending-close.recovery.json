@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-24T01:36:00+09:00",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-206-release-tag-pending-close.verification.json",
+    ".ai/work-items/archive/WI-206-release-tag-pending-close.archive.json",
+    "https://github.com/xinglun/ai-cockpit/pull/158"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:15db85442e7397a7c5c4f998c140d4a7ba2085507fd9ec17be13b27b704516b1",
+  "predecessorEventsDigest": "sha256:b7dbcc2e5f49bf0731dad244c97062b092a1c4e4f039e3f31f48e65932015581",
+  "predecessorOutcomeDigest": "sha256:3dd12178683740a90763f1cc4621f87b0bec47e86fae9b9726040f1588ddf079",
+  "predecessorSummaryDigest": "sha256:fdf12f7c965d55d5edff6de0405e21d355e1d9ff308987b33a448d1dc4414d68",
+  "predecessorWorkItemId": "WI-206-release-tag-pending-close",
+  "reason": "WI-206 was archived before finalize-plan was recorded. Its implementation and verification bytes remain immutable; a successor will bind the exact PR resource context before archive/finalization and will preserve the release-tag rule without rewriting the predecessor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-207 from this synchronized branch by binding PR #158 with finalize-plan before archive, then finalize, finalize-verify, and structured close after the published Runtime is available.",
+  "runtimeDigest": "sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+  "runtimeVersion": "0.2.23",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-207-release-tag-pending-close-finalization",
+  "workItemId": "WI-206-release-tag-pending-close"
+}

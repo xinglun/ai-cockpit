@@ -1,0 +1,156 @@
+{
+  "acceptanceResults": [
+    "Contract baseRevision equals the synchronized origin/main merge base 56b5e8d0584743d4442d50156adf25a6e933eaf3.",
+    "finalize-plan is recorded before WI-209 verification evidence and binds the exact PR #158 context.",
+    "The successor remains pending for published Runtime finalize, finalize-verify, and structured close after merge."
+  ],
+  "createdAt": "2026-08-23T16:41:01Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:3739a0d5807aa28a1b9c5b91a7cba832979f812e12e32b5c1bbba89b56f04018",
+  "evidenceRefs": [
+    ".ai/evidence/WI-209-release-tag-pending-close-finalization.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-209-release-tag-pending-close-finalization.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-209-release-tag-pending-close-finalization.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7da8c6e2d8b716f27885b3b6db6b7cd008b7e82de3865104580cb49f83d2a6df",
+      "workItemId": "WI-209-release-tag-pending-close-finalization"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-209-release-tag-pending-close-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-208-release-tag-pending-close-finalization.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-209-release-tag-pending-close-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-209-release-tag-pending-close-finalization.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-209-release-tag-pending-close-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-209-release-tag-pending-close-finalization.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-209-release-tag-pending-close-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/__pycache__/governance_integrity_gate.cpython-314.pyc"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-209-release-tag-pending-close-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-209-release-tag-pending-close-finalization.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-209-release-tag-pending-close-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-209-release-tag-pending-close-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-209-release-tag-pending-close-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-209-release-tag-pending-close-finalization.contract.json"
+          ],
+          "inference": false,
+          "text": "Make PR #158 source-quality-compatible with a truthful baseRevision and retain the post-release close boundary."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-209-release-tag-pending-close-finalization.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-209-release-tag-pending-close-finalization"
+  },
+  "taskReportDigest": "sha256:4340baa1c3829a78bbad07749e06cdab954457beab9971b481d2be7fd360ce47",
+  "taskReportMarkdownDigest": "sha256:6858f8138a80614de8c93f79700e612e52fa5bd683afd2a9d223443e6288f9ce",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-209-release-tag-pending-close-finalization.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-209-release-tag-pending-close-finalization"
+}

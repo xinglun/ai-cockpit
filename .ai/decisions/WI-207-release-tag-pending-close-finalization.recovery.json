@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-24T01:37:00+09:00",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-207-release-tag-pending-close-finalization.verification.json",
+    ".ai/work-items/archive/WI-207-release-tag-pending-close-finalization.archive.json",
+    "https://github.com/xinglun/ai-cockpit/pull/158"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/commands.md"
+  ],
+  "predecessorContractDigest": "sha256:a6238d03b051553f498d81524f8c414c39fd99d337181bb6117afdbedafec5bb",
+  "predecessorEventsDigest": "sha256:2cbce955887025ffdb9ad814ec2f551821f832cd363fd19bd1c944c670f79d5d",
+  "predecessorOutcomeDigest": "sha256:2154d0b745149e187782a800f99635b84395a59d6d4ce2d64f1b377c664b7413",
+  "predecessorSummaryDigest": "sha256:7756c8cf05ccd4f3ac9e16506056fe9d79f492345e88f764feb5f9fb7480443c",
+  "predecessorWorkItemId": "WI-207-release-tag-pending-close-finalization",
+  "reason": "WI-207 recorded verification before finalize-plan, but Runtime requires finalize-plan before verification evidence. Its immutable archive remains preserved; a clean successor will execute finalize-plan first and then collect fresh verification evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-208 by running finalize-plan first for PR #158, then preflight, checkpoint, verify, finish, archive, and post-merge finalization/close with the published Runtime.",
+  "runtimeDigest": "sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+  "runtimeVersion": "0.2.23",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-208-release-tag-pending-close-finalization",
+  "workItemId": "WI-207-release-tag-pending-close-finalization"
+}

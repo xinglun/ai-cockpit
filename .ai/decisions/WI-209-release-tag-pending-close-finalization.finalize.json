@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-pre-merge-finalization-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "06943c9450c872ab1d5b5c981a668fd59a99fe94",
+    "name": "codex/wi-206-release-tag-pending-close",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:1c0a875183bc2cba1505fdb3004cfc382204caf112d8b75fc7e05c4c61baefe7",
+  "operationId": "operation-WI-209-release-tag-pending-close-finalization-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "56b5e8d0584743d4442d50156adf25a6e933eaf3",
+    "headRevision": "06943c9450c872ab1d5b5c981a668fd59a99fe94",
+    "number": 158,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/158"
+  },
+  "reason": "awaiting_merge_close: PR #158 is unmerged; retain the reviewed release-tag governance boundary until hosted checks pass and the merged default branch is available.",
+  "receiptId": "ai-cockpit-WI-209-release-tag-pending-close-finalization-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-206-release-tag-pending-close",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/158",
+    "worktree": "/private/tmp/ai-cockpit-wi206-release-tag-pending-close"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+  "runtimeVersion": "0.2.23",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-24T01:42:00+09:00",
+  "workItemId": "WI-209-release-tag-pending-close-finalization",
+  "worktree": {
+    "branch": "codex/wi-206-release-tag-pending-close",
+    "headRevision": "06943c9450c872ab1d5b5c981a668fd59a99fe94",
+    "path": "/private/tmp/ai-cockpit-wi206-release-tag-pending-close",
+    "worktreeId": "WI-209-release-tag-pending-close-finalization"
+  }
+}

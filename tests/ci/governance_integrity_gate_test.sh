@@ -21,7 +21,15 @@ run_case() {
   local report="$tmp/$name-report.json"
   build_fixture "$fixtures/$name.json" "$repo"
   set +e
-  python3 "$gate" --repo "$repo" --report "$report" >/dev/null
+  if [[ "$name" == release-tag-* ]]; then
+    GITHUB_EVENT_NAME=push \
+    GITHUB_REF=refs/tags/v9.9.9 \
+    GITHUB_REF_NAME=v9.9.9 \
+    GITHUB_SHA="$(git -C "$repo" rev-parse HEAD)" \
+      python3 "$gate" --repo "$repo" --report "$report" >/dev/null
+  else
+    python3 "$gate" --repo "$repo" --report "$report" >/dev/null
+  fi
   local actual_code=$?
   set -e
   [[ "$actual_code" -eq "$expected_code" ]] || {
@@ -54,6 +62,8 @@ run_case ambiguous-current 1 ambiguous_short_id
 run_case invalid-outcome 1 invalid_outcome
 run_case archive-timestamp-current 0 none
 run_case awaiting-merge-close 0 none
+run_case release-tag-awaiting-close 0 none
+run_case release-tag-non-ancestor 1 invalid_premerge_finalize
 run_case merged-finalize-not-terminal 1 missing_terminal_decision
 run_case invalid-premerge-finalize 1 invalid_premerge_finalize
 run_case retained-premerge-finalize 1 invalid_premerge_finalize
@@ -139,6 +149,20 @@ item = next(
     item
     for item in report["inventory"]
     if item["workItemId"] == "WI-901-corrective-after-baseline"
+)
+assert item["lifecycleState"] == "awaiting_merge_close", item
+assert item["decisionPath"].endswith(".finalize.json"), item
+PY
+
+python3 - "$tmp/release-tag-awaiting-close-report.json" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+item = next(
+    item
+    for item in report["inventory"]
+    if item["workItemId"] == "WI-901-release-v9-9-9"
 )
 assert item["lifecycleState"] == "awaiting_merge_close", item
 assert item["decisionPath"].endswith(".finalize.json"), item
