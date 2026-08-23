@@ -1,0 +1,34 @@
+{
+  "acceptanceCriteria": [
+    "Historical Outcome keeps yellow marker and explicit historical explanation.",
+    "Historical Outcome does not emit verification_or_human_input failed gate or missing-evidence recovery text.",
+    "Active contradictory evidence remains red and fail-closed.",
+    "Three-language Outcome documentation states the historical projection boundary."
+  ],
+  "authority": "authorized",
+  "baseRevision": "7d1ccdc82e2bced0962dbca5196598bafbc22af2",
+  "createdAt": "2026-08-23T02:02:28Z",
+  "goal": "Keep Outcome human-readable, language-localized, and truthful after Runtime upgrades and repository changes.",
+  "intent": "Render archived historical evidence as historical context instead of a misleading current verification failure.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Changing active Work Item fail-closed verification or rewriting archived evidence.",
+    "Global Agent/MCP configuration and provider cleanup."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:63ce7891c2ea171a153c06c2d6761c27734a9a89af2637eddbd2a9c2cdc25143",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/**",
+    "docs/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-163-historical-outcome-projection"
+}
