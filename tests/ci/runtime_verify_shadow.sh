@@ -3,7 +3,7 @@ set -euo pipefail
 
 repo="${1:-${GITHUB_WORKSPACE:-$(pwd)}}"
 output="${2:-${AI_COCKPIT_SHADOW_OUTPUT:-target/ci-runtime-verify-shadow.json}}"
-runtime_tag="${AI_COCKPIT_RUNTIME_TAG:-v0.2.15}"
+runtime_tag="${AI_COCKPIT_RUNTIME_TAG:-v0.2.28}"
 
 # Phase 1 is an execution smoke only. It proves that one immutable public
 # Runtime can execute a repository-bound verification command. It does not
@@ -21,18 +21,18 @@ arch="$(uname -m)"
 case "$os:$arch" in
   Linux:x86_64)
     target="x86_64-unknown-linux-gnu"
-    archive_sha256="af6e265cd4555e9ed3c6c36907ab468027d6f4fef02171d8104bb535a70b2ba1"
-    binary_sha256="93678b446b97437d2f97d974db7535f1abf2aa86978ade0fd29092644a9536be"
+    archive_sha256="350e29a1e0acbf484311ea75ece76f1e6bd9619d0133887a22f0736bcedec8e8"
+    binary_sha256="c2382c8b5f78a091b74f5c899d9a02c8404fea4c3a9f49bbf93e4fc07b226e15"
     ;;
   Darwin:arm64)
     target="aarch64-apple-darwin"
-    archive_sha256="97387ada235e03cc1b9984715ca9ebd7d451f330c5253dcb5d9af32fb133dbcc"
-    binary_sha256="afbe435a1e666be13b28e4eb53da465327276fa0d3ae3186409d034dc2eae5f1"
+    archive_sha256="7a9666f01826be78e0e3ec4f9d45bb951062670af5cfa4a2026971340ece4ce7"
+    binary_sha256="23e9a9824f35b9e0d3706bdcbad34777bca5b0a4d362b4101407412a905dcb5b"
     ;;
   Darwin:x86_64)
     target="x86_64-apple-darwin"
-    archive_sha256="b3aa58bb2fa751fb9856aac2008f2c20ebff985309ed623e773449f779ad8690"
-    binary_sha256="8d3b815ebba94542360918347a0db62ada15ba4af307f57c95a70b538ac894a1"
+    archive_sha256="71ed63fe00acdc69b0dd5d2a10724b3ef0c12ae2503ff1fb029d4a4e5cac0700"
+    binary_sha256="2b093e16d658a4a2ffa36bbd0ed48a745dacd4438e3732818d3dfdd28c2d488e"
     ;;
   *)
     die "unsupported shadow host: $os/$arch"
@@ -42,7 +42,7 @@ archive="ai-cockpit-${runtime_tag}-${target}.tar.gz"
 runtime_digest="sha256:${binary_sha256}"
 release_base="https://github.com/xinglun/ai-cockpit/releases/download/${runtime_tag}"
 
-[[ "$runtime_tag" == "v0.2.15" ]] || die 'only the immutable v0.2.15 baseline is allowed in Phase 1'
+[[ "$runtime_tag" == "v0.2.28" ]] || die 'only the immutable v0.2.28 baseline is allowed in Phase 1'
 [[ -d "$repo" ]] || die "repository does not exist: $repo"
 command -v curl >/dev/null || die 'curl is required'
 command -v jq >/dev/null || die 'jq is required'
@@ -72,12 +72,11 @@ binary="$extract_root/ai-cockpit"
 actual_binary_sha256="$(shasum -a 256 "$binary" | awk '{print $1}')"
 [[ "$actual_binary_sha256" == "$binary_sha256" ]] || die 'public Release binary digest mismatch'
 version="$($binary --version | awk '{print $2}')"
-[[ "$version" == "0.2.15" ]] || die "public Release binary version mismatch: $version"
+[[ "$version" == "0.2.28" ]] || die "public Release binary version mismatch: $version"
 
 mkdir -p "$(dirname "$output")"
 verify_output="$run_root/verify.json"
-if ! "$binary" verify --repo "$repo" --command cargo \
-  --args 'test,--locked,--workspace,--all-targets,--quiet' --workers 2 > "$verify_output"; then
+if ! "$binary" verify --repo "$repo" --workers 2 > "$verify_output"; then
   die 'installed public Runtime verify command failed'
 fi
 jq -e --arg version "$version" --arg digest "$runtime_digest" \
@@ -93,8 +92,8 @@ jq -n \
   --arg downloadSource "$download_source" \
   --arg boundary "$shadow_boundary" \
   --slurpfile verify "$verify_output" \
-  '{schemaVersion:1,phase:1,boundary:$boundary,tag:$tag,version:$version,archiveDigest:$archiveDigest,binaryDigest:$binaryDigest,platform:$platform,downloadSource:$downloadSource,verify:$verify[0],cargoShadowRequired:true,nonClaims:["policy_route","affected_graph","physical_execution_receipt"]}' \
+  '{schemaVersion:1,phase:1,boundary:$boundary,tag:$tag,version:$version,archiveDigest:$archiveDigest,binaryDigest:$binaryDigest,platform:$platform,downloadSource:$downloadSource,verify:$verify[0],canonicalProfileRequired:true,nonClaims:["runtime_global_route","affected_graph","physical_execution_receipt"]}' \
   > "$output"
 jq -e --arg tag "$runtime_tag" --arg digest "$runtime_digest" \
-  '.phase == 1 and .boundary == "execution_smoke" and .tag == $tag and .binaryDigest == $digest and .cargoShadowRequired == true and .verify.passed == true and (.nonClaims | index("policy_route")) != null and (.nonClaims | index("affected_graph")) != null and (.nonClaims | index("physical_execution_receipt")) != null' \
+  '.phase == 1 and .boundary == "execution_smoke" and .tag == $tag and .binaryDigest == $digest and .canonicalProfileRequired == true and .verify.passed == true and (.nonClaims | index("runtime_global_route")) != null and (.nonClaims | index("affected_graph")) != null and (.nonClaims | index("physical_execution_receipt")) != null' \
   "$output" >/dev/null || die 'Runtime shadow receipt is malformed'

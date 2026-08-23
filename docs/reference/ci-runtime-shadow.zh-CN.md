@@ -1,36 +1,38 @@
 ---
 author: AI Cockpit maintainers
 title: CI Runtime Verification Shadow
-description: 在保留现有 Cargo 质量门的同时使用不可变公开 Runtime 做 Phase 1 CI 收敛。
+description: 使用类型化仓库质量路由，并以不可变公开 Runtime 执行 shadow 验证。
 audience:
   - adopter
   - contributor
   - maintainer
 status: implemented
 authority: canonical
-lastVerifiedBy: WI-145-ci-runtime-shadow
+lastVerifiedBy: WI-224-ci-reference-parity
 ---
 
 # CI Runtime Verification Shadow
 
-WI-145 建立 CI 收敛的 Phase 1。quality job 下载上一稳定且公开不可变的 `v0.2.15` Linux
-Runtime，校验 archive 与 binary digest，然后让 `ai-cockpit verify` 对当前 checkout
-执行验证。receipt 固定记录 tag、version、archive digest、binary digest、platform、
-download source 和 Runtime verify 结果。
+WI-224 把仓库 CI 路由变成显式策略。`quality_route.py` 根据 changed paths、Contract
+risk 与 workflow stage 选择 `light`、`standard` 或 `strict`。未知路径、release-owned
+路径、高风险、merge 与 release stage 都升级为 `strict`。类型化 route receipt 绑定
+Git base/head、changed paths、Contract 路径与 digest、manifest byte digest、选择原因和
+有序 gate ID。`run_repository_gates.py` 会从当前仓库事实重算 receipt，并且只执行规范
+manifest 中的命令；不存在任意命令 override。
 
-当前安装基线可以推进到更新的 Release（当前为 `v0.2.23`），而不改变发布前的 shadow pin。
-只有在该 Release 公开并记录不可变 archive/binary identity 后才推进 pin，避免 tag workflow 依赖尚不存在的 artifact。
+profile 为累加关系。`light` 执行文档与治理策略回归；`standard` 再加入 Cargo fmt、
+Clippy、package gates、不可变 Runtime shadow 与源码 conformance；`strict` 继续加入
+release、workflow、performance、adopter 与 source-archive gates。Pull request 使用
+path/risk route；merge push 的 stage floor 是 strict。release source quality 始终显式
+请求 `strict`，并上传 route receipt 与 gate report。
 
-现有 Cargo `fmt`、`clippy` 与 package test 步骤仍保留在同一个 job 中，作为独立的
-shadow comparison。Runtime shadow 通过不代表替换或弱化这些检查；本阶段也不宣称
-Runtime 与 Cargo 结果已经等价，更不提供 provider/enterprise assurance。
+在 `standard` 和 `strict` 中，独立 execution shadow 下载公开且不可变的 `v0.2.28`
+Runtime，验证各平台 archive/binary digest，再使用仓库规范 profile 执行验证。receipt
+绑定 tag、version、archive digest、binary digest、platform、download source 与
+Runtime 结果。它拒绝源码构建、workspace binary、任意 `--command` 替代、未固定制品、
+digest 不一致和格式错误输出。
 
-收敛边界分阶段固定：
-
-1. **Phase 1（当前）：** 不可变 Runtime verify 加现有 Cargo checks。
-2. **Phase 2（后续）：** 长期收集 Runtime/Cargo 可比较结果并证明稳定收敛。
-3. **Phase 3（后续）：** 只有 Phase 2 有证据且迁移决定经过 review 后，才删除重复的
-   YAML policy。
-
-Shadow lane 拒绝源码构建、workspace binary、未固定版本的 release artifact、
-archive/binary digest 不一致以及格式错误的 Runtime 输出。
+这是仓库 CI/release 层策略，不宣称 Runtime 全局 T0–T3 路由、affected graph 完整性、
+跨 Work Item 物理执行或通用 CLI `verify --command` 语义；WI-224 未授权 `crates/**`，
+这些 Runtime 改动明确 deferred。shadow 只证明执行身份，不能替代所选 manifest gates，
+也不提供 provider/enterprise assurance。

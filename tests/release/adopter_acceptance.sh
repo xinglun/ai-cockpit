@@ -11,6 +11,7 @@ Usage: adopter_acceptance.sh \
   --tag vX.Y.Z \
   --target TARGET \
   --output DIRECTORY \
+  [--candidate-dir DIRECTORY] \
   [--source-repo DIRECTORY]
 USAGE
 }
@@ -30,6 +31,7 @@ tag=''
 target=''
 output=''
 source_repo=''
+candidate_dir=''
 
 while (($# > 0)); do
   case "$1" in
@@ -56,6 +58,11 @@ while (($# > 0)); do
     --source-repo)
       [[ $# -ge 2 ]] || die "--source-repo requires a value"
       source_repo=$2
+      shift 2
+      ;;
+    --candidate-dir)
+      [[ $# -ge 2 ]] || die "--candidate-dir requires a value"
+      candidate_dir=$2
       shift 2
       ;;
     --help|-h)
@@ -100,6 +107,10 @@ source_top="$(cd "$source_top" && pwd -P)"
 source_project="$source_repo/.ai/project.json"
 [[ -f "$source_project" && ! -L "$source_project" ]] || die 'source repository .ai/project.json is missing or symlinked'
 source_repository_id="$(jq -er '.repositoryId | select(type == "string" and test("^sha256:[0-9a-f]{64}$"))' "$source_project")" || die 'source repositoryId is missing or malformed'
+if [[ -n "$candidate_dir" ]]; then
+  [[ -d "$candidate_dir" && ! -L "$candidate_dir" ]] || die 'candidate directory must be a regular directory'
+  candidate_dir="$(cd "$candidate_dir" && pwd -P)"
+fi
 
 mkdir -p "$output"
 output="$(cd "$output" && pwd)"
@@ -125,6 +136,7 @@ finished_at=''
 overall_state=failed
 failure_reason=''
 release_published=false
+staged_candidate=false
 runtime_version=''
 runtime_digest=''
 repository_id=''
@@ -336,6 +348,7 @@ finalize() {
     --arg finishedAt "$finished_at" \
     --arg state "$overall_state" \
     --arg releasePublished "$release_published" \
+    --arg stagedCandidate "$staged_candidate" \
     --arg repository "$repository" \
     --arg tag "$tag" \
     --arg target "$target" \
@@ -356,6 +369,7 @@ finalize() {
       startedAt: $startedAt,
       finishedAt: $finishedAt,
       releasePublished: ($releasePublished == "true"),
+      stagedCandidate: ($stagedCandidate == "true"),
       adopterAcceptance: $state,
       repository: $repository,
       tag: $tag,
@@ -466,39 +480,52 @@ capture_runtime() {
   mark_passed "$evidence_name"
 }
 
-release_url="https://github.com/$repository/releases/tag/$tag"
-api_url="https://api.github.com/repos/$repository/releases/tags/$tag"
-release_api="$output/release.json"
-if ! curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 "$api_url" > "$release_api"; then
-  record_step release-fetch failed 'public Release API request failed'
-  failure_reason='public Release API request failed'
-  exit 1
-fi
-if ! jq -e --arg tag "$tag" '.tag_name == $tag and (.draft == false) and (.prerelease == false)' "$release_api" >/dev/null; then
-  record_step release-fetch failed 'Release is missing, draft, prerelease, or tag-mismatched'
-  failure_reason='public Release is not a published immutable tag'
-  exit 1
-fi
-release_published=true
-mark_passed release-fetch
-
 version="$(printf '%s' "$tag" | sed 's/^v//')"
 archive_name="ai-cockpit-$tag-$target.$archive_extension"
 manifest_name=release-manifest.json
 sums_name=SHA256SUMS
-archive_url="$(jq -er --arg name "$archive_name" '.assets[] | select(.name == $name) | .browser_download_url' "$release_api")"
-manifest_url="$(jq -er --arg name "$manifest_name" '.assets[] | select(.name == $name) | .browser_download_url' "$release_api")"
-sums_url="$(jq -er --arg name "$sums_name" '.assets[] | select(.name == $name) | .browser_download_url' "$release_api")"
-[[ "$archive_url" == "https://github.com/$repository/releases/download/$tag/"* ]] || die 'archive URL is outside the requested public Release'
-[[ "$manifest_url" == "https://github.com/$repository/releases/download/$tag/"* ]] || die 'manifest URL is outside the requested public Release'
-[[ "$sums_url" == "https://github.com/$repository/releases/download/$tag/"* ]] || die 'checksum URL is outside the requested public Release'
-
 archive_path="$download_root/$archive_name"
 manifest_path="$download_root/$manifest_name"
 sums_path="$download_root/$sums_name"
-curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 "$archive_url" -o "$archive_path"
-curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 "$manifest_url" -o "$manifest_path"
-curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 "$sums_url" -o "$sums_path"
+release_url=''
+if [[ -n "$candidate_dir" ]]; then
+  staged_candidate=true
+  for candidate_file in "$archive_name" "$manifest_name" "$sums_name"; do
+    [[ -f "$candidate_dir/$candidate_file" && ! -L "$candidate_dir/$candidate_file" ]] || die "staged candidate file is missing or symlinked: $candidate_file"
+  done
+  cp "$candidate_dir/$archive_name" "$archive_path"
+  cp "$candidate_dir/$manifest_name" "$manifest_path"
+  cp "$candidate_dir/$sums_name" "$sums_path"
+  source_revision="$(git -C "$source_repo" rev-parse 'HEAD^{commit}')"
+  [[ "$(jq -er '.commit' "$manifest_path")" == "$source_revision" ]] || die 'staged candidate commit does not match source checkout HEAD'
+  archive_url="workflow-artifact:ai-cockpit-candidate/$archive_name"
+  mark_passed candidate-fetch
+else
+  release_url="https://github.com/$repository/releases/tag/$tag"
+  api_url="https://api.github.com/repos/$repository/releases/tags/$tag"
+  release_api="$output/release.json"
+  if ! curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 "$api_url" > "$release_api"; then
+    record_step release-fetch failed 'public Release API request failed'
+    failure_reason='public Release API request failed'
+    exit 1
+  fi
+  if ! jq -e --arg tag "$tag" '.tag_name == $tag and (.draft == false) and (.prerelease == false)' "$release_api" >/dev/null; then
+    record_step release-fetch failed 'Release is missing, draft, prerelease, or tag-mismatched'
+    failure_reason='public Release is not a published immutable tag'
+    exit 1
+  fi
+  release_published=true
+  mark_passed release-fetch
+  archive_url="$(jq -er --arg name "$archive_name" '.assets[] | select(.name == $name) | .browser_download_url' "$release_api")"
+  manifest_url="$(jq -er --arg name "$manifest_name" '.assets[] | select(.name == $name) | .browser_download_url' "$release_api")"
+  sums_url="$(jq -er --arg name "$sums_name" '.assets[] | select(.name == $name) | .browser_download_url' "$release_api")"
+  [[ "$archive_url" == "https://github.com/$repository/releases/download/$tag/"* ]] || die 'archive URL is outside the requested public Release'
+  [[ "$manifest_url" == "https://github.com/$repository/releases/download/$tag/"* ]] || die 'manifest URL is outside the requested public Release'
+  [[ "$sums_url" == "https://github.com/$repository/releases/download/$tag/"* ]] || die 'checksum URL is outside the requested public Release'
+  curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 "$archive_url" -o "$archive_path"
+  curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 "$manifest_url" -o "$manifest_path"
+  curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 "$sums_url" -o "$sums_path"
+fi
 cp "$manifest_path" "$output/release-manifest.json"
 cp "$sums_path" "$output/SHA256SUMS.release"
 manifest_archive_digest="$(jq -er --arg target "$target" '.artifacts[] | select(.target == $target) | .archive.sha256' "$manifest_path")"
@@ -517,10 +544,10 @@ else
 fi
 runtime_bin="$runtime_root/ai-cockpit"
 if [[ "$archive_extension" == zip ]]; then runtime_bin="$runtime_root/ai-cockpit.exe"; fi
-[[ -f "$runtime_bin" && -x "$runtime_bin" ]] || die 'public Release archive did not contain an executable Runtime'
+[[ -f "$runtime_bin" && -x "$runtime_bin" ]] || die 'accepted archive did not contain an executable Runtime'
 runtime_version="$("$runtime_bin" --version | awk '{print $2}')"
 runtime_digest="sha256:$(sha256_file "$runtime_bin")"
-[[ "$runtime_version" == "$version" ]] || die 'downloaded Runtime version does not match Release tag'
+[[ "$runtime_version" == "$version" ]] || die 'accepted Runtime version does not match candidate tag'
 runtime_platform="$(uname -s)-$(uname -m)"
 jq -n \
   --arg tag "$tag" \
@@ -533,7 +560,9 @@ jq -n \
   --arg downloadSource "$archive_url" \
   --arg releaseUrl "$release_url" \
   --arg manifestDigest "sha256:$(sha256_file "$manifest_path")" \
-  '{schemaVersion:1,tag:$tag,version:$version,target:$target,platform:$platform,archive:$archive,archiveDigest:$archiveDigest,binaryDigest:$binaryDigest,downloadSource:$downloadSource,releaseUrl:$releaseUrl,manifestDigest:$manifestDigest,releasePublished:true}' > "$output/runtime.json"
+  --argjson releasePublished "$release_published" \
+  --argjson stagedCandidate "$staged_candidate" \
+  '{schemaVersion:1,tag:$tag,version:$version,target:$target,platform:$platform,archive:$archive,archiveDigest:$archiveDigest,binaryDigest:$binaryDigest,downloadSource:$downloadSource,releaseUrl:(if $releaseUrl == "" then null else $releaseUrl end),manifestDigest:$manifestDigest,releasePublished:$releasePublished,stagedCandidate:$stagedCandidate}' > "$output/runtime.json"
 mark_passed runtime-pin
 
 source_before_status="$(git -C "$source_repo" status --porcelain=v1)"

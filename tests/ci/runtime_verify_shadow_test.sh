@@ -12,14 +12,19 @@ if grep -Eq 'cargo[[:space:]]+(build|run)|target/debug/ai-cockpit|workspace bina
 fi
 grep -q -- 'archive_sha256=' "$script"
 grep -q -- 'binary_sha256=' "$script"
-grep -q -- 'cargoShadowRequired:true' "$script"
+grep -q -- 'canonicalProfileRequired:true' "$script"
 grep -q -- 'shadow_boundary="execution_smoke"' "$script"
-grep -q -- 'policy_route' "$script"
+grep -q -- 'runtime_global_route' "$script"
 grep -q -- 'affected_graph' "$script"
 grep -q -- 'physical_execution_receipt' "$script"
 grep -q -- 'Phase 1 is an execution smoke only' "$script"
 grep -q -- '--proto' "$script"
 grep -q -- 'https://github.com/xinglun/ai-cockpit/releases/download' "$script"
+grep -q -- 'v0.2.28' "$script"
+if grep -Fq -- '--command' "$script"; then
+  printf 'Runtime shadow must use the repository canonical profile, not an arbitrary command\n' >&2
+  exit 1
+fi
 
 tmp_root="$(mktemp -d "${TMPDIR:-/tmp}/ai-cockpit-ci-shadow-test.XXXXXX")"
 cleanup() { find "$tmp_root" -depth -mindepth 0 -delete 2>/dev/null || true; }

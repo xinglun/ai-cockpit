@@ -3,7 +3,7 @@ set -euo pipefail
 
 usage() {
   cat <<'USAGE'
-Usage: adopter_upgrade_acceptance.sh --repository OWNER/REPOSITORY --from-tag vX.Y.Z --to-tag vX.Y.Z --target TARGET --output DIRECTORY [--source-repo DIRECTORY]
+Usage: adopter_upgrade_acceptance.sh --repository OWNER/REPOSITORY --from-tag vX.Y.Z --to-tag vX.Y.Z --target TARGET --output DIRECTORY [--to-candidate-dir DIRECTORY] [--source-repo DIRECTORY]
 USAGE
 }
 die() { failure_reason="$*"; printf 'adopter upgrade acceptance failed: %s\n' "$failure_reason" >&2; exit 1; }
@@ -157,7 +157,7 @@ update_acceptance_cleanup() {
   return 1
 }
 
-repository='' from_tag='' to_tag='' target='' output='' source_repo=''
+repository='' from_tag='' to_tag='' target='' output='' source_repo='' to_candidate_dir=''
 while (($# > 0)); do
   case "$1" in
     --repository) [[ $# -ge 2 ]] || die "--repository requires a value"; repository="$2"; shift 2 ;;
@@ -166,6 +166,7 @@ while (($# > 0)); do
     --target) [[ $# -ge 2 ]] || die "--target requires a value"; target="$2"; shift 2 ;;
     --output) [[ $# -ge 2 ]] || die "--output requires a value"; output="$2"; shift 2 ;;
     --source-repo) [[ $# -ge 2 ]] || die "--source-repo requires a value"; source_repo="$2"; shift 2 ;;
+    --to-candidate-dir) [[ $# -ge 2 ]] || die "--to-candidate-dir requires a value"; to_candidate_dir="$2"; shift 2 ;;
     --help|-h) usage; exit 0 ;;
     *) usage >&2; die "unknown argument: $1" ;;
   esac
@@ -191,6 +192,10 @@ source_top="$(cd "$source_top" && pwd -P)"
 source_project="$source_repo/.ai/project.json"
 [[ -f "$source_project" && ! -L "$source_project" ]] || die 'source repository .ai/project.json is missing or symlinked'
 source_repository_id="$(jq -er '.repositoryId | select(type == "string" and test("^sha256:[0-9a-f]{64}$"))' "$source_project")" || die 'source repositoryId is missing or malformed'
+if [[ -n "$to_candidate_dir" ]]; then
+  [[ -d "$to_candidate_dir" && ! -L "$to_candidate_dir" ]] || die 'to-candidate directory must be a regular directory'
+  to_candidate_dir="$(cd "$to_candidate_dir" && pwd -P)"
+fi
 mkdir -p "$output"; output="$(cd "$output" && pwd)"
 [[ -z "$(find "$output" -mindepth 1 -print -quit 2>/dev/null)" ]] || die "output directory must be empty: $output"
 mkdir -p "$output/work-items"
@@ -200,6 +205,7 @@ run_parent="$(cd "$tmp_parent" 2>/dev/null && pwd -P)" || die "TMPDIR is not a d
 run_root=''; download_root=''; from_root=''; to_root=''; adopter=''
 isolated_home=''; isolated_xdg=''; isolated_tmp=''; isolated_cargo=''; steps=''
 started_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"; failure_reason=''; release_published=false
+staged_candidate=false
 from_bin='' to_bin='' from_version='' to_version='' from_digest='' to_digest='' repository_id=''
 cleanup_state=not_started cleanup_removed=false cleanup_validated=false cleanup_reason=''
 run_root_identity=''
@@ -236,7 +242,7 @@ finish() {
   local step_json='[]'
   if [[ -n "$steps" && -s "$steps" ]]; then step_json="$(jq -s '.' "$steps")"; fi
   jq -n --arg startedAt "$started_at" --arg finishedAt "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-    --arg state "$state" --arg published "$release_published" --arg repository "$repository" \
+    --arg state "$state" --arg published "$release_published" --arg staged "$staged_candidate" --arg repository "$repository" \
     --arg fromTag "$from_tag" --arg toTag "$to_tag" --arg target "$target" \
     --arg fromVersion "$from_version" --arg toVersion "$to_version" --arg fromDigest "$from_digest" \
     --arg toDigest "$to_digest" --arg repositoryId "$repository_id" --arg sourceRepositoryId "$source_repository_id" --arg rustToolchain "$rustup_toolchain" --arg reason "$failure_reason" \
@@ -246,7 +252,7 @@ finish() {
     --arg closeDecisionPath "$close_decision_path" \
     --argjson closeDecisionValidated "$close_decision_validated" \
     --argjson steps "$step_json" \
-    '{schemaVersion:1,startedAt:$startedAt,finishedAt:$finishedAt,releasePublished:($published=="true"),adopterAcceptance:$state,repository:$repository,fromTag:$fromTag,toTag:$toTag,target:$target,rustToolchain:(if $rustToolchain=="" then null else $rustToolchain end),fromRuntimeVersion:(if $fromVersion=="" then null else $fromVersion end),toRuntimeVersion:(if $toVersion=="" then null else $toVersion end),fromRuntimeDigest:(if $fromDigest=="" then null else $fromDigest end),toRuntimeDigest:(if $toDigest=="" then null else $toDigest end),repositoryId:(if $repositoryId=="" then null else $repositoryId end),sourceRepositoryId:(if $sourceRepositoryId=="" then null else $sourceRepositoryId end),closeDecision:{validated:$closeDecisionValidated,workItemId:(if $closeDecisionWorkItem=="" then null else $closeDecisionWorkItem end),repositoryId:(if $closeDecisionRepositoryId=="" then null else $closeDecisionRepositoryId end),artifactPath:(if $closeDecisionPath=="" then null else $closeDecisionPath end),digest:(if $closeDecisionDigest=="" then null else $closeDecisionDigest end)},cleanupState:"pending",cleanupError:null,steps:$steps,failureReason:(if $reason=="" then null else $reason end)}' > "$output/acceptance.json" || acceptance_write_result=$?
+    '{schemaVersion:1,startedAt:$startedAt,finishedAt:$finishedAt,releasePublished:($published=="true"),stagedCandidate:($staged=="true"),adopterAcceptance:$state,repository:$repository,fromTag:$fromTag,toTag:$toTag,target:$target,rustToolchain:(if $rustToolchain=="" then null else $rustToolchain end),fromRuntimeVersion:(if $fromVersion=="" then null else $fromVersion end),toRuntimeVersion:(if $toVersion=="" then null else $toVersion end),fromRuntimeDigest:(if $fromDigest=="" then null else $fromDigest end),toRuntimeDigest:(if $toDigest=="" then null else $toDigest end),repositoryId:(if $repositoryId=="" then null else $repositoryId end),sourceRepositoryId:(if $sourceRepositoryId=="" then null else $sourceRepositoryId end),closeDecision:{validated:$closeDecisionValidated,workItemId:(if $closeDecisionWorkItem=="" then null else $closeDecisionWorkItem end),repositoryId:(if $closeDecisionRepositoryId=="" then null else $closeDecisionRepositoryId end),artifactPath:(if $closeDecisionPath=="" then null else $closeDecisionPath end),digest:(if $closeDecisionDigest=="" then null else $closeDecisionDigest end)},cleanupState:"pending",cleanupError:null,steps:$steps,failureReason:(if $reason=="" then null else $reason end)}' > "$output/acceptance.json" || acceptance_write_result=$?
   if [[ "$acceptance_write_result" -ne 0 ]]; then
     exit_code=1
     failure_reason="acceptance receipt write failed (status $acceptance_write_result)"
@@ -300,23 +306,39 @@ fi
 [[ -n "$rustup_toolchain" ]] || die 'active Rust toolchain could not be resolved; refusing implicit toolchain download'
 
 download() {
-  local tag="$1" label="$2" root="$3" version archive api manifest sums actual expected url
+  local tag="$1" label="$2" root="$3" version archive api manifest sums actual expected url published staged
   version="$(printf '%s' "$tag" | sed 's/^v//')"
   archive="ai-cockpit-$tag-$target.$archive_ext"
   api="$download_root/$label-release.json"; manifest="$download_root/$label-manifest.json"; sums="$download_root/$label-SHA256SUMS"
-  curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 "https://api.github.com/repos/$repository/releases/tags/$tag" > "$api" || die "$label Release API request failed"
-  jq -e --arg tag "$tag" '.tag_name==$tag and (.draft==false) and (.prerelease==false)' "$api" >/dev/null || die "$label Release is not published"
-  release_published=true
-  url="$(jq -er --arg name "$archive" '.assets[]|select(.name==$name)|.browser_download_url' "$api")"
-  local manifest_url sums_url
-  manifest_url="$(jq -er '.assets[]|select(.name=="release-manifest.json")|.browser_download_url' "$api")"
-  sums_url="$(jq -er '.assets[]|select(.name=="SHA256SUMS")|.browser_download_url' "$api")"
-  [[ "$url" == "https://github.com/$repository/releases/download/$tag/"* ]] || die "$label archive URL is not Release-bound"
-  [[ "$manifest_url" == "https://github.com/$repository/releases/download/$tag/"* ]] || die "$label manifest URL is not Release-bound"
-  [[ "$sums_url" == "https://github.com/$repository/releases/download/$tag/"* ]] || die "$label checksum URL is not Release-bound"
-  curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 "$url" -o "$download_root/$archive"
-  curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 "$manifest_url" -o "$manifest"
-  curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 "$sums_url" -o "$sums"
+  published=true
+  staged=false
+  if [[ "$label" == to && -n "$to_candidate_dir" ]]; then
+    for candidate_file in "$archive" release-manifest.json SHA256SUMS; do
+      [[ -f "$to_candidate_dir/$candidate_file" && ! -L "$to_candidate_dir/$candidate_file" ]] || die "staged to-candidate file is missing or symlinked: $candidate_file"
+    done
+    cp "$to_candidate_dir/$archive" "$download_root/$archive"
+    cp "$to_candidate_dir/release-manifest.json" "$manifest"
+    cp "$to_candidate_dir/SHA256SUMS" "$sums"
+    [[ "$(jq -er '.commit' "$manifest")" == "$(git -C "$source_repo" rev-parse 'HEAD^{commit}')" ]] || die 'staged to-candidate commit does not match source checkout HEAD'
+    url="workflow-artifact:ai-cockpit-candidate/$archive"
+    published=false
+    staged=true
+    staged_candidate=true
+  else
+    curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 "https://api.github.com/repos/$repository/releases/tags/$tag" > "$api" || die "$label Release API request failed"
+    jq -e --arg tag "$tag" '.tag_name==$tag and (.draft==false) and (.prerelease==false)' "$api" >/dev/null || die "$label Release is not published"
+    url="$(jq -er --arg name "$archive" '.assets[]|select(.name==$name)|.browser_download_url' "$api")"
+    local manifest_url sums_url
+    manifest_url="$(jq -er '.assets[]|select(.name=="release-manifest.json")|.browser_download_url' "$api")"
+    sums_url="$(jq -er '.assets[]|select(.name=="SHA256SUMS")|.browser_download_url' "$api")"
+    [[ "$url" == "https://github.com/$repository/releases/download/$tag/"* ]] || die "$label archive URL is not Release-bound"
+    [[ "$manifest_url" == "https://github.com/$repository/releases/download/$tag/"* ]] || die "$label manifest URL is not Release-bound"
+    [[ "$sums_url" == "https://github.com/$repository/releases/download/$tag/"* ]] || die "$label checksum URL is not Release-bound"
+    curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 "$url" -o "$download_root/$archive"
+    curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 "$manifest_url" -o "$manifest"
+    curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 "$sums_url" -o "$sums"
+  fi
+  if [[ "$label" == to ]]; then release_published="$published"; fi
   actual="$(sha256_file "$download_root/$archive")"; expected="$(jq -er --arg target "$target" '.artifacts[]|select(.target==$target)|.archive.sha256' "$manifest")"
   [[ "$actual" == "$expected" ]] || die "$label archive manifest digest mismatch"
   [[ "$(awk -v name="$archive" '$2==name {print $1}' "$sums")" == "$actual" ]] || die "$label archive SHA256SUMS mismatch"
@@ -329,8 +351,8 @@ download() {
   binary_version="$("$binary" --version | awk '{print $2}')"; binary_digest="sha256:$(sha256_file "$binary")"
   [[ "$binary_version" == "$version" ]] || die "$label binary version mismatch"
   jq -n --arg tag "$tag" --arg version "$version" --arg target "$target" --arg platform "$target" --arg archive "$archive" \
-    --arg archiveDigest "sha256:$actual" --arg binaryDigest "$binary_digest" --arg downloadSource "$url" \
-    '{schemaVersion:1,tag:$tag,version:$version,target:$target,platform:$platform,archive:$archive,archiveDigest:$archiveDigest,binaryDigest:$binaryDigest,downloadSource:$downloadSource,releasePublished:true}' > "$output/$label-runtime.json"
+    --arg archiveDigest "sha256:$actual" --arg binaryDigest "$binary_digest" --arg downloadSource "$url" --argjson releasePublished "$published" --argjson stagedCandidate "$staged" \
+    '{schemaVersion:1,tag:$tag,version:$version,target:$target,platform:$platform,archive:$archive,archiveDigest:$archiveDigest,binaryDigest:$binaryDigest,downloadSource:$downloadSource,releasePublished:$releasePublished,stagedCandidate:$stagedCandidate}' > "$output/$label-runtime.json"
   if [[ "$label" == from ]]; then from_bin="$binary"; from_version="$binary_version"; from_digest="$binary_digest"; else to_bin="$binary"; to_version="$binary_version"; to_digest="$binary_digest"; fi
   pass "$label-release-pin"
 }
@@ -414,7 +436,7 @@ jq -e '.state=="planned" and .workItemId==$id' --arg id "$work_item" "$output/ol
 printf '\n// N-1 acceptance mutation\n' >> "$adopter/src/lib.rs"; git -C "$adopter" add src/lib.rs; git -C "$adopter" commit -qm 'adopter change before upgrade'
 run "$from_bin" old-preflight.json preflight --repo "$adopter" --contract "$adopter/.ai/work-items/active/$work_item.contract.json"
 run "$from_bin" old-checkpoint.json checkpoint --repo "$adopter" --id "$work_item"
-run "$from_bin" old-verify.json verify --repo "$adopter" --work-item "$work_item" --command true --workers 1
+run "$from_bin" old-verify.json verify --repo "$adopter" --work-item "$work_item" --workers 1
 if jq -e --arg version "$from_version" --arg digest "$from_digest" '.runtimeVersion==$version and .runtimeDigest==$digest' "$output/old-verify.json" >/dev/null; then
   pass old-verify-runtime-identity
 else
@@ -537,7 +559,7 @@ run "$to_bin" new-preflight.json preflight --repo "$adopter" --contract "$adopte
 run "$to_bin" new-checkpoint.json checkpoint --repo "$adopter" --id "$new_work_item"
 run "$to_bin" new-agent-doctor.json agent doctor --repo "$adopter" --json
 jq -e '.state=="VERIFIED" and (.problems|length==0)' "$output/new-agent-doctor.json" >/dev/null || die 'new Agent doctor did not verify'
-run "$to_bin" new-verify.json verify --repo "$adopter" --work-item "$new_work_item" --command true --workers 1
+run "$to_bin" new-verify.json verify --repo "$adopter" --work-item "$new_work_item" --workers 1
 jq -e --arg version "$to_version" --arg digest "$to_digest" '.runtimeVersion==$version and .runtimeDigest==$digest and .passed==true' "$output/new-verify.json" >/dev/null || die 'new verification output lacks new Runtime identity'
 jq -e '.passed==true' "$output/new-verify.json" >/dev/null || die 'new Runtime did not continue operation'
 new_evidence="$adopter/.ai/evidence/$new_work_item.verification.json"

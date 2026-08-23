@@ -17,7 +17,7 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 現在の installation baseline は公開済みで immutable な `v0.2.28` Release です。Homebrew と manual install は
 public archive と manifest を使い、Repository configuration は `cockpit.toml` のままです。runtime の install は
-対象 repository に `.ai` を作成しません。Maintainer は post-release adopter acceptance harness を実行できますが、pre-release gate や Runtime command ではありません。
+対象 repository に `.ai` を作成しません。同じ acceptance harness に publication 前の staged-candidate mode と publication 後の public-Release mode があり、どちらも source workspace から Runtime を取得しません。
 
 予約済みの `v0.2.24` tag は公開前 governance gate failure を記録し、immutable な `v0.2.25` tag も後続の
 source-quality failure を記録しています。どちらにも公開 Release はありません。これらは immutable history であり
@@ -25,15 +25,25 @@ source-quality failure を記録しています。どちらにも公開 Release 
 
 ## CI quality gate と Runtime shadow の境界
 
-release の source-quality gate は CI と同じ deterministic な package-by-package test strategy を使用します。
-各 workspace package は `cargo test -p <package> --all-targets -- --test-threads=1` で実行され、Cargo の test binary は
-同時起動しません。Verifier 自身の宣言済み worker cap は、単一の test binary 内で parallel command を実行できます。
-これにより Cargo check を削除せず、release gate と CI の実行戦略を一致させます。
+CI は versioned `repository_gate_manifest.json` を canonical gate set とします。型付き
+receipt は changed paths、Contract risk、workflow stage から累積的な `light`、
+`standard`、`strict` coverage を選択します。unknown、release-owned、high-risk、merge、
+release inputs は `strict` へ fail closed します。runner は Git revisions、Contract と
+manifest digest を検証し、receipt の順序付き gate ID だけを実行します。任意 command
+で置換できません。
 
-`tests/ci/runtime_verify_shadow.sh` の receipt は Phase 1 の **execution smoke** です。immutable な public Runtime を download と
-検証した後、repository-bound verification command を一つ実行できることだけを証明します。この receipt は policy route/planner、
-affected graph の完全性、Work Item 間の physical execution、または Work Item ごとの evidence receipt coverage を主張しません。
-これらの主張には対応する Runtime および external evidence gate が必要であり、shadow の成功は代替になりません。
+release source quality は常に `strict` を要求します。manifest-owned Cargo gates は
+deterministic package-by-package tests を使い、CI と release は route/gate receipts を
+upload します。`.gitattributes` は source archive から `.ai` と generated roots を除外し、
+Cargo sources と lockfile を保持します。
+
+`tests/ci/runtime_verify_shadow.sh` receipt は standard/strict route の **execution smoke**
+です。public immutable `v0.2.28` を検証し、repository の canonical profile を実行します。
+Runtime-global T0–T3 route、affected graph completeness、cross-Work-Item physical execution、
+Work Item ごとの evidence coverage は claim しません。reference Makefile orchestration は
+この Rust repository では different-by-design で copy しません。Runtime-global routing と
+generic CLI `verify --command` semantics は WI-224 の non-`crates/**` scope 外として deferred
+です。
 
 ## 開始前
 
@@ -92,6 +102,13 @@ identity と結び付けます。harness 外で JSON を使う場合の比較責
 
 ## Post-release adopter acceptance
 
+publication 前に `staged_adopter_acceptance` は download 済み candidate archive、manifest、
+checksums を source `HEAD` に bind し、canonical adopter lifecycle、isolation checks、cleanup
+proof を実行します。別の `staged_adopter_upgrade_acceptance` は直前の public Release から
+staged target への upgrade を行います。publish は両 job に依存します。receipt は
+`stagedCandidate: true` と `releasePublished: false` を記録し、provider Release truth を
+書き換えません。
+
 Maintainer は Release 公開後に public binary acceptance baseline を再実行できます。
 
 **v0.2.28 の完全な adopter acceptance baseline は `x86_64-unknown-linux-gnu` です。**
@@ -122,7 +139,9 @@ Migration acceptance artifact は adopter の installation path とは分離し�
 過去の v0.1.1 から v0.2.0 への schema migration evidence は archive に保持されますが、
 v0.2.0 Runtime は隣接 chain receipt field より前のため current harness でその pair は再実行しません。
 
-release workflow は publication と publication handoff の後に、独立した
+publication 前の staged N-1 job は public N-1 archive と staged candidate archive を使い、
+source build や任意 verification command に置換しません。publication 後、release workflow は
+publication handoff の後に独立した
 `adopter_upgrade_acceptance` job でこの harness を実行します。tag push の場合は provider
 API から直前の published semantic Release を解決します。最初の public Release では checksum
 付き receipt に `adopterAcceptance: not_applicable` を記録します。maintainer は `from_tag`、

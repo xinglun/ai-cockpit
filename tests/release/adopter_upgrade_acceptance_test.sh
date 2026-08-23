@@ -5,7 +5,9 @@ script="$(cd "$(dirname "$0")" && pwd)/adopter_upgrade_acceptance.sh"
 bash -n "$script"
 grep -q -- '--from-tag' "$script"
 grep -q -- '--to-tag' "$script"
+grep -q -- '--to-candidate-dir' "$script"
 grep -q -- 'releasePublished' "$script"
+grep -q -- 'stagedCandidate' "$script"
 grep -q -- 'platform' "$script"
 grep -q -- 'runtimeVersion' "$script"
 grep -q -- 'runtimeDigest' "$script"
@@ -83,6 +85,10 @@ old_close_line=$(grep -n -- 'old-close.json close' "$script" | head -1 | cut -d:
 }
 if grep -Eq 'cargo (build|run)|target/debug/ai-cockpit|workspace binary' "$script"; then
   echo 'upgrade acceptance must not fall back to source builds or workspace binaries' >&2
+  exit 1
+fi
+if grep -Fq -- '--command' "$script"; then
+  echo 'upgrade acceptance must use only the canonical Runtime verification command' >&2
   exit 1
 fi
 test_parent="${TMPDIR:-/tmp}"
