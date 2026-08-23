@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "repository-owner",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "aca65f8f43e4191696e829d92039976ef8a31197",
+    "name": "main",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:f6c7627969401d50aa72afdcfd0b9699d7a146ac161cb1879278ea8697a9c908",
+  "operationId": "retain-WI-171-finalization-reconciliation",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "aca65f8f43e4191696e829d92039976ef8a31197",
+    "headRevision": "aca65f8f43e4191696e829d92039976ef8a31197",
+    "mergeCommit": "aca65f8f43e4191696e829d92039976ef8a31197",
+    "number": 124,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/124"
+  },
+  "reason": "Retain the protected default branch and current main worktree after the post-release parity merge; uncertain or dirty historical worktrees remain retained and were not deleted.",
+  "receiptId": "ai-cockpit-WI-171-finalization-reconciliation",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "main",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/124",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:3cd4e1bf766b6957d6400b624c72b67dcc66236bc80cc49c770ee8fe32d60672",
+  "runtimeVersion": "0.2.20",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-23T04:46:31Z",
+  "workItemId": "WI-171-finalization-reconciliation",
+  "worktree": {
+    "branch": "main",
+    "headRevision": "aca65f8f43e4191696e829d92039976ef8a31197",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit",
+    "worktreeId": "WI-171-finalization-reconciliation"
+  }
+}
