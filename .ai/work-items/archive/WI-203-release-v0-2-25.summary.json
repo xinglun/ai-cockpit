@@ -1,0 +1,123 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "source version consistency",
+          "path": "tests/release/version_consistency.sh",
+          "type": "release-gate",
+          "verification": "Cargo metadata and current three-language release baselines are aligned to v0.2.25 before publication."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "public Release evidence",
+          "path": ".ai/evidence/WI-203-release-v0-2-25.release-manifest.json",
+          "type": "provider-receipt",
+          "verification": "The immutable public Release manifest, target archives, SBOMs and binary identity will be recorded after publication."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "public adopter acceptance",
+          "path": ".ai/evidence/WI-203-release-v0-2-25.adopter-acceptance.json",
+          "type": "adopter-receipt",
+          "verification": "The downloaded v0.2.25 binary will be used in an isolated adopter acceptance run without source fallback."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "append-only transition",
+          "path": ".ai/decisions/WI-203-release-v0-2-25.finalize.json",
+          "type": "transition-receipt",
+          "verification": "Installed v0.2.25 must accept the successor transition envelope and bind it to the predecessor receipt."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "tri-language release parity",
+          "path": "docs/reference/reference-parity.md",
+          "type": "parity-report",
+          "verification": "Three-language parity and visible Outcome records will be updated only after the public evidence exists."
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-202-release-v0-2-24.recovery.json",
+    ".ai/work-items/archive/WI-203-release-v0-2-25.approach.json",
+    ".ai/work-items/archive/WI-203-release-v0-2-25.contract.json",
+    ".ai/work-items/archive/WI-203-release-v0-2-25.summary.json"
+  ],
+  "checkpointAt": "2026-08-23T15:26:27Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T15:21:00Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/decisions/WI-201-governance-gate-post-merge-reconciliation.recovery.json",
+      "Cargo.toml",
+      "docs/release/distribution.md"
+    ],
+    "reason": "This successor is limited to publishing the Runtime version that contains the already merged transition protocol and proving that the immutable public binary can complete the lifecycle.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:84722ba0e3fe5ed42537a5faca8c467900239ee06f41ca6424e72d63df3978d4",
+  "predecessorWorkItemId": "WI-202-release-v0-2-24",
+  "preflightAt": "2026-08-23T15:38:59Z",
+  "preflightContractDigest": "sha256:6c8315daa0394f298297c95ca6fe4fd603ba2e581e6736b42887ebc63a9fbce4",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:50b91647182ea7d8e6b97f5195247beca6dec3d1e4c937dfd4c64dbe553740f1",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryDecisionPath": ".ai/decisions/WI-202-release-v0-2-24.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/version_consistency.sh",
+        "docs/architecture/versioning.md"
+      ],
+      "expected": "All current release baselines resolve to v0.2.25.",
+      "required": true,
+      "scenario": "version and release baseline",
+      "status": "verified",
+      "verificationPlan": "Run version consistency, documentation and hosted release checks."
+    },
+    {
+      "evidence": [],
+      "expected": "Downloaded v0.2.25 completes isolated adopter acceptance.",
+      "required": false,
+      "scenario": "immutable public adopter",
+      "status": "unverified",
+      "verificationPlan": "Run tests/release/adopter_acceptance.sh against the published tag."
+    },
+    {
+      "evidence": [],
+      "expected": "Installed v0.2.25 accepts a linked append-only transition.",
+      "required": false,
+      "scenario": "finalization transition compatibility",
+      "status": "unverified",
+      "verificationPlan": "Run the post-merge transition with the installed v0.2.25 binary."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T15:39:50Z",
+  "workItemId": "WI-203-release-v0-2-25"
+}
