@@ -1,7 +1,7 @@
 use cockpit_core::{DecisionState, Digest};
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
-use std::path::PathBuf;
+use std::{path::PathBuf, str::FromStr};
 use thiserror::Error;
 
 pub const PROTOCOL_VERSION: u32 = 1;
@@ -843,6 +843,505 @@ pub struct DelegatedEvidenceReceipt {
     pub runtime_version: String,
     pub runtime_digest: Digest,
     pub bound_at: String,
+}
+
+/// The result of the resource-finalization boundary that follows a reviewed
+/// PR merge.  This protocol is deliberately separate from the Work Item
+/// lifecycle: `closed` is not evidence that an external branch or worktree
+/// was deleted.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ResourceFinalizationDisposition {
+    Deleted,
+    Retained,
+    Blocked,
+    Unknown,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ResourceFinalizationPullRequestState {
+    Merged,
+    Unmerged,
+    Unknown,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ResourceFinalizationBranchState {
+    Present,
+    Deleted,
+    Protected,
+    Unknown,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ResourceFinalizationWorktreeState {
+    Clean,
+    Dirty,
+    Removed,
+    Unknown,
+}
+
+/// Provider-side identity needed to prove that a finalization result belongs
+/// to the reviewed pull request and immutable base revision.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ResourceFinalizationPullRequestIdentity {
+    pub number: u64,
+    pub url: String,
+    pub head_revision: String,
+    pub base_branch: String,
+    pub base_remote: String,
+    pub base_revision: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub merge_commit: Option<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ResourceFinalizationBranchIdentity {
+    pub name: String,
+    pub remote: String,
+    pub head_revision: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ResourceFinalizationWorktreeIdentity {
+    pub worktree_id: String,
+    pub path: String,
+    pub branch: String,
+    pub head_revision: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ResourceFinalizationState {
+    pub pull_request: ResourceFinalizationPullRequestState,
+    pub branch: ResourceFinalizationBranchState,
+    pub worktree: ResourceFinalizationWorktreeState,
+}
+
+/// Optional context copied from a Work Item Contract.  It is optional so a
+/// Runtime can read historical receipts, but when present it is complete and
+/// must agree with the receipt's provider/PR/branch/worktree identities.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ResourceFinalizationContext {
+    pub branch: String,
+    pub worktree: String,
+    pub base_branch: String,
+    pub base_remote: String,
+    pub provider: String,
+    pub pull_request: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ResourceFinalizationResult {
+    pub disposition: ResourceFinalizationDisposition,
+    #[serde(default)]
+    pub failure_codes: Vec<String>,
+    #[serde(default)]
+    pub unknown_codes: Vec<String>,
+}
+
+/// Identity-bound receipt for post-merge branch/worktree finalization.  It is
+/// a pure protocol record: it does not perform provider calls or filesystem
+/// deletion.  Consumers must validate it before treating a Work Item as
+/// resource-finalized.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ResourceFinalizationReceipt {
+    pub schema_version: u32,
+    pub receipt_id: String,
+    pub operation_id: String,
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub runtime_version: String,
+    pub runtime_digest: Digest,
+    pub provider: String,
+    pub pull_request: ResourceFinalizationPullRequestIdentity,
+    pub branch: ResourceFinalizationBranchIdentity,
+    pub worktree: ResourceFinalizationWorktreeIdentity,
+    pub before: ResourceFinalizationState,
+    pub after: ResourceFinalizationState,
+    pub result: ResourceFinalizationResult,
+    pub actor: String,
+    pub authority_source: String,
+    pub reason: String,
+    pub timestamp: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub contract_digest: Option<Digest>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub resource_context: Option<ResourceFinalizationContext>,
+}
+
+#[derive(Debug, Error, PartialEq, Eq)]
+pub enum ResourceFinalizationError {
+    #[error("resource finalization schema version must be 1")]
+    UnsupportedSchema,
+    #[error("resource finalization field is empty: {0}")]
+    EmptyField(&'static str),
+    #[error("resource finalization digest is invalid: {0}")]
+    InvalidDigest(&'static str),
+    #[error("resource finalization code is invalid: {0}")]
+    InvalidCode(String),
+    #[error("resource finalization identity mismatch: {0}")]
+    IdentityMismatch(&'static str),
+    #[error("resource finalization state is invalid: {0}")]
+    InvalidState(&'static str),
+    #[error("resource finalization disposition is invalid: {0}")]
+    InvalidDisposition(&'static str),
+    #[error("resource finalization replay mismatch: {0}")]
+    ReplayMismatch(&'static str),
+}
+
+pub const RESOURCE_FINALIZATION_SCHEMA_VERSION: u32 = 1;
+
+pub const RESOURCE_FINALIZATION_CODE_DIRTY_WORKTREE: &str = "dirty_worktree";
+pub const RESOURCE_FINALIZATION_CODE_UNMERGED_PULL_REQUEST: &str = "unmerged_pull_request";
+pub const RESOURCE_FINALIZATION_CODE_PROTECTED_BRANCH: &str = "protected_branch";
+pub const RESOURCE_FINALIZATION_CODE_AMBIGUOUS_STATE: &str = "ambiguous_state";
+pub const RESOURCE_FINALIZATION_CODE_PROVIDER_UNAVAILABLE: &str = "provider_unavailable";
+pub const RESOURCE_FINALIZATION_CODE_PARTIAL_CLEANUP: &str = "partial_cleanup";
+
+fn validate_resource_finalization_text(
+    value: &str,
+    field: &'static str,
+) -> Result<(), ResourceFinalizationError> {
+    if value.trim().is_empty() {
+        Err(ResourceFinalizationError::EmptyField(field))
+    } else {
+        Ok(())
+    }
+}
+
+fn validate_resource_finalization_revision(
+    value: &str,
+    field: &'static str,
+) -> Result<(), ResourceFinalizationError> {
+    validate_resource_finalization_text(value, field)
+}
+
+fn validate_resource_finalization_code(code: &str) -> Result<(), ResourceFinalizationError> {
+    if code.is_empty()
+        || !code.bytes().all(|byte| {
+            byte.is_ascii_lowercase() || byte.is_ascii_digit() || byte == b'_' || byte == b'-'
+        })
+    {
+        return Err(ResourceFinalizationError::InvalidCode(code.into()));
+    }
+    Ok(())
+}
+
+fn validate_resource_finalization_codes(codes: &[String]) -> Result<(), ResourceFinalizationError> {
+    for code in codes {
+        validate_resource_finalization_code(code)?;
+    }
+    Ok(())
+}
+
+fn validate_resource_finalization_state(
+    state: &ResourceFinalizationState,
+) -> Result<(), ResourceFinalizationError> {
+    if matches!(
+        state.pull_request,
+        ResourceFinalizationPullRequestState::Unknown
+    ) && !matches!(state.branch, ResourceFinalizationBranchState::Unknown)
+        && !matches!(state.worktree, ResourceFinalizationWorktreeState::Unknown)
+    {
+        return Err(ResourceFinalizationError::InvalidState(
+            "unknown pull request state must carry an unknown branch or worktree state",
+        ));
+    }
+    Ok(())
+}
+
+fn validate_resource_finalization_identity(
+    receipt: &ResourceFinalizationReceipt,
+) -> Result<(), ResourceFinalizationError> {
+    for (value, field) in [
+        (receipt.receipt_id.as_str(), "receiptId"),
+        (receipt.operation_id.as_str(), "operationId"),
+        (receipt.repository_id.as_str(), "repositoryId"),
+        (receipt.work_item_id.as_str(), "workItemId"),
+        (receipt.runtime_version.as_str(), "runtimeVersion"),
+        (receipt.provider.as_str(), "provider"),
+        (receipt.actor.as_str(), "actor"),
+        (receipt.authority_source.as_str(), "authoritySource"),
+        (receipt.reason.as_str(), "reason"),
+        (receipt.timestamp.as_str(), "timestamp"),
+    ] {
+        validate_resource_finalization_text(value, field)?;
+    }
+    if Digest::from_str(receipt.runtime_digest.as_str()).is_err() {
+        return Err(ResourceFinalizationError::InvalidDigest("runtimeDigest"));
+    }
+    if let Some(contract_digest) = &receipt.contract_digest
+        && Digest::from_str(contract_digest.as_str()).is_err()
+    {
+        return Err(ResourceFinalizationError::InvalidDigest("contractDigest"));
+    }
+    if receipt.pull_request.number == 0 {
+        return Err(ResourceFinalizationError::InvalidState(
+            "pull request number must be positive",
+        ));
+    }
+    for (value, field) in [
+        (receipt.pull_request.url.as_str(), "pullRequest.url"),
+        (
+            receipt.pull_request.head_revision.as_str(),
+            "pullRequest.headRevision",
+        ),
+        (
+            receipt.pull_request.base_branch.as_str(),
+            "pullRequest.baseBranch",
+        ),
+        (
+            receipt.pull_request.base_remote.as_str(),
+            "pullRequest.baseRemote",
+        ),
+        (
+            receipt.pull_request.base_revision.as_str(),
+            "pullRequest.baseRevision",
+        ),
+        (receipt.branch.name.as_str(), "branch.name"),
+        (receipt.branch.remote.as_str(), "branch.remote"),
+        (receipt.branch.head_revision.as_str(), "branch.headRevision"),
+        (receipt.worktree.worktree_id.as_str(), "worktree.worktreeId"),
+        (receipt.worktree.path.as_str(), "worktree.path"),
+        (receipt.worktree.branch.as_str(), "worktree.branch"),
+        (
+            receipt.worktree.head_revision.as_str(),
+            "worktree.headRevision",
+        ),
+    ] {
+        validate_resource_finalization_revision(value, field)?;
+    }
+    if let Some(merge_commit) = &receipt.pull_request.merge_commit {
+        validate_resource_finalization_revision(merge_commit, "pullRequest.mergeCommit")?;
+    }
+    if receipt.pull_request.head_revision != receipt.branch.head_revision
+        || receipt.branch.head_revision != receipt.worktree.head_revision
+    {
+        return Err(ResourceFinalizationError::IdentityMismatch(
+            "pull request, branch, and worktree head revisions differ",
+        ));
+    }
+    if receipt.branch.name != receipt.worktree.branch {
+        return Err(ResourceFinalizationError::IdentityMismatch(
+            "branch and worktree branch differ",
+        ));
+    }
+    if let Some(context) = &receipt.resource_context {
+        for (value, field) in [
+            (context.branch.as_str(), "resourceContext.branch"),
+            (context.worktree.as_str(), "resourceContext.worktree"),
+            (context.base_branch.as_str(), "resourceContext.baseBranch"),
+            (context.base_remote.as_str(), "resourceContext.baseRemote"),
+            (context.provider.as_str(), "resourceContext.provider"),
+            (context.pull_request.as_str(), "resourceContext.pullRequest"),
+        ] {
+            validate_resource_finalization_text(value, field)?;
+        }
+        if context.branch != receipt.branch.name
+            || context.worktree != receipt.worktree.path
+            || context.base_branch != receipt.pull_request.base_branch
+            || context.base_remote != receipt.pull_request.base_remote
+            || context.provider != receipt.provider
+            || context.pull_request != receipt.pull_request.url
+        {
+            return Err(ResourceFinalizationError::IdentityMismatch(
+                "resource context does not match receipt identity",
+            ));
+        }
+    }
+    Ok(())
+}
+
+/// Validate the intrinsic receipt shape and fail-closed disposition rules.
+pub fn validate_resource_finalization_receipt(
+    receipt: &ResourceFinalizationReceipt,
+) -> Result<(), ResourceFinalizationError> {
+    if receipt.schema_version != RESOURCE_FINALIZATION_SCHEMA_VERSION {
+        return Err(ResourceFinalizationError::UnsupportedSchema);
+    }
+    validate_resource_finalization_identity(receipt)?;
+    validate_resource_finalization_state(&receipt.before)?;
+    validate_resource_finalization_state(&receipt.after)?;
+    validate_resource_finalization_codes(&receipt.result.failure_codes)?;
+    validate_resource_finalization_codes(&receipt.result.unknown_codes)?;
+
+    if matches!(
+        receipt.before.pull_request,
+        ResourceFinalizationPullRequestState::Merged
+    ) && receipt.pull_request.merge_commit.is_none()
+    {
+        return Err(ResourceFinalizationError::InvalidState(
+            "merged pull request requires merge commit",
+        ));
+    }
+    if matches!(
+        receipt.before.pull_request,
+        ResourceFinalizationPullRequestState::Unmerged
+    ) && receipt.pull_request.merge_commit.is_some()
+    {
+        return Err(ResourceFinalizationError::InvalidState(
+            "unmerged pull request cannot carry merge commit",
+        ));
+    }
+
+    let fully_deleted = |state: &ResourceFinalizationState| {
+        matches!(
+            state.pull_request,
+            ResourceFinalizationPullRequestState::Merged
+        ) && matches!(state.branch, ResourceFinalizationBranchState::Deleted)
+            && matches!(state.worktree, ResourceFinalizationWorktreeState::Removed)
+    };
+    match receipt.result.disposition {
+        ResourceFinalizationDisposition::Deleted => {
+            if !receipt.result.failure_codes.is_empty() || !receipt.result.unknown_codes.is_empty()
+            {
+                return Err(ResourceFinalizationError::InvalidDisposition(
+                    "deleted result cannot carry failure or unknown codes",
+                ));
+            }
+            let fresh_cleanup = matches!(
+                receipt.before.pull_request,
+                ResourceFinalizationPullRequestState::Merged
+            ) && matches!(
+                receipt.before.branch,
+                ResourceFinalizationBranchState::Present
+            ) && matches!(
+                receipt.before.worktree,
+                ResourceFinalizationWorktreeState::Clean
+            );
+            if !fully_deleted(&receipt.after) || (!fresh_cleanup && !fully_deleted(&receipt.before))
+            {
+                return Err(ResourceFinalizationError::InvalidDisposition(
+                    "deleted result requires clean merged resources or an idempotent deleted replay",
+                ));
+            }
+        }
+        ResourceFinalizationDisposition::Retained => {
+            if !matches!(
+                receipt.before.pull_request,
+                ResourceFinalizationPullRequestState::Merged
+            ) || !matches!(
+                receipt.after.pull_request,
+                ResourceFinalizationPullRequestState::Merged
+            ) {
+                return Err(ResourceFinalizationError::InvalidDisposition(
+                    "retained result requires a merged pull request",
+                ));
+            }
+            if fully_deleted(&receipt.after) {
+                return Err(ResourceFinalizationError::InvalidDisposition(
+                    "retained result cannot claim complete deletion",
+                ));
+            }
+        }
+        ResourceFinalizationDisposition::Blocked => {
+            if receipt.result.failure_codes.is_empty() && receipt.result.unknown_codes.is_empty() {
+                return Err(ResourceFinalizationError::InvalidDisposition(
+                    "blocked result requires failure or unknown codes",
+                ));
+            }
+            if fully_deleted(&receipt.after) {
+                return Err(ResourceFinalizationError::InvalidDisposition(
+                    "blocked result cannot claim complete deletion",
+                ));
+            }
+        }
+        ResourceFinalizationDisposition::Unknown => {
+            if receipt.result.unknown_codes.is_empty() {
+                return Err(ResourceFinalizationError::InvalidDisposition(
+                    "unknown result requires unknown codes",
+                ));
+            }
+            if fully_deleted(&receipt.after) {
+                return Err(ResourceFinalizationError::InvalidDisposition(
+                    "unknown result cannot claim complete deletion",
+                ));
+            }
+        }
+    }
+    Ok(())
+}
+
+/// Validate repository, Work Item, Contract, and optional ResourceContext
+/// bindings supplied by the caller.  This is the hook Runtime finalization
+/// code can use after `start` records context in a Contract.
+pub fn validate_resource_finalization_receipt_for(
+    receipt: &ResourceFinalizationReceipt,
+    repository_id: &str,
+    work_item_id: &str,
+    contract_digest: Option<&Digest>,
+    resource_context: Option<&ResourceFinalizationContext>,
+) -> Result<(), ResourceFinalizationError> {
+    validate_resource_finalization_receipt(receipt)?;
+    validate_resource_finalization_text(repository_id, "expectedRepositoryId")?;
+    validate_resource_finalization_text(work_item_id, "expectedWorkItemId")?;
+    if receipt.repository_id != repository_id {
+        return Err(ResourceFinalizationError::IdentityMismatch("repositoryId"));
+    }
+    if receipt.work_item_id != work_item_id {
+        return Err(ResourceFinalizationError::IdentityMismatch("workItemId"));
+    }
+    if let Some(expected_digest) = contract_digest
+        && receipt.contract_digest.as_ref() != Some(expected_digest)
+    {
+        return Err(ResourceFinalizationError::IdentityMismatch(
+            "contractDigest",
+        ));
+    }
+    if let Some(expected_context) = resource_context
+        && receipt.resource_context.as_ref() != Some(expected_context)
+    {
+        return Err(ResourceFinalizationError::IdentityMismatch(
+            "resourceContext",
+        ));
+    }
+    Ok(())
+}
+
+/// A retry may safely replay an already completed finalization only when the
+/// operation identity and final state are identical.  This helper compares
+/// the immutable operation binding and intentionally ignores receipt ID and
+/// timestamp, which are event metadata rather than mutation identity.
+pub fn validate_resource_finalization_replay(
+    original: &ResourceFinalizationReceipt,
+    replay: &ResourceFinalizationReceipt,
+) -> Result<(), ResourceFinalizationError> {
+    validate_resource_finalization_receipt(original)?;
+    validate_resource_finalization_receipt(replay)?;
+    if original.operation_id != replay.operation_id {
+        return Err(ResourceFinalizationError::ReplayMismatch("operationId"));
+    }
+    if original.repository_id != replay.repository_id {
+        return Err(ResourceFinalizationError::ReplayMismatch("repositoryId"));
+    }
+    if original.work_item_id != replay.work_item_id {
+        return Err(ResourceFinalizationError::ReplayMismatch("workItemId"));
+    }
+    if original.provider != replay.provider
+        || original.pull_request != replay.pull_request
+        || original.branch != replay.branch
+        || original.worktree != replay.worktree
+        || original.before != replay.before
+        || original.after != replay.after
+        || original.result != replay.result
+        || original.contract_digest != replay.contract_digest
+        || original.resource_context != replay.resource_context
+    {
+        return Err(ResourceFinalizationError::ReplayMismatch(
+            "finalization identity or result",
+        ));
+    }
+    Ok(())
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]

@@ -1,0 +1,66 @@
+{
+  "acceptanceEvidence": [
+    ".ai/evidence/WI-158-resource-finalization-protocol.verification.json"
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-158-resource-finalization-protocol.contract.json",
+    ".ai/work-items/archive/WI-158-resource-finalization-protocol.summary.json"
+  ],
+  "checkpointAt": "2026-08-23T00:32:42Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T00:31:12Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-protocol/src/lib.rs",
+      "crates/cockpit-protocol/tests/resource_finalization.rs"
+    ],
+    "reason": "The protocol separates external resource finalization from Work Item closure and rejects unverifiable cleanup claims.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-23T00:40:28Z",
+  "preflightContractDigest": "sha256:7878e3471dd410a420769380a4ab952e07c80134d17e38af4323cc5d09303f0f",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:1d882e9388420d54af5fd40b0f6b9e1e95dd64566f288262123194d7560dbe45",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-158-resource-finalization-protocol.verification.json"
+      ],
+      "expected": "deleted result is accepted only when all identity and after-state bindings are complete",
+      "required": true,
+      "scenario": "merged PR with clean exact branch and worktree is deleted",
+      "status": "verified",
+      "verificationPlan": "Focused protocol tests validate the deleted receipt and replay binding."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-158-resource-finalization-protocol.verification.json"
+      ],
+      "expected": "result cannot be deleted/green and is represented by blocked or unknown with stable codes",
+      "required": true,
+      "scenario": "dirty, unmerged, protected, or ambiguous cleanup state",
+      "status": "verified",
+      "verificationPlan": "Focused protocol tests reject deletion for each fail-closed state and validate blocked/unknown results."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-158-resource-finalization-protocol.verification.json"
+      ],
+      "expected": "same operation identity and final state validate deterministically without requiring a second mutation",
+      "required": true,
+      "scenario": "duplicate finalization replay",
+      "status": "verified",
+      "verificationPlan": "Focused protocol tests validate equivalent replay and reject a different operation identity."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T00:40:35Z",
+  "workItemId": "WI-158-resource-finalization-protocol"
+}
