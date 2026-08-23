@@ -371,6 +371,14 @@ fn archived_foreign_runtime_evidence_can_close_without_rewriting_history() {
         .expect("finish");
     archive_work_item_with_runtime(directory.path(), "WI-161-HISTORICAL-CLOSE", &recorded)
         .expect("archive");
+    // Simulate a later merge on the default branch.  The archived plan
+    // snapshot is intentionally older than the repository snapshot observed
+    // during close; historical evidence must remain valid and immutable.
+    fs::write(
+        directory.path().join("post-archive-merge.txt"),
+        b"later merge changed the current snapshot\n",
+    )
+    .expect("post-archive change");
 
     let contract_path = directory
         .path()

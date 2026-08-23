@@ -6938,6 +6938,7 @@ fn verification_evidence_state(
                 snapshot,
                 &envelope,
                 typed.plan_receipt.as_ref(),
+                archived,
             )? {
                 return Ok(EvidenceState::Contradictory);
             }
@@ -7031,6 +7032,7 @@ fn validate_plan_receipt_binding(
     snapshot: &RepositorySnapshot,
     envelope: &VerificationEvidenceEnvelope,
     plan: Option<&cockpit_verification::VerificationPlanReceipt>,
+    archived: bool,
 ) -> Result<bool, ObserverError> {
     let Some(plan) = plan else {
         let has_policy_requirement = effective_policy_for_contract(root, contract)?
@@ -7067,11 +7069,13 @@ fn validate_plan_receipt_binding(
             return Ok(true);
         }
         let expected_snapshot = snapshot_digest(snapshot)?;
+        let snapshot_matches_current = archived
+            || plan.repository_snapshot_digest.as_deref()
+                == Some(expected_snapshot.to_string().as_str());
         return Ok(
             plan.work_item_id.as_deref() == Some(contract.work_item_id.as_str())
                 && plan.repository_id.as_deref() == Some(expected_repository_id.as_str())
-                && plan.repository_snapshot_digest.as_deref()
-                    == Some(expected_snapshot.to_string().as_str())
+                && snapshot_matches_current
                 && plan.repository_snapshot_digest.as_deref()
                     == Some(envelope.repository_snapshot_digest.to_string().as_str()),
         );
@@ -7084,10 +7088,11 @@ fn validate_plan_receipt_binding(
         return Ok(false);
     }
     let expected_snapshot = snapshot_digest(snapshot)?;
-    if plan
-        .repository_snapshot_digest
-        .as_deref()
-        .is_none_or(|digest| digest != expected_snapshot.to_string())
+    if !archived
+        && plan
+            .repository_snapshot_digest
+            .as_deref()
+            .is_none_or(|digest| digest != expected_snapshot.to_string())
     {
         return Ok(false);
     }
