@@ -1,0 +1,141 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "source version consistency",
+          "path": "tests/release/version_consistency.sh",
+          "type": "release-gate",
+          "verification": "Cargo metadata and current three-language release baselines are aligned to v0.2.25 before publication."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "public Release evidence",
+          "path": ".ai/evidence/WI-205-release-v0-2-25.release-manifest.json",
+          "type": "provider-receipt",
+          "verification": "The immutable public Release manifest, target archives, SBOMs and binary identity will be recorded after publication."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "public adopter acceptance",
+          "path": ".ai/evidence/WI-205-release-v0-2-25.adopter-acceptance.json",
+          "type": "adopter-receipt",
+          "verification": "The downloaded v0.2.25 binary will be used in an isolated adopter acceptance run without source fallback."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "append-only transition",
+          "path": ".ai/decisions/WI-205-release-v0-2-25.finalize.json",
+          "type": "transition-receipt",
+          "verification": "Installed v0.2.25 must accept the successor transition envelope and bind it to the predecessor receipt."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "tri-language release parity",
+          "path": "docs/reference/reference-parity.md",
+          "type": "parity-report",
+          "verification": "Three-language parity and visible Outcome records will be updated only after the public evidence exists."
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-203-release-v0-2-25.recovery.d5f9610ff7106d75daa835f5668606e7db0cd6288b1091d0eb87ff74b7aa6884.json",
+    ".ai/decisions/WI-203-release-v0-2-25.recovery.json",
+    ".ai/decisions/WI-204-release-v0-2-25.finalize.json",
+    ".ai/decisions/WI-204-release-v0-2-25.preflight-review.10bc909247d7cd37494c950143507995dbeeccdcda0e8886b4e3530f91a10fa4.json",
+    ".ai/decisions/WI-204-release-v0-2-25.preflight-review.90700c71c793e455019f6b5d9c650ee3fa965cdb02bdcbdb1b6de696b4a6c57d.json",
+    ".ai/decisions/WI-204-release-v0-2-25.preflight-review.99efb8e84c32d2b75083ea1a3e9a1a8a020c2edf1f6d25ac8d0578ea90f802b1.json",
+    ".ai/decisions/WI-204-release-v0-2-25.preflight-review.json",
+    ".ai/decisions/WI-204-release-v0-2-25.recovery.8f22c71cfc0f37e9a9b9b31eb77031e83cb6251cc5d80886d3a872d0afbacb97.json",
+    ".ai/decisions/WI-204-release-v0-2-25.recovery.json",
+    ".ai/evidence/WI-204-release-v0-2-25.verification.json",
+    ".ai/work-items/archive/WI-205-release-v0-2-25.contract.json",
+    ".ai/work-items/archive/WI-205-release-v0-2-25.summary.json",
+    ".ai/work-items/archive/WI-204-release-v0-2-25.archive.json",
+    ".ai/work-items/archive/WI-204-release-v0-2-25.contract.json",
+    ".ai/work-items/archive/WI-204-release-v0-2-25.events.jsonl",
+    ".ai/work-items/archive/WI-204-release-v0-2-25.outcome.json",
+    ".ai/work-items/archive/WI-204-release-v0-2-25.summary.json",
+    ".ai/work-items/archive/WI-204-release-v0-2-25.task-report.json",
+    ".ai/work-items/archive/WI-204-release-v0-2-25.task-report.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-204-release-v0-2-25.ja.md",
+    "docs/work-items/WI-204-release-v0-2-25.md",
+    "docs/work-items/WI-204-release-v0-2-25.zh-CN.md"
+  ],
+  "checkpointAt": "2026-08-23T16:03:47Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T16:00:28Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/decisions/WI-204-release-v0-2-25.recovery.json",
+      "Cargo.toml",
+      "docs/release/distribution.md"
+    ],
+    "reason": "This successor uses the synchronized default-branch base, binds the actual PR context before verification, and preserves WI-204 immutable history.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "predecessorContractDigest": "sha256:66c8a1b43629171b0c3f51583d987d6da9c1a4a1a0fecf7e0b2c6267a989d1a4",
+  "predecessorWorkItemId": "WI-204-release-v0-2-25",
+  "preflightAt": "2026-08-23T16:07:02Z",
+  "preflightContractDigest": "sha256:9c5380055f5f6fd1305994f00bd1d34aebe664c54f989ed942f7cfe202e1d87a",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:2c8c01d0451ebab25e462b7ddcfc32b60841ec4223e36664034f11d24fe56b40",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-204-release-v0-2-25.recovery.8f22c71cfc0f37e9a9b9b31eb77031e83cb6251cc5d80886d3a872d0afbacb97.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/version_consistency.sh",
+        "docs/architecture/versioning.md"
+      ],
+      "expected": "All current release baselines resolve to v0.2.25.",
+      "required": true,
+      "scenario": "version and release baseline",
+      "status": "verified",
+      "verificationPlan": "Run version consistency, documentation and hosted release checks."
+    },
+    {
+      "evidence": [],
+      "expected": "Downloaded v0.2.25 completes isolated adopter acceptance.",
+      "required": false,
+      "scenario": "immutable public adopter",
+      "status": "unverified",
+      "verificationPlan": "Run tests/release/adopter_acceptance.sh against the published tag."
+    },
+    {
+      "evidence": [],
+      "expected": "Installed v0.2.25 accepts a linked append-only transition.",
+      "required": false,
+      "scenario": "finalization transition compatibility",
+      "status": "unverified",
+      "verificationPlan": "Run the post-merge transition with the installed v0.2.25 binary."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T16:07:09Z",
+  "workItemId": "WI-205-release-v0-2-25"
+}

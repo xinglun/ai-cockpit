@@ -28,13 +28,39 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-205-release-v0-2-25",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/157",
     "worktree": "/private/tmp/ai-cockpit-wi203-release-v0-2-25"
   },
+  "scenarioCoverage": [
+    {
+      "scenario": "version and release baseline",
+      "required": true,
+      "status": "verified",
+      "expected": "All current release baselines resolve to v0.2.25.",
+      "verificationPlan": "Run version consistency, documentation and hosted release checks.",
+      "evidence": ["tests/release/version_consistency.sh", "docs/architecture/versioning.md"]
+    },
+    {
+      "scenario": "immutable public adopter",
+      "required": false,
+      "status": "unverified",
+      "expected": "Downloaded v0.2.25 completes isolated adopter acceptance.",
+      "verificationPlan": "Run tests/release/adopter_acceptance.sh against the published tag.",
+      "evidence": []
+    },
+    {
+      "scenario": "finalization transition compatibility",
+      "required": false,
+      "status": "unverified",
+      "expected": "Installed v0.2.25 accepts a linked append-only transition.",
+      "verificationPlan": "Run the post-merge transition with the installed v0.2.25 binary.",
+      "evidence": []
+    }
+  ],
   "risk": "high",
   "scope": [
     "Cargo.toml",
