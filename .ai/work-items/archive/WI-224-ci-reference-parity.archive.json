@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-23T22:41:04Z",
+  "files": {
+    "contractDigest": "sha256:0bf20390826c7dab833838a3f92d61a98b9ef6a6be426413dbc1386b59402eef",
+    "contractPath": ".ai/work-items/archive/WI-224-ci-reference-parity.contract.json",
+    "eventsDigest": "sha256:06aac42215cab4bdeae879c5a773eb5c57a82138a83551afde0e2f1de6cb5b1a",
+    "eventsPath": ".ai/work-items/archive/WI-224-ci-reference-parity.events.jsonl",
+    "outcomeDigest": "sha256:976d38bfdce03db1dfc455a0af8b99e9adbb7528d84993a7db0d54204b87f7f5",
+    "outcomePath": ".ai/work-items/archive/WI-224-ci-reference-parity.outcome.json",
+    "summaryDigest": "sha256:8c41160faaa1a77f9072fa24a190fa37b6da673e43aebb07e1e543ac27b2c74c",
+    "summaryPath": ".ai/work-items/archive/WI-224-ci-reference-parity.summary.json",
+    "taskReportDigest": "sha256:a7f7404f7cb58cdfd461ebd5e294e6976fe6b1dd2f47350fbebbe58d24614c64",
+    "taskReportMarkdownDigest": "sha256:b3dbe5449274338ed10eb88adf9920b55c4333bdbe3dcb60dfef337e5ba114aa",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-224-ci-reference-parity.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-224-ci-reference-parity.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-224-ci-reference-parity"
+}

@@ -1,0 +1,106 @@
+{
+  "acceptanceCriteria": [
+    "The deferred reference workflow/Make surfaces are compared file by file and each is classified as implemented-different-by-design, implemented-equivalent, concrete gap, or external/deferred with evidence.",
+    "Repository CI routing selects light/standard/strict behavior from declared risk, stage, and affected-path policy; its typed manifest and route receipt bind the canonical required gates.",
+    "CI, release, and the new-Runtime adopter lane cannot use an arbitrary command to substitute for canonical manifest gates; Runtime-global T0-T3 routing and generic CLI --command semantics remain explicitly deferred because crates/** is out of scope.",
+    "Release workflow binds immutable source, Runtime identity, public assets, supply-chain evidence, adopter/N-1 acceptance, cleanup, and post-release truth without source fallback.",
+    "Node/action versions and shell scripts use current supported actions; all cleanup and receipt-write failures affect exit status.",
+    "Current CI/release regression tests and documentation checks pass; a visible human Outcome is produced."
+  ],
+  "authority": "authorized",
+  "baseRevision": "72320be00d3340ad328aa93ac1a7e80e8e828085",
+  "createdAt": "2026-08-23T21:47:13Z",
+  "goal": "Make CI and Release semantic ownership explicit and ensure dynamic quality routing, Runtime shadow, supply-chain, and adopter checks are discoverable and fail closed.",
+  "intent": "Compare deferred reference compatibility, smoke, release, Make, and repository metadata entrypoints with the Rust CI and public Release workflow; fix only concrete CI/release parity or fail-open omissions in the declared scope.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    "Runtime-global T0-T3 route selection and generic ai-cockpit verify --command semantics",
+    "docs/getting-started/**",
+    "docs/reference/reference-parity.*",
+    "reference Python runtime",
+    "reference Makefile",
+    "global Agent/MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:91c6f398c1227e01854cb38d6495968a4b9cd75a9192e4b6fea6b49fd18c3e3e",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-224-ci-reference-parity",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/174",
+    "worktree": "/private/tmp/ai-cockpit-wi224-ci-reference-parity"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Light, standard, and strict routes are selected from declared policy and affected paths; unknown or mixed-risk inputs fail closed or escalate.",
+      "required": true,
+      "scenario": "dynamic verification route",
+      "status": "unverified",
+      "verificationPlan": "Run route matrix fixtures for docs-only, source, workflow/release, mixed, high-risk, and unknown paths and bind the route receipt."
+    },
+    {
+      "evidence": [],
+      "expected": "A staged candidate must pass immutable-identity adopter and N-1 lifecycle checks before publication, with no source or workspace fallback.",
+      "required": true,
+      "scenario": "release staged adopter and N-1 acceptance",
+      "status": "unverified",
+      "verificationPlan": "Run release policy and staged acceptance tests with downloaded/public identities, canonical verification commands, and failure-path receipts."
+    },
+    {
+      "evidence": [],
+      "expected": "Success and failure paths produce bound receipts, clean temporary roots, and preserve published-release truth.",
+      "required": true,
+      "scenario": "release cleanup and receipt integrity",
+      "status": "unverified",
+      "verificationPlan": "Run harness cleanup/isolation regressions and inspect manifests, digests, and exit status for success and injected failure paths."
+    }
+  ],
+  "scope": [
+    ".github/workflows/ci.yml",
+    ".github/workflows/release.yml",
+    "tests/ci/**",
+    "tests/release/**",
+    ".gitignore",
+    ".gitattributes",
+    "docs/release/**",
+    "docs/reference/ci-runtime-shadow.md",
+    "docs/reference/ci-runtime-shadow.zh-CN.md",
+    "docs/reference/ci-runtime-shadow.ja.md"
+  ],
+  "sources": [
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/tree/e5acb677da6621004d96f0ef353c58fe8d3acfbf/.github/workflows",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/blob/e5acb677da6621004d96f0ef353c58fe8d3acfbf/Makefile",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/blob/e5acb677da6621004d96f0ef353c58fe8d3acfbf/.gitattributes"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/ci/quality_route_test.py",
+    "bash tests/ci/repository_gate_manifest_test.sh",
+    "bash tests/ci/runtime_verify_shadow_test.sh",
+    "bash tests/ci/release_gate_policy_test.sh",
+    "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
+    "bash tests/release/action_runtime_policy_test.sh",
+    "bash tests/release/source_archive_policy_test.sh",
+    "bash tests/release/adopter_acceptance_test.sh",
+    "bash tests/release/adopter_upgrade_acceptance_test.sh",
+    "bash tests/release/isolation_manifest_test.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "tests/ci/run_workspace_package_tests.sh --report target/workspace-package-coverage.json",
+    "python3 tests/ci/quality_route.py --repo . --manifest tests/ci/repository_gate_manifest.json --base HEAD --head HEAD --stage release --risk high --profile strict --contract .ai/work-items/active/WI-224-ci-reference-parity.contract.json --receipt target/repository-quality-route.json",
+    "python3 tests/ci/run_repository_gates.py --repo . --manifest tests/ci/repository_gate_manifest.json --route-receipt target/repository-quality-route.json --report target/repository-gates.json",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-224-ci-reference-parity"
+}
