@@ -104,7 +104,7 @@ public Release と current Runtime、例えば次のように実行します。
 ```bash
 tests/release/adopter_upgrade_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --from-tag v0.2.17 \
+  --from-tag v0.2.18 \
   --to-tag v0.2.19 \
   --target x86_64-unknown-linux-gnu \
   --output ./release-adopter-upgrade-acceptance
@@ -142,7 +142,7 @@ attach/profile/Agent doctor、`first-adopter-smoke` の `not_ready`、Work Item 
 
 この post-release receipt の lifecycle close は完全な structured Human Decision でなければなりません。harness は actor、authority source、reason、evidence reference、policy reference、決定時刻、resume condition を要求します。通常ファイルかつ symlink ではない `.ai/decisions/<work-item>.close.json` を acceptance artifact にコピーし、adopter の `repositoryId`、Work Item ID、decision digest、検証結果を含む binding record を生成します。close receipt の欠落、foreign、必須項目不足、identity 不一致は fail closed となり、公開済み Release を未公開へ書き戻すことはありません。
 
-close の前に、harness は Runtime の resource-finalization boundary も実行します。`finalize-plan` が verification 前に fixture の branch/worktree context を bind し、archive 後の `finalize` と `finalize-verify` が fixture の意図的な retain 状態を receipt に記録します。これは表示だけの手順ではなく、欠落時に `close` が fail closed になる実際の lifecycle 要件です。
+old Work Item と new Work Item の close 前に、harness は Runtime の resource-finalization boundary も実行します。`finalize-plan` が verification 前に fixture の branch/worktree context を bind し、archive 後の `finalize` と `finalize-verify` が fixture の意図的な retain 状態を receipt に記録します。これは表示だけの手順ではなく、欠落時に `close` が fail closed になる実際の lifecycle 要件です。
 
 receipt の出力を確定した後、success、failure、interrupt のすべての経路で、検証済みの一時 `run_root` だけを削除します。
 `cleanup.json` と `acceptance.json` の `cleanupState` / `cleanupError` が結果を記録します。cleanup failure は

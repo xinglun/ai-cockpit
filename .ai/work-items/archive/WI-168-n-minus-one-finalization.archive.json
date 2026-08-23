@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-23T03:59:08Z",
+  "files": {
+    "approachDigest": "sha256:617265e5e9fae686367b7facfb2e523f0dbd8f2a8db0c7a479578c138879cc66",
+    "approachPath": ".ai/work-items/archive/WI-168-n-minus-one-finalization.approach.json",
+    "contractDigest": "sha256:4b9f53d7602b6adabafee9179bcaa3a2a6aba536278cea7945e29c00194171fe",
+    "contractPath": ".ai/work-items/archive/WI-168-n-minus-one-finalization.contract.json",
+    "eventsDigest": "sha256:62bfdf0310a3ef34805370fd23c41e6a3a983ca97ab0386720b4fb1dedf09fef",
+    "eventsPath": ".ai/work-items/archive/WI-168-n-minus-one-finalization.events.jsonl",
+    "outcomeDigest": "sha256:acd3b101c5a259d2e3785cdb0ba715a395a8a98bd6ded4a673e8eaa821008142",
+    "outcomePath": ".ai/work-items/archive/WI-168-n-minus-one-finalization.outcome.json",
+    "summaryDigest": "sha256:5d15767f4ef404b8c3206f9e24586e61f6b54f6203270682acf0cbde8178b375",
+    "summaryPath": ".ai/work-items/archive/WI-168-n-minus-one-finalization.summary.json",
+    "taskReportDigest": "sha256:7e1fec5776e28eee182333b5f7fa93e24fe7edad02ca9ed8ae41a000512da245",
+    "taskReportMarkdownDigest": "sha256:aca3a943cb8e7ec5cbf971110a4c42cf3701cb796b179d440c79a91c22210614",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-168-n-minus-one-finalization.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-168-n-minus-one-finalization.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-168-n-minus-one-finalization"
+}
