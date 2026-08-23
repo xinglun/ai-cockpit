@@ -1,0 +1,42 @@
+{
+  "acceptanceCriteria": [
+    "All three parity documents mark WI-173 as Implemented with PR #129, merge commit, Release workflow, public archive and binary identities, adopter and N-1 acceptance, and closure PR #130.",
+    "Historical rows and immutable evidence references remain unchanged.",
+    "Documentation acceptance and post-release version consistency pass using the installed public v0.2.21 Runtime."
+  ],
+  "authority": "missing",
+  "baseRevision": "486419e2cb2bfeaf42586c2f01719266529daf9b",
+  "createdAt": "2026-08-23T05:38:20Z",
+  "goal": "Update tri-language reference parity after public v0.2.21 release and adopter acceptance.",
+  "intent": "Record the immutable v0.2.21 public Release and acceptance facts in all three reference-parity documents.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime/core semantics",
+    " historical Release truth",
+    " installer behavior",
+    " existing receipts"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:27402328218b2dc5af28fbdb2260cfd4a073f1f9fb8a3a64d5086db3acfc0631",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-174-post-release-parity-v0-2-21",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/131",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-174-post-release-parity-v0-2-21"
+}

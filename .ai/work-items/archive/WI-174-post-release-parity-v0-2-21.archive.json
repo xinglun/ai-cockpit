@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-23T05:39:34Z",
+  "files": {
+    "contractDigest": "sha256:ffdc726cd353068f67f2f77b1b7fa03ee70f27376b8b480825a88d80cd6f9cb1",
+    "contractPath": ".ai/work-items/archive/WI-174-post-release-parity-v0-2-21.contract.json",
+    "eventsDigest": "sha256:10700ac4ed8a1fc01490b90585a8feb3cff7f6cf789866dbca1a44507ce9ddf5",
+    "eventsPath": ".ai/work-items/archive/WI-174-post-release-parity-v0-2-21.events.jsonl",
+    "outcomeDigest": "sha256:f171d17246c5b8a38330a6158ad5d624142e715a01bd7134b0262852e7c6f9d6",
+    "outcomePath": ".ai/work-items/archive/WI-174-post-release-parity-v0-2-21.outcome.json",
+    "summaryDigest": "sha256:ddfb3f368720f31bc2c7f674a062a4ee80396aae65ea3af4b09598cf0d962c3c",
+    "summaryPath": ".ai/work-items/archive/WI-174-post-release-parity-v0-2-21.summary.json",
+    "taskReportDigest": "sha256:f45087ba4ef2c2a9fdaf084fe67c702e5fc1943ffd6864166d77ce80faeb8be6",
+    "taskReportMarkdownDigest": "sha256:44edd141c6ca3e5e83c60e1bdac5a4df550655b30425b6296b95d2c2d8c26cd8",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-174-post-release-parity-v0-2-21.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-174-post-release-parity-v0-2-21.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-174-post-release-parity-v0-2-21"
+}
