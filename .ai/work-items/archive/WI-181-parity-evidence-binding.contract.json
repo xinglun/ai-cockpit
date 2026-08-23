@@ -1,0 +1,50 @@
+{
+  "acceptanceCriteria": [
+    "All three parity documents mark WI-180 as Implemented and bind PR #139, closure PR #140, verification evidence, finalization receipt, and close receipt.",
+    "The parity check deterministically fails when a closed WI row lacks required evidence bindings, and passes for WI-177 through WI-180.",
+    "Documentation acceptance and post-release version consistency pass using installed public Runtime v0.2.22."
+  ],
+  "authority": "authorized",
+  "baseRevision": "59dfc9543bd9e55647e61389b219bb1b30d974d1",
+  "createdAt": "2026-08-23T07:23:19Z",
+  "goal": "Ensure tri-lingual reference parity cannot claim Implemented without auditable evidence links.",
+  "intent": "Bind every closed Work Item parity row to its verification, finalization, and close evidence, and make the parity check reject missing bindings.",
+  "mode": "implementation",
+  "outOfScope": [
+    "src/**",
+    "crates/**",
+    ".github/**",
+    "release/**"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:98131af2b5a5bf2091d4eb7c16c32a50661979f2d1cbe4890b7a35d3e2a95a2a",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation_acceptance",
+    "parity_status_check",
+    "post_release_version_consistency"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-181-parity-evidence-binding",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/141",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "tests/docs/parity_status_check.sh",
+    "tests/docs/parity_status_check_test.sh",
+    ".ai/evidence/WI-181-parity-evidence-binding/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-181-parity-evidence-binding"
+}

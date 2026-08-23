@@ -1,0 +1,135 @@
+{
+  "acceptanceResults": [
+    "All three parity documents mark WI-180 as Implemented and bind PR #139, closure PR #140, verification evidence, finalization receipt, and close receipt.",
+    "The parity check deterministically fails when a closed WI row lacks required evidence bindings, and passes for WI-177 through WI-180.",
+    "Documentation acceptance and post-release version consistency pass using installed public Runtime v0.2.22."
+  ],
+  "createdAt": "2026-08-23T07:27:25Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:64ed6de289be8b9a8b6efdd42d02e45fee84926847f65888ac8b4917629b60a5",
+  "evidenceRefs": [
+    ".ai/evidence/WI-181-parity-evidence-binding.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-181-parity-evidence-binding.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-181-parity-evidence-binding.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:141d50e77a679fb80e431129c6f14f50d2cbe47633c379277de948479fe93d2c",
+      "workItemId": "WI-181-parity-evidence-binding"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-181-parity-evidence-binding.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-181-parity-evidence-binding.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-181-parity-evidence-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-181-parity-evidence-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-181-parity-evidence-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-181-parity-evidence-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-181-parity-evidence-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "Ensure tri-lingual reference parity cannot claim Implemented without auditable evidence links."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-181-parity-evidence-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-181-parity-evidence-binding"
+  },
+  "taskReportDigest": "sha256:f3bc669a940f89dd3673dcff89c73b6fa913aae7048ed38f8bbfd4d54c0f8f2a",
+  "taskReportMarkdownDigest": "sha256:9eb21929d272ffea45cd291fbc421877d625ea6b7c74d3799059d10eed6046a8",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-181-parity-evidence-binding.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-181-parity-evidence-binding"
+}

@@ -13,7 +13,7 @@ for file in "${docs[@]}"; do
     printf 'parity status check: missing %s\n' "$file" >&2
     exit 1
   }
-  for work_item in WI-177 WI-178 WI-179; do
+  for work_item in WI-177 WI-178 WI-179 WI-180; do
     line="$(rg -F "$work_item" "$file" || true)"
     [[ -n "$line" ]] || {
       printf 'parity status check: missing %s in %s\n' "$work_item" "$file" >&2
@@ -33,6 +33,44 @@ for file in "${docs[@]}"; do
       printf 'parity status check: stale in-progress status for %s in %s\n' "$work_item" "$file" >&2
       exit 1
     fi
+
+    case "$work_item" in
+      WI-177)
+        required_refs=(
+          '.ai/evidence/WI-177-post-release-adopter-v0-2-22/'
+          'WI-178'
+        ) ;;
+      WI-178)
+        required_refs=(
+          '.ai/evidence/WI-178-post-release-adopter-finalization-reconciliation.verification.json'
+          '.ai/decisions/WI-178-post-release-adopter-finalization-reconciliation.finalize.json'
+          '.ai/decisions/WI-178-post-release-adopter-finalization-reconciliation.close.json'
+        ) ;;
+      WI-179)
+        required_refs=(
+          '.ai/evidence/WI-179-post-release-parity-v0-2-22.verification.json'
+          '.ai/decisions/WI-179-post-release-parity-v0-2-22.finalize.json'
+          '.ai/decisions/WI-179-post-release-parity-v0-2-22.close.json'
+        ) ;;
+      WI-180)
+        required_refs=(
+          '.ai/evidence/WI-180-parity-status-closure-correction.verification.json'
+          '.ai/decisions/WI-180-parity-status-closure-correction.finalize.json'
+          '.ai/decisions/WI-180-parity-status-closure-correction.close.json'
+        ) ;;
+    esac
+    for ref in "${required_refs[@]}"; do
+      printf '%s\n' "$line" | rg -F "$ref" >/dev/null || {
+        printf 'parity status check: missing evidence binding %s for %s in %s\n' "$ref" "$work_item" "$file" >&2
+        exit 1
+      }
+      if [[ "$ref" == .ai/* && "$ref" != */ ]]; then
+        [[ -f "$repo/$ref" ]] || {
+          printf 'parity status check: referenced evidence file does not exist: %s\n' "$repo/$ref" >&2
+          exit 1
+        }
+      fi
+    done
   done
 done
 
