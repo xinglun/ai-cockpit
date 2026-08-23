@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-bounded-integration-successor",
+  "decidedAt": "2026-08-23T23:05:35Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-224-ci-reference-parity.verification.json",
+    ".ai/decisions/WI-224-ci-reference-parity.finalize.json",
+    ".ai/work-items/archive/WI-224-ci-reference-parity.archive.json",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/32671933272"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    "tests/ci/governance_integrity_gate.py",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:5ff632c15b583bc7ba621ae440b7c06f477100ad0a0f462dfdfa507dac45321b",
+  "predecessorEventsDigest": "sha256:06aac42215cab4bdeae879c5a773eb5c57a82138a83551afde0e2f1de6cb5b1a",
+  "predecessorOutcomeDigest": "sha256:16d3d7c997795af3eba2dbd07ed5ddedcfca05a0734f64e6b2602edc8a20a3ca",
+  "predecessorSummaryDigest": "sha256:4a30ff7041eb0c61b539a4f3f38994b744472bb2ed5f305dccc00304544d67bb",
+  "predecessorWorkItemId": "WI-224-ci-reference-parity",
+  "reason": "WI-224 was immutably archived and finalized before hosted CI proved that its shared tri-language parity registration was missing; integrate its exact delivery and lifecycle bytes with the linked WI-222 and WI-223→WI-225→WI-226 deliveries in WI-227 without rewriting predecessor truth.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "WI-227 preserves all predecessor bytes, records truthful WI-222 through WI-227 parity rows, passes the strict dynamic route and full manifest after canonical finalization, and reaches reviewed merge truth before predecessor PR cleanup.",
+  "runtimeDigest": "sha256:23e9a9824f35b9e0d3706bdcbad34777bca5b0a4d362b4101407412a905dcb5b",
+  "runtimeVersion": "0.2.28",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-227-getting-started-capability-parity-integration",
+  "workItemId": "WI-224-ci-reference-parity"
+}
