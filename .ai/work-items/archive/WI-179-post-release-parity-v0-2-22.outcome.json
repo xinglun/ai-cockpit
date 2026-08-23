@@ -1,0 +1,136 @@
+{
+  "acceptanceResults": [
+    "All three parity documents mark WI-177 as implemented with the public adopter evidence and historical supersession references.",
+    "All three parity documents mark WI-178 as implemented with PR #135, closure PR #136, finalize, finalize-verify, and structured close references.",
+    "English, Simplified Chinese, and Japanese rows preserve equivalent release tag, workflow, runtime digest, and evidence facts.",
+    "Documentation acceptance and post-release version consistency pass using installed public Runtime v0.2.22."
+  ],
+  "createdAt": "2026-08-23T06:46:37Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:2ba6e15dc46cef0b35e0fa82720c35b8b133e6d97d9006005b5bceb27cfbe27a",
+  "evidenceRefs": [
+    ".ai/evidence/WI-179-post-release-parity-v0-2-22.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-179-post-release-parity-v0-2-22.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-179-post-release-parity-v0-2-22.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2c4856030cf423eb3689181be46ae2f775f81f78bd83d0581feaf7112b05fa6a",
+      "workItemId": "WI-179-post-release-parity-v0-2-22"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-179-post-release-parity-v0-2-22.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-179-post-release-parity-v0-2-22.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-179-post-release-parity-v0-2-22.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-179-post-release-parity-v0-2-22.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-179-post-release-parity-v0-2-22.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-179-post-release-parity-v0-2-22.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-179-post-release-parity-v0-2-22.contract.json"
+          ],
+          "inference": false,
+          "text": "Remove stale in-progress status and record WI-177 historical supersession, WI-178 finalization closure, and the immutable public v0.2.22 adopter baseline consistently in English, Chinese, and Japanese."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-179-post-release-parity-v0-2-22.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-179-post-release-parity-v0-2-22"
+  },
+  "taskReportDigest": "sha256:98d047db6bb8801cbb16c046be97e84bef8d2c1936b37592a2a5a0c4ec6cf612",
+  "taskReportMarkdownDigest": "sha256:4329dc4ad1a99338df1990f5fbff99595163b70a3091f808519923a6b9d5bf28",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-179-post-release-parity-v0-2-22.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-179-post-release-parity-v0-2-22"
+}

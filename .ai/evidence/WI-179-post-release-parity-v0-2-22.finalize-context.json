@@ -1,0 +1,8 @@
+{
+  "branch": "codex/wi-179-post-release-parity-v0-2-22",
+  "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit",
+  "baseBranch": "main",
+  "baseRemote": "origin",
+  "provider": "github",
+  "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/137"
+}

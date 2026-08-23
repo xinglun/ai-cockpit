@@ -26,11 +26,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-179-post-release-parity-v0-2-22",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/137",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
   },
   "risk": "low",
