@@ -1,0 +1,84 @@
+{
+  "acceptanceCriteria": [
+    "A1: Every current parity row binds its immutable verification evidence and its current terminal or pre-merge finalization decision.",
+    "A2: The actual reviewed PR resource context is bound consistently in the Contract and finalization receipt.",
+    "A3: The dynamic governance integrity gate and tri-language documentation acceptance pass without suppressing historical findings.",
+    "A4: The predecessor WI-196 remains immutable and is linked through a valid successor recovery decision."
+  ],
+  "authority": "authorized",
+  "baseRevision": "4b45b43b41769e0db240c3a133b5d80427983913",
+  "createdAt": "2026-08-23T13:06:38Z",
+  "goal": "Close the parity and PR-resource binding gap found by hosted quality without rewriting WI-196 evidence.",
+  "intent": "Repair current-batch governance parity bindings and record the exact reviewed PR context before merge.",
+  "mode": "code",
+  "outOfScope": [
+    "src/**",
+    "crates/**",
+    "target/**"
+  ],
+  "predecessorContractDigest": "sha256:e0ee90acaa9a49d208950ef4a040151b8662e63f1c4806080accbe4eab468ab5",
+  "predecessorWorkItemId": "WI-196-governance-recovery-gate-retry",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-196-governance-recovery-gate-retry.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f7ce02c795b49cc2c64ad7f845c3c7d342130c72f7373e51fd2c84c0170ed2c1",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-196-governance-recovery-gate-retry",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/153",
+    "worktree": "/private/tmp/ai-cockpit-wi195-governance-recovery-gate"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "docs/reference/reference-parity.md",
+        "tests/ci/governance_integrity_gate.py"
+      ],
+      "expected": "The current parity row contains the verification evidence path and the pre-merge finalization path.",
+      "required": true,
+      "scenario": "parity evidence and decision binding",
+      "status": "unverified",
+      "verificationPlan": "Run the dynamic governance integrity gate and inspect WI-197 findings."
+    },
+    {
+      "evidence": [
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "expected": "All three parity documents and the Work Item counterparts pass documentation acceptance.",
+      "required": true,
+      "scenario": "tri-language documentation acceptance",
+      "status": "unverified",
+      "verificationPlan": "Run documentation_acceptance.sh."
+    }
+  ],
+  "scope": [
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "tests/docs/documentation_acceptance.sh",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-196-governance-recovery-gate-retry.md",
+    "docs/work-items/WI-196-governance-recovery-gate-retry.zh-CN.md",
+    "docs/work-items/WI-196-governance-recovery-gate-retry.ja.md",
+    "docs/work-items/WI-197-governance-gate-pr-closure.md",
+    "docs/work-items/WI-197-governance-gate-pr-closure.zh-CN.md",
+    "docs/work-items/WI-197-governance-gate-pr-closure.ja.md",
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/archive/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-197-governance-gate-pr-closure"
+}

@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-23T13:10:12Z",
+  "files": {
+    "contractDigest": "sha256:d122449b680fa3e7a84f76c27d7c954616c053d9cf4752b67d7d62d2f16d6570",
+    "contractPath": ".ai/work-items/archive/WI-197-governance-gate-pr-closure.contract.json",
+    "eventsDigest": "sha256:2a1fd8d1431e7f3be0f727b241db9146d4a0b5ce495c956b902cffb338d010d9",
+    "eventsPath": ".ai/work-items/archive/WI-197-governance-gate-pr-closure.events.jsonl",
+    "outcomeDigest": "sha256:56482c518d3a14c3d76961abbb7aec6b350dd13708c5c2db1d3907b8279fdb47",
+    "outcomePath": ".ai/work-items/archive/WI-197-governance-gate-pr-closure.outcome.json",
+    "summaryDigest": "sha256:32e768da9dff514e0bd8aa3f13729fd95a411ce64282ed6f0685cbee1cad53f4",
+    "summaryPath": ".ai/work-items/archive/WI-197-governance-gate-pr-closure.summary.json",
+    "taskReportDigest": "sha256:0db49e2c668463625d4ce5bca7547139d5bea0c7ec25a44398f40ef4a4882312",
+    "taskReportMarkdownDigest": "sha256:9ff33b64e1f9eaaa54a2e5ea3e91fa75eb449b590565ef3ce2f144513b9d9ce1",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-197-governance-gate-pr-closure.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-197-governance-gate-pr-closure.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-197-governance-gate-pr-closure"
+}
