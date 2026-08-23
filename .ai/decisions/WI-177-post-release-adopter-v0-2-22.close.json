@@ -1,0 +1,130 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-177-post-release-adopter-v0-2-22.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4d7788644e02678f97c9c82aecdffdfe04c11da7f6d2eeef7e218e0b46f9ab82",
+      "workItemId": "WI-177-post-release-adopter-v0-2-22"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-177-post-release-adopter-v0-2-22.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-177-post-release-adopter-v0-2-22.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-177-post-release-adopter-v0-2-22.verification.json",
+            ".ai/decisions/WI-177-post-release-adopter-v0-2-22.recovery.json",
+            ".ai/decisions/WI-177-post-release-adopter-v0-2-22.recovery.a1bf9f94c6bcdd06f10b1f5634ed18bd630e530f2c72b0a3ae656276e63fa78d.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via repository-owner at 2026-08-23T06:32:36Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-177-post-release-adopter-v0-2-22.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-177-post-release-adopter-v0-2-22.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-177-post-release-adopter-v0-2-22.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-177-post-release-adopter-v0-2-22.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-177-post-release-adopter-v0-2-22.contract.json"
+          ],
+          "inference": false,
+          "text": "Prove that the public v0.2.22 binary can govern a fresh isolated adopter repository from attach through close, with runtime identity, evidence reuse, not_ready scaffold behavior, isolation, and cleanup recorded."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-177-post-release-adopter-v0-2-22.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-177-post-release-adopter-v0-2-22"
+  },
+  "finalReportDigest": "sha256:28fcfca63b510f6bd1c9c04d72e1e218ba2774301f5ddf8b9c9dce6f133386f8",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "repository-owner",
+    "decidedAt": "2026-08-23T06:32:36Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-177-post-release-adopter-v0-2-22.verification.json",
+      ".ai/decisions/WI-177-post-release-adopter-v0-2-22.recovery.json",
+      ".ai/decisions/WI-177-post-release-adopter-v0-2-22.recovery.a1bf9f94c6bcdd06f10b1f5634ed18bd630e530f2c72b0a3ae656276e63fa78d.json"
+    ],
+    "policyRefs": [
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "Confirm WI-177 is historically superseded after public v0.2.22 adopter evidence was retained and WI-178 finalize-plan was recorded; no predecessor bytes or Release truth were rewritten.",
+    "resumeCondition": "Continue on WI-178-post-release-adopter-finalization-reconciliation."
+  },
+  "timestamp": "2026-08-23T06:32:36Z",
+  "workItemId": "WI-177-post-release-adopter-v0-2-22"
+}

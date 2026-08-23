@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-23T06:32:50Z",
+  "files": {
+    "approachDigest": "sha256:3a21187d0a082ad3d1ffe6df44912b3b309911a6b897e7ca6787d365007375c7",
+    "approachPath": ".ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.approach.json",
+    "contractDigest": "sha256:3a4c1f1d8632c9f20dd31bcc80cefcfc8bb0532b2afa417c76c32e83ec05de60",
+    "contractPath": ".ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.contract.json",
+    "eventsDigest": "sha256:f546129b185509ee23a2b729ab713f463490c75158a227fd6eac2bac5bc05f28",
+    "eventsPath": ".ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.events.jsonl",
+    "outcomeDigest": "sha256:f50598c0c075464e5edd5349096e4a234aee1fce445590b0963fdb1c2dac5fdb",
+    "outcomePath": ".ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.outcome.json",
+    "summaryDigest": "sha256:7d9ac82475eb0a3fd853566c40a2b5c7a23c7d8064ad2c5c2880265b16e74558",
+    "summaryPath": ".ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.summary.json",
+    "taskReportDigest": "sha256:e5b57ec224274b62d164c8a6dd8a31e7975ea727b8a318ca0e3f1ec582e66585",
+    "taskReportMarkdownDigest": "sha256:bdbd3c0755fe40a7cd4617628448b7fe6b2dacabf11c5209dd5a63fabe6405da",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-178-post-release-adopter-finalization-reconciliation"
+}
