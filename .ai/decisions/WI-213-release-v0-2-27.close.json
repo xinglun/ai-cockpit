@@ -1,0 +1,142 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-213-release-v0-2-27.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b382bb250b4c4e8a8085a0c2d3383a4477a653dc729f6d9299eb72ade8f36f79",
+      "workItemId": "WI-213-release-v0-2-27"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-213-release-v0-2-27.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-213-release-v0-2-27.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-213-release-v0-2-27.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-213-release-v0-2-27.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-213-release-v0-2-27.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-213-release-v0-2-27.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/external/v0.2.27/adopter-aarch64-apple-darwin/acceptance.json",
+            ".ai/evidence/external/v0.2.27/upgrade-v0.2.23-to-v0.2.27/acceptance.json",
+            ".ai/decisions/WI-213-release-v0-2-27.finalize.708014f642b04450d86e517d87d05ff773ca996fc741d5ef325c8206ed734d7f.json",
+            ".ai/evidence/WI-213-release-v0-2-27.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via post-release-adopter-evidence at 2026-08-23T18:59:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-213-release-v0-2-27.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-213-release-v0-2-27.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-213-release-v0-2-27.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-213-release-v0-2-27.contract.json"
+          ],
+          "inference": false,
+          "text": "Release v0.2.27 and bind its public artifact identity for post-release adopter and self-governance acceptance."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-213-release-v0-2-27.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-213-release-v0-2-27"
+  },
+  "finalReportDigest": "sha256:58595146b9c5f6c51fb809b8543e95d66df48ff944c2c04b5159f36aa3863042",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:0ca95b03d25f109886c61b50ed77a12c0274de9cb521b6ba31640b618b4315d6",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-213-release-v0-2-27.finalize.708014f642b04450d86e517d87d05ff773ca996fc741d5ef325c8206ed734d7f.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "post-release-adopter-evidence",
+    "decidedAt": "2026-08-23T18:59:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/external/v0.2.27/adopter-aarch64-apple-darwin/acceptance.json",
+      ".ai/evidence/external/v0.2.27/upgrade-v0.2.23-to-v0.2.27/acceptance.json",
+      ".ai/decisions/WI-213-release-v0-2-27.finalize.708014f642b04450d86e517d87d05ff773ca996fc741d5ef325c8206ed734d7f.json",
+      ".ai/evidence/WI-213-release-v0-2-27.verification.json"
+    ],
+    "policyRefs": [
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "The immutable public v0.2.27 Release passed source, artifact, adopter, and upgrade acceptance; PR #161 cleanup is verified.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-23T18:52:31Z",
+  "workItemId": "WI-213-release-v0-2-27"
+}
