@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "post-merge-resource-finalization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "556f3ec855ffafdffd4b21e1cb16581523f8d7a8",
+    "name": "codex/wi-179-post-release-parity-v0-2-22",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:ebefc924206cd19ff9c025217d699063b91d35049dd9c1654c550d11355b3f48",
+  "operationId": "operation-WI-179-post-release-parity-v0-2-22",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "52ae64a90713ea429ba2a7f1d9fcbb31ed3b8e75",
+    "headRevision": "556f3ec855ffafdffd4b21e1cb16581523f8d7a8",
+    "mergeCommit": "5cd32da934aa3ad851311ca59b9f3f04d8373ed1",
+    "number": 137,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/137"
+  },
+  "reason": "Finalize the merged v0.2.22 parity correction branch and prove exact remote branch cleanup while retaining the shared main worktree clean.",
+  "receiptId": "ai-cockpit-WI-179-post-release-parity-v0-2-22",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-179-post-release-parity-v0-2-22",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/137",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:fff455d0d88d9ca4fa96b5caba85d8a6a198e131bd6ecc5a33dd9bc5cc180ab2",
+  "runtimeVersion": "0.2.22",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-23T06:51:30Z",
+  "workItemId": "WI-179-post-release-parity-v0-2-22",
+  "worktree": {
+    "branch": "codex/wi-179-post-release-parity-v0-2-22",
+    "headRevision": "556f3ec855ffafdffd4b21e1cb16581523f8d7a8",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit",
+    "worktreeId": "WI-179-post-release-parity-v0-2-22"
+  }
+}
