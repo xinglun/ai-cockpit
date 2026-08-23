@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-pre-merge-finalization-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "d113fccb78d7b9a0a58d79d29e15e38f2abe2ff1",
+    "name": "codex/wi-222-capability-manifest-status",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:4d46bfd687025908891cfee6e18a180c4b1bb43fce0a0cdd89090ce9d5c36cd1",
+  "operationId": "operation-WI-222-capability-manifest-status-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "72320be00d3340ad328aa93ac1a7e80e8e828085",
+    "headRevision": "d113fccb78d7b9a0a58d79d29e15e38f2abe2ff1",
+    "number": 173,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/173"
+  },
+  "reason": "awaiting_merge_close: PR #173 is unmerged, so the reviewed branch and clean worktree are retained; close is deferred until hosted checks pass and the reviewed PR is merged.",
+  "receiptId": "ai-cockpit-WI-222-capability-manifest-status-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-222-capability-manifest-status",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/173",
+    "worktree": "/private/tmp/ai-cockpit-wi222-capability-manifest"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:23e9a9824f35b9e0d3706bdcbad34777bca5b0a4d362b4101407412a905dcb5b",
+  "runtimeVersion": "0.2.28",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-23T22:41:46Z",
+  "workItemId": "WI-222-capability-manifest-status",
+  "worktree": {
+    "branch": "codex/wi-222-capability-manifest-status",
+    "headRevision": "d113fccb78d7b9a0a58d79d29e15e38f2abe2ff1",
+    "path": "/private/tmp/ai-cockpit-wi222-capability-manifest",
+    "worktreeId": "WI-222-capability-manifest-status"
+  }
+}

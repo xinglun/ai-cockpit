@@ -166,17 +166,29 @@
     },
     {
       "referencePath": ".ai/cockpit/work-items/index.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "capability-status-projection",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-mcp/src/lib.rs",
+        "docs/reference/commands.md"
+      ],
+      "reason": "A deterministic request-scoped all-Work-Item status index replaces the tracked generated file and exposes counts, diagnostics, snapshot binding, and an index digest."
     },
     {
       "referencePath": ".ai/cockpit/work-items/wi-06-status-interface.status.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "capability-status-projection",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-mcp/src/lib.rs",
+        "docs/reference/commands.md"
+      ],
+      "reason": "The request-scoped Work Item status snapshot exposes evidence-bound lifecycle facts without persisting a per-item status file."
     },
     {
       "referencePath": ".ai/decisions/.gitkeep",
@@ -1616,31 +1628,48 @@
     },
     {
       "referencePath": ".ai/project/adopter-capability-manifest.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "capability-status-projection",
+      "classification": "migrate-gap",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-mcp/src/lib.rs",
+        "docs/capabilities.md"
+      ],
+      "reason": "No exact Rust counterpart exists for the reference installed-surface manifest: the Runtime-native registry binds current Runtime/repository truth, while templateFiles, installedFiles, schemas, entrypoint checks, verifyInstalledSurface, and adopter acceptance remain a deferred boundary."
     },
     {
       "referencePath": ".ai/project/capabilities.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "capability-status-projection",
+      "classification": "migrate-gap",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "No exact Rust counterpart exists for the reference repository-authored capability declaration: the current projection reports observed and Runtime-supported truth only, and never infers adopter acceptance."
     },
     {
       "referencePath": ".ai/project/success_criteria.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "capability-status-projection",
+      "classification": "migrate-gap",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/commands.md"
+      ],
+      "reason": "No exact Rust counterpart exists for the reference project-level capability/intent guard criteria; Contract acceptance and Summary/Outcome evidence cover per-Work-Item completion but do not prove capability-to-scope mappings."
     },
     {
       "referencePath": ".ai/project_profile.yaml",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "capability-status-projection",
+      "classification": "migrate-gap",
+      "rustCounterparts": [
+        ".ai/project.json",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "No exact Rust counterpart exists for the complete reference project-profile policy surface; .ai/project.json supplies only strict repository profile and identity facts."
     },
     {
       "referencePath": ".ai/quality/gates.yaml",

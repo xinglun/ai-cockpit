@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:6c28cdb7f7e13a83401a2f560c2ced4b06d31555b07026ac144f0d59707dd01d",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "Human owner directed finalize-plan with the actual PR resource context and required Runtime verification to bind the current Contract.",
+  "recordedAt": "2026-08-23T22:36:15Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:41459666a2d101420301386324d13bcf970561f9500537d785155adaebf30d25",
+  "schemaVersion": 1,
+  "workItemId": "WI-222-capability-manifest-status"
+}

@@ -4,7 +4,7 @@ use std::fs;
 use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
 
-const TOOL_NAMES: [&str; 17] = [
+const TOOL_NAMES: [&str; 18] = [
     "status",
     "work_item_get",
     "work_item_outcome",
@@ -17,6 +17,7 @@ const TOOL_NAMES: [&str; 17] = [
     "evidence_get",
     "delegated_evidence_list",
     "repository_observe",
+    "capability_show",
     "preflight",
     "work_item_controls",
     "work_item_recover",
@@ -91,6 +92,13 @@ pub fn handle_request_for_repo(
             .map_err(|error| error.to_string())
             .and_then(|value| serde_json::to_value(value).map_err(|error| error.to_string())),
         "repository_observe" => repository_observe(repo),
+        "capability_show" => require_compatible(repo, runtime).and_then(|_| {
+            cockpit_repository::capability_truth_registry_with_runtime(repo, runtime)
+                .map_err(|error| error.to_string())
+                .and_then(|registry| {
+                    serde_json::to_value(registry).map_err(|error| error.to_string())
+                })
+        }),
         "knowledge_query" => {
             require_compatible(repo, runtime).and_then(|_| {
                 cockpit_repository::generate_knowledge(repo)
@@ -519,6 +527,15 @@ fn work_item_status(
     arguments: &Value,
     runtime: &cockpit_protocol::RuntimeContext,
 ) -> Result<Value, String> {
+    if arguments
+        .get("all")
+        .and_then(Value::as_bool)
+        .unwrap_or(false)
+    {
+        let index = cockpit_repository::work_item_status_index_with_runtime(repo, runtime)
+            .map_err(|error| error.to_string())?;
+        return serde_json::to_value(index).map_err(|error| error.to_string());
+    }
     let id = arguments
         .get("workItemId")
         .or_else(|| arguments.get("id"))

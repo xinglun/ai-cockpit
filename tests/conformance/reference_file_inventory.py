@@ -32,6 +32,68 @@ FIRST_BATCH = "governance-entrypoints"
 GETTING_STARTED_BATCH = "getting-started-onboarding"
 EXPECTED_REFERENCE_COMMIT = "e5acb677da6621004d96f0ef353c58fe8d3acfbf"
 EXPECTED_TARGET_COMMIT = "46e426625a8cae450f1190d0bdbafd6d8e648a90"
+CAPABILITY_STATUS_BATCH = "capability-status-projection"
+CAPABILITY_STATUS_RECORDS: dict[str, tuple[str, list[str], str]] = {
+    ".ai/project/adopter-capability-manifest.json": (
+        "migrate-gap",
+        [
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-cli/src/main.rs",
+            "crates/cockpit-mcp/src/lib.rs",
+            "docs/capabilities.md",
+        ],
+        "No exact Rust counterpart exists for the reference installed-surface manifest: the Runtime-native registry binds current Runtime/repository truth, while templateFiles, installedFiles, schemas, entrypoint checks, verifyInstalledSurface, and adopter acceptance remain a deferred boundary.",
+    ),
+    ".ai/project/capabilities.json": (
+        "migrate-gap",
+        [
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+        ],
+        "No exact Rust counterpart exists for the reference repository-authored capability declaration: the current projection reports observed and Runtime-supported truth only, and never infers adopter acceptance.",
+    ),
+    ".ai/project/success_criteria.json": (
+        "migrate-gap",
+        [
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+            "docs/reference/commands.md",
+        ],
+        "No exact Rust counterpart exists for the reference project-level capability/intent guard criteria; Contract acceptance and Summary/Outcome evidence cover per-Work-Item completion but do not prove capability-to-scope mappings.",
+    ),
+    ".ai/project_profile.yaml": (
+        "migrate-gap",
+        [
+            ".ai/project.json",
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+        ],
+        "No exact Rust counterpart exists for the complete reference project-profile policy surface; .ai/project.json supplies only strict repository profile and identity facts.",
+    ),
+    ".ai/cockpit/work-items/index.json": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-cli/src/main.rs",
+            "crates/cockpit-mcp/src/lib.rs",
+            "docs/reference/commands.md",
+        ],
+        "A deterministic request-scoped all-Work-Item status index replaces the tracked generated file and exposes counts, diagnostics, snapshot binding, and an index digest.",
+    ),
+    ".ai/cockpit/work-items/wi-06-status-interface.status.json": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-cli/src/main.rs",
+            "crates/cockpit-mcp/src/lib.rs",
+            "docs/reference/commands.md",
+        ],
+        "The request-scoped Work Item status snapshot exposes evidence-bound lifecycle facts without persisting a per-item status file.",
+    ),
+}
 
 
 def git_paths(repository: Path) -> list[str]:
@@ -217,6 +279,18 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
     target_set = set(target_paths)
     records: list[dict[str, Any]] = []
     for path in reference_paths:
+        if path in CAPABILITY_STATUS_RECORDS:
+            classification, counterparts, reason = CAPABILITY_STATUS_RECORDS[path]
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": CAPABILITY_STATUS_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
         if is_generated_history(path):
             records.append(
                 {
@@ -323,6 +397,21 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
                 "migrate-gap",
             }:
                 errors.append(f"{path}: getting-started record needs a counterpart or explicit gap")
+    scoped = {
+        record.get("referencePath"): record
+        for record in records
+        if isinstance(record, dict)
+        and record.get("referencePath") in CAPABILITY_STATUS_RECORDS
+    }
+    for path in CAPABILITY_STATUS_RECORDS:
+        record = scoped.get(path)
+        if record is None:
+            errors.append(f"{path}: capability/status comparison record is missing")
+            continue
+        if record.get("classification") in {None, "", "deferred-next-batch"}:
+            errors.append(f"{path}: capability/status classification must be non-deferred")
+        if not record.get("rustCounterparts") and "no exact Rust counterpart" not in record.get("reason", ""):
+            errors.append(f"{path}: capability/status result needs counterparts or an explicit no-counterpart reason")
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(records):
         errors.append(f"referenceTrackedFileCount {expected_count!r} != record count {len(records)}")

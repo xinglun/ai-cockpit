@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-23T23:28:21Z",
+  "files": {
+    "contractDigest": "sha256:4ba12956db1d28ff60c4f4bace0402fabd5de94ab590b0343820120e65152f3a",
+    "contractPath": ".ai/work-items/archive/WI-227-getting-started-capability-parity-integration.contract.json",
+    "eventsDigest": "sha256:c278b8b08e38caa27920665295f6c21afaff51daad7b8d1eb14a4d103759f1c4",
+    "eventsPath": ".ai/work-items/archive/WI-227-getting-started-capability-parity-integration.events.jsonl",
+    "outcomeDigest": "sha256:67b120c2721a704b14a48617d770d11a493093cd9e88c8268d7b383775473bca",
+    "outcomePath": ".ai/work-items/archive/WI-227-getting-started-capability-parity-integration.outcome.json",
+    "summaryDigest": "sha256:4ed55b9d72e9b90965e80b8a2b10a601c0ed21ca34ab047cea0f7fe731aff21f",
+    "summaryPath": ".ai/work-items/archive/WI-227-getting-started-capability-parity-integration.summary.json",
+    "taskReportDigest": "sha256:a1aca21203090350685b75781866aa5c9bb21fc5bbd1dc497a9077e57a059871",
+    "taskReportMarkdownDigest": "sha256:9b0ab0b67dfc7d6ff5316566076b0e27db9ec72f9639ff7cf86793f94c441000",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-227-getting-started-capability-parity-integration.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-227-getting-started-capability-parity-integration.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-227-getting-started-capability-parity-integration"
+}

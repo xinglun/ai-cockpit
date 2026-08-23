@@ -264,11 +264,17 @@ reusable receipt 最大 1 MiB；malformed、超大、symlink 或不一致的条�
 
 ```bash
 ai-cockpit status --repo /path/to/repository
+ai-cockpit work-item status --repo /path/to/repository --id WI-123 --json
+ai-cockpit work-item status --repo /path/to/repository --all --json
 ai-cockpit knowledge query --repo /path/to/repository --topic installation
 ```
 
 Knowledge 是 repository-local evidence 的 projection，不是第二事实源。缺失、过期或无效的
-Work Item 和 receipt 不能变成新的 claim。
+Work Item 和 receipt 不能变成新的 claim。all-Work-Item projection 按 ID 稳定排序，输出
+green/yellow/red/unknown 计数和逐项 diagnostics，并绑定当前 repository snapshot 与确定性的
+index digest。格式错误或 foreign 的成员会保持可见 `unknown`，不会隐藏其他成员或 fail open。
+重复执行 `observe`、`capability show` 和 status projection 都是 request-scoped 读取：不会创建
+tracked capability/status 文件或 observer cache。
 
 ### 可追溯性、Outcome 与并行准备度
 
@@ -286,8 +292,16 @@ ai-cockpit diagnose --repo /path/to/repository --work-item WI-123
 ```
 
 `approach` 输出观察到的事实、命名后的推导、证据引用和仍未知的人类输入。`outcome` 将已验证的实现证据
-与 Human Benefit Report 分开；没有明确声明的用户收益保持为 `unknown`。Capability Registry 区分检测到的能力
-与 profile 确认的验证能力，并记录 confidence 和 evidence。新生成的 OutcomeV2 还包含严格的
+与 Human Benefit Report 分开；没有明确声明的用户收益保持为 `unknown`。Capability Registry 将观察到的技术事实
+与面向 adopter 的 Runtime claim 分开。adopter 状态词汇为 `runtime_supported`、`repository_bound`、
+`observed`、`profile_confirmed`、`adopter_accepted`、`external` 和 `unknown`；Runtime 只输出由自身 identity、
+当前 snapshot、严格 profile 与 repository interface 支持的层级。文件存在不等于 adopter acceptance；静态 catalog
+不会在缺少显式 acceptance evidence 时输出 `adopter_accepted`。hosted CI、签名、SBOM、production sandbox 等
+exclusion 仍属于外部边界。缺失、格式错误、过期或 foreign 输入会生成稳定 unknown，而不是 verified claim。
+该 registry 不是 installed-surface manifest：它不会复制 reference template 的 `templateFiles`、
+`installedFiles`、schema/entrypoint 列表或 `verifyInstalledSurface` 检查。该 manifest 与 project-level
+capability-to-scope acceptance 仍是明确的 migration gap。
+新生成的 OutcomeV2 还包含严格的
 `taskOutcomeReport`，其中有绑定 evidence 的 sections、`failedGate`/`recoveryCondition`，以及追加写入的
 `<id>.events.jsonl`。`finish` 创建事件流，`archive` 绑定其 digest，`close` 在 receipt 中记录已校验的
 `finalReport`。历史记录不会回填；该报告是 presentation/evidence projection，不是批准来源，完整的事件驱动
@@ -311,13 +325,15 @@ verification 生成当前 v2 evidence。
 ai-cockpit mcp --repo /path/to/repository
 ```
 
-服务提供 `status`、`work_item_get`、`work_item_outcome`、`work_item_status`、`work_item_validate`、`work_item_list`、`blockers`、`safe_actions`、
-`knowledge_query`、`evidence_get`、`delegated_evidence_list`、`repository_observe`、`preflight`、`verify`、`work_item_parallel` 十五个工具。
+服务提供 18 个工具：`status`、`work_item_get`、`work_item_outcome`、`work_item_status`、`work_item_validate`、`work_item_list`、`blockers`、`safe_actions`、
+`knowledge_query`、`evidence_get`、`delegated_evidence_list`、`repository_observe`、`capability_show`、`preflight`、
+`work_item_controls`、`work_item_recover`、`verify`、`work_item_parallel`。
 用 `tools/list` 查看 JSON-RPC schema；`preflight` 要求 repository-relative `contract`，
 `verify` 接受 `command`、字符串数组 `args` 和可选 `workItemId`。未绑定 repository 的调用
 会 fail closed。结果包含 `structuredContent`、文本 content 和 `isError`。CLI 与 MCP 共用同一
 套 repository-bound verification policy。
-`work_item_get` 是面向机器的记录查询。`work_item_status` 是只读的请求级生命周期投影。需要面向人的结果时，Agent 必须用明确的 `workItemId` 调用
+`work_item_get` 是面向机器的记录查询。`work_item_status` 是只读的请求级生命周期投影；传入 `{"all": true}`
+可获取稳定的 repository index。`capability_show` 与 CLI 暴露相同的 Runtime-bound registry。需要面向人的结果时，Agent 必须用明确的 `workItemId` 调用
 `work_item_outcome`，并可传入对话 `language`。它的文本 content 与 CLI 使用相同的本地化 human handoff，
 而 `structuredContent.outcome` 仍是稳定的 OutcomeV2 对象。handoff 显示状态标记、unknown、证据、有效的
 结构化人工决定和下一步。MCP 不翻译 Contract 原文，也不擅自生成人类决定。

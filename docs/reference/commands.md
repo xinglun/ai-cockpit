@@ -69,6 +69,20 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
 - `work-item status --repo <path> --id <id>` is read-only and reports lifecycle,
   governance, activity health, fact counts, blockers, unknowns, evidence, and
   source digests. It never schedules work or invents a percentage.
+- `work-item status --repo <path> --all --json` aggregates active and archived
+  items in stable ID order. It reports fixed green/yellow/red/unknown counts,
+  member diagnostics and digests, the current repository snapshot digest, and
+  a deterministic index digest. A malformed or foreign member becomes an
+  explicit unknown entry while the other members remain visible. This dynamic
+  counterpart does not write `.ai/cockpit/work-items/index.json` or per-item
+  status files. MCP clients use `work_item_status` with `{"all": true}`.
+- `capability show --repo <path>` emits a Runtime- and repository-bound registry.
+  Observed technical capability, profile confirmation, repository binding,
+  adopter acceptance, and external ownership are distinct states. File
+  presence alone never proves `adopter_accepted`; missing, malformed, stale, or
+  foreign input remains unknown. MCP clients use `capability_show`.
+- Repeated `observe`, `capability show`, top-level `status`, and single/all Work
+  Item status calls do not write tracked repository bytes or observer caches.
 - `work-item validate --repo <path> --id <id> [--json]` is a read-only unified
   Contract/Summary check for scenario coverage, stable acceptance evidence,
   intent alignment, and an optional final-dimensions receipt. `work-item

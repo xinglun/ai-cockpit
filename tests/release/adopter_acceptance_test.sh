@@ -9,7 +9,9 @@ bash -n "$script"
 bash -n "$manifest_test"
 bash "$manifest_test"
 grep -q -- '--repository OWNER/REPOSITORY' "$script"
+grep -q -- '--candidate-dir DIRECTORY' "$script"
 grep -q -- 'releasePublished' "$script"
+grep -q -- 'stagedCandidate' "$script"
 grep -q -- 'first-adopter-smoke' "$script"
 grep -q -- 'nodesReused' "$script"
 grep -q -- 'SHA256SUMS' "$script"
@@ -62,6 +64,10 @@ if grep -Eq 'cargo[[:space:]]+(build|run)' "$script"; then
   printf 'acceptance harness must not obtain Runtime through cargo build/run\n' >&2
   exit 1
 fi
+if grep -Fq -- '--command' "$script"; then
+  printf 'acceptance harness must use only the canonical Runtime verification command\n' >&2
+  exit 1
+fi
 
 test_parent="${TMPDIR:-/tmp}"
 regression_root="$(mktemp -d "$test_parent/ai-cockpit-adopter-regression.XXXXXX")"
@@ -73,6 +79,27 @@ if "$script" --repository xinglun/ai-cockpit --tag v0.1.1 --target unsupported -
   printf 'unsupported targets must fail closed\n' >&2
   exit 1
 fi
+
+candidate_dir="$regression_root/candidate"
+candidate_tmp="$regression_root/candidate-tmp"
+candidate_output="$regression_root/candidate-output"
+mkdir -p "$candidate_dir" "$candidate_tmp" "$candidate_output"
+: > "$candidate_dir/ai-cockpit-v0.2.28-aarch64-apple-darwin.tar.gz"
+printf '{"version":"0.2.28","tag":"v0.2.28","commit":"0000000000000000000000000000000000000000","artifacts":[]}\n' > "$candidate_dir/release-manifest.json"
+: > "$candidate_dir/SHA256SUMS"
+set +e
+TMPDIR="$candidate_tmp" "$script" \
+  --repository xinglun/ai-cockpit --tag v0.2.28 --target aarch64-apple-darwin \
+  --candidate-dir "$candidate_dir" --output "$candidate_output" --source-repo "$repo" >/dev/null 2>&1
+candidate_exit=$?
+set -e
+[[ "$candidate_exit" -eq 1 ]] || { printf 'foreign staged candidate identity must fail closed\n' >&2; exit 1; }
+[[ -z "$(find "$candidate_tmp" -mindepth 1 -maxdepth 1 -type d -name 'ai-cockpit-adopter-acceptance.*' -print -quit)" ]] || {
+  printf 'staged candidate identity failure left a run_root behind\n' >&2
+  exit 1
+}
+jq -e '.adopterAcceptance == "failed" and .releasePublished == false and .stagedCandidate == true and .cleanupState == "passed"' "$candidate_output/acceptance.json" >/dev/null
+(cd "$candidate_output" && shasum -a 256 -c SHA256SUMS >/dev/null)
 
 toolchain_tmp="$regression_root/toolchain-tmp"
 toolchain_output="$regression_root/toolchain-output"

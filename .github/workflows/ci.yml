@@ -11,36 +11,98 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
         with:
           toolchain: 1.94.1
           components: rustfmt, clippy
+      - name: Plan the initial typed repository quality route
+        id: initial_quality_route
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_BEFORE: ${{ github.event.before }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          head_revision="$(git rev-parse "${GITHUB_SHA}^{commit}")"
+          if [[ "$EVENT_NAME" == pull_request ]]; then
+            base_revision="$(git rev-parse "${PR_BASE_SHA}^{commit}")"
+            stage=pull_request
+          else
+            base_revision="$EVENT_BEFORE"
+            stage=merge
+            if [[ ! "$base_revision" =~ ^[0-9a-f]{40}$ ]] ||
+               [[ "$base_revision" == 0000000000000000000000000000000000000000 ]] ||
+               ! git cat-file -e "${base_revision}^{commit}" 2>/dev/null; then
+              base_revision="$(git rev-parse "${head_revision}^" 2>/dev/null || printf '%s' "$head_revision")"
+            fi
+          fi
+          mapfile -t contracts < <(find .ai/work-items/active -maxdepth 1 -type f -name '*.contract.json' -print | sort)
+          (( ${#contracts[@]} <= 1 )) || { echo 'multiple active Contracts cannot select one quality route' >&2; exit 1; }
+          route_args=(
+            --repo "$GITHUB_WORKSPACE"
+            --manifest tests/ci/repository_gate_manifest.json
+            --base "$base_revision"
+            --head "$head_revision"
+            --stage "$stage"
+            --risk normal
+            --receipt target/quality-route-initial.json
+          )
+          if (( ${#contracts[@]} == 1 )); then route_args+=(--contract "${contracts[0]}"); fi
+          python3 tests/ci/quality_route.py "${route_args[@]}" >/dev/null
+          echo "profile=$(jq -er '.selectedProfile' target/quality-route-initial.json)" >> "$GITHUB_OUTPUT"
+          echo "base_revision=$base_revision" >> "$GITHUB_OUTPUT"
+          echo "head_revision=$head_revision" >> "$GITHUB_OUTPUT"
+          echo "stage=$stage" >> "$GITHUB_OUTPUT"
+          echo "contract_path=${contracts[0]:-}" >> "$GITHUB_OUTPUT"
       - name: verify immutable Runtime shadow
+        if: steps.initial_quality_route.outputs.profile != 'light'
         shell: bash
         run: bash tests/ci/runtime_verify_shadow.sh "$GITHUB_WORKSPACE" target/ci-runtime-verify-shadow.json
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        if: steps.initial_quality_route.outputs.profile != 'light'
         with:
           name: ci-runtime-verify-shadow
           path: target/ci-runtime-verify-shadow.json
           if-no-files-found: error
           retention-days: 7
-      - run: cargo fmt --all --check
-      - run: cargo clippy --workspace --all-targets --all-features -- -D warnings
-      # Cargo can run separate package test binaries concurrently even when
-      # each binary receives --test-threads=1. The repository tests spawn
-      # short-lived child processes and must not share that process/descriptor
-      # pressure with another package's test binary. The verifier's internal
-      # worker-cap test still creates parallel commands inside its own binary.
-      - name: run package tests serially
+      - name: Finalize the typed repository quality route
+        id: quality_route
         shell: bash
-        run: tests/ci/run_workspace_package_tests.sh --report target/workspace-package-coverage.json
+        env:
+          ROUTE_BASE_REVISION: ${{ steps.initial_quality_route.outputs.base_revision }}
+          ROUTE_CONTRACT_PATH: ${{ steps.initial_quality_route.outputs.contract_path }}
+          ROUTE_HEAD_REVISION: ${{ steps.initial_quality_route.outputs.head_revision }}
+          ROUTE_STAGE: ${{ steps.initial_quality_route.outputs.stage }}
+        run: |
+          set -euo pipefail
+          route_args=(
+            --repo "$GITHUB_WORKSPACE"
+            --manifest tests/ci/repository_gate_manifest.json
+            --base "$ROUTE_BASE_REVISION"
+            --head "$ROUTE_HEAD_REVISION"
+            --stage "$ROUTE_STAGE"
+            --risk normal
+            --receipt target/quality-route.json
+          )
+          if [[ -n "$ROUTE_CONTRACT_PATH" ]]; then route_args+=(--contract "$ROUTE_CONTRACT_PATH"); fi
+          python3 tests/ci/quality_route.py "${route_args[@]}" >/dev/null
+          echo "profile=$(jq -er '.selectedProfile' target/quality-route.json)" >> "$GITHUB_OUTPUT"
       - name: run repository gates exactly once
         shell: bash
         run: >-
           python3 tests/ci/run_repository_gates.py
           --repo "$GITHUB_WORKSPACE"
           --manifest tests/ci/repository_gate_manifest.json
+          --route-receipt target/quality-route.json
           --report target/repository-gates.json
+      - name: verify workspace package coverage receipt
+        if: steps.quality_route.outputs.profile != 'light'
+        shell: bash
+        run: test -f target/workspace-package-coverage.json && test ! -L target/workspace-package-coverage.json
       - name: verify three-language work-item counterparts
         shell: bash
         run: |
@@ -56,7 +118,17 @@ jobs:
           name: repository-gate-receipts
           path: |
             target/governance-integrity-report.json
+            target/quality-route-initial.json
+            target/quality-route.json
             target/repository-gates.json
+          if-no-files-found: error
+          retention-days: 7
+      - name: upload workspace package coverage
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        if: always() && steps.quality_route.outputs.profile != 'light' && hashFiles('target/workspace-package-coverage.json') != ''
+        with:
+          name: workspace-package-coverage
+          path: |
             target/workspace-package-coverage.json
           if-no-files-found: error
           retention-days: 7

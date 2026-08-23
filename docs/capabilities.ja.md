@@ -267,11 +267,18 @@ inconsistent entry は fail closed になります。
 
 ```bash
 ai-cockpit status --repo /path/to/repository
+ai-cockpit work-item status --repo /path/to/repository --id WI-123 --json
+ai-cockpit work-item status --repo /path/to/repository --all --json
 ai-cockpit knowledge query --repo /path/to/repository --topic installation
 ```
 
 Knowledge は repository-local evidence の projection で、第二の source of truth ではありません。
-Work Item や receipt が missing、stale、invalid なら新しい claim に変換しません。
+Work Item や receipt が missing、stale、invalid なら新しい claim に変換しません。all-Work-Item
+projection は ID 順で安定に並べ、green/yellow/red/unknown の count と item ごとの diagnostic を返し、
+current repository snapshot と deterministic な index digest の両方に bind します。malformed または
+foreign な member は可視の `unknown` のままで、他の member を隠したり fail open したりしません。
+`observe`、`capability show`、status projection を繰り返しても request-scoped read のままで、tracked
+capability/status file や observer cache を作りません。
 
 ### Traceability、Outcome、parallel readiness
 
@@ -294,8 +301,17 @@ ai-cockpit diagnose --repo /path/to/repository --work-item WI-123
 append-only の `<id>.events.jsonl` を持つ strict な `taskOutcomeReport` も含まれます。`finish` が stream を作り、
 `archive` が digest を bind し、`close` が validated report を `finalReport` として receipt に記録します。
 過去の record は backfill しません。これは presentation/evidence projection であり approval source ではなく、
-完全な event-sourced recovery は別 boundary です。Capability Registry は detection と profile-confirmed verification を区別し、confidence と
-evidence を記録します。`inspect` は dependency、conflict、scope compatibility が明示的に分からない場合に
+完全な event-sourced recovery は別 boundary です。Capability Registry は observed な technical fact と
+adopter-facing Runtime claim を分離します。adopter state は `runtime_supported`、`repository_bound`、
+`observed`、`profile_confirmed`、`adopter_accepted`、`external`、`unknown` です。Runtime は自身の identity、
+current snapshot、strict profile、repository interface が裏付ける level だけを出力します。file の存在は
+adopter acceptance ではなく、明示的な acceptance evidence がなければ static catalog は
+`adopter_accepted` を出力しません。hosted CI、signing、SBOM、production sandbox などの exclusion は
+external boundary のままです。missing、malformed、stale、foreign な input は verified claim ではなく
+stable unknown になります。この registry は installed-surface manifest ではなく、reference template の
+`templateFiles`、`installedFiles`、schema/entrypoint list、`verifyInstalledSurface` check を複製しません。
+その manifest と project-level capability-to-scope acceptance は明示的な migration gap のままです。
+`inspect` は dependency、conflict、scope compatibility が明示的に分からない場合に
 parallel execution を fail closed にします。Scope compatibility は Windows の `\\` separator を正規化し、exact path
 と nested prefix の overlap（`src/**` と `src/main.rs`、`src/test/**` など）を検出します。交差を証明できない
 pattern は `scope_overlap_unknown` になり、unknown または空の scope は parallel execution と互換になりません。
@@ -316,13 +332,16 @@ explicit repository binding で server を起動します。
 ai-cockpit mcp --repo /path/to/repository
 ```
 
-`status`、`work_item_get`、`work_item_outcome`、`work_item_status`、`work_item_list`、`blockers`、`safe_actions`、`knowledge_query`、
-`work_item_validate`、`evidence_get`、`delegated_evidence_list`、`repository_observe`、`preflight`、`verify`、`work_item_parallel` の 15 tools を提供します。
+`status`、`work_item_get`、`work_item_outcome`、`work_item_status`、`work_item_validate`、`work_item_list`、`blockers`、`safe_actions`、`knowledge_query`、
+`evidence_get`、`delegated_evidence_list`、`repository_observe`、`capability_show`、`preflight`、`work_item_controls`、
+`work_item_recover`、`verify`、`work_item_parallel` の 18 tools を提供します。
 `tools/list` で JSON-RPC schema を確認できます。`preflight` は repository-relative `contract`、
 `verify` は `command`、string array の `args`、optional `workItemId` を受け取ります。repository
 binding のない call は fail closed です。result には `structuredContent`、text content、`isError`
 が含まれ、CLI と同じ repository-bound verification policy を使います。
-`work_item_get` は machine-oriented な record lookup です。`work_item_status` は read-only の request-scoped lifecycle projection です。人間向けの結果が必要な場合、Agent は明示的な
+`work_item_get` は machine-oriented な record lookup です。`work_item_status` は read-only の request-scoped lifecycle projection で、
+`{"all": true}` を渡すと stable な repository index を返します。`capability_show` は CLI と同じ Runtime-bound
+registry を公開します。人間向けの結果が必要な場合、Agent は明示的な
 `workItemId` で `work_item_outcome` を呼び、conversation の `language` を任意で渡します。text content は
 CLI と同じ localized human handoff であり、`structuredContent.outcome` は安定した OutcomeV2 object です。
 handoff には status marker、unknown、evidence、有効な structured human decision、次の action が含まれます。

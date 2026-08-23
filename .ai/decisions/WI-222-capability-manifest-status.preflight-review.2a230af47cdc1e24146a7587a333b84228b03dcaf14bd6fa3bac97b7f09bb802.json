@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:c13f176dfc9398db38180079ebafd3ab5c8c2cdb9d55d1183bae116fb1c14665",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "Human owner directed fresh preflight after binding current Runtime verification and the verified scenario and intent projections.",
+  "recordedAt": "2026-08-23T22:34:04Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1368605a8cd686372b0b594be7c4ad70860a7247c93f60b905874a0a9a1d91bb",
+  "schemaVersion": 1,
+  "workItemId": "WI-222-capability-manifest-status"
+}

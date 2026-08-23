@@ -1,0 +1,262 @@
+{
+  "gates": [
+    {
+      "category": "ci",
+      "command": [
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "exitCode": 0,
+      "id": "ci_governance_integrity_regression",
+      "state": "passed"
+    },
+    {
+      "category": "ci",
+      "command": [
+        "tests/ci/repository_gate_manifest_test.sh"
+      ],
+      "exitCode": 0,
+      "id": "ci_manifest_regression",
+      "state": "passed"
+    },
+    {
+      "category": "ci",
+      "command": [
+        "python3",
+        "tests/ci/quality_route_test.py"
+      ],
+      "exitCode": 0,
+      "id": "ci_quality_route_regression",
+      "state": "passed"
+    },
+    {
+      "category": "ci",
+      "command": [
+        "tests/ci/runtime_verify_shadow_test.sh"
+      ],
+      "exitCode": 0,
+      "id": "ci_runtime_shadow_regression",
+      "state": "passed"
+    },
+    {
+      "category": "ci",
+      "command": [
+        "tests/ci/workspace_package_coverage_test.sh"
+      ],
+      "exitCode": 0,
+      "id": "ci_workspace_coverage_regression",
+      "state": "passed"
+    },
+    {
+      "category": "conformance",
+      "command": [
+        "tests/conformance/final_replacement_acceptance_test.sh"
+      ],
+      "exitCode": 0,
+      "id": "conformance_final_replacement",
+      "state": "passed"
+    },
+    {
+      "category": "conformance",
+      "command": [
+        "tests/conformance/reference_file_inventory_test.sh"
+      ],
+      "exitCode": 0,
+      "id": "conformance_reference_file_inventory",
+      "state": "passed"
+    },
+    {
+      "category": "docs",
+      "command": [
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "exitCode": 0,
+      "id": "docs_acceptance",
+      "state": "passed"
+    },
+    {
+      "category": "docs",
+      "command": [
+        "tests/docs/parity_status_check.sh"
+      ],
+      "exitCode": 0,
+      "id": "docs_governance_integrity",
+      "state": "passed"
+    },
+    {
+      "category": "docs",
+      "command": [
+        "tests/docs/parity_status_check_test.sh"
+      ],
+      "exitCode": 0,
+      "id": "docs_parity_regression",
+      "state": "passed"
+    },
+    {
+      "category": "performance",
+      "command": [
+        "tests/performance/regression_gate_test.sh"
+      ],
+      "exitCode": 0,
+      "id": "performance_regression",
+      "state": "passed"
+    },
+    {
+      "category": "release",
+      "command": [
+        "tests/release/action_runtime_policy_test.sh"
+      ],
+      "exitCode": 0,
+      "id": "release_action_runtime",
+      "state": "passed"
+    },
+    {
+      "category": "release",
+      "command": [
+        "tests/release/adopter_acceptance_test.sh"
+      ],
+      "covers": [
+        "tests/release/isolation_manifest_test.sh"
+      ],
+      "exitCode": 0,
+      "id": "release_adopter",
+      "state": "passed"
+    },
+    {
+      "category": "release",
+      "command": [
+        "tests/release/adopter_upgrade_acceptance_test.sh"
+      ],
+      "exitCode": 0,
+      "id": "release_adopter_upgrade",
+      "state": "passed"
+    },
+    {
+      "category": "release",
+      "command": [
+        "tests/release/annotated_tag_identity.sh"
+      ],
+      "exitCode": 0,
+      "id": "release_annotated_tag",
+      "state": "passed"
+    },
+    {
+      "category": "release",
+      "command": [
+        "tests/ci/release_gate_policy_test.sh"
+      ],
+      "exitCode": 0,
+      "id": "release_policy_regression",
+      "state": "passed"
+    },
+    {
+      "category": "release",
+      "command": [
+        "tests/release/source_archive_policy_test.sh"
+      ],
+      "exitCode": 0,
+      "id": "release_source_archive",
+      "state": "passed"
+    },
+    {
+      "category": "release",
+      "command": [
+        "tests/release/version_consistency_test.sh"
+      ],
+      "exitCode": 0,
+      "id": "release_version_consistency",
+      "state": "passed"
+    },
+    {
+      "category": "release",
+      "command": [
+        "tests/release/workflow_policy.sh",
+        ".github/workflows/release.yml"
+      ],
+      "exitCode": 0,
+      "id": "release_workflow_policy",
+      "state": "passed"
+    },
+    {
+      "category": "workflow",
+      "command": [
+        "tests/workflow/resource_finalization_policy_test.sh"
+      ],
+      "exitCode": 0,
+      "id": "workflow_resource_finalization",
+      "state": "passed"
+    },
+    {
+      "category": "workspace",
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--workspace",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exitCode": 0,
+      "id": "workspace_clippy",
+      "state": "passed"
+    },
+    {
+      "category": "workspace",
+      "command": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exitCode": 0,
+      "id": "workspace_format",
+      "state": "passed"
+    },
+    {
+      "category": "workspace",
+      "command": [
+        "tests/ci/run_workspace_package_tests.sh",
+        "--report",
+        "target/workspace-package-coverage.json"
+      ],
+      "exitCode": 0,
+      "id": "workspace_package_tests",
+      "state": "passed"
+    }
+  ],
+  "route": {
+    "manifestDigest": "sha256:4fc4438285ab5e432904a75c1116988be7f8e69eacdc8c3326626181750cba48",
+    "receiptDigest": "sha256:15346f0c306954fca9dc4adf2c18efa57b222bd1d27d8231f81dc7447da01ffc",
+    "requiredGateIds": [
+      "ci_governance_integrity_regression",
+      "ci_manifest_regression",
+      "ci_quality_route_regression",
+      "ci_runtime_shadow_regression",
+      "ci_workspace_coverage_regression",
+      "conformance_final_replacement",
+      "conformance_reference_file_inventory",
+      "docs_acceptance",
+      "docs_governance_integrity",
+      "docs_parity_regression",
+      "performance_regression",
+      "release_action_runtime",
+      "release_adopter",
+      "release_adopter_upgrade",
+      "release_annotated_tag",
+      "release_policy_regression",
+      "release_source_archive",
+      "release_version_consistency",
+      "release_workflow_policy",
+      "workflow_resource_finalization",
+      "workspace_clippy",
+      "workspace_format",
+      "workspace_package_tests"
+    ],
+    "selectedProfile": "strict"
+  },
+  "schemaVersion": 2,
+  "state": "passed"
+}

@@ -341,7 +341,10 @@ fn profile_and_config_byte_drift_after_authorization_force_execution() {
             run_repository_verification(&worker_root, &worker_request)
         });
         started_rx.recv().expect("started");
-        std::thread::sleep(Duration::from_secs(1));
+        // Other verification-service fixtures run concurrently and may hold
+        // the test worker pool briefly. Leave enough time for this worker to
+        // reach the receipt-store lock before mutating the authorized bytes.
+        std::thread::sleep(Duration::from_secs(3));
         let identity_path = root.join(".ai").join(identity_file);
         let mut bytes = fs::read(&identity_path).expect("identity bytes");
         bytes.push(b'\n');

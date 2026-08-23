@@ -1,0 +1,64 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-23T23:06:46Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T23:02:06Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-227-getting-started-capability-parity-integration.verification.json",
+      ".ai/decisions/WI-224-ci-reference-parity.recovery.json",
+      "docs/reference/reference-parity.md",
+      "docs/reference/reference-parity.zh-CN.md",
+      "docs/reference/reference-parity.ja.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-08-23T23:27:57Z",
+  "preflightContractDigest": "sha256:2814622aead50754e8c48c52aa689b79ca17b94d51ad6618c12f73327ff64ba6",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:c413ad3a7327d97b54894347e63130e842922f1d18cc951ad8b7c342d281ae59",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-227-getting-started-capability-parity-integration.verification.json",
+        ".ai/work-items/archive/WI-222-capability-manifest-status.archive.json",
+        ".ai/work-items/archive/WI-224-ci-reference-parity.archive.json",
+        ".ai/decisions/WI-224-ci-reference-parity.recovery.json",
+        ".ai/decisions/WI-226-getting-started-parity-registration-final.close.json"
+      ],
+      "required": true,
+      "scenario": "immutable multi-predecessor integration",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-227-getting-started-capability-parity-integration.verification.json",
+        "tests/ci/repository_gate_manifest.json",
+        "tests/ci/quality_route.py",
+        "tests/ci/run_repository_gates.py"
+      ],
+      "required": true,
+      "scenario": "strict dynamic quality route",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-227-getting-started-capability-parity-integration.verification.json",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        "tests/ci/governance_integrity_gate.py"
+      ],
+      "required": true,
+      "scenario": "tri-language parity and governance integrity",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T23:28:04Z",
+  "workItemId": "WI-227-getting-started-capability-parity-integration"
+}

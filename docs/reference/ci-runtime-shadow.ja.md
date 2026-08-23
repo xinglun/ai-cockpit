@@ -1,38 +1,51 @@
 ---
 author: AI Cockpit maintainers
 title: CI Runtime verification shadow
-description: 既存 Cargo gate を残したまま immutable な公開 Runtime を使う Phase 1 CI convergence。
+description: 型付き repository quality route と immutable public Runtime execution shadow。
 audience:
   - adopter
   - contributor
   - maintainer
 status: implemented
 authority: canonical
-lastVerifiedBy: WI-145-ci-runtime-shadow
+lastVerifiedBy: WI-224-ci-reference-parity
 ---
 
 # CI Runtime verification shadow
 
-WI-145 は CI convergence の Phase 1 を定義します。quality job は公開済みで
-previous stable である immutable な `v0.2.15` Linux Runtime を download し、archive と binary digest を
-検証してから checkout に対して `ai-cockpit verify` を実行します。receipt には tag、
-version、archive digest、binary digest、platform、download source、Runtime verify
-結果を記録します。
+WI-224 は repository CI route を明示的な policy にします。`quality_route.py` は changed
+paths、Contract risk、workflow stage から `light`、`standard`、`strict` を選択します。
+unknown path、release-owned path、high risk、merge、release stage は `strict` へ
+escalate します。型付き route receipt は Git base/head、changed paths、Contract の
+path/digest、manifest byte digest、選択理由、順序付き gate ID を bind します。
+`run_repository_gates.py` は repository facts から receipt を再計算し、canonical
+manifest に保存された command だけを実行します。任意 command override はありません。
 
-既存の Cargo `fmt`、`clippy`、package test は同じ job に残し、独立した shadow
-comparison とします。Runtime shadow が成功してもこれらを置き換えたり弱めたりは
-せず、この段階で Runtime と Cargo の結果同値や provider/enterprise assurance を
-主張しません。
+profile は累積です。`light` は docs と governance-policy regression、`standard` は
+Cargo fmt/Clippy/package gates、immutable Runtime shadow、source conformance を追加し、
+`strict` は release、workflow、performance、adopter、source-archive gates を追加します。
+Pull request は path/risk route を使用し、merge push の stage floor は strict です。
+release source quality は常に `strict` を明示要求し、route receipt と gate report を
+upload します。
 
-convergence の境界は段階的です。
+CI は境界付きの route plan を 2 回使用します。initial receipt は Runtime shadow が
+必要かを決め、`light` は shadow を skip します。`standard` または `strict` は shadow
+実行後、同じ immutable Git base/head と `.ai/evidence/reuse/**` を含む Runtime の
+repository-local write から final receipt を再計算します。gate runner が consume する
+のは final receipt だけで、両 receipt は診断用に保持されます。final profile が
+non-light の場合は workspace package coverage が必須で、regular receipt file が存在する
+場合だけ upload します。正当な `light` route はその file を要求も upload もしません。
 
-1. **Phase 1（現在）：** immutable Runtime verify と既存 Cargo checks。
-2. **Phase 2（将来）：** Runtime/Cargo の比較可能な結果を継続収集し、安定した
-   convergence を証明する。
-3. **Phase 3（将来）：** Phase 2 の Evidence と review 済み移行判断の後だけ、重複
-   YAML policy を削除する。
+`standard` と `strict` では、独立した execution shadow が public immutable
+`v0.2.28` Runtime を download し、platform archive/binary digest を検証して、repository
+の canonical profile で verify を実行します。receipt は tag、version、archive digest、
+binary digest、platform、download source、Runtime result を bind します。source build、
+workspace binary、任意の `--command` 代替、unpinned artifact、digest mismatch、malformed
+output は拒否されます。
 
-shadow lane は source build、workspace binary、未固定 release artifact、
-archive/binary digest 不一致、malformed Runtime output を fail closed します。
-現在の installation baseline は新しい Release（現在は `v0.2.23`）へ進められますが、公開前の shadow pin は変更しません。
-Release が公開され immutable な archive/binary identity が記録された後にだけ pin を進め、tag workflow が未公開 artifact に依存しないようにします。
+これは repository CI/release layer の policy です。Runtime-global T0–T3 route、
+affected-graph completeness、cross-Work-Item physical execution、generic CLI
+`verify --command` semantics は主張しません。WI-224 は `crates/**` を authorize しない
+ため、これらの Runtime change は明示的に deferred です。shadow は execution identity
+check であり、選択された manifest gates や provider/enterprise assurance の代替では
+ありません。

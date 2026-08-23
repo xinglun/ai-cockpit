@@ -1,0 +1,63 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-23T21:56:14Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T21:47:13Z",
+  "intentAlignment": {
+    "evidence": [
+      ".github/workflows/ci.yml",
+      ".github/workflows/release.yml",
+      "tests/ci/repository_gate_manifest.json",
+      "docs/reference/ci-runtime-shadow.md",
+      "docs/release/distribution.md"
+    ],
+    "reason": "Repository CI and release policy now bind typed route and staged acceptance evidence without modifying Runtime crates or public Release truth.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-08-23T22:40:53Z",
+  "preflightContractDigest": "sha256:5ff632c15b583bc7ba621ae440b7c06f477100ad0a0f462dfdfa507dac45321b",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:881995639f15ab7de7d62a503f9910cb58d5a08e61f07fea9085326fd3b132c5",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/quality_route_test.py",
+        "tests/ci/repository_gate_manifest_test.py",
+        "target/repository-quality-route.json",
+        "target/repository-gates.json"
+      ],
+      "required": true,
+      "scenario": "dynamic verification route",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/adopter_acceptance_test.sh",
+        "tests/release/adopter_upgrade_acceptance_test.sh",
+        "tests/release/workflow_policy.sh"
+      ],
+      "required": true,
+      "scenario": "release staged adopter and N-1 acceptance",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance_test.sh",
+        "tests/release/adopter_upgrade_acceptance_test.sh",
+        "tests/release/isolation_manifest_test.sh",
+        "tests/release/source_archive_policy_test.sh"
+      ],
+      "required": true,
+      "scenario": "release cleanup and receipt integrity",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T22:41:00Z",
+  "workItemId": "WI-224-ci-reference-parity"
+}

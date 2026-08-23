@@ -1,0 +1,139 @@
+{
+  "acceptanceResults": [
+    "WI-227 的 Contract baseRevision 必须等于 origin/main@5968d30c095bed29f019f8c87f9742109eb64f63，并以 Runtime recovery 与 Contract sources 绑定 WI-222/223/224/225/226 的精确 Contract、Summary、Outcome、Events digests。",
+    "集成 cbca216 capability/status 代码与 tests、80ca56 CI/release route 最终实现与 records、origin/main 已有 WI-223/225/226 delivery，以及 WI-226 merge/cleanup/close bundle；任何 predecessor archive、evidence 或 finalization bytes 都不得改写。",
+    "三份 reference-parity 文档必须同时登记 WI-222/223/224/225/226/227，并引用对应 archive、verification、recovery/finalization/close truth，不得只添加无 records 的行。",
+    "严格 route 必须动态选择完整 manifest，canonical repository gates、workspace package coverage、文档、workflow、conformance、performance 与 release checks 全部通过；canonical finalization receipt 写入后必须再跑完整 strict manifest。",
+    "完成 start→finalize-plan→preflight→checkpoint→verify→finish→可见中文 Outcome→archive→premerge finalize→finalize-verify；未 merge 前不 close，不推断用户收益或合并授权。",
+    "Runtime v0.2.28 successor schema 仅支持单一 predecessor；WI-224 是 primary Runtime supersede predecessor。WI-222 作为 linked immutable delivery，由本 Contract 的 sources、commit identity 以及 archive/evidence/finalize digests 绑定，不伪造第二 recovery edge。",
+    "WI-222 immutable bindings 为 Contract sha256:6c28cdb7f7e13a83401a2f560c2ced4b06d31555b07026ac144f0d59707dd01d、Summary sha256:a219a7eedc598e4861f69cd9ee0331a4f54c4c8ff70d49439c5721925e4217f9、Outcome sha256:897a6dc4f290c1245ea781c449e6f05576df518bb3d6c01fdd95a370a7663541、Events sha256:3616cfc5d7f28a9183bc6e98e75f1f350100b698ebe04539d6d0aea10c69eaf9、verification raw sha256:8247b4de91235d9df28f99cc87ee5228573cc6f695ec543e9a2479a0d146b13d 与 finalize raw sha256:846c1bac973110e7e758767d91f0326397e24e0eaa1404c8455e142c3561177d。"
+  ],
+  "createdAt": "2026-08-23T23:28:04Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:75499c80f800f816876a03474f1ad56b3f700e0ebd48f115e6efe5bb912a48f7",
+  "evidenceRefs": [
+    ".ai/evidence/WI-227-getting-started-capability-parity-integration.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-227-getting-started-capability-parity-integration.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-227-getting-started-capability-parity-integration.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c413ad3a7327d97b54894347e63130e842922f1d18cc951ad8b7c342d281ae59",
+      "workItemId": "WI-227-getting-started-capability-parity-integration"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-227-getting-started-capability-parity-integration.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-227-getting-started-capability-parity-integration.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-227-getting-started-capability-parity-integration.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-227-getting-started-capability-parity-integration.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-227-getting-started-capability-parity-integration.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-227-getting-started-capability-parity-integration.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-227-getting-started-capability-parity-integration.contract.json"
+          ],
+          "inference": false,
+          "text": "在同一 reviewed integration PR 中交付 capability/status、Getting Started、CI/release route 和 WI-222 至 WI-227 三语 parity truth，并以严格 Runtime lifecycle、完整 repository manifest 与精确 predecessor digest 证明闭环。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-227-getting-started-capability-parity-integration.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-227-getting-started-capability-parity-integration"
+  },
+  "taskReportDigest": "sha256:a1aca21203090350685b75781866aa5c9bb21fc5bbd1dc497a9077e57a059871",
+  "taskReportMarkdownDigest": "sha256:9b0ab0b67dfc7d6ff5316566076b0e27db9ec72f9639ff7cf86793f94c441000",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-227-getting-started-capability-parity-integration.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-227-getting-started-capability-parity-integration"
+}

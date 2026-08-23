@@ -2,6 +2,8 @@
 set -euo pipefail
 
 workflow=${1:?usage: workflow_policy.sh <workflow>}
+repo_root="$(cd "$(dirname "$workflow")/../.." && pwd -P)"
+gate_manifest="$repo_root/tests/ci/repository_gate_manifest.json"
 
 if command -v rg >/dev/null 2>&1; then
   search() { rg -n --pcre2 -- "$1" "$2"; }
@@ -76,10 +78,26 @@ require_match '^  publish_handoff:' 'post-publication handoff job must be presen
 require_match '^  post_release_version_consistency:' 'post-publication version consistency job must be present'
 require_match '^  adopter_acceptance:' 'post-release adopter acceptance job must be present'
 require_match '^  adopter_upgrade_acceptance:' 'post-release N-1 upgrade acceptance job must be present'
-require_match 'cargo fmt --all -- --check' 'source quality must run rustfmt'
-require_match 'cargo clippy --workspace --all-targets --all-features -- -D warnings' 'source quality must run Clippy'
-require_match 'tests/ci/run_workspace_package_tests\.sh' 'source quality must derive workspace package tests from cargo metadata'
+require_match '^  staged_adopter_acceptance:' 'pre-publication staged adopter acceptance job must be present'
+require_match '^  staged_adopter_upgrade_acceptance:' 'pre-publication staged N-1 acceptance job must be present'
 require_match 'tests/ci/run_repository_gates\.py' 'source quality must run the canonical repository gate manifest'
+require_match 'tests/ci/quality_route\.py' 'source quality must derive a typed repository route'
+require_match '--stage release' 'source quality must use the release route floor'
+require_match '--profile strict' 'source quality must require the strict route'
+require_match '--route-receipt' 'source quality must consume the typed route receipt'
+fail_if_match '--command' 'release workflow must not substitute an arbitrary verification command for canonical gates'
+grep -Fq '"workspace_format"' "$gate_manifest" || {
+  printf 'policy failure: canonical repository manifest must retain rustfmt\n' >&2
+  exit 1
+}
+grep -Fq '"workspace_clippy"' "$gate_manifest" || {
+  printf 'policy failure: canonical repository manifest must retain Clippy\n' >&2
+  exit 1
+}
+grep -Fq 'tests/ci/run_workspace_package_tests.sh' "$gate_manifest" || {
+  printf 'policy failure: canonical repository manifest must derive workspace package tests from cargo metadata\n' >&2
+  exit 1
+}
 require_match 'cargo metadata --locked' 'source quality must gate workspace metadata'
 require_match 'cargoLockSha256' 'release identity must bind Cargo.lock'
 require_match "jq -er '.before'" 'tag policy must reject mutable tag updates'
@@ -88,11 +106,13 @@ require_match '--provider-release-id' 'handoff must bind the provider Release id
 require_match 'actions/attest-build-provenance@' 'final candidate/handoff attestation must be defined'
 require_match 'dist/release-manifest\.json' 'published assets must include the canonical manifest'
 require_match 'dist/Formula/ai-cockpit\.rb' 'published assets must include the Formula'
-require_match 'needs: \[build, aggregate, source_quality, release_policy, verify, smoke_homebrew, smoke_linux, smoke_windows, attest\]' 'publish must depend on every final gate'
+require_match 'needs: \[build, aggregate, source_quality, release_policy, verify, smoke_homebrew, smoke_linux, smoke_windows, staged_adopter_acceptance, staged_adopter_upgrade_acceptance, attest\]' 'publish must depend on every final gate, including staged adopter acceptance'
 require_match '^  publish_handoff:' 'handoff must be a separate post-publication job'
 require_match 'publish_handoff:[[:space:]]*$' 'post-publication handoff job must be addressable'
 require_match 'adopter_acceptance:[[:space:]]*$' 'post-release adopter acceptance job must be addressable'
 require_match 'tests/release/adopter_acceptance\.sh' 'post-release job must invoke the adopter acceptance harness'
+require_match '--candidate-dir' 'staged adopter acceptance must consume the candidate artifact'
+require_match '--to-candidate-dir' 'staged N-1 acceptance must consume the candidate artifact'
 require_match 'needs: \[publish, publish_handoff\]' 'adopter acceptance must run after publication and handoff'
 require_match 'tests/release/version_consistency\.sh' 'release workflow must run the version consistency gate'
 require_match 'tests/ci/repository_gate_manifest\.json' 'release workflow must bind all repository policy gates'

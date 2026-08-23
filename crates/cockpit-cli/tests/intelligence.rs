@@ -1,4 +1,4 @@
-use std::{fs, process::Command};
+use std::{fs, path::Path, process::Command};
 
 mod common;
 
@@ -13,6 +13,161 @@ fn repository() -> tempfile::TempDir {
             .success()
     );
     directory
+}
+
+fn tree_manifest(root: &Path) -> Vec<(String, String, bool, u64, Vec<u8>)> {
+    fn visit(root: &Path, current: &Path, entries: &mut Vec<(String, String, bool, u64, Vec<u8>)>) {
+        let mut children = fs::read_dir(current)
+            .expect("read manifest directory")
+            .collect::<Result<Vec<_>, _>>()
+            .expect("read manifest entries");
+        children.sort_by_key(|entry| entry.file_name());
+        for child in children {
+            let path = child.path();
+            let metadata = fs::symlink_metadata(&path).expect("manifest metadata");
+            let relative = path
+                .strip_prefix(root)
+                .expect("manifest relative path")
+                .to_string_lossy()
+                .replace('\\', "/");
+            let (kind, bytes) = if metadata.file_type().is_symlink() {
+                (
+                    "symlink",
+                    fs::read_link(&path)
+                        .expect("symlink target")
+                        .to_string_lossy()
+                        .as_bytes()
+                        .to_vec(),
+                )
+            } else if metadata.is_dir() {
+                ("directory", Vec::new())
+            } else {
+                ("file", fs::read(&path).expect("manifest file bytes"))
+            };
+            entries.push((
+                relative,
+                kind.into(),
+                metadata.permissions().readonly(),
+                metadata.len(),
+                bytes,
+            ));
+            if metadata.is_dir() {
+                visit(root, &path, entries);
+            }
+        }
+    }
+
+    let mut entries = Vec::new();
+    visit(root, root, &mut entries);
+    entries
+}
+
+#[test]
+fn read_only_projection_commands_leave_repository_bytes_unchanged() {
+    let directory = repository();
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let run = |args: &[&str]| {
+        let output = Command::new(binary)
+            .args(args)
+            .args(["--repo", directory.path().to_str().expect("repo path")])
+            .output()
+            .expect("run ai-cockpit");
+        assert!(
+            output.status.success(),
+            "args={args:?}, stderr={}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+    };
+    run(&["attach"]);
+    run(&[
+        "start",
+        "--id",
+        "WI-READ-ONLY",
+        "--intent",
+        "prove read-only projections",
+        "--goal",
+        "preserve repository bytes",
+        "--scope",
+        "**",
+        "--authority",
+        "authorized",
+    ]);
+    fs::create_dir_all(directory.path().join(".ai/evidence/nested"))
+        .expect("nested evidence directory");
+    fs::write(
+        directory.path().join(".ai/evidence/nested/fixture.json"),
+        b"{}",
+    )
+    .expect("fixture bytes");
+    #[cfg(unix)]
+    std::os::unix::fs::symlink(
+        "fixture.json",
+        directory
+            .path()
+            .join(".ai/evidence/nested/fixture-link.json"),
+    )
+    .expect("fixture symlink");
+    let before = tree_manifest(directory.path());
+
+    for _ in 0..2 {
+        run(&["observe"]);
+        run(&["capability", "show"]);
+        run(&["status"]);
+        run(&["work-item", "status", "--id", "WI-READ-ONLY", "--json"]);
+        run(&["work-item", "status", "--all", "--json"]);
+    }
+
+    assert_eq!(tree_manifest(directory.path()), before);
+}
+
+#[test]
+fn all_work_item_status_cli_emits_stable_repository_index() {
+    let directory = repository();
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let run = |args: &[&str]| {
+        Command::new(binary)
+            .args(args)
+            .args(["--repo", directory.path().to_str().expect("repo path")])
+            .output()
+            .expect("run ai-cockpit")
+    };
+    assert!(run(&["attach"]).status.success());
+    for id in ["WI-CLI-Z", "WI-CLI-A"] {
+        let start = run(&[
+            "start",
+            "--id",
+            id,
+            "--intent",
+            "aggregate status",
+            "--goal",
+            "stable output",
+            "--scope",
+            "**",
+            "--authority",
+            "authorized",
+        ]);
+        assert!(
+            start.status.success(),
+            "{}",
+            String::from_utf8_lossy(&start.stderr)
+        );
+    }
+
+    let first = run(&["work-item", "status", "--all", "--json"]);
+    assert!(
+        first.status.success(),
+        "{}",
+        String::from_utf8_lossy(&first.stderr)
+    );
+    let second = run(&["work-item", "status", "--all", "--json"]);
+    assert!(second.status.success());
+    let first_json: serde_json::Value = serde_json::from_slice(&first.stdout).expect("first JSON");
+    let second_json: serde_json::Value =
+        serde_json::from_slice(&second.stdout).expect("second JSON");
+    assert_eq!(first_json["indexDigest"], second_json["indexDigest"]);
+    assert_eq!(first_json["counts"]["yellow"], 2);
+    assert_eq!(first_json["items"][0]["workItemId"], "WI-CLI-A");
+    assert_eq!(first_json["items"][1]["workItemId"], "WI-CLI-Z");
 }
 
 #[test]
@@ -102,6 +257,27 @@ fn intelligence_commands_emit_repository_bound_json_and_unknowns() {
     let capability_json: serde_json::Value =
         serde_json::from_slice(&capability.stdout).expect("JSON");
     assert_eq!(capability_json["repositoryId"].as_str().unwrap().len(), 71);
+    assert_eq!(capability_json["runtimeVersion"], env!("CARGO_PKG_VERSION"));
+    assert!(
+        capability_json["runtimeDigest"]
+            .as_str()
+            .is_some_and(|value| value.starts_with("sha256:"))
+    );
+    assert!(
+        capability_json["adopterCapabilities"]
+            .as_array()
+            .expect("adopter capabilities")
+            .iter()
+            .any(|item| item["id"] == "work_item_status_interface"
+                && item["state"] == "repository_bound")
+    );
+    assert!(
+        capability_json["exclusions"]
+            .as_array()
+            .expect("exclusions")
+            .iter()
+            .any(|item| item["id"] == "hosted_ci")
+    );
 
     let diagnosis = Command::new(binary)
         .args(["diagnose", "--repo"])
