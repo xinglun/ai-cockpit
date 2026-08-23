@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "The WI-223→WI-225→WI-226 recovery chain binds exact predecessor digests without rewriting archived bytes.",
+    "The three parity documents register WI-223 and WI-225 as recovered predecessors and WI-226 as the current pre-merge successor with exact evidence and decision paths.",
+    "The WI-226 Contract base revision and strict finalization receipt both equal the actual origin/main PR base revision.",
+    "The governance-integrity gate passes after the canonical finalization receipt exists, and the full repository gate manifest passes.",
+    "WI-226 emits a visible human Outcome and remains awaiting_merge_close without claiming merge or structured close."
+  ],
+  "createdAt": "2026-08-23T22:44:17Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:2df80e41cb951763626f97be5245d24edaa08cdb865549b322b4ced249e55381",
+  "evidenceRefs": [
+    ".ai/evidence/WI-226-getting-started-parity-registration-final.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-226-getting-started-parity-registration-final.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-226-getting-started-parity-registration-final.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:459e6c44803cfaee0abe70878d8a6313cdd63ed1d19f542887d19a3b567898d2",
+      "workItemId": "WI-226-getting-started-parity-registration-final"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-226-getting-started-parity-registration-final.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-226-getting-started-parity-registration-final.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-226-getting-started-parity-registration-final.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-226-getting-started-parity-registration-final.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-226-getting-started-parity-registration-final.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-226-getting-started-parity-registration-final.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-226-getting-started-parity-registration-final.contract.json"
+          ],
+          "inference": false,
+          "text": "Deliver the Getting Started parity registration with Contract and provider base revisions aligned to origin/main."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-226-getting-started-parity-registration-final.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-226-getting-started-parity-registration-final"
+  },
+  "taskReportDigest": "sha256:12a18b7def8b279165ca9d825ea7a61a178d50668354ecbebc2c3770c9b71cf7",
+  "taskReportMarkdownDigest": "sha256:cbece7575593485514125af620dea37e43e97cf76b35327124938fc22ee5daf0",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-226-getting-started-parity-registration-final.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-226-getting-started-parity-registration-final"
+}

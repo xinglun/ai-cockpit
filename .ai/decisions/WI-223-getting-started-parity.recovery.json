@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-hosted-ci-recovery",
+  "decidedAt": "2026-08-23T22:26:28Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-223-getting-started-parity.verification.json",
+    ".ai/decisions/WI-223-getting-started-parity.finalize.json",
+    ".ai/work-items/archive/WI-223-getting-started-parity.archive.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    "tests/ci/governance_integrity_gate.py"
+  ],
+  "predecessorContractDigest": "sha256:ca0c6d4c28d96a02f4cd54a910e06bf4f3af7c753a55158252129b124560a005",
+  "predecessorEventsDigest": "sha256:78c78ce8b7382c1c96a572828497df937fcc6d59586be5fbd49125326b656d60",
+  "predecessorOutcomeDigest": "sha256:e8b9f17b034b169a0051edf600c97a85e1a0b4c11176c032e6d859e7fb49c3da",
+  "predecessorSummaryDigest": "sha256:7e9f46f24b50493c2fbfc2d15a69ae451ae87ac772b49be2af8d714f53741386",
+  "predecessorWorkItemId": "WI-223-getting-started-parity",
+  "reason": "Hosted quality runs 32670109390 and 32670112344 exposed the three missing WI-223 reference-parity registrations after WI-223 was immutably archived; continue only the bounded registration fix without rewriting predecessor truth.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "WI-225 records exact tri-language parity entries for both predecessor and successor and all repository gates pass.",
+  "runtimeDigest": "sha256:23e9a9824f35b9e0d3706bdcbad34777bca5b0a4d362b4101407412a905dcb5b",
+  "runtimeVersion": "0.2.28",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-225-getting-started-parity-registration",
+  "workItemId": "WI-223-getting-started-parity"
+}

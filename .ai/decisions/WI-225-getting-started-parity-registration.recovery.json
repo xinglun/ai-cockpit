@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-provider-base-recovery",
+  "decidedAt": "2026-08-23T22:41:32Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-225-getting-started-parity-registration.verification.json",
+    ".ai/decisions/WI-225-getting-started-parity-registration.finalize.json",
+    ".ai/work-items/archive/WI-225-getting-started-parity-registration.archive.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    "tests/ci/governance_integrity_gate.py"
+  ],
+  "predecessorContractDigest": "sha256:10e2173d043f18f5a8b3b6b0d5a8ea626c611ba5ae1d18d86de0afdda41f065b",
+  "predecessorEventsDigest": "sha256:a2704ee47b6e993c2f307b3c2cc76f4882484d008330cf88b9b25fcbd560d981",
+  "predecessorOutcomeDigest": "sha256:778de16256a67c51f303dea96ca7f7705a70f07d0274f09d5cc697db371d2ed7",
+  "predecessorSummaryDigest": "sha256:d902f650a47c07f7838a8a3c6ca14494f36e83bd0fc1cb39e35841947374d154",
+  "predecessorWorkItemId": "WI-225-getting-started-parity-registration",
+  "reason": "WI-225 inherited the predecessor branch head as its Contract base revision, which cannot equal the actual default-branch base of PR #172; preserve that immutable history and continue the bounded parity registration from origin/main in WI-226.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "WI-226 binds both Contract and provider receipt to origin/main, records the tri-language parity chain, and passes the post-finalization governance gate.",
+  "runtimeDigest": "sha256:23e9a9824f35b9e0d3706bdcbad34777bca5b0a4d362b4101407412a905dcb5b",
+  "runtimeVersion": "0.2.28",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-226-getting-started-parity-registration-final",
+  "workItemId": "WI-225-getting-started-parity-registration"
+}

@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-23T22:15:23Z",
+  "files": {
+    "approachDigest": "sha256:717762c388709d92af9515b1464375e43f18d8d9a82b6d226629732c570728ca",
+    "approachPath": ".ai/work-items/archive/WI-223-getting-started-parity.approach.json",
+    "contractDigest": "sha256:c53e389a78dfdb96f94d4f568f4429d8fd2fdabe1378dc1dc2af8f613738e7bf",
+    "contractPath": ".ai/work-items/archive/WI-223-getting-started-parity.contract.json",
+    "eventsDigest": "sha256:78c78ce8b7382c1c96a572828497df937fcc6d59586be5fbd49125326b656d60",
+    "eventsPath": ".ai/work-items/archive/WI-223-getting-started-parity.events.jsonl",
+    "outcomeDigest": "sha256:4ad8466e66ffc2a20403eef116397a51c22afb133f42761d9b965a238cf005d7",
+    "outcomePath": ".ai/work-items/archive/WI-223-getting-started-parity.outcome.json",
+    "summaryDigest": "sha256:1dc4bbdcbf3359834e2510e47534bb01f93ddd3eb89e7ee2ea86ecb54f29a6c3",
+    "summaryPath": ".ai/work-items/archive/WI-223-getting-started-parity.summary.json",
+    "taskReportDigest": "sha256:7a86dbd0a4e9be98b0f137660f1518744db8eb3df8044e094366fe7dce401087",
+    "taskReportMarkdownDigest": "sha256:9ef85dc919d1e28d80a970e8599ea18370661a0be07eabb7fc821ed44566bb95",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-223-getting-started-parity.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-223-getting-started-parity.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-223-getting-started-parity"
+}

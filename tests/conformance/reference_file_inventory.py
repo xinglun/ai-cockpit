@@ -29,6 +29,7 @@ ALLOWED_CLASSIFICATIONS = {
     "deferred-next-batch",
 }
 FIRST_BATCH = "governance-entrypoints"
+GETTING_STARTED_BATCH = "getting-started-onboarding"
 EXPECTED_REFERENCE_COMMIT = "e5acb677da6621004d96f0ef353c58fe8d3acfbf"
 EXPECTED_TARGET_COMMIT = "46e426625a8cae450f1190d0bdbafd6d8e648a90"
 
@@ -156,6 +157,10 @@ def is_governance_entrypoint(path: str) -> bool:
     )
 
 
+def is_getting_started_path(path: str) -> bool:
+    return path.startswith("docs/getting-started/")
+
+
 def counterpart_for(path: str, target_paths: set[str]) -> tuple[list[str], str, str]:
     direct = [path] if path in target_paths else []
     semantic_counterparts = {
@@ -235,6 +240,18 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 }
             )
             continue
+        if is_getting_started_path(path):
+            counterparts, classification, reason = counterpart_for(path, target_set)
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": GETTING_STARTED_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
         records.append(
             {
                 "referencePath": path,
@@ -297,10 +314,42 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
                 "migrate-gap",
             }:
                 errors.append(f"{path}: first-batch record needs a counterpart or explicit boundary classification")
+        if record.get("batch") == GETTING_STARTED_BATCH:
+            if classification == "deferred-next-batch":
+                errors.append(f"{path}: getting-started file cannot remain deferred")
+            if not record.get("rustCounterparts") and classification not in {
+                "reference-only",
+                "not-applicable",
+                "migrate-gap",
+            }:
+                errors.append(f"{path}: getting-started record needs a counterpart or explicit gap")
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(records):
         errors.append(f"referenceTrackedFileCount {expected_count!r} != record count {len(records)}")
     return errors
+
+
+def apply_getting_started_batch(manifest: dict[str, Any]) -> int:
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        if not isinstance(path, str) or not is_getting_started_path(path):
+            continue
+        record.update(
+            {
+                "batch": GETTING_STARTED_BATCH,
+                "classification": "implemented-different-by-design",
+                "rustCounterparts": [path],
+                "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows.",
+            }
+        )
+        updated += 1
+    if updated != 35:
+        raise ValueError(f"expected 35 getting-started records, found {updated}")
+    return updated
 
 
 def main() -> int:
@@ -312,6 +361,7 @@ def main() -> int:
     parser.add_argument("--source-commit", default=EXPECTED_REFERENCE_COMMIT)
     parser.add_argument("--target-commit", default=EXPECTED_TARGET_COMMIT)
     parser.add_argument("--check", action="store_true")
+    parser.add_argument("--apply-getting-started-batch", action="store_true")
     args = parser.parse_args()
 
     if args.reference and args.target:
@@ -320,6 +370,13 @@ def main() -> int:
         output.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
     else:
         manifest = json.loads(args.manifest.read_text())
+    if args.apply_getting_started_batch:
+        try:
+            apply_getting_started_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
     errors = validate(manifest, args.source_commit, args.target_commit)
     if errors:
         for error in errors:

@@ -1,0 +1,20 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-23T21:55:45Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T21:47:13Z",
+  "failedGate": "finish.verification",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-23T22:15:04Z",
+  "preflightContractDigest": "sha256:ca0c6d4c28d96a02f4cd54a910e06bf4f3af7c753a55158252129b124560a005",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:59a37b36cc90e70bf6c49b45f4b2b8e64d313e3724b939b3a874028aa3b887c9",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T22:15:08Z",
+  "workItemId": "WI-223-getting-started-parity"
+}

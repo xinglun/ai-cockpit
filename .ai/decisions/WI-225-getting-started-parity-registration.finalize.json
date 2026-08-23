@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-pre-merge-finalization-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "cd2508ebb10a92eeeb28c9ffc816d82634daa8b1",
+    "name": "codex/wi-225-getting-started-parity-registration",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:1443062650c9dc38ff67a97b303d6ae8012bb54a36950ef26880dd5d2bf3d541",
+  "operationId": "operation-WI-225-getting-started-parity-registration-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "72320be00d3340ad328aa93ac1a7e80e8e828085",
+    "headRevision": "cd2508ebb10a92eeeb28c9ffc816d82634daa8b1",
+    "number": 172,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/172"
+  },
+  "reason": "awaiting_merge_close: PR #172 is unmerged; retain the reviewed Getting Started parity registration recovery branch and clean worktree until hosted checks pass and the merged default branch is available.",
+  "receiptId": "ai-cockpit-WI-225-getting-started-parity-registration-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-225-getting-started-parity-registration",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/172",
+    "worktree": "/private/tmp/ai-cockpit-wi225-getting-started-parity-registration"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:23e9a9824f35b9e0d3706bdcbad34777bca5b0a4d362b4101407412a905dcb5b",
+  "runtimeVersion": "0.2.28",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-23T22:33:08Z",
+  "workItemId": "WI-225-getting-started-parity-registration",
+  "worktree": {
+    "branch": "codex/wi-225-getting-started-parity-registration",
+    "headRevision": "cd2508ebb10a92eeeb28c9ffc816d82634daa8b1",
+    "path": "/private/tmp/ai-cockpit-wi225-getting-started-parity-registration",
+    "worktreeId": "WI-225-getting-started-parity-registration"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-23T22:42:21Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T22:40:04Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-23T22:44:17Z",
+  "preflightContractDigest": "sha256:215addfb9e280a7d56e54b16325f1a2beea856707798198d2e41e8f3a4fc8359",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:459e6c44803cfaee0abe70878d8a6313cdd63ed1d19f542887d19a3b567898d2",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T22:44:17Z",
+  "workItemId": "WI-226-getting-started-parity-registration-final"
+}

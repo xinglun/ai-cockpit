@@ -1,0 +1,74 @@
+{
+  "acceptanceCriteria": [
+    "The WI-223→WI-225→WI-226 recovery chain binds exact predecessor digests without rewriting archived bytes.",
+    "The three parity documents register WI-223 and WI-225 as recovered predecessors and WI-226 as the current pre-merge successor with exact evidence and decision paths.",
+    "The WI-226 Contract base revision and strict finalization receipt both equal the actual origin/main PR base revision.",
+    "The governance-integrity gate passes after the canonical finalization receipt exists, and the full repository gate manifest passes.",
+    "WI-226 emits a visible human Outcome and remains awaiting_merge_close without claiming merge or structured close."
+  ],
+  "authority": "authorized",
+  "baseRevision": "72320be00d3340ad328aa93ac1a7e80e8e828085",
+  "createdAt": "2026-08-23T22:40:04Z",
+  "goal": "Deliver the Getting Started parity registration with Contract and provider base revisions aligned to origin/main.",
+  "intent": "Preserve the immutable WI-223 and WI-225 recovery history while recording the tri-language parity registrations from the actual default-branch base.",
+  "mode": "implementation",
+  "outOfScope": [
+    "docs/getting-started/**",
+    "docs/README*",
+    "docs/current/**",
+    "tests/**",
+    "crates/**",
+    ".github/**",
+    ".ai/work-items/archive/WI-223-getting-started-parity*",
+    ".ai/work-items/archive/WI-225-getting-started-parity-registration*",
+    ".ai/evidence/WI-223-getting-started-parity.verification.json",
+    ".ai/evidence/WI-225-getting-started-parity-registration.verification.json",
+    ".ai/decisions/WI-223-getting-started-parity.finalize.json",
+    ".ai/decisions/WI-225-getting-started-parity-registration.finalize.json",
+    "global Agent/MCP configuration"
+  ],
+  "predecessorContractDigest": "sha256:10e2173d043f18f5a8b3b6b0d5a8ea626c611ba5ae1d18d86de0afdda41f065b",
+  "predecessorWorkItemId": "WI-225-getting-started-parity-registration",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-225-getting-started-parity-registration.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e23392684a0aff914bd6b59a9e8411104cc50133eb1d4fef024b3e902dbc7b04",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-226-getting-started-parity-registration-final",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/175",
+    "worktree": "/private/tmp/ai-cockpit-wi226-getting-started-parity-registration"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    ".ai/work-items/archive/WI-223-getting-started-parity.archive.json",
+    ".ai/work-items/archive/WI-225-getting-started-parity-registration.archive.json",
+    ".ai/evidence/WI-223-getting-started-parity.verification.json",
+    ".ai/evidence/WI-225-getting-started-parity-registration.verification.json",
+    ".ai/decisions/WI-223-getting-started-parity.recovery.json",
+    ".ai/decisions/WI-225-getting-started-parity-registration.finalize.json",
+    "https://github.com/xinglun/ai-cockpit/pull/171",
+    "https://github.com/xinglun/ai-cockpit/pull/172",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/32670964737",
+    "tests/ci/governance_integrity_gate.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report target/governance-integrity.json",
+    "bash tests/docs/parity_status_check.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "python3 tests/ci/run_repository_gates.py --repo . --manifest tests/ci/repository_gate_manifest.json --report target/repository-gates.json"
+  ],
+  "workItemId": "WI-226-getting-started-parity-registration-final"
+}

@@ -29963,248 +29963,318 @@
     },
     {
       "referencePath": "docs/getting-started/30-second-start.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/30-second-start.ja.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/30-second-start.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/30-second-start.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/30-second-start.zh-CN.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/30-second-start.zh-CN.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/adopter-configuration.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/adopter-configuration.ja.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/adopter-configuration.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/adopter-configuration.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/calibration.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/calibration.ja.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/calibration.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/calibration.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/calibration.zh-CN.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/calibration.zh-CN.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/examples/android.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/examples/android.ja.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/examples/android.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/examples/android.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/examples/android.zh-CN.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/examples/android.zh-CN.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/examples/ios.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/examples/ios.ja.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/examples/ios.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/examples/ios.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/examples/ios.zh-CN.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/examples/ios.zh-CN.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/examples/java.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/examples/java.ja.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/examples/java.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/examples/java.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/examples/java.zh-CN.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/examples/java.zh-CN.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/first-calibration.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/first-calibration.ja.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/first-calibration.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/first-calibration.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/first-calibration.zh-CN.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/first-calibration.zh-CN.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/first-work-item.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/first-work-item.ja.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/first-work-item.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/first-work-item.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/first-work-item.zh-CN.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/first-work-item.zh-CN.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/installation-security.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/installation-security.ja.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/installation-security.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/installation-security.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/installation-security.zh-CN.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/installation-security.zh-CN.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/installation.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/installation.ja.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/installation.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/installation.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/installation.zh-CN.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/installation.zh-CN.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/security-release-verification.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/security-release-verification.ja.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/security-release-verification.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/security-release-verification.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/security-release-verification.zh-CN.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/security-release-verification.zh-CN.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/standard-adoption-guide.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/standard-adoption-guide.ja.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/standard-adoption-guide.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/standard-adoption-guide.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/getting-started/standard-adoption-guide.zh-CN.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "getting-started-onboarding",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/standard-adoption-guide.zh-CN.md"
+      ],
+      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
     },
     {
       "referencePath": "docs/guides/lightweight-verification.ja.md",
