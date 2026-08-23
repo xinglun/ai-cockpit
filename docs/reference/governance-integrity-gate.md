@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: implemented
 authority: canonical
-lastVerifiedBy: WI-195-governance-recovery-gate
+lastVerifiedBy: WI-198-governance-gate-default-branch-discovery
 ---
 
 # Governance integrity gate
@@ -28,6 +28,18 @@ is never promoted to green and is never treated as merge or release approval.
 Missing, malformed, foreign, or weakly bound recovery receipts remain errors.
 The successor must independently pass its own Contract, evidence, Outcome,
 parity, and terminal-decision checks.
+
+## Detached pull-request checkouts
+
+Hosted pull-request jobs can run from a detached merge checkout without
+`refs/remotes/origin/HEAD` or event base-branch metadata. In that case the gate
+uses only the immutable Contract `resourceContext.baseBranch` as a narrow
+default-branch fallback. The fallback is accepted only when the receipt and
+Contract resource contexts match exactly; repository, PR URL/number, provider,
+remote, branch, worktree, base/head revisions, runtime, evidence, and Contract
+digest checks remain mandatory. If an external event or remote declares a
+different base branch, the receipt is rejected. Missing or contradictory
+identity remains fail-closed.
 
 The gate does not choose verification tier or assurance. Risk/stage/policy
 selection and reference-source file-by-file conformance are separate

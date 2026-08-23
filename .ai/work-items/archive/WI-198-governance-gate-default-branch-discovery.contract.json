@@ -1,0 +1,87 @@
+{
+  "acceptanceCriteria": [
+    "A1: A pull-request merge checkout without origin/HEAD or event base metadata accepts a valid pre-merge finalization receipt when the Contract and receipt bind the declared base branch.",
+    "A2: The fallback never weakens repository, pull request, branch, worktree, base revision, head revision, runtime, evidence, or contract digest identity checks.",
+    "A3: The regression test proves the same valid receipt fails closed for a mismatched declared base branch and remains deterministic.",
+    "A4: The dynamic governance gate, tri-language documentation acceptance, and workspace quality checks pass; WI-197 remains immutable and linked through recovery evidence."
+  ],
+  "authority": "authorized",
+  "baseRevision": "225e5625f58ad1da4effe6070a9bf2b17994d078",
+  "createdAt": "2026-08-23T13:33:11Z",
+  "goal": "让分离的 pull request 检出中的 pre-merge governance gate 保持确定性且 fail closed。",
+  "intent": "修复托管 CI 检出环境缺少 origin/HEAD 或事件元数据时的默认分支发现缺口，并保持 PR、仓库、证据和摘要绑定严格不变。",
+  "mode": "code",
+  "outOfScope": [
+    "src/**",
+    "crates/**",
+    "target/**",
+    "release publication or installer changes"
+  ],
+  "predecessorContractDigest": "sha256:f0d1111c633999a357c49b8e277152b4192e32e832ed0d63cc6e1645725bb5fe",
+  "predecessorWorkItemId": "WI-197-governance-gate-pr-closure",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-197-governance-gate-pr-closure.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ab73fd85e8f5cce5dbe7ba6eea02adb7212dcf12f4f4ae1173398c1dbe6b7393",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-196-governance-recovery-gate-retry",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/153",
+    "worktree": "/private/tmp/ai-cockpit-wi195-governance-recovery-gate"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate.py",
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "expected": "A valid pre-merge receipt is accepted when origin/HEAD and event base metadata are unavailable, while a mismatched contract base remains invalid.",
+      "required": true,
+      "scenario": "detached pull-request checkout default-branch discovery",
+      "status": "unverified",
+      "verificationPlan": "Run the focused governance regression with remote HEAD and event metadata removed, then run the full gate fixture matrix."
+    },
+    {
+      "evidence": [
+        "docs/reference/governance-integrity-gate.md",
+        "docs/reference/governance-integrity-gate.zh-CN.md",
+        "docs/reference/governance-integrity-gate.ja.md"
+      ],
+      "expected": "The tri-language documentation explains the strict fallback and its fail-closed boundaries.",
+      "required": true,
+      "scenario": "tri-language governance documentation",
+      "status": "unverified",
+      "verificationPlan": "Run documentation acceptance and inspect the parity references."
+    }
+  ],
+  "scope": [
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "tests/ci/fixtures/governance-integrity/**",
+    "docs/reference/governance-integrity-gate.md",
+    "docs/reference/governance-integrity-gate.zh-CN.md",
+    "docs/reference/governance-integrity-gate.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-198-governance-gate-default-branch-discovery.md",
+    "docs/work-items/WI-198-governance-gate-default-branch-discovery.zh-CN.md",
+    "docs/work-items/WI-198-governance-gate-default-branch-discovery.ja.md",
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/archive/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-198-governance-gate-default-branch-discovery"
+}

@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-23T13:46:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-198-governance-gate-default-branch-discovery.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:1770c4d41bcd8226f82e02b1c832c2b4ebf4361f74955119c81cff5b7d408736",
+  "predecessorEventsDigest": "sha256:f70763e76a8968666158c0d0305caeb884e27191041da40322006e6b7cde9bf7",
+  "predecessorOutcomeDigest": "sha256:d4edd93970c076dc30d8a091c13f2c757f4c836f46587c1e4fdeecaa19e3fd88",
+  "predecessorSummaryDigest": "sha256:279e0d3f9922918e85147086c83f50c795596170b62da208f9af6012dc68ed56",
+  "predecessorWorkItemId": "WI-198-governance-gate-default-branch-discovery",
+  "reason": "Post-archive self-check found that the predecessor Contract retained a stale branch resource context after the branch rename. The root gate fix remains valid, but finalization must be re-recorded from a successor with the actual PR branch identity.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-199 with the actual branch codex/wi-196-governance-gate-retry and PR #153 context, reverify the gate, and record a strict pre-merge finalization receipt before merge.",
+  "runtimeDigest": "sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+  "runtimeVersion": "0.2.23",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-199-governance-gate-actual-pr-context",
+  "workItemId": "WI-198-governance-gate-default-branch-discovery"
+}

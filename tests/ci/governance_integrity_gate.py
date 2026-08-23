@@ -169,8 +169,6 @@ def premerge_finalize_state(
         or not base_remote
     ):
         return False, "unknown"
-    default_branch = repository_default_branch(repo, base_remote)
-    phase = repository_phase(repo, default_branch) if default_branch else "unknown"
     reason = value.get("reason")
     reason_valid = isinstance(reason, str) and (
         reason == "awaiting_merge_close"
@@ -188,12 +186,30 @@ def premerge_finalize_state(
     except (ValueError, OSError):
         return False, phase
     repository_id = project.get("repositoryId")
+    contract_context = contract.get("resourceContext")
+    default_branch = repository_default_branch(repo, base_remote)
+    declared_base_branch = (
+        contract_context.get("baseBranch")
+        if isinstance(contract_context, dict)
+        else None
+    )
+    # A pull-request merge checkout may be detached and may not contain
+    # origin/HEAD or the event payload/base-ref environment variables.  The
+    # Contract's immutable resource context is the only safe fallback: it is
+    # compared byte-for-byte below and cannot silently broaden the PR identity.
+    effective_default_branch = default_branch or (
+        declared_base_branch if isinstance(declared_base_branch, str) and declared_base_branch else None
+    )
+    phase = (
+        repository_phase(repo, effective_default_branch)
+        if effective_default_branch
+        else "unknown"
+    )
     runtime_digest = value.get("runtimeDigest")
     runtime_version = value.get("runtimeVersion")
     base_revision = pull_request.get("baseRevision")
     head_revision = pull_request.get("headRevision")
     pull_request_url = pull_request.get("url")
-    contract_context = contract.get("resourceContext")
     valid = (
         value.get("workItemId") == work_item
         and isinstance(repository_id, str)
@@ -209,8 +225,9 @@ def premerge_finalize_state(
         and contract.get("workItemId") == work_item
         and isinstance(contract_context, dict)
         and resource_context == contract_context
-        and default_branch is not None
-        and base_branch == default_branch
+        and effective_default_branch is not None
+        and base_branch == effective_default_branch
+        and (default_branch is not None or base_branch == declared_base_branch)
         and resource_context.get("baseBranch") == base_branch
         and resource_context.get("baseRemote") == base_remote
         and resource_context.get("provider") == value.get("provider")

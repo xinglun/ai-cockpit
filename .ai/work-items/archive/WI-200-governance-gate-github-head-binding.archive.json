@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-23T13:54:26Z",
+  "files": {
+    "contractDigest": "sha256:06ac6130be688ba36f2441d84dd896ffa4d842c4308c2f0a209ee961f5cf765d",
+    "contractPath": ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.contract.json",
+    "eventsDigest": "sha256:5378b089c00365ea3d1ef1dcdab6105c29e0e0201ee73a0ba5dd0fc44639fb77",
+    "eventsPath": ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.events.jsonl",
+    "outcomeDigest": "sha256:9f98f7101720ef2a53dd4c0884680e148c6e31f8f4fcb26411b482ae580a62bd",
+    "outcomePath": ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.outcome.json",
+    "summaryDigest": "sha256:19f1d1bbe14466a2f8b291c7c56cc4f552bcd3dcf96840f5fd23e9fd2962b22b",
+    "summaryPath": ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json",
+    "taskReportDigest": "sha256:d1ccdcfbffcdd925cb84f9c6b299fcd1486d709e03490b6117154de814064048",
+    "taskReportMarkdownDigest": "sha256:ab716e65d82eabe12125fd0832c7849b49b04ee5a2768775255f61f38e54c51d",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-200-governance-gate-github-head-binding"
+}

@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: implemented
 authority: canonical
-lastVerifiedBy: WI-195-governance-recovery-gate
+lastVerifiedBy: WI-198-governance-gate-default-branch-discovery
 ---
 
 # Governance integrity gate
@@ -28,6 +28,16 @@ merge や release の承認ともみなされません。
 欠落、malformed、foreign、binding 不足の recovery receipt は引き続き error です。
 successor は独立して Contract、evidence、Outcome、parity、terminal decision を通過
 しなければなりません。
+
+## detached pull-request checkout
+
+Hosted pull request job は、`refs/remotes/origin/HEAD` や event の base branch metadata
+を持たない detached merge checkout で実行されることがあります。その場合、gate は不変な
+Contract の `resourceContext.baseBranch` だけを狭い default branch fallback として使います。
+receipt と Contract の resource context が完全一致する場合だけ受理し、repository、PR
+URL/number、provider、remote、branch、worktree、base/head revision、runtime、evidence、
+Contract digest の検査はすべて必須です。外部 event または remote が別の base branch を示す
+場合、receipt は拒否されます。identity の欠落や矛盾は引き続き fail-closed です。
 
 この gate は verification tier や assurance を選択しません。risk/stage/policy による
 選択と reference source の逐文件 conformance は別の検証境界であり、この inventory から

@@ -1,0 +1,108 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "detached checkout fallback regression",
+          "path": "tests/ci/governance_integrity_gate_test.sh",
+          "type": "test",
+          "verification": "metadata-free pull-request checkout accepts the valid Contract-bound pre-merge receipt"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "strict identity checks",
+          "path": "tests/ci/governance_integrity_gate.py",
+          "type": "implementation",
+          "verification": "fallback is used only for the declared Contract base branch and all PR, repository, evidence, runtime, and digest checks remain required"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "base branch mismatch regression",
+          "path": "tests/ci/governance_integrity_gate_test.sh",
+          "type": "test",
+          "verification": "externally declared main rejects a receipt bound to a different base branch"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "tri-language and predecessor binding",
+          "path": "docs/reference/governance-integrity-gate.md",
+          "type": "governance",
+          "verification": "documentation explains the strict fallback and WI-197 recovery remains linked"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-197-governance-gate-pr-closure.recovery.json",
+    ".ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.contract.json",
+    ".ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.summary.json"
+  ],
+  "checkpointAt": "2026-08-23T13:39:42Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T13:33:11Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "tests/ci/governance_integrity_gate.py",
+      "docs/reference/governance-integrity-gate.md"
+    ],
+    "reason": "The successor directly addresses the hosted-CI default-branch discovery defect while preserving all existing identity and fail-closed boundaries.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:f0d1111c633999a357c49b8e277152b4192e32e832ed0d63cc6e1645725bb5fe",
+  "predecessorWorkItemId": "WI-197-governance-gate-pr-closure",
+  "preflightAt": "2026-08-23T13:40:12Z",
+  "preflightContractDigest": "sha256:1770c4d41bcd8226f82e02b1c832c2b4ebf4361f74955119c81cff5b7d408736",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:a21bd2b7a59588fc0b9cb39525e9fcbabe2b13c535f5a1faf20b1ef44c307220",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryDecisionPath": ".ai/decisions/WI-197-governance-gate-pr-closure.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate.py",
+        "tests/ci/governance_integrity_gate_test.sh",
+        ".ai/evidence/WI-198-governance-gate-default-branch-discovery.verification.json"
+      ],
+      "expected": "A valid pre-merge receipt is accepted when origin/HEAD and event base metadata are unavailable, while a mismatched Contract base remains invalid.",
+      "required": true,
+      "scenario": "detached pull-request checkout default-branch discovery",
+      "status": "verified",
+      "verificationPlan": "Run the focused governance regression with remote HEAD and event metadata removed, then run the full gate fixture matrix."
+    },
+    {
+      "evidence": [
+        "docs/reference/governance-integrity-gate.md",
+        "docs/reference/governance-integrity-gate.zh-CN.md",
+        "docs/reference/governance-integrity-gate.ja.md",
+        ".ai/evidence/WI-198-governance-gate-default-branch-discovery.verification.json"
+      ],
+      "expected": "The tri-language documentation explains the strict fallback and its fail-closed boundaries.",
+      "required": true,
+      "scenario": "tri-language governance documentation",
+      "status": "verified",
+      "verificationPlan": "Run documentation acceptance and inspect the parity references."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T13:41:27Z",
+  "workItemId": "WI-198-governance-gate-default-branch-discovery"
+}

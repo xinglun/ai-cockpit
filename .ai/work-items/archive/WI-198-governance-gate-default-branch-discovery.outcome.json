@@ -1,0 +1,150 @@
+{
+  "acceptanceResults": [
+    "A1: A pull-request merge checkout without origin/HEAD or event base metadata accepts a valid pre-merge finalization receipt when the Contract and receipt bind the declared base branch.",
+    "A2: The fallback never weakens repository, pull request, branch, worktree, base revision, head revision, runtime, evidence, or contract digest identity checks.",
+    "A3: The regression test proves the same valid receipt fails closed for a mismatched declared base branch and remains deterministic.",
+    "A4: The dynamic governance gate, tri-language documentation acceptance, and workspace quality checks pass; WI-197 remains immutable and linked through recovery evidence."
+  ],
+  "createdAt": "2026-08-23T13:41:27Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:8d3984d2d58f942ac77e0db7b5052bab851436d3b8a79b9e653edd2a02d4869c",
+  "evidenceRefs": [
+    ".ai/evidence/WI-198-governance-gate-default-branch-discovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-198-governance-gate-default-branch-discovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-198-governance-gate-default-branch-discovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a21bd2b7a59588fc0b9cb39525e9fcbabe2b13c535f5a1faf20b1ef44c307220",
+      "workItemId": "WI-198-governance-gate-default-branch-discovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-197-governance-gate-pr-closure.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-198-governance-gate-default-branch-discovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-198-governance-gate-default-branch-discovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-198-governance-gate-default-branch-discovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-198-governance-gate-default-branch-discovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-198-governance-gate-default-branch-discovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.contract.json"
+          ],
+          "inference": false,
+          "text": "让分离的 pull request 检出中的 pre-merge governance gate 保持确定性且 fail closed。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-198-governance-gate-default-branch-discovery"
+  },
+  "taskReportDigest": "sha256:2b4c09eb0cb9e233dfdcfe2d9f25f6dbea2fb4a5a66a3be01a765437760c1701",
+  "taskReportMarkdownDigest": "sha256:b8401e3b9abba75121fb70f43333a9e492bce971538a9033000b1bd33217adef",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-198-governance-gate-default-branch-discovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-198-governance-gate-default-branch-discovery"
+}

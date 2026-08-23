@@ -62,6 +62,58 @@ run_case spoofed-base-premerge-finalize 1 invalid_premerge_finalize
 run_case superseded-recovery 0 none
 run_case invalid-recovery 1 invalid_terminal_decision
 
+# A detached pull-request merge checkout may not retain origin/HEAD or event
+# base-ref metadata. The immutable Contract resource context is the narrow
+# fallback; strict PR identity checks must still reject an externally known
+# base-branch mismatch.
+fallback_repo="$tmp/detached-default-branch"
+fallback_report="$tmp/detached-default-branch-report.json"
+build_fixture "$fixtures/awaiting-merge-close.json" "$fallback_repo"
+git -C "$fallback_repo" symbolic-ref --delete refs/remotes/origin/HEAD
+git -C "$fallback_repo" checkout --detach -q
+env -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF -u GITHUB_REF \
+  GITHUB_EVENT_NAME=pull_request \
+  python3 "$gate" --repo "$fallback_repo" --report "$fallback_report" >/dev/null
+python3 - "$fallback_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert report["state"] == "passed", report
+item = next(
+    item
+    for item in report["inventory"]
+    if item["workItemId"] == "WI-901-corrective-after-baseline"
+)
+assert item["lifecycleState"] == "awaiting_merge_close", item
+PY
+
+mismatch_repo="$tmp/detached-default-branch-mismatch"
+mismatch_report="$tmp/detached-default-branch-mismatch-report.json"
+build_fixture "$fixtures/spoofed-base-premerge-finalize.json" "$mismatch_repo"
+git -C "$mismatch_repo" symbolic-ref --delete refs/remotes/origin/HEAD
+git -C "$mismatch_repo" checkout --detach -q
+set +e
+env -u GITHUB_EVENT_PATH GITHUB_EVENT_NAME=pull_request GITHUB_BASE_REF=main \
+  python3 "$gate" --repo "$mismatch_repo" --report "$mismatch_report" >/dev/null
+mismatch_code=$?
+set -e
+[[ "$mismatch_code" -eq 1 ]] || {
+  printf 'detached default-branch mismatch: expected exit 1, got %s\n' "$mismatch_code" >&2
+  exit 1
+}
+python3 - "$mismatch_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert any(
+    finding["workItemId"] == "WI-901-corrective-after-baseline"
+    and finding["code"] == "invalid_premerge_finalize"
+    for finding in report["findings"]
+), report["findings"]
+PY
+
 # The same repository snapshot must produce a byte-identical report.
 cp "$tmp/valid-report.json" "$tmp/valid-report-first.json"
 python3 "$gate" --repo "$tmp/valid" --report "$tmp/valid-report.json" >/dev/null

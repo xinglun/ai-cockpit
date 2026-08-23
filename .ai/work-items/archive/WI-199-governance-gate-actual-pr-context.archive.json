@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-23T13:49:12Z",
+  "files": {
+    "contractDigest": "sha256:593df29b5584f9f0cbfeccf977792e74e6e423189fd3faedb668f2b5db1c9c01",
+    "contractPath": ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.contract.json",
+    "eventsDigest": "sha256:ca73a03b389730ccf6410a709e500eaccd22ddbbeea6bc622d220f8d44fb607b",
+    "eventsPath": ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.events.jsonl",
+    "outcomeDigest": "sha256:00c5fc213911e4ab1739dae13b8442130592bcd121bdfa4c92a0f1f8f416c22f",
+    "outcomePath": ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.outcome.json",
+    "summaryDigest": "sha256:cb949a792dfdfa93608fda68d6f74dcc351e4666a0b424515a3ed86b1811b7d2",
+    "summaryPath": ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.summary.json",
+    "taskReportDigest": "sha256:294665a83d80051b347544415d6a6f1b777978f8a991e1beef214c0320205044",
+    "taskReportMarkdownDigest": "sha256:bc0a02c32d64fb1c40535620e8d09dbeb0afb1bba41095bffcfce5f3e2854020",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-199-governance-gate-actual-pr-context"
+}
