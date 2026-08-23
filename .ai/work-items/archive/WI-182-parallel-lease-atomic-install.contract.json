@@ -1,0 +1,61 @@
+{
+  "acceptanceCriteria": [
+    "Concurrent first-use acquisition never exposes an empty or malformed slot JSON; the existing first-use regression passes repeatedly.",
+    "A slot winner is bound to the lease bytes it publishes; a competing Work Item receives a valid distinct slot or a fail-closed capacity result.",
+    "The installed public Runtime v0.2.22 records verification evidence for the targeted regression and full required tests pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "66d97903ed0b67c168758e6f27b3d57405053c66",
+  "createdAt": "2026-08-23T07:32:27Z",
+  "goal": "Eliminate the parallel slot EOF race and prove concurrent first-use acquisition is fail-safe and race-safe.",
+  "intent": "Make first-use parallel lease publication atomic so concurrent Work Items cannot read a partially written lease JSON.",
+  "mode": "implementation",
+  "outOfScope": [
+    "docs/**",
+    ".github/**",
+    "crates/cockpit-cli/**"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:78e87092b6c4021f6a44766e9cc677beab9af38f269c3272c0976183ddffd9d8",
+  "requiredEvidenceClasses": [
+    "verification",
+    "parallel_boundary_regression",
+    "workspace_tests"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-182-parallel-lease-atomic-install",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/142",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "expected": "Two Work Items acquiring the first repository-local slots never observe an empty or partial lease JSON; each result is valid or fail-closed.",
+      "required": true,
+      "scenario": "concurrent first-use parallel slot acquisition",
+      "status": "unverified",
+      "verificationPlan": "Run the parallel boundary first-use regression repeatedly, the targeted package test, and the full workspace quality suite."
+    },
+    {
+      "expected": "A competing slot publication cannot overwrite another Work Item's lease bytes, and malformed or stale state remains fail-closed.",
+      "required": true,
+      "scenario": "parallel lease publication interruption or collision",
+      "status": "unverified",
+      "verificationPlan": "Exercise atomic publication and existing malformed/symlink lease tests, then inspect repository-local evidence and runtime identity."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/parallel_boundary.rs",
+    ".ai/evidence/WI-182-parallel-lease-atomic-install/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-182-parallel-lease-atomic-install"
+}

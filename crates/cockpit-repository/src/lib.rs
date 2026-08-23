@@ -10651,6 +10651,53 @@ fn parallel_slot_lease_id() -> String {
     format!("{}-{timestamp}-{sequence}", std::process::id())
 }
 
+/// Publish a newly acquired lease without exposing partially written JSON.
+///
+/// The final slot path is installed with a hard link only after the temporary
+/// file has been fully written and synced.  A hard link is used instead of a
+/// rename so a competing Work Item cannot overwrite the winner's lease bytes.
+fn publish_parallel_slot_lease(path: &Path, bytes: &[u8]) -> Result<bool, ObserverError> {
+    let sequence = NEXT_ATOMIC_WRITE_ID.fetch_add(1, Ordering::Relaxed);
+    let temporary = path.with_extension(format!("tmp-{}-{sequence}", std::process::id()));
+    let result = (|| {
+        let mut file = fs::OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(&temporary)
+            .map_err(|source| ObserverError::Read {
+                path: temporary.clone(),
+                source,
+            })?;
+        file.write_all(bytes)
+            .and_then(|()| file.sync_all())
+            .map_err(|source| ObserverError::Read {
+                path: temporary.clone(),
+                source,
+            })?;
+        drop(file);
+        match fs::hard_link(&temporary, path) {
+            Ok(()) => Ok(true),
+            Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => Ok(false),
+            Err(source) => Err(ObserverError::Read {
+                path: path.into(),
+                source,
+            }),
+        }
+    })();
+    let cleanup = fs::remove_file(&temporary);
+    match cleanup {
+        Ok(()) => result,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => result,
+        Err(source) => match result {
+            Ok(_) => Err(ObserverError::Read {
+                path: temporary,
+                source,
+            }),
+            Err(error) => Err(error),
+        },
+    }
+}
+
 fn read_parallel_slot_lease(path: &Path) -> Result<ParallelSlotLease, ObserverError> {
     if !is_regular_non_symlink(path)? {
         return Err(ObserverError::State {
@@ -10785,21 +10832,9 @@ pub fn acquire_parallel_slot(
                     path: path.clone(),
                     message: error.to_string(),
                 })?;
-            let mut file = match fs::OpenOptions::new()
-                .write(true)
-                .create_new(true)
-                .open(&path)
-            {
-                Ok(file) => file,
-                Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => continue,
-                Err(source) => return Err(ObserverError::Read { path, source }),
-            };
-            if let Err(source) = file.write_all(&bytes).and_then(|()| file.sync_all()) {
-                drop(file);
-                let _ = fs::remove_file(&path);
-                return Err(ObserverError::Read { path, source });
+            if publish_parallel_slot_lease(&path, &bytes)? {
+                return Ok(lease);
             }
-            return Ok(lease);
         }
         Err(ObserverError::State {
             path: leases,
