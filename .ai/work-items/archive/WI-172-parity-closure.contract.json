@@ -1,0 +1,43 @@
+{
+  "acceptanceCriteria": [
+    "WI-170 and WI-171 are marked Implemented in all three parity documents.",
+    "Each row links the immutable evidence and the merged PR/closure context without claiming historical failure was green.",
+    "Documentation acceptance and public v0.2.20 Runtime verification pass, and the main branch remains clean after merge."
+  ],
+  "authority": "authorized",
+  "baseRevision": "ec2cfef8f6978c8b2d112d84b963bc945db98720",
+  "createdAt": "2026-08-23T04:51:57Z",
+  "goal": "Mark WI-170 and WI-171 implemented in all parity documents with exact PR, archive, recovery, finalize, and close references, without rewriting historical Release truth.",
+  "intent": "Close the tri-language reference parity after the public v0.2.20 post-release reconciliation so documentation state matches immutable Work Item and PR evidence.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime/core code and schemas",
+    "Historical Release or Work Item archive bytes",
+    "New feature implementation or version bump"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3ce69b35c3a426e239b7d3361a3578fcbaae34e04e5bfce939c67913c491ec51",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-172-parity-closure",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/127",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-172-parity-closure"
+}
