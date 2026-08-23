@@ -1,18 +1,23 @@
 {
   "changedPaths": [
     ".ai/decisions/WI-220-release-v0-2-28-finalization-reconciliation-final.recovery.json",
-    ".ai/work-items/active/WI-221-release-v0-2-28-finalization-reconciliation-closure.contract.json",
-    ".ai/work-items/active/WI-221-release-v0-2-28-finalization-reconciliation-closure.summary.json",
+    ".ai/work-items/archive/WI-221-release-v0-2-28-finalization-reconciliation-closure.contract.json",
+    ".ai/work-items/archive/WI-221-release-v0-2-28-finalization-reconciliation-closure.summary.json",
     "tests/ci/__pycache__/governance_integrity_gate.cpython-314.pyc"
   ],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-08-23T21:19:51Z",
+  "checkpointCount": 1,
   "createdAt": "2026-08-23T21:17:40Z",
   "intentAlignment": {
     "reason": "The final closure is a bounded finalization recovery; the human-owned intent and closure decision remain explicit in the Contract and close receipt.",
     "state": "unknown"
   },
   "mode": "docs",
-  "preflightState": "not_run",
+  "preflightAt": "2026-08-23T21:21:26Z",
+  "preflightContractDigest": "sha256:517b7e7b25c8bb114241c4b90ef6bac04945f0dbf8f945630602e96303382f1f",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:c2016d6a400b66d7877597db7a8a56419757d616aa7476b99b2242fb2afffade",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -38,7 +43,7 @@
       "status": "unverified"
     }
   ],
-  "state": "implementation_active",
-  "updatedAt": "2026-08-23T21:19:06.131087+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T21:21:30Z",
   "workItemId": "WI-221-release-v0-2-28-finalization-reconciliation-closure"
 }
