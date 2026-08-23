@@ -1,0 +1,68 @@
+{
+  "acceptanceCriteria": [
+    "WI-214 recovery receipt binds the exact predecessor Contract, Summary, Outcome, and event digests.",
+    "Finalize-plan is recorded before successor preflight and verification with the reviewed PR context.",
+    "A valid pre-merge finalization receipt remains awaiting merge close; no false terminal close is claimed.",
+    "The successor emits a visible localized Outcome and remains recoverable until post-merge finalization."
+  ],
+  "authority": "authorized",
+  "baseRevision": "e4516c7b38cdfca2b0305233afa4791959ce9335",
+  "createdAt": "2026-08-23T19:21:04Z",
+  "goal": "Bind pre-merge finalization for the reviewed reference comparison and preserve a successor path for post-merge closure.",
+  "intent": "Complete the immutable predecessor post-archive finalization boundary without rewriting WI-214.",
+  "mode": "docs",
+  "outOfScope": [
+    "Reference comparison implementation",
+    "Runtime feature changes",
+    "provider/global Agent or MCP configuration",
+    "rewriting WI-214 archive bytes"
+  ],
+  "predecessorContractDigest": "sha256:bfe92839c73492ccf36e42ec8cabd326531aea06f2d4c3755e61977b32c28c68",
+  "predecessorWorkItemId": "WI-214-reference-file-comparison",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-214-reference-file-comparison.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5c2e12133e0dd4b33d7db5699848398e55fff9237fe30b9f8b778d3c0f10bb4e",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-214-reference-file-comparison",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/164",
+    "worktree": "/private/tmp/ai-cockpit-wi214-reference-file-comparison"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "scenario": "pre-merge finalization boundary",
+      "expected": "The successor binds the reviewed PR and records a valid awaiting-merge finalization receipt without claiming terminal closure.",
+      "required": true,
+      "status": "unverified",
+      "verificationPlan": "Run finalize-plan before preflight, execute the declared Runtime verification, archive, and record the provider-shaped pre-merge receipt."
+    },
+    {
+      "scenario": "immutable predecessor recovery",
+      "expected": "WI-214 archive, evidence, and recovery linkage remain byte-bound and are not rewritten.",
+      "required": true,
+      "status": "unverified",
+      "verificationPlan": "Validate the recovery receipt and predecessor digests during Runtime lifecycle and hosted governance checks."
+    }
+  ],
+  "scope": [
+    ".ai/decisions/**",
+    ".ai/work-items/**",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-215-reference-file-comparison-finalization"
+}

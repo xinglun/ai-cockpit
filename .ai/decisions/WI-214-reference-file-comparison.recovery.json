@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "post-archive-recovery",
+  "decidedAt": "2026-08-24T00:00:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-214-reference-file-comparison.outcome.json",
+    ".ai/evidence/WI-214-reference-file-comparison.verification.json"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:bfe92839c73492ccf36e42ec8cabd326531aea06f2d4c3755e61977b32c28c68",
+  "predecessorEventsDigest": "sha256:4fa5ae4b98a45365cac6cc437d8531251010f89e2ffbb0627ddb5752a22634b1",
+  "predecessorOutcomeDigest": "sha256:5ea413fa6a4dc551f2eaefd20e5e270aa4881c95a1341ba8f9246e98b9a4acf0",
+  "predecessorSummaryDigest": "sha256:4c4350855f209fbf3aab01c10b59100bc1d6c399f880a52d763f5e6b6c1c2e1e",
+  "predecessorWorkItemId": "WI-214-reference-file-comparison",
+  "reason": "WI-214 was archived before finalize-plan. Preserve its immutable comparison delivery and complete provider finalization through a clean post-merge successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Merge the reviewed comparison PR, then finalize and close the successor with the published Runtime.",
+  "runtimeDigest": "sha256:ea9a4a090307cb650eeda008942a5bc72fd0d1276b131405868f31d1eabcc048",
+  "runtimeVersion": "0.2.27",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-215-reference-file-comparison-finalization",
+  "workItemId": "WI-214-reference-file-comparison"
+}

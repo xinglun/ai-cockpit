@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-23T19:13:32Z",
+  "files": {
+    "approachDigest": "sha256:2be6e843f1b18c5e5dcee7eee3fae7c5bf7eaaa94fd790e0afd038aec04af9e4",
+    "approachPath": ".ai/work-items/archive/WI-214-reference-file-comparison.approach.json",
+    "contractDigest": "sha256:31138755262da6dde1d52a074ce181a616f0ad488bbb13ff7ffb15a6ccdb62d4",
+    "contractPath": ".ai/work-items/archive/WI-214-reference-file-comparison.contract.json",
+    "eventsDigest": "sha256:4fa5ae4b98a45365cac6cc437d8531251010f89e2ffbb0627ddb5752a22634b1",
+    "eventsPath": ".ai/work-items/archive/WI-214-reference-file-comparison.events.jsonl",
+    "outcomeDigest": "sha256:c83dd65eb59d9061462e90cdf3f25093df237d1e66ee144e3c80556d3bca7e65",
+    "outcomePath": ".ai/work-items/archive/WI-214-reference-file-comparison.outcome.json",
+    "summaryDigest": "sha256:2e8827b6750be1f2016b2eb2f9cad9fa2ea27d7a048797f5a85580827705e0af",
+    "summaryPath": ".ai/work-items/archive/WI-214-reference-file-comparison.summary.json",
+    "taskReportDigest": "sha256:1284d97c3bf70516ade0be472f32c1880247bd8e9865ecb5c941cd1ab9545546",
+    "taskReportMarkdownDigest": "sha256:3483ce48f4a3f39c6c0fbc37e0aa7735e7da5c2e15cbd1e5b89d64d661e2130f",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-214-reference-file-comparison.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-214-reference-file-comparison.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-214-reference-file-comparison"
+}

@@ -1,0 +1,151 @@
+{
+  "acceptanceResults": [
+    "Pin reference source e5acb677da6621004d96f0ef353c58fe8d3acfbf and target baseline 46e426625a8cae450f1190d0bdbafd6d8e648a90.",
+    "Every tracked reference path is assigned exactly one comparison classification and every first-batch path names a counterpart or explicit no-counterpart reason.",
+    "Tri-language human summary and machine-readable inventory reject unclassified first-batch files and preserve both immutable commits.",
+    "No reference implementation, generated history, or global provider configuration is copied.",
+    "Documentation/parity/inventory checks and installed v0.2.27 Runtime verification pass with a visible Outcome."
+  ],
+  "createdAt": "2026-08-23T19:13:15Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:5a5035bae507d6789d066b114f5361b658bfd0fb46bbd21db3e1625a3ffd8da4",
+  "evidenceRefs": [
+    ".ai/evidence/WI-214-reference-file-comparison.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-214-reference-file-comparison.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-214-reference-file-comparison.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1b1ed4f8e688969cfe215660c60af2b8dd64fa6080d207cd60a1df9478584755",
+      "workItemId": "WI-214-reference-file-comparison"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-214-reference-file-comparison.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-214-reference-file-comparison.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-214-reference-file-comparison.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-214-reference-file-comparison.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-214-reference-file-comparison.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-214-reference-file-comparison.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-214-reference-file-comparison.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-214-reference-file-comparison.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-214-reference-file-comparison.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-214-reference-file-comparison.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-214-reference-file-comparison.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-214-reference-file-comparison.contract.json"
+          ],
+          "inference": false,
+          "text": "Establish an evidence-backed, file-by-file parity baseline against the reference source without copying its implementation model."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-214-reference-file-comparison.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-214-reference-file-comparison"
+  },
+  "taskReportDigest": "sha256:1284d97c3bf70516ade0be472f32c1880247bd8e9865ecb5c941cd1ab9545546",
+  "taskReportMarkdownDigest": "sha256:3483ce48f4a3f39c6c0fbc37e0aa7735e7da5c2e15cbd1e5b89d64d661e2130f",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-214-reference-file-comparison.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-214-reference-file-comparison"
+}

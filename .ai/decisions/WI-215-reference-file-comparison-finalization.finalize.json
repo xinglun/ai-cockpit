@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "post-archive-recovery",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "e531f252533dc09ed0c05d65c132ac779e594395",
+    "name": "codex/wi-214-reference-file-comparison",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:ef8045ffb71d0d01c08efd346520a2ac18d9869ebe8e72e135222f7fd23cfd95",
+  "operationId": "operation-WI-215-reference-file-comparison-finalization-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "e4516c7b38cdfca2b0305233afa4791959ce9335",
+    "headRevision": "e531f252533dc09ed0c05d65c132ac779e594395",
+    "number": 164,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/164"
+  },
+  "reason": "awaiting_merge_close: PR #164 is unmerged; retain the reviewed reference comparison boundary until hosted checks pass and the merged default branch is available.",
+  "receiptId": "ai-cockpit-WI-215-reference-file-comparison-finalization-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-214-reference-file-comparison",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/164",
+    "worktree": "/private/tmp/ai-cockpit-wi214-reference-file-comparison"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:ea9a4a090307cb650eeda008942a5bc72fd0d1276b131405868f31d1eabcc048",
+  "runtimeVersion": "0.2.27",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-24T12:00:00+09:00",
+  "workItemId": "WI-215-reference-file-comparison-finalization",
+  "worktree": {
+    "branch": "codex/wi-214-reference-file-comparison",
+    "headRevision": "e531f252533dc09ed0c05d65c132ac779e594395",
+    "path": "/private/tmp/ai-cockpit-wi214-reference-file-comparison",
+    "worktreeId": "WI-215-reference-file-comparison-finalization"
+  }
+}

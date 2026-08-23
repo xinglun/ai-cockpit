@@ -27,6 +27,9 @@ capabilityClaims:
 - **延期**——有意不属于当前 Runtime 边界。
 - **外部边界**——由 Agent host、provider、组织或外部系统负责。
 
+固定的逐文件比较方法和首批台账见[参考源逐文件比较](reference-file-comparison.zh-CN.md)。该台账是防遗漏索引；
+本页仍是更高层的产品边界矩阵。
+
 ## 对齐矩阵
 
 | 参考关注点 | Rust Runtime 状态 | 证据与边界 |
@@ -147,6 +150,8 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-211——治理 fixture 事件上下文隔离（已恢复） | 已恢复 | [Work Item](../work-items/WI-211-hermetic-governance-fixture.zh-CN.md)；`.ai/evidence/WI-211-hermetic-governance-fixture.verification.json`；`.ai/decisions/WI-211-hermetic-governance-fixture.recovery.json`；不可变的 source-quality 修复保持不变，收尾边界由 WI-212 继续。 |
 | WI-212——WI-211 收尾恢复 | 已实现 | [Work Item](../work-items/WI-212-release-fixture-finalization-recovery.zh-CN.md)；`.ai/evidence/WI-212-release-fixture-finalization-recovery.verification.json`；`.ai/decisions/WI-211-hermetic-governance-fixture.recovery.json`；`.ai/decisions/WI-212-release-fixture-finalization-recovery.finalize.json`；`.ai/decisions/WI-212-release-fixture-finalization-recovery.finalize.13201203b2bc4c5ad0c2185d97c549e2a3901f23584186eb3a682a974cb65405.json`；`.ai/decisions/WI-212-release-fixture-finalization-recovery.finalize.c57751b722400115553edc6d1c66c4452335c06e0a736c54c1a344e1c0ca4818.json`；`.ai/decisions/WI-212-release-fixture-finalization-recovery.close.json`；PR #160 已以 `b5b521e` 合并，精确远程分支与 worktree 清理已验证。历史 evidence 保持不可变，由当前 Runtime 重新验证前按历史事实投影。 |
 | WI-213——v0.2.27 不可变发布与 adopter 验收 | 已实现 | [Work Item](../work-items/WI-213-release-v0-2-27.zh-CN.md)；`.ai/evidence/WI-213-release-v0-2-27.verification.json`；`.ai/decisions/WI-213-release-v0-2-27.finalize.json`；`.ai/decisions/WI-213-release-v0-2-27.finalize.36a0e04421064517281e64709c4fd103f75758c78a523f83a82e1af88f8fbe44.json`；`.ai/decisions/WI-213-release-v0-2-27.finalize.708014f642b04450d86e517d87d05ff773ca996fc741d5ef325c8206ed734d7f.json`；`.ai/decisions/WI-213-release-v0-2-27.close.json`；`.ai/evidence/external/v0.2.27/adopter-aarch64-apple-darwin/`；`.ai/evidence/external/v0.2.27/upgrade-v0.2.23-to-v0.2.27/`；PR #161 已以 `baf78f9` 合并，公开 Release [v0.2.27](https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.27) 与 workflow [32657788976](https://github.com/xinglun/ai-cockpit/actions/runs/32657788976) 通过。公开二进制的 adopter 生命周期与 v0.2.23→v0.2.27 升级验收均通过，并保留清理 receipt。 |
+| WI-214——参考源逐文件比较基线 | 已实现 | [参考源逐文件比较](reference-file-comparison.zh-CN.md)；`.ai/evidence/WI-214-reference-file-comparison.verification.json`；`.ai/decisions/WI-214-reference-file-comparison.recovery.json`。固定的 5,119 路径台账和首批治理入口已完成；不可变归档的关闭由 WI-215 在修复 finalize 顺序后继续。 |
+| WI-215——参考比较 finalize successor | 已实现 | `.ai/evidence/WI-215-reference-file-comparison-finalization.verification.json`；`.ai/decisions/WI-215-reference-file-comparison-finalization.finalize.json`；`.ai/decisions/WI-214-reference-file-comparison.recovery.json`。successor 在 verification 前绑定 PR #164 context，并记录等待合并关闭边界，不改写 WI-214。 |
 | WI-159——Runtime 资源收尾集成 | 已实现 | `.ai/evidence/WI-159-resource-finalization-runtime.verification.json`；`.ai/decisions/WI-159-resource-finalization-runtime.close.json`；最终化 receipt 历史保存在 `.ai/evidence/external/WI-159-finalization/`。 |
 | WI-160——资源收尾与 branch/worktree 关闭基线 | 已实现 | [Work Item](../work-items/WI-160-resource-finalization-baseline.zh-CN.md)；`.ai/evidence/WI-160-resource-finalization-baseline.verification.json`；`.ai/work-items/archive/WI-160-resource-finalization-baseline.archive.json`；`.ai/decisions/WI-160-resource-finalization-baseline.close.json`。Runtime 命令/receipt 集成由 WI-159 实现，Runtime 升级后的历史 evidence close 兼容由 WI-161 覆盖。 |
 | WI-161——历史 Runtime evidence 的关闭兼容 | 已实现 | [Work Item](../work-items/WI-161-historical-runtime-close.zh-CN.md)；归档 evidence 保持不可变，foreign Runtime bytes 作为历史事实投影。回归证据：`.ai/evidence/WI-161-historical-runtime-close.verification.json` |
