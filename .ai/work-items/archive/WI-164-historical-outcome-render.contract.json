@@ -1,0 +1,30 @@
+{
+  "acceptanceCriteria": [
+    "Historical Runtime and legacy archived evidence render localized historical context without missing-evidence or recovery text.",
+    "Active contradictory evidence remains red and fail-closed.",
+    "Three-language human Outcome regression tests pass."
+  ],
+  "authority": "missing",
+  "baseRevision": "78e3a025c97f012379de4735b4da0a589b1e85d6",
+  "createdAt": "2026-08-23T02:20:11Z",
+  "goal": "Prevent older Runtime evidence from being presented as a current missing-evidence failure.",
+  "intent": "Render archived historical evidence as historical context in human Outcome output.",
+  "mode": "implementation",
+  "outOfScope": [],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:09268c4f8604376b40500a769111f00a0de2f5c26402d661279aa8d01f3e8598",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/**",
+    "docs/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-164-historical-outcome-render"
+}
