@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "pre-merge-release-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "1a65da3cffb9d97847bb41eef0ad2e3ca2e73d2f",
+    "name": "codex/wi-216-release-v0-2-28",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:08c552ab0aa259f449c6cefbb9f1cea732edcf15d3461fbad5d50a42c800348b",
+  "operationId": "operation-WI-216-release-v0-2-28-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "13f5f4f61034b2654a6e1676900efe39e92e86c5",
+    "headRevision": "1a65da3cffb9d97847bb41eef0ad2e3ca2e73d2f",
+    "number": 165,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/165"
+  },
+  "reason": "awaiting_merge_close: PR #165 is unmerged; retain the reviewed v0.2.28 release boundary until hosted checks pass, the tag is published, and post-release acceptance completes.",
+  "receiptId": "ai-cockpit-WI-216-release-v0-2-28-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-216-release-v0-2-28",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/165",
+    "worktree": "/private/tmp/ai-cockpit-wi216-release-v0-2-28"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:ea9a4a090307cb650eeda008942a5bc72fd0d1276b131405868f31d1eabcc048",
+  "runtimeVersion": "0.2.27",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-24T12:35:00+09:00",
+  "workItemId": "WI-216-release-v0-2-28",
+  "worktree": {
+    "branch": "codex/wi-216-release-v0-2-28",
+    "headRevision": "1a65da3cffb9d97847bb41eef0ad2e3ca2e73d2f",
+    "path": "/private/tmp/ai-cockpit-wi216-release-v0-2-28",
+    "worktreeId": "WI-216-release-v0-2-28"
+  }
+}
