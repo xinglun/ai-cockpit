@@ -1,0 +1,179 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-160-resource-finalization-baseline.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:6f98d219c0ee126cfb60d4a038fd51db8a84cb720a8d27c30a577f29bc1de8a7",
+    "workItemId": "WI-160-resource-finalization-baseline"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-160-resource-finalization-baseline.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-160-resource-finalization-baseline.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-160-resource-finalization-baseline.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-160-resource-finalization-baseline.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-160-resource-finalization-baseline.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/agent-workflow.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-160-resource-finalization-baseline.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/agent-workflow.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-160-resource-finalization-baseline.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/agent-workflow.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-160-resource-finalization-baseline.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-160-resource-finalization-baseline.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-160-resource-finalization-baseline.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-160-resource-finalization-baseline.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-160-resource-finalization-baseline.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-160-resource-finalization-baseline.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-160-resource-finalization-baseline.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-160-resource-finalization-baseline.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-160-resource-finalization-baseline.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-160-resource-finalization-baseline.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/workflow/resource_finalization_policy.sh"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-160-resource-finalization-baseline.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/workflow/resource_finalization_policy_test.sh"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-160-resource-finalization-baseline.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-160-resource-finalization-baseline.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-160-resource-finalization-baseline.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-160-resource-finalization-baseline.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-160-resource-finalization-baseline.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-160-resource-finalization-baseline.contract.json"
+        ],
+        "inference": false,
+        "text": "Establish a tri-lingual, executable resource-finalization baseline for branch and worktree closure without claiming Runtime CLI implementation."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-160-resource-finalization-baseline.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-160-resource-finalization-baseline"
+}

@@ -1,0 +1,57 @@
+{
+  "acceptanceCriteria": [
+    "Tri-lingual agent-workflow pages require the finalize-plan, finalize, and finalize-verify closure boundaries.",
+    "The policy gate requires fail-closed unknown or retained-resource semantics and forbids silent branch deletion or close before cleanup.",
+    "The gate and its test pass without Runtime source changes and explicitly label CLI integration as pending.",
+    "Reference parity and WI-160 documentation agree on the current boundary and evidence paths."
+  ],
+  "authority": "authorized",
+  "baseRevision": "785112bb2d39dace9826808cb0742b8be845799e",
+  "createdAt": "2026-08-23T00:44:13Z",
+  "goal": "Establish a tri-lingual, executable resource-finalization baseline for branch and worktree closure without claiming Runtime CLI implementation.",
+  "intent": "Prevent a merged Work Item from being closed while its exact branch and worktree remain unresolved or silently deleted.",
+  "mode": "code",
+  "outOfScope": [
+    "crates/** and Runtime implementation",
+    "AGENTS.md and .ai/**",
+    "global Agent or MCP configuration",
+    ".github/workflows/** and provider-side automation",
+    "Deleting or modifying existing branches or worktrees"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e5584fe01c8d07dd1fe9f05bec963149303d6a120e3fe4f1bc065ea1b14761aa",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "low",
+  "scope": [
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-160-resource-finalization-baseline.md",
+    "docs/work-items/WI-160-resource-finalization-baseline.ja.md",
+    "docs/work-items/WI-160-resource-finalization-baseline.zh-CN.md",
+    "tests/workflow/resource_finalization_policy.sh",
+    "tests/workflow/resource_finalization_policy_test.sh"
+  ],
+  "sources": [
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.zh-CN.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "tests/workflow/resource_finalization_policy_test.sh",
+    "tests/docs/documentation_acceptance.sh",
+    "git diff --check"
+  ],
+  "workItemId": "WI-160-resource-finalization-baseline"
+}
