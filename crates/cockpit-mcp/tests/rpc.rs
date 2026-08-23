@@ -666,6 +666,19 @@ fn repository_bound_verify_binds_evidence_after_command_side_effects() {
         },
     )
     .expect("start");
+    cockpit_repository::plan_resource_finalization(
+        &directory,
+        "WI-MCP-SIDE-EFFECT",
+        &cockpit_protocol::ResourceFinalizationContext {
+            branch: "feature/WI-MCP-SIDE-EFFECT".into(),
+            worktree: directory.display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: "https://github.com/example/ai-cockpit/pull/WI-MCP-SIDE-EFFECT".into(),
+        },
+    )
+    .expect("finalization plan");
     let contract_path = directory.join(".ai/work-items/active/WI-MCP-SIDE-EFFECT.contract.json");
     cockpit_repository::preflight_work_item(&directory, &contract_path).expect("preflight");
     cockpit_repository::checkpoint_work_item(&directory, "WI-MCP-SIDE-EFFECT").expect("checkpoint");

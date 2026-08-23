@@ -334,6 +334,7 @@ fn current_runtime_lifecycle_rejects_foreign_runtime_evidence() {
     let current = runtime("current");
     let foreign = runtime("foreign");
     start(&directory, "WI-110-RUNTIME");
+    plan(&directory, "WI-110-RUNTIME");
     record_typed(&directory, "WI-110-RUNTIME", &current);
     let error = finish_work_item_with_runtime(directory.path(), "WI-110-RUNTIME", &foreign)
         .expect_err("foreign runtime evidence must not finish");

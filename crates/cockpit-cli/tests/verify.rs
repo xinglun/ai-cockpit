@@ -5,6 +5,9 @@ use std::{
     time::{SystemTime, UNIX_EPOCH},
 };
 
+#[allow(dead_code)]
+mod common;
+
 static NEXT_REPOSITORY_ID: AtomicU64 = AtomicU64::new(0);
 
 #[test]
@@ -395,6 +398,7 @@ fn verification_evidence_uses_snapshot_after_command_side_effects() {
             .expect("start")
             .success()
     );
+    common::plan(binary, &directory, "WI-SIDE-EFFECT");
     assert!(
         Command::new(binary)
             .args(["preflight", "--repo"])
@@ -540,6 +544,7 @@ fn multi_command_evidence_uses_one_snapshot_after_all_workers_finish() {
             .expect("start")
             .success()
     );
+    common::plan(binary, &directory, "WI-FINAL-SNAPSHOT");
     assert!(
         Command::new(binary)
             .args(["preflight", "--repo"])

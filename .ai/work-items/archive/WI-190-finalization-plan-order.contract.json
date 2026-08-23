@@ -29,18 +29,45 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-187-finalization-before-archive",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/150",
     "worktree": "/private/tmp/ai-cockpit-wi187-finalization-before-archive"
   },
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "scenario": "finish_without_finalization_plan",
+      "required": true,
+      "status": "unverified",
+      "expected": "finish rejects before creating finish_ready or task report artifacts",
+      "verificationPlan": "focused repository and CLI regressions",
+      "evidence": []
+    },
+    {
+      "scenario": "archive_with_tampered_provisional_plan",
+      "required": true,
+      "status": "unverified",
+      "expected": "archive rejects before moving or changing active bytes",
+      "verificationPlan": "focused repository archive integrity regression",
+      "evidence": []
+    },
+    {
+      "scenario": "valid_plan_and_immutable_recovery",
+      "required": true,
+      "status": "unverified",
+      "expected": "valid plan permits lifecycle while WI-186 and WI-187 predecessor bytes remain immutable",
+      "verificationPlan": "protocol, archive integrity, recovery, and workspace suites",
+      "evidence": []
+    }
+  ],
   "scope": [
     "crates/cockpit-protocol/**",
     "crates/cockpit-repository/**",
     "crates/cockpit-cli/**",
+    "crates/cockpit-mcp/tests/rpc.rs",
     "tests/**",
     "docs/work-items/WI-187-finalization-before-archive.md",
     "docs/work-items/WI-187-finalization-before-archive.zh-CN.md",

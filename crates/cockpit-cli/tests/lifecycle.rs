@@ -465,6 +465,7 @@ fn archive_failure_keeps_active_files_for_recovery() {
         .output()
         .expect("start");
     assert!(start.status.success());
+    common::plan(binary, &repo, "WI-RECOVER");
     let preflight = run_output(
         binary,
         &[
@@ -583,6 +584,7 @@ fn in_scope_changes_do_not_stale_contract_and_out_of_scope_changes_cannot_finish
         .status
         .success()
     );
+    common::plan(binary, &repo, "WI-SCOPE");
     fs::write(
         repo.join("src/main.rs"),
         "fn main() { println!(\"ok\"); }\n",

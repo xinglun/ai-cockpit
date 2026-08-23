@@ -1,7 +1,9 @@
 use cockpit_core::{DecisionState, Digest};
+use cockpit_protocol::ResourceFinalizationContext;
 use cockpit_repository::{
-    WorkItemStartOptions, attach, checkpoint_work_item, finish_work_item, preflight_work_item,
-    record_verification, start_work_item_with_options,
+    WorkItemStartOptions, attach, checkpoint_work_item, finish_work_item,
+    plan_resource_finalization, preflight_work_item, record_verification,
+    start_work_item_with_options,
 };
 use std::{fs, process::Command};
 
@@ -99,6 +101,19 @@ fn checkpoint_requires_preflight_and_duplicate_checkpoint_is_rejected() {
 fn verification_promotes_initial_yellow_preflight_and_allows_recovery() {
     let directory = repository();
     start(directory.path(), "WI-ORDER-RECOVER", &["verification"]);
+    plan_resource_finalization(
+        directory.path(),
+        "WI-ORDER-RECOVER",
+        &ResourceFinalizationContext {
+            branch: "feature/WI-ORDER-RECOVER".into(),
+            worktree: directory.path().display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: "https://github.com/example/ai-cockpit/pull/WI-ORDER-RECOVER".into(),
+        },
+    )
+    .expect("finalization plan");
     let decision = preflight_work_item(
         directory.path(),
         &contract(directory.path(), "WI-ORDER-RECOVER"),
