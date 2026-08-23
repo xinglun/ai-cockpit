@@ -27,28 +27,28 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-216-release-v0-2-28",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/165",
     "worktree": "/private/tmp/ai-cockpit-wi216-release-v0-2-28"
   },
   "risk": "high",
   "scenarioCoverage": [
     {
-      "scenario": "immutable public release",
       "expected": "The v0.2.28 tag and all public artifacts bind to the reviewed merged default-branch commit and workspace version.",
       "required": true,
+      "scenario": "immutable public release",
       "status": "unverified",
       "verificationPlan": "Run source consistency and release workflow gates, then compare the public manifest, checksums, and downloaded binary identity."
     },
     {
-      "scenario": "post-release adopter and N-1 acceptance",
       "expected": "Downloaded v0.2.28 and v0.2.27 artifacts complete isolated adopter and upgrade acceptance without source fallback or Release truth rewrite.",
-      "required": false,
-      "status": "not_applicable",
       "reason": "The public v0.2.28 artifact does not exist until this reviewed Work Item is merged and its immutable tag is published.",
+      "required": false,
+      "scenario": "post-release adopter and N-1 acceptance",
+      "status": "not_applicable",
       "verificationPlan": "Run the public adopter and upgrade acceptance workflows and bind their runtime, isolation, cleanup, evidence-reuse, and Outcome receipts."
     }
   ],

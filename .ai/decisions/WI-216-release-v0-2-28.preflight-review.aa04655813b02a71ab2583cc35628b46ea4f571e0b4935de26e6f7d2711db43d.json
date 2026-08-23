@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:305ee88d65945d8ee57398c1d1edec14249c72efd8f61ea68c121f9ea2e62975",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "确认本 Work Item 只发布已合并的参考源逐文件比较基线；未发布的 adopter 与 N-1 场景在发布前保持 not_applicable，不把未知事实伪造为绿色。",
+  "recordedAt": "2026-08-24T12:20:00+09:00",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0db56c4b010073effc37f1617e13d6e6da2c1174616de8975c2dc6c52899fd5a",
+  "schemaVersion": 1,
+  "workItemId": "WI-216-release-v0-2-28"
+}

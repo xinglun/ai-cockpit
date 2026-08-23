@@ -16,33 +16,36 @@
   "checkpointCount": 1,
   "createdAt": "2026-08-23T19:40:15Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:d8ff4d8ce09a626c1c657b924a18eb4ecb3b130e447405ceba79f590f8315efd",
+    "contractDigest": "sha256:305ee88d65945d8ee57398c1d1edec14249c72efd8f61ea68c121f9ea2e62975",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:dfac66d6cd6f0105e7316dba3fd0f4a204bd6c77aaa3bd58a16f2e9a6cb593e9",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
     "reason": "确认本 Work Item 只发布已合并的参考源逐文件比较基线；未发布的 adopter 与 N-1 场景在发布前保持 not_applicable，不把未知事实伪造为绿色。",
     "recordedAt": "2026-08-24T12:20:00+09:00",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:ead5816ee9f891247a9556dbe91c5be5a346c3918794ed927ee5605302cc7951",
+    "repositorySnapshotDigest": "sha256:0db56c4b010073effc37f1617e13d6e6da2c1174616de8975c2dc6c52899fd5a",
     "schemaVersion": 1,
     "workItemId": "WI-216-release-v0-2-28"
   },
+  "failedGate": "finish.governance",
   "intentAlignment": {
-    "evidenceRefs": [
+    "evidence": [
       "Cargo.toml",
       "docs/reference/reference-parity.md"
     ],
-    "status": "resolved",
+    "state": "resolved",
     "summary": "Release only the merged reference-comparison baseline and establish the next immutable installation baseline."
   },
   "mode": "implementation",
-  "preflightAt": "2026-08-23T19:46:26Z",
-  "preflightContractDigest": "sha256:d8ff4d8ce09a626c1c657b924a18eb4ecb3b130e447405ceba79f590f8315efd",
-  "preflightDecisionDigest": "sha256:dfac66d6cd6f0105e7316dba3fd0f4a204bd6c77aaa3bd58a16f2e9a6cb593e9",
-  "preflightRepositorySnapshotDigest": "sha256:ead5816ee9f891247a9556dbe91c5be5a346c3918794ed927ee5605302cc7951",
-  "preflightState": "yellow",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-23T19:50:52Z",
+  "preflightContractDigest": "sha256:305ee88d65945d8ee57398c1d1edec14249c72efd8f61ea68c121f9ea2e62975",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:0db56c4b010073effc37f1617e13d6e6da2c1174616de8975c2dc6c52899fd5a",
+  "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -69,7 +72,7 @@
       "verificationPlan": "Run the public adopter and upgrade acceptance workflows and bind their runtime, isolation, cleanup, evidence-reuse, and Outcome receipts."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-08-23T19:46:26.652539+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T19:51:35Z",
   "workItemId": "WI-216-release-v0-2-28"
 }
