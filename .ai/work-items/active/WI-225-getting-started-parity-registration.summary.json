@@ -1,0 +1,23 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-223-getting-started-parity.recovery.json",
+    ".ai/work-items/active/WI-225-getting-started-parity-registration.contract.json",
+    ".ai/work-items/active/WI-225-getting-started-parity-registration.summary.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-08-23T22:27:20Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:ca0c6d4c28d96a02f4cd54a910e06bf4f3af7c753a55158252129b124560a005",
+  "predecessorWorkItemId": "WI-223-getting-started-parity",
+  "preflightAt": "2026-08-23T22:28:26Z",
+  "preflightContractDigest": "sha256:1035184323dde6928e987b2aba5314aa7b38cad3f35d81c0399628040384f473",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:36a7013dcb8319adc84641c66b8fa764fc46b3d483d5d63bd1e1a7720d31a3f4",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-223-getting-started-parity.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "updatedAt": "2026-08-23T22:27:53Z",
+  "workItemId": "WI-225-getting-started-parity-registration"
+}
