@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "repository-owner",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "71e588c10c9b92b50bc5c0f9d339d42242f4b83e",
+    "name": "codex/wi-169-release-v0-2-20",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:f398b7e3c57d9e14371bb2bf7a56c8c56705d417201a858e43c4ff10fe9049ff",
+  "operationId": "retain-WI-169-release-v0-2-20",
+  "provider": "github-release",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "71e588c10c9b92b50bc5c0f9d339d42242f4b83e",
+    "headRevision": "71e588c10c9b92b50bc5c0f9d339d42242f4b83e",
+    "mergeCommit": "71e588c10c9b92b50bc5c0f9d339d42242f4b83e",
+    "number": 169,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/wi-169"
+  },
+  "reason": "Retain the release Work Item evidence until the immutable public Release and post-release acceptance complete.",
+  "receiptId": "ai-cockpit-WI-169-release-v0-2-20",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-169-release-v0-2-20",
+    "provider": "github-release",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/wi-169",
+    "worktree": "/private/tmp/ai-cockpit-wi-169-release-v0-2-20"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:69ffdbab4e287f10ef426a0fbe269be52bd47240a79926c4365fecc988031218",
+  "runtimeVersion": "0.2.19",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-23T04:13:32Z",
+  "workItemId": "WI-169-release-v0-2-20",
+  "worktree": {
+    "branch": "codex/wi-169-release-v0-2-20",
+    "headRevision": "71e588c10c9b92b50bc5c0f9d339d42242f4b83e",
+    "path": "/private/tmp/ai-cockpit-wi-169-release-v0-2-20",
+    "worktreeId": "WI-169-release-v0-2-20"
+  }
+}
