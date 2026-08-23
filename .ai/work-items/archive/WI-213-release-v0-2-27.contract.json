@@ -29,35 +29,35 @@
     "external"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-213-release-v0-2-27",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/161",
     "worktree": "/private/tmp/ai-cockpit-wi213-release-v0-2-27"
   },
   "risk": "high",
   "scenarioCoverage": [
     {
-      "scenario": "version and release baseline",
       "expected": "All current version, distribution, architecture, and parity baselines resolve to v0.2.27.",
-      "verificationPlan": "Run version consistency, documentation, parity, and hosted release checks.",
+      "required": true,
+      "scenario": "version and release baseline",
       "status": "unverified",
-      "required": true
+      "verificationPlan": "Run version consistency, documentation, parity, and hosted release checks."
     },
     {
-      "scenario": "immutable public adopter",
       "expected": "Downloaded v0.2.27 completes isolated adopter acceptance without source fallback.",
-      "verificationPlan": "Run tests/release/adopter_acceptance.sh against the published tag.",
+      "required": true,
+      "scenario": "immutable public adopter",
       "status": "unverified",
-      "required": true
+      "verificationPlan": "Run tests/release/adopter_acceptance.sh against the published tag."
     },
     {
-      "scenario": "N-1 upgrade and Runtime close",
       "expected": "The public v0.2.27 Runtime completes N-1 acceptance and WI-212 post-merge finalization, finalize-verify, and close.",
-      "verificationPlan": "Run tests/release/adopter_upgrade_acceptance.sh and post-release lifecycle with the downloaded binary.",
+      "required": true,
+      "scenario": "N-1 upgrade and Runtime close",
       "status": "unverified",
-      "required": true
+      "verificationPlan": "Run tests/release/adopter_upgrade_acceptance.sh and post-release lifecycle with the downloaded binary."
     }
   ],
   "scope": [

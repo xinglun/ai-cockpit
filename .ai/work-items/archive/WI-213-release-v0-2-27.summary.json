@@ -8,6 +8,12 @@
           "path": "tests/release/version_consistency.sh",
           "type": "test",
           "verification": "passed"
+        },
+        {
+          "locator": "documentation acceptance",
+          "path": "tests/docs/documentation_acceptance.sh",
+          "type": "test",
+          "verification": "passed"
         }
       ]
     },
@@ -15,10 +21,10 @@
       "acceptanceId": "A2",
       "evidence": [
         {
-          "locator": "merged PR #160 source",
-          "path": ".ai/decisions/WI-212-release-fixture-finalization-recovery.finalize.json",
-          "type": "decision",
-          "verification": "pending"
+          "locator": "PR #161 pre-merge resource context",
+          "path": ".ai/work-items/active/WI-213-release-v0-2-27.contract.json",
+          "type": "contract",
+          "verification": "finalize-plan recorded before verification"
         }
       ]
     },
@@ -29,7 +35,7 @@
           "locator": "public adopter receipt",
           "path": "tests/release/adopter_acceptance.sh",
           "type": "test",
-          "verification": "pending"
+          "verification": "pending until public Release"
         }
       ]
     },
@@ -40,7 +46,7 @@
           "locator": "isolation and cleanup receipt",
           "path": "tests/release/adopter_acceptance.sh",
           "type": "test",
-          "verification": "pending"
+          "verification": "pending until public Release"
         }
       ]
     },
@@ -51,7 +57,7 @@
           "locator": "installed Runtime WI-212 close",
           "path": ".ai/decisions/WI-212-release-fixture-finalization-recovery.close.json",
           "type": "decision",
-          "verification": "pending"
+          "verification": "pending until post-merge public Runtime"
         }
       ]
     },
@@ -62,16 +68,17 @@
           "locator": "immutable failed history",
           "path": ".ai/work-items/archive/WI-210-release-v0-2-26.archive.json",
           "type": "archive",
-          "verification": "passed"
+          "verification": "preserved"
         }
       ]
     }
   ],
   "changedPaths": [
-    ".ai/work-items/active/WI-213-release-v0-2-27.contract.json",
-    ".ai/work-items/active/WI-213-release-v0-2-27.summary.json"
+    ".ai/work-items/archive/WI-213-release-v0-2-27.contract.json",
+    ".ai/work-items/archive/WI-213-release-v0-2-27.summary.json"
   ],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-08-23T18:06:10Z",
+  "checkpointCount": 1,
   "createdAt": "2026-08-23T18:00:12Z",
   "intentAlignment": {
     "evidence": [
@@ -79,15 +86,15 @@
       "docs/release/distribution.md",
       "docs/reference/reference-parity.md"
     ],
-    "reason": "The release Work Item binds the merged source, immutable public artifact, and installed Runtime acceptance without expanding into the next reference-source parity batch.",
+    "reason": "The release Work Item binds merged source, immutable public artifact, and installed Runtime acceptance without expanding into the next reference-source parity batch.",
     "state": "resolved"
   },
   "mode": "code",
-  "preflightAt": "2026-08-23T18:05:26Z",
-  "preflightContractDigest": "sha256:5f8572654e962912ed5fce2ca65bbd441c3132c150d90614f633ef9ea786f127",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:b580d803fdf31a77f6fedb1a888a0a3059a7acb42e61e42e756d3178a9ec590e",
-  "preflightState": "yellow",
+  "preflightAt": "2026-08-23T18:11:13Z",
+  "preflightContractDigest": "sha256:ffb122d5faa491bdc62a96f84babcce77795c8aa5bdfe731d2c7100b2711b67c",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:b382bb250b4c4e8a8085a0c2d3383a4477a653dc729f6d9299eb72ade8f36f79",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -105,28 +112,25 @@
       "verificationPlan": "Run version consistency, documentation, parity, and hosted release checks."
     },
     {
-      "evidence": [
-        "tests/release/adopter_acceptance.sh"
-      ],
+      "evidence": [],
       "expected": "Downloaded v0.2.27 completes isolated adopter acceptance without source fallback.",
-      "required": true,
+      "reason": "The public Release asset does not exist until the reviewed PR is merged and the immutable tag is published; post-release evidence is bound after publication.",
+      "required": false,
       "scenario": "immutable public adopter",
-      "status": "unverified",
+      "status": "not_applicable",
       "verificationPlan": "Run tests/release/adopter_acceptance.sh against the published tag."
     },
     {
-      "evidence": [
-        "tests/release/adopter_upgrade_acceptance.sh",
-        ".ai/decisions/WI-212-release-fixture-finalization-recovery.finalize.json"
-      ],
+      "evidence": [],
       "expected": "The public v0.2.27 Runtime completes N-1 acceptance and WI-212 post-merge finalization, finalize-verify, and close.",
-      "required": true,
+      "reason": "The public Runtime and immutable Release are not available until post-merge publication; transition evidence is bound after publication.",
+      "required": false,
       "scenario": "N-1 upgrade and Runtime close",
-      "status": "unverified",
+      "status": "not_applicable",
       "verificationPlan": "Run tests/release/adopter_upgrade_acceptance.sh and post-release lifecycle with the downloaded binary."
     }
   ],
-  "state": "implementation_active",
-  "updatedAt": "2026-08-23T18:04:54.850674+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T18:11:58Z",
   "workItemId": "WI-213-release-v0-2-27"
 }
