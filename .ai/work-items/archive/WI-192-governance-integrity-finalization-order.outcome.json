@@ -1,0 +1,140 @@
+{
+  "acceptanceResults": [
+    "The integrity gate dynamically discovers active and archived Work Items without a hard-coded WI range.",
+    "The gate emits an auditable JSON receipt with deterministic findings and fails closed on an unregistered broken link.",
+    "Historical or legacy records are explicitly classified and do not masquerade as current release failures.",
+    "Regression fixtures cover missing Work Item, missing evidence, missing close, historical exemption, unknown problem, foreign receipt, and spoofed default-branch cases.",
+    "Documentation parity and workflow/release/conformance/performance gates are invoked in CI without duplicate conflicting execution.",
+    "Workspace package test coverage is derived from cargo metadata and fails when a package is omitted.",
+    "Only tests, docs, GitHub workflow files, and Runtime-generated WI-188/WI-192 lifecycle records are changed; no crates are changed.",
+    "The compatibility finding for installed Runtime v0.2.23 finish ordering is preserved and the successor runs finalize-plan before preflight, checkpoint, verify, finish, and archive."
+  ],
+  "createdAt": "2026-08-23T11:05:00Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:44dbf3fabef3da6b6067b59c4312be4d39958105387515c1ac0cbd5bf029efb6",
+  "evidenceRefs": [
+    ".ai/evidence/WI-192-governance-integrity-finalization-order.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-192-governance-integrity-finalization-order.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-192-governance-integrity-finalization-order.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8805e4fd0b632b4a16100bb970d9681bb739ef3597516609360d652bef6d4dbd",
+      "workItemId": "WI-192-governance-integrity-finalization-order"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-192-governance-integrity-finalization-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-192-governance-integrity-finalization-order.contract.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-192-governance-integrity-finalization-order.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-192-governance-integrity-finalization-order.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-192-governance-integrity-finalization-order.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-192-governance-integrity-finalization-order.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-192-governance-integrity-finalization-order.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-192-governance-integrity-finalization-order.contract.json"
+          ],
+          "inference": false,
+          "text": "Bind exact PR resource context before preflight and reverify the completed WI-188 governance integrity implementation without changing its product scope."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-192-governance-integrity-finalization-order.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-192-governance-integrity-finalization-order"
+  },
+  "taskReportDigest": "sha256:a4af31ef39b98d652def1dce383d4d10393fbbc4d193e4b0eb48f9ebaefae26a",
+  "taskReportMarkdownDigest": "sha256:748d452cc643591272ca0b0524eebff4ae5cfd1b997e63ee16cc18ee08ec4cf2",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-192-governance-integrity-finalization-order.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-192-governance-integrity-finalization-order"
+}
