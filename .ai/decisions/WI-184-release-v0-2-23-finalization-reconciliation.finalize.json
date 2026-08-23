@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "post-merge-resource-finalization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "6205a87461e703c0cfbc3ff01f7b8d8db22f258a",
+    "name": "codex/wi-183-release-v0-2-23",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:5c10e2169369e39d0bc89c3347f1d246fb21bf1151ef36a2fc42f8eac99f0034",
+  "operationId": "operation-WI-184-release-v0-2-23-finalization-reconciliation",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "a7f3b89eab3cbfc1ef88b1beef0a05ea0a51f3b8",
+    "headRevision": "6205a87461e703c0cfbc3ff01f7b8d8db22f258a",
+    "mergeCommit": "1778e3ca76487d913026346765fabf7c10cab480",
+    "number": 145,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/145"
+  },
+  "reason": "Finalize the merged v0.2.23 release baseline predecessor and prove exact remote and local branch cleanup before publishing the release.",
+  "receiptId": "ai-cockpit-WI-184-release-v0-2-23-finalization-reconciliation",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-183-release-v0-2-23",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/145",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:fff455d0d88d9ca4fa96b5caba85d8a6a198e131bd6ecc5a33dd9bc5cc180ab2",
+  "runtimeVersion": "0.2.22",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-23T08:38:00Z",
+  "workItemId": "WI-184-release-v0-2-23-finalization-reconciliation",
+  "worktree": {
+    "branch": "codex/wi-183-release-v0-2-23",
+    "headRevision": "6205a87461e703c0cfbc3ff01f7b8d8db22f258a",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit",
+    "worktreeId": "WI-184-release-v0-2-23-finalization-reconciliation"
+  }
+}

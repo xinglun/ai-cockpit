@@ -1,0 +1,23 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-184-release-v0-2-23-finalization-reconciliation.close.json",
+    ".ai/decisions/WI-184-release-v0-2-23-finalization-reconciliation.finalize.json"
+  ],
+  "checkpointAt": "2026-08-23T08:40:00Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T08:39:47Z",
+  "failedGate": "finish.preflight",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-23T08:42:29Z",
+  "preflightContractDigest": "sha256:91add696f716ebb891374b2061525c1b4d7e059733a03751884791dcb2d69b74",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:8ed4ef4c075c34b2ab336be3225da47b4621dac044dde7388da089ffbad97223",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record a fresh non-red preflight result, then retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T08:42:33Z",
+  "workItemId": "WI-185-release-v0-2-23-parity-closure"
+}
