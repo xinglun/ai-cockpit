@@ -114,20 +114,37 @@ jobs:
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
         with:
           toolchain: 1.94.1
+      - name: Plan the strict release quality route
+        shell: bash
+        run: |
+          set -euo pipefail
+          head_revision="$(git rev-parse "${GITHUB_SHA}^{commit}")"
+          base_revision="$(git rev-parse "${head_revision}^" 2>/dev/null || printf '%s' "$head_revision")"
+          mapfile -t contracts < <(find .ai/work-items/active -maxdepth 1 -type f -name '*.contract.json' -print | sort)
+          (( ${#contracts[@]} <= 1 )) || { echo 'multiple active Contracts cannot select one release route' >&2; exit 1; }
+          route_args=(
+            --repo "$GITHUB_WORKSPACE"
+            --manifest tests/ci/repository_gate_manifest.json
+            --base "$base_revision"
+            --head "$head_revision"
+            --stage release
+            --risk high
+            --profile strict
+            --receipt target/release-quality-route.json
+          )
+          if (( ${#contracts[@]} == 1 )); then route_args+=(--contract "${contracts[0]}"); fi
+          python3 tests/ci/quality_route.py "${route_args[@]}" >/dev/null
       - name: Run source quality gates
         shell: bash
         run: |
           set -euo pipefail
-          cargo fmt --all -- --check
-          cargo clippy --workspace --all-targets --all-features -- -D warnings
-          tests/ci/run_workspace_package_tests.sh --report target/workspace-package-coverage.json
           cargo metadata --locked --format-version 1 > /tmp/cargo-metadata.json
           version="$(jq -er '.packages[] | select(.name == "cockpit-cli") | .version' /tmp/cargo-metadata.json)"
           jq -e --arg version "$version" '[.packages[] | select(.source == null) | .version == $version] | all' /tmp/cargo-metadata.json
-          tests/release/version_consistency.sh --repo "$GITHUB_WORKSPACE"
           python3 tests/ci/run_repository_gates.py \
             --repo "$GITHUB_WORKSPACE" \
             --manifest tests/ci/repository_gate_manifest.json \
+            --route-receipt target/release-quality-route.json \
             --report target/repository-gates.json
       - name: Upload source gate receipts
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
@@ -135,6 +152,7 @@ jobs:
           name: source-gate-receipts
           path: |
             target/governance-integrity-report.json
+            target/release-quality-route.json
             target/repository-gates.json
             target/workspace-package-coverage.json
           if-no-files-found: error
@@ -390,8 +408,133 @@ jobs:
           ./extracted/ai-cockpit.exe --version
           ./extracted/ai-cockpit.exe --help | Out-Null
 
+  staged_adopter_acceptance:
+    needs: [aggregate, source_quality, release_policy, verify]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+        with:
+          toolchain: 1.94.1
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: ai-cockpit-candidate
+          path: dist
+      - name: Run staged candidate adopter acceptance
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="$(jq -er '.tag' dist/release-manifest.json)"
+          output="$RUNNER_TEMP/staged-adopter-acceptance"
+          mkdir -p "$output"
+          tests/release/adopter_acceptance.sh \
+            --repository "$GITHUB_REPOSITORY" \
+            --tag "$tag" \
+            --target x86_64-unknown-linux-gnu \
+            --candidate-dir dist \
+            --source-repo "$GITHUB_WORKSPACE" \
+            --output "$output"
+      - name: Upload staged adopter acceptance evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: staged-adopter-acceptance-${{ github.run_id }}
+          path: ${{ runner.temp }}/staged-adopter-acceptance/
+          if-no-files-found: error
+          retention-days: 30
+
+  staged_adopter_upgrade_acceptance:
+    needs: [aggregate, source_quality, release_policy, verify, staged_adopter_acceptance]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+        with:
+          toolchain: 1.94.1
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: ai-cockpit-candidate
+          path: dist
+      - name: Resolve public N-1 and staged candidate pair
+        id: staged_release_pair
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_FROM_TAG: ${{ github.event.inputs.from_tag }}
+          INPUT_TO_TAG: ${{ github.event.inputs.to_tag }}
+        run: |
+          set -euo pipefail
+          to_tag="$(jq -er '.tag' dist/release-manifest.json)"
+          if [[ "$EVENT_NAME" == workflow_dispatch && -n "$INPUT_TO_TAG" && "$INPUT_TO_TAG" != "$to_tag" ]]; then
+            echo 'manual to_tag does not match staged candidate identity' >&2
+            exit 1
+          fi
+          if [[ "$EVENT_NAME" == workflow_dispatch && -n "$INPUT_FROM_TAG" ]]; then
+            from_tag="$INPUT_FROM_TAG"
+          else
+            from_tag="$(gh api --paginate "repos/$GITHUB_REPOSITORY/releases" \
+              --jq '.[] | select(.draft == false and .prerelease == false and (.tag_name | test("^v[0-9]+[.][0-9]+[.][0-9]+$"))) | .tag_name' \
+              | sort -V | awk -v current="$to_tag" '$0 != current { candidate=$0 } END { print candidate }')"
+          fi
+          [[ "$to_tag" =~ ^v[0-9]+[.][0-9]+[.][0-9]+$ ]] || { echo 'candidate tag is not canonical' >&2; exit 1; }
+          if [[ -n "$from_tag" ]]; then
+            [[ "$from_tag" =~ ^v[0-9]+[.][0-9]+[.][0-9]+$ && "$from_tag" != "$to_tag" ]] || { echo 'invalid staged N-1 pair' >&2; exit 1; }
+          fi
+          echo "from_tag=$from_tag" >> "$GITHUB_OUTPUT"
+          echo "to_tag=$to_tag" >> "$GITHUB_OUTPUT"
+      - name: Run public-to-staged N-1 acceptance
+        if: steps.staged_release_pair.outputs.from_tag != ''
+        shell: bash
+        env:
+          FROM_TAG: ${{ steps.staged_release_pair.outputs.from_tag }}
+          TO_TAG: ${{ steps.staged_release_pair.outputs.to_tag }}
+        run: |
+          set -euo pipefail
+          output="$RUNNER_TEMP/staged-adopter-upgrade"
+          mkdir -p "$output"
+          tests/release/adopter_upgrade_acceptance.sh \
+            --repository "$GITHUB_REPOSITORY" \
+            --from-tag "$FROM_TAG" \
+            --to-tag "$TO_TAG" \
+            --target x86_64-unknown-linux-gnu \
+            --to-candidate-dir dist \
+            --source-repo "$GITHUB_WORKSPACE" \
+            --output "$output"
+      - name: Record staged N-1 not-applicable result
+        if: steps.staged_release_pair.outputs.from_tag == ''
+        shell: bash
+        env:
+          TO_TAG: ${{ steps.staged_release_pair.outputs.to_tag }}
+        run: |
+          set -euo pipefail
+          output="$RUNNER_TEMP/staged-adopter-upgrade"
+          mkdir -p "$output"
+          jq -n --arg toTag "$TO_TAG" \
+            '{schemaVersion:1,releasePublished:false,stagedCandidate:true,adopterAcceptance:"not_applicable",fromTag:null,toTag:$toTag,target:"x86_64-unknown-linux-gnu",reason:"no previous published Release"}' \
+            > "$output/acceptance.json"
+          printf '%s  %s\n' "$(sha256sum "$output/acceptance.json" | awk '{print $1}')" acceptance.json > "$output/SHA256SUMS"
+      - name: Upload staged N-1 acceptance evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: staged-adopter-upgrade-${{ github.run_id }}
+          path: ${{ runner.temp }}/staged-adopter-upgrade/
+          if-no-files-found: error
+          retention-days: 30
+
   attest:
-    needs: [build, aggregate, source_quality, release_policy, verify, smoke_homebrew, smoke_linux, smoke_windows]
+    needs: [build, aggregate, source_quality, release_policy, verify, smoke_homebrew, smoke_linux, smoke_windows, staged_adopter_acceptance, staged_adopter_upgrade_acceptance]
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -415,7 +558,7 @@ jobs:
 
   publish:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
-    needs: [build, aggregate, source_quality, release_policy, verify, smoke_homebrew, smoke_linux, smoke_windows, attest]
+    needs: [build, aggregate, source_quality, release_policy, verify, smoke_homebrew, smoke_linux, smoke_windows, staged_adopter_acceptance, staged_adopter_upgrade_acceptance, attest]
     runs-on: ubuntu-24.04
     permissions:
       contents: write

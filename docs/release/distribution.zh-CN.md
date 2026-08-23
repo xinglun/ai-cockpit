@@ -17,21 +17,30 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 当前安装基线是公开且不可变的 `v0.2.28` Release。Homebrew 和手动安装都使用公开 archive
 与 manifest；仓库配置仍使用 `cockpit.toml`，安装 runtime 不会在目标仓库创建 `.ai`。
-维护者可以使用发布后的 adopter 验收 harness；它不是发布前 gate，也不是 Runtime 命令。
+同一套验收 harness 既有发布前 staged-candidate 模式，也有发布后 public-Release 模式；
+两者都不会从源码 workspace 获取 Runtime。
 
 预留的 `v0.2.24` tag 记录了一次发布前治理质量门失败，不可变的 `v0.2.25` tag 又记录了后续的
 source-quality 失败；`v0.2.26` 也记录了后续 source-quality 失败；它们都没有公开 Release，都是不可变历史，不是安装基线。
 
 ## CI 质量门与 Runtime shadow 边界
 
-release source-quality gate 使用与 CI 相同的确定性逐 package 测试策略。每个 workspace package 都执行
-`cargo test -p <package> --all-targets -- --test-threads=1`，Cargo test binary 不会并发启动。验证器自身声明的
-worker 上限仍可以在单个 test binary 内执行并行命令。这样既保持 release gate 与 CI 一致，也不删除 Cargo 检查。
+CI 以版本化 `repository_gate_manifest.json` 作为规范 gate 集。类型化 receipt 根据
+changed paths、Contract risk 与 workflow stage 选择累加的 `light`、`standard` 或
+`strict`。未知、release-owned、高风险、merge 与 release 输入都 fail closed 到
+`strict`。runner 校验 Git revisions、Contract 与 manifest digest，再只执行 receipt 中
+有序的 gate ID；不能用任意命令替代。
 
-`tests/ci/runtime_verify_shadow.sh` 生成的 receipt 是 Phase 1 **execution smoke（执行冒烟）**。它下载并校验不可变的公开
-Runtime，然后证明该 Runtime 能执行一次绑定 repository 的 verification command。该 receipt 明确不宣称覆盖 policy route 或
-planner、affected graph 完整性、跨 Work Item 的 physical execution，或每个 Work Item 独立的 evidence receipt。这些结论需要
-对应的 Runtime 和外部 evidence gate；shadow 通过不能替代它们。
+release source quality 始终请求 `strict`。manifest 管理的 Cargo gates 使用逐 package
+确定性测试，CI 与 release 都上传 route 和 gate receipts。`.gitattributes` 从 source
+archive 排除 `.ai` 与生成目录，同时保留 Cargo 源码和 lockfile。
+
+`tests/ci/runtime_verify_shadow.sh` receipt 是 standard/strict route 的 **execution
+smoke**。它验证公开且不可变的 `v0.2.28`，并使用仓库规范 profile。它不宣称 Runtime
+全局 T0–T3 route、affected graph 完整性、跨 Work Item 物理执行或每个 Work Item 的
+evidence coverage。参考 Makefile orchestration 在本 Rust 仓库中属于
+different-by-design，不会复制。Runtime 全局路由与通用 CLI `verify --command` 语义超出
+WI-224 的非 `crates/**` scope，明确 deferred。
 
 ## 开始前
 
@@ -88,6 +97,12 @@ CLI 和 MCP 的 `verify` JSON 会输出 `runtimeVersion` 与 `runtimeDigest` 这
 在 harness 之外使用这些 JSON 时，比较责任属于调用者。
 
 ## 发布后 adopter 验收
+
+发布前，`staged_adopter_acceptance` 把下载的 candidate archive、manifest 与 checksums
+绑定到 source `HEAD`，执行规范 adopter lifecycle、isolation checks 与 cleanup proof。
+独立的 `staged_adopter_upgrade_acceptance` 使用上一公开 Release 升级到该 staged target。
+publish 依赖这两个 job。其 receipt 记录 `stagedCandidate: true` 和
+`releasePublished: false`，不会改写 provider Release truth。
 
 维护者可以在 Release 发布后重复执行公开 binary 验收基线：
 
@@ -157,7 +172,8 @@ Release truth。迁移验收 artifact 与 adopter 安装路径分开维护。
 历史 v0.1.1 到 v0.2.0 的 schema 迁移 evidence 仍保留在归档中。由于 v0.2.0 Runtime
 早于相邻迁移链 receipt 字段，当前 harness 不重新运行这个历史 pair。
 
-发布 workflow 会在发布和 publication handoff 之后，用独立的
+发布前 staged N-1 job 使用公开 N-1 archive 与 staged candidate archive，不使用源码构建
+或任意 verification command。发布后，release workflow 会在 publication handoff 之后用独立的
 `adopter_upgrade_acceptance` job 执行这个 harness。对于 tag push，workflow 通过 provider
 API 解析紧邻的上一个已发布 semantic Release。第一个公开 Release 会写入带 checksum 的
 `adopterAcceptance: not_applicable` receipt。维护者也可以手动触发 workflow，提供

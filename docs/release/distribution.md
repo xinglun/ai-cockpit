@@ -18,9 +18,9 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 The public immutable `v0.2.28` Release is the current installation baseline.
 Homebrew and manual installation use the published archive and manifest; the
 repository configuration remains `cockpit.toml`, and installing the runtime
-never creates `.ai` in a target repository. A post-release adopter acceptance
-harness is available for maintainers; it is not a pre-publication gate or a
-Runtime command.
+never creates `.ai` in a target repository. The same acceptance harness has a
+staged-candidate mode before publication and a public-Release mode after
+publication; neither mode obtains a Runtime from the source workspace.
 
 The reserved `v0.2.24` tag records a failed pre-publication governance gate,
 the immutable `v0.2.25` tag records a source-quality failure, and `v0.2.26`
@@ -29,20 +29,26 @@ They are immutable history, not installation baselines.
 
 ## CI quality and Runtime shadow boundary
 
-The release source-quality gate uses the same deterministic package-by-package
-test strategy as CI. Each workspace package is tested with
-`cargo test -p <package> --all-targets -- --test-threads=1`; Cargo test
-binaries are not launched concurrently. The verifier's own declared worker
-cap can still exercise parallel commands inside a test binary. This keeps the
-release gate aligned with CI without removing the Cargo checks.
+CI uses versioned `repository_gate_manifest.json` as the canonical gate set. A
+typed receipt selects cumulative `light`, `standard`, or `strict` coverage from
+changed paths, Contract risk, and workflow stage. Unknown, release-owned,
+high-risk, merge, and release inputs fail closed to `strict`. The runner
+validates Git revisions, Contract and manifest digests, then executes only the
+receipt's ordered gate IDs; it cannot accept an arbitrary command instead.
 
-The `tests/ci/runtime_verify_shadow.sh` receipt is a Phase 1 **execution
-smoke**. It downloads and verifies an immutable public Runtime, then proves
-that it can execute one repository-bound verification command. Its receipt
-explicitly does not claim policy-route or planner coverage, affected-graph
-completeness, cross-Work-Item physical execution, or per-Work-Item evidence
-receipt coverage. Those claims require the corresponding Runtime and external
-evidence gates; a passing shadow is not a substitute for them.
+Release source quality always requests `strict`. Manifest-owned Cargo gates use
+deterministic package-by-package tests, while CI and release upload both route
+and gate receipts. `.gitattributes` excludes `.ai` and generated roots from the
+source archive while retaining Cargo sources and lockfile.
+
+The `tests/ci/runtime_verify_shadow.sh` receipt is an **execution smoke** for
+standard/strict routes. It verifies immutable public `v0.2.28` and runs the
+canonical repository profile. It does not claim Runtime-global T0–T3 routing,
+affected-graph completeness, cross-Work-Item physical execution, or per-Work-
+Item evidence coverage. The reference Makefile orchestration is different by
+design and is not copied into this Rust repository. Runtime-global routing and
+generic CLI `verify --command` semantics remain deferred outside WI-224's
+non-`crates/**` scope.
 
 ## Before you start
 
@@ -105,6 +111,14 @@ bind those fields to the downloaded public binary before accepting release
 evidence; a caller using the JSON outside that harness owns the comparison.
 
 ## Post-release adopter acceptance
+
+Before publication, `staged_adopter_acceptance` binds the downloaded candidate
+archive, manifest, and checksums to source `HEAD`, runs the canonical adopter
+lifecycle and isolation checks, and proves cleanup. A separate
+`staged_adopter_upgrade_acceptance` runs the previous public Release against
+that staged target. Publication depends on both. Their receipts say
+`stagedCandidate: true` and `releasePublished: false`; they do not rewrite
+provider Release truth.
 
 Maintainers can repeat the public-binary acceptance baseline after a Release:
 
@@ -205,7 +219,9 @@ The historical v0.1.1 to v0.2.0 migration evidence remains archived. The
 v0.2.0 Runtime predates the adjacent-chain receipt fields, so that historical
 pair is not re-run by the current harness.
 
-The release workflow runs this harness in a separate
+Before publication, the staged N-1 job uses a public N-1 archive and staged
+candidate archive without a source build or arbitrary verification command.
+After publication, the release workflow runs the public harness in a separate
 `adopter_upgrade_acceptance` job after publication and the publication handoff.
 For a tag push it resolves the immediately preceding published semantic
 Release through the provider API. A first public Release records

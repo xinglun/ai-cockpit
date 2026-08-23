@@ -1,0 +1,4 @@
+/.ai export-ignore
+/.worktrees export-ignore
+/dist export-ignore
+/target export-ignore
