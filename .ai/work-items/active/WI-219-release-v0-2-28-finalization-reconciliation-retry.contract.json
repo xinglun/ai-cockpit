@@ -27,33 +27,33 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
-    "branch": "codex/wi-218-release-v0-2-28-finalization-reconciliation",
-    "provider": "unknown",
-    "pullRequest": "unknown",
-    "worktree": "/private/tmp/ai-cockpit-wi218-finalization"
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-217-release-v0-2-28-post-release-acceptance",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/166",
+    "worktree": "/private/tmp/ai-cockpit-wi216-post-release"
   },
   "risk": "high",
   "scenarioCoverage": [
     {
-      "scenario": "immutable predecessor recovery",
       "expected": "WI-218 superseded archive and recovery decision remain immutable and bind the current retry.",
       "required": true,
+      "scenario": "immutable predecessor recovery",
       "status": "unverified",
       "verificationPlan": "Project the predecessor recovery and archive paths in Summary and validate them through the current Runtime lifecycle."
     },
     {
-      "scenario": "post-merge finalization",
       "expected": "The exact merged PR #166 and its branch/worktree cleanup are recorded in a valid finalization chain.",
       "required": false,
+      "scenario": "post-merge finalization",
       "status": "unverified",
       "verificationPlan": "Bind the target context before verification, record the pre-merge receipt, merge PR #168, append merge and cleanup transitions, then finalize-verify."
     },
     {
-      "scenario": "localized human handoff",
       "expected": "The closed retry emits a visible Chinese Outcome with status, unknowns, evidence, decision, and next action.",
       "required": false,
+      "scenario": "localized human handoff",
       "status": "unverified",
       "verificationPlan": "Use AI_COCKPIT_LANGUAGE=zh-CN for finish and close and inspect the structured decision."
     }
