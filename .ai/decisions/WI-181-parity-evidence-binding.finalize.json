@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "post-merge-resource-finalization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "97cb1be82a4ddee419a00bd433e4e852eef492cc",
+    "name": "codex/wi-181-parity-evidence-binding",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:0f7fc465b22406b533b8b718afa30585ab82a30555f98ddde563f22abc097097",
+  "operationId": "operation-WI-181-parity-evidence-binding",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "59dfc9543bd9e55647e61389b219bb1b30d974d1",
+    "headRevision": "97cb1be82a4ddee419a00bd433e4e852eef492cc",
+    "mergeCommit": "66d97903ed0b67c168758e6f27b3d57405053c66",
+    "number": 141,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/141"
+  },
+  "reason": "Finalize the merged parity evidence binding branch and prove exact remote branch cleanup while retaining the shared main worktree clean.",
+  "receiptId": "ai-cockpit-WI-181-parity-evidence-binding",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-181-parity-evidence-binding",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/141",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:fff455d0d88d9ca4fa96b5caba85d8a6a198e131bd6ecc5a33dd9bc5cc180ab2",
+  "runtimeVersion": "0.2.22",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-23T07:50:05Z",
+  "workItemId": "WI-181-parity-evidence-binding",
+  "worktree": {
+    "branch": "codex/wi-181-parity-evidence-binding",
+    "headRevision": "97cb1be82a4ddee419a00bd433e4e852eef492cc",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit",
+    "worktreeId": "WI-181-parity-evidence-binding"
+  }
+}
