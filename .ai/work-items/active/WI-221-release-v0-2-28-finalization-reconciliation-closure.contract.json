@@ -27,33 +27,33 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
-    "branch": "codex/wi-220-release-v0-2-28-finalization-reconciliation-final",
-    "provider": "unknown",
-    "pullRequest": "unknown",
-    "worktree": "/private/tmp/ai-cockpit-wi218-finalization"
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-217-release-v0-2-28-post-release-acceptance",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/166",
+    "worktree": "/private/tmp/ai-cockpit-wi216-post-release"
   },
   "risk": "high",
   "scenarioCoverage": [
     {
-      "scenario": "immutable predecessor recovery",
       "expected": "WI-220 superseded archive and recovery decision remain immutable and bind this final closure.",
       "required": true,
+      "scenario": "immutable predecessor recovery",
       "status": "unverified",
       "verificationPlan": "Project the predecessor recovery and archive paths in Summary and validate them through the current Runtime lifecycle."
     },
     {
-      "scenario": "pre-merge finalization",
       "expected": "The exact PR #166 identity and target baseRevision are recorded as awaiting_merge_close before this PR merges.",
       "required": false,
+      "scenario": "pre-merge finalization",
       "status": "unverified",
       "verificationPlan": "Bind the target context before verification, archive, then record a strict blocked pre-merge receipt whose baseRevision matches the target PR."
     },
     {
-      "scenario": "post-merge cleanup and handoff",
       "expected": "After reviewed PR merge, exact target branch/worktree cleanup is appended and a visible Chinese Outcome closes the Work Item.",
       "required": false,
+      "scenario": "post-merge cleanup and handoff",
       "status": "unverified",
       "verificationPlan": "Observe merged PR #170, append cleanup transitions, finalize-verify, then close with a structured human decision."
     }
