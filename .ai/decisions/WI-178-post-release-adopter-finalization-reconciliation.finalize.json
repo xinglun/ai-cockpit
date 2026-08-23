@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "post-merge-resource-finalization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "a010e4494bfa8d3004232d7c1e80c90a9a871d5c",
+    "name": "codex/wi-177-post-release-adopter-v0-2-22",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:3a4c1f1d8632c9f20dd31bcc80cefcfc8bb0532b2afa417c76c32e83ec05de60",
+  "operationId": "operation-WI-178-post-release-adopter-finalization-reconciliation",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "5299120b6de4aae61136271d2ac09d7903c60e5a",
+    "headRevision": "a010e4494bfa8d3004232d7c1e80c90a9a871d5c",
+    "mergeCommit": "5f0b8d9337fab59ac3d5247cf3a7e756dfd893d6",
+    "number": 135,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/135"
+  },
+  "reason": "Finalize the merged v0.2.22 public adopter acceptance branch and prove exact remote and local resource cleanup before the next batch.",
+  "receiptId": "ai-cockpit-WI-178-post-release-adopter-finalization-reconciliation",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-177-post-release-adopter-v0-2-22",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/135",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:fff455d0d88d9ca4fa96b5caba85d8a6a198e131bd6ecc5a33dd9bc5cc180ab2",
+  "runtimeVersion": "0.2.22",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-23T06:37:30Z",
+  "workItemId": "WI-178-post-release-adopter-finalization-reconciliation",
+  "worktree": {
+    "branch": "codex/wi-177-post-release-adopter-v0-2-22",
+    "headRevision": "a010e4494bfa8d3004232d7c1e80c90a9a871d5c",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit",
+    "worktreeId": "WI-178-post-release-adopter-finalization-reconciliation"
+  }
+}

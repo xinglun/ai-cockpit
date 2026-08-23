@@ -35,10 +35,10 @@
   "after": {
     "pullRequest": "merged",
     "branch": "deleted",
-    "worktree": "removed"
+    "worktree": "clean"
   },
   "result": {
-    "disposition": "deleted",
+    "disposition": "retained",
     "failureCodes": [],
     "unknownCodes": []
   },

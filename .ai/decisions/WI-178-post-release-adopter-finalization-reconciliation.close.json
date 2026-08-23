@@ -1,0 +1,172 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-178-post-release-adopter-finalization-reconciliation.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d42602ed335e03cccb94a261aab661bf9adf888730d0a04278850543c4f04b79",
+      "workItemId": "WI-178-post-release-adopter-finalization-reconciliation"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-177-post-release-adopter-v0-2-22.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-177-post-release-adopter-v0-2-22/finalize-context.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-177-post-release-adopter-v0-2-22/recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-177-post-release-adopter-v0-2-22.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-178-post-release-adopter-finalization-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-178-post-release-adopter-finalization-reconciliation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-178-post-release-adopter-finalization-reconciliation.verification.json",
+            ".ai/decisions/WI-178-post-release-adopter-finalization-reconciliation.finalize.json",
+            ".ai/evidence/WI-177-post-release-adopter-v0-2-22/acceptance.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via repository-owner at 2026-08-23T06:39:57Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-178-post-release-adopter-finalization-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-178-post-release-adopter-finalization-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-178-post-release-adopter-finalization-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.contract.json"
+          ],
+          "inference": false,
+          "text": "Record finalize-plan, finalize, finalize-verify, and close for the merged WI-177 public adopter acceptance branch, preserving the release and predecessor evidence truth."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-178-post-release-adopter-finalization-reconciliation"
+  },
+  "finalReportDigest": "sha256:0536ab1cc162a66a4f7673cb4f030cc33b872306f60d02c494a8ed99dc448ade",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "repository-owner",
+    "decidedAt": "2026-08-23T06:39:57Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-178-post-release-adopter-finalization-reconciliation.verification.json",
+      ".ai/decisions/WI-178-post-release-adopter-finalization-reconciliation.finalize.json",
+      ".ai/evidence/WI-177-post-release-adopter-v0-2-22/acceptance.json"
+    ],
+    "policyRefs": [
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "Confirm WI-178 finalization: PR #135 merged, exact remote feature branch absent, current main worktree retained clean, finalize and finalize-verify passed under installed public v0.2.22.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-23T06:39:57Z",
+  "workItemId": "WI-178-post-release-adopter-finalization-reconciliation"
+}
