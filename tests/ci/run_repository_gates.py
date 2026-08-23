@@ -37,6 +37,7 @@ for gate in gates:
         else:
             result["state"] = "passed" if completed.returncode == 0 else "failed"
             failed = failed or completed.returncode != 0
+            print(f"repository gate {result['id']}: {result['state']}", flush=True)
     results.append(result)
 report = {
     "gates": results,
