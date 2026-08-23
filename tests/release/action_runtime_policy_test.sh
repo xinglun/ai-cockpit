@@ -21,8 +21,8 @@ grep -Fq 'e22c389904149dbc22b58101806040fa8d37a610' "$script"
 grep -Fq 'softprops/action-gh-release' "$script"
 grep -Fq 'fe965f7af51af5f2602596916f38a38df2e33de0' "$script"
 grep -Fq 'runtime_baseline' "$script"
-grep -Fq 'action_runtime_policy.sh .github/workflows/ci.yml .github/workflows/release.yml' "$ci"
-grep -Fq 'action_runtime_policy.sh .github/workflows/ci.yml .github/workflows/release.yml' "$release"
+grep -Fq 'run_repository_gates.py' "$ci"
+grep -Fq 'run_repository_gates.py' "$release"
 
 "$script" "$ci" "$release"
 

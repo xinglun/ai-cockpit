@@ -1,0 +1,21 @@
+{
+  "gates": [
+    {"category": "ci", "command": ["tests/ci/governance_integrity_gate_test.sh"], "id": "ci_governance_integrity_regression"},
+    {"category": "ci", "command": ["tests/ci/runtime_verify_shadow_test.sh"], "id": "ci_runtime_shadow_regression"},
+    {"category": "ci", "command": ["tests/ci/workspace_package_coverage_test.sh"], "id": "ci_workspace_coverage_regression"},
+    {"category": "conformance", "command": ["tests/conformance/final_replacement_acceptance_test.sh"], "id": "conformance_final_replacement"},
+    {"category": "docs", "command": ["tests/docs/documentation_acceptance.sh"], "id": "docs_acceptance"},
+    {"category": "docs", "command": ["tests/docs/parity_status_check.sh"], "id": "docs_governance_integrity"},
+    {"category": "docs", "command": ["tests/docs/parity_status_check_test.sh"], "id": "docs_parity_regression"},
+    {"category": "performance", "command": ["tests/performance/regression_gate_test.sh"], "id": "performance_regression"},
+    {"category": "release", "command": ["tests/release/action_runtime_policy_test.sh"], "id": "release_action_runtime"},
+    {"category": "release", "command": ["tests/release/adopter_acceptance_test.sh"], "covers": ["tests/release/isolation_manifest_test.sh"], "id": "release_adopter"},
+    {"category": "release", "command": ["tests/release/adopter_upgrade_acceptance_test.sh"], "id": "release_adopter_upgrade"},
+    {"category": "release", "command": ["tests/release/annotated_tag_identity.sh"], "id": "release_annotated_tag"},
+    {"category": "release", "command": ["tests/ci/release_gate_policy_test.sh"], "id": "release_policy_regression"},
+    {"category": "release", "command": ["tests/release/version_consistency_test.sh"], "id": "release_version_consistency"},
+    {"category": "release", "command": ["tests/release/workflow_policy.sh", ".github/workflows/release.yml"], "id": "release_workflow_policy"},
+    {"category": "workflow", "command": ["tests/workflow/resource_finalization_policy_test.sh"], "id": "workflow_resource_finalization"}
+  ],
+  "schemaVersion": 1
+}

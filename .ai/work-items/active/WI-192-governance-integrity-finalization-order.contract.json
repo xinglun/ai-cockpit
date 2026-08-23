@@ -1,0 +1,114 @@
+{
+  "acceptanceCriteria": [
+    "The integrity gate dynamically discovers active and archived Work Items without a hard-coded WI range.",
+    "The gate emits an auditable JSON receipt with deterministic findings and fails closed on an unregistered broken link.",
+    "Historical or legacy records are explicitly classified and do not masquerade as current release failures.",
+    "Regression fixtures cover missing Work Item, missing evidence, missing close, historical exemption, unknown problem, foreign receipt, and spoofed default-branch cases.",
+    "Documentation parity and workflow/release/conformance/performance gates are invoked in CI without duplicate conflicting execution.",
+    "Workspace package test coverage is derived from cargo metadata and fails when a package is omitted.",
+    "Only tests, docs, GitHub workflow files, and Runtime-generated WI-188/WI-192 lifecycle records are changed; no crates are changed.",
+    "The compatibility finding for installed Runtime v0.2.23 finish ordering is preserved and the successor runs finalize-plan before preflight, checkpoint, verify, finish, and archive."
+  ],
+  "authority": "authorized",
+  "baseRevision": "5d76d9e9fcbe04b52cc5f024897d61a82eca7344",
+  "createdAt": "2026-08-23T10:54:16Z",
+  "goal": "Bind exact PR resource context before preflight and reverify the completed WI-188 governance integrity implementation without changing its product scope.",
+  "intent": "Recover WI-188 after the installed v0.2.23 Runtime accepted finish before a non-provisional finalization plan; preserve the predecessor facts and deliver the same authorized governance integrity gate through the strict lifecycle order.",
+  "mode": "code",
+  "outOfScope": [
+    "crates/**",
+    ".ai/** except Runtime-generated WI-188/WI-192 lifecycle records",
+    "existing WI-187 and WI-189 files",
+    "README public entrypoints",
+    "GitHub merge or release publication"
+  ],
+  "predecessorContractDigest": "sha256:e5107ceeaa32ac57375f3166cfae8af1b4c244e9af4363c33d136b2a06799130",
+  "predecessorWorkItemId": "WI-188-governance-integrity-gate",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-188-governance-integrity-gate.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7183fb8c3c59484d6fa2028bb2fe5468b188e5aba75937265887a7f333a86105",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-188-governance-integrity-gate",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi188-governance-integrity-gate"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "scenario": "dynamic_inventory_discovers_new_work_item",
+      "required": true,
+      "status": "unverified",
+      "evidence": ["tests/ci/governance_integrity_gate_test.sh"],
+      "expected": "A newly introduced Work Item is discovered without editing an ID list.",
+      "verificationPlan": "Run the gate against a fixture containing an additional WI id and assert the generated inventory includes it."
+    },
+    {
+      "scenario": "broken_or_foreign_governance_link_fails_closed",
+      "required": true,
+      "status": "unverified",
+      "evidence": ["tests/ci/governance_integrity_gate_test.sh"],
+      "expected": "Missing evidence, close, foreign receipt, or spoofed default-branch linkage produces a deterministic failed finding.",
+      "verificationPlan": "Run all governance-integrity negative fixtures and assert non-zero exit plus exact JSON findings."
+    },
+    {
+      "scenario": "historical_legacy_record_is_explicitly_exempt",
+      "required": true,
+      "status": "unverified",
+      "evidence": ["tests/ci/governance_integrity_gate_test.sh"],
+      "expected": "Historical ambiguity is auditable but does not become a current release failure.",
+      "verificationPlan": "Run the historical duplicate fixture and assert warnings without blocking findings."
+    },
+    {
+      "scenario": "all_quality_gates_and_workspace_packages_are_covered",
+      "required": true,
+      "status": "unverified",
+      "evidence": [
+        "tests/ci/repository_gate_manifest_test.py",
+        "tests/ci/workspace_package_coverage_test.sh"
+      ],
+      "expected": "Every workspace package and every discovered repository gate is covered exactly once.",
+      "verificationPlan": "Compare cargo metadata package names and recursively discovered gate scripts against deterministic receipts."
+    },
+    {
+      "scenario": "compatibility_finish_order_is_recovered",
+      "required": true,
+      "status": "unverified",
+      "evidence": [
+        ".ai/decisions/WI-188-governance-integrity-gate.recovery.json",
+        ".ai/evidence/WI-192-governance-integrity-finalization-order.verification.json"
+      ],
+      "expected": "The successor binds a non-provisional finalization plan before preflight and verification while preserving WI-188 finish_ready facts.",
+      "verificationPlan": "Record finalize-plan against the exact draft PR before preflight, then execute checkpoint and single-worker Runtime verification."
+    }
+  ],
+  "scope": [
+    "tests/**",
+    "docs/work-items/WI-188-governance-integrity-gate.md",
+    "docs/work-items/WI-188-governance-integrity-gate.zh-CN.md",
+    "docs/work-items/WI-188-governance-integrity-gate.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    ".github/workflows/ci.yml",
+    ".github/workflows/release.yml"
+  ],
+  "sources": [
+    ".ai/work-items/active/WI-188-governance-integrity-gate.contract.json",
+    ".ai/decisions/WI-188-governance-integrity-gate.recovery.json",
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-192-governance-integrity-finalization-order"
+}
