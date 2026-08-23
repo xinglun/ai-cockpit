@@ -4094,6 +4094,7 @@ fn finish_work_item_internal(
         evidence_ref: &evidence_ref,
         failed_gate_override: None,
         recovery_condition_override: None,
+        historical: false,
     });
     let (task_report_digest, task_report_markdown_digest) =
         write_task_outcome_artifacts(&root, work_item_id, &task_report)?;
@@ -9271,6 +9272,7 @@ fn persist_blocked_lifecycle_outcome(
         evidence_ref: &evidence_ref,
         failed_gate_override: Some(&failed_gate),
         recovery_condition_override: Some(&recovery_condition),
+        historical: false,
     });
     append_task_outcome_recovery_event(
         &root,
@@ -9377,6 +9379,7 @@ struct TaskOutcomeReportInput<'a> {
     evidence_ref: &'a str,
     failed_gate_override: Option<&'a str>,
     recovery_condition_override: Option<&'a str>,
+    historical: bool,
 }
 
 fn task_outcome_report(input: TaskOutcomeReportInput<'_>) -> TaskOutcomeReport {
@@ -9393,6 +9396,7 @@ fn task_outcome_report(input: TaskOutcomeReportInput<'_>) -> TaskOutcomeReport {
         evidence_ref,
         failed_gate_override,
         recovery_condition_override,
+        historical,
     } = input;
     let contract_ref = repository_relative_path(root, contract_path);
     let summary_ref = contract_path
@@ -9490,28 +9494,34 @@ fn task_outcome_report(input: TaskOutcomeReportInput<'_>) -> TaskOutcomeReport {
             &evidence_refs,
         ));
     }
-    let failed_gate = failed_gate_override
-        .map(str::to_owned)
-        .or_else(|| match decision_state {
-            DecisionState::Red => Some("evidence_or_identity_control".into()),
-            DecisionState::Yellow => Some("verification_or_human_input".into()),
-            DecisionState::Green => None,
-        });
-    let recovery_condition =
+    let failed_gate = if historical {
+        None
+    } else {
+        failed_gate_override
+            .map(str::to_owned)
+            .or_else(|| match decision_state {
+                DecisionState::Red => Some("evidence_or_identity_control".into()),
+                DecisionState::Yellow => Some("verification_or_human_input".into()),
+                DecisionState::Green => None,
+            })
+    };
+    let recovery_condition = if historical {
+        None
+    } else {
         recovery_condition_override
             .map(str::to_owned)
-            .or_else(|| {
-                match decision_state {
-            DecisionState::Red => Some(
-                "Repair the invalid evidence or identity binding, then rerun verification.".into(),
-            ),
-            DecisionState::Yellow => Some(
-                "Collect the missing evidence or human input, then rerun preflight/verification."
-                    .into(),
-            ),
-            DecisionState::Green => None,
-        }
-            });
+            .or_else(|| match decision_state {
+                DecisionState::Red => Some(
+                    "Repair the invalid evidence or identity binding, then rerun verification."
+                        .into(),
+                ),
+                DecisionState::Yellow => Some(
+                    "Collect the missing evidence or human input, then rerun preflight/verification."
+                        .into(),
+                ),
+                DecisionState::Green => None,
+            })
+    };
 
     TaskOutcomeReport {
         format: "ai-cockpit.task-outcome".into(),
@@ -10088,6 +10098,7 @@ fn outcome_v2_internal(
         recovery_condition_override: persisted_failure
             .as_ref()
             .map(|(_, recovery)| recovery.as_str()),
+        historical,
     });
     let failed_gate = task_report.failed_gate.clone();
     let recovery_condition = task_report.recovery_condition.clone();

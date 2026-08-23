@@ -68,6 +68,12 @@ projected as yellow `legacy_evidence_historical`: it is historical input, not
 a current failure or a fresh green result. A v2 record with missing identity
 remains red.
 
+Archived v2 evidence produced by an older Runtime is projected with a yellow
+historical marker and `historical_evidence_not_revalidated`. The handoff must
+not add `verification_or_human_input` or a missing-evidence recovery gate: the
+bytes are valid historical context, not a current verification failure. A new
+verification is required only when a current result is needed.
+
 The v2 envelope `createdAt` and retention `createdAt` must be RFC3339 timestamps.
 Optional retention `expiresAt` accepts RFC3339 or the retained epoch-seconds
 compatibility form. A malformed or semantically invalid
