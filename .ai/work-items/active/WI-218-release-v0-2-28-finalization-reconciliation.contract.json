@@ -29,12 +29,12 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
-    "branch": "codex/wi-218-release-v0-2-28-finalization-reconciliation",
-    "provider": "unknown",
-    "pullRequest": "unknown",
-    "worktree": "/private/tmp/ai-cockpit-wi218-finalization"
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-217-release-v0-2-28-post-release-acceptance",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/166",
+    "worktree": "/private/tmp/ai-cockpit-wi216-post-release"
   },
   "risk": "high",
   "scenarioCoverage": [
