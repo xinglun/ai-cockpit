@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-23T12:08:04Z",
+  "files": {
+    "contractDigest": "sha256:9bc5faf99a60f7e43344ed8c3a28a66fb4fd70b0fc6c87c7a68a54338d320a3c",
+    "contractPath": ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.contract.json",
+    "eventsDigest": "sha256:46a88885c19038b0a650b9f84481f6e197ee8d92859d631e7d194d22bdae9313",
+    "eventsPath": ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.events.jsonl",
+    "outcomeDigest": "sha256:7281f198302f67d331f19f993c9770163d861411548d0fc71edf98859ed1a208",
+    "outcomePath": ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.outcome.json",
+    "summaryDigest": "sha256:021c1a7477a6540544d793cb4fa7369ec6fa7a8be47194a07dd60461fa446237",
+    "summaryPath": ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json",
+    "taskReportDigest": "sha256:960297bd042db7e4e5d1f9008b3a06d8b98f05aba620168fade77dab6c210daa",
+    "taskReportMarkdownDigest": "sha256:6a3ba7080d4d50b5dcf4d00e6d67fcfadef4bf811164927ca39a54efba13b993",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-194-release-acceptance-isolation-recovery"
+}

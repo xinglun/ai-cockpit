@@ -5,6 +5,7 @@ description: "动态、失败关闭地盘点当前 Work Item、证据、决定�
 audience:
   - maintainer
   - reviewer
+workItemId: WI-188-governance-integrity-gate
 status: current
 authority: canonical
 lastVerifiedBy: WI-188-governance-integrity-gate

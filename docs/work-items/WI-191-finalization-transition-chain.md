@@ -1,6 +1,14 @@
 ---
+author: AI Cockpit maintainers
 title: WI-191 — Append-only finalization transition chain
+workItemId: WI-191-finalization-transition-chain
+description: "Append-only finalization transitions preserve immutable pre-merge evidence across merge and cleanup."
+audience:
+  - maintainer
+  - reviewer
 status: implemented
+authority: canonical
+lastVerifiedBy: WI-191-finalization-transition-chain
 ---
 
 # WI-191 — Append-only finalization transition chain

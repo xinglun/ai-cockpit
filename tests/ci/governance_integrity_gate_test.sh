@@ -59,6 +59,8 @@ run_case invalid-premerge-finalize 1 invalid_premerge_finalize
 run_case retained-premerge-finalize 1 invalid_premerge_finalize
 run_case foreign-premerge-finalize 1 invalid_premerge_finalize
 run_case spoofed-base-premerge-finalize 1 invalid_premerge_finalize
+run_case superseded-recovery 0 none
+run_case invalid-recovery 1 invalid_terminal_decision
 
 # The same repository snapshot must produce a byte-identical report.
 cp "$tmp/valid-report.json" "$tmp/valid-report-first.json"
@@ -88,6 +90,25 @@ item = next(
 )
 assert item["lifecycleState"] == "awaiting_merge_close", item
 assert item["decisionPath"].endswith(".finalize.json"), item
+PY
+
+python3 - "$tmp/superseded-recovery-report.json" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+item = next(
+    item
+    for item in report["inventory"]
+    if item["workItemId"] == "WI-902-recovered-predecessor"
+)
+assert item["lifecycleState"] == "recovered", item
+assert item["decisionPath"] == ".ai/decisions/WI-902-recovered-predecessor.recovery.json", item
+assert not any(
+    finding["workItemId"] == "WI-902-recovered-predecessor"
+    and finding["code"] == "invalid_outcome"
+    for finding in report["findings"]
+), report["findings"]
 PY
 
 python3 - "$tmp/historical-exemption-report.json" <<'PY'

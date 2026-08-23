@@ -5,6 +5,7 @@ description: "当前 Work Item 只有在显式绑定非 provisional 的资源最
 audience:
   - maintainer
   - reviewer
+workItemId: WI-187-finalization-before-archive
 status: current
 authority: canonical
 lastVerifiedBy: WI-187-finalization-before-archive

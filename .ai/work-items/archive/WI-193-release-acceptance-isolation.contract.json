@@ -1,0 +1,108 @@
+{
+  "acceptanceCriteria": [
+    "Both public and N-1 release acceptance harnesses register EXIT cleanup before failure-prone setup and leave no temporary run_root on success or failure.",
+    "Source checkout isolation manifests detect tracked and untracked .ai mutations while excluding only declared output artifacts.",
+    "Isolation manifests capture file, directory, and symlink metadata and reject symlink targets escaping TMPDIR or CARGO_HOME.",
+    "Existing success, failure, cleanup-failure, and public no-source-fallback regressions remain passing.",
+    "Three release-language documents describe the actually verified v0.2.23 aarch64-apple-darwin acceptance target without changing published Release truth."
+  ],
+  "authority": "authorized",
+  "baseRevision": "512196cb49d7e86860ee3b4c3fb3a3417509976c",
+  "createdAt": "2026-08-23T11:55:49Z",
+  "goal": "Make post-release adopter and N-1 acceptance cleanup and isolation proofs fail-closed and auditable without changing Runtime Core or published Release truth.",
+  "intent": "Repair temporary-root cleanup registration, source checkout manifests, symlink containment, regression wrappers, and three-language release documentation so failure paths cannot leak or silently mutate the governed repository.",
+  "mode": "code",
+  "outOfScope": [
+    "crates/**",
+    ".github/workflows/**",
+    "tests/ci/**",
+    "src/**",
+    "published Release tags and historical evidence"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:35cf84b44bb8110b01948cdff5ca2d09d135be582ad917a0624ccc241997f7e6",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-193-release-acceptance-isolation",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/153",
+    "worktree": "/private/tmp/ai-cockpit-wi193-release-acceptance-isolation"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "expected": "Invalid toolchain setup leaves no public acceptance run_root.",
+      "required": true,
+      "scenario": "public adopter pre-trap setup failure",
+      "status": "unverified",
+      "verificationPlan": "Run the public wrapper with invalid RUSTUP_HOME and isolated TMPDIR; assert failure receipt and no temp root."
+    },
+    {
+      "expected": "Invalid toolchain setup leaves no N-1 run_root.",
+      "required": true,
+      "scenario": "N-1 upgrade pre-trap setup failure",
+      "status": "unverified",
+      "verificationPlan": "Run the upgrade wrapper with invalid RUSTUP_HOME and isolated TMPDIR; assert failure receipt and no temp root."
+    },
+    {
+      "expected": "Source manifests detect mutations in pre-existing and newly untracked .ai paths while excluding declared output.",
+      "required": true,
+      "scenario": "source checkout untracked .ai mutation",
+      "status": "unverified",
+      "verificationPlan": "Run source-manifest regression fixtures with nested untracked mutations."
+    },
+    {
+      "expected": "Symlink metadata is captured and targets outside TMPDIR or CARGO_HOME fail closed.",
+      "required": true,
+      "scenario": "allowed-root symlink escape",
+      "status": "unverified",
+      "verificationPlan": "Run in-root, dangling, and outside-root symlink fixtures."
+    },
+    {
+      "expected": "Three release-language documents agree on the verified aarch64-apple-darwin target.",
+      "required": true,
+      "scenario": "v0.2.23 documentation target",
+      "status": "unverified",
+      "verificationPlan": "Run documentation acceptance and version consistency checks."
+    }
+  ],
+  "scope": [
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/adopter_acceptance_test.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh",
+    "tests/release/isolation_manifest.sh",
+    "tests/release/isolation_manifest_test.sh",
+    "tests/docs/documentation_acceptance.sh",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/work-items/WI-186-release-v0-2-23-post-release-acceptance.md",
+    "docs/work-items/WI-186-release-v0-2-23-post-release-acceptance.zh-CN.md",
+    "docs/work-items/WI-186-release-v0-2-23-post-release-acceptance.ja.md",
+    "docs/work-items/WI-193-release-acceptance-isolation.md",
+    "docs/work-items/WI-193-release-acceptance-isolation.zh-CN.md",
+    "docs/work-items/WI-193-release-acceptance-isolation.ja.md",
+    "docs/work-items/WI-191-finalization-transition-chain.md",
+    "docs/work-items/WI-191-finalization-transition-chain.zh-CN.md",
+    "docs/work-items/WI-191-finalization-transition-chain.ja.md",
+    "docs/work-items/WI-191H-finalization-head-binding.md",
+    "docs/work-items/WI-191H-finalization-head-binding.zh-CN.md",
+    "docs/work-items/WI-191H-finalization-head-binding.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-193-release-acceptance-isolation"
+}

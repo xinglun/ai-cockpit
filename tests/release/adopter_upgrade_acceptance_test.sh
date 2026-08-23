@@ -96,6 +96,26 @@ if "$script" --repository xinglun/ai-cockpit --from-tag v0.1.1 --to-tag v0.1.1 -
   exit 1
 fi
 
+toolchain_tmp="$regression_root/toolchain-tmp"
+toolchain_output="$regression_root/toolchain-output"
+mkdir -p "$toolchain_tmp" "$toolchain_output"
+printf 'not a rustup directory\n' > "$regression_root/invalid-rustup-home"
+set +e
+RUSTUP_HOME="$regression_root/invalid-rustup-home" TMPDIR="$toolchain_tmp" "$script" \
+  --repository xinglun/ai-cockpit --from-tag v0.2.22 --to-tag v0.2.23 \
+  --target aarch64-apple-darwin --output "$toolchain_output" \
+  --source-repo "$(git rev-parse --show-toplevel)" >/dev/null 2>&1
+toolchain_exit=$?
+set -e
+[[ "$toolchain_exit" -eq 1 ]] || { printf 'invalid RUSTUP_HOME must fail closed\n' >&2; exit 1; }
+[[ -z "$(find "$toolchain_tmp" -mindepth 1 -maxdepth 1 -type d -name 'ai-cockpit-n-minus-one.*' -print -quit)" ]] || {
+  printf 'upgrade pre-toolchain failure left a run_root behind\n' >&2
+  exit 1
+}
+jq -e '.adopterAcceptance == "failed" and .cleanupState == "passed"' "$toolchain_output/acceptance.json" >/dev/null
+jq -e '.state == "passed" and .removed == true and .validated == true' "$toolchain_output/cleanup.json" >/dev/null
+(cd "$toolchain_output" && shasum -a 256 -c SHA256SUMS >/dev/null)
+
 fake_bin="$regression_root/fake-bin"
 mkdir -p "$fake_bin"
 printf '#!/bin/sh\nexit 97\n' > "$fake_bin/curl"

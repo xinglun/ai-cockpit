@@ -5,6 +5,7 @@ description: "Require an explicit, non-provisional resource finalization plan be
 audience:
   - maintainer
   - reviewer
+workItemId: WI-187-finalization-before-archive
 status: current
 authority: canonical
 lastVerifiedBy: WI-187-finalization-before-archive

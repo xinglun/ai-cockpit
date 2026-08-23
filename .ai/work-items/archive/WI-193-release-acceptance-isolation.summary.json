@@ -1,0 +1,110 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-193-release-acceptance-isolation.contract.json",
+    ".ai/work-items/active/WI-193-release-acceptance-isolation.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/work-items/WI-186-release-v0-2-23-post-release-acceptance.ja.md",
+    "docs/work-items/WI-186-release-v0-2-23-post-release-acceptance.md",
+    "docs/work-items/WI-186-release-v0-2-23-post-release-acceptance.zh-CN.md",
+    "docs/work-items/WI-191-finalization-transition-chain.ja.md",
+    "docs/work-items/WI-191-finalization-transition-chain.md",
+    "docs/work-items/WI-191-finalization-transition-chain.zh-CN.md",
+    "docs/work-items/WI-191H-finalization-head-binding.ja.md",
+    "docs/work-items/WI-191H-finalization-head-binding.md",
+    "docs/work-items/WI-191H-finalization-head-binding.zh-CN.md",
+    "docs/work-items/WI-193-release-acceptance-isolation.ja.md",
+    "docs/work-items/WI-193-release-acceptance-isolation.md",
+    "docs/work-items/WI-193-release-acceptance-isolation.zh-CN.md",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_acceptance_test.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh",
+    "tests/release/isolation_manifest.sh",
+    "tests/release/isolation_manifest_test.sh"
+  ],
+  "checkpointAt": "2026-08-23T11:57:18Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T11:55:49Z",
+  "failedGate": "finish.lifecycle",
+  "intentAlignment": {
+    "evidence": [
+      "tests/release/adopter_acceptance_test.sh",
+      "tests/release/adopter_upgrade_acceptance_test.sh",
+      "tests/release/isolation_manifest_test.sh",
+      "tests/docs/documentation_acceptance.sh"
+    ],
+    "sources": [
+      "tests/release/adopter_acceptance.sh",
+      "tests/release/adopter_upgrade_acceptance.sh",
+      "tests/release/isolation_manifest.sh",
+      "docs/work-items/WI-193-release-acceptance-isolation.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-23T12:02:22Z",
+  "preflightContractDigest": "sha256:1780231e6d92ec2e15f1faec89f11c7f3add2191a8617d64c1df79cf231cd09e",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:bf9585b252ce8be2828758e3822274cdde47a3a3381f3b0d1a963720d92ee3df",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance_test.sh",
+        ".ai/evidence/WI-193-release-acceptance-isolation.verification.json"
+      ],
+      "required": true,
+      "scenario": "public adopter pre-trap setup failure",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_upgrade_acceptance_test.sh",
+        ".ai/evidence/WI-193-release-acceptance-isolation.verification.json"
+      ],
+      "required": true,
+      "scenario": "N-1 upgrade pre-trap setup failure",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/release/isolation_manifest_test.sh",
+        ".ai/evidence/WI-193-release-acceptance-isolation.verification.json"
+      ],
+      "required": true,
+      "scenario": "source checkout untracked .ai mutation",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/release/isolation_manifest_test.sh",
+        ".ai/evidence/WI-193-release-acceptance-isolation.verification.json"
+      ],
+      "required": true,
+      "scenario": "allowed-root symlink escape",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/docs/documentation_acceptance.sh",
+        ".ai/evidence/WI-193-release-acceptance-isolation.verification.json"
+      ],
+      "required": true,
+      "scenario": "v0.2.23 documentation target",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T12:03:08Z",
+  "workItemId": "WI-193-release-acceptance-isolation"
+}

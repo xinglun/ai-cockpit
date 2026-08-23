@@ -1,0 +1,154 @@
+{
+  "acceptanceCriteria": [
+    "A1: A valid recovery decision for a superseded predecessor is accepted by the dynamic governance gate without requiring the predecessor Outcome to be green.",
+    "A2: The gate still requires a valid recovery decision binding predecessor and successor Work Item identities, and reports the predecessor as recovered rather than completed.",
+    "A3: A malformed, foreign, or missing recovery decision remains fail-closed.",
+    "A4: Existing current, historical, pre-merge, and invalid-outcome fixtures remain behaviorally unchanged.",
+    "A5: The gate report is deterministic and documents the recovery exception in all three reader-facing parity records.",
+    "A6: The merged governance receipt reconciliation needed for the current gate baseline is retained without rewriting historical Work Item bytes."
+  ],
+  "authority": "authorized",
+  "baseRevision": "5eda6dd9c433e22c38611f318e29c0d24f129d9c",
+  "createdAt": "2026-08-23T12:14:48Z",
+  "goal": "Make recovery-aware governance inventory fail closed without treating a valid superseded predecessor as a green completed Work Item.",
+  "intent": "The dynamic governance gate must accept a valid superseded-predecessor recovery as recovered history without requiring its immutable blocked Outcome to be green.",
+  "mode": "code",
+  "outOfScope": [
+    "Changing the Runtime lifecycle or rewriting archived Outcome, archive, evidence, or recovery records.",
+    "Changing published Release truth or replacing immutable Release artifacts.",
+    "Treating a recovery decision as approval, verification, or merge authorization.",
+    "Implementing the broader risk-tier light/standard/strict planner; that remains a separate policy design boundary."
+  ],
+  "predecessorContractDigest": "sha256:0dff6c4f3cf8dee72a08b08c144404a8c0ca52c3536b8b84321a4a564d51b860",
+  "predecessorWorkItemId": "WI-194-release-acceptance-isolation-recovery",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-194-release-acceptance-isolation-recovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:bfab271111a42a6d7221d7d9c15bd46d14e1b0fecab7fcad181b36017f3c46d4",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-195-governance-recovery-gate",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/154",
+    "worktree": "/private/tmp/ai-cockpit-wi195-governance-recovery-gate"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "expected": "A predecessor with a valid recovery decision is inventory-recovered and is not required to have a green Outcome.",
+      "required": true,
+      "scenario": "valid_superseded_predecessor_recovery",
+      "status": "unverified",
+      "verificationPlan": "Run the superseded-recovery fixture and assert exit zero, lifecycleState recovered, and no invalid_outcome finding."
+    },
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "expected": "Missing, malformed, or foreign recovery decisions remain blocking findings.",
+      "required": true,
+      "scenario": "malformed_or_foreign_recovery_fails_closed",
+      "status": "unverified",
+      "verificationPlan": "Run recovery fixture mutations and assert deterministic non-zero findings."
+    },
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "expected": "Current, historical, invalid-outcome, and pre-merge fixtures keep their existing classifications.",
+      "required": true,
+      "scenario": "current_and_historical_gate_regression",
+      "status": "unverified",
+      "verificationPlan": "Run the complete governance-integrity regression suite."
+    },
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "expected": "The report is byte deterministic and the recovery policy is documented in all three languages.",
+      "required": true,
+      "scenario": "deterministic_report_and_parity",
+      "status": "unverified",
+      "verificationPlan": "Run the gate twice and the documentation acceptance suite."
+    }
+  ],
+  "scope": [
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "tests/ci/fixtures/governance-integrity/build_fixture.py",
+    "tests/ci/fixtures/governance-integrity/*.json",
+    "tests/ci/fixtures/governance-integrity/**",
+    "tests/ci/release_gate_policy_test.sh",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_acceptance_test.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh",
+    "tests/release/isolation_manifest.sh",
+    "tests/release/isolation_manifest_test.sh",
+    "docs/reference/governance-integrity-gate.md",
+    "docs/reference/governance-integrity-gate.zh-CN.md",
+    "docs/reference/governance-integrity-gate.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/work-items/WI-193-release-acceptance-isolation.md",
+    "docs/work-items/WI-193-release-acceptance-isolation.zh-CN.md",
+    "docs/work-items/WI-193-release-acceptance-isolation.ja.md",
+    "docs/work-items/WI-194-release-acceptance-isolation-recovery.md",
+    "docs/work-items/WI-194-release-acceptance-isolation-recovery.zh-CN.md",
+    "docs/work-items/WI-194-release-acceptance-isolation-recovery.ja.md",
+    "docs/work-items/WI-195-governance-recovery-gate.md",
+    "docs/work-items/WI-195-governance-recovery-gate.zh-CN.md",
+    "docs/work-items/WI-195-governance-recovery-gate.ja.md",
+    "docs/work-items/**",
+    "docs/work-items/WI-186-release-v0-2-23-post-release-acceptance*.md",
+    "docs/work-items/WI-187-finalization-before-archive*.md",
+    "docs/work-items/WI-188-governance-integrity-gate*.md",
+    "docs/work-items/WI-191-finalization-transition-chain*.md",
+    "docs/work-items/WI-191H-finalization-head-binding*.md",
+    ".ai/decisions/WI-188-governance-integrity-gate.close.json",
+    ".ai/decisions/WI-190-finalization-plan-order.close.json",
+    ".ai/decisions/WI-193-release-acceptance-isolation.recovery.json",
+    ".ai/decisions/WI-194-release-acceptance-isolation-recovery.recovery.json",
+    ".ai/work-items/active/WI-195-governance-recovery-gate.approach.json",
+    ".ai/evidence/WI-193-release-acceptance-isolation.verification.json",
+    ".ai/evidence/WI-194-release-acceptance-isolation-recovery.verification.json",
+    ".ai/work-items/archive/WI-193-release-acceptance-isolation/**",
+    ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery/**",
+    ".ai/work-items/archive/WI-188-governance-integrity-gate/**",
+    ".ai/work-items/archive/WI-190-finalization-plan-order/**",
+    ".ai/work-items/archive/**",
+    ".ai/evidence/**",
+    ".ai/decisions/**"
+  ],
+  "sources": [
+    "docs/reference/agent-workflow.md",
+    "docs/reference/reference-parity.md",
+    "WI-193-release-acceptance-isolation recovery gate findings",
+    "tests/ci/governance_integrity_gate.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "tests/ci/governance_integrity_gate_test.sh",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report /tmp/governance-integrity-report.json",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/ci/release_gate_policy_test.sh",
+    "tests/release/isolation_manifest_test.sh",
+    "tests/release/adopter_acceptance_test.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh"
+  ],
+  "workItemId": "WI-195-governance-recovery-gate"
+}

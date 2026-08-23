@@ -1,6 +1,7 @@
 ---
 author: AI Cockpit maintainers
 title: "WI-186 — v0.2.23 post-release public adopter acceptance"
+workItemId: WI-186-release-v0-2-23-post-release-acceptance
 description: "Repository-local evidence that the immutable public v0.2.23 Runtime can govern a fresh adopter and an N-1 upgrade."
 audience:
   - maintainer

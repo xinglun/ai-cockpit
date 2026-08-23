@@ -5,6 +5,7 @@ description: "現行 Work Item の archive 前に、明示的で provisional で
 audience:
   - maintainer
   - reviewer
+workItemId: WI-187-finalization-before-archive
 status: current
 authority: canonical
 lastVerifiedBy: WI-187-finalization-before-archive

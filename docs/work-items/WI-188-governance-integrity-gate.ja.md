@@ -5,6 +5,7 @@ description: "current Work Item、evidence、decision、Outcome、documentation�
 audience:
   - maintainer
   - reviewer
+workItemId: WI-188-governance-integrity-gate
 status: current
 authority: canonical
 lastVerifiedBy: WI-188-governance-integrity-gate

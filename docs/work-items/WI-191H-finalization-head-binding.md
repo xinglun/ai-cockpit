@@ -1,6 +1,14 @@
 ---
+author: AI Cockpit maintainers
 title: WI-191H — Governance finalization head binding
+workItemId: WI-191H-finalization-head-binding
+description: "Bind the governance receipt append that legitimately advances a finalization head."
+audience:
+  - maintainer
+  - reviewer
 status: implemented
+authority: canonical
+lastVerifiedBy: WI-191H-finalization-head-binding
 ---
 
 # WI-191H — Governance finalization head binding

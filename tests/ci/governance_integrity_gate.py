@@ -271,6 +271,87 @@ def finding(
     return {"workItemId": work_item, "code": code, "path": path, "severity": severity}
 
 
+def valid_recovery_decision(
+    repo: Path, work_item: str, value: dict[str, Any]
+) -> bool:
+    """Validate the minimum identity of a predecessor recovery receipt.
+
+    Recovery is a terminal inventory state for the predecessor, not a green
+    completion claim.  Keep this check intentionally small and explicit: the
+    Runtime owns the detailed receipt schema, while this static gate must only
+    accept a repository-local, predecessor-bound successor link.
+    """
+    try:
+        project = load_json(repo / ".ai/project.json")
+    except ValueError:
+        return False
+    repository_id = project.get("repositoryId")
+    evidence_refs = value.get("evidenceRefs")
+    return (
+        value.get("schemaVersion") == 1
+        and value.get("workItemId") == work_item
+        and value.get("predecessorWorkItemId") == work_item
+        and isinstance(value.get("successorWorkItemId"), str)
+        and bool(value.get("successorWorkItemId"))
+        and value.get("decision") in {"supersede", "successor", "retry"}
+        and isinstance(repository_id, str)
+        and value.get("repositoryId") == repository_id
+        and isinstance(evidence_refs, list)
+        and bool(evidence_refs)
+        and all(isinstance(item, str) and item for item in evidence_refs)
+        and isinstance(value.get("reason"), str)
+        and bool(value["reason"].strip())
+    )
+
+
+def valid_close_decision(repo: Path, work_item: str, value: dict[str, Any]) -> bool:
+    try:
+        project = load_json(repo / ".ai/project.json")
+    except ValueError:
+        return False
+    structured = value.get("structuredDecision")
+    if not isinstance(structured, dict):
+        return False
+    nonempty = lambda key: isinstance(structured.get(key), str) and bool(
+        structured[key].strip()
+    )
+    return (
+        value.get("workItemId") == work_item
+        and value.get("state") == "closed"
+        and value.get("decisionState") == "confirmed"
+        and value.get("humanDecision") in {"approved", "superseded"}
+        and structured.get("decision") in {"approved", "superseded"}
+        and all(nonempty(key) for key in ("actor", "authoritySource", "reason", "decidedAt"))
+        and isinstance(structured.get("evidenceRefs"), list)
+        and bool(structured["evidenceRefs"])
+        and isinstance(structured.get("policyRefs"), list)
+        and (structured.get("resumeCondition") is None or nonempty("resumeCondition"))
+        and isinstance(value.get("repositoryId"), str)
+        and value.get("repositoryId") == project.get("repositoryId")
+    )
+
+
+def archive_digests_valid(repo: Path, work_item: str) -> bool:
+    manifest_path = repo / ".ai/work-items/archive" / f"{work_item}.archive.json"
+    try:
+        manifest = load_json(manifest_path)
+    except ValueError:
+        return False
+    files = manifest.get("files")
+    if not isinstance(files, dict):
+        return True
+    for name in ("contract", "summary", "outcome"):
+        expected = files.get(f"{name}Digest")
+        if not isinstance(expected, str):
+            return False
+        path = repo / ".ai/work-items/archive" / f"{work_item}.{name}.json"
+        if not path.is_file() or path.is_symlink():
+            return False
+        if "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+            return False
+    return True
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo", required=True)
@@ -374,15 +455,40 @@ def main() -> int:
                 findings.append(finding(work_item, f"missing_{suffix}", relative))
 
         if location == "archive":
+            if not archive_digests_valid(repo, work_item):
+                findings.append(
+                    finding(
+                        work_item,
+                        "archive_digest_mismatch",
+                        f".ai/work-items/archive/{work_item}.archive.json",
+                    )
+                )
+            recovery_path = repo / ".ai/decisions" / f"{work_item}.recovery.json"
+            recovery_value: dict[str, Any] = {}
+            recovery_receipt_valid = False
+            if recovery_path.is_file() and not recovery_path.is_symlink():
+                try:
+                    recovery_value = load_json(recovery_path)
+                except ValueError:
+                    recovery_value = {}
+                recovery_receipt_valid = valid_recovery_decision(
+                    repo, work_item, recovery_value
+                )
+
             outcome_path = base / f"{work_item}.outcome.json"
             if outcome_path.is_file():
                 try:
                     outcome = load_json(outcome_path)
                 except ValueError:
                     outcome = {}
-                if (
-                    outcome.get("workItemId") != work_item
-                    or outcome.get("decisionState") != "green"
+                outcome_identity_valid = outcome.get("workItemId") == work_item
+                outcome_green = outcome.get("decisionState") == "green"
+                # A valid recovery explicitly preserves a blocked/non-green
+                # predecessor.  It is inventory-recovered, never promoted to
+                # green.  Without that receipt, the historical Outcome must
+                # remain green for a normal archived Work Item.
+                if not outcome_identity_valid or (
+                    not outcome_green and not recovery_receipt_valid
                 ):
                     findings.append(
                         finding(
@@ -392,23 +498,70 @@ def main() -> int:
                         )
                     )
             evidence = f".ai/evidence/{work_item}.verification.json"
-            if not (repo / evidence).is_file():
+            evidence_path = repo / evidence
+            if not evidence_path.is_file() or evidence_path.is_symlink():
                 findings.append(finding(work_item, "missing_evidence", evidence))
             else:
                 try:
-                    evidence_value = load_json(repo / evidence)
+                    evidence_value = load_json(evidence_path)
                 except ValueError:
                     evidence_value = {}
+                try:
+                    project_value = load_json(repo / ".ai/project.json")
+                except ValueError:
+                    project_value = {}
+                runtime_digest = evidence_value.get("runtimeDigest")
+                runtime_shape_valid = (
+                    "runtimeDigest" not in evidence_value
+                    or (
+                        isinstance(runtime_digest, str)
+                        and re.fullmatch(r"sha256:[0-9a-f]{64}", runtime_digest)
+                        and isinstance(evidence_value.get("runtimeVersion"), str)
+                        and bool(evidence_value["runtimeVersion"])
+                    )
+                )
                 if (
                     evidence_value.get("workItemId") != work_item
                     or evidence_value.get("passed") is not True
+                    or evidence_value.get("repositoryId", project_value.get("repositoryId"))
+                    != project_value.get("repositoryId")
+                    or not runtime_shape_valid
                 ):
                     findings.append(finding(work_item, "invalid_evidence", evidence))
             decision_paths = (
                 f".ai/decisions/{work_item}.close.json",
                 f".ai/decisions/{work_item}.recovery.json",
             )
-            decision = next((path for path in decision_paths if (repo / path).is_file()), None)
+            decision = None
+            close_path = repo / ".ai/decisions" / f"{work_item}.close.json"
+            # A recovery receipt explains a predecessor's history; it must not
+            # shadow a later valid close decision for the same Work Item.
+            if close_path.is_file() and not close_path.is_symlink():
+                decision = str(close_path.relative_to(repo))
+                try:
+                    decision_value = load_json(close_path)
+                except ValueError:
+                    decision_value = {}
+                if valid_close_decision(repo, work_item, decision_value):
+                    record["decisionPath"] = decision
+                    record["lifecycleState"] = "closed"
+                else:
+                    record["lifecycleState"] = "closure_invalid"
+                    findings.append(finding(work_item, "invalid_terminal_decision", decision))
+            elif recovery_path.is_file() and not recovery_path.is_symlink():
+                if recovery_receipt_valid:
+                    decision = str(recovery_path.relative_to(repo))
+                    record["decisionPath"] = decision
+                    record["lifecycleState"] = "recovered"
+                else:
+                    record["lifecycleState"] = "closure_invalid"
+                    findings.append(
+                        finding(
+                            work_item,
+                            "invalid_terminal_decision",
+                            str(recovery_path.relative_to(repo)),
+                        )
+                    )
             if decision is None:
                 finalize_path = f".ai/decisions/{work_item}.finalize.json"
                 if (repo / finalize_path).is_file():
@@ -443,29 +596,6 @@ def main() -> int:
                     findings.append(
                         finding(work_item, "missing_terminal_decision", decision_paths[0])
                     )
-            else:
-                try:
-                    decision_value = load_json(repo / decision)
-                except ValueError:
-                    decision_value = {}
-                close_valid = (
-                    decision.endswith(".close.json")
-                    and decision_value.get("workItemId") == work_item
-                    and decision_value.get("state") == "closed"
-                )
-                recovery_valid = (
-                    decision.endswith(".recovery.json")
-                    and decision_value.get("predecessorWorkItemId") == work_item
-                    and isinstance(decision_value.get("successorWorkItemId"), str)
-                    and bool(decision_value.get("successorWorkItemId"))
-                )
-                if not (close_valid or recovery_valid):
-                    record["lifecycleState"] = "closure_invalid"
-                    findings.append(finding(work_item, "invalid_terminal_decision", decision))
-                else:
-                    record["decisionPath"] = decision
-                    record["lifecycleState"] = "closed" if close_valid else "recovered"
-
             work_item_rows = rows.get(short_id(work_item), {})
             for parity_doc, implemented in PARITY_DOCS:
                 line = work_item_rows.get(parity_doc)
@@ -476,7 +606,14 @@ def main() -> int:
                     findings.append(finding(work_item, "missing_parity_evidence", parity_doc))
                 if decision is not None and decision not in line:
                     findings.append(finding(work_item, "missing_parity_decision", parity_doc))
-                if implemented not in line:
+                status_tokens = (implemented,)
+                if record.get("lifecycleState") == "recovered":
+                    recovery_status = "已恢复" if parity_doc.endswith(".zh-CN.md") else "Recovered"
+                    status_tokens = (implemented, recovery_status)
+                elif record.get("lifecycleState") == "awaiting_merge_close":
+                    pending_status = "进行中" if parity_doc.endswith(".zh-CN.md") else "In progress"
+                    status_tokens = (implemented, pending_status)
+                if not any(token in line for token in status_tokens):
                     findings.append(finding(work_item, "stale_parity_status", parity_doc))
         inventory.append(record)
 

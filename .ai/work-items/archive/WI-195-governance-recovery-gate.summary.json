@@ -1,0 +1,154 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "superseded-recovery",
+          "path": "tests/ci/governance_integrity_gate_test.sh",
+          "type": "test",
+          "verification": "exit zero and recovered inventory"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "superseded-recovery",
+          "path": "tests/ci/governance_integrity_gate_test.sh",
+          "type": "test",
+          "verification": "predecessor and successor identity binding"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "recovery mutations",
+          "path": "tests/ci/governance_integrity_gate_test.sh",
+          "type": "test",
+          "verification": "non-zero fail-closed findings"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "existing cases",
+          "path": "tests/ci/governance_integrity_gate_test.sh",
+          "type": "test",
+          "verification": "legacy behavior unchanged"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "deterministic report",
+          "path": "tests/ci/governance_integrity_gate_test.sh",
+          "type": "test",
+          "verification": "byte-identical reports"
+        },
+        {
+          "locator": "three-language parity",
+          "path": "tests/docs/documentation_acceptance.sh",
+          "type": "documentation",
+          "verification": "documentation accepted"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "post-merge closure",
+          "path": ".ai/decisions/WI-188-governance-integrity-gate.close.json",
+          "type": "governance-receipt",
+          "verification": "receipt retained"
+        },
+        {
+          "locator": "post-merge closure",
+          "path": ".ai/decisions/WI-190-finalization-plan-order.close.json",
+          "type": "governance-receipt",
+          "verification": "receipt retained"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/active/WI-195-governance-recovery-gate.contract.json",
+    ".ai/work-items/active/WI-195-governance-recovery-gate.summary.json"
+  ],
+  "checkpointAt": "2026-08-23T12:19:30Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T12:14:48Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "tests/ci/governance_integrity_gate_test.sh",
+      "/tmp/wi195-gate-after4.json"
+    ],
+    "reason": "The targeted recovery regression and live repository inventory both pass without weakening current checks.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-23T12:48:01Z",
+  "preflightContractDigest": "sha256:d43d2d4e137a0f86e1bbbc9d2b77fecd3b86d0dd81326d4771826339f2b65ccd",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:5d807794ffafb48289a9ba557c5d691021b32d57c4fd80de00887ca878bc4b07",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "expected": "A predecessor with a valid recovery decision is inventory-recovered and is not required to have a green Outcome.",
+      "required": true,
+      "scenario": "valid_superseded_predecessor_recovery",
+      "status": "verified",
+      "verificationPlan": "Run the superseded-recovery fixture and assert exit zero, lifecycleState recovered, and no invalid_outcome finding."
+    },
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "expected": "Missing, malformed, or foreign recovery decisions remain blocking findings.",
+      "required": true,
+      "scenario": "malformed_or_foreign_recovery_fails_closed",
+      "status": "verified",
+      "verificationPlan": "Run recovery fixture mutations and assert deterministic non-zero findings."
+    },
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "expected": "Current, historical, invalid-outcome, and pre-merge fixtures keep their existing classifications.",
+      "required": true,
+      "scenario": "current_and_historical_gate_regression",
+      "status": "verified",
+      "verificationPlan": "Run the complete governance-integrity regression suite."
+    },
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "expected": "The report is byte deterministic and the recovery policy is documented in all three languages.",
+      "required": true,
+      "scenario": "deterministic_report_and_parity",
+      "status": "verified",
+      "verificationPlan": "Run the gate twice and the documentation acceptance suite."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T12:49:22Z",
+  "workItemId": "WI-195-governance-recovery-gate"
+}

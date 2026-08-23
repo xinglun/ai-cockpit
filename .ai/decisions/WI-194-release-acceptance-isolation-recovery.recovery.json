@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-23T00:00:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-194-release-acceptance-isolation-recovery.verification.json",
+    ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.archive.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:0dff6c4f3cf8dee72a08b08c144404a8c0ca52c3536b8b84321a4a564d51b860",
+  "predecessorEventsDigest": "sha256:46a88885c19038b0a650b9f84481f6e197ee8d92859d631e7d194d22bdae9313",
+  "predecessorOutcomeDigest": "sha256:6378a952a32fe42822739ae82bb1ee45d3fe826b539ec5b0c0e2b2b7de3512d1",
+  "predecessorSummaryDigest": "sha256:3ccec2ad5680c9ea2c53ad3bc1d8d3ebc81bc017de45a8473211efc2290164ac",
+  "predecessorWorkItemId": "WI-194-release-acceptance-isolation-recovery",
+  "reason": "WI-194 contains the same bounded release-acceptance isolation implementation but cannot be finalized from its historical source-built Runtime evidence or nonexistent provider context. Preserve its immutable bytes and complete the current batch through WI-195 from the latest remote base.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-195 on its current branch and reviewed PR, then close this predecessor as recovered without rewriting its historical bytes.",
+  "runtimeDigest": "sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+  "runtimeVersion": "0.2.23",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-195-governance-recovery-gate",
+  "workItemId": "WI-194-release-acceptance-isolation-recovery"
+}

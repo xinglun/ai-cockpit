@@ -24,20 +24,31 @@ cleanup_run_root() {
   cleanup_validated=false
   cleanup_reason='run_root cleanup was not attempted'
 
-  [[ -n "${run_root:-}" && -n "${run_parent:-}" ]] || {
-    cleanup_reason='run_root cleanup path was not initialized'
-    return 1
+  [[ -n "${run_root:-}" ]] || {
+    cleanup_state=passed
+    cleanup_removed=true
+    cleanup_validated=true
+    cleanup_reason='run_root was never created'
+    return 0
   }
   [[ -d "$run_parent" ]] || {
     cleanup_reason='run_root parent directory is missing'
     return 1
   }
-  [[ -d "$run_root" ]] || {
+  if [[ ! -e "$run_root" && ! -L "$run_root" ]]; then
     cleanup_state=passed
     cleanup_removed=true
     cleanup_validated=true
     cleanup_reason='run_root was already absent'
     return 0
+  fi
+  [[ -d "$run_root" && ! -L "$run_root" ]] || {
+    cleanup_reason='run_root is not the original regular directory'
+    return 1
+  }
+  [[ -n "$run_root_identity" && "$(path_identity "$run_root")" == "$run_root_identity" ]] || {
+    cleanup_reason='run_root device/inode identity changed'
+    return 1
   }
 
   parent_real="$(cd "$run_parent" 2>/dev/null && pwd -P)" || {
@@ -65,7 +76,7 @@ cleanup_run_root() {
     return 1
   }
   cleanup_validated=true
-  if rm -rf -- "$root_real" && [[ ! -e "$root_real" ]]; then
+  if rm -rf -- "$run_root" && [[ ! -e "$run_root" && ! -L "$run_root" ]]; then
     cleanup_state=passed
     cleanup_removed=true
     cleanup_reason='validated run_root removed'
@@ -172,22 +183,26 @@ if [[ "$target" == x86_64-pc-windows-msvc ]]; then need unzip; archive_ext=zip; 
 fi
 if [[ -z "$source_repo" ]]; then source_repo="$(git rev-parse --show-toplevel 2>/dev/null || true)"; fi
 [[ -n "$source_repo" && -d "$source_repo" ]] || die 'source repository is unavailable'
-source_repo="$(cd "$source_repo" && pwd)"
-git -C "$source_repo" rev-parse --show-toplevel >/dev/null 2>&1 || die 'source repository is not a Git checkout'
+source_repo="$(cd "$source_repo" && pwd -P)"
+source_top="$(git -C "$source_repo" rev-parse --show-toplevel 2>/dev/null)"
+[[ -n "$source_top" ]] || die 'source repository is not a Git checkout'
+source_top="$(cd "$source_top" && pwd -P)"
+[[ "$source_top" == "$source_repo" ]] || die '--source-repo must identify the Git top-level directory'
+source_project="$source_repo/.ai/project.json"
+[[ -f "$source_project" && ! -L "$source_project" ]] || die 'source repository .ai/project.json is missing or symlinked'
+source_repository_id="$(jq -er '.repositoryId | select(type == "string" and test("^sha256:[0-9a-f]{64}$"))' "$source_project")" || die 'source repositoryId is missing or malformed'
 mkdir -p "$output"; output="$(cd "$output" && pwd)"
 [[ -z "$(find "$output" -mindepth 1 -print -quit 2>/dev/null)" ]] || die "output directory must be empty: $output"
 mkdir -p "$output/work-items"
 
 tmp_parent="$(printenv TMPDIR 2>/dev/null || printf '/tmp')"; [[ -d "$tmp_parent" ]] || tmp_parent=/tmp
 run_parent="$(cd "$tmp_parent" 2>/dev/null && pwd -P)" || die "TMPDIR is not a directory: $tmp_parent"
-run_root="$(mktemp -d "$run_parent/ai-cockpit-n-minus-one.XXXXXX")"
-download_root="$run_root/downloads"; from_root="$run_root/from"; to_root="$run_root/to"; adopter="$run_root/adopter"
-isolated_home="$run_root/home"; isolated_xdg="$run_root/xdg"; isolated_tmp="$run_root/tmp"; isolated_cargo="$run_root/cargo"
-mkdir -p "$download_root" "$from_root" "$to_root" "$isolated_home" "$isolated_xdg" "$isolated_tmp" "$isolated_cargo"
-steps="$run_root/steps.jsonl"; : > "$steps"
+run_root=''; download_root=''; from_root=''; to_root=''; adopter=''
+isolated_home=''; isolated_xdg=''; isolated_tmp=''; isolated_cargo=''; steps=''
 started_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"; failure_reason=''; release_published=false
 from_bin='' to_bin='' from_version='' to_version='' from_digest='' to_digest='' repository_id=''
 cleanup_state=not_started cleanup_removed=false cleanup_validated=false cleanup_reason=''
+run_root_identity=''
 adopter_repository_id=''
 close_decision_work_item=''
 close_decision_repository_id=''
@@ -211,38 +226,64 @@ pass() {
 finish() {
   local exit_code=$? state=failed
   set +e
+  local acceptance_write_result=0
+  local initial_sums_result=0
+  local cleanup_result=0
+  local acceptance_update_result=0
+  local cleanup_receipt_result=0
+  local final_sums_result=0
   if [[ "$exit_code" -eq 0 ]]; then state=passed; else [[ -n "$failure_reason" ]] || failure_reason="command exited with status $exit_code"; fi
   local step_json='[]'
-  if [[ -s "$steps" ]]; then step_json="$(jq -s '.' "$steps")"; fi
+  if [[ -n "$steps" && -s "$steps" ]]; then step_json="$(jq -s '.' "$steps")"; fi
   jq -n --arg startedAt "$started_at" --arg finishedAt "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
     --arg state "$state" --arg published "$release_published" --arg repository "$repository" \
     --arg fromTag "$from_tag" --arg toTag "$to_tag" --arg target "$target" \
     --arg fromVersion "$from_version" --arg toVersion "$to_version" --arg fromDigest "$from_digest" \
-    --arg toDigest "$to_digest" --arg repositoryId "$repository_id" --arg rustToolchain "$rustup_toolchain" --arg reason "$failure_reason" \
+    --arg toDigest "$to_digest" --arg repositoryId "$repository_id" --arg sourceRepositoryId "$source_repository_id" --arg rustToolchain "$rustup_toolchain" --arg reason "$failure_reason" \
     --arg closeDecisionWorkItem "$close_decision_work_item" \
     --arg closeDecisionRepositoryId "$close_decision_repository_id" \
     --arg closeDecisionDigest "$close_decision_digest" \
     --arg closeDecisionPath "$close_decision_path" \
     --argjson closeDecisionValidated "$close_decision_validated" \
     --argjson steps "$step_json" \
-    '{schemaVersion:1,startedAt:$startedAt,finishedAt:$finishedAt,releasePublished:($published=="true"),adopterAcceptance:$state,repository:$repository,fromTag:$fromTag,toTag:$toTag,target:$target,rustToolchain:(if $rustToolchain=="" then null else $rustToolchain end),fromRuntimeVersion:(if $fromVersion=="" then null else $fromVersion end),toRuntimeVersion:(if $toVersion=="" then null else $toVersion end),fromRuntimeDigest:(if $fromDigest=="" then null else $fromDigest end),toRuntimeDigest:(if $toDigest=="" then null else $toDigest end),repositoryId:(if $repositoryId=="" then null else $repositoryId end),closeDecision:{validated:$closeDecisionValidated,workItemId:(if $closeDecisionWorkItem=="" then null else $closeDecisionWorkItem end),repositoryId:(if $closeDecisionRepositoryId=="" then null else $closeDecisionRepositoryId end),artifactPath:(if $closeDecisionPath=="" then null else $closeDecisionPath end),digest:(if $closeDecisionDigest=="" then null else $closeDecisionDigest end)},cleanupState:"pending",cleanupError:null,steps:$steps,failureReason:(if $reason=="" then null else $reason end)}' > "$output/acceptance.json"
-  write_sums
+    '{schemaVersion:1,startedAt:$startedAt,finishedAt:$finishedAt,releasePublished:($published=="true"),adopterAcceptance:$state,repository:$repository,fromTag:$fromTag,toTag:$toTag,target:$target,rustToolchain:(if $rustToolchain=="" then null else $rustToolchain end),fromRuntimeVersion:(if $fromVersion=="" then null else $fromVersion end),toRuntimeVersion:(if $toVersion=="" then null else $toVersion end),fromRuntimeDigest:(if $fromDigest=="" then null else $fromDigest end),toRuntimeDigest:(if $toDigest=="" then null else $toDigest end),repositoryId:(if $repositoryId=="" then null else $repositoryId end),sourceRepositoryId:(if $sourceRepositoryId=="" then null else $sourceRepositoryId end),closeDecision:{validated:$closeDecisionValidated,workItemId:(if $closeDecisionWorkItem=="" then null else $closeDecisionWorkItem end),repositoryId:(if $closeDecisionRepositoryId=="" then null else $closeDecisionRepositoryId end),artifactPath:(if $closeDecisionPath=="" then null else $closeDecisionPath end),digest:(if $closeDecisionDigest=="" then null else $closeDecisionDigest end)},cleanupState:"pending",cleanupError:null,steps:$steps,failureReason:(if $reason=="" then null else $reason end)}' > "$output/acceptance.json" || acceptance_write_result=$?
+  if [[ "$acceptance_write_result" -ne 0 ]]; then
+    exit_code=1
+    failure_reason="acceptance receipt write failed (status $acceptance_write_result)"
+  fi
+  write_sums || initial_sums_result=$?
+  if [[ "$initial_sums_result" -ne 0 ]]; then
+    exit_code=1
+    [[ -n "$failure_reason" ]] || failure_reason="initial checksum receipt write failed (status $initial_sums_result)"
+  fi
   cleanup_run_root
   cleanup_result=$?
   update_acceptance_cleanup
   acceptance_update_result=$?
   write_cleanup_receipt
+  cleanup_receipt_result=$?
   write_sums
+  final_sums_result=$?
   if [[ "$cleanup_state" == failed ]]; then
     printf 'adopter upgrade acceptance cleanup failed: %s\n' "$cleanup_reason" >&2
     [[ "$exit_code" -ne 0 ]] || exit_code=1
   fi
   [[ "$acceptance_update_result" -eq 0 ]] || exit_code=1
+  [[ "$cleanup_result" -eq 0 ]] || exit_code=1
+  [[ "$cleanup_receipt_result" -eq 0 ]] || exit_code=1
+  [[ "$final_sums_result" -eq 0 ]] || exit_code=1
   exit "$exit_code"
 }
 trap finish EXIT
 trap 'exit 130' INT
 trap 'exit 143' TERM
+
+run_root="$(mktemp -d "$run_parent/ai-cockpit-n-minus-one.XXXXXX")"
+run_root_identity="$(path_identity "$run_root")"
+download_root="$run_root/downloads"; from_root="$run_root/from"; to_root="$run_root/to"; adopter="$run_root/adopter"
+isolated_home="$run_root/home"; isolated_xdg="$run_root/xdg"; isolated_tmp="$run_root/tmp"; isolated_cargo="$run_root/cargo"
+mkdir -p "$download_root" "$from_root" "$to_root" "$isolated_home" "$isolated_xdg" "$isolated_tmp" "$isolated_cargo"
+steps="$run_root/steps.jsonl"; : > "$steps"
 
 if rustup_home="$(printenv RUSTUP_HOME 2>/dev/null)"; then :; else rustup_home=''; fi
 if [[ -z "$rustup_home" ]] && command -v rustup >/dev/null 2>&1; then
@@ -319,6 +360,7 @@ expected_fail() {
 download "$from_tag" from "$from_root"
 download "$to_tag" to "$to_root"
 source_before_status="$(git -C "$source_repo" status --porcelain=v1)"
+manifest_source_checkout "$source_repo" "$output" "$run_root/source-before.manifest"
 source_ai_digest=''; [[ -f "$source_repo/.ai/project.json" ]] && source_ai_digest="sha256:$(sha256_file "$source_repo/.ai/project.json")"
 pass public-release-pins
 
@@ -559,6 +601,7 @@ validate_close_decision "$new_work_item"
 pass continued-operation
 
 source_after_status="$(git -C "$source_repo" status --porcelain=v1)"
+manifest_source_checkout "$source_repo" "$output" "$run_root/source-after.manifest"
 manifest_tree "$isolated_home" "$run_root/home-after.manifest"
 manifest_tree "$isolated_xdg" "$run_root/xdg-after.manifest"
 manifest_tree "$isolated_tmp" "$run_root/tmp-after.manifest"
@@ -567,17 +610,25 @@ home_unchanged=true; xdg_unchanged=true
 cmp -s "$run_root/home-before.manifest" "$run_root/home-after.manifest" || home_unchanged=false
 cmp -s "$run_root/xdg-before.manifest" "$run_root/xdg-after.manifest" || xdg_unchanged=false
 [[ "$source_before_status" == "$source_after_status" ]] || die 'acceptance modified source checkout'
+cmp -s "$run_root/source-before.manifest" "$run_root/source-after.manifest" || die 'acceptance modified tracked source or source .ai contents'
+validate_manifest_symlink_containment "$isolated_tmp" "$run_root/tmp-before.manifest" || die 'isolated TMPDIR contains an escaping symlink target before Runtime execution'
+validate_manifest_symlink_containment "$isolated_tmp" "$run_root/tmp-after.manifest" || die 'isolated TMPDIR contains an escaping symlink target after Runtime execution'
+validate_manifest_symlink_containment "$isolated_cargo" "$run_root/cargo-before.manifest" || die 'isolated CARGO_HOME contains an escaping symlink target before Runtime execution'
+validate_manifest_symlink_containment "$isolated_cargo" "$run_root/cargo-after.manifest" || die 'isolated CARGO_HOME contains an escaping symlink target after Runtime execution'
 [[ "$home_unchanged" == true && "$xdg_unchanged" == true ]] || die 'acceptance escaped isolated HOME/XDG'
 repository_id="$(jq -er '.repositoryId' "$output/from-agent-doctor.json")"
 mkdir -p "$output/isolation-manifests"
-for name in home-before home-after xdg-before xdg-after tmp-before tmp-after cargo-before cargo-after; do
+for name in source-before source-after home-before home-after xdg-before xdg-after tmp-before tmp-after cargo-before cargo-after; do
   cp "$run_root/$name.manifest" "$output/isolation-manifests/$name.manifest"
 done
 jq -n \
   --arg sourceRepository "$source_repo" \
+  --arg sourceRepositoryId "$source_repository_id" \
   --arg sourceAiDigest "$source_ai_digest" \
   --arg sourceBeforeStatus "$source_before_status" \
   --arg sourceAfterStatus "$source_after_status" \
+  --arg sourceBeforeDigest "sha256:$(sha256_file "$run_root/source-before.manifest")" \
+  --arg sourceAfterDigest "sha256:$(sha256_file "$run_root/source-after.manifest")" \
   --arg adopterRepository "$adopter" \
   --arg repositoryId "$repository_id" \
   --argjson homeUnchanged "$home_unchanged" \
@@ -590,6 +641,6 @@ jq -n \
   --arg tmpAfterDigest "sha256:$(sha256_file "$run_root/tmp-after.manifest")" \
   --arg cargoBeforeDigest "sha256:$(sha256_file "$run_root/cargo-before.manifest")" \
   --arg cargoAfterDigest "sha256:$(sha256_file "$run_root/cargo-after.manifest")" \
-  '{schemaVersion:2,sourceRepository:$sourceRepository,sourceAiDigest:(if $sourceAiDigest=="" then null else $sourceAiDigest end),sourceBeforeStatus:$sourceBeforeStatus,sourceAfterStatus:$sourceAfterStatus,sourceUnchanged:($sourceBeforeStatus==$sourceAfterStatus),adopterRepository:$adopterRepository,repositoryId:$repositoryId,repositoryIsolation:($adopterRepository!=$sourceRepository),roots:{HOME:{classification:"global-config",allowedWrites:false,allowedPrefixes:[],beforeDigest:$homeBeforeDigest,afterDigest:$homeAfterDigest,unchanged:$homeUnchanged},XDG_CONFIG_HOME:{classification:"global-config",allowedWrites:false,allowedPrefixes:[],beforeDigest:$xdgBeforeDigest,afterDigest:$xdgAfterDigest,unchanged:$xdgUnchanged},TMPDIR:{classification:"runtime-temporary",allowedWrites:true,allowedPrefixes:["<TMPDIR>/**"],beforeDigest:$tmpBeforeDigest,afterDigest:$tmpAfterDigest},CARGO_HOME:{classification:"dependency-cache",allowedWrites:true,allowedPrefixes:["<CARGO_HOME>/**"],beforeDigest:$cargoBeforeDigest,afterDigest:$cargoAfterDigest}},releasePublished:true}' > "$output/isolation.json"
+  '{schemaVersion:2,sourceRepository:$sourceRepository,sourceRepositoryId:$sourceRepositoryId,sourceAiDigest:(if $sourceAiDigest=="" then null else $sourceAiDigest end),sourceBeforeStatus:$sourceBeforeStatus,sourceAfterStatus:$sourceAfterStatus,sourceManifest:{format:"typed-jsonl",beforeDigest:$sourceBeforeDigest,afterDigest:$sourceAfterDigest},sourceUnchanged:($sourceBeforeStatus==$sourceAfterStatus and $sourceBeforeDigest==$sourceAfterDigest),adopterRepository:$adopterRepository,repositoryId:$repositoryId,repositoryIsolation:($adopterRepository!=$sourceRepository),roots:{HOME:{classification:"global-config",allowedWrites:false,allowedPrefixes:[],beforeDigest:$homeBeforeDigest,afterDigest:$homeAfterDigest,unchanged:$homeUnchanged},XDG_CONFIG_HOME:{classification:"global-config",allowedWrites:false,allowedPrefixes:[],beforeDigest:$xdgBeforeDigest,afterDigest:$xdgAfterDigest,unchanged:$xdgUnchanged},TMPDIR:{classification:"runtime-temporary",allowedWrites:true,allowedPrefixes:["<TMPDIR>/**"],beforeDigest:$tmpBeforeDigest,afterDigest:$tmpAfterDigest,symlinkTargetsContained:true},CARGO_HOME:{classification:"dependency-cache",allowedWrites:true,allowedPrefixes:["<CARGO_HOME>/**"],beforeDigest:$cargoBeforeDigest,afterDigest:$cargoAfterDigest,symlinkTargetsContained:true}},releasePublished:true}' > "$output/isolation.json"
 jq -e '.schemaVersion==2 and .sourceUnchanged and .roots.HOME.unchanged and .roots.XDG_CONFIG_HOME.unchanged and (.roots.HOME.allowedPrefixes | length == 0) and (.roots.XDG_CONFIG_HOME.allowedPrefixes | length == 0) and .roots.TMPDIR.allowedWrites and .roots.TMPDIR.allowedPrefixes == ["<TMPDIR>/**"] and .roots.CARGO_HOME.allowedWrites and .roots.CARGO_HOME.allowedPrefixes == ["<CARGO_HOME>/**"] and .repositoryIsolation' "$output/isolation.json" >/dev/null || die 'isolation proof failed'
 pass isolation

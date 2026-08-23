@@ -1,0 +1,25 @@
+{
+  "createdAt": "2026-08-23T12:51:46Z",
+  "files": {
+    "approachDigest": "sha256:f808beda9f0909e6321025cf08ac51f200e983a90feaadbc8d6043672834dc92",
+    "approachPath": ".ai/work-items/archive/WI-195-governance-recovery-gate.approach.json",
+    "contractDigest": "sha256:cc6028da02abd091ee9f8a9bf393355cbb11e8854b875e802b198c9f128d52f8",
+    "contractPath": ".ai/work-items/archive/WI-195-governance-recovery-gate.contract.json",
+    "eventsDigest": "sha256:8ab3d0a3d1bbbbac7051a90c5db19c7ba3eec49fc2b96d8f96c4d1fcec5bc78d",
+    "eventsPath": ".ai/work-items/archive/WI-195-governance-recovery-gate.events.jsonl",
+    "outcomeDigest": "sha256:7cea0ac5f94ec2c84b00852e9f79083c93305d0252673abcda77b5c9456a5718",
+    "outcomePath": ".ai/work-items/archive/WI-195-governance-recovery-gate.outcome.json",
+    "summaryDigest": "sha256:4ef02e3866710633a2083428f91e9b27fa77dfc5c5e0dc9addfa1b34b7a54622",
+    "summaryPath": ".ai/work-items/archive/WI-195-governance-recovery-gate.summary.json",
+    "taskReportDigest": "sha256:4298220f7c0e1f8a325331acdc752dfcc99fc850b57d084f479f4c2a9db0772f",
+    "taskReportMarkdownDigest": "sha256:bdc015954957a943e079b73829d2bdd8e05b81f7faded337fe525fe68ae5e901",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-195-governance-recovery-gate.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-195-governance-recovery-gate.task-report.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "state": "superseded",
+  "supersededBy": "WI-196-governance-recovery-gate-retry",
+  "supersessionDecisionPath": ".ai/decisions/WI-195-governance-recovery-gate.recovery.41db4336e4609986f5d7947305702b856c9626d9430dd6bebecf7e772dbd3a17.json",
+  "workItemId": "WI-195-governance-recovery-gate"
+}

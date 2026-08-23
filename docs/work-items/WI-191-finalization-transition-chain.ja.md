@@ -1,6 +1,14 @@
 ---
+author: AI Cockpit maintainers
 title: WI-191 — Append-only finalization transition chain
+workItemId: WI-191-finalization-transition-chain
+description: "merge と cleanup を append-only transition として記録し、pre-merge evidence を不変に保持します。"
+audience:
+  - maintainer
+  - reviewer
 status: implemented
+authority: canonical
+lastVerifiedBy: WI-191-finalization-transition-chain
 ---
 
 # WI-191 — Append-only finalization transition chain

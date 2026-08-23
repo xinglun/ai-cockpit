@@ -1,0 +1,368 @@
+{
+  "acceptanceResults": [
+    "Both public and N-1 release acceptance harnesses register EXIT cleanup before failure-prone setup and leave no temporary run_root on success or failure.",
+    "Source checkout isolation manifests detect tracked and untracked .ai mutations while excluding only declared output artifacts.",
+    "Isolation manifests capture file, directory, and symlink metadata and reject symlink targets escaping TMPDIR or CARGO_HOME.",
+    "Existing success, failure, cleanup-failure, and public no-source-fallback regressions remain passing.",
+    "Three release-language documents describe the actually verified v0.2.23 aarch64-apple-darwin acceptance target without changing published Release truth."
+  ],
+  "createdAt": "2026-08-23T12:07:54Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:d8887f22b0f6e6845f59798429f098fc3792eb8bfba81a437fee55e842c5a292",
+  "evidenceRefs": [
+    ".ai/evidence/WI-194-release-acceptance-isolation-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-194-release-acceptance-isolation-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-194-release-acceptance-isolation-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bf9585b252ce8be2828758e3822274cdde47a3a3381f3b0d1a963720d92ee3df",
+      "workItemId": "WI-194-release-acceptance-isolation-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-193-release-acceptance-isolation.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-193-release-acceptance-isolation.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-193-release-acceptance-isolation.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-193-release-acceptance-isolation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-193-release-acceptance-isolation.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-193-release-acceptance-isolation.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-193-release-acceptance-isolation.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-193-release-acceptance-isolation.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-193-release-acceptance-isolation.task-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-186-release-v0-2-23-post-release-acceptance.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-186-release-v0-2-23-post-release-acceptance.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-186-release-v0-2-23-post-release-acceptance.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-191-finalization-transition-chain.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-191-finalization-transition-chain.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-191-finalization-transition-chain.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-191H-finalization-head-binding.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-191H-finalization-head-binding.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-191H-finalization-head-binding.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-193-release-acceptance-isolation.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-193-release-acceptance-isolation.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-193-release-acceptance-isolation.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/docs/documentation_acceptance.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/adopter_acceptance.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/adopter_acceptance_test.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/adopter_upgrade_acceptance.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/adopter_upgrade_acceptance_test.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/isolation_manifest.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/isolation_manifest_test.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-194-release-acceptance-isolation-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-194-release-acceptance-isolation-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-194-release-acceptance-isolation-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-194-release-acceptance-isolation-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-194-release-acceptance-isolation-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Make post-release adopter and N-1 acceptance cleanup and isolation proofs fail-closed and auditable without changing Runtime Core or published Release truth."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-194-release-acceptance-isolation-recovery"
+  },
+  "taskReportDigest": "sha256:960297bd042db7e4e5d1f9008b3a06d8b98f05aba620168fade77dab6c210daa",
+  "taskReportMarkdownDigest": "sha256:6a3ba7080d4d50b5dcf4d00e6d67fcfadef4bf811164927ca39a54efba13b993",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-194-release-acceptance-isolation-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-194-release-acceptance-isolation-recovery"
+}
