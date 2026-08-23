@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-212-release-fixture-finalization-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9ca4c9d9e43530cac0301e1b13710b84a738780c51317aa78a34aec259a31bf5",
+      "workItemId": "WI-212-release-fixture-finalization-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-212-release-fixture-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-212-release-fixture-finalization-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-212-release-fixture-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-212-release-fixture-finalization-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-212-release-fixture-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-212-release-fixture-finalization-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-212-release-fixture-finalization-recovery.finalize.c57751b722400115553edc6d1c66c4452335c06e0a736c54c1a344e1c0ca4818.json",
+            ".ai/evidence/WI-212-release-fixture-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via post-merge-provider-evidence at 2026-08-23T18:43:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-212-release-fixture-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-212-release-fixture-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-212-release-fixture-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-212-release-fixture-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "根治 Work Item 在资源收尾计划之前归档后无法生成有效 pre-merge finalization receipt 的流程缺口。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-212-release-fixture-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-212-release-fixture-finalization-recovery"
+  },
+  "finalReportDigest": "sha256:9676b1636db360067e89bd29995cac46c929e0662658b86d73e75289b0e24b51",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:90a8adf3fc146793ebb9a78b670396943ce8ae6926ad2ec66bcdd305841f0e52",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-212-release-fixture-finalization-recovery.finalize.c57751b722400115553edc6d1c66c4452335c06e0a736c54c1a344e1c0ca4818.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "post-merge-provider-evidence",
+    "decidedAt": "2026-08-23T18:43:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/decisions/WI-212-release-fixture-finalization-recovery.finalize.c57751b722400115553edc6d1c66c4452335c06e0a736c54c1a344e1c0ca4818.json",
+      ".ai/evidence/WI-212-release-fixture-finalization-recovery.verification.json"
+    ],
+    "policyRefs": [
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "PR #160 is merged; the exact remote branch and worktree were deleted and independently verified absent.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-23T18:43:42Z",
+  "workItemId": "WI-212-release-fixture-finalization-recovery"
+}
