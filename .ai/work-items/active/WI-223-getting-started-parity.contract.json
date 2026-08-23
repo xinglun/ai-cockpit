@@ -1,0 +1,68 @@
+{
+  "acceptanceCriteria": [
+    "Every scoped reference getting-started file is classified and each selected onboarding surface has a Rust counterpart or explicit no-counterpart/deferred reason.",
+    "The three language routes are reader-first, cross-linked, and use current explicit --repo Runtime commands, not reference Make targets or historical migration prose.",
+    "Installation and adopter guidance distinguishes shared Runtime installation from repository attach/configuration and states the human-review/Outcome boundary.",
+    "All internal links, frontmatter, and documentation acceptance checks pass in all three languages.",
+    "Generated governance status, evidence, receipt, and archive bytes are never hand-edited; any human-owned Contract amendment is explicit, revalidated by Runtime preflight, and followed by a visible human Outcome."
+  ],
+  "authority": "authorized",
+  "baseRevision": "72320be00d3340ad328aa93ac1a7e80e8e828085",
+  "createdAt": "2026-08-23T21:47:13Z",
+  "goal": "Close the next reference comparison batch for user-facing onboarding without importing template-internal migration history or obsolete commands.",
+  "intent": "Compare the reference getting-started files one by one and provide a reader-first Rust/Runtime route for installation, first Work Item, calibration/profile, adopter configuration, and release security in English, Simplified Chinese, and Japanese.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    ".github/**",
+    "tests/ci/**",
+    "tests/release/**",
+    "docs/reference/reference-parity.*",
+    "reference Python runtime",
+    "reference Makefile",
+    "global Agent/MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ef04432d43dedc9d67e7fa8151f26ecfb78f6fc9ba6c09d8eab9c5c3d2106dc4",
+  "requiredEvidenceClasses": [
+    ".ai/evidence/WI-223-getting-started-parity.verification.json"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-223-getting-started-parity",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi223-getting-started-parity"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/getting-started/**",
+    "docs/current/README.md",
+    "docs/current/README.zh-CN.md",
+    "docs/current/README.ja.md",
+    "docs/README.md",
+    "docs/README.zh-CN.md",
+    "docs/README.ja.md",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/docs/getting_started_semantic.sh"
+  ],
+  "sources": [
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/tree/e5acb677da6621004d96f0ef353c58fe8d3acfbf/docs/getting-started",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/blob/e5acb677da6621004d96f0ef353c58fe8d3acfbf/docs/installation-security.md",
+    "tests/conformance/reference_file_inventory.json"
+  ],
+  "verification": [
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/getting_started_semantic.sh",
+    "bash tests/conformance/reference_file_inventory_test.sh",
+    "bash tests/workflow/resource_finalization_policy_test.sh"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-223-getting-started-parity"
+}

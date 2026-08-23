@@ -25,7 +25,7 @@ machine-facing contract を定義する technical reference に進んでくだ�
 - [アーキテクチャ](architecture.ja.md) — runtime flow、ownership、boundary。
 - [機能一覧と境界](capabilities.ja.md) — command、lifecycle、MCP、recovery。
 - [Release と配布](release/distribution.ja.md) — install と release truth。
-- [30 秒 command guide](capabilities.ja.md#機能一覧) — 現在の機能 index。
+- [30 秒で開始](getting-started/30-second-start.ja.md) — repository を安全に inspect・attach する。
 
 ## Canonical reader routes
 
@@ -44,7 +44,7 @@ machine-facing contract を定義する technical reference に進んでくだ�
 | --- | --- | --- |
 | Project を理解する | [設計思想](philosophy.ja.md) → [アーキテクチャ](architecture.ja.md) | evidence flow と product boundary を説明できる。 |
 | 採用を判断する | [機能一覧](capabilities.ja.md) → [Installation](release/distribution.ja.md) | installation path と、変更されない範囲を理解する。 |
-| Governed task を開始する | [機能一覧](capabilities.ja.md#governed-work-item-を実行する) → [Work Item ルール](work-items/README.ja.md) | inspect、attach、preflight、verify、close を実行する。 |
+| Governed task を開始する | [最初の Work Item](getting-started/first-work-item.ja.md) → [Work Item ルール](work-items/README.ja.md) | review resource を bind し、preflight、verify、Outcome、resource finalization、close を実行する。 |
 | Governance skeleton を作る | [機能一覧](capabilities.ja.md#work-item-skeleton-を作る) → [Command reference](reference/commands.ja.md) | `not_ready` skeleton と不足している human input を確認する。 |
 | MCP client を設定する | [機能一覧](capabilities.ja.md#mcp-を使う) → [MCP と repository attach](release/distribution.ja.md#mcp-と-repository-attach) | 明示的な repository binding で server を起動し、response を読む。 |
 | 結果を review・recovery する | [機能一覧](capabilities.ja.md#stop-と-recovery) → [敵対的検証](security/adversarial-validation.ja.md) | decision を読み、evidence を保持し、停止理由を修復する。 |

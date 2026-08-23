@@ -196,3 +196,5 @@ if missing:
     raise SystemExit('\n'.join(missing))
 print('documentation acceptance passed')
 PY
+
+bash tests/docs/getting_started_semantic.sh
