@@ -4,7 +4,7 @@ use cockpit_repository::{
     WorkItemStartOptions, archive_work_item, attach, checkpoint_work_item,
     close_work_item_with_structured_decision, finish_work_item, plan_resource_finalization,
     preflight_work_item, record_verification, start_work_item, start_work_item_with_options,
-    work_item_status_snapshot_with_runtime,
+    work_item_status_index_with_runtime, work_item_status_snapshot_with_runtime,
 };
 use std::{fs, process::Command};
 
@@ -74,6 +74,15 @@ fn status_projection_is_read_only_and_contains_fact_counts() {
     assert_eq!(status.work_item_id, "WI-STATUS-A");
     assert_eq!(status.governance_state, "yellow");
     assert_eq!(status.verification, "not_ready");
+    assert!(!status.base_commit.is_empty());
+    assert!(!status.blocking);
+    assert!(!status.human_decision_required);
+    assert_eq!(status.evidence_freshness.state, "missing");
+    assert!(status.last_verification_at.is_none());
+    assert!(status.updated_at.is_some());
+    assert!(status.safe_actions.contains(&"run_preflight".into()));
+    assert!(status.source_digests.contains_key("summary"));
+    assert!(status.status_digest.as_str().starts_with("sha256:"));
     assert!(
         status
             .progress_facts
@@ -117,6 +126,173 @@ fn status_projection_isolated_between_repositories() {
     assert_ne!(left_status.repository_id, right_status.repository_id);
     assert_eq!(left_status.work_item_id, "WI-LEFT");
     assert_eq!(right_status.work_item_id, "WI-RIGHT");
+}
+
+#[test]
+fn all_work_item_status_is_sorted_counted_and_digest_stable() {
+    let directory = repository();
+    for id in ["WI-STATUS-Z", "WI-STATUS-A"] {
+        start_work_item_with_options(
+            directory.path(),
+            id,
+            "aggregate status",
+            "project every work item",
+            &["src/**".into()],
+            &WorkItemStartOptions {
+                authority: "authorized".into(),
+                ..Default::default()
+            },
+        )
+        .expect("start");
+    }
+
+    let first = work_item_status_index_with_runtime(directory.path(), &runtime()).expect("index");
+    let second =
+        work_item_status_index_with_runtime(directory.path(), &runtime()).expect("repeat index");
+
+    assert_eq!(
+        first
+            .items
+            .iter()
+            .map(|item| item.work_item_id.as_str())
+            .collect::<Vec<_>>(),
+        vec!["WI-STATUS-A", "WI-STATUS-Z"]
+    );
+    assert_eq!(first.counts.values().sum::<u64>(), 2);
+    assert_eq!(first.counts["yellow"], 2);
+    assert_eq!(first.counts["unknown"], 0);
+    assert_eq!(first.index_digest, second.index_digest);
+    assert_eq!(first.snapshot_digest, second.snapshot_digest);
+    assert!(
+        first
+            .diagnostics
+            .contains(&"work_items_aggregated:2".into())
+    );
+    assert_eq!(
+        first.items[0].status_digest,
+        first.items[0]
+            .status
+            .as_ref()
+            .expect("member status")
+            .status_digest
+    );
+}
+
+#[test]
+fn all_work_item_status_keeps_malformed_member_as_visible_unknown() {
+    let directory = repository();
+    for id in ["WI-STATUS-BAD", "WI-STATUS-GOOD"] {
+        start_work_item_with_options(
+            directory.path(),
+            id,
+            "tamper status",
+            "keep valid members visible",
+            &["src/**".into()],
+            &WorkItemStartOptions {
+                authority: "authorized".into(),
+                ..Default::default()
+            },
+        )
+        .expect("start");
+    }
+    fs::write(
+        directory
+            .path()
+            .join(".ai/work-items/active/WI-STATUS-BAD.contract.json"),
+        b"{not-json",
+    )
+    .expect("tamper contract");
+
+    let index = work_item_status_index_with_runtime(directory.path(), &runtime()).expect("index");
+    assert_eq!(index.items.len(), 2);
+    assert_eq!(index.counts["unknown"], 1);
+    let bad = &index.items[0];
+    assert_eq!(bad.work_item_id, "WI-STATUS-BAD");
+    assert_eq!(bad.governance_state, "unknown");
+    assert!(bad.status.is_none());
+    assert!(bad.unknowns.contains(&"status_projection_failed".into()));
+    assert!(
+        bad.diagnostics
+            .iter()
+            .any(|diagnostic| diagnostic.starts_with("status_projection_failed:"))
+    );
+    assert_eq!(index.items[1].work_item_id, "WI-STATUS-GOOD");
+    assert!(index.items[1].status.is_some());
+}
+
+#[test]
+fn all_work_item_status_rejects_foreign_contract_identity() {
+    let directory = repository();
+    let work_item_id = "WI-STATUS-FOREIGN";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "foreign status",
+        "reject foreign identity",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    let path = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    let mut contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&path).expect("contract")).expect("contract JSON");
+    contract["repositoryId"] = "sha256:foreign".into();
+    fs::write(&path, serde_json::to_vec_pretty(&contract).expect("bytes"))
+        .expect("tamper identity");
+
+    let index = work_item_status_index_with_runtime(directory.path(), &runtime()).expect("index");
+    assert_eq!(index.counts["unknown"], 1);
+    assert_eq!(index.items[0].governance_state, "unknown");
+    assert!(index.items[0].status.is_none());
+    assert!(
+        index.items[0]
+            .diagnostics
+            .iter()
+            .any(|value| value.contains("repository identity mismatch"))
+    );
+}
+
+#[test]
+fn concurrent_all_work_item_status_is_repository_isolated() {
+    let left = repository();
+    let right = repository();
+    for (directory, id) in [(&left, "WI-STATUS-LEFT"), (&right, "WI-STATUS-RIGHT")] {
+        start_work_item_with_options(
+            directory.path(),
+            id,
+            "parallel status",
+            "keep repository identities isolated",
+            &["src/**".into()],
+            &WorkItemStartOptions {
+                authority: "authorized".into(),
+                ..Default::default()
+            },
+        )
+        .expect("start");
+    }
+
+    let (left_index, right_index) = std::thread::scope(|scope| {
+        let left_task = scope.spawn(|| {
+            work_item_status_index_with_runtime(left.path(), &runtime()).expect("left index")
+        });
+        let right_task = scope.spawn(|| {
+            work_item_status_index_with_runtime(right.path(), &runtime()).expect("right index")
+        });
+        (
+            left_task.join().expect("left task"),
+            right_task.join().expect("right task"),
+        )
+    });
+
+    assert_ne!(left_index.repository_id, right_index.repository_id);
+    assert_ne!(left_index.snapshot_digest, right_index.snapshot_digest);
+    assert_eq!(left_index.items[0].work_item_id, "WI-STATUS-LEFT");
+    assert_eq!(right_index.items[0].work_item_id, "WI-STATUS-RIGHT");
 }
 
 #[test]

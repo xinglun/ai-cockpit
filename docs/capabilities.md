@@ -328,11 +328,19 @@ inconsistent entries fail closed.
 
 ```bash
 ai-cockpit status --repo /path/to/repository
+ai-cockpit work-item status --repo /path/to/repository --id WI-123 --json
+ai-cockpit work-item status --repo /path/to/repository --all --json
 ai-cockpit knowledge query --repo /path/to/repository --topic installation
 ```
 
 Knowledge is a projection of repository-local evidence, not a second source of
-truth. Missing, stale, or invalid Work Items and receipts must not become fresh claims.
+truth. Missing, stale, or invalid Work Items and receipts must not become fresh
+claims. The all-Work-Item projection sorts IDs, reports green/yellow/red/unknown
+counts and per-item diagnostics, and binds both the current repository snapshot
+and a deterministic index digest. A malformed or foreign member stays visible
+as `unknown`; it does not hide the other members or fail open.
+Repeated `observe`, `capability show`, and status projections are request-scoped
+reads: they do not create tracked capability/status files or observer caches.
 
 ### Traceability, outcomes, and parallel readiness
 
@@ -359,9 +367,20 @@ evidence-bound sections, `failedGate`/`recoveryCondition`, and an append-only
 digest, and `close` records the validated report as `finalReport`. Historical
 records are not backfilled. The report is presentation/evidence projection,
 not an approval source; full event-sourced recovery remains a separate boundary.
-capability registry reports detection versus profile-confirmed verification and
-includes confidence and evidence. `inspect` fails closed for parallel execution
+The capability registry separates observed technical facts from adopter-facing
+Runtime claims. Adopter states are `runtime_supported`, `repository_bound`,
+`observed`, `profile_confirmed`, `adopter_accepted`, `external`, and `unknown`;
+the Runtime emits only the level supported by its identity, the current
+snapshot, strict profile data, and repository interface. A present file is not
+adopter acceptance, and `adopter_accepted` requires explicit acceptance evidence
+outside this static catalog. Exclusions such as hosted CI, signing, SBOM, and
+production sandboxing remain external. Missing, malformed, stale, or foreign
+inputs produce stable unknowns instead of a verified claim. `inspect` fails closed for parallel execution
 when dependencies, conflicts, or scope compatibility are not explicitly known.
+This registry is not an installed-surface manifest: it does not reproduce the
+reference template's `templateFiles`, `installedFiles`, schema/entrypoint lists,
+or `verifyInstalledSurface` checks. That manifest and project-level
+capability-to-scope acceptance remain explicit migration gaps.
 Scope compatibility normalizes Windows `\\` separators, detects exact and
 nested-prefix overlaps (`src/**` with `src/main.rs` or `src/test/**`), and
 returns `scope_overlap_unknown` for patterns whose intersection cannot be
@@ -387,15 +406,18 @@ Start the server with an explicit repository binding:
 ai-cockpit mcp --repo /path/to/repository
 ```
 
-The server exposes these tools: `status`, `work_item_get`, `work_item_outcome`, `work_item_status`, `work_item_validate`,
+The server exposes these 18 tools: `status`, `work_item_get`, `work_item_outcome`, `work_item_status`, `work_item_validate`,
 `work_item_list`, `blockers`, `safe_actions`, `knowledge_query`, `evidence_get`,
-`delegated_evidence_list`, `repository_observe`, `preflight`, `verify`, and `work_item_parallel`. Use `tools/list` to inspect the
+`delegated_evidence_list`, `repository_observe`, `capability_show`, `preflight`,
+`work_item_controls`, `work_item_recover`, `verify`, and `work_item_parallel`. Use `tools/list` to inspect the
 JSON-RPC schema. `preflight` requires a repository-relative `contract`; `verify`
 accepts `command`, string-array `args`, and optional `workItemId`. Unbound tool
 calls fail closed. Results use `structuredContent`, text content, and `isError`.
 The CLI and repository-bound MCP service share the same verification policy.
 `work_item_get` is a machine-oriented record lookup. `work_item_status` is a
-read-only request-scoped lifecycle projection. For a person-facing
+read-only request-scoped lifecycle projection; pass `{"all": true}` for the
+stable repository index. `capability_show` exposes the same Runtime-bound
+registry as the CLI. For a person-facing
 result, the Agent must call `work_item_outcome` with the explicit `workItemId`
 and optional conversation `language`. Its text content is the same localized
 human handoff rendered by the CLI, while `structuredContent.outcome` remains

@@ -90,6 +90,7 @@ fn mcp_initialize_and_tool_list_are_read_only_and_deterministic() {
             "evidence_get",
             "delegated_evidence_list",
             "repository_observe",
+            "capability_show",
             "preflight",
             "work_item_controls",
             "work_item_recover",
@@ -506,6 +507,52 @@ fn repository_bound_work_item_status_is_read_only_and_repository_scoped() {
     assert_eq!(
         response["result"]["structuredContent"]["governanceState"],
         "yellow"
+    );
+    let all = handle_request_for_repo(
+        &serde_json::json!({"jsonrpc":"2.0","id":13,"method":"tools/call","params":{"name":"work_item_status","arguments":{"all":true}}}),
+        &directory,
+        &test_runtime_context(),
+    );
+    assert_eq!(all["result"]["isError"], false);
+    assert_eq!(all["result"]["structuredContent"]["counts"]["yellow"], 1);
+    assert_eq!(
+        all["result"]["structuredContent"]["items"][0]["workItemId"],
+        "WI-MCP-STATUS"
+    );
+    fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[test]
+fn repository_bound_capability_show_exposes_runtime_identity() {
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-mcp-capability-{}-{}",
+        std::process::id(),
+        NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed)
+    ));
+    fs::create_dir_all(&directory).expect("directory");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(&directory)
+        .status()
+        .expect("git init");
+    cockpit_repository::attach(&directory).expect("attach");
+
+    let response = handle_request_for_repo(
+        &serde_json::json!({"jsonrpc":"2.0","id":14,"method":"tools/call","params":{"name":"capability_show","arguments":{}}}),
+        &directory,
+        &test_runtime_context(),
+    );
+    assert_eq!(response["result"]["isError"], false);
+    assert_eq!(
+        response["result"]["structuredContent"]["runtimeVersion"],
+        test_runtime_context().runtime_version
+    );
+    assert!(
+        response["result"]["structuredContent"]["adopterCapabilities"]
+            .as_array()
+            .expect("adopter capabilities")
+            .iter()
+            .any(|item| item["id"] == "work_item_status_aggregation")
     );
     fs::remove_dir_all(directory).expect("cleanup");
 }

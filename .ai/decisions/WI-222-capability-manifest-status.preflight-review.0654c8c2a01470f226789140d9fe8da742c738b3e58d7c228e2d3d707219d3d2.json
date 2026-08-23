@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:c13f176dfc9398db38180079ebafd3ab5c8c2cdb9d55d1183bae116fb1c14665",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "Human owner authorized the bounded MCP test scope amendment and directed fresh preflight/checkpoint for the current WI-222 Contract.",
+  "recordedAt": "2026-08-23T22:24:46Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9dab3c644ce8a30b2b1fe0e2a3e96c122b2645573fe33cafc2df334b76c098e9",
+  "schemaVersion": 1,
+  "workItemId": "WI-222-capability-manifest-status"
+}

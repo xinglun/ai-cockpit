@@ -1,0 +1,159 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "capability-status-projection",
+          "path": "tests/conformance/reference_file_inventory.json",
+          "type": "inventory",
+          "verification": "bash tests/conformance/reference_file_inventory_test.sh"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "all_work_item_status_is_sorted_counted_and_digest_stable",
+          "path": "crates/cockpit-repository/tests/status_projection.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "malformed_profile_keeps_capability_truth_non_verified_and_visible",
+          "path": "crates/cockpit-repository/tests/intelligence.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "concurrent_all_work_item_status_is_repository_isolated",
+          "path": "crates/cockpit-repository/tests/status_projection.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "Capability Registry",
+          "path": "docs/capabilities.md",
+          "type": "document",
+          "verification": "bash tests/docs/documentation_acceptance.sh"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "capability-status-projection",
+          "path": "tests/conformance/reference_file_inventory_test.sh",
+          "type": "test",
+          "verification": "bash tests/conformance/reference_file_inventory_test.sh"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A7",
+      "evidence": [
+        {
+          "locator": "passed=true runtimeVersion=0.2.28",
+          "path": ".ai/evidence/WI-222-capability-manifest-status.verification.json",
+          "type": "verification",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [],
+  "checkpointAt": "2026-08-23T21:56:22Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T21:47:13Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:c13f176dfc9398db38180079ebafd3ab5c8c2cdb9d55d1183bae116fb1c14665",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Human owner directed fresh preflight after binding current Runtime verification and the verified scenario and intent projections.",
+    "recordedAt": "2026-08-23T22:34:04Z",
+    "recordedBy": "human:owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:1368605a8cd686372b0b594be7c4ad70860a7247c93f60b905874a0a9a1d91bb",
+    "schemaVersion": 1,
+    "workItemId": "WI-222-capability-manifest-status"
+  },
+  "intentAlignment": {
+    "basis": "The implementation adds Rust-native request-scoped capability and status projections, keeps missing adopter-installed surfaces as explicit migration gaps, and does not persist reference Python/Make artifacts.",
+    "evidence": [
+      "crates/cockpit-protocol/src/lib.rs",
+      "crates/cockpit-repository/src/lib.rs",
+      "tests/conformance/reference_file_inventory.json",
+      "docs/capabilities.md",
+      ".ai/evidence/WI-222-capability-manifest-status.verification.json"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-08-23T22:34:21Z",
+  "preflightContractDigest": "sha256:c13f176dfc9398db38180079ebafd3ab5c8c2cdb9d55d1183bae116fb1c14665",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:1368605a8cd686372b0b594be7c4ad70860a7247c93f60b905874a0a9a1d91bb",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/status_projection.rs#concurrent_all_work_item_status_is_repository_isolated",
+        ".ai/evidence/WI-222-capability-manifest-status.verification.json"
+      ],
+      "expected": "Concurrent capability and Work Item status projections for repositories A and B remain identity- and snapshot-bound without cross-repository state.",
+      "required": true,
+      "scenario": "parallel repository isolation",
+      "status": "verified",
+      "verificationPlan": "Run repository isolation tests with concurrent A/B projections and verify repositoryId, snapshot digest, and output paths."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/intelligence.rs#read_only_projection_commands_leave_repository_bytes_unchanged",
+        "crates/cockpit-cli/tests/performance.rs#observation_medium_fixture_is_measured_once",
+        ".ai/evidence/WI-222-capability-manifest-status.verification.json"
+      ],
+      "expected": "observe, capability, and status projections leave repository bytes unchanged.",
+      "required": true,
+      "scenario": "read-only projection no-write",
+      "status": "verified",
+      "verificationPlan": "Capture byte and metadata manifests before and after repeated projection commands, including symlinks and directories."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/intelligence.rs#foreign_agent_interface_keeps_adopter_capabilities_unknown",
+        "crates/cockpit-repository/tests/intelligence.rs#malformed_profile_keeps_capability_truth_non_verified_and_visible",
+        "crates/cockpit-repository/tests/status_projection.rs#all_work_item_status_keeps_malformed_member_as_visible_unknown",
+        "crates/cockpit-repository/tests/status_projection.rs#all_work_item_status_rejects_foreign_contract_identity",
+        ".ai/evidence/WI-222-capability-manifest-status.verification.json"
+      ],
+      "expected": "Missing, malformed, stale, or foreign capability/status inputs remain non-green and expose stable unknowns.",
+      "required": true,
+      "scenario": "stale or foreign capability evidence",
+      "status": "verified",
+      "verificationPlan": "Run tamper and identity regression fixtures against capability and all-Work-Item status projections."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-08-23T22:34:20.792025+00:00",
+  "workItemId": "WI-222-capability-manifest-status"
+}

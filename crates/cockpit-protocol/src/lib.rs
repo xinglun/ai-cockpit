@@ -2666,9 +2666,14 @@ pub struct WorkItemStatusSnapshot {
     pub schema_version: u32,
     pub repository_id: String,
     pub work_item_id: String,
+    pub base_commit: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub branch: Option<String>,
     pub lifecycle_phase: String,
     pub governance_state: String,
     pub activity_health: String,
+    pub blocking: bool,
+    pub human_decision_required: bool,
     pub progress_facts: BTreeMap<String, u64>,
     pub blockers: Vec<String>,
     pub missing_evidence: Vec<String>,
@@ -2682,7 +2687,52 @@ pub struct WorkItemStatusSnapshot {
     pub unknowns: Vec<String>,
     pub diagnostics: Vec<String>,
     pub snapshot_digest: Digest,
+    pub evidence_freshness: WorkItemEvidenceFreshness,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub last_verification_at: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub updated_at: Option<String>,
+    pub safe_actions: Vec<String>,
+    pub status_digest: Digest,
     pub historical: bool,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct WorkItemEvidenceFreshness {
+    pub state: String,
+    pub reason: String,
+}
+
+/// One deterministic member of the repository-wide Work Item status index.
+/// A malformed member remains represented as `unknown` instead of hiding the
+/// item or failing the complete repository projection.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct WorkItemStatusIndexEntry {
+    pub work_item_id: String,
+    pub governance_state: String,
+    pub status_digest: Digest,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub status: Option<WorkItemStatusSnapshot>,
+    pub unknowns: Vec<String>,
+    pub diagnostics: Vec<String>,
+}
+
+/// A request-scoped, repository-bound aggregation over every active and
+/// archived Work Item. It is an output projection and is never persisted
+/// under `.ai/cockpit/**`.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct WorkItemStatusIndex {
+    pub schema_version: u32,
+    pub repository_id: String,
+    pub snapshot_digest: Digest,
+    pub counts: BTreeMap<String, u64>,
+    pub items: Vec<WorkItemStatusIndexEntry>,
+    pub unknowns: Vec<String>,
+    pub diagnostics: Vec<String>,
+    pub index_digest: Digest,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -2712,7 +2762,52 @@ pub struct CapabilityTruthRegistry {
     pub schema_version: u32,
     pub repository_id: String,
     pub snapshot_digest: Digest,
+    pub runtime_version: String,
+    pub runtime_digest: Digest,
     pub capabilities: Vec<CapabilityTruth>,
+    pub adopter_capabilities: Vec<AdopterCapabilityTruth>,
+    pub exclusions: Vec<CapabilityExclusion>,
+    pub unknowns: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum AdopterCapabilityState {
+    RuntimeSupported,
+    RepositoryBound,
+    Observed,
+    ProfileConfirmed,
+    AdopterAccepted,
+    External,
+    Unknown,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum CapabilityOwnership {
+    Runtime,
+    Repository,
+    ExternalProvider,
+    AdopterOrReleaseDomain,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct AdopterCapabilityTruth {
+    pub id: String,
+    pub state: AdopterCapabilityState,
+    pub ownership: CapabilityOwnership,
+    pub adopter_facing: bool,
+    pub evidence_refs: Vec<String>,
+    pub unknowns: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CapabilityExclusion {
+    pub id: String,
+    pub ownership: CapabilityOwnership,
+    pub reason: String,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
