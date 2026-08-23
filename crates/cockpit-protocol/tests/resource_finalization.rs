@@ -6,10 +6,11 @@ use cockpit_protocol::{
     ResourceFinalizationBranchState, ResourceFinalizationContext, ResourceFinalizationDisposition,
     ResourceFinalizationError, ResourceFinalizationPullRequestIdentity,
     ResourceFinalizationPullRequestState, ResourceFinalizationReceipt, ResourceFinalizationResult,
-    ResourceFinalizationState, ResourceFinalizationWorktreeIdentity,
-    ResourceFinalizationWorktreeState, validate_resource_finalization_context,
-    validate_resource_finalization_receipt, validate_resource_finalization_receipt_for,
-    validate_resource_finalization_replay,
+    ResourceFinalizationState, ResourceFinalizationTransitionReceipt,
+    ResourceFinalizationWorktreeIdentity, ResourceFinalizationWorktreeState,
+    validate_resource_finalization_context, validate_resource_finalization_receipt,
+    validate_resource_finalization_receipt_for, validate_resource_finalization_replay,
+    validate_resource_finalization_transition,
 };
 
 const REPOSITORY_ID: &str =
@@ -75,6 +76,72 @@ fn receipt() -> ResourceFinalizationReceipt {
             pull_request: "https://github.example/acme/project/pull/158".into(),
         }),
     }
+}
+
+fn transition(previous: &ResourceFinalizationReceipt) -> ResourceFinalizationTransitionReceipt {
+    let mut next = previous.clone();
+    next.receipt_id = "receipt-2".into();
+    next.operation_id = "operation-2".into();
+    next.pull_request.merge_commit = Some("merge-158".into());
+    next.before = previous.after.clone();
+    next.after.pull_request = ResourceFinalizationPullRequestState::Merged;
+    next.result = ResourceFinalizationResult {
+        disposition: ResourceFinalizationDisposition::Retained,
+        failure_codes: vec![],
+        unknown_codes: vec![],
+    };
+    ResourceFinalizationTransitionReceipt {
+        schema_version: 1,
+        transition_id: "transition-1".into(),
+        sequence: 1,
+        predecessor_receipt_digest: cockpit_protocol::digest_json(
+            &serde_json::to_value(previous).unwrap(),
+        )
+        .unwrap(),
+        receipt: next,
+    }
+}
+
+#[test]
+fn blocked_unmerged_receipt_can_advance_to_merged_deleted_transition() {
+    let mut previous = receipt();
+    previous.pull_request.merge_commit = None;
+    previous.before.pull_request = ResourceFinalizationPullRequestState::Unmerged;
+    previous.after = previous.before.clone();
+    previous.result.disposition = ResourceFinalizationDisposition::Blocked;
+    previous.result.failure_codes = vec![RESOURCE_FINALIZATION_CODE_UNMERGED_PULL_REQUEST.into()];
+
+    let observed = transition(&previous);
+    validate_resource_finalization_transition(&previous, &observed, 1).unwrap();
+
+    let mut deleted = transition(&observed.receipt);
+    deleted.sequence = 2;
+    deleted.receipt.before = observed.receipt.after.clone();
+    deleted.receipt.after.branch = ResourceFinalizationBranchState::Deleted;
+    deleted.receipt.after.worktree = ResourceFinalizationWorktreeState::Removed;
+    deleted.receipt.result.disposition = ResourceFinalizationDisposition::Deleted;
+    validate_resource_finalization_transition(&observed.receipt, &deleted, 2).unwrap();
+}
+
+#[test]
+fn transition_rejects_stale_predecessor_and_identity_drift() {
+    let previous = receipt();
+    let mut next = transition(&previous);
+    next.predecessor_receipt_digest = Digest::sha256_bytes(b"stale");
+    assert!(validate_resource_finalization_transition(&previous, &next, 1).is_err());
+
+    let mut next = transition(&previous);
+    next.receipt.branch.name = "codex/foreign".into();
+    assert!(validate_resource_finalization_transition(&previous, &next, 1).is_err());
+
+    let mut gap = transition(&previous);
+    gap.sequence = 3;
+    assert!(validate_resource_finalization_transition(&previous, &gap, 1).is_err());
+
+    let terminal = receipt();
+    assert!(
+        validate_resource_finalization_transition(&terminal, &transition(&terminal), 1).is_err()
+    );
 }
 
 #[test]
@@ -288,6 +355,9 @@ fn retained_and_unknown_are_explicit_non_green_results() {
     retained.after.worktree = ResourceFinalizationWorktreeState::Clean;
     retained.result.disposition = ResourceFinalizationDisposition::Retained;
     validate_resource_finalization_receipt(&retained).unwrap();
+    retained.before.pull_request = ResourceFinalizationPullRequestState::Unmerged;
+    retained.pull_request.merge_commit = None;
+    assert!(validate_resource_finalization_receipt(&retained).is_err());
 
     let mut unknown = receipt();
     unknown.after.branch = ResourceFinalizationBranchState::Unknown;

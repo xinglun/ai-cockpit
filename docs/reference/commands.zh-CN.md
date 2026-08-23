@@ -14,6 +14,8 @@ capabilityClaims:
 
 # 命令参考
 
+`work-item finalize` 将首个 receipt 写入 `.ai/decisions/<id>.finalize.json`。若该不可变链根已存在，typed transition envelope 必须绑定唯一 head 的 predecessor digest 与下一 sequence；Runtime 追加 `.finalize.<digest>.json`。`finalize-verify` 返回 `headPath`、`headDigest` 和 `sequence`，`close` 会绑定这些值。
+
 所有 repository 命令都接受显式 `--repo <path>`。产生记录或 decision 的命令通常输出 JSON；
 `work-item outcome` 默认输出本地化的面向人交接结果，需要稳定机器接口时使用 `--json`。
 失败或 unknown 不能算 pass。

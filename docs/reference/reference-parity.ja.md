@@ -170,3 +170,5 @@ identity 不一致は fail-closed になります。任意の `fourPillarProject
 表示用であり、曖昧な文字列 `4D` の protocol field は導入しません。Runtime は
 evidence を合成せず、local projection を provider/enterprise assurance として
 扱いません。
+
+WI-191 は append-only finalization transition chain を追加します。不変の canonical blocked evidence は履歴を書き換えずに merge observation と exact cleanup を経て進み、verification と close は一意な最新 head を束縛します。

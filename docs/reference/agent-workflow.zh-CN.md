@@ -76,6 +76,8 @@ Work Item 或 project profile。Contract 条件保留其原始语言，只有面
 
 ## 资源收尾边界
 
+资源收尾 evidence 使用 append-only 链。canonical `<id>.finalize.json` 是不可变链根；后续 provider 观察写入 `<id>.finalize.<digest>.json`，并绑定 predecessor digest 与 sequence。`finalize-verify` 和 `close` 要求唯一线性 head；stale predecessor、fork、malformed record、symlink 或 identity drift 都会 fail closed。pre-merge blocked 链根通过连续的 merge observation（`retained`）与 cleanup（`deleted`）transition 推进。
+
 合并不等于 Work Item 关闭。Hosted checks 通过后，准确的 branch 和 worktree 还必须经过
 独立的资源收尾边界：
 

@@ -161,3 +161,5 @@ Work Item 中 required scenario 若仍为未验证状态，则 fail-closed。
 `provider_evidence`；缺失、额外、格式错误或身份不匹配的维度都会 fail-closed。
 可选的 `fourPillarProjection` 仅用于展示；协议中不会引入含义不明确的字面
 `4D` 字段，Runtime 也不会合成证据或把本地投影冒充 provider/enterprise assurance。
+
+WI-191 增加 append-only finalization transition 链：不可变的 canonical blocked evidence 可以通过合并观察与精确清理继续推进而不改写历史；verification 与 close 绑定唯一最新 head。

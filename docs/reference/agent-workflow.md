@@ -101,6 +101,8 @@ their source language; only the human presentation layer is localized.
 
 ## Resource finalization boundary
 
+Finalization evidence is append-only. The canonical `<id>.finalize.json` is the immutable chain root; later provider observations use `<id>.finalize.<digest>.json` and bind the predecessor digest and sequence. `finalize-verify` and `close` require one unique linear head. Stale predecessors, forks, malformed records, symlinks, and identity drift fail closed. A pre-merge blocked root advances through continuous merge-observation (`retained`) and cleanup (`deleted`) transitions.
+
 Merge is not Work Item closure. After hosted checks pass, the exact branch and
 worktree are a separate resource-finalization boundary:
 

@@ -17,12 +17,13 @@ use cockpit_protocol::{
     OutcomeClaim, OutcomeReportBindings, OutcomeReportSections, OutcomeState, OutcomeV2,
     PARALLEL_SLOT_LEASE_SCHEMA_VERSION, ParallelSlotLease, PerformanceDiagnosis, PolicyLayer,
     QualityCommand, RecoveryDecisionReceipt, RepositoryConfig, ResourceFinalizationContext,
-    ResourceFinalizationDisposition, ResourceFinalizationReceipt, RuntimeContext,
-    SchemaMigrationStep, TaskOutcomeEvent, TaskOutcomeReport, TruthState, VerificationStage,
-    VerificationTier, WorkItemCompatibility, WorkItemIntelligence, WorkItemStatusSnapshot,
-    default_repository_schema_version, merge_policy_layers, repository_schema_migration_chain,
-    validate_evidence_retention, validate_protocol_version,
-    validate_resource_finalization_receipt_for, validate_resource_finalization_replay,
+    ResourceFinalizationDisposition, ResourceFinalizationReceipt,
+    ResourceFinalizationTransitionReceipt, RuntimeContext, SchemaMigrationStep, TaskOutcomeEvent,
+    TaskOutcomeReport, TruthState, VerificationStage, VerificationTier, WorkItemCompatibility,
+    WorkItemIntelligence, WorkItemStatusSnapshot, default_repository_schema_version,
+    merge_policy_layers, repository_schema_migration_chain, validate_evidence_retention,
+    validate_protocol_version, validate_resource_finalization_receipt_for,
+    validate_resource_finalization_replay, validate_resource_finalization_transition,
 };
 use serde::de::{DeserializeSeed, MapAccess, SeqAccess, Visitor};
 use serde::{Deserialize, Deserializer as _, Serialize};
@@ -7861,6 +7862,133 @@ fn resource_finalization_decision_path(root: &Path, work_item_id: &str) -> PathB
         .join(format!("{work_item_id}.finalize.json"))
 }
 
+fn read_resource_finalization_transition(
+    path: &Path,
+) -> Result<ResourceFinalizationTransitionReceipt, ObserverError> {
+    if !is_regular_non_symlink(path)? {
+        return Err(ObserverError::State {
+            path: path.into(),
+            message: "resource finalization transition must be a regular non-symlink file".into(),
+        });
+    }
+    let bytes = fs::read(path).map_err(|source| ObserverError::Read {
+        path: path.into(),
+        source,
+    })?;
+    reject_duplicate_json_keys(&bytes).map_err(|message| ObserverError::State {
+        path: path.into(),
+        message: format!("invalid resource finalization transition JSON: {message}"),
+    })?;
+    serde_json::from_slice(&bytes).map_err(|error| ObserverError::State {
+        path: path.into(),
+        message: format!("invalid resource finalization transition: {error}"),
+    })
+}
+
+fn resolve_resource_finalization_head(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<(ResourceFinalizationReceipt, PathBuf, Digest, u64), ObserverError> {
+    let canonical = resource_finalization_decision_path(root, work_item_id);
+    let mut receipt = read_resource_finalization_receipt(&canonical)?;
+    let mut path = canonical;
+    let mut digest =
+        cockpit_protocol::digest_json(&serde_json::to_value(&receipt).map_err(|error| {
+            ObserverError::State {
+                path: path.clone(),
+                message: error.to_string(),
+            }
+        })?)
+        .map_err(|error| ObserverError::State {
+            path: path.clone(),
+            message: error.to_string(),
+        })?;
+    let prefix = format!("{work_item_id}.finalize.");
+    let canonical_name = format!("{work_item_id}.finalize.json");
+    let mut candidates = fs::read_dir(root.join(".ai/decisions"))
+        .map_err(|source| ObserverError::Read {
+            path: root.join(".ai/decisions"),
+            source,
+        })?
+        .flatten()
+        .filter_map(|entry| {
+            let name = entry.file_name().to_string_lossy().into_owned();
+            (name != canonical_name && name.starts_with(&prefix) && name.ends_with(".json"))
+                .then_some((entry.path(), name))
+        })
+        .map(|(candidate, name)| {
+            let value = read_resource_finalization_transition(&candidate)?;
+            let encoded = serde_json::to_value(&value).map_err(|error| ObserverError::State {
+                path: candidate.clone(),
+                message: error.to_string(),
+            })?;
+            let digest =
+                cockpit_protocol::digest_json(&encoded).map_err(|error| ObserverError::State {
+                    path: candidate.clone(),
+                    message: error.to_string(),
+                })?;
+            let digest = digest.to_string();
+            let expected = format!(
+                "{work_item_id}.finalize.{}.json",
+                digest.strip_prefix("sha256:").unwrap_or(&digest)
+            );
+            if name != expected {
+                return Err(ObserverError::State {
+                    path: candidate,
+                    message: "resource finalization transition filename digest mismatch".into(),
+                });
+            }
+            Ok((candidate, value))
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+    let mut sequence = 0;
+    loop {
+        let matches = candidates
+            .iter()
+            .enumerate()
+            .filter(|(_, (_, value))| value.predecessor_receipt_digest == digest)
+            .map(|(index, _)| index)
+            .collect::<Vec<_>>();
+        if matches.is_empty() {
+            break;
+        }
+        if matches.len() != 1 {
+            return Err(ObserverError::State {
+                path: path.clone(),
+                message: "resource finalization transition chain is forked".into(),
+            });
+        }
+        let (next_path, transition) = candidates.remove(matches[0]);
+        validate_resource_finalization_transition(&receipt, &transition, sequence + 1).map_err(
+            |error| ObserverError::State {
+                path: next_path.clone(),
+                message: error.to_string(),
+            },
+        )?;
+        sequence += 1;
+        receipt = transition.receipt;
+        path = next_path;
+        digest =
+            cockpit_protocol::digest_json(&serde_json::to_value(&receipt).map_err(|error| {
+                ObserverError::State {
+                    path: path.clone(),
+                    message: error.to_string(),
+                }
+            })?)
+            .map_err(|error| ObserverError::State {
+                path: path.clone(),
+                message: error.to_string(),
+            })?;
+    }
+    if !candidates.is_empty() {
+        return Err(ObserverError::State {
+            path: candidates[0].0.clone(),
+            message: "resource finalization transition has a missing or stale predecessor".into(),
+        });
+    }
+    Ok((receipt, path, digest, sequence))
+}
+
 fn archived_contract_digest(
     root: &Path,
     work_item_id: &str,
@@ -7907,24 +8035,44 @@ pub fn record_resource_finalization(
         path: root.into(),
         source,
     })?;
+    let close_path = root
+        .join(".ai/decisions")
+        .join(format!("{work_item_id}.close.json"));
+    if close_path.exists() {
+        return Err(ObserverError::State {
+            path: close_path,
+            message: "resource finalization cannot be appended after close".into(),
+        });
+    }
     let manifest_path = root
         .join(".ai/work-items/archive")
         .join(format!("{work_item_id}.archive.json"));
     let manifest = read_json(&manifest_path)?;
     verify_archive_manifest(&root, work_item_id, &manifest)?;
     let (contract, contract_digest) = archived_contract_digest(&root, work_item_id)?;
-    let receipt = read_resource_finalization_receipt(receipt_path)?;
-    validate_resource_finalization_receipt_for(
-        &receipt,
-        &contract.repository_id,
-        work_item_id,
-        Some(&contract_digest),
-        contract.resource_context.as_ref(),
-    )
-    .map_err(|error| ObserverError::State {
-        path: receipt_path.into(),
-        message: error.to_string(),
-    })?;
+    let input_value = read_json(receipt_path)?;
+    let transition = input_value
+        .get("receipt")
+        .map(|_| read_resource_finalization_transition(receipt_path))
+        .transpose()?;
+    let receipt = if let Some(transition) = &transition {
+        transition.receipt.clone()
+    } else {
+        read_resource_finalization_receipt(receipt_path)?
+    };
+    if transition.is_none() {
+        validate_resource_finalization_receipt_for(
+            &receipt,
+            &contract.repository_id,
+            work_item_id,
+            Some(&contract_digest),
+            contract.resource_context.as_ref(),
+        )
+        .map_err(|error| ObserverError::State {
+            path: receipt_path.into(),
+            message: error.to_string(),
+        })?;
+    }
     if receipt.provider == "unknown"
         || receipt
             .resource_context
@@ -7951,10 +8099,54 @@ pub fn record_resource_finalization(
     }
     let decision_path = resource_finalization_decision_path(&root, work_item_id);
     if decision_path.exists() {
-        let existing = read_resource_finalization_receipt(&decision_path)?;
+        let (existing, head_path, _head_digest, sequence) =
+            resolve_resource_finalization_head(&root, work_item_id)?;
+        if let Some(transition) = transition {
+            validate_resource_finalization_transition(&existing, &transition, sequence + 1)
+                .map_err(|error| ObserverError::State {
+                    path: receipt_path.into(),
+                    message: error.to_string(),
+                })?;
+            let value =
+                serde_json::to_value(&transition).map_err(|error| ObserverError::State {
+                    path: receipt_path.into(),
+                    message: error.to_string(),
+                })?;
+            let transition_digest =
+                cockpit_protocol::digest_json(&value).map_err(|error| ObserverError::State {
+                    path: receipt_path.into(),
+                    message: error.to_string(),
+                })?;
+            let suffix = transition_digest.to_string();
+            let appended_path = root.join(".ai/decisions").join(format!(
+                "{work_item_id}.finalize.{}.json",
+                suffix.strip_prefix("sha256:").unwrap_or(&suffix)
+            ));
+            if appended_path.exists() {
+                let existing_value = read_json(&appended_path)?;
+                if existing_value == value {
+                    return Ok(
+                        serde_json::json!({"workItemId": work_item_id, "state": "idempotent", "disposition": receipt.result.disposition, "path": repository_relative_path(&root, &appended_path)}),
+                    );
+                }
+                return Err(ObserverError::State {
+                    path: appended_path,
+                    message: "resource finalization transition digest collision".into(),
+                });
+            }
+            atomic_json(&appended_path, &value)?;
+            return Ok(serde_json::json!({
+                "workItemId": work_item_id,
+                "state": "appended",
+                "sequence": transition.sequence,
+                "disposition": receipt.result.disposition,
+                "predecessorPath": repository_relative_path(&root, &head_path),
+                "path": repository_relative_path(&root, &appended_path)
+            }));
+        }
         validate_resource_finalization_replay(&existing, &receipt).map_err(|error| {
             ObserverError::State {
-                path: decision_path.clone(),
+                path: head_path.clone(),
                 message: error.to_string(),
             }
         })?;
@@ -7962,7 +8154,7 @@ pub fn record_resource_finalization(
             "workItemId": work_item_id,
             "state": "idempotent",
             "disposition": existing.result.disposition,
-            "path": repository_relative_path(&root, &decision_path)
+            "path": repository_relative_path(&root, &head_path)
         }));
     }
     fs::create_dir_all(decision_path.parent().unwrap_or(root.as_path())).map_err(|source| {
@@ -8026,8 +8218,8 @@ pub fn verify_resource_finalization(
         path: root.into(),
         source,
     })?;
-    let path = resource_finalization_decision_path(&root, work_item_id);
-    let receipt = read_resource_finalization_receipt(&path)?;
+    let (receipt, path, receipt_digest, sequence) =
+        resolve_resource_finalization_head(&root, work_item_id)?;
     let (contract, contract_digest) = archived_contract_digest(&root, work_item_id)?;
     validate_resource_finalization_receipt_for(
         &receipt,
@@ -8055,6 +8247,9 @@ pub fn verify_resource_finalization(
         "workItemId": work_item_id,
         "state": "verified",
         "disposition": receipt.result.disposition,
+        "sequence": sequence,
+        "headPath": repository_relative_path(&root, &path),
+        "headDigest": receipt_digest,
         "receipt": receipt
     }))
 }
@@ -8197,6 +8392,7 @@ fn close_work_item_with_structured_decision_internal(
         .join(".ai/work-items/archive")
         .join(format!("{work_item_id}.summary.json"));
     let summary: serde_json::Value = read_json(&summary_path)?;
+    let mut finalization_binding: Option<serde_json::Value> = None;
     if (!superseded && summary["state"] != serde_json::json!("finish_ready"))
         || summary["checkpointCount"] != serde_json::json!(1)
         || (!superseded && summary["preflightState"] != serde_json::json!("green"))
@@ -8241,7 +8437,11 @@ fn close_work_item_with_structured_decision_internal(
         if let Some(runtime) = current_runtime
             && contract.resource_context.is_some()
         {
-            require_resource_finalization_for_close(&root, work_item_id, runtime)?;
+            finalization_binding = Some(require_resource_finalization_for_close(
+                &root,
+                work_item_id,
+                runtime,
+            )?);
         }
     }
     validate_policy_decision(&root, &contract, human_decision)?;
@@ -8276,6 +8476,11 @@ fn close_work_item_with_structured_decision_internal(
     }
     let mut decision = receipt_value;
     decision["repositoryId"] = contract.repository_id.clone().into();
+    if let Some(binding) = finalization_binding {
+        decision["resourceFinalizationHeadPath"] = binding["headPath"].clone();
+        decision["resourceFinalizationHeadDigest"] = binding["headDigest"].clone();
+        decision["resourceFinalizationSequence"] = binding["sequence"].clone();
+    }
     decision["humanDecision"] = serde_json::Value::String(human_decision.decision.trim().into());
     decision["decisionState"] = serde_json::Value::String("confirmed".into());
     if let Some(final_report) = outcome_value.get("taskOutcomeReport") {
@@ -8322,7 +8527,7 @@ fn require_resource_finalization_for_close(
     root: &Path,
     work_item_id: &str,
     runtime: &RuntimeContext,
-) -> Result<(), ObserverError> {
+) -> Result<serde_json::Value, ObserverError> {
     let result = verify_resource_finalization(root, work_item_id, runtime)?;
     let disposition = result["disposition"].as_str().unwrap_or_default();
     if !matches!(disposition, "deleted" | "retained") {
@@ -8333,7 +8538,7 @@ fn require_resource_finalization_for_close(
             ),
         });
     }
-    Ok(())
+    Ok(result)
 }
 
 fn validate_policy_decision(

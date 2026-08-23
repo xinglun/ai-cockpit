@@ -82,6 +82,8 @@ current repository、Work Item、project profile はありません。Contract �
 
 ## Resource finalization の境界
 
+Finalization evidence は append-only chain です。canonical `<id>.finalize.json` は不変の chain root であり、後続の provider observation は predecessor digest と sequence を束縛した `<id>.finalize.<digest>.json` に保存されます。`finalize-verify` と `close` は一意な線形 head を要求し、stale predecessor、fork、malformed record、symlink、identity drift は fail closed になります。pre-merge blocked root は連続する merge observation（`retained`）と cleanup（`deleted`）transition で進みます。
+
 Merge は Work Item の close ではありません。hosted check が通った後、正確な
 branch と worktree は別の resource-finalization 境界で処理します。
 

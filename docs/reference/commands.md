@@ -14,6 +14,8 @@ capabilityClaims:
 
 # Command reference
 
+`work-item finalize` stores the first receipt at `.ai/decisions/<id>.finalize.json`. If that immutable root exists, a typed transition envelope must bind the unique head's predecessor digest and next sequence; Runtime appends `.finalize.<digest>.json`. `finalize-verify` reports `headPath`, `headDigest`, and `sequence`, which `close` binds.
+
 All repository commands accept an explicit `--repo <path>`. Commands that
 produce records or decisions use JSON, except `work-item outcome`, which emits
 the localized human handoff by default; add `--json` for the stable

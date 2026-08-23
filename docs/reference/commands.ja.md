@@ -14,6 +14,8 @@ capabilityClaims:
 
 # Command reference
 
+`work-item finalize` は最初の receipt を `.ai/decisions/<id>.finalize.json` に保存します。その不変 root が存在する場合、typed transition envelope は一意な head の predecessor digest と次の sequence を束縛し、Runtime は `.finalize.<digest>.json` を追記します。`finalize-verify` は `headPath`、`headDigest`、`sequence` を返し、`close` はそれらを束縛します。
+
 すべての repository command は明示的な `--repo <path>` を受け取ります。record や decision を出す command は通常 JSON ですが、
 `work-item outcome` は既定で localize された人間向け handoff を表示します。機械処理には `--json` を指定します。failed/unknown は pass ではありません。
 
