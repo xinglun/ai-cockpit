@@ -1,0 +1,59 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-214-reference-file-comparison.recovery.json",
+    ".ai/work-items/archive/WI-215-reference-file-comparison-finalization.contract.json",
+    ".ai/work-items/archive/WI-215-reference-file-comparison-finalization.summary.json"
+  ],
+  "checkpointAt": "2026-08-23T19:21:55Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T19:21:04Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/decisions/WI-214-reference-file-comparison.recovery.json",
+      ".ai/work-items/active/WI-215-reference-file-comparison-finalization.contract.json",
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "The successor restores the missing finalization boundary without rewriting the immutable WI-214 comparison delivery.",
+    "state": "resolved"
+  },
+  "mode": "docs",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:bfe92839c73492ccf36e42ec8cabd326531aea06f2d4c3755e61977b32c28c68",
+  "predecessorWorkItemId": "WI-214-reference-file-comparison",
+  "preflightAt": "2026-08-23T19:22:35Z",
+  "preflightContractDigest": "sha256:1a67dc871e770fb320ce0bfd395afc55800f08512b3c573609c05bf534d74ea5",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:5c2e12133e0dd4b33d7db5699848398e55fff9237fe30b9f8b778d3c0f10bb4e",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryDecisionPath": ".ai/decisions/WI-214-reference-file-comparison.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/decisions/WI-215-reference-file-comparison-finalization.finalize.json"
+      ],
+      "expected": "The successor binds the reviewed PR and records a valid awaiting-merge finalization receipt without claiming terminal closure.",
+      "required": true,
+      "scenario": "pre-merge finalization boundary",
+      "status": "verified",
+      "verificationPlan": "Run finalize-plan before preflight, execute the declared Runtime verification, archive, and record the provider-shaped pre-merge receipt."
+    },
+    {
+      "evidence": [
+        ".ai/decisions/WI-214-reference-file-comparison.recovery.json",
+        ".ai/evidence/WI-214-reference-file-comparison.verification.json"
+      ],
+      "expected": "WI-214 archive, evidence, and recovery linkage remain byte-bound and are not rewritten.",
+      "required": true,
+      "scenario": "immutable predecessor recovery",
+      "status": "verified",
+      "verificationPlan": "Validate the recovery receipt and predecessor digests during Runtime lifecycle and hosted governance checks."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T19:22:58Z",
+  "workItemId": "WI-215-reference-file-comparison-finalization"
+}
