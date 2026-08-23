@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "validated": true,
+  "workItemId": "n-minus-one-lifecycle",
+  "repositoryId": "sha256:6ac4c684681588e25e3ae2aeb1bc8d390dafc167480d6c184d21abcc74e1c5f0",
+  "decisionPath": ".ai/decisions/n-minus-one-lifecycle.close.json",
+  "artifactPath": "work-items/n-minus-one-lifecycle.close.json",
+  "decisionDigest": "sha256:9de50fd44545fd4821b0176e3f855cf784d77b75e707258f0d5b45f1854ddb86"
+}

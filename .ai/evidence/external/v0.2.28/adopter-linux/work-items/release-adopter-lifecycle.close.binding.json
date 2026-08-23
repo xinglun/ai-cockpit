@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "validated": true,
+  "workItemId": "release-adopter-lifecycle",
+  "repositoryId": "sha256:6b805c7587560422b09abe8ae19e0331fa4acf6aadbe13651d23d28d65db9c7e",
+  "decisionPath": ".ai/decisions/release-adopter-lifecycle.close.json",
+  "artifactPath": "work-items/release-adopter-lifecycle.close.json",
+  "decisionDigest": "sha256:24d1329821c7432a84c1d228e5bf03bb7f9cde9077c87a378d9230c7e9394ada"
+}

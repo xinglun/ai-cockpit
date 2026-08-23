@@ -1,0 +1,8 @@
+{
+  "branch": "main",
+  "worktree": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-n-minus-one.ib4peG/adopter",
+  "baseBranch": "main",
+  "baseRemote": "local",
+  "provider": "release-adopter-upgrade-harness",
+  "pullRequest": "acceptance://v0.2.28/n-minus-one-post-migration"
+}

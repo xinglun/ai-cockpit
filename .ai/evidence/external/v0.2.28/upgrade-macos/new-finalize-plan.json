@@ -1,0 +1,20 @@
+{
+  "contractDigest": "sha256:5a33012d6b891c7b4f4cce11add97922395750c404db4036ffed6d438eb0eb44",
+  "next": [
+    "archive",
+    "finalize",
+    "finalize-verify",
+    "close"
+  ],
+  "protocolVersion": 1,
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "local",
+    "branch": "main",
+    "provider": "release-adopter-upgrade-harness",
+    "pullRequest": "acceptance://v0.2.28/n-minus-one-post-migration",
+    "worktree": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-n-minus-one.ib4peG/adopter"
+  },
+  "state": "planned",
+  "workItemId": "n-minus-one-post-migration"
+}
