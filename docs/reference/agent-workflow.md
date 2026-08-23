@@ -119,6 +119,16 @@ truth: after a Runtime upgrade it is projected as historical rather than
 revalidated as a current result, while the new finalization receipt is always
 bound to the Runtime executing the close request.
 
+## Release-tag transition ordering
+
+The release tag is created only after the PR has merged and a valid pre-merge
+finalization receipt is committed. Source quality treats that immutable tag as
+an `awaiting_merge_close` boundary only when the receipt is identity-bound and
+its recorded PR head is proven to be an ancestor of the tagged commit. This
+does not close the Work Item or waive cleanup. The published binary must then
+be used to run `finalize`/`finalize-verify` and the structured human `close`;
+ordinary branches, unproven tags, and malformed receipts remain fail-closed.
+
 - `finalize-plan` records the exact Work Item branch and worktree, provider PR,
   merged head, remote, default branch, and intended cleanup. It never deletes a
   branch or worktree.

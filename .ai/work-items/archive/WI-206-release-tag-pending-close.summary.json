@@ -1,0 +1,64 @@
+{
+  "acceptanceEvidence": [
+    {
+      "criterion": "release-tag transition",
+      "evidenceRefs": [
+        "tests/ci/governance_integrity_gate.py",
+        "tests/ci/governance_integrity_gate_test.sh"
+      ]
+    },
+    {
+      "criterion": "ordinary branch fail-closed",
+      "evidenceRefs": [
+        "tests/ci/fixtures/governance-integrity/missing-close.json"
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-206-release-tag-pending-close.contract.json",
+    ".ai/work-items/archive/WI-206-release-tag-pending-close.summary.json"
+  ],
+  "checkpointAt": "2026-08-23T16:26:14Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T16:19:45Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "tests/ci/governance_integrity_gate.py",
+      "tests/ci/governance_integrity_gate_test.sh",
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "The release-tag proof and fail-closed regression directly implement the bounded Work Item intent.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-23T16:30:36Z",
+  "preflightContractDigest": "sha256:15db85442e7397a7c5c4f998c140d4a7ba2085507fd9ec17be13b27b704516b1",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:1d6277e36b977599149b12e0b4f82557ce8d43bfa4cf34d4cdfcdc5c3f4ac349",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "required": true,
+      "scenario": "valid release tag with merged pre-merge head ancestor",
+      "status": "unverified"
+    },
+    {
+      "required": true,
+      "scenario": "non-ancestor release tag",
+      "status": "unverified"
+    },
+    {
+      "required": true,
+      "scenario": "ordinary feature branch missing close",
+      "status": "unverified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T16:30:41Z",
+  "workItemId": "WI-206-release-tag-pending-close"
+}

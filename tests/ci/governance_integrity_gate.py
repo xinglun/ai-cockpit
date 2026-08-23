@@ -122,6 +122,9 @@ def repository_default_branch(repo: Path, remote: str) -> str | None:
 
 
 def repository_phase(repo: Path, base_branch: str) -> str:
+    ref = os.environ.get("GITHUB_REF", "")
+    if ref.startswith("refs/tags/"):
+        return "release_tag"
     branch = subprocess.run(
         ["git", "symbolic-ref", "--quiet", "--short", "HEAD"],
         cwd=repo,
@@ -137,6 +140,50 @@ def repository_phase(repo: Path, base_branch: str) -> str:
     if os.environ.get("GITHUB_REF") == f"refs/heads/{base_branch}":
         return "default_branch"
     return "unknown"
+
+
+def release_tag_proves_merged_head(repo: Path, head_revision: str) -> bool:
+    """Prove a pre-merge branch head is contained by the immutable release tag.
+
+    A release-tag source checkout is detached, so the normal feature-branch
+    phase cannot be used.  The tag itself is only an allowed transitional
+    boundary when it resolves to the checked-out commit and the recorded PR
+    head is an ancestor of that commit.  The later release policy gate still
+    proves that the tagged commit is on the protected default branch.
+    """
+    ref = os.environ.get("GITHUB_REF", "")
+    if not ref.startswith("refs/tags/"):
+        return False
+    current = os.environ.get("GITHUB_SHA")
+    if not isinstance(current, str) or re.fullmatch(r"[0-9a-f]{40}", current) is None:
+        current = subprocess.run(
+            ["git", "rev-parse", "HEAD^{commit}"],
+            cwd=repo,
+            check=False,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+    if re.fullmatch(r"[0-9a-f]{40}", current) is None:
+        return False
+    tag_name = ref.removeprefix("refs/tags/")
+    tagged = subprocess.run(
+        ["git", "rev-parse", f"refs/tags/{tag_name}^{{commit}}"],
+        cwd=repo,
+        check=False,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+    if tagged != current:
+        return False
+    return (
+        subprocess.run(
+            ["git", "merge-base", "--is-ancestor", head_revision, current],
+            cwd=repo,
+            check=False,
+            capture_output=True,
+        ).returncode
+        == 0
+    )
 
 
 def premerge_finalize_state(
@@ -254,6 +301,13 @@ def premerge_finalize_state(
         and result.get("failureCodes") == ["unmerged_pull_request"]
         and result.get("unknownCodes") == []
         and reason_valid
+        and (
+            phase in {"feature_branch", "pull_request"}
+            or (
+                phase == "release_tag"
+                and release_tag_proves_merged_head(repo, head_revision)
+            )
+        )
     )
     return valid, phase
 
@@ -589,7 +643,11 @@ def main() -> int:
                     finalize_valid, phase = premerge_finalize_state(
                         repo, work_item, finalize_value
                     )
-                    if finalize_valid and phase in {"feature_branch", "pull_request"}:
+                    if finalize_valid and phase in {
+                        "feature_branch",
+                        "pull_request",
+                        "release_tag",
+                    }:
                         decision = finalize_path
                         record["decisionPath"] = decision
                         record["lifecycleState"] = "awaiting_merge_close"
