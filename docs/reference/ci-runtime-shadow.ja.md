@@ -34,5 +34,5 @@ convergence の境界は段階的です。
 
 shadow lane は source build、workspace binary、未固定 release artifact、
 archive/binary digest 不一致、malformed Runtime output を fail closed します。
-現在の installation baseline は新しい Release（現在は `v0.2.17`）へ進められますが、公開前の shadow pin は変更しません。
+現在の installation baseline は新しい Release（現在は `v0.2.18`）へ進められますが、公開前の shadow pin は変更しません。
 Release が公開され immutable な archive/binary identity が記録された後にだけ pin を進め、tag workflow が未公開 artifact に依存しないようにします。
