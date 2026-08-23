@@ -1,0 +1,127 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-191-finalization-transition-chain.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8bd813efb4865117a2d5322ffc6282bdf4cf53b9df92d1eab733b66e1021d915",
+      "workItemId": "WI-191-finalization-transition-chain"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-191-finalization-transition-chain.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-191-finalization-transition-chain.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-191-finalization-transition-chain.finalize.62476725a0a1a2227129cb1c151eba667c8b0e8df84314bf2a60193a42d68333.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via post-merge-provider-evidence at 2026-08-23T11:37:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-191-finalization-transition-chain.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-191-finalization-transition-chain.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-191-finalization-transition-chain.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-191-finalization-transition-chain.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-191-finalization-transition-chain.contract.json"
+          ],
+          "inference": false,
+          "text": "实现 typed finalization transition chain、唯一 head 解析、finalize-verify/close 最新绑定与 WI-190 实际恢复拓扑，并保留 legacy canonical receipt 兼容。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-191-finalization-transition-chain.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-191-finalization-transition-chain"
+  },
+  "finalReportDigest": "sha256:2bbd13aaf83dc56d70206a59d97cc490946f8d299fb4748318d18e3939b7b2b6",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:eb6b8c596ade4d97af57b8acaf83f7dc004670c93b9f38c301e63af1dcea411e",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-191-finalization-transition-chain.finalize.62476725a0a1a2227129cb1c151eba667c8b0e8df84314bf2a60193a42d68333.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "post-merge-provider-evidence",
+    "decidedAt": "2026-08-23T11:37:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/decisions/WI-191-finalization-transition-chain.finalize.62476725a0a1a2227129cb1c151eba667c8b0e8df84314bf2a60193a42d68333.json"
+    ],
+    "policyRefs": [],
+    "reason": "Merged PR and deleted branch/worktree are verified by the finalization chain.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-08-23T11:38:36Z",
+  "workItemId": "WI-191-finalization-transition-chain"
+}

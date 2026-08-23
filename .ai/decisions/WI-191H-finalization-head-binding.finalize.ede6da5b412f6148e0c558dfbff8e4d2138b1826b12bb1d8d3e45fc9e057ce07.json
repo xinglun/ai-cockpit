@@ -1,0 +1,65 @@
+{
+  "governanceAppendRevision": "a3ecfe6656a01949be8fb5b3f5efef02d76daa35",
+  "predecessorReceiptDigest": "sha256:6828f02d7d00aab4e6ee0cf794209368dfe30220eeb170ecb68647d67343ef49",
+  "receipt": {
+    "actor": "provider:github",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "provider-merge-observation",
+    "before": {
+      "branch": "present",
+      "pullRequest": "unmerged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "a3ecfe6656a01949be8fb5b3f5efef02d76daa35",
+      "name": "codex/wi-191-finalization-transition-chain",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:e7c277ab7287444afba10ff34da07d560a6352260c58136862c6a9e35dd20b9a",
+    "operationId": "WI-191H-merge-observation",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "5d76d9e9fcbe04b52cc5f024897d61a82eca7344",
+      "headRevision": "a3ecfe6656a01949be8fb5b3f5efef02d76daa35",
+      "mergeCommit": "b872f150ae393efc15cacc61ecce1da2f298943d",
+      "number": 152,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/152"
+    },
+    "reason": "PR #152 merged; WI-191H governance receipt append head is explicitly bound and Git-proven.",
+    "receiptId": "WI-191H-merge-observed",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-191-finalization-transition-chain",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/152",
+      "worktree": "/private/tmp/ai-cockpit-wi191-finalization-transition-chain"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:f9189e4f940daf74dcd72f3131bffa8200880fb83f6b27d1760f82154fffc4ab",
+    "runtimeVersion": "0.2.23",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-23T11:35:01Z",
+    "workItemId": "WI-191H-finalization-head-binding",
+    "worktree": {
+      "branch": "codex/wi-191-finalization-transition-chain",
+      "headRevision": "a3ecfe6656a01949be8fb5b3f5efef02d76daa35",
+      "path": "/private/tmp/ai-cockpit-wi191-finalization-transition-chain",
+      "worktreeId": "WI-191H-finalization-head-binding"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-191H-merge-observation"
+}

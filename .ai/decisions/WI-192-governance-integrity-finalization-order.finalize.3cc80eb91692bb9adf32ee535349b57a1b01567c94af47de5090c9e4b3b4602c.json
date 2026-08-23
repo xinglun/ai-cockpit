@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:e7bd1af990c8790b67365709280648c282b1bb8d3789d9b597ae941f5c9c0350",
+  "receipt": {
+    "actor": "provider:github",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "provider-merge-observation",
+    "before": {
+      "branch": "present",
+      "pullRequest": "unmerged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "b53987f29ade99da71d06799eb5d4ab4e6d6a194",
+      "name": "codex/wi-188-governance-integrity-gate",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:ea936e6d103f121ded7047a0768a1f31778b88146100c2292333d8fa6ecbaa0c",
+    "operationId": "WI-192-merge-observation",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "b53987f29ade99da71d06799eb5d4ab4e6d6a194",
+      "headRevision": "b53987f29ade99da71d06799eb5d4ab4e6d6a194",
+      "mergeCommit": "5eda6dd9c433e22c38611f318e29c0d24f129d9c",
+      "number": 151,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/151"
+    },
+    "reason": "PR #151 merged; dynamic governance integrity gate is now present on main.",
+    "receiptId": "WI-192-merge-observed",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-188-governance-integrity-gate",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/151",
+      "worktree": "/private/tmp/ai-cockpit-wi188-governance-integrity-gate"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:f9189e4f940daf74dcd72f3131bffa8200880fb83f6b27d1760f82154fffc4ab",
+    "runtimeVersion": "0.2.23",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-23T11:35:02Z",
+    "workItemId": "WI-192-governance-integrity-finalization-order",
+    "worktree": {
+      "branch": "codex/wi-188-governance-integrity-gate",
+      "headRevision": "b53987f29ade99da71d06799eb5d4ab4e6d6a194",
+      "path": "/private/tmp/ai-cockpit-wi188-governance-integrity-gate",
+      "worktreeId": "WI-192-governance-integrity-finalization-order"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-192-merge-observation"
+}

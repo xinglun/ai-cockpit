@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:aed0022deb54f3da87158222e15888df4915ebf8ddcbed9aedf98916ba969e56",
+  "receipt": {
+    "actor": "provider:github",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "provider-merge-observation",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "11443e23c7e5f84edeecf30f6552d6ef39ba190c",
+      "name": "codex/wi-187-finalization-before-archive",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:77dfc3525092d1c0104ecc2617ef186ca60d2b08df91be56877dd0915f831f79",
+    "operationId": "WI-190-cleanup",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "8adc9071377aaee474a68487ca531779915bfd5c",
+      "headRevision": "11443e23c7e5f84edeecf30f6552d6ef39ba190c",
+      "mergeCommit": "5d76d9e9fcbe04b52cc5f024897d61a82eca7344",
+      "number": 150,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/150"
+    },
+    "reason": "PR #150 was merged; the reviewed branch and worktree were deleted after the explicit merge observation.",
+    "receiptId": "WI-190-cleanup",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-187-finalization-before-archive",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/150",
+      "worktree": "/private/tmp/ai-cockpit-wi187-finalization-before-archive"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:da26042b0fef11bdd46fe747d2fe395228706a9729527b97cadf146be78b2167",
+    "runtimeVersion": "0.2.23",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-23T11:56:00Z",
+    "workItemId": "WI-190-finalization-plan-order",
+    "worktree": {
+      "branch": "codex/wi-187-finalization-before-archive",
+      "headRevision": "11443e23c7e5f84edeecf30f6552d6ef39ba190c",
+      "path": "/private/tmp/ai-cockpit-wi187-finalization-before-archive",
+      "worktreeId": "WI-190-finalization-plan-order"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "WI-190-cleanup"
+}
