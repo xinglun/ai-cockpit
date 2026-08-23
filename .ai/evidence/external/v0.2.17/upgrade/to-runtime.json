@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "tag": "v0.2.17",
+  "version": "0.2.17",
+  "target": "aarch64-apple-darwin",
+  "platform": "aarch64-apple-darwin",
+  "archive": "ai-cockpit-v0.2.17-aarch64-apple-darwin.tar.gz",
+  "archiveDigest": "sha256:9c898115c1737b19b4f3b18f2365e2645f83ed3a313c0110408cc3885f8e0022",
+  "binaryDigest": "sha256:4157cc04a23a24e6ac618e7079c123210920fba2e7fc5335c9f6a734c74721e3",
+  "downloadSource": "https://github.com/xinglun/ai-cockpit/releases/download/v0.2.17/ai-cockpit-v0.2.17-aarch64-apple-darwin.tar.gz",
+  "releasePublished": true
+}

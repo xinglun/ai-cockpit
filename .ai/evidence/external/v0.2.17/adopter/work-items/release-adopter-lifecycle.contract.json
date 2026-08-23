@@ -1,0 +1,29 @@
+{
+  "acceptanceCriteria": [
+    "cargo test passes for the adopter change"
+  ],
+  "authority": "authorized",
+  "baseRevision": "5046620fff0c887419556ce013d704696454ae92",
+  "createdAt": "2026-08-23T00:14:49Z",
+  "goal": "Demonstrate an auditable Work Item lifecycle using only the pinned public Release binary.",
+  "intent": "Validate the published Runtime against a real adopter change.",
+  "mode": "implementation",
+  "outOfScope": [
+    "target"
+  ],
+  "projectProfileDigest": "sha256:54e3d8e6ff2122baaa87ebcc7ae01fc8188c218565c19684b1f0f8871dd1514b",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:c0a89b11c4d8f012a574f1c62da73df7c661d3a58ad666d420f527a89afa1495",
+  "repositorySnapshotDigest": "sha256:c0a3c9a1a450af02ed42d58ca19cbed1d66e9d0f314fe62f869a358192f09c1a",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "src/lib.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "release-adopter-lifecycle"
+}

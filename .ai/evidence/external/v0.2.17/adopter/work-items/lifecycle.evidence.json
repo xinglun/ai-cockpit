@@ -1,6 +1,6 @@
 {
   "captureMode": "full_capture",
-  "createdAt": "2026-08-23T00:20:19Z",
+  "createdAt": "2026-08-23T00:14:50Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -8,8 +8,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 109,
-      "executionElapsedMs": 27,
+      "elapsedMs": 594,
+      "executionElapsedMs": 471,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -18,14 +18,14 @@
       "planningElapsedMs": 0,
       "processesSpawned": 1,
       "protectedNodesExecuted": 0,
-      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositoryId": "sha256:c0a89b11c4d8f012a574f1c62da73df7c661d3a58ad666d420f527a89afa1495",
       "runtimeDigest": "sha256:4157cc04a23a24e6ac618e7079c123210920fba2e7fc5335c9f6a734c74721e3",
       "runtimeVersion": "0.2.17",
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 109,
-    "executionElapsedMs": 27,
+    "elapsedMs": 594,
+    "executionElapsedMs": 471,
     "filesHashed": 5,
     "filesRead": 5,
     "gitCalls": 8,
@@ -37,19 +37,19 @@
     "planReceipt": {
       "affectedPaths": [],
       "assurance": "repository_verified",
-      "baseRevision": "b3c1228402a18df81f8d4e333b3c73dc790c7c11",
+      "baseRevision": "5046620fff0c887419556ce013d704696454ae92",
       "dependencyConfidence": "unknown",
       "escalations": [],
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 27,
+      "executionElapsedMs": 471,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
-      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:d18b7e16ae83a43f7716cd6f016a11ca680f9e3cdf120125714a8a7228deec1c",
+      "repositoryId": "sha256:c0a89b11c4d8f012a574f1c62da73df7c661d3a58ad666d420f527a89afa1495",
+      "repositorySnapshotDigest": "sha256:e09cb20b9d76e06d78b41f3f717789c37463529f14d4dcd7b794a7eaab221d98",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -60,7 +60,7 @@
       ],
       "sharedNodes": [],
       "stage": "task",
-      "workItemId": "WI-157-release-v0-2-17-adopter-acceptance"
+      "workItemId": "release-adopter-lifecycle"
     },
     "planningElapsedMs": 0,
     "processSpawnFailures": 0,
@@ -68,14 +68,14 @@
     "protectedNodesExecuted": 0,
     "protectedNodesSkipped": 0,
     "receiptCandidates": [],
-    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositoryId": "sha256:c0a89b11c4d8f012a574f1c62da73df7c661d3a58ad666d420f527a89afa1495",
     "rerunStale": 0,
     "rerunUnknown": 0,
     "results": [
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:5e67b6e911e0401aa3185a027a5d72f1f66028de416e287f5936d72f165e5a36",
+        "outputDigest": "sha256:c47976e937f1e5c8c858105eea75435c09accebcc96c0c01d8a8d52c8d2c1d0f",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -89,12 +89,12 @@
     ],
     "runtimeDigest": "sha256:4157cc04a23a24e6ac618e7079c123210920fba2e7fc5335c9f6a734c74721e3",
     "runtimeVersion": "0.2.17",
-    "workItemId": "WI-157-release-v0-2-17-adopter-acceptance"
+    "workItemId": "release-adopter-lifecycle"
   },
-  "receiptDigest": "sha256:6c0772e74517f7a613831394e1cfab7deff18af4a313a489046445c42f1d44b3",
-  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:d18b7e16ae83a43f7716cd6f016a11ca680f9e3cdf120125714a8a7228deec1c",
+  "receiptDigest": "sha256:343cb783e85423b79224af6cd1354b49a4ac44611e4f8b88cb619193070d6066",
+  "repositoryId": "sha256:c0a89b11c4d8f012a574f1c62da73df7c661d3a58ad666d420f527a89afa1495",
+  "repositorySnapshotDigest": "sha256:e09cb20b9d76e06d78b41f3f717789c37463529f14d4dcd7b794a7eaab221d98",
   "runtimeDigest": "sha256:4157cc04a23a24e6ac618e7079c123210920fba2e7fc5335c9f6a734c74721e3",
   "runtimeVersion": "0.2.17",
-  "workItemId": "WI-157-release-v0-2-17-adopter-acceptance"
+  "workItemId": "release-adopter-lifecycle"
 }

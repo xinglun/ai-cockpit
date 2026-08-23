@@ -1,0 +1,7 @@
+{
+  "provider": "codex",
+  "target": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-n-minus-one.jZDHTW/adopter/AGENTS.md",
+  "ownership_path": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-n-minus-one.jZDHTW/adopter/.ai/adapters/codex.json",
+  "repository_id": "sha256:6c0c8a5872a26ddc1209af46834483ed520db9e92ffc6f73251579a79db4bc89",
+  "installed_digest": "sha256:712b12fcb390717c679c5b0c870319c76ce4b7f415950b447c294581cf1bff7d"
+}

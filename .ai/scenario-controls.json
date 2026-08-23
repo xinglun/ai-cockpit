@@ -3,10 +3,20 @@
     {
       "scenario": "public release binary governs a fresh isolated adopter",
       "required": true,
-      "status": "unverified",
+      "status": "verified",
       "expected": "Release artifacts, runtime identity, isolation, evidence reuse, not_ready scaffold, and lifecycle receipts are all bound in a post-release acceptance receipt.",
       "verificationPlan": "Run immutable public adopter and upgrade acceptance scripts after the release, archive their outputs, then install the same binary and verify this repository.",
-      "evidence": []
+      "evidence": [
+        ".ai/evidence/external/v0.2.17/adopter/acceptance.json",
+        ".ai/evidence/external/v0.2.17/adopter/runtime.json",
+        ".ai/evidence/external/v0.2.17/adopter/first-adopter-smoke.json",
+        ".ai/evidence/external/v0.2.17/adopter/verify-first.json",
+        ".ai/evidence/external/v0.2.17/adopter/verify-reuse.json",
+        ".ai/evidence/external/v0.2.17/adopter/isolation.json",
+        ".ai/evidence/external/v0.2.17/upgrade/acceptance.json",
+        ".ai/evidence/external/v0.2.17/upgrade/to-runtime.json",
+        ".ai/evidence/external/v0.2.17/upgrade/migration-state.json"
+      ]
     }
   ]
 }

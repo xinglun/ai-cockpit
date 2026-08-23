@@ -103,7 +103,7 @@ record for each boundary.
 | WI-154 — Policy-bound Runtime verification route | Implemented | [Work Item](../work-items/WI-154-policy-bound-runtime-route.md); [verification route](verification-route.md); `.ai/evidence/WI-154-policy-bound-runtime-route.verification.json`; `.ai/decisions/WI-154-policy-bound-runtime-route.close.json` |
 | WI-155 — CI/release gate convergence | Implemented | [Work Item](../work-items/WI-155-ci-release-gate-convergence.md); [release distribution](../release/distribution.md); `.ai/evidence/WI-155-ci-release-gate-convergence.verification.json`; `.ai/decisions/WI-155-ci-release-gate-convergence.close.json` |
 | WI-156 — Physical execution and Work Item evidence receipts | Implemented | [Work Item](../work-items/WI-156-physical-execution-receipt.md); `.ai/evidence/WI-156-physical-execution-receipt.verification.json`; `.ai/decisions/WI-156-physical-execution-receipt.close.json` |
-| WI-157 — v0.2.17 release and adopter acceptance | In progress | [Work Item](../work-items/WI-157-release-v0-2-17-adopter-acceptance.md); post-release public Release and adopter receipts are required before this row becomes Implemented. |
+| WI-157 — v0.2.17 release and adopter acceptance | Implemented | [Work Item](../work-items/WI-157-release-v0-2-17-adopter-acceptance.md); [public Release](https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.17); `.ai/evidence/external/v0.2.17/adopter/`, `.ai/evidence/external/v0.2.17/upgrade/`, and `.ai/evidence/WI-157-release-v0-2-17-adopter-acceptance.verification.json`. |
 
 ## Current boundary
 

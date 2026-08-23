@@ -1,0 +1,77 @@
+{
+  "costObservation": {
+    "advisoryOnly": true,
+    "confidence": "complete",
+    "elapsedMs": 68,
+    "executionElapsedMs": 16,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planningElapsedMs": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "repositoryId": "sha256:6c0c8a5872a26ddc1209af46834483ed520db9e92ffc6f73251579a79db4bc89",
+    "runtimeDigest": "sha256:0e9e9e85f3a96d22702cf95edab928bd2307c4636e53836bee46ca4e8cabf796",
+    "runtimeVersion": "0.2.16",
+    "schemaVersion": 1,
+    "unknowns": []
+  },
+  "elapsedMs": 68,
+  "executionElapsedMs": 16,
+  "filesHashed": 3,
+  "filesRead": 3,
+  "gitCalls": 8,
+  "maxConcurrentProcesses": 1,
+  "nodesExecuted": 1,
+  "nodesPlanned": 1,
+  "nodesReused": 0,
+  "passed": true,
+  "planReceipt": {
+    "assurance": "self_declared",
+    "escalations": [],
+    "executedNodes": [
+      "project-command-0"
+    ],
+    "executionElapsedMs": 16,
+    "finalTier": "T0",
+    "initialTier": "T0",
+    "planningElapsedMs": 0,
+    "reusedNodes": [],
+    "savedExecutions": 0,
+    "schemaVersion": 1,
+    "selectionReasons": [
+      "cli_route_stage_explicit"
+    ],
+    "sharedNodes": [],
+    "stage": "task"
+  },
+  "planningElapsedMs": 0,
+  "processSpawnFailures": 0,
+  "processesSpawned": 1,
+  "protectedNodesExecuted": 0,
+  "protectedNodesSkipped": 0,
+  "receiptCandidates": [],
+  "repositoryId": "sha256:6c0c8a5872a26ddc1209af46834483ed520db9e92ffc6f73251579a79db4bc89",
+  "rerunStale": 0,
+  "rerunUnknown": 0,
+  "results": [
+    {
+      "action": "execute",
+      "nodeId": "project-command-0",
+      "outputDigest": "sha256:5e67b6e911e0401aa3185a027a5d72f1f66028de416e287f5936d72f165e5a36",
+      "outputTruncated": false,
+      "passed": true,
+      "protected": false,
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reused": false,
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timedOut": false
+    }
+  ],
+  "runtimeDigest": "sha256:0e9e9e85f3a96d22702cf95edab928bd2307c4636e53836bee46ca4e8cabf796",
+  "runtimeVersion": "0.2.16"
+}

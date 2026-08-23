@@ -100,7 +100,7 @@ verification record です。
 | WI-154 — Policy に束縛された Runtime verification route | Implemented | [Work Item](../work-items/WI-154-policy-bound-runtime-route.ja.md); [verification route](verification-route.ja.md); `.ai/evidence/WI-154-policy-bound-runtime-route.verification.json`; `.ai/decisions/WI-154-policy-bound-runtime-route.close.json` |
 | WI-155 — CI/release gate の収束 | Implemented | [Work Item](../work-items/WI-155-ci-release-gate-convergence.ja.md); [Release distribution](../release/distribution.ja.md); `.ai/evidence/WI-155-ci-release-gate-convergence.verification.json`; `.ai/decisions/WI-155-ci-release-gate-convergence.close.json` |
 | WI-156 — 物理実行と Work Item 証拠レシート | Implemented | [Work Item](../work-items/WI-156-physical-execution-receipt.ja.md); `.ai/evidence/WI-156-physical-execution-receipt.verification.json`; `.ai/decisions/WI-156-physical-execution-receipt.close.json` |
-| WI-157 — v0.2.17 Release と adopter acceptance | In progress | [Work Item](../work-items/WI-157-release-v0-2-17-adopter-acceptance.ja.md); 公開後の public Release と adopter receipt が揃うまで Implemented にはしません。 |
+| WI-157 — v0.2.17 Release と adopter acceptance | Implemented | [Work Item](../work-items/WI-157-release-v0-2-17-adopter-acceptance.ja.md); [公開 Release](https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.17)、`.ai/evidence/external/v0.2.17/adopter/`、`.ai/evidence/external/v0.2.17/upgrade/`、`.ai/evidence/WI-157-release-v0-2-17-adopter-acceptance.verification.json`。 |
 
 ## 現在の境界
 

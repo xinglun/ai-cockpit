@@ -1,0 +1,21 @@
+{
+  "changedPaths": [
+    ".ai/evidence/reuse/index.json",
+    ".ai/evidence/reuse/index.lock",
+    ".ai/evidence/reuse/receipts/3def6fc1495b099b7ec2d698649682b37de899c4af3bf64825a886e893a652d6.json"
+  ],
+  "checkpointAt": "2026-08-23T00:14:49Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T00:14:49Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-23T00:14:50Z",
+  "preflightContractDigest": "sha256:c59fe2f96dbec1dcb02b3b21fc4ab8dc0ebe93b53bb9d160a30275c54a700119",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:e09cb20b9d76e06d78b41f3f717789c37463529f14d4dcd7b794a7eaab221d98",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:c0a89b11c4d8f012a574f1c62da73df7c661d3a58ad666d420f527a89afa1495",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T00:14:50Z",
+  "workItemId": "release-adopter-lifecycle"
+}

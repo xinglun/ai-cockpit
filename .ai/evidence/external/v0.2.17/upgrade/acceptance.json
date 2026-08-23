@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-08-23T00:14:52Z",
+  "finishedAt": "2026-08-23T00:14:58Z",
+  "releasePublished": true,
+  "adopterAcceptance": "passed",
+  "repository": "xinglun/ai-cockpit",
+  "fromTag": "v0.2.16",
+  "toTag": "v0.2.17",
+  "target": "aarch64-apple-darwin",
+  "rustToolchain": "1.94.1-aarch64-apple-darwin",
+  "fromRuntimeVersion": "0.2.16",
+  "toRuntimeVersion": "0.2.17",
+  "fromRuntimeDigest": "sha256:0e9e9e85f3a96d22702cf95edab928bd2307c4636e53836bee46ca4e8cabf796",
+  "toRuntimeDigest": "sha256:4157cc04a23a24e6ac618e7079c123210920fba2e7fc5335c9f6a734c74721e3",
+  "repositoryId": "sha256:6c0c8a5872a26ddc1209af46834483ed520db9e92ffc6f73251579a79db4bc89",
+  "closeDecision": {
+    "validated": true,
+    "workItemId": "n-minus-one-post-migration",
+    "repositoryId": "sha256:6c0c8a5872a26ddc1209af46834483ed520db9e92ffc6f73251579a79db4bc89",
+    "artifactPath": "work-items/n-minus-one-post-migration.close.json",
+    "digest": "sha256:3765963602dd431530023220f2c367f330d4524aaca999da136f8663aba247ab"
+  },
+  "cleanupState": "passed",
+  "cleanupError": null,
+  "steps": [
+    {
+      "name": "from-release-pin",
+      "state": "passed"
+    },
+    {
+      "name": "to-release-pin",
+      "state": "passed"
+    },
+    {
+      "name": "public-release-pins",
+      "state": "passed"
+    },
+    {
+      "name": "from-attach.json",
+      "state": "passed"
+    },
+    {
+      "name": "from-profile.json",
+      "state": "passed"
+    },
+    {
+      "name": "from-agent-install.json",
+      "state": "passed"
+    },
+    {
+      "name": "from-agent-doctor.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-protocol-directories",
+      "state": "passed"
+    },
+    {
+      "name": "old-schema-assertion",
+      "state": "passed",
+      "reason": "old Runtime repository schema 2"
+    },
+    {
+      "name": "old-start.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-preflight.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-checkpoint.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-verify.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-verify-runtime-identity",
+      "state": "passed"
+    },
+    {
+      "name": "old-finish.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-archive.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-close.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-lifecycle-closed",
+      "state": "passed"
+    },
+    {
+      "name": "historical-evidence-captured",
+      "state": "passed"
+    },
+    {
+      "name": "new-compatibility.json",
+      "state": "passed"
+    },
+    {
+      "name": "historical-evidence-preserved",
+      "state": "passed"
+    },
+    {
+      "name": "new-compatibility-after.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-start.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-preflight.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-checkpoint.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-agent-doctor.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-verify.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-finish.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-archive.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-close.json",
+      "state": "passed"
+    },
+    {
+      "name": "continued-operation",
+      "state": "passed"
+    },
+    {
+      "name": "isolation",
+      "state": "passed"
+    }
+  ],
+  "failureReason": null
+}
