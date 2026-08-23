@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:c405557fd116ea6babc82011bf733b1d03dd538f2402b7abb372cfe05621e584",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
+  "reason": "确认 verification 后的当前 Contract 与 snapshot；允许发布前未知项保持黄色，并要求公开发布证据在后续阶段收集。",
+  "recordedAt": "2026-08-24T00:55:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4c207ff36082a2cdabad51c8087fbb521d5fa7ced321b75bf6e334c9dea42af0",
+  "schemaVersion": 1,
+  "workItemId": "WI-204-release-v0-2-25"
+}

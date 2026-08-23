@@ -113,9 +113,11 @@ approval-gated migration branch.
 - `cockpit-release` and the release workflow own the local release contract,
   deterministic manifest, Formula projection, hosted checks, and published
   Release identity.
-- The current immutable public baseline is `v0.2.24`; the public adopter
+- The current immutable public baseline is `v0.2.25`; the public adopter
   acceptance and N-1 upgrade acceptance are post-release evidence. An external Homebrew tap is a separate provider surface
   and is not implied by this repository.
+- The reserved `v0.2.24` tag is retained as failed pre-publication history and
+  is never reused.
 - The tap receives a reviewed Formula projection; it does not rebuild binaries.
 - Homebrew is a delivery path, not a governance authority. Repository facts and
   human decisions still come from the attached repository and its Work Items.

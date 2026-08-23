@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-23T15:30:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-202-release-v0-2-24.verification.json",
+    ".ai/work-items/archive/WI-202-release-v0-2-24.archive.json",
+    ".ai/work-items/archive/WI-202-release-v0-2-24.outcome.json",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/32647756443"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/resource-finalization.md"
+  ],
+  "predecessorContractDigest": "sha256:84722ba0e3fe5ed42537a5faca8c467900239ee06f41ca6424e72d63df3978d4",
+  "predecessorEventsDigest": "sha256:d6c08b2e593aa41377db10284a7d0947628e5436663d2a7b50477407fd07cec2",
+  "predecessorOutcomeDigest": "sha256:86a93bb6e2cf50164e216eb845f03ce604605cb65231d660fcb50ccf9d82dcac",
+  "predecessorSummaryDigest": "sha256:e22f24355632bd9c58375ffc70461abaf13df66aa09894a41913c4cf47c1c778",
+  "predecessorWorkItemId": "WI-202-release-v0-2-24",
+  "reason": "The v0.2.24 publication workflow was rejected by the repository governance integrity gate because the archived WI-202 parity rows remained current and the predecessor had no terminal close. The v0.2.24 tag and failed workflow are immutable release history and cannot be reused; preserve WI-202 bytes and continue the release baseline as v0.2.25 from the latest synchronized default branch.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-203 from origin/main with tri-language parity corrected before verification, publish only the fresh v0.2.25 tag, run immutable public adopter and N-1 acceptance, then close WI-202 as recovered and WI-203 terminally.",
+  "runtimeDigest": "sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+  "runtimeVersion": "0.2.23",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-203-release-v0-2-25",
+  "workItemId": "WI-202-release-v0-2-24"
+}

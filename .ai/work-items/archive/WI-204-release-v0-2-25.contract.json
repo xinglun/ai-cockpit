@@ -1,0 +1,84 @@
+{
+  "acceptanceCriteria": [
+    "A1: v0.2.25 version, documentation and parity rows are internally consistent before release verification.",
+    "A2: only a fresh immutable v0.2.25 public Release with all required assets is accepted.",
+    "A3: downloaded v0.2.25 binary passes isolated adopter and N-1 acceptance without source fallback.",
+    "A4: installed v0.2.25 accepts and records the append-only finalization transition.",
+    "A5: WI-202 failure and recovery, release identity, adopter evidence and tri-language Outcome are auditable."
+  ],
+  "authority": "authorized",
+  "baseRevision": "d6cedb107fb8f07e1225570fce512bd23d44e49f",
+  "createdAt": "2026-08-23T15:45:15Z",
+  "goal": "在真实 PR 上建立可审计的 v0.2.25 发布、安装验收与 Runtime transition 兼容基线。",
+  "intent": "发布包含 append-only finalization transition 支持的 v0.2.25，并用该公开版本完成治理收尾。",
+  "mode": "code",
+  "outOfScope": [
+    "crates/**",
+    "tests/**",
+    ".github/workflows/**"
+  ],
+  "predecessorContractDigest": "sha256:655d95e2fc594f29be23e591f6cd511607dd43dcc0052ddfd61f828e85d14e1a",
+  "predecessorWorkItemId": "WI-203-release-v0-2-25",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-203-release-v0-2-25.recovery.d5f9610ff7106d75daa835f5668606e7db0cd6288b1091d0eb87ff74b7aa6884.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0dd2d57b3c13e612c1dd843170dfe612714961fac4e32068110f8cf15ba10fed",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-203-release-v0-2-25",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/156",
+    "worktree": "/private/tmp/ai-cockpit-wi203-release-v0-2-25"
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "version and release baseline",
+      "required": true,
+      "status": "verified",
+      "expected": "All current release baselines resolve to v0.2.25.",
+      "verificationPlan": "Run version consistency, documentation and hosted release checks.",
+      "evidence": ["tests/release/version_consistency.sh", "docs/architecture/versioning.md"]
+    },
+    {
+      "scenario": "immutable public adopter",
+      "required": false,
+      "status": "unverified",
+      "expected": "Downloaded v0.2.25 completes isolated adopter acceptance.",
+      "verificationPlan": "Run tests/release/adopter_acceptance.sh against the published tag.",
+      "evidence": []
+    },
+    {
+      "scenario": "finalization transition compatibility",
+      "required": false,
+      "status": "unverified",
+      "expected": "Installed v0.2.25 accepts a linked append-only transition.",
+      "verificationPlan": "Run the post-merge transition with the installed v0.2.25 binary.",
+      "evidence": []
+    }
+  ],
+  "risk": "high",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/current/**",
+    "docs/release/**",
+    "docs/architecture/**",
+    "docs/reference/**",
+    "docs/work-items/**",
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/active/**",
+    ".ai/work-items/archive/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-204-release-v0-2-25"
+}

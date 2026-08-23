@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-24T00:30:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-203-release-v0-2-25.verification.json",
+    ".ai/work-items/archive/WI-203-release-v0-2-25.archive.json",
+    ".ai/work-items/archive/WI-203-release-v0-2-25.outcome.json",
+    "https://github.com/xinglun/ai-cockpit/pull/156"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/resource-finalization.md"
+  ],
+  "predecessorContractDigest": "sha256:655d95e2fc594f29be23e591f6cd511607dd43dcc0052ddfd61f828e85d14e1a",
+  "predecessorEventsDigest": "sha256:1065cc428cac3f6a9e83ea4614994559ca63e08ef3ae7cf25689425eb501a92d",
+  "predecessorOutcomeDigest": "sha256:3254000104cdddec445722f4e12d50f2945ccacfa4e94d1f04359ec9d72e0491",
+  "predecessorSummaryDigest": "sha256:cb4ba01e0b855bfdcf33d75b8d2d43260c4576cf6c28fc6dd9a9328ecc4a585a",
+  "predecessorWorkItemId": "WI-203-release-v0-2-25",
+  "reason": "WI-203 was archived before finalize-plan bound its real branch, worktree and pull request context. The installed Runtime correctly rejected an attempted finalization receipt instead of accepting an identity mismatch. Preserve the immutable WI-203 archive and continue the same v0.2.25 release boundary through a successor that binds resource context before verification and archive.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-204 with the actual PR/worktree context bound before verification, publish only the fresh v0.2.25 tag, run immutable public adopter and N-1 acceptance, record the v0.2.25 append-only transition, then close WI-203 as recovered and WI-204 terminally.",
+  "runtimeDigest": "sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+  "runtimeVersion": "0.2.23",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-204-release-v0-2-25",
+  "workItemId": "WI-203-release-v0-2-25"
+}

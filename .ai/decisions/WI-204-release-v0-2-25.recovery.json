@@ -1,0 +1,22 @@
+{
+  "actor":"human:repository-owner",
+  "authoritySource":"repository-owner",
+  "decidedAt":"2026-08-24T01:35:00Z",
+  "decision":"successor",
+  "decisionId":"work-item-recovery",
+  "evidenceRefs":[".ai/evidence/WI-204-release-v0-2-25.verification.json",".ai/work-items/archive/WI-204-release-v0-2-25.archive.json",".ai/decisions/WI-204-release-v0-2-25.finalize.json","https://github.com/xinglun/ai-cockpit/pull/156"],
+  "policyRefs":["AGENTS.md",".ai/README.md","docs/reference/agent-workflow.md"],
+  "predecessorContractDigest":"sha256:66c8a1b43629171b0c3f51583d987d6da9c1a4a1a0fecf7e0b2c6267a989d1a4",
+  "predecessorEventsDigest":"sha256:b706b5e3bf7eada922705fa23aacbc5dd8c6373b1bb1ef4602ed205afe0863bb",
+  "predecessorOutcomeDigest":"sha256:ea26b208e0295e83b117b54a4a0c2a010e6f52bc10cf951e7960d5d8056fc47c",
+  "predecessorSummaryDigest":"sha256:051acdf7d5447cde8264fb88fb3c3be38684984af1e89b6da63aa41742914b99",
+  "predecessorWorkItemId":"WI-204-release-v0-2-25",
+  "reason":"WI-204 was started from the open predecessor branch rather than the latest synchronized default branch, so its Contract baseRevision cannot truthfully bind PR #156's actual base. Its immutable archive and failed pre-merge finalization attempt are retained; a clean successor will bind the correct default-branch base before verification and archive.",
+  "repositoryId":"sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition":"Complete WI-205 from the synchronized default branch with the correct baseRevision, bind its actual PR context before verification, publish v0.2.25, run immutable adopter/N-1 acceptance, record the installed transition, and close WI-204 as recovered and WI-205 terminally.",
+  "runtimeDigest":"sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+  "runtimeVersion":"0.2.23",
+  "schemaVersion":1,
+  "successorWorkItemId":"WI-205-release-v0-2-25",
+  "workItemId":"WI-204-release-v0-2-25"
+}
