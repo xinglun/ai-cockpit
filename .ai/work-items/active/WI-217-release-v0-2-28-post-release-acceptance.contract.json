@@ -38,28 +38,28 @@
   "risk": "high",
   "scenarioCoverage": [
     {
-      "scenario": "immutable public release",
-      "required": true,
-      "status": "verified",
-      "expected": "The v0.2.28 tag and all public artifacts bind to the reviewed merged default-branch commit and workspace version.",
-      "verificationPlan": "Run source consistency and release workflow gates, then compare the public manifest, checksums, and downloaded binary identity.",
       "evidence": [
         ".ai/evidence/external/v0.2.28/adopter-linux/runtime.json",
         ".ai/evidence/external/v0.2.28/adopter-linux/release-manifest.json",
         "https://github.com/xinglun/ai-cockpit/actions/runs/32662890530"
-      ]
+      ],
+      "expected": "The v0.2.28 tag and all public artifacts bind to the reviewed merged default-branch commit and workspace version.",
+      "required": true,
+      "scenario": "immutable public release",
+      "status": "verified",
+      "verificationPlan": "Run source consistency and release workflow gates, then compare the public manifest, checksums, and downloaded binary identity."
     },
     {
-      "scenario": "post-release adopter and N-1 acceptance",
-      "required": false,
-      "status": "verified",
-      "expected": "Downloaded v0.2.28 and v0.2.27 artifacts complete isolated adopter and upgrade acceptance without source fallback or Release truth rewrite.",
-      "verificationPlan": "Bind the completed public adopter and upgrade acceptance receipts, then rerun the Runtime lifecycle and close this successor.",
       "evidence": [
         ".ai/evidence/external/v0.2.28/adopter-linux/acceptance.json",
         ".ai/evidence/external/v0.2.28/upgrade-linux/acceptance.json",
         "https://github.com/xinglun/ai-cockpit/actions/runs/32662890530"
-      ]
+      ],
+      "expected": "Downloaded v0.2.28 and v0.2.27 artifacts complete isolated adopter and upgrade acceptance without source fallback or Release truth rewrite.",
+      "required": false,
+      "scenario": "post-release adopter and N-1 acceptance",
+      "status": "verified",
+      "verificationPlan": "Bind the completed public adopter and upgrade acceptance receipts, then rerun the Runtime lifecycle and close this successor."
     }
   ],
   "scope": [
