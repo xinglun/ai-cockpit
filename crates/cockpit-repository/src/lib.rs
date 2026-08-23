@@ -9477,7 +9477,10 @@ fn task_outcome_report(input: TaskOutcomeReportInput<'_>) -> TaskOutcomeReport {
         "User-visible benefit is not declared by the Work Item owner.",
         std::slice::from_ref(&contract_ref),
     ));
-    if matches!(decision_state, DecisionState::Red) {
+    if historical {
+        // Historical evidence is context, not a request for missing evidence
+        // or human recovery input.
+    } else if matches!(decision_state, DecisionState::Red) {
         sections.forced_stops.push(report_claim(
             "A required evidence or identity control failed; remain stopped.",
             &evidence_refs,
@@ -10051,11 +10054,19 @@ fn outcome_v2_internal(
         evidence_unknown = Some("lifecycle_gate_failed");
     }
     let recovery_decision = load_recovery_decision(&root, work_item_id);
-    let historical_status = recovery_decision
-        .as_ref()
-        .filter(|decision| decision.decision == "supersede")
-        .map(|_| "superseded".to_owned());
-    if historical_status.is_some() {
+    let historical_status = if historical {
+        Some(if legacy {
+            "legacy".to_owned()
+        } else {
+            "runtime_historical".to_owned()
+        })
+    } else {
+        recovery_decision
+            .as_ref()
+            .filter(|decision| decision.decision == "supersede")
+            .map(|_| "superseded".to_owned())
+    };
+    if historical_status.as_deref() == Some("superseded") {
         state = OutcomeState::Unknown;
         decision_state = DecisionState::Yellow;
         summary = "This Work Item was superseded as historical evidence; its original bytes were preserved and were not revalidated as a current result.";

@@ -73,6 +73,8 @@ historical marker and `historical_evidence_not_revalidated`. The handoff must
 not add `verification_or_human_input` or a missing-evidence recovery gate: the
 bytes are valid historical context, not a current verification failure. A new
 verification is required only when a current result is needed.
+The machine projection uses `historicalStatus: "runtime_historical"`; this status
+must also suppress human-facing missing-evidence and recovery wording.
 
 The v2 envelope `createdAt` and retention `createdAt` must be RFC3339 timestamps.
 Optional retention `expiresAt` accepts RFC3339 or the retained epoch-seconds
