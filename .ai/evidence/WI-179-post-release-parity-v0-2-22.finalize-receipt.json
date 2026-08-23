@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "ai-cockpit-WI-179-post-release-parity-v0-2-22",
+  "operationId": "operation-WI-179-post-release-parity-v0-2-22",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-179-post-release-parity-v0-2-22",
+  "runtimeVersion": "0.2.22",
+  "runtimeDigest": "sha256:fff455d0d88d9ca4fa96b5caba85d8a6a198e131bd6ecc5a33dd9bc5cc180ab2",
+  "provider": "github",
+  "pullRequest": {
+    "number": 137,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/137",
+    "headRevision": "556f3ec855ffafdffd4b21e1cb16581523f8d7a8",
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "52ae64a90713ea429ba2a7f1d9fcbb31ed3b8e75",
+    "mergeCommit": "5cd32da934aa3ad851311ca59b9f3f04d8373ed1"
+  },
+  "branch": {
+    "name": "codex/wi-179-post-release-parity-v0-2-22",
+    "remote": "origin",
+    "headRevision": "556f3ec855ffafdffd4b21e1cb16581523f8d7a8"
+  },
+  "worktree": {
+    "worktreeId": "WI-179-post-release-parity-v0-2-22",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit",
+    "branch": "codex/wi-179-post-release-parity-v0-2-22",
+    "headRevision": "556f3ec855ffafdffd4b21e1cb16581523f8d7a8"
+  },
+  "before": {
+    "pullRequest": "merged",
+    "branch": "present",
+    "worktree": "clean"
+  },
+  "after": {
+    "pullRequest": "merged",
+    "branch": "deleted",
+    "worktree": "clean"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "actor": "human:repository-owner",
+  "authoritySource": "post-merge-resource-finalization",
+  "reason": "Finalize the merged v0.2.22 parity correction branch and prove exact remote branch cleanup while retaining the shared main worktree clean.",
+  "timestamp": "2026-08-23T06:51:30Z",
+  "contractDigest": "sha256:ebefc924206cd19ff9c025217d699063b91d35049dd9c1654c550d11355b3f48",
+  "resourceContext": {
+    "branch": "codex/wi-179-post-release-parity-v0-2-22",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit",
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/137"
+  }
+}
