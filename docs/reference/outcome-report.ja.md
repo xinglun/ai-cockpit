@@ -52,6 +52,12 @@ Work Item、repository、Runtime の nested identity を要求します。`diges
 これは履歴入力であり、現在の失敗でも fresh green でもありません。v2 record の identity 欠落は
 引き続き赤色です。
 
+古い Runtime が生成した archived v2 evidence は、黄色の履歴マーカーと
+`historical_evidence_not_revalidated` で表示します。handoff に
+`verification_or_human_input` や missing-evidence の recovery gate を追加してはいけません。
+これは現在の verification failure ではなく、有効な historical context です。current result
+が必要な場合だけ新しい verification を実行します。
+
 v2 envelope の `createdAt` と retention の `createdAt` は RFC3339 timestamp でなければなりません。
 任意の retention `expiresAt` は RFC3339 または互換性のための epoch seconds 形式を受け付けます。形式または意味が不正な
 timestamp は証拠の破損として赤色にし、`finish`、`archive`、`close` を停止します。

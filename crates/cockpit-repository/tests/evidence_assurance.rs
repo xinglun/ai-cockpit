@@ -471,6 +471,15 @@ fn archived_foreign_runtime_evidence_can_close_without_rewriting_history() {
         "historical evidence should not block close: {close:?}"
     );
 
+    let projected = outcome_v2_with_runtime(directory.path(), "WI-161-HISTORICAL-CLOSE", &current)
+        .expect("historical outcome");
+    assert_eq!(projected.decision_state, Some(DecisionState::Yellow));
+    assert_eq!(projected.failed_gate, None);
+    assert_eq!(projected.recovery_condition, None);
+    let task_report = projected.task_outcome_report.expect("task report");
+    assert_eq!(task_report.failed_gate, None);
+    assert_eq!(task_report.recovery_condition, None);
+
     let bytes = fs::read(
         directory
             .path()
