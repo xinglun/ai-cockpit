@@ -25,7 +25,7 @@ replace or weaken those checks, and this phase does not claim result-equivalence
 or provider/enterprise assurance.
 
 The current installation baseline may advance to a newer Release (currently
-`v0.2.16`) without changing this pre-publication shadow pin. The pin advances
+`v0.2.17`) without changing this pre-publication shadow pin. The pin advances
 only after that Release is public and its immutable archive/binary identity has
 been recorded; this avoids a tag workflow depending on an artifact that does
 not yet exist.

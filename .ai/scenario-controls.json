@@ -1,0 +1,12 @@
+{
+  "scenarioCoverage": [
+    {
+      "scenario": "public release binary governs a fresh isolated adopter",
+      "required": true,
+      "status": "unverified",
+      "expected": "Release artifacts, runtime identity, isolation, evidence reuse, not_ready scaffold, and lifecycle receipts are all bound in a post-release acceptance receipt.",
+      "verificationPlan": "Run immutable public adopter and upgrade acceptance scripts after the release, archive their outputs, then install the same binary and verify this repository.",
+      "evidence": []
+    }
+  ]
+}

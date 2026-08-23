@@ -1,0 +1,50 @@
+{
+  "acceptanceCriteria": [
+    "Public release artifacts are immutable and their digests match the downloaded binary",
+    "Adopter acceptance runs only against the public release binary in an isolated temporary environment",
+    "The acceptance receipt preserves runtime identity repository identity isolation manifests evidence reuse and lifecycle evidence",
+    "The new release binary is installed and explicitly verified against this repository"
+  ],
+  "authority": "authorized",
+  "baseRevision": "b3c1228402a18df81f8d4e333b3c73dc790c7c11",
+  "createdAt": "2026-08-22T23:47:26Z",
+  "goal": "Release v0.2.17 with complete post-release adopter acceptance artifacts and install the release binary for current repository verification.",
+  "intent": "Publish the corrected Runtime and prove the immutable public binary can govern a fresh adopter repository.",
+  "mode": "code",
+  "outOfScope": [
+    "business feature work",
+    "source fallback in acceptance"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:58f593bfcbc3edd217ee8d3dd6f26e28339db035d4c3252800386517ca05e9fa",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "crates/**",
+    "docs/**",
+    "tests/release/**",
+    ".github/workflows/**"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "public release binary governs a fresh isolated adopter",
+      "required": true,
+      "status": "unverified",
+      "expected": "Release artifacts, runtime identity, isolation, evidence reuse, not_ready scaffold, and lifecycle receipts are all bound in a post-release acceptance receipt.",
+      "verificationPlan": "Run immutable public adopter and upgrade acceptance scripts after the release, archive their outputs, then install the same binary and verify this repository.",
+      "evidence": []
+    }
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-157-release-v0-2-17-adopter-acceptance"
+}
