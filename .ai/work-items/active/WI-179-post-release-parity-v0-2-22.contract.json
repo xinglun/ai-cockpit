@@ -1,0 +1,46 @@
+{
+  "acceptanceCriteria": [
+    "All three parity documents mark WI-177 as implemented with the public adopter evidence and historical supersession references.",
+    "All three parity documents mark WI-178 as implemented with PR #135, closure PR #136, finalize, finalize-verify, and structured close references.",
+    "English, Simplified Chinese, and Japanese rows preserve equivalent release tag, workflow, runtime digest, and evidence facts.",
+    "Documentation acceptance and post-release version consistency pass using installed public Runtime v0.2.22."
+  ],
+  "authority": "authorized",
+  "baseRevision": "52ae64a90713ea429ba2a7f1d9fcbb31ed3b8e75",
+  "createdAt": "2026-08-23T06:45:03Z",
+  "goal": "Remove stale in-progress status and record WI-177 historical supersession, WI-178 finalization closure, and the immutable public v0.2.22 adopter baseline consistently in English, Chinese, and Japanese.",
+  "intent": "Synchronize the three reference parity documents with the completed v0.2.22 public Release adopter acceptance and finalization outcomes.",
+  "mode": "implementation",
+  "outOfScope": [
+    "src/**",
+    "crates/**",
+    "Release truth",
+    ".ai/evidence/WI-177-post-release-adopter-v0-2-22/**",
+    ".ai/work-items/archive/**"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b15031c28808396c608bec24ff848747a70d83c61ad51f37ef9e958668dc8d8d",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-179-post-release-parity-v0-2-22",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-179-post-release-parity-v0-2-22"
+}
