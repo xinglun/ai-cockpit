@@ -1,0 +1,168 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-186-release-v0-2-23-post-release-acceptance.recovery.json",
+    ".ai/work-items/active/WI-187-finalization-before-archive.approach.json",
+    ".ai/work-items/active/WI-187-finalization-before-archive.contract.json",
+    ".ai/work-items/active/WI-187-finalization-before-archive.summary.json",
+    "crates/cockpit-cli/tests/knowledge.rs",
+    "crates/cockpit-cli/tests/lifecycle.rs",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/resource_finalization.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "crates/cockpit-repository/tests/evidence_assurance.rs",
+    "crates/cockpit-repository/tests/knowledge_cache.rs",
+    "crates/cockpit-repository/tests/outcome_report.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "docs/work-items/WI-187-finalization-before-archive.ja.md",
+    "docs/work-items/WI-187-finalization-before-archive.md",
+    "docs/work-items/WI-187-finalization-before-archive.zh-CN.md"
+  ],
+  "checkpointAt": "2026-08-23T09:29:44Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T09:28:59Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lib.rs",
+      "crates/cockpit-repository/tests/archive_integrity.rs",
+      "docs/work-items/WI-187-finalization-before-archive.zh-CN.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "observedIssues": [
+    "WI-186-release-v0-2-23-post-release-acceptance was archived by Runtime v0.2.23 with the provisional resourceContext written by start and no WI-186 finalization decision record. WI-187 treats it as an immutable historical predecessor: its archive bytes are not edited or promoted, historical readers remain compatible, and only the explicit identity-bound supersession recovery route may preserve those predecessor bytes while ordinary current archive requires finalize-plan.",
+    "The initial WI-187 lifecycle reached finish_ready before finalize-plan. Runtime correctly refused to replace its provisional context after verification evidence existed. The exact WI-187 bytes will therefore be superseded and archived, and WI-190-finalization-plan-order will continue from an explicit digest-bound recovery decision with finalize-plan before verification."
+  ],
+  "predecessorObservation": {
+    "archiveManifestDigest": "sha256:043bd9f1dd1f71018e4587c82d53ce19f7d4256480e9b0427d3d953e8e94fdaf",
+    "boundary": "immutable_historical_archive_with_provisional_resource_context",
+    "contractDigest": "sha256:393d17ef1541a890ead6568f396bb658dc6f79b5b88e84870742dbd8262e626d",
+    "eventsDigest": "sha256:4020cada841daade274dfe66d8a15f18910124c93b594919d9bfe10457b63635",
+    "outcomeDigest": "sha256:774fc786cb6494de9c0a5a244b8d3aab5c5e2a0f31a650ac41641ae6621f5332",
+    "recoveryDecisionPath": ".ai/decisions/WI-186-release-v0-2-23-post-release-acceptance.recovery.json",
+    "recoveryRule": "Do not rewrite WI-186 archive bytes; record a Runtime-validated supersession receipt binding its Contract, Summary, Outcome, and event digests to WI-187, while ordinary active Work Items must run finalize-plan before archive.",
+    "summaryDigest": "sha256:9ac909b8854a6de28d9fcbc5b953ff9b44ede12dd27a5ed4daa9ab6ed02356d8",
+    "workItemId": "WI-186-release-v0-2-23-post-release-acceptance"
+  },
+  "preflightAt": "2026-08-23T10:04:58Z",
+  "preflightContractDigest": "sha256:840536118819f213bc164dfe4288dad38d95986b3a3f5c4a696ab28701439517",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:6c7cbad244435200232bf8794213e0e50f5efe53329e84de9d23cac183de2ad6",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/archive_integrity.rs",
+        "crates/cockpit-cli/tests/lifecycle.rs"
+      ],
+      "reason": "repository and CLI regressions prove fail-closed behavior and active-byte preservation",
+      "required": true,
+      "scenario": "archive_without_finalization_plan",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-protocol/tests/resource_finalization.rs",
+        "crates/cockpit-repository/tests/archive_integrity.rs"
+      ],
+      "reason": "protocol and repository regressions prove non-provisional identity binding and successful archive",
+      "required": true,
+      "scenario": "archive_with_valid_finalization_plan",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/evidence_assurance.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        "docs/work-items/WI-187-finalization-before-archive.md"
+      ],
+      "reason": "historical readers and explicit supersession preserve predecessor bytes without weakening ordinary archive",
+      "required": true,
+      "scenario": "legacy_archive_compatibility_and_recovery",
+      "status": "verified"
+    }
+  ],
+  "sourcesUsed": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    ".ai/work-items/active/WI-187-finalization-before-archive.approach.json",
+    ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.contract.json",
+    ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json",
+    ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.archive.json",
+    ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.outcome.json",
+    ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.events.jsonl",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-protocol/tests/resource_finalization.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "crates/cockpit-repository/tests/evidence_assurance.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "crates/cockpit-cli/tests/lifecycle.rs"
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T10:05:22Z",
+  "verification": [
+    {
+      "command": "cargo test --locked -p cockpit-repository --test archive_integrity finish_rejects_provisional_resource_context_before_finish_ready -- --exact",
+      "note": "passed after first observing the expected RED result where finish returned finish_ready",
+      "passed": true
+    },
+    {
+      "command": "cargo test --locked -p cockpit-protocol --test resource_finalization",
+      "passed": true
+    },
+    {
+      "command": "cargo test --locked -p cockpit-repository --test archive_integrity",
+      "passed": true
+    },
+    {
+      "command": "cargo test --locked -p cockpit-cli --test lifecycle",
+      "passed": true
+    },
+    {
+      "command": "cargo test --locked -p cockpit-repository",
+      "passed": true
+    },
+    {
+      "command": "cargo fmt --all -- --check",
+      "passed": true
+    },
+    {
+      "command": "cargo clippy --locked --workspace --all-targets -- -D warnings",
+      "passed": true
+    },
+    {
+      "command": "cargo test --locked --workspace",
+      "note": "all runnable tests passed; the opt-in external V1 oracle remained ignored because AI_COCKPIT_V1_ROOT was not supplied",
+      "passed": true
+    },
+    {
+      "command": "./tests/docs/documentation_acceptance.sh",
+      "passed": true
+    },
+    {
+      "command": "git diff --check",
+      "passed": true
+    }
+  ],
+  "verificationAttempts": [
+    {
+      "command": "/Users/sei-rinn/.local/bin/ai-cockpit verify --repo /private/tmp/ai-cockpit-wi187-finalization-before-archive --work-item WI-187-finalization-before-archive --command cargo --args test,--locked,--workspace --workers 2 --stage task",
+      "passed": false,
+      "stderr": "record verification evidence: repository protocol state error at /private/tmp/ai-cockpit-wi187-finalization-before-archive/.ai/evidence: failed verification cannot be recorded as completion evidence",
+      "unknown": "The command's captured cargo failure payload was not emitted by Runtime; concurrent workspace verification was later identified as a possible static-fixture interference source. This failed attempt is retained and is not completion evidence."
+    },
+    {
+      "command": "/Users/sei-rinn/.local/bin/ai-cockpit verify --repo /private/tmp/ai-cockpit-wi187-finalization-before-archive --work-item WI-187-finalization-before-archive --command cargo --args test,--locked,--workspace --stage task",
+      "passed": false,
+      "stderr": "interrupted with SIGINT before completion",
+      "unknown": "The owner stopped this retry when concurrent WI-188/WI-189 Runtime verification was discovered; it is not completion evidence and will be followed by an isolated retry."
+    }
+  ],
+  "workItemId": "WI-187-finalization-before-archive"
+}

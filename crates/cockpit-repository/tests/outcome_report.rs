@@ -1,7 +1,9 @@
 use cockpit_core::Digest;
+use cockpit_protocol::ResourceFinalizationContext;
 use cockpit_repository::{
     WorkItemStartOptions, archive_work_item, checkpoint_work_item, finish_work_item, outcome_v2,
-    preflight_work_item, record_verification, start_work_item_with_options,
+    plan_resource_finalization, preflight_work_item, record_verification,
+    start_work_item_with_options,
 };
 use std::{fs, process::Command};
 
@@ -32,6 +34,19 @@ fn ready(directory: &tempfile::TempDir, id: &str) {
         },
     )
     .expect("start");
+    plan_resource_finalization(
+        directory.path(),
+        id,
+        &ResourceFinalizationContext {
+            branch: format!("feature/{id}"),
+            worktree: directory.path().display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: format!("https://github.com/example/ai-cockpit/pull/{id}"),
+        },
+    )
+    .expect("finalization plan");
     let contract = directory
         .path()
         .join(format!(".ai/work-items/active/{id}.contract.json"));

@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-fail-closed-recovery",
+  "decidedAt": "2026-08-23T10:13:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-187-finalization-before-archive.verification.json",
+    ".ai/work-items/active/WI-187-finalization-before-archive.outcome.json",
+    "docs/work-items/WI-187-finalization-before-archive.zh-CN.md"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:9b4ac5ac98732afe4142bf4eedf6830dd14fe918d3e35ac57e56ffb8ab2bfaec",
+  "predecessorEventsDigest": "sha256:96e14c4147e48aa8c4e03de6ff8189e8147251415d596ff510dbaf1716d964c4",
+  "predecessorOutcomeDigest": "sha256:eee0f7a0fac35c939fd173c06ab548b6e405325644d3ca0e53cba0a29409ae8f",
+  "predecessorSummaryDigest": "sha256:fc38ccd671dac35724f39f78e505a992a4fb8825b41c4f065902b331391b3193",
+  "predecessorWorkItemId": "WI-187-finalization-before-archive",
+  "reason": "WI-190 is now the active digest-bound successor; supersede WI-187 as immutable historical evidence because Runtime correctly refused its post-verification finalization plan.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "WI-190 must bind a non-provisional finalization plan before preflight, verification, finish, and archive.",
+  "runtimeDigest": "sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+  "runtimeVersion": "0.2.23",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-190-finalization-plan-order",
+  "workItemId": "WI-187-finalization-before-archive"
+}

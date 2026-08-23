@@ -1,9 +1,9 @@
 use cockpit_core::Digest;
-use cockpit_protocol::{HumanDecision, RuntimeContext};
+use cockpit_protocol::{HumanDecision, ResourceFinalizationContext, RuntimeContext};
 use cockpit_repository::{
     WorkItemStartOptions, archive_work_item, attach, checkpoint_work_item,
-    close_work_item_with_structured_decision, finish_work_item, preflight_work_item,
-    record_verification, start_work_item, start_work_item_with_options,
+    close_work_item_with_structured_decision, finish_work_item, plan_resource_finalization,
+    preflight_work_item, record_verification, start_work_item, start_work_item_with_options,
     work_item_status_snapshot_with_runtime,
 };
 use std::{fs, process::Command};
@@ -28,6 +28,22 @@ fn runtime() -> RuntimeContext {
         protocol_version: 1,
         runtime_digest: Digest::sha256_bytes(b"status-runtime"),
     }
+}
+
+fn plan(directory: &tempfile::TempDir, work_item_id: &str) {
+    plan_resource_finalization(
+        directory.path(),
+        work_item_id,
+        &ResourceFinalizationContext {
+            branch: format!("feature/{work_item_id}"),
+            worktree: directory.path().display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: format!("https://github.com/example/ai-cockpit/pull/{work_item_id}"),
+        },
+    )
+    .expect("finalization plan");
 }
 
 #[test]
@@ -115,6 +131,7 @@ fn status_projection_distinguishes_archived_from_valid_closed_decision() {
         &["**".into()],
     )
     .expect("start");
+    plan(&directory, work_item_id);
     let contract = directory.path().join(format!(
         ".ai/work-items/active/{work_item_id}.contract.json"
     ));
@@ -187,6 +204,7 @@ fn invalid_close_decision_never_promotes_archived_status() {
         &["**".into()],
     )
     .expect("start");
+    plan(&directory, work_item_id);
     let contract = directory.path().join(format!(
         ".ai/work-items/active/{work_item_id}.contract.json"
     ));
@@ -237,6 +255,7 @@ fn foreign_close_repository_identity_never_promotes_archived_status() {
         &["**".into()],
     )
     .expect("start");
+    plan(&directory, work_item_id);
     let contract = directory.path().join(format!(
         ".ai/work-items/active/{work_item_id}.contract.json"
     ));

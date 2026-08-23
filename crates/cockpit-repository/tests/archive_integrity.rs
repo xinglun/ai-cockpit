@@ -2,16 +2,17 @@ use cockpit_core::Digest;
 use cockpit_git::GitRepository;
 use cockpit_protocol::{
     AssuranceLevel, ConcurrencyBoundary, DataClassification, DelegatedEvidence,
-    EvidencePersistence, EvidenceRetention, EvidenceValidity, HumanDecision, RuntimeContext,
+    EvidencePersistence, EvidenceRetention, EvidenceValidity, HumanDecision,
+    ResourceFinalizationContext, RuntimeContext,
 };
 use cockpit_repository::{
     WorkItemStartOptions, acquire_parallel_slot, archive_work_item, attach, checkpoint_work_item,
     close_work_item_with_decision, close_work_item_with_structured_decision, evidence_purge_plan,
     evidence_state_for_contract, export_audit_events, finish_work_item,
     governance_decision_for_contract, implementation_approach, import_delegated_evidence,
-    preflight_work_item, record_verification, release_parallel_slot, render_human_outcome,
-    set_evidence_retention_policy, set_work_item_concurrency_boundary, set_work_item_intelligence,
-    start_work_item, start_work_item_with_options,
+    plan_resource_finalization, preflight_work_item, record_verification, release_parallel_slot,
+    render_human_outcome, set_evidence_retention_policy, set_work_item_concurrency_boundary,
+    set_work_item_intelligence, start_work_item, start_work_item_with_options,
 };
 use std::{
     fs,
@@ -43,12 +44,196 @@ fn repository() -> std::path::PathBuf {
 }
 
 fn prepare_for_verification(path: &std::path::Path, work_item_id: &str) {
+    plan_resource_finalization(
+        path,
+        work_item_id,
+        &ResourceFinalizationContext {
+            branch: format!("feature/{work_item_id}"),
+            worktree: path.display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: format!("https://github.com/example/ai-cockpit/pull/{work_item_id}"),
+        },
+    )
+    .expect("finalization plan");
+    prepare_without_finalization_plan(path, work_item_id);
+}
+
+fn prepare_without_finalization_plan(path: &std::path::Path, work_item_id: &str) {
     let contract = path
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.contract.json"));
     let decision = preflight_work_item(path, &contract).expect("preflight");
     assert_ne!(decision.state, cockpit_core::DecisionState::Red);
     checkpoint_work_item(path, work_item_id).expect("checkpoint");
+}
+
+#[test]
+fn finish_rejects_provisional_resource_context_before_finish_ready() {
+    let path = repository();
+    let work_item_id = "WI-FINISH-REQUIRES-PLAN";
+    start_work_item(
+        &path,
+        work_item_id,
+        "require explicit resource finalization",
+        "fail closed before finish creates an unarchivable state",
+        &["**".into()],
+    )
+    .expect("start");
+    prepare_without_finalization_plan(&path, work_item_id);
+    record_verification(
+        &path,
+        work_item_id,
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.2.23",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+
+    let error = finish_work_item(&path, work_item_id)
+        .expect_err("provisional resource context must block finish");
+    assert!(error.to_string().contains("non-provisional"));
+    let summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            path.join(".ai/work-items/active")
+                .join(format!("{work_item_id}.summary.json")),
+        )
+        .expect("summary"),
+    )
+    .expect("summary JSON");
+    assert_eq!(summary["state"], "checkpointed");
+    assert!(
+        !path
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.task-report.json"))
+            .exists()
+    );
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn archive_rejects_provisional_resource_context_without_moving_active_bytes() {
+    let path = repository();
+    let work_item_id = "WI-ARCHIVE-REQUIRES-PLAN";
+    start_work_item(
+        &path,
+        work_item_id,
+        "require explicit resource finalization",
+        "fail closed before archive moves active bytes",
+        &["**".into()],
+    )
+    .expect("start");
+    prepare_for_verification(&path, work_item_id);
+    record_verification(
+        &path,
+        work_item_id,
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.2.23",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+    finish_work_item(&path, work_item_id).expect("finish");
+
+    let contract_path = path
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let mut contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract"))
+            .expect("contract JSON");
+    contract["resourceContext"]["baseBranch"] = serde_json::json!("unknown");
+    contract["resourceContext"]["baseRemote"] = serde_json::json!("unknown");
+    contract["resourceContext"]["provider"] = serde_json::json!("unknown");
+    contract["resourceContext"]["pullRequest"] = serde_json::json!("unknown");
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&contract).expect("contract bytes"),
+    )
+    .expect("tamper contract to provisional context");
+
+    let active = path.join(".ai/work-items/active");
+    let before = ["contract.json", "summary.json", "outcome.json"].map(|suffix| {
+        fs::read(active.join(format!("{work_item_id}.{suffix}")))
+            .unwrap_or_else(|error| panic!("read active {suffix}: {error}"))
+    });
+
+    let error = archive_work_item(&path, work_item_id)
+        .expect_err("provisional resource context must block archive");
+    assert!(error.to_string().contains("non-provisional"));
+    for (suffix, expected) in ["contract.json", "summary.json", "outcome.json"]
+        .into_iter()
+        .zip(before)
+    {
+        assert_eq!(
+            fs::read(active.join(format!("{work_item_id}.{suffix}"))).expect("active bytes"),
+            expected,
+            "archive rejection changed active {suffix} bytes"
+        );
+        assert!(
+            !path
+                .join(".ai/work-items/archive")
+                .join(format!("{work_item_id}.{suffix}"))
+                .exists(),
+            "archive rejection created {suffix}"
+        );
+    }
+    assert!(
+        !path
+            .join(".ai/work-items/archive")
+            .join(format!("{work_item_id}.archive.json"))
+            .exists()
+    );
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn archive_accepts_explicit_non_provisional_resource_finalization_plan() {
+    let path = repository();
+    let work_item_id = "WI-ARCHIVE-WITH-PLAN";
+    start_work_item(
+        &path,
+        work_item_id,
+        "bind resource finalization",
+        "archive only after the reviewed resource is identified",
+        &["**".into()],
+    )
+    .expect("start");
+    prepare_for_verification(&path, work_item_id);
+    record_verification(
+        &path,
+        work_item_id,
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.2.23",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+    finish_work_item(&path, work_item_id).expect("finish");
+    archive_work_item(&path, work_item_id).expect("archive after finalization plan");
+
+    let contract: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            path.join(".ai/work-items/archive")
+                .join(format!("{work_item_id}.contract.json")),
+        )
+        .expect("archived contract"),
+    )
+    .expect("contract JSON");
+    assert_eq!(contract["resourceContext"]["baseBranch"], "main");
+    assert_eq!(contract["resourceContext"]["baseRemote"], "origin");
+    assert_eq!(contract["resourceContext"]["provider"], "github");
+    assert!(
+        contract["resourceContext"]["pullRequest"]
+            .as_str()
+            .expect("pull request")
+            .contains(work_item_id)
+    );
+    assert!(
+        !path
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.contract.json"))
+            .exists()
+    );
+    fs::remove_dir_all(path).expect("cleanup");
 }
 
 #[test]

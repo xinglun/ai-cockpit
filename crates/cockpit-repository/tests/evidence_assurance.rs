@@ -54,6 +54,22 @@ fn start(directory: &tempfile::TempDir, id: &str) {
     .expect("start");
 }
 
+fn plan(directory: &tempfile::TempDir, id: &str) {
+    plan_resource_finalization(
+        directory.path(),
+        id,
+        &ResourceFinalizationContext {
+            branch: format!("feature/{id}"),
+            worktree: directory.path().display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: format!("https://github.com/example/ai-cockpit/pull/{id}"),
+        },
+    )
+    .expect("resource context plan");
+}
+
 fn record_typed(directory: &tempfile::TempDir, id: &str, current: &RuntimeContext) -> Value {
     let contract = directory
         .path()
@@ -280,6 +296,7 @@ fn invalid_created_at_blocks_finish_and_archived_close() {
     );
 
     start(&directory, "WI-131-TIMESTAMP-CLOSE");
+    plan(&directory, "WI-131-TIMESTAMP-CLOSE");
     record_typed(&directory, "WI-131-TIMESTAMP-CLOSE", &current);
     finish_work_item_with_runtime(directory.path(), "WI-131-TIMESTAMP-CLOSE", &current)
         .expect("finish");
@@ -317,6 +334,7 @@ fn current_runtime_lifecycle_rejects_foreign_runtime_evidence() {
     let current = runtime("current");
     let foreign = runtime("foreign");
     start(&directory, "WI-110-RUNTIME");
+    plan(&directory, "WI-110-RUNTIME");
     record_typed(&directory, "WI-110-RUNTIME", &current);
     let error = finish_work_item_with_runtime(directory.path(), "WI-110-RUNTIME", &foreign)
         .expect_err("foreign runtime evidence must not finish");
@@ -333,6 +351,7 @@ fn archived_foreign_runtime_evidence_is_historical_yellow() {
     let recorded = runtime("recorded");
     let current = runtime("current");
     start(&directory, "WI-110-HISTORICAL-V2");
+    plan(&directory, "WI-110-HISTORICAL-V2");
     record_typed(&directory, "WI-110-HISTORICAL-V2", &recorded);
     finish_work_item_with_runtime(directory.path(), "WI-110-HISTORICAL-V2", &recorded)
         .expect("finish");

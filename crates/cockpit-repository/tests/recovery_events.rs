@@ -1,7 +1,8 @@
+use cockpit_protocol::ResourceFinalizationContext;
 use cockpit_repository::{
-    WorkItemStartOptions, attach, checkpoint_work_item, finish_work_item, preflight_work_item,
-    record_verification, record_work_item_governance_controls, render_human_outcome,
-    start_work_item_with_options,
+    WorkItemStartOptions, attach, checkpoint_work_item, finish_work_item,
+    plan_resource_finalization, preflight_work_item, record_verification,
+    record_work_item_governance_controls, render_human_outcome, start_work_item_with_options,
 };
 use std::{fs, process::Command};
 
@@ -30,6 +31,19 @@ fn repository() -> tempfile::TempDir {
         },
     )
     .expect("start");
+    plan_resource_finalization(
+        directory.path(),
+        "WI-RECOVERY",
+        &ResourceFinalizationContext {
+            branch: "feature/WI-RECOVERY".into(),
+            worktree: directory.path().display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: "https://github.com/example/ai-cockpit/pull/WI-RECOVERY".into(),
+        },
+    )
+    .expect("finalization plan");
     let contract = directory
         .path()
         .join(".ai/work-items/active/WI-RECOVERY.contract.json");

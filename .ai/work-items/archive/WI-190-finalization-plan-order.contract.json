@@ -1,0 +1,96 @@
+{
+  "acceptanceCriteria": [
+    "finish 在 missing/provisional finalization plan 时必须在 finish_ready 前 fail-closed",
+    "archive 在 missing/provisional finalization plan 时必须在移动 active bytes 前 fail-closed",
+    "有效非 provisional plan 后 finish 与 archive 成功",
+    "WI-186 与 WI-187 前驱 recovery receipts 严格绑定且 archive bytes 不变",
+    "Rust targeted/full tests、fmt、clippy 与三语 WI-187 docs 全部通过",
+    "安装 v0.2.23 Runtime 下完成 plan→preflight→checkpoint→verify→finish→中文 Outcome→archive"
+  ],
+  "authority": "authorized",
+  "baseRevision": "8adc9071377aaee474a68487ca531779915bfd5c",
+  "createdAt": "2026-08-23T10:12:39Z",
+  "goal": "先绑定非 provisional finalize-plan，再验证 finish/archive guard、三语文档与不可变前驱恢复，完成完整 lifecycle",
+  "intent": "以显式 successor 恢复 WI-187 的 finalization 顺序，保留前驱 bytes，并让 finish/archive 在 provisional plan 上 fail-closed",
+  "mode": "code",
+  "outOfScope": [
+    "历史 WI-186/WI-187 archive bytes",
+    "docs/reference/reference-parity.*",
+    "provider-side merge or release publication"
+  ],
+  "predecessorContractDigest": "sha256:9b4ac5ac98732afe4142bf4eedf6830dd14fe918d3e35ac57e56ffb8ab2bfaec",
+  "predecessorWorkItemId": "WI-187-finalization-before-archive",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-187-finalization-before-archive.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b9dd94ebcbf671bbe18b864ab21ff817548cb3689c876937443b04fd4d90f874",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-187-finalization-before-archive",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/150",
+    "worktree": "/private/tmp/ai-cockpit-wi187-finalization-before-archive"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "scenario": "finish_without_finalization_plan",
+      "required": true,
+      "status": "unverified",
+      "expected": "finish rejects before creating finish_ready or task report artifacts",
+      "verificationPlan": "focused repository and CLI regressions",
+      "evidence": []
+    },
+    {
+      "scenario": "archive_with_tampered_provisional_plan",
+      "required": true,
+      "status": "unverified",
+      "expected": "archive rejects before moving or changing active bytes",
+      "verificationPlan": "focused repository archive integrity regression",
+      "evidence": []
+    },
+    {
+      "scenario": "valid_plan_and_immutable_recovery",
+      "required": true,
+      "status": "unverified",
+      "expected": "valid plan permits lifecycle while WI-186 and WI-187 predecessor bytes remain immutable",
+      "verificationPlan": "protocol, archive integrity, recovery, and workspace suites",
+      "evidence": []
+    }
+  ],
+  "scope": [
+    "crates/cockpit-protocol/**",
+    "crates/cockpit-repository/**",
+    "crates/cockpit-cli/**",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "tests/**",
+    "docs/work-items/WI-187-finalization-before-archive.md",
+    "docs/work-items/WI-187-finalization-before-archive.zh-CN.md",
+    "docs/work-items/WI-187-finalization-before-archive.ja.md",
+    ".ai/decisions/WI-186-release-v0-2-23-post-release-acceptance.recovery.json",
+    ".ai/decisions/WI-187-finalization-before-archive.recovery.json",
+    ".ai/decisions/WI-187-finalization-before-archive.recovery.a72ac926f908295f40f9ca40986542c3a404d40893fc749140c764681bdaa6c6.json",
+    ".ai/decisions/WI-187-finalization-before-archive.close.json",
+    ".ai/evidence/WI-187-finalization-before-archive.verification.json",
+    ".ai/work-items/archive/WI-187-finalization-before-archive.approach.json",
+    ".ai/work-items/archive/WI-187-finalization-before-archive.archive.json",
+    ".ai/work-items/archive/WI-187-finalization-before-archive.contract.json",
+    ".ai/work-items/archive/WI-187-finalization-before-archive.events.jsonl",
+    ".ai/work-items/archive/WI-187-finalization-before-archive.outcome.json",
+    ".ai/work-items/archive/WI-187-finalization-before-archive.summary.json",
+    ".ai/work-items/archive/WI-187-finalization-before-archive.task-report.json",
+    ".ai/work-items/archive/WI-187-finalization-before-archive.task-report.md",
+    ".ai/work-items/active/WI-190-finalization-plan-order.approach.json"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-190-finalization-plan-order"
+}

@@ -1,0 +1,86 @@
+{
+  "acceptanceCriteria": [
+    "未存在有效 finalization plan 时 finish 必须在产生 finish_ready 前 fail-closed",
+    "未存在有效 finalization plan 时 archive 必须 fail-closed",
+    "存在非 provisional 且 identity-bound 的有效 plan 时 archive 可成功",
+    "旧历史 archive bytes 不被修改且历史兼容/恢复路径有测试",
+    "Rust protocol repository CLI 回归测试覆盖失败与成功路径",
+    "WI-187 中文日文英文文档完整且不修改共享 parity 文件",
+    "WI-186 通过严格绑定 Contract、Summary、Outcome、events digests 的 supersession recovery receipt 连接到 WI-187，且历史 archive bytes 保持不变",
+    "安装 v0.2.23 Runtime 下完成 preflight checkpoint verify finish archive 前的可见中文 Outcome"
+  ],
+  "authority": "authorized",
+  "baseRevision": "8adc9071377aaee474a68487ca531779915bfd5c",
+  "createdAt": "2026-08-23T09:28:59Z",
+  "goal": "在 Rust protocol/repository/CLI 中强制 finish 与 archive 前完成有效 resource finalization plan；覆盖未 plan 拒绝、有效 plan 成功、旧/历史兼容与恢复路径，完成三语 WI-187 文档并通过完整质量门。",
+  "intent": "修复 archive 可在 finalize-plan 之前成功的流程缺口，确保资源最终化计划在归档前显式存在且不是 provisional；保持历史归档 bytes 不变，并为 WI-186 的未完成 finalization 保留可审计 predecessor 记录。",
+  "mode": "code",
+  "outOfScope": [
+    "历史 .ai/work-items/archive/**",
+    "docs/reference/reference-parity.*",
+    "WI-186 archive bytes",
+    "provider-side merge or release publication"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "predecessorContractDigest": "sha256:393d17ef1541a890ead6568f396bb658dc6f79b5b88e84870742dbd8262e626d",
+  "predecessorWorkItemId": "WI-186-release-v0-2-23-post-release-acceptance",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-186-release-v0-2-23-post-release-acceptance.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2399a6500887d57a21c89c9bd6f5c1cec760c6ec370f48dee3fa03b56b142a26",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-187-finalization-before-archive",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi187-finalization-before-archive"
+  },
+  "risk": "high",
+  "scope": [
+    ".ai/decisions/WI-186-release-v0-2-23-post-release-acceptance.recovery.json",
+    ".ai/work-items/active/WI-187-finalization-before-archive.approach.json",
+    "crates/cockpit-protocol/**",
+    "crates/cockpit-repository/**",
+    "crates/cockpit-cli/**",
+    "tests/**",
+    "docs/work-items/WI-187-finalization-before-archive.ja.md",
+    "docs/work-items/WI-187-finalization-before-archive.md",
+    "docs/work-items/WI-187-finalization-before-archive.zh-CN.md"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "archive_without_finalization_plan",
+      "required": true,
+      "status": "unverified",
+      "expected": "archive rejects before moving active Work Item bytes",
+      "verificationPlan": "focused repository lifecycle regression test",
+      "evidence": []
+    },
+    {
+      "scenario": "archive_with_valid_finalization_plan",
+      "required": true,
+      "status": "unverified",
+      "expected": "archive succeeds only after a non-provisional identity-bound plan",
+      "verificationPlan": "focused repository lifecycle regression test",
+      "evidence": []
+    },
+    {
+      "scenario": "legacy_archive_compatibility_and_recovery",
+      "required": true,
+      "status": "unverified",
+      "expected": "historical archive bytes remain readable and recoverable without rewriting",
+      "verificationPlan": "archive compatibility and recovery regression tests",
+      "evidence": []
+    }
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-187-finalization-before-archive"
+}

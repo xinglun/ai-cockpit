@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-23T10:30:54Z",
+  "files": {
+    "contractDigest": "sha256:77dfc3525092d1c0104ecc2617ef186ca60d2b08df91be56877dd0915f831f79",
+    "contractPath": ".ai/work-items/archive/WI-190-finalization-plan-order.contract.json",
+    "eventsDigest": "sha256:bbd4b7ed43b6040a9969ae2a1a71421017e241c3755e393be1e50825b7e41e08",
+    "eventsPath": ".ai/work-items/archive/WI-190-finalization-plan-order.events.jsonl",
+    "outcomeDigest": "sha256:1991f1b5ec73ce536f2132aea2b4e3d93111cee6ef47c9191aca21fe0da5de34",
+    "outcomePath": ".ai/work-items/archive/WI-190-finalization-plan-order.outcome.json",
+    "summaryDigest": "sha256:2030d9bf5636f47f7cca13b64c5a8c57d4f61bb354347865ee50df2cd6532a44",
+    "summaryPath": ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json",
+    "taskReportDigest": "sha256:dc6efd21262747b2d147c826cda0edaa83d2dfc5f700404507debd88795be943",
+    "taskReportMarkdownDigest": "sha256:c09903d17f20fe8ec025f58bfe853228fc5dbd670c22dc5d76ef9c8ce0ab3fd5",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-190-finalization-plan-order.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-190-finalization-plan-order.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-190-finalization-plan-order"
+}

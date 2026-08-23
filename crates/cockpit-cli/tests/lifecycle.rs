@@ -58,6 +58,90 @@ fn run_output(binary: &str, args: &[&str], repo: &std::path::Path) -> std::proce
 }
 
 #[test]
+fn finish_command_requires_finalize_plan_and_preserves_active_files() {
+    let repo = repository();
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    assert!(
+        Command::new(binary)
+            .args(["attach", "--repo"])
+            .arg(&repo)
+            .status()
+            .expect("attach")
+            .success()
+    );
+    let started = Command::new(binary)
+        .args(["start", "--repo"])
+        .arg(&repo)
+        .args([
+            "--id",
+            "WI-ARCHIVE-PLAN",
+            "--intent",
+            "require explicit finalization",
+            "--goal",
+            "preserve active files when archive is premature",
+            "--scope",
+            "**",
+            "--authority",
+            "authorized",
+        ])
+        .output()
+        .expect("start");
+    assert!(started.status.success());
+    assert!(
+        run_output(
+            binary,
+            &[
+                "preflight",
+                "--contract",
+                ".ai/work-items/active/WI-ARCHIVE-PLAN.contract.json",
+            ],
+            &repo,
+        )
+        .status
+        .success()
+    );
+    assert!(
+        run_output(binary, &["checkpoint", "--id", "WI-ARCHIVE-PLAN"], &repo)
+            .status
+            .success()
+    );
+    assert!(
+        run_output(
+            binary,
+            &[
+                "verify",
+                "--work-item",
+                "WI-ARCHIVE-PLAN",
+                "--command",
+                "true",
+            ],
+            &repo,
+        )
+        .status
+        .success()
+    );
+    let active = repo.join(".ai/work-items/active");
+    let contract_before =
+        fs::read(active.join("WI-ARCHIVE-PLAN.contract.json")).expect("active contract");
+    let finish = run_output(binary, &["finish", "--id", "WI-ARCHIVE-PLAN"], &repo);
+    assert!(!finish.status.success());
+    assert!(String::from_utf8_lossy(&finish.stderr).contains("non-provisional"));
+    assert_eq!(
+        fs::read(active.join("WI-ARCHIVE-PLAN.contract.json")).expect("active contract"),
+        contract_before
+    );
+    assert!(active.join("WI-ARCHIVE-PLAN.summary.json").is_file());
+    assert!(active.join("WI-ARCHIVE-PLAN.outcome.json").is_file());
+    assert!(!active.join("WI-ARCHIVE-PLAN.task-report.json").exists());
+    assert!(
+        !repo
+            .join(".ai/work-items/archive/WI-ARCHIVE-PLAN.archive.json")
+            .exists()
+    );
+    fs::remove_dir_all(repo).expect("cleanup");
+}
+
+#[test]
 fn work_item_lifecycle_is_atomic_and_archive_is_content_bound() {
     let repo = repository();
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
@@ -381,6 +465,7 @@ fn archive_failure_keeps_active_files_for_recovery() {
         .output()
         .expect("start");
     assert!(start.status.success());
+    common::plan(binary, &repo, "WI-RECOVER");
     let preflight = run_output(
         binary,
         &[
@@ -499,6 +584,7 @@ fn in_scope_changes_do_not_stale_contract_and_out_of_scope_changes_cannot_finish
         .status
         .success()
     );
+    common::plan(binary, &repo, "WI-SCOPE");
     fs::write(
         repo.join("src/main.rs"),
         "fn main() { println!(\"ok\"); }\n",
@@ -652,6 +738,7 @@ fn close_rechecks_governance_after_archive() {
         .status
         .success()
     );
+    common::plan(binary, &repo, "WI-CLOSE-GATE");
     let preflight = run_output(
         binary,
         &[

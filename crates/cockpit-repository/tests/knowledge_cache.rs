@@ -1,7 +1,8 @@
 use cockpit_core::Digest;
+use cockpit_protocol::ResourceFinalizationContext;
 use cockpit_repository::{
     archive_work_item, attach, checkpoint_work_item, finish_work_item, generate_knowledge,
-    preflight_work_item, record_verification, start_work_item,
+    plan_resource_finalization, preflight_work_item, record_verification, start_work_item,
 };
 use std::{
     fs,
@@ -34,6 +35,19 @@ fn repository() -> std::path::PathBuf {
 
 fn archive_one(path: &std::path::Path, id: &str) {
     start_work_item(path, id, "cache topic", "cache goal", &["**".into()]).expect("start");
+    plan_resource_finalization(
+        path,
+        id,
+        &ResourceFinalizationContext {
+            branch: format!("feature/{id}"),
+            worktree: path.display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: format!("https://github.com/example/ai-cockpit/pull/{id}"),
+        },
+    )
+    .expect("finalization plan");
     let contract = path
         .join(".ai/work-items/active")
         .join(format!("{id}.contract.json"));

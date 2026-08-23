@@ -938,6 +938,21 @@ pub struct ResourceFinalizationContext {
     pub pull_request: String,
 }
 
+impl ResourceFinalizationContext {
+    /// `start` records local branch/worktree facts before a provider-side
+    /// finalization plan exists.  The remaining identity fields are explicit
+    /// sentinels until `finalize-plan` binds them to the reviewed resource.
+    pub fn is_provisional(&self) -> bool {
+        [
+            self.base_branch.as_str(),
+            self.base_remote.as_str(),
+            self.provider.as_str(),
+            self.pull_request.as_str(),
+        ]
+        .contains(&"unknown")
+    }
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct ResourceFinalizationResult {

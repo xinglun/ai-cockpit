@@ -7,6 +7,41 @@ use std::{
 
 static NEXT_REPOSITORY_ID: AtomicU64 = AtomicU64::new(0);
 
+fn plan(binary: &str, repo: &std::path::Path, work_item_id: &str) {
+    let context = tempfile::NamedTempFile::new().expect("resource context");
+    fs::write(
+        context.path(),
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "branch": format!("feature/{work_item_id}"),
+            "worktree": repo,
+            "baseBranch": "main",
+            "baseRemote": "origin",
+            "provider": "github",
+            "pullRequest": format!("https://github.com/example/ai-cockpit/pull/{work_item_id}")
+        }))
+        .expect("context JSON"),
+    )
+    .expect("write context");
+    let output = Command::new(binary)
+        .args([
+            "work-item",
+            "finalize-plan",
+            "--id",
+            work_item_id,
+            "--input",
+        ])
+        .arg(context.path())
+        .args(["--repo"])
+        .arg(repo)
+        .output()
+        .expect("finalize plan");
+    assert!(
+        output.status.success(),
+        "finalize plan stderr: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+}
+
 #[test]
 fn knowledge_query_projects_archived_work_item_records_deterministically() {
     let suffix = SystemTime::now()
@@ -57,6 +92,7 @@ fn knowledge_query_projects_archived_work_item_records_deterministically() {
         "stderr: {}",
         String::from_utf8_lossy(&start.stderr)
     );
+    plan(binary, &directory, "WI-K");
     let preflight = Command::new(binary)
         .args(["preflight", "--repo"])
         .arg(&directory)
