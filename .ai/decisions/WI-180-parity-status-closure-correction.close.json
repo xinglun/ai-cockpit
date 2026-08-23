@@ -1,0 +1,128 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-180-parity-status-closure-correction.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0fb85ff68aa95fd180581fcf1d615d02247b422cbcb08a268c7c039a59f704e7",
+      "workItemId": "WI-180-parity-status-closure-correction"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-180-parity-status-closure-correction.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-180-parity-status-closure-correction.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-180-parity-status-closure-correction.verification.json",
+            ".ai/decisions/WI-180-parity-status-closure-correction.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via repository-owner at 2026-08-23T07:12:32Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-180-parity-status-closure-correction.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-180-parity-status-closure-correction.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-180-parity-status-closure-correction.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-180-parity-status-closure-correction.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-180-parity-status-closure-correction.contract.json"
+          ],
+          "inference": false,
+          "text": "Ensure all three parity documents reflect WI-179 as implemented with PR #137, closure PR #138, evidence, and installed public v0.2.22 validation; retain an auditable record of the omission and correction."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-180-parity-status-closure-correction.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-180-parity-status-closure-correction"
+  },
+  "finalReportDigest": "sha256:653871cd5cc2f2fe9dfc4a7ab99fdaccdd685dd47915f73a42d5bc0309843790",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "repository-owner",
+    "decidedAt": "2026-08-23T07:12:32Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-180-parity-status-closure-correction.verification.json",
+      ".ai/decisions/WI-180-parity-status-closure-correction.finalize.json"
+    ],
+    "policyRefs": [
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "Reviewed the public v0.2.22 verification, merged PR #139, finalization receipt, and exact branch cleanup; approve closure of the parity status correction.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-23T07:12:32Z",
+  "workItemId": "WI-180-parity-status-closure-correction"
+}
