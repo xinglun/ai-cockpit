@@ -132,7 +132,7 @@
     "bash tests/docs/documentation_acceptance.sh",
     "bash tests/docs/parity_status_check.sh",
     "python3 tests/ci/governance_integrity_gate.py --repo . --report target/governance-integrity.json",
-    "python3 tests/ci/quality_route.py --repo . --manifest tests/ci/repository_gate_manifest.json --base 5968d30c095bed29f019f8c87f9742109eb64f63 --head HEAD --stage pr --risk high --profile strict --contract .ai/work-items/active/WI-227-getting-started-capability-parity-integration.contract.json --receipt target/wi227-quality-route.json",
+    "python3 tests/ci/quality_route.py --repo . --manifest tests/ci/repository_gate_manifest.json --base 5968d30c095bed29f019f8c87f9742109eb64f63 --head HEAD --stage pull_request --risk high --profile strict --contract .ai/work-items/active/WI-227-getting-started-capability-parity-integration.contract.json --receipt target/wi227-quality-route.json",
     "python3 tests/ci/run_repository_gates.py --repo . --manifest tests/ci/repository_gate_manifest.json --route-receipt target/wi227-quality-route.json --report target/repository-gates.json"
   ],
   "workItemId": "WI-227-getting-started-capability-parity-integration"
