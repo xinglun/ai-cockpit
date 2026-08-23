@@ -1,0 +1,56 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-159-resource-finalization-runtime.contract.json",
+    ".ai/work-items/archive/WI-159-resource-finalization-runtime.summary.json"
+  ],
+  "checkpointAt": "2026-08-23T00:31:37Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T00:29:46Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-cli/tests/resource_finalization.rs"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-23T01:20:18Z",
+  "preflightContractDigest": "sha256:9532d5ee1d7f08ba0ec6ae1509e7596dda005a90d413eb433d17ac0e077b387d",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:294f2f450d607b3ea2c3b7a34ee659ca2acf2ca521b24e81eefec8d34ddd0236",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/resource_finalization.rs"
+      ],
+      "required": true,
+      "scenario": "merged PR with clean dedicated worktree and branch",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-protocol/tests/resource_finalization.rs",
+        "crates/cockpit-cli/tests/resource_finalization.rs"
+      ],
+      "required": true,
+      "scenario": "dirty, unmerged, protected, mismatched, or provider-unknown resource",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-protocol/tests/resource_finalization.rs"
+      ],
+      "required": true,
+      "scenario": "duplicate or concurrent finalize requests",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T01:20:42Z",
+  "workItemId": "WI-159-resource-finalization-runtime"
+}

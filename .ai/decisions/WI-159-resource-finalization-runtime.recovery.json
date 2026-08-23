@@ -1,0 +1,23 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "explicit-recovery",
+  "decidedAt": "2026-08-23T01:15:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-159-resource-finalization-runtime.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:be22073e16be16d436ed8f8551b324ccc182f9baa89460dd9ceeaaa4173eba33",
+  "predecessorEventsDigest": "sha256:9b4164ec2832ac07828b478810ae4f7b281dfb7f7be478f62d3f7cf4bab16e01",
+  "predecessorOutcomeDigest": "sha256:0791721d01d6f71f9ff4b4dda864890c487753c9ba3ea619c350b9d56d5713ad",
+  "predecessorSummaryDigest": "sha256:ec4c87a2ce1547d4cb517e5cb05d841b8ad466de638ec25557228ddff2787f54",
+  "predecessorWorkItemId": "WI-159-resource-finalization-runtime",
+  "reason": "retry after current verification evidence was recorded before preflight refresh",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "rerun preflight and finish with current evidence",
+  "runtimeDigest": "sha256:3754ee9859636d3a0c46b9602e339b85b7cb64e97d9989a3ed10dbc1c6089de8",
+  "runtimeVersion": "0.2.17",
+  "schemaVersion": 1,
+  "workItemId": "WI-159-resource-finalization-runtime"
+}
