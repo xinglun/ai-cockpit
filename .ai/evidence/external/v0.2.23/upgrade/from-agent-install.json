@@ -1,0 +1,7 @@
+{
+  "provider": "codex",
+  "target": "/private/tmp/ai-cockpit-n-minus-one.KAPurz/adopter/AGENTS.md",
+  "ownership_path": "/private/tmp/ai-cockpit-n-minus-one.KAPurz/adopter/.ai/adapters/codex.json",
+  "repository_id": "sha256:a48bb85790ab0cbc673cdfad283475a86a1ce820e1cab31dbd97514546e039e6",
+  "installed_digest": "sha256:7b8b7a356e5b4f7e8d64de44bd434aac585bd246d2b3d68614bcc97906a12d55"
+}

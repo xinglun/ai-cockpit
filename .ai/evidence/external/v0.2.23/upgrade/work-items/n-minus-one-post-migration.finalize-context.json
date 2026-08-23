@@ -1,0 +1,8 @@
+{
+  "branch": "master",
+  "worktree": "/private/tmp/ai-cockpit-n-minus-one.KAPurz/adopter",
+  "baseBranch": "master",
+  "baseRemote": "local",
+  "provider": "release-adopter-upgrade-harness",
+  "pullRequest": "acceptance://v0.2.23/n-minus-one-post-migration"
+}

@@ -1,0 +1,6 @@
+{
+  "schemaVersion": 1,
+  "oldEvidenceDigest": "sha256:7477d77458544cad462e750a9916067e795c61be9581d023edcd71d8416ceddb",
+  "newEvidenceDigest": "sha256:7477d77458544cad462e750a9916067e795c61be9581d023edcd71d8416ceddb",
+  "result": "byte-identical"
+}

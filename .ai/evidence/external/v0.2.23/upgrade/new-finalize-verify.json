@@ -1,0 +1,63 @@
+{
+  "disposition": "retained",
+  "receipt": {
+    "actor": "harness:release-adopter-upgrade",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "release-adopter-upgrade-acceptance",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "3b7654b6b2b631b3c46dfee98f86ecd899271a2d",
+      "name": "master",
+      "remote": "local"
+    },
+    "contractDigest": "sha256:0f655c2262bc2c818a630676f54d4f85f8424f406ad1c859e0dc57467cad2e7d",
+    "operationId": "retain-n-minus-one-post-migration",
+    "provider": "release-adopter-upgrade-harness",
+    "pullRequest": {
+      "baseBranch": "master",
+      "baseRemote": "local",
+      "baseRevision": "3b7654b6b2b631b3c46dfee98f86ecd899271a2d",
+      "headRevision": "3b7654b6b2b631b3c46dfee98f86ecd899271a2d",
+      "mergeCommit": "3b7654b6b2b631b3c46dfee98f86ecd899271a2d",
+      "number": 1,
+      "url": "acceptance://v0.2.23/n-minus-one-post-migration"
+    },
+    "reason": "The isolated N-1 adopter fixture is intentionally retained after migration verification.",
+    "receiptId": "release-adopter-upgrade-n-minus-one-post-migration",
+    "repositoryId": "sha256:a48bb85790ab0cbc673cdfad283475a86a1ce820e1cab31dbd97514546e039e6",
+    "resourceContext": {
+      "baseBranch": "master",
+      "baseRemote": "local",
+      "branch": "master",
+      "provider": "release-adopter-upgrade-harness",
+      "pullRequest": "acceptance://v0.2.23/n-minus-one-post-migration",
+      "worktree": "/private/tmp/ai-cockpit-n-minus-one.KAPurz/adopter"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+    "runtimeVersion": "0.2.23",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-23T09:04:39Z",
+    "workItemId": "n-minus-one-post-migration",
+    "worktree": {
+      "branch": "master",
+      "headRevision": "3b7654b6b2b631b3c46dfee98f86ecd899271a2d",
+      "path": "/private/tmp/ai-cockpit-n-minus-one.KAPurz/adopter",
+      "worktreeId": "n-minus-one-post-migration"
+    }
+  },
+  "state": "verified",
+  "workItemId": "n-minus-one-post-migration"
+}

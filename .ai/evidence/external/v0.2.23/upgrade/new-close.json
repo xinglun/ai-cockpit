@@ -1,0 +1,201 @@
+{
+  "outcome": {
+    "acceptanceResults": [
+      "cargo test passes"
+    ],
+    "createdAt": "2026-08-23T09:04:39Z",
+    "decisionState": "green",
+    "evidenceDigest": "sha256:17f7e157b979811974728a96bf62b52a17d9a618897a2e7e7012dfea4a5abd97",
+    "evidenceRefs": [
+      ".ai/evidence/n-minus-one-post-migration.verification.json"
+    ],
+    "humanBenefitReport": {
+      "affectedUsers": [],
+      "evidenceRefs": [
+        ".ai/evidence/n-minus-one-post-migration.verification.json"
+      ],
+      "state": "unknown",
+      "unknowns": [
+        "user_visible_benefit_not_declared"
+      ],
+      "userVisibleChanges": []
+    },
+    "protocolVersion": 1,
+    "repositoryId": "sha256:a48bb85790ab0cbc673cdfad283475a86a1ce820e1cab31dbd97514546e039e6",
+    "schemaVersion": 2,
+    "state": "finish_ready",
+    "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+    "taskOutcomeReport": {
+      "bindings": {
+        "evidenceRefs": [
+          ".ai/evidence/n-minus-one-post-migration.verification.json"
+        ],
+        "repositoryId": "sha256:a48bb85790ab0cbc673cdfad283475a86a1ce820e1cab31dbd97514546e039e6",
+        "repositorySnapshotDigest": "sha256:da06a280a36f966b32799e052e2291958f88c540f54d75ef1f950ab5f7637953",
+        "workItemId": "n-minus-one-post-migration"
+      },
+      "format": "ai-cockpit.task-outcome",
+      "humanStatusColor": "green",
+      "schemaVersion": 1,
+      "sections": {
+        "avoidedImpact": [],
+        "deliveredChanges": [
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/n-minus-one-post-migration.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/decisions/n-minus-one-lifecycle.close.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/n-minus-one-post-migration.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/decisions/n-minus-one-lifecycle.finalize.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/n-minus-one-post-migration.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/n-minus-one-lifecycle.verification.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/n-minus-one-post-migration.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/work-items/archive/n-minus-one-lifecycle.archive.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/n-minus-one-post-migration.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/work-items/archive/n-minus-one-lifecycle.contract.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/n-minus-one-post-migration.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/work-items/archive/n-minus-one-lifecycle.events.jsonl"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/n-minus-one-post-migration.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/work-items/archive/n-minus-one-lifecycle.outcome.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/n-minus-one-post-migration.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/work-items/archive/n-minus-one-lifecycle.summary.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/n-minus-one-post-migration.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/work-items/archive/n-minus-one-lifecycle.task-report.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/n-minus-one-post-migration.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/work-items/archive/n-minus-one-lifecycle.task-report.md"
+          }
+        ],
+        "evidence": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/n-minus-one-post-migration.verification.json"
+            ],
+            "inference": false,
+            "text": ".ai/evidence/n-minus-one-post-migration.verification.json"
+          }
+        ],
+        "findings": [],
+        "forbiddenClaims": [
+          "merge_authorized_without_human_decision",
+          "release_published_without_release_evidence",
+          "provider_or_enterprise_approval_inferred_from_local_records",
+          "user_visible_benefit_invented_from_implementation_facts"
+        ],
+        "forcedStops": [],
+        "humanDecisions": [],
+        "interventions": [],
+        "limitations": [],
+        "nonRiskExplanations": [],
+        "outcomeSummary": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/n-minus-one-post-migration.verification.json"
+            ],
+            "inference": false,
+            "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+          }
+        ],
+        "recurrencePrevention": [],
+        "residualRisks": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/n-minus-one-post-migration.verification.json"
+            ],
+            "inference": false,
+            "text": "Remaining unknown: user_visible_benefit_not_declared"
+          }
+        ],
+        "resolutions": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/n-minus-one-post-migration.verification.json"
+            ],
+            "inference": false,
+            "text": "The current verification evidence is valid for this repository and Work Item."
+          }
+        ],
+        "risks": [],
+        "taskOverview": [
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/n-minus-one-post-migration.contract.json"
+            ],
+            "inference": false,
+            "text": "Prove the new Runtime can govern a fresh Work Item after N-1 migration."
+          }
+        ],
+        "warnings": [
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/n-minus-one-post-migration.contract.json"
+            ],
+            "inference": false,
+            "text": "User-visible benefit is not declared by the Work Item owner."
+          }
+        ]
+      },
+      "status": "verified",
+      "workItemId": "n-minus-one-post-migration"
+    },
+    "taskReportDigest": "sha256:1fad3943ec00a2394ea772a435b93b461cd5e7db6c45b64c4f343c0d2ebb6a6e",
+    "taskReportMarkdownDigest": "sha256:b67648c4c641775ffc72577aa3fe1455eed283ee9c4828aa8ddd7f8df1642f46",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "verification": {
+      "evidencePath": ".ai/evidence/n-minus-one-post-migration.verification.json",
+      "required": true,
+      "status": "verified"
+    },
+    "workItemId": "n-minus-one-post-migration"
+  },
+  "state": "closed",
+  "timestamp": "2026-08-23T09:04:39Z",
+  "workItemId": "n-minus-one-post-migration"
+}
