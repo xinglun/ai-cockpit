@@ -74,6 +74,30 @@ start → preflight → checkpoint → verify → finish → archive → close
 Work Item 或 project profile。Contract 条件保留其原始语言，只有面向人的表现层
 负责本地化。
 
+## 资源收尾边界
+
+合并不等于 Work Item 关闭。Hosted checks 通过后，准确的 branch 和 worktree 还必须经过
+独立的资源收尾边界：
+
+```text
+finalize-plan → finalize → finalize-verify → close
+```
+
+这是 WI-160 定义的 policy baseline，不是 Runtime `0.2.17` 已提供的命令。Runtime
+集成仍待后续、明确范围的 Work Item；本文档和静态 gate 不得被理解为 CLI 已经实现这些命令。
+
+- `finalize-plan` 记录准确的 Work Item branch/worktree、provider PR、合并 head、remote、
+  default branch 和清理计划；绝不删除 branch 或 worktree。
+- `finalize` 只有在 PR、head、dirty 状态和保护检查通过后，才能处理准确的已合并
+  branch/worktree。禁止静默删除 branch。
+- `finalize-verify` 证明 default branch 已同步、相关 worktree 干净，并且准确的本地/远程
+  branch 已删除。provider 错误、identity 不匹配或观察不完整都必须是 `unknown`，保持
+  Work Item 打开以便恢复，不能作为继续执行的许可。
+- `retain` 必须是明确的人类决定，包含 owner、理由、范围和过期/复核条件。保留资源不能
+  静默变成清理成功；除非组织 policy 明确允许有界 retain 路径，否则 `close` 必须保持阻断。
+- 在 `finalize-verify` 成功（或单独授权且可审计的 retain 路径被接受）之前不得 `close`。
+  任意失败都保留 retry identity，并交付可见的 yellow/red Outcome。
+
 ## Agent provider 表面
 
 Adapter 只是把上述规则投影到仓库本地的薄层，不是第二套 policy engine。

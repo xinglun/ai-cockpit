@@ -80,6 +80,33 @@ start → preflight → checkpoint → verify → finish → archive → close
 current repository、Work Item、project profile はありません。Contract の criteria
 は原文を保持し、人間向け presentation 層だけを localize します。
 
+## Resource finalization の境界
+
+Merge は Work Item の close ではありません。hosted check が通った後、正確な
+branch と worktree は別の resource-finalization 境界で処理します。
+
+```text
+finalize-plan → finalize → finalize-verify → close
+```
+
+これは WI-160 の policy baseline であり、Runtime `0.2.17` が提供する command
+ではありません。Runtime 統合は後続の明示的な Work Item で保留します。この文書と
+static gate は CLI が既に実装済みだとは主張しません。
+
+- `finalize-plan` は正確な Work Item branch/worktree、provider PR、merge head、
+  remote、default branch、cleanup 計画を記録します。branch や worktree を削除しません。
+- `finalize` は PR、head、dirty state、protection の確認が通った後だけ、正確な
+  merge 済み branch/worktree を処理します。branch の silent deletionは禁止です。
+- `finalize-verify` は同期済み default branch、関係する worktree の clean 状態、
+  正確な local/remote branch 削除を証明します。provider error、identity mismatch、
+  観測不完全は `unknown` として Work Item を recovery のため open に保ち、続行の
+  許可にはしません。
+- `retain` は owner、理由、scope、期限または review 条件を持つ明示的な Human
+  Decision です。保持した resource を cleanup 成功に黙って変換しません。組織 policy
+  が限定的な retain path を明示的に許可しない限り、`close` は block されます。
+- `finalize-verify` の成功（または別途認可され監査可能な retain path の受理）より前に
+  `close` してはいけません。失敗時は retry identity と可視の yellow/red Outcome を保持します。
+
 ## Agent provider surface
 
 Adapter はこれらの規則を repository-local に投影する薄い層であり、別の

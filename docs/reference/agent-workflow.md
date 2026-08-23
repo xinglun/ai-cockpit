@@ -99,6 +99,38 @@ Every repository-bound command carries `--repo`. The Runtime has no global
 current repository, Work Item, or project profile. Contract criteria remain in
 their source language; only the human presentation layer is localized.
 
+## Resource finalization boundary
+
+Merge is not Work Item closure. After hosted checks pass, the exact branch and
+worktree are a separate resource-finalization boundary:
+
+```text
+finalize-plan → finalize → finalize-verify → close
+```
+
+These names are the WI-160 policy baseline, not commands exposed by Runtime
+`0.2.17`. Runtime integration is pending a later, explicitly scoped Work Item;
+this document and its static gate must not be read as claiming that the CLI
+already implements them.
+
+- `finalize-plan` records the exact Work Item branch and worktree, provider PR,
+  merged head, remote, default branch, and intended cleanup. It never deletes a
+  branch or worktree.
+- `finalize` may act only on the exact merged branch/worktree after the PR,
+  head, dirty-state, and protection checks pass. Silent branch deletion is
+  forbidden.
+- `finalize-verify` proves the synchronized default branch, clean relevant
+  worktrees, and exact local/remote branch removal. A provider error, identity
+  mismatch, or incomplete observation is `unknown` and keeps the Work Item
+  open for recovery; it is not permission to continue.
+- `retain` is an explicit human decision, with owner, reason, scope, and an
+  expiry/review condition. Retained resources never silently become cleanup
+  success; unless an organization policy explicitly permits a bounded retain
+  path, `close` remains blocked.
+- `close` must not occur before `finalize-verify` succeeds (or a separately
+  authorized, auditable retain path is accepted). Every failure preserves the
+  retry identity and a visible yellow/red Outcome.
+
 ## Agent provider surfaces
 
 The adapter is a thin repository-local projection of these rules; it is not a
