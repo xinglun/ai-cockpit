@@ -1,0 +1,17 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-23T05:38:58Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T05:38:20Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-23T05:39:27Z",
+  "preflightContractDigest": "sha256:0862fa1cb0a216d318dff267cb459824101111b6d9260df662cae7165f46ee00",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:205430ec8b889fa3c4ad8f9975c3be7529edcb2d1cd1162942beacc8ca8ae737",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T05:39:27Z",
+  "workItemId": "WI-174-post-release-parity-v0-2-21"
+}
