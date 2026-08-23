@@ -1,0 +1,72 @@
+{
+  "acceptanceCriteria": [
+    "ResourceFinalizationReceipt, ResourceFinalizationResult, ResourceFinalizationDisposition, and nested identity/state types use strict serde deny_unknown_fields and preserve repository/work-item/runtime bindings",
+    "A valid deleted receipt binds provider pull request number/url/head/base/merge identity, branch identity, worktree identity, before and after cleanup states, actor, authority source, reason, and timestamp",
+    "Deleted, retained, blocked, and unknown dispositions have explicit fail-closed invariants and failure/unknown codes; dirty, unmerged, protected, ambiguous, empty, invalid, or cross-repository/work-item data is rejected",
+    "Protocol validation exposes deterministic identity and idempotent replay checks without performing CLI, provider, filesystem, or branch deletion operations",
+    "Protocol unit tests cover valid round trip, unknown fields, empty/invalid values, foreign repository/work item, dirty/unmerged/protected/ambiguous states, and duplicate replay semantics"
+  ],
+  "authority": "authorized",
+  "baseRevision": "785112bb2d39dace9826808cb0742b8be845799e",
+  "createdAt": "2026-08-23T00:31:12Z",
+  "goal": "Add a strict protocol-level Resource Finalization receipt and validation API with fail-closed disposition and replay semantics.",
+  "intent": "Prevent merged Work Item branches and worktrees from being left unmanaged by introducing an auditable finalization receipt.",
+  "mode": "code",
+  "outOfScope": [
+    "CLI commands, Runtime lifecycle integration, provider API calls, GitHub Actions, branch deletion, worktree deletion, and filesystem mutation",
+    "cockpit-repository, cockpit-cli, cockpit-mcp, documentation, and CI changes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:effc11af378ad3ef6b29f4b932a38b24900301d9f658f00b6e0aaf2a8c27fbf6",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "deleted result is accepted only when all identity and after-state bindings are complete",
+      "required": true,
+      "scenario": "merged PR with clean exact branch and worktree is deleted",
+      "status": "unverified",
+      "verificationPlan": "Run focused protocol tests for valid deletion and replay validation."
+    },
+    {
+      "evidence": [],
+      "expected": "result cannot be deleted/green and is represented by blocked or unknown with stable codes",
+      "required": true,
+      "scenario": "dirty, unmerged, protected, or ambiguous cleanup state",
+      "status": "unverified",
+      "verificationPlan": "Run focused protocol tests for each fail-closed state and invalid disposition combination."
+    },
+    {
+      "evidence": [],
+      "expected": "same operation identity and final state validate deterministically without requiring a second mutation",
+      "required": true,
+      "scenario": "duplicate finalization replay",
+      "status": "unverified",
+      "verificationPlan": "Run replay equality/identity tests using two equivalent receipts."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/resource_finalization.rs",
+    ".ai/work-items/active/WI-158-resource-finalization-protocol.contract.json",
+    ".ai/work-items/active/WI-158-resource-finalization-protocol.summary.json"
+  ],
+  "sources": [
+    "AGENTS.md: post-merge closure and exact branch/worktree cleanup rules",
+    ".ai/README.md: Work Item lifecycle and fail-closed evidence discipline",
+    ".ai/glossary.md: Receipt, Evidence Governance, and Outcome definitions",
+    "crates/cockpit-protocol/src/lib.rs: existing strict repository-bound receipt patterns"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked -p cockpit-protocol --all-targets --all-features --test resource_finalization",
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked -p cockpit-protocol --all-targets --all-features -- -D warnings"
+  ],
+  "workItemId": "WI-158-resource-finalization-protocol"
+}
