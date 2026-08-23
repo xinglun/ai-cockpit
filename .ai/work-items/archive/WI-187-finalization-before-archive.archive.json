@@ -1,0 +1,25 @@
+{
+  "createdAt": "2026-08-23T10:13:15Z",
+  "files": {
+    "approachDigest": "sha256:ab00db91da1902a7cf0a552d4550c1670d7d7980f401aac5c4756b80ccc78afc",
+    "approachPath": ".ai/work-items/archive/WI-187-finalization-before-archive.approach.json",
+    "contractDigest": "sha256:249fc336ece129918e437f934a6f472c7f5698a13005e9ff56b09718d23bac8d",
+    "contractPath": ".ai/work-items/archive/WI-187-finalization-before-archive.contract.json",
+    "eventsDigest": "sha256:96e14c4147e48aa8c4e03de6ff8189e8147251415d596ff510dbaf1716d964c4",
+    "eventsPath": ".ai/work-items/archive/WI-187-finalization-before-archive.events.jsonl",
+    "outcomeDigest": "sha256:b0f3da340bd19370d95b5a336f40aa8640e275ba42995f27a2ab28d5ed92b1a8",
+    "outcomePath": ".ai/work-items/archive/WI-187-finalization-before-archive.outcome.json",
+    "summaryDigest": "sha256:6845c1fe1d28494e75f49526a6db040abafe3682a7546f6d2cd101786b94e931",
+    "summaryPath": ".ai/work-items/archive/WI-187-finalization-before-archive.summary.json",
+    "taskReportDigest": "sha256:956023cc7136a48a47c75960fd11387ad85d5edab33269a5240ea01ead45848a",
+    "taskReportMarkdownDigest": "sha256:d8b0c1defa9d3e8bdbb8645136c626724845dd4192bbc7f1beb204999de37e7c",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-187-finalization-before-archive.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-187-finalization-before-archive.task-report.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "state": "superseded",
+  "supersededBy": "WI-190-finalization-plan-order",
+  "supersessionDecisionPath": ".ai/decisions/WI-187-finalization-before-archive.recovery.a72ac926f908295f40f9ca40986542c3a404d40893fc749140c764681bdaa6c6.json",
+  "workItemId": "WI-187-finalization-before-archive"
+}

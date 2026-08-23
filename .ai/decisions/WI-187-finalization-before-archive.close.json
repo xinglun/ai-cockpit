@@ -1,0 +1,240 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-187-finalization-before-archive.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6c7cbad244435200232bf8794213e0e50f5efe53329e84de9d23cac183de2ad6",
+      "workItemId": "WI-187-finalization-before-archive"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-187-finalization-before-archive.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-186-release-v0-2-23-post-release-acceptance.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-187-finalization-before-archive.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-187-finalization-before-archive.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-187-finalization-before-archive.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-187-finalization-before-archive.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-187-finalization-before-archive.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-187-finalization-before-archive.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-187-finalization-before-archive.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/knowledge.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-187-finalization-before-archive.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/lifecycle.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-187-finalization-before-archive.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-187-finalization-before-archive.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/tests/resource_finalization.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-187-finalization-before-archive.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-187-finalization-before-archive.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/archive_integrity.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-187-finalization-before-archive.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/evidence_assurance.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-187-finalization-before-archive.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/knowledge_cache.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-187-finalization-before-archive.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/outcome_report.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-187-finalization-before-archive.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/status_projection.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-187-finalization-before-archive.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-187-finalization-before-archive.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-187-finalization-before-archive.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-187-finalization-before-archive.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-187-finalization-before-archive.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-187-finalization-before-archive.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-187-finalization-before-archive.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-187-finalization-before-archive.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-187-finalization-before-archive.recovery.json",
+            ".ai/work-items/archive/WI-187-finalization-before-archive.archive.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-fail-closed-recovery at 2026-08-23T10:13:30Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-187-finalization-before-archive.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-187-finalization-before-archive.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-187-finalization-before-archive.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-187-finalization-before-archive.contract.json"
+          ],
+          "inference": false,
+          "text": "在 Rust protocol/repository/CLI 中强制 archive 前完成有效 resource finalization plan；覆盖未 plan 拒绝、有效 plan 成功、旧/历史兼容与恢复路径，完成三语 WI-187 文档并通过完整质量门。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-187-finalization-before-archive.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-187-finalization-before-archive"
+  },
+  "finalReportDigest": "sha256:134e6bc3267722bbfde8e1b609824dc2c2c8beb06df1acf58befd8136a3cf3e5",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-fail-closed-recovery",
+    "decidedAt": "2026-08-23T10:13:30Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/decisions/WI-187-finalization-before-archive.recovery.json",
+      ".ai/work-items/archive/WI-187-finalization-before-archive.archive.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md"
+    ],
+    "reason": "WI-187 exact bytes are archived as superseded; WI-190 is the digest-bound active successor that must complete finalization in the correct order.",
+    "resumeCondition": "Complete WI-190 with finalize-plan before verification; no WI-187 archive bytes may be rewritten."
+  },
+  "timestamp": "2026-08-23T10:13:43Z",
+  "workItemId": "WI-187-finalization-before-archive"
+}

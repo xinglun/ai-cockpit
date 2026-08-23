@@ -3986,6 +3986,9 @@ fn finish_work_item_internal(
             message: "finish requires a green preflight result after verification".into(),
         });
     }
+    let contract_path = active.join(format!("{work_item_id}.contract.json"));
+    let contract = read_contract(&contract_path)?;
+    require_explicit_resource_finalization_plan(&contract, &contract_path, "finish")?;
     let original_summary = summary.clone();
     let evidence_path = root
         .join(".ai/evidence")
@@ -4029,8 +4032,6 @@ fn finish_work_item_internal(
             message: "verification receipt is stale for the current repository snapshot".into(),
         });
     }
-    let contract_path = active.join(format!("{work_item_id}.contract.json"));
-    let contract = read_contract(&contract_path)?;
     let contract_value = read_json(&contract_path)?;
     let controls = if let Some(runtime) = current_runtime {
         validate_contract_summary_controls_with_runtime(
@@ -7307,6 +7308,7 @@ fn archive_work_item_internal(
         }
         return archive_superseded_work_item(&root, work_item_id, &decision);
     }
+    require_explicit_resource_finalization_plan(&contract, &contract_path, "archive")?;
     if summary["state"] != serde_json::json!("finish_ready") {
         return Err(ObserverError::State {
             path: summary_path.clone(),
@@ -7725,6 +7727,35 @@ fn set_resource_context_on_active_contract(
         })?;
     atomic_json(&contract_path, &value)?;
     read_contract(&contract_path)
+}
+
+fn require_explicit_resource_finalization_plan(
+    contract: &Contract,
+    contract_path: &Path,
+    operation: &str,
+) -> Result<(), ObserverError> {
+    let Some(context) = contract.resource_context.as_ref() else {
+        return Err(ObserverError::State {
+            path: contract_path.to_path_buf(),
+            message: format!(
+                "{operation} requires an explicit resource finalization plan; run finalize-plan before {operation}"
+            ),
+        });
+    };
+    if context.is_provisional() {
+        return Err(ObserverError::State {
+            path: contract_path.to_path_buf(),
+            message: format!(
+                "{operation} requires a non-provisional resource finalization plan; run finalize-plan before {operation}"
+            ),
+        });
+    }
+    cockpit_protocol::validate_resource_finalization_context(context).map_err(|error| {
+        ObserverError::State {
+            path: contract_path.to_path_buf(),
+            message: format!("{operation} resource finalization plan is invalid: {error}"),
+        }
+    })
 }
 
 /// Bind provider/branch/worktree context to an active Contract before it is

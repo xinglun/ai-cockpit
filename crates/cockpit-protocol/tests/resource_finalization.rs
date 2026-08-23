@@ -140,6 +140,25 @@ fn contract_resource_context_is_optional_but_strict_when_declared() {
 }
 
 #[test]
+fn provisional_context_is_distinguished_from_explicit_plan_context() {
+    let mut provisional = ResourceFinalizationContext {
+        branch: "codex/wi-187".into(),
+        worktree: "/private/tmp/wi-187".into(),
+        base_branch: "unknown".into(),
+        base_remote: "unknown".into(),
+        provider: "unknown".into(),
+        pull_request: "unknown".into(),
+    };
+    assert!(provisional.is_provisional());
+    provisional.base_branch = "main".into();
+    provisional.base_remote = "origin".into();
+    provisional.provider = "github".into();
+    provisional.pull_request = "https://github.example/acme/project/pull/187".into();
+    assert!(!provisional.is_provisional());
+    validate_resource_finalization_context(&provisional).unwrap();
+}
+
+#[test]
 fn unknown_top_level_and_nested_fields_fail_closed() {
     let mut value = serde_json::to_value(receipt()).unwrap();
     value["unexpected"] = serde_json::json!(true);

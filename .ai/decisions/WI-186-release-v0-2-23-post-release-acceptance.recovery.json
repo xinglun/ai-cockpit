@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "WI-187-bounded-predecessor-reconciliation",
+  "decidedAt": "2026-08-23T09:58:45Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.archive.json",
+    ".ai/work-items/active/WI-187-finalization-before-archive.contract.json",
+    "docs/work-items/WI-187-finalization-before-archive.zh-CN.md"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:393d17ef1541a890ead6568f396bb658dc6f79b5b88e84870742dbd8262e626d",
+  "predecessorEventsDigest": "sha256:4020cada841daade274dfe66d8a15f18910124c93b594919d9bfe10457b63635",
+  "predecessorOutcomeDigest": "sha256:774fc786cb6494de9c0a5a244b8d3aab5c5e2a0f31a650ac41641ae6621f5332",
+  "predecessorSummaryDigest": "sha256:9ac909b8854a6de28d9fcbc5b953ff9b44ede12dd27a5ed4daa9ab6ed02356d8",
+  "predecessorWorkItemId": "WI-186-release-v0-2-23-post-release-acceptance",
+  "reason": "WI-186 was archived with provisional resourceContext and without a terminal close/finalization record; supersede it with bounded WI-187 while preserving every historical archive byte.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "WI-187 must verify the archive-before-finalize-plan guard, publish a visible green Outcome, and complete its own explicit non-provisional finalize-plan before archive.",
+  "runtimeDigest": "sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+  "runtimeVersion": "0.2.23",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-187-finalization-before-archive",
+  "workItemId": "WI-186-release-v0-2-23-post-release-acceptance"
+}

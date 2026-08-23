@@ -1,0 +1,77 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-186-release-v0-2-23-post-release-acceptance.recovery.json",
+    ".ai/decisions/WI-187-finalization-before-archive.recovery.json",
+    ".ai/decisions/WI-187-finalization-before-archive.recovery.a72ac926f908295f40f9ca40986542c3a404d40893fc749140c764681bdaa6c6.json",
+    ".ai/decisions/WI-187-finalization-before-archive.close.json",
+    ".ai/evidence/WI-187-finalization-before-archive.verification.json",
+    ".ai/work-items/archive/WI-187-finalization-before-archive.approach.json",
+    ".ai/work-items/archive/WI-187-finalization-before-archive.archive.json",
+    ".ai/work-items/archive/WI-187-finalization-before-archive.contract.json",
+    ".ai/work-items/archive/WI-187-finalization-before-archive.events.jsonl",
+    ".ai/work-items/archive/WI-187-finalization-before-archive.outcome.json",
+    ".ai/work-items/archive/WI-187-finalization-before-archive.summary.json",
+    ".ai/work-items/archive/WI-187-finalization-before-archive.task-report.json",
+    ".ai/work-items/archive/WI-187-finalization-before-archive.task-report.md",
+    ".ai/work-items/active/WI-190-finalization-plan-order.contract.json",
+    ".ai/work-items/active/WI-190-finalization-plan-order.summary.json",
+    "crates/cockpit-cli/tests/knowledge.rs",
+    "crates/cockpit-cli/tests/lifecycle.rs",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/resource_finalization.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "crates/cockpit-repository/tests/evidence_assurance.rs",
+    "crates/cockpit-repository/tests/knowledge_cache.rs",
+    "crates/cockpit-repository/tests/outcome_report.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "docs/work-items/WI-187-finalization-before-archive.ja.md",
+    "docs/work-items/WI-187-finalization-before-archive.md",
+    "docs/work-items/WI-187-finalization-before-archive.zh-CN.md"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-08-23T10:12:39Z",
+  "mode": "code",
+  "observedIssues": [
+    "WI-187 reached finish_ready before finalize-plan. Runtime rejected replacement of the provisional resourceContext after verification, so WI-187 was preserved byte-for-byte through successor and supersede receipts, archived as superseded, and closed with WI-190 as the explicit continuation.",
+    "WI-186 had the same observed provisional archive boundary. Its immutable archive bytes remain unchanged and are bound by the Runtime-validated WI-186 recovery receipt."
+  ],
+  "predecessorContractDigest": "sha256:9b4ac5ac98732afe4142bf4eedf6830dd14fe918d3e35ac57e56ffb8ab2bfaec",
+  "predecessorWorkItemId": "WI-187-finalization-before-archive",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-187-finalization-before-archive.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "sourcesUsed": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    ".ai/decisions/WI-186-release-v0-2-23-post-release-acceptance.recovery.json",
+    ".ai/decisions/WI-187-finalization-before-archive.recovery.json",
+    ".ai/decisions/WI-187-finalization-before-archive.recovery.a72ac926f908295f40f9ca40986542c3a404d40893fc749140c764681bdaa6c6.json",
+    ".ai/work-items/archive/WI-187-finalization-before-archive.archive.json",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "crates/cockpit-cli/tests/lifecycle.rs"
+  ],
+  "verification": [
+    {
+      "command": "cargo test --locked -p cockpit-repository --test archive_integrity finish_rejects_provisional_resource_context_before_finish_ready -- --exact",
+      "passed": true,
+      "note": "TDD: observed RED before adding the finish guard, then GREEN"
+    },
+    {
+      "command": "cargo test --locked -p cockpit-repository --test archive_integrity archive_rejects_provisional_resource_context_without_moving_active_bytes -- --exact",
+      "passed": true
+    },
+    {
+      "command": "cargo test --locked -p cockpit-cli --test lifecycle finish_command_requires_finalize_plan_and_preserves_active_files -- --exact",
+      "passed": true
+    }
+  ],
+  "updatedAt": "2026-08-23T10:12:57Z",
+  "workItemId": "WI-190-finalization-plan-order"
+}
