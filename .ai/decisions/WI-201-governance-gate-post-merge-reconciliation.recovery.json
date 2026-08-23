@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-23T14:50:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-201-governance-gate-post-merge-reconciliation.finalize.json",
+    ".ai/evidence/WI-201-governance-gate-post-merge-reconciliation.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/resource-finalization.md"
+  ],
+  "predecessorContractDigest": "sha256:dda1ebb2f37938e2b2dd2c7932953440ebde1f78a3e65fdb71653f954024333f",
+  "predecessorEventsDigest": "sha256:c7ccaa999c12f9ff948ba7e4fa75540fcbf6d8b4717f72bf2d2ee6de32126bae",
+  "predecessorOutcomeDigest": "sha256:4b97fd1bb182be03e0b28863853c422dcc9f8437dbaccff7b4c1f38649f6a414",
+  "predecessorSummaryDigest": "sha256:09d7109ef9b969228483c8326198ba626246ca52b9000af5e5b286dd81d8f6c7",
+  "predecessorWorkItemId": "WI-201-governance-gate-post-merge-reconciliation",
+  "reason": "The merged WI-201 delivery exposed a release-boundary mismatch: source Runtime supports append-only finalization transitions, while installed v0.2.23 rejects the transition envelope. Preserve WI-201 immutable bytes and continue with a published v0.2.24 Runtime that contains the supported transition protocol.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Publish and install v0.2.24 from the merged default branch, run immutable release/adopter acceptance, then complete the post-merge finalization and close receipts with the installed v0.2.24 Runtime.",
+  "runtimeDigest": "sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+  "runtimeVersion": "0.2.23",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-202-release-v0-2-24",
+  "workItemId": "WI-201-governance-gate-post-merge-reconciliation"
+}
