@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-24T03:50:00+09:00",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-211-hermetic-governance-fixture.verification.json",
+    ".ai/work-items/archive/WI-211-hermetic-governance-fixture.archive.json",
+    "https://github.com/xinglun/ai-cockpit/pull/160"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:c206631ddae4a412396007c1570d105877eb801765d9dd6e59459d8491e1234a",
+  "predecessorEventsDigest": "sha256:18bb4dc5ff37c77b1efdff2a63c2b7d8c0447866f346b99bf4c949957c07a5b6",
+  "predecessorOutcomeDigest": "sha256:ccc5d7befbafb9f1afa3eb9461891d0e7fd666d60088b7705e329f43c35a5f5d",
+  "predecessorSummaryDigest": "sha256:69e95d069416c8f96942d101753d217422f774825b2d2911e3aa6121e1cc713c",
+  "predecessorWorkItemId": "WI-211-hermetic-governance-fixture",
+  "reason": "WI-211 was archived after verification but before finalize-plan bound its actual PR resource context. The Runtime correctly rejected later finalization because verification was already recorded; preserve all predecessor bytes and continue through a clean successor that binds PR #160 before verification and archive.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-212 with finalize-plan before verification, record a valid pre-merge receipt, then after PR #160 merge run finalize-verify and structured close; predecessor remains immutable recovered history.",
+  "runtimeDigest": "sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+  "runtimeVersion": "0.2.23",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-212-release-fixture-finalization-recovery",
+  "workItemId": "WI-211-hermetic-governance-fixture"
+}

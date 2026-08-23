@@ -1,0 +1,100 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "successorWorkItemId",
+          "path": ".ai/decisions/WI-211-hermetic-governance-fixture.recovery.json",
+          "type": "decision",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "pre-merge receipt",
+          "path": ".ai/decisions/WI-212-release-fixture-finalization-recovery.finalize.json",
+          "type": "decision",
+          "verification": "pending"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "docs_governance_integrity",
+          "path": "target/repository-gates.json",
+          "type": "gate",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "structured close",
+          "path": ".ai/decisions/WI-212-release-fixture-finalization-recovery.close.json",
+          "type": "decision",
+          "verification": "pending"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/active/WI-212-release-fixture-finalization-recovery.contract.json",
+    ".ai/work-items/active/WI-212-release-fixture-finalization-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-08-23T17:42:54Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T17:42:06Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/archive/WI-211-hermetic-governance-fixture.archive.json",
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "This successor exists only because WI-211 was archived before the required resource finalization boundary; it restores the missing immutable recovery and close chain.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-08-23T17:42:43Z",
+  "preflightContractDigest": "sha256:3d94fd0cb68024e86e390bef831e32c2a68f8cf8b0ae4dcb64af126b28452a51",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:7ef8511eaeee7aa8ea21af0f8448e0fc4e3de87ace9d3f4058c7d7e6d034f536",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/decisions/WI-211-hermetic-governance-fixture.recovery.json"
+      ],
+      "required": true,
+      "scenario": "immutable predecessor recovery",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/decisions/WI-212-release-fixture-finalization-recovery.finalize.json"
+      ],
+      "required": true,
+      "scenario": "pre-merge resource finalization",
+      "status": "unverified"
+    },
+    {
+      "evidence": [
+        ".ai/decisions/WI-212-release-fixture-finalization-recovery.close.json"
+      ],
+      "required": true,
+      "scenario": "hosted merge close",
+      "status": "unverified"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-08-23T17:46:37.150520+00:00",
+  "workItemId": "WI-212-release-fixture-finalization-recovery"
+}
