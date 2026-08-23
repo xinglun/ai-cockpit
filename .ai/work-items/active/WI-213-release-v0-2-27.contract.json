@@ -1,0 +1,82 @@
+{
+  "acceptanceCriteria": [
+    "A1: v0.2.27 version, distribution documentation, tri-language parity, and release workflow policy are internally consistent before release verification.",
+    "A2: the immutable v0.2.27 tag is created only on the merged PR #160 commit with valid premerge finalization and release-tag ancestor proof.",
+    "A3: the public v0.2.27 artifact is downloaded and verified by adopter and upgrade acceptance with no source, workspace, or local-target fallback.",
+    "A4: isolated adopter evidence binds repository/runtime identity, forbidden HOME/XDG writes, classified TMPDIR/CARGO_HOME writes, root cleanup, and SHA256 manifests.",
+    "A5: the installed public v0.2.27 Runtime completes WI-212 post-merge finalization transition, finalize-verify, structured close, and visible localized Outcome.",
+    "A6: v0.2.26 remains immutable failed publication history and is never moved, overwritten, or reused."
+  ],
+  "authority": "authorized",
+  "baseRevision": "b5b521e3df805a8e82c05f6955e702e049e672f6",
+  "createdAt": "2026-08-23T18:00:12Z",
+  "goal": "Release v0.2.27 and bind its public artifact identity for post-release adopter and self-governance acceptance.",
+  "intent": "Publish v0.2.27 from merged main with the hermetic governance fixture correction, then validate the immutable public Release artifact and install it for repository governance.",
+  "mode": "release",
+  "outOfScope": [
+    "Moving, overwriting, or reusing immutable failed release history",
+    "Reference-source file-by-file parity expansion",
+    "Unrelated Runtime feature implementation",
+    "User-global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:fbca4ae2b709ba3dd31f3d176d7cc1f21925f1235844edf6c3ee3cc9d869f239",
+  "requiredEvidenceClasses": [
+    "verification",
+    "release",
+    "external"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-213-release-v0-2-27",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi213-release-v0-2-27"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "scenario": "version and release baseline",
+      "expected": "All current version, distribution, architecture, and parity baselines resolve to v0.2.27.",
+      "verificationPlan": "Run version consistency, documentation, parity, and hosted release checks.",
+      "status": "unverified",
+      "required": true
+    },
+    {
+      "scenario": "immutable public adopter",
+      "expected": "Downloaded v0.2.27 completes isolated adopter acceptance without source fallback.",
+      "verificationPlan": "Run tests/release/adopter_acceptance.sh against the published tag.",
+      "status": "unverified",
+      "required": true
+    },
+    {
+      "scenario": "N-1 upgrade and Runtime close",
+      "expected": "The public v0.2.27 Runtime completes N-1 acceptance and WI-212 post-merge finalization, finalize-verify, and close.",
+      "verificationPlan": "Run tests/release/adopter_upgrade_acceptance.sh and post-release lifecycle with the downloaded binary.",
+      "status": "unverified",
+      "required": true
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/architecture/**",
+    "docs/release/**",
+    "docs/reference/**",
+    "docs/work-items/**",
+    "tests/release/**",
+    ".github/workflows/release.yml",
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-213-release-v0-2-27"
+}
