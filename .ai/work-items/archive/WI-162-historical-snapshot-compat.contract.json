@@ -1,0 +1,35 @@
+{
+  "acceptanceCriteria": [
+    "Active evidence remains strict about current snapshot and Runtime identity.",
+    "Archived integrity-valid evidence may use its recorded plan snapshot after later repository merges.",
+    "Archive manifest and evidence digest bindings remain mandatory.",
+    "Regression test covers close after merge-induced snapshot drift."
+  ],
+  "authority": "authorized",
+  "baseRevision": "7af5084316bd17437c11d3a26f6b07a587596282",
+  "createdAt": "2026-08-23T01:48:48Z",
+  "goal": "Allow close after Runtime upgrade and subsequent repository changes without rewriting historical evidence.",
+  "intent": "Keep archived verification plan receipts valid when later merges change the current repository snapshot.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Rewriting archived evidence or weakening active Runtime/snapshot binding.",
+    "Provider cleanup automation or global Agent/MCP configuration."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2bc5b492b89b10067b3a6a8bc90545b86a869b72c1154dcbec24c3dd7fe57d9d",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/**",
+    "crates/cockpit-cli/**",
+    "crates/cockpit-repository/tests/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-162-historical-snapshot-compat"
+}
