@@ -99,8 +99,12 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-155——CI/release gate 对齐 | 已实现 | [Work Item](../work-items/WI-155-ci-release-gate-convergence.zh-CN.md)；[发布分发](../release/distribution.zh-CN.md)；`.ai/evidence/WI-155-ci-release-gate-convergence.verification.json`；`.ai/decisions/WI-155-ci-release-gate-convergence.close.json` |
 | WI-156——物理执行与 Work Item 证据回执 | 已实现 | [Work Item](../work-items/WI-156-physical-execution-receipt.zh-CN.md)；`.ai/evidence/WI-156-physical-execution-receipt.verification.json`；`.ai/decisions/WI-156-physical-execution-receipt.close.json` |
 | WI-157——v0.2.17 发布与 adopter 验收 | 已实现 | [Work Item](../work-items/WI-157-release-v0-2-17-adopter-acceptance.zh-CN.md)；[公开 Release](https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.17)；`.ai/evidence/external/v0.2.17/adopter/`、`.ai/evidence/external/v0.2.17/upgrade/` 与 `.ai/evidence/WI-157-release-v0-2-17-adopter-acceptance.verification.json`。 |
+| WI-159——Runtime 资源收尾集成 | 已实现 | `.ai/evidence/WI-159-resource-finalization-runtime.verification.json`；`.ai/decisions/WI-159-resource-finalization-runtime.close.json`；最终化 receipt 历史保存在 `.ai/evidence/external/WI-159-finalization/`。 |
 | WI-160——资源收尾与 branch/worktree 关闭基线 | 已实现 | [Work Item](../work-items/WI-160-resource-finalization-baseline.zh-CN.md)；`.ai/evidence/WI-160-resource-finalization-baseline.verification.json`；`.ai/work-items/archive/WI-160-resource-finalization-baseline.archive.json`；`.ai/decisions/WI-160-resource-finalization-baseline.close.json`。Runtime 命令/receipt 集成由 WI-159 实现，Runtime 升级后的历史 evidence close 兼容由 WI-161 覆盖。 |
 | WI-161——历史 Runtime evidence 的关闭兼容 | 已实现 | [Work Item](../work-items/WI-161-historical-runtime-close.zh-CN.md)；归档 evidence 保持不可变，foreign Runtime bytes 作为历史事实投影。回归证据：`.ai/evidence/WI-161-historical-runtime-close.verification.json` |
+| WI-162——归档后的历史 snapshot 兼容 | 已实现 | `.ai/evidence/WI-162-historical-snapshot-compat.verification.json`；归档 plan receipt 保持与记录时 snapshot 的绑定，不改写历史。 |
+| WI-163——历史 Outcome 投影 | 已实现 | `.ai/evidence/WI-163-historical-outcome-projection.verification.json`；历史 evidence 不会显示为当前 verification 失败。 |
+| WI-164——历史 Outcome 人类渲染 | 已实现 | `.ai/evidence/WI-164-historical-outcome-render.verification.json`；三语 handoff 对历史 evidence 隐藏缺少 evidence 的恢复提示。 |
 
 ## 当前边界
 
