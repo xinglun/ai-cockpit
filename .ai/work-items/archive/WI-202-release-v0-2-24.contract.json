@@ -1,0 +1,71 @@
+{
+  "acceptanceCriteria": [
+    "A1: workspace package versions, three-language release docs and current baseline all align to v0.2.24.",
+    "A2: hosted Release v0.2.24 is stable and immutable, with public manifest, five target archives, SBOMs and binary identity receipts.",
+    "A3: downloaded v0.2.24 is installed in an isolated environment and adopter acceptance passes without source fallback.",
+    "A4: installed v0.2.24 accepts and verifies append-only finalization transition evidence for WI-201 successor closure.",
+    "A5: tri-language parity, release checks, docs checks and visible human Outcome are recorded; publication is not inferred before public evidence."
+  ],
+  "authority": "authorized",
+  "baseRevision": "17223dd4377ea6be5ada7c8f9bf3f6970f8a9721",
+  "createdAt": "2026-08-23T14:59:38Z",
+  "goal": "在 origin/main 上建立可审计的 v0.2.24 发布、安装验收与 Runtime transition 兼容基线。",
+  "intent": "发布包含 append-only finalization transition 支持的 v0.2.24，并用该公开版本继续完成治理收尾。",
+  "mode": "code",
+  "outOfScope": [
+    "crates/**",
+    "tests/**",
+    ".github/workflows/**"
+  ],
+  "predecessorContractDigest": "sha256:dda1ebb2f37938e2b2dd2c7932953440ebde1f78a3e65fdb71653f954024333f",
+  "predecessorWorkItemId": "WI-201-governance-gate-post-merge-reconciliation",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-201-governance-gate-post-merge-reconciliation.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:77b2b64d6cd3d38dd160216ba71b56d99c871df8014600ac52388f5655e825ab",
+  "requiredEvidenceClasses": [
+    "verification",
+    "release-manifest",
+    "adopter-acceptance",
+    "finalization-transition",
+    "close-decision"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-202-release-v0-2-24",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/155",
+    "worktree": "/private/tmp/ai-cockpit-wi202-release-v0-2-24"
+  },
+  "risk": "normal",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/distribution.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-202-release-v0-2-24.md",
+    "docs/work-items/WI-202-release-v0-2-24.zh-CN.md",
+    "docs/work-items/WI-202-release-v0-2-24.ja.md",
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/archive/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-202-release-v0-2-24"
+}

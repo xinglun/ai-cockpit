@@ -1,0 +1,151 @@
+{
+  "acceptanceResults": [
+    "A1: workspace package versions, three-language release docs and current baseline all align to v0.2.24.",
+    "A2: hosted Release v0.2.24 is stable and immutable, with public manifest, five target archives, SBOMs and binary identity receipts.",
+    "A3: downloaded v0.2.24 is installed in an isolated environment and adopter acceptance passes without source fallback.",
+    "A4: installed v0.2.24 accepts and verifies append-only finalization transition evidence for WI-201 successor closure.",
+    "A5: tri-language parity, release checks, docs checks and visible human Outcome are recorded; publication is not inferred before public evidence."
+  ],
+  "createdAt": "2026-08-23T15:05:11Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:51f0c079ca05a7f32616af9e22c003479f3871597e81a342643b4928795df98c",
+  "evidenceRefs": [
+    ".ai/evidence/WI-202-release-v0-2-24.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-202-release-v0-2-24.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-202-release-v0-2-24.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3b1a0d4d0619888d181bc323e9a8c0f64d42afe19036fd4612f7b44bf6eb0f6d",
+      "workItemId": "WI-202-release-v0-2-24"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-202-release-v0-2-24.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-201-governance-gate-post-merge-reconciliation.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-202-release-v0-2-24.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-202-release-v0-2-24.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-202-release-v0-2-24.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-202-release-v0-2-24.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-202-release-v0-2-24.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-202-release-v0-2-24.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-202-release-v0-2-24.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-202-release-v0-2-24.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-202-release-v0-2-24.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-202-release-v0-2-24.contract.json"
+          ],
+          "inference": false,
+          "text": "在 origin/main 上建立可审计的 v0.2.24 发布、安装验收与 Runtime transition 兼容基线。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-202-release-v0-2-24.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-202-release-v0-2-24"
+  },
+  "taskReportDigest": "sha256:822303d9f592655a195ac0d94a574ed8166647c9cdbe7071728809150fd266a0",
+  "taskReportMarkdownDigest": "sha256:d01890324af467bed8763ed1a5dea5075b50c602a5df1b294cd9727de5e17cbf",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-202-release-v0-2-24.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-202-release-v0-2-24"
+}
