@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "premerge-contract-base-recovery",
+  "decidedAt": "2026-08-23T21:17:56.000860Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-220-release-v0-2-28-finalization-reconciliation-final.verification.json",
+    ".ai/decisions/WI-220-release-v0-2-28-finalization-reconciliation-final.finalize.json",
+    "https://github.com/xinglun/ai-cockpit/pull/169"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:9d59527d79e81927a8a2ab73db3605f4a7fe2a5577d2f33db2a7b7bfe943900a",
+  "predecessorEventsDigest": "sha256:569be38402575b5693f1e610b818bf7b798f3a4de4f73139feb29cc1abb64aab",
+  "predecessorOutcomeDigest": "sha256:0635af6be08560f2bbfec5a95d2cbdc449c0917584c8286556b7a23c21240351",
+  "predecessorSummaryDigest": "sha256:de316a1007b8084036407b33964d24f26b1ff577ce580326a37ec5f9c02321ac",
+  "predecessorWorkItemId": "WI-220-release-v0-2-28-finalization-reconciliation-final",
+  "reason": "WI-220 pre-merge finalization was correctly shaped but its archived Contract baseRevision bound the successor branch instead of the target PR #166 base. Preserve WI-220 immutable history and retry with the target baseRevision before recording the final pre-merge receipt.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Start WI-221 with baseRevision 0265a7abfd3f7f336179d15bcb881b499b0881ce, record a valid awaiting_merge_close receipt, pass hosted checks, merge, append cleanup transitions, and close.",
+  "runtimeDigest": "sha256:ea9a4a090307cb650eeda008942a5bc72fd0d1276b131405868f31d1eabcc048",
+  "runtimeVersion": "0.2.27",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-221-release-v0-2-28-finalization-reconciliation-closure",
+  "workItemId": "WI-220-release-v0-2-28-finalization-reconciliation-final"
+}
