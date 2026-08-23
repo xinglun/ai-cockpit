@@ -176,6 +176,7 @@ source_repo="$(cd "$source_repo" && pwd)"
 git -C "$source_repo" rev-parse --show-toplevel >/dev/null 2>&1 || die 'source repository is not a Git checkout'
 mkdir -p "$output"; output="$(cd "$output" && pwd)"
 [[ -z "$(find "$output" -mindepth 1 -print -quit 2>/dev/null)" ]] || die "output directory must be empty: $output"
+mkdir -p "$output/work-items"
 
 tmp_parent="$(printenv TMPDIR 2>/dev/null || printf '/tmp')"; [[ -d "$tmp_parent" ]] || tmp_parent=/tmp
 run_parent="$(cd "$tmp_parent" 2>/dev/null && pwd -P)" || die "TMPDIR is not a directory: $tmp_parent"
@@ -355,6 +356,19 @@ git -C "$adopter" commit -qm 'attach adopter governance state'
 pass old-schema-assertion "old Runtime repository schema $old_schema"
 work_item=n-minus-one-lifecycle
 run "$from_bin" old-start.json start --repo "$adopter" --id "$work_item" --intent 'Validate upgrade without losing governed history.' --goal 'Prove N-1 compatibility and explicit migration.' --scope '**' --out-of-scope target --risk normal --authority authorized --acceptance 'cargo test passes' --required-evidence verification
+old_branch="$(git -C "$adopter" branch --show-current)"
+old_pr="acceptance://$from_tag/$work_item"
+old_context="$run_root/$work_item.finalize-context.json"
+jq -n \
+  --arg branch "$old_branch" \
+  --arg worktree "$adopter" \
+  --arg provider release-adopter-upgrade-harness \
+  --arg pullRequest "$old_pr" \
+  '{branch:$branch,worktree:$worktree,baseBranch:$branch,baseRemote:"local",provider:$provider,pullRequest:$pullRequest}' \
+  > "$old_context"
+cp "$old_context" "$output/work-items/$work_item.finalize-context.json"
+run "$from_bin" old-finalize-plan.json work-item finalize-plan --repo "$adopter" --id "$work_item" --input "$old_context"
+jq -e '.state=="planned" and .workItemId==$id' --arg id "$work_item" "$output/old-finalize-plan.json" >/dev/null || die 'old finalize-plan did not bind the Work Item'
 printf '\n// N-1 acceptance mutation\n' >> "$adopter/src/lib.rs"; git -C "$adopter" add src/lib.rs; git -C "$adopter" commit -qm 'adopter change before upgrade'
 run "$from_bin" old-preflight.json preflight --repo "$adopter" --contract "$adopter/.ai/work-items/active/$work_item.contract.json"
 run "$from_bin" old-checkpoint.json checkpoint --repo "$adopter" --id "$work_item"
@@ -377,6 +391,49 @@ else
 fi
 run "$from_bin" old-finish.json finish --repo "$adopter" --id "$work_item"
 run "$from_bin" old-archive.json archive --repo "$adopter" --id "$work_item"
+old_archived_contract="$adopter/.ai/work-items/archive/$work_item.contract.json"
+old_archived_contract_digest="sha256:$(sha256_file "$old_archived_contract")"
+old_head="$(git -C "$adopter" rev-parse HEAD)"
+old_receipt="$run_root/$work_item.finalize-receipt.json"
+jq -n \
+  --arg workItemId "$work_item" \
+  --arg repositoryId "$adopter_repository_id" \
+  --arg runtimeVersion "$from_version" \
+  --arg runtimeDigest "$from_digest" \
+  --arg provider release-adopter-upgrade-harness \
+  --arg pullRequest "$old_pr" \
+  --arg branch "$old_branch" \
+  --arg worktree "$adopter" \
+  --arg headRevision "$old_head" \
+  --arg contractDigest "$old_archived_contract_digest" \
+  --arg timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+  '{
+    schemaVersion:1,
+    receiptId:("release-adopter-upgrade-" + $workItemId),
+    operationId:("retain-" + $workItemId),
+    repositoryId:$repositoryId,
+    workItemId:$workItemId,
+    runtimeVersion:$runtimeVersion,
+    runtimeDigest:$runtimeDigest,
+    provider:$provider,
+    pullRequest:{number:1,url:$pullRequest,headRevision:$headRevision,baseBranch:$branch,baseRemote:"local",baseRevision:$headRevision,mergeCommit:$headRevision},
+    branch:{name:$branch,remote:"local",headRevision:$headRevision},
+    worktree:{worktreeId:$workItemId,path:$worktree,branch:$branch,headRevision:$headRevision},
+    before:{pullRequest:"merged",branch:"present",worktree:"clean"},
+    after:{pullRequest:"merged",branch:"present",worktree:"clean"},
+    result:{disposition:"retained",failureCodes:[],unknownCodes:[]},
+    actor:"harness:release-adopter-upgrade",
+    authoritySource:"release-adopter-upgrade-acceptance",
+    reason:"The isolated N-1 adopter fixture is intentionally retained after upgrade verification.",
+    timestamp:$timestamp,
+    contractDigest:$contractDigest,
+    resourceContext:{branch:$branch,worktree:$worktree,baseBranch:$branch,baseRemote:"local",provider:$provider,pullRequest:$pullRequest}
+  }' > "$old_receipt"
+cp "$old_receipt" "$output/work-items/$work_item.finalize-receipt.json"
+run "$from_bin" old-finalize.json work-item finalize --repo "$adopter" --id "$work_item" --input "$old_receipt"
+jq -e '.state=="recorded" and .disposition=="retained"' "$output/old-finalize.json" >/dev/null || die 'old finalize receipt was not recorded as retained'
+run "$from_bin" old-finalize-verify.json work-item finalize-verify --repo "$adopter" --id "$work_item"
+jq -e '.state=="verified" and .disposition=="retained"' "$output/old-finalize-verify.json" >/dev/null || die 'old finalize verification did not pass'
 run "$from_bin" old-close.json close --repo "$adopter" --id "$work_item" \
   --human-decision approved \
   --actor human:release-acceptance \

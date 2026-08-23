@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "repository-owner",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "dc30473ac747d7f1dca0d8e70d2b5c08bfed1664",
+    "name": "codex/wi-168-n-minus-one-finalization",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:4b9f53d7602b6adabafee9179bcaa3a2a6aba536278cea7945e29c00194171fe",
+  "operationId": "retain-WI-168-n-minus-one-finalization",
+  "provider": "release-adopter-upgrade-harness",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "dc30473ac747d7f1dca0d8e70d2b5c08bfed1664",
+    "headRevision": "dc30473ac747d7f1dca0d8e70d2b5c08bfed1664",
+    "mergeCommit": "dc30473ac747d7f1dca0d8e70d2b5c08bfed1664",
+    "number": 168,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/wi-168"
+  },
+  "reason": "Retain the corrective release-acceptance worktree until the public Release cycle completes.",
+  "receiptId": "ai-cockpit-WI-168-n-minus-one-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-168-n-minus-one-finalization",
+    "provider": "release-adopter-upgrade-harness",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/wi-168",
+    "worktree": "/private/tmp/ai-cockpit-wi-168-n-minus-one-finalization"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:69ffdbab4e287f10ef426a0fbe269be52bd47240a79926c4365fecc988031218",
+  "runtimeVersion": "0.2.19",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-23T03:59:52Z",
+  "workItemId": "WI-168-n-minus-one-finalization",
+  "worktree": {
+    "branch": "codex/wi-168-n-minus-one-finalization",
+    "headRevision": "dc30473ac747d7f1dca0d8e70d2b5c08bfed1664",
+    "path": "/private/tmp/ai-cockpit-wi-168-n-minus-one-finalization",
+    "worktreeId": "WI-168-n-minus-one-finalization"
+  }
+}

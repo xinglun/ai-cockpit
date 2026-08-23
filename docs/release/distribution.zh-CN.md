@@ -107,7 +107,7 @@ attach/profile/Agent doctor，保持 `first-adopter-smoke` 为 `not_ready`，验
 
 这份发布后 receipt 的 lifecycle close 必须是完整的结构化 Human Decision。harness 要求记录 actor、authority source、reason、evidence reference、policy reference、决定时间和 resume condition；它会把常规且非符号链接的 `.ai/decisions/<work-item>.close.json` 复制到验收 artifact，并生成包含 adopter `repositoryId`、Work Item ID、决定摘要和校验结果的 binding record。缺失、foreign、字段不完整或 identity 不匹配的 close receipt 都会 fail closed；不会把已发布的 Release 改写成未发布。
 
-在 close 之前，harness 还必须执行 Runtime 的资源收尾边界：`finalize-plan` 在 verification 之前绑定 fixture 的 branch/worktree context，归档之后用 `finalize` 与 `finalize-verify` 记录 fixture 被明确保留的资源状态。这不是装饰步骤；缺少它时 `close` 必须 fail closed。
+在旧 Work Item 和新 Work Item close 之前，harness 都必须执行 Runtime 的资源收尾边界：`finalize-plan` 在 verification 之前绑定 fixture 的 branch/worktree context，归档之后用 `finalize` 与 `finalize-verify` 记录 fixture 被明确保留的资源状态。这不是装饰步骤；缺少它时 `close` 必须 fail closed。
 
 在验收 receipt 输出最终确定后，成功、失败和中断路径都会只清理经过校验的临时 `run_root`。
 `cleanup.json` 以及 `acceptance.json` 中的 `cleanupState` / `cleanupError` 记录清理结果。清理失败时必须
@@ -141,7 +141,7 @@ schema 的 patch Release；其 N-1 run 仍使用同一个 harness，在确认 co
 ```bash
 tests/release/adopter_upgrade_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --from-tag v0.2.17 \
+  --from-tag v0.2.18 \
   --to-tag v0.2.19 \
   --target x86_64-unknown-linux-gnu \
   --output ./release-adopter-upgrade-acceptance

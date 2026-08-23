@@ -134,11 +134,12 @@ acceptance artifact and emits a binding record containing the adopter
 foreign, incomplete, or mismatched close receipt fails closed; it cannot turn a
 published Release back into an unpublished one.
 
-Before that close, the harness also exercises the Runtime's resource-finalization
-boundary: `finalize-plan` binds the fixture's branch/worktree context before
-verification, and the post-archive `finalize` plus `finalize-verify` receipt
-records the intentionally retained fixture resources. This is a real lifecycle
-requirement, not a cosmetic step; omitting it must make `close` fail closed.
+Before either the old or new Work Item is closed, the harness exercises the
+Runtime's resource-finalization boundary: `finalize-plan` binds the fixture's
+branch/worktree context before verification, and the post-archive `finalize`
+plus `finalize-verify` receipt records the intentionally retained fixture
+resources. This is a real lifecycle requirement, not a cosmetic step; omitting
+it must make `close` fail closed.
 
 After the receipt outputs are finalized, every success, failure, or interruption
 path removes only its validated temporary `run_root`. `cleanup.json` and the
@@ -183,7 +184,7 @@ the current Runtime:
 ```bash
 tests/release/adopter_upgrade_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --from-tag v0.2.17 \
+  --from-tag v0.2.18 \
   --to-tag v0.2.19 \
   --target x86_64-unknown-linux-gnu \
   --output ./release-adopter-upgrade-acceptance

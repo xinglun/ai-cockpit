@@ -1,0 +1,43 @@
+{
+  "acceptanceCriteria": [
+    "N-1 old Runtime lifecycle includes finalize-plan, finalize, finalize-verify before close",
+    "Public Release acceptance preserves releasePublished=true and emits an auditable pass/fail receipt",
+    "No source fallback or global HOME/XDG/TMP writes are introduced"
+  ],
+  "authority": "authorized",
+  "baseRevision": "dc30473ac747d7f1dca0d8e70d2b5c08bfed1664",
+  "createdAt": "2026-08-23T03:53:33Z",
+  "goal": "Make v0.2.18 to v0.2.19 public-artifact upgrade acceptance pass without source fallback, while preserving immutable release truth and isolation evidence.",
+  "intent": "Repair the public N-1 adopter acceptance lifecycle so every old Runtime Work Item performs the required resource finalization before close.",
+  "mode": "implementation",
+  "outOfScope": [
+    ".github/workflows",
+    "historical release receipts"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ada40d57d82d6912d03b2599cc661e26d1b47cacf959f19a278a06ab343172dc",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-168-n-minus-one-finalization",
+    "provider": "release-adopter-upgrade-harness",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/wi-168",
+    "worktree": "/private/tmp/ai-cockpit-wi-168-n-minus-one-finalization"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/work-items/active/**",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh",
+    "docs/release/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-168-n-minus-one-finalization"
+}
