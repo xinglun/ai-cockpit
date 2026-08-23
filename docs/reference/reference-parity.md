@@ -39,7 +39,7 @@ The matrix uses exactly four states:
 | Repository attachment and minimum scaffold | Implemented | `attach` creates the repository-owned Protocol scaffold without installing a Runtime copy. |
 | Explicit Agent Discovery / Adapter layer | Implemented | Agent installation is explicit, owned, reversible, and repository-local; generated guidance carries Contract-first/pause/Summary/Outcome/closure semantics, Cursor uses canonical `.cursor/rules/ai-cockpit.mdc`, and managed legacy `.md` remains readable. |
 | Work Item lifecycle and governance decisions | Partial | The core lifecycle and human decision records exist; the reference's broader status, cost, and recovery projections are not all exposed as one adopter interface. |
-| Resource finalization and exact branch/worktree closure | Partial | WI-160 defines the `finalize-plan` → `finalize` → `finalize-verify` policy boundary, explicit `unknown`/`retain` handling, and a static regression gate. Runtime command and receipt integration remains pending; this baseline does not claim silent cleanup or close-before-cleanup support. |
+| Resource finalization and exact branch/worktree closure | Implemented | Runtime exposes `finalize-plan`, `finalize`, and `finalize-verify`; strict typed receipts bind repository, Work Item, Contract, PR, branch, worktree, and Runtime identity. Close is fail-closed for missing/unknown cleanup, and archived evidence is explicitly historical after Runtime upgrades. |
 | Task Outcome and Human Benefit report | Partial | WI-136 adds a Rust-native strict report projection, append-only generated event stream, archive binding, and close final-report receipt; full reference recovery/event reconstruction remains outside this boundary. Evidence: `.ai/evidence/WI-136-task-outcome-report.verification.json`. |
 | Archived Outcome path projection | Implemented | WI-148 projects newly archived generated report references and `changedPaths` from active to archive paths before binding the manifest; historical archive bytes remain immutable. |
 | Contract preflight human-review gate | Implemented | Incomplete scaffold Contracts are yellow with an explicit `reviewState`, persist repository/Contract/snapshot bindings, and cannot cross checkpoint without human confirmation. |
@@ -105,7 +105,8 @@ record for each boundary.
 | WI-155 — CI/release gate convergence | Implemented | [Work Item](../work-items/WI-155-ci-release-gate-convergence.md); [release distribution](../release/distribution.md); `.ai/evidence/WI-155-ci-release-gate-convergence.verification.json`; `.ai/decisions/WI-155-ci-release-gate-convergence.close.json` |
 | WI-156 — Physical execution and Work Item evidence receipts | Implemented | [Work Item](../work-items/WI-156-physical-execution-receipt.md); `.ai/evidence/WI-156-physical-execution-receipt.verification.json`; `.ai/decisions/WI-156-physical-execution-receipt.close.json` |
 | WI-157 — v0.2.17 release and adopter acceptance | Implemented | [Work Item](../work-items/WI-157-release-v0-2-17-adopter-acceptance.md); [public Release](https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.17); `.ai/evidence/external/v0.2.17/adopter/`, `.ai/evidence/external/v0.2.17/upgrade/`, and `.ai/evidence/WI-157-release-v0-2-17-adopter-acceptance.verification.json`. |
-| WI-160 — Resource finalization and branch/worktree closure baseline | Partial | [Work Item](../work-items/WI-160-resource-finalization-baseline.md); `.ai/evidence/WI-160-resource-finalization-baseline.verification.json`; `.ai/work-items/archive/WI-160-resource-finalization-baseline.archive.json`; `.ai/decisions/WI-160-resource-finalization-baseline.close.json`. Runtime command/receipt integration remains a separate pending boundary. |
+| WI-160 — Resource finalization and branch/worktree closure baseline | Implemented | [Work Item](../work-items/WI-160-resource-finalization-baseline.md); `.ai/evidence/WI-160-resource-finalization-baseline.verification.json`; `.ai/work-items/archive/WI-160-resource-finalization-baseline.archive.json`; `.ai/decisions/WI-160-resource-finalization-baseline.close.json`. Runtime command/receipt integration is implemented by WI-159; historical-runtime close compatibility is covered by WI-161. |
+| WI-161 — Historical Runtime evidence close compatibility | Implemented | [Work Item](../work-items/WI-161-historical-runtime-close.md); archived evidence remains immutable and foreign Runtime bytes are projected as historical; regression evidence is recorded in `.ai/evidence/WI-161-historical-runtime-close.verification.json`. |
 
 ## Current boundary
 
@@ -124,7 +125,10 @@ Resource finalization is a separate closure boundary: the exact branch and
 worktree must pass `finalize-plan` → `finalize` → `finalize-verify` before
 `close`. Unknown provider/resource state remains open, and any retained
 resource requires an explicit bounded human decision. WI-160 records this
-policy and its static gate; Runtime command/receipt integration is pending.
+policy and its static gate; WI-159 implements the Runtime commands and
+receipts. Historical verification evidence is not rewritten or treated as a
+current failure after Runtime upgrades; only the new finalization receipt is
+bound to the closing Runtime.
 
 ## Scenario, acceptance, and final-dimension projections
 

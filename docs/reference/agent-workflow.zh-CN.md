@@ -83,8 +83,11 @@ Work Item 或 project profile。Contract 条件保留其原始语言，只有面
 finalize-plan → finalize → finalize-verify → close
 ```
 
-这是 WI-160 定义的 policy baseline，不是 Runtime `0.2.17` 已提供的命令。Runtime
-集成仍待后续、明确范围的 Work Item；本文档和静态 gate 不得被理解为 CLI 已经实现这些命令。
+这些就是 Runtime 提供的命令。每次调用都必须显式带 `--repo`，并提交带身份绑定的
+context/receipt；Runtime 不会隐式删除资源。Work Item 只有在 verification 后才能 archive，
+只有 `finalize-verify` 接受 `Deleted` 或经明确授权的 `Retained` receipt 后才能 close。
+Archived verification evidence 保持为不可变的历史事实；Runtime 升级后不把它重新标记为当前
+结果，而是显示为历史 evidence。新的 finalization receipt 始终绑定执行 close 的 Runtime。
 
 - `finalize-plan` 记录准确的 Work Item branch/worktree、provider PR、合并 head、remote、
   default branch 和清理计划；绝不删除 branch 或 worktree。

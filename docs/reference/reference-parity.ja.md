@@ -38,7 +38,7 @@ matrix は次の 4 state だけを使います。
 | Repository attach と minimum scaffold | Implemented | `attach` は repository-owned Protocol scaffold を作り、Runtime の copy を repository 内に install しない。 |
 | Explicit Agent Discovery / Adapter layer | Implemented | Agent install は explicit、owned、reversible、repository-local であり、生成 guidance は Contract-first/pause/Summary/Outcome/closure を伝える。Cursor の新規 target は `.cursor/rules/ai-cockpit.mdc`、managed な legacy `.md` は保持する。 |
 | Work Item lifecycle と governance decision | Partial | core lifecycle と human decision record はあるが、reference の広い status、cost、recovery projection は一つの adopter interface に統合されていない。 |
-| Resource finalization と正確な branch/worktree closure | Partial | WI-160 は `finalize-plan` → `finalize` → `finalize-verify` の policy 境界、明示的な `unknown`/`retain` 処理、static regression gate を定義する。Runtime の command と receipt 統合は保留であり、silent cleanup や cleanup 前の close を実装済みとは主張しない。 |
+| Resource finalization と正確な branch/worktree closure | Implemented | Runtime は `finalize-plan`、`finalize`、`finalize-verify` を提供し、typed receipt に repository、Work Item、Contract、PR、branch、worktree、Runtime identity を bind する。欠落/unknown cleanup は fail-closed、Runtime upgrade 後の archived evidence は明示的に historical として扱う。 |
 | Task Outcome と Human Benefit report | Partial | WI-136 は Rust-native strict projection、append-only event stream、archive binding、close final report を追加する。完全な recovery/event reconstruction はこの境界外。Evidence: `.ai/evidence/WI-136-task-outcome-report.verification.json`。 |
 | Archive 済み Outcome の path projection | Implemented | WI-148 は manifest を束縛する前に、新規 archive の生成 report reference と `changedPaths` を active から archive へ投影する。既存の historical archive bytes は不変のまま。 |
 | Contract preflight human-review gate | Implemented | 不完全な scaffold Contract は明示的な `reviewState` 付き yellow となり、repository/Contract/snapshot binding を保存し、human confirmation なしでは checkpoint を越えない。 |
@@ -102,7 +102,8 @@ verification record です。
 | WI-155 — CI/release gate の収束 | Implemented | [Work Item](../work-items/WI-155-ci-release-gate-convergence.ja.md); [Release distribution](../release/distribution.ja.md); `.ai/evidence/WI-155-ci-release-gate-convergence.verification.json`; `.ai/decisions/WI-155-ci-release-gate-convergence.close.json` |
 | WI-156 — 物理実行と Work Item 証拠レシート | Implemented | [Work Item](../work-items/WI-156-physical-execution-receipt.ja.md); `.ai/evidence/WI-156-physical-execution-receipt.verification.json`; `.ai/decisions/WI-156-physical-execution-receipt.close.json` |
 | WI-157 — v0.2.17 Release と adopter acceptance | Implemented | [Work Item](../work-items/WI-157-release-v0-2-17-adopter-acceptance.ja.md); [公開 Release](https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.17)、`.ai/evidence/external/v0.2.17/adopter/`、`.ai/evidence/external/v0.2.17/upgrade/`、`.ai/evidence/WI-157-release-v0-2-17-adopter-acceptance.verification.json`。 |
-| WI-160 — Resource finalization と branch/worktree closure の baseline | Partial | [Work Item](../work-items/WI-160-resource-finalization-baseline.ja.md); `.ai/evidence/WI-160-resource-finalization-baseline.verification.json`; `.ai/work-items/archive/WI-160-resource-finalization-baseline.archive.json`; `.ai/decisions/WI-160-resource-finalization-baseline.close.json`。Runtime command/receipt 統合は別の pending boundary。 |
+| WI-160 — Resource finalization と branch/worktree closure の baseline | Implemented | [Work Item](../work-items/WI-160-resource-finalization-baseline.ja.md); `.ai/evidence/WI-160-resource-finalization-baseline.verification.json`; `.ai/work-items/archive/WI-160-resource-finalization-baseline.archive.json`; `.ai/decisions/WI-160-resource-finalization-baseline.close.json`。Runtime command/receipt 統合は WI-159、historical-runtime close compatibility は WI-161 で実装する。 |
+| WI-161 — Historical Runtime evidence close compatibility | Implemented | [Work Item](../work-items/WI-161-historical-runtime-close.ja.md); archived evidence は不変のまま foreign Runtime bytes を historical として投影する。Regression evidence: `.ai/evidence/WI-161-historical-runtime-close.verification.json` |
 
 ## 現在の境界
 
@@ -117,8 +118,10 @@ status は `implemented`、archived verification/close evidence への link、pa
 Resource finalization は別の closure 境界です。正確な branch と worktree は
 `finalize-plan` → `finalize` → `finalize-verify` を通過してから `close` します。
 provider/resource の状態が `unknown` なら open のままにし、保持する resource には明示的で
-期限付きの Human Decision が必要です。WI-160 はこの policy と static gate を記録しますが、
-Runtime command/receipt 統合は保留です。
+期限付きの Human Decision が必要です。WI-160 はこの policy と static gate を記録し、WI-159
+は Runtime command/receipt を実装します。Runtime upgrade 後も historical verification
+evidence は書き換えず current failure として扱いません。close を実行する Runtime に bind
+されるのは新しい finalization receipt です。
 
 ## Scenario・Acceptance・最終 dimensions の projection
 
