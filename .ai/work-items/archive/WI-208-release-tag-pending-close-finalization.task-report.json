@@ -1,0 +1,172 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-208-release-tag-pending-close-finalization.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:38e0df2b3ba3a00f38418d71902e73ff00ca0c37fb5cfb20ec97d1f838d5bd71",
+    "workItemId": "WI-208-release-tag-pending-close-finalization"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-208-release-tag-pending-close-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-206-release-tag-pending-close.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-208-release-tag-pending-close-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-207-release-tag-pending-close-finalization.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-208-release-tag-pending-close-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-207-release-tag-pending-close-finalization.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-208-release-tag-pending-close-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-208-release-tag-pending-close-finalization.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-208-release-tag-pending-close-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-208-release-tag-pending-close-finalization.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-208-release-tag-pending-close-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-207-release-tag-pending-close-finalization.archive.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-208-release-tag-pending-close-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-207-release-tag-pending-close-finalization.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-208-release-tag-pending-close-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-207-release-tag-pending-close-finalization.events.jsonl"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-208-release-tag-pending-close-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-207-release-tag-pending-close-finalization.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-208-release-tag-pending-close-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-207-release-tag-pending-close-finalization.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-208-release-tag-pending-close-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-207-release-tag-pending-close-finalization.task-report.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-208-release-tag-pending-close-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-207-release-tag-pending-close-finalization.task-report.md"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-208-release-tag-pending-close-finalization.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-208-release-tag-pending-close-finalization.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-208-release-tag-pending-close-finalization.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-208-release-tag-pending-close-finalization.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-208-release-tag-pending-close-finalization.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-208-release-tag-pending-close-finalization.contract.json"
+        ],
+        "inference": false,
+        "text": "Make PR #158 source-quality-compatible without rewriting WI-206 or WI-207, and leave an auditable receipt ready for published Runtime closure."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-208-release-tag-pending-close-finalization.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-208-release-tag-pending-close-finalization"
+}

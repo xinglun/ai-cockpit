@@ -1,0 +1,149 @@
+{
+  "acceptanceResults": [
+    "finalize-plan records the exact PR #158, branch, worktree, provider, and default-branch context before archive.",
+    "The successor preserves WI-206 immutable evidence and records a valid pre-merge finalization receipt.",
+    "The successor remains open for the published Runtime to perform finalize, finalize-verify, and structured close after merge."
+  ],
+  "createdAt": "2026-08-23T16:34:35Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:137e22e3d5ae73b06a48793b75327a53e706aa5da68fcb6e7d101ca98840d73a",
+  "evidenceRefs": [
+    ".ai/evidence/WI-207-release-tag-pending-close-finalization.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-207-release-tag-pending-close-finalization.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-207-release-tag-pending-close-finalization.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:38e0df2b3ba3a00f38418d71902e73ff00ca0c37fb5cfb20ec97d1f838d5bd71",
+      "workItemId": "WI-207-release-tag-pending-close-finalization"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-207-release-tag-pending-close-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-206-release-tag-pending-close.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-207-release-tag-pending-close-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-207-release-tag-pending-close-finalization.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-207-release-tag-pending-close-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-207-release-tag-pending-close-finalization.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-207-release-tag-pending-close-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-207-release-tag-pending-close-finalization.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-207-release-tag-pending-close-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-207-release-tag-pending-close-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-207-release-tag-pending-close-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-207-release-tag-pending-close-finalization.contract.json"
+          ],
+          "inference": false,
+          "text": "Bind PR #158 and archive the successor only after finalize-plan, so source quality can prove the release-tag transition."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-207-release-tag-pending-close-finalization.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-207-release-tag-pending-close-finalization"
+  },
+  "taskReportDigest": "sha256:6a972f4339b1293c0c053ce8a1d6553b495a4497613ea70f5db0e51c7bfecdcb",
+  "taskReportMarkdownDigest": "sha256:c4c5a227ac3c02c1bdd1a3de8ce72f90d4c669284a0e73b2e5d5a3fd35d0e7f1",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-207-release-tag-pending-close-finalization.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-207-release-tag-pending-close-finalization"
+}

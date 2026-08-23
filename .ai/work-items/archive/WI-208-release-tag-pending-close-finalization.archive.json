@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-23T16:36:09Z",
+  "files": {
+    "contractDigest": "sha256:d3c0f07cd53988a2a6a314d3d7336d8c47c00f67483494312da17bea58f830f8",
+    "contractPath": ".ai/work-items/archive/WI-208-release-tag-pending-close-finalization.contract.json",
+    "eventsDigest": "sha256:694d6dfadb27ca2acf5a4a5fcb9b37e878120a9c5d0b97d79dd837e4478976ca",
+    "eventsPath": ".ai/work-items/archive/WI-208-release-tag-pending-close-finalization.events.jsonl",
+    "outcomeDigest": "sha256:16ab581305f0e5029fbd58d026e9eda6c4daf753bd9f2f07f28971bb864b9ca4",
+    "outcomePath": ".ai/work-items/archive/WI-208-release-tag-pending-close-finalization.outcome.json",
+    "summaryDigest": "sha256:53d8080ac7e8c99db94ec4801e0526bcabdf4e60f1bae7dd36701cfb7e64c2ec",
+    "summaryPath": ".ai/work-items/archive/WI-208-release-tag-pending-close-finalization.summary.json",
+    "taskReportDigest": "sha256:a31fb3b40367533cceed9643ab4c55dcfb66897c36e886baf15077fb70ec2139",
+    "taskReportMarkdownDigest": "sha256:cf5b952715fa1abefc836dcd87f4406ea28189eea93a0f720f73f7532a758b94",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-208-release-tag-pending-close-finalization.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-208-release-tag-pending-close-finalization.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-208-release-tag-pending-close-finalization"
+}

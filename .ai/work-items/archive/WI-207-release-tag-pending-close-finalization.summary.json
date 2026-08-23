@@ -1,0 +1,59 @@
+{
+  "acceptanceEvidence": [
+    {
+      "criterion": "finalize-plan before archive",
+      "evidenceRefs": [
+        ".ai/decisions/WI-207-release-tag-pending-close-finalization.finalize.json"
+      ]
+    },
+    {
+      "criterion": "predecessor remains immutable",
+      "evidenceRefs": [
+        ".ai/decisions/WI-206-release-tag-pending-close.recovery.json"
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-206-release-tag-pending-close.recovery.json",
+    ".ai/work-items/archive/WI-207-release-tag-pending-close-finalization.contract.json",
+    ".ai/work-items/archive/WI-207-release-tag-pending-close-finalization.summary.json"
+  ],
+  "checkpointAt": "2026-08-23T16:34:30Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T16:33:30Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/decisions/WI-206-release-tag-pending-close.recovery.json",
+      "https://github.com/xinglun/ai-cockpit/pull/158",
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "The successor is explicitly limited to recording the missing pre-merge finalization boundary and preserving the predecessor history.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "predecessorContractDigest": "sha256:15db85442e7397a7c5c4f998c140d4a7ba2085507fd9ec17be13b27b704516b1",
+  "predecessorWorkItemId": "WI-206-release-tag-pending-close",
+  "preflightAt": "2026-08-23T16:34:35Z",
+  "preflightContractDigest": "sha256:a6238d03b051553f498d81524f8c414c39fd99d337181bb6117afdbedafec5bb",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:38e0df2b3ba3a00f38418d71902e73ff00ca0c37fb5cfb20ec97d1f838d5bd71",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-206-release-tag-pending-close.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "required": true,
+      "scenario": "exact PR resource context",
+      "status": "unverified"
+    },
+    {
+      "required": false,
+      "scenario": "post-release close remains pending",
+      "status": "unverified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T16:34:35Z",
+  "workItemId": "WI-207-release-tag-pending-close-finalization"
+}
