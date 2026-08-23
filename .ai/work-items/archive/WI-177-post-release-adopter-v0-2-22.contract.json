@@ -1,0 +1,57 @@
+{
+  "acceptanceCriteria": [
+    "Public Release tag v0.2.22, workflow run 32622398424, and release assets are immutable and checksum-bound.",
+    "Installed binary is v0.2.22 and its SHA-256 matches the public Release archive binary digest.",
+    "Fresh isolated adopter attach produces an independent repositoryId and minimum scaffold.",
+    "Attach, inspect/status/doctor, agent doctor, verify, and evidence reuse JSON outputs are retained.",
+    "first-adopter-smoke remains not_ready and does not contain fabricated intent, scope, authority, or acceptance decisions.",
+    "A Work Item completes start, finalize-plan, preflight, checkpoint, verify, finish, archive, finalize, finalize-verify, and close using only the installed public binary.",
+    "Adopter isolation proves the main repository has no unexpected .ai or global Agent/MCP writes; temporary runtime roots are cleaned.",
+    "Tri-language parity documentation records WI-175 public completion, WI-176 recovery completion, and this adopter acceptance baseline."
+  ],
+  "authority": "authorized",
+  "baseRevision": "5299120b6de4aae61136271d2ac09d7903c60e5a",
+  "createdAt": "2026-08-23T06:25:39Z",
+  "goal": "Prove that the public v0.2.22 binary can govern a fresh isolated adopter repository from attach through close, with runtime identity, evidence reuse, not_ready scaffold behavior, isolation, and cleanup recorded.",
+  "intent": "Validate the immutable public v0.2.22 Release as a real installed Runtime and preserve a reusable adopter acceptance baseline.",
+  "mode": "implementation",
+  "outOfScope": [
+    "src/**",
+    "crates/**",
+    "Cargo.toml",
+    "Cargo.lock",
+    "Release truth and existing historical evidence bytes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:10db8a4b476cf9c62f265c578a4c5753fa24fa6d0e42d11b82ed7f01343e3821",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-177-post-release-adopter-v0-2-22",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "risk": "medium",
+  "scope": [
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_acceptance_test.sh",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    ".ai/evidence/WI-177-post-release-adopter-v0-2-22",
+    ".ai/work-items/active/WI-177-post-release-adopter-v0-2-22.contract.json",
+    ".ai/work-items/active/WI-177-post-release-adopter-v0-2-22.summary.json",
+    ".ai/work-items/archive/WI-177-post-release-adopter-v0-2-22",
+    ".ai/decisions/WI-177-post-release-adopter-v0-2-22"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-177-post-release-adopter-v0-2-22"
+}

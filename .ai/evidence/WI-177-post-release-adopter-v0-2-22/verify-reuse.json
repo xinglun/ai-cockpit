@@ -1,0 +1,81 @@
+{
+  "costObservation": {
+    "advisoryOnly": true,
+    "confidence": "complete",
+    "elapsedMs": 162,
+    "executionElapsedMs": 0,
+    "maxConcurrentProcesses": 0,
+    "nodesExecuted": 0,
+    "nodesPlanned": 1,
+    "nodesReused": 1,
+    "passed": true,
+    "planningElapsedMs": 0,
+    "processesSpawned": 0,
+    "protectedNodesExecuted": 0,
+    "repositoryId": "sha256:504c9ecb9016b9dca6a8a18120aa5dba092d75c2743dfe3fe6099cf7853ed70d",
+    "runtimeDigest": "sha256:fff455d0d88d9ca4fa96b5caba85d8a6a198e131bd6ecc5a33dd9bc5cc180ab2",
+    "runtimeVersion": "0.2.22",
+    "schemaVersion": 1,
+    "unknowns": []
+  },
+  "elapsedMs": 162,
+  "executionElapsedMs": 0,
+  "filesHashed": 10,
+  "filesRead": 12,
+  "gitCalls": 8,
+  "maxConcurrentProcesses": 0,
+  "nodesExecuted": 0,
+  "nodesPlanned": 1,
+  "nodesReused": 1,
+  "passed": true,
+  "planReceipt": {
+    "affectedPaths": [],
+    "assurance": "self_declared",
+    "escalations": [],
+    "executedNodes": [],
+    "executionElapsedMs": 0,
+    "finalTier": "T0",
+    "initialTier": "T0",
+    "planningElapsedMs": 0,
+    "policyRefs": [],
+    "requiredAssurance": null,
+    "requiredTier": null,
+    "reusedNodes": [
+      "project-command-0"
+    ],
+    "savedExecutions": 1,
+    "schemaVersion": 1,
+    "selectionReasons": [
+      "cli_route_stage_explicit"
+    ],
+    "sharedNodes": [],
+    "stage": "task"
+  },
+  "planningElapsedMs": 0,
+  "processSpawnFailures": 0,
+  "processesSpawned": 0,
+  "protectedNodesExecuted": 0,
+  "protectedNodesSkipped": 0,
+  "receiptCandidates": [],
+  "repositoryId": "sha256:504c9ecb9016b9dca6a8a18120aa5dba092d75c2743dfe3fe6099cf7853ed70d",
+  "rerunStale": 0,
+  "rerunUnknown": 0,
+  "results": [
+    {
+      "action": "reuse",
+      "nodeId": "project-command-0",
+      "outputDigest": null,
+      "outputTruncated": false,
+      "passed": true,
+      "protected": false,
+      "reason": "fresh_exact_binding",
+      "receiptId": "sha256:2824a55b349acf9b69810c18c35e8d2b1aa2e9e3722dee82de0b91929ee9ee41",
+      "reused": true,
+      "satisfiedBy": "reused_receipt",
+      "state": "fresh",
+      "timedOut": false
+    }
+  ],
+  "runtimeDigest": "sha256:fff455d0d88d9ca4fa96b5caba85d8a6a198e131bd6ecc5a33dd9bc5cc180ab2",
+  "runtimeVersion": "0.2.22"
+}

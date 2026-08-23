@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 2,
+  "sourceRepository": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit",
+  "sourceAiState": "present",
+  "sourceBeforeStatus": "?? .ai/evidence/WI-177-post-release-adopter-v0-2-22/\n?? .ai/work-items/active/",
+  "sourceAfterStatus": "?? .ai/evidence/WI-177-post-release-adopter-v0-2-22/\n?? .ai/work-items/active/",
+  "sourceUnchanged": true,
+  "adopterRepository": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-adopter-acceptance.7NEUi8/adopter",
+  "repositoryIsolation": true,
+  "roots": {
+    "HOME": {
+      "classification": "global-config",
+      "allowedWrites": false,
+      "allowedPrefixes": [],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "unchanged": true
+    },
+    "XDG_CONFIG_HOME": {
+      "classification": "global-config",
+      "allowedWrites": false,
+      "allowedPrefixes": [],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "unchanged": true
+    },
+    "TMPDIR": {
+      "classification": "runtime-temporary",
+      "allowedWrites": true,
+      "allowedPrefixes": [
+        "<TMPDIR>/**"
+      ],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "CARGO_HOME": {
+      "classification": "dependency-cache",
+      "allowedWrites": true,
+      "allowedPrefixes": [
+        "<CARGO_HOME>/**"
+      ],
+      "beforeDigest": "sha256:7425f87208e53bf771e74dd36c2685046542ccddd76f655f58f5bf6682994af9",
+      "afterDigest": "sha256:826e130f82e5f84ee99e3509f0a84a96cf51583bbb6f71b3683359c4a3950684"
+    }
+  }
+}

@@ -1,0 +1,179 @@
+{
+  "acceptanceResults": [
+    "The WI-177 predecessor is superseded with its original Contract, Summary, Outcome, Events, verification evidence, and public Release truth retained byte-for-byte.",
+    "The merged PR #135 branch and current worktree are bound by finalize-plan before new verification evidence is recorded.",
+    "Finalize and finalize-verify record the exact provider context and prove branch cleanup or an explicit retained disposition.",
+    "The successor closes only after finalize-verify and a structured human decision; the predecessor closes as a historical superseded Work Item.",
+    "Installed public Runtime v0.2.22 identity is recorded in every new evidence and decision receipt."
+  ],
+  "createdAt": "2026-08-23T06:32:45Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:b28cf91ae3a5e670e0ffbe72c6ddbf700fc7e31c73c4025ebbf21e9fdca227aa",
+  "evidenceRefs": [
+    ".ai/evidence/WI-178-post-release-adopter-finalization-reconciliation.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-178-post-release-adopter-finalization-reconciliation.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-178-post-release-adopter-finalization-reconciliation.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d42602ed335e03cccb94a261aab661bf9adf888730d0a04278850543c4f04b79",
+      "workItemId": "WI-178-post-release-adopter-finalization-reconciliation"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-177-post-release-adopter-v0-2-22.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-177-post-release-adopter-v0-2-22/finalize-context.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-177-post-release-adopter-v0-2-22/recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-177-post-release-adopter-v0-2-22.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-178-post-release-adopter-finalization-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-178-post-release-adopter-finalization-reconciliation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-178-post-release-adopter-finalization-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-178-post-release-adopter-finalization-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-178-post-release-adopter-finalization-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.contract.json"
+          ],
+          "inference": false,
+          "text": "Record finalize-plan, finalize, finalize-verify, and close for the merged WI-177 public adopter acceptance branch, preserving the release and predecessor evidence truth."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-178-post-release-adopter-finalization-reconciliation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-178-post-release-adopter-finalization-reconciliation"
+  },
+  "taskReportDigest": "sha256:e5b57ec224274b62d164c8a6dd8a31e7975ea727b8a318ca0e3f1ec582e66585",
+  "taskReportMarkdownDigest": "sha256:bdbd3c0755fe40a7cd4617628448b7fe6b2dacabf11c5209dd5a63fabe6405da",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-178-post-release-adopter-finalization-reconciliation.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-178-post-release-adopter-finalization-reconciliation"
+}

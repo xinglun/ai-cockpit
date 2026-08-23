@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:504c9ecb9016b9dca6a8a18120aa5dba092d75c2743dfe3fe6099cf7853ed70d",
+  "sourceRepositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "adopterPath": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-adopter-acceptance.7NEUi8/adopter",
+  "initialHead": "6a5fb9e5dc5c5d3eeb37e3ee1c4c7bc090876932",
+  "head": "daf80842defdd9580fef9d8637a81a15e750d819",
+  "runtimeVersion": "0.2.22",
+  "runtimeDigest": "sha256:fff455d0d88d9ca4fa96b5caba85d8a6a198e131bd6ecc5a33dd9bc5cc180ab2",
+  "distinctFromSource": true
+}
