@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-pre-merge-finalization-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "f56763959ae93e4333be15db1cfeef916bd24fc1",
+    "name": "codex/wi-202-release-v0-2-24",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:01abe3773e61de2c431a9d796ba84a36f4a6987fb496f09bfcc5efcc70a2b017",
+  "operationId": "operation-WI-202-release-v0-2-24-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "17223dd4377ea6be5ada7c8f9bf3f6970f8a9721",
+    "headRevision": "f56763959ae93e4333be15db1cfeef916bd24fc1",
+    "number": 155,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/155"
+  },
+  "reason": "awaiting_merge_close: PR #155 is unmerged, so the reviewed release baseline branch and clean worktree are retained; public publication and close are deferred until hosted checks pass and the merged default branch is available.",
+  "receiptId": "ai-cockpit-WI-202-release-v0-2-24-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-202-release-v0-2-24",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/155",
+    "worktree": "/private/tmp/ai-cockpit-wi202-release-v0-2-24"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+  "runtimeVersion": "0.2.23",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-23T15:05:00Z",
+  "workItemId": "WI-202-release-v0-2-24",
+  "worktree": {
+    "branch": "codex/wi-202-release-v0-2-24",
+    "headRevision": "f56763959ae93e4333be15db1cfeef916bd24fc1",
+    "path": "/private/tmp/ai-cockpit-wi202-release-v0-2-24",
+    "worktreeId": "WI-202-release-v0-2-24"
+  }
+}
