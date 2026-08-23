@@ -117,6 +117,10 @@ versioned digest の shape だけを保証します。
 public Release binary を download して pin し、isolated directory で adopter lifecycle を実行し、`acceptance.json` と `SHA256SUMS` を生成します。
 workspace build や local target binary で代用してはならず、acceptance failure が公開済み Release truth を変更することもありません。
 
+lifecycle は省略できません。verification 前に `finalize-plan` を実行し、archive 後に `finalize` と
+`finalize-verify` を通過してから structured `close` を行います。fixture は明示的な retained resource receipt
+を使うため、Runtime の fail-closed な resource boundary が post-release evidence に残ります。
+
 acceptance receipt には各 isolated root の typed before/after manifest も記録されます。`HOME` と `XDG_CONFIG_HOME` の
 `allowedPrefixes` は空で、変更されてはいけません。Runtime が書き込めるのは `TMPDIR` と `CARGO_HOME` だけで、allowlist は
 `<TMPDIR>/**` と `<CARGO_HOME>/**` に限定されます。cleanup の結果は `cleanup.json` と `cleanupState`/`cleanupError` に記録され、

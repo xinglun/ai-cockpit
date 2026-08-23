@@ -1,0 +1,45 @@
+{
+  "acceptanceCriteria": [
+    "验收脚本完成 finalize-plan、finalize、finalize-verify、close，并校验资源收尾证据。",
+    "失败 Release 的 receipt 保留 releasePublished=true、adopterAcceptance=failed，不回写 v0.2.18 truth。",
+    "脚本测试覆盖成功、失败、清理失败与资源收尾缺失/无效场景，且不使用源码 fallback。",
+    "三语发布/参考文档说明发布后验收包含资源收尾链。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "d6a872c73d2480fc9ee300013f469012b906d3d8",
+  "createdAt": "2026-08-23T03:01:53Z",
+  "goal": "让 post-release adopter 与 N-1 upgrade acceptance 在隔离环境中完成 finalize-plan → finalize → finalize-verify → close，并保留 v0.2.18 的失败事实。",
+  "intent": "修复公开 Release adopter acceptance 漏掉资源收尾链导致 close fail-closed 的缺口，并为下一补丁发布建立可重复验收。",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    "Cargo.toml",
+    "Cargo.lock"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:50b28fa2283f9c440b11831b29ddf969d1d47d208a3f7773f01ef89ba9374fdc",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-166-release-acceptance-finalization",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi166-release-acceptance-finalization"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/release/**",
+    "docs/release/**",
+    "docs/reference/**",
+    ".github/workflows/release.yml"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-166-release-acceptance-finalization"
+}

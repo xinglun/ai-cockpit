@@ -169,6 +169,12 @@ adopter lifecycle in isolated directories, and emits `acceptance.json` and
 `SHA256SUMS`. It must not be replaced with a workspace build or local target
 binary, and a failed acceptance never changes the published Release truth.
 
+The lifecycle portion is intentionally complete: `finalize-plan` precedes
+verification, and archived Work Items must pass `finalize` and
+`finalize-verify` before structured `close`. The fixture uses an explicit
+retained resource receipt so the Runtime's fail-closed resource boundary is
+visible in post-release evidence.
+
 The acceptance receipt also records typed before/after manifests for every
 isolated root. `HOME` and `XDG_CONFIG_HOME` have empty `allowedPrefixes` and
 must remain unchanged; `TMPDIR` and `CARGO_HOME` are the only Runtime-write
