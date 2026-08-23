@@ -1,0 +1,58 @@
+{
+  "actor": "human:owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "post-merge-resource-finalization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "acaa816754d49601db6fae9277642618c96a693d",
+    "name": "codex/wi-159-resource-finalization-runtime",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:d3493a1ffb3ab23a93dccd0e25214eda8baf27fe7f2c524e71532560f60f24bd",
+  "operationId": "operation-WI-159-resource-finalization",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "785112bb2d39dace9826808cb0742b8be845799e",
+    "headRevision": "acaa816754d49601db6fae9277642618c96a693d",
+    "mergeCommit": "2252cd9155e60dc27c0807e82e4036781d778c09",
+    "number": 110,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/110"
+  },
+  "reason": "finalize the merged Work Item branch and dedicated worktree",
+  "receiptId": "receipt-WI-159-resource-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-159-resource-finalization-runtime",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/110",
+    "worktree": "/private/tmp/ai-cockpit-wi159-runtime-finalization"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:58286ad3ab29ccbd0c0673cfe619b9338f7aa3b71b228ccc2043ce583c18c36f",
+  "runtimeVersion": "0.2.17",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-23T02:34:10Z",
+  "workItemId": "WI-159-resource-finalization-runtime",
+  "worktree": {
+    "branch": "codex/wi-159-resource-finalization-runtime",
+    "headRevision": "acaa816754d49601db6fae9277642618c96a693d",
+    "path": "/private/tmp/ai-cockpit-wi159-runtime-finalization",
+    "worktreeId": "wi159-runtime-finalization"
+  }
+}
