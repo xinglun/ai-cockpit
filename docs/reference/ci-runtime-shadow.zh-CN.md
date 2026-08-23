@@ -18,7 +18,7 @@ Runtime，校验 archive 与 binary digest，然后让 `ai-cockpit verify` 对�
 执行验证。receipt 固定记录 tag、version、archive digest、binary digest、platform、
 download source 和 Runtime verify 结果。
 
-当前安装基线可以推进到更新的 Release（当前为 `v0.2.20`），而不改变发布前的 shadow pin。
+当前安装基线可以推进到更新的 Release（当前为 `v0.2.21`），而不改变发布前的 shadow pin。
 只有在该 Release 公开并记录不可变 archive/binary identity 后才推进 pin，避免 tag workflow 依赖尚不存在的 artifact。
 
 现有 Cargo `fmt`、`clippy` 与 package test 步骤仍保留在同一个 job 中，作为独立的

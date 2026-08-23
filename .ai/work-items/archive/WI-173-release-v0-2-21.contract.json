@@ -1,0 +1,57 @@
+{
+  "acceptanceCriteria": [
+    "All workspace package versions and Cargo.lock resolve to 0.2.21.",
+    "Tri-language release, versioning, CI shadow, and installation documentation identify v0.2.21 while preserving historical references.",
+    "All local quality, documentation, release policy, and adopter harness gates pass using the installed v0.2.20 Runtime.",
+    "The source commit is merged and tagged only after CI passes; post-release acceptance remains immutable and external to this pre-release Work Item."
+  ],
+  "authority": "authorized",
+  "baseRevision": "d3743c88933c98eb64c1247e9114b0e53b65e7c6",
+  "createdAt": "2026-08-23T05:02:10Z",
+  "goal": "Prepare v0.2.21 from the clean main baseline, pass all pre-release gates, and hand the exact source/runtime identity to the post-release public adopter acceptance workflow.",
+  "intent": "Publish the next immutable Runtime release after the v0.2.20 public adopter baseline, carrying forward the corrected parity and finalization truth.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime/core semantics and new governance features",
+    "Historical Release truth and existing adopter receipts"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1a14c70d56b181826930c6986f70a05e0b9d6a84d5d7e0a6d468b18b0d7234fb",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-173-release-v0-2-21",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/129",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "risk": "medium",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/reference/ci-runtime-shadow.md",
+    "docs/reference/ci-runtime-shadow.zh-CN.md",
+    "docs/reference/ci-runtime-shadow.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-173-release-v0-2-21"
+}
