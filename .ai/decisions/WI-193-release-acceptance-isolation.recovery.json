@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "lifecycle-recovery-after-finish-state-lock",
+  "decidedAt": "2026-08-23T12:05:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-193-release-acceptance-isolation.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:1780231e6d92ec2e15f1faec89f11c7f3add2191a8617d64c1df79cf231cd09e",
+  "predecessorEventsDigest": "sha256:ff4e023fcde3771eeac57a5d6f1559af62d5e6e82d6bdc579fd38364bccdbcd6",
+  "predecessorOutcomeDigest": "sha256:7ac22ba385ee8c24de38f2b9923dbe0d1d5dc6bc851a55f0a91b5fcdd26df66f",
+  "predecessorSummaryDigest": "sha256:21fd27028083c100aad5fb9b46392ba1d14ea989bc3f0a632052732142d8d1e1",
+  "predecessorWorkItemId": "WI-193-release-acceptance-isolation",
+  "reason": "WI-193 reached finish_ready before its final snapshot-bound evidence refresh; preserve its immutable historical bytes and complete the same release-isolation delivery through a successor Work Item.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete the same bounded release acceptance isolation scope in WI-194 and close WI-193 as recovered without rewriting its historical bytes.",
+  "runtimeDigest": "sha256:da26042b0fef11bdd46fe747d2fe395228706a9729527b97cadf146be78b2167",
+  "runtimeVersion": "0.2.23",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-194-release-acceptance-isolation-recovery",
+  "workItemId": "WI-193-release-acceptance-isolation"
+}

@@ -1,0 +1,25 @@
+{
+  "createdAt": "2026-08-23T11:49:43Z",
+  "files": {
+    "approachDigest": "sha256:2dc46f585456eb9d9b893058cd99d1561fff1dd667ed473b56121d5b2406de77",
+    "approachPath": ".ai/work-items/archive/WI-188-governance-integrity-gate.approach.json",
+    "contractDigest": "sha256:55aa51eae2331c7da30804fe23a4064966398467d085eed447467f5898de99cf",
+    "contractPath": ".ai/work-items/archive/WI-188-governance-integrity-gate.contract.json",
+    "eventsDigest": "sha256:701bcfc3f8bf859056ac2655adfc595326176c8d723331ec65d6b6bb3f364d39",
+    "eventsPath": ".ai/work-items/archive/WI-188-governance-integrity-gate.events.jsonl",
+    "outcomeDigest": "sha256:a2fd10f2d46562be1c4010e560761f037c2fb26ced209d7ecab65f4f6b6b73f1",
+    "outcomePath": ".ai/work-items/archive/WI-188-governance-integrity-gate.outcome.json",
+    "summaryDigest": "sha256:5ed5bca1f1e48c960bbfe2efa9489c6a6280d07e294a0d303731c267b84fcf5d",
+    "summaryPath": ".ai/work-items/archive/WI-188-governance-integrity-gate.summary.json",
+    "taskReportDigest": "sha256:da9a60bfeb81e944330e36a4d60f0038629ce3571aa34a281928b4a73f84d406",
+    "taskReportMarkdownDigest": "sha256:ce0ece5e494cc3c6bd843e7ecc6851966e1aff57912eca27c8b4cc0470cc1ae1",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-188-governance-integrity-gate.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-188-governance-integrity-gate.task-report.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "state": "superseded",
+  "supersededBy": "WI-192-governance-integrity-finalization-order",
+  "supersessionDecisionPath": ".ai/decisions/WI-188-governance-integrity-gate.recovery.d3508ae6becb129888c4091d38d53766831ed4cfde9a7e4c7a69432966d4be9d.json",
+  "workItemId": "WI-188-governance-integrity-gate"
+}

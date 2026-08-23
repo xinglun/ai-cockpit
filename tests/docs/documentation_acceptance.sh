@@ -21,11 +21,35 @@ for path in Path('docs').rglob('*.md'):
     if path.parts[:2] == ('docs', 'superpowers'):
         continue
     text = path.read_text(encoding='utf-8')
+    work_item_match = re.match(
+        r'^WI-(\d+)([A-Za-z]?)(?:-[A-Za-z0-9-]+)?(?:\.(?:zh-CN|ja))?\.md$',
+        path.name,
+    ) if path.parts[:2] == ('docs', 'work-items') else None
+    requires_work_item_frontmatter = bool(
+        work_item_match and int(work_item_match.group(1)) >= 180
+    )
+    if requires_work_item_frontmatter and not text.startswith('---\n'):
+        missing.append(f'{path}: missing required Work Item frontmatter')
     if text.startswith('---\n'):
-        frontmatter = text.split('---\n', 2)[1]
+        frontmatter_parts = text.split('---\n', 2)
+        if len(frontmatter_parts) != 3:
+            missing.append(f'{path}: malformed frontmatter delimiters')
+            continue
+        frontmatter = frontmatter_parts[1]
         for key in ('author:', 'title:', 'description:', 'audience:', 'status:', 'authority:', 'lastVerifiedBy:'):
             if not any(line.startswith(key) for line in frontmatter.splitlines()):
                 missing.append(f'{path}: missing {key}')
+        if requires_work_item_frontmatter:
+            expected_id = re.sub(r'\.(?:zh-CN|ja)\.md$|\.md$', '', path.name)
+            work_item_lines = [
+                line.split(':', 1)[1].strip()
+                for line in frontmatter.splitlines()
+                if line.startswith('workItemId:')
+            ]
+            if work_item_lines != [expected_id]:
+                missing.append(
+                    f'{path}: workItemId must be exactly {expected_id}'
+                )
     for target in re.findall(r'\[[^]]+\]\(([^)]+)\)', text):
         if target.startswith(('http://', 'https://', '#', 'mailto:')):
             continue

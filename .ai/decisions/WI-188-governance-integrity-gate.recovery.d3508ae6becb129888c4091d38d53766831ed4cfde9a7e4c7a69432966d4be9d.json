@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "post-merge-successor-reconciliation",
+  "decidedAt": "2026-08-23T11:40:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-188-governance-integrity-gate.recovery.json",
+    ".ai/work-items/archive/WI-192-governance-integrity-finalization-order.close.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:e5107ceeaa32ac57375f3166cfae8af1b4c244e9af4363c33d136b2a06799130",
+  "predecessorEventsDigest": "sha256:701bcfc3f8bf859056ac2655adfc595326176c8d723331ec65d6b6bb3f364d39",
+  "predecessorOutcomeDigest": "sha256:122134b49b502eb27f3f395deee45966c4c0dc23b5f19be69d74b58ba2c3b85a",
+  "predecessorSummaryDigest": "sha256:11efcd44ba7a35d4d2490567324eb709521a0924312ab157a95ad3e967bebe86",
+  "predecessorWorkItemId": "WI-188-governance-integrity-gate",
+  "reason": "The original WI-188 delivery is preserved as historical evidence and superseded by the verified WI-192 successor after the merged governance gate was reconciled.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Use WI-192 as the authoritative completed successor; do not re-open or rewrite WI-188 historical bytes.",
+  "runtimeDigest": "sha256:da26042b0fef11bdd46fe747d2fe395228706a9729527b97cadf146be78b2167",
+  "runtimeVersion": "0.2.23",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-192-governance-integrity-finalization-order",
+  "workItemId": "WI-188-governance-integrity-gate"
+}

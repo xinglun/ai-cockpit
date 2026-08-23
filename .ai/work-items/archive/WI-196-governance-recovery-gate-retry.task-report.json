@@ -1,0 +1,599 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-196-governance-recovery-gate-retry.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:44788ce5b051f61b720643b7db7b30a4dc5ff6b3c36b584bba244e236ad6d5a0",
+    "workItemId": "WI-196-governance-recovery-gate-retry"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-193-release-acceptance-isolation.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-194-release-acceptance-isolation-recovery.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-195-governance-recovery-gate.recovery.41db4336e4609986f5d7947305702b856c9626d9430dd6bebecf7e772dbd3a17.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-195-governance-recovery-gate.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-193-release-acceptance-isolation.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-194-release-acceptance-isolation-recovery.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-195-governance-recovery-gate.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-196-governance-recovery-gate-retry.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-193-release-acceptance-isolation.archive.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-193-release-acceptance-isolation.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-193-release-acceptance-isolation.events.jsonl"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-193-release-acceptance-isolation.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-193-release-acceptance-isolation.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-193-release-acceptance-isolation.task-report.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-193-release-acceptance-isolation.task-report.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.archive.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.events.jsonl"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.task-report.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.task-report.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-195-governance-recovery-gate.approach.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-195-governance-recovery-gate.archive.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-195-governance-recovery-gate.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-195-governance-recovery-gate.events.jsonl"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-195-governance-recovery-gate.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-195-governance-recovery-gate.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-195-governance-recovery-gate.task-report.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-195-governance-recovery-gate.task-report.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/governance-integrity-gate.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/governance-integrity-gate.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/governance-integrity-gate.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-186-release-v0-2-23-post-release-acceptance.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-186-release-v0-2-23-post-release-acceptance.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-186-release-v0-2-23-post-release-acceptance.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-187-finalization-before-archive.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-187-finalization-before-archive.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-187-finalization-before-archive.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-188-governance-integrity-gate.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-188-governance-integrity-gate.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-188-governance-integrity-gate.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-191-finalization-transition-chain.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-191-finalization-transition-chain.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-191-finalization-transition-chain.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-191H-finalization-head-binding.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-191H-finalization-head-binding.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-191H-finalization-head-binding.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-193-release-acceptance-isolation.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-193-release-acceptance-isolation.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-193-release-acceptance-isolation.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-194-release-acceptance-isolation-recovery.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-194-release-acceptance-isolation-recovery.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-194-release-acceptance-isolation-recovery.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-195-governance-recovery-gate.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-195-governance-recovery-gate.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-195-governance-recovery-gate.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/ci/fixtures/governance-integrity/build_fixture.py"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/ci/fixtures/governance-integrity/invalid-recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/ci/fixtures/governance-integrity/superseded-recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/ci/governance_integrity_gate.py"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/ci/governance_integrity_gate_test.sh"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/docs/documentation_acceptance.sh"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/release/adopter_acceptance.sh"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/release/adopter_acceptance_test.sh"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/release/adopter_upgrade_acceptance.sh"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/release/adopter_upgrade_acceptance_test.sh"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/release/isolation_manifest.sh"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/release/isolation_manifest_test.sh"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-196-governance-recovery-gate-retry.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-196-governance-recovery-gate-retry.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-196-governance-recovery-gate-retry.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-196-governance-recovery-gate-retry.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-196-governance-recovery-gate-retry.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.contract.json"
+        ],
+        "inference": false,
+        "text": "Produce fresh checkpoint-bound evidence for the same bounded delivery and complete the reviewed PR lifecycle."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-196-governance-recovery-gate-retry"
+}

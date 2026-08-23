@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-23T13:08:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-196-governance-recovery-gate-retry.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:e0ee90acaa9a49d208950ef4a040151b8662e63f1c4806080accbe4eab468ab5",
+  "predecessorEventsDigest": "sha256:f0332845025d25162b42d77e3cc3c44112df0ea89a85b989bb87c8d06cfe8eec",
+  "predecessorOutcomeDigest": "sha256:98a44fac7b0a4b0fe483cb5e5008ebf22886d796d14a6fca8b7e9e454247bdaa",
+  "predecessorSummaryDigest": "sha256:82c5a73939e638abeaa0b08ed629adff02c37c0c7d20c083872a1eb636c2c304",
+  "predecessorWorkItemId": "WI-196-governance-recovery-gate-retry",
+  "reason": "The hosted quality gate found that the current parity row lacks the immutable verification and pre-merge finalization bindings required for terminal governance. WI-196 is already archived with immutable valid evidence; the correction must be recorded and reverified from a fresh checkpoint.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-197 from a fresh checkpoint, bind the actual reviewed PR resource context, and produce a terminally auditable parity row before merge and close.",
+  "runtimeDigest": "sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+  "runtimeVersion": "0.2.23",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-197-governance-gate-pr-closure",
+  "workItemId": "WI-196-governance-recovery-gate-retry"
+}

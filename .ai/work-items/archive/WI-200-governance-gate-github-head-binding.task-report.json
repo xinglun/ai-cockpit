@@ -1,0 +1,340 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-200-governance-gate-github-head-binding.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:4baba1ab0a318b47cc4fe2795cee1dcd8029167d88ff74f9b01c3ec0c399f49d",
+    "workItemId": "WI-200-governance-gate-github-head-binding"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-197-governance-gate-pr-closure.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-198-governance-gate-default-branch-discovery.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-199-governance-gate-actual-pr-context.finalize.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-199-governance-gate-actual-pr-context.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-198-governance-gate-default-branch-discovery.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-199-governance-gate-actual-pr-context.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-200-governance-gate-github-head-binding.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.archive.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.events.jsonl"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.task-report.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.task-report.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-199-governance-gate-actual-pr-context.archive.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-199-governance-gate-actual-pr-context.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-199-governance-gate-actual-pr-context.events.jsonl"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-199-governance-gate-actual-pr-context.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-199-governance-gate-actual-pr-context.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-199-governance-gate-actual-pr-context.task-report.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-199-governance-gate-actual-pr-context.task-report.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/governance-integrity-gate.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/governance-integrity-gate.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/governance-integrity-gate.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-198-governance-gate-default-branch-discovery.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-198-governance-gate-default-branch-discovery.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-198-governance-gate-default-branch-discovery.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-199-governance-gate-actual-pr-context.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-199-governance-gate-actual-pr-context.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-199-governance-gate-actual-pr-context.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/ci/governance_integrity_gate.py"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/ci/governance_integrity_gate_test.sh"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-200-governance-gate-github-head-binding.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-200-governance-gate-github-head-binding.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-200-governance-gate-github-head-binding.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-200-governance-gate-github-head-binding.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-200-governance-gate-github-head-binding.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.contract.json"
+        ],
+        "inference": false,
+        "text": "在合并前把治理质量门交付绑定到 GitHub 确认的 PR head ref 和 SHA。"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-200-governance-gate-github-head-binding"
+}

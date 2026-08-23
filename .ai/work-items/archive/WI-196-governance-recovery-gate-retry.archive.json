@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-23T12:59:56Z",
+  "files": {
+    "contractDigest": "sha256:ef4ce5c00b27c2e4a31fb677cdc80e4379c4fda5b5a97c67f7e586c3ca7167dc",
+    "contractPath": ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.contract.json",
+    "eventsDigest": "sha256:f0332845025d25162b42d77e3cc3c44112df0ea89a85b989bb87c8d06cfe8eec",
+    "eventsPath": ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.events.jsonl",
+    "outcomeDigest": "sha256:70004669ce5b11d2298c42c4851dceb4672c5260d12e808093f29ce18e865ba8",
+    "outcomePath": ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.outcome.json",
+    "summaryDigest": "sha256:cd5b5db6210de66fe99d59cc09a0da51e3b11ad76202d160717acbfd65a8aed5",
+    "summaryPath": ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json",
+    "taskReportDigest": "sha256:219a84ee9c549558b365d16ef0eeda7e66f9188cd8d42df28968cc07f104620f",
+    "taskReportMarkdownDigest": "sha256:9ff398e216656625c707ed1fbfdfdd6f6dc9a94342aeed727084a342f3663c24",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-196-governance-recovery-gate-retry"
+}

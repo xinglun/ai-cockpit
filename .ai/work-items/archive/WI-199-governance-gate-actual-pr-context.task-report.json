@@ -1,0 +1,249 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-199-governance-gate-actual-pr-context.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:9021a5c9a56ad04dab3862b8890763af5c3e8ec1a465b9429140ef54409f582c",
+    "workItemId": "WI-199-governance-gate-actual-pr-context"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-197-governance-gate-pr-closure.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-198-governance-gate-default-branch-discovery.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-198-governance-gate-default-branch-discovery.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-199-governance-gate-actual-pr-context.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-199-governance-gate-actual-pr-context.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.archive.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.events.jsonl"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.task-report.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.task-report.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/governance-integrity-gate.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/governance-integrity-gate.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/governance-integrity-gate.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-198-governance-gate-default-branch-discovery.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-198-governance-gate-default-branch-discovery.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-198-governance-gate-default-branch-discovery.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/ci/governance_integrity_gate.py"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/ci/governance_integrity_gate_test.sh"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-199-governance-gate-actual-pr-context.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-199-governance-gate-actual-pr-context.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-199-governance-gate-actual-pr-context.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-199-governance-gate-actual-pr-context.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-199-governance-gate-actual-pr-context.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.contract.json"
+        ],
+        "inference": false,
+        "text": "记录实际审阅 PR 的 resource context，并为 detached checkout 质量门修正建立严格的 pre-merge finalization。"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-199-governance-gate-actual-pr-context.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-199-governance-gate-actual-pr-context"
+}

@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-23T13:53:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-199-governance-gate-actual-pr-context.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:c2c52e1e737644bc9268113d366ee36f81267c2267b9f785dd797fd0d449f2fc",
+  "predecessorEventsDigest": "sha256:ca73a03b389730ccf6410a709e500eaccd22ddbbeea6bc622d220f8d44fb607b",
+  "predecessorOutcomeDigest": "sha256:5333985b11069a1dbdde890ae0e649d11050a1acf402ca605e633774b29e8831",
+  "predecessorSummaryDigest": "sha256:aa67788bcc0ee8c25f4e905ef0edd2b7a90ff61d93c25b9dce368356ecb4e098",
+  "predecessorWorkItemId": "WI-199-governance-gate-actual-pr-context",
+  "reason": "Post-archive self-check against GitHub PR #153 found that the predecessor used the wrong branch spelling. The immutable gate fix and finalization record must be preserved, while a successor binds the actual PR head ref codex/wi-196-governance-recovery-gate-retry.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-200 with the GitHub-confirmed PR #153 head ref and head SHA 225e5625f58ad1da4effe6070a9bf2b17994d078, then rerun hosted CI before merge.",
+  "runtimeDigest": "sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+  "runtimeVersion": "0.2.23",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-200-governance-gate-github-head-binding",
+  "workItemId": "WI-199-governance-gate-actual-pr-context"
+}

@@ -1,0 +1,332 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-190-finalization-plan-order.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7d80d5cc76b5e09200bad363667632fce8850b8b3f526d03049baba6f7b7f782",
+      "workItemId": "WI-190-finalization-plan-order"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-186-release-v0-2-23-post-release-acceptance.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-187-finalization-before-archive.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-187-finalization-before-archive.recovery.a72ac926f908295f40f9ca40986542c3a404d40893fc749140c764681bdaa6c6.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-187-finalization-before-archive.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-187-finalization-before-archive.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-187-finalization-before-archive.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-187-finalization-before-archive.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-187-finalization-before-archive.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-187-finalization-before-archive.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-187-finalization-before-archive.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-187-finalization-before-archive.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-187-finalization-before-archive.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-187-finalization-before-archive.task-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-190-finalization-plan-order.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/knowledge.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/lifecycle.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/verify.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-mcp/tests/rpc.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/tests/resource_finalization.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/archive_integrity.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/evidence_assurance.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/knowledge_cache.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/outcome_report.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/status_projection.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-187-finalization-before-archive.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-187-finalization-before-archive.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-187-finalization-before-archive.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-190-finalization-plan-order.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-190-finalization-plan-order.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-190-finalization-plan-order.finalize.a386f4a1e42ed2fc1e63edc6d96d6d21439d593489117cab032b8829354fc932.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via post-merge-provider-evidence at 2026-08-23T11:58:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-190-finalization-plan-order.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-190-finalization-plan-order.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-190-finalization-plan-order.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.contract.json"
+          ],
+          "inference": false,
+          "text": "先绑定非 provisional finalize-plan，再验证 finish/archive guard、三语文档与不可变前驱恢复，完成完整 lifecycle"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-190-finalization-plan-order.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-190-finalization-plan-order"
+  },
+  "finalReportDigest": "sha256:0905c715b974b5d261d87b04b7dfec319c9d4167b62091753d5b140987d60fb3",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:2c289572e2d61968dd2b14a200e0ab4620b22c76fb1c33aa2aaeba955bfdd67a",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-190-finalization-plan-order.finalize.a386f4a1e42ed2fc1e63edc6d96d6d21439d593489117cab032b8829354fc932.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "post-merge-provider-evidence",
+    "decidedAt": "2026-08-23T11:58:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/decisions/WI-190-finalization-plan-order.finalize.a386f4a1e42ed2fc1e63edc6d96d6d21439d593489117cab032b8829354fc932.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md"
+    ],
+    "reason": "PR #150 merged and the finalization transition chain verified exact branch and worktree cleanup.",
+    "resumeCondition": "No further action; preserve the append-only finalization history."
+  },
+  "timestamp": "2026-08-23T11:54:15Z",
+  "workItemId": "WI-190-finalization-plan-order"
+}

@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-23T00:10:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-195-governance-recovery-gate.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:d43d2d4e137a0f86e1bbbc9d2b77fecd3b86d0dd81326d4771826339f2b65ccd",
+  "predecessorEventsDigest": "sha256:8ab3d0a3d1bbbbac7051a90c5db19c7ba3eec49fc2b96d8f96c4d1fcec5bc78d",
+  "predecessorOutcomeDigest": "sha256:0c9881d75a07f6779e9951cde74b5f2600ffc4cbf408639f1431dc9b2045737c",
+  "predecessorSummaryDigest": "sha256:b97fe8794737773ad8db2e974c4f6ccd641c0bff6e4e4782282ec5f44397df8e",
+  "predecessorWorkItemId": "WI-195-governance-recovery-gate",
+  "reason": "A post-finish self-check found an in-scope parity-state correction after WI-195 evidence was recorded. The immutable finish-ready delivery must be preserved and the same bounded scope reverified from a fresh checkpoint.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-196 from a fresh checkpoint, then archive and close WI-195 as recovered without rewriting its historical bytes.",
+  "runtimeDigest": "sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+  "runtimeVersion": "0.2.23",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-196-governance-recovery-gate-retry",
+  "workItemId": "WI-195-governance-recovery-gate"
+}

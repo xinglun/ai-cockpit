@@ -51,6 +51,7 @@ jobs:
           done < <(find docs/work-items -maxdepth 1 -name 'WI-*.md' ! -name '*.zh-CN.md' ! -name '*.ja.md' | sort)
       - name: upload deterministic gate receipts
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        if: always()
         with:
           name: repository-gate-receipts
           path: |

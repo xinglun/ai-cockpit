@@ -1,0 +1,138 @@
+{
+  "acceptanceCriteria": [
+    "A1: A valid recovery decision for a superseded predecessor is accepted without requiring the predecessor Outcome to be green.",
+    "A2: Recovery identity binding remains strict and reports recovered history, never green completion.",
+    "A3: Malformed, foreign, or missing recovery remains fail-closed.",
+    "A4: Existing current, historical, pre-merge, and invalid-outcome fixtures remain unchanged.",
+    "A5: The report is deterministic and the recovery exception is documented in all three languages.",
+    "A6: Release acceptance cleanup and source identity receipts are checked and no temporary run root remains on success or ordinary failure."
+  ],
+  "authority": "authorized",
+  "baseRevision": "cfe7060a580a9a2f6af742261cc6648170984e5e",
+  "createdAt": "2026-08-23T12:51:17Z",
+  "goal": "Produce fresh checkpoint-bound evidence for the same bounded delivery and complete the reviewed PR lifecycle.",
+  "intent": "Reverify the current-batch governance recovery gate and release acceptance isolation after an in-scope post-finish parity correction.",
+  "mode": "code",
+  "outOfScope": [
+    "src/**",
+    "crates/**",
+    "target/**"
+  ],
+  "predecessorContractDigest": "sha256:d43d2d4e137a0f86e1bbbc9d2b77fecd3b86d0dd81326d4771826339f2b65ccd",
+  "predecessorWorkItemId": "WI-195-governance-recovery-gate",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-195-governance-recovery-gate.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4a929b1544bfbda35619362892033c95963ce5c38f705c1f143ce8238cb19eb7",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-196-governance-recovery-gate-retry",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/155",
+    "worktree": "/private/tmp/ai-cockpit-wi195-governance-recovery-gate"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "expected": "A valid recovery decision for a superseded predecessor is accepted without treating recovered history as green.",
+      "required": true,
+      "scenario": "recovery-aware governance gate",
+      "status": "unverified",
+      "verificationPlan": "Run governance_integrity_gate_test.sh and inspect the deterministic report."
+    },
+    {
+      "evidence": [
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "expected": "The tri-language recovery exception and current Work Item status pass documentation acceptance.",
+      "required": true,
+      "scenario": "documentation and parity acceptance",
+      "status": "unverified",
+      "verificationPlan": "Run documentation_acceptance.sh."
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance_test.sh",
+        "tests/release/adopter_upgrade_acceptance_test.sh"
+      ],
+      "expected": "Adopter and upgrade harnesses bind source identity and clean their exact temporary run roots on success and ordinary failure.",
+      "required": true,
+      "scenario": "release acceptance cleanup and source identity",
+      "status": "unverified",
+      "verificationPlan": "Run both release wrapper tests and isolation manifest tests."
+    }
+  ],
+  "scope": [
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "tests/ci/fixtures/governance-integrity/build_fixture.py",
+    "tests/ci/fixtures/governance-integrity/*.json",
+    "tests/ci/fixtures/governance-integrity/**",
+    "tests/ci/release_gate_policy_test.sh",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_acceptance_test.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh",
+    "tests/release/isolation_manifest.sh",
+    "tests/release/isolation_manifest_test.sh",
+    "docs/reference/governance-integrity-gate.md",
+    "docs/reference/governance-integrity-gate.zh-CN.md",
+    "docs/reference/governance-integrity-gate.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/work-items/WI-193-release-acceptance-isolation.md",
+    "docs/work-items/WI-193-release-acceptance-isolation.zh-CN.md",
+    "docs/work-items/WI-193-release-acceptance-isolation.ja.md",
+    "docs/work-items/WI-194-release-acceptance-isolation-recovery.md",
+    "docs/work-items/WI-194-release-acceptance-isolation-recovery.zh-CN.md",
+    "docs/work-items/WI-194-release-acceptance-isolation-recovery.ja.md",
+    "docs/work-items/WI-195-governance-recovery-gate.md",
+    "docs/work-items/WI-195-governance-recovery-gate.zh-CN.md",
+    "docs/work-items/WI-195-governance-recovery-gate.ja.md",
+    "docs/work-items/**",
+    "docs/work-items/WI-186-release-v0-2-23-post-release-acceptance*.md",
+    "docs/work-items/WI-187-finalization-before-archive*.md",
+    "docs/work-items/WI-188-governance-integrity-gate*.md",
+    "docs/work-items/WI-191-finalization-transition-chain*.md",
+    "docs/work-items/WI-191H-finalization-head-binding*.md",
+    ".ai/decisions/WI-188-governance-integrity-gate.close.json",
+    ".ai/decisions/WI-190-finalization-plan-order.close.json",
+    ".ai/decisions/WI-193-release-acceptance-isolation.recovery.json",
+    ".ai/decisions/WI-194-release-acceptance-isolation-recovery.recovery.json",
+    ".ai/work-items/active/WI-195-governance-recovery-gate.approach.json",
+    ".ai/evidence/WI-193-release-acceptance-isolation.verification.json",
+    ".ai/evidence/WI-194-release-acceptance-isolation-recovery.verification.json",
+    ".ai/work-items/archive/WI-193-release-acceptance-isolation/**",
+    ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery/**",
+    ".ai/work-items/archive/WI-188-governance-integrity-gate/**",
+    ".ai/work-items/archive/WI-190-finalization-plan-order/**",
+    ".ai/work-items/archive/**",
+    ".ai/evidence/**",
+    ".ai/decisions/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "tests/ci/governance_integrity_gate_test.sh",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report /tmp/governance-integrity-report.json",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/ci/release_gate_policy_test.sh",
+    "tests/release/isolation_manifest_test.sh",
+    "tests/release/adopter_acceptance_test.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh"
+  ],
+  "workItemId": "WI-196-governance-recovery-gate-retry"
+}

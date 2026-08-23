@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-23T13:44:43Z",
+  "files": {
+    "contractDigest": "sha256:d291a59d704479ff5fa50806b1bf1dc057f0f81230db9495785eb87c564a93e7",
+    "contractPath": ".ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.contract.json",
+    "eventsDigest": "sha256:f70763e76a8968666158c0d0305caeb884e27191041da40322006e6b7cde9bf7",
+    "eventsPath": ".ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.events.jsonl",
+    "outcomeDigest": "sha256:59b08ab93c9fbc4d25e2fc078f157a2a14f6c7f9a0279706022774a8656563da",
+    "outcomePath": ".ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.outcome.json",
+    "summaryDigest": "sha256:cf35e9b83eb3643292581681988fd1b401523d44100790c76e9f47bbdfbb97b5",
+    "summaryPath": ".ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.summary.json",
+    "taskReportDigest": "sha256:2b4c09eb0cb9e233dfdcfe2d9f25f6dbea2fb4a5a66a3be01a765437760c1701",
+    "taskReportMarkdownDigest": "sha256:b8401e3b9abba75121fb70f43333a9e492bce971538a9033000b1bd33217adef",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-198-governance-gate-default-branch-discovery"
+}

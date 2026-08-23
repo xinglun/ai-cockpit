@@ -5,6 +5,7 @@ description: "A dynamic fail-closed inventory for current Work Item, evidence, d
 audience:
   - maintainer
   - reviewer
+workItemId: WI-188-governance-integrity-gate
 status: current
 authority: canonical
 lastVerifiedBy: WI-188-governance-integrity-gate

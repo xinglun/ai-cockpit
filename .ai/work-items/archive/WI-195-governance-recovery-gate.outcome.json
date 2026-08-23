@@ -1,0 +1,143 @@
+{
+  "acceptanceResults": [
+    "A1: A valid recovery decision for a superseded predecessor is accepted by the dynamic governance gate without requiring the predecessor Outcome to be green.",
+    "A2: The gate still requires a valid recovery decision binding predecessor and successor Work Item identities, and reports the predecessor as recovered rather than completed.",
+    "A3: A malformed, foreign, or missing recovery decision remains fail-closed.",
+    "A4: Existing current, historical, pre-merge, and invalid-outcome fixtures remain behaviorally unchanged.",
+    "A5: The gate report is deterministic and documents the recovery exception in all three reader-facing parity records.",
+    "A6: The merged governance receipt reconciliation needed for the current gate baseline is retained without rewriting historical Work Item bytes."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-195-governance-recovery-gate.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-195-governance-recovery-gate.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4a929b1544bfbda35619362892033c95963ce5c38f705c1f143ce8238cb19eb7",
+      "workItemId": "WI-195-governance-recovery-gate"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-195-governance-recovery-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-195-governance-recovery-gate.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-195-governance-recovery-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-195-governance-recovery-gate.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-195-governance-recovery-gate.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-195-governance-recovery-gate.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-195-governance-recovery-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-195-governance-recovery-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-195-governance-recovery-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-195-governance-recovery-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "Make recovery-aware governance inventory fail closed without treating a valid superseded predecessor as a green completed Work Item."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-195-governance-recovery-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-195-governance-recovery-gate"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-195-governance-recovery-gate.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-195-governance-recovery-gate"
+}

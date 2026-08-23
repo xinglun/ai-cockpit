@@ -1,0 +1,90 @@
+{
+  "acceptanceCriteria": [
+    "A1: The Contract resourceContext binds the actual PR branch codex/wi-196-governance-gate-retry, PR #153, provider github, origin, and this worktree.",
+    "A2: The default-branch fallback regression and full governance gate remain passing without changing the root identity checks introduced by WI-198.",
+    "A3: A pre-merge finalization receipt records the actual branch/head and exact Contract/evidence/runtime/repository bindings and remains awaiting merge rather than claiming completion.",
+    "A4: WI-198 remains immutable and is linked through a valid recovery receipt; tri-language parity and documentation acceptance bind WI-199."
+  ],
+  "authority": "authorized",
+  "baseRevision": "225e5625f58ad1da4effe6070a9bf2b17994d078",
+  "createdAt": "2026-08-23T13:45:11Z",
+  "goal": "记录实际审阅 PR 的 resource context，并为 detached checkout 质量门修正建立严格的 pre-merge finalization。",
+  "intent": "修复分支改名后遗留的 stale PR resource context，保留 WI-198 不可变历史，并在合并前记录可审计的 hosted PR governance 绑定。",
+  "mode": "code",
+  "outOfScope": [
+    "src/**",
+    "crates/**",
+    "target/**",
+    "release publication or installer changes"
+  ],
+  "predecessorContractDigest": "sha256:1770c4d41bcd8226f82e02b1c832c2b4ebf4361f74955119c81cff5b7d408736",
+  "predecessorWorkItemId": "WI-198-governance-gate-default-branch-discovery",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-198-governance-gate-default-branch-discovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a21bd2b7a59588fc0b9cb39525e9fcbabe2b13c535f5a1faf20b1ef44c307220",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-196-governance-gate-retry",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/153",
+    "worktree": "/private/tmp/ai-cockpit-wi195-governance-recovery-gate"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate.py",
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "expected": "The WI-198 detached-checkout fallback and mismatch regression remains passing under the actual PR resource context.",
+      "required": true,
+      "scenario": "governance gate regression under actual PR context",
+      "status": "unverified",
+      "verificationPlan": "Run the full governance integrity fixture matrix and dynamic gate."
+    },
+    {
+      "evidence": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md"
+      ],
+      "expected": "Tri-language parity and documentation acceptance bind WI-199 and its finalization evidence.",
+      "required": true,
+      "scenario": "tri-language parity and finalization binding",
+      "status": "unverified",
+      "verificationPlan": "Run documentation acceptance and inspect all three parity rows."
+    }
+  ],
+  "scope": [
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "tests/ci/fixtures/governance-integrity/**",
+    "docs/reference/governance-integrity-gate.md",
+    "docs/reference/governance-integrity-gate.zh-CN.md",
+    "docs/reference/governance-integrity-gate.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-199-governance-gate-actual-pr-context.md",
+    "docs/work-items/WI-199-governance-gate-actual-pr-context.zh-CN.md",
+    "docs/work-items/WI-199-governance-gate-actual-pr-context.ja.md",
+    "docs/work-items/WI-198-governance-gate-default-branch-discovery.md",
+    "docs/work-items/WI-198-governance-gate-default-branch-discovery.zh-CN.md",
+    "docs/work-items/WI-198-governance-gate-default-branch-discovery.ja.md",
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/archive/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-199-governance-gate-actual-pr-context"
+}

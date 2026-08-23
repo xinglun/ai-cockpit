@@ -1,0 +1,214 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "recovery-aware inventory",
+          "path": "/tmp/wi196-gate-a.json",
+          "type": "report",
+          "verification": "governance_integrity_gate.py"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "recovery fixture regression",
+          "path": "tests/ci/governance_integrity_gate_test.sh",
+          "type": "test",
+          "verification": "governance integrity gate regression"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "malformed and foreign recovery",
+          "path": "tests/ci/governance_integrity_gate_test.sh",
+          "type": "test",
+          "verification": "fail-closed fixture assertions"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "current and historical regression",
+          "path": "tests/ci/governance_integrity_gate_test.sh",
+          "type": "test",
+          "verification": "legacy classifications preserved"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "deterministic tri-language acceptance",
+          "path": "tests/docs/documentation_acceptance.sh",
+          "type": "test",
+          "verification": "documentation acceptance passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "release cleanup and source identity",
+          "path": "tests/release/adopter_acceptance_test.sh",
+          "type": "test",
+          "verification": "adopter acceptance harness checks passed"
+        },
+        {
+          "locator": "upgrade cleanup",
+          "path": "tests/release/adopter_upgrade_acceptance_test.sh",
+          "type": "test",
+          "verification": "adopter upgrade acceptance static checks passed"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-193-release-acceptance-isolation.recovery.json",
+    ".ai/decisions/WI-194-release-acceptance-isolation-recovery.recovery.json",
+    ".ai/decisions/WI-195-governance-recovery-gate.recovery.41db4336e4609986f5d7947305702b856c9626d9430dd6bebecf7e772dbd3a17.json",
+    ".ai/decisions/WI-195-governance-recovery-gate.recovery.json",
+    ".ai/evidence/WI-193-release-acceptance-isolation.verification.json",
+    ".ai/evidence/WI-194-release-acceptance-isolation-recovery.verification.json",
+    ".ai/evidence/WI-195-governance-recovery-gate.verification.json",
+    ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.contract.json",
+    ".ai/work-items/archive/WI-196-governance-recovery-gate-retry.summary.json",
+    ".ai/work-items/archive/WI-193-release-acceptance-isolation.archive.json",
+    ".ai/work-items/archive/WI-193-release-acceptance-isolation.contract.json",
+    ".ai/work-items/archive/WI-193-release-acceptance-isolation.events.jsonl",
+    ".ai/work-items/archive/WI-193-release-acceptance-isolation.outcome.json",
+    ".ai/work-items/archive/WI-193-release-acceptance-isolation.summary.json",
+    ".ai/work-items/archive/WI-193-release-acceptance-isolation.task-report.json",
+    ".ai/work-items/archive/WI-193-release-acceptance-isolation.task-report.md",
+    ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.archive.json",
+    ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.contract.json",
+    ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.events.jsonl",
+    ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.outcome.json",
+    ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.summary.json",
+    ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.task-report.json",
+    ".ai/work-items/archive/WI-194-release-acceptance-isolation-recovery.task-report.md",
+    ".ai/work-items/archive/WI-195-governance-recovery-gate.approach.json",
+    ".ai/work-items/archive/WI-195-governance-recovery-gate.archive.json",
+    ".ai/work-items/archive/WI-195-governance-recovery-gate.contract.json",
+    ".ai/work-items/archive/WI-195-governance-recovery-gate.events.jsonl",
+    ".ai/work-items/archive/WI-195-governance-recovery-gate.outcome.json",
+    ".ai/work-items/archive/WI-195-governance-recovery-gate.summary.json",
+    ".ai/work-items/archive/WI-195-governance-recovery-gate.task-report.json",
+    ".ai/work-items/archive/WI-195-governance-recovery-gate.task-report.md",
+    "docs/reference/governance-integrity-gate.ja.md",
+    "docs/reference/governance-integrity-gate.md",
+    "docs/reference/governance-integrity-gate.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-186-release-v0-2-23-post-release-acceptance.ja.md",
+    "docs/work-items/WI-186-release-v0-2-23-post-release-acceptance.md",
+    "docs/work-items/WI-186-release-v0-2-23-post-release-acceptance.zh-CN.md",
+    "docs/work-items/WI-187-finalization-before-archive.ja.md",
+    "docs/work-items/WI-187-finalization-before-archive.md",
+    "docs/work-items/WI-187-finalization-before-archive.zh-CN.md",
+    "docs/work-items/WI-188-governance-integrity-gate.ja.md",
+    "docs/work-items/WI-188-governance-integrity-gate.md",
+    "docs/work-items/WI-188-governance-integrity-gate.zh-CN.md",
+    "docs/work-items/WI-191-finalization-transition-chain.ja.md",
+    "docs/work-items/WI-191-finalization-transition-chain.md",
+    "docs/work-items/WI-191-finalization-transition-chain.zh-CN.md",
+    "docs/work-items/WI-191H-finalization-head-binding.ja.md",
+    "docs/work-items/WI-191H-finalization-head-binding.md",
+    "docs/work-items/WI-191H-finalization-head-binding.zh-CN.md",
+    "docs/work-items/WI-193-release-acceptance-isolation.ja.md",
+    "docs/work-items/WI-193-release-acceptance-isolation.md",
+    "docs/work-items/WI-193-release-acceptance-isolation.zh-CN.md",
+    "docs/work-items/WI-194-release-acceptance-isolation-recovery.ja.md",
+    "docs/work-items/WI-194-release-acceptance-isolation-recovery.md",
+    "docs/work-items/WI-194-release-acceptance-isolation-recovery.zh-CN.md",
+    "docs/work-items/WI-195-governance-recovery-gate.ja.md",
+    "docs/work-items/WI-195-governance-recovery-gate.md",
+    "docs/work-items/WI-195-governance-recovery-gate.zh-CN.md",
+    "tests/ci/fixtures/governance-integrity/build_fixture.py",
+    "tests/ci/fixtures/governance-integrity/invalid-recovery.json",
+    "tests/ci/fixtures/governance-integrity/superseded-recovery.json",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_acceptance_test.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh",
+    "tests/release/isolation_manifest.sh",
+    "tests/release/isolation_manifest_test.sh"
+  ],
+  "checkpointAt": "2026-08-23T12:59:13Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T12:51:17Z",
+  "intentAlignment": {
+    "evidence": [
+      "tests/ci/governance_integrity_gate.py",
+      "tests/release/adopter_acceptance.sh",
+      "tests/release/adopter_upgrade_acceptance.sh",
+      "docs/reference/governance-integrity-gate.md"
+    ],
+    "reason": "The retry re-establishes a fresh checkpoint-bound proof for the current-batch governance and release acceptance fixes after the predecessor's immutable post-finish correction.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "predecessorContractDigest": "sha256:d43d2d4e137a0f86e1bbbc9d2b77fecd3b86d0dd81326d4771826339f2b65ccd",
+  "predecessorWorkItemId": "WI-195-governance-recovery-gate",
+  "preflightAt": "2026-08-23T12:59:32Z",
+  "preflightContractDigest": "sha256:e0ee90acaa9a49d208950ef4a040151b8662e63f1c4806080accbe4eab468ab5",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:44788ce5b051f61b720643b7db7b30a4dc5ff6b3c36b584bba244e236ad6d5a0",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-195-governance-recovery-gate.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh",
+        "/tmp/wi196-gate-a.json"
+      ],
+      "expected": "A valid recovery decision for a superseded predecessor is accepted without treating recovered history as green.",
+      "required": true,
+      "scenario": "recovery-aware governance gate",
+      "status": "verified",
+      "verificationPlan": "Run governance_integrity_gate_test.sh and inspect the deterministic report."
+    },
+    {
+      "evidence": [
+        "tests/docs/documentation_acceptance.sh",
+        "docs/reference/governance-integrity-gate.md"
+      ],
+      "expected": "The tri-language recovery exception and current Work Item status pass documentation acceptance.",
+      "required": true,
+      "scenario": "documentation and parity acceptance",
+      "status": "verified",
+      "verificationPlan": "Run documentation_acceptance.sh."
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance_test.sh",
+        "tests/release/adopter_upgrade_acceptance_test.sh",
+        "tests/release/isolation_manifest_test.sh"
+      ],
+      "expected": "Adopter and upgrade harnesses bind source identity and clean their exact temporary run roots on success and ordinary failure.",
+      "required": true,
+      "scenario": "release acceptance cleanup and source identity",
+      "status": "verified",
+      "verificationPlan": "Run both release wrapper tests and isolation manifest tests."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T12:59:36Z",
+  "workItemId": "WI-196-governance-recovery-gate-retry"
+}

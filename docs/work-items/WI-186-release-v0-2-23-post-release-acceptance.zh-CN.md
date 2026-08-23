@@ -1,6 +1,7 @@
 ---
 author: AI Cockpit maintainers
 title: "WI-186——v0.2.23 发布后公开 adopter 验收"
+workItemId: WI-186-release-v0-2-23-post-release-acceptance
 description: "记录不可变的 v0.2.23 公开 Runtime 能否从零治理 adopter 与 N-1 升级。"
 audience:
   - maintainer

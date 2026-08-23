@@ -1,0 +1,111 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "parity evidence binding",
+          "path": "tests/ci/governance_integrity_gate.py",
+          "type": "test",
+          "verification": "gate report has no WI-197 findings"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "reviewed PR resource context",
+          "path": ".ai/work-items/active/WI-197-governance-gate-pr-closure.contract.json",
+          "type": "governance",
+          "verification": "branch and PR #153 are explicit"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "tri-language acceptance",
+          "path": "tests/docs/documentation_acceptance.sh",
+          "type": "test",
+          "verification": "documentation acceptance passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "successor recovery binding",
+          "path": ".ai/decisions/WI-196-governance-recovery-gate-retry.recovery.json",
+          "type": "governance-receipt",
+          "verification": "immutable predecessor linked"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-196-governance-recovery-gate-retry.recovery.json",
+    ".ai/work-items/archive/WI-197-governance-gate-pr-closure.contract.json",
+    ".ai/work-items/archive/WI-197-governance-gate-pr-closure.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-197-governance-gate-pr-closure.ja.md",
+    "docs/work-items/WI-197-governance-gate-pr-closure.md",
+    "docs/work-items/WI-197-governance-gate-pr-closure.zh-CN.md"
+  ],
+  "checkpointAt": "2026-08-23T13:08:52Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T13:06:38Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "tests/ci/governance_integrity_gate.py",
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "The successor records the hosted-quality correction as a fresh, repository-bound governance proof while preserving WI-196 immutable history.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:e0ee90acaa9a49d208950ef4a040151b8662e63f1c4806080accbe4eab468ab5",
+  "predecessorWorkItemId": "WI-196-governance-recovery-gate-retry",
+  "preflightAt": "2026-08-23T13:09:49Z",
+  "preflightContractDigest": "sha256:f0d1111c633999a357c49b8e277152b4192e32e832ed0d63cc6e1645725bb5fe",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:f7ce02c795b49cc2c64ad7f845c3c7d342130c72f7373e51fd2c84c0170ed2c1",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryDecisionPath": ".ai/decisions/WI-196-governance-recovery-gate-retry.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate.py",
+        ".ai/evidence/WI-197-governance-gate-pr-closure.verification.json"
+      ],
+      "expected": "The current parity row contains the verification evidence path and the pre-merge finalization path.",
+      "required": true,
+      "scenario": "parity evidence and decision binding",
+      "status": "verified",
+      "verificationPlan": "Run the dynamic governance integrity gate and inspect WI-197 findings."
+    },
+    {
+      "evidence": [
+        "tests/docs/documentation_acceptance.sh",
+        ".ai/evidence/WI-197-governance-gate-pr-closure.verification.json"
+      ],
+      "expected": "All three parity documents and the Work Item counterparts pass documentation acceptance.",
+      "required": true,
+      "scenario": "tri-language documentation acceptance",
+      "status": "verified",
+      "verificationPlan": "Run documentation_acceptance.sh."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T13:09:53Z",
+  "workItemId": "WI-197-governance-gate-pr-closure"
+}

@@ -1,0 +1,192 @@
+{
+  "acceptanceResults": [
+    "A1: Every current parity row binds its immutable verification evidence and its current terminal or pre-merge finalization decision.",
+    "A2: The actual reviewed PR resource context is bound consistently in the Contract and finalization receipt.",
+    "A3: The dynamic governance integrity gate and tri-language documentation acceptance pass without suppressing historical findings.",
+    "A4: The predecessor WI-196 remains immutable and is linked through a valid successor recovery decision."
+  ],
+  "createdAt": "2026-08-23T13:09:53Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:58de424b2bdcec46a59932676bf53bc7913bd5e3c0a582f53a0e581ab16082b3",
+  "evidenceRefs": [
+    ".ai/evidence/WI-197-governance-gate-pr-closure.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-197-governance-gate-pr-closure.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-197-governance-gate-pr-closure.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f7ce02c795b49cc2c64ad7f845c3c7d342130c72f7373e51fd2c84c0170ed2c1",
+      "workItemId": "WI-197-governance-gate-pr-closure"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-197-governance-gate-pr-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-196-governance-recovery-gate-retry.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-197-governance-gate-pr-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-197-governance-gate-pr-closure.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-197-governance-gate-pr-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-197-governance-gate-pr-closure.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-197-governance-gate-pr-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-197-governance-gate-pr-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-197-governance-gate-pr-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-197-governance-gate-pr-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-197-governance-gate-pr-closure.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-197-governance-gate-pr-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-197-governance-gate-pr-closure.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-197-governance-gate-pr-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-197-governance-gate-pr-closure.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-197-governance-gate-pr-closure.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-197-governance-gate-pr-closure.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-197-governance-gate-pr-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-197-governance-gate-pr-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-197-governance-gate-pr-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-197-governance-gate-pr-closure.contract.json"
+          ],
+          "inference": false,
+          "text": "Close the parity and PR-resource binding gap found by hosted quality without rewriting WI-196 evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-197-governance-gate-pr-closure.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-197-governance-gate-pr-closure"
+  },
+  "taskReportDigest": "sha256:0db49e2c668463625d4ce5bca7547139d5bea0c7ec25a44398f40ef4a4882312",
+  "taskReportMarkdownDigest": "sha256:9ff33b64e1f9eaaa54a2e5ea3e91fa75eb449b590565ef3ce2f144513b9d9ce1",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-197-governance-gate-pr-closure.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-197-governance-gate-pr-closure"
+}

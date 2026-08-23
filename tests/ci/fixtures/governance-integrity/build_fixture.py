@@ -73,10 +73,17 @@ for item in spec.get("workItems", []):
             {
                 "createdAt": "2026-03-01T00:00:00Z",
                 "workItemId": work_item,
-                "state": "archived",
+                "state": "superseded" if decision_kind == "recovery" else "archived",
             },
         )
-        write(archive / f"{work_item}.outcome.json", {"workItemId": work_item, "decisionState": "green"})
+        write(
+            archive / f"{work_item}.outcome.json",
+            {
+                "workItemId": work_item,
+                "decisionState": "red" if decision_kind == "recovery" else "green",
+                "state": "blocked" if decision_kind == "recovery" else "finish_ready",
+            },
+        )
         evidence = f".ai/evidence/{work_item}.verification.json"
         decision = f".ai/decisions/{work_item}.{decision_kind}.json"
         write(
@@ -91,7 +98,40 @@ for item in spec.get("workItems", []):
             },
         )
         if decision_kind == "close":
-            write(root / decision, {"workItemId": work_item, "state": "closed"})
+            write(
+                root / decision,
+                {
+                    "workItemId": work_item,
+                    "repositoryId": repository_id,
+                    "state": "closed",
+                    "decisionState": "confirmed",
+                    "humanDecision": "approved",
+                    "structuredDecision": {
+                        "decision": "approved",
+                        "actor": "fixture-human",
+                        "authoritySource": "fixture-policy",
+                        "reason": "Fixture close decision.",
+                        "decidedAt": "2026-03-01T00:00:00Z",
+                        "resumeCondition": "None.",
+                        "evidenceRefs": [evidence],
+                        "policyRefs": ["fixture-policy"],
+                    },
+                },
+            )
+        elif decision_kind == "recovery":
+            write(
+                root / decision,
+                {
+                    "schemaVersion": 1,
+                    "workItemId": work_item,
+                    "predecessorWorkItemId": work_item,
+                    "successorWorkItemId": "WI-901-successor",
+                    "decision": "supersede",
+                    "repositoryId": repository_id,
+                    "reason": "The predecessor is preserved as immutable blocked history.",
+                    "evidenceRefs": [f".ai/evidence/{work_item}.verification.json"],
+                },
+            )
         elif decision_kind == "finalize":
             invalid_finalize = item.get("invalidFinalize")
             finalize_after = {
@@ -182,6 +222,14 @@ current = next(
     ),
     None,
 )
+mutation_item = next(
+    (
+        item
+        for item in spec.get("workItems", [])
+        if item.get("terminalDecision") == "recovery"
+    ),
+    current,
+)
 if current:
     work_item = current["id"]
     if mutation == "missing_work_item":
@@ -195,6 +243,12 @@ if current:
             root / ".ai/work-items/archive" / f"{work_item}.outcome.json",
             {"workItemId": work_item, "decisionState": "red"},
         )
+    elif mutation == "invalid_recovery":
+        recovery_work_item = mutation_item["id"]
+        recovery_path = root / ".ai/decisions" / f"{recovery_work_item}.recovery.json"
+        value = json.loads(recovery_path.read_text(encoding="utf-8"))
+        value["repositoryId"] = "sha256:" + "f" * 64
+        write(recovery_path, value)
 
 for problem in spec.get("problems", []):
     write(root / ".ai/problems" / f"{problem['id']}.json", problem)

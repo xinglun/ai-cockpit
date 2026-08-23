@@ -1,0 +1,109 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-198-governance-gate-default-branch-discovery.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:a21bd2b7a59588fc0b9cb39525e9fcbabe2b13c535f5a1faf20b1ef44c307220",
+    "workItemId": "WI-198-governance-gate-default-branch-discovery"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-197-governance-gate-pr-closure.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.summary.json"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-198-governance-gate-default-branch-discovery.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-198-governance-gate-default-branch-discovery.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-198-governance-gate-default-branch-discovery.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-198-governance-gate-default-branch-discovery.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-198-governance-gate-default-branch-discovery.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.contract.json"
+        ],
+        "inference": false,
+        "text": "让分离的 pull request 检出中的 pre-merge governance gate 保持确定性且 fail closed。"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-198-governance-gate-default-branch-discovery.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-198-governance-gate-default-branch-discovery"
+}

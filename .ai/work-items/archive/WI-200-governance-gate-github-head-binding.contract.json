@@ -1,0 +1,92 @@
+{
+  "acceptanceCriteria": [
+    "A1: Contract and finalization resourceContext exactly match GitHub PR #153 head ref codex/wi-196-governance-recovery-gate-retry, provider github, origin, and this worktree.",
+    "A2: The finalization receipt binds head SHA 225e5625f58ad1da4effe6070a9bf2b17994d078 and remains awaiting merge; no merge or release approval is inferred.",
+    "A3: The WI-198 detached-checkout fallback regression, dynamic gate, and tri-language documentation acceptance pass with no current-cycle findings.",
+    "A4: WI-199 remains immutable and linked through recovery; the actual GitHub head binding is recorded as a fresh successor correction."
+  ],
+  "authority": "authorized",
+  "baseRevision": "225e5625f58ad1da4effe6070a9bf2b17994d078",
+  "createdAt": "2026-08-23T13:51:40Z",
+  "goal": "在合并前把治理质量门交付绑定到 GitHub 确认的 PR head ref 和 SHA。",
+  "intent": "根据 GitHub 直接证据修正 predecessor 的 branch spelling，保留不可变历史，防止再次出现 finalization context mismatch。",
+  "mode": "code",
+  "outOfScope": [
+    "src/**",
+    "crates/**",
+    "target/**",
+    "release publication or installer changes"
+  ],
+  "predecessorContractDigest": "sha256:c2c52e1e737644bc9268113d366ee36f81267c2267b9f785dd797fd0d449f2fc",
+  "predecessorWorkItemId": "WI-199-governance-gate-actual-pr-context",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-199-governance-gate-actual-pr-context.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9021a5c9a56ad04dab3862b8890763af5c3e8ec1a465b9429140ef54409f582c",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-196-governance-recovery-gate-retry",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/153",
+    "worktree": "/private/tmp/ai-cockpit-wi195-governance-recovery-gate"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh",
+        "tests/ci/governance_integrity_gate.py"
+      ],
+      "expected": "The detached-checkout fallback and mismatch regression remain passing under the GitHub-confirmed PR context.",
+      "required": true,
+      "scenario": "governance gate under confirmed GitHub head",
+      "status": "unverified",
+      "verificationPlan": "Run the governance fixture matrix and live dynamic gate."
+    },
+    {
+      "evidence": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md"
+      ],
+      "expected": "Three-language parity binds WI-200 verification and finalization evidence.",
+      "required": true,
+      "scenario": "tri-language parity for confirmed head binding",
+      "status": "unverified",
+      "verificationPlan": "Run documentation acceptance and inspect parity rows."
+    }
+  ],
+  "scope": [
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "docs/reference/governance-integrity-gate.md",
+    "docs/reference/governance-integrity-gate.zh-CN.md",
+    "docs/reference/governance-integrity-gate.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-198-governance-gate-default-branch-discovery.md",
+    "docs/work-items/WI-198-governance-gate-default-branch-discovery.zh-CN.md",
+    "docs/work-items/WI-198-governance-gate-default-branch-discovery.ja.md",
+    "docs/work-items/WI-199-governance-gate-actual-pr-context.md",
+    "docs/work-items/WI-199-governance-gate-actual-pr-context.zh-CN.md",
+    "docs/work-items/WI-199-governance-gate-actual-pr-context.ja.md",
+    "docs/work-items/WI-200-governance-gate-github-head-binding.md",
+    "docs/work-items/WI-200-governance-gate-github-head-binding.zh-CN.md",
+    "docs/work-items/WI-200-governance-gate-github-head-binding.ja.md",
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/archive/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-200-governance-gate-github-head-binding"
+}

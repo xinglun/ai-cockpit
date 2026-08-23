@@ -1,0 +1,127 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-192-governance-integrity-finalization-order.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8805e4fd0b632b4a16100bb970d9681bb739ef3597516609360d652bef6d4dbd",
+      "workItemId": "WI-192-governance-integrity-finalization-order"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-192-governance-integrity-finalization-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-192-governance-integrity-finalization-order.contract.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-192-governance-integrity-finalization-order.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-192-governance-integrity-finalization-order.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-192-governance-integrity-finalization-order.finalize.03c8d2d34bd7b5a3dc23029de71a963494f872f212502b84699e7c014aaa3d6f.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via post-merge-provider-evidence at 2026-08-23T11:38:44Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-192-governance-integrity-finalization-order.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-192-governance-integrity-finalization-order.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-192-governance-integrity-finalization-order.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-192-governance-integrity-finalization-order.contract.json"
+          ],
+          "inference": false,
+          "text": "Bind exact PR resource context before preflight and reverify the completed WI-188 governance integrity implementation without changing its product scope."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-192-governance-integrity-finalization-order.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-192-governance-integrity-finalization-order"
+  },
+  "finalReportDigest": "sha256:f77054f0fd05c6d95f7dd51c2ad83af7fbce48b7dd65cf2a8ad503c1850a0eb2",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:66aaa4e7c566c31c9b138011279e007f3cc4be7fddee64dc40655b83f4c48649",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-192-governance-integrity-finalization-order.finalize.03c8d2d34bd7b5a3dc23029de71a963494f872f212502b84699e7c014aaa3d6f.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "post-merge-provider-evidence",
+    "decidedAt": "2026-08-23T11:38:44Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/decisions/WI-192-governance-integrity-finalization-order.finalize.03c8d2d34bd7b5a3dc23029de71a963494f872f212502b84699e7c014aaa3d6f.json"
+    ],
+    "policyRefs": [],
+    "reason": "Merged PR and deleted branch/worktree are verified by the finalization chain.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-08-23T11:38:49Z",
+  "workItemId": "WI-192-governance-integrity-finalization-order"
+}
