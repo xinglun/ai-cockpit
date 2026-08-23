@@ -1,0 +1,150 @@
+{
+  "acceptanceResults": [
+    "A1: 绑定 PR #153 merged 状态、merge commit efa462e4cb6da654f91803877ad06736e704a054、head fbccc7ee6786b19c7dbbe97a9c35c1a658b02d05 与当前 origin/main。",
+    "A2: 生成 successor 的 verification、Outcome、archive、finalize、finalize-verify、close receipts，且不改写 WI-200 的历史 bytes。",
+    "A3: governance integrity gate、documentation acceptance、三语 parity 状态检查全部通过且无 current-cycle findings。",
+    "A4: Outcome 明确显示 🟢/🟡/🔴、状态、unknowns、evidence、human decision 与 next action；不把收尾成功等同于发布授权。"
+  ],
+  "createdAt": "2026-08-23T14:38:34Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:7e2a896f560a05798d2cbfcc983601d77076e02a07fc9ce240a40f46120dfdce",
+  "evidenceRefs": [
+    ".ai/evidence/WI-201-governance-gate-post-merge-reconciliation.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-201-governance-gate-post-merge-reconciliation.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-201-governance-gate-post-merge-reconciliation.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8350a531c395a1429795cb54ea898b428ab3e7551e35ba94a118e7f85a8e0643",
+      "workItemId": "WI-201-governance-gate-post-merge-reconciliation"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-201-governance-gate-post-merge-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-200-governance-gate-github-head-binding.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-201-governance-gate-post-merge-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-201-governance-gate-post-merge-reconciliation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-201-governance-gate-post-merge-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-201-governance-gate-post-merge-reconciliation.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-201-governance-gate-post-merge-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-201-governance-gate-post-merge-reconciliation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-201-governance-gate-post-merge-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-201-governance-gate-post-merge-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-201-governance-gate-post-merge-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-201-governance-gate-post-merge-reconciliation.contract.json"
+          ],
+          "inference": false,
+          "text": "使合并后的治理完整性门可在 origin/main 上通过，并以可审计 receipt 关闭 WI-200 的 successor 收尾。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-201-governance-gate-post-merge-reconciliation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-201-governance-gate-post-merge-reconciliation"
+  },
+  "taskReportDigest": "sha256:4fcf920a117c95acb8bfd0e7e7bdfa367a04536607cb648472dea6f8eacfeaa0",
+  "taskReportMarkdownDigest": "sha256:4b2f4cb431995fa74872f6f50925f3ab78abced646050dc636ba57d104cad0d6",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-201-governance-gate-post-merge-reconciliation.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-201-governance-gate-post-merge-reconciliation"
+}

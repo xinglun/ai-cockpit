@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-23T14:38:37Z",
+  "files": {
+    "contractDigest": "sha256:33efaeae91c24c1aced0d4fd79c441b4adef615cfc42f52a9cc9eed7278d91e4",
+    "contractPath": ".ai/work-items/archive/WI-201-governance-gate-post-merge-reconciliation.contract.json",
+    "eventsDigest": "sha256:c7ccaa999c12f9ff948ba7e4fa75540fcbf6d8b4717f72bf2d2ee6de32126bae",
+    "eventsPath": ".ai/work-items/archive/WI-201-governance-gate-post-merge-reconciliation.events.jsonl",
+    "outcomeDigest": "sha256:3e4fbe388eb3e3f42e5d20c829166faee84794bb997d2fba0cccb14e459906c6",
+    "outcomePath": ".ai/work-items/archive/WI-201-governance-gate-post-merge-reconciliation.outcome.json",
+    "summaryDigest": "sha256:7870c188fb3e9d13e99177dd736010d00bee6640cbe3e6a3e7af922649b89019",
+    "summaryPath": ".ai/work-items/archive/WI-201-governance-gate-post-merge-reconciliation.summary.json",
+    "taskReportDigest": "sha256:4fcf920a117c95acb8bfd0e7e7bdfa367a04536607cb648472dea6f8eacfeaa0",
+    "taskReportMarkdownDigest": "sha256:4b2f4cb431995fa74872f6f50925f3ab78abced646050dc636ba57d104cad0d6",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-201-governance-gate-post-merge-reconciliation.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-201-governance-gate-post-merge-reconciliation.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-201-governance-gate-post-merge-reconciliation"
+}

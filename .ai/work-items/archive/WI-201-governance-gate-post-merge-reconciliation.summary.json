@@ -1,0 +1,103 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "GitHub PR #153 merged",
+          "path": ".ai/decisions/WI-200-governance-gate-github-head-binding.finalize.json",
+          "type": "provider-receipt",
+          "verification": "PR #153 is merged at efa462e4cb6da654f91803877ad06736e704a054; its reviewed head is fbccc7ee6786b19c7dbbe97a9c35c1a658b02d05."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "immutable predecessor preservation",
+          "path": ".ai/work-items/archive/WI-200-governance-gate-github-head-binding.contract.json",
+          "type": "governance-record",
+          "verification": "WI-200 archive and evidence bytes remain unchanged while WI-201 records post-merge reconciliation."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "hosted and local gate receipts",
+          "path": "target/governance-integrity-report.json",
+          "type": "gate-report",
+          "verification": "Governance integrity, documentation acceptance and parity checks pass without current-cycle findings."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "visible human Outcome",
+          "path": ".ai/work-items/active/WI-201-governance-gate-post-merge-reconciliation.summary.json",
+          "type": "outcome",
+          "verification": "Outcome handoff records marker, status, unknowns, evidence, human decision and next action; merge closure does not authorize release."
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-200-governance-gate-github-head-binding.recovery.json",
+    ".ai/work-items/archive/WI-201-governance-gate-post-merge-reconciliation.contract.json",
+    ".ai/work-items/archive/WI-201-governance-gate-post-merge-reconciliation.summary.json"
+  ],
+  "checkpointAt": "2026-08-23T14:35:26Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T14:34:39Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-201-governance-gate-post-merge-reconciliation.contract.json",
+      ".ai/decisions/WI-200-governance-gate-github-head-binding.finalize.json"
+    ],
+    "reason": "This successor only reconciles the merged PR context and terminal governance receipts; it does not rewrite WI-200 or change runtime behavior.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "predecessorContractDigest": "sha256:2804d319623353efb34967c27bed54eab005a92ec3735d32ebcc43668199dbc8",
+  "predecessorWorkItemId": "WI-200-governance-gate-github-head-binding",
+  "preflightAt": "2026-08-23T14:38:28Z",
+  "preflightContractDigest": "sha256:dda1ebb2f37938e2b2dd2c7932953440ebde1f78a3e65fdb71653f954024333f",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8350a531c395a1429795cb54ea898b428ab3e7551e35ba94a118e7f85a8e0643",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-200-governance-gate-github-head-binding.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate.py",
+        ".ai/decisions/WI-200-governance-gate-github-head-binding.finalize.json"
+      ],
+      "expected": "The merged PR head and merge commit are bound without stale pre-merge findings.",
+      "required": true,
+      "scenario": "post-merge finalization binding",
+      "status": "verified",
+      "verificationPlan": "Run the live governance integrity gate after merge."
+    },
+    {
+      "evidence": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md"
+      ],
+      "expected": "All parity rows reference current evidence and terminal decisions in three languages.",
+      "required": true,
+      "scenario": "tri-language closure parity",
+      "status": "verified",
+      "verificationPlan": "Run documentation acceptance and parity status checks."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T14:38:34Z",
+  "workItemId": "WI-201-governance-gate-post-merge-reconciliation"
+}

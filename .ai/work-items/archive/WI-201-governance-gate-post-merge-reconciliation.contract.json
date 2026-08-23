@@ -1,0 +1,60 @@
+{
+  "acceptanceCriteria": [
+    "A1: 绑定 PR #153 merged 状态、merge commit efa462e4cb6da654f91803877ad06736e704a054、head fbccc7ee6786b19c7dbbe97a9c35c1a658b02d05 与当前 origin/main。",
+    "A2: 生成 successor 的 verification、Outcome、archive、finalize、finalize-verify、close receipts，且不改写 WI-200 的历史 bytes。",
+    "A3: governance integrity gate、documentation acceptance、三语 parity 状态检查全部通过且无 current-cycle findings。",
+    "A4: Outcome 明确显示 🟢/🟡/🔴、状态、unknowns、evidence、human decision 与 next action；不把收尾成功等同于发布授权。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "efa462e4cb6da654f91803877ad06736e704a054",
+  "createdAt": "2026-08-23T14:34:39Z",
+  "goal": "使合并后的治理完整性门可在 origin/main 上通过，并以可审计 receipt 关闭 WI-200 的 successor 收尾。",
+  "intent": "在 PR #153 合并后重新绑定治理完整性收尾，保留 WI-200 不可变历史并记录准确的 merge head、close decision 与 parity 状态。",
+  "mode": "code",
+  "outOfScope": [
+    "src/**",
+    "crates/**",
+    "tests/**",
+    "release publication or installer changes"
+  ],
+  "predecessorContractDigest": "sha256:2804d319623353efb34967c27bed54eab005a92ec3735d32ebcc43668199dbc8",
+  "predecessorWorkItemId": "WI-200-governance-gate-github-head-binding",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-200-governance-gate-github-head-binding.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:410570ff53d65d0773292563e67a2cf073f1605734c34975bc7a0252f7e8aefb",
+  "requiredEvidenceClasses": [
+    "verification",
+    "governance-integrity-report",
+    "finalization-receipt",
+    "close-decision",
+    "parity-report"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-201-governance-gate-post-merge-reconciliation",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/154",
+    "worktree": "/private/tmp/ai-cockpit-wi201-governance-gate-post-merge-reconciliation"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/archive/**",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-201-governance-gate-post-merge-reconciliation.md",
+    "docs/work-items/WI-201-governance-gate-post-merge-reconciliation.zh-CN.md",
+    "docs/work-items/WI-201-governance-gate-post-merge-reconciliation.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-201-governance-gate-post-merge-reconciliation"
+}
