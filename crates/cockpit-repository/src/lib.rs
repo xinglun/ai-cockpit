@@ -8165,8 +8165,10 @@ fn close_work_item_with_structured_decision_internal(
             "close",
             current_runtime,
         )?;
-        if current_runtime.is_some() && contract.resource_context.is_some() {
-            require_resource_finalization_for_close(&root, work_item_id, current_runtime.unwrap())?;
+        if let Some(runtime) = current_runtime
+            && contract.resource_context.is_some()
+        {
+            require_resource_finalization_for_close(&root, work_item_id, runtime)?;
         }
     }
     validate_policy_decision(&root, &contract, human_decision)?;
