@@ -5,6 +5,8 @@ use std::{
     time::{SystemTime, UNIX_EPOCH},
 };
 
+mod common;
+
 static NEXT_REPOSITORY_ID: AtomicU64 = AtomicU64::new(0);
 
 fn repository() -> std::path::PathBuf {
@@ -87,6 +89,7 @@ fn work_item_lifecycle_is_atomic_and_archive_is_content_bound() {
         "stderr: {}",
         String::from_utf8_lossy(&started.stderr)
     );
+    common::plan(binary, &repo, "WI-TEST");
     assert!(
         repo.join(".ai/work-items/active/WI-TEST.contract.json")
             .is_file()
@@ -141,6 +144,7 @@ fn work_item_lifecycle_is_atomic_and_archive_is_content_bound() {
     let archived = run(binary, &["archive", "--id", "WI-TEST"], &repo);
     assert_eq!(archived["outcome"]["workItemId"], "WI-TEST");
     assert_eq!(archived["outcome"]["verification"]["status"], "verified");
+    common::record_retained(binary, &repo, "WI-TEST");
     assert!(
         !repo
             .join(".ai/work-items/active/WI-TEST.contract.json")
@@ -196,6 +200,56 @@ fn work_item_lifecycle_is_atomic_and_archive_is_content_bound() {
     let status = run(binary, &["status"], &repo);
     assert_eq!(status["archivedWorkItems"], 1);
     fs::remove_dir_all(repo).expect("cleanup");
+}
+
+#[test]
+fn start_preserves_commas_inside_repeated_acceptance_criteria() {
+    let repo = repository();
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let attached = Command::new(binary)
+        .args(["attach", "--repo"])
+        .arg(&repo)
+        .output()
+        .expect("attach");
+    assert!(attached.status.success());
+    let started = Command::new(binary)
+        .args(["start", "--repo"])
+        .arg(&repo)
+        .args([
+            "--id",
+            "WI-COMMA-ACCEPTANCE",
+            "--intent",
+            "preserve acceptance prose",
+            "--goal",
+            "retain exact contract text",
+            "--scope",
+            "src/**",
+            "--authority",
+            "authorized",
+            "--acceptance",
+            "A1: verify commas, semicolons, and punctuation",
+            "--acceptance",
+            "A2: preserve the second criterion",
+        ])
+        .output()
+        .expect("start");
+    assert!(
+        started.status.success(),
+        "stderr: {}",
+        String::from_utf8_lossy(&started.stderr)
+    );
+    let contract: serde_json::Value = serde_json::from_slice(
+        &fs::read(repo.join(".ai/work-items/active/WI-COMMA-ACCEPTANCE.contract.json"))
+            .expect("contract"),
+    )
+    .expect("contract JSON");
+    assert_eq!(
+        contract["acceptanceCriteria"],
+        serde_json::json!([
+            "A1: verify commas, semicolons, and punctuation",
+            "A2: preserve the second criterion"
+        ])
+    );
 }
 
 #[test]

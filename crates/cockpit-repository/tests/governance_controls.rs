@@ -35,6 +35,7 @@ fn contract(risk: &str, intent: &str, acceptance: Vec<&str>) -> Contract {
         base_revision: "abc".into(),
         project_profile_digest: Digest::sha256_bytes(b"profile"),
         repository_snapshot_digest: Digest::sha256_bytes(b"snapshot"),
+        resource_context: None,
         base_commit: None,
         baseline_dirty_paths: Vec::new(),
         archive_sequence: None,

@@ -1,5 +1,7 @@
 use std::{fs, path::Path, process::Command};
 
+mod common;
+
 fn repository() -> tempfile::TempDir {
     let directory = tempfile::tempdir().expect("tempdir");
     assert!(
@@ -57,6 +59,7 @@ fn closed_work_item(binary: &str) -> tempfile::TempDir {
         ],
         repo.path(),
     );
+    common::plan(binary, repo.path(), "WI-OUTCOME-DECISION");
     run(
         binary,
         &[
@@ -92,6 +95,7 @@ fn closed_work_item(binary: &str) -> tempfile::TempDir {
         &["archive", "--id", "WI-OUTCOME-DECISION"],
         repo.path(),
     );
+    common::record_retained(binary, repo.path(), "WI-OUTCOME-DECISION");
     run(
         binary,
         &[

@@ -1019,6 +1019,22 @@ fn validate_resource_finalization_text(
     }
 }
 
+pub fn validate_resource_finalization_context(
+    context: &ResourceFinalizationContext,
+) -> Result<(), ResourceFinalizationError> {
+    for (value, field) in [
+        (context.branch.as_str(), "resourceContext.branch"),
+        (context.worktree.as_str(), "resourceContext.worktree"),
+        (context.base_branch.as_str(), "resourceContext.baseBranch"),
+        (context.base_remote.as_str(), "resourceContext.baseRemote"),
+        (context.provider.as_str(), "resourceContext.provider"),
+        (context.pull_request.as_str(), "resourceContext.pullRequest"),
+    ] {
+        validate_resource_finalization_text(value, field)?;
+    }
+    Ok(())
+}
+
 fn validate_resource_finalization_revision(
     value: &str,
     field: &'static str,
@@ -1334,6 +1350,8 @@ pub fn validate_resource_finalization_replay(
         || original.before != replay.before
         || original.after != replay.after
         || original.result != replay.result
+        || original.runtime_version != replay.runtime_version
+        || original.runtime_digest != replay.runtime_digest
         || original.contract_digest != replay.contract_digest
         || original.resource_context != replay.resource_context
     {
@@ -1776,6 +1794,12 @@ pub struct Contract {
     /// `None` preserves protocol-v1 Contract compatibility; callers must use
     /// the legacy intelligence/scope projection in that case.
     pub concurrency_boundary: Option<ConcurrencyBoundary>,
+    /// Explicit branch/worktree/PR context required before a Runtime-bound
+    /// Work Item can be closed.  Historical Contracts omit this field and
+    /// remain readable; newly started items populate it with a provisional
+    /// local context which `finalize-plan` replaces with provider identity.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub resource_context: Option<ResourceFinalizationContext>,
     #[serde(default)]
     pub checkpoint_policy: Option<serde_json::Value>,
     #[serde(default)]
@@ -1811,6 +1835,12 @@ impl Contract {
     pub fn validate(&self) -> Result<(), Vec<String>> {
         let mut errors = Vec::new();
         let is_v2 = self.contract_version == Some(2);
+
+        if let Some(context) = &self.resource_context
+            && let Err(error) = validate_resource_finalization_context(context)
+        {
+            errors.push(error.to_string());
+        }
 
         if let Some(version) = self.contract_version
             && version != 2
