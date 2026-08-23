@@ -1,0 +1,85 @@
+{
+  "acceptanceCriteria": [
+    "A1: v0.2.26 version, documentation and tri-language parity rows are internally consistent before release verification.",
+    "A2: the immutable v0.2.26 tag is created only on a merged PR commit with a valid premerge-finalize receipt and release-tag ancestor proof.",
+    "A3: the public v0.2.26 artifact is downloaded and verified by the release adopter and upgrade acceptance scripts with no source, workspace, or local-target fallback.",
+    "A4: isolated adopter evidence proves repository identity, runtime identity, forbidden HOME/XDG writes, classified TMPDIR/CARGO_HOME writes, root cleanup, and SHA256 binding.",
+    "A5: the installed public v0.2.26 Runtime completes WI-209 finalize, finalize-verify, and structured human close after merge, with visible tri-language Outcome evidence.",
+    "A6: v0.2.25 remains immutable failed publication history and is never moved, overwritten, or reused as a successful Release."
+  ],
+  "authority": "authorized",
+  "baseRevision": "53211dc38556982b37bf38cec60335c2d6796094",
+  "createdAt": "2026-08-23T16:48:07Z",
+  "goal": "从合并后的默认分支建立可审计的 v0.2.26 不可变发布、公开 adopter 验收与 WI-209 Runtime transition 收尾。",
+  "intent": "发布 v0.2.26，使用公开 Release binary 从零验收 adopter/upgrade 隔离，并完成当前发布治理链的 finalize、verify 与 structured close。",
+  "mode": "release",
+  "outOfScope": [
+    "Moving",
+    " overwriting",
+    " or reusing the immutable v0.2.25 tag",
+    "New runtime feature implementation unrelated to release integrity",
+    "Reference-source file-by-file parity expansion (next batch)",
+    "User-global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ef35576e32c6a768dbb80065ecd07b27b063da3fc0b013bf05a37ce8191c6eec",
+  "requiredEvidenceClasses": [
+    "verification",
+    "release",
+    "external"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-210-release-v0-2-26",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi210-release-v0-2-26"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "scenario": "version and release baseline",
+      "required": true,
+      "status": "unverified",
+      "expected": "All current version, distribution, architecture, and parity baselines resolve to v0.2.26.",
+      "verificationPlan": "Run version consistency, documentation, parity, and hosted release checks."
+    },
+    {
+      "scenario": "immutable public adopter",
+      "required": true,
+      "status": "unverified",
+      "expected": "Downloaded v0.2.26 completes isolated adopter acceptance without source fallback.",
+      "verificationPlan": "Run tests/release/adopter_acceptance.sh against the published tag."
+    },
+    {
+      "scenario": "N-1 upgrade and Runtime close",
+      "required": true,
+      "status": "unverified",
+      "expected": "The public v0.2.26 Runtime completes N-1 acceptance and WI-209 finalize, finalize-verify, and close.",
+      "verificationPlan": "Run tests/release/adopter_upgrade_acceptance.sh and the post-release lifecycle with the downloaded binary."
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/current/**",
+    "docs/release/**",
+    "docs/architecture/**",
+    "docs/reference/**",
+    "docs/work-items/**",
+    "tests/release/**",
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/active/**",
+    ".ai/work-items/archive/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-210-release-v0-2-26"
+}
