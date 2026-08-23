@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-23T14:25:04Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-200-governance-gate-github-head-binding.finalize.json",
+    ".ai/evidence/WI-200-governance-gate-github-head-binding.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/resource-finalization.md"
+  ],
+  "predecessorContractDigest": "sha256:2804d319623353efb34967c27bed54eab005a92ec3735d32ebcc43668199dbc8",
+  "predecessorEventsDigest": "sha256:5378b089c00365ea3d1ef1dcdab6105c29e0e0201ee73a0ba5dd0fc44639fb77",
+  "predecessorOutcomeDigest": "sha256:d0ea986064037c8eb624dcd820950cb139d1181c2d4c6abbab75e89fe1e18afc",
+  "predecessorSummaryDigest": "sha256:d92f9f47f2392c041df042d476938911728c8b613817b68e4b273d248472cca3",
+  "predecessorWorkItemId": "WI-200-governance-gate-github-head-binding",
+  "reason": "PR #153 is now merged, but WI-200 is an immutable pre-merge archived delivery. Continue post-merge finalization and closure through WI-201 without rewriting predecessor bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-201 with merged PR #153 evidence, current governance gate and tri-language parity receipts, then close both the successor and predecessor terminally.",
+  "runtimeDigest": "sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+  "runtimeVersion": "0.2.23",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-201-governance-gate-post-merge-reconciliation",
+  "workItemId": "WI-200-governance-gate-github-head-binding"
+}
