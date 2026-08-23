@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "post-merge-resource-finalization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "0f8116ca331c413af677e4ad4b063614a0a4bfe1",
+    "name": "codex/wi-174-post-release-parity-v0-2-21",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:ffdc726cd353068f67f2f77b1b7fa03ee70f27376b8b480825a88d80cd6f9cb1",
+  "operationId": "operation-WI-174-post-release-parity-v0-2-21",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "486419e2cb2bfeaf42586c2f01719266529daf9b",
+    "headRevision": "0f8116ca331c413af677e4ad4b063614a0a4bfe1",
+    "mergeCommit": "b8b2e7a9b8f36e237fcfe507ed946278a75ba0b7",
+    "number": 131,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/131"
+  },
+  "reason": "Finalize the merged post-release parity correction for v0.2.21 and record the tri-language documentation acceptance result.",
+  "receiptId": "ai-cockpit-WI-174-post-release-parity-v0-2-21",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-174-post-release-parity-v0-2-21",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/131",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:38aa88d7976d27647a9ae4419f57d309df2a08717fedccb4e9a613b370433e88",
+  "runtimeVersion": "0.2.21",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-23T05:46:00Z",
+  "workItemId": "WI-174-post-release-parity-v0-2-21",
+  "worktree": {
+    "branch": "codex/wi-174-post-release-parity-v0-2-21",
+    "headRevision": "0f8116ca331c413af677e4ad4b063614a0a4bfe1",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit",
+    "worktreeId": "WI-174-post-release-parity-v0-2-21"
+  }
+}
