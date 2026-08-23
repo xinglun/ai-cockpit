@@ -103,9 +103,9 @@ schema が変わる pair だけが approval-gated migration branch に進みま�
 
 - `cockpit-release` と release workflow は local release contract、deterministic manifest、Formula projection、
   hosted check、published Release identity を扱います。
-- 現在の immutable public baseline は `v0.2.25` で、public adopter acceptance と N-1 upgrade 受入れは post-release evidence です。
+- 現在の immutable public baseline は `v0.2.26` で、public adopter acceptance と N-1 upgrade 受入れは post-release evidence です。
   external Homebrew tap は別の provider surface であり、この repository が自動的に保証するものではありません。
-- 予約済みの `v0.2.24` tag は公開前 failure history として保持し、再利用しません。
+- 予約済みの `v0.2.24` tag と immutable な `v0.2.25` tag は公開前 failure history として保持し、公開 Release として扱わず、再利用しません。
 - Tap は review 済み Formula projection を受け取り、binary を rebuild しません。
 - Homebrew は delivery path であり governance authority ではありません。repository facts と human decision
   は attach 済み repository と Work Item から来ます。
