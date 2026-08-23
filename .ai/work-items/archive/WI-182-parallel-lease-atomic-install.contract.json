@@ -25,28 +25,28 @@
     "workspace_tests"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-182-parallel-lease-atomic-install",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/142",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
   },
   "risk": "high",
   "scenarioCoverage": [
     {
-      "scenario": "concurrent first-use parallel slot acquisition",
-      "required": true,
       "expected": "Two Work Items acquiring the first repository-local slots never observe an empty or partial lease JSON; each result is valid or fail-closed.",
-      "verificationPlan": "Run the parallel boundary first-use regression repeatedly, the targeted package test, and the full workspace quality suite.",
-      "status": "unverified"
+      "required": true,
+      "scenario": "concurrent first-use parallel slot acquisition",
+      "status": "unverified",
+      "verificationPlan": "Run the parallel boundary first-use regression repeatedly, the targeted package test, and the full workspace quality suite."
     },
     {
-      "scenario": "parallel lease publication interruption or collision",
-      "required": true,
       "expected": "A competing slot publication cannot overwrite another Work Item's lease bytes, and malformed or stale state remains fail-closed.",
-      "verificationPlan": "Exercise atomic publication and existing malformed/symlink lease tests, then inspect repository-local evidence and runtime identity.",
-      "status": "unverified"
+      "required": true,
+      "scenario": "parallel lease publication interruption or collision",
+      "status": "unverified",
+      "verificationPlan": "Exercise atomic publication and existing malformed/symlink lease tests, then inspect repository-local evidence and runtime identity."
     }
   ],
   "scope": [

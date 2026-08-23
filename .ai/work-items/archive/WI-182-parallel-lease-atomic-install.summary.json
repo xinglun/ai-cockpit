@@ -1,0 +1,52 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-23T07:32:55Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T07:32:27Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lib.rs",
+      "crates/cockpit-repository/tests/parallel_boundary.rs",
+      ".ai/evidence/WI-182-parallel-lease-atomic-install.verification.json"
+    ],
+    "sources": [
+      ".ai/work-items/active/WI-182-parallel-lease-atomic-install.contract.json"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-23T07:39:17Z",
+  "preflightContractDigest": "sha256:5b1864ffea3d2479a08e27f171ed2556aa9e5953fec3bb32dbe9cb1cf12f8775",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:d9dbb0a263fdffdf20087f199949893dfebef6d0673eedac45ff457ba6dca109",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/parallel_boundary.rs",
+        ".ai/evidence/WI-182-parallel-lease-atomic-install.verification.json"
+      ],
+      "required": true,
+      "scenario": "concurrent first-use parallel slot acquisition",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/parallel_boundary.rs",
+        ".ai/evidence/WI-182-parallel-lease-atomic-install.verification.json"
+      ],
+      "required": true,
+      "scenario": "parallel lease publication interruption or collision",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T07:39:17Z",
+  "workItemId": "WI-182-parallel-lease-atomic-install"
+}

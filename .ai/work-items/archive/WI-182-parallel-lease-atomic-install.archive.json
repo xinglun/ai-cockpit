@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-23T07:39:22Z",
+  "files": {
+    "contractDigest": "sha256:f6af688ff7e09f8123b6fbbb55992f433dbd9034c1a8e110d6c1feba6693c963",
+    "contractPath": ".ai/work-items/archive/WI-182-parallel-lease-atomic-install.contract.json",
+    "eventsDigest": "sha256:9f5c0b43788874d933728ce5d70e1da0e83dfe83b9c95285814a28d33e3ea134",
+    "eventsPath": ".ai/work-items/archive/WI-182-parallel-lease-atomic-install.events.jsonl",
+    "outcomeDigest": "sha256:f2f70a74534b7d3fb42800e6c6c0e7cdd54949dacce5f76807abf0496fa2515f",
+    "outcomePath": ".ai/work-items/archive/WI-182-parallel-lease-atomic-install.outcome.json",
+    "summaryDigest": "sha256:b730e9969e9f426f594391b19b308db39fc0640ef27cfc250bd9bee33c8eb734",
+    "summaryPath": ".ai/work-items/archive/WI-182-parallel-lease-atomic-install.summary.json",
+    "taskReportDigest": "sha256:5d6a82ccc0529b17535aaa5b78214903def710932e09e04f7bddf0766eb78e3e",
+    "taskReportMarkdownDigest": "sha256:39eeb89dc9b19d8d4187c66e41432497e6733ea76d89a6a825e1388d81466e03",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-182-parallel-lease-atomic-install.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-182-parallel-lease-atomic-install.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-182-parallel-lease-atomic-install"
+}

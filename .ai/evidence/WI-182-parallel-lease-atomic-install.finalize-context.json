@@ -1,0 +1,8 @@
+{
+  "branch": "codex/wi-182-parallel-lease-atomic-install",
+  "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit",
+  "baseBranch": "main",
+  "baseRemote": "origin",
+  "provider": "github",
+  "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/142"
+}
