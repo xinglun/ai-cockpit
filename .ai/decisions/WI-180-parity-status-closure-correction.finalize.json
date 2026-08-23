@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "post-merge-resource-finalization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "db529dc74c9fca65589698185c8d6f57d7e74180",
+    "name": "codex/wi-180-parity-status-closure-correction",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:e69f391a64f42fa30815d5dc309278762fa1ba86c2d6486014274ab69335fe57",
+  "operationId": "operation-WI-180-parity-status-closure-correction",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "cd482150db7335342ecca4644a152c197e71cea1",
+    "headRevision": "db529dc74c9fca65589698185c8d6f57d7e74180",
+    "mergeCommit": "fb889fe1511f620daca0c40b20ab95163476d4a0",
+    "number": 139,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/139"
+  },
+  "reason": "Finalize the merged parity status correction branch and prove exact remote branch cleanup while retaining the shared main worktree clean.",
+  "receiptId": "ai-cockpit-WI-180-parity-status-closure-correction",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-180-parity-status-closure-correction",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/139",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:fff455d0d88d9ca4fa96b5caba85d8a6a198e131bd6ecc5a33dd9bc5cc180ab2",
+  "runtimeVersion": "0.2.22",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-23T07:11:42Z",
+  "workItemId": "WI-180-parity-status-closure-correction",
+  "worktree": {
+    "branch": "codex/wi-180-parity-status-closure-correction",
+    "headRevision": "db529dc74c9fca65589698185c8d6f57d7e74180",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit",
+    "worktreeId": "WI-180-parity-status-closure-correction"
+  }
+}
