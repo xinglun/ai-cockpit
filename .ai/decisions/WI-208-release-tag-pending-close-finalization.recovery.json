@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-24T01:40:00+09:00",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-208-release-tag-pending-close-finalization.verification.json",
+    ".ai/decisions/WI-208-release-tag-pending-close-finalization.finalize.json",
+    ".ai/work-items/archive/WI-208-release-tag-pending-close-finalization.archive.json",
+    "https://github.com/xinglun/ai-cockpit/pull/158"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:f4fc12d02fdd7f99b792ef888369a805a24e6a4a159f38f677a363c65cf8c480",
+  "predecessorEventsDigest": "sha256:694d6dfadb27ca2acf5a4a5fcb9b37e878120a9c5d0b97d79dd837e4478976ca",
+  "predecessorOutcomeDigest": "sha256:2e46c4e67ff72ac0e4aab27f54bcd6a87f6404fa3d34fa971db4aafbb652f31e",
+  "predecessorSummaryDigest": "sha256:a178abb9fc2abd695e3ef6276f88621ebdb66140281a7e15cb12ed0ac519481d",
+  "predecessorWorkItemId": "WI-208-release-tag-pending-close-finalization",
+  "reason": "WI-208 bound the exact PR resource context but retained the successor branch tip as baseRevision instead of the PR's synchronized default-branch base. Its immutable receipts remain preserved; a clean successor will bind baseRevision 56b5e8d0584743d4442d50156adf25a6e933eaf3 before finalize-plan and verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-209 with baseRevision equal to merge commit 56b5e8d0584743d4442d50156adf25a6e933eaf3, then finalize-plan before preflight/checkpoint/verify, archive, and post-merge close.",
+  "runtimeDigest": "sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+  "runtimeVersion": "0.2.23",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-209-release-tag-pending-close-finalization",
+  "workItemId": "WI-208-release-tag-pending-close-finalization"
+}
