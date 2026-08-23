@@ -31,6 +31,10 @@ grep -q -- '--policy-ref' "$script"
 grep -q -- '--decided-at' "$script"
 grep -q -- '--resume-condition' "$script"
 grep -q -- 'validate_close_decision' "$script"
+grep -q -- 'work-item finalize-plan' "$script"
+grep -q -- 'work-item finalize-verify' "$script"
+grep -q -- 'lifecycle-finalize.json' "$script"
+grep -q -- 'lifecycle-finalize-verify.json' "$script"
 grep -q -- 'close.binding.json' "$script"
 grep -q -- 'closeDecisionValidated' "$script"
 grep -q -- 'adopter repository identity is missing or malformed' "$script"
@@ -46,7 +50,11 @@ grep -Fq -- 'allowedPrefixes' "$script"
 grep -Fq -- '<CARGO_HOME>/**' "$script"
 preflight_line=$(grep -n -- 'lifecycle-preflight.json preflight' "$script" | head -1 | cut -d: -f1)
 checkpoint_line=$(grep -n -- 'lifecycle-checkpoint.json checkpoint' "$script" | head -1 | cut -d: -f1)
-[[ -n "$preflight_line" && -n "$checkpoint_line" && "$preflight_line" -lt "$checkpoint_line" ]] || {
+plan_line=$(grep -n -- 'lifecycle-finalize-plan.json work-item finalize-plan' "$script" | head -1 | cut -d: -f1)
+finalize_line=$(grep -n -- 'lifecycle-finalize.json work-item finalize' "$script" | head -1 | cut -d: -f1)
+finalize_verify_line=$(grep -n -- 'lifecycle-finalize-verify.json work-item finalize-verify' "$script" | head -1 | cut -d: -f1)
+close_line=$(grep -n -- 'lifecycle-close.json close' "$script" | head -1 | cut -d: -f1)
+[[ -n "$plan_line" && -n "$preflight_line" && -n "$checkpoint_line" && -n "$finalize_line" && -n "$finalize_verify_line" && -n "$close_line" && "$plan_line" -lt "$preflight_line" && "$preflight_line" -lt "$checkpoint_line" && "$checkpoint_line" -lt "$finalize_line" && "$finalize_line" -lt "$finalize_verify_line" && "$finalize_verify_line" -lt "$close_line" ]] || {
   printf 'adopter acceptance must record preflight before checkpoint\n' >&2
   exit 1
 }

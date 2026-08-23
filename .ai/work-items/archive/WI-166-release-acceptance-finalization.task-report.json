@@ -1,0 +1,179 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-166-release-acceptance-finalization.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:c97f7be30a9527bdc57155a23f5214b397179b911225f4a74bd762fbd9f7b505",
+    "workItemId": "WI-166-release-acceptance-finalization"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-166-release-acceptance-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/release/adopter_acceptance.sh"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-166-release-acceptance-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/release/adopter_acceptance_test.sh"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-166-release-acceptance-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/release/adopter_upgrade_acceptance.sh"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-166-release-acceptance-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/release/adopter_upgrade_acceptance_test.sh"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-166-release-acceptance-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/release/distribution.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-166-release-acceptance-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/release/distribution.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-166-release-acceptance-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/release/distribution.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-166-release-acceptance-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/commands.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-166-release-acceptance-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/commands.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-166-release-acceptance-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/commands.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-166-release-acceptance-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-166-release-acceptance-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-166-release-acceptance-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-166-release-acceptance-finalization.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-166-release-acceptance-finalization.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-166-release-acceptance-finalization.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-166-release-acceptance-finalization.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-166-release-acceptance-finalization.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-166-release-acceptance-finalization.contract.json"
+        ],
+        "inference": false,
+        "text": "让 post-release adopter 与 N-1 upgrade acceptance 在隔离环境中完成 finalize-plan → finalize → finalize-verify → close，并保留 v0.2.18 的失败事实。"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-166-release-acceptance-finalization.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-166-release-acceptance-finalization"
+}

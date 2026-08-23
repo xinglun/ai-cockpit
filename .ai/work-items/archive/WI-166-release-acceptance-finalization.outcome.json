@@ -1,0 +1,220 @@
+{
+  "acceptanceResults": [
+    "验收脚本完成 finalize-plan、finalize、finalize-verify、close，并校验资源收尾证据。",
+    "失败 Release 的 receipt 保留 releasePublished=true、adopterAcceptance=failed，不回写 v0.2.18 truth。",
+    "脚本测试覆盖成功、失败、清理失败与资源收尾缺失/无效场景，且不使用源码 fallback。",
+    "三语发布/参考文档说明发布后验收包含资源收尾链。"
+  ],
+  "createdAt": "2026-08-23T03:08:35Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:35c5ac42bcaf9b5f4b4f1bf516584139ee92b8c41553434197cdda521746f946",
+  "evidenceRefs": [
+    ".ai/evidence/WI-166-release-acceptance-finalization.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-166-release-acceptance-finalization.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-166-release-acceptance-finalization.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c97f7be30a9527bdc57155a23f5214b397179b911225f4a74bd762fbd9f7b505",
+      "workItemId": "WI-166-release-acceptance-finalization"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-166-release-acceptance-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/adopter_acceptance.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-166-release-acceptance-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/adopter_acceptance_test.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-166-release-acceptance-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/adopter_upgrade_acceptance.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-166-release-acceptance-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/adopter_upgrade_acceptance_test.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-166-release-acceptance-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-166-release-acceptance-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-166-release-acceptance-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-166-release-acceptance-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-166-release-acceptance-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-166-release-acceptance-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-166-release-acceptance-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-166-release-acceptance-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-166-release-acceptance-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-166-release-acceptance-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-166-release-acceptance-finalization.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-166-release-acceptance-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-166-release-acceptance-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-166-release-acceptance-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-166-release-acceptance-finalization.contract.json"
+          ],
+          "inference": false,
+          "text": "让 post-release adopter 与 N-1 upgrade acceptance 在隔离环境中完成 finalize-plan → finalize → finalize-verify → close，并保留 v0.2.18 的失败事实。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-166-release-acceptance-finalization.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-166-release-acceptance-finalization"
+  },
+  "taskReportDigest": "sha256:9a1cf29491c12631677cdc030d965436b458dfb4903f174ff18ec54d0bbe6cfa",
+  "taskReportMarkdownDigest": "sha256:c98aa1e271f37952c320a0a575a3830fbd2245921c46b46978bfc83d3f952856",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-166-release-acceptance-finalization.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-166-release-acceptance-finalization"
+}

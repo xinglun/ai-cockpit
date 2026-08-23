@@ -38,6 +38,10 @@ grep -q -- '--policy-ref' "$script"
 grep -q -- '--decided-at' "$script"
 grep -q -- '--resume-condition' "$script"
 grep -q -- 'validate_close_decision' "$script"
+grep -q -- 'work-item finalize-plan' "$script"
+grep -q -- 'work-item finalize-verify' "$script"
+grep -q -- 'new-finalize.json' "$script"
+grep -q -- 'new-finalize-verify.json' "$script"
 grep -q -- 'close.binding.json' "$script"
 grep -q -- 'closeDecisionValidated' "$script"
 grep -q -- 'adopter repository identity is missing or malformed' "$script"
@@ -60,8 +64,11 @@ checkpoint_line=$(grep -n -- 'old-checkpoint.json checkpoint' "$script" | head -
 new_preflight_line=$(grep -n -- 'new-preflight.json preflight' "$script" | head -1 | cut -d: -f1)
 new_checkpoint_line=$(grep -n -- 'new-checkpoint.json checkpoint' "$script" | head -1 | cut -d: -f1)
 new_verify_line=$(grep -n -- 'new-verify.json verify' "$script" | head -1 | cut -d: -f1)
-[[ -n "$new_preflight_line" && -n "$new_checkpoint_line" && -n "$new_verify_line" && "$new_preflight_line" -lt "$new_checkpoint_line" && "$new_checkpoint_line" -lt "$new_verify_line" ]] || {
-  printf 'adopter upgrade acceptance must run new preflight, checkpoint, then verify\n' >&2
+new_finalize_line=$(grep -n -- 'new-finalize.json work-item finalize' "$script" | head -1 | cut -d: -f1)
+new_finalize_verify_line=$(grep -n -- 'new-finalize-verify.json work-item finalize-verify' "$script" | head -1 | cut -d: -f1)
+new_close_line=$(grep -n -- 'new-close.json close' "$script" | head -1 | cut -d: -f1)
+[[ -n "$new_preflight_line" && -n "$new_checkpoint_line" && -n "$new_verify_line" && -n "$new_finalize_line" && -n "$new_finalize_verify_line" && -n "$new_close_line" && "$new_preflight_line" -lt "$new_checkpoint_line" && "$new_checkpoint_line" -lt "$new_verify_line" && "$new_verify_line" -lt "$new_finalize_line" && "$new_finalize_line" -lt "$new_finalize_verify_line" && "$new_finalize_verify_line" -lt "$new_close_line" ]] || {
+  printf 'adopter upgrade acceptance must run new preflight, checkpoint, verify, finalize, finalize-verify, then close\n' >&2
   exit 1
 }
 if grep -Eq 'cargo (build|run)|target/debug/ai-cockpit|workspace binary' "$script"; then

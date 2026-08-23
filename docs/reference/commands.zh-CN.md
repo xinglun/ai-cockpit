@@ -113,6 +113,10 @@ protocol version。`ai-cockpit --version` 只输出简短的 executable version�
 Release binary，在隔离目录中执行 adopter lifecycle，并生成 `acceptance.json` 与 `SHA256SUMS`。不得用 workspace
 build 或本地 target binary 替代；验收失败也不会改变已发布 Release truth。
 
+其中的 lifecycle 必须完整执行：verification 之前先运行 `finalize-plan`，归档后必须通过
+`finalize` 与 `finalize-verify`，然后才能用结构化决定执行 `close`。fixture 使用显式的 retained
+resource receipt，因此 Runtime 的 fail-closed 资源边界会出现在发布后 evidence 中。
+
 验收 receipt 还会为每个隔离 root 保存带类型的 before/after manifest。`HOME` 与 `XDG_CONFIG_HOME` 的
 `allowedPrefixes` 必须为空且保持不变；只有 `TMPDIR` 与 `CARGO_HOME` 允许 Runtime 写入，且 allowlist 明确限制为
 `<TMPDIR>/**` 与 `<CARGO_HOME>/**`。清理状态记录在 `cleanup.json` 以及 `cleanupState`/`cleanupError` 中；清理失败

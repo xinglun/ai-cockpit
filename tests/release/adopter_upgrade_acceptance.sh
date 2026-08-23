@@ -421,6 +421,19 @@ run "$to_bin" new-compatibility-after.json compatibility --repo "$adopter"
 jq -e '.state=="COMPATIBLE" and .repositorySchemaVersion==2' "$output/new-compatibility-after.json" >/dev/null || die 'migrated adopter is not compatible'
 new_work_item=n-minus-one-post-migration
 run "$to_bin" new-start.json start --repo "$adopter" --id "$new_work_item" --intent 'Validate operation after an approved repository migration.' --goal 'Prove the new Runtime can govern a fresh Work Item after N-1 migration.' --scope '**' --out-of-scope target --risk normal --authority authorized --acceptance 'cargo test passes' --required-evidence verification
+new_branch="$(git -C "$adopter" branch --show-current)"
+new_pr="acceptance://$to_tag/$new_work_item"
+new_context="$run_root/$new_work_item.finalize-context.json"
+jq -n \
+  --arg branch "$new_branch" \
+  --arg worktree "$adopter" \
+  --arg provider release-adopter-upgrade-harness \
+  --arg pullRequest "$new_pr" \
+  '{branch:$branch,worktree:$worktree,baseBranch:$branch,baseRemote:"local",provider:$provider,pullRequest:$pullRequest}' \
+  > "$new_context"
+cp "$new_context" "$output/work-items/$new_work_item.finalize-context.json"
+run "$to_bin" new-finalize-plan.json work-item finalize-plan --repo "$adopter" --id "$new_work_item" --input "$new_context"
+jq -e '.state=="planned" and .workItemId==$id' --arg id "$new_work_item" "$output/new-finalize-plan.json" >/dev/null || die 'new finalize-plan did not bind the Work Item'
 run "$to_bin" new-preflight.json preflight --repo "$adopter" --contract "$adopter/.ai/work-items/active/$new_work_item.contract.json"
 run "$to_bin" new-checkpoint.json checkpoint --repo "$adopter" --id "$new_work_item"
 run "$to_bin" new-agent-doctor.json agent doctor --repo "$adopter" --json
@@ -433,6 +446,49 @@ new_evidence="$adopter/.ai/evidence/$new_work_item.verification.json"
 jq -e --arg version "$to_version" --arg digest "$to_digest" '.runtimeVersion==$version and .runtimeDigest==$digest and .passed==true' "$new_evidence" >/dev/null || die 'new verification evidence lacks Runtime identity'
 run "$to_bin" new-finish.json finish --repo "$adopter" --id "$new_work_item"
 run "$to_bin" new-archive.json archive --repo "$adopter" --id "$new_work_item"
+new_archived_contract="$adopter/.ai/work-items/archive/$new_work_item.contract.json"
+new_archived_contract_digest="sha256:$(sha256_file "$new_archived_contract")"
+new_head="$(git -C "$adopter" rev-parse HEAD)"
+new_receipt="$run_root/$new_work_item.finalize-receipt.json"
+jq -n \
+  --arg workItemId "$new_work_item" \
+  --arg repositoryId "$adopter_repository_id" \
+  --arg runtimeVersion "$to_version" \
+  --arg runtimeDigest "$to_digest" \
+  --arg provider release-adopter-upgrade-harness \
+  --arg pullRequest "$new_pr" \
+  --arg branch "$new_branch" \
+  --arg worktree "$adopter" \
+  --arg headRevision "$new_head" \
+  --arg contractDigest "$new_archived_contract_digest" \
+  --arg timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+  '{
+    schemaVersion:1,
+    receiptId:("release-adopter-upgrade-" + $workItemId),
+    operationId:("retain-" + $workItemId),
+    repositoryId:$repositoryId,
+    workItemId:$workItemId,
+    runtimeVersion:$runtimeVersion,
+    runtimeDigest:$runtimeDigest,
+    provider:$provider,
+    pullRequest:{number:1,url:$pullRequest,headRevision:$headRevision,baseBranch:$branch,baseRemote:"local",baseRevision:$headRevision,mergeCommit:$headRevision},
+    branch:{name:$branch,remote:"local",headRevision:$headRevision},
+    worktree:{worktreeId:$workItemId,path:$worktree,branch:$branch,headRevision:$headRevision},
+    before:{pullRequest:"merged",branch:"present",worktree:"clean"},
+    after:{pullRequest:"merged",branch:"present",worktree:"clean"},
+    result:{disposition:"retained",failureCodes:[],unknownCodes:[]},
+    actor:"harness:release-adopter-upgrade",
+    authoritySource:"release-adopter-upgrade-acceptance",
+    reason:"The isolated N-1 adopter fixture is intentionally retained after migration verification.",
+    timestamp:$timestamp,
+    contractDigest:$contractDigest,
+    resourceContext:{branch:$branch,worktree:$worktree,baseBranch:$branch,baseRemote:"local",provider:$provider,pullRequest:$pullRequest}
+  }' > "$new_receipt"
+cp "$new_receipt" "$output/work-items/$new_work_item.finalize-receipt.json"
+run "$to_bin" new-finalize.json work-item finalize --repo "$adopter" --id "$new_work_item" --input "$new_receipt"
+jq -e '.state=="recorded" and .disposition=="retained"' "$output/new-finalize.json" >/dev/null || die 'new finalize receipt was not recorded as retained'
+run "$to_bin" new-finalize-verify.json work-item finalize-verify --repo "$adopter" --id "$new_work_item"
+jq -e '.state=="verified" and .disposition=="retained"' "$output/new-finalize-verify.json" >/dev/null || die 'new finalize verification did not pass'
 run "$to_bin" new-close.json close --repo "$adopter" --id "$new_work_item" \
   --human-decision approved \
   --actor human:release-acceptance \
