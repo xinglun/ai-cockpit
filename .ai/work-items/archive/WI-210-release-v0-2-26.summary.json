@@ -1,0 +1,138 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "source version consistency",
+          "path": "tests/release/version_consistency.sh",
+          "type": "release-gate",
+          "verification": "Cargo metadata and current three-language release baselines are aligned to v0.2.26 before publication."
+        },
+        {
+          "locator": "documentation and parity gates",
+          "path": "tests/docs/documentation_acceptance.sh",
+          "type": "documentation-gate",
+          "verification": "Current documentation metadata and tri-language parity rows are valid."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "PR #159 resource context",
+          "path": "https://github.com/xinglun/ai-cockpit/pull/159",
+          "type": "provider-context",
+          "verification": "The reviewed release branch and exact PR context are bound before verification; tag creation remains post-merge."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "public adopter acceptance",
+          "path": ".ai/evidence/external/v0.2.26/adopter/acceptance.json",
+          "type": "adopter-receipt",
+          "verification": "The downloaded v0.2.26 binary will be used without source fallback after publication."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "isolation and cleanup receipt",
+          "path": ".ai/evidence/external/v0.2.26/adopter/SHA256SUMS",
+          "type": "isolation-receipt",
+          "verification": "Public acceptance will bind repository/runtime identity, root manifests, classified writes, and cleanup."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "installed Runtime transition",
+          "path": ".ai/decisions/WI-209-release-tag-pending-close-finalization.close.json",
+          "type": "transition-receipt",
+          "verification": "The published v0.2.26 Runtime will finalize, verify, and close WI-209 after merge."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "failed publication history",
+          "path": "docs/release/distribution.md",
+          "type": "release-history",
+          "verification": "v0.2.25 remains immutable failed history and is not reused."
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-210-release-v0-2-26.contract.json",
+    ".ai/work-items/archive/WI-210-release-v0-2-26.summary.json"
+  ],
+  "checkpointAt": "2026-08-23T16:54:04Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T16:48:07Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-210-release-v0-2-26.contract.json",
+      "docs/release/distribution.md",
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "The release Work Item directly implements the human-authorized v0.2.26 publication, immutable public-binary acceptance, and WI-209 transition close.",
+    "state": "resolved"
+  },
+  "mode": "release",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-23T17:03:39Z",
+  "preflightContractDigest": "sha256:3fdd4b4b8a776d5a8538a6fc650d338808ffdf1ee63ebc54bc39db0df7eab763",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:650e46092079e97cc88e49f44cc79fcec19260f2ed064017931b7e6b995e9710",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/version_consistency.sh",
+        "tests/docs/documentation_acceptance.sh",
+        "tests/docs/parity_status_check.sh"
+      ],
+      "expected": "All current version, distribution, architecture, and parity baselines resolve to v0.2.26.",
+      "required": true,
+      "scenario": "version and release baseline",
+      "status": "verified",
+      "verificationPlan": "Run version consistency, documentation, parity, and hosted release checks."
+    },
+    {
+      "evidence": [],
+      "expected": "Downloaded v0.2.26 completes isolated adopter acceptance without source fallback.",
+      "reason": "Public Release asset does not exist until the reviewed PR is merged and the immutable tag is published; post-release evidence is bound after publication.",
+      "required": false,
+      "scenario": "immutable public adopter",
+      "status": "not_applicable",
+      "verificationPlan": "Run tests/release/adopter_acceptance.sh against the published tag."
+    },
+    {
+      "evidence": [],
+      "expected": "The public v0.2.26 Runtime completes N-1 acceptance and WI-209 finalize, finalize-verify, and close.",
+      "reason": "The public Runtime and immutable Release are not available until post-merge publication; transition evidence is bound after publication.",
+      "required": false,
+      "scenario": "N-1 upgrade and Runtime close",
+      "status": "not_applicable",
+      "verificationPlan": "Run tests/release/adopter_upgrade_acceptance.sh and the post-release lifecycle with the downloaded binary."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T17:03:39Z",
+  "workItemId": "WI-210-release-v0-2-26"
+}

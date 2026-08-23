@@ -41,24 +41,24 @@
   "risk": "high",
   "scenarioCoverage": [
     {
-      "scenario": "version and release baseline",
-      "required": true,
-      "status": "unverified",
       "expected": "All current version, distribution, architecture, and parity baselines resolve to v0.2.26.",
+      "required": true,
+      "scenario": "version and release baseline",
+      "status": "unverified",
       "verificationPlan": "Run version consistency, documentation, parity, and hosted release checks."
     },
     {
-      "scenario": "immutable public adopter",
-      "required": true,
-      "status": "unverified",
       "expected": "Downloaded v0.2.26 completes isolated adopter acceptance without source fallback.",
+      "required": true,
+      "scenario": "immutable public adopter",
+      "status": "unverified",
       "verificationPlan": "Run tests/release/adopter_acceptance.sh against the published tag."
     },
     {
-      "scenario": "N-1 upgrade and Runtime close",
-      "required": true,
-      "status": "unverified",
       "expected": "The public v0.2.26 Runtime completes N-1 acceptance and WI-209 finalize, finalize-verify, and close.",
+      "required": true,
+      "scenario": "N-1 upgrade and Runtime close",
+      "status": "unverified",
       "verificationPlan": "Run tests/release/adopter_upgrade_acceptance.sh and the post-release lifecycle with the downloaded binary."
     }
   ],
