@@ -35,11 +35,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-226-getting-started-parity-registration-final",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/175",
     "worktree": "/private/tmp/ai-cockpit-wi226-getting-started-parity-registration"
   },
   "risk": "normal",
