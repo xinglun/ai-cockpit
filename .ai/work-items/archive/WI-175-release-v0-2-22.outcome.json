@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "Cargo workspace and lockfile identify version 0.2.22 with no stale package version.",
+    "Tri-language release and versioning documentation identifies v0.2.22 as the candidate and preserves the v0.2.21 N-1 boundary.",
+    "Local quality, documentation, release-policy, and installed v0.2.21 Runtime verification gates pass before publication.",
+    "The source commit is merged and tagged only after required hosted checks pass; public Release, adopter, and N-1 evidence are external post-release facts for the successor acceptance Work Item.",
+    "No merged Work Item branch remains remotely after closure; branch cleanup is verified by exact ref lookup."
+  ],
+  "createdAt": "2026-08-23T05:59:10Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:9abf4268db85ed037649b566b54139b238d8a0b12f208dc3abe3af0e564598de",
+  "evidenceRefs": [
+    ".ai/evidence/WI-175-release-v0-2-22.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-175-release-v0-2-22.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-175-release-v0-2-22.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0952dfc87723d1a2136a5a69ead4cc5a6a133949a893adb4b090d97e8616fa98",
+      "workItemId": "WI-175-release-v0-2-22"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-175-release-v0-2-22.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-175-release-v0-2-22.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-175-release-v0-2-22.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-175-release-v0-2-22.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-175-release-v0-2-22.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-175-release-v0-2-22.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-175-release-v0-2-22.contract.json"
+          ],
+          "inference": false,
+          "text": "Prepare and publish the v0.2.22 Runtime baseline; the installed public binary and adopter/N-1 acceptance are verified by the successor post-release Work Item."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-175-release-v0-2-22.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-175-release-v0-2-22"
+  },
+  "taskReportDigest": "sha256:aa859cc39565c8806be1f4e54f250026a200e790c0be7be8711ee1b7473ffbd9",
+  "taskReportMarkdownDigest": "sha256:2f333618ca1e40bfa7a9fd892c8bb3b3505acd256c66e8cab3d068e2a848edbc",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-175-release-v0-2-22.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-175-release-v0-2-22"
+}

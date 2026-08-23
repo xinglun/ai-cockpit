@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-23T05:59:16Z",
+  "files": {
+    "contractDigest": "sha256:22f0ffcaffee7057bc4bf3df6b786f079dae6689134cfb72a7759afa466fea9d",
+    "contractPath": ".ai/work-items/archive/WI-175-release-v0-2-22.contract.json",
+    "eventsDigest": "sha256:ae0cdd2c87eec2184745e127cf55d45ac73c16fa014e61cf90e7d7039a1568f7",
+    "eventsPath": ".ai/work-items/archive/WI-175-release-v0-2-22.events.jsonl",
+    "outcomeDigest": "sha256:f3d48874ce49a280f95c3a275cd3a459f32b136e5917d4593cdd76a230c65a65",
+    "outcomePath": ".ai/work-items/archive/WI-175-release-v0-2-22.outcome.json",
+    "summaryDigest": "sha256:c9ac3ec07df5a022be58022b58e1ccc6744efad53acd8ef549e8a90ea620d54f",
+    "summaryPath": ".ai/work-items/archive/WI-175-release-v0-2-22.summary.json",
+    "taskReportDigest": "sha256:aa859cc39565c8806be1f4e54f250026a200e790c0be7be8711ee1b7473ffbd9",
+    "taskReportMarkdownDigest": "sha256:2f333618ca1e40bfa7a9fd892c8bb3b3505acd256c66e8cab3d068e2a848edbc",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-175-release-v0-2-22.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-175-release-v0-2-22.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-175-release-v0-2-22"
+}
