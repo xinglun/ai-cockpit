@@ -145,6 +145,37 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-quality-route-") as temporar
     else:
         raise AssertionError("a foreign manifest digest must fail closed")
 
+    runtime_reuse = repository / ".ai/evidence/reuse"
+    runtime_reuse.mkdir(parents=True)
+    (runtime_reuse / "index.json").write_text("{}\n", encoding="utf-8")
+    try:
+        route.validate_route_receipt(
+            receipt,
+            repository=repository,
+            manifest_path=MANIFEST_PATH,
+        )
+    except ValueError as error:
+        assert "repository facts" in str(error)
+    else:
+        raise AssertionError("a pre-shadow route receipt must be stale after Runtime writes")
+    final_receipt = route.plan_repository_route(
+        repository=repository,
+        manifest_path=MANIFEST_PATH,
+        base=base,
+        head=head,
+        stage="pull_request",
+        risk="normal",
+        contract_path=None,
+        requested_profile=None,
+    )
+    assert final_receipt["selectedProfile"] == "strict"
+    assert ".ai/evidence/reuse/index.json" in final_receipt["changedPaths"]
+    route.validate_route_receipt(
+        final_receipt,
+        repository=repository,
+        manifest_path=MANIFEST_PATH,
+    )
+
 ci_workflow = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
 release_workflow = (ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8")
 for workflow in (ci_workflow, release_workflow):
@@ -157,10 +188,24 @@ assert '--stage "$stage"' in ci_workflow
 assert "--stage release" in release_workflow
 assert "--profile strict" in release_workflow
 assert "target/quality-route.json" in ci_workflow
+assert "target/quality-route-initial.json" in ci_workflow
+assert "--route-receipt target/quality-route-initial.json" not in ci_workflow
+assert ci_workflow.count("--route-receipt target/quality-route.json") == 1
 assert "target/release-quality-route.json" in release_workflow
 assert "manual to_tag does not match staged candidate identity" in release_workflow
 assert "name: workspace-package-coverage" in ci_workflow
-assert "if: always() && steps.quality_route.outputs.profile != 'light'" in ci_workflow
+assert "if: steps.initial_quality_route.outputs.profile != 'light'" in ci_workflow
+assert "name: Finalize the typed repository quality route" in ci_workflow
+assert "name: verify workspace package coverage receipt" in ci_workflow
+assert (
+    "if: always() && steps.quality_route.outputs.profile != 'light' && "
+    "hashFiles('target/workspace-package-coverage.json') != ''"
+) in ci_workflow
+initial_route = ci_workflow.index("name: Plan the initial typed repository quality route")
+runtime_shadow = ci_workflow.index("name: verify immutable Runtime shadow")
+final_route = ci_workflow.index("name: Finalize the typed repository quality route")
+gate_execution = ci_workflow.index("name: run repository gates exactly once")
+assert initial_route < runtime_shadow < final_route < gate_execution
 
 for relative in (
     "docs/reference/ci-runtime-shadow.md",

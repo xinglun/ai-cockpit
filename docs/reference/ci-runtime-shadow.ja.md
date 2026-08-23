@@ -28,6 +28,14 @@ Pull request は path/risk route を使用し、merge push の stage floor は s
 release source quality は常に `strict` を明示要求し、route receipt と gate report を
 upload します。
 
+CI は境界付きの route plan を 2 回使用します。initial receipt は Runtime shadow が
+必要かを決め、`light` は shadow を skip します。`standard` または `strict` は shadow
+実行後、同じ immutable Git base/head と `.ai/evidence/reuse/**` を含む Runtime の
+repository-local write から final receipt を再計算します。gate runner が consume する
+のは final receipt だけで、両 receipt は診断用に保持されます。final profile が
+non-light の場合は workspace package coverage が必須で、regular receipt file が存在する
+場合だけ upload します。正当な `light` route はその file を要求も upload もしません。
+
 `standard` と `strict` では、独立した execution shadow が public immutable
 `v0.2.28` Runtime を download し、platform archive/binary digest を検証して、repository
 の canonical profile で verify を実行します。receipt は tag、version、archive digest、

@@ -29,6 +29,15 @@ workflow, performance, adopter, and source-archive gates. Pull requests use the
 path/risk route; merge pushes have a strict stage floor. Release source quality
 always requests `strict` and uploads both the route receipt and gate report.
 
+CI uses two bounded route plans. The initial receipt decides whether the
+Runtime shadow is required; `light` skips that shadow. A `standard` or `strict`
+route runs the shadow and then recomputes the final receipt from the same
+immutable Git base/head plus any repository-local Runtime writes, including
+`.ai/evidence/reuse/**`. The gate runner consumes only this final receipt, while
+both receipts remain available for diagnosis. Workspace package coverage is
+required for the final non-light profile and uploaded only when its regular
+receipt file exists; a valid `light` route neither requires nor uploads it.
+
 For `standard` and `strict`, the independent execution shadow downloads the
 public immutable `v0.2.28` Runtime, verifies the platform archive and binary
 digests, and runs canonical repository-profile verification. Its receipt binds
