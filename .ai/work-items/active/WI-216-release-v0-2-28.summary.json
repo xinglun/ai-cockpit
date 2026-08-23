@@ -1,0 +1,75 @@
+{
+  "changedPaths": [
+    "Cargo.lock",
+    "Cargo.toml",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md"
+  ],
+  "checkpointAt": "2026-08-23T19:42:36Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T19:40:15Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:d8ff4d8ce09a626c1c657b924a18eb4ecb3b130e447405ceba79f590f8315efd",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:dfac66d6cd6f0105e7316dba3fd0f4a204bd6c77aaa3bd58a16f2e9a6cb593e9",
+    "reason": "确认本 Work Item 只发布已合并的参考源逐文件比较基线；未发布的 adopter 与 N-1 场景在发布前保持 not_applicable，不把未知事实伪造为绿色。",
+    "recordedAt": "2026-08-24T12:20:00+09:00",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:ead5816ee9f891247a9556dbe91c5be5a346c3918794ed927ee5605302cc7951",
+    "schemaVersion": 1,
+    "workItemId": "WI-216-release-v0-2-28"
+  },
+  "intentAlignment": {
+    "evidenceRefs": [
+      "Cargo.toml",
+      "docs/reference/reference-parity.md"
+    ],
+    "status": "resolved",
+    "summary": "Release only the merged reference-comparison baseline and establish the next immutable installation baseline."
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-08-23T19:46:26Z",
+  "preflightContractDigest": "sha256:d8ff4d8ce09a626c1c657b924a18eb4ecb3b130e447405ceba79f590f8315efd",
+  "preflightDecisionDigest": "sha256:dfac66d6cd6f0105e7316dba3fd0f4a204bd6c77aaa3bd58a16f2e9a6cb593e9",
+  "preflightRepositorySnapshotDigest": "sha256:ead5816ee9f891247a9556dbe91c5be5a346c3918794ed927ee5605302cc7951",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "tests/release/version_consistency.sh",
+        "docs/release/distribution.md",
+        ".ai/evidence/WI-216-release-v0-2-28.verification.json"
+      ],
+      "expected": "The v0.2.28 tag and all public artifacts bind to the reviewed merged default-branch commit and workspace version.",
+      "required": true,
+      "scenario": "immutable public release",
+      "status": "verified",
+      "verificationPlan": "Run source consistency and release workflow gates, then compare the public manifest, checksums, and downloaded binary identity."
+    },
+    {
+      "evidence": [],
+      "expected": "Downloaded v0.2.28 and v0.2.27 artifacts complete isolated adopter and upgrade acceptance without source fallback or Release truth rewrite.",
+      "reason": "The public v0.2.28 artifact does not exist until this reviewed Work Item is merged and its immutable tag is published.",
+      "required": false,
+      "scenario": "post-release adopter and N-1 acceptance",
+      "status": "not_applicable",
+      "verificationPlan": "Run the public adopter and upgrade acceptance workflows and bind their runtime, isolation, cleanup, evidence-reuse, and Outcome receipts."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-08-23T19:46:26.652539+00:00",
+  "workItemId": "WI-216-release-v0-2-28"
+}

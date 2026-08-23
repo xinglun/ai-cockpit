@@ -1,0 +1,78 @@
+{
+  "acceptanceCriteria": [
+    "Workspace package versions and lockfile identify v0.2.28.",
+    "Trilingual release and architecture docs identify v0.2.28 as the current baseline.",
+    "The release tag is created only from the reviewed merged default-branch descendant.",
+    "Public adopter and N-1 acceptance use immutable downloaded artifacts without source fallback.",
+    "Runtime and release evidence bind the published version and binary digests.",
+    "The post-release version consistency and adopter acceptance workflows pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "13f5f4f61034b2654a6e1676900efe39e92e86c5",
+  "createdAt": "2026-08-23T19:40:15Z",
+  "goal": "Release the next verified Runtime baseline before beginning the next reference-source file comparison batch.",
+  "intent": "Publish v0.2.28 from the merged reference file comparison baseline and validate the immutable public artifact with the installed v0.2.27 Runtime.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime feature changes",
+    "Reference-source implementation copying",
+    "User-global Agent or MCP configuration",
+    "Next reference comparison batch"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:52b1502366a647c41bd308c55849efc930a9eb1af322b8ae415c60f050147b50",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-216-release-v0-2-28",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi216-release-v0-2-28"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "scenario": "immutable public release",
+      "expected": "The v0.2.28 tag and all public artifacts bind to the reviewed merged default-branch commit and workspace version.",
+      "required": true,
+      "status": "unverified",
+      "verificationPlan": "Run source consistency and release workflow gates, then compare the public manifest, checksums, and downloaded binary identity."
+    },
+    {
+      "scenario": "post-release adopter and N-1 acceptance",
+      "expected": "Downloaded v0.2.28 and v0.2.27 artifacts complete isolated adopter and upgrade acceptance without source fallback or Release truth rewrite.",
+      "required": false,
+      "status": "not_applicable",
+      "reason": "The public v0.2.28 artifact does not exist until this reviewed Work Item is merged and its immutable tag is published.",
+      "verificationPlan": "Run the public adopter and upgrade acceptance workflows and bind their runtime, isolation, cleanup, evidence-reuse, and Outcome receipts."
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-216-release-v0-2-28.md",
+    "docs/work-items/WI-216-release-v0-2-28.ja.md",
+    "docs/work-items/WI-216-release-v0-2-28.zh-CN.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-216-release-v0-2-28"
+}
