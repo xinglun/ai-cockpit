@@ -170,3 +170,5 @@ identity 不一致は fail-closed になります。任意の `fourPillarProject
 表示用であり、曖昧な文字列 `4D` の protocol field は導入しません。Runtime は
 evidence を合成せず、local projection を provider/enterprise assurance として
 扱いません。
+
+WI-191 は append-only finalization transition chain を追加します。不変の canonical blocked evidence は履歴を書き換えずに merge observation と exact cleanup を経て進み、verification と close は一意な最新 head を束縛します。WI-191H は receipt commit の head binding を閉じます。最初の merge observation で governance receipt append を明示し、Git が証明した場合に限り、観測済みの `70c17e4` archive head を `8f5a025` に進められます。任意の head drift は引き続き拒否されます。

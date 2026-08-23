@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-23T11:03:18Z",
+  "files": {
+    "contractDigest": "sha256:1de3e2c2613e12022ddf603bdcd235fcb857e06b8f296af5e7474daa577aaa07",
+    "contractPath": ".ai/work-items/archive/WI-191-finalization-transition-chain.contract.json",
+    "eventsDigest": "sha256:1bf1474dd5fa223b7045382a165bf971641b49c91dc357c24f36febabf5cfa97",
+    "eventsPath": ".ai/work-items/archive/WI-191-finalization-transition-chain.events.jsonl",
+    "outcomeDigest": "sha256:47be93cf82625860407cb7cb7316c3eebfa75ce5a9c1ce33547a5a56d40d86f7",
+    "outcomePath": ".ai/work-items/archive/WI-191-finalization-transition-chain.outcome.json",
+    "summaryDigest": "sha256:a2cc6f69b931e7f3cb0a300d9e77da6f774632a534a74d24647130a0c94daf73",
+    "summaryPath": ".ai/work-items/archive/WI-191-finalization-transition-chain.summary.json",
+    "taskReportDigest": "sha256:42454c370f2038ae67f081b771d21f4a742596c0ece0512313a6ddcb4c71bd05",
+    "taskReportMarkdownDigest": "sha256:92b51a1fa91030ec945584643462eca088f0acc1488de3e05b6704fb4aa053c2",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-191-finalization-transition-chain.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-191-finalization-transition-chain.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-191-finalization-transition-chain"
+}

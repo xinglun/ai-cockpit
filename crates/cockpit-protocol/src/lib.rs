@@ -994,6 +994,21 @@ pub struct ResourceFinalizationReceipt {
     pub resource_context: Option<ResourceFinalizationContext>,
 }
 
+/// Append-only successor to an immutable canonical resource-finalization
+/// receipt. The predecessor digest and sequence make stale or forked writes
+/// detectable without rewriting historical evidence.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ResourceFinalizationTransitionReceipt {
+    pub schema_version: u32,
+    pub transition_id: String,
+    pub sequence: u64,
+    pub predecessor_receipt_digest: Digest,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub governance_append_revision: Option<String>,
+    pub receipt: ResourceFinalizationReceipt,
+}
+
 #[derive(Debug, Error, PartialEq, Eq)]
 pub enum ResourceFinalizationError {
     #[error("resource finalization schema version must be 1")]
@@ -1367,6 +1382,155 @@ pub fn validate_resource_finalization_replay(
     {
         return Err(ResourceFinalizationError::ReplayMismatch(
             "finalization identity or result",
+        ));
+    }
+    Ok(())
+}
+
+pub fn validate_resource_finalization_transition(
+    previous: &ResourceFinalizationReceipt,
+    transition: &ResourceFinalizationTransitionReceipt,
+    expected_sequence: u64,
+) -> Result<(), ResourceFinalizationError> {
+    let validate_member = |receipt: &ResourceFinalizationReceipt| {
+        let merge_observation = matches!(
+            receipt.result.disposition,
+            ResourceFinalizationDisposition::Retained
+        ) && matches!(
+            receipt.before.pull_request,
+            ResourceFinalizationPullRequestState::Unmerged
+        ) && matches!(
+            receipt.after.pull_request,
+            ResourceFinalizationPullRequestState::Merged
+        ) && receipt.before.branch == receipt.after.branch
+            && receipt.before.worktree == receipt.after.worktree;
+        if merge_observation {
+            let mut normalized = receipt.clone();
+            normalized.before.pull_request = ResourceFinalizationPullRequestState::Merged;
+            validate_resource_finalization_receipt(&normalized)
+        } else {
+            validate_resource_finalization_receipt(receipt)
+        }
+    };
+    validate_member(previous)?;
+    let next = &transition.receipt;
+    if previous.after != next.before {
+        return Err(ResourceFinalizationError::InvalidState(
+            "transition before state must equal predecessor after state",
+        ));
+    }
+    // A merge observation retains the still-present clean resources. This is
+    // valid only inside a linked transition; standalone retained receipts keep
+    // the stricter merged-before rule.
+    validate_member(next)?;
+    if transition.schema_version != 1 {
+        return Err(ResourceFinalizationError::UnsupportedSchema);
+    }
+    validate_resource_finalization_text(&transition.transition_id, "transitionId")?;
+    if transition.sequence != expected_sequence {
+        return Err(ResourceFinalizationError::ReplayMismatch(
+            "transition sequence",
+        ));
+    }
+    let previous_value = serde_json::to_value(previous)
+        .map_err(|_| ResourceFinalizationError::ReplayMismatch("predecessor digest"))?;
+    let previous_digest = digest_json(&previous_value)
+        .map_err(|_| ResourceFinalizationError::ReplayMismatch("predecessor digest"))?;
+    if transition.predecessor_receipt_digest != previous_digest {
+        return Err(ResourceFinalizationError::ReplayMismatch(
+            "predecessor digest",
+        ));
+    }
+    let previous_heads = (
+        previous.pull_request.head_revision.as_str(),
+        previous.branch.head_revision.as_str(),
+        previous.worktree.head_revision.as_str(),
+    );
+    let next_heads = (
+        next.pull_request.head_revision.as_str(),
+        next.branch.head_revision.as_str(),
+        next.worktree.head_revision.as_str(),
+    );
+    if previous_heads.0 != previous_heads.1
+        || previous_heads.1 != previous_heads.2
+        || next_heads.0 != next_heads.1
+        || next_heads.1 != next_heads.2
+    {
+        return Err(ResourceFinalizationError::IdentityMismatch(
+            "pull request, branch, and worktree head revisions differ",
+        ));
+    }
+    let head_changed = previous_heads != next_heads;
+    if previous.repository_id != next.repository_id
+        || previous.work_item_id != next.work_item_id
+        || previous.provider != next.provider
+        || previous.pull_request.number != next.pull_request.number
+        || previous.pull_request.url != next.pull_request.url
+        || previous.pull_request.base_branch != next.pull_request.base_branch
+        || previous.pull_request.base_remote != next.pull_request.base_remote
+        || previous.pull_request.base_revision != next.pull_request.base_revision
+        || previous.branch.name != next.branch.name
+        || previous.branch.remote != next.branch.remote
+        || previous.worktree.worktree_id != next.worktree.worktree_id
+        || previous.worktree.path != next.worktree.path
+        || previous.worktree.branch != next.worktree.branch
+        || previous.contract_digest != next.contract_digest
+        || previous.resource_context != next.resource_context
+    {
+        return Err(ResourceFinalizationError::IdentityMismatch(
+            "finalization transition identity",
+        ));
+    }
+    if head_changed {
+        let bounded_merge_observation = transition.sequence == 1
+            && transition.governance_append_revision.as_deref() == Some(next_heads.0)
+            && matches!(
+                previous.after.pull_request,
+                ResourceFinalizationPullRequestState::Unmerged
+            )
+            && matches!(
+                next.after.pull_request,
+                ResourceFinalizationPullRequestState::Merged
+            )
+            && next.pull_request.merge_commit.is_some()
+            && matches!(
+                next.result.disposition,
+                ResourceFinalizationDisposition::Retained
+            );
+        if !bounded_merge_observation {
+            return Err(ResourceFinalizationError::IdentityMismatch(
+                "unbound finalization head revision change",
+            ));
+        }
+    } else if transition.governance_append_revision.is_some() {
+        return Err(ResourceFinalizationError::IdentityMismatch(
+            "governance append revision without head change",
+        ));
+    }
+    if previous.pull_request.merge_commit.is_some()
+        && previous.pull_request.merge_commit != next.pull_request.merge_commit
+    {
+        return Err(ResourceFinalizationError::InvalidState(
+            "merge commit cannot change after it is observed",
+        ));
+    }
+    if matches!(
+        previous.after.pull_request,
+        ResourceFinalizationPullRequestState::Merged
+    ) && !matches!(
+        next.before.pull_request,
+        ResourceFinalizationPullRequestState::Merged
+    ) {
+        return Err(ResourceFinalizationError::InvalidState(
+            "merged pull request cannot regress",
+        ));
+    }
+    if matches!(
+        previous.result.disposition,
+        ResourceFinalizationDisposition::Deleted
+    ) {
+        return Err(ResourceFinalizationError::InvalidDisposition(
+            "deleted finalization is terminal",
         ));
     }
     Ok(())

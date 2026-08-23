@@ -1,0 +1,96 @@
+{
+  "acceptanceCriteria": [
+    "Canonical pre-merge blocked finalization receipts remain byte-for-byte immutable and a legal blocked/unmerged to merged/deleted transition is appended under a digest-suffixed path.",
+    "The transition resolver requires one unique linear head and rejects foreign, forked, stale, sequence-invalid, symlinked, malformed, or duplicate-key records fail closed.",
+    "finalize-verify and close validate and bind the latest transition head while legacy single canonical deleted or retained receipts remain compatible.",
+    "Protocol, repository, CLI, and end-to-end tests prove the WI-190 topology without rewriting WI-190 historical truth.",
+    "English, Simplified Chinese, and Japanese workflow, command, Work Item, and parity documentation describe append-only finalization transitions accurately."
+  ],
+  "authority": "authorized",
+  "baseRevision": "5d76d9e9fcbe04b52cc5f024897d61a82eca7344",
+  "createdAt": "2026-08-23T10:44:36Z",
+  "goal": "实现 typed finalization transition chain、唯一 head 解析、finalize-verify/close 最新绑定与 WI-190 实际恢复拓扑，并保留 legacy canonical receipt 兼容。",
+  "intent": "修复 post-merge resource finalization 的一次性 canonical receipt 缺口，使合法的 pre-merge blocked evidence 能在 merge 与精确清理后通过 append-only transition 推进，同时保持所有历史 receipt 不可变。",
+  "mode": "implementation",
+  "outOfScope": [
+    ".ai/work-items/archive/WI-190-finalization-plan-order*",
+    ".ai/decisions/WI-190-finalization-plan-order.finalize.json",
+    ".github/workflows/**",
+    "tests/ci/**"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:276004a02a5fc2e960bcce6a3495e72dd7bac840185743b77bda2adfca543bc1",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-191-finalization-transition-chain",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/152",
+    "worktree": "/private/tmp/ai-cockpit-wi191-finalization-transition-chain"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "expected": "The canonical blocked receipt remains unchanged while a digest-suffixed merged/deleted transition becomes the unique head.",
+      "required": true,
+      "scenario": "WI-190 pre-merge blocked receipt advances after merge and cleanup",
+      "status": "unverified",
+      "verificationPlan": "Run protocol and repository transition-chain tests with the WI-190 state topology."
+    },
+    {
+      "expected": "Foreign, forked, stale, sequence-invalid, symlinked, malformed, and duplicate-key candidates fail closed.",
+      "required": true,
+      "scenario": "ambiguous or hostile transition chain",
+      "status": "unverified",
+      "verificationPlan": "Run repository adversarial chain resolver tests."
+    },
+    {
+      "expected": "Existing canonical deleted and retained receipts still verify and close without migration.",
+      "required": true,
+      "scenario": "legacy single canonical receipt",
+      "status": "unverified",
+      "verificationPlan": "Run protocol/repository compatibility tests."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/resource_finalization.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+    "crates/cockpit-cli/tests/lifecycle.rs",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-191-finalization-transition-chain.md",
+    "docs/work-items/WI-191-finalization-transition-chain.zh-CN.md",
+    "docs/work-items/WI-191-finalization-transition-chain.ja.md",
+    "docs/superpowers/specs/2026-08-23-finalization-transition-chain-design.md",
+    "docs/superpowers/plans/2026-08-23-finalization-transition-chain.md"
+  ],
+  "sources": [
+    ".ai/decisions/WI-190-finalization-plan-order.finalize.json",
+    ".ai/work-items/archive/WI-190-finalization-plan-order.contract.json",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "docs/reference/agent-workflow.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked -p cockpit-protocol --test resource_finalization",
+    "cargo test --locked -p cockpit-repository --test resource_finalization_transition",
+    "cargo test --locked -p cockpit-cli --test lifecycle",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-191-finalization-transition-chain"
+}

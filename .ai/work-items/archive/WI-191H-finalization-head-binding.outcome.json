@@ -1,0 +1,149 @@
+{
+  "acceptanceResults": [
+    "The first merge-observation transition may change all three aligned head revisions from 70c17e4 to 8f5a025 only when it explicitly binds the governance append revision and repository Git proves the append contains only WI-191 finalization decision evidence.",
+    "Arbitrary head drift, non-merge transitions, later transitions, foreign commits, non-ancestor revisions, or unrelated changed paths fail closed.",
+    "The cleanup transition retains the merge-observation head revision and existing finalization-chain compatibility remains passing."
+  ],
+  "createdAt": "2026-08-23T11:25:34Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:d9e8d3c5224a37fd2c880f310c24758a6b02731a08589730a6d3db33d43aa6d2",
+  "evidenceRefs": [
+    ".ai/evidence/WI-191H-finalization-head-binding.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-191H-finalization-head-binding.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-191H-finalization-head-binding.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:75c38abfe1683214a79e28ae6fa67e6b3877810a385c4deeba2fc4c628925ba5",
+      "workItemId": "WI-191H-finalization-head-binding"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-191H-finalization-head-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-191-finalization-transition-chain.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-191H-finalization-head-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-191H-finalization-head-binding.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-191H-finalization-head-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-191H-finalization-head-binding.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-191H-finalization-head-binding.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-191H-finalization-head-binding.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-191H-finalization-head-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-191H-finalization-head-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-191H-finalization-head-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-191H-finalization-head-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "只允许显式且可由 Git 证明的 WI-191 finalization governance append revision 在首次 merge-observation transition 中推进，T2 cleanup 保持新 head 不变。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-191H-finalization-head-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-191H-finalization-head-binding"
+  },
+  "taskReportDigest": "sha256:45caf166804d52e6222b511978c5fd9d883690d84853bacb95a91bab119b2fe0",
+  "taskReportMarkdownDigest": "sha256:0ab99f798cb0208d840c2395402d6fddf0e6320e06f5a0e61564465c42c18eaf",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-191H-finalization-head-binding.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-191H-finalization-head-binding"
+}
