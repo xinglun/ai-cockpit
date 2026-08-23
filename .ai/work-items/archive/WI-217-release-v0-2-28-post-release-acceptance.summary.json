@@ -265,12 +265,13 @@
     ".ai/evidence/external/v0.2.28/upgrade-macos/work-items/n-minus-one-post-migration.close.json",
     ".ai/evidence/external/v0.2.28/upgrade-macos/work-items/n-minus-one-post-migration.finalize-context.json",
     ".ai/evidence/external/v0.2.28/upgrade-macos/work-items/n-minus-one-post-migration.finalize-receipt.json",
-    ".ai/work-items/active/WI-217-release-v0-2-28-post-release-acceptance.contract.json",
-    ".ai/work-items/active/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+    ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.contract.json",
+    ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
   ],
   "checkpointAt": "2026-08-23T20:23:29Z",
   "checkpointCount": 1,
   "createdAt": "2026-08-23T20:21:44Z",
+  "failedGate": "finish.preflight",
   "intentAlignment": {
     "evidence": [
       "Cargo.toml",
@@ -282,14 +283,16 @@
     "state": "resolved"
   },
   "mode": "implementation",
+  "outcomeState": "blocked",
   "predecessorContractDigest": "sha256:305ee88d65945d8ee57398c1d1edec14249c72efd8f61ea68c121f9ea2e62975",
   "predecessorWorkItemId": "WI-216-release-v0-2-28",
-  "preflightAt": "2026-08-23T20:26:05Z",
-  "preflightContractDigest": "sha256:bc6a00e0b508f5557d88154496250e055a104f11de1b3f753f723404824e7f1d",
+  "preflightAt": "2026-08-23T20:28:34Z",
+  "preflightContractDigest": "sha256:ffb413cd6f1ff6efe58aa5f9d7782c82baa39202c7a95d2d3c21fa6aee6604aa",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:0399dd9c2c4ae7cb95e0002a5f3823ffd6e4692df6420f86caefa0736828ff77",
+  "preflightRepositorySnapshotDigest": "sha256:99ec8876edc43843bf8fc84f123bfcf37c5a462019840b2620e8b60fe135d497",
   "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryCondition": "Record a fresh non-red preflight result, then retry finish.",
   "recoveryDecisionPath": ".ai/decisions/WI-216-release-v0-2-28.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -332,7 +335,7 @@
       "verificationPlan": "Run the public adopter and upgrade acceptance workflows and bind their runtime, isolation, cleanup, evidence-reuse, and Outcome receipts."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-08-23T20:26:26.007951+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T20:28:43Z",
   "workItemId": "WI-217-release-v0-2-28-post-release-acceptance"
 }

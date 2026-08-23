@@ -1,0 +1,1593 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-217-release-v0-2-28-post-release-acceptance.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:99ec8876edc43843bf8fc84f123bfcf37c5a462019840b2620e8b60fe135d497",
+    "workItemId": "WI-217-release-v0-2-28-post-release-acceptance"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-216-release-v0-2-28.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-acceptance.macos.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/SHA256SUMS"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/SHA256SUMS.release"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/acceptance.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/agent-doctor.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/agent-install.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/agent-list.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/attach.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/cleanup.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/first-adopter-smoke.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/inspect.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/isolation-manifests/cargo-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/isolation-manifests/cargo-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/isolation-manifests/home-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/isolation-manifests/home-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/isolation-manifests/source-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/isolation-manifests/source-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/isolation-manifests/tmp-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/isolation-manifests/tmp-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/isolation-manifests/xdg-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/isolation-manifests/xdg-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/isolation.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/lifecycle-archive.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/lifecycle-checkpoint.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/lifecycle-close.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/lifecycle-finalize-plan.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/lifecycle-finalize-verify.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/lifecycle-finalize.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/lifecycle-finish.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/lifecycle-preflight.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/lifecycle-start.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/lifecycle-verify.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/profile-confirm.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/release-manifest.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/release.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/repository.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/runtime.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/verify-first.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/verify-reuse.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/work-items/first-adopter-smoke.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/work-items/lifecycle.evidence.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/work-items/release-adopter-lifecycle.close.binding.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/work-items/release-adopter-lifecycle.close.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/work-items/release-adopter-lifecycle.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/work-items/release-adopter-lifecycle.finalize-context.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/work-items/release-adopter-lifecycle.finalize-receipt.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/work-items/release-adopter-lifecycle.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-linux/work-items/release-adopter-lifecycle.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/SHA256SUMS"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/SHA256SUMS.release"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/acceptance.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/agent-doctor.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/agent-install.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/agent-list.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/attach.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/cleanup.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/first-adopter-smoke.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/inspect.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/isolation-manifests/cargo-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/isolation-manifests/cargo-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/isolation-manifests/home-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/isolation-manifests/home-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/isolation-manifests/source-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/isolation-manifests/source-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/isolation-manifests/tmp-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/isolation-manifests/tmp-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/isolation-manifests/xdg-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/isolation-manifests/xdg-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/isolation.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/lifecycle-archive.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/lifecycle-checkpoint.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/lifecycle-close.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/lifecycle-finalize-plan.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/lifecycle-finalize-verify.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/lifecycle-finalize.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/lifecycle-finish.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/lifecycle-preflight.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/lifecycle-start.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/lifecycle-verify.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/profile-confirm.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/release-manifest.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/release.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/repository.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/runtime.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/verify-first.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/verify-reuse.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/work-items/first-adopter-smoke.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/work-items/lifecycle.evidence.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/work-items/release-adopter-lifecycle.close.binding.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/work-items/release-adopter-lifecycle.close.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/work-items/release-adopter-lifecycle.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/work-items/release-adopter-lifecycle.finalize-context.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/work-items/release-adopter-lifecycle.finalize-receipt.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/work-items/release-adopter-lifecycle.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-macos/work-items/release-adopter-lifecycle.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/adopter-upgrade-acceptance.macos.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/SHA256SUMS"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/acceptance.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/cleanup.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/evidence-before.sha256"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/from-SHA256SUMS.release"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/from-agent-doctor.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/from-agent-install.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/from-attach.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/from-profile.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/from-release-manifest.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/from-runtime.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/history-digest.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/isolation-manifests/cargo-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/isolation-manifests/cargo-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/isolation-manifests/home-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/isolation-manifests/home-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/isolation-manifests/source-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/isolation-manifests/source-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/isolation-manifests/tmp-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/isolation-manifests/tmp-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/isolation-manifests/xdg-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/isolation-manifests/xdg-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/isolation.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/migration-state.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/new-agent-doctor.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/new-archive.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/new-checkpoint.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/new-close.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/new-compatibility-after.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/new-compatibility.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/new-finalize-plan.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/new-finalize-verify.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/new-finalize.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/new-finish.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/new-preflight.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/new-start.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/new-verify.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/old-archive.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/old-checkpoint.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/old-close.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/old-finalize-plan.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/old-finalize-verify.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/old-finalize.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/old-finish.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/old-preflight.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/old-start.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/old-verify.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/to-SHA256SUMS.release"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/to-release-manifest.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/to-runtime.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/work-items/n-minus-one-lifecycle.close.binding.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/work-items/n-minus-one-lifecycle.close.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/work-items/n-minus-one-lifecycle.finalize-context.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/work-items/n-minus-one-lifecycle.finalize-receipt.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/work-items/n-minus-one-post-migration.close.binding.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/work-items/n-minus-one-post-migration.close.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/work-items/n-minus-one-post-migration.finalize-context.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-linux/work-items/n-minus-one-post-migration.finalize-receipt.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/SHA256SUMS"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/acceptance.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/cleanup.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/evidence-before.sha256"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/from-SHA256SUMS.release"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/from-agent-doctor.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/from-agent-install.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/from-attach.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/from-profile.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/from-release-manifest.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/from-runtime.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/history-digest.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/isolation-manifests/cargo-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/isolation-manifests/cargo-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/isolation-manifests/home-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/isolation-manifests/home-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/isolation-manifests/source-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/isolation-manifests/source-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/isolation-manifests/tmp-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/isolation-manifests/tmp-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/isolation-manifests/xdg-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/isolation-manifests/xdg-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/isolation.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/migration-state.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/new-agent-doctor.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/new-archive.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/new-checkpoint.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/new-close.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/new-compatibility-after.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/new-compatibility.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/new-finalize-plan.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/new-finalize-verify.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/new-finalize.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/new-finish.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/new-preflight.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/new-start.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/new-verify.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/old-archive.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/old-checkpoint.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/old-close.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/old-finalize-plan.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/old-finalize-verify.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/old-finalize.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/old-finish.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/old-preflight.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/old-start.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/old-verify.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/to-SHA256SUMS.release"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/to-release-manifest.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/to-runtime.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/work-items/n-minus-one-lifecycle.close.binding.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/work-items/n-minus-one-lifecycle.close.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/work-items/n-minus-one-lifecycle.finalize-context.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/work-items/n-minus-one-lifecycle.finalize-receipt.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/work-items/n-minus-one-post-migration.close.binding.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/work-items/n-minus-one-post-migration.close.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/work-items/n-minus-one-post-migration.finalize-context.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.28/upgrade-macos/work-items/n-minus-one-post-migration.finalize-receipt.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-217-release-v0-2-28-post-release-acceptance.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-217-release-v0-2-28-post-release-acceptance.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-217-release-v0-2-28-post-release-acceptance.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-217-release-v0-2-28-post-release-acceptance.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-217-release-v0-2-28-post-release-acceptance.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.contract.json"
+        ],
+        "inference": false,
+        "text": "Complete the post-release acceptance boundary for the v0.2.28 reference-comparison release baseline."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-217-release-v0-2-28-post-release-acceptance"
+}
