@@ -18,8 +18,8 @@ jobs:
         with:
           toolchain: 1.94.1
           components: rustfmt, clippy
-      - name: Plan the typed repository quality route
-        id: quality_route
+      - name: Plan the initial typed repository quality route
+        id: initial_quality_route
         shell: bash
         env:
           EVENT_NAME: ${{ github.event_name }}
@@ -49,22 +49,48 @@ jobs:
             --head "$head_revision"
             --stage "$stage"
             --risk normal
-            --receipt target/quality-route.json
+            --receipt target/quality-route-initial.json
           )
           if (( ${#contracts[@]} == 1 )); then route_args+=(--contract "${contracts[0]}"); fi
           python3 tests/ci/quality_route.py "${route_args[@]}" >/dev/null
-          echo "profile=$(jq -er '.selectedProfile' target/quality-route.json)" >> "$GITHUB_OUTPUT"
+          echo "profile=$(jq -er '.selectedProfile' target/quality-route-initial.json)" >> "$GITHUB_OUTPUT"
+          echo "base_revision=$base_revision" >> "$GITHUB_OUTPUT"
+          echo "head_revision=$head_revision" >> "$GITHUB_OUTPUT"
+          echo "stage=$stage" >> "$GITHUB_OUTPUT"
+          echo "contract_path=${contracts[0]:-}" >> "$GITHUB_OUTPUT"
       - name: verify immutable Runtime shadow
-        if: steps.quality_route.outputs.profile != 'light'
+        if: steps.initial_quality_route.outputs.profile != 'light'
         shell: bash
         run: bash tests/ci/runtime_verify_shadow.sh "$GITHUB_WORKSPACE" target/ci-runtime-verify-shadow.json
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
-        if: steps.quality_route.outputs.profile != 'light'
+        if: steps.initial_quality_route.outputs.profile != 'light'
         with:
           name: ci-runtime-verify-shadow
           path: target/ci-runtime-verify-shadow.json
           if-no-files-found: error
           retention-days: 7
+      - name: Finalize the typed repository quality route
+        id: quality_route
+        shell: bash
+        env:
+          ROUTE_BASE_REVISION: ${{ steps.initial_quality_route.outputs.base_revision }}
+          ROUTE_CONTRACT_PATH: ${{ steps.initial_quality_route.outputs.contract_path }}
+          ROUTE_HEAD_REVISION: ${{ steps.initial_quality_route.outputs.head_revision }}
+          ROUTE_STAGE: ${{ steps.initial_quality_route.outputs.stage }}
+        run: |
+          set -euo pipefail
+          route_args=(
+            --repo "$GITHUB_WORKSPACE"
+            --manifest tests/ci/repository_gate_manifest.json
+            --base "$ROUTE_BASE_REVISION"
+            --head "$ROUTE_HEAD_REVISION"
+            --stage "$ROUTE_STAGE"
+            --risk normal
+            --receipt target/quality-route.json
+          )
+          if [[ -n "$ROUTE_CONTRACT_PATH" ]]; then route_args+=(--contract "$ROUTE_CONTRACT_PATH"); fi
+          python3 tests/ci/quality_route.py "${route_args[@]}" >/dev/null
+          echo "profile=$(jq -er '.selectedProfile' target/quality-route.json)" >> "$GITHUB_OUTPUT"
       - name: run repository gates exactly once
         shell: bash
         run: >-
@@ -73,6 +99,10 @@ jobs:
           --manifest tests/ci/repository_gate_manifest.json
           --route-receipt target/quality-route.json
           --report target/repository-gates.json
+      - name: verify workspace package coverage receipt
+        if: steps.quality_route.outputs.profile != 'light'
+        shell: bash
+        run: test -f target/workspace-package-coverage.json && test ! -L target/workspace-package-coverage.json
       - name: verify three-language work-item counterparts
         shell: bash
         run: |
@@ -88,13 +118,14 @@ jobs:
           name: repository-gate-receipts
           path: |
             target/governance-integrity-report.json
+            target/quality-route-initial.json
             target/quality-route.json
             target/repository-gates.json
           if-no-files-found: error
           retention-days: 7
       - name: upload workspace package coverage
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
-        if: always() && steps.quality_route.outputs.profile != 'light'
+        if: always() && steps.quality_route.outputs.profile != 'light' && hashFiles('target/workspace-package-coverage.json') != ''
         with:
           name: workspace-package-coverage
           path: |

@@ -26,6 +26,13 @@ release、workflow、performance、adopter 与 source-archive gates。Pull reque
 path/risk route；merge push 的 stage floor 是 strict。release source quality 始终显式
 请求 `strict`，并上传 route receipt 与 gate report。
 
+CI 使用两个有边界的 route plan。initial receipt 决定是否需要 Runtime shadow；`light`
+会跳过 shadow。`standard` 或 `strict` 先运行 shadow，再用同一个不可变 Git base/head 和
+所有 Runtime 仓库本地写入（包括 `.ai/evidence/reuse/**`）重算 final receipt。gate runner
+只消费 final receipt，同时保留两个 receipt 供诊断。最终 profile 非 light 时必须生成
+workspace package coverage，并且只在其 regular receipt 文件存在时上传；合法的 `light`
+route 既不要求也不上传该文件。
+
 在 `standard` 和 `strict` 中，独立 execution shadow 下载公开且不可变的 `v0.2.28`
 Runtime，验证各平台 archive/binary digest，再使用仓库规范 profile 执行验证。receipt
 绑定 tag、version、archive digest、binary digest、platform、download source 与
