@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-pre-merge-finalization-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "c6ca766f40122aa7083e85951df9530f53542f74",
+    "name": "codex/wi-196-governance-recovery-gate-retry",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:d122449b680fa3e7a84f76c27d7c954616c053d9cf4752b67d7d62d2f16d6570",
+  "operationId": "operation-WI-197-governance-gate-pr-closure-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "4b45b43b41769e0db240c3a133b5d80427983913",
+    "headRevision": "c6ca766f40122aa7083e85951df9530f53542f74",
+    "number": 153,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/153"
+  },
+  "reason": "awaiting_merge_close: PR #153 is unmerged, so the reviewed branch and clean worktree are retained; close is deferred until hosted checks pass and the reviewed PR is merged.",
+  "receiptId": "ai-cockpit-WI-197-governance-gate-pr-closure-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-196-governance-recovery-gate-retry",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/153",
+    "worktree": "/private/tmp/ai-cockpit-wi195-governance-recovery-gate"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+  "runtimeVersion": "0.2.23",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-23T13:11:00Z",
+  "workItemId": "WI-197-governance-gate-pr-closure",
+  "worktree": {
+    "branch": "codex/wi-196-governance-recovery-gate-retry",
+    "headRevision": "c6ca766f40122aa7083e85951df9530f53542f74",
+    "path": "/private/tmp/ai-cockpit-wi195-governance-recovery-gate",
+    "worktreeId": "WI-197-governance-gate-pr-closure"
+  }
+}
