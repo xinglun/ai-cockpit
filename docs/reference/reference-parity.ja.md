@@ -28,6 +28,10 @@ matrix は次の 4 state だけを使います。
 - **Deferred** — 現在の Runtime boundary には意図的に含めない。
 - **External boundary** — Agent host、provider、organization、外部 system が担当する。
 
+固定した file-by-file method と first-batch ledger は
+[Reference file comparison](reference-file-comparison.ja.md) にまとめます。この ledger は omission を防ぐ index であり、
+このページは higher-level の product-boundary matrix を維持します。
+
 ## Parity matrix
 
 | Reference concern | Rust Runtime status | Evidence と boundary |

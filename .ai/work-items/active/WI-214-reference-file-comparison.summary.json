@@ -1,0 +1,24 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-214-reference-file-comparison.approach.json",
+    ".ai/work-items/active/WI-214-reference-file-comparison.contract.json",
+    ".ai/work-items/active/WI-214-reference-file-comparison.summary.json"
+  ],
+  "checkpointAt": "2026-08-23T19:10:03Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T19:00:39Z",
+  "failedGate": "finish.verification",
+  "mode": "docs",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-23T19:10:47Z",
+  "preflightContractDigest": "sha256:a089c5f1836c6cdf63bb19476b2b6e77adc80e0f97921f63b665c994d2bf4bfa",
+  "preflightDecisionDigest": "sha256:4064f4be3e397bd2b4fe6481c7db639a1087bb0318b56affa368541ef3d3144b",
+  "preflightRepositorySnapshotDigest": "sha256:d8393586bf191ad6db24c62e364c7348e756109f4cebcbcb031bc486408ba2eb",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-23T19:10:57Z",
+  "workItemId": "WI-214-reference-file-comparison"
+}

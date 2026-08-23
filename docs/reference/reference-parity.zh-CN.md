@@ -27,6 +27,9 @@ capabilityClaims:
 - **延期**——有意不属于当前 Runtime 边界。
 - **外部边界**——由 Agent host、provider、组织或外部系统负责。
 
+固定的逐文件比较方法和首批台账见[参考源逐文件比较](reference-file-comparison.zh-CN.md)。该台账是防遗漏索引；
+本页仍是更高层的产品边界矩阵。
+
 ## 对齐矩阵
 
 | 参考关注点 | Rust Runtime 状态 | 证据与边界 |

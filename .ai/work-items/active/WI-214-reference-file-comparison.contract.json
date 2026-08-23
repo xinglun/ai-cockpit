@@ -1,0 +1,64 @@
+{
+  "acceptanceCriteria": [
+    "Pin reference source e5acb677da6621004d96f0ef353c58fe8d3acfbf and target baseline 46e426625a8cae450f1190d0bdbafd6d8e648a90.",
+    "Every tracked reference path is assigned exactly one comparison classification and every first-batch path names a counterpart or explicit no-counterpart reason.",
+    "Tri-language human summary and machine-readable inventory reject unclassified first-batch files and preserve both immutable commits.",
+    "No reference implementation, generated history, or global provider configuration is copied.",
+    "Documentation/parity/inventory checks and installed v0.2.27 Runtime verification pass with a visible Outcome."
+  ],
+  "authority": "authorized",
+  "baseRevision": "46e426625a8cae450f1190d0bdbafd6d8e648a90",
+  "createdAt": "2026-08-23T19:00:39Z",
+  "goal": "Establish an evidence-backed, file-by-file parity baseline against the reference source without copying its implementation model.",
+  "intent": "A broad reference comparison can miss files or mistake a Rust architectural replacement for an omission. The first batch must make every reference file classifiable and explicitly compare governance entrypoints before deeper feature batches. Use the pinned public reference commit and latest remote default-branch Rust baseline; keep the shared external Runtime and repository-local state separated; do not edit global Agent/MCP configuration or the dirty root worktree; keep the comparison reader-facing and avoid copying reference historical progress records.",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime behavior changes",
+    "reference Python runtime or Makefile copying",
+    "provider/global configuration",
+    "second and later parity batches",
+    "dirty root worktree"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:278d981e40297ad45ab2df849db74cba42d7b5516ee629ce2ef9f22f528a5d7d",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-214-reference-file-comparison",
+    "provider": "github",
+    "pullRequest": "pending",
+    "worktree": "/private/tmp/ai-cockpit-wi214-reference-file-comparison"
+  },
+  "risk": "medium",
+  "scope": [
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "CONTRIBUTING.md",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "tests/docs/documentation_acceptance.sh"
+  ],
+  "sources": [
+    "reference=https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf",
+    "target=https://github.com/xinglun/ai-cockpit@46e426625a8cae450f1190d0bdbafd6d8e648a90",
+    "runtime=ai-cockpit@0.2.27 sha256:ea9a4a090307cb650eeda008942a5bc72fd0d1276b131405868f31d1eabcc048"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/conformance/reference_file_inventory.py --reference /private/tmp/ai-cockpit-template-baseline.ccfjcL --target . --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf --target-commit 46e426625a8cae450f1190d0bdbafd6d8e648a90 --check",
+    "bash tests/conformance/reference_file_inventory_test.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh"
+  ],
+  "workItemId": "WI-214-reference-file-comparison"
+}

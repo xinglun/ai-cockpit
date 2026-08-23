@@ -1,0 +1,70 @@
+---
+author: AI Cockpit maintainers
+title: "参考源逐文件比较"
+description: "按固定基线逐个比较参考源文件的分阶段方法。"
+audience:
+  - maintainer
+  - reviewer
+status: current
+authority: canonical
+lastVerifiedBy: documentation-acceptance
+capabilityClaims:
+  - reference_parity
+---
+
+# 参考源逐文件比较
+
+本页说明 Rust 工程如何与公开参考源逐个文件比较。参考源是规格和行为语料，
+不是应复制到 Rust Runtime 的目录。
+
+## 固定基线
+
+- 参考源：[spirex-ds-dev/ai-cockpit-template](https://github.com/spirex-ds-dev/ai-cockpit-template)，提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf`。
+- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `46e426625a8cae450f1190d0bdbafd6d8e648a90`。
+- 比较时使用的 Runtime：`ai-cockpit 0.2.27`，binary SHA256 为 `ea9a4a090307cb650eeda008942a5bc72fd0d1276b131405868f31d1eabcc048`。
+
+机器可读台账见
+[`reference_file_inventory.json`](../../tests/conformance/reference_file_inventory.json)。
+回归检查要求每个参考源 tracked path 都有且只有一个分类，并拒绝首批未分类文件。
+
+## 分类规则
+
+- **implemented-equivalent**——相同的用户入口或治理责任已经存在，边界等效。
+- **implemented-different-by-design**——责任存在，但由 Rust Protocol、共享外部 Runtime
+  或显式 Agent adapter 以不同路径或抽象负责。
+- **migrate-gap**——存在具体责任，但没有被接受的对应物，需要有界修复。
+- **not-applicable**——超出当前 Runtime 产品边界。
+- **reference-only**——只保留为解释或 conformance 资料，不是当前 Runtime 行为。
+- **generated-history**——不可变参考历史或生成投影，绝不复制或静默改写。
+- **deferred-next-batch**——已登记但语义比较安排在后续批次，不表示已经对齐或遗漏。
+
+## 首批：治理入口
+
+首批覆盖根目录 Agent 规则、`.ai` 入口和术语、面向读者的 README/架构入口，以及
+参考源治理配置入口。Rust 工程保留重要边界，但不复制参考源的 Python Runtime、
+Makefile target、YAML guard 树、provider 全局规则或生成历史。
+
+| 参考表面 | Rust 结果 | 边界 |
+| --- | --- | --- |
+| `AGENTS.md`、`CLAUDE.md`、`GEMINI.md`、Cursor rule | 有意采用不同实现 | 工程使用 attach 的 adapter 和显式 provider 安装。共享 Runtime 仍在工程外，不通过比较注入 provider 全局配置。 |
+| `.ai/README.md`、glossary、cockpit workflow/adoption guide | 有意采用不同实现 | `.ai/README.md`、`.ai/glossary.md`、`docs/reference/agent-workflow.*` 和 getting-started 路线承载 Rust request-scoped Runtime 流程。 |
+| 参考 guard、policy、quality、trust schema | 有意采用不同实现 | 对应控制由 typed Rust Protocol/Runtime 服务、repository tests、CI manifest 和参考文档提供；不复制源 YAML/JSON 文件。 |
+| 根 README 与文档 README 入口 | 有意采用不同实现 | 三种语言入口互链，并说明共享 Runtime 与 repository context 隔离。 |
+| `SECURITY.md` | 等效并增加 Rust 边界 | 保留安全策略入口，并补充 Runtime 部署与补丁边界。 |
+| `CONTRIBUTING.md` | 本批补齐 | 现在说明显式 `--repo` 生命周期、fail-closed evidence、可见 Outcome、reviewed PR 和合并后的精确清理。 |
+| 参考生成的 Work Item、decision、evidence、audit、release history | 生成历史 | 这些 bytes 作为参考历史保留，不复制到 Rust 工程。 |
+
+因此，首批发现的唯一具体入口缺口（`CONTRIBUTING.md`）已补齐，但没有建立第二套
+治理系统。其余文件已在台账中明确排入后续语义批次，不会被静默当作等效。
+
+## 批次顺序
+
+后续批次按以下顺序比较并在必要时实现有界差异：
+
+1. Contract 字段、intent、scenario/acceptance 维度、并行 slot 与 preflight review。
+2. CI quality routing、动态 verification tier 与 evidence assurance。
+3. Runtime lifecycle、Outcome/MCP projection、recovery、knowledge 与 repository isolation。
+4. Conformance、荒诞/对抗场景、性能、发布与 adopter 验收。
+
+每批都有独立 Contract 和 evidence。批次通过 review 并发布后，下一批使用已发布 Runtime
+重新验收，避免工作树代码伪装成发布行为。

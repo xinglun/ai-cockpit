@@ -29,6 +29,10 @@ The matrix uses exactly four states:
 - **Deferred** — intentionally not part of the current Runtime boundary.
 - **External boundary** — owned by an Agent host, provider, organization, or external system.
 
+The pinned file-by-file method and first-batch ledger are documented in
+[Reference file comparison](reference-file-comparison.md). That ledger is the
+anti-omission index; this page remains the higher-level product-boundary matrix.
+
 ## Parity matrix
 
 | Reference concern | Rust Runtime status | Evidence and boundary |
