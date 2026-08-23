@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "post-release-adopter-evidence",
+  "decidedAt": "2026-08-24T05:20:00+09:00",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-216-release-v0-2-28.archive.json",
+    ".ai/evidence/external/v0.2.28/adopter-linux/acceptance.json",
+    ".ai/evidence/external/v0.2.28/upgrade-linux/acceptance.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:305ee88d65945d8ee57398c1d1edec14249c72efd8f61ea68c121f9ea2e62975",
+  "predecessorEventsDigest": "sha256:5889737fd4cfc3da0706f7cd72c689fe0ddc4846c52e00fa1359fcfe4b7f97e1",
+  "predecessorOutcomeDigest": "sha256:417e6dfb14c1493638cab242ec4c861cd1ab5105ccbbd247672b5a74d41be571",
+  "predecessorSummaryDigest": "sha256:7961fba258f35b88735751e3614b9ad356371b2a7e49d4680ba8fce52e763e15",
+  "predecessorWorkItemId": "WI-216-release-v0-2-28",
+  "reason": "WI-216 was archived before immutable public Release post-acceptance existed. Preserve its release truth and continue the explicitly declared post-release adopter/N-1 evidence through a bounded successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete the post-release evidence-bound lifecycle, close the successor, and then close WI-216 finalization without rewriting either archive.",
+  "runtimeDigest": "sha256:ea9a4a090307cb650eeda008942a5bc72fd0d1276b131405868f31d1eabcc048",
+  "runtimeVersion": "0.2.27",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-217-release-v0-2-28-post-release-acceptance",
+  "workItemId": "WI-216-release-v0-2-28"
+}

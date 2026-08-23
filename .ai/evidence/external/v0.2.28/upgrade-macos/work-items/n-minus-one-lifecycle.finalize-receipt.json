@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "release-adopter-upgrade-n-minus-one-lifecycle",
+  "operationId": "retain-n-minus-one-lifecycle",
+  "repositoryId": "sha256:a89d2c993bba3b33be19380b2cc34d140dbccb3792bfacdaa3f719d8ed4acbc4",
+  "workItemId": "n-minus-one-lifecycle",
+  "runtimeVersion": "0.2.27",
+  "runtimeDigest": "sha256:ea9a4a090307cb650eeda008942a5bc72fd0d1276b131405868f31d1eabcc048",
+  "provider": "release-adopter-upgrade-harness",
+  "pullRequest": {
+    "number": 1,
+    "url": "acceptance://v0.2.27/n-minus-one-lifecycle",
+    "headRevision": "fe91b98495e34e4ca27d23b9365726358711ec56",
+    "baseBranch": "main",
+    "baseRemote": "local",
+    "baseRevision": "fe91b98495e34e4ca27d23b9365726358711ec56",
+    "mergeCommit": "fe91b98495e34e4ca27d23b9365726358711ec56"
+  },
+  "branch": {
+    "name": "main",
+    "remote": "local",
+    "headRevision": "fe91b98495e34e4ca27d23b9365726358711ec56"
+  },
+  "worktree": {
+    "worktreeId": "n-minus-one-lifecycle",
+    "path": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-n-minus-one.ib4peG/adopter",
+    "branch": "main",
+    "headRevision": "fe91b98495e34e4ca27d23b9365726358711ec56"
+  },
+  "before": {
+    "pullRequest": "merged",
+    "branch": "present",
+    "worktree": "clean"
+  },
+  "after": {
+    "pullRequest": "merged",
+    "branch": "present",
+    "worktree": "clean"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "actor": "harness:release-adopter-upgrade",
+  "authoritySource": "release-adopter-upgrade-acceptance",
+  "reason": "The isolated N-1 adopter fixture is intentionally retained after upgrade verification.",
+  "timestamp": "2026-08-23T20:16:19Z",
+  "contractDigest": "sha256:a4e4e0d031ad8a775d82a6af6dc5d0fd090a99a4955bb73b954b65db8902bddb",
+  "resourceContext": {
+    "branch": "main",
+    "worktree": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-n-minus-one.ib4peG/adopter",
+    "baseBranch": "main",
+    "baseRemote": "local",
+    "provider": "release-adopter-upgrade-harness",
+    "pullRequest": "acceptance://v0.2.27/n-minus-one-lifecycle"
+  }
+}

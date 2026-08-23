@@ -1,0 +1,77 @@
+{
+  "acceptanceCriteria": [
+    "Public v0.2.28 Release assets are immutable and bind version, archive, binary, and manifest digests.",
+    "Public Linux adopter acceptance passes with isolated repository/runtime evidence, not_ready scaffold, evidence reuse, lifecycle receipts, and cleanup.",
+    "Public Linux N-1 acceptance passes from v0.2.27 to v0.2.28 with historical evidence preservation and cleanup.",
+    "The tri-language parity rows record the Release, workflow, external acceptance evidence, and recovery linkage.",
+    "WI-216 remains immutable history and the successor closes with a visible green Outcome."
+  ],
+  "authority": "authorized",
+  "baseRevision": "0265a7abfd3f7f336179d15bcb881b499b0881ce",
+  "createdAt": "2026-08-23T20:21:44Z",
+  "goal": "Complete the post-release acceptance boundary for the v0.2.28 reference-comparison release baseline.",
+  "intent": "Bind the immutable v0.2.28 public adopter and v0.2.27 to v0.2.28 N-1 acceptance receipts, then complete the release batch closure without rewriting WI-216 history.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime feature changes",
+    "Reference-source implementation copying",
+    "User-global Agent or MCP configuration"
+  ],
+  "predecessorContractDigest": "sha256:305ee88d65945d8ee57398c1d1edec14249c72efd8f61ea68c121f9ea2e62975",
+  "predecessorWorkItemId": "WI-216-release-v0-2-28",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-216-release-v0-2-28.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b4faa8a7cfa7a34da4a4811a860c8d9c8a598bd429f9d28d156c1ab4df1ae9af",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-217-release-v0-2-28-post-release-acceptance",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/166",
+    "worktree": "/private/tmp/ai-cockpit-wi216-post-release"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/external/v0.2.28/adopter-linux/runtime.json",
+        ".ai/evidence/external/v0.2.28/adopter-linux/release-manifest.json",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/32662890530"
+      ],
+      "expected": "The v0.2.28 tag and all public artifacts bind to the reviewed merged default-branch commit and workspace version.",
+      "required": true,
+      "scenario": "immutable public release",
+      "status": "verified",
+      "verificationPlan": "Run source consistency and release workflow gates, then compare the public manifest, checksums, and downloaded binary identity."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/v0.2.28/adopter-linux/acceptance.json",
+        ".ai/evidence/external/v0.2.28/upgrade-linux/acceptance.json",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/32662890530"
+      ],
+      "expected": "Downloaded v0.2.28 and v0.2.27 artifacts complete isolated adopter and upgrade acceptance without source fallback or Release truth rewrite.",
+      "required": false,
+      "scenario": "post-release adopter and N-1 acceptance",
+      "status": "verified",
+      "verificationPlan": "Bind the completed public adopter and upgrade acceptance receipts, then rerun the Runtime lifecycle and close this successor."
+    }
+  ],
+  "scope": [
+    ".ai/evidence/external/v0.2.28/**",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-217-release-v0-2-28-post-release-acceptance"
+}

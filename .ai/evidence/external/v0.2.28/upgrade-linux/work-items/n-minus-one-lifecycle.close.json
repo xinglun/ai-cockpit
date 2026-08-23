@@ -1,0 +1,129 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/n-minus-one-lifecycle.verification.json"
+      ],
+      "repositoryId": "sha256:6ac4c684681588e25e3ae2aeb1bc8d390dafc167480d6c184d21abcc74e1c5f0",
+      "repositorySnapshotDigest": "sha256:a6504eb9dc6fcaacd6ea823f3d908e3da1b9d25a40251e8577fa3be72454bc8a",
+      "workItemId": "n-minus-one-lifecycle"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/n-minus-one-lifecycle.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/n-minus-one-lifecycle.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/n-minus-one-lifecycle.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:release-acceptance via release-adopter-upgrade-acceptance at 2026-08-23T20:08:57Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/n-minus-one-lifecycle.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/n-minus-one-lifecycle.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/n-minus-one-lifecycle.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/n-minus-one-lifecycle.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/n-minus-one-lifecycle.contract.json"
+          ],
+          "inference": false,
+          "text": "Prove N-1 compatibility and explicit migration."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/n-minus-one-lifecycle.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "n-minus-one-lifecycle"
+  },
+  "finalReportDigest": "sha256:e4766d3c4adc2e361d566677ab9e3b02edea1c18eccf1af0938b92bcb51c3cc1",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:6ac4c684681588e25e3ae2aeb1bc8d390dafc167480d6c184d21abcc74e1c5f0",
+  "resourceFinalizationHeadDigest": "sha256:b58ef162e389593b6784a433f2c8f5f94c7c1ba00608636a8fd4007a56e20510",
+  "resourceFinalizationHeadPath": ".ai/decisions/n-minus-one-lifecycle.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:release-acceptance",
+    "authoritySource": "release-adopter-upgrade-acceptance",
+    "decidedAt": "2026-08-23T20:08:57Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/n-minus-one-lifecycle.verification.json"
+    ],
+    "policyRefs": [
+      "release-adopter-upgrade-acceptance:v0.2.27"
+    ],
+    "reason": "Confirm the N-1 Runtime lifecycle and preserved history after public Release evidence passed.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-23T20:08:57Z",
+  "workItemId": "n-minus-one-lifecycle"
+}

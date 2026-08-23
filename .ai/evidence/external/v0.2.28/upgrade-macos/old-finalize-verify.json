@@ -1,0 +1,66 @@
+{
+  "disposition": "retained",
+  "headDigest": "sha256:78ef09b67674be61e3a6545300b9951254ae22533efbd82cd7935a81b87bad0f",
+  "headPath": ".ai/decisions/n-minus-one-lifecycle.finalize.json",
+  "receipt": {
+    "actor": "harness:release-adopter-upgrade",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "release-adopter-upgrade-acceptance",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "fe91b98495e34e4ca27d23b9365726358711ec56",
+      "name": "main",
+      "remote": "local"
+    },
+    "contractDigest": "sha256:a4e4e0d031ad8a775d82a6af6dc5d0fd090a99a4955bb73b954b65db8902bddb",
+    "operationId": "retain-n-minus-one-lifecycle",
+    "provider": "release-adopter-upgrade-harness",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "local",
+      "baseRevision": "fe91b98495e34e4ca27d23b9365726358711ec56",
+      "headRevision": "fe91b98495e34e4ca27d23b9365726358711ec56",
+      "mergeCommit": "fe91b98495e34e4ca27d23b9365726358711ec56",
+      "number": 1,
+      "url": "acceptance://v0.2.27/n-minus-one-lifecycle"
+    },
+    "reason": "The isolated N-1 adopter fixture is intentionally retained after upgrade verification.",
+    "receiptId": "release-adopter-upgrade-n-minus-one-lifecycle",
+    "repositoryId": "sha256:a89d2c993bba3b33be19380b2cc34d140dbccb3792bfacdaa3f719d8ed4acbc4",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "local",
+      "branch": "main",
+      "provider": "release-adopter-upgrade-harness",
+      "pullRequest": "acceptance://v0.2.27/n-minus-one-lifecycle",
+      "worktree": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-n-minus-one.ib4peG/adopter"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:ea9a4a090307cb650eeda008942a5bc72fd0d1276b131405868f31d1eabcc048",
+    "runtimeVersion": "0.2.27",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-23T20:16:19Z",
+    "workItemId": "n-minus-one-lifecycle",
+    "worktree": {
+      "branch": "main",
+      "headRevision": "fe91b98495e34e4ca27d23b9365726358711ec56",
+      "path": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-n-minus-one.ib4peG/adopter",
+      "worktreeId": "n-minus-one-lifecycle"
+    }
+  },
+  "sequence": 0,
+  "state": "verified",
+  "workItemId": "n-minus-one-lifecycle"
+}

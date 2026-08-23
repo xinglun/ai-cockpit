@@ -1,0 +1,20 @@
+{
+  "contractDigest": "sha256:a4e4e0d031ad8a775d82a6af6dc5d0fd090a99a4955bb73b954b65db8902bddb",
+  "next": [
+    "archive",
+    "finalize",
+    "finalize-verify",
+    "close"
+  ],
+  "protocolVersion": 1,
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "local",
+    "branch": "main",
+    "provider": "release-adopter-upgrade-harness",
+    "pullRequest": "acceptance://v0.2.27/n-minus-one-lifecycle",
+    "worktree": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-n-minus-one.ib4peG/adopter"
+  },
+  "state": "planned",
+  "workItemId": "n-minus-one-lifecycle"
+}

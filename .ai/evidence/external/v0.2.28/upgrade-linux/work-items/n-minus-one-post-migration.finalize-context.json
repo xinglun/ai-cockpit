@@ -1,0 +1,8 @@
+{
+  "branch": "master",
+  "worktree": "/tmp/ai-cockpit-n-minus-one.Q50q3y/adopter",
+  "baseBranch": "master",
+  "baseRemote": "local",
+  "provider": "release-adopter-upgrade-harness",
+  "pullRequest": "acceptance://v0.2.28/n-minus-one-post-migration"
+}

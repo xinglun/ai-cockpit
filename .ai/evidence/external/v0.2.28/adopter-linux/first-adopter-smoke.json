@@ -1,0 +1,34 @@
+Work Item scaffold created.
+
+Known facts:
+  repositoryId              resolved
+  baseRevision              resolved
+  projectProfileDigest      resolved
+  repositorySnapshotDigest resolved
+
+Human input required:
+  intent
+  scope
+  acceptanceCriteria
+  authority
+
+State: not_ready
+
+{
+  "workItemId": "first-adopter-smoke",
+  "mode": "code",
+  "contractPath": "/tmp/ai-cockpit-adopter-acceptance.XWkEBE/adopter/.ai/work-items/active/first-adopter-smoke.contract.json",
+  "state": "not_ready",
+  "knownFacts": {
+    "repositoryId": "sha256:6b805c7587560422b09abe8ae19e0331fa4acf6aadbe13651d23d28d65db9c7e",
+    "baseRevision": "cb27f9872e1b5006104a419d41c21d446d8952ab",
+    "projectProfileDigest": "sha256:dba96128d24e55edc15f9623748bf19f64569dd350852670950bf262353c43fd",
+    "repositorySnapshotDigest": "sha256:ae0b936910723de925ac9c1e6850a7a82a03ab853fb17d47f87d449c76627321"
+  },
+  "humanInputRequired": [
+    "intent",
+    "scope",
+    "acceptanceCriteria",
+    "authority"
+  ]
+}
