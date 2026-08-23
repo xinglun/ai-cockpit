@@ -15,7 +15,7 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # 发布与分发
 
-当前安装基线是公开且不可变的 `v0.2.22` Release。Homebrew 和手动安装都使用公开 archive
+当前安装基线是公开且不可变的 `v0.2.23` Release。Homebrew 和手动安装都使用公开 archive
 与 manifest；仓库配置仍使用 `cockpit.toml`，安装 runtime 不会在目标仓库创建 `.ai`。
 维护者可以使用发布后的 adopter 验收 harness；它不是发布前 gate，也不是 Runtime 命令。
 
@@ -63,7 +63,7 @@ brew untap xinglun/tap                 # 可选
 校验文件覆盖全部十个 archive/SBOM，因此只校验实际下载的 archive：
 
 ```bash
-archive="ai-cockpit-v0.2.22-aarch64-apple-darwin.tar.gz"
+archive="ai-cockpit-v0.2.23-aarch64-apple-darwin.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -73,8 +73,8 @@ gh attestation verify "$archive" --repo xinglun/ai-cockpit
 如果 Release 已存在，也可以使用 GitHub CLI 下载准确的三个文件：
 
 ```bash
-archive="ai-cockpit-v0.2.22-aarch64-apple-darwin.tar.gz"
-gh release download v0.2.22 --repo xinglun/ai-cockpit \
+archive="ai-cockpit-v0.2.23-aarch64-apple-darwin.tar.gz"
+gh release download v0.2.23 --repo xinglun/ai-cockpit \
   --pattern "$archive" --pattern release-manifest.json --pattern SHA256SUMS
 ```
 
@@ -88,14 +88,14 @@ CLI 和 MCP 的 `verify` JSON 会输出 `runtimeVersion` 与 `runtimeDigest` 这
 
 维护者可以在 Release 发布后重复执行公开 binary 验收基线：
 
-**v0.2.22 的完整 adopter acceptance 基线为 `x86_64-unknown-linux-gnu`。**
+**v0.2.23 的完整 adopter acceptance 基线为 `x86_64-unknown-linux-gnu`。**
 Release workflow 对其他四个已发布 target 提供 build 和 smoke evidence；除非另有独立验收记录，
 不能宣称它们完成了完整 adopter lifecycle。
 
 ```bash
 tests/release/adopter_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --tag v0.2.22 \
+  --tag v0.2.23 \
   --target x86_64-unknown-linux-gnu \
   --output ./release-adopter-acceptance
 ```
@@ -134,15 +134,15 @@ ref 或缺少必需 action 时 fail closed。今后更新 action runtime 时，�
 
 ### 历史 N-1 schema 迁移验收
 
-发生 schema 变化的基线是历史上的 v0.1.1 到 v0.2.0 迁移。v0.2.22 是保持同一
+发生 schema 变化的基线是历史上的 v0.1.1 到 v0.2.0 迁移。v0.2.23 是保持同一
 schema 的 patch Release；其 N-1 run 仍使用同一个 harness，在确认 compatibility 后记录
 `migrationState: not_required`。当前 N-1 run 使用紧邻的上一个公开 Release 与当前 Runtime，例如：
 
 ```bash
 tests/release/adopter_upgrade_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --from-tag v0.2.20 \
-  --to-tag v0.2.22 \
+  --from-tag v0.2.22 \
+  --to-tag v0.2.23 \
   --target x86_64-unknown-linux-gnu \
   --output ./release-adopter-upgrade-acceptance
 ```
@@ -169,7 +169,7 @@ macOS/Linux 用户下载对应的 `.tar.gz` 和 `SHA256SUMS`，选择准确的 R
 
 ```bash
 target="aarch64-apple-darwin" # 选择与机器匹配的 target
-archive="ai-cockpit-v0.2.22-${target}.tar.gz"
+archive="ai-cockpit-v0.2.23-${target}.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -186,7 +186,7 @@ esac
 Windows 用户下载 `.zip` 和 `SHA256SUMS`，比较准确 checksum，解压到用户 bin 目录，并将该目录加入用户 `PATH`：
 
 ```powershell
-$archive = "ai-cockpit-v0.2.22-x86_64-pc-windows-msvc.zip"
+$archive = "ai-cockpit-v0.2.23-x86_64-pc-windows-msvc.zip"
 $expected = Get-Content .\SHA256SUMS |
   Where-Object { ($_ -split '\s+')[1] -eq $archive } |
   ForEach-Object { ($_ -split '\s+')[0].ToLowerInvariant() }
@@ -206,11 +206,11 @@ $env:Path = "$destination;$env:Path"
 
 ## Rust 开发者 fallback
 
-该 fallback 适用于当前已发布的不可变 `v0.2.22` tag。
+该 fallback 适用于当前已发布的不可变 `v0.2.23` tag。
 发布完成后，workspace 含多个 package，必须显式选择 `cockpit-cli`：
 
 ```bash
-cargo install --git https://github.com/xinglun/ai-cockpit.git --tag v0.2.22 --locked --root "$HOME/.local" --bin ai-cockpit cockpit-cli
+cargo install --git https://github.com/xinglun/ai-cockpit.git --tag v0.2.23 --locked --root "$HOME/.local" --bin ai-cockpit cockpit-cli
 "$HOME/.local/bin/ai-cockpit" --version
 cargo uninstall --root "$HOME/.local" cockpit-cli
 ```

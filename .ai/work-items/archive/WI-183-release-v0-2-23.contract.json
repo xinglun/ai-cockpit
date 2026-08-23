@@ -1,0 +1,60 @@
+{
+  "acceptanceCriteria": [
+    "Cargo workspace and lockfile identify version 0.2.23 with no stale package version.",
+    "Tri-language release and versioning documentation identifies v0.2.23 as the current candidate and preserves the v0.2.22 N-1 boundary.",
+    "Local quality, documentation, release-policy, and installed public v0.2.22 Runtime verification gates pass before publication.",
+    "The source commit is merged and tagged only after required hosted checks pass; public Release, adopter, and N-1 evidence are external post-release facts for the successor acceptance Work Item.",
+    "No merged Work Item branch remains remotely after closure; branch cleanup is verified by exact ref lookup."
+  ],
+  "authority": "authorized",
+  "baseRevision": "a7f3b89eab3cbfc1ef88b1beef0a05ea0a51f3b8",
+  "createdAt": "2026-08-23T07:59:57Z",
+  "goal": "Prepare and publish the v0.2.23 Runtime baseline; public binary installation and adopter acceptance remain successor post-release evidence.",
+  "intent": "Prepare the next same-schema public Runtime release containing the merged WI-182 atomic lease publication fix, then bind immutable release evidence without claiming post-release facts.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates",
+    "tests/release",
+    ".github/workflows",
+    "public-homebrew-tap"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4bccc4ab63064a9daac1538945b2ada9d11b09c06eb2e65fcf75253c93d0a524",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "main",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "risk": "medium",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/reference/ci-runtime-shadow.md",
+    "docs/reference/ci-runtime-shadow.zh-CN.md",
+    "docs/reference/ci-runtime-shadow.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-183-release-v0-2-23"
+}
