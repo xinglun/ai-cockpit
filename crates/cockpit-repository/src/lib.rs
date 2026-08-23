@@ -7658,8 +7658,7 @@ fn git_text(root: &Path, args: &[&str]) -> Option<String> {
     if !output.status.success() {
         return None;
     }
-    let value = String::from_utf8(output.stdout).ok()?.trim().to_owned();
-    (!value.is_empty()).then_some(value)
+    Some(String::from_utf8(output.stdout).ok()?.trim().to_owned())
 }
 
 fn set_resource_context_on_active_contract(
@@ -7728,6 +7727,18 @@ pub fn plan_resource_finalization(
             message:
                 "resource finalization context is already bound; use the same context for replay"
                     .into(),
+        });
+    }
+    let evidence_path = root
+        .join(".ai/evidence")
+        .join(format!("{work_item_id}.verification.json"));
+    if summary["state"] == serde_json::json!("finish_ready")
+        && fs::symlink_metadata(&evidence_path).is_ok()
+        && contract.resource_context.as_ref() != Some(context)
+    {
+        return Err(ObserverError::State {
+            path: evidence_path,
+            message: "finalize-plan must run before verification evidence is recorded; re-run verify after changing the context".into(),
         });
     }
     set_resource_context_on_active_contract(&root, work_item_id, context)?;
@@ -7843,6 +7854,17 @@ pub fn record_resource_finalization(
         path: receipt_path.into(),
         message: error.to_string(),
     })?;
+    if receipt.provider == "unknown"
+        || receipt
+            .resource_context
+            .as_ref()
+            .is_some_and(|context| context.provider == "unknown")
+    {
+        return Err(ObserverError::State {
+            path: receipt_path.into(),
+            message: "resource finalization requires an identified external provider".into(),
+        });
+    }
     ensure_resource_runtime_identity(&receipt, runtime, receipt_path)?;
     if matches!(
         receipt.result.disposition,
@@ -7895,14 +7917,24 @@ fn local_resources_deleted(
     root: &Path,
     receipt: &ResourceFinalizationReceipt,
 ) -> Result<bool, ObserverError> {
-    let branches = git_text(root, &["branch", "--format=%(refname:short)"]).unwrap_or_default();
+    let branches = git_text(root, &["branch", "--format=%(refname:short)"]).ok_or_else(|| {
+        ObserverError::State {
+            path: root.to_path_buf(),
+            message: "cannot determine local branch state".into(),
+        }
+    })?;
     if branches
         .lines()
         .any(|branch| branch.trim() == receipt.branch.name)
     {
         return Ok(false);
     }
-    let worktrees = git_text(root, &["worktree", "list", "--porcelain"]).unwrap_or_default();
+    let worktrees = git_text(root, &["worktree", "list", "--porcelain"]).ok_or_else(|| {
+        ObserverError::State {
+            path: root.to_path_buf(),
+            message: "cannot determine local worktree state".into(),
+        }
+    })?;
     if worktrees.lines().any(|line| {
         line.strip_prefix("worktree ")
             .is_some_and(|path| path == receipt.worktree.path)

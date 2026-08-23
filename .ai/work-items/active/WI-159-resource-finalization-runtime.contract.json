@@ -1,0 +1,83 @@
+{
+  "acceptanceCriteria": [
+    "Finalize is explicit and request-scoped between archive and close.",
+    "Strict identity-bound receipt is required by close.",
+    "Dirty, unmerged, protected, mismatched, or unknown resources fail closed without deletion.",
+    "Cleanup is idempotent and concurrency-safe.",
+    "Visible human Outcome includes marker, evidence, unknowns, decision, and next action.",
+    "Existing lifecycle, repository isolation, provider-boundary, and three-language tests remain passing; no global Agent/MCP configuration is modified."
+  ],
+  "authority": "authorized",
+  "baseRevision": "785112bb2d39dace9826808cb0742b8be845799e",
+  "createdAt": "2026-08-23T00:29:46Z",
+  "goal": "Prevent merged Work Items from being closed while their branch, worktree, or provider resource remains unfinalized, without unsafe automatic deletion.",
+  "intent": "Make branch/worktree/PR resource finalization a first-class auditable fail-closed Runtime lifecycle boundary so every future Work Item either proves cleanup or records explicit human retention.",
+  "mode": "code",
+  "outOfScope": [
+    "Automatic deletion of protected/default branches or resources whose identity cannot be proven.",
+    "Editing user-global Agent/MCP configuration or embedding a provider token in the Runtime.",
+    "Implementing a single organization approval structure; authority remains policy-defined.",
+    "Changing immutable v0.2.17 release truth or rewriting historical Work Item/evidence bytes.",
+    "Replacing GitHub hosted branch deletion with an unverified local claim."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:acd7ec609b9638c9b6d8ed4a8fa64ef1e26c0f8e73b99fd0384e4f724a7bf176",
+  "requiredEvidenceClasses": [
+    "native_runtime_evidence",
+    "resource_finalization_receipt",
+    "lifecycle_regression",
+    "human_outcome"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "finalize verifies merge identity, removes only exact resources, emits a receipt, and close succeeds",
+      "required": true,
+      "scenario": "merged PR with clean dedicated worktree and branch",
+      "status": "unverified",
+      "verificationPlan": "Run a temporary Git repository/provider fixture through archive, finalize-plan, finalize, finalize-verify, and close; assert receipt and postconditions."
+    },
+    {
+      "evidence": [],
+      "expected": "no destructive cleanup occurs; Outcome is yellow/red with stable recovery code and Work Item remains recoverable",
+      "required": true,
+      "scenario": "dirty, unmerged, protected, mismatched, or provider-unknown resource",
+      "status": "unverified",
+      "verificationPlan": "Exercise each negative fixture and assert close is rejected and branch/worktree state is unchanged."
+    },
+    {
+      "evidence": [],
+      "expected": "repository-local serialization yields at most one cleanup and repeat requests are idempotent",
+      "required": true,
+      "scenario": "duplicate or concurrent finalize requests",
+      "status": "unverified",
+      "verificationPlan": "Run two finalize processes against one Work Item and repeat a completed finalize; assert one receipt and stable no-op results."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/**",
+    "crates/cockpit-cli/**"
+  ],
+  "sources": [
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/commands.md",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked -p cockpit-repository --all-targets --all-features -- --test-threads=1",
+    "cargo test --locked -p cockpit-cli --all-targets --all-features -- --test-threads=1",
+    "cargo fmt --all -- --check",
+    "cargo clippy --workspace --all-targets --all-features -- -D warnings",
+    "tests/docs/documentation_acceptance.sh --repo .",
+    "tests/release/version_consistency.sh --repo ."
+  ],
+  "workItemId": "WI-159-resource-finalization-runtime"
+}
