@@ -1137,16 +1137,7 @@ fn validate_resource_finalization_identity(
         ));
     }
     if let Some(context) = &receipt.resource_context {
-        for (value, field) in [
-            (context.branch.as_str(), "resourceContext.branch"),
-            (context.worktree.as_str(), "resourceContext.worktree"),
-            (context.base_branch.as_str(), "resourceContext.baseBranch"),
-            (context.base_remote.as_str(), "resourceContext.baseRemote"),
-            (context.provider.as_str(), "resourceContext.provider"),
-            (context.pull_request.as_str(), "resourceContext.pullRequest"),
-        ] {
-            validate_resource_finalization_text(value, field)?;
-        }
+        validate_resource_finalization_context(context)?;
         if context.branch != receipt.branch.name
             || context.worktree != receipt.worktree.path
             || context.base_branch != receipt.pull_request.base_branch
@@ -1158,6 +1149,26 @@ fn validate_resource_finalization_identity(
                 "resource context does not match receipt identity",
             ));
         }
+    }
+    Ok(())
+}
+
+/// Validate an optional Contract resource context without requiring a
+/// provider receipt.  Contract deserialization keeps this field optional for
+/// historical compatibility; callers that declare it must provide all
+/// non-empty identity values.
+pub fn validate_resource_finalization_context(
+    context: &ResourceFinalizationContext,
+) -> Result<(), ResourceFinalizationError> {
+    for (value, field) in [
+        (context.branch.as_str(), "resourceContext.branch"),
+        (context.worktree.as_str(), "resourceContext.worktree"),
+        (context.base_branch.as_str(), "resourceContext.baseBranch"),
+        (context.base_remote.as_str(), "resourceContext.baseRemote"),
+        (context.provider.as_str(), "resourceContext.provider"),
+        (context.pull_request.as_str(), "resourceContext.pullRequest"),
+    ] {
+        validate_resource_finalization_text(value, field)?;
     }
     Ok(())
 }
@@ -1334,6 +1345,8 @@ pub fn validate_resource_finalization_replay(
         || original.before != replay.before
         || original.after != replay.after
         || original.result != replay.result
+        || original.runtime_version != replay.runtime_version
+        || original.runtime_digest != replay.runtime_digest
         || original.contract_digest != replay.contract_digest
         || original.resource_context != replay.resource_context
     {
@@ -1715,6 +1728,11 @@ pub struct Contract {
     pub base_revision: String,
     pub project_profile_digest: Digest,
     pub repository_snapshot_digest: Digest,
+    /// Optional external resource identity copied from the Work Item's
+    /// provider/branch context. Historical Contracts omit it; when present,
+    /// Runtime finalization can require a matching receipt context.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub resource_context: Option<ResourceFinalizationContext>,
     /// Reference V2 calls this field `baseCommit`; `baseRevision` remains the
     /// protocol-v1 spelling and is never rewritten.
     #[serde(default)]
@@ -1811,6 +1829,12 @@ impl Contract {
     pub fn validate(&self) -> Result<(), Vec<String>> {
         let mut errors = Vec::new();
         let is_v2 = self.contract_version == Some(2);
+
+        if let Some(resource_context) = &self.resource_context
+            && let Err(error) = validate_resource_finalization_context(resource_context)
+        {
+            errors.push(error.to_string());
+        }
 
         if let Some(version) = self.contract_version
             && version != 2
