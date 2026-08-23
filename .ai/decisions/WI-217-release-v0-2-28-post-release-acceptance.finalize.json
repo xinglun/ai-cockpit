@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "pre-merge-release-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "0d216eba83ce32fa5ee30d97c2f6d34d6a179d08",
+    "name": "codex/wi-217-release-v0-2-28-post-release-acceptance",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:fb8275bf7f3fe5c3d298cba3296e93090ca694f2630202b5cb0d9a3616c6e9f8",
+  "operationId": "operation-WI-217-release-v0-2-28-post-release-acceptance-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "0265a7abfd3f7f336179d15bcb881b499b0881ce",
+    "headRevision": "0d216eba83ce32fa5ee30d97c2f6d34d6a179d08",
+    "number": 166,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/166"
+  },
+  "reason": "awaiting_merge_close: PR #166 is unmerged; retain the reviewed v0.2.28 post-release acceptance boundary until hosted checks pass and the successor is merged.",
+  "receiptId": "ai-cockpit-WI-217-release-v0-2-28-post-release-acceptance-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-217-release-v0-2-28-post-release-acceptance",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/166",
+    "worktree": "/private/tmp/ai-cockpit-wi216-post-release"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:ea9a4a090307cb650eeda008942a5bc72fd0d1276b131405868f31d1eabcc048",
+  "runtimeVersion": "0.2.27",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-24T05:40:00+09:00",
+  "workItemId": "WI-217-release-v0-2-28-post-release-acceptance",
+  "worktree": {
+    "branch": "codex/wi-217-release-v0-2-28-post-release-acceptance",
+    "headRevision": "0d216eba83ce32fa5ee30d97c2f6d34d6a179d08",
+    "path": "/private/tmp/ai-cockpit-wi216-post-release",
+    "worktreeId": "WI-217-release-v0-2-28-post-release-acceptance"
+  }
+}
