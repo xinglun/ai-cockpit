@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-23T22:40:32Z",
+  "files": {
+    "contractDigest": "sha256:4d46bfd687025908891cfee6e18a180c4b1bb43fce0a0cdd89090ce9d5c36cd1",
+    "contractPath": ".ai/work-items/archive/WI-222-capability-manifest-status.contract.json",
+    "eventsDigest": "sha256:3616cfc5d7f28a9183bc6e98e75f1f350100b698ebe04539d6d0aea10c69eaf9",
+    "eventsPath": ".ai/work-items/archive/WI-222-capability-manifest-status.events.jsonl",
+    "outcomeDigest": "sha256:aefbeefe20917ddec27c0bf82ef25c75ae8895be2e5f8c8f6ae6ca1b6b1df24e",
+    "outcomePath": ".ai/work-items/archive/WI-222-capability-manifest-status.outcome.json",
+    "summaryDigest": "sha256:dfef4f3ad988e35ea91ad026c0cdf785e5476d4487b9e0338054ae13d096bda0",
+    "summaryPath": ".ai/work-items/archive/WI-222-capability-manifest-status.summary.json",
+    "taskReportDigest": "sha256:68ebf7bc315786c9690de99838cc6f7987db0f5484c3399a55663ca367c054b4",
+    "taskReportMarkdownDigest": "sha256:953d82046b3711821cdbd3f8f266abd3f451d829236b359bc232a3eb8b6825b9",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-222-capability-manifest-status.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-222-capability-manifest-status.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-222-capability-manifest-status"
+}

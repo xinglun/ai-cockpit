@@ -32,38 +32,38 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-222-capability-manifest-status",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/173",
     "worktree": "/private/tmp/ai-cockpit-wi222-capability-manifest"
   },
   "risk": "high",
   "scenarioCoverage": [
     {
-      "scenario": "parallel repository isolation",
-      "required": true,
-      "status": "unverified",
+      "evidence": [],
       "expected": "Concurrent capability and Work Item status projections for repositories A and B remain identity- and snapshot-bound without cross-repository state.",
-      "verificationPlan": "Run repository isolation tests with concurrent A/B projections and verify repositoryId, snapshot digest, and output paths.",
-      "evidence": []
+      "required": true,
+      "scenario": "parallel repository isolation",
+      "status": "unverified",
+      "verificationPlan": "Run repository isolation tests with concurrent A/B projections and verify repositoryId, snapshot digest, and output paths."
     },
     {
-      "scenario": "read-only projection no-write",
-      "required": true,
-      "status": "unverified",
+      "evidence": [],
       "expected": "observe, capability, and status projections leave repository bytes unchanged.",
-      "verificationPlan": "Capture byte and metadata manifests before and after repeated projection commands, including symlinks and directories.",
-      "evidence": []
+      "required": true,
+      "scenario": "read-only projection no-write",
+      "status": "unverified",
+      "verificationPlan": "Capture byte and metadata manifests before and after repeated projection commands, including symlinks and directories."
     },
     {
-      "scenario": "stale or foreign capability evidence",
-      "required": true,
-      "status": "unverified",
+      "evidence": [],
       "expected": "Missing, malformed, stale, or foreign capability/status inputs remain non-green and expose stable unknowns.",
-      "verificationPlan": "Run tamper and identity regression fixtures against capability and all-Work-Item status projections.",
-      "evidence": []
+      "required": true,
+      "scenario": "stale or foreign capability evidence",
+      "status": "unverified",
+      "verificationPlan": "Run tamper and identity regression fixtures against capability and all-Work-Item status projections."
     }
   ],
   "scope": [
@@ -92,6 +92,7 @@
     "https://github.com/spirex-ds-dev/ai-cockpit-template/blob/e5acb677da6621004d96f0ef353c58fe8d3acfbf/.ai/cockpit/work-items/index.json",
     "tests/conformance/reference_file_inventory.json"
   ],
+  "state": "implementation_active",
   "verification": [
     "cargo fmt --all -- --check",
     "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
@@ -99,6 +100,5 @@
     "bash tests/conformance/reference_file_inventory_test.sh",
     "bash tests/docs/documentation_acceptance.sh"
   ],
-  "state": "implementation_active",
   "workItemId": "WI-222-capability-manifest-status"
 }
