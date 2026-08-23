@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "post-merge-resource-finalization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "6192449e2bc249ab24987257486517a0fcd3fec9",
+    "name": "codex/wi-173-release-v0-2-21",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:d0ed3cbece65c8edec10713f7261fa01930e5a878adfd26d96369e3426fb1574",
+  "operationId": "operation-WI-173-release-v0-2-21",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "d3743c88933c98eb64c1247e9114b0e53b65e7c6",
+    "headRevision": "6192449e2bc249ab24987257486517a0fcd3fec9",
+    "mergeCommit": "176e384efef41d2c25919734b1257170b9a13c00",
+    "number": 129,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/129"
+  },
+  "reason": "Finalize the merged v0.2.21 release baseline after public Release, adopter, and N-1 acceptance; remove the merged branch and clean local resources.",
+  "receiptId": "ai-cockpit-WI-173-release-v0-2-21",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-173-release-v0-2-21",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/129",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:38aa88d7976d27647a9ae4419f57d309df2a08717fedccb4e9a613b370433e88",
+  "runtimeVersion": "0.2.21",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-23T05:31:53Z",
+  "workItemId": "WI-173-release-v0-2-21",
+  "worktree": {
+    "branch": "codex/wi-173-release-v0-2-21",
+    "headRevision": "6192449e2bc249ab24987257486517a0fcd3fec9",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit",
+    "worktreeId": "WI-173-release-v0-2-21"
+  }
+}
