@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-23T04:42:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-170-post-release-parity-branch-reconciliation.verification.json"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:fee753027bbf052ece0864beef2009a374ec854be3f1a729b834c2aa06c2630f",
+  "predecessorEventsDigest": "sha256:c0b70c75a8139e73e59fbaa617bb676b39d6adf21fe36fe236b0f95d958b93bd",
+  "predecessorOutcomeDigest": "sha256:0a799668a2759e07c9ec6cd1332bf2e02584837f8f38bb0783e8831f5d842980",
+  "predecessorSummaryDigest": "sha256:340432b018d5c559ad249c58f8b22a3d315fd0743df4e1adb30461b76965c1fa",
+  "predecessorWorkItemId": "WI-170-post-release-parity-branch-reconciliation",
+  "reason": "The post-release parity work was verified and archived before finalize-plan; continue through an explicit successor so resource finalization is recorded without rewriting the predecessor bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Finalize and close the successor after recording exact merged-branch cleanup and retained dirty-worktree evidence; predecessor remains immutable historical evidence.",
+  "runtimeDigest": "sha256:3cd4e1bf766b6957d6400b624c72b67dcc66236bc80cc49c770ee8fe32d60672",
+  "runtimeVersion": "0.2.20",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-171-finalization-reconciliation",
+  "workItemId": "WI-170-post-release-parity-branch-reconciliation"
+}

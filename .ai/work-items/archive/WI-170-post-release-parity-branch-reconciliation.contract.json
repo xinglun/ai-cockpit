@@ -1,0 +1,51 @@
+{
+  "acceptanceCriteria": [
+    "WI-169 is marked Implemented in all three reference parity documents with public Release, workflow, and adopter evidence references.",
+    "Only branches whose merged PR and merged head are proven against origin/main are cleaned; unmerged or uncertain branches are retained and recorded.",
+    "Public v0.2.20 inspect, status, doctor, and agent doctor remain healthy after the reconciliation.",
+    "No historical Release truth is rewritten and the main worktree is clean and synchronized."
+  ],
+  "authority": "authorized",
+  "baseRevision": "aca65f8f43e4191696e829d92039976ef8a31197",
+  "createdAt": "2026-08-23T04:31:29Z",
+  "goal": "Publish a repository-local post-release baseline with tri-language parity marked implemented, immutable v0.2.20 acceptance references, and exact cleanup evidence for merged PR branches while retaining any non-merged branch.",
+  "intent": "Reconcile the v0.2.20 post-release documentation truth and close only verified merged branch resources so the next comparison batch starts from an auditable clean baseline.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Historical release tags",
+    " immutable release receipts",
+    " unmerged branches",
+    " and Runtime/core implementation semantics"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3e54448d3c647d383ca61e6f6c438b19543330f343a663645503396d939b5be3",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "main",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "risk": "medium",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-170-post-release-parity-branch-reconciliation"
+}
