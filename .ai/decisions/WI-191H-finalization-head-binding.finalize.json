@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "authorized-premerge-finalization-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "11f4699a7677e9dbee0138ea2098203cc2ae7e65",
+    "name": "codex/wi-191-finalization-transition-chain",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:e7c277ab7287444afba10ff34da07d560a6352260c58136862c6a9e35dd20b9a",
+  "operationId": "WI-191H-awaiting-merge-cleanup",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "5d76d9e9fcbe04b52cc5f024897d61a82eca7344",
+    "headRevision": "11f4699a7677e9dbee0138ea2098203cc2ae7e65",
+    "number": 152,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/152"
+  },
+  "reason": "PR #152 is intentionally unmerged; preserve the reviewed branch and clean worktree until hosted checks pass and merge is authorized.",
+  "receiptId": "WI-191H-premerge-blocked",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-191-finalization-transition-chain",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/152",
+    "worktree": "/private/tmp/ai-cockpit-wi191-finalization-transition-chain"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+  "runtimeVersion": "0.2.23",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-23T11:26:00Z",
+  "workItemId": "WI-191H-finalization-head-binding",
+  "worktree": {
+    "branch": "codex/wi-191-finalization-transition-chain",
+    "headRevision": "11f4699a7677e9dbee0138ea2098203cc2ae7e65",
+    "path": "/private/tmp/ai-cockpit-wi191-finalization-transition-chain",
+    "worktreeId": "WI-191H-finalization-head-binding"
+  }
+}
