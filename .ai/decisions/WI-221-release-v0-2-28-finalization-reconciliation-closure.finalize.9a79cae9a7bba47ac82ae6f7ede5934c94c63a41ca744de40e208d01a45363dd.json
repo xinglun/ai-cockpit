@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:e180c7d9a1616c0a945bbe017d421d967bccfcbfab52932932a0e62ace670a69",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "post-merge-finalization-cleanup",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "628a154ddf5b2b9f03dd6d6a00f6fe3e85576cb5",
+      "name": "codex/wi-217-release-v0-2-28-post-release-acceptance",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:eacb3f999892fcf5916c95e04d6e9c86063ba44c22ab00d90ac4201d1a2b8044",
+    "operationId": "operation-WI-221-release-v0-2-28-finalization-reconciliation-closure-deleted-2",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "0265a7abfd3f7f336179d15bcb881b499b0881ce",
+      "headRevision": "628a154ddf5b2b9f03dd6d6a00f6fe3e85576cb5",
+      "mergeCommit": "cfedf46d653672666ef0f9ecea2ca6862c1aa282",
+      "number": 166,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/166"
+    },
+    "reason": "Post-merge exact cleanup completed after PR #170 merge; target branch and worktree removed.",
+    "receiptId": "WI-221-release-v0-2-28-finalization-reconciliation-closure-deleted-2",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-217-release-v0-2-28-post-release-acceptance",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/166",
+      "worktree": "/private/tmp/ai-cockpit-wi216-post-release"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:ea9a4a090307cb650eeda008942a5bc72fd0d1276b131405868f31d1eabcc048",
+    "runtimeVersion": "0.2.27",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-24T06:35:00+09:00",
+    "workItemId": "WI-221-release-v0-2-28-finalization-reconciliation-closure",
+    "worktree": {
+      "branch": "codex/wi-217-release-v0-2-28-post-release-acceptance",
+      "headRevision": "628a154ddf5b2b9f03dd6d6a00f6fe3e85576cb5",
+      "path": "/private/tmp/ai-cockpit-wi216-post-release",
+      "worktreeId": "WI-221-release-v0-2-28-finalization-reconciliation-closure"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "WI-221-release-v0-2-28-finalization-reconciliation-closure-deleted-2"
+}
