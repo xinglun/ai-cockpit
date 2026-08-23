@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:66c8a1b43629171b0c3f51583d987d6da9c1a4a1a0fecf7e0b2c6267a989d1a4",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "确认高风险 Contract 已声明场景覆盖；未发布的 adopter 与 transition 场景保持 optional/unverified，不能在发布前伪造完成。",
+  "recordedAt": "2026-08-24T01:15:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4c207ff36082a2cdabad51c8087fbb521d5fa7ced321b75bf6e334c9dea42af0",
+  "schemaVersion": 1,
+  "workItemId": "WI-204-release-v0-2-25"
+}

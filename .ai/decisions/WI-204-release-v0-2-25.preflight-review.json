@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:c405557fd116ea6babc82011bf733b1d03dd538f2402b7abb372cfe05621e584",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
+  "reason": "确认已界定范围、权限和发布后未知项；允许在证据缺失时保持黄色并继续收集，不把未发布事实标记为绿色。",
+  "recordedAt": "2026-08-24T00:45:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0dd2d57b3c13e612c1dd843170dfe612714961fac4e32068110f8cf15ba10fed",
+  "schemaVersion": 1,
+  "workItemId": "WI-204-release-v0-2-25"
+}

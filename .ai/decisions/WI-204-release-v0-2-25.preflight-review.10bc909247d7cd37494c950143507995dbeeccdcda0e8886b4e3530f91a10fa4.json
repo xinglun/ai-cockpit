@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:c0030996de0f35a0f809f7dc26ca1de7cc0533413723eefd34918b52c8ce1171",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:dfac66d6cd6f0105e7316dba3fd0f4a204bd6c77aaa3bd58a16f2e9a6cb593e9",
+  "reason": "确认将发布后 Release/adopter/transition 作为后续场景证据，而当前 Contract 只把 Runtime verification 作为 pre-archive 必需 evidence；未知项保持可见，禁止伪造绿色。",
+  "recordedAt": "2026-08-24T01:05:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4c207ff36082a2cdabad51c8087fbb521d5fa7ced321b75bf6e334c9dea42af0",
+  "schemaVersion": 1,
+  "workItemId": "WI-204-release-v0-2-25"
+}

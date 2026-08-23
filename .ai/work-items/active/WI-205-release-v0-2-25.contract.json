@@ -1,0 +1,58 @@
+{
+  "acceptanceCriteria": [
+    "A1: v0.2.25 version, documentation and parity rows are internally consistent before release verification.",
+    "A2: only a fresh immutable v0.2.25 public Release with all required assets is accepted.",
+    "A3: downloaded v0.2.25 binary passes isolated adopter and N-1 acceptance without source fallback.",
+    "A4: installed v0.2.25 accepts and records the append-only finalization transition.",
+    "A5: WI-204 recovery, release identity, adopter evidence and tri-language Outcome are auditable."
+  ],
+  "authority": "authorized",
+  "baseRevision": "a4917ffdbaf9aeadca9bb04183e13ad4a38ff868",
+  "createdAt": "2026-08-23T16:00:28Z",
+  "goal": "从正确的默认分支基线建立可审计的 v0.2.25 发布、adopter 验收与 transition 兼容基线。",
+  "intent": "发布 v0.2.25，并以公开 Release 完成安装验收与 Runtime transition 收尾。",
+  "mode": "code",
+  "outOfScope": [
+    "crates/**",
+    "tests/**",
+    ".github/workflows/**"
+  ],
+  "predecessorContractDigest": "sha256:66c8a1b43629171b0c3f51583d987d6da9c1a4a1a0fecf7e0b2c6267a989d1a4",
+  "predecessorWorkItemId": "WI-204-release-v0-2-25",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-204-release-v0-2-25.recovery.8f22c71cfc0f37e9a9b9b31eb77031e83cb6251cc5d80886d3a872d0afbacb97.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7aa53b8209fecc5d4b138151387b2ff3f9170ff22b9d044543e2d86cdcacb390",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-205-release-v0-2-25",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi203-release-v0-2-25"
+  },
+  "risk": "high",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/current/**",
+    "docs/release/**",
+    "docs/architecture/**",
+    "docs/reference/**",
+    "docs/work-items/**",
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/active/**",
+    ".ai/work-items/archive/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-205-release-v0-2-25"
+}
