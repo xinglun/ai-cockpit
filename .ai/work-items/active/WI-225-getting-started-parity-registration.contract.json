@@ -1,0 +1,68 @@
+{
+  "acceptanceCriteria": [
+    "The three parity documents register WI-223 as a recovered predecessor with its exact verification and recovery paths.",
+    "The three parity documents register WI-225 with its exact verification and finalization paths and equivalent English, Simplified Chinese, and Japanese semantics.",
+    "WI-223 archived Contract, Summary, Outcome, events, verification, and finalize bytes remain unchanged and bound by the recovery receipt.",
+    "The governance-integrity gate, parity/documentation checks, and full repository gate manifest pass.",
+    "WI-225 completes the visible human Outcome and pre-merge awaiting-merge-close finalization boundary without claiming merge or close."
+  ],
+  "authority": "authorized",
+  "baseRevision": "eb528dc5c6e0ee21b5e150f43cb70473ba55b881",
+  "createdAt": "2026-08-23T22:27:20Z",
+  "goal": "Restore fail-closed repository gate coverage for the Getting Started parity delivery through a bounded, linked successor.",
+  "intent": "Record the missing tri-language reference-parity registrations discovered by hosted CI without rewriting the immutable WI-223 delivery.",
+  "mode": "implementation",
+  "outOfScope": [
+    "docs/getting-started/**",
+    "docs/README*",
+    "docs/current/**",
+    "tests/**",
+    "crates/**",
+    ".github/**",
+    ".ai/work-items/archive/WI-223-getting-started-parity*",
+    ".ai/evidence/WI-223-getting-started-parity.verification.json",
+    ".ai/decisions/WI-223-getting-started-parity.finalize.json",
+    "global Agent/MCP configuration"
+  ],
+  "predecessorContractDigest": "sha256:ca0c6d4c28d96a02f4cd54a910e06bf4f3af7c753a55158252129b124560a005",
+  "predecessorWorkItemId": "WI-223-getting-started-parity",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-223-getting-started-parity.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:36a7013dcb8319adc84641c66b8fa764fc46b3d483d5d63bd1e1a7720d31a3f4",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-225-getting-started-parity-registration",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi225-getting-started-parity-registration"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    ".ai/work-items/archive/WI-223-getting-started-parity.archive.json",
+    ".ai/evidence/WI-223-getting-started-parity.verification.json",
+    ".ai/decisions/WI-223-getting-started-parity.finalize.json",
+    "https://github.com/xinglun/ai-cockpit/pull/171",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/32670109390",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/32670112344",
+    "tests/ci/governance_integrity_gate.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report target/governance-integrity.json",
+    "bash tests/docs/parity_status_check.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "python3 tests/ci/run_repository_gates.py --repo . --manifest tests/ci/repository_gate_manifest.json --report target/repository-gates.json"
+  ],
+  "workItemId": "WI-225-getting-started-parity-registration"
+}
