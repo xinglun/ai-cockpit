@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-pre-merge-finalization-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "a818b9f3799229553bdb4585abe88f7b0ef0740c",
+    "name": "codex/wi-201-governance-gate-post-merge-reconciliation",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:33efaeae91c24c1aced0d4fd79c441b4adef615cfc42f52a9cc9eed7278d91e4",
+  "operationId": "operation-WI-201-governance-gate-post-merge-reconciliation-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "efa462e4cb6da654f91803877ad06736e704a054",
+    "headRevision": "a818b9f3799229553bdb4585abe88f7b0ef0740c",
+    "number": 154,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/154"
+  },
+  "reason": "awaiting_merge_close: PR #154 is unmerged, so the reviewed branch and clean worktree are retained; close is deferred until hosted checks pass and the reviewed PR is merged.",
+  "receiptId": "ai-cockpit-WI-201-governance-gate-post-merge-reconciliation-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-201-governance-gate-post-merge-reconciliation",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/154",
+    "worktree": "/private/tmp/ai-cockpit-wi201-governance-gate-post-merge-reconciliation"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+  "runtimeVersion": "0.2.23",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-23T14:41:00Z",
+  "workItemId": "WI-201-governance-gate-post-merge-reconciliation",
+  "worktree": {
+    "branch": "codex/wi-201-governance-gate-post-merge-reconciliation",
+    "headRevision": "a818b9f3799229553bdb4585abe88f7b0ef0740c",
+    "path": "/private/tmp/ai-cockpit-wi201-governance-gate-post-merge-reconciliation",
+    "worktreeId": "WI-201-governance-gate-post-merge-reconciliation"
+  }
+}
