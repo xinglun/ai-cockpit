@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "ResourceFinalizationReceipt, ResourceFinalizationResult, ResourceFinalizationDisposition, and nested identity/state types use strict serde deny_unknown_fields and preserve repository/work-item/runtime bindings",
+    "A valid deleted receipt binds provider pull request number/url/head/base/merge identity, branch identity, worktree identity, before and after cleanup states, actor, authority source, reason, and timestamp",
+    "Deleted, retained, blocked, and unknown dispositions have explicit fail-closed invariants and failure/unknown codes; dirty, unmerged, protected, ambiguous, empty, invalid, or cross-repository/work-item data is rejected",
+    "Protocol validation exposes deterministic identity and idempotent replay checks without performing CLI, provider, filesystem, or branch deletion operations",
+    "Protocol unit tests cover valid round trip, unknown fields, empty/invalid values, foreign repository/work item, dirty/unmerged/protected/ambiguous states, and duplicate replay semantics"
+  ],
+  "createdAt": "2026-08-23T00:40:35Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:68e2b1aa9bcca804d57c5b560a50915489b5c4fceb13befaaeb0c0e6b486ee07",
+  "evidenceRefs": [
+    ".ai/evidence/WI-158-resource-finalization-protocol.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-158-resource-finalization-protocol.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-158-resource-finalization-protocol.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1d882e9388420d54af5fd40b0f6b9e1e95dd64566f288262123194d7560dbe45",
+      "workItemId": "WI-158-resource-finalization-protocol"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-158-resource-finalization-protocol.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-158-resource-finalization-protocol.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-158-resource-finalization-protocol.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-158-resource-finalization-protocol.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-158-resource-finalization-protocol.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-158-resource-finalization-protocol.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-158-resource-finalization-protocol.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-158-resource-finalization-protocol.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-158-resource-finalization-protocol.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-158-resource-finalization-protocol.contract.json"
+          ],
+          "inference": false,
+          "text": "Add a strict protocol-level Resource Finalization receipt and validation API with fail-closed disposition and replay semantics."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-158-resource-finalization-protocol.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-158-resource-finalization-protocol"
+  },
+  "taskReportDigest": "sha256:8c44d8e020085ef1f3bfa8ab669debef0b002ceee6add92cbaf2a720de2e28b1",
+  "taskReportMarkdownDigest": "sha256:8bb803aef1ca5dbdc448cbb23349079c7899b577ccfdb03cbfe237711bd01f99",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-158-resource-finalization-protocol.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-158-resource-finalization-protocol"
+}
