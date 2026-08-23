@@ -57,6 +57,7 @@ Work Item、repository、Runtime の nested identity を要求します。`diges
 `verification_or_human_input` や missing-evidence の recovery gate を追加してはいけません。
 これは現在の verification failure ではなく、有効な historical context です。current result
 が必要な場合だけ新しい verification を実行します。
+machine projection では `historicalStatus: "runtime_historical"` を使用し、人間向け handoff でも missing-evidence と recovery の案内を表示しません。
 
 v2 envelope の `createdAt` と retention の `createdAt` は RFC3339 timestamp でなければなりません。
 任意の retention `expiresAt` は RFC3339 または互換性のための epoch seconds 形式を受け付けます。形式または意味が不正な

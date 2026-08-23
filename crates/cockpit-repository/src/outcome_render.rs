@@ -17,8 +17,10 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
         "zh" | "ja" => language,
         _ => "en",
     };
-    let historical = outcome.historical_status.as_deref() == Some("superseded");
-    let (marker, status) = if historical {
+    let historical_kind = outcome.historical_status.as_deref();
+    let historical = historical_kind.is_some();
+    let superseded = historical_kind == Some("superseded");
+    let (marker, status) = if superseded {
         match language {
             "zh" => ("🟡", "历史已替代"),
             "ja" => ("🟡", "履歴として置換済み"),
@@ -120,15 +122,29 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
         }
     };
     let next = if historical {
-        match language {
-            "zh" => {
-                "保留原始历史证据；后续工作由 successor Work Item 负责，不要重新解释为当前失败。"
+        if superseded {
+            match language {
+                "zh" => {
+                    "保留原始历史证据；后续工作由 successor Work Item 负责，不要重新解释为当前失败。"
+                }
+                "ja" => {
+                    "元の履歴 evidence を保持し、後続作業は successor Work Item で行います。現在の失敗とは解釈しません。"
+                }
+                _ => {
+                    "Preserve the historical evidence; the successor owns follow-up work, and this is not a current failure."
+                }
             }
-            "ja" => {
-                "元の履歴 evidence を保持し、後続作業は successor Work Item で行います。現在の失敗とは解釈しません。"
-            }
-            _ => {
-                "Preserve the historical evidence; the successor owns follow-up work, and this is not a current failure."
+        } else {
+            match language {
+                "zh" => {
+                    "保留历史证据；如需当前结果，再用当前 Runtime 重新验证，不要将其解释为当前失败。"
+                }
+                "ja" => {
+                    "履歴 evidence を保持し、current result が必要な場合だけ現在の Runtime で再検証してください。現在の失敗とは解釈しません。"
+                }
+                _ => {
+                    "Preserve the historical evidence; reverify with the current Runtime only when a current result is needed, and do not treat it as a current failure."
+                }
             }
         }
     } else {
@@ -205,15 +221,27 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
     }
     let acceptance_results = human_acceptance_results(&outcome.acceptance_results);
     let localized_summary = if historical {
-        match language {
-            "zh" => {
-                "该 Work Item 已作为历史 predecessor 被显式替代；原始证据未被重写，也未按当前 Runtime 重验证。"
+        if superseded {
+            match language {
+                "zh" => {
+                    "该 Work Item 已作为历史 predecessor 被显式替代；原始证据未被重写，也未按当前 Runtime 重验证。"
+                }
+                "ja" => {
+                    "この Work Item は履歴 predecessor として明示的に置換されました。元の evidence は書き換えず、現在の Runtime では再検証していません。"
+                }
+                _ => {
+                    "This Work Item was explicitly superseded as a historical predecessor; original evidence was not rewritten or revalidated under the current Runtime."
+                }
             }
-            "ja" => {
-                "この Work Item は履歴 predecessor として明示的に置換されました。元の evidence は書き換えず、現在の Runtime では再検証していません。"
-            }
-            _ => {
-                "This Work Item was explicitly superseded as a historical predecessor; original evidence was not rewritten or revalidated under the current Runtime."
+        } else {
+            match language {
+                "zh" => "该 Work Item 的历史验证证据未按当前 Runtime 重新验证；这不是当前失败。",
+                "ja" => {
+                    "この Work Item の履歴 verification evidence は現在の Runtime で再検証されていません。現在の失敗ではありません。"
+                }
+                _ => {
+                    "This Work Item has historical verification evidence that was not revalidated under the current Runtime; it is not a current failure."
+                }
             }
         }
     } else {

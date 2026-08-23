@@ -53,6 +53,7 @@ v2 记录若缺少 identity 仍然显示红色。
 `historical_evidence_not_revalidated`。handoff 不得附加
 `verification_or_human_input` 或“缺少 evidence”的恢复 gate；这些 bytes 是有效的历史上下文，
 不是当前验证失败。只有需要当前结果时才重新执行 verification。
+机器投影使用 `historicalStatus: "runtime_historical"`；该状态在人类 handoff 中也必须隐藏“缺少 evidence”和恢复提示。
 
 v2 envelope 的 `createdAt` 和 retention 的 `createdAt` 必须是 RFC3339 时间戳；可选的
 `expiresAt` 接受 RFC3339 或保留兼容性的 epoch seconds。格式错误或语义无效的时间戳视为证据损坏，Outcome 显示红色，
