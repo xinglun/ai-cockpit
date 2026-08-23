@@ -1,0 +1,627 @@
+{
+  "automaticProfile": "strict",
+  "baseRevision": "5968d30c095bed29f019f8c87f9742109eb64f63",
+  "changedPaths": [
+    ".ai/decisions/WI-222-capability-manifest-status.finalize.json",
+    ".ai/decisions/WI-222-capability-manifest-status.preflight-review.0654c8c2a01470f226789140d9fe8da742c738b3e58d7c228e2d3d707219d3d2.json",
+    ".ai/decisions/WI-222-capability-manifest-status.preflight-review.184e449f6db9c1ed7a66fdd2f1bee6d866cb4e119e88b863c4352f370bd07ad9.json",
+    ".ai/decisions/WI-222-capability-manifest-status.preflight-review.2a230af47cdc1e24146a7587a333b84228b03dcaf14bd6fa3bac97b7f09bb802.json",
+    ".ai/decisions/WI-222-capability-manifest-status.preflight-review.ab7c45f9e52c276ed9c3d11382f4ce2e0fd8be8024134ecbfc6d1d137ef25e5c.json",
+    ".ai/decisions/WI-222-capability-manifest-status.preflight-review.e287a90dddc2fab632b84b368ff56f29f21260b3073cb1155f8869f67922778f.json",
+    ".ai/decisions/WI-222-capability-manifest-status.preflight-review.ec83147fe792512044bf4516ff058c6556d3721a07353c9708320cb1144fcc5c.json",
+    ".ai/decisions/WI-222-capability-manifest-status.preflight-review.f7ad57e7191869066b8d4f00a6ac2a3375491948c13be8f3d2a5eba533a4df0e.json",
+    ".ai/decisions/WI-222-capability-manifest-status.preflight-review.json",
+    ".ai/decisions/WI-224-ci-reference-parity.finalize.json",
+    ".ai/decisions/WI-224-ci-reference-parity.recovery.json",
+    ".ai/decisions/WI-226-getting-started-parity-registration-final.close.json",
+    ".ai/decisions/WI-226-getting-started-parity-registration-final.finalize.70bca084567a20c3215a799f2653e67cc455787acdd028722ced68a1df191985.json",
+    ".ai/decisions/WI-226-getting-started-parity-registration-final.finalize.a1036db08fd79e7845f8f0e622afce945810ccdce944bcedb837aeadcf4fa300.json",
+    ".ai/decisions/WI-227-getting-started-capability-parity-integration.finalize.json",
+    ".ai/evidence/WI-222-capability-manifest-status.verification.json",
+    ".ai/evidence/WI-224-ci-reference-parity.verification.json",
+    ".ai/evidence/WI-227-getting-started-capability-parity-integration.verification.json",
+    ".ai/work-items/archive/WI-222-capability-manifest-status.archive.json",
+    ".ai/work-items/archive/WI-222-capability-manifest-status.contract.json",
+    ".ai/work-items/archive/WI-222-capability-manifest-status.events.jsonl",
+    ".ai/work-items/archive/WI-222-capability-manifest-status.outcome.json",
+    ".ai/work-items/archive/WI-222-capability-manifest-status.summary.json",
+    ".ai/work-items/archive/WI-222-capability-manifest-status.task-report.json",
+    ".ai/work-items/archive/WI-222-capability-manifest-status.task-report.md",
+    ".ai/work-items/archive/WI-224-ci-reference-parity.archive.json",
+    ".ai/work-items/archive/WI-224-ci-reference-parity.contract.json",
+    ".ai/work-items/archive/WI-224-ci-reference-parity.events.jsonl",
+    ".ai/work-items/archive/WI-224-ci-reference-parity.outcome.json",
+    ".ai/work-items/archive/WI-224-ci-reference-parity.summary.json",
+    ".ai/work-items/archive/WI-224-ci-reference-parity.task-report.json",
+    ".ai/work-items/archive/WI-224-ci-reference-parity.task-report.md",
+    ".ai/work-items/archive/WI-227-getting-started-capability-parity-integration.archive.json",
+    ".ai/work-items/archive/WI-227-getting-started-capability-parity-integration.contract.json",
+    ".ai/work-items/archive/WI-227-getting-started-capability-parity-integration.events.jsonl",
+    ".ai/work-items/archive/WI-227-getting-started-capability-parity-integration.outcome.json",
+    ".ai/work-items/archive/WI-227-getting-started-capability-parity-integration.summary.json",
+    ".ai/work-items/archive/WI-227-getting-started-capability-parity-integration.task-report.json",
+    ".ai/work-items/archive/WI-227-getting-started-capability-parity-integration.task-report.md",
+    ".gitattributes",
+    ".github/workflows/ci.yml",
+    ".github/workflows/release.yml",
+    ".gitignore",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/intelligence.rs",
+    "crates/cockpit-cli/tests/performance.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/intelligence_schema.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/intelligence.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "crates/cockpit-repository/tests/verification_service.rs",
+    "docs/capabilities.ja.md",
+    "docs/capabilities.md",
+    "docs/capabilities.zh-CN.md",
+    "docs/reference/ci-runtime-shadow.ja.md",
+    "docs/reference/ci-runtime-shadow.md",
+    "docs/reference/ci-runtime-shadow.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "tests/ci/quality_route.py",
+    "tests/ci/quality_route_test.py",
+    "tests/ci/release_gate_policy_test.sh",
+    "tests/ci/repository_gate_manifest.json",
+    "tests/ci/repository_gate_manifest_test.py",
+    "tests/ci/repository_gate_manifest_test.sh",
+    "tests/ci/run_repository_gates.py",
+    "tests/ci/runtime_verify_shadow.sh",
+    "tests/ci/runtime_verify_shadow_test.sh",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_acceptance_test.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh",
+    "tests/release/source_archive_policy_test.sh",
+    "tests/release/workflow_policy.sh"
+  ],
+  "contractDigest": "sha256:4ba12956db1d28ff60c4f4bace0402fabd5de94ab590b0343820120e65152f3a",
+  "contractPath": ".ai/work-items/archive/WI-227-getting-started-capability-parity-integration.contract.json",
+  "headRevision": "d081b2f0a81865392fbe20fd23cf398183dc11d9",
+  "kind": "repository_quality_route",
+  "manifestDigest": "sha256:4fc4438285ab5e432904a75c1116988be7f8e69eacdc8c3326626181750cba48",
+  "pathDecisions": [
+    {
+      "path": ".ai/decisions/WI-222-capability-manifest-status.finalize.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/decisions/WI-222-capability-manifest-status.finalize.json"
+    },
+    {
+      "path": ".ai/decisions/WI-222-capability-manifest-status.preflight-review.0654c8c2a01470f226789140d9fe8da742c738b3e58d7c228e2d3d707219d3d2.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/decisions/WI-222-capability-manifest-status.preflight-review.0654c8c2a01470f226789140d9fe8da742c738b3e58d7c228e2d3d707219d3d2.json"
+    },
+    {
+      "path": ".ai/decisions/WI-222-capability-manifest-status.preflight-review.184e449f6db9c1ed7a66fdd2f1bee6d866cb4e119e88b863c4352f370bd07ad9.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/decisions/WI-222-capability-manifest-status.preflight-review.184e449f6db9c1ed7a66fdd2f1bee6d866cb4e119e88b863c4352f370bd07ad9.json"
+    },
+    {
+      "path": ".ai/decisions/WI-222-capability-manifest-status.preflight-review.2a230af47cdc1e24146a7587a333b84228b03dcaf14bd6fa3bac97b7f09bb802.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/decisions/WI-222-capability-manifest-status.preflight-review.2a230af47cdc1e24146a7587a333b84228b03dcaf14bd6fa3bac97b7f09bb802.json"
+    },
+    {
+      "path": ".ai/decisions/WI-222-capability-manifest-status.preflight-review.ab7c45f9e52c276ed9c3d11382f4ce2e0fd8be8024134ecbfc6d1d137ef25e5c.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/decisions/WI-222-capability-manifest-status.preflight-review.ab7c45f9e52c276ed9c3d11382f4ce2e0fd8be8024134ecbfc6d1d137ef25e5c.json"
+    },
+    {
+      "path": ".ai/decisions/WI-222-capability-manifest-status.preflight-review.e287a90dddc2fab632b84b368ff56f29f21260b3073cb1155f8869f67922778f.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/decisions/WI-222-capability-manifest-status.preflight-review.e287a90dddc2fab632b84b368ff56f29f21260b3073cb1155f8869f67922778f.json"
+    },
+    {
+      "path": ".ai/decisions/WI-222-capability-manifest-status.preflight-review.ec83147fe792512044bf4516ff058c6556d3721a07353c9708320cb1144fcc5c.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/decisions/WI-222-capability-manifest-status.preflight-review.ec83147fe792512044bf4516ff058c6556d3721a07353c9708320cb1144fcc5c.json"
+    },
+    {
+      "path": ".ai/decisions/WI-222-capability-manifest-status.preflight-review.f7ad57e7191869066b8d4f00a6ac2a3375491948c13be8f3d2a5eba533a4df0e.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/decisions/WI-222-capability-manifest-status.preflight-review.f7ad57e7191869066b8d4f00a6ac2a3375491948c13be8f3d2a5eba533a4df0e.json"
+    },
+    {
+      "path": ".ai/decisions/WI-222-capability-manifest-status.preflight-review.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/decisions/WI-222-capability-manifest-status.preflight-review.json"
+    },
+    {
+      "path": ".ai/decisions/WI-224-ci-reference-parity.finalize.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/decisions/WI-224-ci-reference-parity.finalize.json"
+    },
+    {
+      "path": ".ai/decisions/WI-224-ci-reference-parity.recovery.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/decisions/WI-224-ci-reference-parity.recovery.json"
+    },
+    {
+      "path": ".ai/decisions/WI-226-getting-started-parity-registration-final.close.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/decisions/WI-226-getting-started-parity-registration-final.close.json"
+    },
+    {
+      "path": ".ai/decisions/WI-226-getting-started-parity-registration-final.finalize.70bca084567a20c3215a799f2653e67cc455787acdd028722ced68a1df191985.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/decisions/WI-226-getting-started-parity-registration-final.finalize.70bca084567a20c3215a799f2653e67cc455787acdd028722ced68a1df191985.json"
+    },
+    {
+      "path": ".ai/decisions/WI-226-getting-started-parity-registration-final.finalize.a1036db08fd79e7845f8f0e622afce945810ccdce944bcedb837aeadcf4fa300.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/decisions/WI-226-getting-started-parity-registration-final.finalize.a1036db08fd79e7845f8f0e622afce945810ccdce944bcedb837aeadcf4fa300.json"
+    },
+    {
+      "path": ".ai/decisions/WI-227-getting-started-capability-parity-integration.finalize.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/decisions/WI-227-getting-started-capability-parity-integration.finalize.json"
+    },
+    {
+      "path": ".ai/evidence/WI-222-capability-manifest-status.verification.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/evidence/WI-222-capability-manifest-status.verification.json"
+    },
+    {
+      "path": ".ai/evidence/WI-224-ci-reference-parity.verification.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/evidence/WI-224-ci-reference-parity.verification.json"
+    },
+    {
+      "path": ".ai/evidence/WI-227-getting-started-capability-parity-integration.verification.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/evidence/WI-227-getting-started-capability-parity-integration.verification.json"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-222-capability-manifest-status.archive.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/work-items/archive/WI-222-capability-manifest-status.archive.json"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-222-capability-manifest-status.contract.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/work-items/archive/WI-222-capability-manifest-status.contract.json"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-222-capability-manifest-status.events.jsonl",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/work-items/archive/WI-222-capability-manifest-status.events.jsonl"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-222-capability-manifest-status.outcome.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/work-items/archive/WI-222-capability-manifest-status.outcome.json"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-222-capability-manifest-status.summary.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/work-items/archive/WI-222-capability-manifest-status.summary.json"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-222-capability-manifest-status.task-report.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/work-items/archive/WI-222-capability-manifest-status.task-report.json"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-222-capability-manifest-status.task-report.md",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/work-items/archive/WI-222-capability-manifest-status.task-report.md"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-224-ci-reference-parity.archive.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/work-items/archive/WI-224-ci-reference-parity.archive.json"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-224-ci-reference-parity.contract.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/work-items/archive/WI-224-ci-reference-parity.contract.json"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-224-ci-reference-parity.events.jsonl",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/work-items/archive/WI-224-ci-reference-parity.events.jsonl"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-224-ci-reference-parity.outcome.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/work-items/archive/WI-224-ci-reference-parity.outcome.json"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-224-ci-reference-parity.summary.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/work-items/archive/WI-224-ci-reference-parity.summary.json"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-224-ci-reference-parity.task-report.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/work-items/archive/WI-224-ci-reference-parity.task-report.json"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-224-ci-reference-parity.task-report.md",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/work-items/archive/WI-224-ci-reference-parity.task-report.md"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-227-getting-started-capability-parity-integration.archive.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/work-items/archive/WI-227-getting-started-capability-parity-integration.archive.json"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-227-getting-started-capability-parity-integration.contract.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/work-items/archive/WI-227-getting-started-capability-parity-integration.contract.json"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-227-getting-started-capability-parity-integration.events.jsonl",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/work-items/archive/WI-227-getting-started-capability-parity-integration.events.jsonl"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-227-getting-started-capability-parity-integration.outcome.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/work-items/archive/WI-227-getting-started-capability-parity-integration.outcome.json"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-227-getting-started-capability-parity-integration.summary.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/work-items/archive/WI-227-getting-started-capability-parity-integration.summary.json"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-227-getting-started-capability-parity-integration.task-report.json",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/work-items/archive/WI-227-getting-started-capability-parity-integration.task-report.json"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-227-getting-started-capability-parity-integration.task-report.md",
+      "profile": "strict",
+      "reason": "strict path policy: .ai/work-items/archive/WI-227-getting-started-capability-parity-integration.task-report.md"
+    },
+    {
+      "path": ".gitattributes",
+      "profile": "strict",
+      "reason": "release-owned path requires strict: .gitattributes"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "profile": "strict",
+      "reason": "strict path policy: .github/workflows/ci.yml"
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "profile": "strict",
+      "reason": "release-owned path requires strict: .github/workflows/release.yml"
+    },
+    {
+      "path": ".gitignore",
+      "profile": "strict",
+      "reason": "strict path policy: .gitignore"
+    },
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "profile": "standard",
+      "reason": "standard path policy: crates/cockpit-cli/src/main.rs"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/intelligence.rs",
+      "profile": "standard",
+      "reason": "standard path policy: crates/cockpit-cli/tests/intelligence.rs"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/performance.rs",
+      "profile": "standard",
+      "reason": "standard path policy: crates/cockpit-cli/tests/performance.rs"
+    },
+    {
+      "path": "crates/cockpit-mcp/src/lib.rs",
+      "profile": "standard",
+      "reason": "standard path policy: crates/cockpit-mcp/src/lib.rs"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/rpc.rs",
+      "profile": "standard",
+      "reason": "standard path policy: crates/cockpit-mcp/tests/rpc.rs"
+    },
+    {
+      "path": "crates/cockpit-protocol/src/lib.rs",
+      "profile": "standard",
+      "reason": "standard path policy: crates/cockpit-protocol/src/lib.rs"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/intelligence_schema.rs",
+      "profile": "standard",
+      "reason": "standard path policy: crates/cockpit-protocol/tests/intelligence_schema.rs"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lib.rs",
+      "profile": "standard",
+      "reason": "standard path policy: crates/cockpit-repository/src/lib.rs"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/intelligence.rs",
+      "profile": "standard",
+      "reason": "standard path policy: crates/cockpit-repository/tests/intelligence.rs"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/status_projection.rs",
+      "profile": "standard",
+      "reason": "standard path policy: crates/cockpit-repository/tests/status_projection.rs"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "profile": "standard",
+      "reason": "standard path policy: crates/cockpit-repository/tests/verification_service.rs"
+    },
+    {
+      "path": "docs/capabilities.ja.md",
+      "profile": "light",
+      "reason": "light path policy: docs/capabilities.ja.md"
+    },
+    {
+      "path": "docs/capabilities.md",
+      "profile": "light",
+      "reason": "light path policy: docs/capabilities.md"
+    },
+    {
+      "path": "docs/capabilities.zh-CN.md",
+      "profile": "light",
+      "reason": "light path policy: docs/capabilities.zh-CN.md"
+    },
+    {
+      "path": "docs/reference/ci-runtime-shadow.ja.md",
+      "profile": "light",
+      "reason": "light path policy: docs/reference/ci-runtime-shadow.ja.md"
+    },
+    {
+      "path": "docs/reference/ci-runtime-shadow.md",
+      "profile": "light",
+      "reason": "light path policy: docs/reference/ci-runtime-shadow.md"
+    },
+    {
+      "path": "docs/reference/ci-runtime-shadow.zh-CN.md",
+      "profile": "light",
+      "reason": "light path policy: docs/reference/ci-runtime-shadow.zh-CN.md"
+    },
+    {
+      "path": "docs/reference/commands.ja.md",
+      "profile": "light",
+      "reason": "light path policy: docs/reference/commands.ja.md"
+    },
+    {
+      "path": "docs/reference/commands.md",
+      "profile": "light",
+      "reason": "light path policy: docs/reference/commands.md"
+    },
+    {
+      "path": "docs/reference/commands.zh-CN.md",
+      "profile": "light",
+      "reason": "light path policy: docs/reference/commands.zh-CN.md"
+    },
+    {
+      "path": "docs/reference/reference-parity.ja.md",
+      "profile": "light",
+      "reason": "light path policy: docs/reference/reference-parity.ja.md"
+    },
+    {
+      "path": "docs/reference/reference-parity.md",
+      "profile": "light",
+      "reason": "light path policy: docs/reference/reference-parity.md"
+    },
+    {
+      "path": "docs/reference/reference-parity.zh-CN.md",
+      "profile": "light",
+      "reason": "light path policy: docs/reference/reference-parity.zh-CN.md"
+    },
+    {
+      "path": "docs/release/distribution.ja.md",
+      "profile": "light",
+      "reason": "light path policy: docs/release/distribution.ja.md"
+    },
+    {
+      "path": "docs/release/distribution.md",
+      "profile": "light",
+      "reason": "light path policy: docs/release/distribution.md"
+    },
+    {
+      "path": "docs/release/distribution.zh-CN.md",
+      "profile": "light",
+      "reason": "light path policy: docs/release/distribution.zh-CN.md"
+    },
+    {
+      "path": "tests/ci/quality_route.py",
+      "profile": "strict",
+      "reason": "strict path policy: tests/ci/quality_route.py"
+    },
+    {
+      "path": "tests/ci/quality_route_test.py",
+      "profile": "strict",
+      "reason": "strict path policy: tests/ci/quality_route_test.py"
+    },
+    {
+      "path": "tests/ci/release_gate_policy_test.sh",
+      "profile": "strict",
+      "reason": "strict path policy: tests/ci/release_gate_policy_test.sh"
+    },
+    {
+      "path": "tests/ci/repository_gate_manifest.json",
+      "profile": "strict",
+      "reason": "strict path policy: tests/ci/repository_gate_manifest.json"
+    },
+    {
+      "path": "tests/ci/repository_gate_manifest_test.py",
+      "profile": "strict",
+      "reason": "strict path policy: tests/ci/repository_gate_manifest_test.py"
+    },
+    {
+      "path": "tests/ci/repository_gate_manifest_test.sh",
+      "profile": "strict",
+      "reason": "strict path policy: tests/ci/repository_gate_manifest_test.sh"
+    },
+    {
+      "path": "tests/ci/run_repository_gates.py",
+      "profile": "strict",
+      "reason": "strict path policy: tests/ci/run_repository_gates.py"
+    },
+    {
+      "path": "tests/ci/runtime_verify_shadow.sh",
+      "profile": "strict",
+      "reason": "strict path policy: tests/ci/runtime_verify_shadow.sh"
+    },
+    {
+      "path": "tests/ci/runtime_verify_shadow_test.sh",
+      "profile": "strict",
+      "reason": "strict path policy: tests/ci/runtime_verify_shadow_test.sh"
+    },
+    {
+      "path": "tests/conformance/reference_file_inventory.json",
+      "profile": "standard",
+      "reason": "standard path policy: tests/conformance/reference_file_inventory.json"
+    },
+    {
+      "path": "tests/conformance/reference_file_inventory.py",
+      "profile": "standard",
+      "reason": "standard path policy: tests/conformance/reference_file_inventory.py"
+    },
+    {
+      "path": "tests/conformance/reference_file_inventory_test.sh",
+      "profile": "standard",
+      "reason": "standard path policy: tests/conformance/reference_file_inventory_test.sh"
+    },
+    {
+      "path": "tests/release/adopter_acceptance.sh",
+      "profile": "strict",
+      "reason": "release-owned path requires strict: tests/release/adopter_acceptance.sh"
+    },
+    {
+      "path": "tests/release/adopter_acceptance_test.sh",
+      "profile": "strict",
+      "reason": "release-owned path requires strict: tests/release/adopter_acceptance_test.sh"
+    },
+    {
+      "path": "tests/release/adopter_upgrade_acceptance.sh",
+      "profile": "strict",
+      "reason": "release-owned path requires strict: tests/release/adopter_upgrade_acceptance.sh"
+    },
+    {
+      "path": "tests/release/adopter_upgrade_acceptance_test.sh",
+      "profile": "strict",
+      "reason": "release-owned path requires strict: tests/release/adopter_upgrade_acceptance_test.sh"
+    },
+    {
+      "path": "tests/release/source_archive_policy_test.sh",
+      "profile": "strict",
+      "reason": "release-owned path requires strict: tests/release/source_archive_policy_test.sh"
+    },
+    {
+      "path": "tests/release/workflow_policy.sh",
+      "profile": "strict",
+      "reason": "release-owned path requires strict: tests/release/workflow_policy.sh"
+    }
+  ],
+  "reasons": [
+    "release-owned path requires strict: .gitattributes",
+    "release-owned path requires strict: .github/workflows/release.yml",
+    "release-owned path requires strict: tests/release/adopter_acceptance.sh",
+    "release-owned path requires strict: tests/release/adopter_acceptance_test.sh",
+    "release-owned path requires strict: tests/release/adopter_upgrade_acceptance.sh",
+    "release-owned path requires strict: tests/release/adopter_upgrade_acceptance_test.sh",
+    "release-owned path requires strict: tests/release/source_archive_policy_test.sh",
+    "release-owned path requires strict: tests/release/workflow_policy.sh",
+    "strict path policy: .ai/decisions/WI-222-capability-manifest-status.finalize.json",
+    "strict path policy: .ai/decisions/WI-222-capability-manifest-status.preflight-review.0654c8c2a01470f226789140d9fe8da742c738b3e58d7c228e2d3d707219d3d2.json",
+    "strict path policy: .ai/decisions/WI-222-capability-manifest-status.preflight-review.184e449f6db9c1ed7a66fdd2f1bee6d866cb4e119e88b863c4352f370bd07ad9.json",
+    "strict path policy: .ai/decisions/WI-222-capability-manifest-status.preflight-review.2a230af47cdc1e24146a7587a333b84228b03dcaf14bd6fa3bac97b7f09bb802.json",
+    "strict path policy: .ai/decisions/WI-222-capability-manifest-status.preflight-review.ab7c45f9e52c276ed9c3d11382f4ce2e0fd8be8024134ecbfc6d1d137ef25e5c.json",
+    "strict path policy: .ai/decisions/WI-222-capability-manifest-status.preflight-review.e287a90dddc2fab632b84b368ff56f29f21260b3073cb1155f8869f67922778f.json",
+    "strict path policy: .ai/decisions/WI-222-capability-manifest-status.preflight-review.ec83147fe792512044bf4516ff058c6556d3721a07353c9708320cb1144fcc5c.json",
+    "strict path policy: .ai/decisions/WI-222-capability-manifest-status.preflight-review.f7ad57e7191869066b8d4f00a6ac2a3375491948c13be8f3d2a5eba533a4df0e.json",
+    "strict path policy: .ai/decisions/WI-222-capability-manifest-status.preflight-review.json",
+    "strict path policy: .ai/decisions/WI-224-ci-reference-parity.finalize.json",
+    "strict path policy: .ai/decisions/WI-224-ci-reference-parity.recovery.json",
+    "strict path policy: .ai/decisions/WI-226-getting-started-parity-registration-final.close.json",
+    "strict path policy: .ai/decisions/WI-226-getting-started-parity-registration-final.finalize.70bca084567a20c3215a799f2653e67cc455787acdd028722ced68a1df191985.json",
+    "strict path policy: .ai/decisions/WI-226-getting-started-parity-registration-final.finalize.a1036db08fd79e7845f8f0e622afce945810ccdce944bcedb837aeadcf4fa300.json",
+    "strict path policy: .ai/decisions/WI-227-getting-started-capability-parity-integration.finalize.json",
+    "strict path policy: .ai/evidence/WI-222-capability-manifest-status.verification.json",
+    "strict path policy: .ai/evidence/WI-224-ci-reference-parity.verification.json",
+    "strict path policy: .ai/evidence/WI-227-getting-started-capability-parity-integration.verification.json",
+    "strict path policy: .ai/work-items/archive/WI-222-capability-manifest-status.archive.json",
+    "strict path policy: .ai/work-items/archive/WI-222-capability-manifest-status.contract.json",
+    "strict path policy: .ai/work-items/archive/WI-222-capability-manifest-status.events.jsonl",
+    "strict path policy: .ai/work-items/archive/WI-222-capability-manifest-status.outcome.json",
+    "strict path policy: .ai/work-items/archive/WI-222-capability-manifest-status.summary.json",
+    "strict path policy: .ai/work-items/archive/WI-222-capability-manifest-status.task-report.json",
+    "strict path policy: .ai/work-items/archive/WI-222-capability-manifest-status.task-report.md",
+    "strict path policy: .ai/work-items/archive/WI-224-ci-reference-parity.archive.json",
+    "strict path policy: .ai/work-items/archive/WI-224-ci-reference-parity.contract.json",
+    "strict path policy: .ai/work-items/archive/WI-224-ci-reference-parity.events.jsonl",
+    "strict path policy: .ai/work-items/archive/WI-224-ci-reference-parity.outcome.json",
+    "strict path policy: .ai/work-items/archive/WI-224-ci-reference-parity.summary.json",
+    "strict path policy: .ai/work-items/archive/WI-224-ci-reference-parity.task-report.json",
+    "strict path policy: .ai/work-items/archive/WI-224-ci-reference-parity.task-report.md",
+    "strict path policy: .ai/work-items/archive/WI-227-getting-started-capability-parity-integration.archive.json",
+    "strict path policy: .ai/work-items/archive/WI-227-getting-started-capability-parity-integration.contract.json",
+    "strict path policy: .ai/work-items/archive/WI-227-getting-started-capability-parity-integration.events.jsonl",
+    "strict path policy: .ai/work-items/archive/WI-227-getting-started-capability-parity-integration.outcome.json",
+    "strict path policy: .ai/work-items/archive/WI-227-getting-started-capability-parity-integration.summary.json",
+    "strict path policy: .ai/work-items/archive/WI-227-getting-started-capability-parity-integration.task-report.json",
+    "strict path policy: .ai/work-items/archive/WI-227-getting-started-capability-parity-integration.task-report.md",
+    "strict path policy: .github/workflows/ci.yml",
+    "strict path policy: .gitignore",
+    "strict path policy: tests/ci/quality_route.py",
+    "strict path policy: tests/ci/quality_route_test.py",
+    "strict path policy: tests/ci/release_gate_policy_test.sh",
+    "strict path policy: tests/ci/repository_gate_manifest.json",
+    "strict path policy: tests/ci/repository_gate_manifest_test.py",
+    "strict path policy: tests/ci/repository_gate_manifest_test.sh",
+    "strict path policy: tests/ci/run_repository_gates.py",
+    "strict path policy: tests/ci/runtime_verify_shadow.sh",
+    "strict path policy: tests/ci/runtime_verify_shadow_test.sh"
+  ],
+  "receiptDigest": "sha256:15346f0c306954fca9dc4adf2c18efa57b222bd1d27d8231f81dc7447da01ffc",
+  "requestedProfile": "strict",
+  "requestedRisk": "high",
+  "requiredGateIds": [
+    "ci_governance_integrity_regression",
+    "ci_manifest_regression",
+    "ci_quality_route_regression",
+    "ci_runtime_shadow_regression",
+    "ci_workspace_coverage_regression",
+    "conformance_final_replacement",
+    "conformance_reference_file_inventory",
+    "docs_acceptance",
+    "docs_governance_integrity",
+    "docs_parity_regression",
+    "performance_regression",
+    "release_action_runtime",
+    "release_adopter",
+    "release_adopter_upgrade",
+    "release_annotated_tag",
+    "release_policy_regression",
+    "release_source_archive",
+    "release_version_consistency",
+    "release_workflow_policy",
+    "workflow_resource_finalization",
+    "workspace_clippy",
+    "workspace_format",
+    "workspace_package_tests"
+  ],
+  "risk": "high",
+  "schemaVersion": 1,
+  "selectedProfile": "strict",
+  "stage": "pull_request"
+}
