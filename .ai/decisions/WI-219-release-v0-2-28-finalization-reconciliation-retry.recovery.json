@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "premerge-finalization-receipt-recovery",
+  "decidedAt": "2026-08-23T21:06:41.286096Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-219-release-v0-2-28-finalization-reconciliation-retry.verification.json",
+    ".ai/decisions/WI-219-release-v0-2-28-finalization-reconciliation-retry.finalize.json",
+    "https://github.com/xinglun/ai-cockpit/pull/168"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:94d2d6323f06f15ac214a614e80d3dfade7729c6079fe383f34d4009728e3d54",
+  "predecessorEventsDigest": "sha256:979516b6d3b4da82a695e5b602bfd7fa71a06cba852f2498ce8208d70d4ce621",
+  "predecessorOutcomeDigest": "sha256:98df58e194d2a63c2bf75e6aace422d71f8d795086f7f427fcb186e5b4b80c79",
+  "predecessorSummaryDigest": "sha256:b85458e56b84942063c8950adcab4b0e4c87c03e01868c9d95ce27dd569be951",
+  "predecessorWorkItemId": "WI-219-release-v0-2-28-finalization-reconciliation-retry",
+  "reason": "WI-219 recorded a valid post-merge retained receipt, but the hosted governance gate requires a pre-merge blocked receipt for an in-progress feature branch. Preserve WI-219 immutable history and retry with the correct pre-merge receipt shape in WI-220 before PR merge.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Start WI-220 from the current branch, record an awaiting_merge_close pre-merge receipt, pass hosted checks, merge the PR, append exact cleanup transitions, and close.",
+  "runtimeDigest": "sha256:ea9a4a090307cb650eeda008942a5bc72fd0d1276b131405868f31d1eabcc048",
+  "runtimeVersion": "0.2.27",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-220-release-v0-2-28-finalization-reconciliation-final",
+  "workItemId": "WI-219-release-v0-2-28-finalization-reconciliation-retry"
+}

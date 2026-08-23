@@ -1,0 +1,43 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-219-release-v0-2-28-finalization-reconciliation-retry.recovery.json",
+    ".ai/work-items/active/WI-220-release-v0-2-28-finalization-reconciliation-final.contract.json",
+    ".ai/work-items/active/WI-220-release-v0-2-28-finalization-reconciliation-final.summary.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-08-23T21:06:24Z",
+  "intentAlignment": {
+    "reason": "The final retry is a bounded finalization recovery; the human-owned intent and closure decision remain explicit in the Contract and close receipt.",
+    "state": "unknown"
+  },
+  "mode": "docs",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/decisions/WI-219-release-v0-2-28-finalization-reconciliation-retry.recovery.json",
+        ".ai/work-items/archive/WI-219-release-v0-2-28-finalization-reconciliation-retry.archive.json"
+      ],
+      "required": true,
+      "scenario": "immutable predecessor recovery",
+      "status": "verified"
+    },
+    {
+      "evidence": [],
+      "required": true,
+      "scenario": "pre-merge finalization",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "required": false,
+      "scenario": "post-merge cleanup and handoff",
+      "status": "unverified"
+    }
+  ],
+  "state": "implementation_active",
+  "updatedAt": "2026-08-23T21:08:22.511235+00:00",
+  "workItemId": "WI-220-release-v0-2-28-finalization-reconciliation-final"
+}
