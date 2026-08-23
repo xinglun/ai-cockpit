@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-23T22:44:27Z",
+  "files": {
+    "approachDigest": "sha256:613af8465af2faf70b96973c55a5147b65cba5ee2e87f9ed30bc8e863e48b624",
+    "approachPath": ".ai/work-items/archive/WI-226-getting-started-parity-registration-final.approach.json",
+    "contractDigest": "sha256:e5aef8b36811841d61da7c232ce91fc030914dc23fb10e278bd65546b886be1b",
+    "contractPath": ".ai/work-items/archive/WI-226-getting-started-parity-registration-final.contract.json",
+    "eventsDigest": "sha256:5e0711c5507afcd6ae3960f32f191e1dbe62cb8146c0e740ea40273dbde7d65c",
+    "eventsPath": ".ai/work-items/archive/WI-226-getting-started-parity-registration-final.events.jsonl",
+    "outcomeDigest": "sha256:bc6b13b7863ac50444835ebf81ec14d6a62bcfa05093b95d1e2d3b3bd6f5db8f",
+    "outcomePath": ".ai/work-items/archive/WI-226-getting-started-parity-registration-final.outcome.json",
+    "summaryDigest": "sha256:346d971322322aaaefdbd22a27c3bc458807ac2d2fab88464f886d7fe6f03de7",
+    "summaryPath": ".ai/work-items/archive/WI-226-getting-started-parity-registration-final.summary.json",
+    "taskReportDigest": "sha256:12a18b7def8b279165ca9d825ea7a61a178d50668354ecbebc2c3770c9b71cf7",
+    "taskReportMarkdownDigest": "sha256:cbece7575593485514125af620dea37e43e97cf76b35327124938fc22ee5daf0",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-226-getting-started-parity-registration-final.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-226-getting-started-parity-registration-final.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-226-getting-started-parity-registration-final"
+}
