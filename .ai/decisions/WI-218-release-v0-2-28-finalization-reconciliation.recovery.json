@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "post-finish-snapshot-drift-recovery",
+  "decidedAt": "2026-08-23T20:55:57.069748Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-218-release-v0-2-28-finalization-reconciliation.verification.json",
+    "docs/reference/reference-parity.md",
+    "5f539dc"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:3c7e330831f0e0ae51afa7274941f6f31cbf323d561a516fafa217bdabd82259",
+  "predecessorEventsDigest": "sha256:95aae543e5540ab5a24649a2046150f5c7e1d9a3bc96a72e747c51a26d7585ca",
+  "predecessorOutcomeDigest": "sha256:51e7535eb5ccffd1eaca7e38df98fad86c8138edb06dc3eb1b46eb2c83db1970",
+  "predecessorSummaryDigest": "sha256:8f1c5d5dc3d7d20d6ca39394284b565f936a741b9f65d53b796cd25de3bdd5f7",
+  "predecessorWorkItemId": "WI-218-release-v0-2-28-finalization-reconciliation",
+  "reason": "WI-218 reached finish_ready with valid evidence, then the required parity correction changed repository bytes. The installed Runtime correctly refused to reverify after finish because the single checkpoint was already consumed. Preserve WI-218 immutable history and supersede it with a fresh successor so finalization and close use current evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Start WI-219 from the current main baseline, bind the exact finalization context before verification, and complete archive, finalization, cleanup, close, and parity closure.",
+  "runtimeDigest": "sha256:ea9a4a090307cb650eeda008942a5bc72fd0d1276b131405868f31d1eabcc048",
+  "runtimeVersion": "0.2.27",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-219-release-v0-2-28-finalization-reconciliation-retry",
+  "workItemId": "WI-218-release-v0-2-28-finalization-reconciliation"
+}

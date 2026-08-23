@@ -1,0 +1,172 @@
+{
+  "acceptanceResults": [
+    "Preserve WI-217 archive, recovery, verification, and canonical pre-merge finalization bytes without rewriting them.",
+    "Bind the exact merged PR #166 head 628a154ddf5b2b9f03dd6d6a00f6fe3e85576cb5 and merge commit cfedf46d653672666ef0f9ecea2ca6862c1aa282 to a fresh successor finalization chain.",
+    "Record and verify the post-merge branch/worktree cleanup boundary for codex/wi-217-release-v0-2-28-post-release-acceptance and /private/tmp/ai-cockpit-wi216-post-release.",
+    "Add tri-language parity linkage for WI-218, then close WI-218 with a visible human Outcome and structured decision.",
+    "Do not rewrite Release truth, historical evidence, or the WI-217 archive; any failed transition remains recoverable."
+  ],
+  "createdAt": "2026-08-23T20:52:10Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:02b6ffc1abaa0a2dc32d2c62acc021bcea26c3f84b01c232e3ec327713a69a94",
+  "evidenceRefs": [
+    ".ai/evidence/WI-218-release-v0-2-28-finalization-reconciliation.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-218-release-v0-2-28-finalization-reconciliation.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-218-release-v0-2-28-finalization-reconciliation.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:68e1c028474f41fc40c1eaef95eb4046769ccd14c41dafbcca7c411fa1e34951",
+      "workItemId": "WI-218-release-v0-2-28-finalization-reconciliation"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-218-release-v0-2-28-finalization-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-217-release-v0-2-28-post-release-acceptance.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-218-release-v0-2-28-finalization-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-218-release-v0-2-28-finalization-reconciliation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-218-release-v0-2-28-finalization-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-218-release-v0-2-28-finalization-reconciliation.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-218-release-v0-2-28-finalization-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-218-release-v0-2-28-finalization-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-218-release-v0-2-28-finalization-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-218-release-v0-2-28-finalization-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-218-release-v0-2-28-finalization-reconciliation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-218-release-v0-2-28-finalization-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-218-release-v0-2-28-finalization-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-218-release-v0-2-28-finalization-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-218-release-v0-2-28-finalization-reconciliation.contract.json"
+          ],
+          "inference": false,
+          "text": "Reconcile the immutable post-release finalization boundary for the v0.2.28 reference-comparison batch."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-218-release-v0-2-28-finalization-reconciliation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-218-release-v0-2-28-finalization-reconciliation"
+  },
+  "taskReportDigest": "sha256:1ed9793f02206ab95663d1baee15ecc84279d947252e19caa3c6b378c3029a7c",
+  "taskReportMarkdownDigest": "sha256:c1bbe98b640aae12c8179a2dd34a7441c67239be25ed302cb4762d79bef23d32",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-218-release-v0-2-28-finalization-reconciliation.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-218-release-v0-2-28-finalization-reconciliation"
+}

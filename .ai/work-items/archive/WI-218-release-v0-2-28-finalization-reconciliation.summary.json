@@ -1,0 +1,57 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-217-release-v0-2-28-post-release-acceptance.recovery.json",
+    ".ai/work-items/active/WI-218-release-v0-2-28-finalization-reconciliation.contract.json",
+    ".ai/work-items/active/WI-218-release-v0-2-28-finalization-reconciliation.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md"
+  ],
+  "checkpointAt": "2026-08-23T20:46:43Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T20:41:09Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "reason": "The successor is a bounded finalization reconciliation; the human-owned intent is recorded in the Contract and final closure decision.",
+    "state": "unknown"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:ffb413cd6f1ff6efe58aa5f9d7782c82baa39202c7a95d2d3c21fa6aee6604aa",
+  "predecessorWorkItemId": "WI-217-release-v0-2-28-post-release-acceptance",
+  "preflightAt": "2026-08-23T20:52:07Z",
+  "preflightContractDigest": "sha256:3c7e330831f0e0ae51afa7274941f6f31cbf323d561a516fafa217bdabd82259",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:68e1c028474f41fc40c1eaef95eb4046769ccd14c41dafbcca7c411fa1e34951",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryDecisionPath": ".ai/decisions/WI-217-release-v0-2-28-post-release-acceptance.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/decisions/WI-217-release-v0-2-28-post-release-acceptance.recovery.json",
+        ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.archive.json"
+      ],
+      "required": true,
+      "scenario": "immutable predecessor reconciliation",
+      "status": "verified"
+    },
+    {
+      "evidence": [],
+      "required": false,
+      "scenario": "post-merge finalization",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "required": false,
+      "scenario": "localized human handoff",
+      "status": "unverified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T20:52:10Z",
+  "workItemId": "WI-218-release-v0-2-28-finalization-reconciliation"
+}

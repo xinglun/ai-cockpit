@@ -1,0 +1,23 @@
+{
+  "createdAt": "2026-08-23T20:56:27Z",
+  "files": {
+    "contractDigest": "sha256:aa17ddf81e4b61bfe2e7c067e5bb7815de11fbcdc542b83ba0cbd307c6e76f10",
+    "contractPath": ".ai/work-items/archive/WI-218-release-v0-2-28-finalization-reconciliation.contract.json",
+    "eventsDigest": "sha256:95aae543e5540ab5a24649a2046150f5c7e1d9a3bc96a72e747c51a26d7585ca",
+    "eventsPath": ".ai/work-items/archive/WI-218-release-v0-2-28-finalization-reconciliation.events.jsonl",
+    "outcomeDigest": "sha256:012d8b7eea5125d418cd5797373becb5166d3042b2368ef945ca3d6406298239",
+    "outcomePath": ".ai/work-items/archive/WI-218-release-v0-2-28-finalization-reconciliation.outcome.json",
+    "summaryDigest": "sha256:4cd7ca6dee0bacec04eda2745e7df7ca4145033bf44072b9f38d7da85ac2bedb",
+    "summaryPath": ".ai/work-items/archive/WI-218-release-v0-2-28-finalization-reconciliation.summary.json",
+    "taskReportDigest": "sha256:1ed9793f02206ab95663d1baee15ecc84279d947252e19caa3c6b378c3029a7c",
+    "taskReportMarkdownDigest": "sha256:c1bbe98b640aae12c8179a2dd34a7441c67239be25ed302cb4762d79bef23d32",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-218-release-v0-2-28-finalization-reconciliation.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-218-release-v0-2-28-finalization-reconciliation.task-report.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "state": "superseded",
+  "supersededBy": "WI-219-release-v0-2-28-finalization-reconciliation-retry",
+  "supersessionDecisionPath": ".ai/decisions/WI-218-release-v0-2-28-finalization-reconciliation.recovery.json",
+  "workItemId": "WI-218-release-v0-2-28-finalization-reconciliation"
+}
