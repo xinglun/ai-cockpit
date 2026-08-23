@@ -1,0 +1,140 @@
+{
+  "acceptanceResults": [
+    "Public Release tag v0.2.22, workflow run 32622398424, and release assets are immutable and checksum-bound.",
+    "Installed binary is v0.2.22 and its SHA-256 matches the public Release archive binary digest.",
+    "Fresh isolated adopter attach produces an independent repositoryId and minimum scaffold.",
+    "Attach, inspect/status/doctor, agent doctor, verify, and evidence reuse JSON outputs are retained.",
+    "first-adopter-smoke remains not_ready and does not contain fabricated intent, scope, authority, or acceptance decisions.",
+    "A Work Item completes start, finalize-plan, preflight, checkpoint, verify, finish, archive, finalize, finalize-verify, and close using only the installed public binary.",
+    "Adopter isolation proves the main repository has no unexpected .ai or global Agent/MCP writes; temporary runtime roots are cleaned.",
+    "Tri-language parity documentation records WI-175 public completion, WI-176 recovery completion, and this adopter acceptance baseline."
+  ],
+  "createdAt": "2026-08-23T06:27:32Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:2aaa75391eccce2374d4d1e784708fb3b41e9fa3fc94c212cac98e78eeab031f",
+  "evidenceRefs": [
+    ".ai/evidence/WI-177-post-release-adopter-v0-2-22.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-177-post-release-adopter-v0-2-22.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-177-post-release-adopter-v0-2-22.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4d7788644e02678f97c9c82aecdffdfe04c11da7f6d2eeef7e218e0b46f9ab82",
+      "workItemId": "WI-177-post-release-adopter-v0-2-22"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-177-post-release-adopter-v0-2-22.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-177-post-release-adopter-v0-2-22.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-177-post-release-adopter-v0-2-22.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-177-post-release-adopter-v0-2-22.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-177-post-release-adopter-v0-2-22.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-177-post-release-adopter-v0-2-22.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-177-post-release-adopter-v0-2-22.contract.json"
+          ],
+          "inference": false,
+          "text": "Prove that the public v0.2.22 binary can govern a fresh isolated adopter repository from attach through close, with runtime identity, evidence reuse, not_ready scaffold behavior, isolation, and cleanup recorded."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-177-post-release-adopter-v0-2-22.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-177-post-release-adopter-v0-2-22"
+  },
+  "taskReportDigest": "sha256:423be79ae0392b517343cce2eedbceeafe97e5c1b7c69c8f928b18a86912a363",
+  "taskReportMarkdownDigest": "sha256:c8764685b691f34aa1efce584ecde564ab7dc8ae5375c722d406766d8511f42d",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-177-post-release-adopter-v0-2-22.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-177-post-release-adopter-v0-2-22"
+}

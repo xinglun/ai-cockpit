@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "state": "VERIFIED",
+  "repositoryId": "sha256:504c9ecb9016b9dca6a8a18120aa5dba092d75c2743dfe3fe6099cf7853ed70d",
+  "attachment": {
+    "state": "attached"
+  },
+  "manifest": {
+    "state": "valid"
+  },
+  "adapters": [
+    {
+      "provider": "codex",
+      "state": "installed",
+      "target": "AGENTS.md"
+    }
+  ],
+  "interfaces": {
+    "cli": "available",
+    "mcp": "available"
+  },
+  "problems": [],
+  "safeActions": []
+}

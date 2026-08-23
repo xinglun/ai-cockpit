@@ -1,0 +1,20 @@
+{
+  "profileVersion": 1,
+  "repositoryId": "sha256:504c9ecb9016b9dca6a8a18120aa5dba092d75c2743dfe3fe6099cf7853ed70d",
+  "repositorySchemaVersion": 2,
+  "state": "calibration_required",
+  "profileDigest": "sha256:89dfd23ed80fc5ec80417d957ebdf7ecb0745b6b807d739774088bad1707a70e",
+  "tests": [
+    {
+      "program": "cargo",
+      "args": [
+        "test",
+        "--workspace"
+      ],
+      "state": "detected"
+    }
+  ],
+  "buildSystems": [
+    "Cargo"
+  ]
+}

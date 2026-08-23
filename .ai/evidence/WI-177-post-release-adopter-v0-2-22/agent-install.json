@@ -1,0 +1,7 @@
+{
+  "provider": "codex",
+  "target": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-adopter-acceptance.7NEUi8/adopter/AGENTS.md",
+  "ownership_path": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-adopter-acceptance.7NEUi8/adopter/.ai/adapters/codex.json",
+  "repository_id": "sha256:504c9ecb9016b9dca6a8a18120aa5dba092d75c2743dfe3fe6099cf7853ed70d",
+  "installed_digest": "sha256:e5f35bee4c66cf74356a6f4db56568453d6c9eee22f7ee0de66afeeee17157f2"
+}
