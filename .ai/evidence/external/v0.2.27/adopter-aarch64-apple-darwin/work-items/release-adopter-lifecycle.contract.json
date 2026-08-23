@@ -1,0 +1,37 @@
+{
+  "acceptanceCriteria": [
+    "cargo test passes for the adopter change"
+  ],
+  "authority": "authorized",
+  "baseRevision": "949df071f4b211c0deb724d50222cf1b45b5c59e",
+  "createdAt": "2026-08-23T18:35:28Z",
+  "goal": "Demonstrate an auditable Work Item lifecycle using only the pinned public Release binary.",
+  "intent": "Validate the published Runtime against a real adopter change.",
+  "mode": "implementation",
+  "outOfScope": [
+    "target"
+  ],
+  "projectProfileDigest": "sha256:f00cb6e1fc20811c06bd2f3eee761e6e4b30b8e1a572aa2f2d077fcc592ae883",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:a4999e9bc83c576be270066a9f86ada7ebdc5d90ab7a3cd0cb73d252662cecb2",
+  "repositorySnapshotDigest": "sha256:a885d9eb2d668eedc2bf1ed8884c96349fea058a226547828e9be7f2eeae910a",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "master",
+    "baseRemote": "local",
+    "branch": "master",
+    "provider": "release-adopter-harness",
+    "pullRequest": "acceptance://v0.2.27/release-adopter-lifecycle",
+    "worktree": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-adopter-acceptance.DwdYFl/adopter"
+  },
+  "risk": "normal",
+  "scope": [
+    "src/lib.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "release-adopter-lifecycle"
+}

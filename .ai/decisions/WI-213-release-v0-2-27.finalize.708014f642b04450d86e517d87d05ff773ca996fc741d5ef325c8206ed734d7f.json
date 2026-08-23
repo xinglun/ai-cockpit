@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:48ae9ba59da499b1a30d8ea7518846941e1b30d6431764f9575b9e3fc3c1159f",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "post-merge-provider-evidence",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "8575ea6f17c2b65b8aa5e5dea29e5f4f7fa5b2a2",
+      "name": "codex/wi-213-release-v0-2-27",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:ce524b8235dc04c091d8af192c2bd226e90adc2b13b741f02f1a57ef47826ccd",
+    "operationId": "operation-WI-213-release-v0-2-27-cleanup",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "b5b521e3df805a8e82c05f6955e702e049e672f6",
+      "headRevision": "8575ea6f17c2b65b8aa5e5dea29e5f4f7fa5b2a2",
+      "mergeCommit": "baf78f9141c2ffaff35e2e038fc69d51a2dc02a9",
+      "number": 161,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/161"
+    },
+    "reason": "The merged PR #161 remote branch and exact reviewed worktree were deleted and verified absent after public v0.2.27 acceptance.",
+    "receiptId": "ai-cockpit-WI-213-release-v0-2-27-cleanup",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-213-release-v0-2-27",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/161",
+      "worktree": "/private/tmp/ai-cockpit-wi213-release-v0-2-27"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:ea9a4a090307cb650eeda008942a5bc72fd0d1276b131405868f31d1eabcc048",
+    "runtimeVersion": "0.2.27",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-23T18:58:00Z",
+    "workItemId": "WI-213-release-v0-2-27",
+    "worktree": {
+      "branch": "codex/wi-213-release-v0-2-27",
+      "headRevision": "8575ea6f17c2b65b8aa5e5dea29e5f4f7fa5b2a2",
+      "path": "/private/tmp/ai-cockpit-wi213-release-v0-2-27",
+      "worktreeId": "WI-213-release-v0-2-27"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "WI-213-cleanup-2"
+}

@@ -1,0 +1,7 @@
+{
+  "provider": "codex",
+  "target": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-n-minus-one.neSebN/adopter/AGENTS.md",
+  "ownership_path": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-n-minus-one.neSebN/adopter/.ai/adapters/codex.json",
+  "repository_id": "sha256:ec195186c0e0fb3c5126d081c8328c0f4dce6b9aaf480dd2c5d10a7ff2589ac8",
+  "installed_digest": "sha256:00b96f23308db62ee1dc0bbfb592337ff1acacbf7a1d894ac3a67e7f50b26233"
+}

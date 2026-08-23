@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-08-23T18:35:43Z",
+  "finishedAt": "2026-08-23T18:35:50Z",
+  "releasePublished": true,
+  "adopterAcceptance": "passed",
+  "repository": "xinglun/ai-cockpit",
+  "fromTag": "v0.2.23",
+  "toTag": "v0.2.27",
+  "target": "aarch64-apple-darwin",
+  "rustToolchain": "1.94.1-aarch64-apple-darwin",
+  "fromRuntimeVersion": "0.2.23",
+  "toRuntimeVersion": "0.2.27",
+  "fromRuntimeDigest": "sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+  "toRuntimeDigest": "sha256:ea9a4a090307cb650eeda008942a5bc72fd0d1276b131405868f31d1eabcc048",
+  "repositoryId": "sha256:ec195186c0e0fb3c5126d081c8328c0f4dce6b9aaf480dd2c5d10a7ff2589ac8",
+  "closeDecision": {
+    "validated": true,
+    "workItemId": "n-minus-one-post-migration",
+    "repositoryId": "sha256:ec195186c0e0fb3c5126d081c8328c0f4dce6b9aaf480dd2c5d10a7ff2589ac8",
+    "artifactPath": "work-items/n-minus-one-post-migration.close.json",
+    "digest": "sha256:6b8a0ca44dfac9ec64970fd0a760e0fdda795d6182ef03f45f1e372055d5de6f"
+  },
+  "cleanupState": "passed",
+  "cleanupError": null,
+  "steps": [
+    {
+      "name": "from-release-pin",
+      "state": "passed"
+    },
+    {
+      "name": "to-release-pin",
+      "state": "passed"
+    },
+    {
+      "name": "public-release-pins",
+      "state": "passed"
+    },
+    {
+      "name": "from-attach.json",
+      "state": "passed"
+    },
+    {
+      "name": "from-profile.json",
+      "state": "passed"
+    },
+    {
+      "name": "from-agent-install.json",
+      "state": "passed"
+    },
+    {
+      "name": "from-agent-doctor.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-protocol-directories",
+      "state": "passed"
+    },
+    {
+      "name": "old-schema-assertion",
+      "state": "passed",
+      "reason": "old Runtime repository schema 2"
+    },
+    {
+      "name": "old-start.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-finalize-plan.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-preflight.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-checkpoint.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-verify.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-verify-runtime-identity",
+      "state": "passed"
+    },
+    {
+      "name": "old-finish.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-archive.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-finalize.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-finalize-verify.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-close.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-lifecycle-closed",
+      "state": "passed"
+    },
+    {
+      "name": "historical-evidence-captured",
+      "state": "passed"
+    },
+    {
+      "name": "new-compatibility.json",
+      "state": "passed"
+    },
+    {
+      "name": "historical-evidence-preserved",
+      "state": "passed"
+    },
+    {
+      "name": "new-compatibility-after.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-start.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-finalize-plan.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-preflight.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-checkpoint.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-agent-doctor.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-verify.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-finish.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-archive.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-finalize.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-finalize-verify.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-close.json",
+      "state": "passed"
+    },
+    {
+      "name": "continued-operation",
+      "state": "passed"
+    },
+    {
+      "name": "isolation",
+      "state": "passed"
+    }
+  ],
+  "failureReason": null
+}

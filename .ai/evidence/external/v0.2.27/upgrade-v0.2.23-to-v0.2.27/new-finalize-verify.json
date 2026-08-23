@@ -1,0 +1,66 @@
+{
+  "disposition": "retained",
+  "headDigest": "sha256:a68c46afa9e7603cff9ecab86840ba817d9aee565064ac33f9470c3b8a5d0452",
+  "headPath": ".ai/decisions/n-minus-one-post-migration.finalize.json",
+  "receipt": {
+    "actor": "harness:release-adopter-upgrade",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "release-adopter-upgrade-acceptance",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "2eba36c7993f23e92f16dfe7bac3996d3e01824f",
+      "name": "master",
+      "remote": "local"
+    },
+    "contractDigest": "sha256:a1d5fbc19487c0f082bcb7b516afe1796abd4253aa81cd0559d0f2450042172f",
+    "operationId": "retain-n-minus-one-post-migration",
+    "provider": "release-adopter-upgrade-harness",
+    "pullRequest": {
+      "baseBranch": "master",
+      "baseRemote": "local",
+      "baseRevision": "2eba36c7993f23e92f16dfe7bac3996d3e01824f",
+      "headRevision": "2eba36c7993f23e92f16dfe7bac3996d3e01824f",
+      "mergeCommit": "2eba36c7993f23e92f16dfe7bac3996d3e01824f",
+      "number": 1,
+      "url": "acceptance://v0.2.27/n-minus-one-post-migration"
+    },
+    "reason": "The isolated N-1 adopter fixture is intentionally retained after migration verification.",
+    "receiptId": "release-adopter-upgrade-n-minus-one-post-migration",
+    "repositoryId": "sha256:ec195186c0e0fb3c5126d081c8328c0f4dce6b9aaf480dd2c5d10a7ff2589ac8",
+    "resourceContext": {
+      "baseBranch": "master",
+      "baseRemote": "local",
+      "branch": "master",
+      "provider": "release-adopter-upgrade-harness",
+      "pullRequest": "acceptance://v0.2.27/n-minus-one-post-migration",
+      "worktree": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-n-minus-one.neSebN/adopter"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:ea9a4a090307cb650eeda008942a5bc72fd0d1276b131405868f31d1eabcc048",
+    "runtimeVersion": "0.2.27",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-23T18:35:50Z",
+    "workItemId": "n-minus-one-post-migration",
+    "worktree": {
+      "branch": "master",
+      "headRevision": "2eba36c7993f23e92f16dfe7bac3996d3e01824f",
+      "path": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-n-minus-one.neSebN/adopter",
+      "worktreeId": "n-minus-one-post-migration"
+    }
+  },
+  "sequence": 0,
+  "state": "verified",
+  "workItemId": "n-minus-one-post-migration"
+}

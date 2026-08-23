@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "release-adopter-release-adopter-lifecycle",
+  "operationId": "retain-release-adopter-lifecycle",
+  "repositoryId": "sha256:a4999e9bc83c576be270066a9f86ada7ebdc5d90ab7a3cd0cb73d252662cecb2",
+  "workItemId": "release-adopter-lifecycle",
+  "runtimeVersion": "0.2.27",
+  "runtimeDigest": "sha256:ea9a4a090307cb650eeda008942a5bc72fd0d1276b131405868f31d1eabcc048",
+  "provider": "release-adopter-harness",
+  "pullRequest": {
+    "number": 1,
+    "url": "acceptance://v0.2.27/release-adopter-lifecycle",
+    "headRevision": "006fd9e9c41984c1fd2a4755f47f00ee24d411e1",
+    "baseBranch": "master",
+    "baseRemote": "local",
+    "baseRevision": "006fd9e9c41984c1fd2a4755f47f00ee24d411e1",
+    "mergeCommit": "006fd9e9c41984c1fd2a4755f47f00ee24d411e1"
+  },
+  "branch": {
+    "name": "master",
+    "remote": "local",
+    "headRevision": "006fd9e9c41984c1fd2a4755f47f00ee24d411e1"
+  },
+  "worktree": {
+    "worktreeId": "release-adopter-lifecycle",
+    "path": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-adopter-acceptance.DwdYFl/adopter",
+    "branch": "master",
+    "headRevision": "006fd9e9c41984c1fd2a4755f47f00ee24d411e1"
+  },
+  "before": {
+    "pullRequest": "merged",
+    "branch": "present",
+    "worktree": "clean"
+  },
+  "after": {
+    "pullRequest": "merged",
+    "branch": "present",
+    "worktree": "clean"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "actor": "harness:release-adopter",
+  "authoritySource": "release-adopter-acceptance",
+  "reason": "The isolated adopter fixture is intentionally retained after lifecycle verification.",
+  "timestamp": "2026-08-23T18:35:29Z",
+  "contractDigest": "sha256:bde6972e2fbaa123e2f361b4f04b089b754a0423f8de316b78d1d70c193fa21e",
+  "resourceContext": {
+    "branch": "master",
+    "worktree": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-adopter-acceptance.DwdYFl/adopter",
+    "baseBranch": "master",
+    "baseRemote": "local",
+    "provider": "release-adopter-harness",
+    "pullRequest": "acceptance://v0.2.27/release-adopter-lifecycle"
+  }
+}

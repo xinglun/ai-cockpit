@@ -1,0 +1,9 @@
+{
+  "runtimeVersion": "0.2.27",
+  "runtimeDigest": "sha256:ea9a4a090307cb650eeda008942a5bc72fd0d1276b131405868f31d1eabcc048",
+  "protocolVersion": 1,
+  "repositorySchemaVersion": 2,
+  "requiredRepositorySchemaVersion": 2,
+  "state": "COMPATIBLE",
+  "safeActions": []
+}
