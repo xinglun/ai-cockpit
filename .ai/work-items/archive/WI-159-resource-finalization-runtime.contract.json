@@ -25,11 +25,16 @@
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:acd7ec609b9638c9b6d8ed4a8fa64ef1e26c0f8e73b99fd0384e4f724a7bf176",
   "requiredEvidenceClasses": [
-    "native_runtime_evidence",
-    "resource_finalization_receipt",
-    "lifecycle_regression",
-    "human_outcome"
+    "verification"
   ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-159-resource-finalization-runtime",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/110",
+    "worktree": "/private/tmp/ai-cockpit-wi159-runtime-finalization"
+  },
   "risk": "high",
   "scenarioCoverage": [
     {
