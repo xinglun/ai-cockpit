@@ -1,0 +1,809 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-186-release-v0-2-23-post-release-acceptance.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:5f18fd3808d2f25ff6aee1a6b067e647e4a9f4be7dfc2ccec2d614e3b1de68ce",
+    "workItemId": "WI-186-release-v0-2-23-post-release-acceptance"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/SHA256SUMS"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/SHA256SUMS.release"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/acceptance.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/agent-doctor.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/agent-install.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/agent-list.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/attach.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/cleanup.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/first-adopter-smoke.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/inspect.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/isolation-manifests/cargo-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/isolation-manifests/cargo-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/isolation-manifests/home-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/isolation-manifests/home-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/isolation-manifests/tmp-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/isolation-manifests/tmp-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/isolation-manifests/xdg-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/isolation-manifests/xdg-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/isolation.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/lifecycle-archive.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/lifecycle-checkpoint.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/lifecycle-close.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/lifecycle-finalize-plan.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/lifecycle-finalize-verify.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/lifecycle-finalize.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/lifecycle-finish.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/lifecycle-preflight.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/lifecycle-start.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/lifecycle-verify.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/profile-confirm.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/release-manifest.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/release.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/repository.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/runtime.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/verify-first.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/verify-reuse.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/work-items/first-adopter-smoke.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/work-items/lifecycle.evidence.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/work-items/release-adopter-lifecycle.close.binding.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/work-items/release-adopter-lifecycle.close.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/work-items/release-adopter-lifecycle.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/work-items/release-adopter-lifecycle.finalize-context.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/work-items/release-adopter-lifecycle.finalize-receipt.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/work-items/release-adopter-lifecycle.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/adopter/work-items/release-adopter-lifecycle.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/SHA256SUMS"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/acceptance.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/cleanup.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/evidence-before.sha256"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/from-SHA256SUMS.release"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/from-agent-doctor.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/from-agent-install.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/from-attach.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/from-profile.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/from-release-manifest.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/from-runtime.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/history-digest.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/isolation-manifests/cargo-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/isolation-manifests/cargo-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/isolation-manifests/home-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/isolation-manifests/home-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/isolation-manifests/tmp-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/isolation-manifests/tmp-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/isolation-manifests/xdg-after.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/isolation-manifests/xdg-before.manifest"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/isolation.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/migration-state.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/new-agent-doctor.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/new-archive.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/new-checkpoint.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/new-close.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/new-compatibility-after.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/new-compatibility.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/new-finalize-plan.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/new-finalize-verify.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/new-finalize.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/new-finish.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/new-preflight.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/new-start.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/new-verify.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/old-archive.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/old-checkpoint.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/old-close.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/old-finalize-plan.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/old-finalize-verify.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/old-finalize.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/old-finish.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/old-preflight.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/old-start.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/old-verify.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/to-SHA256SUMS.release"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/to-release-manifest.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/to-runtime.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/work-items/n-minus-one-lifecycle.close.binding.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/work-items/n-minus-one-lifecycle.close.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/work-items/n-minus-one-lifecycle.finalize-context.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/work-items/n-minus-one-lifecycle.finalize-receipt.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/work-items/n-minus-one-post-migration.close.binding.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/work-items/n-minus-one-post-migration.close.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/work-items/n-minus-one-post-migration.finalize-context.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/v0.2.23/upgrade/work-items/n-minus-one-post-migration.finalize-receipt.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.summary.json"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-186-release-v0-2-23-post-release-acceptance.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-186-release-v0-2-23-post-release-acceptance.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-186-release-v0-2-23-post-release-acceptance.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-186-release-v0-2-23-post-release-acceptance.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-186-release-v0-2-23-post-release-acceptance.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.contract.json"
+        ],
+        "inference": false,
+        "text": "Establish a reproducible repository-local post-release acceptance baseline for the immutable public v0.2.23 binary, including adopter isolation, evidence identity, tri-language parity, and branch/worktree closure."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-186-release-v0-2-23-post-release-acceptance"
+}

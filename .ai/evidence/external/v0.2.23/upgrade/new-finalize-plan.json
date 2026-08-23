@@ -1,0 +1,20 @@
+{
+  "contractDigest": "sha256:0f655c2262bc2c818a630676f54d4f85f8424f406ad1c859e0dc57467cad2e7d",
+  "next": [
+    "archive",
+    "finalize",
+    "finalize-verify",
+    "close"
+  ],
+  "protocolVersion": 1,
+  "resourceContext": {
+    "baseBranch": "master",
+    "baseRemote": "local",
+    "branch": "master",
+    "provider": "release-adopter-upgrade-harness",
+    "pullRequest": "acceptance://v0.2.23/n-minus-one-post-migration",
+    "worktree": "/private/tmp/ai-cockpit-n-minus-one.KAPurz/adopter"
+  },
+  "state": "planned",
+  "workItemId": "n-minus-one-post-migration"
+}

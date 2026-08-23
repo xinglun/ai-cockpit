@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "release-adopter-upgrade-n-minus-one-lifecycle",
+  "operationId": "retain-n-minus-one-lifecycle",
+  "repositoryId": "sha256:a48bb85790ab0cbc673cdfad283475a86a1ce820e1cab31dbd97514546e039e6",
+  "workItemId": "n-minus-one-lifecycle",
+  "runtimeVersion": "0.2.22",
+  "runtimeDigest": "sha256:fff455d0d88d9ca4fa96b5caba85d8a6a198e131bd6ecc5a33dd9bc5cc180ab2",
+  "provider": "release-adopter-upgrade-harness",
+  "pullRequest": {
+    "number": 1,
+    "url": "acceptance://v0.2.22/n-minus-one-lifecycle",
+    "headRevision": "3b7654b6b2b631b3c46dfee98f86ecd899271a2d",
+    "baseBranch": "master",
+    "baseRemote": "local",
+    "baseRevision": "3b7654b6b2b631b3c46dfee98f86ecd899271a2d",
+    "mergeCommit": "3b7654b6b2b631b3c46dfee98f86ecd899271a2d"
+  },
+  "branch": {
+    "name": "master",
+    "remote": "local",
+    "headRevision": "3b7654b6b2b631b3c46dfee98f86ecd899271a2d"
+  },
+  "worktree": {
+    "worktreeId": "n-minus-one-lifecycle",
+    "path": "/private/tmp/ai-cockpit-n-minus-one.KAPurz/adopter",
+    "branch": "master",
+    "headRevision": "3b7654b6b2b631b3c46dfee98f86ecd899271a2d"
+  },
+  "before": {
+    "pullRequest": "merged",
+    "branch": "present",
+    "worktree": "clean"
+  },
+  "after": {
+    "pullRequest": "merged",
+    "branch": "present",
+    "worktree": "clean"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "actor": "harness:release-adopter-upgrade",
+  "authoritySource": "release-adopter-upgrade-acceptance",
+  "reason": "The isolated N-1 adopter fixture is intentionally retained after upgrade verification.",
+  "timestamp": "2026-08-23T09:04:38Z",
+  "contractDigest": "sha256:dc68ec2ddea7396834f8cba5cde2779b382f100acbfb493780f19a5d8e8e12fa",
+  "resourceContext": {
+    "branch": "master",
+    "worktree": "/private/tmp/ai-cockpit-n-minus-one.KAPurz/adopter",
+    "baseBranch": "master",
+    "baseRemote": "local",
+    "provider": "release-adopter-upgrade-harness",
+    "pullRequest": "acceptance://v0.2.22/n-minus-one-lifecycle"
+  }
+}

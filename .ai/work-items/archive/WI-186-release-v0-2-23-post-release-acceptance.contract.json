@@ -1,0 +1,74 @@
+{
+  "acceptanceCriteria": [
+    "The stable public v0.2.23 Release, tag target e3ae6ab59aca0a281f1e341da8972fe02ab2b007, release workflow 32629400996, archive SHA256 4330f415b8e83d4dcfb57ad3b3e6b0ff7583039a762289ee41dcb2c697632d33, and release-manifest.json are retained as immutable external facts.",
+    "The installed Runtime is the downloaded public v0.2.23 aarch64-apple-darwin binary and its SHA256 is bound in repository-local evidence; no cargo build, cargo run, workspace binary, or local target fallback is used.",
+    "A fresh isolated adopter run with the public binary retains runtime identity, repositoryId, attach/profile/inspect/status/doctor/agent-doctor/verify JSON, evidence reuse, first-adopter-smoke not_ready, and the complete Work Item lifecycle.",
+    "The adopter isolation proof covers HOME, XDG_CONFIG_HOME, TMPDIR, CARGO_HOME, repository state, files, directories, symlinks, and digests before/after; all temporary roots are removed on success and failure without changing acceptance truth.",
+    "The current repository tri-language parity documents and Work Item reader pages record WI-183, WI-184, WI-185, and this WI-186 with equivalent release/runtime/evidence facts; no historical evidence or Release truth is rewritten.",
+    "Documentation, parity, release-version, and repository self-check gates pass with the installed public v0.2.23 Runtime, and the repository closes with no active Work Item or stale merged Work Item branch.",
+    "The visible human Outcome is rendered in Chinese with a non-folded Outcome marker and explicit unknowns, evidence, decision, and next action; green does not claim external release authorization beyond the recorded evidence."
+  ],
+  "authority": "authorized",
+  "baseRevision": "e3ae6ab59aca0a281f1e341da8972fe02ab2b007",
+  "createdAt": "2026-08-23T09:02:39Z",
+  "goal": "Establish a reproducible repository-local post-release acceptance baseline for the immutable public v0.2.23 binary, including adopter isolation, evidence identity, tri-language parity, and branch/worktree closure.",
+  "intent": "Use the released Runtime as the only implementation interface for the next development cycle and detect publication, installation, isolation, evidence, documentation, or cleanup regressions before further feature work.",
+  "mode": "implementation",
+  "outOfScope": [
+    "src/**",
+    "crates/**",
+    "Cargo.toml",
+    "Cargo.lock",
+    ".github/workflows/**",
+    "public Release assets, tags, and existing historical evidence bytes",
+    "global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:175b07368320e50d4e82f22574153bcd16db8026b797a6dd09587d66c03210ed",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-186-release-v0-2-23-post-release-acceptance",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "risk": "medium",
+  "scope": [
+    ".ai/evidence/external/v0.2.23/**",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-186-release-v0-2-23-post-release-acceptance.md",
+    "docs/work-items/WI-186-release-v0-2-23-post-release-acceptance.zh-CN.md",
+    "docs/work-items/WI-186-release-v0-2-23-post-release-acceptance.ja.md",
+    "tests/docs/parity_status_check.sh",
+    ".ai/work-items/active/WI-186-release-v0-2-23-post-release-acceptance.contract.json",
+    ".ai/work-items/active/WI-186-release-v0-2-23-post-release-acceptance.summary.json",
+    ".ai/work-items/archive/WI-186-release-v0-2-23-post-release-acceptance/**",
+    ".ai/decisions/WI-186-release-v0-2-23-post-release-acceptance/**"
+  ],
+  "sources": [
+    "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.23",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/32629400996",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "./tests/release/version_consistency.sh --repo . --post-release --repository xinglun/ai-cockpit --tag v0.2.23",
+    "./tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "bash tests/docs/parity_status_check_test.sh",
+    "git diff --check"
+  ],
+  "workItemId": "WI-186-release-v0-2-23-post-release-acceptance"
+}

@@ -1,0 +1,63 @@
+{
+  "disposition": "retained",
+  "receipt": {
+    "actor": "harness:release-adopter-upgrade",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "release-adopter-upgrade-acceptance",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "3b7654b6b2b631b3c46dfee98f86ecd899271a2d",
+      "name": "master",
+      "remote": "local"
+    },
+    "contractDigest": "sha256:dc68ec2ddea7396834f8cba5cde2779b382f100acbfb493780f19a5d8e8e12fa",
+    "operationId": "retain-n-minus-one-lifecycle",
+    "provider": "release-adopter-upgrade-harness",
+    "pullRequest": {
+      "baseBranch": "master",
+      "baseRemote": "local",
+      "baseRevision": "3b7654b6b2b631b3c46dfee98f86ecd899271a2d",
+      "headRevision": "3b7654b6b2b631b3c46dfee98f86ecd899271a2d",
+      "mergeCommit": "3b7654b6b2b631b3c46dfee98f86ecd899271a2d",
+      "number": 1,
+      "url": "acceptance://v0.2.22/n-minus-one-lifecycle"
+    },
+    "reason": "The isolated N-1 adopter fixture is intentionally retained after upgrade verification.",
+    "receiptId": "release-adopter-upgrade-n-minus-one-lifecycle",
+    "repositoryId": "sha256:a48bb85790ab0cbc673cdfad283475a86a1ce820e1cab31dbd97514546e039e6",
+    "resourceContext": {
+      "baseBranch": "master",
+      "baseRemote": "local",
+      "branch": "master",
+      "provider": "release-adopter-upgrade-harness",
+      "pullRequest": "acceptance://v0.2.22/n-minus-one-lifecycle",
+      "worktree": "/private/tmp/ai-cockpit-n-minus-one.KAPurz/adopter"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:fff455d0d88d9ca4fa96b5caba85d8a6a198e131bd6ecc5a33dd9bc5cc180ab2",
+    "runtimeVersion": "0.2.22",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-23T09:04:38Z",
+    "workItemId": "n-minus-one-lifecycle",
+    "worktree": {
+      "branch": "master",
+      "headRevision": "3b7654b6b2b631b3c46dfee98f86ecd899271a2d",
+      "path": "/private/tmp/ai-cockpit-n-minus-one.KAPurz/adopter",
+      "worktreeId": "n-minus-one-lifecycle"
+    }
+  },
+  "state": "verified",
+  "workItemId": "n-minus-one-lifecycle"
+}

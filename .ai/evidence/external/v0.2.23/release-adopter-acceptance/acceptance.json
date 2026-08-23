@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "kind": "release-adopter-acceptance",
+  "tag": "v0.2.23",
+  "version": "0.2.23",
+  "releasePublished": true,
+  "workflowRun": "32629400996",
+  "releaseUrl": "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.23",
+  "runtimeIdentityPath": "../adopter/runtime.json",
+  "runtimeIdentity": {
+    "schemaVersion": 1,
+    "tag": "v0.2.23",
+    "version": "0.2.23",
+    "target": "aarch64-apple-darwin",
+    "platform": "Darwin-arm64",
+    "archive": "ai-cockpit-v0.2.23-aarch64-apple-darwin.tar.gz",
+    "archiveDigest": "sha256:4330f415b8e83d4dcfb57ad3b3e6b0ff7583039a762289ee41dcb2c697632d33",
+    "binaryDigest": "sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+    "downloadSource": "https://github.com/xinglun/ai-cockpit/releases/download/v0.2.23/ai-cockpit-v0.2.23-aarch64-apple-darwin.tar.gz",
+    "releaseUrl": "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.23",
+    "manifestDigest": "sha256:e18d968001e12a85fea4ffc50ebb454dcb89243e1edd70ae4ca23628f65abf39",
+    "releasePublished": true
+  },
+  "adopter": {
+    "path": "../adopter/acceptance.json",
+    "state": "passed",
+    "repositoryId": "sha256:0a8a05976780d0351d59a6a4b4785017fec89a49d37566fa9d11aabf51f46d11",
+    "cleanupState": "passed"
+  },
+  "upgrade": {
+    "path": "../upgrade/acceptance.json",
+    "state": "passed",
+    "repositoryId": "sha256:a48bb85790ab0cbc673cdfad283475a86a1ce820e1cab31dbd97514546e039e6",
+    "fromRuntimeDigest": "sha256:fff455d0d88d9ca4fa96b5caba85d8a6a198e131bd6ecc5a33dd9bc5cc180ab2",
+    "toRuntimeDigest": "sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+    "cleanupState": "passed"
+  },
+  "failureReason": null
+}
