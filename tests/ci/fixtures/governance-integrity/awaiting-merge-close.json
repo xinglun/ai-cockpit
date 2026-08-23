@@ -1,0 +1,12 @@
+{
+  "currentRelease": "9.9.9",
+  "repositoryPhase": "feature",
+  "workItems": [
+    {"classification": "current_release", "id": "WI-900-release-v9-9-9"},
+    {
+      "classification": "current_archive_timestamp",
+      "id": "WI-901-corrective-after-baseline",
+      "terminalDecision": "finalize"
+    }
+  ]
+}

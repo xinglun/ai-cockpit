@@ -16,12 +16,14 @@ require() {
 }
 
 require 'name: Run source quality gates' 'source quality step is required'
-require '# serial strategy used by CI' 'release strategy must document CI alignment'
-require 'for package in \' 'release tests must enumerate packages'
-require 'cargo test -p "$package" --all-targets -- --test-threads=1' \
-  'release tests must run each package with one test thread'
-require 'tests/ci/runtime_verify_shadow_test.sh' 'shadow boundary policy must run'
-require 'tests/ci/release_gate_policy_test.sh' 'release gate policy test must run'
+require 'tests/ci/run_workspace_package_tests.sh' 'release tests must derive workspace packages from cargo metadata'
+require 'tests/ci/run_repository_gates.py' 'release must run the canonical repository gate manifest'
+require 'tests/ci/repository_gate_manifest.json' 'release must bind the canonical repository gate manifest'
+
+if grep -Eq '^[[:space:]]+for package in' "$workflow"; then
+  printf 'release gate policy failure: hard-coded package loop is forbidden\n' >&2
+  exit 1
+fi
 
 # Keep the old one-shot form only as explanatory text. An executable release
 # command must not run the workspace as one concurrent Cargo test invocation.

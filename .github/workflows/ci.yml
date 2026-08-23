@@ -24,8 +24,6 @@ jobs:
           path: target/ci-runtime-verify-shadow.json
           if-no-files-found: error
           retention-days: 7
-      - name: verify Runtime shadow harness policy
-        run: bash tests/ci/runtime_verify_shadow_test.sh
       - run: cargo fmt --all --check
       - run: cargo clippy --workspace --all-targets --all-features -- -D warnings
       # Cargo can run separate package test binaries concurrently even when
@@ -35,22 +33,14 @@ jobs:
       # worker-cap test still creates parallel commands inside its own binary.
       - name: run package tests serially
         shell: bash
-        run: |
-          set -euo pipefail
-          for package in \
-            cockpit-core \
-            cockpit-evidence \
-            cockpit-verification \
-            cockpit-git \
-            cockpit-knowledge \
-            cockpit-protocol \
-            cockpit-agent \
-            cockpit-repository \
-            cockpit-mcp \
-            cockpit-cli \
-            cockpit-release; do
-            cargo test -p "$package" --all-targets -- --test-threads=1
-          done
+        run: tests/ci/run_workspace_package_tests.sh --report target/workspace-package-coverage.json
+      - name: run repository gates exactly once
+        shell: bash
+        run: >-
+          python3 tests/ci/run_repository_gates.py
+          --repo "$GITHUB_WORKSPACE"
+          --manifest tests/ci/repository_gate_manifest.json
+          --report target/repository-gates.json
       - name: verify three-language work-item counterparts
         shell: bash
         run: |
@@ -59,10 +49,16 @@ jobs:
             test -f "${english%.md}.zh-CN.md"
             test -f "${english%.md}.ja.md"
           done < <(find docs/work-items -maxdepth 1 -name 'WI-*.md' ! -name '*.zh-CN.md' ! -name '*.ja.md' | sort)
-      - name: verify release workflow policy
-        run: tests/release/workflow_policy.sh .github/workflows/release.yml
-      - name: verify Node24 action runtime policy
-        run: tests/release/action_runtime_policy.sh .github/workflows/ci.yml .github/workflows/release.yml
+      - name: upload deterministic gate receipts
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: repository-gate-receipts
+          path: |
+            target/governance-integrity-report.json
+            target/repository-gates.json
+            target/workspace-package-coverage.json
+          if-no-files-found: error
+          retention-days: 7
 
   windows-runtime:
     runs-on: windows-2025

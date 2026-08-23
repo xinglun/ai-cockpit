@@ -8,7 +8,6 @@ policy="$root/tests/workflow/resource_finalization_policy.sh"
 
 # Positive repository check.
 "$policy" "$root"
-"$root/tests/docs/documentation_acceptance.sh"
 
 # Regression: removing one language-neutral transition must fail the gate. The
 # fixture is isolated and disposable; no repository policy file is mutated.

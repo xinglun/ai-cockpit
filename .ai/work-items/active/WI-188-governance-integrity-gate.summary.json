@@ -1,0 +1,67 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-188-governance-integrity-gate.contract.json",
+    ".ai/work-items/active/WI-188-governance-integrity-gate.summary.json"
+  ],
+  "checkpointAt": "2026-08-23T09:58:48Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T09:28:54Z",
+  "intentAlignment": {
+    "evidence": [
+      "tests/ci/governance_integrity_gate.py",
+      "tests/ci/governance_integrity_gate_test.sh",
+      ".github/workflows/ci.yml",
+      ".github/workflows/release.yml"
+    ],
+    "sources": [
+      ".ai/work-items/active/WI-188-governance-integrity-gate.contract.json"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-08-23T10:48:30Z",
+  "preflightContractDigest": "sha256:e5107ceeaa32ac57375f3166cfae8af1b4c244e9af4363c33d136b2a06799130",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:7183fb8c3c59484d6fa2028bb2fe5468b188e5aba75937265887a7f333a86105",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "required": true,
+      "scenario": "dynamic_inventory_discovers_new_work_item",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "required": true,
+      "scenario": "broken_evidence_or_close_link_fails_closed",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "required": true,
+      "scenario": "historical_legacy_record_is_explicitly_exempt",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/repository_gate_manifest_test.py",
+        "tests/ci/workspace_package_coverage_test.sh"
+      ],
+      "required": true,
+      "scenario": "all_quality_gates_and_workspace_packages_are_covered",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T10:48:44Z",
+  "workItemId": "WI-188-governance-integrity-gate"
+}

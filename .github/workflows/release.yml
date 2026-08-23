@@ -120,36 +120,25 @@ jobs:
           set -euo pipefail
           cargo fmt --all -- --check
           cargo clippy --workspace --all-targets --all-features -- -D warnings
-          # The one-shot `cargo test --workspace --all-targets --all-features`
-          # invocation is intentionally replaced by the same package-by-package
-          # serial strategy used by CI. Cargo otherwise runs separate test
-          # binaries concurrently, while repository fixtures spawn short-lived
-          # child processes and can race under release-runner pressure.
-          for package in \
-            cockpit-core \
-            cockpit-evidence \
-            cockpit-verification \
-            cockpit-git \
-            cockpit-knowledge \
-            cockpit-protocol \
-            cockpit-agent \
-            cockpit-repository \
-            cockpit-mcp \
-            cockpit-cli \
-            cockpit-release; do
-            cargo test -p "$package" --all-targets -- --test-threads=1
-          done
+          tests/ci/run_workspace_package_tests.sh --report target/workspace-package-coverage.json
           cargo metadata --locked --format-version 1 > /tmp/cargo-metadata.json
           version="$(jq -er '.packages[] | select(.name == "cockpit-cli") | .version' /tmp/cargo-metadata.json)"
           jq -e --arg version "$version" '[.packages[] | select(.source == null) | .version == $version] | all' /tmp/cargo-metadata.json
           tests/release/version_consistency.sh --repo "$GITHUB_WORKSPACE"
-          tests/release/workflow_policy.sh .github/workflows/release.yml
-          tests/release/annotated_tag_identity.sh
-          tests/release/adopter_acceptance_test.sh
-          tests/release/adopter_upgrade_acceptance_test.sh
-          tests/release/action_runtime_policy.sh .github/workflows/ci.yml .github/workflows/release.yml
-          tests/ci/runtime_verify_shadow_test.sh
-          tests/ci/release_gate_policy_test.sh
+          python3 tests/ci/run_repository_gates.py \
+            --repo "$GITHUB_WORKSPACE" \
+            --manifest tests/ci/repository_gate_manifest.json \
+            --report target/repository-gates.json
+      - name: Upload source gate receipts
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: source-gate-receipts
+          path: |
+            target/governance-integrity-report.json
+            target/repository-gates.json
+            target/workspace-package-coverage.json
+          if-no-files-found: error
+          retention-days: 7
 
   aggregate:
     needs: build

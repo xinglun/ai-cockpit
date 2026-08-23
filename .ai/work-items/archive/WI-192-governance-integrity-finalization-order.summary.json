@@ -1,0 +1,79 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-192-governance-integrity-finalization-order.contract.json"
+  ],
+  "checkpointAt": "2026-08-23T11:01:15Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T10:54:16Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/decisions/WI-188-governance-integrity-gate.recovery.json",
+      "tests/ci/governance_integrity_gate_test.sh",
+      "docs/work-items/WI-188-governance-integrity-gate.zh-CN.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "predecessorContractDigest": "sha256:e5107ceeaa32ac57375f3166cfae8af1b4c244e9af4363c33d136b2a06799130",
+  "predecessorWorkItemId": "WI-188-governance-integrity-gate",
+  "preflightAt": "2026-08-23T11:04:38Z",
+  "preflightContractDigest": "sha256:6fc01ee20d996b2422e570897f66eb67937fbbaa178d381764103afd6ecb0ffd",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8805e4fd0b632b4a16100bb970d9681bb739ef3597516609360d652bef6d4dbd",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-188-governance-integrity-gate.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "reason": "The valid and corrective fixtures prove inventory discovery without an edited identifier range.",
+      "required": true,
+      "scenario": "dynamic_inventory_discovers_new_work_item",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "reason": "Negative fixtures assert deterministic failures for missing and identity-mismatched governance links.",
+      "required": true,
+      "scenario": "broken_or_foreign_governance_link_fails_closed",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "reason": "The historical fixture retains ambiguity as an auditable warning without blocking the current cycle.",
+      "required": true,
+      "scenario": "historical_legacy_record_is_explicitly_exempt",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/repository_gate_manifest_test.py",
+        "tests/ci/workspace_package_coverage_test.sh"
+      ],
+      "reason": "Manifest and cargo-metadata regressions prove fail-closed discovery and deterministic coverage receipts.",
+      "required": true,
+      "scenario": "all_quality_gates_and_workspace_packages_are_covered",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/decisions/WI-188-governance-integrity-gate.recovery.json",
+        ".ai/evidence/WI-192-governance-integrity-finalization-order.verification.json"
+      ],
+      "reason": "WI-188 finish_ready remains immutable while WI-192 binds PR #151 before preflight and fresh verification.",
+      "required": true,
+      "scenario": "compatibility_finish_order_is_recovered",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T11:05:00Z",
+  "workItemId": "WI-192-governance-integrity-finalization-order"
+}

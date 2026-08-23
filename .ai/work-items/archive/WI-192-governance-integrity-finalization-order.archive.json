@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-23T11:05:23Z",
+  "files": {
+    "contractDigest": "sha256:ea936e6d103f121ded7047a0768a1f31778b88146100c2292333d8fa6ecbaa0c",
+    "contractPath": ".ai/work-items/archive/WI-192-governance-integrity-finalization-order.contract.json",
+    "eventsDigest": "sha256:6d3b06d8ae7bdd7c3a574a01094181e92db3066ebe97a211092030b6828b63b5",
+    "eventsPath": ".ai/work-items/archive/WI-192-governance-integrity-finalization-order.events.jsonl",
+    "outcomeDigest": "sha256:3c649c437b436dc2b7ac7b9aed7448ca19946dbe17e208eac10d563356d3d7c8",
+    "outcomePath": ".ai/work-items/archive/WI-192-governance-integrity-finalization-order.outcome.json",
+    "summaryDigest": "sha256:4ccef79475ab14e851959b7fe5564e2a6044f5ab0f4c68cab8d7745558ffdc9d",
+    "summaryPath": ".ai/work-items/archive/WI-192-governance-integrity-finalization-order.summary.json",
+    "taskReportDigest": "sha256:a4af31ef39b98d652def1dce383d4d10393fbbc4d193e4b0eb48f9ebaefae26a",
+    "taskReportMarkdownDigest": "sha256:748d452cc643591272ca0b0524eebff4ae5cfd1b997e63ee16cc18ee08ec4cf2",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-192-governance-integrity-finalization-order.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-192-governance-integrity-finalization-order.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-192-governance-integrity-finalization-order"
+}

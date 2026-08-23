@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-clean-successor-approval",
+  "decidedAt": "2026-08-23T10:51:57Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-188-governance-integrity-gate.verification.json",
+    ".ai/work-items/active/WI-188-governance-integrity-gate.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:e5107ceeaa32ac57375f3166cfae8af1b4c244e9af4363c33d136b2a06799130",
+  "predecessorEventsDigest": "sha256:701bcfc3f8bf859056ac2655adfc595326176c8d723331ec65d6b6bb3f364d39",
+  "predecessorOutcomeDigest": "sha256:122134b49b502eb27f3f395deee45966c4c0dc23b5f19be69d74b58ba2c3b85a",
+  "predecessorSummaryDigest": "sha256:11efcd44ba7a35d4d2490567324eb709521a0924312ab157a95ad3e967bebe86",
+  "predecessorWorkItemId": "WI-188-governance-integrity-gate",
+  "reason": "The installed immutable v0.2.23 Runtime accepted finish_ready while the resourceContext remained provisional; preserve that compatibility failure and continue through a clean successor that binds finalize-plan before preflight and verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "WI-192 must bind the exact PR resource context through finalize-plan before preflight, checkpoint, verify, finish, Outcome, archive, and the blocked awaiting_merge_close finalize receipt.",
+  "runtimeDigest": "sha256:b13dafdc9730bdffe6cbbcd4f76160c088629734dedb0c6bd97fdf61ec3b1031",
+  "runtimeVersion": "0.2.23",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-192-governance-integrity-finalization-order",
+  "workItemId": "WI-188-governance-integrity-gate"
+}
