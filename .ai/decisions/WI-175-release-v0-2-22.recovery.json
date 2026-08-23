@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-23T06:02:12Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-175-release-v0-2-22.verification.json",
+    ".ai/work-items/archive/WI-175-release-v0-2-22.archive.json"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:38b6919686d7175f1f4e52eab1f98fb938e06f0f4059e59f68c13a2fe5a56e26",
+  "predecessorEventsDigest": "sha256:ae0cdd2c87eec2184745e127cf55d45ac73c16fa014e61cf90e7d7039a1568f7",
+  "predecessorOutcomeDigest": "sha256:c0c0b389e4b81a4e410e1d4943247dcd6bf16f6793431f77cc9d87c6423cc9a6",
+  "predecessorSummaryDigest": "sha256:cb4548482904161cbebec990002f8337d5697737cb4315bd10bb2828e54c6f0c",
+  "predecessorWorkItemId": "WI-175-release-v0-2-22",
+  "reason": "The v0.2.22 baseline was archived before finalize-plan; continue through an explicit successor so branch, pull request, and worktree finalization are recorded without rewriting immutable WI-175 bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Finalize the merged v0.2.22 baseline branch with an exact provider receipt, then close the successor before public Release publication.",
+  "runtimeDigest": "sha256:38aa88d7976d27647a9ae4419f57d309df2a08717fedccb4e9a613b370433e88",
+  "runtimeVersion": "0.2.21",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-176-release-finalization-reconciliation",
+  "workItemId": "WI-175-release-v0-2-22"
+}

@@ -1,0 +1,24 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-175-release-v0-2-22.recovery.json",
+    ".ai/work-items/archive/WI-176-release-finalization-reconciliation.contract.json",
+    ".ai/work-items/archive/WI-176-release-finalization-reconciliation.summary.json"
+  ],
+  "checkpointAt": "2026-08-23T06:02:49Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T06:02:29Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:38b6919686d7175f1f4e52eab1f98fb938e06f0f4059e59f68c13a2fe5a56e26",
+  "predecessorWorkItemId": "WI-175-release-v0-2-22",
+  "preflightAt": "2026-08-23T06:03:07Z",
+  "preflightContractDigest": "sha256:76eca4a32d622bcca77acb6e194e48e777017294ae1785d463f2ea0d3a167657",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:62d9f6e30c512bad02caf53519dd3acb535ede1914bf7ea2d2c7b1004320b481",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-175-release-v0-2-22.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T06:03:07Z",
+  "workItemId": "WI-176-release-finalization-reconciliation"
+}

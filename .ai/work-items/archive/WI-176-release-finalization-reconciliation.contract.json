@@ -1,0 +1,49 @@
+{
+  "acceptanceCriteria": [
+    "WI-175 remains immutable and is linked through the recovery decision.",
+    "A strict finalize-plan/finalize/finalize-verify chain binds the exact branch, PR, base, head, and Runtime identity.",
+    "The merged branch is removed remotely and the synchronized main worktree is clean before close.",
+    "The successor emits a visible human Outcome and structured close decision without rewriting WI-175."
+  ],
+  "authority": "authorized",
+  "baseRevision": "fc113d3c3cd098b41c4f08dfd2f1c5383de558b0",
+  "createdAt": "2026-08-23T06:02:29Z",
+  "goal": "Bind the merged v0.2.22 baseline branch and PR to a strict finalization receipt, verify cleanup, and close before public publication.",
+  "intent": "Complete the missing resource finalization boundary for the archived v0.2.22 baseline.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Historical WI-175 archive bytes",
+    "Runtime/core feature changes"
+  ],
+  "predecessorContractDigest": "sha256:38b6919686d7175f1f4e52eab1f98fb938e06f0f4059e59f68c13a2fe5a56e26",
+  "predecessorWorkItemId": "WI-175-release-v0-2-22",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-175-release-v0-2-22.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:62d9f6e30c512bad02caf53519dd3acb535ede1914bf7ea2d2c7b1004320b481",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-175-release-v0-2-22",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/133",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "risk": "medium",
+  "scope": [
+    ".ai/work-items/active",
+    ".ai/work-items/archive",
+    ".ai/decisions",
+    ".ai/evidence"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-176-release-finalization-reconciliation"
+}

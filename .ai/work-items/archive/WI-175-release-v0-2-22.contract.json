@@ -1,0 +1,60 @@
+{
+  "acceptanceCriteria": [
+    "Cargo workspace and lockfile identify version 0.2.22 with no stale package version.",
+    "Tri-language release and versioning documentation identifies v0.2.22 as the candidate and preserves the v0.2.21 N-1 boundary.",
+    "Local quality, documentation, release-policy, and installed v0.2.21 Runtime verification gates pass before publication.",
+    "The source commit is merged and tagged only after required hosted checks pass; public Release, adopter, and N-1 evidence are external post-release facts for the successor acceptance Work Item.",
+    "No merged Work Item branch remains remotely after closure; branch cleanup is verified by exact ref lookup."
+  ],
+  "authority": "authorized",
+  "baseRevision": "0a15fd64f92e25fc0c5cecc3614ffd9594edfa24",
+  "createdAt": "2026-08-23T05:53:28Z",
+  "goal": "Prepare and publish the v0.2.22 Runtime baseline; the installed public binary and adopter/N-1 acceptance are verified by the successor post-release Work Item.",
+  "intent": "Prepare the next same-schema public Runtime release and bind its immutable release and adopter acceptance evidence.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates",
+    "tests/release",
+    ".github/workflows",
+    "public Homebrew tap"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f8531b1a021b69234b6b7fd58ec429d42cfff264a60b297c8a32cb693524e901",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-175-release-v0-2-22",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "risk": "medium",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/reference/ci-runtime-shadow.md",
+    "docs/reference/ci-runtime-shadow.zh-CN.md",
+    "docs/reference/ci-runtime-shadow.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-175-release-v0-2-22"
+}

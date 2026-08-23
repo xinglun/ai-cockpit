@@ -1,0 +1,20 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-23T05:53:33Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T05:53:28Z",
+  "failedGate": "finish.verification",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-23T05:59:07Z",
+  "preflightContractDigest": "sha256:38b6919686d7175f1f4e52eab1f98fb938e06f0f4059e59f68c13a2fe5a56e26",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:0952dfc87723d1a2136a5a69ead4cc5a6a133949a893adb4b090d97e8616fa98",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T05:59:10Z",
+  "workItemId": "WI-175-release-v0-2-22"
+}
