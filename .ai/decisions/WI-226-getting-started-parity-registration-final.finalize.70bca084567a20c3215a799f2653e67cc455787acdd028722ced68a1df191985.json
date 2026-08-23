@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:550d175915c200472934d03b44b1c96aa949e05191791dfdfaa2e6fa07f386ab",
+  "receipt": {
+    "actor": "agent:codex",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "post-merge-exact-resource-cleanup",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "6eba71cbde4a58df732a2237efa09846250a0000",
+      "name": "codex/wi-226-getting-started-parity-registration-final",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:e5aef8b36811841d61da7c232ce91fc030914dc23fb10e278bd65546b886be1b",
+    "operationId": "operation-WI-226-getting-started-parity-registration-final-resources-deleted",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "72320be00d3340ad328aa93ac1a7e80e8e828085",
+      "headRevision": "6eba71cbde4a58df732a2237efa09846250a0000",
+      "mergeCommit": "5968d30c095bed29f019f8c87f9742109eb64f63",
+      "number": 175,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/175"
+    },
+    "reason": "PR #175 merged as 5968d30c095bed29f019f8c87f9742109eb64f63; the exact remote and local feature branches were deleted, the clean WI-226 worktree was removed, and origin/main was synchronized in an isolated closure worktree.",
+    "receiptId": "ai-cockpit-WI-226-getting-started-parity-registration-final-resources-deleted",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-226-getting-started-parity-registration-final",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/175",
+      "worktree": "/private/tmp/ai-cockpit-wi226-getting-started-parity-registration"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:23e9a9824f35b9e0d3706bdcbad34777bca5b0a4d362b4101407412a905dcb5b",
+    "runtimeVersion": "0.2.28",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-23T22:56:09Z",
+    "workItemId": "WI-226-getting-started-parity-registration-final",
+    "worktree": {
+      "branch": "codex/wi-226-getting-started-parity-registration-final",
+      "headRevision": "6eba71cbde4a58df732a2237efa09846250a0000",
+      "path": "/private/tmp/ai-cockpit-wi226-getting-started-parity-registration",
+      "worktreeId": "WI-226-getting-started-parity-registration-final"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "WI-226-getting-started-parity-registration-final-resources-deleted-2"
+}

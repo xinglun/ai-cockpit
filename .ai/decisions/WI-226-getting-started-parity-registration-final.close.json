@@ -1,0 +1,131 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-226-getting-started-parity-registration-final.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:459e6c44803cfaee0abe70878d8a6313cdd63ed1d19f542887d19a3b567898d2",
+      "workItemId": "WI-226-getting-started-parity-registration-final"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-226-getting-started-parity-registration-final.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-226-getting-started-parity-registration-final.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-226-getting-started-parity-registration-final.verification.json",
+            ".ai/decisions/WI-226-getting-started-parity-registration-final.finalize.70bca084567a20c3215a799f2653e67cc455787acdd028722ced68a1df191985.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via post-merge-provider-evidence at 2026-08-23T22:57:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-226-getting-started-parity-registration-final.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-226-getting-started-parity-registration-final.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-226-getting-started-parity-registration-final.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-226-getting-started-parity-registration-final.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-226-getting-started-parity-registration-final.contract.json"
+          ],
+          "inference": false,
+          "text": "Deliver the Getting Started parity registration with Contract and provider base revisions aligned to origin/main."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-226-getting-started-parity-registration-final.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-226-getting-started-parity-registration-final"
+  },
+  "finalReportDigest": "sha256:f6183bb3b10207a96cd81d05eee9e40028e68dc5398ed5bc894cbcb5b6f9de49",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:bc5e893f88d84f86b56283bfa259ede123887d7370c558b8d82effea30c3b59f",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-226-getting-started-parity-registration-final.finalize.70bca084567a20c3215a799f2653e67cc455787acdd028722ced68a1df191985.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "post-merge-provider-evidence",
+    "decidedAt": "2026-08-23T22:57:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-226-getting-started-parity-registration-final.verification.json",
+      ".ai/decisions/WI-226-getting-started-parity-registration-final.finalize.70bca084567a20c3215a799f2653e67cc455787acdd028722ced68a1df191985.json"
+    ],
+    "policyRefs": [
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "PR #175 merged as 5968d30c095bed29f019f8c87f9742109eb64f63 after hosted review; Runtime v0.2.28 verified finalization sequence 2 with the exact remote/local branch deleted and clean WI-226 worktree removed.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-08-23T22:56:49Z",
+  "workItemId": "WI-226-getting-started-parity-registration-final"
+}
