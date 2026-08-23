@@ -1,0 +1,17 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-23T07:23:25Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T07:23:19Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-23T07:27:17Z",
+  "preflightContractDigest": "sha256:e263195ae96fea61b30ef655ed5599d88336dd1500376b54e6de5a259ce699bf",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:141d50e77a679fb80e431129c6f14f50d2cbe47633c379277de948479fe93d2c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T07:27:25Z",
+  "workItemId": "WI-181-parity-evidence-binding"
+}

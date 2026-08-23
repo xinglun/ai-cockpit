@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-23T07:27:29Z",
+  "files": {
+    "contractDigest": "sha256:0f7fc465b22406b533b8b718afa30585ab82a30555f98ddde563f22abc097097",
+    "contractPath": ".ai/work-items/archive/WI-181-parity-evidence-binding.contract.json",
+    "eventsDigest": "sha256:627aee1929d0cbc05f3b1416f5f88fec6dd881c030c627627fb4e365a40657f2",
+    "eventsPath": ".ai/work-items/archive/WI-181-parity-evidence-binding.events.jsonl",
+    "outcomeDigest": "sha256:5e8f2c4ebec68dc4f348002f9cfd9efdeecb0a05cfb8a8ac71d0dd79805520f1",
+    "outcomePath": ".ai/work-items/archive/WI-181-parity-evidence-binding.outcome.json",
+    "summaryDigest": "sha256:aaa80aaa03bf37858d0544fb00028922e69a83e6ec5cc876a2c5474cdf269ab9",
+    "summaryPath": ".ai/work-items/archive/WI-181-parity-evidence-binding.summary.json",
+    "taskReportDigest": "sha256:f3bc669a940f89dd3673dcff89c73b6fa913aae7048ed38f8bbfd4d54c0f8f2a",
+    "taskReportMarkdownDigest": "sha256:9eb21929d272ffea45cd291fbc421877d625ea6b7c74d3799059d10eed6046a8",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-181-parity-evidence-binding.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-181-parity-evidence-binding.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-181-parity-evidence-binding"
+}
