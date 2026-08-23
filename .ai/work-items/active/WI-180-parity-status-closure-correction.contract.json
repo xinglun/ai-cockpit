@@ -1,0 +1,46 @@
+{
+  "acceptanceCriteria": [
+    "All three parity documents mark WI-179 as Implemented, not In progress, and bind PR #137, closure PR #138, verification, finalization, and close evidence.",
+    "The stale status omission and its prevention check are recorded in this Work Item evidence.",
+    "Documentation acceptance and post-release version consistency pass using installed public Runtime v0.2.22."
+  ],
+  "authority": "authorized",
+  "baseRevision": "cd482150db7335342ecca4644a152c197e71cea1",
+  "createdAt": "2026-08-23T07:02:55Z",
+  "goal": "Ensure all three parity documents reflect WI-179 as implemented with PR #137, closure PR #138, evidence, and installed public v0.2.22 validation; retain an auditable record of the omission and correction.",
+  "intent": "Correct the stale WI-179 in-progress labels discovered during final self-check and record the process gap.",
+  "mode": "implementation",
+  "outOfScope": [
+    "src/**",
+    "crates/**",
+    "Release truth",
+    ".ai/evidence/WI-177-post-release-adopter-v0-2-22/**"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a5c42b1b81a43246e6da00ab8048010e67d141c7d39253d87c64788d8fa4945a",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-180-parity-status-closure-correction",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "tests/docs/parity_status_check.sh",
+    ".ai/evidence/WI-180-parity-status-closure-correction/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-180-parity-status-closure-correction"
+}
