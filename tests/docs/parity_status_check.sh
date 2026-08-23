@@ -13,7 +13,7 @@ for file in "${docs[@]}"; do
     printf 'parity status check: missing %s\n' "$file" >&2
     exit 1
   }
-  for work_item in WI-177 WI-178 WI-179 WI-180; do
+  for work_item in WI-177 WI-178 WI-179 WI-180 WI-181 WI-182; do
     line="$(rg -F "$work_item" "$file" || true)"
     [[ -n "$line" ]] || {
       printf 'parity status check: missing %s in %s\n' "$work_item" "$file" >&2
@@ -57,6 +57,18 @@ for file in "${docs[@]}"; do
           '.ai/evidence/WI-180-parity-status-closure-correction.verification.json'
           '.ai/decisions/WI-180-parity-status-closure-correction.finalize.json'
           '.ai/decisions/WI-180-parity-status-closure-correction.close.json'
+        ) ;;
+      WI-181)
+        required_refs=(
+          '.ai/evidence/WI-181-parity-evidence-binding.verification.json'
+          '.ai/decisions/WI-181-parity-evidence-binding.finalize.json'
+          '.ai/decisions/WI-181-parity-evidence-binding.close.json'
+        ) ;;
+      WI-182)
+        required_refs=(
+          '.ai/evidence/WI-182-parallel-lease-atomic-install.verification.json'
+          '.ai/decisions/WI-182-parallel-lease-atomic-install.finalize.json'
+          '.ai/decisions/WI-182-parallel-lease-atomic-install.close.json'
         ) ;;
     esac
     for ref in "${required_refs[@]}"; do
