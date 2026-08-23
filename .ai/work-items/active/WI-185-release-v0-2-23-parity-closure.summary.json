@@ -1,0 +1,20 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-184-release-v0-2-23-finalization-reconciliation.close.json",
+    ".ai/decisions/WI-184-release-v0-2-23-finalization-reconciliation.finalize.json"
+  ],
+  "checkpointAt": "2026-08-23T08:40:00Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T08:39:47Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-23T08:41:45Z",
+  "preflightContractDigest": "sha256:5fb668b98a0774596b52de93d2860f9f15273fd24d1e95d18ee336927355db57",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:931805a92b1f7be22e1232142af6c6ad0e743eaa74828a33d75886186d4061fa",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-23T08:40:00Z",
+  "workItemId": "WI-185-release-v0-2-23-parity-closure"
+}

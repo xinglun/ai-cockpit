@@ -1,0 +1,47 @@
+{
+  "acceptanceCriteria": [
+    "WI-183 and WI-184 are marked Implemented in all three parity documents.",
+    "Every referenced evidence, recovery, finalization, and close receipt exists and is checked by the parity gate.",
+    "Parity negative tests fail closed when a required binding is missing."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "aabff99be9c98b900261efb8485dbec1257aaa65",
+  "createdAt": "2026-08-23T08:39:47Z",
+  "goal": "完成发布前 parity closure，确保 WI-183/WI-184 状态与证据在三种语言文档及 gate 中一致。",
+  "intent": "将 v0.2.23 发布基线及其收尾 Work Item 的三语 parity、证据绑定和可执行防遗漏检查纳入主线。",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    "src/**",
+    ".github/**",
+    "Cargo.toml",
+    "Cargo.lock"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1ac95f1c0b3d93ae3519ac7fc6d6102f42e8e21f14334a37ced3ccd4da2225a5",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-184-release-v0-2-23-close",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "tests/docs/parity_status_check.sh",
+    ".ai/decisions"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-185-release-v0-2-23-parity-closure"
+}
