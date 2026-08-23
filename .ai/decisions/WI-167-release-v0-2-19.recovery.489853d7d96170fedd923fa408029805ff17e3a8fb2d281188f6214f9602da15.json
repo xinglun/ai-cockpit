@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-23T03:37:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-167-release-v0-2-19.verification.json",
+    ".ai/evidence/WI-167-release-v0-2-19-recovery.verification.json"
+  ],
+  "policyRefs": [
+    "docs/release/distribution.md"
+  ],
+  "predecessorContractDigest": "sha256:edbb269c5c88f6c7c7199296b2482c83c26ccda00115f110a90ae1c3bcf9f1d5",
+  "predecessorEventsDigest": "sha256:d6411df2e5970baa3bb30808d0c4e979129462d971041d894bffdd5227140f50",
+  "predecessorOutcomeDigest": "sha256:538650c6e760370f221c7d97d932105cfc36f2cc10c9d85457ed740500b00ddf",
+  "predecessorSummaryDigest": "sha256:5eb7111f059782cbd1554729129d997ed41b1e0180e2deaaeb3616111bb6aeb1",
+  "predecessorWorkItemId": "WI-167-release-v0-2-19",
+  "reason": "Supersede the predecessor after its explicit blocked finish recovery; the bound successor owns the fresh release lifecycle.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "The successor remains responsible for publication and public adopter acceptance.",
+  "runtimeDigest": "sha256:722819bd61848eafb822c149ce118b94ad86bfde3a9e36283eabcd3a4a78cfe5",
+  "runtimeVersion": "0.2.18",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-167-release-v0-2-19-recovery",
+  "workItemId": "WI-167-release-v0-2-19"
+}

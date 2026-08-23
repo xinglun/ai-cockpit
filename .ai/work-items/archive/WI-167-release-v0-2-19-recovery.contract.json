@@ -1,0 +1,52 @@
+{
+  "acceptanceCriteria": [
+    "发布源版本与 lockfile 一致为 0.2.19。",
+    "所有质量门和三语文档验收通过。",
+    "公开 v0.2.19 adopter 与 v0.2.18-to-v0.2.19 N-1 acceptance 通过 finalize 与 cleanup。",
+    "WI-167 predecessor bytes 保持不可变并绑定 recovery decision。",
+    "完成完整 lifecycle 和可见人类 Outcome。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "7eab6347eaa11ab7eabba65b276c16c864b20b94",
+  "createdAt": "2026-08-23T03:31:48Z",
+  "goal": "完成 v0.2.19 发布并用公开 binary 完成 adopter 与 v0.2.18-to-v0.2.19 N-1 验收。",
+  "intent": "承接 WI-167 的公开 v0.2.19 发布与 adopter 验收，在不重写 predecessor 失败 bytes 的前提下完成 fresh lifecycle。",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "改写 WI-167 predecessor、v0.2.18 Release、receipt 或公开历史证据",
+    "新增 Runtime governance semantics"
+  ],
+  "predecessorContractDigest": "sha256:edbb269c5c88f6c7c7199296b2482c83c26ccda00115f110a90ae1c3bcf9f1d5",
+  "predecessorWorkItemId": "WI-167-release-v0-2-19",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-167-release-v0-2-19.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e923f716af597e030607c780f9c7cd31928db8182c74e30a00ac73e58a74bc63",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-167-release-v0-2-19",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/RELEASE-WI-167",
+    "worktree": "/private/tmp/ai-cockpit-wi167-release-v0-2-19"
+  },
+  "risk": "normal",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-167-release-v0-2-19-recovery"
+}
