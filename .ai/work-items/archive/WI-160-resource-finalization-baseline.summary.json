@@ -1,0 +1,31 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-160-resource-finalization-baseline.contract.json",
+    ".ai/work-items/archive/WI-160-resource-finalization-baseline.summary.json",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-160-resource-finalization-baseline.ja.md",
+    "docs/work-items/WI-160-resource-finalization-baseline.md",
+    "docs/work-items/WI-160-resource-finalization-baseline.zh-CN.md",
+    "tests/workflow/resource_finalization_policy.sh",
+    "tests/workflow/resource_finalization_policy_test.sh"
+  ],
+  "checkpointAt": "2026-08-23T00:44:40Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T00:44:13Z",
+  "mode": "code",
+  "preflightAt": "2026-08-23T00:46:18Z",
+  "preflightContractDigest": "sha256:d7d06e1bacf3532f532d03049d94a05d094422d61b481c7cd8c428f0a1e7dde2",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:6f98d219c0ee126cfb60d4a038fd51db8a84cb720a8d27c30a577f29bc1de8a7",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T00:46:24Z",
+  "workItemId": "WI-160-resource-finalization-baseline"
+}

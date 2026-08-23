@@ -1,12 +1,13 @@
 use cockpit_core::Digest;
 use cockpit_protocol::{
-    RESOURCE_FINALIZATION_CODE_AMBIGUOUS_STATE, RESOURCE_FINALIZATION_CODE_DIRTY_WORKTREE,
-    RESOURCE_FINALIZATION_CODE_PROTECTED_BRANCH, RESOURCE_FINALIZATION_CODE_UNMERGED_PULL_REQUEST,
-    ResourceFinalizationBranchIdentity, ResourceFinalizationBranchState,
-    ResourceFinalizationContext, ResourceFinalizationDisposition, ResourceFinalizationError,
-    ResourceFinalizationPullRequestIdentity, ResourceFinalizationPullRequestState,
-    ResourceFinalizationReceipt, ResourceFinalizationResult, ResourceFinalizationState,
-    ResourceFinalizationWorktreeIdentity, ResourceFinalizationWorktreeState,
+    Contract, RESOURCE_FINALIZATION_CODE_AMBIGUOUS_STATE,
+    RESOURCE_FINALIZATION_CODE_DIRTY_WORKTREE, RESOURCE_FINALIZATION_CODE_PROTECTED_BRANCH,
+    RESOURCE_FINALIZATION_CODE_UNMERGED_PULL_REQUEST, ResourceFinalizationBranchIdentity,
+    ResourceFinalizationBranchState, ResourceFinalizationContext, ResourceFinalizationDisposition,
+    ResourceFinalizationError, ResourceFinalizationPullRequestIdentity,
+    ResourceFinalizationPullRequestState, ResourceFinalizationReceipt, ResourceFinalizationResult,
+    ResourceFinalizationState, ResourceFinalizationWorktreeIdentity,
+    ResourceFinalizationWorktreeState, validate_resource_finalization_context,
     validate_resource_finalization_receipt, validate_resource_finalization_receipt_for,
     validate_resource_finalization_replay,
 };
@@ -91,6 +92,51 @@ fn valid_receipt_round_trips_and_binds_contract_context() {
         receipt.resource_context.as_ref(),
     )
     .unwrap();
+}
+
+#[test]
+fn contract_resource_context_is_optional_but_strict_when_declared() {
+    let context = serde_json::json!({
+        "branch": "codex/wi-158-resource-finalization-protocol",
+        "worktree": "/private/tmp/ai-cockpit-wi158-resource-finalization-protocol",
+        "baseBranch": "main",
+        "baseRemote": "origin",
+        "provider": "github",
+        "pullRequest": "https://github.example/acme/project/pull/158"
+    });
+    let value = serde_json::json!({
+        "protocolVersion": 1,
+        "repositoryId": REPOSITORY_ID,
+        "workItemId": WORK_ITEM_ID,
+        "intent": "retain resource identity",
+        "goal": "bind finalization",
+        "scope": ["crates/cockpit-protocol/**"],
+        "outOfScope": [],
+        "risk": "high",
+        "authority": "authorized",
+        "acceptanceCriteria": ["resource context is bound"],
+        "requiredEvidenceClasses": ["verification"],
+        "baseRevision": "base-785112b",
+        "projectProfileDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "repositorySnapshotDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "resourceContext": context
+    });
+    let contract: Contract = serde_json::from_value(value.clone()).unwrap();
+    assert!(contract.resource_context.is_some());
+    contract.validate().unwrap();
+
+    let mut invalid = value;
+    invalid["resourceContext"]["branch"] = serde_json::json!("");
+    let contract: Contract = serde_json::from_value(invalid).unwrap();
+    let errors = contract.validate().expect_err("empty context must stop");
+    assert!(
+        errors
+            .iter()
+            .any(|error| error.contains("resourceContext.branch"))
+    );
+
+    let parsed_context: ResourceFinalizationContext = serde_json::from_value(context).unwrap();
+    validate_resource_finalization_context(&parsed_context).unwrap();
 }
 
 #[test]

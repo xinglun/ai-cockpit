@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-23T00:46:27Z",
+  "files": {
+    "contractDigest": "sha256:064cd0ef80594003699a58feeee109cf0543b6fea8353a2535d165dc626e0956",
+    "contractPath": ".ai/work-items/archive/WI-160-resource-finalization-baseline.contract.json",
+    "eventsDigest": "sha256:c1e3f286977b6a50c1092f868b41a31b60bcdae3721d745f942c05ee0ad2e014",
+    "eventsPath": ".ai/work-items/archive/WI-160-resource-finalization-baseline.events.jsonl",
+    "outcomeDigest": "sha256:a3c0ab4943340dae51e9813d459a00293b0f4f3af2506c9f047098f78053690f",
+    "outcomePath": ".ai/work-items/archive/WI-160-resource-finalization-baseline.outcome.json",
+    "summaryDigest": "sha256:08aa571c01b23ee46b4e0289e17a17cc80923397817a3c13093dd65f59396d65",
+    "summaryPath": ".ai/work-items/archive/WI-160-resource-finalization-baseline.summary.json",
+    "taskReportDigest": "sha256:25ab95ee13f5b9ecb17aa431fb4756ac303fbcc7ecdbab5f6c68bce49588fdd2",
+    "taskReportMarkdownDigest": "sha256:ce910918f561fcbd2f4453b65710b78bc70ffc0821e12ccb9ce32ff49937d973",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-160-resource-finalization-baseline.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-160-resource-finalization-baseline.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-160-resource-finalization-baseline"
+}
