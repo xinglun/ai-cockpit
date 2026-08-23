@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-pre-merge-finalization-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "bb8491c2b101f3f93ca69e56af6a3d9a595044cd",
+    "name": "codex/wi-224-ci-reference-parity",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:0bf20390826c7dab833838a3f92d61a98b9ef6a6be426413dbc1386b59402eef",
+  "operationId": "operation-WI-224-ci-reference-parity-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "72320be00d3340ad328aa93ac1a7e80e8e828085",
+    "headRevision": "bb8491c2b101f3f93ca69e56af6a3d9a595044cd",
+    "number": 174,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/174"
+  },
+  "reason": "awaiting_merge_close: draft PR #174 is unmerged; retain the reviewed branch and worktree until hosted checks pass, human review is complete, and the reviewed pull request is merged.",
+  "receiptId": "ai-cockpit-WI-224-ci-reference-parity-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-224-ci-reference-parity",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/174",
+    "worktree": "/private/tmp/ai-cockpit-wi224-ci-reference-parity"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:23e9a9824f35b9e0d3706bdcbad34777bca5b0a4d362b4101407412a905dcb5b",
+  "runtimeVersion": "0.2.28",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-23T22:41:47Z",
+  "workItemId": "WI-224-ci-reference-parity",
+  "worktree": {
+    "branch": "codex/wi-224-ci-reference-parity",
+    "headRevision": "bb8491c2b101f3f93ca69e56af6a3d9a595044cd",
+    "path": "/private/tmp/ai-cockpit-wi224-ci-reference-parity",
+    "worktreeId": "WI-224-ci-reference-parity"
+  }
+}

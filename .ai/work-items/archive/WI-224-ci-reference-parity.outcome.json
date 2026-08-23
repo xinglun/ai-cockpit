@@ -1,0 +1,138 @@
+{
+  "acceptanceResults": [
+    "The deferred reference workflow/Make surfaces are compared file by file and each is classified as implemented-different-by-design, implemented-equivalent, concrete gap, or external/deferred with evidence.",
+    "Repository CI routing selects light/standard/strict behavior from declared risk, stage, and affected-path policy; its typed manifest and route receipt bind the canonical required gates.",
+    "CI, release, and the new-Runtime adopter lane cannot use an arbitrary command to substitute for canonical manifest gates; Runtime-global T0-T3 routing and generic CLI --command semantics remain explicitly deferred because crates/** is out of scope.",
+    "Release workflow binds immutable source, Runtime identity, public assets, supply-chain evidence, adopter/N-1 acceptance, cleanup, and post-release truth without source fallback.",
+    "Node/action versions and shell scripts use current supported actions; all cleanup and receipt-write failures affect exit status.",
+    "Current CI/release regression tests and documentation checks pass; a visible human Outcome is produced."
+  ],
+  "createdAt": "2026-08-23T22:41:00Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:64e4ba7ac96d280a05d29ff2c6387e46d05a75356c14b50224864fdd4aadeaa3",
+  "evidenceRefs": [
+    ".ai/evidence/WI-224-ci-reference-parity.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-224-ci-reference-parity.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-224-ci-reference-parity.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:881995639f15ab7de7d62a503f9910cb58d5a08e61f07fea9085326fd3b132c5",
+      "workItemId": "WI-224-ci-reference-parity"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-224-ci-reference-parity.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-224-ci-reference-parity.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-224-ci-reference-parity.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-224-ci-reference-parity.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-224-ci-reference-parity.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-224-ci-reference-parity.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-224-ci-reference-parity.contract.json"
+          ],
+          "inference": false,
+          "text": "Make CI and Release semantic ownership explicit and ensure dynamic quality routing, Runtime shadow, supply-chain, and adopter checks are discoverable and fail closed."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-224-ci-reference-parity.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-224-ci-reference-parity"
+  },
+  "taskReportDigest": "sha256:a7f7404f7cb58cdfd461ebd5e294e6976fe6b1dd2f47350fbebbe58d24614c64",
+  "taskReportMarkdownDigest": "sha256:b3dbe5449274338ed10eb88adf9920b55c4333bdbe3dcb60dfef337e5ba114aa",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-224-ci-reference-parity.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-224-ci-reference-parity"
+}
