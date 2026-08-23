@@ -1,0 +1,43 @@
+{
+  "acceptanceCriteria": [
+    "Cargo workspace package versions are 0.2.20 and lockfile-consistent",
+    "Tri-language release and installation documentation points to v0.2.20 while preserving historical references",
+    "Public Release, adopter acceptance, and v0.2.19 to v0.2.20 N-1 acceptance are recorded with immutable runtime identity"
+  ],
+  "authority": "authorized",
+  "baseRevision": "71e588c10c9b92b50bc5c0f9d339d42242f4b83e",
+  "createdAt": "2026-08-23T04:04:56Z",
+  "goal": "Release a public v0.2.20 binary, then prove adopter and v0.2.19-to-v0.2.20 N-1 acceptance using immutable public artifacts only.",
+  "intent": "Publish v0.2.20 with the corrected public N-1 acceptance harness and synchronized tri-language installation documentation.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    "historical Release truth"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:413f10c639c7977620b39f148e6fc02d4e60776d274c6a6c239d30ec0a9fba3e",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-169-release-v0-2-20",
+    "provider": "github-release",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/wi-169",
+    "worktree": "/private/tmp/ai-cockpit-wi-169-release-v0-2-20"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/work-items/active/**",
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-169-release-v0-2-20"
+}
