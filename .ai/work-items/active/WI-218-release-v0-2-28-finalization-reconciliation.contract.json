@@ -1,0 +1,86 @@
+{
+  "acceptanceCriteria": [
+    "Preserve WI-217 archive, recovery, verification, and canonical pre-merge finalization bytes without rewriting them.",
+    "Bind the exact merged PR #166 head 628a154ddf5b2b9f03dd6d6a00f6fe3e85576cb5 and merge commit cfedf46d653672666ef0f9ecea2ca6862c1aa282 to a fresh successor finalization chain.",
+    "Record and verify the post-merge branch/worktree cleanup boundary for codex/wi-217-release-v0-2-28-post-release-acceptance and /private/tmp/ai-cockpit-wi216-post-release.",
+    "Add tri-language parity linkage for WI-218, then close WI-218 with a visible human Outcome and structured decision.",
+    "Do not rewrite Release truth, historical evidence, or the WI-217 archive; any failed transition remains recoverable."
+  ],
+  "authority": "authorized",
+  "baseRevision": "cfedf46d653672666ef0f9ecea2ca6862c1aa282",
+  "createdAt": "2026-08-23T20:41:09Z",
+  "goal": "Reconcile the immutable post-release finalization boundary for the v0.2.28 reference-comparison batch.",
+  "intent": "Complete the WI-217 post-merge finalization and cleanup through a documented successor without rewriting immutable history.",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime feature changes",
+    "Reference-source implementation copying",
+    "Rewriting WI-217 archive, evidence, outcome, or canonical finalization bytes",
+    "User-global Agent or MCP configuration"
+  ],
+  "predecessorContractDigest": "sha256:ffb413cd6f1ff6efe58aa5f9d7782c82baa39202c7a95d2d3c21fa6aee6604aa",
+  "predecessorWorkItemId": "WI-217-release-v0-2-28-post-release-acceptance",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-217-release-v0-2-28-post-release-acceptance.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9ccb82effb29ac2bc8ae9a74b1ace29d83998ea94b2c5f1a9397d8bf9bd9fa5e",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-218-release-v0-2-28-finalization-reconciliation",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi218-finalization"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "expected": "WI-217 archive and canonical pre-merge finalization remain byte-identical while the recovery decision links the successor.",
+      "required": true,
+      "scenario": "immutable predecessor reconciliation",
+      "status": "unverified",
+      "verificationPlan": "Bind predecessor digests in the recovery receipt and verify them through the Runtime lifecycle and hosted governance gate."
+    },
+    {
+      "expected": "The exact merged PR #166 and its branch/worktree cleanup are recorded in a valid WI-218 finalization chain.",
+      "required": true,
+      "scenario": "post-merge finalization",
+      "status": "unverified",
+      "verificationPlan": "Run finalize-plan before archive, record the provider-shaped receipt, merge PR #167, append the merged and deleted transitions, then run finalize-verify."
+    },
+    {
+      "expected": "The closed successor emits a visible Chinese Outcome containing status, unknowns, evidence, decision, and next action.",
+      "required": true,
+      "scenario": "localized human handoff",
+      "status": "unverified",
+      "verificationPlan": "Use the installed Runtime with AI_COCKPIT_LANGUAGE=zh-CN for finish and close, then inspect the structured decision and Outcome projection."
+    }
+  ],
+  "scope": [
+    ".ai/decisions/WI-217-release-v0-2-28-post-release-acceptance.recovery.json",
+    ".ai/work-items/active/WI-218-release-v0-2-28-finalization-reconciliation.*",
+    ".ai/work-items/archive/WI-218-release-v0-2-28-finalization-reconciliation.*",
+    ".ai/evidence/WI-218-release-v0-2-28-finalization-reconciliation.*",
+    ".ai/decisions/WI-218-release-v0-2-28-finalization-reconciliation.*",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "https://github.com/xinglun/ai-cockpit/pull/166",
+    "https://github.com/xinglun/ai-cockpit/pull/167",
+    "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.28",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/32662890530"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh"
+  ],
+  "workItemId": "WI-218-release-v0-2-28-finalization-reconciliation"
+}

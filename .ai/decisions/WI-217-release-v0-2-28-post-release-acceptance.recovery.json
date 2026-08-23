@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "post-merge-finalization-reconciliation",
+  "decidedAt": "2026-08-24T06:00:00+09:00",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-217-release-v0-2-28-post-release-acceptance.archive.json",
+    ".ai/decisions/WI-217-release-v0-2-28-post-release-acceptance.finalize.json",
+    "https://github.com/xinglun/ai-cockpit/pull/166"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:ffb413cd6f1ff6efe58aa5f9d7782c82baa39202c7a95d2d3c21fa6aee6604aa",
+  "predecessorEventsDigest": "sha256:f0264aa44fc2bad4f6b4ff27990039baf83727207928b3978ca66a72315f0a43",
+  "predecessorOutcomeDigest": "sha256:90ec6c9bf14fc5b6f4ac6b5c24aa2fc353baad72bd9054bf5a9e4a7d1b7ca9db",
+  "predecessorSummaryDigest": "sha256:fef7c6db088b694571085aec778032790f3dec49da54996d93d32433bb00544e",
+  "predecessorWorkItemId": "WI-217-release-v0-2-28-post-release-acceptance",
+  "reason": "WI-217 was merged with parity documentation appended after its canonical pre-merge finalization receipt, so its branch head cannot be bound by a permitted finalization transition. Preserve WI-217 immutable history and reconcile the merged resource boundary in a successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Record a fresh post-merge finalization chain for the exact merged PR, verify branch/worktree cleanup, and close the reconciliation successor and predecessor without rewriting history.",
+  "runtimeDigest": "sha256:ea9a4a090307cb650eeda008942a5bc72fd0d1276b131405868f31d1eabcc048",
+  "runtimeVersion": "0.2.27",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-218-release-v0-2-28-finalization-reconciliation",
+  "workItemId": "WI-217-release-v0-2-28-post-release-acceptance"
+}

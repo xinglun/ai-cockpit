@@ -1,0 +1,22 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-217-release-v0-2-28-post-release-acceptance.recovery.json",
+    ".ai/work-items/active/WI-218-release-v0-2-28-finalization-reconciliation.contract.json",
+    ".ai/work-items/active/WI-218-release-v0-2-28-finalization-reconciliation.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-08-23T20:41:09Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:ffb413cd6f1ff6efe58aa5f9d7782c82baa39202c7a95d2d3c21fa6aee6604aa",
+  "predecessorWorkItemId": "WI-217-release-v0-2-28-post-release-acceptance",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-217-release-v0-2-28-post-release-acceptance.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "updatedAt": "2026-08-23T20:45:03Z",
+  "workItemId": "WI-218-release-v0-2-28-finalization-reconciliation"
+}
