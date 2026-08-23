@@ -1,0 +1,128 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-181-parity-evidence-binding.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:141d50e77a679fb80e431129c6f14f50d2cbe47633c379277de948479fe93d2c",
+      "workItemId": "WI-181-parity-evidence-binding"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-181-parity-evidence-binding.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-181-parity-evidence-binding.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-181-parity-evidence-binding.verification.json",
+            ".ai/decisions/WI-181-parity-evidence-binding.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via repository-owner at 2026-08-23T07:51:17Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-181-parity-evidence-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-181-parity-evidence-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-181-parity-evidence-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-181-parity-evidence-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-181-parity-evidence-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "Ensure tri-lingual reference parity cannot claim Implemented without auditable evidence links."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-181-parity-evidence-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-181-parity-evidence-binding"
+  },
+  "finalReportDigest": "sha256:5a9049c92f23d66f288f0781bf832f3d72f5e9dda5b751c884e23306601be650",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "repository-owner",
+    "decidedAt": "2026-08-23T07:51:17Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-181-parity-evidence-binding.verification.json",
+      ".ai/decisions/WI-181-parity-evidence-binding.finalize.json"
+    ],
+    "policyRefs": [
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "Reviewed the corrected tri-lingual parity evidence bindings, deterministic negative regression, merged PR #141, and finalization receipt; approve closure.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-23T07:51:17Z",
+  "workItemId": "WI-181-parity-evidence-binding"
+}
