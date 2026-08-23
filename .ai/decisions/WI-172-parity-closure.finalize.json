@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "repository-owner",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "f88131c1f6b84f80f54a135de776825df6f1f381",
+    "name": "codex/wi-172-parity-closure",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:e46ca2a393fd0b8847e3d41ed56af9e9c9b39d14316dea8989a13ae2cd5ff1ba",
+  "operationId": "retain-WI-172-parity-closure",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "ec2cfef8f6978c8b2d112d84b963bc945db98720",
+    "headRevision": "f88131c1f6b84f80f54a135de776825df6f1f381",
+    "mergeCommit": "5506397e9ea4f18d734b526e1c5b0c671f3c04de",
+    "number": 127,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/127"
+  },
+  "reason": "Retain the merged parity branch and clean implementation worktree until the structured close receipt is committed; exact branch deletion follows close and is not inferred from this receipt.",
+  "receiptId": "ai-cockpit-WI-172-parity-closure",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-172-parity-closure",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/127",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:3cd4e1bf766b6957d6400b624c72b67dcc66236bc80cc49c770ee8fe32d60672",
+  "runtimeVersion": "0.2.20",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-23T04:58:00Z",
+  "workItemId": "WI-172-parity-closure",
+  "worktree": {
+    "branch": "codex/wi-172-parity-closure",
+    "headRevision": "f88131c1f6b84f80f54a135de776825df6f1f381",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit",
+    "worktreeId": "WI-172-parity-closure"
+  }
+}
