@@ -27,8 +27,11 @@
     ".ai/decisions/WI-225-getting-started-parity-registration.finalize.json",
     "global Agent/MCP configuration"
   ],
+  "predecessorContractDigest": "sha256:10e2173d043f18f5a8b3b6b0d5a8ea626c611ba5ae1d18d86de0afdda41f065b",
+  "predecessorWorkItemId": "WI-225-getting-started-parity-registration",
   "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
   "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-225-getting-started-parity-registration.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:e23392684a0aff914bd6b59a9e8411104cc50133eb1d4fef024b3e902dbc7b04",
   "requiredEvidenceClasses": [
