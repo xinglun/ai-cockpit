@@ -1,0 +1,319 @@
+{
+  "acceptanceResults": [
+    "发布源版本与 lockfile 一致为 0.2.19。",
+    "所有质量门和三语文档验收通过。",
+    "公开 v0.2.19 adopter 与 v0.2.18-to-v0.2.19 N-1 acceptance 通过 finalize 与 cleanup。",
+    "WI-167 predecessor bytes 保持不可变并绑定 recovery decision。",
+    "完成完整 lifecycle 和可见人类 Outcome。"
+  ],
+  "createdAt": "2026-08-23T03:35:40Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:34fe2393b60770eab6d80d83276b2f41a6e05497a313e31b736fc0ca91e7a969",
+  "evidenceRefs": [
+    ".ai/evidence/WI-167-release-v0-2-19-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-167-release-v0-2-19-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-167-release-v0-2-19-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e923f716af597e030607c780f9c7cd31928db8182c74e30a00ac73e58a74bc63",
+      "workItemId": "WI-167-release-v0-2-19-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-167-release-v0-2-19.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-167-release-v0-2-19.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-167-release-v0-2-19-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-167-release-v0-2-19.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-167-release-v0-2-19.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-167-release-v0-2-19.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-167-release-v0-2-19.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-167-release-v0-2-19.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-167-release-v0-2-19.task-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: Cargo.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: Cargo.toml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/release-distribution.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/release-distribution.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/release-distribution.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/versioning.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/versioning.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/versioning.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/ci-runtime-shadow.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/ci-runtime-shadow.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/ci-runtime-shadow.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-167-release-v0-2-19-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-167-release-v0-2-19-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-167-release-v0-2-19-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-167-release-v0-2-19-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-167-release-v0-2-19-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "完成 v0.2.19 发布并用公开 binary 完成 adopter 与 v0.2.18-to-v0.2.19 N-1 验收。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-167-release-v0-2-19-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-167-release-v0-2-19-recovery"
+  },
+  "taskReportDigest": "sha256:bb2d5b461c3c464ee5c9de4c84c261b81bd68383366a57c4b117c289f320e273",
+  "taskReportMarkdownDigest": "sha256:2e7f951a76c36158163a619a82e69f4089604ebaca59f6fdb848bea3e8f5799c",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-167-release-v0-2-19-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-167-release-v0-2-19-recovery"
+}

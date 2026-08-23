@@ -1,0 +1,50 @@
+{
+  "acceptanceCriteria": [
+    "Cargo workspace version and lockfile packages are consistently bumped from 0.2.18 to 0.2.19, with no unrelated dependency drift.",
+    "Tri-language release/versioning/distribution documentation and reference parity identify v0.2.19 consistently and link the public release evidence after publication.",
+    "All repository quality, documentation, conformance, release policy, and package checks pass before publication; no source fallback is used for post-release acceptance.",
+    "The public v0.2.19 binary passes adopter acceptance and v0.2.18-to-v0.2.19 N-1 upgrade acceptance, including finalize-plan, finalize, finalize-verify, close, cleanup, runtime identity, and isolation assertions.",
+    "The original v0.2.18 adopter/upgrade failure receipt remains immutable and is not rewritten by this release.",
+    "The Work Item completes start → preflight → checkpoint → finalize-plan → verify → finish → archive → finalize → finalize-verify → visible human Outcome → close with current Runtime evidence."
+  ],
+  "authority": "authorized",
+  "baseRevision": "7eab6347eaa11ab7eabba65b276c16c864b20b94",
+  "createdAt": "2026-08-23T03:13:47Z",
+  "goal": "发布 v0.2.19，并用公开 Release binary 验证资源收尾修复后的 adopter 与 N-1 upgrade 闭环。",
+  "intent": "将 WI-166 合并后的 post-release acceptance harness 发布为 v0.2.19，证明从公开 immutable binary 开始可完成真实治理生命周期，同时保留 v0.2.18 的失败事实。",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "改写 v0.2.18 Release、receipt 或公开历史证据",
+    "新增 Runtime governance semantics"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ca07a8ba62f8e6af74ce2f0e11ac4282c5ec5489370da1aa91b0e3e791efd8e6",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-167-release-v0-2-19",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/RELEASE-WI-167",
+    "worktree": "/private/tmp/ai-cockpit-wi167-release-v0-2-19"
+  },
+  "risk": "normal",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-167-release-v0-2-19"
+}

@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "repository-owner",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "7eab6347eaa11ab7eabba65b276c16c864b20b94",
+    "name": "codex/wi-167-release-v0-2-19",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:9e31ff80c75c6b97ce1c19d23b3aedc646cdfa84b9e45607a84c39e8b382a903",
+  "operationId": "retain-WI-167-release-v0-2-19-recovery",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "7eab6347eaa11ab7eabba65b276c16c864b20b94",
+    "headRevision": "7eab6347eaa11ab7eabba65b276c16c864b20b94",
+    "mergeCommit": "7eab6347eaa11ab7eabba65b276c16c864b20b94",
+    "number": 1,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/RELEASE-WI-167"
+  },
+  "reason": "Retain the release worktree until the public v0.2.19 Release and adopter acceptance are complete.",
+  "receiptId": "self-release-WI-167-release-v0-2-19-recovery",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-167-release-v0-2-19",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/RELEASE-WI-167",
+    "worktree": "/private/tmp/ai-cockpit-wi167-release-v0-2-19"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:722819bd61848eafb822c149ce118b94ad86bfde3a9e36283eabcd3a4a78cfe5",
+  "runtimeVersion": "0.2.18",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-23T03:36:30Z",
+  "workItemId": "WI-167-release-v0-2-19-recovery",
+  "worktree": {
+    "branch": "codex/wi-167-release-v0-2-19",
+    "headRevision": "7eab6347eaa11ab7eabba65b276c16c864b20b94",
+    "path": "/private/tmp/ai-cockpit-wi167-release-v0-2-19",
+    "worktreeId": "WI-167-release-v0-2-19-recovery"
+  }
+}

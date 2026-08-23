@@ -1,0 +1,248 @@
+{
+  "acceptanceResults": [
+    "Cargo workspace version and lockfile packages are consistently bumped from 0.2.18 to 0.2.19, with no unrelated dependency drift.",
+    "Tri-language release/versioning/distribution documentation and reference parity identify v0.2.19 consistently and link the public release evidence after publication.",
+    "All repository quality, documentation, conformance, release policy, and package checks pass before publication; no source fallback is used for post-release acceptance.",
+    "The public v0.2.19 binary passes adopter acceptance and v0.2.18-to-v0.2.19 N-1 upgrade acceptance, including finalize-plan, finalize, finalize-verify, close, cleanup, runtime identity, and isolation assertions.",
+    "The original v0.2.18 adopter/upgrade failure receipt remains immutable and is not rewritten by this release.",
+    "The Work Item completes start → preflight → checkpoint → finalize-plan → verify → finish → archive → finalize → finalize-verify → visible human Outcome → close with current Runtime evidence."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-167-release-v0-2-19.verification.json"
+  ],
+  "failedGate": "finish.lifecycle",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-167-release-v0-2-19.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e923f716af597e030607c780f9c7cd31928db8182c74e30a00ac73e58a74bc63",
+      "workItemId": "WI-167-release-v0-2-19"
+    },
+    "failedGate": "finish.lifecycle",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-167-release-v0-2-19.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: Cargo.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-167-release-v0-2-19.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: Cargo.toml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-167-release-v0-2-19.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/release-distribution.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-167-release-v0-2-19.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/release-distribution.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-167-release-v0-2-19.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/release-distribution.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-167-release-v0-2-19.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/versioning.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-167-release-v0-2-19.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/versioning.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-167-release-v0-2-19.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/versioning.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-167-release-v0-2-19.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/ci-runtime-shadow.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-167-release-v0-2-19.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/ci-runtime-shadow.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-167-release-v0-2-19.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/ci-runtime-shadow.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-167-release-v0-2-19.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-167-release-v0-2-19.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-167-release-v0-2-19.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-167-release-v0-2-19.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-167-release-v0-2-19.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-167-release-v0-2-19.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-167-release-v0-2-19.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-167-release-v0-2-19.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-167-release-v0-2-19.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-167-release-v0-2-19.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-167-release-v0-2-19.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-167-release-v0-2-19.contract.json"
+          ],
+          "inference": false,
+          "text": "发布 v0.2.19，并用公开 Release binary 验证资源收尾修复后的 adopter 与 N-1 upgrade 闭环。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-167-release-v0-2-19.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-167-release-v0-2-19"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-167-release-v0-2-19.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-167-release-v0-2-19"
+}
