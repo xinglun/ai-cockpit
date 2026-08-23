@@ -25,11 +25,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-184-release-v0-2-23-close",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/147",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
   },
   "risk": "normal",

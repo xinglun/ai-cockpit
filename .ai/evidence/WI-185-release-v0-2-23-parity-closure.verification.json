@@ -1,6 +1,6 @@
 {
   "captureMode": "full_capture",
-  "createdAt": "2026-08-23T08:41:45Z",
+  "createdAt": "2026-08-23T08:42:29Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -8,8 +8,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 667,
-      "executionElapsedMs": 588,
+      "elapsedMs": 627,
+      "executionElapsedMs": 547,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -24,10 +24,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 667,
-    "executionElapsedMs": 588,
-    "filesHashed": 13,
-    "filesRead": 13,
+    "elapsedMs": 627,
+    "executionElapsedMs": 547,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -35,12 +35,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/reference/reference-parity.ja.md",
-        "docs/reference/reference-parity.md",
-        "docs/reference/reference-parity.zh-CN.md",
-        "tests/docs/parity_status_check.sh"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "aabff99be9c98b900261efb8485dbec1257aaa65",
       "dependencyConfidence": "unknown",
@@ -48,13 +43,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 588,
+      "executionElapsedMs": 547,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:931805a92b1f7be22e1232142af6c6ad0e743eaa74828a33d75886186d4061fa",
+      "repositorySnapshotDigest": "sha256:8ed4ef4c075c34b2ab336be3225da47b4621dac044dde7388da089ffbad97223",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -96,9 +91,9 @@
     "runtimeVersion": "0.2.22",
     "workItemId": "WI-185-release-v0-2-23-parity-closure"
   },
-  "receiptDigest": "sha256:e76ac993aa88a52facf701cea82f475331f5a3b17c15381508f48e52871b2a53",
+  "receiptDigest": "sha256:966110b9d1ad0db8059ba35b938ffc24f8400e71b8306a260c3f41837eae910a",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:931805a92b1f7be22e1232142af6c6ad0e743eaa74828a33d75886186d4061fa",
+  "repositorySnapshotDigest": "sha256:8ed4ef4c075c34b2ab336be3225da47b4621dac044dde7388da089ffbad97223",
   "runtimeDigest": "sha256:fff455d0d88d9ca4fa96b5caba85d8a6a198e131bd6ecc5a33dd9bc5cc180ab2",
   "runtimeVersion": "0.2.22",
   "workItemId": "WI-185-release-v0-2-23-parity-closure"

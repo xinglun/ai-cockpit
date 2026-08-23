@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-23T08:42:37Z",
+  "files": {
+    "contractDigest": "sha256:ce1698fb4e0699563b792b706a8b310e1d2dad2721799e95cd286cfdf01d34d4",
+    "contractPath": ".ai/work-items/archive/WI-185-release-v0-2-23-parity-closure.contract.json",
+    "eventsDigest": "sha256:a3df54c18d11e1b29dd86a002ea418b89249db0c666babc39748a6a86e3103af",
+    "eventsPath": ".ai/work-items/archive/WI-185-release-v0-2-23-parity-closure.events.jsonl",
+    "outcomeDigest": "sha256:b5a661a792168ea9e3228b70322ad9378b09039cbfb89539b0f940505c73ab01",
+    "outcomePath": ".ai/work-items/archive/WI-185-release-v0-2-23-parity-closure.outcome.json",
+    "summaryDigest": "sha256:63f85be80d8e43e476fff1df70b0f713852673d8609b159c2bceaf027b94ba5e",
+    "summaryPath": ".ai/work-items/archive/WI-185-release-v0-2-23-parity-closure.summary.json",
+    "taskReportDigest": "sha256:c39e04dfcb505468dfcd1130ecc53e994a90f2e8f9249592638f753a5bb38eaa",
+    "taskReportMarkdownDigest": "sha256:7a5311b0a006803faeda1ccdbeee517d8f0751d9ceacf24ee1d755727864958d",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-185-release-v0-2-23-parity-closure.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-185-release-v0-2-23-parity-closure.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-185-release-v0-2-23-parity-closure"
+}
