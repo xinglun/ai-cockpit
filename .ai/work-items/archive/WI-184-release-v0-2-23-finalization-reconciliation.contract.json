@@ -1,0 +1,55 @@
+{
+  "acceptanceCriteria": [
+    "WI-183 remains immutable and is linked through an explicit recovery decision.",
+    "A strict finalize-plan/finalize/finalize-verify chain binds the exact WI-183 branch, PR, base, head, and Runtime identity.",
+    "The merged WI-183 branch is removed remotely and the synchronized main worktree is clean before close.",
+    "This successor emits a visible human Outcome and structured close decision without rewriting WI-183."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1778e3ca76487d913026346765fabf7c10cab480",
+  "createdAt": "2026-08-23T08:25:39Z",
+  "goal": "Bind the merged v0.2.23 baseline branch and PR to a strict finalization receipt, verify cleanup, and close before public publication.",
+  "intent": "Complete the missing resource finalization boundary for the archived WI-183 v0.2.23 release baseline without rewriting its immutable bytes.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Historical WI-183 archive bytes",
+    "Runtime/core feature changes",
+    "Cargo.toml",
+    "Cargo.lock",
+    "crates",
+    "docs",
+    "tests",
+    ".github"
+  ],
+  "predecessorContractDigest": "sha256:fb08639cc9652483514d3f9fdcb136f321269e87bd0bf7931c08cc2eec0ba1c5",
+  "predecessorWorkItemId": "WI-183-release-v0-2-23",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-183-release-v0-2-23.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e12e60e0beacbefc8ea592474954f920186b427dcafebf64cb818c62786a95e7",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-183-release-v0-2-23",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/145",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "risk": "medium",
+  "scope": [
+    ".ai/work-items/active",
+    ".ai/work-items/archive",
+    ".ai/decisions",
+    ".ai/evidence"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-184-release-v0-2-23-finalization-reconciliation"
+}
