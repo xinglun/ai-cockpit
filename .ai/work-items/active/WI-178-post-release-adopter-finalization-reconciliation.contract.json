@@ -1,0 +1,53 @@
+{
+  "acceptanceCriteria": [
+    "The WI-177 predecessor is superseded with its original Contract, Summary, Outcome, Events, verification evidence, and public Release truth retained byte-for-byte.",
+    "The merged PR #135 branch and current worktree are bound by finalize-plan before new verification evidence is recorded.",
+    "Finalize and finalize-verify record the exact provider context and prove branch cleanup or an explicit retained disposition.",
+    "The successor closes only after finalize-verify and a structured human decision; the predecessor closes as a historical superseded Work Item.",
+    "Installed public Runtime v0.2.22 identity is recorded in every new evidence and decision receipt."
+  ],
+  "authority": "authorized",
+  "baseRevision": "462867e99f8f13f9cd18b37d358011fbfad577ba",
+  "createdAt": "2026-08-23T06:30:19Z",
+  "goal": "Record finalize-plan, finalize, finalize-verify, and close for the merged WI-177 public adopter acceptance branch, preserving the release and predecessor evidence truth.",
+  "intent": "Reconcile the public adopter acceptance finalization chain without rewriting immutable WI-177 evidence.",
+  "mode": "implementation",
+  "outOfScope": [
+    ".ai/evidence/WI-177-post-release-adopter-v0-2-22/**",
+    "src/**",
+    "crates/**",
+    "Release truth"
+  ],
+  "predecessorContractDigest": "sha256:9227ea9280d84caa4c2505f2b62c3786329128a43af1f696193aa858bc2db33e",
+  "predecessorWorkItemId": "WI-177-post-release-adopter-v0-2-22",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-177-post-release-adopter-v0-2-22.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1403ea6b1286d236d6f38f8336e99c7bb01f83957bb316335e18b244ec83a7cd",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-177-post-release-adopter-v0-2-22",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "risk": "medium",
+  "scope": [
+    ".ai/work-items/active/WI-178-post-release-adopter-finalization-reconciliation.contract.json",
+    ".ai/work-items/archive/WI-177-post-release-adopter-v0-2-22",
+    ".ai/decisions/WI-177-post-release-adopter-v0-2-22",
+    ".ai/decisions/WI-178-post-release-adopter-finalization-reconciliation",
+    ".ai/evidence/WI-178-post-release-adopter-finalization-reconciliation"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-178-post-release-adopter-finalization-reconciliation"
+}

@@ -1,0 +1,28 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-177-post-release-adopter-v0-2-22.recovery.json",
+    ".ai/evidence/WI-177-post-release-adopter-v0-2-22/finalize-context.json",
+    ".ai/evidence/WI-177-post-release-adopter-v0-2-22/recovery.json",
+    ".ai/work-items/active/WI-177-post-release-adopter-v0-2-22.approach.json",
+    ".ai/work-items/active/WI-178-post-release-adopter-finalization-reconciliation.approach.json",
+    ".ai/work-items/active/WI-178-post-release-adopter-finalization-reconciliation.contract.json",
+    ".ai/work-items/active/WI-178-post-release-adopter-finalization-reconciliation.summary.json"
+  ],
+  "checkpointAt": "2026-08-23T06:31:37Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T06:30:19Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:9227ea9280d84caa4c2505f2b62c3786329128a43af1f696193aa858bc2db33e",
+  "predecessorWorkItemId": "WI-177-post-release-adopter-v0-2-22",
+  "preflightAt": "2026-08-23T06:31:37Z",
+  "preflightContractDigest": "sha256:66ee14fd7a5abc0e6a845ece459f4f9b0d9e4f6be64e0e2343204089abe7fe75",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:1403ea6b1286d236d6f38f8336e99c7bb01f83957bb316335e18b244ec83a7cd",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-177-post-release-adopter-v0-2-22.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-23T06:31:37Z",
+  "workItemId": "WI-178-post-release-adopter-finalization-reconciliation"
+}

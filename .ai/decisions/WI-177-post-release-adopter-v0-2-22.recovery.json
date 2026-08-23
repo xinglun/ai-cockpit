@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-23T06:29:30Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-177-post-release-adopter-v0-2-22.verification.json",
+    ".ai/evidence/WI-177-post-release-adopter-v0-2-22/acceptance.json"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:9227ea9280d84caa4c2505f2b62c3786329128a43af1f696193aa858bc2db33e",
+  "predecessorEventsDigest": "sha256:014f20e88b5dd690eb914d7d7de108db947ea249c75218fb9f28df954d9f63b5",
+  "predecessorOutcomeDigest": "sha256:e84ca682df512976c03bdc3a98604647854b7a087c32938654b1b33fe1e8d717",
+  "predecessorSummaryDigest": "sha256:c41355e9984a9e627c1d5f395fef8f940e1ad1572f90496dd3c0d53b52133a4d",
+  "predecessorWorkItemId": "WI-177-post-release-adopter-v0-2-22",
+  "reason": "The public v0.2.22 adopter acceptance was verified before finalize-plan; continue through an explicit successor so finalization is recorded without rewriting immutable WI-177 evidence or public Release truth.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Finalize the merged public adopter acceptance branch with an exact provider receipt, then close the successor before starting the next batch.",
+  "runtimeDigest": "sha256:fff455d0d88d9ca4fa96b5caba85d8a6a198e131bd6ecc5a33dd9bc5cc180ab2",
+  "runtimeVersion": "0.2.22",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-178-post-release-adopter-finalization-reconciliation",
+  "workItemId": "WI-177-post-release-adopter-v0-2-22"
+}
