@@ -97,6 +97,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-154——Policy 绑定的 Runtime 验证路线 | 已实现 | [Work Item](../work-items/WI-154-policy-bound-runtime-route.zh-CN.md)；[验证路线](verification-route.zh-CN.md)；`.ai/evidence/WI-154-policy-bound-runtime-route.verification.json`；`.ai/decisions/WI-154-policy-bound-runtime-route.close.json` |
 | WI-155——CI/release gate 对齐 | 已实现 | [Work Item](../work-items/WI-155-ci-release-gate-convergence.zh-CN.md)；[发布分发](../release/distribution.zh-CN.md)；`.ai/evidence/WI-155-ci-release-gate-convergence.verification.json`；`.ai/decisions/WI-155-ci-release-gate-convergence.close.json` |
 | WI-156——物理执行与 Work Item 证据回执 | 已实现 | [Work Item](../work-items/WI-156-physical-execution-receipt.zh-CN.md)；`.ai/evidence/WI-156-physical-execution-receipt.verification.json`；`.ai/decisions/WI-156-physical-execution-receipt.close.json` |
+| WI-157——v0.2.17 发布与 adopter 验收 | 进行中 | [Work Item](../work-items/WI-157-release-v0-2-17-adopter-acceptance.zh-CN.md)；必须完成发布后的公开 Release 与 adopter receipt 后才能改为“已实现”。 |
 
 ## 当前边界
 

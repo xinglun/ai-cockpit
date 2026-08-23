@@ -1,0 +1,30 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-157-release-v0-2-17-adopter-acceptance.contract.json",
+    ".ai/work-items/active/WI-157-release-v0-2-17-adopter-acceptance.summary.json"
+  ],
+  "checkpointAt": "2026-08-22T23:47:43Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-22T23:47:26Z",
+  "mode": "code",
+  "preflightAt": "2026-08-22T23:59:33Z",
+  "preflightContractDigest": "sha256:ab917892a27b69ae042a2de63a3785de1bfc378556756b87f6deac1700fe3ed3",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:ddd046d49c2d7d9d678626f3aec74119a3828057e21dd51f4abcb48bc480303c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Release artifacts, runtime identity, isolation, evidence reuse, not_ready scaffold, and lifecycle receipts are all bound in a post-release acceptance receipt.",
+      "required": true,
+      "scenario": "public release binary governs a fresh isolated adopter",
+      "status": "unverified",
+      "verificationPlan": "Run immutable public adopter and upgrade acceptance scripts after the release, archive their outputs, then install the same binary and verify this repository."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-08-22T23:53:24.369416+00:00",
+  "workItemId": "WI-157-release-v0-2-17-adopter-acceptance"
+}
