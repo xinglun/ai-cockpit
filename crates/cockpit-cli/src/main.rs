@@ -13,8 +13,9 @@ use cockpit_repository::{
     archive_work_item_with_runtime, attach, checkpoint_work_item,
     close_work_item_with_decision_and_runtime,
     close_work_item_with_structured_decision_and_runtime, finish_work_item_with_runtime,
-    generate_knowledge, preflight_work_item_with_runtime, resolve_verification_route,
-    run_repository_verification, scaffold_work_item, start_work_item_with_options, status,
+    generate_knowledge, plan_resource_finalization, preflight_work_item_with_runtime,
+    record_resource_finalization, resolve_verification_route, run_repository_verification,
+    scaffold_work_item, start_work_item_with_options, status, verify_resource_finalization,
 };
 use serde_json::json;
 use std::path::PathBuf;
@@ -77,7 +78,10 @@ enum CommandKind {
         risk: String,
         #[arg(long, default_value = "missing")]
         authority: String,
-        #[arg(long, value_delimiter = ',')]
+        /// Repeat this option for multiple criteria.  Acceptance text is
+        /// governance prose and may legitimately contain commas; parsing it
+        /// as a delimiter silently changes the Contract bytes.
+        #[arg(long, action = ArgAction::Append)]
         acceptance: Vec<String>,
         #[arg(long, value_delimiter = ',')]
         required_evidence: Vec<String>,
@@ -333,6 +337,33 @@ enum WorkItemCommand {
         /// Emit the stable machine-readable Outcome JSON instead of the human handoff.
         #[arg(long)]
         json: bool,
+    },
+    /// Bind branch/worktree/provider/PR context before archive.
+    FinalizePlan {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+        /// JSON ResourceFinalizationContext file.
+        #[arg(long)]
+        input: PathBuf,
+    },
+    /// Record a strict provider-side finalization receipt after archive.
+    Finalize {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+        /// JSON ResourceFinalizationReceipt file.
+        #[arg(long)]
+        input: PathBuf,
+    },
+    /// Revalidate the stored finalization receipt and local cleanup state.
+    FinalizeVerify {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
     },
     Status {
         #[arg(long)]
@@ -1062,6 +1093,28 @@ fn run() -> Result<()> {
                         )
                     );
                 }
+            }
+            WorkItemCommand::FinalizePlan { repo, id, input } => {
+                require_compatible(&repo, &runtime_context)?;
+                let bytes = std::fs::read(&input).context("read resource finalization context")?;
+                let context: cockpit_protocol::ResourceFinalizationContext =
+                    serde_json::from_slice(&bytes)
+                        .context("parse resource finalization context")?;
+                let plan = plan_resource_finalization(&repo, &id, &context)
+                    .context("plan resource finalization")?;
+                println!("{}", serde_json::to_string_pretty(&plan)?);
+            }
+            WorkItemCommand::Finalize { repo, id, input } => {
+                require_compatible(&repo, &runtime_context)?;
+                let receipt = record_resource_finalization(&repo, &id, &input, &runtime_context)
+                    .context("record resource finalization")?;
+                println!("{}", serde_json::to_string_pretty(&receipt)?);
+            }
+            WorkItemCommand::FinalizeVerify { repo, id } => {
+                require_compatible(&repo, &runtime_context)?;
+                let result = verify_resource_finalization(&repo, &id, &runtime_context)
+                    .context("verify resource finalization")?;
+                println!("{}", serde_json::to_string_pretty(&result)?);
             }
             WorkItemCommand::Status { repo, id, json } => {
                 require_compatible(&repo, &runtime_context)?;

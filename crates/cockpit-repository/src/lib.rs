@@ -16,11 +16,13 @@ use cockpit_protocol::{
     GovernancePolicyDocument, HumanBenefitReport, HumanDecision, ImplementationApproach,
     OutcomeClaim, OutcomeReportBindings, OutcomeReportSections, OutcomeState, OutcomeV2,
     PARALLEL_SLOT_LEASE_SCHEMA_VERSION, ParallelSlotLease, PerformanceDiagnosis, PolicyLayer,
-    QualityCommand, RecoveryDecisionReceipt, RepositoryConfig, RuntimeContext, SchemaMigrationStep,
-    TaskOutcomeEvent, TaskOutcomeReport, TruthState, VerificationStage, VerificationTier,
-    WorkItemCompatibility, WorkItemIntelligence, WorkItemStatusSnapshot,
+    QualityCommand, RecoveryDecisionReceipt, RepositoryConfig, ResourceFinalizationContext,
+    ResourceFinalizationDisposition, ResourceFinalizationReceipt, RuntimeContext,
+    SchemaMigrationStep, TaskOutcomeEvent, TaskOutcomeReport, TruthState, VerificationStage,
+    VerificationTier, WorkItemCompatibility, WorkItemIntelligence, WorkItemStatusSnapshot,
     default_repository_schema_version, merge_policy_layers, repository_schema_migration_chain,
     validate_evidence_retention, validate_protocol_version,
+    validate_resource_finalization_receipt_for, validate_resource_finalization_replay,
 };
 use serde::de::{DeserializeSeed, MapAccess, SeqAccess, Visitor};
 use serde::{Deserialize, Deserializer as _, Serialize};
@@ -34,6 +36,7 @@ use std::fmt;
 use std::fs;
 use std::io::{Read, Seek, Write};
 use std::path::{Path, PathBuf};
+use std::process::Command;
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::{Arc, Mutex, OnceLock};
 use std::time::{Instant, SystemTime, UNIX_EPOCH};
@@ -3370,6 +3373,11 @@ fn activate_not_ready_scaffold(
             message: error.to_string(),
         })?;
     contract["verification"] = serde_json::json!(["cargo test --locked --workspace"]);
+    contract["resourceContext"] = serde_json::to_value(provisional_resource_context(&root))
+        .map_err(|error| ObserverError::State {
+            path: contract_path.clone(),
+            message: error.to_string(),
+        })?;
     summary["state"] = serde_json::json!("implementation_active");
     summary["repositoryId"] = serde_json::json!(profile.repository_id);
     summary["changedPaths"] = serde_json::json!(snapshot.changed_paths);
@@ -3545,6 +3553,7 @@ fn create_work_item_scaffold(
         "baseRevision": facts.base_revision,
         "projectProfileDigest": facts.project_profile_digest,
         "repositorySnapshotDigest": facts.repository_snapshot_digest,
+        "resourceContext": provisional_resource_context(&root),
         "createdAt": now,
     });
     let summary = serde_json::json!({
@@ -7621,6 +7630,364 @@ fn archive_superseded_work_item(
     })
 }
 
+/// Return a best-effort local branch/worktree context for a newly started
+/// Work Item.  Provider/PR identity is intentionally provisional until an
+/// explicit `finalize-plan` receipt is supplied; no local fact is promoted to
+/// provider assurance implicitly.
+fn provisional_resource_context(root: &Path) -> ResourceFinalizationContext {
+    let branch = git_text(root, &["symbolic-ref", "--quiet", "--short", "HEAD"])
+        .filter(|value| !value.is_empty())
+        .unwrap_or_else(|| "detached".into());
+    ResourceFinalizationContext {
+        branch,
+        worktree: root.to_string_lossy().into_owned(),
+        base_branch: "unknown".into(),
+        base_remote: "unknown".into(),
+        provider: "unknown".into(),
+        pull_request: "unknown".into(),
+    }
+}
+
+fn git_text(root: &Path, args: &[&str]) -> Option<String> {
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args(args)
+        .output()
+        .ok()?;
+    if !output.status.success() {
+        return None;
+    }
+    Some(String::from_utf8(output.stdout).ok()?.trim().to_owned())
+}
+
+fn set_resource_context_on_active_contract(
+    root: &Path,
+    work_item_id: &str,
+    context: &ResourceFinalizationContext,
+) -> Result<Contract, ObserverError> {
+    cockpit_protocol::validate_resource_finalization_context(context).map_err(|error| {
+        ObserverError::State {
+            path: root
+                .join(".ai/work-items/active")
+                .join(format!("{work_item_id}.contract.json")),
+            message: error.to_string(),
+        }
+    })?;
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let mut value = read_json(&contract_path)?;
+    value["resourceContext"] =
+        serde_json::to_value(context).map_err(|error| ObserverError::State {
+            path: contract_path.clone(),
+            message: error.to_string(),
+        })?;
+    atomic_json(&contract_path, &value)?;
+    read_contract(&contract_path)
+}
+
+/// Bind provider/branch/worktree context to an active Contract before it is
+/// archived.  The operation is deliberately explicit and idempotent only for
+/// the same context; replacing a complete context after planning is refused.
+pub fn plan_resource_finalization(
+    root: &Path,
+    work_item_id: &str,
+    context: &ResourceFinalizationContext,
+) -> Result<serde_json::Value, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let summary_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.summary.json"));
+    let contract = read_contract(&contract_path)?;
+    let summary = read_json(&summary_path)?;
+    if !matches!(
+        summary["state"].as_str(),
+        Some("implementation_active" | "checkpointed" | "finish_ready")
+    ) {
+        return Err(ObserverError::State {
+            path: summary_path,
+            message: "finalize-plan requires an active, checkpointed, or finish_ready Work Item"
+                .into(),
+        });
+    }
+    if let Some(existing) = &contract.resource_context
+        && existing != context
+        && existing.provider != "unknown"
+    {
+        return Err(ObserverError::State {
+            path: contract_path,
+            message:
+                "resource finalization context is already bound; use the same context for replay"
+                    .into(),
+        });
+    }
+    let evidence_path = root
+        .join(".ai/evidence")
+        .join(format!("{work_item_id}.verification.json"));
+    if summary["state"] == serde_json::json!("finish_ready")
+        && fs::symlink_metadata(&evidence_path).is_ok()
+        && contract.resource_context.as_ref() != Some(context)
+    {
+        return Err(ObserverError::State {
+            path: evidence_path,
+            message: "finalize-plan must run before verification evidence is recorded; re-run verify after changing the context".into(),
+        });
+    }
+    set_resource_context_on_active_contract(&root, work_item_id, context)?;
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let digest =
+        Digest::sha256_bytes(
+            &fs::read(&contract_path).map_err(|source| ObserverError::Read {
+                path: contract_path.clone(),
+                source,
+            })?,
+        );
+    Ok(serde_json::json!({
+        "protocolVersion": 1,
+        "workItemId": work_item_id,
+        "state": "planned",
+        "resourceContext": context,
+        "contractDigest": digest,
+        "next": ["archive", "finalize", "finalize-verify", "close"]
+    }))
+}
+
+fn read_resource_finalization_receipt(
+    path: &Path,
+) -> Result<ResourceFinalizationReceipt, ObserverError> {
+    if !is_regular_non_symlink(path)? {
+        return Err(ObserverError::State {
+            path: path.into(),
+            message: "resource finalization receipt must be a regular non-symlink file".into(),
+        });
+    }
+    let bytes = fs::read(path).map_err(|source| ObserverError::Read {
+        path: path.into(),
+        source,
+    })?;
+    reject_duplicate_json_keys(&bytes).map_err(|message| ObserverError::State {
+        path: path.into(),
+        message: format!("invalid resource finalization receipt JSON: {message}"),
+    })?;
+    serde_json::from_slice(&bytes).map_err(|error| ObserverError::State {
+        path: path.into(),
+        message: format!("invalid resource finalization receipt: {error}"),
+    })
+}
+
+fn resource_finalization_decision_path(root: &Path, work_item_id: &str) -> PathBuf {
+    root.join(".ai/decisions")
+        .join(format!("{work_item_id}.finalize.json"))
+}
+
+fn archived_contract_digest(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<(Contract, Digest), ObserverError> {
+    let path = root
+        .join(".ai/work-items/archive")
+        .join(format!("{work_item_id}.contract.json"));
+    let contract = read_contract(&path)?;
+    let digest = Digest::sha256_bytes(&fs::read(&path).map_err(|source| ObserverError::Read {
+        path: path.clone(),
+        source,
+    })?);
+    Ok((contract, digest))
+}
+
+fn ensure_resource_runtime_identity(
+    receipt: &ResourceFinalizationReceipt,
+    runtime: &RuntimeContext,
+    path: &Path,
+) -> Result<(), ObserverError> {
+    if receipt.runtime_version != runtime.runtime_version
+        || receipt.runtime_digest != runtime.runtime_digest
+    {
+        return Err(ObserverError::State {
+            path: path.into(),
+            message: "resource finalization receipt Runtime identity does not match the executing Runtime".into(),
+        });
+    }
+    Ok(())
+}
+
+/// Persist a provider-side finalization receipt after strict identity and
+/// local postcondition validation.  The Runtime never calls a provider or
+/// deletes a branch implicitly; it records delegated evidence and refuses
+/// close on blocked/unknown/contradictory results.
+pub fn record_resource_finalization(
+    root: &Path,
+    work_item_id: &str,
+    receipt_path: &Path,
+    runtime: &RuntimeContext,
+) -> Result<serde_json::Value, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let manifest_path = root
+        .join(".ai/work-items/archive")
+        .join(format!("{work_item_id}.archive.json"));
+    let manifest = read_json(&manifest_path)?;
+    verify_archive_manifest(&root, work_item_id, &manifest)?;
+    let (contract, contract_digest) = archived_contract_digest(&root, work_item_id)?;
+    let receipt = read_resource_finalization_receipt(receipt_path)?;
+    validate_resource_finalization_receipt_for(
+        &receipt,
+        &contract.repository_id,
+        work_item_id,
+        Some(&contract_digest),
+        contract.resource_context.as_ref(),
+    )
+    .map_err(|error| ObserverError::State {
+        path: receipt_path.into(),
+        message: error.to_string(),
+    })?;
+    if receipt.provider == "unknown"
+        || receipt
+            .resource_context
+            .as_ref()
+            .is_some_and(|context| context.provider == "unknown")
+    {
+        return Err(ObserverError::State {
+            path: receipt_path.into(),
+            message: "resource finalization requires an identified external provider".into(),
+        });
+    }
+    ensure_resource_runtime_identity(&receipt, runtime, receipt_path)?;
+    if matches!(
+        receipt.result.disposition,
+        ResourceFinalizationDisposition::Deleted
+    ) && !local_resources_deleted(&root, &receipt)?
+    {
+        return Err(ObserverError::State {
+            path: receipt_path.into(),
+            message:
+                "deleted finalization receipt does not match local branch/worktree postconditions"
+                    .into(),
+        });
+    }
+    let decision_path = resource_finalization_decision_path(&root, work_item_id);
+    if decision_path.exists() {
+        let existing = read_resource_finalization_receipt(&decision_path)?;
+        validate_resource_finalization_replay(&existing, &receipt).map_err(|error| {
+            ObserverError::State {
+                path: decision_path.clone(),
+                message: error.to_string(),
+            }
+        })?;
+        return Ok(serde_json::json!({
+            "workItemId": work_item_id,
+            "state": "idempotent",
+            "disposition": existing.result.disposition,
+            "path": repository_relative_path(&root, &decision_path)
+        }));
+    }
+    fs::create_dir_all(decision_path.parent().unwrap_or(root.as_path())).map_err(|source| {
+        ObserverError::Read {
+            path: decision_path.clone(),
+            source,
+        }
+    })?;
+    let value = serde_json::to_value(&receipt).map_err(|error| ObserverError::State {
+        path: decision_path.clone(),
+        message: error.to_string(),
+    })?;
+    atomic_json(&decision_path, &value)?;
+    Ok(serde_json::json!({
+        "workItemId": work_item_id,
+        "state": "recorded",
+        "disposition": receipt.result.disposition,
+        "path": repository_relative_path(&root, &decision_path)
+    }))
+}
+
+fn local_resources_deleted(
+    root: &Path,
+    receipt: &ResourceFinalizationReceipt,
+) -> Result<bool, ObserverError> {
+    let branches = git_text(root, &["branch", "--format=%(refname:short)"]).ok_or_else(|| {
+        ObserverError::State {
+            path: root.to_path_buf(),
+            message: "cannot determine local branch state".into(),
+        }
+    })?;
+    if branches
+        .lines()
+        .any(|branch| branch.trim() == receipt.branch.name)
+    {
+        return Ok(false);
+    }
+    let worktrees = git_text(root, &["worktree", "list", "--porcelain"]).ok_or_else(|| {
+        ObserverError::State {
+            path: root.to_path_buf(),
+            message: "cannot determine local worktree state".into(),
+        }
+    })?;
+    if worktrees.lines().any(|line| {
+        line.strip_prefix("worktree ")
+            .is_some_and(|path| path == receipt.worktree.path)
+    }) {
+        return Ok(false);
+    }
+    Ok(true)
+}
+
+/// Revalidate a stored finalization receipt and local cleanup postconditions.
+pub fn verify_resource_finalization(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+) -> Result<serde_json::Value, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let path = resource_finalization_decision_path(&root, work_item_id);
+    let receipt = read_resource_finalization_receipt(&path)?;
+    let (contract, contract_digest) = archived_contract_digest(&root, work_item_id)?;
+    validate_resource_finalization_receipt_for(
+        &receipt,
+        &contract.repository_id,
+        work_item_id,
+        Some(&contract_digest),
+        contract.resource_context.as_ref(),
+    )
+    .map_err(|error| ObserverError::State {
+        path: path.clone(),
+        message: error.to_string(),
+    })?;
+    ensure_resource_runtime_identity(&receipt, runtime, &path)?;
+    if matches!(
+        receipt.result.disposition,
+        ResourceFinalizationDisposition::Deleted
+    ) && !local_resources_deleted(&root, &receipt)?
+    {
+        return Err(ObserverError::State {
+            path,
+            message: "resource finalization postconditions are not satisfied".into(),
+        });
+    }
+    Ok(serde_json::json!({
+        "workItemId": work_item_id,
+        "state": "verified",
+        "disposition": receipt.result.disposition,
+        "receipt": receipt
+    }))
+}
+
 pub fn close_work_item(root: &Path, work_item_id: &str) -> Result<LifecycleReceipt, ObserverError> {
     validate_work_item_id(work_item_id)?;
     Err(ObserverError::State {
@@ -7798,6 +8165,11 @@ fn close_work_item_with_structured_decision_internal(
             "close",
             current_runtime,
         )?;
+        if let Some(runtime) = current_runtime
+            && contract.resource_context.is_some()
+        {
+            require_resource_finalization_for_close(&root, work_item_id, runtime)?;
+        }
     }
     validate_policy_decision(&root, &contract, human_decision)?;
     let outcome = root
@@ -7871,6 +8243,24 @@ fn close_work_item_with_structured_decision_internal(
         })?;
     atomic_json(&decision_path, &decision)?;
     Ok(receipt)
+}
+
+fn require_resource_finalization_for_close(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+) -> Result<(), ObserverError> {
+    let result = verify_resource_finalization(root, work_item_id, runtime)?;
+    let disposition = result["disposition"].as_str().unwrap_or_default();
+    if !matches!(disposition, "deleted" | "retained") {
+        return Err(ObserverError::State {
+            path: resource_finalization_decision_path(root, work_item_id),
+            message: format!(
+                "close requires resource finalization disposition deleted or retained, got {disposition}"
+            ),
+        });
+    }
+    Ok(())
 }
 
 fn validate_policy_decision(

@@ -1,5 +1,7 @@
 use std::{fs, process::Command};
 
+mod common;
+
 fn repository() -> tempfile::TempDir {
     let directory = tempfile::tempdir().expect("tempdir");
     assert!(
@@ -236,6 +238,7 @@ fn cli_status_changes_from_archived_to_closed_only_after_valid_close() {
         .status
         .success()
     );
+    common::plan(binary, directory.path(), id);
     let contract = format!(".ai/work-items/active/{id}.contract.json");
     assert!(
         run(&["preflight", "--contract", &contract])
@@ -263,6 +266,7 @@ fn cli_status_changes_from_archived_to_closed_only_after_valid_close() {
         String::from_utf8_lossy(&finish.stderr)
     );
     assert!(run(&["archive", "--id", id]).status.success());
+    common::record_retained(binary, directory.path(), id);
     let archived_outcome = run(&["work-item", "outcome", "--id", id, "--json"]);
     assert!(archived_outcome.status.success());
     let archived_outcome_json: serde_json::Value =

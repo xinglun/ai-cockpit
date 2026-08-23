@@ -1,0 +1,20 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-159-resource-finalization-runtime.contract.json",
+    ".ai/work-items/active/WI-159-resource-finalization-runtime.summary.json"
+  ],
+  "checkpointAt": "2026-08-23T00:31:37Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T00:29:46Z",
+  "mode": "code",
+  "preflightAt": "2026-08-23T00:31:34Z",
+  "preflightContractDigest": "sha256:be22073e16be16d436ed8f8551b324ccc182f9baa89460dd9ceeaaa4173eba33",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:acd7ec609b9638c9b6d8ed4a8fa64ef1e26c0f8e73b99fd0384e4f724a7bf176",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-23T00:31:37Z",
+  "workItemId": "WI-159-resource-finalization-runtime"
+}
