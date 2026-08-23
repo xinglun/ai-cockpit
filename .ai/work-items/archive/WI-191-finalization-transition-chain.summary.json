@@ -1,0 +1,53 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-23T10:45:46Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T10:44:36Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/superpowers/specs/2026-08-23-finalization-transition-chain-design.md",
+      "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-08-23T11:02:56Z",
+  "preflightContractDigest": "sha256:f7f439073aa350b710eaf97f43658d8e3977ff1e30d6c58c4e8d3f01f23305f2",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8bd813efb4865117a2d5322ffc6282bdf4cf53b9df92d1eab733b66e1021d915",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+        ".ai/evidence/WI-191-finalization-transition-chain.verification.json"
+      ],
+      "required": true,
+      "scenario": "WI-190 pre-merge blocked receipt advances after merge and cleanup",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-protocol/tests/resource_finalization.rs",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+      ],
+      "required": true,
+      "scenario": "ambiguous or hostile transition chain",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-protocol/tests/resource_finalization.rs",
+        "crates/cockpit-repository/tests/evidence_assurance.rs"
+      ],
+      "required": true,
+      "scenario": "legacy single canonical receipt",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T11:03:06Z",
+  "workItemId": "WI-191-finalization-transition-chain"
+}
