@@ -268,7 +268,8 @@
     ".ai/work-items/active/WI-217-release-v0-2-28-post-release-acceptance.contract.json",
     ".ai/work-items/active/WI-217-release-v0-2-28-post-release-acceptance.summary.json"
   ],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-08-23T20:23:29Z",
+  "checkpointCount": 1,
   "createdAt": "2026-08-23T20:21:44Z",
   "intentAlignment": {
     "evidence": [
@@ -283,11 +284,11 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:305ee88d65945d8ee57398c1d1edec14249c72efd8f61ea68c121f9ea2e62975",
   "predecessorWorkItemId": "WI-216-release-v0-2-28",
-  "preflightAt": "2026-08-23T20:22:09Z",
-  "preflightContractDigest": "sha256:a6dc8cc92707c92fea3e351f42e4f5b68bc343e2bbc7fc45917dbf6aec597cb3",
-  "preflightDecisionDigest": "sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
-  "preflightRepositorySnapshotDigest": "sha256:b4faa8a7cfa7a34da4a4811a860c8d9c8a598bd429f9d28d156c1ab4df1ae9af",
-  "preflightState": "yellow",
+  "preflightAt": "2026-08-23T20:26:05Z",
+  "preflightContractDigest": "sha256:bc6a00e0b508f5557d88154496250e055a104f11de1b3f753f723404824e7f1d",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:0399dd9c2c4ae7cb95e0002a5f3823ffd6e4692df6420f86caefa0736828ff77",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-216-release-v0-2-28.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -331,7 +332,7 @@
       "verificationPlan": "Run the public adopter and upgrade acceptance workflows and bind their runtime, isolation, cleanup, evidence-reuse, and Outcome receipts."
     }
   ],
-  "state": "implementation_active",
-  "updatedAt": "2026-08-23T20:22:04.789360+00:00",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-23T20:26:26.007951+00:00",
   "workItemId": "WI-217-release-v0-2-28-post-release-acceptance"
 }
