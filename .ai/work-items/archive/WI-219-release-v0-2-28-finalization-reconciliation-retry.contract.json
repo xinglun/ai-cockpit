@@ -1,0 +1,84 @@
+{
+  "acceptanceCriteria": [
+    "Preserve WI-218 superseded history and bind the exact merged PR #166 cleanup boundary.",
+    "Complete current evidence, finalization, close, and tri-language parity closure.",
+    "Do not rewrite WI-217 or WI-218 historical archive, evidence, recovery, or finalization bytes."
+  ],
+  "authority": "authorized",
+  "baseRevision": "5f539dc3a9566b2d90edcedb1048d661228e90d0",
+  "createdAt": "2026-08-23T20:56:05Z",
+  "goal": "Bind and close the post-release finalization boundary for the exact merged PR #166 without rewriting recovered history.",
+  "intent": "Complete WI-218 successor finalization and close the v0.2.28 reference-comparison batch using current repository evidence.",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime feature changes",
+    "Reference-source implementation copying",
+    "User-global Agent or MCP configuration",
+    "Rewriting WI-217 or WI-218 historical bytes"
+  ],
+  "predecessorContractDigest": "sha256:3c7e330831f0e0ae51afa7274941f6f31cbf323d561a516fafa217bdabd82259",
+  "predecessorWorkItemId": "WI-218-release-v0-2-28-finalization-reconciliation",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-218-release-v0-2-28-finalization-reconciliation.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2a1cde4b516b37b752771d66c0dfd8f306285568c41fd145f5fb0725d25b0e72",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-217-release-v0-2-28-post-release-acceptance",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/166",
+    "worktree": "/private/tmp/ai-cockpit-wi216-post-release"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "expected": "WI-218 superseded archive and recovery decision remain immutable and bind the current retry.",
+      "required": true,
+      "scenario": "immutable predecessor recovery",
+      "status": "unverified",
+      "verificationPlan": "Project the predecessor recovery and archive paths in Summary and validate them through the current Runtime lifecycle."
+    },
+    {
+      "expected": "The exact merged PR #166 and its branch/worktree cleanup are recorded in a valid finalization chain.",
+      "required": false,
+      "scenario": "post-merge finalization",
+      "status": "unverified",
+      "verificationPlan": "Bind the target context before verification, record the pre-merge receipt, merge PR #168, append merge and cleanup transitions, then finalize-verify."
+    },
+    {
+      "expected": "The closed retry emits a visible Chinese Outcome with status, unknowns, evidence, decision, and next action.",
+      "required": false,
+      "scenario": "localized human handoff",
+      "status": "unverified",
+      "verificationPlan": "Use AI_COCKPIT_LANGUAGE=zh-CN for finish and close and inspect the structured decision."
+    }
+  ],
+  "scope": [
+    ".ai/decisions/WI-218-release-v0-2-28-finalization-reconciliation.recovery.json",
+    ".ai/work-items/active/WI-219-release-v0-2-28-finalization-reconciliation-retry.*",
+    ".ai/work-items/archive/WI-219-release-v0-2-28-finalization-reconciliation-retry.*",
+    ".ai/evidence/WI-219-release-v0-2-28-finalization-reconciliation-retry.*",
+    ".ai/decisions/WI-219-release-v0-2-28-finalization-reconciliation-retry.*",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "https://github.com/xinglun/ai-cockpit/pull/166",
+    "https://github.com/xinglun/ai-cockpit/pull/167",
+    "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.28",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/32662890530"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh"
+  ],
+  "workItemId": "WI-219-release-v0-2-28-finalization-reconciliation-retry"
+}
