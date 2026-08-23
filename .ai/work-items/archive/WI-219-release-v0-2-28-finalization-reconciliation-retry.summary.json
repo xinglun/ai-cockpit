@@ -1,0 +1,58 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-218-release-v0-2-28-finalization-reconciliation.recovery.json",
+    ".ai/evidence/WI-218-release-v0-2-28-finalization-reconciliation.verification.json",
+    ".ai/work-items/active/WI-218-release-v0-2-28-finalization-reconciliation.contract.json",
+    ".ai/work-items/active/WI-218-release-v0-2-28-finalization-reconciliation.summary.json",
+    ".ai/work-items/archive/WI-219-release-v0-2-28-finalization-reconciliation-retry.contract.json",
+    ".ai/work-items/archive/WI-219-release-v0-2-28-finalization-reconciliation-retry.summary.json",
+    ".ai/work-items/archive/WI-218-release-v0-2-28-finalization-reconciliation.archive.json",
+    ".ai/work-items/archive/WI-218-release-v0-2-28-finalization-reconciliation.contract.json",
+    ".ai/work-items/archive/WI-218-release-v0-2-28-finalization-reconciliation.events.jsonl",
+    ".ai/work-items/archive/WI-218-release-v0-2-28-finalization-reconciliation.outcome.json",
+    ".ai/work-items/archive/WI-218-release-v0-2-28-finalization-reconciliation.summary.json",
+    ".ai/work-items/archive/WI-218-release-v0-2-28-finalization-reconciliation.task-report.json",
+    ".ai/work-items/archive/WI-218-release-v0-2-28-finalization-reconciliation.task-report.md"
+  ],
+  "checkpointAt": "2026-08-23T20:58:38Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T20:56:05Z",
+  "intentAlignment": {
+    "reason": "The retry is a bounded finalization recovery; the human-owned intent and closure decision remain explicit in the Contract and close receipt.",
+    "state": "unknown"
+  },
+  "mode": "docs",
+  "preflightAt": "2026-08-23T21:00:09Z",
+  "preflightContractDigest": "sha256:94d2d6323f06f15ac214a614e80d3dfade7729c6079fe383f34d4009728e3d54",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:1752a412847a26dabea065904bcffa4e83bc925753c2b0e0d23b7095638961c3",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/decisions/WI-218-release-v0-2-28-finalization-reconciliation.recovery.json",
+        ".ai/work-items/archive/WI-218-release-v0-2-28-finalization-reconciliation.archive.json"
+      ],
+      "required": true,
+      "scenario": "immutable predecessor recovery",
+      "status": "verified"
+    },
+    {
+      "evidence": [],
+      "required": false,
+      "scenario": "post-merge finalization",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "required": false,
+      "scenario": "localized human handoff",
+      "status": "unverified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-23T21:00:13Z",
+  "workItemId": "WI-219-release-v0-2-28-finalization-reconciliation-retry"
+}
