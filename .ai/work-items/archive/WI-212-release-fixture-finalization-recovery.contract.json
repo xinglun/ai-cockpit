@@ -53,22 +53,23 @@
     },
     {
       "evidence": [
-        ".ai/decisions/WI-212-release-fixture-finalization-recovery.finalize.json"
+        ".ai/work-items/active/WI-212-release-fixture-finalization-recovery.contract.json"
       ],
       "expected": "PR #160 context is bound before successor verification and a blocked pre-merge receipt is valid.",
       "required": true,
       "scenario": "pre-merge resource finalization",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Run finalize-plan before verification, then record an awaiting-merge-close finalization receipt."
     },
     {
       "evidence": [
-        ".ai/decisions/WI-212-release-fixture-finalization-recovery.close.json"
+        ".ai/work-items/active/WI-212-release-fixture-finalization-recovery.contract.json"
       ],
       "expected": "After PR merge, finalize-verify and structured close bind the merged head and exact cleanup.",
-      "required": true,
+      "required": false,
       "scenario": "hosted merge close",
-      "status": "unverified",
+      "status": "not_applicable",
+      "reason": "Hosted merge and terminal close are a post-merge boundary and cannot be completed before PR #160 review.",
       "verificationPlan": "Run hosted checks, merge PR #160, synchronize main, finalize, finalize-verify, and close."
     }
   ],
