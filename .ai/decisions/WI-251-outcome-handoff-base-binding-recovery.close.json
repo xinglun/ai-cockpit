@@ -1,0 +1,362 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-251-outcome-handoff-base-binding-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:461d0bd9cbd7c7e125debc20d72f918788281354551121f086b869ca27112bdf",
+      "workItemId": "WI-251-outcome-handoff-base-binding-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-250-outcome-handoff.finalize.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-250-outcome-handoff.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-250-outcome-handoff.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-250-outcome-handoff.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-250-outcome-handoff.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-250-outcome-handoff.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-250-outcome-handoff.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-250-outcome-handoff.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-250-outcome-handoff.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-250-outcome-handoff.task-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/src/main.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/outcome_handoff.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/capabilities.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/capabilities.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/capabilities.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-workflow.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-workflow.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-workflow.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/outcome-report.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/outcome-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/outcome-report.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-250-outcome-handoff.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-250-outcome-handoff.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-250-outcome-handoff.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-251-outcome-handoff-base-binding-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-251-outcome-handoff-base-binding-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.archive.json",
+            ".ai/evidence/WI-251-outcome-handoff-base-binding-recovery.verification.json",
+            ".ai/decisions/WI-251-outcome-handoff-base-binding-recovery.finalize.json",
+            ".ai/decisions/WI-251-outcome-handoff-base-binding-recovery.finalize.c68439384b1834e164d659444dc229dfe45b15c318652518582dfe320b9d4f65.json",
+            ".ai/decisions/WI-251-outcome-handoff-base-binding-recovery.finalize.dcb73da26728b0e24b5eb251d7c81a1ee240cc811192d300a460d9a708da9f41.json",
+            "https://github.com/xinglun/ai-cockpit/pull/201",
+            "7fa2536d7aa6a265e5d3c7c03f83b4eede7febde",
+            "sha256:34dad7be6ba2057f7b65682428175f32a211dfbf9c9cf2f203bfc963bb514d8d"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via reviewed-PR-201-and-explicit-WI-251-authorization at 2026-08-24T12:40:26Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-251-outcome-handoff-base-binding-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-251-outcome-handoff-base-binding-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-251-outcome-handoff-base-binding-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "默认 lifecycle handoff 在保持 stdout JSON 兼容的同时直接输出完整人类 Outcome；机器 --json 模式抑制 handoff；blocked 路径保持 fail-closed；Runtime record/finalize-verify 对归档 Contract 与 PR base 绑定不一致一律拒绝，且归档后禁止通过 rebase 改变该绑定。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-251-outcome-handoff-base-binding-recovery"
+  },
+  "finalReportDigest": "sha256:1e429883081206fc5c1f76c6098b1d9e2bff6265f58e6f24030f057dc32328f6",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:34dad7be6ba2057f7b65682428175f32a211dfbf9c9cf2f203bfc963bb514d8d",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-251-outcome-handoff-base-binding-recovery.finalize.dcb73da26728b0e24b5eb251d7c81a1ee240cc811192d300a460d9a708da9f41.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "reviewed-PR-201-and-explicit-WI-251-authorization",
+    "decidedAt": "2026-08-24T12:40:26Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.archive.json",
+      ".ai/evidence/WI-251-outcome-handoff-base-binding-recovery.verification.json",
+      ".ai/decisions/WI-251-outcome-handoff-base-binding-recovery.finalize.json",
+      ".ai/decisions/WI-251-outcome-handoff-base-binding-recovery.finalize.c68439384b1834e164d659444dc229dfe45b15c318652518582dfe320b9d4f65.json",
+      ".ai/decisions/WI-251-outcome-handoff-base-binding-recovery.finalize.dcb73da26728b0e24b5eb251d7c81a1ee240cc811192d300a460d9a708da9f41.json",
+      "https://github.com/xinglun/ai-cockpit/pull/201",
+      "7fa2536d7aa6a265e5d3c7c03f83b4eede7febde",
+      "sha256:34dad7be6ba2057f7b65682428175f32a211dfbf9c9cf2f203bfc963bb514d8d"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      "docs/reference/agent-workflow.md",
+      "docs/reference/commands.md"
+    ],
+    "reason": "PR #201 passed all hosted checks, merged at exact reviewed head d065511 via merge commit 7fa2536, synchronized main retained the append-only merge observation, and Runtime verified exact branch/worktree cleanup at finalization sequence 2.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-08-24T12:40:38Z",
+  "workItemId": "WI-251-outcome-handoff-base-binding-recovery"
+}
