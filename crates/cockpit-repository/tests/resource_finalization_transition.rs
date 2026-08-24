@@ -104,7 +104,7 @@ fn blocked(repository_id: &str, context: &ResourceFinalizationContext, contract:
         "schemaVersion":1,"receiptId":"blocked-1","operationId":"operation-1",
         "repositoryId":repository_id,
         "workItemId":ID,"runtimeVersion":"test-runtime","runtimeDigest":runtime().runtime_digest,
-        "provider":"github","pullRequest":{"number":191,"url":context.pull_request,"headRevision":"head-191","baseBranch":"main","baseRemote":"origin","baseRevision":"base-191"},
+        "provider":"github","pullRequest":{"number":191,"url":context.pull_request,"headRevision":"head-191","baseBranch":"main","baseRemote":"origin","baseRevision":"unborn"},
         "branch":{"name":context.branch,"remote":"origin","headRevision":"head-191"},
         "worktree":{"worktreeId":"worktree-191","path":context.worktree,"branch":context.branch,"headRevision":"head-191"},
         "before":{"pullRequest":"unmerged","branch":"present","worktree":"clean"},
@@ -179,6 +179,56 @@ fn write_input(directory: &tempfile::TempDir, name: &str, value: &Value) -> std:
     path
 }
 
+#[test]
+fn canonical_record_rejects_pull_request_base_that_differs_from_archived_contract() {
+    let (directory, context, contract) = repository();
+    let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+    let mut receipt = blocked(&repository_id, &context, &contract);
+    receipt["pullRequest"]["baseRevision"] = "different-base-revision".into();
+    let input = write_input(&directory, "mismatched-base.json", &receipt);
+
+    let error = record_resource_finalization(directory.path(), ID, &input, &runtime())
+        .expect_err("record must reject a PR base that differs from the archived Contract base");
+    assert!(
+        error.to_string().contains(
+            "resource finalization pull request base revision does not match the archived Contract base revision"
+        ),
+        "unexpected error: {error}"
+    );
+    assert!(
+        !directory
+            .path()
+            .join(format!(".ai/decisions/{ID}.finalize.json"))
+            .exists(),
+        "a rejected base binding must not create a canonical decision"
+    );
+}
+
+#[test]
+fn canonical_verify_rejects_stored_pull_request_base_that_differs_from_archived_contract() {
+    let (directory, context, contract) = repository();
+    let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+    let receipt = blocked(&repository_id, &context, &contract);
+    let input = write_input(&directory, "matching-base.json", &receipt);
+    record_resource_finalization(directory.path(), ID, &input, &runtime()).unwrap();
+
+    let decision = directory
+        .path()
+        .join(format!(".ai/decisions/{ID}.finalize.json"));
+    let mut stored: Value = serde_json::from_slice(&fs::read(&decision).unwrap()).unwrap();
+    stored["pullRequest"]["baseRevision"] = "different-base-revision".into();
+    fs::write(&decision, serde_json::to_vec_pretty(&stored).unwrap()).unwrap();
+
+    let error = verify_resource_finalization(directory.path(), ID, &runtime())
+        .expect_err("sequence=0 verify must reject a stale PR base binding");
+    assert!(
+        error.to_string().contains(
+            "resource finalization pull request base revision does not match the archived Contract base revision"
+        ),
+        "unexpected error: {error}"
+    );
+}
+
 fn transition_path(decisions: &std::path::Path, value: &Value) -> std::path::PathBuf {
     let digest = cockpit_protocol::digest_json(value).unwrap().to_string();
     decisions.join(format!(
@@ -191,7 +241,7 @@ fn post_finalize_evidence(contract: &Digest, head_revision: &str) -> (Value, Val
     let manifest_digest = Digest::sha256_bytes(b"repository-gate-manifest").to_string();
     let mut quality_route = json!({
         "automaticProfile": "strict",
-        "baseRevision": "base-191",
+        "baseRevision": "unborn",
         "changedPaths": [format!(".ai/decisions/{ID}.finalize.json")],
         "contractDigest": contract,
         "contractPath": format!(".ai/work-items/archive/{ID}.contract.json"),

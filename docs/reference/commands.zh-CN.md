@@ -14,11 +14,12 @@ capabilityClaims:
 
 # 命令参考
 
-`work-item finalize` 将首个 receipt 写入 `.ai/decisions/<id>.finalize.json`。若该不可变链根已存在，typed transition envelope 必须绑定唯一 head 的 predecessor digest 与下一 sequence；Runtime 追加 `.finalize.<digest>.json`。`finalize-verify` 返回 `headPath`、`headDigest` 和 `sequence`，`close` 会绑定这些值。当 receipt commit 推进了全部对齐的 head 时，sequence-1 merge observation 还可以绑定 `governanceAppendRevision`。Runtime 要求祖先区间只有新增；除同一 Work Item 的普通 finalization receipt 外，唯一允许的 evidence 新增是完整的固定 schema 文件对 `.ai/evidence/<id>/quality-route-post-finalize.json` 与 `.ai/evidence/<id>/repository-gates-post-finalize.json`。每个路径必须是 `A`-only、`100644` regular blob，且其归档 Contract、PR revision、route digest、manifest、profile 与 passing gate 绑定必须一致。这对文件是 evidence 而非 authority，不能替代仍然必需的 finalization receipt 新增；也不会授权任意 evidence 路径或归档修改。
+`work-item finalize` 将首个 receipt 写入 `.ai/decisions/<id>.finalize.json`。其中 PR base 必须等于归档 Contract 不可变的 `baseRevision`；记录与 `finalize-verify` 都会拒绝不一致，包括 sequence 0，绝不会把该链报告为 verified。归档前 rebase 要刷新 active Contract 绑定；归档后必须走 recovery，不能改写 receipt 或 archive。若该不可变链根已存在，typed transition envelope 必须绑定唯一 head 的 predecessor digest 与下一 sequence；Runtime 追加 `.finalize.<digest>.json`。`finalize-verify` 返回 `headPath`、`headDigest` 和 `sequence`，`close` 会绑定这些值。当 receipt commit 推进了全部对齐的 head 时，sequence-1 merge observation 还可以绑定 `governanceAppendRevision`。Runtime 要求祖先区间只有新增；除同一 Work Item 的普通 finalization receipt 外，唯一允许的 evidence 新增是完整的固定 schema 文件对 `.ai/evidence/<id>/quality-route-post-finalize.json` 与 `.ai/evidence/<id>/repository-gates-post-finalize.json`。每个路径必须是 `A`-only、`100644` regular blob，且其归档 Contract、PR revision、route digest、manifest、profile 与 passing gate 绑定必须一致。这对文件是 evidence 而非 authority，不能替代仍然必需的 finalization receipt 新增；也不会授权任意 evidence 路径或归档修改。
 
-所有 repository 命令都接受显式 `--repo <path>`。产生记录或 decision 的命令通常输出 JSON；
-`work-item outcome` 默认输出本地化的面向人交接结果，需要稳定机器接口时使用 `--json`。
-失败或 unknown 不能算 pass。
+所有 repository 命令都接受显式 `--repo <path>`。产生记录或 decision 的命令在 stdout
+保持 JSON。`finish`、`archive`、`close` 默认还会在 stderr 输出本地化的面向人交接；
+其 `--json` 只抑制该 handoff。`work-item outcome` 默认在 stdout 输出本地化的面向人
+交接结果，需要稳定机器接口时使用 `--json`。失败或 unknown 不能算 pass。
 
 | 分组 | 命令 | 边界 |
 | --- | --- | --- |
@@ -52,6 +53,11 @@ capabilityClaims:
   自动化请使用 `--json`。状态标记和语言规则见[面向人的 Outcome](outcome-report.zh-CN.md)。Work Item 完成后还会绑定类型化的
   `*.task-report.json`、面向人的 `*.task-report.md` 和 append-only 的 `*.events.jsonl`；它们是绑定 evidence 的投影，
   不是额外的 authority，也不能替代 Contract 或 verification receipt。
+- `finish`、`archive`、`close` 保持 stdout 生命周期 JSON 不变，并默认在 stderr
+  渲染同一份已校验的人类 Outcome；机器专用输出使用 `--json`。`finish` 被阻止时，
+  CLI 先输出已持久化的红色或黄色 Outcome，再返回原有 nonzero 错误，绝不会把失败门禁
+  转成成功。CLI 无法强制宿主 Agent 或 UI 打开/展开对话面板；宿主必须展示 stderr
+  handoff，或用 `work-item outcome` 确定性重放。
 - `work-item status --repo <path> --id <id>` 是只读命令，输出生命周期、治理状态、活动健康、事实计数、阻塞项、未知项、evidence 和 source digest；不会调度任务，也不会臆造百分比。
 - `work-item status --repo <path> --all --json` 按稳定 ID 顺序聚合 active 与 archived Work Item，输出固定的
   green/yellow/red/unknown 计数、成员 diagnostics/digest、当前 repository snapshot digest 与确定性的 index digest。

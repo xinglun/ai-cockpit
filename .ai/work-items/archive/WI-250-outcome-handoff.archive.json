@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-24T11:56:19Z",
+  "files": {
+    "contractDigest": "sha256:7befe0d614e48ed93ebfcccb8d530e7a880636decace723dd17206446abfdde6",
+    "contractPath": ".ai/work-items/archive/WI-250-outcome-handoff.contract.json",
+    "eventsDigest": "sha256:d43bb6448c0184b71c2ade1df4bd30260f444842cbf494193006c003ea3a9740",
+    "eventsPath": ".ai/work-items/archive/WI-250-outcome-handoff.events.jsonl",
+    "outcomeDigest": "sha256:bdbb8557097ff264da3cb374cfe74b1653e43681fcf59271359b0075166ee45e",
+    "outcomePath": ".ai/work-items/archive/WI-250-outcome-handoff.outcome.json",
+    "summaryDigest": "sha256:e87ae4615dd6a33e7078eba30d5c11fab30b0a23e83499e72961c1f93eac8c74",
+    "summaryPath": ".ai/work-items/archive/WI-250-outcome-handoff.summary.json",
+    "taskReportDigest": "sha256:732e569f8d94d0e6c9ffa4fd1f6c292cb78e348ba143741f929e7bccf3c389fd",
+    "taskReportMarkdownDigest": "sha256:4b97e190a88ff962aaf6537ac8ab1e730e68ea0ec8e437bf9c16968405499390",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-250-outcome-handoff.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-250-outcome-handoff.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-250-outcome-handoff"
+}

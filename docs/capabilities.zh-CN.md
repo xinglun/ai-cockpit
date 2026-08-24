@@ -230,10 +230,12 @@ receipt、已记录的 green preflight 决策以及恰好一个 checkpoint。即
 `requiredEvidenceClasses` 没有列出 verification，`archive` 和 `close` 也会重新验证相同的串行状态与
 verification evidence。检查失败时保留 Work Item，修复缺失 evidence，不要删除记录。
 
-`finish`、`archive` 和 `close` 的 JSON 结果都会包含绑定的 `outcome` 对象。Agent 必须将该
-Outcome 作为独立的对话消息显式呈现；仅写入文件或被折叠的结果不能视为交付确认。
-`work-item outcome` 默认输出本地化的面向人交接结果；Agent 或脚本需要稳定对象时使用
-`--json`。详见[面向人的 Outcome](reference/outcome-report.zh-CN.md)。
+`finish`、`archive` 和 `close` 在 stdout JSON 中保留绑定的 `outcome` 对象，并默认在
+stderr 渲染同一份本地化人类报告；其 `--json` 只抑制 stderr handoff。被阻止的
+`finish` 会先渲染已持久化的红/黄 Outcome，再保留原有 nonzero 错误。Agent 必须将
+handoff 作为独立对话消息显式呈现；仅写入文件或被折叠的结果不能视为交付确认。
+CLI 无法强制宿主 UI 展开；宿主可以展示 stderr，或重放 `work-item outcome`。后者默认
+在 stdout 输出本地化报告，其 `--json` 返回稳定对象。详见[面向人的 Outcome](reference/outcome-report.zh-CN.md)。
 
 ### Verification 和 reuse
 
