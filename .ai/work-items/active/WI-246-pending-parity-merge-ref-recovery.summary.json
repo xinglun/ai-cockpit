@@ -1,0 +1,17 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-244-pending-parity-registry.recovery.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-08-24T09:53:00Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:9240cb582bcfcca91d6b02cba1ef24d50113938aa89ab8c55e8f50cdaed3c464",
+  "predecessorWorkItemId": "WI-244-pending-parity-registry",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-244-pending-parity-registry.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "not_ready",
+  "updatedAt": "2026-08-24T09:53:00Z",
+  "workItemId": "WI-246-pending-parity-merge-ref-recovery"
+}
