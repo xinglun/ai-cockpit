@@ -189,6 +189,30 @@ elif case == "runtime-mismatch":
     value = json.loads(evidence.read_text(encoding="utf-8"))
     value["runtimeDigest"] = "sha256:" + "f" * 64
     evidence.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+elif case == "active-target":
+    archive = repo / ".ai/work-items/archive"
+    active = repo / ".ai/work-items/active"
+    active.mkdir(parents=True, exist_ok=True)
+    for suffix in ("contract", "summary"):
+        (archive / f"{work_item}.{suffix}.json").rename(
+            active / f"{work_item}.{suffix}.json"
+        )
+    for suffix in ("archive", "outcome"):
+        (archive / f"{work_item}.{suffix}.json").unlink()
+    (repo / entry["expectedRecords"]["verification"]).unlink()
+    (repo / entry["expectedRecords"]["finalize"]).unlink()
+elif case == "historical-target":
+    archive = repo / ".ai/work-items/archive"
+    contract = archive / f"{work_item}.contract.json"
+    value = json.loads(contract.read_text(encoding="utf-8"))
+    value["createdAt"] = "2025-01-01T00:00:00Z"
+    contract.write_text(
+        json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    for suffix in ("archive", "outcome", "summary"):
+        (archive / f"{work_item}.{suffix}.json").unlink()
+    (repo / entry["expectedRecords"]["verification"]).unlink()
+    (repo / entry["expectedRecords"]["finalize"]).unlink()
 elif case == "unrelated-append":
     (repo / "unrelated.txt").write_text("not governance\n", encoding="utf-8")
 elif case == "partial-parity-row":
@@ -285,6 +309,8 @@ run_invalid_case symlink-registry invalid_pending_parity_registry
 run_invalid_case broken-symlink-registry invalid_pending_parity_registry
 run_invalid_case foreign-contract invalid_pending_parity_registration
 run_invalid_case runtime-mismatch invalid_pending_parity_registration
+run_invalid_case active-target invalid_pending_parity_registration
+run_invalid_case historical-target invalid_pending_parity_registration
 run_invalid_case unrelated-append invalid_pending_parity_registration
 run_invalid_case partial-parity-row stale_pending_parity_registration
 run_invalid_case default-branch stale_pending_parity_registration

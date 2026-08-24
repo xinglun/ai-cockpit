@@ -829,14 +829,26 @@ def main() -> int:
         if registered_id not in known_short_ids:
             path = sorted(translations)[0] if translations else "docs/reference"
             findings.append(finding(registered_id, "missing_work_item", path))
-    for pending_work_item in sorted(pending_by_work_item.keys() - locations.keys()):
-        findings.append(
-            finding(
-                pending_work_item,
-                "pending_parity_work_item_missing",
-                PENDING_PARITY_REGISTRY,
+    for pending_work_item in sorted(pending_by_work_item):
+        pending_locations = locations.get(pending_work_item)
+        if pending_locations is None:
+            findings.append(
+                finding(
+                    pending_work_item,
+                    "pending_parity_work_item_missing",
+                    PENDING_PARITY_REGISTRY,
+                )
             )
-        )
+        elif pending_locations != {"archive"} or classifications[
+            pending_work_item
+        ] in {"historical", "legacy"}:
+            findings.append(
+                finding(
+                    pending_work_item,
+                    "invalid_pending_parity_registration",
+                    PENDING_PARITY_REGISTRY,
+                )
+            )
 
     for work_item in sorted(locations):
         work_item_locations = locations[work_item]
