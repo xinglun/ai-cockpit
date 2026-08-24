@@ -6,7 +6,7 @@ description: "Keep governance-integrity fixtures schema-complete after pending p
 audience:
   - maintainer
   - reviewer
-status: in-progress
+status: recovered
 lastVerifiedBy: WI-258-governance-fixture-regression
 authority: canonical
 ---
@@ -40,3 +40,11 @@ validator or production governance semantics.
 The empty registry is a fixture baseline, not a declaration that a real Work
 Item is pending. Tests that exercise a pending registration write that entry
 explicitly and continue to validate its identity, parity rows, and lifecycle.
+
+## Recovery boundary
+
+WI-258 remains immutable historical delivery. Its Runtime close is confirmed,
+but the human decision is descriptive prose rather than the canonical
+`approved` value required by the documentation promotion gate. The exact
+records are preserved and the bounded successor [WI-259](WI-259-close-decision-recovery.md)
+projects this predecessor as recovered; no WI-258 `.ai` byte is rewritten.

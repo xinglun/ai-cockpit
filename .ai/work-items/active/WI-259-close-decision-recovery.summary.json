@@ -1,0 +1,17 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-258-governance-fixture-regression.recovery.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-08-24T23:52:15Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:91aae1e40c6aa99b7ae1b039ddc6784376ed3a4168ac42fefd17609f632bf97d",
+  "predecessorWorkItemId": "WI-258-governance-fixture-regression",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-258-governance-fixture-regression.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "not_ready",
+  "updatedAt": "2026-08-24T23:52:15Z",
+  "workItemId": "WI-259-close-decision-recovery"
+}

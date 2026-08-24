@@ -6,7 +6,7 @@ description: "在引入 pending parity 校验后，确保治理 fixture 始终�
 audience:
   - maintainer
   - reviewer
-status: in-progress
+status: recovered
 lastVerifiedBy: WI-258-governance-fixture-regression
 authority: canonical
 ---
@@ -40,3 +40,10 @@ registry。fixture builder 不应因为遗漏 repository-owned control file 而�
 空 registry 只是 fixture 基线，不表示真实 Work Item 正在 pending。测试
 pending registration 时必须显式写入条目，并继续校验其 identity、parity rows
 和 lifecycle。
+
+## 恢复边界
+
+WI-258 保持 immutable 历史交付。其 Runtime close 已确认，但 human decision
+是描述性文本，而不是文档 promotion gate 要求的规范 `approved` 值。所有原始
+记录均保留；有界 successor [WI-259](WI-259-close-decision-recovery.zh-CN.md)
+将该 predecessor 投影为 Recovered，不改写 WI-258 的任何 `.ai` 字节。
