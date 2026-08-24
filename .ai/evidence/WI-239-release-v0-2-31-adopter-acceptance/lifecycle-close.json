@@ -1,0 +1,152 @@
+{
+  "outcome": {
+    "acceptanceResults": [
+      "cargo test passes for the adopter change"
+    ],
+    "createdAt": "2026-08-24T06:22:35Z",
+    "decisionState": "green",
+    "evidenceDigest": "sha256:37f6cc8829bd445e65cce9d44fe10261fb62d5bc69d6f7bfe5d1855278ba2f1c",
+    "evidenceRefs": [
+      ".ai/evidence/release-adopter-lifecycle.verification.json"
+    ],
+    "humanBenefitReport": {
+      "affectedUsers": [],
+      "evidenceRefs": [
+        ".ai/evidence/release-adopter-lifecycle.verification.json"
+      ],
+      "state": "unknown",
+      "unknowns": [
+        "user_visible_benefit_not_declared"
+      ],
+      "userVisibleChanges": []
+    },
+    "protocolVersion": 1,
+    "repositoryId": "sha256:0865f998612644ef749d74c32d8963bdcf957a61f98acd9a22022ca07568bf6f",
+    "schemaVersion": 2,
+    "state": "finish_ready",
+    "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+    "taskOutcomeReport": {
+      "bindings": {
+        "evidenceRefs": [
+          ".ai/evidence/release-adopter-lifecycle.verification.json"
+        ],
+        "repositoryId": "sha256:0865f998612644ef749d74c32d8963bdcf957a61f98acd9a22022ca07568bf6f",
+        "repositorySnapshotDigest": "sha256:94c9fae6b0668829291e21cb43113c46bb65f85b8de99ab601e75c2920116c62",
+        "workItemId": "release-adopter-lifecycle"
+      },
+      "format": "ai-cockpit.task-outcome",
+      "humanStatusColor": "green",
+      "schemaVersion": 1,
+      "sections": {
+        "avoidedImpact": [],
+        "deliveredChanges": [
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/release-adopter-lifecycle.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/reuse/index.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/release-adopter-lifecycle.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/reuse/index.lock"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/release-adopter-lifecycle.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/reuse/receipts/6b6ce7162f962587d6aa0e6f18235f77178b4a0acabcab47afadde144fb269db.json"
+          }
+        ],
+        "evidence": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/release-adopter-lifecycle.verification.json"
+            ],
+            "inference": false,
+            "text": ".ai/evidence/release-adopter-lifecycle.verification.json"
+          }
+        ],
+        "findings": [],
+        "forbiddenClaims": [
+          "merge_authorized_without_human_decision",
+          "release_published_without_release_evidence",
+          "provider_or_enterprise_approval_inferred_from_local_records",
+          "user_visible_benefit_invented_from_implementation_facts"
+        ],
+        "forcedStops": [],
+        "humanDecisions": [],
+        "interventions": [],
+        "limitations": [],
+        "nonRiskExplanations": [],
+        "outcomeSummary": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/release-adopter-lifecycle.verification.json"
+            ],
+            "inference": false,
+            "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+          }
+        ],
+        "recurrencePrevention": [],
+        "residualRisks": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/release-adopter-lifecycle.verification.json"
+            ],
+            "inference": false,
+            "text": "Remaining unknown: user_visible_benefit_not_declared"
+          }
+        ],
+        "resolutions": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/release-adopter-lifecycle.verification.json"
+            ],
+            "inference": false,
+            "text": "The current verification evidence is valid for this repository and Work Item."
+          }
+        ],
+        "risks": [],
+        "taskOverview": [
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/release-adopter-lifecycle.contract.json"
+            ],
+            "inference": false,
+            "text": "Demonstrate an auditable Work Item lifecycle using only the pinned public Release binary."
+          }
+        ],
+        "warnings": [
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/release-adopter-lifecycle.contract.json"
+            ],
+            "inference": false,
+            "text": "User-visible benefit is not declared by the Work Item owner."
+          }
+        ]
+      },
+      "status": "verified",
+      "workItemId": "release-adopter-lifecycle"
+    },
+    "taskReportDigest": "sha256:280fd572852306f2aadb1f8a89a108c1a250e55b34e171d96917e59ca957743f",
+    "taskReportMarkdownDigest": "sha256:25c29e0d8d97827c5b01ef462d8d5328e4b789775ade8cc51eaddf7e12bbd2ed",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "verification": {
+      "evidencePath": ".ai/evidence/release-adopter-lifecycle.verification.json",
+      "required": true,
+      "status": "verified"
+    },
+    "workItemId": "release-adopter-lifecycle"
+  },
+  "state": "closed",
+  "timestamp": "2026-08-24T06:22:35Z",
+  "workItemId": "release-adopter-lifecycle"
+}
