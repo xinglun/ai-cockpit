@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:2b23d9b6342328016c65eec1d5b3900e848eb3d1201d7b7b5b907ab8e86ccb13",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "reviewed-pr-hosted-checks",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "e3b812c9725460d7a5214ca1cd32c9de469e9df7",
+      "name": "codex/wi239-adopter-v0-2-31-replay",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:d88f0fe45d92463a29454afe7fa0bd04121d562899b3be18faf958a6ec5126ac",
+    "operationId": "operation-WI-239-release-v0-2-31-adopter-acceptance-cleanup",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "b89c331d70230b138d8ac753d6fb4202cd96eea5",
+      "headRevision": "e3b812c9725460d7a5214ca1cd32c9de469e9df7",
+      "mergeCommit": "908c80789b243bf0831b6ebf7407d0b61b742e8a",
+      "number": 191,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/191"
+    },
+    "reason": "cleanup verified: PR #191 branch and worktree were removed exactly after merge observation.",
+    "receiptId": "ai-cockpit-WI-239-release-v0-2-31-adopter-acceptance-cleanup",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi239-adopter-v0-2-31-replay",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/191",
+      "worktree": "/private/tmp/ai-cockpit-wi239-adopter-v031-replay"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+    "runtimeVersion": "0.2.31",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-24T07:16:00Z",
+    "workItemId": "WI-239-release-v0-2-31-adopter-acceptance",
+    "worktree": {
+      "branch": "codex/wi239-adopter-v0-2-31-replay",
+      "headRevision": "e3b812c9725460d7a5214ca1cd32c9de469e9df7",
+      "path": "/private/tmp/ai-cockpit-wi239-adopter-v031-replay",
+      "worktreeId": "WI-239-release-v0-2-31-adopter-acceptance"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "ai-cockpit-WI-239-release-v0-2-31-adopter-acceptance-cleanup"
+}
