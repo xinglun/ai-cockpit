@@ -108,6 +108,23 @@ capabilityClaims:
   `MIGRATION_REQUIRED` 和 `INCOMPATIBLE` 会在创建新 Work Item、生命周期 record、verification evidence、
   profile/adapter 写入或受治理 MCP 操作前 fail closed。迁移审查所需的只读诊断仍可用。
 
+## Close 后的文档提升
+
+结构化 `close` 后运行：
+
+```text
+python3 tests/docs/promote_closed_work_item.py --repo <repo> --work-item <id>
+python3 tests/docs/promote_closed_work_item.py --repo <repo> --check-all
+```
+
+第一条命令先验证准确 regular archive Contract 及其 raw digest、passing verification
+receipt、唯一线性 finalization chain、sequence-2 `deleted` head、已合并 provider identity
+与 approved close bindings，然后才更新受控文档字段。写入目标仅限 `status`、
+`lastVerifiedBy`、四个 `terminal*` frontmatter 字段以及三语准确 parity 行。第二条命令是
+必需的 quality/terminal-CI 模式，绝不写入。missing、foreign、ambiguous、malformed、
+symlinked、mismatched 或 stale 输入都 fail closed。这些 repository helper commands
+不表示 Runtime Core 会自动编辑文档。
+
 ## Contract/Summary 控制验证
 
 repository library 提供 `validate_work_item_governance_controls`，供

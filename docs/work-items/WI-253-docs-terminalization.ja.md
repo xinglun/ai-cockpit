@@ -6,8 +6,12 @@ description: "immutable close evidence から WI-252 docs を terminalize し、
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-253-docs-terminalization
+terminalArchive: .ai/work-items/archive/WI-253-docs-terminalization.contract.json
+terminalVerification: .ai/evidence/WI-253-docs-terminalization.verification.json
+terminalFinalization: .ai/decisions/WI-253-docs-terminalization.finalize.1ccec42e056dd7eac857ba49d1dc2becd6e2ba21f6461a62599e18101d986293.json
+terminalDecision: .ai/decisions/WI-253-docs-terminalization.close.json
 authority: canonical
 ---
 

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:b6f52b9d38114b2f791ae02f48de26e4235684c5581b597c666502a333528152",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:ea0afe517d5806c1c674b034d5b214a1f5bb5337a41f8d6b5e0a9a96a55f6d78",
+  "reason": "Fresh review reaffirms the same explicitly authorized WI-254 scope after the Runtime observed implementation snapshot and detected the declared full-workspace verification command. The completed controls bind the TDD/focused/full evidence without widening authority. Immutable WI-253 lifecycle bytes, automatic Runtime Core documentation mutation, releases, product code, unrelated Work Items, and root main remain out of scope; actual WI-254 post-close promotion and terminal CI remain mandatory closure operations.",
+  "recordedAt": "2026-08-24T16:16:20Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:207e1f5c693a8608a5db3a8eafa3587539fbeb3b2980c894e959e9240519517c",
+  "schemaVersion": 1,
+  "workItemId": "WI-254-closed-docs-promotion"
+}

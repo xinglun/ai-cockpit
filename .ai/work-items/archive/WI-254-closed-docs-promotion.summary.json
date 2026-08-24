@@ -1,0 +1,183 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "strict terminal lifecycle identity and no-write negative fixtures",
+          "path": "tests/docs/promote_closed_work_item_test.sh",
+          "type": "test",
+          "verification": "focused RED/GREEN regression passed; real WI-253 identity chain passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "promoted_frontmatter, promoted_parity, planned_changes, write_all",
+          "path": "tests/docs/promote_closed_work_item.py",
+          "type": "implementation",
+          "verification": "fixture body sentinel stayed byte-identical; immutable WI-253 lifecycle diff remained empty"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "docs_closed_work_item_promotion and docs_closed_work_item_promotion_regression",
+          "path": "tests/ci/repository_gate_manifest.json",
+          "type": "gate",
+          "verification": "manifest, quality-route, documentation acceptance, and check-all passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "WI-253 terminal row and equivalent Simplified Chinese/Japanese projections",
+          "path": "docs/reference/reference-parity.md",
+          "type": "document",
+          "verification": "helper check-only, parity status, and governance integrity passed against real terminal evidence"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "close → promote closed docs → terminal CI and equivalent Simplified Chinese/Japanese guidance",
+          "path": "docs/reference/agent-workflow.md",
+          "type": "document",
+          "verification": "documentation acceptance and tri-language semantic checks passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "closed WI-999 write/check/idempotence fixture plus real WI-253 promotion",
+          "path": "tests/docs/promote_closed_work_item_test.sh",
+          "type": "test",
+          "verification": "mechanism verified pre-merge; actual WI-254 detached post-close promotion and terminal CI remain mandatory post-merge operations"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A7",
+      "evidence": [
+        {
+          "locator": "serial local full workspace run",
+          "path": "cargo test --locked --workspace",
+          "type": "verification",
+          "verification": "fmt, clippy -D warnings, focused docs/governance gates, and full workspace all passed"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-253-docs-terminalization.recovery.json",
+    ".ai/work-items/archive/WI-254-closed-docs-promotion.contract.json",
+    ".ai/work-items/archive/WI-254-closed-docs-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-08-24T16:00:10Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T15:57:42Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:fd2e40fe3c47727999e85e8d6e126518fc5a785931c22e1395c9f62ed2a6b4ad",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+    "reason": "Fresh review confirms the exact amended WI-254 Contract and final pushed feature HEAD snapshot after preserving the first fail-closed finish evidence. Installed Runtime v0.2.31 single-process T2 PR verification passed against base 0a5101ef551c9e0242d514740a68a2be4680d406. This authorizes finish/archive progression only; merge, post-merge cleanup, close, WI-254 self-promotion, and terminal CI remain required separate boundaries.",
+    "recordedAt": "2026-08-24T16:29:56Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:ae2495c4115eea40ed2e8dd444a57a2a37aa453e4b2934e1437ca0e37c6eaa8e",
+    "schemaVersion": 1,
+    "workItemId": "WI-254-closed-docs-promotion"
+  },
+  "failedGate": "finish.verification",
+  "intentAlignment": {
+    "basis": "The implementation is limited to one evidence-derived documentation projection helper, its mandatory no-write gate, tests, and tri-language lifecycle/documentation surfaces. It promotes WI-253 without modifying immutable lifecycle bytes and explicitly leaves Runtime Core automatic Markdown mutation, releases, product code, unrelated Work Items, and root main outside scope.",
+    "evidence": [
+      ".ai/decisions/WI-253-docs-terminalization.recovery.json",
+      "tests/docs/promote_closed_work_item.py",
+      "tests/docs/promote_closed_work_item_test.sh",
+      "tests/ci/repository_gate_manifest.json",
+      "docs/work-items/WI-254-closed-docs-promotion.md",
+      "docs/reference/agent-workflow.md",
+      "docs/reference/commands.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:850de4b00c0919face617e700eb5cd4a810c362f1baae7c8a14257ccf98a72cb",
+  "predecessorWorkItemId": "WI-253-docs-terminalization",
+  "preflightAt": "2026-08-24T16:30:13Z",
+  "preflightContractDigest": "sha256:fd2e40fe3c47727999e85e8d6e126518fc5a785931c22e1395c9f62ed2a6b4ad",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:ae2495c4115eea40ed2e8dd444a57a2a37aa453e4b2934e1437ca0e37c6eaa8e",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "recoveryDecisionPath": ".ai/decisions/WI-253-docs-terminalization.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "TDD RED: python3 tests/docs/promote_closed_work_item.py failed with missing helper before implementation",
+        "bash tests/docs/promote_closed_work_item_test.sh: passed valid write, check-only, second-write idempotence, and check-all fixture",
+        "real WI-253 pre-write check reported exactly six stale controlled targets; write followed by check returned current"
+      ],
+      "expected": "The helper verifies one repository-bound closed Work Item's regular archive Contract, passing verification evidence, unique sequence-2 deleted finalization head, structured close decision, and exact cross-digests before canonically promoting all three Work Item documents and parity rows; a second check-only run is idempotent and makes no writes.",
+      "required": true,
+      "scenario": "valid-terminal-promotion",
+      "status": "verified",
+      "verificationPlan": "Create a complete isolated fixture, observe the pre-implementation RED, then run tests/docs/promote_closed_work_item_test.sh and the helper in write plus check-only modes against WI-253 and post-close WI-254."
+    },
+    {
+      "evidence": [
+        "bash tests/docs/promote_closed_work_item_test.sh: passed repository, Work Item, Contract digest, close head, finalization disposition/digest, duplicate row, missing language, symlink, malformed JSON negative cases",
+        "every invalid fixture asserted identical before/after documentation SHA-256 listing"
+      ],
+      "expected": "Wrong repository or Work Item identity, digest mismatch, missing or malformed lifecycle records, non-unique or non-sequence-2 finalization, non-deleted cleanup, unconfirmed close, symlink, nonregular path, missing language counterpart, missing or duplicate parity row all fail before any documentation byte changes.",
+      "required": true,
+      "scenario": "identity-or-filesystem-fail-closed",
+      "status": "verified",
+      "verificationPlan": "Use fixture mutations with before/after tree digests in tests/docs/promote_closed_work_item_test.sh and assert each invalid case returns nonzero with zero writes."
+    },
+    {
+      "evidence": [
+        "bash tests/docs/documentation_acceptance.sh: passed and invoked --check-all",
+        "bash tests/ci/repository_gate_manifest_test.sh: passed with sorted unique check and regression gates",
+        "python3 tests/ci/quality_route_test.py: passed",
+        "python3 tests/ci/governance_integrity_gate.py --repo . --report /tmp/wi254-governance-integrity.json: passed for 213 Work Items with findings=[]"
+      ],
+      "expected": "Documentation acceptance and the quality-route manifest invoke check-only promotion validation and reject stale, conditional, ambiguous, or noncanonical closed Work Item projections while accepting helper-generated terminal output.",
+      "required": true,
+      "scenario": "mandatory-terminal-gate",
+      "status": "verified",
+      "verificationPlan": "Run the focused promotion, status consistency, documentation acceptance, repository manifest and quality-route regression suites including an intentionally stale closed fixture."
+    },
+    {
+      "evidence": [
+        "real closed WI-253 write and check-only promotion passed from its exact archive/evidence/sequence-2/close chain",
+        "fixture WI-999 proves the same closed-item write→check→idempotent sequence required for the future detached WI-254 closure context",
+        "git diff confirms no WI-253 archive Contract, verification, finalization, or close byte changed",
+        "post-close WI-254 execution and terminal hosted CI remain mandatory closure operations and are not claimed complete by this pre-merge evidence"
+      ],
+      "expected": "WI-253 is terminalized from its immutable sequence-2 and close truth during WI-254 implementation; after WI-254 close the same helper terminalizes WI-254 in the detached synchronized default-branch context and terminal main CI passes without creating another successor.",
+      "required": true,
+      "scenario": "wi253-and-wi254-nonrecursive-terminalization",
+      "status": "verified",
+      "verificationPlan": "Run the helper against real WI-253 before PR verification, then after WI-254 merge/finalize/close run it against real WI-254, run check-only plus terminal hosted CI, and confirm no immutable predecessor lifecycle path changed."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-24T16:30:32Z",
+  "workItemId": "WI-254-closed-docs-promotion"
+}

@@ -1,0 +1,153 @@
+{
+  "acceptanceResults": [
+    "A deterministic promotion helper accepts an exact Work Item ID only after regular-file non-symlink archive Contract, verification evidence, unique sequence-2 deleted finalization head, and structured close receipt agree on repository identity, Work Item identity, Contract/evidence/finalization digests, merge revision, and terminal decision; missing, malformed, ambiguous, foreign, symlinked, or mismatched inputs fail closed without document writes.",
+    "Promotion changes only explicit machine-owned frontmatter/marker fields in the three exact Work Item documents and the one exact Work Item row in each tri-language reference-parity document; it never rewrites Contract-language prose or any immutable lifecycle evidence.",
+    "A check-only mode and mandatory documentation/quality gate reject any structurally closed governed Work Item whose controlled tri-language projections are absent, conditional, stale, ambiguous, duplicated, or not canonical for its persisted terminal evidence.",
+    "WI-253 tri-language Work Item and reference-parity projections are promoted to terminal Implemented truth by the helper and cite its exact archive, verification, sequence-2 finalization, close, and recovery evidence without modifying predecessor lifecycle bytes.",
+    "Tri-language lifecycle and command documentation state the required close → promote closed docs → terminal CI sequence, the deterministic controlled-write boundary, the fail-closed identity checks, and the manual-helper boundary rather than claiming Runtime Core mutates docs automatically.",
+    "After WI-254 is merged, sequence-2 finalized and structurally closed, the same helper promotes WI-254 from a detached synchronized default-branch closure context; check-only mode passes and terminal main CI is green without a further documentation successor.",
+    "Focused RED/GREEN regressions cover valid promotion plus wrong repository/Work Item/digest/finalization/close identity, missing counterpart/row, duplicate row, conditional stale projection, symlink, nonregular or malformed input, no-write failure, and idempotent check-only behavior; documentation acceptance, manifest route, fmt, clippy, full workspace, installed Runtime verify, hosted CI, and post-close terminal CI pass."
+  ],
+  "createdAt": "2026-08-24T16:30:32Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:8fc4b5c6c4f4febcd288dbe3a0765b3ab7b9bda151bcca68da0e57a4cd5e5833",
+  "evidenceRefs": [
+    ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ae2495c4115eea40ed2e8dd444a57a2a37aa453e4b2934e1437ca0e37c6eaa8e",
+      "workItemId": "WI-254-closed-docs-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-254-closed-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-253-docs-terminalization.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-254-closed-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-254-closed-docs-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-254-closed-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-254-closed-docs-promotion.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-254-closed-docs-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Provide and gate one auditable helper that validates exact close/archive/evidence/finalization identity, promotes only machine-owned Work Item metadata and exact reference-parity rows, terminalizes WI-253 now, and is reused after WI-254 closes so terminal CI does not require another successor."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-254-closed-docs-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-254-closed-docs-promotion"
+  },
+  "taskReportDigest": "sha256:343c9b4d399107e28724bb0ba68c96facbdcd4f66e43db1651e9d9e5c34b42f2",
+  "taskReportMarkdownDigest": "sha256:b2cfa0662944bf0b46a944b2c748d9092b3be984bd2c65a7f5099031c85bcba4",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-254-closed-docs-promotion.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-254-closed-docs-promotion"
+}

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:fd2e40fe3c47727999e85e8d6e126518fc5a785931c22e1395c9f62ed2a6b4ad",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "reason": "Fresh review confirms the exact amended WI-254 Contract and final pushed feature HEAD snapshot after preserving the first fail-closed finish evidence. Installed Runtime v0.2.31 single-process T2 PR verification passed against base 0a5101ef551c9e0242d514740a68a2be4680d406. This authorizes finish/archive progression only; merge, post-merge cleanup, close, WI-254 self-promotion, and terminal CI remain required separate boundaries.",
+  "recordedAt": "2026-08-24T16:29:56Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ae2495c4115eea40ed2e8dd444a57a2a37aa453e4b2934e1437ca0e37c6eaa8e",
+  "schemaVersion": 1,
+  "workItemId": "WI-254-closed-docs-promotion"
+}

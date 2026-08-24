@@ -116,6 +116,24 @@ handoff だけを抑止します。`work-item outcome` は既定で stdout に�
   profile/adapter write、governed MCP operation を作成する前に fail closed します。migration review 用の
   read-only diagnostic は引き続き利用できます。
 
+## Close 後の documentation promotion
+
+structured `close` の後に実行します。
+
+```text
+python3 tests/docs/promote_closed_work_item.py --repo <repo> --work-item <id>
+python3 tests/docs/promote_closed_work_item.py --repo <repo> --check-all
+```
+
+最初の command は exact regular archive Contract と raw digest、passing verification
+receipt、unique linear finalization chain、sequence-2 `deleted` head、merged provider
+identity、approved close bindings を検証してから controlled documentation fields を
+更新します。write target は `status`、`lastVerifiedBy`、4 個の `terminal*`
+frontmatter fields、exact tri-language parity rows だけです。2 番目は mandatory
+quality/terminal-CI form であり、write しません。missing、foreign、ambiguous、
+malformed、symlinked、mismatched、stale input は fail closed です。これらの repository
+helper commands は Runtime Core が documentation を自動編集することを意味しません。
+
 ## Contract/Summary control validation
 
 repository library は Agent/MCP adapter 向けに

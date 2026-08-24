@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-WI-254-root-cause-successor-lifecycle-and-hosted-PR-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "0198a04afeb65a3fc40cb8ba2cb028f1ebb0df72",
+    "name": "codex/wi-254-closed-docs-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:b35ed253d383854dbeb2ab36a90999b78e9ac9ad3b0502d8070bbb93a77aab5a",
+  "operationId": "operation-WI-254-closed-docs-promotion-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "0a5101ef551c9e0242d514740a68a2be4680d406",
+    "headRevision": "0198a04afeb65a3fc40cb8ba2cb028f1ebb0df72",
+    "number": 206,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/206"
+  },
+  "reason": "awaiting_merge_close: PR #206 is unmerged; retain the exact reviewed branch and clean worktree until hosted checks pass, human review is complete, and the reviewed pull request is merged.",
+  "receiptId": "ai-cockpit-WI-254-closed-docs-promotion-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-254-closed-docs-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/206",
+    "worktree": "/private/tmp/ai-cockpit-wi254-closed-docs-promotion"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-24T16:31:35Z",
+  "workItemId": "WI-254-closed-docs-promotion",
+  "worktree": {
+    "branch": "codex/wi-254-closed-docs-promotion",
+    "headRevision": "0198a04afeb65a3fc40cb8ba2cb028f1ebb0df72",
+    "path": "/private/tmp/ai-cockpit-wi254-closed-docs-promotion",
+    "worktreeId": "WI-254-closed-docs-promotion"
+  }
+}

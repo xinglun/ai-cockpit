@@ -169,6 +169,24 @@ truth: after a Runtime upgrade it is projected as historical rather than
 revalidated as a current result, while the new finalization receipt is always
 bound to the Runtime executing the close request.
 
+Structural close is followed by a controlled documentation projection and the
+terminal default-branch check:
+
+```text
+close → promote closed docs → terminal CI
+```
+
+Run `python3 tests/docs/promote_closed_work_item.py --repo <repo> --work-item
+<id>` from the synchronized detached closure context, then run the same helper
+with `--check-all`. The helper first validates regular non-symlink archive,
+verification, linear finalization, sequence-2 deleted, merge, and structured
+close identities. It changes only the exact three Work Item documents'
+machine-owned lifecycle frontmatter and the exact Work Item row in each
+reference-parity document. It does not rewrite body prose or `.ai` lifecycle
+truth. Invalid input fails before writes; a stale projection fails the quality
+gate. This is an explicit repository workflow helper, not an automatic Runtime
+Core Markdown mutation.
+
 ## Release-tag transition ordering
 
 The release tag is created only after the PR has merged and a valid pre-merge

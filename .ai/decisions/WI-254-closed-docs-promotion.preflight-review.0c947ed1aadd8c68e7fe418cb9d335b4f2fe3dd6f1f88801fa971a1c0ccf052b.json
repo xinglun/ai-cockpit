@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:d385c90b5c028c5ed20306fbd7c9f0bcb64ce245a27344f468a3fcf387cfeb63",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:ea0afe517d5806c1c674b034d5b214a1f5bb5337a41f8d6b5e0a9a96a55f6d78",
+  "reason": "Fresh review confirms the unchanged authorized WI-254 intent/scope and the now-explicit resource finalization context: origin/main base 0a5101ef551c9e0242d514740a68a2be4680d406, branch codex/wi-254-closed-docs-promotion, dedicated clean worktree, GitHub PR #206, and installed Runtime v0.2.31 verification. No post-archive rebase or scope widening is authorized.",
+  "recordedAt": "2026-08-24T16:19:20Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:51dae96d47c3e492b69ff1795339ce0e79100bcd55c063650e3ad4fff59b832a",
+  "schemaVersion": 1,
+  "workItemId": "WI-254-closed-docs-promotion"
+}
