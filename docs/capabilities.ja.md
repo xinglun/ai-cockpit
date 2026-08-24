@@ -231,11 +231,14 @@ green preflight decision、ちょうど 1 回の checkpoint を要求します�
 がなくても、`archive` と `close` は同じ serial state と verification evidence を再検証します。失敗したら Work Item を
 残し、evidence を修復します。record を削除して状態を隠してはいけません。
 
-`finish`、`archive`、`close` の JSON 結果には、bound された `outcome` object が必ず含まれます。
-Agent はこの Outcome を独立した会話メッセージとして明示してください。ファイルにだけ保存された結果や、
-折りたたまれた結果は delivery confirmation ではありません。
-`work-item outcome` は既定で localize された人間向け handoff を表示し、Agent や script が安定した object を
-必要とする場合は `--json` を指定します。[人間向け Outcome](reference/outcome-report.ja.md) を参照してください。
+`finish`、`archive`、`close` は bound された `outcome` object を stdout JSON に保持し、
+既定では同じ localize 済み human report を stderr に render します。各 `--json` は stderr
+handoff だけを抑止します。block された `finish` は永続化済みの赤/黄 Outcome を render してから
+元の nonzero error を維持します。Agent は handoff を独立した会話メッセージとして明示してください。
+ファイルにだけ保存された結果や折りたたまれた結果は delivery confirmation ではありません。
+CLI は host UI の展開を強制できません。host は stderr を提示するか、`work-item outcome` を再生できます。
+後者は既定で localize 済み report を stdout に表示し、その `--json` は stable object を返します。
+[人間向け Outcome](reference/outcome-report.ja.md) を参照してください。
 
 ### Verification と reuse
 

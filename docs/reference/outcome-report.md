@@ -26,6 +26,15 @@ Its lifecycle phase is `archived` after archive and becomes `closed` only when
 the repository-bound, confirmed close decision is valid; an invalid or missing
 decision never promotes an archive to `closed`.
 
+Top-level `finish`, `archive`, and `close` keep their existing lifecycle JSON
+on stdout and render this same validated report on stderr by default. Their
+explicit `--json` mode suppresses the stderr report for machine-only callers.
+If `finish` is blocked, it renders the persisted red or yellow Outcome before
+returning the original nonzero error. This extra handoff never weakens a gate.
+The CLI cannot force a host application to open or expand a conversation UI;
+hosts must surface stderr, and a person can replay the durable handoff with
+`ai-cockpit work-item outcome --repo <repository> --id <work-item>`.
+
 The handoff follows the reader-first order:
 
 1. Task Result and status marker

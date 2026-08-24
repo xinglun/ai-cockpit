@@ -97,12 +97,18 @@ enum CommandKind {
         repo: PathBuf,
         #[arg(long)]
         id: String,
+        /// Emit machine-only output without the human Outcome handoff on stderr.
+        #[arg(long)]
+        json: bool,
     },
     Archive {
         #[arg(long)]
         repo: PathBuf,
         #[arg(long)]
         id: String,
+        /// Emit machine-only output without the human Outcome handoff on stderr.
+        #[arg(long)]
+        json: bool,
     },
     Close {
         #[arg(long)]
@@ -125,6 +131,9 @@ enum CommandKind {
         decided_at: Option<String>,
         #[arg(long)]
         resume_condition: Option<String>,
+        /// Emit machine-only output without the human Outcome handoff on stderr.
+        #[arg(long)]
+        json: bool,
     },
     Verify {
         #[arg(long)]
@@ -657,23 +666,24 @@ fn run() -> Result<()> {
             let receipt = checkpoint_work_item(&repo, &id).context("checkpoint work item")?;
             println!("{}", serde_json::to_string_pretty(&receipt)?);
         }
-        CommandKind::Finish { repo, id } => {
+        CommandKind::Finish { repo, id, json } => {
             require_compatible(&repo, &runtime_context)?;
-            let receipt = finish_work_item_with_runtime(&repo, &id, &runtime_context)
-                .context("finish work item")?;
-            println!(
-                "{}",
-                serde_json::to_string_pretty(&lifecycle_output(&repo, &id, &receipt)?)?
-            );
+            let receipt = match finish_work_item_with_runtime(&repo, &id, &runtime_context) {
+                Ok(receipt) => receipt,
+                Err(error) => {
+                    if !json {
+                        emit_blocked_lifecycle_handoff(&repo, &id, &runtime_context);
+                    }
+                    return Err(error).context("finish work item");
+                }
+            };
+            print_lifecycle_result(&repo, &id, &receipt, &runtime_context, json)?;
         }
-        CommandKind::Archive { repo, id } => {
+        CommandKind::Archive { repo, id, json } => {
             require_compatible(&repo, &runtime_context)?;
             let receipt = archive_work_item_with_runtime(&repo, &id, &runtime_context)
                 .context("archive work item")?;
-            println!(
-                "{}",
-                serde_json::to_string_pretty(&lifecycle_output(&repo, &id, &receipt)?)?
-            );
+            print_lifecycle_result(&repo, &id, &receipt, &runtime_context, json)?;
         }
         CommandKind::Close {
             repo,
@@ -686,6 +696,7 @@ fn run() -> Result<()> {
             policy_ref,
             decided_at,
             resume_condition,
+            json,
         } => {
             require_compatible(&repo, &runtime_context)?;
             let receipt = if actor.is_some()
@@ -732,10 +743,7 @@ fn run() -> Result<()> {
                 )
                 .context("close work item")?
             };
-            println!(
-                "{}",
-                serde_json::to_string_pretty(&lifecycle_output(&repo, &id, &receipt)?)?
-            );
+            print_lifecycle_result(&repo, &id, &receipt, &runtime_context, json)?;
         }
         CommandKind::Verify {
             repo,
@@ -1683,6 +1691,45 @@ fn lifecycle_output(
         }
     }
     Ok(output)
+}
+
+fn print_lifecycle_result(
+    repo: &std::path::Path,
+    work_item_id: &str,
+    receipt: &cockpit_repository::LifecycleReceipt,
+    runtime: &cockpit_protocol::RuntimeContext,
+    json: bool,
+) -> Result<()> {
+    let output = lifecycle_output(repo, work_item_id, receipt)?;
+    let handoff = if json {
+        None
+    } else {
+        let outcome = cockpit_repository::outcome_v2_with_runtime(repo, work_item_id, runtime)
+            .context("read lifecycle Outcome handoff")?;
+        Some(cockpit_repository::render_human_outcome(
+            repo,
+            &outcome,
+            output_language(),
+        ))
+    };
+    println!("{}", serde_json::to_string_pretty(&output)?);
+    if let Some(handoff) = handoff {
+        eprintln!("{handoff}");
+    }
+    Ok(())
+}
+
+fn emit_blocked_lifecycle_handoff(
+    repo: &std::path::Path,
+    work_item_id: &str,
+    runtime: &cockpit_protocol::RuntimeContext,
+) {
+    if let Ok(outcome) = cockpit_repository::outcome_v2_with_runtime(repo, work_item_id, runtime) {
+        eprintln!(
+            "{}",
+            cockpit_repository::render_human_outcome(repo, &outcome, output_language(),)
+        );
+    }
 }
 
 fn require_compatible(

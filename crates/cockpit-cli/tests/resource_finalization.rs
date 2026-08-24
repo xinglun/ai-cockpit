@@ -170,6 +170,11 @@ fn runtime_close_requires_explicit_resource_finalization_receipt() {
     );
     let status = run_json(binary, &["status"], root);
     let repository_id = status["repositoryId"].as_str().expect("repository id");
+    let archived_contract: serde_json::Value = serde_json::from_slice(
+        &fs::read(root.join(".ai/work-items/archive/WI-FINALIZATION.contract.json"))
+            .expect("archived contract"),
+    )
+    .expect("archived contract JSON");
     let receipt_file = tempfile::NamedTempFile::new().expect("receipt temp file");
     let receipt_path = receipt_file.path().to_owned();
     let receipt_arg = receipt_path.to_string_lossy().into_owned();
@@ -188,7 +193,7 @@ fn runtime_close_requires_explicit_resource_finalization_receipt() {
             "headRevision": "abcdef1",
             "baseBranch": "main",
             "baseRemote": "origin",
-            "baseRevision": "abcdef0",
+            "baseRevision": archived_contract["baseRevision"],
             "mergeCommit": "1234567"
         },
         "branch": {
@@ -410,12 +415,20 @@ fn cli_appends_governance_bound_merge_observation_and_cleanup() {
         .as_str()
         .unwrap()
         .to_string();
+    let archived_contract: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            root.join(".ai/work-items/archive")
+                .join(format!("{id}.contract.json")),
+        )
+        .expect("archived contract"),
+    )
+    .expect("archived contract JSON");
     let mut blocked = serde_json::json!({
         "schemaVersion":1,"receiptId":"blocked-1","operationId":"operation-1",
         "repositoryId":repository_id,"workItemId":id,
         "runtimeVersion":env!("CARGO_PKG_VERSION"),"runtimeDigest":runtime_digest(binary),
         "provider":"github",
-        "pullRequest":{"number":191,"url":"https://github.com/example/ai-cockpit/pull/191","headRevision":archive_head,"baseBranch":"main","baseRemote":"origin","baseRevision":"base-191"},
+        "pullRequest":{"number":191,"url":"https://github.com/example/ai-cockpit/pull/191","headRevision":archive_head,"baseBranch":"main","baseRemote":"origin","baseRevision":archived_contract["baseRevision"]},
         "branch":{"name":"feature/finalization-append","remote":"origin","headRevision":archive_head},
         "worktree":{"worktreeId":"removed-finalization-append","path":"/tmp/removed-finalization-append","branch":"feature/finalization-append","headRevision":archive_head},
         "before":{"pullRequest":"unmerged","branch":"present","worktree":"clean"},

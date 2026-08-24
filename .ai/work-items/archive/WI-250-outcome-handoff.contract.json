@@ -1,0 +1,66 @@
+{
+  "acceptanceCriteria": [
+    "Default finish, archive, and close preserve their existing machine-readable stdout JSON while emitting the complete localized Runtime human Outcome directly on stderr.",
+    "Explicit --json on finish, archive, and close suppresses the stderr human handoff and retains parseable lifecycle JSON for automation.",
+    "A blocked finish emits the persisted red or yellow human Outcome before returning the original nonzero failure; it never converts a failed lifecycle gate into success.",
+    "English, Simplified Chinese, and Japanese handoffs retain fixed Outcome marker, Unknowns, Human decisions, Evidence, and Next action sections, including a structured close decision.",
+    "Documentation states that the CLI cannot force a host conversation or dialog to expand and gives work-item outcome as the deterministic replay command.",
+    "Focused CLI regressions, documentation acceptance, governance integrity, clippy, and the locked workspace test suite pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "381e9e5e5cccf6234a0ad88cb1e17c6d7c5f4d0b",
+  "createdAt": "2026-08-24T11:19:02Z",
+  "goal": "默认生命周期命令通过 stderr 直接呈现完整 Outcome handoff，显式 --json 提供无 handoff 的稳定机器输出，失败 finish 保持 nonzero 且展示持久化 blocked Outcome。",
+  "intent": "让 finish、archive、close 的默认 CLI 生命周期交接直接显示经 Runtime 验证的 human Outcome，同时保持现有 stdout JSON 机器接口兼容，并明确 CLI 无法强制宿主对话框展示的边界。",
+  "mode": "implementation",
+  "outOfScope": [
+    "GUI or host conversation rendering",
+    "MCP protocol changes",
+    "OutcomeV2 or archive schema changes",
+    "existing archived Work Item bytes",
+    "root main and WI-249",
+    "release behavior"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2b3be1309947fd654d9dc712a06b0e79be85a04306dc998b5427c872347ef131",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-250-outcome-handoff",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/200",
+    "worktree": "/private/tmp/ai-cockpit-wi250-outcome-handoff"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/outcome_handoff.rs",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/outcome-report.md",
+    "docs/reference/outcome-report.zh-CN.md",
+    "docs/reference/outcome-report.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/capabilities.md",
+    "docs/capabilities.zh-CN.md",
+    "docs/capabilities.ja.md",
+    "docs/work-items/WI-250-outcome-handoff.md",
+    "docs/work-items/WI-250-outcome-handoff.zh-CN.md",
+    "docs/work-items/WI-250-outcome-handoff.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-250-outcome-handoff"
+}

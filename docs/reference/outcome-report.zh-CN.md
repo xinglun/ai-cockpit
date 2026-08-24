@@ -24,6 +24,13 @@ capabilityClaims:
 归档后其生命周期阶段为 `archived`；只有 repository 绑定且已确认的 close decision
 通过校验后才会变为 `closed`。缺失或无效的 decision 不能把归档提升为 `closed`。
 
+顶层 `finish`、`archive`、`close` 保持现有 stdout 生命周期 JSON，并默认在 stderr
+渲染这份相同的已校验报告。其显式 `--json` 模式为机器调用者抑制 stderr 报告。
+`finish` 被阻止时，会先渲染已持久化的红色或黄色 Outcome，再返回原有 nonzero 错误；
+额外 handoff 绝不会放宽门禁。CLI 无法强制宿主应用打开或展开对话 UI；宿主必须展示
+stderr，人工也可以用 `ai-cockpit work-item outcome --repo <repository> --id <work-item>`
+确定性重放持久交接。
+
 输出顺序为：结果和状态、已完成内容、发现的问题、触发的停止、已解决的问题、
 避免的风险、剩余风险、未知项、人工决定、验证与证据、影响、下一步。
 

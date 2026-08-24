@@ -407,6 +407,9 @@ fn archived_foreign_runtime_evidence_can_close_without_rewriting_history() {
         .path()
         .join(".ai/work-items/archive/WI-161-HISTORICAL-CLOSE.contract.json");
     let contract_digest = Digest::sha256_bytes(&fs::read(&contract_path).expect("contract"));
+    let contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract"))
+            .expect("contract JSON");
     let receipt = serde_json::json!({
         "schemaVersion": 1,
         "receiptId": "receipt-historical-close",
@@ -422,7 +425,7 @@ fn archived_foreign_runtime_evidence_can_close_without_rewriting_history() {
             "headRevision": "abcdef1",
             "baseBranch": "main",
             "baseRemote": "origin",
-            "baseRevision": "abcdef0",
+            "baseRevision": contract["baseRevision"],
             "mergeCommit": "1234567"
         },
         "branch": {

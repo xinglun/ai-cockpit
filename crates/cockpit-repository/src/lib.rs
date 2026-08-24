@@ -8428,6 +8428,20 @@ fn ensure_resource_runtime_identity(
     Ok(())
 }
 
+fn ensure_resource_finalization_base_binding(
+    receipt: &ResourceFinalizationReceipt,
+    contract: &Contract,
+    path: &Path,
+) -> Result<(), ObserverError> {
+    if receipt.pull_request.base_revision != contract.base_revision {
+        return Err(ObserverError::State {
+            path: path.into(),
+            message: "resource finalization pull request base revision does not match the archived Contract base revision".into(),
+        });
+    }
+    Ok(())
+}
+
 /// Persist a provider-side finalization receipt after strict identity and
 /// local postcondition validation.  The Runtime never calls a provider or
 /// deletes a branch implicitly; it records delegated evidence and refuses
@@ -8481,6 +8495,7 @@ pub fn record_resource_finalization(
             message: error.to_string(),
         })?;
     }
+    ensure_resource_finalization_base_binding(&receipt, &contract, receipt_path)?;
     if receipt.provider == "unknown"
         || receipt
             .resource_context
@@ -8670,6 +8685,7 @@ pub fn verify_resource_finalization(
         path: path.clone(),
         message: error.to_string(),
     })?;
+    ensure_resource_finalization_base_binding(&receipt, &contract, &path)?;
     ensure_resource_runtime_identity(&receipt, runtime, &path)?;
     if matches!(
         receipt.result.disposition,

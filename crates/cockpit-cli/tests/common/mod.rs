@@ -79,7 +79,7 @@ pub fn record_retained(binary: &str, repo: &Path, work_item_id: &str) {
             "headRevision": "abcdef1",
             "baseBranch": context["baseBranch"],
             "baseRemote": context["baseRemote"],
-            "baseRevision": "abcdef0",
+            "baseRevision": contract["baseRevision"],
             "mergeCommit": "1234567"
         },
         "branch": {
