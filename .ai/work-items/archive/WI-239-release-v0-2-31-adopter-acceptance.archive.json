@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-24T06:49:53Z",
+  "files": {
+    "contractDigest": "sha256:d88f0fe45d92463a29454afe7fa0bd04121d562899b3be18faf958a6ec5126ac",
+    "contractPath": ".ai/work-items/archive/WI-239-release-v0-2-31-adopter-acceptance.contract.json",
+    "eventsDigest": "sha256:0c8e79eaf22145f32bbae07d8bba655d77f497d1e2ce6b3a26add295bab4704f",
+    "eventsPath": ".ai/work-items/archive/WI-239-release-v0-2-31-adopter-acceptance.events.jsonl",
+    "outcomeDigest": "sha256:a77f1317c84dc943fbf010a61cad9017b3cf97be657bddccd74ae632b4bb04a0",
+    "outcomePath": ".ai/work-items/archive/WI-239-release-v0-2-31-adopter-acceptance.outcome.json",
+    "summaryDigest": "sha256:d93cd7dc1d4650ffd699d42c930ae8649fa6da8311b19c178590b5c2e6e75cc3",
+    "summaryPath": ".ai/work-items/archive/WI-239-release-v0-2-31-adopter-acceptance.summary.json",
+    "taskReportDigest": "sha256:b25c2ee8b35e5decb0bf51b3d47246a97c4740aab31eb56d8ae7a89861fc4133",
+    "taskReportMarkdownDigest": "sha256:63132f964b31b0eacd611e890cbce0edd9d7f3ee5d104b7f60b578b45c091283",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-239-release-v0-2-31-adopter-acceptance.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-239-release-v0-2-31-adopter-acceptance.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-239-release-v0-2-31-adopter-acceptance"
+}

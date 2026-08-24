@@ -1,6 +1,6 @@
 {
   "captureMode": "full_capture",
-  "createdAt": "2026-08-24T06:34:47Z",
+  "createdAt": "2026-08-24T06:49:48Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -8,8 +8,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 212677,
-      "executionElapsedMs": 212468,
+      "elapsedMs": 140075,
+      "executionElapsedMs": 139938,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -24,8 +24,8 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 212677,
-    "executionElapsedMs": 212468,
+    "elapsedMs": 140075,
+    "executionElapsedMs": 139938,
     "filesHashed": 5,
     "filesRead": 5,
     "gitCalls": 8,
@@ -43,13 +43,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 212468,
+      "executionElapsedMs": 139938,
       "finalTier": "T2",
       "initialTier": "T2",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:25937bc0d2e7c783ce6e6275376676fdae8d03f5b96ecafe331a113be1429508",
+      "repositorySnapshotDigest": "sha256:a064116213a7cdd0ded044d3cd1590989425f560e70fb71bdbda509a907324f0",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -75,7 +75,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:8d1c0f9060dbc6af7f3f9c4e2a1fdd470e34d6f33fa8a3235dd28ac821b29c84",
+        "outputDigest": "sha256:2aaf5d9f187812870d1d203e1892676f3543c317542ae4e8db4e73f08dbf40af",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -91,9 +91,9 @@
     "runtimeVersion": "0.2.31",
     "workItemId": "WI-239-release-v0-2-31-adopter-acceptance"
   },
-  "receiptDigest": "sha256:cb74119d1902a969118042fc06f9f755696f8343962f65c94c76a5e1f1406207",
+  "receiptDigest": "sha256:7da86069f6aa7c860c65e1531b957c1b929b53897a6a0443b943167c0c0cdb6d",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:25937bc0d2e7c783ce6e6275376676fdae8d03f5b96ecafe331a113be1429508",
+  "repositorySnapshotDigest": "sha256:a064116213a7cdd0ded044d3cd1590989425f560e70fb71bdbda509a907324f0",
   "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
   "runtimeVersion": "0.2.31",
   "workItemId": "WI-239-release-v0-2-31-adopter-acceptance"
