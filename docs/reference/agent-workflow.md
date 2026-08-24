@@ -125,6 +125,13 @@ parity row exists, the entry is `stale_pending_parity_registration`. A
 follow-up adds all three exact rows and removes the entry atomically without
 rewriting predecessor `.ai` records.
 
+A pull-request merge ref is a combined tree, not a replay of the feature
+snapshot. If the default branch contributes a later authoritative lifecycle
+decision, every parity row must name that decision in addition to the retained
+pre-merge receipt. Missing the later close path fails closed even when the push
+head was green. A Runtime recovery successor preserves predecessor bytes and
+tests the exact base-plus-feature topology before the delivery is promoted.
+
 Merge is not Work Item closure. After hosted checks pass, the exact branch and
 worktree are a separate resource-finalization boundary:
 

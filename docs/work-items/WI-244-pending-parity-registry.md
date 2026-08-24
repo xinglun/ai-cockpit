@@ -6,8 +6,8 @@ description: "Add a typed, fail-closed pre-merge registry for parity rows that m
 audience:
   - maintainer
   - reviewer
-status: in_progress
-lastVerifiedBy: WI-244-pending-parity-registry
+status: recovered
+lastVerifiedBy: WI-246-pending-parity-merge-ref-recovery
 authority: canonical
 ---
 
@@ -37,3 +37,13 @@ The focused registry regression exercises the valid Git topology plus foreign,
 head/base/PR/path/row mismatch, duplicate-key, missing-record, symlink,
 unrelated-append, partial-row, and default-branch cases. Manifest and route
 tests require this regression at light, standard, and strict profiles.
+
+## Recovery
+
+WI-244 reached verified archive and pre-merge finalization on PR #196. Its
+hosted merge ref later combined the feature tree with the authoritative
+WI-243 close receipt from the default branch, exposing a tri-language parity
+drift outside the immutable predecessor snapshot. Runtime recovery receipt
+`.ai/decisions/WI-244-pending-parity-registry.recovery.json` binds the exact
+Contract, Summary, Outcome, and Events digests to WI-246. The predecessor
+archive, evidence, finalization, PR, and hosted-run bytes remain unchanged.

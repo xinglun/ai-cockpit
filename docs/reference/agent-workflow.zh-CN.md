@@ -96,6 +96,12 @@ fail closed。在 default branch、合并后或任一 parity 行已存在时，�
 `stale_pending_parity_registration`。后续变更必须原子加入全部三语行并删除条目，绝不
 改写 predecessor `.ai` records。
 
+Pull-request merge ref 是 default branch 与 feature snapshot 的组合树，不是对 feature
+snapshot 的简单重放。如果 default branch 带入较新的权威 lifecycle decision，每条 parity
+行都必须在保留合并前 receipt 的同时登记该 decision。即使 push head 已绿色，缺少较新的
+close 路径也必须 fail closed。Runtime recovery successor 保留 predecessor bytes，并在提升
+交付前验证准确的 base-plus-feature 拓扑。
+
 合并不等于 Work Item 关闭。Hosted checks 通过后，准确的 branch 和 worktree 还必须经过
 独立的资源收尾边界：
 

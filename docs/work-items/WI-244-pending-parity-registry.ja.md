@@ -6,8 +6,8 @@ description: "別の documentation change で提供する parity row のため�
 audience:
   - maintainer
   - reviewer
-status: in_progress
-lastVerifiedBy: WI-244-pending-parity-registry
+status: recovered
+lastVerifiedBy: WI-246-pending-parity-merge-ref-recovery
 authority: canonical
 ---
 
@@ -36,3 +36,12 @@ focused regression は有効な Git topology に加え、foreign、head/base/PR/
 duplicate-key、missing record、symlink、unrelated append、partial row、default branch を
 検証します。Manifest と route test は light、standard、strict の全 profile でこの regression
 を必須にします。
+
+## Recovery
+
+WI-244 は PR #196 で verified archive と pre-merge finalization に到達しました。その後の
+hosted merge ref が feature tree と default branch の authoritative な WI-243 close receipt
+を結合し、immutable predecessor snapshot の外側にある 3 言語 parity drift を検出しました。
+Runtime recovery receipt `.ai/decisions/WI-244-pending-parity-registry.recovery.json` は正確な
+Contract、Summary、Outcome、Events digest を WI-246 に束縛します。predecessor archive、
+evidence、finalization、PR、hosted-run bytes は変更しません。

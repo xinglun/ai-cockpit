@@ -243,6 +243,136 @@ assert len(warnings) == 2, warnings
 assert {item["severity"] for item in warnings} == {"historical"}, warnings
 PY
 
+# A hosted pull-request merge ref combines the feature tree with decisions
+# newly present on the default branch.  Every authoritative decision must be
+# named by all three parity rows: retaining the pre-merge finalize receipt is
+# necessary, but it cannot hide a later close receipt from the merge base.
+merge_ref_repo="$tmp/merge-ref-close-parity"
+merge_ref_red_report="$tmp/merge-ref-close-parity-red-report.json"
+merge_ref_green_report="$tmp/merge-ref-close-parity-green-report.json"
+build_fixture "$fixtures/awaiting-merge-close.json" "$merge_ref_repo"
+python3 - "$merge_ref_repo" <<'PY'
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+work_item = "WI-901-corrective-after-baseline"
+evidence = f".ai/evidence/{work_item}.verification.json"
+close_path = repo / ".ai/decisions" / f"{work_item}.close.json"
+
+subprocess.run(["git", "checkout", "-q", "codex/fixture"], cwd=repo, check=True)
+(repo / "feature-change.txt").write_text("pending parity delivery\n", encoding="utf-8")
+subprocess.run(["git", "add", "feature-change.txt"], cwd=repo, check=True)
+subprocess.run(["git", "commit", "-qm", "feature parity delivery"], cwd=repo, check=True)
+
+subprocess.run(["git", "checkout", "-q", "main"], cwd=repo, check=True)
+repository_id = json.loads((repo / ".ai/project.json").read_text(encoding="utf-8"))[
+    "repositoryId"
+]
+close = {
+    "workItemId": work_item,
+    "repositoryId": repository_id,
+    "state": "closed",
+    "decisionState": "confirmed",
+    "humanDecision": "approved",
+    "structuredDecision": {
+        "decision": "approved",
+        "actor": "fixture-human",
+        "authoritySource": "fixture-policy",
+        "reason": "The reviewed pull request merged and exact cleanup was verified.",
+        "decidedAt": "2026-03-02T00:00:00Z",
+        "resumeCondition": "None.",
+        "evidenceRefs": [evidence],
+        "policyRefs": ["fixture-policy"],
+    },
+}
+close_path.write_text(json.dumps(close, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+subprocess.run(["git", "add", str(close_path.relative_to(repo))], cwd=repo, check=True)
+subprocess.run(["git", "commit", "-qm", "default branch close receipt"], cwd=repo, check=True)
+
+subprocess.run(["git", "checkout", "-qb", "merge-ref-red"], cwd=repo, check=True)
+subprocess.run(
+    ["git", "merge", "--no-ff", "-qm", "hosted red merge ref", "codex/fixture"],
+    cwd=repo,
+    check=True,
+)
+PY
+set +e
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$merge_ref_repo" --report "$merge_ref_red_report" >/dev/null
+merge_ref_red_code=$?
+set -e
+[[ "$merge_ref_red_code" -eq 1 ]] || {
+  printf 'merge-ref close parity: expected red exit 1, got %s\n' "$merge_ref_red_code" >&2
+  exit 1
+}
+python3 - "$merge_ref_red_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+findings = [
+    finding
+    for finding in report["findings"]
+    if finding["workItemId"] == "WI-901-corrective-after-baseline"
+    and finding["code"] == "missing_parity_decision"
+]
+assert len(findings) == 3, findings
+assert {finding["path"] for finding in findings} == {
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+}, findings
+PY
+python3 - "$merge_ref_repo" <<'PY'
+import subprocess
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+work_item = "WI-901-corrective-after-baseline"
+finalize = f".ai/decisions/{work_item}.finalize.json"
+close = f".ai/decisions/{work_item}.close.json"
+subprocess.run(["git", "checkout", "-q", "codex/fixture"], cwd=repo, check=True)
+for relative in (
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+):
+    path = repo / relative
+    text = path.read_text(encoding="utf-8")
+    assert f"`{finalize}`" in text, relative
+    separator = "；" if relative != "docs/reference/reference-parity.md" else ";"
+    text = text.replace(f"`{finalize}`", f"`{finalize}`{separator} `{close}`")
+    path.write_text(text, encoding="utf-8")
+subprocess.run(["git", "add", "docs/reference"], cwd=repo, check=True)
+subprocess.run(["git", "commit", "-qm", "bind close parity decision"], cwd=repo, check=True)
+subprocess.run(["git", "checkout", "-qb", "merge-ref-green", "main"], cwd=repo, check=True)
+subprocess.run(
+    ["git", "merge", "--no-ff", "-qm", "hosted green merge ref", "codex/fixture"],
+    cwd=repo,
+    check=True,
+)
+PY
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$merge_ref_repo" --report "$merge_ref_green_report" >/dev/null
+python3 - "$merge_ref_green_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert report["state"] == "passed", report["findings"]
+assert not any(
+    finding["workItemId"] == "WI-901-corrective-after-baseline"
+    and finding["code"] == "missing_parity_decision"
+    for finding in report["findings"]
+), report["findings"]
+PY
+
 # A new current Work Item must be discovered without changing an ID list.
 python3 - "$fixtures/valid.json" "$tmp/dynamic.json" <<'PY'
 import json

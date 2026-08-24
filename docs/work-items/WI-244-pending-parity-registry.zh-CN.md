@@ -6,8 +6,8 @@ description: "为必须由独立文档变更交付的 parity 行增加严格 typ
 audience:
   - maintainer
   - reviewer
-status: in_progress
-lastVerifiedBy: WI-244-pending-parity-registry
+status: recovered
+lastVerifiedBy: WI-246-pending-parity-merge-ref-recovery
 authority: canonical
 ---
 
@@ -32,3 +32,12 @@ pending registry，且不复制或改写 predecessor `.ai` bytes。
 聚焦回归覆盖合法 Git 拓扑，以及 foreign、head/base/PR/path/row mismatch、duplicate-key、
 missing record、symlink、unrelated append、partial row 与 default branch。Manifest 与 route
 测试要求 light、standard、strict 三种 profile 都执行该回归。
+
+## 恢复
+
+WI-244 已在 PR #196 达到 verified archive 与合并前 finalization。随后 hosted merge ref
+把 feature tree 与默认分支上的权威 WI-243 close receipt 合并，暴露了不可变 predecessor
+snapshot 之外的三语 parity 漂移。Runtime recovery receipt
+`.ai/decisions/WI-244-pending-parity-registry.recovery.json` 将准确的 Contract、Summary、
+Outcome 与 Events digest 绑定到 WI-246；predecessor archive、evidence、finalization、PR
+及 hosted-run bytes 均保持不变。

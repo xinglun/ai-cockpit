@@ -103,6 +103,13 @@ append、partial parity、malformed JSON は fail closed です。default branch
 になります。後続 change は 3 言語 row を原子的に追加して entry を削除し、predecessor
 の `.ai` record を書き換えません。
 
+Pull-request merge ref は default branch と feature snapshot を結合した tree であり、feature
+snapshot の replay ではありません。default branch が後続の authoritative lifecycle decision
+を追加する場合、各 parity row は pre-merge receipt を保持しながら、その decision も列挙する
+必要があります。push head が green でも後続 close path の欠落は fail closed です。Runtime
+recovery successor は predecessor bytes を保持し、delivery を昇格する前に正確な
+base-plus-feature topology を検証します。
+
 Merge は Work Item の close ではありません。hosted check が通った後、正確な
 branch と worktree は別の resource-finalization 境界で処理します。
 
