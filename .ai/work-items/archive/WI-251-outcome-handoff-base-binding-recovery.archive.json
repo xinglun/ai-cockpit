@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-24T12:30:13Z",
+  "files": {
+    "contractDigest": "sha256:36d9974c1875546497fd6be05e393515f64c911d712b5cc017ce44f145a29644",
+    "contractPath": ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.contract.json",
+    "eventsDigest": "sha256:db80856c11f1a56f2312865c34790e91d28be0c81e326e886929d5f65606c8f2",
+    "eventsPath": ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.events.jsonl",
+    "outcomeDigest": "sha256:401b2238a30f2e8d26e363fb28125f6cc9cd7317716d93141de39956302b942d",
+    "outcomePath": ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.outcome.json",
+    "summaryDigest": "sha256:3f46a02d40c2ad5e7f414cd45ce0e326ffee7e317c0008c5602bf2fb0fe2ec54",
+    "summaryPath": ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.summary.json",
+    "taskReportDigest": "sha256:042fdb2377ceb4f11a7f882665939f74100a0e921ffc6e6b02fa2edb87132804",
+    "taskReportMarkdownDigest": "sha256:ad176b6b5dcd29a81b3cb0d03062cbc0393a8f9d708d01bf73fa14594e2c2696",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-251-outcome-handoff-base-binding-recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-251-outcome-handoff-base-binding-recovery"
+}
