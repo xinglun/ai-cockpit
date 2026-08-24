@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-24T13:11:07Z",
+  "files": {
+    "contractDigest": "sha256:5ada5f7f230d2b0f5515ee045dde3cca0324a837aeb511913c184d6db762361f",
+    "contractPath": ".ai/work-items/archive/WI-241-release-sbom-binding.contract.json",
+    "eventsDigest": "sha256:c4bc0e5c4edda55e15b424ddd597ec473fbd917981e046df6f5a6ff276c5a182",
+    "eventsPath": ".ai/work-items/archive/WI-241-release-sbom-binding.events.jsonl",
+    "outcomeDigest": "sha256:32335514e7bcb15ef13d8e1b18051740c895230544ff41957ba268c52b834c6f",
+    "outcomePath": ".ai/work-items/archive/WI-241-release-sbom-binding.outcome.json",
+    "summaryDigest": "sha256:ce6c831a2f48a050be1a93a209652bfb692aa674808cbdf6ba632a6205041052",
+    "summaryPath": ".ai/work-items/archive/WI-241-release-sbom-binding.summary.json",
+    "taskReportDigest": "sha256:54e9ea21d4d330e89b05dab309e73fab9b9d42ef2b386cdec8ab5d24e589da52",
+    "taskReportMarkdownDigest": "sha256:f9cc1fcae9e56d424f260a05f9ea2c731e905844c3288da86f4da2ee272f636d",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-241-release-sbom-binding.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-241-release-sbom-binding.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-241-release-sbom-binding"
+}
