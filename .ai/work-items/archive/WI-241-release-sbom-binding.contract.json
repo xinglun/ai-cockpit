@@ -1,0 +1,120 @@
+{
+  "acceptanceCriteria": [
+    "Every target SPDX document contains exactly one standard release-archive Package and one release-binary File whose names and nonzero SHA-256 digests match the actual staged archive and executable, with DOCUMENT DESCRIBES and Package CONTAINS relationships.",
+    "SBOM binding fails closed for a wrong target, filename, digest, zero digest, missing or duplicate release Package or File, or missing or duplicate binding relationship.",
+    "The staged candidate and public release asset inventory is exact and deterministic: five archives, five target SBOMs, release-manifest.json, ai-cockpit.rb, and SHA256SUMS, with no orphan ai-cockpit-build.spdx.json, duplicate, or unbound publishable asset.",
+    "SHA256SUMS covers every intended public asset other than itself exactly once in stable filename order, and staged validation rejects missing, duplicate, extra, or digest-mismatched entries.",
+    "The final SLSA attestation subject set matches the exact public asset set and existing staged/public adopter acceptance and hosted attestation gates remain fail-closed.",
+    "Static policy tests and English, Simplified Chinese, and Japanese release documentation explain artifact binding, closed asset inventory, checksum coverage, and that v0.2.31 published truth is not rewritten.",
+    "Focused Rust, release policy, documentation, formatting, lint, and full workspace checks pass with current Runtime verification evidence.",
+    "Before verification, the English, Simplified Chinese, and Japanese parity ledgers retain all current default-branch Work Items and register WI-241 as conditional In progress with the exact future archived Contract, verification evidence, canonical finalize, and close paths; only a verified reviewed close promotes that row to Implemented."
+  ],
+  "authority": "authorized",
+  "baseRevision": "7d1bd78f1ee1945d1a4b989ad0fd46d4fe98510b",
+  "createdAt": "2026-08-24T07:33:41Z",
+  "goal": "Fail closed before publication when a target SBOM is orphaned, duplicated, unbound, or digest-mismatched, or when the release manifest and SHA256SUMS do not exactly cover the intended public assets.",
+  "intent": "Make newly built release SBOMs verifiably describe the exact packaged archive and executable, and make the published asset inventory closed and checksum-complete without rewriting the already published v0.2.31 release truth.",
+  "mode": "code",
+  "outOfScope": [
+    "Published v0.2.31 tag and GitHub Release assets",
+    "Historical v0.2.31 attestations and acceptance receipts",
+    "Version bump or publication of a new release",
+    "Adopter acceptance and upgrade harness behavior",
+    "Provider release settings rulesets or evidence retention",
+    "WI-240 and unrelated Work Items",
+    "Unrelated reference-parity rows"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:caa3d5d16213ab63d6acd36ad61ef907be7d62fc64fb3a99ec387322c5c2cb14",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-241-release-sbom-binding",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/193",
+    "worktree": "/private/tmp/ai-cockpit-wi241-sbom"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Each target SBOM binds exactly one packaged archive and its executable by their actual nonzero SHA-256 digests and standard SPDX relationships.",
+      "required": true,
+      "scenario": "artifact-bound-target-sbom",
+      "status": "unverified",
+      "verificationPlan": "Run the cockpit-release SBOM regressions against tar.gz and zip packages, then validate the generated SPDX documents against the staged bytes."
+    },
+    {
+      "evidence": [],
+      "expected": "Missing, duplicated, wrong-target, wrong-name, zero, and digest-mismatched SBOM bindings fail closed.",
+      "required": true,
+      "scenario": "invalid-sbom-binding-rejection",
+      "status": "unverified",
+      "verificationPlan": "Run negative cockpit-release fixtures that mutate each binding field and relationship independently."
+    },
+    {
+      "evidence": [],
+      "expected": "The candidate inventory rejects orphan or duplicate publishable assets and SHA256SUMS covers every intended public asset except itself exactly once in stable order.",
+      "required": true,
+      "scenario": "closed-release-asset-inventory",
+      "status": "unverified",
+      "verificationPlan": "Run manifest regressions for orphan ai-cockpit-build.spdx.json, duplicate names, missing checksum entries, extra checksum entries, digest mismatches, and deterministic ordering."
+    },
+    {
+      "evidence": [],
+      "expected": "The release workflow creates only target-bound SBOMs and keeps attestation plus staged and public adopter-acceptance gates fail closed.",
+      "required": true,
+      "scenario": "hosted-release-policy-preservation",
+      "status": "unverified",
+      "verificationPlan": "Run the static release workflow policy and documentation acceptance checks, then inspect hosted pull-request checks without publishing a release."
+    }
+  ],
+  "scope": [
+    ".github/workflows/release.yml",
+    "crates/cockpit-release/src/archive.rs",
+    "crates/cockpit-release/src/lib.rs",
+    "crates/cockpit-release/src/main.rs",
+    "crates/cockpit-release/src/manifest.rs",
+    "crates/cockpit-release/src/sbom.rs",
+    "crates/cockpit-release/tests/cli.rs",
+    "crates/cockpit-release/tests/manifest.rs",
+    "crates/cockpit-release/tests/sbom.rs",
+    "crates/cockpit-release/tests/fixtures/**",
+    "tests/release/workflow_policy.sh",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/work-items/WI-241-release-sbom-binding.md",
+    "docs/work-items/WI-241-release-sbom-binding.zh-CN.md",
+    "docs/work-items/WI-241-release-sbom-binding.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    ".github/workflows/release.yml",
+    "crates/cockpit-release/src/archive.rs",
+    "crates/cockpit-release/src/manifest.rs",
+    "tests/release/workflow_policy.sh",
+    "docs/release/distribution.md",
+    "tests/ci/governance_integrity_gate.py",
+    "https://github.com/anchore/sbom-action/blob/f8bdd1d8ac5e901a77a92f111440fdb1b593736b/action.yml"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets -- -D warnings",
+    "cargo test --locked --package cockpit-release",
+    "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
+    "bash tests/docs/documentation_acceptance.sh .",
+    "bash tests/docs/parity_status_check.sh . target/WI-241-parity-status.json",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report target/WI-241-governance-integrity.json",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-241-release-sbom-binding"
+}

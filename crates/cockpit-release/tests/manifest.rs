@@ -1,6 +1,6 @@
 use std::{fs, io::Write, path::Path};
 
-use cockpit_release::manifest::ReleaseManifest;
+use cockpit_release::manifest::{ReleaseManifest, write_checksums};
 use sha2::{Digest, Sha256};
 
 const COMMIT: &str = "0000000000000000000000000000000000000000";
@@ -190,14 +190,7 @@ fn staged_manifest(dist: &Path) -> String {
         checksums.push((archive, digest(archive_bytes)));
         checksums.push((sbom, digest(sbom_bytes)));
     }
-    checksums.sort_unstable_by(|left, right| left.0.cmp(right.0));
-    let checksum_text = checksums
-        .iter()
-        .map(|(filename, hash)| format!("{hash}  {filename}"))
-        .collect::<Vec<_>>()
-        .join("\n");
-    fs::write(dist.join("SHA256SUMS"), format!("{checksum_text}\n")).unwrap();
-    serde_json::json!({
+    let json = serde_json::json!({
         "schemaVersion": 1,
         "product": "ai-cockpit",
         "package": "cockpit-cli",
@@ -207,7 +200,23 @@ fn staged_manifest(dist: &Path) -> String {
         "cargoLockSha256": LOCK_DIGEST,
         "artifacts": artifacts,
     })
-    .to_string()
+    .to_string();
+    let manifest = ReleaseManifest::parse_str(&json).unwrap();
+    let manifest_bytes = manifest.canonical_bytes().unwrap();
+    fs::write(dist.join("release-manifest.json"), &manifest_bytes).unwrap();
+    fs::create_dir_all(dist.join("Formula")).unwrap();
+    let formula_bytes = b"class AiCockpit\nend\n";
+    fs::write(dist.join("Formula/ai-cockpit.rb"), formula_bytes).unwrap();
+    checksums.push(("release-manifest.json", digest(&manifest_bytes)));
+    checksums.push(("ai-cockpit.rb", digest(formula_bytes)));
+    checksums.sort_unstable_by(|left, right| left.0.cmp(right.0));
+    let checksum_text = checksums
+        .iter()
+        .map(|(filename, hash)| format!("{hash}  {filename}"))
+        .collect::<Vec<_>>()
+        .join("\n");
+    fs::write(dist.join("SHA256SUMS"), format!("{checksum_text}\n")).unwrap();
+    json
 }
 
 #[test]
@@ -215,7 +224,7 @@ fn staged_files_and_checksums_are_verified() {
     let dist = tempfile::tempdir().unwrap();
     let manifest = ReleaseManifest::parse_str(&staged_manifest(dist.path())).unwrap();
     let validated = manifest.validate_staged(dist.path()).unwrap();
-    assert_eq!(validated.files.len(), 10);
+    assert_eq!(validated.files.len(), 12);
 }
 
 #[test]
@@ -260,6 +269,95 @@ fn checksum_extra_file_is_rejected() {
         .validate_staged(dist.path())
         .expect_err("extra checksum entry must fail");
     assert!(error.to_string().contains("SHA256SUMS"));
+}
+
+#[test]
+fn orphan_publishable_sbom_is_rejected_even_when_not_listed_in_checksums() {
+    let dist = tempfile::tempdir().unwrap();
+    let manifest = ReleaseManifest::parse_str(&staged_manifest(dist.path())).unwrap();
+    fs::write(dist.path().join("ai-cockpit-build.spdx.json"), b"orphan").unwrap();
+    let error = manifest
+        .validate_staged(dist.path())
+        .expect_err("orphan publishable SBOM must fail closed");
+    assert!(error.to_string().contains("orphan"), "{error}");
+}
+
+#[test]
+fn checksums_must_cover_the_public_manifest_and_formula_exactly_once() {
+    let dist = tempfile::tempdir().unwrap();
+    let manifest = ReleaseManifest::parse_str(&staged_manifest(dist.path())).unwrap();
+    let checksum_path = dist.path().join("SHA256SUMS");
+    let incomplete = fs::read_to_string(&checksum_path)
+        .unwrap()
+        .lines()
+        .filter(|line| {
+            !line.ends_with("  release-manifest.json") && !line.ends_with("  ai-cockpit.rb")
+        })
+        .collect::<Vec<_>>()
+        .join("\n");
+    fs::write(checksum_path, format!("{incomplete}\n")).unwrap();
+
+    let error = manifest
+        .validate_staged(dist.path())
+        .expect_err("manifest and Formula missing from SHA256SUMS must fail closed");
+    assert!(error.to_string().contains("SHA256SUMS"), "{error}");
+}
+
+#[test]
+fn checksum_writer_covers_every_non_self_public_asset_once_in_stable_order() {
+    let dist = tempfile::tempdir().unwrap();
+    let manifest = ReleaseManifest::parse_str(&staged_manifest(dist.path())).unwrap();
+    fs::remove_file(dist.path().join("SHA256SUMS")).unwrap();
+    write_checksums(&manifest, dist.path()).unwrap();
+    let lines = fs::read_to_string(dist.path().join("SHA256SUMS")).unwrap();
+    let filenames = lines
+        .lines()
+        .map(|line| line.split_whitespace().nth(1).unwrap())
+        .collect::<Vec<_>>();
+    assert_eq!(filenames.len(), 12);
+    assert!(filenames.windows(2).all(|pair| pair[0] < pair[1]));
+    assert_eq!(
+        filenames
+            .iter()
+            .filter(|name| **name == "ai-cockpit.rb")
+            .count(),
+        1
+    );
+    assert_eq!(
+        filenames
+            .iter()
+            .filter(|name| **name == "release-manifest.json")
+            .count(),
+        1
+    );
+    assert!(!filenames.contains(&"SHA256SUMS"));
+    manifest.validate_staged(dist.path()).unwrap();
+}
+
+#[test]
+fn missing_and_digest_mismatched_checksum_entries_are_rejected() {
+    let dist = tempfile::tempdir().unwrap();
+    let manifest = ReleaseManifest::parse_str(&staged_manifest(dist.path())).unwrap();
+    let checksum_path = dist.path().join("SHA256SUMS");
+    let mut lines = fs::read_to_string(&checksum_path)
+        .unwrap()
+        .lines()
+        .map(str::to_string)
+        .collect::<Vec<_>>();
+    lines.remove(0);
+    fs::write(&checksum_path, format!("{}\n", lines.join("\n"))).unwrap();
+    assert!(manifest.validate_staged(dist.path()).is_err());
+
+    let dist = tempfile::tempdir().unwrap();
+    let manifest = ReleaseManifest::parse_str(&staged_manifest(dist.path())).unwrap();
+    let checksum_path = dist.path().join("SHA256SUMS");
+    let checksums = fs::read_to_string(&checksum_path).unwrap().replacen(
+        &digest(b"class AiCockpit\nend\n"),
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        1,
+    );
+    fs::write(checksum_path, checksums).unwrap();
+    assert!(manifest.validate_staged(dist.path()).is_err());
 }
 
 #[test]

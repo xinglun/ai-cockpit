@@ -1,0 +1,147 @@
+{
+  "acceptanceResults": [
+    "Every target SPDX document contains exactly one standard release-archive Package and one release-binary File whose names and nonzero SHA-256 digests match the actual staged archive and executable, with DOCUMENT DESCRIBES and Package CONTAINS relationships.",
+    "SBOM binding fails closed for a wrong target, filename, digest, zero digest, missing or duplicate release Package or File, or missing or duplicate binding relationship.",
+    "The staged candidate and public release asset inventory is exact and deterministic: five archives, five target SBOMs, release-manifest.json, ai-cockpit.rb, and SHA256SUMS, with no orphan ai-cockpit-build.spdx.json, duplicate, or unbound publishable asset.",
+    "SHA256SUMS covers every intended public asset other than itself exactly once in stable filename order, and staged validation rejects missing, duplicate, extra, or digest-mismatched entries.",
+    "The final SLSA attestation subject set matches the exact public asset set and existing staged/public adopter acceptance and hosted attestation gates remain fail-closed.",
+    "Static policy tests and English, Simplified Chinese, and Japanese release documentation explain artifact binding, closed asset inventory, checksum coverage, and that v0.2.31 published truth is not rewritten.",
+    "Focused Rust, release policy, documentation, formatting, lint, and full workspace checks pass with current Runtime verification evidence.",
+    "Before verification, the English, Simplified Chinese, and Japanese parity ledgers retain all current default-branch Work Items and register WI-241 as conditional In progress with the exact future archived Contract, verification evidence, canonical finalize, and close paths; only a verified reviewed close promotes that row to Implemented."
+  ],
+  "createdAt": "2026-08-24T13:10:48Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:df41fdc6bf4298d4a5ba42b2137aaca102c946c1d0481ccdb3ca5bad4728aad9",
+  "evidenceRefs": [
+    ".ai/evidence/WI-241-release-sbom-binding.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-241-release-sbom-binding.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-241-release-sbom-binding.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bcb2717ce12a34bc91cfad1da75f386c00d3804e13928bdbacaa7fa425b0f20c",
+      "workItemId": "WI-241-release-sbom-binding"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-241-release-sbom-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-241-release-sbom-binding.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-241-release-sbom-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-241-release-sbom-binding.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-241-release-sbom-binding.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-241-release-sbom-binding.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-241-release-sbom-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-241-release-sbom-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-241-release-sbom-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-241-release-sbom-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "Fail closed before publication when a target SBOM is orphaned, duplicated, unbound, or digest-mismatched, or when the release manifest and SHA256SUMS do not exactly cover the intended public assets."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-241-release-sbom-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-241-release-sbom-binding"
+  },
+  "taskReportDigest": "sha256:54e9ea21d4d330e89b05dab309e73fab9b9d42ef2b386cdec8ab5d24e589da52",
+  "taskReportMarkdownDigest": "sha256:f9cc1fcae9e56d424f260a05f9ea2c731e905844c3288da86f4da2ee272f636d",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-241-release-sbom-binding.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-241-release-sbom-binding"
+}

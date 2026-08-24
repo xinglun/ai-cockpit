@@ -43,6 +43,7 @@ fail_if_match '^permissions:\s*$' 'workflow-wide permissions are not allowed'
 fail_if_match 'curl\s+[^|]+\|\s*(sh|bash)' 'shell bootstrap installers are not part of release'
 fail_if_match 'homebrew-tap.*(git push|contents: write)' 'release workflow must not mutate the external tap'
 fail_if_match 'files:\s*dist/\*\s*$' 'publication must use an explicit asset allowlist'
+fail_if_match 'dist/\*\.spdx\.json' 'publication and attestation must use the target-bound SBOM allowlist'
 
 while IFS= read -r action_ref; do
   if [[ ! "$action_ref" =~ ^[0-9a-f]{40}$ ]]; then
@@ -67,6 +68,11 @@ require_match 'tags:\s*\['"'"'v\*'"'"'\]' 'only semantic v tags trigger publicat
 require_match 'cockpit-release' 'canonical release tooling must run in the workflow'
 require_match 'release-manifest\.json' 'canonical manifest must be emitted'
 require_match 'SHA256SUMS' 'canonical checksum set must be emitted'
+require_match 'upload-artifact:[[:space:]]*false' 'SBOM action must not upload an orphan default artifact'
+require_match 'upload-release-assets:[[:space:]]*false' 'SBOM action must not publish an orphan default SBOM'
+require_match 'cockpit-release -- bind-sbom' 'each target SBOM must be bound to its packaged archive and executable'
+require_match 'cockpit-release -- checksums' 'checksums must be generated after all public assets exist'
+require_match 'dist/ai-cockpit-v\*-\*\.spdx\.json' 'publication and attestation must select only target-bound SBOM filenames'
 require_match 'brew test' 'Homebrew fixture test must be defined'
 require_match 'ai-cockpit --version' 'installed binary version smoke must be defined'
 require_match '^  publish:' 'publish job must be present'

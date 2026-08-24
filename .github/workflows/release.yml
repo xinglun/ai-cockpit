@@ -87,6 +87,8 @@ jobs:
           path: .
           format: spdx-json
           output-file: dist/sbom-spdx-${{ matrix.target }}.json
+          upload-artifact: false
+          upload-release-assets: false
       - name: Bind SBOM to the release version
         shell: bash
         env:
@@ -94,7 +96,15 @@ jobs:
         run: |
           set -euo pipefail
           version="$(cargo metadata --locked --format-version 1 | jq -er '.packages[] | select(.name == "cockpit-cli") | .version')"
-          mv "dist/sbom-spdx-${TARGET}.json" "dist/ai-cockpit-v${version}-${TARGET}.spdx.json"
+          if [[ "$TARGET" == "x86_64-pc-windows-msvc" ]]; then extension=zip; else extension=tar.gz; fi
+          archive="dist/ai-cockpit-v${version}-${TARGET}.${extension}"
+          sbom="dist/ai-cockpit-v${version}-${TARGET}.spdx.json"
+          mv "dist/sbom-spdx-${TARGET}.json" "$sbom"
+          cargo run --locked --package cockpit-release -- bind-sbom \
+            --sbom "$sbom" \
+            --archive "$archive" \
+            --target "$TARGET" \
+            --version "$version"
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: ai-cockpit-${{ matrix.target }}
@@ -203,6 +213,9 @@ jobs:
           cargo run --locked --package cockpit-release -- formula \
             --manifest dist/release-manifest.json \
             --output dist/Formula/ai-cockpit.rb
+          cargo run --locked --package cockpit-release -- checksums \
+            --manifest dist/release-manifest.json \
+            --dist dist
           cargo run --locked --package cockpit-release -- validate \
             --manifest dist/release-manifest.json --dist dist
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
@@ -554,7 +567,7 @@ jobs:
           subject-path: |
             dist/*.tar.gz
             dist/*.zip
-            dist/*.spdx.json
+            dist/ai-cockpit-v*-*.spdx.json
             dist/release-manifest.json
             dist/SHA256SUMS
             dist/Formula/ai-cockpit.rb
@@ -599,7 +612,7 @@ jobs:
             dist/Formula/ai-cockpit.rb
             dist/*.tar.gz
             dist/*.zip
-            dist/*.spdx.json
+            dist/ai-cockpit-v*-*.spdx.json
           generate_release_notes: true
 
   publish_handoff:

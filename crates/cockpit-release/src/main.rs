@@ -7,6 +7,7 @@ use cockpit_release::{
     formula::{FormulaSource, render_formula},
     handoff::{Destination, HandoffDocument, Issuer, ReleaseBinding},
     manifest::{ReleaseManifest, write_checksums},
+    sbom::{bind_sbom_file, validate_sbom_binding},
 };
 
 #[derive(Debug, Parser)]
@@ -40,6 +41,16 @@ enum Command {
         #[arg(long)]
         target: String,
     },
+    BindSbom {
+        #[arg(long)]
+        sbom: PathBuf,
+        #[arg(long)]
+        archive: PathBuf,
+        #[arg(long)]
+        target: String,
+        #[arg(long)]
+        version: String,
+    },
     Validate {
         #[arg(long)]
         manifest: PathBuf,
@@ -59,6 +70,12 @@ enum Command {
         commit: String,
         #[arg(long)]
         cargo_lock_sha256: String,
+    },
+    Checksums {
+        #[arg(long)]
+        manifest: PathBuf,
+        #[arg(long)]
+        dist: PathBuf,
     },
     Formula {
         #[arg(long)]
@@ -131,6 +148,16 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
             let inspection = inspect_archive(&archive, ArchiveTarget::from_rust_target(&target)?)?;
             println!("{}", serde_json::to_string(&inspection.members)?);
         }
+        Command::BindSbom {
+            sbom,
+            archive,
+            target,
+            version,
+        } => {
+            let target = ArchiveTarget::from_rust_target(&target)?;
+            bind_sbom_file(&sbom, &archive, target, &version)?;
+            validate_sbom_binding(&sbom, &archive, target, &version)?;
+        }
         Command::Validate { manifest, dist } => {
             let manifest = ReleaseManifest::parse_str(&fs::read_to_string(manifest)?)?;
             let validated = manifest.validate_staged(&dist)?;
@@ -152,6 +179,9 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
                 &dist,
             )?;
             fs::write(&output, manifest.canonical_bytes()?)?;
+        }
+        Command::Checksums { manifest, dist } => {
+            let manifest = ReleaseManifest::parse_str(&fs::read_to_string(manifest)?)?;
             write_checksums(&manifest, &dist)?;
             manifest.validate_staged(&dist)?;
         }

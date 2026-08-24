@@ -74,7 +74,7 @@ brew untap xinglun/tap                 # 可选
 ## 验证 Release 制品
 
 从同一个不可变 GitHub Release 下载 archive、`release-manifest.json` 和 `SHA256SUMS`。
-校验文件覆盖全部十个 archive/SBOM，因此只校验实际下载的 archive：
+v0.2.31 的校验文件覆盖全部十个 archive/SBOM，因此只校验实际下载的 archive：
 
 ```bash
 archive="ai-cockpit-v0.2.31-aarch64-apple-darwin.tar.gz"
@@ -97,6 +97,27 @@ semantic tag 不能证明安装完整。
 CLI 和 MCP 的 `verify` JSON 会输出 `runtimeVersion` 与 `runtimeDigest` 这两个 Runtime identity fact。
 发布后 acceptance harness（不是 Core 自身）必须在接受 Release evidence 前，将它们绑定到公开下载的 binary；
 在 harness 之外使用这些 JSON 时，比较责任属于调用者。
+
+### 后续 candidate 的制品绑定 SBOM 策略
+
+公开 v0.2.31 的 bytes 是不可变的历史事实。它的 `SHA256SUMS` 覆盖五个 archive 与五个
+按 target 命名的 SBOM，Release 还包含旧的 `ai-cockpit-build.spdx.json` 上传。这个按 build
+命名的 SBOM 不能证明它绑定到某个准确的打包 archive 或 executable。本说明与后续 workflow
+修改不会重命名、删除或改写这些 v0.2.31 资产。
+
+使用 WI-241 边界构建的 release candidate 遵循更严格的契约。每个按 target 命名的 SPDX 2.3
+文档保留 dependency scan，并增加一个 release-archive Package 与一个 release-binary File。
+`DOCUMENT DESCRIBES` 该 Package，Package `CONTAINS` 该 File；两个节点都携带从实际 staged
+archive 与其中 executable member 计算的非零 SHA-256。错误的 target、version、文件名、digest、
+节点数量或关系会在 candidate 聚合前失败。source dependency scan 或 SBOM 文件名本身绝不等于
+adopter acceptance。
+
+封闭的公开资产集合是五个 archive、五个 target SBOM、`release-manifest.json`、
+`ai-cockpit.rb` 与 `SHA256SUMS`。manifest 绑定十个 target 制品；`SHA256SUMS` 按稳定文件名顺序，
+准确一次绑定这十个文件以及 manifest 与 Formula（它不能校验自身）。最终 provenance subject
+集合覆盖同样的十三个公开文件。额外的 build-named SBOM、其他 orphan publishable 文件、重复或
+缺失的 checksum entry、digest 不匹配都会 fail closed。现有 staged/public adopter acceptance
+与 attestation gates 仍位于该验证之后。
 
 ## 发布后 adopter 验收
 

@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-WI-241-in-place-recovery-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "fb5030d8b3995f1c299b5dc64c0d72964118d95d",
+    "name": "codex/wi-241-release-sbom-binding",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:5ada5f7f230d2b0f5515ee045dde3cca0324a837aeb511913c184d6db762361f",
+  "operationId": "operation-WI-241-release-sbom-binding-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "7d1bd78f1ee1945d1a4b989ad0fd46d4fe98510b",
+    "headRevision": "fb5030d8b3995f1c299b5dc64c0d72964118d95d",
+    "number": 193,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/193"
+  },
+  "reason": "awaiting_merge_close: PR #193 is open and the exact reviewed branch and worktree must be retained",
+  "receiptId": "ai-cockpit-WI-241-release-sbom-binding-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-241-release-sbom-binding",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/193",
+    "worktree": "/private/tmp/ai-cockpit-wi241-sbom"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-24T13:12:07Z",
+  "workItemId": "WI-241-release-sbom-binding",
+  "worktree": {
+    "branch": "codex/wi-241-release-sbom-binding",
+    "headRevision": "fb5030d8b3995f1c299b5dc64c0d72964118d95d",
+    "path": "/private/tmp/ai-cockpit-wi241-sbom",
+    "worktreeId": "WI-241-release-sbom-binding"
+  }
+}

@@ -77,7 +77,7 @@ brew untap xinglun/tap                 # optional
 ## Release artifact の verify
 
 同じ immutable GitHub Release から archive、`release-manifest.json`、`SHA256SUMS` を取得します。
-checksum file は全十個の archive/SBOM を対象にするため、download した archive だけを検証します。
+v0.2.31 の checksum file は全十個の archive/SBOM を対象にするため、download した archive だけを検証します。
 
 ```bash
 archive="ai-cockpit-v0.2.31-aarch64-apple-darwin.tar.gz"
@@ -100,6 +100,30 @@ Upload や semantic tag だけでは install の完了 evidence になりませ�
 CLI と MCP の `verify` JSON は `runtimeVersion` と `runtimeDigest` という Runtime identity fact を返します。
 公開後の acceptance harness（Core 自体ではありません）が Release evidence を受け入れる前に、公開 download binary の
 identity と結び付けます。harness 外で JSON を使う場合の比較責任は caller にあります。
+
+### 以降の candidate に対する artifact-bound SBOM policy
+
+公開済み v0.2.31 の bytes は immutable な historical truth です。その `SHA256SUMS` は五つの
+archive と五つの target-named SBOM を対象にし、Release には従来の
+`ai-cockpit-build.spdx.json` upload も含まれます。この build-named SBOM だけでは、特定の
+packaged archive や executable への binding を証明できません。この説明と後続 workflow の
+変更は v0.2.31 asset の rename、delete、rewrite を行いません。
+
+WI-241 boundary で build する release candidate には、より厳格な contract を適用します。
+各 target-named SPDX 2.3 document は dependency scan を保持し、一つの release-archive
+Package と一つの release-binary File を追加します。`DOCUMENT DESCRIBES` は Package を指し、
+Package は File を `CONTAINS` します。両 node は実際の staged archive と executable member
+から計算した nonzero SHA-256 を保持します。target、version、filename、digest、node cardinality、
+relationship のいずれかが違えば candidate aggregation 前に失敗します。source dependency scan
+や SBOM filename だけを adopter acceptance として扱うことはできません。
+
+closed public inventory は五つの archive、五つの target SBOM、`release-manifest.json`、
+`ai-cockpit.rb`、`SHA256SUMS` です。manifest は十個の target artifact を binding し、
+`SHA256SUMS` はその十個と manifest と Formula を stable filename order で一度ずつ binding
+します（自身は checksum できません）。final provenance subject set は同じ十三個の public file
+を対象にします。追加の build-named SBOM、その他の orphan publishable file、checksum entry の
+duplicate/missing、digest mismatch は fail closed です。既存の staged/public adopter acceptance
+と attestation gate はこの validation の downstream に残ります。
 
 ## Post-release adopter acceptance
 

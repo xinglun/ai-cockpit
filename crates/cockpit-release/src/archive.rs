@@ -1,6 +1,6 @@
 use std::{
     fs::{self, File},
-    io::Write,
+    io::{Read, Write},
     path::{Component, Path, PathBuf},
 };
 
@@ -228,6 +228,55 @@ pub fn inspect_archive(
         )));
     }
     Ok(ArchiveInspection { members })
+}
+
+pub fn archive_executable_sha256(
+    path: &Path,
+    target: ArchiveTarget,
+) -> Result<String, ReleaseError> {
+    inspect_archive(path, target)?;
+    match target.kind {
+        ArchiveKind::TarGz => {
+            let file = File::open(path)?;
+            let decoder = GzDecoder::new(file);
+            let mut archive = Archive::new(decoder);
+            for entry in archive.entries()? {
+                let mut entry = entry?;
+                let entry_path = entry.path()?;
+                if safe_member_name(entry_path.as_ref())? == target.executable_name {
+                    return sha256_reader(&mut entry);
+                }
+            }
+        }
+        ArchiveKind::Zip => {
+            let file = File::open(path)?;
+            let mut archive = ZipArchive::new(file)?;
+            for index in 0..archive.len() {
+                let mut entry = archive.by_index(index)?;
+                if safe_member_name(Path::new(entry.name()))? == target.executable_name {
+                    return sha256_reader(&mut entry);
+                }
+            }
+        }
+    }
+    Err(ReleaseError::Invalid(
+        "archive does not contain the target executable".into(),
+    ))
+}
+
+fn sha256_reader(reader: &mut impl Read) -> Result<String, ReleaseError> {
+    use sha2::{Digest, Sha256};
+
+    let mut hasher = Sha256::new();
+    let mut buffer = [0_u8; 64 * 1024];
+    loop {
+        let read = reader.read(&mut buffer)?;
+        if read == 0 {
+            break;
+        }
+        hasher.update(&buffer[..read]);
+    }
+    Ok(hex::encode(hasher.finalize()))
 }
 
 fn inspect_tar(path: &Path) -> Result<Vec<String>, ReleaseError> {
