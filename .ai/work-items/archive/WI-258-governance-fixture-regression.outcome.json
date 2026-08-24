@@ -1,0 +1,138 @@
+{
+  "acceptanceResults": [
+    "Every fixture created by build_fixture.py contains a regular pending-parity-registry.json with schemaVersion 1 and entries [] unless a test explicitly populates it.",
+    "governance_integrity_gate_test.sh valid, archive-timestamp-current, awaiting-merge-close, and all negative cases pass with deterministic reports.",
+    "pending_parity_registry_test.sh passes all valid and adversarial cases, including duplicate/unknown/symlink/stale/foreign mutations.",
+    "No fixture test silently depends on a missing registry; failure diagnostics distinguish invalid registry from invalid Work Item state.",
+    "Tri-language Work Item and parity rows bind the exact implementation, verification, archive, finalization, and close evidence.",
+    "The already-closed WI-255 tri-language Work Item projection is promoted from conditional to Implemented without changing any .ai lifecycle bytes."
+  ],
+  "createdAt": "2026-08-24T23:28:44Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:a62161f48117332070af54185d755151cd3e25c9177f30541364a4685c653a53",
+  "evidenceRefs": [
+    ".ai/evidence/WI-258-governance-fixture-regression.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-258-governance-fixture-regression.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-258-governance-fixture-regression.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:eacafbe65ed4632dbc6057b7a73121ec32039bd9d75046d8ec78fc717f6e5b09",
+      "workItemId": "WI-258-governance-fixture-regression"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-258-governance-fixture-regression.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-258-governance-fixture-regression.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-258-governance-fixture-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-258-governance-fixture-regression.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-258-governance-fixture-regression.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-258-governance-fixture-regression.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-258-governance-fixture-regression.contract.json"
+          ],
+          "inference": false,
+          "text": "使所有治理 fixture 明确生成 schemaVersion=1 的空 pending parity registry，并让回归测试验证 registry 基线与合法/非法 pending 场景。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-258-governance-fixture-regression.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-258-governance-fixture-regression"
+  },
+  "taskReportDigest": "sha256:e20ef1e54673145e7db10e8e2ba24e36c5a32fd4eacaf37c90212d4b31e768f5",
+  "taskReportMarkdownDigest": "sha256:985e64efcbf6208a0471b808d96e1f7fbbd5b9636d815d43c27d14251d27f24f",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-258-governance-fixture-regression.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-258-governance-fixture-regression"
+}

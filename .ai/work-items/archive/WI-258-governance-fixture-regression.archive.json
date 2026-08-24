@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-24T23:30:41Z",
+  "files": {
+    "contractDigest": "sha256:3e8d2effff40d3454d0582d3c2d1ca75d65287a557a378c568a8afcce27c1ef3",
+    "contractPath": ".ai/work-items/archive/WI-258-governance-fixture-regression.contract.json",
+    "eventsDigest": "sha256:02fb8d77d00ac49a3a3caceba25361c1b6ff20f83cdcd82cfebf395dbbecf181",
+    "eventsPath": ".ai/work-items/archive/WI-258-governance-fixture-regression.events.jsonl",
+    "outcomeDigest": "sha256:b97750d501aad3219ac14dda4763981a19d2f76b984eead77dd97f5a12ba8f7f",
+    "outcomePath": ".ai/work-items/archive/WI-258-governance-fixture-regression.outcome.json",
+    "summaryDigest": "sha256:0f631481319e6f1848abcc66b048810e792328c0553c49977890ca3c7c300d77",
+    "summaryPath": ".ai/work-items/archive/WI-258-governance-fixture-regression.summary.json",
+    "taskReportDigest": "sha256:e20ef1e54673145e7db10e8e2ba24e36c5a32fd4eacaf37c90212d4b31e768f5",
+    "taskReportMarkdownDigest": "sha256:985e64efcbf6208a0471b808d96e1f7fbbd5b9636d815d43c27d14251d27f24f",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-258-governance-fixture-regression.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-258-governance-fixture-regression.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-258-governance-fixture-regression"
+}

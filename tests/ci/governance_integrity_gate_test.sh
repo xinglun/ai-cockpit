@@ -20,6 +20,17 @@ run_case() {
   local repo="$tmp/$name"
   local report="$tmp/$name-report.json"
   build_fixture "$fixtures/$name.json" "$repo"
+  test -f "$repo/docs/reference/pending-parity-registry.json"
+  python3 - "$repo/docs/reference/pending-parity-registry.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+value = json.loads(path.read_text(encoding="utf-8"))
+assert path.is_file() and not path.is_symlink(), path
+assert value == {"entries": [], "schemaVersion": 1}, value
+PY
   set +e
   if [[ "$name" == release-tag-* ]]; then
     GITHUB_EVENT_NAME=push \

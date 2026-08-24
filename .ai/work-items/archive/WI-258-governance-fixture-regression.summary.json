@@ -1,0 +1,28 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-24T23:18:43Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T23:17:59Z",
+  "intentAlignment": {
+    "evidence": [
+      "tests/ci/fixtures/governance-integrity/build_fixture.py",
+      "tests/ci/governance_integrity_gate_test.sh",
+      "tests/docs/pending_parity_registry_test.sh",
+      "docs/work-items/WI-255-recovery-read-side.md",
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "The fixture builder and regression tests now generate an explicit empty pending-parity registry, while the pending test writes its own entry and validates it. The same Work Item promotes the already-closed WI-255 documentation projection without changing .ai lifecycle bytes.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-08-24T23:28:14Z",
+  "preflightContractDigest": "sha256:91aae1e40c6aa99b7ae1b039ddc6784376ed3a4168ac42fefd17609f632bf97d",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:eacafbe65ed4632dbc6057b7a73121ec32039bd9d75046d8ec78fc717f6e5b09",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-24T23:28:44Z",
+  "workItemId": "WI-258-governance-fixture-regression"
+}
