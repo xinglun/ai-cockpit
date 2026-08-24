@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-24T18:38:03Z",
+  "files": {
+    "contractDigest": "sha256:cb168bdc4b87cf32cd19dead4ac04708e15d95775ec851647c8e77b57d88d9ca",
+    "contractPath": ".ai/work-items/archive/WI-257-post-close-promotion-recovery.contract.json",
+    "eventsDigest": "sha256:0446f933a588e531adc68fc3da7d53b26a11c992dea3970561dd53704985d2be",
+    "eventsPath": ".ai/work-items/archive/WI-257-post-close-promotion-recovery.events.jsonl",
+    "outcomeDigest": "sha256:6ce96678377703396cc1246ff833d798740101684a0e8ef5f2efe4d19ca0d750",
+    "outcomePath": ".ai/work-items/archive/WI-257-post-close-promotion-recovery.outcome.json",
+    "summaryDigest": "sha256:6cadd23a4da25b4c5a2dcd30aa4b0521871683ac0e3c140091966b8ee10b5e9f",
+    "summaryPath": ".ai/work-items/archive/WI-257-post-close-promotion-recovery.summary.json",
+    "taskReportDigest": "sha256:5c4348b063945d58d8d39caa3a49654a895b580331191a5f656b89fbb7405b9a",
+    "taskReportMarkdownDigest": "sha256:6a93b1f555101121a994327423dde89ac99475ecbd738da840b77e07ef8b8cae",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-257-post-close-promotion-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-257-post-close-promotion-recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-257-post-close-promotion-recovery"
+}

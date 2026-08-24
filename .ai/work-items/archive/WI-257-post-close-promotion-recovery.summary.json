@@ -1,0 +1,92 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-257-post-close-promotion-recovery.contract.json",
+    ".ai/work-items/archive/WI-257-post-close-promotion-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-08-24T18:17:17Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T18:14:25Z",
+  "intentAlignment": {
+    "evidence": [
+      "tests/docs/post_close_work_item.py",
+      "AGENTS.md",
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "The implementation is limited to repository-owned post-close documentation orchestration, preserving immutable WI-256 history and binding the reviewed PR context.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-08-24T18:37:09Z",
+  "preflightContractDigest": "sha256:81d2059b6f6b54a1bd319e65c1e273e569fbb4282f6ccf3183546d1d51253e1b",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:51f58965b71b1906557d3eee269624de8ae31804cf0354db087aa52298fef2ff",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/docs/post_close_work_item.py",
+        "tests/docs/post_close_work_item_test.sh",
+        "target/WI-257-quality-route.json"
+      ],
+      "expected": "On an exact clean origin/main checkout, plan and apply bind WI-255 terminal truth, promote six paths, and reapply as a no-op.",
+      "required": true,
+      "scenario": "valid-synchronized-plan-apply-reapply",
+      "status": "verified",
+      "verificationPlan": "Detached exact origin/main validation produced promoted state with six changes and unchanged .ai digests."
+    },
+    {
+      "evidence": [
+        "tests/docs/post_close_work_item_test.sh",
+        "tests/docs/post_close_work_item.py"
+      ],
+      "expected": "Stale, foreign, malformed, duplicate, unknown, symlink, and nonregular inputs fail before writes.",
+      "required": true,
+      "scenario": "typed-identity-filesystem-and-staleness-fail-closed",
+      "status": "verified",
+      "verificationPlan": "Wrapper adversarial regression covers typed bindings and filesystem boundaries with no-write assertions."
+    },
+    {
+      "evidence": [
+        "tests/docs/post_close_work_item_test.sh"
+      ],
+      "expected": "Dirty, unexpected, and partial controlled projections fail closed without changing lifecycle or documentation bytes.",
+      "required": true,
+      "scenario": "dirty-unexpected-and-partial-projection-fail-closed",
+      "status": "verified",
+      "verificationPlan": "Wrapper regression exercises dirty, unexpected, and partial fixtures."
+    },
+    {
+      "evidence": [
+        "tests/docs/post_close_work_item_test.sh"
+      ],
+      "expected": "Bare origin advertises main and plan output is atomic and symlink-safe.",
+      "required": true,
+      "scenario": "bare-origin-and-atomic-plan-boundary",
+      "status": "verified",
+      "verificationPlan": "Regression sets symbolic-ref HEAD=refs/heads/main and checks output boundary cases."
+    },
+    {
+      "evidence": [
+        "AGENTS.md",
+        "docs/reference/agent-workflow.md",
+        "docs/reference/agent-workflow.zh-CN.md",
+        "docs/reference/agent-workflow.ja.md",
+        "docs/reference/commands.md",
+        "docs/reference/commands.zh-CN.md",
+        "docs/reference/commands.ja.md",
+        "tests/ci/repository_gate_manifest.json",
+        "target/WI-257-quality-route.json"
+      ],
+      "expected": "The repository rules and tri-language docs define visible Outcome then typed post-close plan/apply, check-all, and terminal CI.",
+      "required": true,
+      "scenario": "actionable-post-close-handoff-and-terminal-ci",
+      "status": "verified",
+      "verificationPlan": "Documentation acceptance, manifest regression, governance integrity, and strict repository route pass."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-24T18:37:55Z",
+  "workItemId": "WI-257-post-close-promotion-recovery"
+}

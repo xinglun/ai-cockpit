@@ -1,0 +1,146 @@
+{
+  "acceptanceResults": [
+    "The typed post-close plan binds repositoryId, Work Item ID, exact synchronized origin/main revision, approved close receipt, sequence-2 finalization head, archive/evidence identities, and exact before/after digests for the six controlled documentation paths.",
+    "Plan/apply rejects stale or descendant HEAD, foreign identity, malformed or duplicate JSON, symlink/nonregular plan input/output, unknown or missing fields/paths, dirty or partial projection, terminal digest mismatch, and unexpected changes before mutation; atomic plan output and identical reapply are deterministic.",
+    "The wrapper regression sets the bare origin HEAD symbolic ref to main, covers normal and adversarial cases with no-write failure assertions, and the repository manifest/quality route invokes both mandatory check-only and regression gates.",
+    "WI-255 tri-language Work Item and reference-parity projections become Implemented and bind exact archive, verification, sequence-2 finalization, and close truth without changing any immutable .ai byte.",
+    "AGENTS and English, Simplified Chinese, and Japanese workflow/commands documentation define close → visible Outcome → synchronized post-close plan/apply → check-all → terminal CI and name the exact fail-closed corrective command.",
+    "WI-257 tri-language Work Item/parity projection records the WI-256 failed predecessor and PR #208 as preserved external history without copying or asserting absent WI-256 lifecycle records on main.",
+    "Focused wrapper/promoter/docs/manifest/governance checks, formatting, clippy, and locked full workspace tests pass under installed Runtime v0.2.31 verification with current Contract and PR bindings."
+  ],
+  "createdAt": "2026-08-24T18:37:55Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:a26c296e9497277cf5f74b1ebb5c20d9e5b412c745e6a2942288e1ed38524db7",
+  "evidenceRefs": [
+    ".ai/evidence/WI-257-post-close-promotion-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-257-post-close-promotion-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-257-post-close-promotion-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:51f58965b71b1906557d3eee269624de8ae31804cf0354db087aa52298fef2ff",
+      "workItemId": "WI-257-post-close-promotion-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-257-post-close-promotion-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-257-post-close-promotion-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-257-post-close-promotion-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-257-post-close-promotion-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-257-post-close-promotion-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-257-post-close-promotion-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-257-post-close-promotion-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-257-post-close-promotion-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-257-post-close-promotion-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-257-post-close-promotion-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "选择性迁移已验证的 repository docs/scripts 行为到 WI-257，提供严格 typed、同步主线、fail-closed 且可重复的 post-close plan/apply wrapper，正确完成 WI-255 六路径 promotion，并按 PR-first 顺序产生一致 Contract/evidence/archive/finalization。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-257-post-close-promotion-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-257-post-close-promotion-recovery"
+  },
+  "taskReportDigest": "sha256:5c4348b063945d58d8d39caa3a49654a895b580331191a5f656b89fbb7405b9a",
+  "taskReportMarkdownDigest": "sha256:6a93b1f555101121a994327423dde89ac99475ecbd738da840b77e07ef8b8cae",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-257-post-close-promotion-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-257-post-close-promotion-recovery"
+}
