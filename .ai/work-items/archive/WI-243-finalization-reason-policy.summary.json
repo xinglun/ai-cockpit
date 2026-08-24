@@ -1,0 +1,66 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-24T08:32:13Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T08:30:51Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-243-finalization-reason-policy.verification.json"
+    ],
+    "reason": "The change removes only the undocumented reason-token interpretation while preserving every typed identity and blocked/unmerged validation required by the approved Contract.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-08-24T08:44:09Z",
+  "preflightContractDigest": "sha256:60b6829fbfc13a21d0ad607aa8f2adc862d08c64f609b0d18952379f8ca9923e",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:5143f664ad99c015aa932e191fc132de73e89c5e9f10038d30347b03e9cc2dc3",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-243-finalization-reason-policy.verification.json"
+      ],
+      "expected": "A Runtime v0.2.31 pre-merge receipt using the exact WI-240 nonempty audit reason is classified as awaiting_merge_close when every typed identity and state binding is valid.",
+      "required": true,
+      "scenario": "runtime-audit-reason",
+      "status": "verified",
+      "verificationPlan": "Run the governance integrity fixture with the literal WI-240 reason and assert a passing report whose lifecycleState is awaiting_merge_close."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-243-finalization-reason-policy.verification.json"
+      ],
+      "expected": "Empty and whitespace-only reason values fail closed as invalid_premerge_finalize.",
+      "required": true,
+      "scenario": "empty-audit-reason",
+      "status": "verified",
+      "verificationPlan": "Run the empty and whitespace fixture cases and assert deterministic invalid_premerge_finalize findings."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-243-finalization-reason-policy.verification.json"
+      ],
+      "expected": "A foreign repository receipt remains invalid even when it supplies the same nonempty auditable reason text.",
+      "required": true,
+      "scenario": "foreign-receipt",
+      "status": "verified",
+      "verificationPlan": "Run the foreign pre-merge fixture with the WI-240 reason and assert invalid_premerge_finalize."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-243-finalization-reason-policy.verification.json"
+      ],
+      "expected": "English, Simplified Chinese, and Japanese policy text consistently separates audit reason prose from typed lifecycle state.",
+      "required": true,
+      "scenario": "tri-language-policy",
+      "status": "verified",
+      "verificationPlan": "Run documentation acceptance, parity status, and the strict governance gate."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-24T08:48:13Z",
+  "workItemId": "WI-243-finalization-reason-policy"
+}
