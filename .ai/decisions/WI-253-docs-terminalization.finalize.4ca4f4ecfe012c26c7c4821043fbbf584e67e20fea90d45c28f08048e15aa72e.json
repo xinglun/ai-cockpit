@@ -1,0 +1,65 @@
+{
+  "governanceAppendRevision": "62ff64e9bce5a214523473ef218dfea5b8fc5ee3",
+  "predecessorReceiptDigest": "sha256:d1f59eae13089a9d0d80a23c2e29b5fcf59a266c02c32f51ae25873d22fece3b",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "reviewed-PR-205-merge",
+    "before": {
+      "branch": "present",
+      "pullRequest": "unmerged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "62ff64e9bce5a214523473ef218dfea5b8fc5ee3",
+      "name": "codex/wi-253-docs-terminalization",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:6ee0a4cc17076ada921d7449ca10cd4e6d20f440e286a8d7c19756473ef9f6c9",
+    "operationId": "operation-WI-253-docs-terminalization-merge-observed",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "0ed41d1ca6f6b6455d3a42d91a2d578fe5b178eb",
+      "headRevision": "62ff64e9bce5a214523473ef218dfea5b8fc5ee3",
+      "mergeCommit": "54844d67d131d756c24fd905ed110e99b7d79966",
+      "number": 205,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/205"
+    },
+    "reason": "Observed reviewed PR #205 merged at exact head 62ff64e with merge commit 54844d67; retain the exact local branch and clean worktree until synchronized-main terminal checks and bounded cleanup are recorded.",
+    "receiptId": "ai-cockpit-WI-253-docs-terminalization-merge-observed",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-253-docs-terminalization",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/205",
+      "worktree": "/private/tmp/ai-cockpit-wi253-docs-terminalization"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+    "runtimeVersion": "0.2.31",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-24T15:42:01Z",
+    "workItemId": "WI-253-docs-terminalization",
+    "worktree": {
+      "branch": "codex/wi-253-docs-terminalization",
+      "headRevision": "62ff64e9bce5a214523473ef218dfea5b8fc5ee3",
+      "path": "/private/tmp/ai-cockpit-wi253-docs-terminalization",
+      "worktreeId": "WI-253-docs-terminalization"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-253-merge-observed"
+}
