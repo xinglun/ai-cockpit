@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "Release route handles an absent .ai/work-items/active directory deterministically without failing.",
+    "A regression test proves the zero-active-Work-Item clean boundary.",
+    "Package metadata, lockfile, release docs, and tri-language parity identify v0.2.31 with v0.2.30 preserved as failed immutable history.",
+    "Hosted release checks pass and publish only the immutable v0.2.31 tag.",
+    "The public v0.2.31 artifact is later handed to a successor adopter-acceptance Work Item."
+  ],
+  "createdAt": "2026-08-24T05:36:38Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:175231e7c9d820ea45b0ca72febe82a799c02c5fe9774e8a91c827b972d5208d",
+  "evidenceRefs": [
+    ".ai/evidence/WI-237-release-route-recovery-v0-2-31.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-237-release-route-recovery-v0-2-31.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-237-release-route-recovery-v0-2-31.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:661daf54bde7c99b9d4d5727c75c46eff6a560d1a3faa90905e7f2a464d51369",
+      "workItemId": "WI-237-release-route-recovery-v0-2-31"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-237-release-route-recovery-v0-2-31.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-237-release-route-recovery-v0-2-31.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-237-release-route-recovery-v0-2-31.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-237-release-route-recovery-v0-2-31.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-237-release-route-recovery-v0-2-31.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-237-release-route-recovery-v0-2-31.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-237-release-route-recovery-v0-2-31.contract.json"
+          ],
+          "inference": false,
+          "text": "Make release quality planning succeed when .ai/work-items/active is absent, add a regression, bump the patch release to v0.2.31, and prove the public artifact through hosted release checks."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-237-release-route-recovery-v0-2-31.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-237-release-route-recovery-v0-2-31"
+  },
+  "taskReportDigest": "sha256:46b49ef05583a0dd399383baa3232d3fb83283ea6853e1106a2cac6ae2f3ab2b",
+  "taskReportMarkdownDigest": "sha256:daf9794938eabc43fae7e12dc5f334a6307fb157a1f3e7583bf72e4e849335d9",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-237-release-route-recovery-v0-2-31.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-237-release-route-recovery-v0-2-31"
+}
