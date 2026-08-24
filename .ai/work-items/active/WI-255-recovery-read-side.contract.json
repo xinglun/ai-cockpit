@@ -1,0 +1,126 @@
+{
+  "acceptanceCriteria": [
+    "Current recovery decisions are revalidated against regular-file and filename boundaries, bounded size and duplicate-free JSON, repository and current Runtime identity, predecessor Contract/Summary/Outcome/Events digests, timestamp and decision shape, and exact successor Contract identity before Outcome projection or archive mutation.",
+    "Forged, foreign, stale, tampered, malformed, symlinked, oversized, digest-misnamed, or ambiguous current candidates fail closed with stable recovery_decision_invalid diagnostics and cannot move active artifacts or project superseded status.",
+    "Valid retry, successor, and supersede decisions remain usable while every binding is current, and deterministic candidate ordering selects only a fully validated latest candidate.",
+    "Historical archived Work Item bytes remain immutable and compatible; current Runtime identity checks do not retroactively reclassify historical recovery projections.",
+    "Only the shared Rust/test behavior from PR #192/#202 is selectively migrated; no WI-242/WI-248 archive, evidence, Outcome, events, recovery, finalization, or old lifecycle commit is imported or rewritten.",
+    "English, Simplified Chinese, and Japanese workflow, command, Work Item, and parity documentation describe the current-read boundary and bind WI-255 to its exact future archive, verification, finalization, and close paths.",
+    "Focused recovery/archive/Outcome tests, documentation/governance gates, formatting, clippy, and the locked full workspace suite pass under installed Runtime verification."
+  ],
+  "authority": "authorized",
+  "baseRevision": "bd30ab939ae7f856703595d7661962087cfb12db",
+  "createdAt": "2026-08-24T16:44:09Z",
+  "goal": "Outcome 与 archive consumer 在使用 current recovery candidate 前严格验证文件、JSON、repository、Runtime、predecessor artifacts、timestamp、decision shape 和 successor binding；invalid 或 ambiguous candidate 稳定 fail closed，历史 archive 保持兼容。",
+  "intent": "在最新默认分支上重新实现 current recovery decision 读侧重验，选择性迁移 PR #202/#192 已审阅行为，同时保持旧 WI-242/WI-248 archive、evidence、finalization 与 PR bytes 不变。",
+  "mode": "implementation",
+  "outOfScope": [
+    "all WI-242 and WI-248 immutable lifecycle bytes",
+    "PR #192 and PR #202 branches or history",
+    "crates outside cockpit-repository",
+    "resource-finalization base binding already present on main",
+    "parallel slot compatibility",
+    "post-finalize evidence binding",
+    "close decision projection",
+    "user-global configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:89c5302554fce958557c11ca3e55acbe891605fa00166f2d97bcc64caf4054dc",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-255-recovery-read-side",
+    "provider": "github",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi255-recovery-read-side"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A Runtime-recorded current retry, successor, or supersede decision is accepted by Outcome and archive consumers only while every file, repository, Runtime, predecessor artifact, timestamp, decision, and successor binding remains current.",
+      "required": true,
+      "scenario": "valid-current-recovery",
+      "status": "unverified",
+      "verificationPlan": "Run focused recovery_decision lifecycle cases for valid retry, successor, supersede, Outcome projection, and archive behavior."
+    },
+    {
+      "evidence": [],
+      "expected": "Foreign repository or Runtime identities, stale predecessor digests, invalid timestamps or decisions, and mismatched successor bindings fail closed before Outcome projection or archive mutation.",
+      "required": true,
+      "scenario": "forged-current-recovery",
+      "status": "unverified",
+      "verificationPlan": "Run table-driven identity and predecessor/successor tamper cases and assert recovery_decision_invalid plus unchanged active artifacts."
+    },
+    {
+      "evidence": [],
+      "expected": "Symlinked, oversized, malformed, duplicate-key, digest-misnamed, and non-regular current recovery candidates fail closed with stable diagnostics.",
+      "required": true,
+      "scenario": "invalid-current-candidate-file",
+      "status": "unverified",
+      "verificationPlan": "Create real filesystem fixtures for each invalid candidate shape and execute Outcome/archive consumers against them."
+    },
+    {
+      "evidence": [],
+      "expected": "Multiple current candidates are fully validated before deterministic latest selection; an invalid or ambiguous candidate cannot be skipped to authorize an older decision.",
+      "required": true,
+      "scenario": "deterministic-candidate-selection",
+      "status": "unverified",
+      "verificationPlan": "Exercise canonical plus digest-suffixed candidates with timestamp ties, invalid newer entries, and filename/content digest mismatches."
+    },
+    {
+      "evidence": [],
+      "expected": "Historical archived Work Items retain immutable bytes and historical projection without enforcing a later Runtime identity as a retroactive current-read rule.",
+      "required": true,
+      "scenario": "historical-archive-compatibility",
+      "status": "unverified",
+      "verificationPlan": "Run existing recovery, archive_integrity, outcome_report, and full repository suites against archived historical fixtures."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-255-recovery-read-side.md",
+    "docs/work-items/WI-255-recovery-read-side.zh-CN.md",
+    "docs/work-items/WI-255-recovery-read-side.ja.md"
+  ],
+  "sources": [
+    "crates/cockpit-repository/src/lib.rs#record_recovery_decision",
+    "crates/cockpit-repository/src/lib.rs#load_recovery_decision",
+    "crates/cockpit-repository/src/lib.rs#archive_work_item_internal",
+    "crates/cockpit-repository/src/lib.rs#outcome_v2_internal",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "https://github.com/xinglun/ai-cockpit/pull/192",
+    "https://github.com/xinglun/ai-cockpit/pull/202",
+    "PR #192 commit a3846e55b8cfd276277e6aea658baf984907c840 and PR #202 commit 057977a13cc4655a80a3c9c2dfc71395f91e9109 share Rust/test patch-id b45840456622930b5d3e67a338803bd9718069c1",
+    "human authorization to recreate the recovery read-side implementation as WI-255 from origin/main@bd30ab939ae7f856703595d7661962087cfb12db without importing old WI-242/WI-248 immutable lifecycle bytes"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked -p cockpit-repository --test recovery_decision -- --nocapture",
+    "cargo test --locked -p cockpit-repository --test archive_integrity -- --nocapture",
+    "cargo test --locked -p cockpit-repository --test outcome_report -- --nocapture",
+    "cargo test --locked -p cockpit-repository",
+    "bash tests/docs/documentation_acceptance.sh .",
+    "bash tests/docs/parity_status_check.sh . target/WI-255-parity-status.json",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report target/WI-255-governance-integrity.json",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-255-recovery-read-side"
+}
