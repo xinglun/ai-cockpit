@@ -1,0 +1,32 @@
+{
+  "acceptanceCriteria": [],
+  "authority": "unknown",
+  "baseRevision": "777b00d7c5d9acc4a47e86d45a2d477b745e0e7f",
+  "createdAt": "2026-08-24T00:20:55Z",
+  "goal": "",
+  "intent": "",
+  "mode": "code",
+  "outOfScope": [],
+  "predecessorContractDigest": "sha256:84dc15c8cd02e038884e248dce8a82c4996fffc9ecea8049c3de1286205170a1",
+  "predecessorWorkItemId": "WI-228-governance-append-evidence",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-228-governance-append-evidence.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:972da1f6dd8f5b5355d403033f40d24a0196ac63467f9e785396bc47f67d79ee",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-228-governance-append-evidence",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi228-governance-append-evidence"
+  },
+  "risk": "unknown",
+  "scope": [],
+  "sources": [],
+  "state": "not_ready",
+  "verification": [],
+  "workItemId": "WI-229-governance-append-parity-recovery"
+}
