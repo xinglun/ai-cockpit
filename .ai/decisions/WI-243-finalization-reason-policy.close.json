@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-243-finalization-reason-policy.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5143f664ad99c015aa932e191fc132de73e89c5e9f10038d30347b03e9cc2dc3",
+      "workItemId": "WI-243-finalization-reason-policy"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-243-finalization-reason-policy.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-243-finalization-reason-policy.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-243-finalization-reason-policy.verification.json",
+            ".ai/decisions/WI-243-finalization-reason-policy.finalize.7bbb5376f1e9eb9dd18b547dc07947ed18fd853ff61851905b794cb3e0226754.json",
+            "https://github.com/xinglun/ai-cockpit/pull/195",
+            "https://github.com/xinglun/ai-cockpit/actions/runs/32708256198",
+            "https://github.com/xinglun/ai-cockpit/actions/runs/32708249847"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via reviewed-pr-hosted-checks at 2026-08-24T08:59:57Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-243-finalization-reason-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-243-finalization-reason-policy.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-243-finalization-reason-policy.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-243-finalization-reason-policy.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-243-finalization-reason-policy.contract.json"
+          ],
+          "inference": false,
+          "text": "Runtime-valid pre-merge finalization receipt with arbitrary nonempty audit reason passes the hosted gate while empty/whitespace or foreign receipts still fail closed."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-243-finalization-reason-policy.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-243-finalization-reason-policy"
+  },
+  "finalReportDigest": "sha256:36480242e1ec49a1543348dafdaa56a43b51a8673008e350034cdb2ddaad3265",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:9b2b9063bd695978f249bfe99777f0b3964878233ae399e22c06081d0a2de889",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-243-finalization-reason-policy.finalize.7bbb5376f1e9eb9dd18b547dc07947ed18fd853ff61851905b794cb3e0226754.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "reviewed-pr-hosted-checks",
+    "decidedAt": "2026-08-24T08:59:57Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-243-finalization-reason-policy.verification.json",
+      ".ai/decisions/WI-243-finalization-reason-policy.finalize.7bbb5376f1e9eb9dd18b547dc07947ed18fd853ff61851905b794cb3e0226754.json",
+      "https://github.com/xinglun/ai-cockpit/pull/195",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/32708256198",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/32708249847"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "PR #195 merged as 04aa8bf after all hosted checks passed; Runtime verified exact branch/worktree cleanup and the append-only finalization chain.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-24T08:59:57Z",
+  "workItemId": "WI-243-finalization-reason-policy"
+}
