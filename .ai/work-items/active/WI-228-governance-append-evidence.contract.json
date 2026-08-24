@@ -29,25 +29,14 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-228-governance-append-evidence",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/177",
     "worktree": "/private/tmp/ai-cockpit-wi228-governance-append-evidence"
   },
   "risk": "high",
-  "scope": [
-    "crates/cockpit-repository/src/lib.rs",
-    "crates/cockpit-repository/tests/resource_finalization_transition.rs",
-    "crates/cockpit-protocol/tests/resource_finalization.rs",
-    "docs/reference/agent-workflow.md",
-    "docs/reference/agent-workflow.zh-CN.md",
-    "docs/reference/agent-workflow.ja.md",
-    "docs/reference/commands.md",
-    "docs/reference/commands.zh-CN.md",
-    "docs/reference/commands.ja.md"
-  ],
   "scenarioCoverage": [
     {
       "evidence": [],
@@ -73,6 +62,17 @@
       "status": "unverified",
       "verificationPlan": "Run protocol transition regressions plus the existing WI-191 repository append regression before the full workspace suite."
     }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+    "crates/cockpit-protocol/tests/resource_finalization.rs",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md"
   ],
   "sources": [
     "git:02cbde2bf3d57176fbbf3acd0f348c9f67fc75e0",
