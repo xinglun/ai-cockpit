@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-pre-merge-finalization-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "3a61f057d870bf5b1b01fa775dcadce866463db7",
+    "name": "codex/wi-228-governance-append-evidence",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:294730475d3d31cbcb83f4d4849fb87497ec8ef09fafa47648de3ff8dba5a0e0",
+  "operationId": "operation-WI-228-governance-append-evidence-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "02cbde2bf3d57176fbbf3acd0f348c9f67fc75e0",
+    "headRevision": "3a61f057d870bf5b1b01fa775dcadce866463db7",
+    "number": 177,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/177"
+  },
+  "reason": "awaiting_merge_close: draft PR #177 is unmerged; retain the exact reviewed WI-228 branch and clean worktree until hosted checks pass, human review is complete, and the reviewed pull request is merged.",
+  "receiptId": "ai-cockpit-WI-228-governance-append-evidence-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-228-governance-append-evidence",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/177",
+    "worktree": "/private/tmp/ai-cockpit-wi228-governance-append-evidence"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:23e9a9824f35b9e0d3706bdcbad34777bca5b0a4d362b4101407412a905dcb5b",
+  "runtimeVersion": "0.2.28",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-24T00:11:04Z",
+  "workItemId": "WI-228-governance-append-evidence",
+  "worktree": {
+    "branch": "codex/wi-228-governance-append-evidence",
+    "headRevision": "3a61f057d870bf5b1b01fa775dcadce866463db7",
+    "path": "/private/tmp/ai-cockpit-wi228-governance-append-evidence",
+    "worktreeId": "WI-228-governance-append-evidence"
+  }
+}

@@ -7887,6 +7887,276 @@ fn read_resource_finalization_transition(
     })
 }
 
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct PostFinalizeQualityRoutePathDecision {
+    path: String,
+    profile: String,
+    reason: String,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct PostFinalizeQualityRouteReceipt {
+    schema_version: u32,
+    kind: String,
+    automatic_profile: String,
+    base_revision: String,
+    changed_paths: Vec<String>,
+    contract_digest: Digest,
+    contract_path: String,
+    head_revision: String,
+    manifest_digest: Digest,
+    path_decisions: Vec<PostFinalizeQualityRoutePathDecision>,
+    reasons: Vec<String>,
+    receipt_digest: Digest,
+    requested_profile: Option<String>,
+    requested_risk: String,
+    required_gate_ids: Vec<String>,
+    risk: String,
+    selected_profile: String,
+    stage: String,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct PostFinalizeRepositoryGate {
+    id: String,
+    category: String,
+    command: Vec<String>,
+    #[serde(default)]
+    covers: Vec<String>,
+    state: String,
+    exit_code: i32,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct PostFinalizeRepositoryGateRoute {
+    manifest_digest: Digest,
+    receipt_digest: Digest,
+    required_gate_ids: Vec<String>,
+    selected_profile: String,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct PostFinalizeRepositoryGatesReceipt {
+    schema_version: u32,
+    state: String,
+    route: PostFinalizeRepositoryGateRoute,
+    gates: Vec<PostFinalizeRepositoryGate>,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum PostFinalizeEvidenceKind {
+    QualityRoute,
+    RepositoryGates,
+}
+
+fn post_finalize_evidence_kind(
+    work_item_id: &str,
+    candidate: &str,
+) -> Option<PostFinalizeEvidenceKind> {
+    let prefix = format!(".ai/evidence/{work_item_id}/");
+    match candidate.strip_prefix(&prefix)? {
+        "quality-route-post-finalize.json" => Some(PostFinalizeEvidenceKind::QualityRoute),
+        "repository-gates-post-finalize.json" => Some(PostFinalizeEvidenceKind::RepositoryGates),
+        _ => None,
+    }
+}
+
+fn read_governance_append_blob(
+    root: &Path,
+    revision: &str,
+    candidate: &str,
+    path: &Path,
+) -> Result<Vec<u8>, ObserverError> {
+    let object = format!("{revision}:{candidate}");
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args(["cat-file", "blob", &object])
+        .output()
+        .map_err(|source| ObserverError::Read {
+            path: path.into(),
+            source,
+        })?;
+    if !output.status.success() {
+        return Err(ObserverError::State {
+            path: path.into(),
+            message: "cannot read governance append evidence blob".into(),
+        });
+    }
+    if output.stdout.len() > MAX_EXTERNAL_EVIDENCE_BYTES {
+        return Err(ObserverError::State {
+            path: path.into(),
+            message: "governance append evidence exceeds the bounded size limit".into(),
+        });
+    }
+    reject_duplicate_json_keys(&output.stdout).map_err(|message| ObserverError::State {
+        path: path.into(),
+        message: format!("invalid governance append evidence JSON: {message}"),
+    })?;
+    Ok(output.stdout)
+}
+
+fn nonempty(value: &str) -> bool {
+    !value.trim().is_empty()
+}
+
+fn validate_post_finalize_evidence_bundle(
+    root: &Path,
+    work_item_id: &str,
+    previous: &ResourceFinalizationReceipt,
+    append_revision: &str,
+    quality_bytes: &[u8],
+    gates_bytes: &[u8],
+    path: &Path,
+) -> Result<(), ObserverError> {
+    let quality_value: serde_json::Value =
+        serde_json::from_slice(quality_bytes).map_err(|error| ObserverError::State {
+            path: path.into(),
+            message: format!("invalid post-finalize quality route JSON: {error}"),
+        })?;
+    let quality: PostFinalizeQualityRouteReceipt = serde_json::from_value(quality_value.clone())
+        .map_err(|error| ObserverError::State {
+            path: path.into(),
+            message: format!("invalid post-finalize quality route schema: {error}"),
+        })?;
+    let gates: PostFinalizeRepositoryGatesReceipt =
+        serde_json::from_slice(gates_bytes).map_err(|error| ObserverError::State {
+            path: path.into(),
+            message: format!("invalid post-finalize repository gates schema: {error}"),
+        })?;
+
+    let expected_contract_path = format!(".ai/work-items/archive/{work_item_id}.contract.json");
+    let Some(expected_contract_digest) = previous.contract_digest.as_ref() else {
+        return Err(ObserverError::State {
+            path: path.into(),
+            message: "post-finalize evidence requires a contract-bound predecessor receipt".into(),
+        });
+    };
+    let quality_head_is_bounded = valid_git_object_id(&quality.head_revision)
+        && git_text(
+            root,
+            &[
+                "merge-base",
+                "--is-ancestor",
+                &previous.pull_request.head_revision,
+                &quality.head_revision,
+            ],
+        )
+        .is_some()
+        && git_text(
+            root,
+            &[
+                "merge-base",
+                "--is-ancestor",
+                &quality.head_revision,
+                append_revision,
+            ],
+        )
+        .is_some();
+    let string_lists_are_valid = [
+        quality.changed_paths.as_slice(),
+        quality.reasons.as_slice(),
+        quality.required_gate_ids.as_slice(),
+    ]
+    .into_iter()
+    .all(|values| !values.is_empty() && values.iter().all(|value| nonempty(value)));
+    let path_decisions_are_valid = !quality.path_decisions.is_empty()
+        && quality.path_decisions.iter().all(|decision| {
+            nonempty(&decision.path) && nonempty(&decision.profile) && nonempty(&decision.reason)
+        })
+        && quality
+            .path_decisions
+            .iter()
+            .map(|decision| decision.path.as_str())
+            .eq(quality.changed_paths.iter().map(String::as_str));
+    if quality.schema_version != 1
+        || quality.kind != "repository_quality_route"
+        || quality.stage != "pull_request"
+        || quality.contract_path != expected_contract_path
+        || &quality.contract_digest != expected_contract_digest
+        || quality.base_revision != previous.pull_request.base_revision
+        || !quality_head_is_bounded
+        || !string_lists_are_valid
+        || !path_decisions_are_valid
+        || !nonempty(&quality.automatic_profile)
+        || !nonempty(&quality.risk)
+        || !nonempty(&quality.requested_risk)
+        || quality
+            .requested_profile
+            .as_deref()
+            .is_some_and(|value| !nonempty(value))
+        || !nonempty(&quality.selected_profile)
+    {
+        return Err(ObserverError::State {
+            path: path.into(),
+            message: "post-finalize quality route binding is invalid".into(),
+        });
+    }
+
+    let mut digest_payload = quality_value;
+    let Some(payload) = digest_payload.as_object_mut() else {
+        return Err(ObserverError::State {
+            path: path.into(),
+            message: "post-finalize quality route must be a JSON object".into(),
+        });
+    };
+    payload.remove("receiptDigest");
+    let computed_receipt_digest =
+        cockpit_protocol::digest_json(&digest_payload).map_err(|error| ObserverError::State {
+            path: path.into(),
+            message: format!("cannot digest post-finalize quality route: {error}"),
+        })?;
+    if quality.receipt_digest != computed_receipt_digest {
+        return Err(ObserverError::State {
+            path: path.into(),
+            message: "post-finalize quality route receipt digest mismatch".into(),
+        });
+    }
+
+    let route_ids = quality
+        .required_gate_ids
+        .iter()
+        .map(String::as_str)
+        .collect::<std::collections::BTreeSet<_>>();
+    let gate_ids = gates
+        .gates
+        .iter()
+        .map(|gate| gate.id.as_str())
+        .collect::<std::collections::BTreeSet<_>>();
+    let gates_are_valid = !gates.gates.is_empty()
+        && gate_ids.len() == gates.gates.len()
+        && route_ids.len() == quality.required_gate_ids.len()
+        && route_ids == gate_ids
+        && gates.gates.iter().all(|gate| {
+            nonempty(&gate.id)
+                && nonempty(&gate.category)
+                && !gate.command.is_empty()
+                && gate.command.iter().all(|value| nonempty(value))
+                && gate.covers.iter().all(|value| nonempty(value))
+                && gate.state == "passed"
+                && gate.exit_code == 0
+        });
+    if gates.schema_version != 2
+        || gates.state != "passed"
+        || gates.route.manifest_digest != quality.manifest_digest
+        || gates.route.receipt_digest != quality.receipt_digest
+        || gates.route.required_gate_ids != quality.required_gate_ids
+        || gates.route.selected_profile != quality.selected_profile
+        || !gates_are_valid
+    {
+        return Err(ObserverError::State {
+            path: path.into(),
+            message: "post-finalize repository gates binding is invalid".into(),
+        });
+    }
+    Ok(())
+}
+
 fn validate_governance_append_revision(
     root: &Path,
     work_item_id: &str,
@@ -7956,7 +8226,9 @@ fn validate_governance_append_revision(
                     digest.len() == 64 && digest.bytes().all(|byte| byte.is_ascii_hexdigit())
                 })
     };
-    let mut count = 0usize;
+    let mut finalization_count = 0usize;
+    let mut quality_route = None;
+    let mut repository_gates = None;
     for change in changes.lines() {
         let Some(candidate) = change.strip_prefix("A\t") else {
             return Err(ObserverError::State {
@@ -7964,7 +8236,8 @@ fn validate_governance_append_revision(
                 message: "governance append revision contains a non-append change".into(),
             });
         };
-        if !allowed(candidate) {
+        let evidence_kind = post_finalize_evidence_kind(work_item_id, candidate);
+        if !allowed(candidate) && evidence_kind.is_none() {
             return Err(ObserverError::State {
                 path: path.into(),
                 message: "governance append revision contains a foreign path".into(),
@@ -7981,13 +8254,40 @@ fn validate_governance_append_revision(
                 message: "governance append receipt is not a regular non-symlink JSON file".into(),
             });
         }
-        count += 1;
+        if allowed(candidate) {
+            finalization_count += 1;
+        } else if let Some(kind) = evidence_kind {
+            let bytes = read_governance_append_blob(root, &append_revision, candidate, path)?;
+            match kind {
+                PostFinalizeEvidenceKind::QualityRoute => quality_route = Some(bytes),
+                PostFinalizeEvidenceKind::RepositoryGates => repository_gates = Some(bytes),
+            }
+        }
     }
-    if count == 0 {
+    if finalization_count == 0 {
         return Err(ObserverError::State {
             path: path.into(),
             message: "governance append revision contains no finalization receipt append".into(),
         });
+    }
+    match (quality_route.as_deref(), repository_gates.as_deref()) {
+        (None, None) => {}
+        (Some(quality_route), Some(repository_gates)) => validate_post_finalize_evidence_bundle(
+            root,
+            work_item_id,
+            previous,
+            &append_revision,
+            quality_route,
+            repository_gates,
+            path,
+        )?,
+        _ => {
+            return Err(ObserverError::State {
+                path: path.into(),
+                message: "governance append revision must include the complete post-finalize evidence bundle"
+                    .into(),
+            });
+        }
     }
     Ok(())
 }

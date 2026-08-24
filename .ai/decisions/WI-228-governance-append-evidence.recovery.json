@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "hosted-gate-out-of-scope-recovery",
+  "decidedAt": "2026-08-24T00:19:06Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-228-governance-append-evidence.verification.json",
+    ".ai/decisions/WI-228-governance-append-evidence.finalize.json",
+    ".ai/work-items/archive/WI-228-governance-append-evidence.archive.json",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/32675897996"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    "tests/ci/governance_integrity_gate.py",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:84dc15c8cd02e038884e248dce8a82c4996fffc9ecea8049c3de1286205170a1",
+  "predecessorEventsDigest": "sha256:86fe6ad7a9e37fb92fa2a1e2bef9f4f69da7c2b3bb27a42b68018bcaa6a533ae",
+  "predecessorOutcomeDigest": "sha256:9d59e28c2eb7e7033cc13599d574ca5c8177df6fe9e86c6324f3eaf0e09da89e",
+  "predecessorSummaryDigest": "sha256:db747fd7daf0679465e0b8b2d69ed3025915840775d37dca07c4f75f671be664",
+  "predecessorWorkItemId": "WI-228-governance-append-evidence",
+  "reason": "WI-228 was immutably archived and finalized before hosted CI proved that its required tri-language reference-parity registration was outside the exact Contract scope and missing. Preserve all WI-228 archive, verification, and finalization bytes; complete the corrective implementation and exact parity registration through the bounded successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-229 from origin/main 02cbde2 with the exact WI-228 delivery, immutable predecessor lifecycle bytes, and three WI-228 parity rows; pass Runtime v0.2.28 verification and hosted PR checks before merge and closure.",
+  "runtimeDigest": "sha256:23e9a9824f35b9e0d3706bdcbad34777bca5b0a4d362b4101407412a905dcb5b",
+  "runtimeVersion": "0.2.28",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-229-governance-append-parity-recovery",
+  "workItemId": "WI-228-governance-append-evidence"
+}

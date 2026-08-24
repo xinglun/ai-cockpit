@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-24T00:10:19Z",
+  "files": {
+    "contractDigest": "sha256:294730475d3d31cbcb83f4d4849fb87497ec8ef09fafa47648de3ff8dba5a0e0",
+    "contractPath": ".ai/work-items/archive/WI-228-governance-append-evidence.contract.json",
+    "eventsDigest": "sha256:86fe6ad7a9e37fb92fa2a1e2bef9f4f69da7c2b3bb27a42b68018bcaa6a533ae",
+    "eventsPath": ".ai/work-items/archive/WI-228-governance-append-evidence.events.jsonl",
+    "outcomeDigest": "sha256:6faa4da2300841913ff7ce1c310b35c966497b4712b87b651ad10852b57648e7",
+    "outcomePath": ".ai/work-items/archive/WI-228-governance-append-evidence.outcome.json",
+    "summaryDigest": "sha256:6fab9a12dfa252fb1e0ed2b0d46fb82580f0383de99c4633a90dc4f7c8e0ec58",
+    "summaryPath": ".ai/work-items/archive/WI-228-governance-append-evidence.summary.json",
+    "taskReportDigest": "sha256:aa7b78a249711f5b8e1e1c03402b833719c1dfddc59790945191444ff564e6e6",
+    "taskReportMarkdownDigest": "sha256:e8e829839f5a4a501b6e7f856f4ede74cbbecb940d8e0c82b4fdcddfc1655c4a",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-228-governance-append-evidence.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-228-governance-append-evidence.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-228-governance-append-evidence"
+}

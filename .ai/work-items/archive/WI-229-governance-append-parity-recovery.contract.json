@@ -1,0 +1,105 @@
+{
+  "acceptanceCriteria": [
+    "WI-228 的代码、tests、三语 workflow/commands 与 archive/evidence/finalize/recovery bytes 必须逐字保留其 cherry-picked truth；不得手改或重分类 predecessor。",
+    "三份 reference-parity 文档必须各自新增 WI-228 与 WI-229 的唯一行，准确绑定各自 verification evidence 与 recovery/finalize decision path，状态 token 符合该语言且不改无关行。",
+    "bounded validator 的同-WI固定双 receipt 正向用例和 foreign/schema/cross-bind/M-D-R/symlink 负向用例保持通过，protocol 首次 merge head 约束保持 fail closed。",
+    "cargo fmt、workspace clippy、protocol/repository targeted、docs acceptance、parity gates、full workspace 与 Runtime v0.2.28 PR-stage verify 全部通过。",
+    "WI-229 产生可见中文 Outcome、不可变 archive 与 canonical-only premerge finalization，PR hosted quality/Windows/V1 checks 全绿且不在 merge 前 close。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "02cbde2bf3d57176fbbf3acd0f348c9f67fc75e0",
+  "createdAt": "2026-08-24T00:20:55Z",
+  "goal": "从 origin/main 02cbde2 重建并验证 WI-228 corrective delivery，补齐精确 parity evidence/decision paths，完成 WI-229 的 Runtime lifecycle 与 reviewed PR handoff。",
+  "intent": "在不改写 WI-228 不可变 archive/evidence/finalization bytes 的前提下，交付其 bounded governance-append validator 修复，并登记 WI-228 与 WI-229 的三语言 reference-parity 终态绑定，使 successor 的 hosted gate 自洽通过。",
+  "mode": "code",
+  "outOfScope": [
+    ".ai/work-items/archive/WI-228-governance-append-evidence.*",
+    ".ai/evidence/WI-228-governance-append-evidence.verification.json",
+    ".ai/decisions/WI-228-governance-append-evidence.finalize.json",
+    "任意 WI-228 immutable bytes 修改",
+    "任意非固定 evidence allowlist",
+    "合并 PR",
+    "发布 Release 或 tag",
+    "无关 parity 行"
+  ],
+  "predecessorContractDigest": "sha256:84dc15c8cd02e038884e248dce8a82c4996fffc9ecea8049c3de1286205170a1",
+  "predecessorWorkItemId": "WI-228-governance-append-evidence",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-228-governance-append-evidence.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:95d7893740a62eed421eb8c3c8ced11bbce1efe88e66a05185b66d3b3bc9da2c",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-229-governance-append-parity-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/178",
+    "worktree": "/private/tmp/ai-cockpit-wi229-governance-append-parity-recovery"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The cherry-picked WI-228 implementation and immutable predecessor lifecycle bytes remain byte-identical while the bounded validator accepts only the fixed same-Work-Item receipt pair and all negative paths remain fail closed.",
+      "required": true,
+      "scenario": "immutable predecessor and validator behavior",
+      "status": "unverified",
+      "verificationPlan": "Compare predecessor artifact digests, then run the protocol and repository resource-finalization regressions."
+    },
+    {
+      "evidence": [],
+      "expected": "English, Simplified Chinese, and Japanese reference-parity each contain one WI-228 row and one WI-229 row with the exact verification and recovery/finalization paths and the language-specific implemented state token.",
+      "required": true,
+      "scenario": "tri-language parity registration",
+      "status": "unverified",
+      "verificationPlan": "Run documentation acceptance, parity integrity, and parity regression gates after adding only the six bounded rows."
+    },
+    {
+      "evidence": [],
+      "expected": "Installed Runtime v0.2.28 binds the current Contract and PR-stage workspace evidence, archives a visible Chinese Outcome, records only a canonical pre-merge finalization receipt, and hosted quality, Windows, and V1 checks pass before merge.",
+      "required": true,
+      "scenario": "successor lifecycle and hosted gate",
+      "status": "unverified",
+      "verificationPlan": "Complete preflight/checkpoint/verify/finish/archive/finalize, push the reviewed branch, and inspect every hosted check without closing before merge."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+    "crates/cockpit-protocol/tests/resource_finalization.rs",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "origin/main@02cbde2bf3d57176fbbf3acd0f348c9f67fc75e0",
+    ".ai/decisions/WI-228-governance-append-evidence.recovery.json",
+    ".ai/work-items/archive/WI-228-governance-append-evidence.archive.json",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/32675897996",
+    "tests/ci/governance_integrity_gate.py",
+    "crates/cockpit-repository/src/lib.rs#validate_governance_append_revision"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "cargo test --locked -p cockpit-protocol --test resource_finalization",
+    "cargo test --locked -p cockpit-repository --test resource_finalization_transition",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "bash tests/docs/parity_status_check_test.sh",
+    "bash tests/ci/governance_integrity_gate_test.sh",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-229-governance-append-parity-recovery"
+}

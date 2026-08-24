@@ -121,8 +121,17 @@ fn merge_observation_requires_explicit_governance_append_for_head_drift() {
         *head = "governance-append-head".into();
     }
     assert!(validate_resource_finalization_transition(&previous, &observed, 1).is_err());
+    observed.governance_append_revision = Some("different-append-head".into());
+    assert!(validate_resource_finalization_transition(&previous, &observed, 1).is_err());
     observed.governance_append_revision = Some("governance-append-head".into());
     validate_resource_finalization_transition(&previous, &observed, 1).unwrap();
+
+    let mut append_without_head_change = transition(&previous);
+    append_without_head_change.governance_append_revision = Some("governance-append-head".into());
+    assert!(
+        validate_resource_finalization_transition(&previous, &append_without_head_change, 1)
+            .is_err()
+    );
 
     let mut branch_only = transition(&previous);
     branch_only.receipt.branch.head_revision = "governance-append-head".into();
