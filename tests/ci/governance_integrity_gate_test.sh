@@ -67,6 +67,7 @@ run_case ambiguous-current 1 ambiguous_short_id
 run_case invalid-outcome 1 invalid_outcome
 run_case archive-timestamp-current 0 none
 run_case awaiting-merge-close 0 none
+run_case stale-merged-awaiting-close 1 stale_awaiting_merge_close
 run_case release-tag-awaiting-close 0 none
 run_case release-tag-non-ancestor 1 invalid_premerge_finalize
 run_case merged-finalize-not-terminal 1 missing_terminal_decision
@@ -161,6 +162,24 @@ item = next(
 )
 assert item["lifecycleState"] == "awaiting_merge_close", item
 assert item["decisionPath"].endswith(".finalize.json"), item
+PY
+
+python3 - "$tmp/stale-merged-awaiting-close-report.json" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+item = next(
+    item
+    for item in report["inventory"]
+    if item["workItemId"] == "WI-901-release-v9-9-9"
+)
+assert item["lifecycleState"] == "stale_awaiting_merge_close", item
+assert any(
+    finding["workItemId"] == "WI-901-release-v9-9-9"
+    and finding["code"] == "stale_awaiting_merge_close"
+    for finding in report["findings"]
+), report["findings"]
 PY
 
 python3 - "$tmp/release-tag-awaiting-close-report.json" <<'PY'

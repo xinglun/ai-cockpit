@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:35206040ee052b516501685dd430cefc7707fb1195b24bc7cf4acde4f67f7aae",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "explicit-pre-merge-finalization-boundary",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "d081b2f0a81865392fbe20fd23cf398183dc11d9",
+      "name": "codex/wi-227-getting-started-capability-parity-integration",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:4ba12956db1d28ff60c4f4bace0402fabd5de94ab590b0343820120e65152f3a",
+    "operationId": "operation-WI-227-getting-started-capability-parity-integration-awaiting-merge-close",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "5968d30c095bed29f019f8c87f9742109eb64f63",
+      "headRevision": "d081b2f0a81865392fbe20fd23cf398183dc11d9",
+      "mergeCommit": "02cbde2bf3d57176fbbf3acd0f348c9f67fc75e0",
+      "number": 176,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/176"
+    },
+    "reason": "PR #176 merged and exact branch/worktree cleanup verified; record terminal deletion.",
+    "receiptId": "ai-cockpit-WI-227-getting-started-capability-parity-integration-pre-merge",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-227-getting-started-capability-parity-integration",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/176",
+      "worktree": "/private/tmp/ai-cockpit-wi227-getting-started-capability-parity-integration"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:23e9a9824f35b9e0d3706bdcbad34777bca5b0a4d362b4101407412a905dcb5b",
+    "runtimeVersion": "0.2.28",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-24T03:26:00Z",
+    "workItemId": "WI-227-getting-started-capability-parity-integration",
+    "worktree": {
+      "branch": "codex/wi-227-getting-started-capability-parity-integration",
+      "headRevision": "d081b2f0a81865392fbe20fd23cf398183dc11d9",
+      "path": "/private/tmp/ai-cockpit-wi227-getting-started-capability-parity-integration",
+      "worktreeId": "WI-227-getting-started-capability-parity-integration"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "WI-227-getting-started-capability-parity-integration-cleanup"
+}

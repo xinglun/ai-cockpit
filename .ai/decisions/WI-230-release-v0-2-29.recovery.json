@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-post-merge-recovery",
+  "decidedAt": "2026-08-24T03:30:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-230-release-v0-2-29.verification.json",
+    ".ai/work-items/archive/WI-230-release-v0-2-29.archive.json",
+    ".ai/decisions/WI-230-release-v0-2-29.finalize.b977f75ea54e064ecaa0d8c1849cc871ab36cf55c43092379422059f3e0f3994.json",
+    ".ai/decisions/WI-230-release-v0-2-29.finalize.a0bd200a943bd99c61460bbdc2fcb8ba40358c878bfce65860f6af2211e21df2.json"
+  ],
+  "policyRefs": [
+    "repository-post-merge-cleanup"
+  ],
+  "predecessorContractDigest": "sha256:5820201ae90af2c6ae37f1b166f5ca3ba4f16f0b65f630345188595bd16590b8",
+  "predecessorEventsDigest": "sha256:d1b9ee338487a47dcf3451d274857998dda7d7eea165104186ae1bff86612b61",
+  "predecessorOutcomeDigest": "sha256:83b7b4aa078f000c664b10b4955a2ff30ca83a741bd006bbc1f6c21a7b6137be",
+  "predecessorSummaryDigest": "sha256:a46dff1c7caeb4d9aa487ff267c062bf04f652423689db52758b83ea1d7c570a",
+  "predecessorWorkItemId": "WI-230-release-v0-2-29",
+  "reason": "WI-230's v0.2.28 close boundary rejected the append-only finalization transition because its original scope did not include generated post-merge governance receipts. Preserve the immutable release baseline and complete the closure/process correction in WI-234 without rewriting historical bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-234's current-release stale-awaiting-merge-close gate and clean exact obsolete refs; never rewrite WI-230 historical bytes.",
+  "runtimeDigest": "sha256:94d8ee4e27023e1cb677486164af3e96633411105a4596140d4c0f4e64776137",
+  "runtimeVersion": "0.2.29",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-234-post-merge-governance-cleanup",
+  "workItemId": "WI-230-release-v0-2-29"
+}

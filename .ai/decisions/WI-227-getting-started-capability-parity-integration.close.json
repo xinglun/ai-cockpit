@@ -1,0 +1,131 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-227-getting-started-capability-parity-integration.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c413ad3a7327d97b54894347e63130e842922f1d18cc951ad8b7c342d281ae59",
+      "workItemId": "WI-227-getting-started-capability-parity-integration"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-227-getting-started-capability-parity-integration.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-227-getting-started-capability-parity-integration.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-227-getting-started-capability-parity-integration.verification.json",
+            ".ai/decisions/WI-227-getting-started-capability-parity-integration.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-post-merge-cleanup at 2026-08-24T03:27:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-227-getting-started-capability-parity-integration.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-227-getting-started-capability-parity-integration.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-227-getting-started-capability-parity-integration.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-227-getting-started-capability-parity-integration.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-227-getting-started-capability-parity-integration.contract.json"
+          ],
+          "inference": false,
+          "text": "在同一 reviewed integration PR 中交付 capability/status、Getting Started、CI/release route 和 WI-222 至 WI-227 三语 parity truth，并以严格 Runtime lifecycle、完整 repository manifest 与精确 predecessor digest 证明闭环。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-227-getting-started-capability-parity-integration.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-227-getting-started-capability-parity-integration"
+  },
+  "finalReportDigest": "sha256:948623d69287ab8a4a5c3057ad48bae3d7347930d05345f51029a96d5f8ed976",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:34f50a43818bbcefef4d24340ca00885c539449d41e793a381fe10b4b9991483",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-227-getting-started-capability-parity-integration.finalize.85f61940ec9595c900b210791e77cfa1661f5bbd61131638f190950258726c56.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-post-merge-cleanup",
+    "decidedAt": "2026-08-24T03:27:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-227-getting-started-capability-parity-integration.verification.json",
+      ".ai/decisions/WI-227-getting-started-capability-parity-integration.finalize.json"
+    ],
+    "policyRefs": [
+      "repository-post-merge-cleanup"
+    ],
+    "reason": "PR #176 was reviewed and merged; append-only finalization proves exact cleanup. Close the historical Work Item without rewriting its v0.2.28 evidence.",
+    "resumeCondition": "No further action; historical bytes remain immutable."
+  },
+  "timestamp": "2026-08-24T03:24:46Z",
+  "workItemId": "WI-227-getting-started-capability-parity-integration"
+}
