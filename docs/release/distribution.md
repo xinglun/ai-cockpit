@@ -41,7 +41,9 @@ deterministic package-by-package tests, while CI and release upload both route
 and gate receipts. `.gitattributes` excludes `.ai` and generated roots from the
 source archive while retaining Cargo sources and lockfile.
 
-The `tests/ci/runtime_verify_shadow.sh` receipt is an **execution smoke** for
+The historical Runtime shadow baseline is immutable public `v0.2.28`; the
+current release route additionally verifies `v0.2.30`. The
+`tests/ci/runtime_verify_shadow.sh` receipt is an **execution smoke** for
 standard/strict routes. It verifies immutable public `v0.2.30` and runs the
 canonical repository profile. It does not claim Runtime-global T0–T3 routing,
 affected-graph completeness, cross-Work-Item physical execution, or per-Work-

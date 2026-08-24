@@ -37,7 +37,8 @@ deterministic package-by-package tests を使い、CI と release は route/gate
 upload します。`.gitattributes` は source archive から `.ai` と generated roots を除外し、
 Cargo sources と lockfile を保持します。
 
-`tests/ci/runtime_verify_shadow.sh` receipt は standard/strict route の **execution smoke**
+過去の Runtime shadow baseline は immutable public `v0.2.28` であり、現在の release route は
+`v0.2.30` も検証します。`tests/ci/runtime_verify_shadow.sh` receipt は standard/strict route の **execution smoke**
 です。public immutable `v0.2.30` を検証し、repository の canonical profile を実行します。
 Runtime-global T0–T3 route、affected graph completeness、cross-Work-Item physical execution、
 Work Item ごとの evidence coverage は claim しません。reference Makefile orchestration は

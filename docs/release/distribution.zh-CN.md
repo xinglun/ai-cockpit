@@ -35,7 +35,8 @@ release source quality 始终请求 `strict`。manifest 管理的 Cargo gates �
 确定性测试，CI 与 release 都上传 route 和 gate receipts。`.gitattributes` 从 source
 archive 排除 `.ai` 与生成目录，同时保留 Cargo 源码和 lockfile。
 
-`tests/ci/runtime_verify_shadow.sh` receipt 是 standard/strict route 的 **execution
+历史 Runtime shadow 基线是不可变公开的 `v0.2.28`；当前 release route 还会验证
+`v0.2.30`。`tests/ci/runtime_verify_shadow.sh` receipt 是 standard/strict route 的 **execution
 smoke**。它验证公开且不可变的 `v0.2.30`，并使用仓库规范 profile。它不宣称 Runtime
 全局 T0–T3 route、affected graph 完整性、跨 Work Item 物理执行或每个 Work Item 的
 evidence coverage。参考 Makefile orchestration 在本 Rust 仓库中属于
