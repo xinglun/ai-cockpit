@@ -92,10 +92,10 @@
     "state": "resolved"
   },
   "mode": "code",
-  "preflightAt": "2026-08-24T00:05:57Z",
-  "preflightContractDigest": "sha256:0b47e0c71c8f5c5e11e6454ca2843ae73c40eda37519f8b3b56fabd0467ed057",
+  "preflightAt": "2026-08-24T00:07:09Z",
+  "preflightContractDigest": "sha256:84dc15c8cd02e038884e248dce8a82c4996fffc9ecea8049c3de1286205170a1",
   "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:8ba2074c0ce357de2a267a43be32f6a9d1125b7824a7d6f6495c2f26cc559fb3",
+  "preflightRepositorySnapshotDigest": "sha256:295d386e5faf87f849cc9e78f414228cdbd40c84a72e368e1d635102cc1724d4",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
