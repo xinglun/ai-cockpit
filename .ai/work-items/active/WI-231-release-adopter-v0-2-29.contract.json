@@ -22,7 +22,7 @@
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:b9dda45b16b7a0612cfd263392d66c0479c10c9f47911ebeed7f8a9541222a13",
   "requiredEvidenceClasses": [
-    ".ai/evidence/external/v0.2.29/**"
+    "verification"
   ],
   "resourceContext": {
     "baseBranch": "main",
