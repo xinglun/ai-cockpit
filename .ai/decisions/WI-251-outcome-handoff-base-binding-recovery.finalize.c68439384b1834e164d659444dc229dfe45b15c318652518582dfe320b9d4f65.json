@@ -1,0 +1,65 @@
+{
+  "governanceAppendRevision": "d065511192930bdbb5759e64f2db3099a612b250",
+  "predecessorReceiptDigest": "sha256:4e259af8a5839054280282040d8b6473bdab9513016d8fc6a73870674c089d45",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "reviewed-PR-201-merge",
+    "before": {
+      "branch": "present",
+      "pullRequest": "unmerged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "d065511192930bdbb5759e64f2db3099a612b250",
+      "name": "codex/wi-251-outcome-handoff-base-binding-recovery",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:36d9974c1875546497fd6be05e393515f64c911d712b5cc017ce44f145a29644",
+    "operationId": "operation-WI-251-outcome-handoff-base-binding-recovery-merge-observed",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "16c5a9de53585e66bbc69ca742a795a7fe49f319",
+      "headRevision": "d065511192930bdbb5759e64f2db3099a612b250",
+      "mergeCommit": "7fa2536d7aa6a265e5d3c7c03f83b4eede7febde",
+      "number": 201,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/201"
+    },
+    "reason": "Observed reviewed PR #201 merged at exact head d065511; retain the exact branch and clean worktree until the bounded cleanup transition is recorded.",
+    "receiptId": "ai-cockpit-WI-251-outcome-handoff-base-binding-recovery-merge-observed",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-251-outcome-handoff-base-binding-recovery",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/201",
+      "worktree": "/private/tmp/ai-cockpit-wi251-outcome-handoff-base-binding-recovery"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+    "runtimeVersion": "0.2.31",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-24T12:37:09Z",
+    "workItemId": "WI-251-outcome-handoff-base-binding-recovery",
+    "worktree": {
+      "branch": "codex/wi-251-outcome-handoff-base-binding-recovery",
+      "headRevision": "d065511192930bdbb5759e64f2db3099a612b250",
+      "path": "/private/tmp/ai-cockpit-wi251-outcome-handoff-base-binding-recovery",
+      "worktreeId": "WI-251-outcome-handoff-base-binding-recovery"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-251-merge-observed"
+}
