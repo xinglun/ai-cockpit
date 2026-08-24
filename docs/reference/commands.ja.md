@@ -14,7 +14,7 @@ capabilityClaims:
 
 # Command reference
 
-`work-item finalize` は最初の receipt を `.ai/decisions/<id>.finalize.json` に保存します。その不変 root が存在する場合、typed transition envelope は一意な head の predecessor digest と次の sequence を束縛し、Runtime は `.finalize.<digest>.json` を追記します。`finalize-verify` は `headPath`、`headDigest`、`sequence` を返し、`close` はそれらを束縛します。receipt commit が整合した全 head を進めた場合、sequence-1 merge observation は `governanceAppendRevision` も束縛できます。Git が ancestor range に同一 Work Item の通常 finalization receipt の追加だけが含まれることを証明した場合に限り Runtime は受理します。
+`work-item finalize` は最初の receipt を `.ai/decisions/<id>.finalize.json` に保存します。その不変 root が存在する場合、typed transition envelope は一意な head の predecessor digest と次の sequence を束縛し、Runtime は `.finalize.<digest>.json` を追記します。`finalize-verify` は `headPath`、`headDigest`、`sequence` を返し、`close` はそれらを束縛します。receipt commit が整合した全 head を進めた場合、sequence-1 merge observation は `governanceAppendRevision` も束縛できます。Runtime は ancestor range が追加のみであることを要求します。同一 Work Item の通常 finalization receipt 以外で許可される evidence 追加は、固定 schema の完全な pair `.ai/evidence/<id>/quality-route-post-finalize.json` と `.ai/evidence/<id>/repository-gates-post-finalize.json` だけです。各 path は `A`-only の `100644` regular blob で、archived Contract、PR revision、route digest、manifest、profile、passing gate の binding は一致しなければなりません。この pair は evidence であって authority ではなく、必須の finalization receipt 追加を置き換えません。任意の evidence path や archive の変更を許可するものではありません。
 
 すべての repository command は明示的な `--repo <path>` を受け取ります。record や decision を出す command は通常 JSON ですが、
 `work-item outcome` は既定で localize された人間向け handoff を表示します。機械処理には `--json` を指定します。failed/unknown は pass ではありません。

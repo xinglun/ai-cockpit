@@ -1,0 +1,143 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "bounded and cross-bound post-finalize evidence cases",
+          "path": "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+          "type": "regression-test",
+          "verification": "cargo test --locked -p cockpit-repository --test resource_finalization_transition passed: 11/11"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "foreign, malformed, binding, Git status and symlink cases",
+          "path": "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+          "type": "negative-regression-test",
+          "verification": "All invalid evidence/path/status/tree-mode fixtures failed closed while the focused suite passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "merge_observation_requires_explicit_governance_append_for_head_drift",
+          "path": "crates/cockpit-protocol/tests/resource_finalization.rs",
+          "type": "compatibility-test",
+          "verification": "cargo test --locked -p cockpit-protocol --test resource_finalization passed: 13/13"
+        },
+        {
+          "locator": "workspace",
+          "path": "Cargo.toml",
+          "type": "workspace-test",
+          "verification": "cargo test --locked --workspace passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "Resource finalization boundary",
+          "path": "docs/reference/agent-workflow.md",
+          "type": "documentation",
+          "verification": "bash tests/docs/documentation_acceptance.sh passed for English, Chinese, and Japanese references"
+        },
+        {
+          "locator": "governanceAppendRevision",
+          "path": "docs/reference/commands.md",
+          "type": "documentation",
+          "verification": "Documents exact A-only 100644 pair, cross-bindings, non-authority, and archive immutability"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "WI-228 declared verification commands",
+          "path": "Cargo.toml",
+          "type": "quality-gates",
+          "verification": "cargo fmt check, workspace clippy -D warnings, focused tests, docs acceptance, and full workspace tests passed"
+        },
+        {
+          "locator": "installed Runtime v0.2.28 verification",
+          "path": ".ai/evidence/WI-228-governance-append-evidence.verification.json",
+          "type": "runtime-verification",
+          "verification": "Collected before finish and visible Chinese Outcome"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/active/WI-228-governance-append-evidence.contract.json",
+    ".ai/work-items/active/WI-228-governance-append-evidence.summary.json"
+  ],
+  "checkpointAt": "2026-08-23T23:49:13Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-23T23:47:06Z",
+  "intentAlignment": {
+    "basis": "The bounded validator change directly addresses the observed WI-227 post-finalize evidence append gap while preserving the existing transition identity/state checks and archive immutability boundary.",
+    "evidence": [
+      ".ai/work-items/active/WI-228-governance-append-evidence.contract.json",
+      "crates/cockpit-repository/src/lib.rs#validate_governance_append_revision",
+      ".ai/evidence/WI-227-getting-started-capability-parity-integration/quality-route-post-finalize.json",
+      ".ai/evidence/WI-227-getting-started-capability-parity-integration/repository-gates-post-finalize.json"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-08-24T00:05:57Z",
+  "preflightContractDigest": "sha256:0b47e0c71c8f5c5e11e6454ca2843ae73c40eda37519f8b3b56fabd0467ed057",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:8ba2074c0ce357de2a267a43be32f6a9d1125b7824a7d6f6495c2f26cc559fb3",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs#bounded_same_work_item_post_finalize_evidence_append_is_accepted",
+        "cargo test --locked -p cockpit-repository --test resource_finalization_transition"
+      ],
+      "expected": "The first merge-observation governance append accepts the same Work Item's two fixed post-finalize evidence receipt names only when their schemas and Contract/base/head/route bindings are valid, every range member is add-only, and every tree entry is a 100644 regular file.",
+      "required": true,
+      "scenario": "bounded same-Work-Item post-finalize evidence append",
+      "status": "verified",
+      "verificationPlan": "Add a repository integration regression that commits the canonical finalization receipt plus both fixed evidence receipts, binds governanceAppendRevision, and verifies the transition head."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs#malformed_or_cross_bound_post_finalize_evidence_fails_closed",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs#incomplete_or_invalid_json_post_finalize_evidence_fails_closed",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs#modified_deleted_or_renamed_post_finalize_evidence_fails_closed",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs#symlinked_post_finalize_evidence_fails_closed"
+      ],
+      "expected": "Foreign Work Items and paths, wrong directory or filename, malformed or duplicate-key JSON, wrong schema or identity binding, modifications, deletions, renames, symlinks, and empty append ranges fail closed.",
+      "required": true,
+      "scenario": "invalid or foreign post-finalize evidence",
+      "status": "verified",
+      "verificationPlan": "Exercise independent negative fixtures for path, JSON/schema/binding, Git status, and tree-mode failures and assert the Runtime records no transition."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-protocol/tests/resource_finalization.rs#merge_observation_requires_explicit_governance_append_for_head_drift",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs#wi191_governance_receipt_append_allows_bounded_merge_observation",
+        "cargo test --locked --workspace"
+      ],
+      "expected": "Existing finalization-only governance append behavior remains valid, while protocol transition validation still restricts head drift to the first aligned unmerged-to-merged observation and rejects later drift.",
+      "required": true,
+      "scenario": "existing transition compatibility and sequence boundary",
+      "status": "verified",
+      "verificationPlan": "Run protocol transition regressions plus the existing WI-191 repository append regression before the full workspace suite."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-08-24T00:05:57.261479+00:00",
+  "workItemId": "WI-228-governance-append-evidence"
+}
