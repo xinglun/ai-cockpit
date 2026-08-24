@@ -29,25 +29,10 @@
     "baseRemote": "origin",
     "branch": "codex/wi-243-finalization-reason-policy",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/195",
     "worktree": "/private/tmp/ai-cockpit-wi243-finalization-reason-policy"
   },
   "risk": "high",
-  "scope": [
-    "tests/ci/governance_integrity_gate.py",
-    "tests/ci/governance_integrity_gate_test.sh",
-    "tests/ci/fixtures/governance-integrity/build_fixture.py",
-    "tests/ci/fixtures/governance-integrity/runtime-audit-reason.json",
-    "tests/ci/fixtures/governance-integrity/empty-audit-reason.json",
-    "tests/ci/fixtures/governance-integrity/whitespace-audit-reason.json",
-    "tests/ci/fixtures/governance-integrity/foreign-premerge-finalize.json",
-    "docs/work-items/WI-188-governance-integrity-gate.md",
-    "docs/work-items/WI-188-governance-integrity-gate.zh-CN.md",
-    "docs/work-items/WI-188-governance-integrity-gate.ja.md",
-    "docs/reference/reference-parity.md",
-    "docs/reference/reference-parity.zh-CN.md",
-    "docs/reference/reference-parity.ja.md"
-  ],
   "scenarioCoverage": [
     {
       "evidence": [],
@@ -81,6 +66,21 @@
       "status": "unverified",
       "verificationPlan": "Run documentation acceptance, parity status, and the strict governance gate."
     }
+  ],
+  "scope": [
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "tests/ci/fixtures/governance-integrity/build_fixture.py",
+    "tests/ci/fixtures/governance-integrity/runtime-audit-reason.json",
+    "tests/ci/fixtures/governance-integrity/empty-audit-reason.json",
+    "tests/ci/fixtures/governance-integrity/whitespace-audit-reason.json",
+    "tests/ci/fixtures/governance-integrity/foreign-premerge-finalize.json",
+    "docs/work-items/WI-188-governance-integrity-gate.md",
+    "docs/work-items/WI-188-governance-integrity-gate.zh-CN.md",
+    "docs/work-items/WI-188-governance-integrity-gate.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
   ],
   "sources": [
     "tests/ci/governance_integrity_gate.py",
