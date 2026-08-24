@@ -1,0 +1,137 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "WI-228 successor binding and predecessor artifact set",
+          "path": ".ai/decisions/WI-228-governance-append-evidence.recovery.json",
+          "type": "immutable-lineage",
+          "verification": "All 10 WI-228 lifecycle artifacts have the same Git blob IDs as commit 5e7c828; focused and workspace regressions passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "unique WI-228 and WI-229 rows in English, Chinese, and Japanese",
+          "path": "docs/reference/reference-parity.md",
+          "type": "tri-language-documentation",
+          "verification": "documentation acceptance, parity status, parity regression, and governance integrity regression passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "bounded same-WI pair and negative path/schema/binding/status/tree cases",
+          "path": "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+          "type": "compatibility-regression",
+          "verification": "repository 11/11 and protocol 13/13 passed; full workspace passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "WI-229 declared local and Runtime verification commands",
+          "path": "Cargo.toml",
+          "type": "quality-gates",
+          "verification": "fmt, workspace clippy -D warnings, focused Rust tests, docs/parity/governance gates, full workspace, and Runtime PR-stage verify passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "draft PR #178 and latest push/pull hosted runs",
+          "path": ".ai/evidence/WI-229-governance-append-parity-recovery.verification.json",
+          "type": "reviewed-pr-handoff",
+          "verification": "Runtime evidence passed and hosted runs 32677023747/32677020487 passed; finish is followed by visible Chinese Outcome, immutable archive, canonical-only premerge finalization, and no premerge close"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-229-governance-append-parity-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-08-24T00:24:20Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T00:20:55Z",
+  "intentAlignment": {
+    "basis": "WI-229 preserves the exact WI-228 corrective delivery and immutable recovery chain while adding only the three-language WI-228/WI-229 registration that hosted quality proved was outside the archived predecessor scope.",
+    "evidence": [
+      ".ai/decisions/WI-228-governance-append-evidence.recovery.json",
+      ".ai/work-items/archive/WI-228-governance-append-evidence.archive.json",
+      "docs/reference/reference-parity.md",
+      "docs/reference/reference-parity.zh-CN.md",
+      "docs/reference/reference-parity.ja.md",
+      ".ai/evidence/WI-229-governance-append-parity-recovery.verification.json",
+      "https://github.com/xinglun/ai-cockpit/pull/178"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "predecessorContractDigest": "sha256:84dc15c8cd02e038884e248dce8a82c4996fffc9ecea8049c3de1286205170a1",
+  "predecessorWorkItemId": "WI-228-governance-append-evidence",
+  "preflightAt": "2026-08-24T00:38:40Z",
+  "preflightContractDigest": "sha256:19bd61df6a965b5ebbced30786a9d4073875c31b84054c341b097b911f25634b",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:aa53e96a96c508a35c0a75da8332437b7c01a633d2988e0d9e75b17ff82abe40",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-228-governance-append-evidence.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "WI-228 archive/evidence/finalize/recovery blob comparison against 5e7c828: 10/10 MATCH",
+        "cargo test --locked -p cockpit-protocol --test resource_finalization: 13/13 passed",
+        "cargo test --locked -p cockpit-repository --test resource_finalization_transition: 11/11 passed",
+        "cargo test --locked --workspace: passed"
+      ],
+      "expected": "The cherry-picked WI-228 implementation and immutable predecessor lifecycle bytes remain byte-identical while the bounded validator accepts only the fixed same-Work-Item receipt pair and all negative paths remain fail closed.",
+      "required": true,
+      "scenario": "immutable predecessor and validator behavior",
+      "status": "verified",
+      "verificationPlan": "Compare predecessor artifact digests, then run the protocol and repository resource-finalization regressions."
+    },
+    {
+      "evidence": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        "bash tests/docs/documentation_acceptance.sh: passed",
+        "bash tests/docs/parity_status_check.sh: governance integrity gate passed for 192 work items",
+        "bash tests/docs/parity_status_check_test.sh: passed",
+        "bash tests/ci/governance_integrity_gate_test.sh: passed"
+      ],
+      "expected": "English, Simplified Chinese, and Japanese reference-parity each contain one WI-228 row and one WI-229 row with the exact verification and recovery/finalization paths and the language-specific implemented state token.",
+      "required": true,
+      "scenario": "tri-language parity registration",
+      "status": "verified",
+      "verificationPlan": "Run documentation acceptance, parity integrity, and parity regression gates after adding only the six bounded rows."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-229-governance-append-parity-recovery.verification.json",
+        "Runtime v0.2.28 PR-stage verify passed for repository snapshot sha256:aa53e96a96c508a35c0a75da8332437b7c01a633d2988e0d9e75b17ff82abe40",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/32677023747: quality, Windows, and V1 passed",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/32677020487: quality, Windows, and V1 passed",
+        "Outcome, archive, and canonical premerge finalization remain the immediate post-finish lifecycle actions; no premerge close is authorized"
+      ],
+      "expected": "Installed Runtime v0.2.28 binds the current Contract and PR-stage workspace evidence, archives a visible Chinese Outcome, records only a canonical pre-merge finalization receipt, and hosted quality, Windows, and V1 checks pass before merge.",
+      "required": true,
+      "scenario": "successor lifecycle and hosted gate",
+      "status": "verified",
+      "verificationPlan": "Complete preflight/checkpoint/verify/finish/archive/finalize, push the reviewed branch, and inspect every hosted check without closing before merge."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-24T00:39:04Z",
+  "workItemId": "WI-229-governance-append-parity-recovery"
+}

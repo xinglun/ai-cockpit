@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "WI-228 的代码、tests、三语 workflow/commands 与 archive/evidence/finalize/recovery bytes 必须逐字保留其 cherry-picked truth；不得手改或重分类 predecessor。",
+    "三份 reference-parity 文档必须各自新增 WI-228 与 WI-229 的唯一行，准确绑定各自 verification evidence 与 recovery/finalize decision path，状态 token 符合该语言且不改无关行。",
+    "bounded validator 的同-WI固定双 receipt 正向用例和 foreign/schema/cross-bind/M-D-R/symlink 负向用例保持通过，protocol 首次 merge head 约束保持 fail closed。",
+    "cargo fmt、workspace clippy、protocol/repository targeted、docs acceptance、parity gates、full workspace 与 Runtime v0.2.28 PR-stage verify 全部通过。",
+    "WI-229 产生可见中文 Outcome、不可变 archive 与 canonical-only premerge finalization，PR hosted quality/Windows/V1 checks 全绿且不在 merge 前 close。"
+  ],
+  "createdAt": "2026-08-24T00:39:04Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:726afc7666cc4b8b874d2adaa568989f95f01127849ae3c1fd1e828eff91ca75",
+  "evidenceRefs": [
+    ".ai/evidence/WI-229-governance-append-parity-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-229-governance-append-parity-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-229-governance-append-parity-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:aa53e96a96c508a35c0a75da8332437b7c01a633d2988e0d9e75b17ff82abe40",
+      "workItemId": "WI-229-governance-append-parity-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-229-governance-append-parity-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-229-governance-append-parity-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-229-governance-append-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-229-governance-append-parity-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-229-governance-append-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-229-governance-append-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-229-governance-append-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-229-governance-append-parity-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "从 origin/main 02cbde2 重建并验证 WI-228 corrective delivery，补齐精确 parity evidence/decision paths，完成 WI-229 的 Runtime lifecycle 与 reviewed PR handoff。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-229-governance-append-parity-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-229-governance-append-parity-recovery"
+  },
+  "taskReportDigest": "sha256:2031f1a9487ec3586eb6a3ee5c3ae8bdef06f2515dc32a9f80530b1c2c3bfaa5",
+  "taskReportMarkdownDigest": "sha256:0e73921b5c3e225d18db8950d58043396b3d458e1c1d1d34696fb75150c28ead",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-229-governance-append-parity-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-229-governance-append-parity-recovery"
+}

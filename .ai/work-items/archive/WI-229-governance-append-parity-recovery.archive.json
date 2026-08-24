@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-24T00:39:27Z",
+  "files": {
+    "contractDigest": "sha256:ea7d1fbfb0a464338523e47be690197407cf56819893c081167519175bb2264e",
+    "contractPath": ".ai/work-items/archive/WI-229-governance-append-parity-recovery.contract.json",
+    "eventsDigest": "sha256:d6807311b8bb3bf2bc521ecaa4e2545e46a654138074673a487ac840034c4411",
+    "eventsPath": ".ai/work-items/archive/WI-229-governance-append-parity-recovery.events.jsonl",
+    "outcomeDigest": "sha256:7fcba5482d08d146f9b362989ffa9e65b8eb9e3db87953f7e020dd0fb008a810",
+    "outcomePath": ".ai/work-items/archive/WI-229-governance-append-parity-recovery.outcome.json",
+    "summaryDigest": "sha256:94052006401ae6c8dae851a8ffcff20fa0914d33fae16dec23fea2c6d35e3e26",
+    "summaryPath": ".ai/work-items/archive/WI-229-governance-append-parity-recovery.summary.json",
+    "taskReportDigest": "sha256:2031f1a9487ec3586eb6a3ee5c3ae8bdef06f2515dc32a9f80530b1c2c3bfaa5",
+    "taskReportMarkdownDigest": "sha256:0e73921b5c3e225d18db8950d58043396b3d458e1c1d1d34696fb75150c28ead",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-229-governance-append-parity-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-229-governance-append-parity-recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-229-governance-append-parity-recovery"
+}
