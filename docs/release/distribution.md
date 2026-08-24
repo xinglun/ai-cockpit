@@ -87,8 +87,8 @@ supported path.
 ## Verify a Release asset
 
 Download the archive, `release-manifest.json`, and `SHA256SUMS` from the same
-immutable GitHub Release. The checksum file covers all ten archive/SBOM files,
-so validate the exact archive you downloaded:
+immutable GitHub Release. The v0.2.31 checksum file covers all ten archive/SBOM
+files, so validate the exact archive you downloaded:
 
 ```bash
 archive="ai-cockpit-v0.2.31-aarch64-apple-darwin.tar.gz"
@@ -113,6 +113,33 @@ CLI and MCP `verify` JSON expose `runtimeVersion` and `runtimeDigest` as Runtime
 identity facts. The post-release acceptance harness—not the Core by itself—must
 bind those fields to the downloaded public binary before accepting release
 evidence; a caller using the JSON outside that harness owns the comparison.
+
+### Artifact-bound SBOM policy for later candidates
+
+The public v0.2.31 bytes are immutable historical truth. Its `SHA256SUMS`
+covers the five archives and five target-named SBOMs, and its Release also
+contains the older `ai-cockpit-build.spdx.json` upload. That build-named SBOM
+does not prove a binding to a particular packaged archive or executable. This
+documentation and later workflow changes do not relabel, delete, or rewrite
+those v0.2.31 assets.
+
+Release candidates built with the WI-241 boundary have a stricter contract.
+Each target-named SPDX 2.3 document retains the dependency scan and adds one
+release-archive Package plus one release-binary File. `DOCUMENT DESCRIBES` the
+Package, the Package `CONTAINS` the File, and both nodes carry the nonzero
+SHA-256 calculated from the actual staged archive and executable member. A
+wrong target, version, filename, digest, node cardinality, or relationship
+fails before candidate aggregation. The source dependency scan or an SBOM
+filename alone is never adopter acceptance.
+
+The closed public inventory is five archives, five target SBOMs,
+`release-manifest.json`, `ai-cockpit.rb`, and `SHA256SUMS`. The manifest binds
+the ten target artifacts; `SHA256SUMS` binds those ten plus the manifest and
+Formula exactly once in stable filename order (it cannot checksum itself).
+The final provenance subject set covers the same thirteen published files.
+An extra build-named SBOM, other orphan publishable file, duplicate checksum
+entry, missing entry, or digest mismatch fails closed. Existing staged/public
+adopter acceptance and attestation gates remain downstream of this validation.
 
 ## Post-release adopter acceptance
 

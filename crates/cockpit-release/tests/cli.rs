@@ -10,7 +10,14 @@ fn help_lists_all_release_boundary_commands() {
     assert!(output.status.success());
     let stdout = String::from_utf8_lossy(&output.stdout);
     for command in [
-        "package", "inspect", "validate", "manifest", "formula", "handoff",
+        "package",
+        "inspect",
+        "bind-sbom",
+        "validate",
+        "manifest",
+        "checksums",
+        "formula",
+        "handoff",
     ] {
         assert!(
             stdout.contains(command),

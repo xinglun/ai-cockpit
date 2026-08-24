@@ -1,4 +1,9 @@
-use std::{collections::BTreeMap, fs::File, io::Read, path::Path};
+use std::{
+    collections::{BTreeMap, BTreeSet},
+    fs::File,
+    io::Read,
+    path::Path,
+};
 
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -143,6 +148,15 @@ impl ReleaseManifest {
             }
         }
 
+        for record in self.auxiliary_public_records(dist)? {
+            if files.insert(record.filename.clone(), record).is_some() {
+                return Err(ReleaseError::Invalid(
+                    "duplicate public release asset filename".into(),
+                ));
+            }
+        }
+        self.validate_publishable_inventory(dist)?;
+
         let checksums = std::fs::read_to_string(dist.join("SHA256SUMS"))?;
         let mut listed = BTreeMap::new();
         let mut previous_filename = None;
@@ -181,7 +195,7 @@ impl ReleaseManifest {
             .collect();
         if listed != expected {
             return Err(ReleaseError::Invalid(
-                "SHA256SUMS does not cover exactly the manifest files".into(),
+                "SHA256SUMS does not cover exactly the public release assets".into(),
             ));
         }
 
@@ -291,9 +305,90 @@ impl ReleaseManifest {
         }
         Ok(())
     }
+
+    fn auxiliary_public_records(&self, dist: &Path) -> Result<Vec<FileRecord>, ReleaseError> {
+        let manifest_path = dist.join("release-manifest.json");
+        if std::fs::read(&manifest_path)? != self.canonical_bytes()? {
+            return Err(ReleaseError::Invalid(
+                "release-manifest.json does not match the validated manifest".into(),
+            ));
+        }
+        Ok(vec![
+            file_record(&manifest_path, "release-manifest.json".into())?,
+            file_record(&dist.join("Formula/ai-cockpit.rb"), "ai-cockpit.rb".into())?,
+        ])
+    }
+
+    fn validate_publishable_inventory(&self, dist: &Path) -> Result<(), ReleaseError> {
+        let mut expected = self
+            .artifacts
+            .iter()
+            .flat_map(|artifact| {
+                [
+                    artifact.archive.filename.clone(),
+                    artifact.sbom.filename.clone(),
+                ]
+            })
+            .collect::<BTreeSet<_>>();
+        expected.extend([
+            "release-manifest.json".into(),
+            "SHA256SUMS".into(),
+            "Formula/ai-cockpit.rb".into(),
+        ]);
+
+        let mut observed = BTreeSet::new();
+        for entry in std::fs::read_dir(dist)? {
+            let entry = entry?;
+            let filename = entry
+                .file_name()
+                .to_str()
+                .ok_or_else(|| ReleaseError::Invalid("non-UTF-8 staged filename".into()))?
+                .to_string();
+            let metadata = std::fs::symlink_metadata(entry.path())?;
+            if metadata.file_type().is_symlink() && is_publishable_filename(&filename) {
+                return Err(ReleaseError::Invalid(format!(
+                    "publishable asset must be a regular file: {filename}"
+                )));
+            }
+            if metadata.is_file() && is_publishable_filename(&filename) {
+                observed.insert(filename);
+            } else if metadata.is_dir() && filename == "Formula" {
+                for formula_entry in std::fs::read_dir(entry.path())? {
+                    let formula_entry = formula_entry?;
+                    let formula_name = formula_entry
+                        .file_name()
+                        .to_str()
+                        .ok_or_else(|| ReleaseError::Invalid("non-UTF-8 Formula filename".into()))?
+                        .to_string();
+                    if formula_name.ends_with(".rb") {
+                        if !std::fs::symlink_metadata(formula_entry.path())?.is_file() {
+                            return Err(ReleaseError::Invalid(format!(
+                                "publishable asset must be a regular file: Formula/{formula_name}"
+                            )));
+                        }
+                        observed.insert(format!("Formula/{formula_name}"));
+                    }
+                }
+            }
+        }
+        if observed != expected {
+            let orphan = observed.difference(&expected).cloned().collect::<Vec<_>>();
+            let missing = expected.difference(&observed).cloned().collect::<Vec<_>>();
+            return Err(ReleaseError::Invalid(format!(
+                "orphan or missing publishable release assets (orphan={orphan:?}, missing={missing:?})"
+            )));
+        }
+        Ok(())
+    }
 }
 
 fn file_record(path: &Path, filename: String) -> Result<FileRecord, ReleaseError> {
+    if !std::fs::symlink_metadata(path)?.is_file() {
+        return Err(ReleaseError::Invalid(format!(
+            "release asset is not a regular file: {}",
+            path.display()
+        )));
+    }
     Ok(FileRecord {
         filename,
         bytes: std::fs::metadata(path)?.len(),
@@ -317,10 +412,14 @@ pub fn sha256_file(path: &Path) -> Result<String, ReleaseError> {
 
 pub fn write_checksums(manifest: &ReleaseManifest, dist: &Path) -> Result<(), ReleaseError> {
     manifest.validate()?;
-    let mut records = manifest
+    let mut owned_records = manifest
         .artifacts
         .iter()
-        .flat_map(|artifact| [&artifact.archive, &artifact.sbom])
+        .flat_map(|artifact| [artifact.archive.clone(), artifact.sbom.clone()])
+        .collect::<Vec<_>>();
+    owned_records.extend(manifest.auxiliary_public_records(dist)?);
+    let mut records = owned_records
+        .iter()
         .map(|record| (record.filename.as_str(), record.sha256.as_str()))
         .collect::<Vec<_>>();
     records.sort_unstable_by(|left, right| left.0.cmp(right.0));
@@ -331,6 +430,15 @@ pub fn write_checksums(manifest: &ReleaseManifest, dist: &Path) -> Result<(), Re
     lines.push(String::new());
     std::fs::write(dist.join("SHA256SUMS"), lines.join("\n"))?;
     Ok(())
+}
+
+fn is_publishable_filename(filename: &str) -> bool {
+    filename == "release-manifest.json"
+        || filename == "SHA256SUMS"
+        || filename == "ai-cockpit.rb"
+        || filename.ends_with(".spdx.json")
+        || filename.ends_with(".tar.gz")
+        || filename.ends_with(".zip")
 }
 
 fn validate_filename(filename: &str) -> Result<(), ReleaseError> {
