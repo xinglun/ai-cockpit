@@ -1,0 +1,147 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-253-docs-terminalization.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:de38f3dac40ef33365b8d2584ba4a52724f921313630beefb183668ef119de34",
+      "workItemId": "WI-253-docs-terminalization"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-253-docs-terminalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-252-manifest-gate-order-recovery.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-253-docs-terminalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-253-docs-terminalization.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-253-docs-terminalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-253-docs-terminalization.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-253-docs-terminalization.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-253-docs-terminalization.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-253-docs-terminalization.verification.json",
+            ".ai/decisions/WI-253-docs-terminalization.finalize.1ccec42e056dd7eac857ba49d1dc2becd6e2ba21f6461a62599e18101d986293.json",
+            "https://github.com/xinglun/ai-cockpit/pull/205"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-WI-253-postmerge-cleanup-authorization at 2026-08-24T15:47:24Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-253-docs-terminalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-253-docs-terminalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-253-docs-terminalization.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-253-docs-terminalization.contract.json"
+          ],
+          "inference": false,
+          "text": "Bind WI-252 tri-language Work Item and parity projections to its actual archive, verification, sequence-2 finalization, and structured close receipts; strengthen existing documentation/status regression checks; keep the reference inventory normalization negative fixture correctly classified."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-253-docs-terminalization.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-253-docs-terminalization"
+  },
+  "finalReportDigest": "sha256:d5fc2ca1aa212b0ae03bb8de4515da85db34c4f77dd442fc937b32f0f5ee990d",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:f19d4bf6a0cccb16e7d8862665d6f9d314b4de3bb633170421dea4684a9a2dc7",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-253-docs-terminalization.finalize.1ccec42e056dd7eac857ba49d1dc2becd6e2ba21f6461a62599e18101d986293.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-WI-253-postmerge-cleanup-authorization",
+    "decidedAt": "2026-08-24T15:47:24Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-253-docs-terminalization.verification.json",
+      ".ai/decisions/WI-253-docs-terminalization.finalize.1ccec42e056dd7eac857ba49d1dc2becd6e2ba21f6461a62599e18101d986293.json",
+      "https://github.com/xinglun/ai-cockpit/pull/205"
+    ],
+    "policyRefs": [
+      "repository-review-policy"
+    ],
+    "reason": "PR #205 merged as 54844d67d131d756c24fd905ed110e99b7d79966 after exact-head hosted checks passed; sequence-2 finalization verifies deletion of only the exact WI-253 branch/worktree while immutable archive, evidence, recovery, and finalization records remain preserved.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-24T15:47:33Z",
+  "workItemId": "WI-253-docs-terminalization"
+}

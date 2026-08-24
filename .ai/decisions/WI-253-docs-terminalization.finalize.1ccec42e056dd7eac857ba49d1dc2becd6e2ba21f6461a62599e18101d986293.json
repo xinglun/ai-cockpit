@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:0ba921ddd5e4b6b4ade509f6b82826bf574bee69238433bc7f318c9f30d9cdd9",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "reviewed-PR-205-merge-and-explicit-postmerge-cleanup-authorization",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "62ff64e9bce5a214523473ef218dfea5b8fc5ee3",
+      "name": "codex/wi-253-docs-terminalization",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:6ee0a4cc17076ada921d7449ca10cd4e6d20f440e286a8d7c19756473ef9f6c9",
+    "operationId": "operation-WI-253-docs-terminalization-cleanup",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "0ed41d1ca6f6b6455d3a42d91a2d578fe5b178eb",
+      "headRevision": "62ff64e9bce5a214523473ef218dfea5b8fc5ee3",
+      "mergeCommit": "54844d67d131d756c24fd905ed110e99b7d79966",
+      "number": 205,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/205"
+    },
+    "reason": "Cleanup verified after reviewed PR #205 merge observation: the provider-managed remote branch was already absent, and only the exact clean local WI-253 worktree and branch were removed; immutable archive, evidence, and finalization records remain preserved.",
+    "receiptId": "ai-cockpit-WI-253-docs-terminalization-cleanup",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-253-docs-terminalization",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/205",
+      "worktree": "/private/tmp/ai-cockpit-wi253-docs-terminalization"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+    "runtimeVersion": "0.2.31",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-24T15:46:45Z",
+    "workItemId": "WI-253-docs-terminalization",
+    "worktree": {
+      "branch": "codex/wi-253-docs-terminalization",
+      "headRevision": "62ff64e9bce5a214523473ef218dfea5b8fc5ee3",
+      "path": "/private/tmp/ai-cockpit-wi253-docs-terminalization",
+      "worktreeId": "WI-253-docs-terminalization"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "WI-253-cleanup-deleted"
+}
