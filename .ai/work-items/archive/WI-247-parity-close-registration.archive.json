@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-24T10:54:33Z",
+  "files": {
+    "contractDigest": "sha256:12f0482a1b5f37da353eeb5e3beddc331141c236e93740047879dce802483db3",
+    "contractPath": ".ai/work-items/archive/WI-247-parity-close-registration.contract.json",
+    "eventsDigest": "sha256:5a169f35d7b0034fd19b1af9a60b40d3238c6629bd14fbe603b238bd66b42a90",
+    "eventsPath": ".ai/work-items/archive/WI-247-parity-close-registration.events.jsonl",
+    "outcomeDigest": "sha256:70fffca1181ea0258fa57fedfc1f23c554a375785fa637bf9445a8822845209a",
+    "outcomePath": ".ai/work-items/archive/WI-247-parity-close-registration.outcome.json",
+    "summaryDigest": "sha256:aac46a9874080464f428527526e822ffc35c0dc0c54aa716c53de68f07b563fd",
+    "summaryPath": ".ai/work-items/archive/WI-247-parity-close-registration.summary.json",
+    "taskReportDigest": "sha256:6dbb12debfd11ff8e1e22c13f2592462cfd04dc1a00769a647f8074cf0853a78",
+    "taskReportMarkdownDigest": "sha256:479ff2dc5f4171e997c4806ae02cf2bd953ba5d14cdae50af64cfef1906004f5",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-247-parity-close-registration.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-247-parity-close-registration.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-247-parity-close-registration"
+}

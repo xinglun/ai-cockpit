@@ -1,0 +1,43 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-WI-249-successor-authorization",
+  "decidedAt": "2026-08-24T10:58:29Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-247-parity-close-registration.contract.json",
+    ".ai/work-items/archive/WI-247-parity-close-registration.summary.json",
+    ".ai/work-items/archive/WI-247-parity-close-registration.outcome.json",
+    ".ai/work-items/archive/WI-247-parity-close-registration.events.jsonl",
+    ".ai/work-items/archive/WI-247-parity-close-registration.archive.json",
+    ".ai/evidence/WI-247-parity-close-registration.verification.json",
+    "sha256:12f0482a1b5f37da353eeb5e3beddc331141c236e93740047879dce802483db3",
+    "sha256:aac46a9874080464f428527526e822ffc35c0dc0c54aa716c53de68f07b563fd",
+    "sha256:70fffca1181ea0258fa57fedfc1f23c554a375785fa637bf9445a8822845209a",
+    "sha256:5a169f35d7b0034fd19b1af9a60b40d3238c6629bd14fbe603b238bd66b42a90",
+    "sha256:e76baf646f6680e03422f6f0b436187ce81f954daeea0b02b71bd23d5d91c7a8",
+    "sha256:fc76a202ea45edab91ee50bbdb829bde5ff95a3b6374e6c9b5a78e3402d819df",
+    "https://github.com/xinglun/ai-cockpit/pull/198"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    "tests/ci/governance_integrity_gate.py",
+    "docs/reference/pending-parity-registry.json",
+    "docs/reference/reference-parity.md"
+  ],
+  "predecessorContractDigest": "sha256:e536ebdc77619010b75a2c55c7a71d020e428aec469e8fe63d32e78056d15a6b",
+  "predecessorEventsDigest": "sha256:5a169f35d7b0034fd19b1af9a60b40d3238c6629bd14fbe603b238bd66b42a90",
+  "predecessorOutcomeDigest": "sha256:07a09e58fbc2973cbc8d1d3ce6e50ff08c2d9c6683ec02c0c51e09fd4446336f",
+  "predecessorSummaryDigest": "sha256:9c4734fba627f3738ff69e5d9f789371d7f299db1dce3a937c8d9964555ee606",
+  "predecessorWorkItemId": "WI-247-parity-close-registration",
+  "reason": "WI-247 reached immutable verified archive before its own tri-language parity row was projected from the active Contract to the archived Contract, verification, Outcome, Summary, archive manifest, and finalization paths. Correcting that projection after archive would make the archived verification snapshot stale, and Runtime v0.2.31 correctly forbids re-verification without an active Contract. Preserve WI-247 bytes and complete the finalization-aware parity registration plus lifecycle regression in WI-249.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-249 from the latest origin/main by carrying the immutable WI-247 archive/evidence/recovery lineage, projecting terminal and pending parity paths before archive through the typed registry, and proving archive/finalize/close ordering without stale verification or another missing-parity cycle.",
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-249-parity-finalization-registration",
+  "workItemId": "WI-247-parity-close-registration"
+}
