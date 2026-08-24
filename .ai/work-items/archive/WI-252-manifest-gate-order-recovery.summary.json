@@ -1,0 +1,144 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "WI-245 immutable predecessor digest bindings",
+          "path": ".ai/decisions/WI-245-doc-status-parity-recovery.recovery.json",
+          "type": "decision",
+          "verification": "Runtime v0.2.31 recovery receipt plus successor diff inspection"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "duplicate and out-of-order manifest fixtures",
+          "path": "tests/ci/quality_route_test.py",
+          "type": "test",
+          "verification": "python3 tests/ci/repository_gate_manifest_test.py && python3 tests/ci/quality_route_test.py"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "load_manifest sorted-and-unique validation before route selection",
+          "path": "tests/ci/quality_route.py",
+          "type": "test",
+          "verification": "python3 tests/ci/quality_route_test.py and hosted quality runs 32739156038/32739162800"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "WI-252 pre-archive recovery row and retained v0.2.31 provider truth",
+          "path": "docs/reference/reference-parity.md",
+          "type": "document",
+          "verification": "bash tests/docs/documentation_acceptance.sh && bash tests/docs/parity_status_check.sh . target/WI-252-parity-status.json"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "Runtime v0.2.31 PR-stage T2 evidence snapshot sha256:0c4239b5eacae8b73d3cbaa47a5f7b5ed387cb2459e0dc349be9017f3b3b27d6",
+          "path": ".ai/evidence/WI-252-manifest-gate-order-recovery.verification.json",
+          "type": "verification",
+          "verification": "installed Runtime verify plus all declared local checks"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "exact head 3b3284f47c0101bcbcb2df3d872d39c5fd53a175 runs 32739156038 and 32739162800",
+          "path": "https://github.com/xinglun/ai-cockpit/pull/204",
+          "type": "provider",
+          "verification": "hosted quality, Windows Runtime, and V1 oracle all passed"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [],
+  "checkpointAt": "2026-08-24T14:18:51Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T14:16:12Z",
+  "intentAlignment": {
+    "basis": "WI-252 preserves the Runtime-bound immutable WI-245 failure, redelivers only the authorized documentation-governance paths on current main, and fixes the exact global manifest ordering defect without weakening gate validation.",
+    "evidence": [
+      ".ai/decisions/WI-245-doc-status-parity-recovery.recovery.json",
+      "tests/ci/repository_gate_manifest.json",
+      "tests/ci/quality_route_test.py",
+      "docs/work-items/WI-252-manifest-gate-order-recovery.md",
+      ".ai/evidence/WI-252-manifest-gate-order-recovery.verification.json",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/32739162800"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "predecessorContractDigest": "sha256:9980e8cfa7f43fc164e949f3463042814732d51c76c689f93f23dc12f4162b61",
+  "predecessorWorkItemId": "WI-245-doc-status-parity-recovery",
+  "preflightAt": "2026-08-24T14:37:26Z",
+  "preflightContractDigest": "sha256:373680be307417d889688e5953e0314056f6ad657415c0f1da277be54c5e742c",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:0c4239b5eacae8b73d3cbaa47a5f7b5ed387cb2459e0dc349be9017f3b3b27d6",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-245-doc-status-parity-recovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/decisions/WI-245-doc-status-parity-recovery.recovery.json",
+        "recovery commit 49680d5d268213a679c45060eb3c1c8d8dfca882",
+        "git diff origin/main...3b3284f contains no WI-245 archive, evidence, Outcome, event, or finalization path",
+        "PR #203 is closed and superseded without merge"
+      ],
+      "expected": "The Runtime successor receipt binds every WI-245 predecessor digest while the WI-252 branch imports no WI-245 archive, evidence, Outcome, event, or finalization byte and therefore does not falsely register WI-245 as a current parity Work Item.",
+      "required": true,
+      "scenario": "immutable-wi245-recovery",
+      "status": "verified",
+      "verificationPlan": "Validate the recovery receipt and compare the successor diff against current origin/main and the retained predecessor branch."
+    },
+    {
+      "evidence": [
+        "TDD RED: repository_gate_manifest_test.py failed with gate IDs must be deterministic",
+        "python3 tests/ci/repository_gate_manifest_test.py: passed",
+        "bash tests/ci/repository_gate_manifest_test.sh: passed",
+        "python3 tests/ci/quality_route_test.py: passed",
+        "duplicate and out-of-order fixture manifests both fail with gate IDs must be sorted and unique"
+      ],
+      "expected": "Gate IDs remain globally unique and lexically sorted; duplicate and out-of-order fixtures fail before route selection, while docs_work_item_status_consistency is registered after docs_pending_parity_registry_regression.",
+      "required": true,
+      "scenario": "manifest-ordering-fail-closed",
+      "status": "verified",
+      "verificationPlan": "Run repository gate manifest and quality-route focused regressions, including the exact PR #203 out-of-order fixture."
+    },
+    {
+      "evidence": [
+        "documentation acceptance, status consistency, parity, inventory, version, and governance checks passed",
+        "cargo fmt --all -- --check: passed",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings: passed",
+        "cargo test --locked --workspace: passed",
+        ".ai/evidence/WI-252-manifest-gate-order-recovery.verification.json: Runtime v0.2.31 PR-stage T2 passed for snapshot sha256:0c4239b5eacae8b73d3cbaa47a5f7b5ed387cb2459e0dc349be9017f3b3b27d6",
+        "PR #204 exact head 3b3284f47c0101bcbcb2df3d872d39c5fd53a175 push run 32739156038 and pull_request run 32739162800 passed quality, Windows Runtime, and V1 oracle"
+      ],
+      "expected": "Still-applicable WI-245 documentation-governance content passes tri-language, inventory, release-truth, governance, full workspace, installed Runtime, and exact-head hosted quality without changing intervening truth.",
+      "required": true,
+      "scenario": "successor-redelivery-and-hosted-quality",
+      "status": "verified",
+      "verificationPlan": "Run every declared local check, installed Runtime PR-stage verification, and hosted quality/Windows/V1 checks on the dedicated successor PR."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-24T14:37:37Z",
+  "workItemId": "WI-252-manifest-gate-order-recovery"
+}
