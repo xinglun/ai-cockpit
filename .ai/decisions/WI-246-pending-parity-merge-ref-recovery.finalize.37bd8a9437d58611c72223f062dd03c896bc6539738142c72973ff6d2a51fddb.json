@@ -1,0 +1,65 @@
+{
+  "governanceAppendRevision": "16e940d43dda1682c0a68ba69d38c877919f039e",
+  "predecessorReceiptDigest": "sha256:15401dbd99081051c2aeeb90172616fc4e0d7c3e5d133860575feb3a3927289f",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "reviewed-pr-hosted-checks",
+    "before": {
+      "branch": "present",
+      "pullRequest": "unmerged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "16e940d43dda1682c0a68ba69d38c877919f039e",
+      "name": "codex/wi-246-pending-parity-merge-ref-recovery",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:267198bd1f3985b63d201975e3daabd4411283d12fa4978573a7729b44805b0a",
+    "operationId": "operation-WI-246-pending-parity-merge-ref-recovery-merge-observation",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "3fd982560ee28563bfab69d414f60575f3b2894a",
+      "headRevision": "16e940d43dda1682c0a68ba69d38c877919f039e",
+      "mergeCommit": "98d65756029915aaded28146fe23973acd7ba98d",
+      "number": 197,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/197"
+    },
+    "reason": "merge observed: PR #197 merged as 98d6575 after review and all hosted checks passed; retain the exact branch and clean worktree until cleanup is verified.",
+    "receiptId": "ai-cockpit-WI-246-pending-parity-merge-ref-recovery-merge-observation",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-246-pending-parity-merge-ref-recovery",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/197",
+      "worktree": "/private/tmp/ai-cockpit-wi246-pending-parity-recovery"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+    "runtimeVersion": "0.2.31",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-24T10:29:40Z",
+    "workItemId": "WI-246-pending-parity-merge-ref-recovery",
+    "worktree": {
+      "branch": "codex/wi-246-pending-parity-merge-ref-recovery",
+      "headRevision": "16e940d43dda1682c0a68ba69d38c877919f039e",
+      "path": "/private/tmp/ai-cockpit-wi246-pending-parity-recovery",
+      "worktreeId": "WI-246-pending-parity-merge-ref-recovery"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "ai-cockpit-WI-246-pending-parity-merge-ref-recovery-merge-observation"
+}
