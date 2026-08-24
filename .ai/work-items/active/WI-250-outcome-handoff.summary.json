@@ -1,0 +1,17 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-24T11:19:13Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T11:19:02Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-24T11:19:07Z",
+  "preflightContractDigest": "sha256:05d9c460fdf1de37ae169b03523b2a2eb20f017de360a8998419c92f40c29126",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:2b3be1309947fd654d9dc712a06b0e79be85a04306dc998b5427c872347ef131",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-24T11:19:13Z",
+  "workItemId": "WI-250-outcome-handoff"
+}

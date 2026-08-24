@@ -55,6 +55,11 @@ capabilityClaims:
   `Outcome: 🔴` で始め、unknown、evidence、human decision、次の action を含めます。
   欠落、折りたたみ表示のみ、stale、contradictory、malformed の Outcome は
   fail closed とし、進行を許可しません。
+  top-level の `finish`、`archive`、`close` は stdout JSON を維持し、既定では
+  この handoff を stderr に出力します。`--json` は機械専用 mode です。block された
+  `finish` は永続化済みの赤/黄 Outcome を出力した後も元の nonzero failure を返します。
+  CLI は host の会話 panel を強制展開できないため、host は stderr を提示するか
+  `work-item outcome` を再生する必要があります。
 - 問題が現在の Work Item の範囲内なら、その Contract を amend/revalidate して
   現在の Work Item で修正します。scope、authority、base が本当に異なる場合、
   独立変更の場合、安全な in-scope 修正が不可能な場合、失敗した delivery の再実施、

@@ -52,6 +52,10 @@ Rust Runtime 与本仓库的 Protocol 词汇。
 - 单独交付面向人的 Outcome，并以 `Outcome: 🟢`、`Outcome: 🟡` 或
   `Outcome: 🔴` 开头，包含 unknown、evidence、人工决定和下一步。Outcome
   缺失、仅折叠显示、过期、矛盾或格式错误时必须 fail closed，不得授权继续。
+  顶层 `finish`、`archive`、`close` 保持 stdout JSON 稳定，并默认在 stderr
+  交付该 handoff；`--json` 是机器专用形式。被阻止的 `finish` 输出已持久化的
+  红/黄 Outcome 后仍返回原有 nonzero 失败。CLI 无法强制宿主展开对话面板，
+  因此宿主必须展示 stderr 或重放 `work-item outcome`。
 - 发现属于当前 Work Item 的问题时，先修复并 amend/revalidate 当前 Contract。
   只有 scope、authority 或 base 真正不同、变更独立、无法安全在当前范围修复、
   失败交付必须重新交付，或人明确指示时，才创建 successor。

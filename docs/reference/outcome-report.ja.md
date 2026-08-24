@@ -26,6 +26,15 @@ archive 後の lifecycle phase は `archived` で、repository に bind され�
 close decision が有効な場合だけ `closed` になります。欠落または不正な decision は
 archive を `closed` に昇格させません。
 
+top-level の `finish`、`archive`、`close` は既存の stdout lifecycle JSON を保持し、
+既定では同じ検証済み report を stderr に render します。明示的な `--json` mode は
+機械専用 caller のため stderr report を抑止します。`finish` が block された場合、
+永続化済みの赤または黄の Outcome を表示してから元の nonzero error を返します。
+追加の handoff が gate を弱めることはありません。CLI は host application に会話 UI
+の表示・展開を強制できません。host は stderr を提示し、人は
+`ai-cockpit work-item outcome --repo <repository> --id <work-item>` で durable handoff
+を決定的に再生できます。
+
 表示順は、結果と状態、完了したこと、発見された問題、発動した停止、解決した問題、
 回避したリスク、残存リスク、不明点、人間の判断、検証と証拠、影響、次のアクションです。
 

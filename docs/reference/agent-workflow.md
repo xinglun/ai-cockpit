@@ -72,6 +72,11 @@ the installed Rust Runtime and this repository's Protocol vocabulary.
   or `Outcome: 🔴`, unknowns, evidence, human decision, and next action. A
   missing, folded-only, stale, contradictory, or malformed Outcome fails
   closed and cannot authorize progression.
+  Top-level `finish`, `archive`, and `close` keep stdout JSON stable and emit
+  this handoff on stderr by default; `--json` is the machine-only form. A
+  blocked `finish` emits its persisted red/yellow Outcome and still returns the
+  original nonzero failure. Because the CLI cannot force a host conversation
+  panel to expand, hosts must surface stderr or replay `work-item outcome`.
 - Resolve an in-scope defect in the current Work Item by amending and
   revalidating its Contract. Create a successor only when scope, authority, or
   base genuinely differs, the change is independent, safe in-scope repair is

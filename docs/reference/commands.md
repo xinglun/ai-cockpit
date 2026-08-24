@@ -17,8 +17,10 @@ capabilityClaims:
 `work-item finalize` stores the first receipt at `.ai/decisions/<id>.finalize.json`. If that immutable root exists, a typed transition envelope must bind the unique head's predecessor digest and next sequence; Runtime appends `.finalize.<digest>.json`. `finalize-verify` reports `headPath`, `headDigest`, and `sequence`, which `close` binds. A sequence-1 merge observation may additionally bind `governanceAppendRevision` when the receipt commit advanced all aligned heads. Runtime requires an ancestor range of additions only. Besides regular same-Work-Item finalization receipts, the only permitted evidence additions are the complete fixed-schema pair `.ai/evidence/<id>/quality-route-post-finalize.json` and `.ai/evidence/<id>/repository-gates-post-finalize.json`; every path must be an `A`-only `100644` regular blob, and their archived Contract, PR revision, route digest, manifest, profile, and passing gate bindings must agree. The pair is evidence, not authority, and does not replace the required finalization receipt addition. This does not permit arbitrary evidence paths or archive mutation.
 
 All repository commands accept an explicit `--repo <path>`. Commands that
-produce records or decisions use JSON, except `work-item outcome`, which emits
-the localized human handoff by default; add `--json` for the stable
+produce records or decisions keep JSON on stdout. `finish`, `archive`, and
+`close` additionally emit the localized human handoff on stderr by default;
+their `--json` option suppresses only that handoff. `work-item outcome` emits
+the localized human handoff on stdout by default; add `--json` for the stable
 machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
 
 | Group | Commands | Boundary |
@@ -66,6 +68,13 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
   `*.task-report.md`, and an append-only `*.events.jsonl` stream; these are
   evidence-bound projections, not extra authority or a replacement for the
   Contract and verification receipt.
+- `finish`, `archive`, and `close` preserve their lifecycle JSON on stdout and,
+  by default, render the same validated human Outcome on stderr. Add `--json`
+  for machine-only output. When `finish` is blocked, the CLI first renders the
+  persisted red or yellow Outcome and then returns the original nonzero error;
+  it never turns a failed gate into success. The CLI cannot force an embedding
+  Agent or UI to open or expand a conversation panel. A host must surface the
+  stderr handoff, or replay it deterministically with `work-item outcome`.
 - `work-item status --repo <path> --id <id>` is read-only and reports lifecycle,
   governance, activity health, fact counts, blockers, unknowns, evidence, and
   source digests. It never schedules work or invents a percentage.

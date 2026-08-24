@@ -16,8 +16,11 @@ capabilityClaims:
 
 `work-item finalize` は最初の receipt を `.ai/decisions/<id>.finalize.json` に保存します。その不変 root が存在する場合、typed transition envelope は一意な head の predecessor digest と次の sequence を束縛し、Runtime は `.finalize.<digest>.json` を追記します。`finalize-verify` は `headPath`、`headDigest`、`sequence` を返し、`close` はそれらを束縛します。receipt commit が整合した全 head を進めた場合、sequence-1 merge observation は `governanceAppendRevision` も束縛できます。Runtime は ancestor range が追加のみであることを要求します。同一 Work Item の通常 finalization receipt 以外で許可される evidence 追加は、固定 schema の完全な pair `.ai/evidence/<id>/quality-route-post-finalize.json` と `.ai/evidence/<id>/repository-gates-post-finalize.json` だけです。各 path は `A`-only の `100644` regular blob で、archived Contract、PR revision、route digest、manifest、profile、passing gate の binding は一致しなければなりません。この pair は evidence であって authority ではなく、必須の finalization receipt 追加を置き換えません。任意の evidence path や archive の変更を許可するものではありません。
 
-すべての repository command は明示的な `--repo <path>` を受け取ります。record や decision を出す command は通常 JSON ですが、
-`work-item outcome` は既定で localize された人間向け handoff を表示します。機械処理には `--json` を指定します。failed/unknown は pass ではありません。
+すべての repository command は明示的な `--repo <path>` を受け取ります。record や
+decision を作る command は stdout の JSON を維持します。`finish`、`archive`、`close`
+は既定で localize された人間向け handoff を stderr にも表示し、各 `--json` はその
+handoff だけを抑止します。`work-item outcome` は既定で stdout に人間向け handoff を
+表示し、機械処理には `--json` を指定します。failed/unknown は pass ではありません。
 
 | Group | Commands | Boundary |
 | --- | --- | --- |
@@ -52,6 +55,12 @@ capabilityClaims:
   automation には `--json` を使います。status marker と言語規則は[人間向け Outcome](outcome-report.ja.md)を参照してください。
   Work Item の完了時には型付きの `*.task-report.json`、人間向けの `*.task-report.md`、append-only の `*.events.jsonl` も bind されます。
   これらは evidence-bound projection であり、追加の authority でも Contract/verification receipt の代替でもありません。
+- `finish`、`archive`、`close` は stdout の lifecycle JSON を変更せず、既定では同じ
+  検証済み Human Outcome を stderr に render します。機械専用出力には `--json` を
+  指定します。`finish` が block された場合、CLI は永続化済みの赤または黄の Outcome
+  を先に表示し、元の nonzero error を返します。failed gate を成功に変換しません。
+  CLI は埋め込み先の Agent/UI に会話 panel の表示や展開を強制できません。host は
+  stderr handoff を表示するか、`work-item outcome` で決定的に再生する必要があります。
 - `work-item status --repo <path> --id <id>` は read-only で lifecycle、governance、activity health、fact count、blocker、unknown、evidence、source digest を返します。scheduler を動かさず、割合を発明しません。
 - `work-item status --repo <path> --all --json` は active/archived Work Item を stable な ID 順で集約し、
   固定の green/yellow/red/unknown count、member diagnostic/digest、current repository snapshot digest、
