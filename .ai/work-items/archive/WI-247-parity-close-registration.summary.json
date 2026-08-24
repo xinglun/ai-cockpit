@@ -1,0 +1,59 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-24T10:40:40Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T10:36:40Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-247-parity-close-registration.verification.json"
+    ],
+    "reason": "The verified change updates only the bounded tri-language WI-246/WI-247 ledger projection and preserves every immutable predecessor, Runtime, CI, release, test, crate, and unrelated Work Item byte.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:11e82f1423cc1bda5a3ffda2718b3aeebbb6db9dc109ee6a0db265f4fb131453",
+  "predecessorWorkItemId": "WI-246-pending-parity-merge-ref-recovery",
+  "preflightAt": "2026-08-24T10:54:22Z",
+  "preflightContractDigest": "sha256:e536ebdc77619010b75a2c55c7a71d020e428aec469e8fe63d32e78056d15a6b",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:4c31d305ce30f82d0f46bc4c43241b3f577100fc728ee7cb492f432411d7cf37",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-246-pending-parity-merge-ref-recovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-247-parity-close-registration.verification.json"
+      ],
+      "expected": "The typed successor recovery binds WI-246 canonical digests and every predecessor lifecycle byte remains unchanged.",
+      "required": true,
+      "scenario": "immutable-WI-246-recovery",
+      "status": "verified",
+      "verificationPlan": "Validate the Runtime recovery receipt and compare the recorded Contract, Summary, Outcome, Events, finalization-head, and close digests before finish."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-247-parity-close-registration.verification.json"
+      ],
+      "expected": "All three parity rows and Work Item documents agree that WI-246 is Implemented and bind its complete decision chain without dropping the pre-merge receipt.",
+      "required": true,
+      "scenario": "terminal-trilingual-parity-projection",
+      "status": "verified",
+      "verificationPlan": "Run parity status, governance integrity, and documentation acceptance gates and require zero WI-246 missing/stale findings."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-247-parity-close-registration.verification.json"
+      ],
+      "expected": "The successor changes only the declared documentation and governance lineage paths while existing merge-ref regressions remain green.",
+      "required": true,
+      "scenario": "bounded-close-order-recovery",
+      "status": "verified",
+      "verificationPlan": "Inspect the exact diff, run the existing synthetic merge-ref governance regression, and execute the canonical strict repository runner."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-24T10:54:22Z",
+  "workItemId": "WI-247-parity-close-registration"
+}

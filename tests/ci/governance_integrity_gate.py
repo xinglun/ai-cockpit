@@ -485,6 +485,114 @@ def _regular_repository_file(repo: Path, relative: str) -> Path | None:
     return path
 
 
+def _parity_row_precedes_record(
+    repo: Path,
+    parity_relative: str,
+    row: str,
+    record_relative: str,
+) -> bool:
+    """Prove the exact lifecycle row was committed before evidence appeared."""
+
+    parity_path = repo / parity_relative
+    matching_lines = [
+        index
+        for index, value in enumerate(
+            parity_path.read_text(encoding="utf-8").splitlines(), start=1
+        )
+        if value == row
+    ]
+    if len(matching_lines) != 1:
+        return False
+    line_number = matching_lines[0]
+    blame = subprocess.run(
+        [
+            "git",
+            "blame",
+            "--porcelain",
+            f"-L{line_number},{line_number}",
+            "HEAD",
+            "--",
+            parity_relative,
+        ],
+        cwd=repo,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if blame.returncode != 0 or not blame.stdout:
+        return False
+    row_revision = blame.stdout.splitlines()[0].split()[0]
+    record = subprocess.run(
+        [
+            "git",
+            "log",
+            "-1",
+            "--diff-filter=A",
+            "--format=%H",
+            "HEAD",
+            "--",
+            record_relative,
+        ],
+        cwd=repo,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    record_revision = record.stdout.strip()
+    if (
+        re.fullmatch(r"[0-9a-f]{40}", row_revision) is None
+        or re.fullmatch(r"[0-9a-f]{40}", record_revision) is None
+        or row_revision == record_revision
+    ):
+        return False
+    return (
+        subprocess.run(
+            ["git", "merge-base", "--is-ancestor", row_revision, record_revision],
+            cwd=repo,
+            check=False,
+            capture_output=True,
+        ).returncode
+        == 0
+    )
+
+
+def _active_parity_projection_declared(
+    repo: Path,
+    work_item: str,
+) -> bool:
+    """Select the active parity control from declared scope or observed paths."""
+
+    try:
+        contract = load_json(
+            repo / ".ai/work-items/active" / f"{work_item}.contract.json"
+        )
+        summary = load_json(
+            repo / ".ai/work-items/active" / f"{work_item}.summary.json"
+        )
+    except ValueError:
+        # Malformed active governance records must not disable the control.
+        return True
+    declared_paths: list[Any] = []
+    for value in (contract.get("scope"), summary.get("changedPaths")):
+        if isinstance(value, list):
+            declared_paths.extend(value)
+    path_declared = any(
+        isinstance(relative, str)
+        and relative.startswith("docs/reference/reference-parity")
+        for relative in declared_paths
+    )
+    acceptance = contract.get("acceptanceCriteria")
+    acceptance_declared = isinstance(acceptance, list) and any(
+        isinstance(criterion, str)
+        and (
+            "parity ledger" in criterion.casefold()
+            or "parity registration" in criterion.casefold()
+        )
+        for criterion in acceptance
+    )
+    return path_declared or acceptance_declared
+
+
 def _pending_append_is_bounded(
     repo: Path,
     head_revision: str,
@@ -876,6 +984,58 @@ def main() -> int:
             if not (base / f"{work_item}.{suffix}.json").is_file():
                 findings.append(finding(work_item, f"missing_{suffix}", relative))
 
+        if location == "active" and not _active_parity_projection_declared(
+            repo,
+            work_item,
+        ):
+            record["lifecycleState"] = "active_non_parity"
+        elif location == "active":
+            work_item_rows = rows.get(short_id(work_item), {})
+            expected_records = (
+                f".ai/work-items/archive/{work_item}.contract.json",
+                f".ai/evidence/{work_item}.verification.json",
+                f".ai/decisions/{work_item}.finalize.json",
+                f".ai/decisions/{work_item}.close.json",
+            )
+            prearchive_valid = True
+            for parity_doc, _ in PARITY_DOCS:
+                line = work_item_rows.get(parity_doc)
+                if line is None:
+                    prearchive_valid = False
+                    findings.append(
+                        finding(
+                            work_item,
+                            "missing_prearchive_parity_entry",
+                            parity_doc,
+                        )
+                    )
+                    continue
+                expected_status = (
+                    "进行中 → 验证关闭后已实现"
+                    if parity_doc.endswith(".zh-CN.md")
+                    else (
+                        "In progress → verified close 後 Implemented"
+                        if parity_doc.endswith(".ja.md")
+                        else "In progress → Implemented after verified close"
+                    )
+                )
+                if f"| {expected_status} |" not in line or any(
+                    f"`{relative}`" not in line for relative in expected_records
+                ):
+                    prearchive_valid = False
+                    findings.append(
+                        finding(
+                            work_item,
+                            "invalid_prearchive_parity_registration",
+                            parity_doc,
+                        )
+                    )
+            record["lifecycleState"] = (
+                "prearchive_parity_registered"
+                if prearchive_valid
+                else "prearchive_parity_incomplete"
+            )
+
         if location == "archive":
             if not archive_digests_valid(repo, work_item):
                 findings.append(
@@ -1100,6 +1260,43 @@ def main() -> int:
                     findings.append(finding(work_item, "missing_parity_evidence", parity_doc))
                 if decision is not None and decision not in line:
                     findings.append(finding(work_item, "missing_parity_decision", parity_doc))
+                lifecycle_status = (
+                    "进行中 → 验证关闭后已实现"
+                    if parity_doc.endswith(".zh-CN.md")
+                    else (
+                        "In progress → verified close 後 Implemented"
+                        if parity_doc.endswith(".ja.md")
+                        else "In progress → Implemented after verified close"
+                    )
+                )
+                if f"| {lifecycle_status} |" in line:
+                    lifecycle_records = (
+                        f".ai/work-items/archive/{work_item}.contract.json",
+                        evidence,
+                        f".ai/decisions/{work_item}.finalize.json",
+                        f".ai/decisions/{work_item}.close.json",
+                    )
+                    if any(f"`{relative}`" not in line for relative in lifecycle_records):
+                        findings.append(
+                            finding(
+                                work_item,
+                                "invalid_prearchive_parity_registration",
+                                parity_doc,
+                            )
+                        )
+                    elif not _parity_row_precedes_record(
+                        repo,
+                        parity_doc,
+                        line,
+                        evidence,
+                    ):
+                        findings.append(
+                            finding(
+                                work_item,
+                                "stale_prearchive_parity_registration",
+                                parity_doc,
+                            )
+                        )
                 status_tokens = (implemented,)
                 if record.get("lifecycleState") == "recovered":
                     recovery_status = "已恢复" if parity_doc.endswith(".zh-CN.md") else "Recovered"

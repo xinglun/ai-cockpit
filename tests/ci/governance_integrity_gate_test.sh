@@ -243,6 +243,478 @@ assert len(warnings) == 2, warnings
 assert {item["severity"] for item in warnings} == {"historical"}, warnings
 PY
 
+# A Work Item that changes the parity ledger must project its own lifecycle
+# row before verification.  The same exact row remains truthful while active,
+# awaiting merge/close, and closed, so archive/finalization never requires a
+# post-verification documentation mutation.
+prearchive_repo="$tmp/prearchive-parity-projection"
+prearchive_staged="$tmp/prearchive-parity-staged"
+prearchive_missing_report="$tmp/prearchive-parity-missing-report.json"
+prearchive_active_report="$tmp/prearchive-parity-active-report.json"
+prearchive_finalize_report="$tmp/prearchive-parity-finalize-report.json"
+prearchive_close_report="$tmp/prearchive-parity-close-report.json"
+build_fixture "$fixtures/awaiting-merge-close.json" "$prearchive_repo"
+python3 - "$prearchive_repo" "$prearchive_staged" <<'PY'
+import json
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+staged = Path(sys.argv[2])
+work_item = "WI-901-corrective-after-baseline"
+short_id = "WI-901"
+
+for relative in (
+    f".ai/work-items/archive/{work_item}.archive.json",
+    f".ai/work-items/archive/{work_item}.contract.json",
+    f".ai/work-items/archive/{work_item}.outcome.json",
+    f".ai/work-items/archive/{work_item}.summary.json",
+    f".ai/evidence/{work_item}.verification.json",
+    f".ai/decisions/{work_item}.finalize.json",
+):
+    source = repo / relative
+    destination = staged / relative
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    shutil.move(source, destination)
+
+active = repo / ".ai/work-items/active"
+active.mkdir(parents=True, exist_ok=True)
+shutil.copy2(
+    staged / ".ai/work-items/archive" / f"{work_item}.contract.json",
+    active / f"{work_item}.contract.json",
+)
+shutil.copy2(
+    staged / ".ai/work-items/archive" / f"{work_item}.summary.json",
+    active / f"{work_item}.summary.json",
+)
+contract_path = active / f"{work_item}.contract.json"
+contract = json.loads(contract_path.read_text(encoding="utf-8"))
+contract["scope"] = [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+]
+contract["acceptanceCriteria"] = [
+    "Register the Work Item in the tri-language parity ledger before archive."
+]
+contract_path.write_text(
+    json.dumps(contract, indent=2, sort_keys=True) + "\n",
+    encoding="utf-8",
+)
+for relative in (
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+):
+    path = repo / relative
+    path.write_text(
+        "\n".join(
+            line
+            for line in path.read_text(encoding="utf-8").splitlines()
+            if not line.startswith(f"| {short_id} ")
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+subprocess.run(["git", "add", "-A"], cwd=repo, check=True)
+subprocess.run(
+    ["git", "commit", "-qm", "prepare active parity work item"],
+    cwd=repo,
+    check=True,
+)
+PY
+set +e
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$prearchive_repo" \
+    --report "$prearchive_missing_report" >/dev/null
+prearchive_missing_code=$?
+set -e
+[[ "$prearchive_missing_code" -eq 1 ]] || {
+  printf 'prearchive parity missing: expected exit 1, got %s\n' \
+    "$prearchive_missing_code" >&2
+  exit 1
+}
+python3 - "$prearchive_missing_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+findings = [
+    finding
+    for finding in report["findings"]
+    if finding["workItemId"] == "WI-901-corrective-after-baseline"
+    and finding["code"] == "missing_prearchive_parity_entry"
+]
+assert len(findings) == 3, findings
+PY
+
+# Ordinary code Work Items do not own the parity ledger.  The light gate must
+# discover that boundary from Contract/Summary intent and remain dormant; the
+# same conditional check is inherited by standard and strict profiles.
+nonparity_repo="$tmp/nonparity-active-work-item"
+nonparity_report="$tmp/nonparity-active-work-item-report.json"
+cp -R "$prearchive_repo" "$nonparity_repo"
+python3 - "$nonparity_repo" <<'PY'
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+work_item = "WI-901-corrective-after-baseline"
+contract_path = repo / ".ai/work-items/active" / f"{work_item}.contract.json"
+contract = json.loads(contract_path.read_text(encoding="utf-8"))
+contract["scope"] = ["crates/example/src/lib.rs"]
+contract["acceptanceCriteria"] = ["The bounded code change passes its tests."]
+contract_path.write_text(
+    json.dumps(contract, indent=2, sort_keys=True) + "\n",
+    encoding="utf-8",
+)
+subprocess.run(["git", "add", str(contract_path.relative_to(repo))], cwd=repo, check=True)
+subprocess.run(
+    ["git", "commit", "-qm", "declare non-parity active work item"],
+    cwd=repo,
+    check=True,
+)
+PY
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$nonparity_repo" --report "$nonparity_report" >/dev/null
+python3 - "$nonparity_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert report["state"] == "passed", report["findings"]
+item = next(
+    item
+    for item in report["inventory"]
+    if item["workItemId"] == "WI-901-corrective-after-baseline"
+)
+assert item["lifecycleState"] == "active_non_parity", item
+PY
+
+python3 - "$prearchive_repo" "$prearchive_staged" <<'PY'
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+staged = Path(sys.argv[2])
+work_item = "WI-901-corrective-after-baseline"
+short_id = "WI-901"
+contract = f".ai/work-items/archive/{work_item}.contract.json"
+evidence = f".ai/evidence/{work_item}.verification.json"
+finalize = f".ai/decisions/{work_item}.finalize.json"
+close = f".ai/decisions/{work_item}.close.json"
+statuses = {
+    "docs/reference/reference-parity.md": (
+        "In progress → Implemented after verified close",
+        ";",
+    ),
+    "docs/reference/reference-parity.zh-CN.md": (
+        "进行中 → 验证关闭后已实现",
+        "；",
+    ),
+    "docs/reference/reference-parity.ja.md": (
+        "In progress → verified close 後 Implemented",
+        "；",
+    ),
+}
+for relative, (status, separator) in statuses.items():
+    path = repo / relative
+    row = (
+        f"| {short_id} — fixture | {status} | "
+        f"`{contract}`{separator} `{evidence}`{separator} "
+        f"`{finalize}`{separator} `{close}` |"
+    )
+    path.write_text(path.read_text(encoding="utf-8") + row + "\n", encoding="utf-8")
+    snapshot = staged / "parity" / path.name
+    snapshot.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(path, snapshot)
+subprocess.run(["git", "add", "docs/reference"], cwd=repo, check=True)
+subprocess.run(
+    ["git", "commit", "-qm", "project lifecycle-bound parity rows"],
+    cwd=repo,
+    check=True,
+)
+PY
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$prearchive_repo" \
+    --report "$prearchive_active_report" >/dev/null
+python3 - "$prearchive_active_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert report["state"] == "passed", report["findings"]
+item = next(
+    item
+    for item in report["inventory"]
+    if item["workItemId"] == "WI-901-corrective-after-baseline"
+)
+assert item["lifecycleState"] == "prearchive_parity_registered", item
+PY
+
+run_prearchive_invalid_case() {
+  local case_name=$1
+  local expected_finding=$2
+  local case_repo="$tmp/prearchive-$case_name"
+  local case_report="$tmp/prearchive-$case_name-report.json"
+  cp -R "$prearchive_repo" "$case_repo"
+  python3 - "$case_repo" "$case_name" <<'PY'
+import subprocess
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+case = sys.argv[2]
+work_item = "WI-901-corrective-after-baseline"
+short_id = "WI-901"
+paths = {
+    "en": repo / "docs/reference/reference-parity.md",
+    "zh": repo / "docs/reference/reference-parity.zh-CN.md",
+    "ja": repo / "docs/reference/reference-parity.ja.md",
+}
+if case == "partial-row":
+    path = paths["ja"]
+    path.write_text(
+        "\n".join(
+            line
+            for line in path.read_text(encoding="utf-8").splitlines()
+            if not line.startswith(f"| {short_id} ")
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+elif case == "terminal-status":
+    path = paths["en"]
+    path.write_text(
+        path.read_text(encoding="utf-8").replace(
+            "In progress → Implemented after verified close",
+            "Implemented",
+        ),
+        encoding="utf-8",
+    )
+elif case == "foreign-path":
+    path = paths["zh"]
+    path.write_text(
+        path.read_text(encoding="utf-8").replace(
+            f".ai/decisions/{work_item}.close.json",
+            ".ai/decisions/WI-999-foreign.close.json",
+        ),
+        encoding="utf-8",
+    )
+else:
+    raise AssertionError(case)
+subprocess.run(["git", "add", "docs/reference"], cwd=repo, check=True)
+subprocess.run(["git", "commit", "-qm", f"mutate {case}"], cwd=repo, check=True)
+PY
+  set +e
+  env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+    -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+    python3 "$gate" --repo "$case_repo" --report "$case_report" >/dev/null
+  local actual_code=$?
+  set -e
+  [[ "$actual_code" -eq 1 ]] || {
+    printf 'prearchive %s: expected exit 1, got %s\n' "$case_name" \
+      "$actual_code" >&2
+    exit 1
+  }
+  python3 - "$case_report" "$expected_finding" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+expected = sys.argv[2]
+assert any(
+    finding["workItemId"] == "WI-901-corrective-after-baseline"
+    and finding["code"] == expected
+    for finding in report["findings"]
+), report["findings"]
+PY
+}
+
+run_prearchive_invalid_case partial-row missing_prearchive_parity_entry
+run_prearchive_invalid_case terminal-status invalid_prearchive_parity_registration
+run_prearchive_invalid_case foreign-path invalid_prearchive_parity_registration
+
+# Adding the lifecycle-bound rows only after archive/finalization is stale:
+# their Git introduction must strictly precede the verification evidence.
+postarchive_repo="$tmp/postarchive-only-parity-projection"
+postarchive_report="$tmp/postarchive-only-parity-report.json"
+cp -R "$prearchive_repo" "$postarchive_repo"
+python3 - "$postarchive_repo" "$prearchive_staged" <<'PY'
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+staged = Path(sys.argv[2])
+work_item = "WI-901-corrective-after-baseline"
+subprocess.run(["git", "reset", "--hard", "HEAD^"], cwd=repo, check=True)
+shutil.rmtree(repo / ".ai/work-items/active")
+for source in sorted(staged.rglob(f"{work_item}.*.json")):
+    relative = source.relative_to(staged)
+    destination = repo / relative
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(source, destination)
+subprocess.run(["git", "add", "-A"], cwd=repo, check=True)
+subprocess.run(
+    ["git", "commit", "-qm", "archive before parity projection"],
+    cwd=repo,
+    check=True,
+)
+
+contract = f".ai/work-items/archive/{work_item}.contract.json"
+evidence = f".ai/evidence/{work_item}.verification.json"
+finalize = f".ai/decisions/{work_item}.finalize.json"
+close = f".ai/decisions/{work_item}.close.json"
+statuses = {
+    "docs/reference/reference-parity.md": (
+        "In progress → Implemented after verified close",
+        ";",
+    ),
+    "docs/reference/reference-parity.zh-CN.md": (
+        "进行中 → 验证关闭后已实现",
+        "；",
+    ),
+    "docs/reference/reference-parity.ja.md": (
+        "In progress → verified close 後 Implemented",
+        "；",
+    ),
+}
+for relative, (status, separator) in statuses.items():
+    path = repo / relative
+    row = (
+        f"| WI-901 — fixture | {status} | "
+        f"`{contract}`{separator} `{evidence}`{separator} "
+        f"`{finalize}`{separator} `{close}` |"
+    )
+    path.write_text(path.read_text(encoding="utf-8") + row + "\n", encoding="utf-8")
+subprocess.run(["git", "add", "docs/reference"], cwd=repo, check=True)
+subprocess.run(
+    ["git", "commit", "-qm", "project parity after archive"],
+    cwd=repo,
+    check=True,
+)
+PY
+set +e
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$postarchive_repo" \
+    --report "$postarchive_report" >/dev/null
+postarchive_code=$?
+set -e
+[[ "$postarchive_code" -eq 1 ]] || {
+  printf 'postarchive parity projection: expected exit 1, got %s\n' \
+    "$postarchive_code" >&2
+  exit 1
+}
+python3 - "$postarchive_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+findings = [
+    finding
+    for finding in report["findings"]
+    if finding["workItemId"] == "WI-901-corrective-after-baseline"
+    and finding["code"] == "stale_prearchive_parity_registration"
+]
+assert len(findings) == 3, findings
+PY
+
+python3 - "$prearchive_repo" "$prearchive_staged" <<'PY'
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+staged = Path(sys.argv[2])
+work_item = "WI-901-corrective-after-baseline"
+shutil.rmtree(repo / ".ai/work-items/active")
+for source in sorted(staged.rglob(f"{work_item}.*.json")):
+    relative = source.relative_to(staged)
+    destination = repo / relative
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(source, destination)
+subprocess.run(["git", "add", "-A"], cwd=repo, check=True)
+subprocess.run(
+    ["git", "commit", "-qm", "archive and finalize without changing parity"],
+    cwd=repo,
+    check=True,
+)
+PY
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$prearchive_repo" \
+    --report "$prearchive_finalize_report" >/dev/null
+
+python3 - "$prearchive_repo" <<'PY'
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+work_item = "WI-901-corrective-after-baseline"
+evidence = f".ai/evidence/{work_item}.verification.json"
+repository_id = json.loads((repo / ".ai/project.json").read_text(encoding="utf-8"))[
+    "repositoryId"
+]
+close = {
+    "decisionState": "confirmed",
+    "humanDecision": "approved",
+    "repositoryId": repository_id,
+    "state": "closed",
+    "structuredDecision": {
+        "actor": "fixture-human",
+        "authoritySource": "fixture-policy",
+        "decidedAt": "2026-03-02T00:00:00Z",
+        "decision": "approved",
+        "evidenceRefs": [evidence],
+        "policyRefs": ["fixture-policy"],
+        "reason": "The exact reviewed resources were cleaned up.",
+        "resumeCondition": "None.",
+    },
+    "workItemId": work_item,
+}
+path = repo / ".ai/decisions" / f"{work_item}.close.json"
+path.write_text(json.dumps(close, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+subprocess.run(["git", "add", str(path.relative_to(repo))], cwd=repo, check=True)
+subprocess.run(["git", "commit", "-qm", "close without changing parity"], cwd=repo, check=True)
+PY
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$prearchive_repo" \
+    --report "$prearchive_close_report" >/dev/null
+python3 - "$prearchive_close_report" "$prearchive_repo" "$prearchive_staged" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+repo = Path(sys.argv[2])
+staged = Path(sys.argv[3])
+assert report["state"] == "passed", report["findings"]
+item = next(
+    item
+    for item in report["inventory"]
+    if item["workItemId"] == "WI-901-corrective-after-baseline"
+)
+assert item["lifecycleState"] == "closed", item
+for path in sorted((staged / "parity").iterdir()):
+    assert path.read_bytes() == (repo / "docs/reference" / path.name).read_bytes(), path
+PY
+
 # A hosted pull-request merge ref combines the feature tree with decisions
 # newly present on the default branch.  Every authoritative decision must be
 # named by all three parity rows: retaining the pre-merge finalize receipt is

@@ -1,0 +1,176 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "immutable WI-247 recovery lineage",
+          "path": ".ai/decisions/WI-247-parity-close-registration.recovery.json",
+          "type": "recovery-decision",
+          "verification": "The recovery decision and imported WI-247 archive/evidence bytes retain their exact predecessor and Runtime digests."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "tri-language WI-246 and WI-247 ledger projection",
+          "path": "docs/reference/reference-parity.md",
+          "type": "documentation-gate",
+          "verification": "English, Simplified Chinese, and Japanese parity ledgers pass the documentation and parity gates."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "conditional prearchive parity projection",
+          "path": "tests/ci/governance_integrity_gate_test.sh",
+          "type": "governance-regression",
+          "verification": "Parity-owning active Work Items require all three exact lifecycle-bound rows while a non-parity code Work Item remains unaffected."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "pending registry non-regression",
+          "path": "tests/docs/pending_parity_registry_test.sh",
+          "type": "governance-regression",
+          "verification": "Typed pending registry identity, topology, containment, and stale/default-branch cases remain fail closed."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "active-to-archive/finalize topology",
+          "path": "tests/ci/governance_integrity_gate_test.sh",
+          "type": "lifecycle-regression",
+          "verification": "The pre-verification row stays valid through archive/finalize and a postarchive-only row is rejected as stale."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "strict 24-gate Runtime evidence",
+          "path": ".ai/evidence/WI-249-parity-finalization-registration.verification.json",
+          "type": "runtime-verification",
+          "verification": "The canonical strict route runs all registered light/standard/strict inherited gates, fmt, clippy, and locked workspace tests."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A7",
+      "evidence": [
+        {
+          "locator": "bounded changed-path evidence",
+          "path": ".ai/evidence/WI-249-parity-finalization-registration.verification.json",
+          "type": "runtime-verification",
+          "verification": "Runtime snapshot and Contract scope bind the changed paths and exclude Rust crates, workflows, release behavior, and unrelated records."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A8",
+      "evidence": [
+        {
+          "locator": "PR #199 resource finalization plan",
+          "path": ".ai/decisions/WI-249-parity-finalization-registration.finalize-plan.json",
+          "type": "resource-finalization-plan",
+          "verification": "PR #199 branch, worktree, provider, base, and head context was bound before verification and archive."
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-249-parity-finalization-registration.contract.json"
+  ],
+  "checkpointAt": "2026-08-24T11:07:09Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T10:59:01Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/decisions/WI-247-parity-close-registration.recovery.json",
+      "tests/ci/governance_integrity_gate.py",
+      "tests/ci/governance_integrity_gate_test.sh",
+      "docs/reference/reference-parity.md",
+      ".ai/evidence/WI-249-parity-finalization-registration.verification.json"
+    ],
+    "reason": "WI-249 preserves the immutable WI-247 recovery lineage, registers complete three-language lifecycle truth before verification, and applies that ordering only to Work Items that explicitly own the parity ledger.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:e536ebdc77619010b75a2c55c7a71d020e428aec469e8fe63d32e78056d15a6b",
+  "predecessorWorkItemId": "WI-247-parity-close-registration",
+  "preflightAt": "2026-08-24T11:38:07Z",
+  "preflightContractDigest": "sha256:be8a7fb38ee447c7076d6e2494894cb42cc8bbd1a13b7ce96a40f6a2c7c5c8ba",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:7fd5ddf94fa07fcbe009fb7cf4c13cae373ad98c89a7cdf88062adb7b8fe446a",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-247-parity-close-registration.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/decisions/WI-247-parity-close-registration.recovery.json",
+        ".ai/work-items/archive/WI-247-parity-close-registration.archive.json",
+        ".ai/evidence/WI-247-parity-close-registration.verification.json",
+        ".ai/evidence/WI-249-parity-finalization-registration.verification.json"
+      ],
+      "expected": "Every imported WI-247 generated file matches the predecessor digest and the recovery receipt binds the same repository, Runtime, Contract, Summary, Outcome, Events, archive, and verification identities.",
+      "required": true,
+      "scenario": "immutable-predecessor-lineage",
+      "status": "verified",
+      "verificationPlan": "Hash every imported WI-247 file, validate the recovery decision and successor Contract, and require the exact recorded digests before finish."
+    },
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        ".ai/evidence/WI-249-parity-finalization-registration.verification.json"
+      ],
+      "expected": "All three current-work-item rows are complete In progress projections before verification and resolve to normal archived evidence after finalize without any documentation mutation after archive.",
+      "required": true,
+      "scenario": "prearchive-terminal-path-projection",
+      "status": "verified",
+      "verificationPlan": "Use a synthetic active-to-archive/finalize topology in the governance regression and run parity, documentation, and strict repository gates."
+    },
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh",
+        "tests/ci/governance_integrity_gate.py",
+        ".ai/evidence/WI-249-parity-finalization-registration.verification.json"
+      ],
+      "expected": "Missing, one-language-only, wrong-status, foreign-path, or post-archive-only parity registration fails with deterministic findings.",
+      "required": true,
+      "scenario": "adversarial-parity-ordering",
+      "status": "verified",
+      "verificationPlan": "Add RED fixtures for each invalid ordering and require the governance gate to remain fail closed."
+    },
+    {
+      "evidence": [
+        "tests/docs/pending_parity_registry_test.sh",
+        "tests/ci/repository_gate_manifest.json",
+        ".ai/evidence/WI-249-parity-finalization-registration.verification.json"
+      ],
+      "expected": "Existing pending registry identity, Git topology, symlink, malformed JSON, active/historical target, and default-branch stale regressions remain green.",
+      "required": true,
+      "scenario": "pending-registry-nonregression",
+      "status": "verified",
+      "verificationPlan": "Run the complete pending parity registry regression and repository manifest/route checks."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-24T11:38:20Z",
+  "workItemId": "WI-249-parity-finalization-registration"
+}

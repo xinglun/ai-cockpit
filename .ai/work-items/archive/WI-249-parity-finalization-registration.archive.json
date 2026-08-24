@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-24T11:38:26Z",
+  "files": {
+    "contractDigest": "sha256:02dab906ee0dd94501d531b0116a54f37992e8ba2547b2182439cacce5af6967",
+    "contractPath": ".ai/work-items/archive/WI-249-parity-finalization-registration.contract.json",
+    "eventsDigest": "sha256:62bb890a26e5b02c687cca22145982108de923a409f9a2c35ec225d2cdb66b00",
+    "eventsPath": ".ai/work-items/archive/WI-249-parity-finalization-registration.events.jsonl",
+    "outcomeDigest": "sha256:86b192be28904a7e529c5b8e264689a9161ff2926bdc30cc90de1b91e69ab8b6",
+    "outcomePath": ".ai/work-items/archive/WI-249-parity-finalization-registration.outcome.json",
+    "summaryDigest": "sha256:38ceda55007512fd8365947b79981f855586fd37edf9ad4d2c5758724094bb06",
+    "summaryPath": ".ai/work-items/archive/WI-249-parity-finalization-registration.summary.json",
+    "taskReportDigest": "sha256:a7798241fcf4847d639303ecbde808e61c6704550fb88aab800784abf82e93e1",
+    "taskReportMarkdownDigest": "sha256:65eb8edfe3eb90965d7a84f0c65d9328aac72087e9ea06714be161020468d9dc",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-249-parity-finalization-registration.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-249-parity-finalization-registration.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-249-parity-finalization-registration"
+}

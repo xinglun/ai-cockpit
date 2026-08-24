@@ -6,8 +6,8 @@ description: "Recover the WI-244 delivery and bind parity to decisions contribut
 audience:
   - maintainer
   - reviewer
-status: in_progress
-lastVerifiedBy: WI-246-pending-parity-merge-ref-recovery
+status: implemented
+lastVerifiedBy: WI-249-parity-finalization-registration
 authority: canonical
 ---
 
@@ -34,12 +34,16 @@ receipt, so the governance gate correctly failed the combined tree.
 ## Acceptance
 
 The three WI-243 rows retain the pre-merge finalize path and add the close
-path. WI-244 is shown as Recovered with its recovery receipt. WI-246 remains In
-progress until merge and closure. A deterministic regression constructs a
+path. WI-244 is shown as Recovered with its recovery receipt. PR #197 merged as
+`98d6575`; the append-only WI-246 chain records merge observation, exact
+branch/worktree cleanup, and the structured close receipt, so WI-246 is now
+Implemented. A deterministic regression constructs a
 base-plus-feature merge tree: omission of the base close decision yields three
 `missing_parity_decision` findings, while all three rows containing both paths
 pass. The pending registry's strict schema, identity, Git ancestry, symlink,
-and lifecycle checks remain unchanged.
+and lifecycle checks remain unchanged. WI-247 is retained as an immutable
+recovered predecessor after its own parity row was projected too late; WI-249
+registers that recovery and prevents the same archive-ordering defect.
 
 ## Verification
 
