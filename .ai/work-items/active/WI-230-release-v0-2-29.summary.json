@@ -1,0 +1,55 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-230-release-v0-2-29.contract.json",
+    ".ai/work-items/active/WI-230-release-v0-2-29.summary.json"
+  ],
+  "checkpointAt": "2026-08-24T01:00:52Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T00:59:56Z",
+  "intentAlignment": {
+    "basis": "WI-230 is the release boundary required to make the merged WI-229 Runtime fix installable and to close the previously blocked WI-227 lifecycle with the released binary.",
+    "evidence": [
+      ".ai/evidence/WI-229-governance-append-parity-recovery.verification.json",
+      ".ai/decisions/WI-229-governance-append-parity-recovery.close.json",
+      "https://github.com/xinglun/ai-cockpit/pull/178"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-08-24T01:00:48Z",
+  "preflightContractDigest": "sha256:61205a1a548b12d256d51fdac474c27ace2bea5b44ee5ab24d1e2b7a3dd7ea91",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:f669e220d9dc6d0493f8931640585997c505627df5b3cd35af679ca1f2050236",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "All workspace packages and current release references identify v0.2.29.",
+      "required": true,
+      "scenario": "version and workspace consistency",
+      "status": "unverified",
+      "verificationPlan": "Run cargo metadata and tests/release/version_consistency.sh."
+    },
+    {
+      "evidence": [],
+      "expected": "The public v0.2.29 release binds the reviewed merge, five-target manifest, checksums, SBOM/provenance, and adopter acceptance.",
+      "required": true,
+      "scenario": "public immutable release",
+      "status": "unverified",
+      "verificationPlan": "Run hosted release workflow and immutable public artifact acceptance without source fallback."
+    },
+    {
+      "evidence": [],
+      "expected": "The downloaded v0.2.29 binary passes inspect/status/doctor/agent doctor and closes WI-227 post-merge finalization.",
+      "required": true,
+      "scenario": "installed runtime adoption",
+      "status": "unverified",
+      "verificationPlan": "Install only the public artifact, record runtime identity, then run repository-bound lifecycle commands."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-08-24T01:00:52Z",
+  "workItemId": "WI-230-release-v0-2-29"
+}
