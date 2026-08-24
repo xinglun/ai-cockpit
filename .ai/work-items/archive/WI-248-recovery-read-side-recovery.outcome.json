@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "Current recovery decisions are revalidated against repository identity, current Runtime identity, predecessor Contract/Summary/Outcome/Events digests, and successor identity before archive or Outcome projection.",
+    "Forged, foreign, stale, tampered, or malformed current recovery candidates fail closed with stable diagnostic codes and cannot supersede/archive or alter Outcome.",
+    "Historical archived Work Item bytes remain immutable and legacy historical projections are not reclassified as current failures.",
+    "WI-248 replays only crates/cockpit-repository/src/lib.rs and crates/cockpit-repository/tests/recovery_decision.rs from a3846e5, preserves the WI-242 recovery receipt, and imports no WI-242 archive, evidence, finalization, or old lifecycle commits.",
+    "English, Simplified Chinese, and Japanese workflow/command/Work Item documentation describe the strict current-read boundary, and all three reference parity ledgers register WI-248 with exact evidence and finalization paths."
+  ],
+  "createdAt": "2026-08-24T13:18:35Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:8a11bc581f7a1c0cb1358c6f80187a8fbdb947ecffa29f0d397ee9610bdda956",
+  "evidenceRefs": [
+    ".ai/evidence/WI-248-recovery-read-side-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-248-recovery-read-side-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-248-recovery-read-side-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b4c544c572853d76717d4aceb27e57f5bed6de422944abba70771e2b73ed990f",
+      "workItemId": "WI-248-recovery-read-side-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-248-recovery-read-side-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-248-recovery-read-side-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-248-recovery-read-side-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-248-recovery-read-side-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-248-recovery-read-side-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-248-recovery-read-side-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-248-recovery-read-side-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "所有 current recovery candidate 在 archive 或 Outcome 消费前都按 repository、Runtime、predecessor artifacts 与 successor identity 严格重验；foreign、stale、tampered、malformed 或 ambiguous 记录稳定 fail closed，历史 archive 保持兼容。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-248-recovery-read-side-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-248-recovery-read-side-recovery"
+  },
+  "taskReportDigest": "sha256:845cd3eaae6e5d899f30e0c90a8d941f61d684b0e124fd54e0256ae7fbc2c0e4",
+  "taskReportMarkdownDigest": "sha256:d6c20eef1e5a5e404658d0fc6c7444cf78285f04914a033b59130b85be6acd14",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-248-recovery-read-side-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-248-recovery-read-side-recovery"
+}
