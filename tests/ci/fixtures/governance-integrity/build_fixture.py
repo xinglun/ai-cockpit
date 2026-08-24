@@ -43,6 +43,7 @@ for item in spec.get("workItems", []):
     contract = {
         "baseRevision": base_revision,
         "createdAt": created_at,
+        "repositoryId": repository_id,
         "workItemId": work_item,
     }
     if classification == "current_archive_timestamp":

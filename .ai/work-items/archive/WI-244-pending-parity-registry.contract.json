@@ -1,0 +1,128 @@
+{
+  "acceptanceCriteria": [
+    "A schemaVersion 1 registry entry is accepted only when repositoryId, full Work Item ID, provider, PR number and URL, base and head SHA, expected archive/evidence/finalize paths, exact tri-language parity paths, state=in_progress, and RFC3339 createdAt all match repository facts.",
+    "Unknown fields, duplicate Work Item or PR identities, symlinks, unsafe paths, missing fields or expected records, foreign repository/provider/Work Item, and PR/base/head/path mismatches fail closed with deterministic findings.",
+    "Normal archive, verification evidence, and decision validation remains authoritative; pending may suppress only missing_parity_entry while an exact feature/pull-request context is unmerged.",
+    "Pending entries fail closed as stale on merged/default-branch state or after all exact tri-language parity rows exist.",
+    "The manifest and dynamic route execute the pending registry regression at light, standard, and strict profiles without allowing arbitrary command substitution.",
+    "English, Simplified Chinese, and Japanese workflow, Work Item, and reference parity documentation describe pending as non-terminal and require promotion/removal after merge."
+  ],
+  "authority": "authorized",
+  "baseRevision": "04aa8bf278c1aab0fe3103869dc39fd409709c5f",
+  "createdAt": "2026-08-24T09:00:13Z",
+  "goal": "A typed fail-closed pending parity registry permits an explicitly bound in-progress Work Item to await tri-language parity registration without weakening normal archive, evidence, decision, merge, or route gates.",
+  "intent": "根治代码 Work Item 因三语 parity 必须同 PR 登记而产生的 scope 与 finalization head 死锁：引入严格、身份绑定、仅合并前有效的 pending parity registry，不复制或改写 WI-242 历史记录。",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    "WI-242 historical .ai records",
+    "PR #192 branch",
+    ".github/**",
+    "release behavior",
+    "Runtime schema",
+    "existing archived Work Item bytes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6f56d24875e3b3cd073aa697f4d6ef1cd7ab22b701fec863baf44c4698ecca5b",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-244-pending-parity-registry",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/196",
+    "worktree": "/private/tmp/ai-cockpit-wi244-pending-parity-registry"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "An exact pending entry suppresses only the three missing parity findings while all ordinary archive, evidence, finalization, repository, PR, base, head, and path bindings remain valid.",
+      "required": true,
+      "scenario": "exact-pending-registration",
+      "status": "unverified",
+      "verificationPlan": "Build a feature-branch fixture whose registry append is the only change after the bound head and assert lifecycleState=pending_parity_registration with no blocking findings."
+    },
+    {
+      "evidence": [],
+      "expected": "Unknown fields, duplicate identities, symlinks, unsafe paths, missing fields or records, foreign identities, and PR/base/head/path mismatches fail closed with deterministic findings.",
+      "required": true,
+      "scenario": "adversarial-registry-input",
+      "status": "unverified",
+      "verificationPlan": "Run focused registry fixtures for every malformed, foreign, duplicate, missing, symlink, and mismatch class and assert exact nonzero findings."
+    },
+    {
+      "evidence": [],
+      "expected": "A pending entry on the default branch, after merge observation, or alongside any parity row is stale and cannot suppress normal parity requirements.",
+      "required": true,
+      "scenario": "stale-pending-registration",
+      "status": "unverified",
+      "verificationPlan": "Run main/merged and parity-present fixtures and assert stale_pending_parity_registration."
+    },
+    {
+      "evidence": [],
+      "expected": "The manifest and typed route execute the pending registry regression for light, standard, and strict profiles without command overrides.",
+      "required": true,
+      "scenario": "manifest-route-enforcement",
+      "status": "unverified",
+      "verificationPlan": "Run repository manifest and quality route regressions, then consume a strict typed route receipt through the canonical runner."
+    },
+    {
+      "evidence": [],
+      "expected": "English, Simplified Chinese, and Japanese docs state that pending is identity-bound, non-terminal, and must be promoted to normal parity with registry removal after merge.",
+      "required": true,
+      "scenario": "tri-language-boundary",
+      "status": "unverified",
+      "verificationPlan": "Run documentation acceptance and parity governance checks over the synchronized three-language docs."
+    }
+  ],
+  "scope": [
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/fixtures/governance-integrity/build_fixture.py",
+    "tests/docs/pending_parity_registry_test.sh",
+    "tests/ci/repository_gate_manifest.json",
+    "tests/ci/repository_gate_manifest_test.py",
+    "tests/ci/quality_route_test.py",
+    "docs/reference/pending-parity-registry.json",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-244-pending-parity-registry.md",
+    "docs/work-items/WI-244-pending-parity-registry.zh-CN.md",
+    "docs/work-items/WI-244-pending-parity-registry.ja.md"
+  ],
+  "sources": [
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "tests/ci/fixtures/governance-integrity/build_fixture.py",
+    "tests/docs/parity_status_check.sh",
+    "tests/ci/repository_gate_manifest.json",
+    "tests/ci/quality_route.py",
+    "github:PR-192@86032c9cc464e342f92bd8357b2d35907804506b",
+    "git:86032c9cc464e342f92bd8357b2d35907804506b:.ai/work-items/archive/WI-242-recovery-read-side.contract.json",
+    "git:86032c9cc464e342f92bd8357b2d35907804506b:.ai/decisions/WI-242-recovery-read-side.finalize.json",
+    ".ai/work-items/archive/WI-188-governance-integrity-gate.contract.json",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/reference-parity.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "tests/docs/pending_parity_registry_test.sh",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "tests/ci/repository_gate_manifest_test.sh",
+    "python3 tests/ci/quality_route_test.py",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/docs/parity_status_check.sh",
+    "python3 tests/ci/quality_route.py --repo . --manifest tests/ci/repository_gate_manifest.json --base 04aa8bf278c1aab0fe3103869dc39fd409709c5f --head HEAD --stage task --risk high --profile strict --contract .ai/work-items/active/WI-244-pending-parity-registry.contract.json --receipt target/quality-route-wi244.json",
+    "python3 tests/ci/run_repository_gates.py --repo . --manifest tests/ci/repository_gate_manifest.json --route-receipt target/quality-route-wi244.json --report target/repository-gates-wi244.json",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-244-pending-parity-registry"
+}

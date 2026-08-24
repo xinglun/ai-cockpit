@@ -1,0 +1,83 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-24T09:57:55Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T09:53:00Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/decisions/WI-244-pending-parity-registry.recovery.json",
+      ".ai/evidence/WI-246-pending-parity-merge-ref-recovery.verification.json",
+      "docs/work-items/WI-246-pending-parity-merge-ref-recovery.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:9240cb582bcfcca91d6b02cba1ef24d50113938aa89ab8c55e8f50cdaed3c464",
+  "predecessorWorkItemId": "WI-244-pending-parity-registry",
+  "preflightAt": "2026-08-24T10:18:03Z",
+  "preflightContractDigest": "sha256:11e82f1423cc1bda5a3ffda2718b3aeebbb6db9dc109ee6a0db265f4fb131453",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:e12d3e41cbb1326adfe33ed85fa9edb8dff9970f07a89678e17a11c013cb416d",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-244-pending-parity-registry.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/decisions/WI-244-pending-parity-registry.recovery.json",
+        ".ai/work-items/archive/WI-244-pending-parity-registry.archive.json",
+        ".ai/evidence/WI-246-pending-parity-merge-ref-recovery.verification.json"
+      ],
+      "required": true,
+      "scenario": "immutable-predecessor-recovery",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/docs/pending_parity_registry_test.sh",
+        "tests/ci/governance_integrity_gate.py",
+        ".ai/evidence/WI-246-pending-parity-merge-ref-recovery.verification.json"
+      ],
+      "required": true,
+      "scenario": "pending-registry-strictness",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        ".ai/evidence/WI-246-pending-parity-merge-ref-recovery.verification.json"
+      ],
+      "required": true,
+      "scenario": "merge-ref-close-parity",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/repository_gate_manifest.json",
+        "tests/ci/quality_route_test.py",
+        ".ai/evidence/WI-246-pending-parity-merge-ref-recovery.verification.json"
+      ],
+      "required": true,
+      "scenario": "manifest-route-enforcement",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/work-items/active/WI-246-pending-parity-merge-ref-recovery.contract.json",
+        ".ai/work-items/active/WI-246-pending-parity-merge-ref-recovery.summary.json",
+        ".ai/evidence/WI-246-pending-parity-merge-ref-recovery.verification.json",
+        "https://github.com/xinglun/ai-cockpit/pull/197"
+      ],
+      "required": true,
+      "scenario": "successor-finalization-order",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-24T10:20:04Z",
+  "workItemId": "WI-246-pending-parity-merge-ref-recovery"
+}

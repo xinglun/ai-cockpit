@@ -1,0 +1,79 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-24T09:02:00Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T09:00:13Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-244-pending-parity-registry.verification.json"
+    ],
+    "reason": "实现严格 pending parity registry，且仅允许身份、PR、Git 拓扑与生命周期全部精确绑定的 current archived Work Item 临时延迟三语 parity；未复制或改写 WI-242 历史记录。",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-24T09:38:36Z",
+  "preflightContractDigest": "sha256:9240cb582bcfcca91d6b02cba1ef24d50113938aa89ab8c55e8f50cdaed3c464",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:5a4e717ce270dead2a23bcf07091b4c2c3e5e689e085f4faf6143996a59e0464",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-244-pending-parity-registry.verification.json"
+      ],
+      "expected": "An exact pending entry suppresses only the three missing parity findings while all ordinary archive, evidence, finalization, repository, PR, base, head, and path bindings remain valid.",
+      "required": true,
+      "scenario": "exact-pending-registration",
+      "status": "verified",
+      "verificationPlan": "Build a feature-branch fixture whose registry append is the only change after the bound head and assert lifecycleState=pending_parity_registration with no blocking findings."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-244-pending-parity-registry.verification.json"
+      ],
+      "expected": "Unknown fields, duplicate identities, symlinks, unsafe paths, missing fields or records, foreign identities, and PR/base/head/path mismatches fail closed with deterministic findings.",
+      "required": true,
+      "scenario": "adversarial-registry-input",
+      "status": "verified",
+      "verificationPlan": "Run focused registry fixtures for every malformed, foreign, duplicate, missing, symlink, and mismatch class and assert exact nonzero findings."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-244-pending-parity-registry.verification.json"
+      ],
+      "expected": "A pending entry on the default branch, after merge observation, or alongside any parity row is stale and cannot suppress normal parity requirements.",
+      "required": true,
+      "scenario": "stale-pending-registration",
+      "status": "verified",
+      "verificationPlan": "Run main/merged and parity-present fixtures and assert stale_pending_parity_registration."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-244-pending-parity-registry.verification.json"
+      ],
+      "expected": "The manifest and typed route execute the pending registry regression for light, standard, and strict profiles without command overrides.",
+      "required": true,
+      "scenario": "manifest-route-enforcement",
+      "status": "verified",
+      "verificationPlan": "Run repository manifest and quality route regressions, then consume a strict typed route receipt through the canonical runner."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-244-pending-parity-registry.verification.json"
+      ],
+      "expected": "English, Simplified Chinese, and Japanese docs state that pending is identity-bound, non-terminal, and must be promoted to normal parity with registry removal after merge.",
+      "required": true,
+      "scenario": "tri-language-boundary",
+      "status": "verified",
+      "verificationPlan": "Run documentation acceptance and parity governance checks over the synchronized three-language docs."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-24T09:38:42Z",
+  "workItemId": "WI-244-pending-parity-registry"
+}

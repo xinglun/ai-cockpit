@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-WI-244-implementation-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "370f5724fd82120bfbb1f1fea5c3a5f453d7e518",
+    "name": "codex/wi-244-pending-parity-registry",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:ae25defb499126f52b55f30c69b3efdd678d262ca42bb489479d70867f68838c",
+  "operationId": "operation-WI-244-pending-parity-registry-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "04aa8bf278c1aab0fe3103869dc39fd409709c5f",
+    "headRevision": "370f5724fd82120bfbb1f1fea5c3a5f453d7e518",
+    "number": 196,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/196"
+  },
+  "reason": "awaiting_merge_close: PR #196 is open and the exact reviewed branch and worktree must be retained",
+  "receiptId": "ai-cockpit-WI-244-pending-parity-registry-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-244-pending-parity-registry",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/196",
+    "worktree": "/private/tmp/ai-cockpit-wi244-pending-parity-registry"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-24T09:39:22Z",
+  "workItemId": "WI-244-pending-parity-registry",
+  "worktree": {
+    "branch": "codex/wi-244-pending-parity-registry",
+    "headRevision": "370f5724fd82120bfbb1f1fea5c3a5f453d7e518",
+    "path": "/private/tmp/ai-cockpit-wi244-pending-parity-registry",
+    "worktreeId": "WI-244-pending-parity-registry"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-24T10:20:29Z",
+  "files": {
+    "contractDigest": "sha256:267198bd1f3985b63d201975e3daabd4411283d12fa4978573a7729b44805b0a",
+    "contractPath": ".ai/work-items/archive/WI-246-pending-parity-merge-ref-recovery.contract.json",
+    "eventsDigest": "sha256:737b517bab915ddea09ee848e37857501d6759d17295912138f999d712059b30",
+    "eventsPath": ".ai/work-items/archive/WI-246-pending-parity-merge-ref-recovery.events.jsonl",
+    "outcomeDigest": "sha256:f973ca15f1fb03e55de55372869ab3142117ed622b0e413af5998fc63e1a4641",
+    "outcomePath": ".ai/work-items/archive/WI-246-pending-parity-merge-ref-recovery.outcome.json",
+    "summaryDigest": "sha256:821cc4d6b6a82605fd8b0e1fa0c3407729c1b4fd9a444bc6f6cd36c00d085988",
+    "summaryPath": ".ai/work-items/archive/WI-246-pending-parity-merge-ref-recovery.summary.json",
+    "taskReportDigest": "sha256:0779f3c1387af06079f9d75fd5a8434703d33066f50bd789419132270323c894",
+    "taskReportMarkdownDigest": "sha256:16f76baf6dd35704b6663c13039d4eac5f3c85ec6840fe09d33370531daaa860",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-246-pending-parity-merge-ref-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-246-pending-parity-merge-ref-recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-246-pending-parity-merge-ref-recovery"
+}
