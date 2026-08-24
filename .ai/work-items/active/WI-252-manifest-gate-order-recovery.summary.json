@@ -1,17 +1,20 @@
 {
-  "changedPaths": [
-    ".ai/decisions/WI-245-doc-status-parity-recovery.recovery.json"
-  ],
-  "checkpointCount": 0,
+  "changedPaths": [],
+  "checkpointAt": "2026-08-24T14:18:51Z",
+  "checkpointCount": 1,
   "createdAt": "2026-08-24T14:16:12Z",
   "mode": "code",
   "predecessorContractDigest": "sha256:9980e8cfa7f43fc164e949f3463042814732d51c76c689f93f23dc12f4162b61",
   "predecessorWorkItemId": "WI-245-doc-status-parity-recovery",
-  "preflightState": "not_run",
+  "preflightAt": "2026-08-24T14:18:45Z",
+  "preflightContractDigest": "sha256:3860d68cc8c3f3c7a3ae8cb5143d1a06736caef03ef1e8c06fbc05cc07fff7d3",
+  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "preflightRepositorySnapshotDigest": "sha256:51a8b279d0eb86d411f5f7e28990380f7a912bdf11c791ffadc0f5242da608b8",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-245-doc-status-parity-recovery.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "not_ready",
-  "updatedAt": "2026-08-24T14:16:12Z",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-24T14:18:51Z",
   "workItemId": "WI-252-manifest-gate-order-recovery"
 }
