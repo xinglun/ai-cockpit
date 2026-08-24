@@ -6,7 +6,7 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-198-governance-gate-default-branch-discovery
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-198-governance-gate-default-branch-discovery
 ---

@@ -6,7 +6,7 @@ description: "记录不可变的 v0.2.23 公开 Runtime 能否从零治理 adopt
 audience:
   - maintainer
   - reviewer
-status: current
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-186-release-v0-2-23-post-release-acceptance
 ---

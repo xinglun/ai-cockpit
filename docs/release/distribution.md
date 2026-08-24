@@ -15,12 +15,17 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # Release and Distribution
 
-The public immutable `v0.2.31` Release is the current installation baseline.
+The public, identity-bound `v0.2.31` Release is the current installation baseline.
 Homebrew and manual installation use the published archive and manifest; the
 repository configuration remains `cockpit.toml`, and installing the runtime
 never creates `.ai` in a target repository. The same acceptance harness has a
 staged-candidate mode before publication and a public-Release mode after
 publication; neither mode obtains a Runtime from the source workspace.
+
+The provider snapshot persisted with WI-239 and the current provider API both
+report `immutable: false` for this Release. Release identity is therefore
+drift-detectable, not provider-immutable: the tag, release-manifest,
+`SHA256SUMS`, archive digests, and post-release receipt must remain consistent.
 
 The immutable `v0.2.30` tag records a release-route failure caused by an absent
 active-Work-Item directory; it has no public Release and is preserved as
@@ -43,10 +48,10 @@ deterministic package-by-package tests, while CI and release upload both route
 and gate receipts. `.gitattributes` excludes `.ai` and generated roots from the
 source archive while retaining Cargo sources and lockfile.
 
-The historical Runtime shadow baseline is immutable public `v0.2.28`; the
+The historical Runtime shadow baseline is pinned public `v0.2.28`; the
 current release route additionally verifies `v0.2.31`. The
 `tests/ci/runtime_verify_shadow.sh` receipt is an **execution smoke** for
-standard/strict routes. It verifies immutable public `v0.2.31` and runs the
+standard/strict routes. It verifies identity-bound public `v0.2.31` and runs the
 canonical repository profile. It does not claim Runtime-global T0–T3 routing,
 affected-graph completeness, cross-Work-Item physical execution, or per-Work-
 Item evidence coverage. The reference Makefile orchestration is different by
@@ -56,7 +61,7 @@ non-`crates/**` scope.
 
 ## Before you start
 
-You need a published immutable Release, a repository path, and a matching
+You need a published, identity-bound Release, a repository path, and a matching
 archive for your operating system. Homebrew installation requires Homebrew;
 manual verification uses `shasum` and `awk` on macOS/Linux, and PowerShell on
 Windows. `gh attestation verify` is an optional additional provenance check.
@@ -87,7 +92,7 @@ supported path.
 ## Verify a Release asset
 
 Download the archive, `release-manifest.json`, and `SHA256SUMS` from the same
-immutable GitHub Release. The checksum file covers all ten archive/SBOM files,
+published GitHub Release. The checksum file covers all ten archive/SBOM files,
 so validate the exact archive you downloaded:
 
 ```bash
@@ -126,16 +131,20 @@ provider Release truth.
 
 Maintainers can repeat the public-binary acceptance baseline after a Release:
 
-**Complete adopter acceptance baseline: `x86_64-unknown-linux-gnu` for v0.2.31.**
-The other four published targets have build and
-smoke evidence in the Release workflow; they are not claimed to have completed
-the full adopter lifecycle unless a separate acceptance run is recorded.
+**Persisted adopter acceptance baseline: `aarch64-apple-darwin` for v0.2.31.**
+The repository-retained WI-239 receipt is the durable public-binary adopter
+baseline. GitHub Actions run `32696048024` also completed the full staged,
+public, and N-1 adopter paths on `x86_64-unknown-linux-gnu`, but those hosted
+Linux artifacts are external, provider-retained, short-lived evidence rather
+than a repository-persisted baseline. The other published targets have build
+and smoke evidence only; they are not claimed to have completed the full
+adopter lifecycle unless a separate acceptance receipt is persisted.
 
 ```bash
 tests/release/adopter_acceptance.sh \
   --repository xinglun/ai-cockpit \
   --tag v0.2.31 \
-  --target x86_64-unknown-linux-gnu \
+  --target aarch64-apple-darwin \
   --output ./release-adopter-acceptance
 ```
 
@@ -209,7 +218,7 @@ tests/release/adopter_upgrade_acceptance.sh \
   --repository xinglun/ai-cockpit \
   --from-tag v0.2.29 \
   --to-tag v0.2.31 \
-  --target x86_64-unknown-linux-gnu \
+  --target aarch64-apple-darwin \
   --output ./release-adopter-upgrade-acceptance
 ```
 
@@ -282,7 +291,7 @@ $env:Path = "$destination;$env:Path"
 
 ## Rust developer fallback
 
-This fallback is available for the current immutable `v0.2.31` tag.
+This fallback is available for the current identity-bound `v0.2.31` tag.
 
 After that publication, the workspace package must be selected explicitly:
 
@@ -296,9 +305,9 @@ cargo uninstall --root "$HOME/.local" cockpit-cli
 
 ## Rollback
 
-For rollback, download and verify a named immutable prior Release archive and
-replace the installed binary manually. The unversioned Homebrew Formula tracks
-the current release; it is not a rollback selector.
+For rollback, download a named prior Release archive and verify its manifest and
+digest before replacing the installed binary manually. The unversioned Homebrew
+Formula tracks the current release; it is not a rollback selector.
 
 ## MCP and repository attachment
 

@@ -7,7 +7,7 @@ audience:
   - maintainer
   - reviewer
   - adopter
-status: current
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-237-release-route-recovery-v0-2-31
 ---

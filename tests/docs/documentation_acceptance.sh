@@ -6,6 +6,7 @@ cd "$root"
 
 python3 - <<'PY'
 from pathlib import Path
+import json
 import re
 
 missing = []
@@ -97,14 +98,57 @@ for path, statuses in parity_statuses.items():
             if status not in text:
                 missing.append(f'{path}: missing parity status {status}')
 
+comparison_documents = (
+    Path('docs/reference/reference-file-comparison.md'),
+    Path('docs/reference/reference-file-comparison.zh-CN.md'),
+    Path('docs/reference/reference-file-comparison.ja.md'),
+)
+comparison_markers = (
+    '1c988ce9b04c3dcd45843f6577ed321457eeca0e',
+    'ai-cockpit 0.2.31',
+    '1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9',
+    '720',
+    '.ai/project/adopter-capability-manifest.json',
+    '.ai/project/capabilities.json',
+    '.ai/project/success_criteria.json',
+    '.ai/project_profile.yaml',
+)
+for path in comparison_documents:
+    text = path.read_text(encoding='utf-8')
+    for marker in comparison_markers:
+        if marker not in text:
+            missing.append(f'{path}: current comparison baseline omits {marker}')
+
 release_baselines = {
-    Path('docs/release/distribution.md'): 'Complete adopter acceptance baseline: `x86_64-unknown-linux-gnu`',
-    Path('docs/release/distribution.zh-CN.md'): '完整 adopter acceptance 基线为 `x86_64-unknown-linux-gnu`',
-    Path('docs/release/distribution.ja.md'): '完全な adopter acceptance baseline は `x86_64-unknown-linux-gnu`',
+    Path('docs/release/distribution.md'): 'Persisted adopter acceptance baseline: `aarch64-apple-darwin`',
+    Path('docs/release/distribution.zh-CN.md'): '持久化 adopter acceptance 基线：`aarch64-apple-darwin`',
+    Path('docs/release/distribution.ja.md'): '永続化された adopter acceptance baseline: `aarch64-apple-darwin`',
 }
 for path, phrase in release_baselines.items():
     if phrase not in path.read_text(encoding='utf-8'):
-        missing.append(f'{path}: missing explicit single-target acceptance baseline')
+        missing.append(f'{path}: missing persisted single-target acceptance baseline')
+
+release_receipt = json.loads(
+    Path('.ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/acceptance.json')
+    .read_text(encoding='utf-8')
+)
+release_provider = json.loads(
+    Path('.ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/release.json')
+    .read_text(encoding='utf-8')
+)
+persisted_target = release_receipt.get('target')
+if persisted_target != 'aarch64-apple-darwin':
+    missing.append('WI-239 persisted adopter target is not aarch64-apple-darwin')
+if release_provider.get('immutable') is not False:
+    missing.append('WI-239 provider Release truth no longer reports immutable=false')
+for path in release_baselines:
+    text = path.read_text(encoding='utf-8')
+    if '`immutable: false`' not in text:
+        missing.append(f'{path}: provider immutable=false truth is missing')
+    if '32696048024' not in text or 'x86_64-unknown-linux-gnu' not in text:
+        missing.append(f'{path}: hosted Linux acceptance evidence boundary is missing')
+    if 'public immutable `v0.2.31`' in text or 'immutable public `v0.2.31`' in text:
+        missing.append(f'{path}: mutable provider Release is described as immutable')
 
 boundary_phrases = {
     Path('docs/capabilities.md'): 'human-facing projection',
@@ -141,14 +185,14 @@ for path in [Path('docs/reference/commands.md'), Path('docs/reference/commands.z
 
 for path in [Path('docs/release/distribution.md'), Path('docs/release/distribution.zh-CN.md'), Path('docs/release/distribution.ja.md')]:
     text = path.read_text(encoding='utf-8')
-    if 'x86_64-unknown-linux-gnu' not in text:
-        missing.append(f'{path}: release acceptance baseline target is missing')
+    if persisted_target not in text:
+        missing.append(f'{path}: persisted release acceptance baseline target is missing')
     acceptance_calls = re.findall(
         r'tests/release/adopter(?:_upgrade)?_acceptance\.sh[\s\S]*?--target\s+([^\s]+)',
         text,
     )
-    if not acceptance_calls or any(target != 'x86_64-unknown-linux-gnu' for target in acceptance_calls):
-        missing.append(f'{path}: acceptance example target must match the documented complete baseline')
+    if not acceptance_calls or any(target != persisted_target for target in acceptance_calls):
+        missing.append(f'{path}: acceptance example target must match the persisted baseline')
 
 for path in [Path('docs/reference/reference-parity.md'), Path('docs/reference/reference-parity.zh-CN.md'), Path('docs/reference/reference-parity.ja.md')]:
     text = path.read_text(encoding='utf-8')
@@ -170,6 +214,16 @@ for path in [Path('docs/reference/reference-parity.md'), Path('docs/reference/re
             missing.append(f'{path}: current implementation baseline omits {work_item}')
     if parity_status not in text:
         missing.append(f'{path}: current implementation baseline omits {parity_status}')
+    for marker in (
+        'WI-240',
+        'v0.2.31',
+        'aarch64-apple-darwin',
+        '32696048024',
+        'x86_64-unknown-linux-gnu',
+        '`immutable: false`',
+    ):
+        if marker not in text:
+            missing.append(f'{path}: current release/reference truth omits {marker}')
 
 for path in [Path('docs/operations/README.md'), Path('docs/operations/README.zh-CN.md'), Path('docs/operations/README.ja.md')]:
     text = path.read_text(encoding='utf-8')
@@ -196,5 +250,8 @@ if missing:
     raise SystemExit('\n'.join(missing))
 print('documentation acceptance passed')
 PY
+
+python3 tests/docs/work_item_status_consistency.py \
+  --repo "${AI_COCKPIT_STATUS_DOCS_REPO:-$root}"
 
 bash tests/docs/getting_started_semantic.sh

@@ -15,10 +15,14 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # 发布与分发
 
-当前安装基线是公开且不可变的 `v0.2.31` Release。Homebrew 和手动安装都使用公开 archive
+当前安装基线是公开且绑定身份的 `v0.2.31` Release。Homebrew 和手动安装都使用公开 archive
 与 manifest；仓库配置仍使用 `cockpit.toml`，安装 runtime 不会在目标仓库创建 `.ai`。
 同一套验收 harness 既有发布前 staged-candidate 模式，也有发布后 public-Release 模式；
 两者都不会从源码 workspace 获取 Runtime。
+
+WI-239 持久化的 provider snapshot 与当前 provider API 都将该 Release 报告为
+`immutable: false`。因此其身份是可检测漂移的，而不是 provider 保证不可变：tag、
+release-manifest、`SHA256SUMS`、archive digest 与发布后 receipt 必须相互一致。
 
 不可变的 `v0.2.30` tag 记录了因 active Work Item 目录缺失导致的发布路由失败；它没有公开
 Release，并作为失败历史保留。预留的 `v0.2.24` tag 记录了一次发布前治理质量门失败，不可变的 `v0.2.25` tag 又记录了后续的
@@ -36,9 +40,9 @@ release source quality 始终请求 `strict`。manifest 管理的 Cargo gates �
 确定性测试，CI 与 release 都上传 route 和 gate receipts。`.gitattributes` 从 source
 archive 排除 `.ai` 与生成目录，同时保留 Cargo 源码和 lockfile。
 
-历史 Runtime shadow 基线是不可变公开的 `v0.2.28`；当前 release route 还会验证
+历史 Runtime shadow 基线是固定的公开 `v0.2.28`；当前 release route 还会验证
 `v0.2.31`。`tests/ci/runtime_verify_shadow.sh` receipt 是 standard/strict route 的 **execution
-smoke**。它验证公开且不可变的 `v0.2.31`，并使用仓库规范 profile。它不宣称 Runtime
+smoke**。它验证公开且绑定身份的 `v0.2.31`，并使用仓库规范 profile。它不宣称 Runtime
 全局 T0–T3 route、affected graph 完整性、跨 Work Item 物理执行或每个 Work Item 的
 evidence coverage。参考 Makefile orchestration 在本 Rust 仓库中属于
 different-by-design，不会复制。Runtime 全局路由与通用 CLI `verify --command` 语义超出
@@ -46,7 +50,7 @@ WI-224 的非 `crates/**` scope，明确 deferred。
 
 ## 开始前
 
-你需要一个已发布且不可变的 Release、目标 repository 路径，以及与操作系统匹配的 archive。Homebrew
+你需要一个已发布且绑定身份的 Release、目标 repository 路径，以及与操作系统匹配的 archive。Homebrew
 安装需要已安装 Homebrew；macOS/Linux 手动校验使用 `shasum` 和 `awk`，Windows 使用 PowerShell。
 `gh attestation verify` 是可选的额外 provenance 校验。
 
@@ -73,7 +77,7 @@ brew untap xinglun/tap                 # 可选
 
 ## 验证 Release 制品
 
-从同一个不可变 GitHub Release 下载 archive、`release-manifest.json` 和 `SHA256SUMS`。
+从同一个已发布 GitHub Release 下载 archive、`release-manifest.json` 和 `SHA256SUMS`。
 校验文件覆盖全部十个 archive/SBOM，因此只校验实际下载的 archive：
 
 ```bash
@@ -108,15 +112,18 @@ publish 依赖这两个 job。其 receipt 记录 `stagedCandidate: true` 和
 
 维护者可以在 Release 发布后重复执行公开 binary 验收基线：
 
-**v0.2.31 的完整 adopter acceptance 基线为 `x86_64-unknown-linux-gnu`。**
-Release workflow 对其他四个已发布 target 提供 build 和 smoke evidence；除非另有独立验收记录，
-不能宣称它们完成了完整 adopter lifecycle。
+**持久化 adopter acceptance 基线：`aarch64-apple-darwin`（v0.2.31）。**
+仓库保留的 WI-239 receipt 是持久化的公开 binary adopter 基线。GitHub Actions run
+`32696048024` 也在 `x86_64-unknown-linux-gnu` 上完成 staged、public 与 N-1 adopter
+路径，但这些 hosted Linux artifacts 是外部、受 provider retention 限制的短期 evidence，
+不是仓库持久化基线。其他已发布 target 只有 build 与 smoke evidence；除非另有持久化的
+acceptance receipt，不能宣称它们完成完整 adopter lifecycle。
 
 ```bash
 tests/release/adopter_acceptance.sh \
   --repository xinglun/ai-cockpit \
   --tag v0.2.31 \
-  --target x86_64-unknown-linux-gnu \
+  --target aarch64-apple-darwin \
   --output ./release-adopter-acceptance
 ```
 
@@ -163,7 +170,7 @@ tests/release/adopter_upgrade_acceptance.sh \
   --repository xinglun/ai-cockpit \
   --from-tag v0.2.29 \
   --to-tag v0.2.31 \
-  --target x86_64-unknown-linux-gnu \
+  --target aarch64-apple-darwin \
   --output ./release-adopter-upgrade-acceptance
 ```
 
@@ -227,7 +234,7 @@ $env:Path = "$destination;$env:Path"
 
 ## Rust 开发者 fallback
 
-该 fallback 适用于当前已发布的不可变 `v0.2.31` tag。
+该 fallback 适用于当前已发布且绑定身份的 `v0.2.31` tag。
 发布完成后，workspace 含多个 package，必须显式选择 `cockpit-cli`：
 
 ```bash
@@ -238,7 +245,7 @@ cargo uninstall --root "$HOME/.local" cockpit-cli
 
 ## 回滚
 
-回滚时下载并验证指定的不可变历史 Release archive，再手动替换 binary。无版本号的
+回滚时下载指定的历史 Release archive，验证其 manifest 与 digest 后再手动替换 binary。无版本号的
 Homebrew Formula 始终跟踪当前 release，不是回滚选择器。
 
 ## MCP 与 repository attach

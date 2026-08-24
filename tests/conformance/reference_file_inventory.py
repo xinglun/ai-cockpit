@@ -31,7 +31,7 @@ ALLOWED_CLASSIFICATIONS = {
 FIRST_BATCH = "governance-entrypoints"
 GETTING_STARTED_BATCH = "getting-started-onboarding"
 EXPECTED_REFERENCE_COMMIT = "e5acb677da6621004d96f0ef353c58fe8d3acfbf"
-EXPECTED_TARGET_COMMIT = "46e426625a8cae450f1190d0bdbafd6d8e648a90"
+EXPECTED_TARGET_COMMIT = "1c988ce9b04c3dcd45843f6577ed321457eeca0e"
 CAPABILITY_STATUS_BATCH = "capability-status-projection"
 CAPABILITY_STATUS_RECORDS: dict[str, tuple[str, list[str], str]] = {
     ".ai/project/adopter-capability-manifest.json": (
@@ -96,34 +96,16 @@ CAPABILITY_STATUS_RECORDS: dict[str, tuple[str, list[str], str]] = {
 }
 
 
-def git_paths(repository: Path) -> list[str]:
+def git_paths(repository: Path, revision: str) -> list[str]:
+    if len(revision) != 40 or any(character not in "0123456789abcdef" for character in revision):
+        raise ValueError(f"revision must be a full lowercase commit digest: {revision!r}")
     result = subprocess.run(
-        ["git", "-C", str(repository), "ls-tree", "-r", "--name-only", "HEAD"],
+        ["git", "-C", str(repository), "ls-tree", "-r", "--name-only", revision, "--"],
         check=True,
         capture_output=True,
         text=True,
     )
     return [line for line in result.stdout.splitlines() if line]
-
-
-def git_working_paths(repository: Path) -> list[str]:
-    result = subprocess.run(
-        ["git", "-C", str(repository), "ls-files", "--others", "--exclude-standard"],
-        check=True,
-        capture_output=True,
-        text=True,
-    )
-    return [line for line in result.stdout.splitlines() if line]
-
-
-def git_head(repository: Path) -> str:
-    result = subprocess.run(
-        ["git", "-C", str(repository), "rev-parse", "HEAD"],
-        check=True,
-        capture_output=True,
-        text=True,
-    )
-    return result.stdout.strip()
 
 
 def digest_paths(paths: list[str]) -> str:
@@ -273,9 +255,11 @@ def counterpart_for(path: str, target_paths: set[str]) -> tuple[list[str], str, 
 
 
 def generate(reference: Path, target: Path, source_commit: str, target_commit: str) -> dict[str, Any]:
-    reference_paths = git_paths(reference)
-    target_commit_paths = git_paths(target)
-    target_paths = sorted(set(target_commit_paths) | set(git_working_paths(target)))
+    reference_paths = git_paths(reference, source_commit)
+    target_commit_paths = git_paths(target, target_commit)
+    # A comparison baseline is an immutable commit tree. Untracked or modified
+    # files in the operator's checkout must not enter its path inventory.
+    target_paths = target_commit_paths
     target_set = set(target_paths)
     records: list[dict[str, Any]] = []
     for path in reference_paths:
@@ -359,6 +343,10 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
         errors.append("referenceCommit is not the pinned source commit")
     if manifest.get("targetCommit") != expected_target:
         errors.append("targetCommit is not the pinned target baseline")
+    if manifest.get("targetWorkingTreeFileCount") != manifest.get("targetTrackedFileCount"):
+        errors.append("target working-tree count is not normalized to the pinned commit")
+    if manifest.get("targetWorkingTreePathDigest") != manifest.get("targetTrackedPathDigest"):
+        errors.append("target working-tree digest is not normalized to the pinned commit")
     records = manifest.get("records")
     if not isinstance(records, list) or not records:
         return errors + ["records must be a non-empty list"]
