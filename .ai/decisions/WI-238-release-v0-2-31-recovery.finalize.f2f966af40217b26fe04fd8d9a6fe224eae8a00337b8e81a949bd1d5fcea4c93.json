@@ -1,0 +1,65 @@
+{
+  "governanceAppendRevision": "03b09982d213003dd79be488711919363abd86a9",
+  "predecessorReceiptDigest": "sha256:a76e317545bb8da4687079216a8fe018063bb85496ad24254d4c06a158e7a655",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "reviewed-pr-hosted-checks",
+    "before": {
+      "branch": "present",
+      "pullRequest": "unmerged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "03b09982d213003dd79be488711919363abd86a9",
+      "name": "codex/wi238-release-v0-2-31-recovery",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:f90a5128a8605f7e350a9f1b38b1c7ba601309f295f9829eb8c62c069368a7ed",
+    "operationId": "operation-WI-238-release-v0-2-31-recovery-merged",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "35a75c89a1368908eec7ebb19ae14927e58976a5",
+      "headRevision": "03b09982d213003dd79be488711919363abd86a9",
+      "mergeCommit": "c5df7ebb417d323bbc901193afb7bc796f42b296",
+      "number": 189,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/189"
+    },
+    "reason": "PR #189 merged after all hosted checks passed; retain the exact branch and worktree until the terminal cleanup transition is recorded.",
+    "receiptId": "ai-cockpit-WI-238-release-v0-2-31-recovery-merged",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi238-release-v0-2-31-recovery",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/189",
+      "worktree": "/private/tmp/ai-cockpit-wi238-release"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:94d8ee4e27023e1cb677486164af3e96633411105a4596140d4c0f4e64776137",
+    "runtimeVersion": "0.2.29",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-24T06:03:00Z",
+    "workItemId": "WI-238-release-v0-2-31-recovery",
+    "worktree": {
+      "branch": "codex/wi238-release-v0-2-31-recovery",
+      "headRevision": "03b09982d213003dd79be488711919363abd86a9",
+      "path": "/private/tmp/ai-cockpit-wi238-release",
+      "worktreeId": "WI-238-release-v0-2-31-recovery"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-238-release-v0-2-31-recovery-merge"
+}
