@@ -1,0 +1,99 @@
+{
+  "acceptanceCriteria": [
+    "同一 Work Item 的 .ai/evidence/<WI>/quality-route-post-finalize.json 与 repository-gates-post-finalize.json 仅在固定 schema、内容绑定、Git add-only、100644 regular non-symlink 条件全部满足时可作为首次 governance append 的一部分。",
+    "任意 foreign Work Item 或 foreign path、错误目录或文件名、未知 schema、malformed/duplicate-key JSON、修改、删除、rename、symlink、空 append、非 ancestor revision 与非首次 merge transition 继续 fail closed。",
+    "既有同 Work Item finalization receipt append 语义保持兼容；post-finalize evidence 不能修改 archive truth、不能替代 Runtime verification 或授权 merge/close。",
+    "repository 与 protocol regression tests 覆盖允许路径、每类拒绝路径与 transition sequence/head 约束；三语言文档准确描述严格白名单和绑定边界。",
+    "cargo fmt、clippy、targeted tests、cargo test --locked --workspace 与 Runtime v0.2.28 verify 全部通过，并产生可见中文 Outcome。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "02cbde2bf3d57176fbbf3acd0f348c9f67fc75e0",
+  "createdAt": "2026-08-23T23:47:06Z",
+  "goal": "让合法的 Runtime-bound post-finalize quality route 与 repository-gate evidence 可与同一 Work Item finalization receipts 一起追加，同时继续拒绝任意 foreign path、修改、删除、symlink、错误 schema 或不合法 evidence。",
+  "intent": "修复 resource finalization governance append validator 的流程缺口：在保持 fail-closed 的前提下，允许同一 Work Item 的严格绑定 post-finalize evidence receipts 参与首次 governance append。",
+  "mode": "code",
+  "outOfScope": [
+    ".ai/work-items/archive/**",
+    ".ai/evidence/**",
+    "任意非固定名称 evidence 路径",
+    "放宽非追加或 symlink 文件",
+    "修改 finalization transition protocol identity/state 规则",
+    "发布 Release 或 tag",
+    "合并 PR"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9e8fb6f9009764e166591fa6e72dbea14bb790b9d9d0d340945bbf96b3a96606",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-228-governance-append-evidence",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi228-governance-append-evidence"
+  },
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+    "crates/cockpit-protocol/tests/resource_finalization.rs",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md"
+  ],
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The first merge-observation governance append accepts the same Work Item's two fixed post-finalize evidence receipt names only when their schemas and Contract/base/head/route bindings are valid, every range member is add-only, and every tree entry is a 100644 regular file.",
+      "required": true,
+      "scenario": "bounded same-Work-Item post-finalize evidence append",
+      "status": "unverified",
+      "verificationPlan": "Add a repository integration regression that commits the canonical finalization receipt plus both fixed evidence receipts, binds governanceAppendRevision, and verifies the transition head."
+    },
+    {
+      "evidence": [],
+      "expected": "Foreign Work Items and paths, wrong directory or filename, malformed or duplicate-key JSON, wrong schema or identity binding, modifications, deletions, renames, symlinks, and empty append ranges fail closed.",
+      "required": true,
+      "scenario": "invalid or foreign post-finalize evidence",
+      "status": "unverified",
+      "verificationPlan": "Exercise independent negative fixtures for path, JSON/schema/binding, Git status, and tree-mode failures and assert the Runtime records no transition."
+    },
+    {
+      "evidence": [],
+      "expected": "Existing finalization-only governance append behavior remains valid, while protocol transition validation still restricts head drift to the first aligned unmerged-to-merged observation and rejects later drift.",
+      "required": true,
+      "scenario": "existing transition compatibility and sequence boundary",
+      "status": "unverified",
+      "verificationPlan": "Run protocol transition regressions plus the existing WI-191 repository append regression before the full workspace suite."
+    }
+  ],
+  "sources": [
+    "git:02cbde2bf3d57176fbbf3acd0f348c9f67fc75e0",
+    "crates/cockpit-repository/src/lib.rs#validate_governance_append_revision",
+    "crates/cockpit-repository/tests/resource_finalization_transition.rs#wi191_governance_receipt_append_allows_bounded_merge_observation",
+    "crates/cockpit-protocol/src/lib.rs#validate_resource_finalization_transition",
+    "crates/cockpit-protocol/tests/resource_finalization.rs#merge_observation_requires_explicit_governance_append_for_head_drift",
+    ".ai/decisions/WI-227-getting-started-capability-parity-integration.finalize.json",
+    ".ai/evidence/WI-227-getting-started-capability-parity-integration/quality-route-post-finalize.json",
+    ".ai/evidence/WI-227-getting-started-capability-parity-integration/repository-gates-post-finalize.json",
+    "docs/reference/agent-workflow.md#Resource-finalization-boundary",
+    "docs/reference/commands.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "cargo test --locked -p cockpit-protocol --test resource_finalization",
+    "cargo test --locked -p cockpit-repository --test resource_finalization_transition",
+    "bash tests/docs/documentation_acceptance.sh",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-228-governance-append-evidence"
+}

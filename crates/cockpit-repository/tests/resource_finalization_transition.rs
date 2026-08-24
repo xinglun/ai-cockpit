@@ -187,6 +187,104 @@ fn transition_path(decisions: &std::path::Path, value: &Value) -> std::path::Pat
     ))
 }
 
+fn post_finalize_evidence(contract: &Digest, head_revision: &str) -> (Value, Value) {
+    let manifest_digest = Digest::sha256_bytes(b"repository-gate-manifest").to_string();
+    let mut quality_route = json!({
+        "automaticProfile": "strict",
+        "baseRevision": "base-191",
+        "changedPaths": [format!(".ai/decisions/{ID}.finalize.json")],
+        "contractDigest": contract,
+        "contractPath": format!(".ai/work-items/archive/{ID}.contract.json"),
+        "headRevision": head_revision,
+        "schemaVersion": 1,
+        "kind": "repository_quality_route",
+        "manifestDigest": manifest_digest,
+        "pathDecisions": [{
+            "path": format!(".ai/decisions/{ID}.finalize.json"),
+            "profile": "strict",
+            "reason": "strict governance path"
+        }],
+        "reasons": ["strict governance path"],
+        "requestedProfile": "strict",
+        "requestedRisk": "high",
+        "requiredGateIds": ["workspace_package_tests"],
+        "risk": "high",
+        "selectedProfile": "strict",
+        "stage": "pull_request",
+    });
+    let route_digest = cockpit_protocol::digest_json(&quality_route)
+        .unwrap()
+        .to_string();
+    quality_route["receiptDigest"] = route_digest.into();
+    let repository_gates = json!({
+        "schemaVersion": 2,
+        "state": "passed",
+        "route": {
+            "manifestDigest": quality_route["manifestDigest"],
+            "receiptDigest": quality_route["receiptDigest"],
+            "requiredGateIds": quality_route["requiredGateIds"],
+            "selectedProfile": quality_route["selectedProfile"]
+        },
+        "gates": [
+            {
+                "category": "workspace",
+                "command": ["cargo", "test", "--locked", "--workspace"],
+                "id": "workspace_package_tests",
+                "state": "passed",
+                "exitCode": 0
+            }
+        ]
+    });
+    (quality_route, repository_gates)
+}
+
+fn commit_post_finalize_evidence(
+    directory: &tempfile::TempDir,
+    contract: &Digest,
+    head_revision: &str,
+) -> String {
+    let (quality_route, repository_gates) = post_finalize_evidence(contract, head_revision);
+    commit_post_finalize_evidence_values(directory, &quality_route, &repository_gates)
+}
+
+fn commit_post_finalize_evidence_values(
+    directory: &tempfile::TempDir,
+    quality_route: &Value,
+    repository_gates: &Value,
+) -> String {
+    let evidence_relative = format!(".ai/evidence/{ID}");
+    let evidence = directory.path().join(&evidence_relative);
+    fs::create_dir_all(&evidence).unwrap();
+    fs::write(
+        evidence.join("quality-route-post-finalize.json"),
+        serde_json::to_vec_pretty(quality_route).unwrap(),
+    )
+    .unwrap();
+    fs::write(
+        evidence.join("repository-gates-post-finalize.json"),
+        serde_json::to_vec_pretty(repository_gates).unwrap(),
+    )
+    .unwrap();
+    git(directory, &["add", &evidence_relative]);
+    git(
+        directory,
+        &["commit", "-q", "-m", "append post-finalize evidence"],
+    );
+    git(directory, &["rev-parse", "HEAD"])
+}
+
+fn refresh_quality_route_digest(quality_route: &mut Value, repository_gates: &mut Value) {
+    quality_route
+        .as_object_mut()
+        .unwrap()
+        .remove("receiptDigest");
+    let digest = cockpit_protocol::digest_json(quality_route)
+        .unwrap()
+        .to_string();
+    quality_route["receiptDigest"] = digest.clone().into();
+    repository_gates["route"]["receiptDigest"] = digest.into();
+}
+
 #[test]
 fn wi190_topology_appends_two_transitions_and_resolves_deleted_head() {
     let (directory, context, contract) = repository();
@@ -284,10 +382,45 @@ fn wi191_governance_receipt_append_allows_bounded_merge_observation() {
 }
 
 #[test]
-fn unrelated_or_malformed_governance_append_fails_closed() {
-    for foreign in [
-        "unrelated.txt".to_string(),
-        format!(".ai/decisions/{ID}.finalize.bad.json"),
+fn bounded_same_work_item_post_finalize_evidence_append_is_accepted() {
+    let (directory, context, contract) = repository();
+    let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+    let archive_head = commit_archive(&directory);
+    let mut blocked = blocked(&repository_id, &context, &contract);
+    set_receipt_head(&mut blocked, &archive_head);
+    let canonical_input = write_input(&directory, "blocked.json", &blocked);
+    record_resource_finalization(directory.path(), ID, &canonical_input, &runtime()).unwrap();
+    let canonical_relative = format!(".ai/decisions/{ID}.finalize.json");
+    git(&directory, &["add", &canonical_relative]);
+    git(
+        &directory,
+        &["commit", "-q", "-m", "append canonical governance receipt"],
+    );
+    let governance_head = git(&directory, &["rev-parse", "HEAD"]);
+    let append_head = commit_post_finalize_evidence(&directory, &contract, &governance_head);
+
+    let mut observed = transition(&blocked, 1, false);
+    set_receipt_head(&mut observed["receipt"], &append_head);
+    observed["governanceAppendRevision"] = append_head.into();
+    let observed_input = write_input(&directory, "observed.json", &observed);
+    record_resource_finalization(directory.path(), ID, &observed_input, &runtime()).unwrap();
+
+    let verified = verify_resource_finalization(directory.path(), ID, &runtime()).unwrap();
+    assert_eq!(verified["sequence"], 1);
+    assert_eq!(verified["disposition"], "retained");
+}
+
+#[test]
+fn malformed_or_cross_bound_post_finalize_evidence_fails_closed() {
+    for case in [
+        "quality_schema",
+        "quality_contract",
+        "quality_base",
+        "quality_head",
+        "quality_digest",
+        "gates_schema",
+        "gates_route",
+        "failed_gate",
     ] {
         let (directory, context, contract) = repository();
         let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
@@ -296,7 +429,74 @@ fn unrelated_or_malformed_governance_append_fails_closed() {
         set_receipt_head(&mut blocked, &archive_head);
         let canonical_input = write_input(&directory, "blocked.json", &blocked);
         record_resource_finalization(directory.path(), ID, &canonical_input, &runtime()).unwrap();
-        fs::write(directory.path().join(&foreign), b"foreign").unwrap();
+        let canonical_relative = format!(".ai/decisions/{ID}.finalize.json");
+        git(&directory, &["add", &canonical_relative]);
+        git(
+            &directory,
+            &["commit", "-q", "-m", "append canonical governance receipt"],
+        );
+        let governance_head = git(&directory, &["rev-parse", "HEAD"]);
+        let (mut quality_route, mut repository_gates) =
+            post_finalize_evidence(&contract, &governance_head);
+        match case {
+            "quality_schema" => quality_route["schemaVersion"] = 2.into(),
+            "quality_contract" => {
+                quality_route["contractPath"] =
+                    ".ai/work-items/archive/WI-FOREIGN.contract.json".into();
+            }
+            "quality_base" => quality_route["baseRevision"] = "foreign-base".into(),
+            "quality_head" => quality_route["headRevision"] = "f".repeat(40).into(),
+            "quality_digest" => {
+                quality_route["receiptDigest"] = Digest::sha256_bytes(b"foreign").to_string().into()
+            }
+            "gates_schema" => repository_gates["schemaVersion"] = 1.into(),
+            "gates_route" => {
+                repository_gates["route"]["manifestDigest"] =
+                    Digest::sha256_bytes(b"foreign").to_string().into();
+            }
+            "failed_gate" => {
+                repository_gates["gates"][0]["state"] = "failed".into();
+                repository_gates["gates"][0]["exitCode"] = 1.into();
+            }
+            _ => unreachable!(),
+        }
+        if case != "quality_digest" {
+            refresh_quality_route_digest(&mut quality_route, &mut repository_gates);
+        }
+        let append_head =
+            commit_post_finalize_evidence_values(&directory, &quality_route, &repository_gates);
+        let mut observed = transition(&blocked, 1, false);
+        set_receipt_head(&mut observed["receipt"], &append_head);
+        observed["governanceAppendRevision"] = append_head.into();
+        let observed_input = write_input(&directory, "observed.json", &observed);
+        assert!(
+            record_resource_finalization(directory.path(), ID, &observed_input, &runtime())
+                .is_err(),
+            "{case} must fail closed"
+        );
+    }
+}
+
+#[test]
+fn unrelated_or_malformed_governance_append_fails_closed() {
+    for foreign in [
+        "unrelated.txt".to_string(),
+        format!(".ai/decisions/{ID}.finalize.bad.json"),
+        ".ai/evidence/WI-FOREIGN/quality-route-post-finalize.json".to_string(),
+        format!(".ai/evidence/{ID}/unexpected-post-finalize.json"),
+    ] {
+        let (directory, context, contract) = repository();
+        let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+        let archive_head = commit_archive(&directory);
+        let mut blocked = blocked(&repository_id, &context, &contract);
+        set_receipt_head(&mut blocked, &archive_head);
+        let canonical_input = write_input(&directory, "blocked.json", &blocked);
+        record_resource_finalization(directory.path(), ID, &canonical_input, &runtime()).unwrap();
+        let foreign_path = directory.path().join(&foreign);
+        if let Some(parent) = foreign_path.parent() {
+            fs::create_dir_all(parent).unwrap();
+        }
+        fs::write(foreign_path, b"foreign").unwrap();
         let canonical_relative = format!(".ai/decisions/{ID}.finalize.json");
         git(&directory, &["add", &canonical_relative, &foreign]);
         git(&directory, &["commit", "-q", "-m", "foreign append"]);
@@ -308,6 +508,130 @@ fn unrelated_or_malformed_governance_append_fails_closed() {
         assert!(
             record_resource_finalization(directory.path(), ID, &observed_input, &runtime())
                 .is_err()
+        );
+    }
+}
+
+#[test]
+fn incomplete_or_invalid_json_post_finalize_evidence_fails_closed() {
+    for case in ["incomplete", "malformed", "duplicate_key"] {
+        let (directory, context, contract) = repository();
+        let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+        let archive_head = commit_archive(&directory);
+        let mut blocked = blocked(&repository_id, &context, &contract);
+        set_receipt_head(&mut blocked, &archive_head);
+        let canonical_input = write_input(&directory, "blocked.json", &blocked);
+        record_resource_finalization(directory.path(), ID, &canonical_input, &runtime()).unwrap();
+        let canonical_relative = format!(".ai/decisions/{ID}.finalize.json");
+        let evidence_relative = format!(".ai/evidence/{ID}");
+        let evidence = directory.path().join(&evidence_relative);
+        fs::create_dir_all(&evidence).unwrap();
+        let governance_head = git(&directory, &["rev-parse", "HEAD"]);
+        let (quality_route, repository_gates) = post_finalize_evidence(&contract, &governance_head);
+        match case {
+            "incomplete" => fs::write(
+                evidence.join("quality-route-post-finalize.json"),
+                serde_json::to_vec_pretty(&quality_route).unwrap(),
+            )
+            .unwrap(),
+            "malformed" => {
+                fs::write(
+                    evidence.join("quality-route-post-finalize.json"),
+                    b"{not-json",
+                )
+                .unwrap();
+                fs::write(
+                    evidence.join("repository-gates-post-finalize.json"),
+                    serde_json::to_vec_pretty(&repository_gates).unwrap(),
+                )
+                .unwrap();
+            }
+            "duplicate_key" => {
+                fs::write(
+                    evidence.join("quality-route-post-finalize.json"),
+                    b"{\"schemaVersion\":1,\"schemaVersion\":1}",
+                )
+                .unwrap();
+                fs::write(
+                    evidence.join("repository-gates-post-finalize.json"),
+                    serde_json::to_vec_pretty(&repository_gates).unwrap(),
+                )
+                .unwrap();
+            }
+            _ => unreachable!(),
+        }
+        git(
+            &directory,
+            &["add", &canonical_relative, &evidence_relative],
+        );
+        git(
+            &directory,
+            &["commit", "-q", "-m", "invalid evidence append"],
+        );
+        let append_head = git(&directory, &["rev-parse", "HEAD"]);
+        let mut observed = transition(&blocked, 1, false);
+        set_receipt_head(&mut observed["receipt"], &append_head);
+        observed["governanceAppendRevision"] = append_head.into();
+        let observed_input = write_input(&directory, "observed.json", &observed);
+        assert!(
+            record_resource_finalization(directory.path(), ID, &observed_input, &runtime())
+                .is_err(),
+            "{case} must fail closed"
+        );
+    }
+}
+
+#[test]
+fn modified_deleted_or_renamed_post_finalize_evidence_fails_closed() {
+    for case in ["modified", "deleted", "renamed"] {
+        let (directory, context, contract) = repository();
+        let evidence_relative = format!(".ai/evidence/{ID}");
+        let evidence = directory.path().join(&evidence_relative);
+        fs::create_dir_all(&evidence).unwrap();
+        fs::write(evidence.join("quality-route-post-finalize.json"), b"{}\n").unwrap();
+        fs::write(
+            evidence.join("repository-gates-post-finalize.json"),
+            b"{}\n",
+        )
+        .unwrap();
+        let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+        let archive_head = commit_archive(&directory);
+        let mut blocked = blocked(&repository_id, &context, &contract);
+        set_receipt_head(&mut blocked, &archive_head);
+        let canonical_input = write_input(&directory, "blocked.json", &blocked);
+        record_resource_finalization(directory.path(), ID, &canonical_input, &runtime()).unwrap();
+        match case {
+            "modified" => {
+                fs::write(evidence.join("quality-route-post-finalize.json"), b"{ }\n").unwrap()
+            }
+            "deleted" => {
+                fs::remove_file(evidence.join("repository-gates-post-finalize.json")).unwrap()
+            }
+            "renamed" => fs::rename(
+                evidence.join("quality-route-post-finalize.json"),
+                evidence.join("unexpected-post-finalize.json"),
+            )
+            .unwrap(),
+            _ => unreachable!(),
+        }
+        let canonical_relative = format!(".ai/decisions/{ID}.finalize.json");
+        git(
+            &directory,
+            &["add", "-A", &canonical_relative, &evidence_relative],
+        );
+        git(
+            &directory,
+            &["commit", "-q", "-m", "non-append evidence change"],
+        );
+        let append_head = git(&directory, &["rev-parse", "HEAD"]);
+        let mut observed = transition(&blocked, 1, false);
+        set_receipt_head(&mut observed["receipt"], &append_head);
+        observed["governanceAppendRevision"] = append_head.into();
+        let observed_input = write_input(&directory, "observed.json", &observed);
+        assert!(
+            record_resource_finalization(directory.path(), ID, &observed_input, &runtime())
+                .is_err(),
+            "{case} must fail closed"
         );
     }
 }
@@ -331,6 +655,48 @@ fn symlinked_governance_append_receipt_fails_closed() {
     .unwrap();
     git(&directory, &["add", &canonical_relative, &symlink_relative]);
     git(&directory, &["commit", "-q", "-m", "symlink append"]);
+    let append_head = git(&directory, &["rev-parse", "HEAD"]);
+    let mut observed = transition(&blocked, 1, false);
+    set_receipt_head(&mut observed["receipt"], &append_head);
+    observed["governanceAppendRevision"] = append_head.into();
+    let observed_input = write_input(&directory, "observed.json", &observed);
+    assert!(
+        record_resource_finalization(directory.path(), ID, &observed_input, &runtime()).is_err()
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn symlinked_post_finalize_evidence_fails_closed() {
+    let (directory, context, contract) = repository();
+    let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+    let archive_head = commit_archive(&directory);
+    let mut blocked = blocked(&repository_id, &context, &contract);
+    set_receipt_head(&mut blocked, &archive_head);
+    let canonical_input = write_input(&directory, "blocked.json", &blocked);
+    record_resource_finalization(directory.path(), ID, &canonical_input, &runtime()).unwrap();
+    let canonical_relative = format!(".ai/decisions/{ID}.finalize.json");
+    let evidence_relative = format!(".ai/evidence/{ID}");
+    let evidence = directory.path().join(&evidence_relative);
+    fs::create_dir_all(&evidence).unwrap();
+    fs::write(
+        evidence.join("repository-gates-post-finalize.json"),
+        b"{}\n",
+    )
+    .unwrap();
+    std::os::unix::fs::symlink(
+        "repository-gates-post-finalize.json",
+        evidence.join("quality-route-post-finalize.json"),
+    )
+    .unwrap();
+    git(
+        &directory,
+        &["add", &canonical_relative, &evidence_relative],
+    );
+    git(
+        &directory,
+        &["commit", "-q", "-m", "symlink evidence append"],
+    );
     let append_head = git(&directory, &["rev-parse", "HEAD"]);
     let mut observed = transition(&blocked, 1, false);
     set_receipt_head(&mut observed["receipt"], &append_head);
