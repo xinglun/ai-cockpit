@@ -1,0 +1,65 @@
+{
+  "governanceAppendRevision": "063d354679f66eb0579e64a14bf4819fd343ee22",
+  "predecessorReceiptDigest": "sha256:5b3013f15db47fdd8ee642b2edc6a08ce0d531a24f116b21d22b02b60a76e966",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "reviewed-PR-207-merge",
+    "before": {
+      "branch": "present",
+      "pullRequest": "unmerged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "063d354679f66eb0579e64a14bf4819fd343ee22",
+      "name": "codex/wi-255-recovery-read-side",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:e60d9fa3786a4eba31aba600f3116e788b52796d90206abf934ee470afc2e2f4",
+    "operationId": "operation-WI-255-recovery-read-side-merge-observed",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "bd30ab939ae7f856703595d7661962087cfb12db",
+      "headRevision": "063d354679f66eb0579e64a14bf4819fd343ee22",
+      "mergeCommit": "564cd9189d4517f860ecd0be765e4b0ec025d369",
+      "number": 207,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/207"
+    },
+    "reason": "Observed reviewed PR #207 merged at exact head 063d354 with merge commit 564cd918; retain the exact local branch and clean worktree until the merge observation is preserved on synchronized main and bounded cleanup is recorded.",
+    "receiptId": "ai-cockpit-WI-255-recovery-read-side-merge-observed",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-255-recovery-read-side",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/207",
+      "worktree": "/private/tmp/ai-cockpit-wi255-recovery-read-side"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+    "runtimeVersion": "0.2.31",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-24T17:24:06Z",
+    "workItemId": "WI-255-recovery-read-side",
+    "worktree": {
+      "branch": "codex/wi-255-recovery-read-side",
+      "headRevision": "063d354679f66eb0579e64a14bf4819fd343ee22",
+      "path": "/private/tmp/ai-cockpit-wi255-recovery-read-side",
+      "worktreeId": "WI-255-recovery-read-side"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-255-merge-observed"
+}
