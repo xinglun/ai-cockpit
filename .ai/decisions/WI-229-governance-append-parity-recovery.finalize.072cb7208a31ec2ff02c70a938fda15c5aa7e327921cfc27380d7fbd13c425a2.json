@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:fe9492fd26d123db4b3110d048c31c8a9b4af0ed51cf767ec644055283661191",
+  "receipt": {
+    "actor": "agent:codex",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "post-merge-exact-resource-cleanup",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "8935b529dc829a15bf07c190c51df1f7592c2500",
+      "name": "codex/wi-229-governance-append-parity-recovery",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:ea7d1fbfb0a464338523e47be690197407cf56819893c081167519175bb2264e",
+    "operationId": "operation-WI-229-governance-append-parity-recovery-resources-deleted",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "02cbde2bf3d57176fbbf3acd0f348c9f67fc75e0",
+      "headRevision": "8935b529dc829a15bf07c190c51df1f7592c2500",
+      "mergeCommit": "5c34531f78f6c3f433632f1ff059754c09e02280",
+      "number": 178,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/178"
+    },
+    "reason": "PR #178 merged as 5c34531f78f6c3f433632f1ff059754c09e02280; the exact remote and local WI-229 feature branches were deleted, the clean WI-229 feature worktree was removed, and origin/main was synchronized in the isolated closure worktree.",
+    "receiptId": "ai-cockpit-WI-229-governance-append-parity-recovery-resources-deleted",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-229-governance-append-parity-recovery",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/178",
+      "worktree": "/private/tmp/ai-cockpit-wi229-governance-append-parity-recovery"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:23e9a9824f35b9e0d3706bdcbad34777bca5b0a4d362b4101407412a905dcb5b",
+    "runtimeVersion": "0.2.28",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-24T00:54:16Z",
+    "workItemId": "WI-229-governance-append-parity-recovery",
+    "worktree": {
+      "branch": "codex/wi-229-governance-append-parity-recovery",
+      "headRevision": "8935b529dc829a15bf07c190c51df1f7592c2500",
+      "path": "/private/tmp/ai-cockpit-wi229-governance-append-parity-recovery",
+      "worktreeId": "WI-229-governance-append-parity-recovery"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "WI-229-governance-append-parity-recovery-resources-deleted-2"
+}
