@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-24T07:57:10Z",
+  "files": {
+    "contractDigest": "sha256:602d741500eb787841300def81fb2ca69011dfcb8b4124580c4248aeb5d33119",
+    "contractPath": ".ai/work-items/archive/WI-242-recovery-read-side.contract.json",
+    "eventsDigest": "sha256:1272f87c0163b831cd8a6f29261c23a4d6abfd9f4c457826c654809fbb56c380",
+    "eventsPath": ".ai/work-items/archive/WI-242-recovery-read-side.events.jsonl",
+    "outcomeDigest": "sha256:846952ab86871dfac945a86203f82c8d9be90a1a82fc80bbbb4c71bfc883df13",
+    "outcomePath": ".ai/work-items/archive/WI-242-recovery-read-side.outcome.json",
+    "summaryDigest": "sha256:d9012bba91e24758ab4751813907700b42d58b6292f3ae0a7a7c7461a6602148",
+    "summaryPath": ".ai/work-items/archive/WI-242-recovery-read-side.summary.json",
+    "taskReportDigest": "sha256:c43970ba080f92d6af2b06804dbb227a7b4c278f835da43879f78656642c333d",
+    "taskReportMarkdownDigest": "sha256:67128d28f1ee575c7501a82971e398b5241fff40ce455e50b59b918695fdc1c3",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-242-recovery-read-side.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-242-recovery-read-side.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-242-recovery-read-side"
+}

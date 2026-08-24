@@ -1,0 +1,135 @@
+{
+  "acceptanceResults": [
+    "Current recovery decisions are revalidated against repository identity, current Runtime identity, predecessor Contract/Summary/Outcome/Events digests, and successor identity before archive or Outcome projection.",
+    "Forged, foreign, stale, tampered, or malformed current recovery candidates fail closed with stable diagnostic codes and cannot supersede/archive or alter Outcome.",
+    "Historical archived Work Item bytes remain immutable and legacy historical projections are not reclassified as current failures."
+  ],
+  "createdAt": "2026-08-24T07:56:52Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:04c18c1220c23f530428e10ac2d108b663e6aa71986bca59ddddfcc1ec1b3f97",
+  "evidenceRefs": [
+    ".ai/evidence/WI-242-recovery-read-side.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-242-recovery-read-side.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-242-recovery-read-side.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:aeae6fd41cd7e6e3eea7d1775d064bef0e00e2a80d9ec531323c72d29163da09",
+      "workItemId": "WI-242-recovery-read-side"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-242-recovery-read-side.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-242-recovery-read-side.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-242-recovery-read-side.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-242-recovery-read-side.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-242-recovery-read-side.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-242-recovery-read-side.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-242-recovery-read-side.contract.json"
+          ],
+          "inference": false,
+          "text": "所有 current recovery candidate 在被 archive 或 Outcome 消费前都经统一、严格、确定性的绑定校验；foreign、stale、tampered 或 ambiguous 记录稳定 fail closed。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-242-recovery-read-side.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-242-recovery-read-side"
+  },
+  "taskReportDigest": "sha256:c43970ba080f92d6af2b06804dbb227a7b4c278f835da43879f78656642c333d",
+  "taskReportMarkdownDigest": "sha256:67128d28f1ee575c7501a82971e398b5241fff40ce455e50b59b918695fdc1c3",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-242-recovery-read-side.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-242-recovery-read-side"
+}

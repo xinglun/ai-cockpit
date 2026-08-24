@@ -1,0 +1,66 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-24T07:34:45Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T07:33:04Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-242-recovery-read-side.verification.json"
+    ],
+    "reason": "The implementation is limited to read-side revalidation for current recovery decisions and preserves historical archived bytes and legacy projections.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-08-24T07:56:07Z",
+  "preflightContractDigest": "sha256:d9b376af2af8e6020d52f35e5d21ab2b5839de9a1c2963770f89b2d8f62c4b75",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:aeae6fd41cd7e6e3eea7d1775d064bef0e00e2a80d9ec531323c72d29163da09",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-242-recovery-read-side.verification.json"
+      ],
+      "expected": "A Runtime-recorded current recovery decision is accepted by Outcome projection and superseded archive only while every repository, Runtime, predecessor artifact, and successor binding remains current.",
+      "required": true,
+      "scenario": "valid-current-recovery",
+      "status": "verified",
+      "verificationPlan": "Run the focused recovery_decision integration tests covering valid successor and supersede lifecycle behavior."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-242-recovery-read-side.verification.json"
+      ],
+      "expected": "Foreign repository or Runtime identities, stale predecessor digests, invalid timestamps, and mismatched successor bindings are rejected before Outcome projection or archive mutation.",
+      "required": true,
+      "scenario": "forged-current-recovery",
+      "status": "verified",
+      "verificationPlan": "Run the table-driven forged current recovery read-side regression and assert stable fail-closed diagnostics plus unchanged active artifacts."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-242-recovery-read-side.verification.json"
+      ],
+      "expected": "Mutation of predecessor Contract, Summary, Outcome, or Events after a recovery receipt is recorded invalidates that current receipt.",
+      "required": true,
+      "scenario": "tampered-predecessor-artifact",
+      "status": "verified",
+      "verificationPlan": "Run the predecessor artifact tamper regression for Outcome and superseded archive consumers."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-242-recovery-read-side.verification.json"
+      ],
+      "expected": "Historical archived Work Items remain readable without rewriting or reclassifying their immutable legacy bytes as invalid current recovery evidence.",
+      "required": true,
+      "scenario": "historical-archive-compatibility",
+      "status": "verified",
+      "verificationPlan": "Run the existing historical recovery/archive and repository conformance suites after the strict current-read validator is installed."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-24T07:56:52Z",
+  "workItemId": "WI-242-recovery-read-side"
+}
