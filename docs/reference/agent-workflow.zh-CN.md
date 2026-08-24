@@ -96,6 +96,16 @@ fail closed。在 default branch、合并后或任一 parity 行已存在时，�
 `stale_pending_parity_registration`。后续变更必须原子加入全部三语行并删除条目，绝不
 改写 predecessor `.ai` records。
 
+修改 parity 的 Work Item 使用另一条自包含路径。如果 Contract scope/acceptance 或 active
+Summary changed paths 明确拥有 `docs/reference/reference-parity*` 或 parity registration，
+light 治理门禁要求在 verification 前写入三条 lifecycle-bound 行；standard 与 strict 继承
+同一静态检查。普通代码 Work Item 分类为 `active_non_parity`，不会被强制扩大到文档 scope。
+每行预列未来 archived Contract、verification、canonical finalize 与 close 路径，并使用条件
+状态 `进行中 → 验证关闭后已实现`（英文与日文 ledger 使用对应本地化文本）。Git 必须证明该行
+commit 严格早于 verification evidence 的加入。缺失、partial、错误状态、foreign path 或仅在
+archive 后加入的行全部 fail closed。同一行无需改写 archived evidence，即可在 active、等待
+merge/close 与 closed 状态保持真实。该路径不放宽 pending registry 的 default-branch stale 规则。
+
 Pull-request merge ref 是 default branch 与 feature snapshot 的组合树，不是对 feature
 snapshot 的简单重放。如果 default branch 带入较新的权威 lifecycle decision，每条 parity
 行都必须在保留合并前 receipt 的同时登记该 decision。即使 push head 已绿色，缺少较新的

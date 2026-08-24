@@ -103,6 +103,19 @@ append、partial parity、malformed JSON は fail closed です。default branch
 になります。後続 change は 3 言語 row を原子的に追加して entry を削除し、predecessor
 の `.ai` record を書き換えません。
 
+parity を変更する Work Item は別の self-contained route を使用します。Contract の
+scope/acceptance または active Summary の changed paths が
+`docs/reference/reference-parity*` か parity registration を所有すると明示した場合、light
+governance gate は verification 前に 3 つの lifecycle-bound row を要求します。standard と
+strict は同じ static check を継承します。通常の code Work Item は `active_non_parity` と分類
+され、documentation scope を強制されません。各 row は将来の archived Contract、verification、
+canonical finalize、close path を列挙し、条件付き status
+`In progress → verified close 後 Implemented` を使います。Git は row commit が verification
+evidence の追加より厳密に前であることを証明しなければなりません。missing、partial、wrong
+status、foreign path、post-archive-only row は fail closed です。同じ row を変更せずに active、
+awaiting merge/close、closed の state を表現でき、archived evidence を書き換えません。この
+route は pending registry の default-branch stale rule を緩和しません。
+
 Pull-request merge ref は default branch と feature snapshot を結合した tree であり、feature
 snapshot の replay ではありません。default branch が後続の authoritative lifecycle decision
 を追加する場合、各 parity row は pre-merge receipt を保持しながら、その decision も列挙する

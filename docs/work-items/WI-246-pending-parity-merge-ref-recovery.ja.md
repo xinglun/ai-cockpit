@@ -6,8 +6,8 @@ description: "WI-244 delivery を recovery し、hosted merge ref が追加す�
 audience:
   - maintainer
   - reviewer
-status: in_progress
-lastVerifiedBy: WI-246-pending-parity-merge-ref-recovery
+status: implemented
+lastVerifiedBy: WI-249-parity-finalization-registration
 authority: canonical
 ---
 
@@ -34,11 +34,15 @@ pre-merge finalize receipt だけを列挙していたため、governance gate �
 ## Acceptance
 
 3 つの WI-243 row は pre-merge finalize path を保持し、close path を追加します。WI-244
-は recovery receipt とともに Recovered と表示し、WI-246 は merge/close 前まで In progress
-です。決定的 regression は base-plus-feature merge tree を構築します。base の close decision
+は recovery receipt とともに Recovered と表示します。PR #197 は `98d6575` として merge
+され、WI-246 の append-only chain は merge observation、正確な branch/worktree cleanup、
+structured close receipt を記録したため、WI-246 は Implemented です。決定的 regression は
+base-plus-feature merge tree を構築します。base の close decision
 が row にない場合は 3 つの `missing_parity_decision` となり、全 row に両 path があれば
 pass します。pending registry の厳密な schema、identity、Git ancestry、symlink、lifecycle
-check は変更しません。
+check は変更しません。WI-247 は自身の parity row が遅れて投影されたため immutable な
+recovered predecessor として保持され、WI-249 がその recovery を登録して同じ archive 順序
+defect を防ぎます。
 
 ## Verification
 

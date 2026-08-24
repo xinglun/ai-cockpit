@@ -125,6 +125,22 @@ parity row exists, the entry is `stale_pending_parity_registration`. A
 follow-up adds all three exact rows and removes the entry atomically without
 rewriting predecessor `.ai` records.
 
+A parity-writing Work Item uses a different, self-contained route. If its
+Contract scope or acceptance, or its active Summary changed paths, explicitly
+owns `docs/reference/reference-parity*` or parity registration, the light
+governance gate requires all three lifecycle-bound rows before verification.
+Standard and strict inherit the same static check; an ordinary code Work Item
+is classified `active_non_parity` and is not forced into documentation scope.
+Each row lists the future archived Contract, verification, canonical finalize,
+and close paths and uses the conditional status
+`In progress → Implemented after verified close` (localized in the Chinese and
+Japanese ledgers). Git must prove the row commit strictly precedes addition of
+the verification evidence. Missing, partial, wrong-status, foreign-path, or
+post-archive-only rows fail closed. The unchanged row is therefore truthful
+while active, awaiting merge/close, and closed without rewriting archived
+evidence. This route does not relax the pending registry's default-branch stale
+rule.
+
 A pull-request merge ref is a combined tree, not a replay of the feature
 snapshot. If the default branch contributes a later authoritative lifecycle
 decision, every parity row must name that decision in addition to the retained

@@ -6,8 +6,8 @@ description: "恢复 WI-244 交付，并将 parity 绑定到 hosted merge ref �
 audience:
   - maintainer
   - reviewer
-status: in_progress
-lastVerifiedBy: WI-246-pending-parity-merge-ref-recovery
+status: implemented
+lastVerifiedBy: WI-249-parity-finalization-registration
 authority: canonical
 ---
 
@@ -32,10 +32,12 @@ push tree 通过，但 hosted PR merge ref 还包含默认分支新加入的权�
 ## 验收
 
 三条 WI-243 行保留合并前 finalize 路径并加入 close 路径。WI-244 以“已恢复”展示并引用
-recovery receipt；WI-246 在合并和关闭前保持“进行中”。确定性回归构造
+recovery receipt。PR #197 以 `98d6575` 合并；WI-246 append-only chain 已记录合并观察、
+准确 branch/worktree cleanup 与结构化 close receipt，因此 WI-246 现在为“已实现”。确定性回归构造
 base-plus-feature merge tree：缺少 base close decision 时产生三条
 `missing_parity_decision`，三语行同时包含两个路径后通过。pending registry 的严格 schema、
-identity、Git ancestry、symlink 与 lifecycle 校验保持不变。
+identity、Git ancestry、symlink 与 lifecycle 校验保持不变。WI-247 因自己的 parity 行投影过晚
+而作为不可变 recovered predecessor 保留；WI-249 登记该恢复，并防止相同 archive 顺序缺陷。
 
 ## 验证
 
