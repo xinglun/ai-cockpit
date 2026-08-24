@@ -6,7 +6,7 @@ description: "WI-234 の archived delivery を recovery し、verification と a
 audience:
   - maintainer
   - reviewer
-status: current
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-235-finalization-recovery
 ---

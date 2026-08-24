@@ -6,7 +6,7 @@ description: "Recover the archived WI-234 delivery while binding reviewed PR con
 audience:
   - maintainer
   - reviewer
-status: current
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-235-finalization-recovery
 ---

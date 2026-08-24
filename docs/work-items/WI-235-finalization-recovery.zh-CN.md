@@ -6,7 +6,7 @@ description: "恢复 WI-234 归档交付，并在验证与归档前绑定已审�
 audience:
   - maintainer
   - reviewer
-status: current
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-235-finalization-recovery
 ---
