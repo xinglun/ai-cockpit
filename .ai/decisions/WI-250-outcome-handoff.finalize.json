@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-WI-250-implementation-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "7a2d77dc39631f9be319ca867f3d8eeaae5c560d",
+    "name": "codex/wi-250-outcome-handoff",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:7befe0d614e48ed93ebfcccb8d530e7a880636decace723dd17206446abfdde6",
+  "operationId": "operation-WI-250-outcome-handoff-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "16c5a9de53585e66bbc69ca742a795a7fe49f319",
+    "headRevision": "7a2d77dc39631f9be319ca867f3d8eeaae5c560d",
+    "number": 200,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/200"
+  },
+  "reason": "awaiting_merge_close: draft PR #200 is unmerged; retain the exact reviewed branch and clean worktree until hosted checks pass, human review is complete, and the reviewed pull request is merged.",
+  "receiptId": "ai-cockpit-WI-250-outcome-handoff-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-250-outcome-handoff",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/200",
+    "worktree": "/private/tmp/ai-cockpit-wi250-outcome-handoff"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-24T11:56:48Z",
+  "workItemId": "WI-250-outcome-handoff",
+  "worktree": {
+    "branch": "codex/wi-250-outcome-handoff",
+    "headRevision": "7a2d77dc39631f9be319ca867f3d8eeaae5c560d",
+    "path": "/private/tmp/ai-cockpit-wi250-outcome-handoff",
+    "worktreeId": "WI-250-outcome-handoff"
+  }
+}
