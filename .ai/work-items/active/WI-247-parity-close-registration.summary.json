@@ -1,0 +1,21 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-246-pending-parity-merge-ref-recovery.recovery.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-08-24T10:36:40Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:11e82f1423cc1bda5a3ffda2718b3aeebbb6db9dc109ee6a0db265f4fb131453",
+  "predecessorWorkItemId": "WI-246-pending-parity-merge-ref-recovery",
+  "preflightAt": "2026-08-24T10:38:32Z",
+  "preflightContractDigest": "sha256:cdd6123d4c5b90c31ffd5aafdc3cbf9b9540c6dd70fee07588ea76d6506ba305",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:ae6b50340fb37fb9979c90eed2dcebfa429d5e6e4b3432afa5ad463764c59c18",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-246-pending-parity-merge-ref-recovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "not_ready",
+  "updatedAt": "2026-08-24T10:36:40Z",
+  "workItemId": "WI-247-parity-close-registration"
+}
