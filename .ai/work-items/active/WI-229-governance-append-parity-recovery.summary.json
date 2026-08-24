@@ -1,0 +1,17 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-228-governance-append-evidence.recovery.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-08-24T00:20:55Z",
+  "mode": "code",
+  "predecessorContractDigest": "sha256:84dc15c8cd02e038884e248dce8a82c4996fffc9ecea8049c3de1286205170a1",
+  "predecessorWorkItemId": "WI-228-governance-append-evidence",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-228-governance-append-evidence.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "not_ready",
+  "updatedAt": "2026-08-24T00:20:55Z",
+  "workItemId": "WI-229-governance-append-parity-recovery"
+}
