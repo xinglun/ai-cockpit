@@ -1,0 +1,109 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:ae2495c4115eea40ed2e8dd444a57a2a37aa453e4b2934e1437ca0e37c6eaa8e",
+    "workItemId": "WI-254-closed-docs-promotion"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-254-closed-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-253-docs-terminalization.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-254-closed-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-254-closed-docs-promotion.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-254-closed-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-254-closed-docs-promotion.summary.json"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-254-closed-docs-promotion.contract.json"
+        ],
+        "inference": false,
+        "text": "Provide and gate one auditable helper that validates exact close/archive/evidence/finalization identity, promotes only machine-owned Work Item metadata and exact reference-parity rows, terminalizes WI-253 now, and is reused after WI-254 closes so terminal CI does not require another successor."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-254-closed-docs-promotion.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-254-closed-docs-promotion"
+}

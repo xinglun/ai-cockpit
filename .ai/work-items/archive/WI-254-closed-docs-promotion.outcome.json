@@ -8,14 +8,17 @@
     "After WI-254 is merged, sequence-2 finalized and structurally closed, the same helper promotes WI-254 from a detached synchronized default-branch closure context; check-only mode passes and terminal main CI is green without a further documentation successor.",
     "Focused RED/GREEN regressions cover valid promotion plus wrong repository/Work Item/digest/finalization/close identity, missing counterpart/row, duplicate row, conditional stale projection, symlink, nonregular or malformed input, no-write failure, and idempotent check-only behavior; documentation acceptance, manifest route, fmt, clippy, full workspace, installed Runtime verify, hosted CI, and post-close terminal CI pass."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-08-24T16:30:32Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:8fc4b5c6c4f4febcd288dbe3a0765b3ab7b9bda151bcca68da0e57a4cd5e5833",
   "evidenceRefs": [
     ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
   ],
-  "failedGate": "finish.verification",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -23,48 +26,45 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:ad0af455958ef241cb6ccfdd11391500bbf0bd4ffe16b67e955b486226ba8d42",
+      "repositorySnapshotDigest": "sha256:ae2495c4115eea40ed2e8dd444a57a2a37aa453e4b2934e1437ca0e37c6eaa8e",
       "workItemId": "WI-254-closed-docs-promotion"
     },
-    "failedGate": "finish.verification",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-254-closed-docs-promotion.summary.json"
+            ".ai/work-items/archive/WI-254-closed-docs-promotion.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-253-docs-terminalization.recovery.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-254-closed-docs-promotion.summary.json"
+            ".ai/work-items/archive/WI-254-closed-docs-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-254-closed-docs-promotion.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-254-closed-docs-promotion.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-254-closed-docs-promotion.summary.json"
+            ".ai/work-items/archive/WI-254-closed-docs-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-254-closed-docs-promotion.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-254-closed-docs-promotion.summary.json"
         }
       ],
       "evidence": [
@@ -83,15 +83,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -102,7 +94,7 @@
             ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -112,15 +104,23 @@
             ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-254-closed-docs-promotion.contract.json"
+            ".ai/work-items/archive/WI-254-closed-docs-promotion.contract.json"
           ],
           "inference": false,
           "text": "Provide and gate one auditable helper that validates exact close/archive/evidence/finalization identity, promotes only machine-owned Work Item metadata and exact reference-parity rows, terminalizes WI-253 now, and is reused after WI-254 closes so terminal CI does not require another successor."
@@ -129,23 +129,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-254-closed-docs-promotion.contract.json"
+            ".ai/work-items/archive/WI-254-closed-docs-promotion.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-254-closed-docs-promotion"
   },
+  "taskReportDigest": "sha256:343c9b4d399107e28724bb0ba68c96facbdcd4f66e43db1651e9d9e5c34b42f2",
+  "taskReportMarkdownDigest": "sha256:b2cfa0662944bf0b46a944b2c748d9092b3be984bd2c65a7f5099031c85bcba4",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-254-closed-docs-promotion.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-254-closed-docs-promotion"
 }

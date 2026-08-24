@@ -80,8 +80,8 @@
   ],
   "changedPaths": [
     ".ai/decisions/WI-253-docs-terminalization.recovery.json",
-    ".ai/work-items/active/WI-254-closed-docs-promotion.contract.json",
-    ".ai/work-items/active/WI-254-closed-docs-promotion.summary.json"
+    ".ai/work-items/archive/WI-254-closed-docs-promotion.contract.json",
+    ".ai/work-items/archive/WI-254-closed-docs-promotion.summary.json"
   ],
   "checkpointAt": "2026-08-24T16:00:10Z",
   "checkpointCount": 1,
@@ -91,11 +91,11 @@
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-    "reason": "Fresh review confirms the exact amended WI-254 Contract and installed Runtime v0.2.31 PR-stage verification snapshot. The single-process T2 workspace verification passed against base 0a5101ef551c9e0242d514740a68a2be4680d406; this authorizes finish and archive progression only, while merge, post-merge cleanup, close, self-promotion, and terminal CI remain separate required boundaries.",
-    "recordedAt": "2026-08-24T16:27:11Z",
+    "reason": "Fresh review confirms the exact amended WI-254 Contract and final pushed feature HEAD snapshot after preserving the first fail-closed finish evidence. Installed Runtime v0.2.31 single-process T2 PR verification passed against base 0a5101ef551c9e0242d514740a68a2be4680d406. This authorizes finish/archive progression only; merge, post-merge cleanup, close, WI-254 self-promotion, and terminal CI remain required separate boundaries.",
+    "recordedAt": "2026-08-24T16:29:56Z",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:526cf2ee67a57974ede461056f8a391fe429a0eeabb58a1bfd48792a77425f8a",
+    "repositorySnapshotDigest": "sha256:ae2495c4115eea40ed2e8dd444a57a2a37aa453e4b2934e1437ca0e37c6eaa8e",
     "schemaVersion": 1,
     "workItemId": "WI-254-closed-docs-promotion"
   },
@@ -117,10 +117,10 @@
   "outcomeState": "blocked",
   "predecessorContractDigest": "sha256:850de4b00c0919face617e700eb5cd4a810c362f1baae7c8a14257ccf98a72cb",
   "predecessorWorkItemId": "WI-253-docs-terminalization",
-  "preflightAt": "2026-08-24T16:27:29Z",
+  "preflightAt": "2026-08-24T16:30:13Z",
   "preflightContractDigest": "sha256:fd2e40fe3c47727999e85e8d6e126518fc5a785931c22e1395c9f62ed2a6b4ad",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:526cf2ee67a57974ede461056f8a391fe429a0eeabb58a1bfd48792a77425f8a",
+  "preflightRepositorySnapshotDigest": "sha256:ae2495c4115eea40ed2e8dd444a57a2a37aa453e4b2934e1437ca0e37c6eaa8e",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
@@ -177,7 +177,7 @@
       "verificationPlan": "Run the helper against real WI-253 before PR verification, then after WI-254 merge/finalize/close run it against real WI-254, run check-only plus terminal hosted CI, and confirm no immutable predecessor lifecycle path changed."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-08-24T16:27:29.797813+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-24T16:30:32Z",
   "workItemId": "WI-254-closed-docs-promotion"
 }
