@@ -16,6 +16,8 @@ keywords: [ai-cockpit, release, homebrew, distribution, provenance]
 
 # 发布分发架构
 
+当前不可变发布基线是 `v0.2.31`。不可变的 `v0.2.30` 标签因清洁批次发布路由缺陷而作为失败发布历史保留，不是安装基线。
+
 ## 目的
 
 本页回答：**发布过程中验证什么、用户如何安装 runtime，以及 Homebrew 的边界在哪里？**
@@ -101,7 +103,7 @@ Release，并独立上传 receipt。手动触发必须显式提供公开的 `fro
 
 - `cockpit-release` 与 release workflow 负责本地 release contract、确定性 manifest、Formula 投影、
   hosted checks 和已发布 Release identity。
-- 当前不可变公开基线是 `v0.2.30`；public adopter acceptance 和 N-1 升级验收属于发布后 evidence。外部 Homebrew tap 是
+- 当前不可变公开基线是 `v0.2.31`；public adopter acceptance 和 N-1 升级验收属于发布后 evidence。外部 Homebrew tap 是
   独立 provider surface，不由本仓库自动保证。
 - 预留的 `v0.2.24` tag 与不可变的 `v0.2.25` tag 作为发布前失败历史保留，不作为公开 Release，也永远不会复用。
 - Tap 接收经过审查的 Formula 投影，不会重新构建 binary。
