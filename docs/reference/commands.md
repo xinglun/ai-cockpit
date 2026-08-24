@@ -174,14 +174,19 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
 
 ## Post-close documentation promotion
 
-After structured `close`, run:
+After structured `close`, deliver the visible Outcome and run the typed
+post-close plan/apply flow from synchronized `origin/main`:
 
 ```text
-python3 tests/docs/promote_closed_work_item.py --repo <repo> --work-item <id>
+python3 tests/docs/post_close_work_item.py --repo <repo> --work-item <id> --plan-out <plan.json>
+python3 tests/docs/post_close_work_item.py --repo <repo> --work-item <id> --apply-plan <plan.json>
 python3 tests/docs/promote_closed_work_item.py --repo <repo> --check-all
 ```
 
-The first command validates the exact regular archive Contract and raw digest,
+The typed wrapper binds the synchronized revision and exact terminal evidence,
+rejects stale/foreign/malformed/symlinked/dirty/partial/unexpected state, and
+is a deterministic no-op when applied again. It delegates the exact write to
+the existing promoter, which validates the exact regular archive Contract and raw digest,
 passing verification receipt, unique linear finalization chain, sequence-2
 `deleted` head, merged provider identity, and approved close bindings before it
 updates controlled documentation fields. Only `status`, `lastVerifiedBy`, the

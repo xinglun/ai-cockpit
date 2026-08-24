@@ -137,15 +137,23 @@ context/receipt；Runtime 不会隐式删除资源。Work Item 只有在 verific
 Archived verification evidence 保持为不可变的历史事实；Runtime 升级后不把它重新标记为当前
 结果，而是显示为历史 evidence。新的 finalization receipt 始终绑定执行 close 的 Runtime。
 
-结构化 close 后还必须完成受控文档 projection 与 default-branch terminal check：
+结构化 close 后还必须交付可见 Outcome，完成 typed 受控文档 projection 与 default-branch terminal check：
 
 ```text
-close → promote closed docs → terminal CI
+close → visible Outcome → post-close plan/apply → check-all → terminal CI
 ```
 
-在已同步的 detached closure context 运行 `python3
-tests/docs/promote_closed_work_item.py --repo <repo> --work-item <id>`，再用同一
-helper 运行 `--check-all`。helper 会先验证 regular non-symlink 的 archive、
+在已同步的 default branch 先生成并应用 plan：
+
+```text
+python3 tests/docs/post_close_work_item.py --repo <repo> --work-item <id> --plan-out <plan.json>
+python3 tests/docs/post_close_work_item.py --repo <repo> --work-item <id> --apply-plan <plan.json>
+python3 tests/docs/promote_closed_work_item.py --repo <repo> --check-all
+```
+
+typed wrapper 绑定 repository、同步 revision、close、finalization、archive、verification identity
+与六个受控路径；stale、foreign、malformed、symlink、dirty、partial 或 unexpected state 都 fail closed，
+重复 apply 是 deterministic no-op。实际六路径写入仍委托现有 helper，先验证 regular non-symlink 的 archive、
 verification、线性 finalization、sequence-2 deleted、merge 与结构化 close identity。
 它只修改三份准确 Work Item 文档中 machine-owned lifecycle frontmatter，以及三份
 reference-parity 文档中的准确 Work Item 行；不会改写正文或任何 `.ai` lifecycle truth。

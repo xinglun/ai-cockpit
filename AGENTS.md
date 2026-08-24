@@ -99,6 +99,23 @@ are clean, and the exact remote/local Work Item branch is removed. Any failed
 step is fail closed; never merge a feature branch into local `main` as a
 substitute for PR review.
 
+After structural close, run the repository-owned post-close documentation
+orchestrator from the synchronized default branch:
+
+```text
+close → visible Outcome → post-close plan/apply → check-all → terminal CI
+```
+
+Use `python3 tests/docs/post_close_work_item.py --repo <repo> --work-item <id>
+--plan-out <plan.json>` followed by the same command with `--apply-plan
+<plan.json>`, then run `python3 tests/docs/promote_closed_work_item.py --repo
+<repo> --check-all` and the terminal CI gate. The wrapper binds repository,
+default-branch revision, close/finalization/archive/evidence digests, and the
+six controlled documentation paths before delegating to the existing promoter.
+It fails closed on stale, foreign, malformed, symlinked, dirty, partial, or
+unexpected state, and a second apply is a deterministic no-op. It never
+mutates `.ai` lifecycle bytes and is not Runtime Core Markdown behavior.
+
 Keep rules language-neutral and project-neutral, never include secrets or local
 credentials, and never modify user-global Agent or MCP configuration. The
 reference template's `make ai-*` commands, `contractVersion: 2`, and V1

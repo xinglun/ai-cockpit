@@ -6,8 +6,12 @@ description: "在 Outcome 或 archive 消费 current recovery decision 前重新
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-255-recovery-read-side
+terminalArchive: .ai/work-items/archive/WI-255-recovery-read-side.contract.json
+terminalVerification: .ai/evidence/WI-255-recovery-read-side.verification.json
+terminalFinalization: .ai/decisions/WI-255-recovery-read-side.finalize.70b8faaab38e83dcd7d4fe55892abfe4c553ec1efb369bf81c2e259a9fe8566b.json
+terminalDecision: .ai/decisions/WI-255-recovery-read-side.close.json
 authority: canonical
 ---
 

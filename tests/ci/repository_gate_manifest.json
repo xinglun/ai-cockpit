@@ -13,6 +13,7 @@
     {"category": "docs", "command": ["tests/docs/parity_status_check.sh"], "id": "docs_governance_integrity", "minimumProfile": "light"},
     {"category": "docs", "command": ["tests/docs/parity_status_check_test.sh"], "id": "docs_parity_regression", "minimumProfile": "light"},
     {"category": "docs", "command": ["tests/docs/pending_parity_registry_test.sh"], "id": "docs_pending_parity_registry_regression", "minimumProfile": "light"},
+    {"category": "docs", "command": ["tests/docs/post_close_work_item_test.sh"], "id": "docs_post_close_work_item_orchestration", "minimumProfile": "light"},
     {"category": "docs", "command": ["tests/docs/work_item_status_consistency_test.sh"], "id": "docs_work_item_status_consistency", "minimumProfile": "light"},
     {"category": "performance", "command": ["tests/performance/regression_gate_test.sh"], "id": "performance_regression", "minimumProfile": "strict"},
     {"category": "release", "command": ["tests/release/action_runtime_policy_test.sh"], "id": "release_action_runtime", "minimumProfile": "strict"},

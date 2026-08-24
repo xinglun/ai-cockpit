@@ -1,0 +1,134 @@
+{
+  "acceptanceCriteria": [
+    "A typed post-close plan binds repositoryId, Work Item ID, synchronized origin/main revision, approved close receipt, sequence-2 finalization head, archive/evidence identities, and exact before/after digests for the six controlled documentation paths.",
+    "Apply rejects stale, foreign, malformed, symlinked, dirty, partial, or unexpected-path state before mutation; a fresh rerun is deterministic and no-op, and existing terminal evidence validation remains authoritative.",
+    "WI-255 English, Simplified Chinese, and Japanese Work Item/reference-parity projections become Implemented and bind the exact archive, verification, sequence-2 finalization, and close paths without changing immutable .ai bytes; recovery is projected only when a same-Work-Item recovery receipt actually exists.",
+    "AGENTS and tri-language workflow/commands documentation define close → visible Outcome → post-close plan/apply → check-all → terminal CI, and CI failure reports the exact corrective wrapper action.",
+    "Focused wrapper/promoter/documentation/governance regressions, formatting, clippy, and locked full workspace tests pass under installed Runtime verification."
+  ],
+  "authority": "Human authorization in this task to create WI-256 from origin/main b55bdcd, modify only declared repository docs/tests/workflow paths, run v0.2.31 lifecycle, and prepare a reviewed PR without merging.",
+  "baseRevision": "b55bdcd91ca6e228aa9cc095ee1ac4fddc6c0be4",
+  "createdAt": "2026-08-24T17:34:16Z",
+  "goal": "提供可重复、typed、identity-bound 的 post-close plan/apply wrapper，明确 close→visible Outcome→promotion→terminal CI 下一动作，并使 WI-255 三语 Work Item/reference parity 与已确认 close truth 一致。",
+  "intent": "在不回写 immutable lifecycle bytes、不把文档写入 Rust Core 的前提下，完成 WI-255 受控终态文档投影，并根治 close 后遗漏 promotion 导致 terminal CI fail-closed 的 repository workflow 缺口。",
+  "mode": "code",
+  "outOfScope": [
+    "crates/**",
+    ".ai lifecycle bytes for WI-255 and all predecessor Work Items",
+    "Runtime Core/global CLI semantics",
+    "release publication",
+    "unrelated documentation/CI behavior",
+    "root main worktree"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:da046b8e97f1ace03fe2e483fe7d237e0d35c8cc39deeccd80609a21433734c9",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-256-post-close-promotion",
+    "provider": "github",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi256-post-close-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "AGENTS.md",
+    "tests/docs/post_close_work_item.py",
+    "tests/docs/post_close_work_item_test.sh",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/ci/repository_gate_manifest.json",
+    "tests/ci/repository_gate_manifest_test.sh",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-255-recovery-read-side.md",
+    "docs/work-items/WI-255-recovery-read-side.zh-CN.md",
+    "docs/work-items/WI-255-recovery-read-side.ja.md",
+    "docs/work-items/WI-256-post-close-promotion.md",
+    "docs/work-items/WI-256-post-close-promotion.zh-CN.md",
+    "docs/work-items/WI-256-post-close-promotion.ja.md",
+    ".ai/work-items/active/WI-256-post-close-promotion.contract.json",
+    ".ai/work-items/active/WI-256-post-close-promotion.summary.json",
+    ".ai/work-items/active/WI-256-post-close-promotion.approach.json",
+    ".ai/evidence/WI-256-post-close-promotion.verification.json",
+    ".ai/work-items/archive/WI-256-post-close-promotion.contract.json",
+    ".ai/work-items/archive/WI-256-post-close-promotion.summary.json",
+    ".ai/work-items/archive/WI-256-post-close-promotion.outcome.json",
+    ".ai/work-items/archive/WI-256-post-close-promotion.events.jsonl",
+    ".ai/work-items/archive/WI-256-post-close-promotion.archive.json",
+    ".ai/decisions/WI-256-post-close-promotion.finalize*.json",
+    ".ai/decisions/WI-256-post-close-promotion.close.json"
+  ],
+  "sources": [
+    "Human authorization for WI-256 in this task",
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    ".ai/work-items/archive/WI-255-recovery-read-side.contract.json",
+    ".ai/evidence/WI-255-recovery-read-side.verification.json",
+    ".ai/decisions/WI-255-recovery-read-side.finalize.70b8faaab38e83dcd7d4fe55892abfe4c553ec1efb369bf81c2e259a9fe8566b.json",
+    ".ai/decisions/WI-255-recovery-read-side.close.json",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/32756605523"
+  ],
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A plan created on a clean dedicated branch at the synchronized origin/main revision binds WI-255 terminal archive, verification, sequence-2 finalization, approved close, and the exact before/after digests of all six controlled documentation paths; apply promotes them and a fresh rerun reports current with no writes.",
+      "required": true,
+      "scenario": "valid-plan-apply-and-idempotent-rerun",
+      "status": "planned",
+      "verificationPlan": "Write and run a fixture-based RED/GREEN wrapper regression, then execute the wrapper against real WI-255 and compare immutable lifecycle digests before and after."
+    },
+    {
+      "evidence": [],
+      "expected": "A foreign repository or Work Item, stale repository revision, mismatched close/finalization/archive/evidence digest, malformed or symlinked plan/input, or unknown plan field fails before any documentation byte changes.",
+      "required": true,
+      "scenario": "typed-identity-and-staleness-fail-closed",
+      "status": "planned",
+      "verificationPlan": "Mutate one binding at a time in isolated fixtures and assert nonzero stable diagnostics plus identical before/after documentation digests."
+    },
+    {
+      "evidence": [],
+      "expected": "A dirty repository, unexpected changed path, or partial tri-language projection fails closed; apply never hides or overwrites unrelated user changes and accepts only the six exact planned paths.",
+      "required": true,
+      "scenario": "dirty-unexpected-and-partial-projection-fail-closed",
+      "status": "planned",
+      "verificationPlan": "Create fixtures with unrelated tracked/untracked changes and partial controlled-path edits, then verify no-write rejection and explicit path diagnostics."
+    },
+    {
+      "evidence": [],
+      "expected": "AGENTS, English, Simplified Chinese, and Japanese workflow/commands documentation require close → visible Outcome → post-close plan/apply → check-all → terminal CI, while the mandatory gate names the exact wrapper command needed to repair an omitted promotion.",
+      "required": true,
+      "scenario": "actionable-post-close-handoff-and-terminal-gate",
+      "status": "planned",
+      "verificationPlan": "Run documentation acceptance, manifest regression, governance integrity, and static wrapper-policy checks against both stale and promoted fixtures."
+    }
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "bash tests/docs/post_close_work_item_test.sh",
+    "bash tests/docs/promote_closed_work_item_test.sh",
+    "bash tests/ci/repository_gate_manifest_test.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report target/WI-256-governance-integrity.json",
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-256-post-close-promotion"
+}

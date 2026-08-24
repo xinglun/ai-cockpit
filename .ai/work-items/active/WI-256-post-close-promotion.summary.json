@@ -1,0 +1,23 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-256-post-close-promotion.contract.json",
+    ".ai/work-items/active/WI-256-post-close-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-08-24T17:36:02Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T17:34:16Z",
+  "failedGate": "finish.governance",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-24T17:59:29Z",
+  "preflightContractDigest": "sha256:c0394f9a9182381b503a306b9843af04325a9c4447f0ca710c6c27d0344461e6",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:2717a7776b0e5d9f65ce3985f1b6d608c337c188af5d16f6954a6bce809e1a59",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-24T17:59:33Z",
+  "workItemId": "WI-256-post-close-promotion"
+}
