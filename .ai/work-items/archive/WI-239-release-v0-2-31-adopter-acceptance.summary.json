@@ -1,0 +1,160 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "public release receipt",
+          "path": ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/acceptance.json",
+          "type": "release",
+          "verification": "public v0.2.31 adopter acceptance"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "runtime identity",
+          "path": ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/runtime.json",
+          "type": "release",
+          "verification": "manifest and SHA256SUMS digest binding"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "agent isolation",
+          "path": ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/isolation.json",
+          "type": "isolation",
+          "verification": "forbidden roots unchanged and isolated roots classified"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "not_ready scaffold",
+          "path": ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/work-items/first-adopter-smoke.contract.json",
+          "type": "contract",
+          "verification": "not_ready with human fields unset"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "evidence reuse",
+          "path": ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/verify-reuse.json",
+          "type": "verification",
+          "verification": "nodesReused >= 1 and processesSpawned == 0"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "lifecycle close decision",
+          "path": ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/work-items/release-adopter-lifecycle.close.json",
+          "type": "decision",
+          "verification": "structured human decision is bound to adopter repository"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A7",
+      "evidence": [
+        {
+          "locator": "installed current repository checks",
+          "path": ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/installed-runtime.json",
+          "type": "runtime",
+          "verification": "installed v0.2.31 inspect/status/doctor/agent doctor"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-239-release-v0-2-31-adopter-acceptance.contract.json",
+    ".ai/work-items/archive/WI-239-release-v0-2-31-adopter-acceptance.summary.json"
+  ],
+  "checkpointAt": "2026-08-24T06:47:23Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T06:24:39Z",
+  "intentAlignment": {
+    "evidence": [
+      "tests/release/adopter_acceptance.sh",
+      "docs/release/distribution.md",
+      ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/acceptance.json"
+    ],
+    "reason": "The Work Item records only public Release acceptance, adopter isolation, and installed Runtime self-governance; it does not introduce Runtime implementation changes or invent governance decisions.",
+    "state": "resolved"
+  },
+  "mode": "release",
+  "preflightAt": "2026-08-24T06:49:53Z",
+  "preflightContractDigest": "sha256:7ceafcbab1d4b1cdb0400bd0fb2a9f583312b052679662bfce68f1da8008946a",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:a064116213a7cdd0ded044d3cd1590989425f560e70fb71bdbda509a907324f0",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/runtime.json",
+        ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/release-manifest.json",
+        ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/SHA256SUMS.release"
+      ],
+      "expected": "v0.2.31 is published, its public archive matches release-manifest.json and SHA256SUMS, and the downloaded binary is v0.2.31.",
+      "required": true,
+      "scenario": "immutable public Release identity",
+      "status": "verified",
+      "verificationPlan": "Run the public Release acceptance harness and inspect runtime.json."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/acceptance.json",
+        ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/isolation.json",
+        ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/cleanup.json"
+      ],
+      "expected": "A fresh adopter passes attach, profile confirmation, Agent doctor, repository identity, isolation, and temporary-root cleanup without forbidden global writes.",
+      "required": true,
+      "scenario": "fresh isolated adopter",
+      "status": "verified",
+      "verificationPlan": "Run tests/release/adopter_acceptance.sh against v0.2.31 with source fallback forbidden and inspect acceptance.json, isolation.json, cleanup.json, and manifests."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/work-items/first-adopter-smoke.contract.json",
+        ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/verify-first.json",
+        ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/verify-reuse.json"
+      ],
+      "expected": "first-adopter-smoke stays not_ready and the second verification reuses prior evidence without spawning a process.",
+      "required": true,
+      "scenario": "evidence reuse and not_ready scaffold",
+      "status": "verified",
+      "verificationPlan": "Inspect first-adopter-smoke.contract.json, verify-first.json, verify-reuse.json, and reuse assertion in acceptance.json."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/installed-runtime.json",
+        ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/installed-inspect.json",
+        ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/installed-status.json",
+        ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/installed-doctor.json",
+        ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/installed-agent-doctor.json"
+      ],
+      "expected": "The installed v0.2.31 binary passes explicit inspect, status, doctor, and Agent doctor for the current repository without changing existing user-owned files.",
+      "required": true,
+      "scenario": "installed Runtime self-governance",
+      "status": "verified",
+      "verificationPlan": "Run the installed binary with --repo /Users/sei-rinn/dev/workspace_rust/ai-cockpit and compare runtime identity and root status."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-24T06:49:53Z",
+  "workItemId": "WI-239-release-v0-2-31-adopter-acceptance"
+}

@@ -1,0 +1,66 @@
+{
+  "disposition": "retained",
+  "headDigest": "sha256:b2af55ba7385a91fe993356154362285c759d06af89f2370d0ec368fa2247073",
+  "headPath": ".ai/decisions/release-adopter-lifecycle.finalize.json",
+  "receipt": {
+    "actor": "harness:release-adopter",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "release-adopter-acceptance",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "5976ae18f85e8a1a1641661308e31c7c3fe8c1c3",
+      "name": "master",
+      "remote": "local"
+    },
+    "contractDigest": "sha256:4d6d2d94c0b7518e95a751d7062549687df50d5bece962a4821440f155893b39",
+    "operationId": "retain-release-adopter-lifecycle",
+    "provider": "release-adopter-harness",
+    "pullRequest": {
+      "baseBranch": "master",
+      "baseRemote": "local",
+      "baseRevision": "5976ae18f85e8a1a1641661308e31c7c3fe8c1c3",
+      "headRevision": "5976ae18f85e8a1a1641661308e31c7c3fe8c1c3",
+      "mergeCommit": "5976ae18f85e8a1a1641661308e31c7c3fe8c1c3",
+      "number": 1,
+      "url": "acceptance://v0.2.31/release-adopter-lifecycle"
+    },
+    "reason": "The isolated adopter fixture is intentionally retained after lifecycle verification.",
+    "receiptId": "release-adopter-release-adopter-lifecycle",
+    "repositoryId": "sha256:0865f998612644ef749d74c32d8963bdcf957a61f98acd9a22022ca07568bf6f",
+    "resourceContext": {
+      "baseBranch": "master",
+      "baseRemote": "local",
+      "branch": "master",
+      "provider": "release-adopter-harness",
+      "pullRequest": "acceptance://v0.2.31/release-adopter-lifecycle",
+      "worktree": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-adopter-acceptance.jKJlT5/adopter"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+    "runtimeVersion": "0.2.31",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-24T06:22:35Z",
+    "workItemId": "release-adopter-lifecycle",
+    "worktree": {
+      "branch": "master",
+      "headRevision": "5976ae18f85e8a1a1641661308e31c7c3fe8c1c3",
+      "path": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-adopter-acceptance.jKJlT5/adopter",
+      "worktreeId": "release-adopter-lifecycle"
+    }
+  },
+  "sequence": 0,
+  "state": "verified",
+  "workItemId": "release-adopter-lifecycle"
+}
