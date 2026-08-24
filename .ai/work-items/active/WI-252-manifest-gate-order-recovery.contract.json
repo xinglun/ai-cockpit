@@ -1,0 +1,32 @@
+{
+  "acceptanceCriteria": [],
+  "authority": "unknown",
+  "baseRevision": "5f8bf6eea60401f1b6214707bc9c715f9b642a7d",
+  "createdAt": "2026-08-24T14:16:12Z",
+  "goal": "",
+  "intent": "",
+  "mode": "code",
+  "outOfScope": [],
+  "predecessorContractDigest": "sha256:9980e8cfa7f43fc164e949f3463042814732d51c76c689f93f23dc12f4162b61",
+  "predecessorWorkItemId": "WI-245-doc-status-parity-recovery",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-245-doc-status-parity-recovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c62c5222a25eed313b3f6cdb7a79ae3871d4af4618c38dd4b07d44d4b863389a",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-245-doc-status-parity-recovery",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi245-doc-status-parity-recovery"
+  },
+  "risk": "unknown",
+  "scope": [],
+  "sources": [],
+  "state": "not_ready",
+  "verification": [],
+  "workItemId": "WI-252-manifest-gate-order-recovery"
+}
