@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "reviewed-pr-hosted-checks",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "05cc9022927c4f0da5dc2d05efb60656a4bb698f",
+    "name": "codex/wi239-adopter-v0-2-31-replay",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:d88f0fe45d92463a29454afe7fa0bd04121d562899b3be18faf958a6ec5126ac",
+  "operationId": "operation-WI-239-release-v0-2-31-adopter-acceptance-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "b89c331d70230b138d8ac753d6fb4202cd96eea5",
+    "headRevision": "05cc9022927c4f0da5dc2d05efb60656a4bb698f",
+    "number": 191,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/191"
+  },
+  "reason": "awaiting_merge_close: PR #191 is unmerged; retain the exact reviewed branch and clean worktree until hosted checks pass and the reviewed head is merged.",
+  "receiptId": "ai-cockpit-WI-239-release-v0-2-31-adopter-acceptance-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi239-adopter-v0-2-31-replay",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/191",
+    "worktree": "/private/tmp/ai-cockpit-wi239-adopter-v031-replay"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-24T07:20:00Z",
+  "workItemId": "WI-239-release-v0-2-31-adopter-acceptance",
+  "worktree": {
+    "branch": "codex/wi239-adopter-v0-2-31-replay",
+    "headRevision": "05cc9022927c4f0da5dc2d05efb60656a4bb698f",
+    "path": "/private/tmp/ai-cockpit-wi239-adopter-v031-replay",
+    "worktreeId": "WI-239-release-v0-2-31-adopter-acceptance"
+  }
+}
