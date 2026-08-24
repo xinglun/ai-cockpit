@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:967ab4b86c3fd262e4821afee448cc239b654ded80695b250226928c4c6405d8",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:ea0afe517d5806c1c674b034d5b214a1f5bb5337a41f8d6b5e0a9a96a55f6d78",
+  "reason": "Explicitly confirms only the current WI-253 Contract scope: terminalize WI-252 tri-language Work Item and reference-parity documentation and add closed-conditional status regression coverage. Every WI-252 immutable lifecycle byte, business code, and release publication remains out of scope.",
+  "recordedAt": "2026-08-24T15:06:02Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:acc80ad4ab7783b192a780171635c8388392ef38d1b44f0f20b6da1214f4fc5e",
+  "schemaVersion": 1,
+  "workItemId": "WI-253-docs-terminalization"
+}

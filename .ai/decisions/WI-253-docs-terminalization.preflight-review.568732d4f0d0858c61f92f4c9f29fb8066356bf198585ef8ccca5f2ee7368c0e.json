@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:850de4b00c0919face617e700eb5cd4a810c362f1baae7c8a14257ccf98a72cb",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "reason": "Fresh review confirms the same bounded WI-253 docs-terminalization scope after exact PR #205 resource context binding; immutable WI-252 predecessor bytes, Runtime business logic, release publication, and reference inventory remain out of scope.",
+  "recordedAt": "2026-08-24T15:16:29Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2529d4ed579100193279bc3bc38171c13806d0a5429c2a7a23bff57965bff9bf",
+  "schemaVersion": 1,
+  "workItemId": "WI-253-docs-terminalization"
+}

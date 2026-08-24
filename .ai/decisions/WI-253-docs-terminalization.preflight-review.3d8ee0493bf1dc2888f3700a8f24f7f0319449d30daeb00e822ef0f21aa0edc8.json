@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:7c1cde3519ed6959e7da89ceba006f2fd4c99c047e440dc05e7949d922190b52",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "reason": "Fresh review confirms the exact amended WI-253 Contract including its three required scenarioCoverage entries. Authority remains limited to WI-252 tri-language docs/reference parity terminalization and closed-conditional checker regression; immutable predecessor bytes, business code, release publication, and the already-valid reference inventory checker remain out of scope.",
+  "recordedAt": "2026-08-24T15:07:19Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:acc80ad4ab7783b192a780171635c8388392ef38d1b44f0f20b6da1214f4fc5e",
+  "schemaVersion": 1,
+  "workItemId": "WI-253-docs-terminalization"
+}

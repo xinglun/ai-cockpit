@@ -6,7 +6,7 @@ description: "immutable failed WI-245 delivery を recovery し、repository gat
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-252-manifest-gate-order-recovery
 authority: canonical
 ---
@@ -37,9 +37,13 @@ bytes は本 delivery の外に保持され、rewrite されません。
 regression は最初に PR #203 の `gate IDs must be deterministic` failure を再現し、
 ID の ordering と negative fixture の追加後に manifest / quality-route suites を
 通過しました。full docs、governance、format、clippy、workspace、installed Runtime、
-exact-head hosted check も必要です。この pre-archive row は future archived Contract、
-verification evidence、canonical finalization、structured close を参照し、reviewed
-close 前に完了を claim しません。
+exact-head hosted checks もすべて通過しています。terminal record は archived Contract
+`.ai/work-items/archive/WI-252-manifest-gate-order-recovery.contract.json`、verification
+evidence `.ai/evidence/WI-252-manifest-gate-order-recovery.verification.json`、sequence-2
+deleted transition
+`.ai/decisions/WI-252-manifest-gate-order-recovery.finalize.07417ba5ea8607d8f6267297eeaa81350c6394ef2245a1733da8edb253ef6951.json`、
+structured close `.ai/decisions/WI-252-manifest-gate-order-recovery.close.json` に binding
+されています。
 
 ## References
 

@@ -17,6 +17,20 @@ PARITY_DOCUMENTS = (
     ("docs/reference/reference-parity.ja.md", {"Implemented": "implemented", "Recovered": "recovered"}),
 )
 
+TERMINAL_DOC_ENFORCEMENT_MINIMUM = 252
+TERMINAL_CONDITIONAL_PATTERNS = (
+    r"\bin\s+progress\s*→",
+    r"\bimplemented\s+after(?:\s+verified)?\s+close\b",
+    r"\bpre[- ]?archive\s+(?:row|status)\b",
+    r"\b(?:does\s+not|do\s+not)\s+claim\s+completion\s+before\s+(?:reviewed\s+)?close\b",
+    r"进行中\s*→",
+    r"验证关闭后",
+    r"关闭后已实现",
+    r"(?:reviewed\s+)?close\s*前[^。\n]*(?:不|未)",
+    r"verified\s+close\s*後",
+    r"(?:reviewed\s+)?close\s*前",
+)
+
 
 def load_regular_json(path: Path) -> dict[str, Any] | None:
     if path.is_symlink() or not path.is_file():
@@ -120,6 +134,17 @@ def valid_recovery(path: Path, work_item_id: str, repository_id: str) -> bool:
     )
 
 
+def retains_conditional_lifecycle_wording(path: Path) -> bool:
+    try:
+        text = path.read_text(encoding="utf-8").lower()
+    except OSError:
+        return False
+    return any(
+        re.search(pattern, text, re.IGNORECASE) is not None
+        for pattern in TERMINAL_CONDITIONAL_PATTERNS
+    )
+
+
 def verifier_is_authoritative(
     repository: Path, verifier: str, work_item_id: str, repository_id: str
 ) -> bool | None:
@@ -200,6 +225,15 @@ def check(repository: Path) -> list[str]:
         has_recovery = valid_recovery(recovery, work_item_id, repository_id)
         if not (has_close or has_recovery):
             continue
+
+        work_item_number = int(short.split("-")[1].rstrip("ABCDEFGHIJKLMNOPQRSTUVWXYZ"))
+        if work_item_number >= TERMINAL_DOC_ENFORCEMENT_MINIMUM:
+            for document in documents:
+                if retains_conditional_lifecycle_wording(document):
+                    errors.append(
+                        f"{document.relative_to(repository)}: "
+                        "terminal Work Item document retains conditional lifecycle wording"
+                    )
 
         parity = rows.get(short, [])
         if "conditional" in parity:

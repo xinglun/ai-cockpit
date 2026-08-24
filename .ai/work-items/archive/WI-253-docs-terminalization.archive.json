@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-24T15:34:42Z",
+  "files": {
+    "contractDigest": "sha256:6ee0a4cc17076ada921d7449ca10cd4e6d20f440e286a8d7c19756473ef9f6c9",
+    "contractPath": ".ai/work-items/archive/WI-253-docs-terminalization.contract.json",
+    "eventsDigest": "sha256:7fa42c8a1184e0b49ec73e178baae7c2234a9bb76ac874e4381126d2783d2adf",
+    "eventsPath": ".ai/work-items/archive/WI-253-docs-terminalization.events.jsonl",
+    "outcomeDigest": "sha256:d932a9f133b6d33515fd0b1541d919c8f82a034852730fb1c382fc74eb990635",
+    "outcomePath": ".ai/work-items/archive/WI-253-docs-terminalization.outcome.json",
+    "summaryDigest": "sha256:d5b6489473ab3e5b66d26ca6a523a669d6ec677fa6b2eb8aa0d32b564c00acfe",
+    "summaryPath": ".ai/work-items/archive/WI-253-docs-terminalization.summary.json",
+    "taskReportDigest": "sha256:417a2a1a0e59e35e58df3b8b6f15eb1176bd13e1256bb3854c19bd3f4e300fa4",
+    "taskReportMarkdownDigest": "sha256:16f3aacb1abf8868d97c0e8f574f89754b9b07d494d10bfafe5bd175f42c16e4",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-253-docs-terminalization.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-253-docs-terminalization.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-253-docs-terminalization"
+}

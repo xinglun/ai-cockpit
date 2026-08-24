@@ -6,7 +6,7 @@ description: "Recover the immutable failed WI-245 delivery and make repository g
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-252-manifest-gate-order-recovery
 authority: canonical
 ---
@@ -38,9 +38,15 @@ The regression first reproduced PR #203's
 `gate IDs must be deterministic` failure, then passed the manifest and quality
 route suites after ordering the IDs and adding negative fixtures. Full docs,
 governance, formatting, clippy, workspace, installed Runtime, and exact-head
-hosted checks remain required. This pre-archive row cites the future archived
-Contract, verification evidence, canonical finalization, and structured close;
-it does not claim completion before reviewed close.
+hosted checks passed on the reviewed delivery. The terminal record binds the
+archived Contract
+`.ai/work-items/archive/WI-252-manifest-gate-order-recovery.contract.json`,
+verification evidence
+`.ai/evidence/WI-252-manifest-gate-order-recovery.verification.json`, the
+sequence-2 deleted transition
+`.ai/decisions/WI-252-manifest-gate-order-recovery.finalize.07417ba5ea8607d8f6267297eeaa81350c6394ef2245a1733da8edb253ef6951.json`,
+and structured close
+`.ai/decisions/WI-252-manifest-gate-order-recovery.close.json`.
 
 ## References
 

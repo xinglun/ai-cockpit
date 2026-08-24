@@ -145,6 +145,35 @@ if python3 "$checker" --repo "$fixture" >"$tmp/conditional.out" 2>"$tmp/conditio
 fi
 grep -Fq 'terminal Work Item retains conditional parity status' "$tmp/conditional.err"
 
+for parity_document in \
+  "$fixture/docs/reference/reference-parity.md" \
+  "$fixture/docs/reference/reference-parity.ja.md"; do
+  perl -0pi -e 's/In progress → Implemented after verified close/Implemented/' "$parity_document"
+done
+perl -0pi -e 's/进行中 → 验证关闭后已实现/已实现/' \
+  "$fixture/docs/reference/reference-parity.zh-CN.md"
+for document in "$fixture"/docs/work-items/$work_item*.md; do
+  perl -0pi -e 's/status: recovered/status: implemented/' "$document"
+done
+python3 "$checker" --repo "$fixture"
+
+for case in \
+  ".md|This pre-archive status becomes Implemented after verified close." \
+  ".zh-CN.md|此预归档状态会在验证关闭后变为已实现。" \
+  ".ja.md|この pre-archive status は verified close 後に Implemented になります。"; do
+  suffix=${case%%|*}
+  conditional=${case#*|}
+  document="$fixture/docs/work-items/$work_item$suffix"
+  printf '\n%s\n' "$conditional" >> "$document"
+  if python3 "$checker" --repo "$fixture" >"$tmp/body-conditional.out" 2>"$tmp/body-conditional.err"; then
+    echo "status consistency accepted terminal Work Item conditional wording in $suffix" >&2
+    exit 1
+  fi
+  grep -Fq "docs/work-items/$work_item$suffix: terminal Work Item document retains conditional lifecycle wording" \
+    "$tmp/body-conditional.err"
+  perl -0pi -e 's/\n[^\n]*\n\z/\n/' "$document"
+done
+
 python3 "$checker" --repo "$root"
 
 echo 'work item status consistency regression passed'

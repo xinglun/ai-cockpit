@@ -1,0 +1,152 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "Runtime v0.2.31 successor receipt binding WI-252 Contract, Summary, Outcome, Events, archive, verification, sequence-2 finalization, and close paths and digests",
+          "path": ".ai/decisions/WI-252-manifest-gate-order-recovery.recovery.json",
+          "type": "decision",
+          "verification": "Runtime recover succeeded; git diff from base contains no WI-252 immutable archive/evidence/finalization/close path"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "WI-252 terminal Implemented row and equivalent Simplified Chinese/Japanese rows plus tri-language Work Item documents",
+          "path": "docs/reference/reference-parity.md",
+          "type": "document",
+          "verification": "documentation acceptance, parity status, and governance integrity checks passed for the actual closed WI-252 state"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "English, Simplified Chinese, and Japanese closed-conditional negative fixtures",
+          "path": "tests/docs/work_item_status_consistency_test.sh",
+          "type": "test",
+          "verification": "TDD RED observed before checker implementation; focused status consistency and documentation acceptance suites now pass"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "intentional targetWorkingTreeFileCount drift fixture followed by canonical 5119-record successful validation",
+          "path": "tests/conformance/reference_file_inventory_test.sh",
+          "type": "test",
+          "verification": "reference inventory regression passed and no reference inventory path changed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "Current Runtime v0.2.31 PR/T2 verification evidence bound to the final acceptance, intent, and scenario controls",
+          "path": ".ai/evidence/WI-253-docs-terminalization.verification.json",
+          "type": "verification",
+          "verification": "fmt, clippy, full workspace, all focused docs/governance/inventory checks, and installed Runtime verify passed"
+        },
+        {
+          "locator": "exact head 305f10c2a8a851833c824ebe933c2826b5f53998 runs 32744647573 and 32744655218",
+          "path": "https://github.com/xinglun/ai-cockpit/pull/205",
+          "type": "provider",
+          "verification": "push and pull_request hosted quality, Windows Runtime, and V1 behavioral oracle all passed"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-252-manifest-gate-order-recovery.recovery.json",
+    ".ai/work-items/archive/WI-253-docs-terminalization.contract.json",
+    ".ai/work-items/archive/WI-253-docs-terminalization.summary.json"
+  ],
+  "checkpointAt": "2026-08-24T15:07:41Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T15:02:53Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:850de4b00c0919face617e700eb5cd4a810c362f1baae7c8a14257ccf98a72cb",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+    "reason": "Fresh final review confirms the unchanged authorized WI-253 scope after acceptance evidence and the current Runtime verification snapshot were bound; exact-head hosted quality, Windows Runtime, and V1 oracle checks passed.",
+    "recordedAt": "2026-08-24T15:31:23Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:de38f3dac40ef33365b8d2584ba4a52724f921313630beefb183668ef119de34",
+    "schemaVersion": 1,
+    "workItemId": "WI-253-docs-terminalization"
+  },
+  "intentAlignment": {
+    "basis": "WI-253 preserves every immutable WI-252 governance record, projects actual terminal truth in the authorized tri-language docs, and adds only the bounded closed-conditional status regression; the inventory warning was classified without widening scope.",
+    "evidence": [
+      ".ai/decisions/WI-252-manifest-gate-order-recovery.recovery.json",
+      "docs/work-items/WI-252-manifest-gate-order-recovery.md",
+      "docs/reference/reference-parity.md",
+      "tests/docs/work_item_status_consistency.py",
+      "tests/docs/work_item_status_consistency_test.sh",
+      "bash tests/conformance/reference_file_inventory_test.sh"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "predecessorContractDigest": "sha256:373680be307417d889688e5953e0314056f6ad657415c0f1da277be54c5e742c",
+  "predecessorWorkItemId": "WI-252-manifest-gate-order-recovery",
+  "preflightAt": "2026-08-24T15:34:16Z",
+  "preflightContractDigest": "sha256:850de4b00c0919face617e700eb5cd4a810c362f1baae7c8a14257ccf98a72cb",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:de38f3dac40ef33365b8d2584ba4a52724f921313630beefb183668ef119de34",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-252-manifest-gate-order-recovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "bash tests/docs/documentation_acceptance.sh: passed",
+        "bash tests/docs/parity_status_check.sh . target/WI-253-parity-status.json: passed",
+        "python3 tests/ci/governance_integrity_gate.py --repo . --report target/WI-253-governance-integrity.json: passed for 212 Work Items",
+        "git diff confirms no WI-252 immutable archive, evidence, finalization, or close bytes changed"
+      ],
+      "expected": "All three WI-252 Work Item documents and all three reference-parity rows state terminal Implemented truth and bind the actual archive Contract, verification evidence, sequence-2 deleted finalization transition, and structured close decision without changing those immutable records.",
+      "required": true,
+      "scenario": "terminal-wi252-projection",
+      "status": "verified",
+      "verificationPlan": "Run documentation acceptance, status consistency, parity, and governance integrity checks against the real closed WI-252 repository state."
+    },
+    {
+      "evidence": [
+        "TDD RED: the previous checker accepted closed conditional Work Item text",
+        "bash tests/docs/work_item_status_consistency_test.sh: passed with English, Simplified Chinese, and Japanese negative fixtures",
+        "bash tests/docs/documentation_acceptance.sh: passed"
+      ],
+      "expected": "A fixture representing a closed Work Item with conditional or pre-archive wording fails the existing documentation/status checker in each supported language, while exact terminal wording passes.",
+      "required": true,
+      "scenario": "closed-conditional-negative-fixture",
+      "status": "verified",
+      "verificationPlan": "Add focused failing fixtures first, observe RED, then minimally strengthen documentation acceptance/status consistency and rerun the focused suites."
+    },
+    {
+      "evidence": [
+        "bash tests/conformance/reference_file_inventory_test.sh: passed",
+        "target working-tree count warning appeared only in the intentional jq drift negative fixture",
+        "canonical inventory validation ended ok=true with 5119 records",
+        "git diff confirms no reference inventory file changed"
+      ],
+      "expected": "The target working-tree count warning is emitted only by the intentionally drifted negative fixture, the canonical inventory count/digest remain normalized to the pinned commit, and the conformance suite exits successfully without production changes.",
+      "required": true,
+      "scenario": "inventory-negative-output-classification",
+      "status": "verified",
+      "verificationPlan": "Run the inventory regression and inspect its negative fixture plus final success exit; retain the checker out of scope unless a distinct focused failure appears."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-24T15:34:22Z",
+  "workItemId": "WI-253-docs-terminalization"
+}

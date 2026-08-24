@@ -1,0 +1,114 @@
+{
+  "acceptanceCriteria": [
+    "A1: The Runtime recovery receipt binds WI-252 canonical Contract, Summary, Outcome, Events, archive, verification, sequence-2 finalization, and close evidence while every WI-252 immutable byte remains unchanged.",
+    "A2: WI-252 English, Simplified Chinese, and Japanese Work Item and reference-parity entries are terminal Implemented truth with no conditional/pre-archive wording and exact links to archive Contract, verification evidence, sequence-2 deleted finalization transition, and structured close decision.",
+    "A3: Documentation acceptance and Work Item status consistency regressions reject a closed Work Item that retains conditional pre-archive status, across all three languages, while valid terminal projections pass.",
+    "A4: The target working-tree normalization message is proven to come from the existing expected negative inventory fixture; the canonical manifest remains normalized and the conformance gate passes, with no checker change unless a focused RED demonstrates a real in-scope defect.",
+    "A5: Unique tri-language WI-253 documentation records the bounded successor boundary, and documentation acceptance, status consistency, parity, governance integrity, inventory, formatting, clippy, full workspace, installed Runtime, and exact-head hosted checks all pass."
+  ],
+  "authority": "human:repository-owner via explicit WI-253 docs-terminalization successor authorization after WI-252 terminal hosted quality failure",
+  "baseRevision": "0ed41d1ca6f6b6455d3a42d91a2d578fe5b178eb",
+  "createdAt": "2026-08-24T15:02:53Z",
+  "goal": "Bind WI-252 tri-language Work Item and parity projections to its actual archive, verification, sequence-2 finalization, and structured close receipts; strengthen existing documentation/status regression checks; keep the reference inventory normalization negative fixture correctly classified.",
+  "intent": "Terminalize WI-252 documentation after its immutable, verified close and prevent future closed Work Items from retaining conditional pre-archive status in user-facing documentation.",
+  "mode": "code",
+  "outOfScope": [
+    ".ai/work-items/archive/WI-252-manifest-gate-order-recovery.*",
+    ".ai/evidence/WI-252-manifest-gate-order-recovery.verification.json",
+    ".ai/decisions/WI-252-manifest-gate-order-recovery.finalize*.json",
+    ".ai/decisions/WI-252-manifest-gate-order-recovery.close.json",
+    "Runtime/Core lifecycle behavior",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "release assets",
+    "published release truth",
+    "user-owned root worktree"
+  ],
+  "predecessorContractDigest": "sha256:373680be307417d889688e5953e0314056f6ad657415c0f1da277be54c5e742c",
+  "predecessorWorkItemId": "WI-252-manifest-gate-order-recovery",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-252-manifest-gate-order-recovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:acc80ad4ab7783b192a780171635c8388392ef38d1b44f0f20b6da1214f4fc5e",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-253-docs-terminalization",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/205",
+    "worktree": "/private/tmp/ai-cockpit-wi253-docs-terminalization"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "All three WI-252 Work Item documents and all three reference-parity rows state terminal Implemented truth and bind the actual archive Contract, verification evidence, sequence-2 deleted finalization transition, and structured close decision without changing those immutable records.",
+      "required": true,
+      "scenario": "terminal-wi252-projection",
+      "status": "unverified",
+      "verificationPlan": "Run documentation acceptance, status consistency, parity, and governance integrity checks against the real closed WI-252 repository state."
+    },
+    {
+      "evidence": [],
+      "expected": "A fixture representing a closed Work Item with conditional or pre-archive wording fails the existing documentation/status checker in each supported language, while exact terminal wording passes.",
+      "required": true,
+      "scenario": "closed-conditional-negative-fixture",
+      "status": "unverified",
+      "verificationPlan": "Add focused failing fixtures first, observe RED, then minimally strengthen documentation acceptance/status consistency and rerun the focused suites."
+    },
+    {
+      "evidence": [],
+      "expected": "The target working-tree count warning is emitted only by the intentionally drifted negative fixture, the canonical inventory count/digest remain normalized to the pinned commit, and the conformance suite exits successfully without production changes.",
+      "required": true,
+      "scenario": "inventory-negative-output-classification",
+      "status": "unverified",
+      "verificationPlan": "Run the inventory regression and inspect its negative fixture plus final success exit; retain the checker out of scope unless a distinct focused failure appears."
+    }
+  ],
+  "scope": [
+    ".ai/decisions/WI-252-manifest-gate-order-recovery.recovery.json",
+    "docs/work-items/WI-252-manifest-gate-order-recovery.md",
+    "docs/work-items/WI-252-manifest-gate-order-recovery.zh-CN.md",
+    "docs/work-items/WI-252-manifest-gate-order-recovery.ja.md",
+    "docs/work-items/WI-253-docs-terminalization.md",
+    "docs/work-items/WI-253-docs-terminalization.zh-CN.md",
+    "docs/work-items/WI-253-docs-terminalization.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/docs/work_item_status_consistency.py",
+    "tests/docs/work_item_status_consistency_test.sh"
+  ],
+  "sources": [
+    "origin/main@0ed41d1ca6f6b6455d3a42d91a2d578fe5b178eb",
+    ".ai/decisions/WI-252-manifest-gate-order-recovery.recovery.json",
+    ".ai/work-items/archive/WI-252-manifest-gate-order-recovery.archive.json",
+    ".ai/evidence/WI-252-manifest-gate-order-recovery.verification.json",
+    ".ai/decisions/WI-252-manifest-gate-order-recovery.finalize.07417ba5ea8607d8f6267297eeaa81350c6394ef2245a1733da8edb253ef6951.json",
+    ".ai/decisions/WI-252-manifest-gate-order-recovery.close.json",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/32741633716",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/32741633518",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/docs/work_item_status_consistency.py",
+    "tests/docs/work_item_status_consistency_test.sh",
+    "tests/conformance/reference_file_inventory_test.sh"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/work_item_status_consistency_test.sh",
+    "bash tests/docs/parity_status_check.sh . target/WI-253-parity-status.json",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report target/WI-253-governance-integrity.json",
+    "bash tests/conformance/reference_file_inventory_test.sh",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-253-docs-terminalization"
+}
