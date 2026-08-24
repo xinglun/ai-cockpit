@@ -6,7 +6,7 @@ description: "parity を変更する Work Item に verification 前の lifecycle
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-249-parity-finalization-registration
 authority: canonical
 ---

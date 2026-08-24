@@ -6,7 +6,7 @@ description: "要求修改 parity 的 Work Item 在 verification 前登记 lifec
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-249-parity-finalization-registration
 authority: canonical
 ---

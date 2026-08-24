@@ -6,7 +6,7 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-211-hermetic-governance-fixture
-status: current
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-211-hermetic-governance-fixture
 ---

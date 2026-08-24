@@ -20,12 +20,13 @@ capabilityClaims:
 ## 固定基线
 
 - 参考源：[spirex-ds-dev/ai-cockpit-template](https://github.com/spirex-ds-dev/ai-cockpit-template)，提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf`。
-- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `46e426625a8cae450f1190d0bdbafd6d8e648a90`。
-- 比较时使用的 Runtime：`ai-cockpit 0.2.27`，binary SHA256 为 `ea9a4a090307cb650eeda008942a5bc72fd0d1276b131405868f31d1eabcc048`。
+- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `87bfd86645adf7f4a6f86e447763542988371039`。
+- 比较时使用的 Runtime：`ai-cockpit 0.2.31`，binary SHA256 为 `1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9`。
 
 机器可读台账见
 [`reference_file_inventory.json`](../../tests/conformance/reference_file_inventory.json)。
 回归检查要求每个参考源 tracked path 都有且只有一个分类，并拒绝首批未分类文件。
+目标 checkout metadata 从固定 commit 派生，不受 dirty 或 untracked 工作树文件影响。
 
 ## 分类规则
 
@@ -56,6 +57,22 @@ Makefile target、YAML guard 树、provider 全局规则或生成历史。
 
 因此，首批发现的唯一具体入口缺口（`CONTRIBUTING.md`）已补齐，但没有建立第二套
 治理系统。其余文件已在台账中明确排入后续语义批次，不会被静默当作等效。
+
+## 当前台账快照
+
+在固定的 v0.2.31 比较基线上，台账共有 5,119 条记录：4,262 条
+`generated-history`、132 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、720 条 `deferred-next-batch` 与 4 条
+`migrate-gap`。deferred 记录仍是待比较工作，不是 parity 声明。四个尚未补齐的
+capability/profile 文件是：
+
+1. `.ai/project/adopter-capability-manifest.json`
+2. `.ai/project/capabilities.json`
+3. `.ai/project/success_criteria.json`
+4. `.ai/project_profile.yaml`
+
+治理入口、getting-started 路线、CI/release 边界与 capability projection 已按该基线审阅；
+现有 Rust 行为不会自动关闭这四个文件级 gap，也不会把 720 条 deferred 语义比较当作完成。
 
 ## 批次顺序
 

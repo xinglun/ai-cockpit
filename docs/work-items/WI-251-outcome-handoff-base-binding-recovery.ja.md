@@ -6,7 +6,7 @@ description: "Lifecycle Outcome を再 delivery し、archived Contract/PR base 
 audience:
   - adopter
   - maintainer
-status: current
+status: implemented
 lastVerifiedBy: WI-251-outcome-handoff-base-binding-recovery
 authority: canonical
 ---

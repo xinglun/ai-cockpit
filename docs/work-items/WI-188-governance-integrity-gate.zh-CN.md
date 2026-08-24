@@ -6,7 +6,7 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-188-governance-integrity-gate
-status: current
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-188-governance-integrity-gate
 ---

@@ -6,7 +6,7 @@ description: "闭合合并后的治理流程，防止 stale merged receipt，并
 audience:
   - maintainer
   - reviewer
-status: current
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-234-post-merge-governance-cleanup
 ---

@@ -6,7 +6,7 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-187-finalization-before-archive
-status: current
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-187-finalization-before-archive
 ---

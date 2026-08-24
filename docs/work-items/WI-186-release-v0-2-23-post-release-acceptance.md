@@ -6,7 +6,7 @@ description: "Repository-local evidence that the immutable public v0.2.23 Runtim
 audience:
   - maintainer
   - reviewer
-status: current
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-186-release-v0-2-23-post-release-acceptance
 ---

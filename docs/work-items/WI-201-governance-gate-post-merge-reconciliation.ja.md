@@ -6,7 +6,7 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-201-governance-gate-post-merge-reconciliation
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-201-governance-gate-post-merge-reconciliation
 ---

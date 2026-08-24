@@ -6,7 +6,7 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-196-governance-recovery-gate-retry
-status: implemented
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-196-governance-recovery-gate-retry
 ---

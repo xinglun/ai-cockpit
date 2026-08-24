@@ -6,7 +6,7 @@ description: "Make parity-writing Work Items register lifecycle-bound terminal p
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-249-parity-finalization-registration
 authority: canonical
 ---
