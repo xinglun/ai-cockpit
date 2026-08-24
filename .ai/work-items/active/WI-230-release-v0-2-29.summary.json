@@ -36,6 +36,7 @@
   "checkpointAt": "2026-08-24T01:00:52Z",
   "checkpointCount": 1,
   "createdAt": "2026-08-24T00:59:56Z",
+  "failedGate": "finish.verification",
   "intentAlignment": {
     "basis": "WI-230 is the release boundary required to make the merged WI-229 Runtime fix installable and to close the previously blocked WI-227 lifecycle with the released binary.",
     "evidence": [
@@ -46,12 +47,14 @@
     "state": "resolved"
   },
   "mode": "code",
-  "preflightAt": "2026-08-24T01:09:05Z",
-  "preflightContractDigest": "sha256:18b52ce6477c89da2aa5f31f99a2405c2acdb5234c4ef9a6e0db41c43a396bf4",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:83ff255d7001beaac49aaccb04ca448fa0b15917eb235033807e3451c05dc14f",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-24T01:10:55Z",
+  "preflightContractDigest": "sha256:5820201ae90af2c6ae37f1b166f5ca3ba4f16f0b65f630345188595bd16590b8",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "preflightRepositorySnapshotDigest": "sha256:20eb2cf58c74f4d118a1e350a593c347f10347033092265b5af658daf81bf0a6",
   "preflightState": "yellow",
   "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -83,6 +86,6 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-08-24T01:09:38.884752+00:00",
+  "updatedAt": "2026-08-24T01:10:08Z",
   "workItemId": "WI-230-release-v0-2-29"
 }
