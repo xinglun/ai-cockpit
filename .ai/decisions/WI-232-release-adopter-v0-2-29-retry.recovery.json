@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-recovery-after-archive-evidence-gate",
+  "decidedAt": "2026-08-24T02:19:55Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-232-release-adopter-v0-2-29-retry.verification.json",
+    ".ai/evidence/external/v0.2.29/adopter/acceptance.json",
+    ".ai/evidence/external/v0.2.29/upgrade/acceptance.json"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:8bc3582014a6c346378dd19cd4d1eebf836cf55e7246efed6f1934e192b533cd",
+  "predecessorEventsDigest": "sha256:d9dd4918476e6cd867d483f00d17415aec227559b4cc30b99f8efcfc27e00c22",
+  "predecessorOutcomeDigest": "sha256:92d51185f0ceeadc0fdd3bd7dd4fed3d4fe71e177b6545fbe55fa808a71770cd",
+  "predecessorSummaryDigest": "sha256:06bfdefee89f988243fc366ab7ad58a6a1d4a9a23122c51b6806eab7e2707a23",
+  "predecessorWorkItemId": "WI-232-release-adopter-v0-2-29-retry",
+  "reason": "The predecessor verification was valid at finish but archive correctly rejected the post-verification repository snapshot after generated governance records were committed. Preserve that immutable delivery and retry with archive performed before the post-archive evidence commit.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "WI-233 must bind its final Contract and PR context before verification, archive without a post-verification snapshot drift, then finalize, merge, exact-cleanup, and close.",
+  "runtimeDigest": "sha256:94d8ee4e27023e1cb677486164af3e96633411105a4596140d4c0f4e64776137",
+  "runtimeVersion": "0.2.29",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-233-release-adopter-v0-2-29-retry",
+  "workItemId": "WI-232-release-adopter-v0-2-29-retry"
+}
