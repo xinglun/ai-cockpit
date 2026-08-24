@@ -25,11 +25,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-232-release-adopter-v0-2-29-retry",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/182",
     "worktree": "/private/tmp/ai-cockpit-wi232-release-adopter-v0-2-29-retry"
   },
   "risk": "normal",
