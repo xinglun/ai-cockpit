@@ -203,7 +203,7 @@ the current Runtime:
 ```bash
 tests/release/adopter_upgrade_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --from-tag v0.2.27 \
+  --from-tag v0.2.28 \
   --to-tag v0.2.29 \
   --target x86_64-unknown-linux-gnu \
   --output ./release-adopter-upgrade-acceptance
