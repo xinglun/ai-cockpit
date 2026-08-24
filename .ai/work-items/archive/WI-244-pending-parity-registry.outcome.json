@@ -1,0 +1,138 @@
+{
+  "acceptanceResults": [
+    "A schemaVersion 1 registry entry is accepted only when repositoryId, full Work Item ID, provider, PR number and URL, base and head SHA, expected archive/evidence/finalize paths, exact tri-language parity paths, state=in_progress, and RFC3339 createdAt all match repository facts.",
+    "Unknown fields, duplicate Work Item or PR identities, symlinks, unsafe paths, missing fields or expected records, foreign repository/provider/Work Item, and PR/base/head/path mismatches fail closed with deterministic findings.",
+    "Normal archive, verification evidence, and decision validation remains authoritative; pending may suppress only missing_parity_entry while an exact feature/pull-request context is unmerged.",
+    "Pending entries fail closed as stale on merged/default-branch state or after all exact tri-language parity rows exist.",
+    "The manifest and dynamic route execute the pending registry regression at light, standard, and strict profiles without allowing arbitrary command substitution.",
+    "English, Simplified Chinese, and Japanese workflow, Work Item, and reference parity documentation describe pending as non-terminal and require promotion/removal after merge."
+  ],
+  "createdAt": "2026-08-24T09:38:42Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:d98b5362f65cfc32a86b03199e7f6062fb8a1a7377be7a3ad62c553a4715710f",
+  "evidenceRefs": [
+    ".ai/evidence/WI-244-pending-parity-registry.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-244-pending-parity-registry.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-244-pending-parity-registry.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5a4e717ce270dead2a23bcf07091b4c2c3e5e689e085f4faf6143996a59e0464",
+      "workItemId": "WI-244-pending-parity-registry"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-244-pending-parity-registry.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-244-pending-parity-registry.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-244-pending-parity-registry.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-244-pending-parity-registry.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-244-pending-parity-registry.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-244-pending-parity-registry.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-244-pending-parity-registry.contract.json"
+          ],
+          "inference": false,
+          "text": "A typed fail-closed pending parity registry permits an explicitly bound in-progress Work Item to await tri-language parity registration without weakening normal archive, evidence, decision, merge, or route gates."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-244-pending-parity-registry.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-244-pending-parity-registry"
+  },
+  "taskReportDigest": "sha256:ddbbe613b38b6b554db5fc9a0d2dcb7b5de1b1b4cf5e22a75077b5e6020819eb",
+  "taskReportMarkdownDigest": "sha256:634f7131a0a00fbfe542d8817d8dd63bb378ec4f0e36abdddaeac37861845d95",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-244-pending-parity-registry.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-244-pending-parity-registry"
+}

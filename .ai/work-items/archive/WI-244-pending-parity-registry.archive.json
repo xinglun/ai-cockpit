@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-24T09:38:58Z",
+  "files": {
+    "approachDigest": "sha256:213726d15662dd97c14abe11f3576b4a7327d267a2ee48edc4ed1bb4ed399fac",
+    "approachPath": ".ai/work-items/archive/WI-244-pending-parity-registry.approach.json",
+    "contractDigest": "sha256:ae25defb499126f52b55f30c69b3efdd678d262ca42bb489479d70867f68838c",
+    "contractPath": ".ai/work-items/archive/WI-244-pending-parity-registry.contract.json",
+    "eventsDigest": "sha256:e171f1e9d5583445ceb4b7a870af54c1fde0f0093f61040914d437b1118fd244",
+    "eventsPath": ".ai/work-items/archive/WI-244-pending-parity-registry.events.jsonl",
+    "outcomeDigest": "sha256:add460944bddaef33929508d8ed69832a9767e91fc9343ba54d3397270aea61e",
+    "outcomePath": ".ai/work-items/archive/WI-244-pending-parity-registry.outcome.json",
+    "summaryDigest": "sha256:6723ef6b8560b54bc0f9d951edf1432b9324f62d1b16d8fa7b11e926a6881ceb",
+    "summaryPath": ".ai/work-items/archive/WI-244-pending-parity-registry.summary.json",
+    "taskReportDigest": "sha256:ddbbe613b38b6b554db5fc9a0d2dcb7b5de1b1b4cf5e22a75077b5e6020819eb",
+    "taskReportMarkdownDigest": "sha256:634f7131a0a00fbfe542d8817d8dd63bb378ec4f0e36abdddaeac37861845d95",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-244-pending-parity-registry.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-244-pending-parity-registry.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-244-pending-parity-registry"
+}
