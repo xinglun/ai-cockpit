@@ -8,6 +8,7 @@ audience:
   - reviewer
   - adopter
 status: current
+lastVerifiedBy: WI-239-release-v0-2-31-adopter-acceptance
 authority: canonical
 ---
 
