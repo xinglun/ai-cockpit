@@ -1,0 +1,63 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-252-manifest-gate-order-recovery.recovery.json",
+    ".ai/work-items/active/WI-253-docs-terminalization.contract.json",
+    ".ai/work-items/active/WI-253-docs-terminalization.summary.json"
+  ],
+  "checkpointAt": "2026-08-24T15:07:41Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T15:02:53Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:7c1cde3519ed6959e7da89ceba006f2fd4c99c047e440dc05e7949d922190b52",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+    "reason": "Fresh review confirms the exact amended WI-253 Contract including its three required scenarioCoverage entries. Authority remains limited to WI-252 tri-language docs/reference parity terminalization and closed-conditional checker regression; immutable predecessor bytes, business code, release publication, and the already-valid reference inventory checker remain out of scope.",
+    "recordedAt": "2026-08-24T15:07:19Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:acc80ad4ab7783b192a780171635c8388392ef38d1b44f0f20b6da1214f4fc5e",
+    "schemaVersion": 1,
+    "workItemId": "WI-253-docs-terminalization"
+  },
+  "mode": "code",
+  "predecessorContractDigest": "sha256:373680be307417d889688e5953e0314056f6ad657415c0f1da277be54c5e742c",
+  "predecessorWorkItemId": "WI-252-manifest-gate-order-recovery",
+  "preflightAt": "2026-08-24T15:07:36Z",
+  "preflightContractDigest": "sha256:7c1cde3519ed6959e7da89ceba006f2fd4c99c047e440dc05e7949d922190b52",
+  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "preflightRepositorySnapshotDigest": "sha256:acc80ad4ab7783b192a780171635c8388392ef38d1b44f0f20b6da1214f4fc5e",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-252-manifest-gate-order-recovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "All three WI-252 Work Item documents and all three reference-parity rows state terminal Implemented truth and bind the actual archive Contract, verification evidence, sequence-2 deleted finalization transition, and structured close decision without changing those immutable records.",
+      "required": true,
+      "scenario": "terminal-wi252-projection",
+      "status": "planned",
+      "verificationPlan": "Run documentation acceptance, status consistency, parity, and governance integrity checks against the real closed WI-252 repository state."
+    },
+    {
+      "evidence": [],
+      "expected": "A fixture representing a closed Work Item with conditional or pre-archive wording fails the existing documentation/status checker in each supported language, while exact terminal wording passes.",
+      "required": true,
+      "scenario": "closed-conditional-negative-fixture",
+      "status": "planned",
+      "verificationPlan": "Add focused failing fixtures first, observe RED, then minimally strengthen documentation acceptance/status consistency and rerun the focused suites."
+    },
+    {
+      "evidence": [],
+      "expected": "The target working-tree count warning is emitted only by the intentionally drifted negative fixture, the canonical inventory count/digest remain normalized to the pinned commit, and the conformance suite exits successfully without production changes.",
+      "required": true,
+      "scenario": "inventory-negative-output-classification",
+      "status": "planned",
+      "verificationPlan": "Run the inventory regression and inspect its negative fixture plus final success exit; retain the checker out of scope unless a distinct focused failure appears."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-08-24T15:07:41Z",
+  "workItemId": "WI-253-docs-terminalization"
+}

@@ -6,7 +6,7 @@ description: "恢复 WI-245 不可变失败交付，并令 repository gate IDs �
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-252-manifest-gate-order-recovery
 authority: canonical
 ---
@@ -32,10 +32,15 @@ finalization digests；这些历史 bytes 留在本交付之外，且不会被�
 ## 验证与生命周期
 
 回归先精确复现 PR #203 的 `gate IDs must be deterministic` 失败，再在排序 ID 并
-添加负向 fixtures 后通过 manifest 与 quality-route suites。还必须通过完整 docs、
-governance、format、clippy、workspace、installed Runtime 与 exact-head hosted checks。
-此 pre-archive 行引用未来 archived Contract、verification evidence、canonical
-finalization 与 structured close；reviewed close 前不声明完成。
+添加负向 fixtures 后通过 manifest 与 quality-route suites。完整 docs、governance、
+format、clippy、workspace、installed Runtime 与 exact-head hosted checks 均已通过。
+终态记录绑定 archived Contract
+`.ai/work-items/archive/WI-252-manifest-gate-order-recovery.contract.json`、verification
+evidence `.ai/evidence/WI-252-manifest-gate-order-recovery.verification.json`、sequence-2
+deleted transition
+`.ai/decisions/WI-252-manifest-gate-order-recovery.finalize.07417ba5ea8607d8f6267297eeaa81350c6394ef2245a1733da8edb253ef6951.json`
+以及 structured close
+`.ai/decisions/WI-252-manifest-gate-order-recovery.close.json`。
 
 ## 参考
 
