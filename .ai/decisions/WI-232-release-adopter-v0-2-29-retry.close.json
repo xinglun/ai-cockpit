@@ -1,0 +1,128 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-232-release-adopter-v0-2-29-retry.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7761a239813553c397997d025b76740ce1663d2d00b0f49cbb0fc96d97187b6d",
+      "workItemId": "WI-232-release-adopter-v0-2-29-retry"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-232-release-adopter-v0-2-29-retry.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-232-release-adopter-v0-2-29-retry.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-232-release-adopter-v0-2-29-retry.recovery.json",
+            ".ai/decisions/WI-232-release-adopter-v0-2-29-retry.recovery.862c2ff2f6fd31574ab048e3c96ec24c33a2e29de79cd9eb4f35591611985422.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'superseded' by human:repository-owner via explicit-recovery-after-archive-evidence-gate at 2026-08-24T02:22:30Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-232-release-adopter-v0-2-29-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-232-release-adopter-v0-2-29-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-232-release-adopter-v0-2-29-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-232-release-adopter-v0-2-29-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-232-release-adopter-v0-2-29-retry.contract.json"
+          ],
+          "inference": false,
+          "text": "Produce an auditable post-release acceptance baseline using only immutable public Release artifacts, then close the Work Item after reviewed PR merge and exact cleanup without changing Release truth."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-232-release-adopter-v0-2-29-retry.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-232-release-adopter-v0-2-29-retry"
+  },
+  "finalReportDigest": "sha256:89a7bf2fb8aa379cd90741e904535a7c47f1cff0994c403f2e67f296c2ae20bf",
+  "humanDecision": "superseded",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-recovery-after-archive-evidence-gate",
+    "decidedAt": "2026-08-24T02:22:30Z",
+    "decision": "superseded",
+    "evidenceRefs": [
+      ".ai/decisions/WI-232-release-adopter-v0-2-29-retry.recovery.json",
+      ".ai/decisions/WI-232-release-adopter-v0-2-29-retry.recovery.862c2ff2f6fd31574ab048e3c96ec24c33a2e29de79cd9eb4f35591611985422.json"
+    ],
+    "policyRefs": [
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "WI-232 is preserved as immutable historical recovery evidence; WI-233 retries the same acceptance with archive ordering corrected.",
+    "resumeCondition": "WI-233 must complete fresh verification, archive, finalization, merge, exact cleanup, and close."
+  },
+  "timestamp": "2026-08-24T02:22:06Z",
+  "workItemId": "WI-232-release-adopter-v0-2-29-retry"
+}

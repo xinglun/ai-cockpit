@@ -1,0 +1,17 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-232-release-adopter-v0-2-29-retry.recovery.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-08-24T02:21:01Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:8bc3582014a6c346378dd19cd4d1eebf836cf55e7246efed6f1934e192b533cd",
+  "predecessorWorkItemId": "WI-232-release-adopter-v0-2-29-retry",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-232-release-adopter-v0-2-29-retry.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "not_ready",
+  "updatedAt": "2026-08-24T02:21:01Z",
+  "workItemId": "WI-233-release-adopter-v0-2-29-retry"
+}
