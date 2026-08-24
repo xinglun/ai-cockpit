@@ -254,4 +254,6 @@ PY
 python3 tests/docs/work_item_status_consistency.py \
   --repo "${AI_COCKPIT_STATUS_DOCS_REPO:-$root}"
 
+python3 tests/docs/promote_closed_work_item.py --repo "$root" --check-all
+
 bash tests/docs/getting_started_semantic.sh

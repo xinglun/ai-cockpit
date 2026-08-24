@@ -143,6 +143,24 @@ verification 後にだけ archive でき、`finalize-verify` が `Deleted` ま�
 されません。一方、新しい finalization receipt は close を実行する Runtime に必ず bind
 されます。
 
+structured close の後には、controlled documentation projection と default-branch
+terminal check が必要です。
+
+```text
+close → promote closed docs → terminal CI
+```
+
+synchronized detached closure context で `python3
+tests/docs/promote_closed_work_item.py --repo <repo> --work-item <id>` を実行し、
+続けて同じ helper の `--check-all` を実行します。helper は regular non-symlink の
+archive、verification、linear finalization、sequence-2 deleted、merge、structured
+close identity を先に検証します。write boundary は exact 3 Work Item documents の
+machine-owned lifecycle frontmatter と、3 reference-parity documents の exact Work
+Item row だけです。body prose や `.ai` lifecycle truth は rewrite しません。invalid
+input は write 前に fail closed となり、stale projection は quality gate に失敗します。
+これは explicit repository workflow helper であり、Runtime Core による自動 Markdown
+mutation ではありません。
+
 ## Release tag の transition 順序
 
 PR の merge と有効な pre-merge finalization receipt の commit が完了してから Release

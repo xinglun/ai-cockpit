@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:b6f52b9d38114b2f791ae02f48de26e4235684c5581b597c666502a333528152",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:ea0afe517d5806c1c674b034d5b214a1f5bb5337a41f8d6b5e0a9a96a55f6d78",
+  "reason": "The repository owner explicitly authorizes only the WI-254 Contract as written: deterministic identity-bound post-close documentation promotion, mandatory check-only gating, tri-language lifecycle guidance, immediate WI-253 promotion, and post-close WI-254 self-promotion. All WI-253 immutable lifecycle bytes, automatic Runtime Core documentation mutation, unrelated Work Items, product behavior, and release publication remain outside authority. The four high-risk scenarios are approved for TDD implementation and must remain unverified until their declared checks run.",
+  "recordedAt": "2026-08-24T15:59:45Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:78eb3771126caeb97a8434d94a74f19d128967789b195ff41fe2ca8292a901c8",
+  "schemaVersion": 1,
+  "workItemId": "WI-254-closed-docs-promotion"
+}

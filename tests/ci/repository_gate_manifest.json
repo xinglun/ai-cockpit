@@ -8,6 +8,8 @@
     {"category": "conformance", "command": ["tests/conformance/final_replacement_acceptance_test.sh"], "id": "conformance_final_replacement", "minimumProfile": "standard"},
     {"category": "conformance", "command": ["tests/conformance/reference_file_inventory_test.sh"], "id": "conformance_reference_file_inventory", "minimumProfile": "standard"},
     {"category": "docs", "command": ["tests/docs/documentation_acceptance.sh"], "id": "docs_acceptance", "minimumProfile": "light"},
+    {"category": "docs", "command": ["python3", "tests/docs/promote_closed_work_item.py", "--repo", ".", "--check-all"], "id": "docs_closed_work_item_promotion", "minimumProfile": "light"},
+    {"category": "docs", "command": ["tests/docs/promote_closed_work_item_test.sh"], "id": "docs_closed_work_item_promotion_regression", "minimumProfile": "light"},
     {"category": "docs", "command": ["tests/docs/parity_status_check.sh"], "id": "docs_governance_integrity", "minimumProfile": "light"},
     {"category": "docs", "command": ["tests/docs/parity_status_check_test.sh"], "id": "docs_parity_regression", "minimumProfile": "light"},
     {"category": "docs", "command": ["tests/docs/pending_parity_registry_test.sh"], "id": "docs_pending_parity_registry_regression", "minimumProfile": "light"},

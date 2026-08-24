@@ -1,0 +1,79 @@
+{
+  "acceptanceCriteria": [
+    "A deterministic promotion helper accepts an exact Work Item ID only after regular-file non-symlink archive Contract, verification evidence, unique sequence-2 deleted finalization head, and structured close receipt agree on repository identity, Work Item identity, Contract/evidence/finalization digests, merge revision, and terminal decision; missing, malformed, ambiguous, foreign, symlinked, or mismatched inputs fail closed without document writes.",
+    "Promotion changes only explicit machine-owned frontmatter/marker fields in the three exact Work Item documents and the one exact Work Item row in each tri-language reference-parity document; it never rewrites Contract-language prose or any immutable lifecycle evidence.",
+    "A check-only mode and mandatory documentation/quality gate reject any structurally closed governed Work Item whose controlled tri-language projections are absent, conditional, stale, ambiguous, duplicated, or not canonical for its persisted terminal evidence.",
+    "WI-253 tri-language Work Item and reference-parity projections are promoted to terminal Implemented truth by the helper and cite its exact archive, verification, sequence-2 finalization, close, and recovery evidence without modifying predecessor lifecycle bytes.",
+    "Tri-language lifecycle and command documentation state the required close → promote closed docs → terminal CI sequence, the deterministic controlled-write boundary, the fail-closed identity checks, and the manual-helper boundary rather than claiming Runtime Core mutates docs automatically.",
+    "After WI-254 is merged, sequence-2 finalized and structurally closed, the same helper promotes WI-254 from a detached synchronized default-branch closure context; check-only mode passes and terminal main CI is green without a further documentation successor.",
+    "Focused RED/GREEN regressions cover valid promotion plus wrong repository/Work Item/digest/finalization/close identity, missing counterpart/row, duplicate row, conditional stale projection, symlink, nonregular or malformed input, no-write failure, and idempotent check-only behavior; documentation acceptance, manifest route, fmt, clippy, full workspace, installed Runtime verify, hosted CI, and post-close terminal CI pass."
+  ],
+  "authority": "human-authorized",
+  "baseRevision": "0a5101ef551c9e0242d514740a68a2be4680d406",
+  "createdAt": "2026-08-24T15:57:42Z",
+  "goal": "Provide and gate one auditable helper that validates exact close/archive/evidence/finalization identity, promotes only machine-owned Work Item metadata and exact reference-parity rows, terminalizes WI-253 now, and is reused after WI-254 closes so terminal CI does not require another successor.",
+  "intent": "Eliminate recursive stale documentation after a Work Item is structurally closed by adding a deterministic, fail-closed post-close promotion workflow that projects only verified terminal lifecycle truth into controlled tri-language documentation surfaces.",
+  "mode": "code",
+  "outOfScope": [
+    ".ai/work-items/archive/WI-253-docs-terminalization.*",
+    ".ai/evidence/WI-253-docs-terminalization*",
+    ".ai/decisions/WI-253-docs-terminalization.finalize*.json",
+    ".ai/decisions/WI-253-docs-terminalization.close.json",
+    "automatic Runtime Core mutation of documentation",
+    "release publishing",
+    "product behavior",
+    "unrelated Work Items",
+    "root main worktree"
+  ],
+  "predecessorContractDigest": "sha256:850de4b00c0919face617e700eb5cd4a810c362f1baae7c8a14257ccf98a72cb",
+  "predecessorWorkItemId": "WI-253-docs-terminalization",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-253-docs-terminalization.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:78eb3771126caeb97a8434d94a74f19d128967789b195ff41fe2ca8292a901c8",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-254-closed-docs-promotion",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi254-closed-docs-promotion"
+  },
+  "risk": "high",
+  "scope": [
+    ".ai/decisions/WI-253-docs-terminalization.recovery.json",
+    ".ai/work-items/**",
+    "docs/work-items/WI-253-docs-terminalization.md",
+    "docs/work-items/WI-253-docs-terminalization.zh-CN.md",
+    "docs/work-items/WI-253-docs-terminalization.ja.md",
+    "docs/work-items/WI-254-closed-docs-promotion.md",
+    "docs/work-items/WI-254-closed-docs-promotion.zh-CN.md",
+    "docs/work-items/WI-254-closed-docs-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh",
+    "tests/docs/work_item_status_consistency.py",
+    "tests/docs/work_item_status_consistency_test.sh",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/ci/repository_gate_manifest.json",
+    "tests/ci/repository_gate_manifest_test.sh"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-254-closed-docs-promotion"
+}

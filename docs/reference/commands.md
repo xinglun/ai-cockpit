@@ -167,6 +167,25 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
   write, or governed MCP operation is created. Read-only diagnostics remain
   available for migration review.
 
+## Post-close documentation promotion
+
+After structured `close`, run:
+
+```text
+python3 tests/docs/promote_closed_work_item.py --repo <repo> --work-item <id>
+python3 tests/docs/promote_closed_work_item.py --repo <repo> --check-all
+```
+
+The first command validates the exact regular archive Contract and raw digest,
+passing verification receipt, unique linear finalization chain, sequence-2
+`deleted` head, merged provider identity, and approved close bindings before it
+updates controlled documentation fields. Only `status`, `lastVerifiedBy`, the
+four `terminal*` frontmatter fields, and the exact tri-language parity rows are
+write targets. The second command is the mandatory quality/terminal-CI form;
+it never writes. Missing, foreign, ambiguous, malformed, symlinked, mismatched,
+or stale input fails closed. These repository helper commands do not imply
+that Runtime Core automatically edits documentation.
+
 ## Contract/Summary control validation
 
 The repository library exposes `validate_work_item_governance_controls` for

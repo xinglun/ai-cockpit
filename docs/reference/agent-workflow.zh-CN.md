@@ -129,6 +129,21 @@ context/receipt；Runtime 不会隐式删除资源。Work Item 只有在 verific
 Archived verification evidence 保持为不可变的历史事实；Runtime 升级后不把它重新标记为当前
 结果，而是显示为历史 evidence。新的 finalization receipt 始终绑定执行 close 的 Runtime。
 
+结构化 close 后还必须完成受控文档 projection 与 default-branch terminal check：
+
+```text
+close → promote closed docs → terminal CI
+```
+
+在已同步的 detached closure context 运行 `python3
+tests/docs/promote_closed_work_item.py --repo <repo> --work-item <id>`，再用同一
+helper 运行 `--check-all`。helper 会先验证 regular non-symlink 的 archive、
+verification、线性 finalization、sequence-2 deleted、merge 与结构化 close identity。
+它只修改三份准确 Work Item 文档中 machine-owned lifecycle frontmatter，以及三份
+reference-parity 文档中的准确 Work Item 行；不会改写正文或任何 `.ai` lifecycle truth。
+输入无效时会在写入前 fail closed，stale projection 无法通过 quality gate。这是显式
+repository workflow helper，不是 Runtime Core 自动修改 Markdown。
+
 ## Release tag 的 transition 顺序
 
 只有 PR 已合并且有效的 pre-merge finalization receipt 已提交后，才能创建 Release tag。
