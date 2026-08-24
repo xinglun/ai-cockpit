@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-WI-248-successor-implementation-and-PR-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "e11cab43947360f957321a99774188af1fcfab8e",
+    "name": "codex/wi-248-recovery-read-side-recovery",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:d5a9acad3ce99edd569bfbab81e895257996b429a24629cb81f212d86c5117dd",
+  "operationId": "operation-WI-248-recovery-read-side-recovery-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "7d1bd78f1ee1945d1a4b989ad0fd46d4fe98510b",
+    "headRevision": "e11cab43947360f957321a99774188af1fcfab8e",
+    "number": 202,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/202"
+  },
+  "reason": "awaiting_merge_close: PR #202 is open and the exact reviewed branch and worktree must be retained",
+  "receiptId": "ai-cockpit-WI-248-recovery-read-side-recovery-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-248-recovery-read-side-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/202",
+    "worktree": "/private/tmp/ai-cockpit-wi248-recovery-read-side-recovery"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-24T13:19:22Z",
+  "workItemId": "WI-248-recovery-read-side-recovery",
+  "worktree": {
+    "branch": "codex/wi-248-recovery-read-side-recovery",
+    "headRevision": "e11cab43947360f957321a99774188af1fcfab8e",
+    "path": "/private/tmp/ai-cockpit-wi248-recovery-read-side-recovery",
+    "worktreeId": "WI-248-recovery-read-side-recovery"
+  }
+}
