@@ -1,0 +1,43 @@
+{
+  "acceptanceCriteria": [
+    "Public v0.2.29 adopter acceptance is passed and its acceptance.json, runtime identity, lifecycle, isolation, cleanup, and SHA256SUMS are bound.",
+    "Public v0.2.28 to v0.2.29 upgrade acceptance is passed and its acceptance.json, historical evidence, lifecycle, isolation, cleanup, and SHA256SUMS are bound.",
+    "The installed v0.2.29 binary is used for current repository inspect, status, doctor, and agent doctor, with repository identity isolated and runtimeCodeInRepository=false.",
+    "Release truth remains immutable; any failure is recorded as post-release acceptance failure rather than rewriting the Release."
+  ],
+  "authority": "authorized",
+  "baseRevision": "da2ebc64a91b6dfd87ac9a1be6c568e0117be99c",
+  "createdAt": "2026-08-24T02:15:22Z",
+  "goal": "Produce an auditable post-release acceptance baseline using only immutable public Release artifacts, then close the Work Item after reviewed PR merge and exact cleanup without changing Release truth.",
+  "intent": "Retry the v0.2.29 public adopter and v0.2.28-to-v0.2.29 upgrade acceptance with the final Contract and resource context bound before verification.",
+  "mode": "implementation",
+  "outOfScope": [
+    "source code",
+    "Runtime implementation",
+    "immutable Release tag/assets",
+    "user-global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c05cbbf93404a4eecc59f6712c21c342f5c5f380e1326b7bfb1b53632281983b",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-232-release-adopter-v0-2-29-retry",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi232-release-adopter-v0-2-29-retry"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/evidence/external/v0.2.29/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-232-release-adopter-v0-2-29-retry"
+}
