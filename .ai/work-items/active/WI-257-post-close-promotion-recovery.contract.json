@@ -40,6 +40,48 @@
     "worktree": "/private/tmp/ai-cockpit-wi257-post-close-promotion-recovery"
   },
   "risk": "normal",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "On an exact clean origin/main checkout, plan and apply bind WI-255 terminal archive, verification, sequence-2 finalization, approved close, and six before/after document digests; apply promotes all six paths and identical reapply is a no-op.",
+      "required": true,
+      "scenario": "valid-synchronized-plan-apply-reapply",
+      "status": "planned",
+      "verificationPlan": "Run the isolated bare-origin fixture and the wrapper against a detached exact origin/main WI-255 checkout, then compare immutable .ai digests before and after."
+    },
+    {
+      "evidence": [],
+      "expected": "A descendant or stale HEAD, foreign repository or Work Item, mismatched archive/evidence/close/finalization binding, malformed or duplicate JSON, unknown/missing field or path, and symlink/nonregular input/output fail before writes.",
+      "required": true,
+      "scenario": "typed-identity-filesystem-and-staleness-fail-closed",
+      "status": "planned",
+      "verificationPlan": "Mutate each typed binding and filesystem boundary independently; assert stable nonzero diagnostics and identical before/after docs digests."
+    },
+    {
+      "evidence": [],
+      "expected": "Any unrelated tracked/untracked dirty path or partial controlled projection fails closed, while only clean all-before and exact six-path all-after states are accepted.",
+      "required": true,
+      "scenario": "dirty-unexpected-and-partial-projection-fail-closed",
+      "status": "planned",
+      "verificationPlan": "Exercise dirty, unexpected, and partial fixture states and verify no lifecycle or docs bytes change on failure."
+    },
+    {
+      "evidence": [],
+      "expected": "The bare fixture remote advertises main through its HEAD symbolic ref, clones deterministically, and wrapper plan output is written atomically without following a symlink.",
+      "required": true,
+      "scenario": "bare-origin-and-atomic-plan-boundary",
+      "status": "planned",
+      "verificationPlan": "Run the regression on a bare origin with symbolic-ref HEAD=refs/heads/main and symlink/nonregular output adversarial cases."
+    },
+    {
+      "evidence": [],
+      "expected": "AGENTS, tri-language workflow/commands/Work Item/parity docs and mandatory manifest gates define close → visible Outcome → synchronized plan/apply → check-all → terminal CI and provide the exact corrective command.",
+      "required": true,
+      "scenario": "actionable-post-close-handoff-and-terminal-ci",
+      "status": "planned",
+      "verificationPlan": "Run documentation acceptance, manifest regression, governance integrity, and hosted quality after WI-255 promotion and WI-257 conditional registration."
+    }
+  ],
   "scope": [
     "AGENTS.md",
     "tests/docs/post_close_work_item.py",
@@ -93,48 +135,6 @@
     "git commit 2fff6ac2cc0d118f6c5c1bcd813753c1f36f89e1 (bare-origin symbolic-ref test hunk only)",
     "https://github.com/xinglun/ai-cockpit/pull/208",
     "https://github.com/xinglun/ai-cockpit/actions/runs/32756605523"
-  ],
-  "scenarioCoverage": [
-    {
-      "evidence": [],
-      "expected": "On an exact clean origin/main checkout, plan and apply bind WI-255 terminal archive, verification, sequence-2 finalization, approved close, and six before/after document digests; apply promotes all six paths and identical reapply is a no-op.",
-      "required": true,
-      "scenario": "valid-synchronized-plan-apply-reapply",
-      "status": "planned",
-      "verificationPlan": "Run the isolated bare-origin fixture and the wrapper against a detached exact origin/main WI-255 checkout, then compare immutable .ai digests before and after."
-    },
-    {
-      "evidence": [],
-      "expected": "A descendant or stale HEAD, foreign repository or Work Item, mismatched archive/evidence/close/finalization binding, malformed or duplicate JSON, unknown/missing field or path, and symlink/nonregular input/output fail before writes.",
-      "required": true,
-      "scenario": "typed-identity-filesystem-and-staleness-fail-closed",
-      "status": "planned",
-      "verificationPlan": "Mutate each typed binding and filesystem boundary independently; assert stable nonzero diagnostics and identical before/after docs digests."
-    },
-    {
-      "evidence": [],
-      "expected": "Any unrelated tracked/untracked dirty path or partial controlled projection fails closed, while only clean all-before and exact six-path all-after states are accepted.",
-      "required": true,
-      "scenario": "dirty-unexpected-and-partial-projection-fail-closed",
-      "status": "planned",
-      "verificationPlan": "Exercise dirty, unexpected, and partial fixture states and verify no lifecycle or docs bytes change on failure."
-    },
-    {
-      "evidence": [],
-      "expected": "The bare fixture remote advertises main through its HEAD symbolic ref, clones deterministically, and wrapper plan output is written atomically without following a symlink.",
-      "required": true,
-      "scenario": "bare-origin-and-atomic-plan-boundary",
-      "status": "planned",
-      "verificationPlan": "Run the regression on a bare origin with symbolic-ref HEAD=refs/heads/main and symlink/nonregular output adversarial cases."
-    },
-    {
-      "evidence": [],
-      "expected": "AGENTS, tri-language workflow/commands/Work Item/parity docs and mandatory manifest gates define close → visible Outcome → synchronized plan/apply → check-all → terminal CI and provide the exact corrective command.",
-      "required": true,
-      "scenario": "actionable-post-close-handoff-and-terminal-ci",
-      "status": "planned",
-      "verificationPlan": "Run documentation acceptance, manifest regression, governance integrity, and hosted quality after WI-255 promotion and WI-257 conditional registration."
-    }
   ],
   "state": "implementation_active",
   "verification": [

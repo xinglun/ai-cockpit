@@ -256,4 +256,11 @@ python3 tests/docs/work_item_status_consistency.py \
 
 python3 tests/docs/promote_closed_work_item.py --repo "$root" --check-all
 
+test -x tests/docs/post_close_work_item.py || {
+    echo "missing executable post-close orchestration wrapper" >&2
+    exit 1
+}
+grep -Fq 'post_close_work_item.py --repo <repo> --work-item <id>' \
+    docs/reference/commands.md
+
 bash tests/docs/getting_started_semantic.sh

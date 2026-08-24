@@ -118,14 +118,17 @@ handoff だけを抑止します。`work-item outcome` は既定で stdout に�
 
 ## Close 後の documentation promotion
 
-structured `close` の後に実行します。
+structured `close` の後に可視の Outcome を配信し、同期済み `origin/main` から typed な
+post-close plan/apply flow を実行します。
 
 ```text
-python3 tests/docs/promote_closed_work_item.py --repo <repo> --work-item <id>
+python3 tests/docs/post_close_work_item.py --repo <repo> --work-item <id> --plan-out <plan.json>
+python3 tests/docs/post_close_work_item.py --repo <repo> --work-item <id> --apply-plan <plan.json>
 python3 tests/docs/promote_closed_work_item.py --repo <repo> --check-all
 ```
 
-最初の command は exact regular archive Contract と raw digest、passing verification
+typed wrapper は同期 revision と exact terminal evidence を bind し、stale/foreign/malformed/symlinked/
+dirty/partial/unexpected state を fail closed にします。再 apply は deterministic no-op です。実際の書き込みは既存 helper に委譲し、最初の command は exact regular archive Contract と raw digest、passing verification
 receipt、unique linear finalization chain、sequence-2 `deleted` head、merged provider
 identity、approved close bindings を検証してから controlled documentation fields を
 更新します。write target は `status`、`lastVerifiedBy`、4 個の `terminal*`

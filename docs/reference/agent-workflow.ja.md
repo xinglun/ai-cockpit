@@ -152,16 +152,24 @@ verification 後にだけ archive でき、`finalize-verify` が `Deleted` ま�
 されません。一方、新しい finalization receipt は close を実行する Runtime に必ず bind
 されます。
 
-structured close の後には、controlled documentation projection と default-branch
-terminal check が必要です。
+structured close の後には、可視の Outcome、typed な controlled documentation projection と
+default-branch terminal check が必要です。
 
 ```text
-close → promote closed docs → terminal CI
+close → visible Outcome → post-close plan/apply → check-all → terminal CI
 ```
 
-synchronized detached closure context で `python3
-tests/docs/promote_closed_work_item.py --repo <repo> --work-item <id>` を実行し、
-続けて同じ helper の `--check-all` を実行します。helper は regular non-symlink の
+synchronized default branch で plan を生成して apply します。
+
+```text
+python3 tests/docs/post_close_work_item.py --repo <repo> --work-item <id> --plan-out <plan.json>
+python3 tests/docs/post_close_work_item.py --repo <repo> --work-item <id> --apply-plan <plan.json>
+python3 tests/docs/promote_closed_work_item.py --repo <repo> --check-all
+```
+
+typed wrapper は repository、同期 revision、close、finalization、archive、verification identity と
+6 つの controlled path を bind します。stale、foreign、malformed、symlink、dirty、partial、unexpected
+state は fail closed となり、再 apply は deterministic no-op です。実際の6 pathの書き込みは既存 helper に委譲し、regular non-symlink の
 archive、verification、linear finalization、sequence-2 deleted、merge、structured
 close identity を先に検証します。write boundary は exact 3 Work Item documents の
 machine-owned lifecycle frontmatter と、3 reference-parity documents の exact Work

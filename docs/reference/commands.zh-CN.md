@@ -110,14 +110,17 @@ capabilityClaims:
 
 ## Close 后的文档提升
 
-结构化 `close` 后运行：
+结构化 `close` 后先交付可见 Outcome，再从同步的 `origin/main` 运行 typed
+post-close plan/apply 流程：
 
 ```text
-python3 tests/docs/promote_closed_work_item.py --repo <repo> --work-item <id>
+python3 tests/docs/post_close_work_item.py --repo <repo> --work-item <id> --plan-out <plan.json>
+python3 tests/docs/post_close_work_item.py --repo <repo> --work-item <id> --apply-plan <plan.json>
 python3 tests/docs/promote_closed_work_item.py --repo <repo> --check-all
 ```
 
-第一条命令先验证准确 regular archive Contract 及其 raw digest、passing verification
+typed wrapper 绑定同步 revision 与准确 terminal evidence，stale/foreign/malformed/symlink/dirty/partial/
+unexpected state 都 fail closed，重复 apply 是 deterministic no-op。实际写入委托现有 helper，先验证准确 regular archive Contract 及其 raw digest、passing verification
 receipt、唯一线性 finalization chain、sequence-2 `deleted` head、已合并 provider identity
 与 approved close bindings，然后才更新受控文档字段。写入目标仅限 `status`、
 `lastVerifiedBy`、四个 `terminal*` frontmatter 字段以及三语准确 parity 行。第二条命令是

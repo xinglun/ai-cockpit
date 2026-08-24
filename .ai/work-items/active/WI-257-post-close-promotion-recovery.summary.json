@@ -3,13 +3,18 @@
     ".ai/work-items/active/WI-257-post-close-promotion-recovery.contract.json",
     ".ai/work-items/active/WI-257-post-close-promotion-recovery.summary.json"
   ],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-08-24T18:17:17Z",
+  "checkpointCount": 1,
   "createdAt": "2026-08-24T18:14:25Z",
   "mode": "code",
-  "preflightState": "not_run",
+  "preflightAt": "2026-08-24T18:17:13Z",
+  "preflightContractDigest": "sha256:81d2059b6f6b54a1bd319e65c1e273e569fbb4282f6ccf3183546d1d51253e1b",
+  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "preflightRepositorySnapshotDigest": "sha256:8aac8832d0da082feddf580c11981065fc486291b2e3e588c2792ce86ec59923",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "implementation_active",
-  "updatedAt": "2026-08-24T18:14:25Z",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-24T18:17:17Z",
   "workItemId": "WI-257-post-close-promotion-recovery"
 }
