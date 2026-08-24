@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-pre-merge-finalization-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "e79b24737ec74d267d889f990f1db4bb00043dd3",
+    "name": "codex/wi-233-release-adopter-v0-2-29-retry",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:9ea50c81f640c4881551cf663143843b4bad9c417e8f533cb509d4c51bd38625",
+  "operationId": "operation-WI-233-release-adopter-v0-2-29-retry-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "626d72d149acbaf25128393bd70eb2f31aac7c39",
+    "headRevision": "e79b24737ec74d267d889f990f1db4bb00043dd3",
+    "number": 183,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/183"
+  },
+  "reason": "awaiting_merge_close: PR #183 is unmerged; retain the reviewed adopter acceptance branch until hosted checks pass and the provider merge is available.",
+  "receiptId": "ai-cockpit-WI-233-release-adopter-v0-2-29-retry-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-233-release-adopter-v0-2-29-retry",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/183",
+    "worktree": "/private/tmp/ai-cockpit-wi233-release-adopter-v0-2-29-retry"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:94d8ee4e27023e1cb677486164af3e96633411105a4596140d4c0f4e64776137",
+  "runtimeVersion": "0.2.29",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-24T02:31:36Z",
+  "workItemId": "WI-233-release-adopter-v0-2-29-retry",
+  "worktree": {
+    "branch": "codex/wi-233-release-adopter-v0-2-29-retry",
+    "headRevision": "e79b24737ec74d267d889f990f1db4bb00043dd3",
+    "path": "/private/tmp/ai-cockpit-wi233-release-adopter-v0-2-29-retry",
+    "worktreeId": "WI-233-release-adopter-v0-2-29-retry"
+  }
+}
