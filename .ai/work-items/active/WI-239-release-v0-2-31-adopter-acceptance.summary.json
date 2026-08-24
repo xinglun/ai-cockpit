@@ -82,8 +82,10 @@
     ".ai/work-items/active/WI-239-release-v0-2-31-adopter-acceptance.contract.json",
     ".ai/work-items/active/WI-239-release-v0-2-31-adopter-acceptance.summary.json"
   ],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-08-24T06:31:05Z",
+  "checkpointCount": 1,
   "createdAt": "2026-08-24T06:24:39Z",
+  "failedGate": "finish.preflight",
   "intentAlignment": {
     "evidence": [
       "tests/release/adopter_acceptance.sh",
@@ -94,12 +96,14 @@
     "state": "resolved"
   },
   "mode": "release",
-  "preflightAt": "2026-08-24T06:28:11Z",
-  "preflightContractDigest": "sha256:7a8989f0f659aa1860bbe4ba1c44641515e8e5866fee9feeabf5a864ffd588bd",
-  "preflightDecisionDigest": "sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
-  "preflightRepositorySnapshotDigest": "sha256:fd147d871c7937489c56502c5c4723b674d419b1499dc7a3a5553ef17acfae62",
-  "preflightState": "yellow",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-24T06:38:22Z",
+  "preflightContractDigest": "sha256:7f43520e370f4dc645189e7f33cd3cc3e8939ecc23a3b5bd8d076edcc629f77b",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:4ad11c2b7a17e5140384bcfe67c4dd3baac2dbd1a1ac2f83767ea62ed8a75c32",
+  "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryCondition": "Record a fresh non-red preflight result, then retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -153,7 +157,7 @@
       "verificationPlan": "Run the installed binary with --repo /Users/sei-rinn/dev/workspace_rust/ai-cockpit and compare runtime identity and root status."
     }
   ],
-  "state": "implementation_active",
-  "updatedAt": "2026-08-24T06:29:32.798627+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-24T06:38:22Z",
   "workItemId": "WI-239-release-v0-2-31-adopter-acceptance"
 }
