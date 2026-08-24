@@ -20,6 +20,7 @@ PARITY_DOCS = (
     ("docs/reference/reference-parity.zh-CN.md", "已实现"),
     ("docs/reference/reference-parity.ja.md", "Implemented"),
 )
+PENDING_PARITY_REGISTRY = "docs/reference/pending-parity-registry.json"
 RECORD_SUFFIXES = ("contract", "summary", "archive", "outcome")
 
 
@@ -268,6 +269,7 @@ def premerge_finalize_state(
         return False, "unknown"
     reason = value.get("reason")
     reason_valid = isinstance(reason, str) and bool(reason.strip())
+    phase = "unknown"
     contract_path = (
         repo / ".ai/work-items/archive" / f"{work_item}.contract.json"
     )
@@ -383,6 +385,274 @@ def parity_rows(repo: Path) -> tuple[dict[str, dict[str, str]], list[dict[str, s
     return rows, findings
 
 
+def _reject_duplicate_json_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    value: dict[str, Any] = {}
+    for key, item in pairs:
+        if key in value:
+            raise ValueError(f"duplicate JSON key: {key}")
+        value[key] = item
+    return value
+
+
+def load_pending_parity_registry(repo: Path) -> list[dict[str, Any]]:
+    path = repo / PENDING_PARITY_REGISTRY
+    if path.is_symlink():
+        raise ValueError("pending parity registry must be a regular file")
+    if not path.exists():
+        return []
+    if not path.is_file():
+        raise ValueError("pending parity registry must be a regular file")
+    try:
+        value = json.loads(
+            path.read_text(encoding="utf-8"),
+            object_pairs_hook=_reject_duplicate_json_keys,
+        )
+    except (OSError, json.JSONDecodeError, ValueError) as error:
+        raise ValueError(f"invalid pending parity registry JSON: {error}") from error
+    if not isinstance(value, dict) or set(value) != {"entries", "schemaVersion"}:
+        raise ValueError("pending parity registry fields are invalid")
+    if value["schemaVersion"] != 1 or not isinstance(value["entries"], list):
+        raise ValueError("pending parity registry schema is invalid")
+    entries: list[dict[str, Any]] = []
+    work_items: set[str] = set()
+    pull_requests: set[tuple[str, int, str]] = set()
+    expected_entry_fields = {
+        "baseRevision",
+        "createdAt",
+        "expectedRecords",
+        "headRevision",
+        "parityRows",
+        "provider",
+        "pullRequest",
+        "registryBaseRevision",
+        "repositoryId",
+        "state",
+        "workItemId",
+    }
+    for entry in value["entries"]:
+        if not isinstance(entry, dict) or set(entry) != expected_entry_fields:
+            raise ValueError("pending parity entry fields are invalid")
+        work_item = entry["workItemId"]
+        provider = entry["provider"]
+        pull_request = entry["pullRequest"]
+        if (
+            not isinstance(work_item, str)
+            or re.fullmatch(r"WI-[0-9]+[A-Za-z]?-[A-Za-z0-9][A-Za-z0-9-]*", work_item)
+            is None
+            or provider != "github"
+            or not isinstance(pull_request, dict)
+            or set(pull_request) != {"number", "url"}
+            or not isinstance(pull_request["number"], int)
+            or isinstance(pull_request["number"], bool)
+            or pull_request["number"] <= 0
+            or not isinstance(pull_request["url"], str)
+            or re.fullmatch(
+                rf"https://github\.com/[^/]+/[^/]+/pull/{pull_request['number']}",
+                pull_request["url"],
+            )
+            is None
+        ):
+            raise ValueError("pending parity entry identity is invalid")
+        pull_request_identity = (
+            provider,
+            pull_request["number"],
+            pull_request["url"],
+        )
+        if work_item in work_items or pull_request_identity in pull_requests:
+            raise ValueError("pending parity entry identity is duplicated")
+        work_items.add(work_item)
+        pull_requests.add(pull_request_identity)
+        entries.append(entry)
+    return entries
+
+
+def _regular_repository_file(repo: Path, relative: str) -> Path | None:
+    candidate = Path(relative)
+    if (
+        not relative
+        or candidate.is_absolute()
+        or ".." in candidate.parts
+        or candidate.as_posix() != relative
+    ):
+        return None
+    path = repo / candidate
+    if path.is_symlink() or not path.is_file():
+        return None
+    try:
+        path.resolve().relative_to(repo)
+    except ValueError:
+        return None
+    return path
+
+
+def _pending_append_is_bounded(
+    repo: Path,
+    head_revision: str,
+    registry_base_revision: str,
+    base_branch: str,
+) -> bool:
+    if (
+        re.fullmatch(r"[0-9a-f]{40}", head_revision) is None
+        or re.fullmatch(r"[0-9a-f]{40}", registry_base_revision) is None
+    ):
+        return False
+    ancestor = subprocess.run(
+        ["git", "merge-base", "--is-ancestor", head_revision, registry_base_revision],
+        cwd=repo,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if ancestor.returncode != 0:
+        return False
+    phase = repository_phase(repo, base_branch)
+    reviewed_revision = "HEAD^2" if phase == "pull_request" else "HEAD"
+    if phase not in {"feature_branch", "pull_request"}:
+        return False
+    reviewed = subprocess.run(
+        ["git", "rev-parse", "--verify", f"{reviewed_revision}^{{commit}}"],
+        cwd=repo,
+        check=False,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+    parents = subprocess.run(
+        ["git", "rev-list", "--parents", "-n", "1", reviewed],
+        cwd=repo,
+        check=False,
+        capture_output=True,
+        text=True,
+    ).stdout.split()
+    if len(parents) != 2 or parents[1] != registry_base_revision:
+        return False
+    changed = subprocess.run(
+        [
+            "git",
+            "diff",
+            "--name-status",
+            f"{registry_base_revision}..{reviewed}",
+            "--",
+        ],
+        cwd=repo,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if changed.returncode != 0:
+        return False
+    return changed.stdout.splitlines() in (
+        [f"A\t{PENDING_PARITY_REGISTRY}"],
+        [f"M\t{PENDING_PARITY_REGISTRY}"],
+    )
+
+
+def validate_pending_parity_entry(
+    repo: Path,
+    entry: dict[str, Any],
+    work_item: str,
+    rows: dict[str, dict[str, str]],
+    lifecycle_state: str,
+) -> bool:
+    expected_records = entry["expectedRecords"]
+    expected_paths = {
+        "contract": f".ai/work-items/archive/{work_item}.contract.json",
+        "finalize": f".ai/decisions/{work_item}.finalize.json",
+        "verification": f".ai/evidence/{work_item}.verification.json",
+    }
+    if not isinstance(expected_records, dict) or expected_records != expected_paths:
+        return False
+    record_paths = {
+        key: _regular_repository_file(repo, relative)
+        for key, relative in expected_paths.items()
+    }
+    if any(path is None for path in record_paths.values()):
+        return False
+    try:
+        project = load_json(repo / ".ai/project.json")
+        contract = load_json(record_paths["contract"])
+        evidence = load_json(record_paths["verification"])
+        finalize = load_json(record_paths["finalize"])
+    except (ValueError, TypeError):
+        return False
+    pull_request = entry["pullRequest"]
+    finalize_pull_request = finalize.get("pullRequest")
+    finalize_context = finalize.get("resourceContext")
+    if not isinstance(finalize_pull_request, dict) or not isinstance(
+        finalize_context, dict
+    ):
+        return False
+    base_revision = entry["baseRevision"]
+    head_revision = entry["headRevision"]
+    registry_base_revision = entry["registryBaseRevision"]
+    created_at_value = entry["createdAt"]
+    try:
+        created_at_time = datetime.fromisoformat(
+            created_at_value.removesuffix("Z") + "+00:00"
+        )
+    except (AttributeError, TypeError, ValueError):
+        return False
+    if created_at_time.tzinfo is None or not created_at_value.endswith("Z"):
+        return False
+    if (
+        entry["repositoryId"] != project.get("repositoryId")
+        or entry["workItemId"] != work_item
+        or entry["state"] != "in_progress"
+        or lifecycle_state != "awaiting_merge_close"
+        or re.fullmatch(r"[0-9a-f]{40}", base_revision) is None
+        or contract.get("repositoryId") != entry["repositoryId"]
+        or base_revision != contract.get("baseRevision")
+        or base_revision != finalize_pull_request.get("baseRevision")
+        or pull_request["number"] != finalize_pull_request.get("number")
+        or pull_request["url"] != finalize_pull_request.get("url")
+        or entry["provider"] != finalize.get("provider")
+        or entry["provider"] != finalize_context.get("provider")
+        or pull_request["url"] != finalize_context.get("pullRequest")
+        or contract.get("workItemId") != work_item
+        or contract.get("resourceContext") != finalize_context
+        or evidence.get("workItemId") != work_item
+        or evidence.get("repositoryId") != entry["repositoryId"]
+        or evidence.get("passed") is not True
+        or finalize.get("workItemId") != work_item
+        or finalize.get("repositoryId") != entry["repositoryId"]
+        or finalize.get("runtimeVersion") != evidence.get("runtimeVersion")
+        or finalize.get("runtimeDigest") != evidence.get("runtimeDigest")
+        or finalize.get("contractDigest")
+        != "sha256:" + hashlib.sha256(record_paths["contract"].read_bytes()).hexdigest()
+        or finalize_pull_request.get("headRevision") != head_revision
+        or not isinstance(finalize.get("branch"), dict)
+        or finalize["branch"].get("headRevision") != head_revision
+        or not isinstance(finalize.get("worktree"), dict)
+        or finalize["worktree"].get("headRevision") != head_revision
+        or not _pending_append_is_bounded(
+            repo,
+            head_revision,
+            registry_base_revision,
+            str(finalize_pull_request.get("baseBranch", "")),
+        )
+    ):
+        return False
+    parity_rows_value = entry["parityRows"]
+    expected_parity_paths = [relative for relative, _ in PARITY_DOCS]
+    if not isinstance(parity_rows_value, list) or len(parity_rows_value) != 3:
+        return False
+    if [item.get("path") for item in parity_rows_value if isinstance(item, dict)] != expected_parity_paths:
+        return False
+    for item, (relative, _) in zip(parity_rows_value, PARITY_DOCS, strict=True):
+        if not isinstance(item, dict) or set(item) != {"path", "row"}:
+            return False
+        row = item["row"]
+        pending_status = "进行中" if relative.endswith(".zh-CN.md") else "In progress"
+        if (
+            not isinstance(row, str)
+            or not row.startswith(f"| {short_id(work_item)} ")
+            or f"| {pending_status} |" not in row
+            or expected_paths["verification"] not in row
+            or expected_paths["finalize"] not in row
+        ):
+            return False
+    return not rows.get(short_id(work_item))
+
+
 def finding(
     work_item: str, code: str, path: str, severity: str = "error"
 ) -> dict[str, str]:
@@ -491,6 +761,20 @@ def main() -> int:
 
     rows, parity_findings = parity_rows(repo)
     findings.extend(parity_findings)
+    try:
+        pending_entries = load_pending_parity_registry(repo)
+    except ValueError:
+        pending_entries = []
+        findings.append(
+            finding(
+                "repository",
+                "invalid_pending_parity_registry",
+                PENDING_PARITY_REGISTRY,
+            )
+        )
+    pending_by_work_item = {
+        entry["workItemId"]: entry for entry in pending_entries
+    }
     locations: dict[str, set[str]] = {}
     for location in ("active", "archive"):
         directory = repo / ".ai/work-items" / location
@@ -545,6 +829,14 @@ def main() -> int:
         if registered_id not in known_short_ids:
             path = sorted(translations)[0] if translations else "docs/reference"
             findings.append(finding(registered_id, "missing_work_item", path))
+    for pending_work_item in sorted(pending_by_work_item.keys() - locations.keys()):
+        findings.append(
+            finding(
+                pending_work_item,
+                "pending_parity_work_item_missing",
+                PENDING_PARITY_REGISTRY,
+            )
+        )
 
     for work_item in sorted(locations):
         work_item_locations = locations[work_item]
@@ -727,10 +1019,70 @@ def main() -> int:
                         finding(work_item, "missing_terminal_decision", decision_paths[0])
                     )
             work_item_rows = rows.get(short_id(work_item), {})
+            pending_entry = pending_by_work_item.get(work_item)
+            pending_valid = False
+            if pending_entry is not None:
+                try:
+                    pending_finalize = load_json(
+                        repo
+                        / ".ai/decisions"
+                        / f"{work_item}.finalize.json"
+                    )
+                except ValueError:
+                    pending_phase = "unknown"
+                else:
+                    pending_pull_request = pending_finalize.get("pullRequest")
+                    pending_base_branch = (
+                        pending_pull_request.get("baseBranch")
+                        if isinstance(pending_pull_request, dict)
+                        else None
+                    )
+                    pending_phase = (
+                        repository_phase(repo, pending_base_branch)
+                        if isinstance(pending_base_branch, str)
+                        and pending_base_branch
+                        else "unknown"
+                    )
+                pending_stale = (
+                    bool(work_item_rows)
+                    or pending_phase == "default_branch"
+                    or record.get("lifecycleState")
+                    in {"closed", "recovered", "stale_awaiting_merge_close"}
+                )
+                if pending_stale:
+                    findings.append(
+                        finding(
+                            work_item,
+                            "stale_pending_parity_registration",
+                            PENDING_PARITY_REGISTRY,
+                        )
+                    )
+                else:
+                    pending_valid = validate_pending_parity_entry(
+                        repo,
+                        pending_entry,
+                        work_item,
+                        rows,
+                        str(record.get("lifecycleState", "unknown")),
+                    )
+                    if pending_valid:
+                        record["lifecycleState"] = "pending_parity_registration"
+                        record["pendingParityRegistryPath"] = PENDING_PARITY_REGISTRY
+                    else:
+                        findings.append(
+                            finding(
+                                work_item,
+                                "invalid_pending_parity_registration",
+                                PENDING_PARITY_REGISTRY,
+                            )
+                        )
             for parity_doc, implemented in PARITY_DOCS:
                 line = work_item_rows.get(parity_doc)
                 if line is None:
-                    findings.append(finding(work_item, "missing_parity_entry", parity_doc))
+                    if not pending_valid:
+                        findings.append(
+                            finding(work_item, "missing_parity_entry", parity_doc)
+                        )
                     continue
                 if evidence not in line:
                     findings.append(finding(work_item, "missing_parity_evidence", parity_doc))
