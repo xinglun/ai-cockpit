@@ -20,6 +20,18 @@
     "schemaVersion": 1,
     "workItemId": "WI-253-docs-terminalization"
   },
+  "intentAlignment": {
+    "basis": "WI-253 preserves every immutable WI-252 governance record, projects actual terminal truth in the authorized tri-language docs, and adds only the bounded closed-conditional status regression; the inventory warning was classified without widening scope.",
+    "evidence": [
+      ".ai/decisions/WI-252-manifest-gate-order-recovery.recovery.json",
+      "docs/work-items/WI-252-manifest-gate-order-recovery.md",
+      "docs/reference/reference-parity.md",
+      "tests/docs/work_item_status_consistency.py",
+      "tests/docs/work_item_status_consistency_test.sh",
+      "bash tests/conformance/reference_file_inventory_test.sh"
+    ],
+    "state": "resolved"
+  },
   "mode": "code",
   "predecessorContractDigest": "sha256:373680be307417d889688e5953e0314056f6ad657415c0f1da277be54c5e742c",
   "predecessorWorkItemId": "WI-252-manifest-gate-order-recovery",
@@ -33,31 +45,45 @@
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
-      "evidence": [],
+      "evidence": [
+        "bash tests/docs/documentation_acceptance.sh: passed",
+        "bash tests/docs/parity_status_check.sh . target/WI-253-parity-status.json: passed",
+        "python3 tests/ci/governance_integrity_gate.py --repo . --report target/WI-253-governance-integrity.json: passed for 212 Work Items",
+        "git diff confirms no WI-252 immutable archive, evidence, finalization, or close bytes changed"
+      ],
       "expected": "All three WI-252 Work Item documents and all three reference-parity rows state terminal Implemented truth and bind the actual archive Contract, verification evidence, sequence-2 deleted finalization transition, and structured close decision without changing those immutable records.",
       "required": true,
       "scenario": "terminal-wi252-projection",
-      "status": "planned",
+      "status": "verified",
       "verificationPlan": "Run documentation acceptance, status consistency, parity, and governance integrity checks against the real closed WI-252 repository state."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "TDD RED: the previous checker accepted closed conditional Work Item text",
+        "bash tests/docs/work_item_status_consistency_test.sh: passed with English, Simplified Chinese, and Japanese negative fixtures",
+        "bash tests/docs/documentation_acceptance.sh: passed"
+      ],
       "expected": "A fixture representing a closed Work Item with conditional or pre-archive wording fails the existing documentation/status checker in each supported language, while exact terminal wording passes.",
       "required": true,
       "scenario": "closed-conditional-negative-fixture",
-      "status": "planned",
+      "status": "verified",
       "verificationPlan": "Add focused failing fixtures first, observe RED, then minimally strengthen documentation acceptance/status consistency and rerun the focused suites."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "bash tests/conformance/reference_file_inventory_test.sh: passed",
+        "target working-tree count warning appeared only in the intentional jq drift negative fixture",
+        "canonical inventory validation ended ok=true with 5119 records",
+        "git diff confirms no reference inventory file changed"
+      ],
       "expected": "The target working-tree count warning is emitted only by the intentionally drifted negative fixture, the canonical inventory count/digest remain normalized to the pinned commit, and the conformance suite exits successfully without production changes.",
       "required": true,
       "scenario": "inventory-negative-output-classification",
-      "status": "planned",
+      "status": "verified",
       "verificationPlan": "Run the inventory regression and inspect its negative fixture plus final success exit; retain the checker out of scope unless a distinct focused failure appears."
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-08-24T15:16:44.088984+00:00",
+  "updatedAt": "2026-08-24T15:21:16.825501+00:00",
   "workItemId": "WI-253-docs-terminalization"
 }
