@@ -75,8 +75,8 @@
     }
   ],
   "changedPaths": [
-    ".ai/work-items/active/WI-228-governance-append-evidence.contract.json",
-    ".ai/work-items/active/WI-228-governance-append-evidence.summary.json"
+    ".ai/work-items/archive/WI-228-governance-append-evidence.contract.json",
+    ".ai/work-items/archive/WI-228-governance-append-evidence.summary.json"
   ],
   "checkpointAt": "2026-08-23T23:49:13Z",
   "checkpointCount": 1,
@@ -92,11 +92,11 @@
     "state": "resolved"
   },
   "mode": "code",
-  "preflightAt": "2026-08-24T00:07:09Z",
+  "preflightAt": "2026-08-24T00:09:19Z",
   "preflightContractDigest": "sha256:84dc15c8cd02e038884e248dce8a82c4996fffc9ecea8049c3de1286205170a1",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:295d386e5faf87f849cc9e78f414228cdbd40c84a72e368e1d635102cc1724d4",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:22457dc8b39eeedfb1e59161992c34aad3e1cecfde348f263671832378efe27a",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -137,7 +137,7 @@
       "verificationPlan": "Run protocol transition regressions plus the existing WI-191 repository append regression before the full workspace suite."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-08-24T00:05:57.261479+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-24T00:09:43Z",
   "workItemId": "WI-228-governance-append-evidence"
 }

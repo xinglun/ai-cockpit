@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "同一 Work Item 的 .ai/evidence/<WI>/quality-route-post-finalize.json 与 repository-gates-post-finalize.json 仅在固定 schema、内容绑定、Git add-only、100644 regular non-symlink 条件全部满足时可作为首次 governance append 的一部分。",
+    "任意 foreign Work Item 或 foreign path、错误目录或文件名、未知 schema、malformed/duplicate-key JSON、修改、删除、rename、symlink、空 append、非 ancestor revision 与非首次 merge transition 继续 fail closed。",
+    "既有同 Work Item finalization receipt append 语义保持兼容；post-finalize evidence 不能修改 archive truth、不能替代 Runtime verification 或授权 merge/close。",
+    "repository 与 protocol regression tests 覆盖允许路径、每类拒绝路径与 transition sequence/head 约束；三语言文档准确描述严格白名单和绑定边界。",
+    "cargo fmt、clippy、targeted tests、cargo test --locked --workspace 与 Runtime v0.2.28 verify 全部通过，并产生可见中文 Outcome。"
+  ],
+  "createdAt": "2026-08-24T00:09:43Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:8be1bfbb7c7c67aa9b5d379e01abc41632708988628efe033b190c338c6704ac",
+  "evidenceRefs": [
+    ".ai/evidence/WI-228-governance-append-evidence.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-228-governance-append-evidence.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-228-governance-append-evidence.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:22457dc8b39eeedfb1e59161992c34aad3e1cecfde348f263671832378efe27a",
+      "workItemId": "WI-228-governance-append-evidence"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-228-governance-append-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-228-governance-append-evidence.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-228-governance-append-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-228-governance-append-evidence.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-228-governance-append-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-228-governance-append-evidence.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-228-governance-append-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-228-governance-append-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-228-governance-append-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-228-governance-append-evidence.contract.json"
+          ],
+          "inference": false,
+          "text": "让合法的 Runtime-bound post-finalize quality route 与 repository-gate evidence 可与同一 Work Item finalization receipts 一起追加，同时继续拒绝任意 foreign path、修改、删除、symlink、错误 schema 或不合法 evidence。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-228-governance-append-evidence.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-228-governance-append-evidence"
+  },
+  "taskReportDigest": "sha256:aa7b78a249711f5b8e1e1c03402b833719c1dfddc59790945191444ff564e6e6",
+  "taskReportMarkdownDigest": "sha256:e8e829839f5a4a501b6e7f856f4ede74cbbecb940d8e0c82b4fdcddfc1655c4a",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-228-governance-append-evidence.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-228-governance-append-evidence"
+}
