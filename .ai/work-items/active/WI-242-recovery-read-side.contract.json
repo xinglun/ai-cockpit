@@ -25,18 +25,14 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-242-recovery-read-side",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/192",
     "worktree": "/private/tmp/ai-cockpit-wi242-recovery-read-side"
   },
   "risk": "high",
-  "scope": [
-    "crates/cockpit-repository/src/lib.rs",
-    "crates/cockpit-repository/tests/recovery_decision.rs"
-  ],
   "scenarioCoverage": [
     {
       "evidence": [],
@@ -70,6 +66,10 @@
       "status": "unverified",
       "verificationPlan": "Run the existing historical recovery/archive and repository conformance suites after the strict current-read validator is installed."
     }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs"
   ],
   "sources": [
     "crates/cockpit-repository/src/lib.rs#record_recovery_decision",
