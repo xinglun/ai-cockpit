@@ -4,7 +4,8 @@
     "A2: WI-234 remains immutable recovered history; the successor records a valid recovery decision and binds PR context before verification.",
     "A3: The English, Chinese, and Japanese parity ledgers identify WI-234 as recovered and WI-235 with the exact evidence and decision paths.",
     "A4: The successor completes finalize-plan before verify/archive, records a pre-merge finalization receipt, and leaves no obsolete branch/worktree from the failed PR #185 attempt.",
-    "A5: Installed Runtime v0.2.29 inspect/status/doctor/agent-doctor, focused governance/docs gates, and hosted checks pass; root user files remain untouched."
+    "A5: Installed Runtime v0.2.29 inspect/status/doctor/agent-doctor, focused governance/docs gates, and hosted checks pass; root user files remain untouched.",
+    "A6: The parallel attach migration fixture uses collision-resistant repository paths and the full workspace test suite passes without the observed git-init race."
   ],
   "authority": "authorized",
   "baseRevision": "93efb791c9133a2d6d47637003339e29cbc9f7fa",
@@ -18,10 +19,10 @@
     "Changing global Agent, MCP, HOME, or user configuration.",
     "Adding unrelated runtime or business functionality."
   ],
+  "predecessorContractDigest": "sha256:f6e49cb68bde7f2bb4e455ea0d9b2bb4bd986da3fdb7c0288d653b2fba224646",
+  "predecessorWorkItemId": "WI-234-post-merge-governance-cleanup",
   "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
   "protocolVersion": 1,
-  "predecessorWorkItemId": "WI-234-post-merge-governance-cleanup",
-  "predecessorContractDigest": "sha256:f6e49cb68bde7f2bb4e455ea0d9b2bb4bd986da3fdb7c0288d653b2fba224646",
   "recoveryDecisionPath": ".ai/decisions/WI-234-post-merge-governance-cleanup.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:9b485e4a73bee712c82e05fa4ac7b9d2cf801234b92a3d7d5db31ba7dec7e446",
@@ -37,36 +38,36 @@
     "baseRemote": "origin",
     "branch": "codex/wi-235-governance-cleanup",
     "provider": "github",
-    "pullRequest": "pending",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/186",
     "worktree": "/private/tmp/ai-cockpit-wi235-governance-cleanup"
   },
   "risk": "high",
   "scenarioCoverage": [
     {
-      "scenario": "stale-merge-close-regression",
       "expected": "A reviewed head present on default with a stale unmerged pre-merge receipt fails closed with stale_awaiting_merge_close.",
       "required": true,
+      "scenario": "stale-merge-close-regression",
       "status": "unverified",
       "verificationPlan": "Run the focused governance integrity regression."
     },
     {
-      "scenario": "immutable-wi234-recovery",
       "expected": "WI-234 bytes remain immutable and a valid successor recovery decision binds WI-235.",
       "required": true,
+      "scenario": "immutable-wi234-recovery",
       "status": "unverified",
       "verificationPlan": "Run installed Runtime recovery with exact predecessor digests."
     },
     {
-      "scenario": "premerge-finalization-order",
       "expected": "PR context is planned before verification and archive, with a valid pre-merge receipt.",
       "required": true,
+      "scenario": "premerge-finalization-order",
       "status": "unverified",
       "verificationPlan": "Create PR, run finalize-plan, then verify, finish, archive, and record finalize."
     },
     {
-      "scenario": "tri-language-parity-and-clean-boundary",
       "expected": "Parity ledgers agree and the failed PR #185 branch/worktree is preserved then removed exactly.",
       "required": true,
+      "scenario": "tri-language-parity-and-clean-boundary",
       "status": "unverified",
       "verificationPlan": "Run documentation/parity gates and inspect branch/worktree inventories."
     }
@@ -90,6 +91,7 @@
     ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.task-report.md",
     "tests/ci/governance_integrity_gate.py",
     "tests/ci/governance_integrity_gate_test.sh",
+    "crates/cockpit-cli/tests/attach.rs",
     "tests/ci/fixtures/governance-integrity/build_fixture.py",
     "tests/ci/fixtures/governance-integrity/stale-merged-awaiting-close.json",
     "docs/reference/reference-parity.md",

@@ -28,6 +28,8 @@ branch left behind.
 - `stale_awaiting_merge_close` regression remains fail closed.
 - WI-234 is referenced as recovered through its exact recovery receipt.
 - `finalize-plan` precedes verify, finish, and archive.
+- Parallel attach migration fixtures use collision-resistant paths, so the full
+  workspace test suite remains deterministic under concurrent test execution.
 - The pre-merge finalization receipt, hosted checks, merge observation, exact
   cleanup, and structured close are all bound to the same PR head.
 

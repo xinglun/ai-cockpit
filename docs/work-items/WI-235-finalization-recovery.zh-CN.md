@@ -27,6 +27,7 @@ bytes 保持不可变。
 - `stale_awaiting_merge_close` 回归继续 fail closed。
 - WI-234 通过精确 recovery receipt 标记为已恢复。
 - `finalize-plan` 先于 verify、finish 和 archive。
+- 并行 attach migration fixture 使用抗碰撞路径，确保完整 workspace 测试在并发执行时保持确定性。
 - pre-merge finalization receipt、hosted checks、merge observation、精确清理与
   structured close 都绑定同一个 PR head。
 

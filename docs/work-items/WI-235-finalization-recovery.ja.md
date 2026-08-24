@@ -27,6 +27,7 @@ WI-234/WI-235 の obsolete worktree や branch が残らないことも確認し
 - `stale_awaiting_merge_close` regression は fail closed のままです。
 - WI-234 は正確な recovery receipt で Recovered として参照します。
 - `finalize-plan` を verify、finish、archive より先に実行します。
+- 並列 attach migration fixture は衝突しないパスを使い、workspace 全体のテストを並列実行でも決定的に保ちます。
 - pre-merge finalization receipt、hosted checks、merge observation、exact cleanup、
   structured close を同じ PR head に bind します。
 
