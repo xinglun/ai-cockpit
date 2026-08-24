@@ -1,0 +1,91 @@
+{
+  "acceptanceCriteria": [
+    "Current recovery decisions are revalidated against repository identity, current Runtime identity, predecessor Contract/Summary/Outcome/Events digests, and successor identity before archive or Outcome projection.",
+    "Forged, foreign, stale, tampered, or malformed current recovery candidates fail closed with stable diagnostic codes and cannot supersede/archive or alter Outcome.",
+    "Historical archived Work Item bytes remain immutable and legacy historical projections are not reclassified as current failures."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "1c988ce9b04c3dcd45843f6577ed321457eeca0e",
+  "createdAt": "2026-08-24T07:33:04Z",
+  "goal": "所有 current recovery candidate 在被 archive 或 Outcome 消费前都经统一、严格、确定性的绑定校验；foreign、stale、tampered 或 ambiguous 记录稳定 fail closed。",
+  "intent": "修复 current recovery decision 在 archive 与 Outcome 读侧未重验 repository、Runtime、predecessor artifacts 和 successor binding 的 fail-open 缺陷，同时保持历史 archive bytes 不变。",
+  "mode": "implementation",
+  "outOfScope": [
+    "parallel slot compatibility",
+    "post-finalize evidence manifest binding",
+    "close decision projection",
+    "crates outside cockpit-repository",
+    "existing archived Work Item bytes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:833522a7c92d48041af40b504c28d3584f63198c7558bcf284f7a6d275b503bf",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-242-recovery-read-side",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi242-recovery-read-side"
+  },
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs"
+  ],
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A Runtime-recorded current recovery decision is accepted by Outcome projection and superseded archive only while every repository, Runtime, predecessor artifact, and successor binding remains current.",
+      "required": true,
+      "scenario": "valid-current-recovery",
+      "status": "unverified",
+      "verificationPlan": "Run the focused recovery_decision integration tests covering valid successor and supersede lifecycle behavior."
+    },
+    {
+      "evidence": [],
+      "expected": "Foreign repository or Runtime identities, stale predecessor digests, invalid timestamps, and mismatched successor bindings are rejected before Outcome projection or archive mutation.",
+      "required": true,
+      "scenario": "forged-current-recovery",
+      "status": "unverified",
+      "verificationPlan": "Run the table-driven forged current recovery read-side regression and assert stable fail-closed diagnostics plus unchanged active artifacts."
+    },
+    {
+      "evidence": [],
+      "expected": "Mutation of predecessor Contract, Summary, Outcome, or Events after a recovery receipt is recorded invalidates that current receipt.",
+      "required": true,
+      "scenario": "tampered-predecessor-artifact",
+      "status": "unverified",
+      "verificationPlan": "Run the predecessor artifact tamper regression for Outcome and superseded archive consumers."
+    },
+    {
+      "evidence": [],
+      "expected": "Historical archived Work Items remain readable without rewriting or reclassifying their immutable legacy bytes as invalid current recovery evidence.",
+      "required": true,
+      "scenario": "historical-archive-compatibility",
+      "status": "unverified",
+      "verificationPlan": "Run the existing historical recovery/archive and repository conformance suites after the strict current-read validator is installed."
+    }
+  ],
+  "sources": [
+    "crates/cockpit-repository/src/lib.rs#record_recovery_decision",
+    "crates/cockpit-repository/src/lib.rs#load_recovery_decision",
+    "crates/cockpit-repository/src/lib.rs#archive_work_item_internal",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "Parent read-only audit of origin/main@1c988ce identifying WI-188 P1-1 recovery read-side fail-open"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test -p cockpit-repository --test recovery_decision -- --nocapture",
+    "cargo test -p cockpit-repository --test archive_integrity -- --nocapture",
+    "cargo test -p cockpit-repository --test outcome_report -- --nocapture",
+    "cargo clippy --workspace --all-targets --all-features -- -D warnings",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-242-recovery-read-side"
+}

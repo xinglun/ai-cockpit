@@ -1,0 +1,17 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-24T07:34:45Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T07:33:04Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-24T07:50:41Z",
+  "preflightContractDigest": "sha256:1219401a0887b9870893378f2c60faeff150a8688ff3051ba212ad560a562940",
+  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "preflightRepositorySnapshotDigest": "sha256:243212475c159860b04647c20ce795866d93175624d4fe3f240225a34abb3e7c",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-24T07:34:45Z",
+  "workItemId": "WI-242-recovery-read-side"
+}
