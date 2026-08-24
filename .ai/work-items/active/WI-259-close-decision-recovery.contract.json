@@ -1,22 +1,23 @@
 {
   "acceptanceCriteria": [
-    "Preserve every WI-258 implementation, archive, evidence, finalization, and close byte without modification.",
-    "Record an auditable recovery decision binding WI-258 as the immutable predecessor and explaining the non-canonical close decision value.",
-    "Update the tri-language WI-258 documentation and parity rows to Recovered, linking the immutable predecessor and this successor.",
-    "Promote WI-259 documentation only after this Work Item reaches an approved structured close and all evidence bindings are current.",
-    "Run documentation acceptance, parity checks, governance integrity, and the declared Runtime verification route; do not modify production Runtime code or global Agent/MCP configuration."
+    "WI-258 lifecycle bytes remain byte-identical and immutable",
+    "Recovery decision binds WI-258 as predecessor and records the non-canonical close decision reason",
+    "Tri-language WI-258 docs and parity rows are Recovered and link WI-259",
+    "WI-259 docs are promoted only after approved structured close",
+    "Declared documentation, parity, governance integrity, and promotion checks pass"
   ],
   "authority": "explicit-user-authorization-and-fail-closed-recovery-policy",
   "baseRevision": "e789afda9a12869a4e8dfa0b7249b0ddbff2bca9",
-  "createdAt": "2026-08-24T23:52:15Z",
-  "goal": "Recover the documentation and decision projection for WI-258 without rewriting immutable lifecycle truth.",
-  "intent": "WI-258 is validly merged and closed, but its humanDecision is descriptive prose rather than the canonical approved value required by the documentation promotion gate. Preserve that immutable record, create an auditable successor recovery projection, and let WI-259 carry the approved terminal documentation path.",
+  "createdAt": "2026-08-24T23:56:16Z",
+  "goal": "Preserve WI-258 bytes, record an auditable recovery decision, and promote a canonical approved successor documentation path.",
+  "intent": "Recover WI-258 documentation and decision projection without rewriting immutable lifecycle truth.",
   "mode": "docs",
   "outOfScope": [
-    "Any edit, replacement, or deletion of WI-258 .ai archive, evidence, finalization, or close bytes.",
-    "crates/** and production Runtime behavior.",
-    "Release publication or version changes.",
-    "Global Agent, MCP, HOME, or XDG configuration."
+    "crates/**",
+    "production Runtime",
+    "release publication",
+    "global Agent/MCP configuration",
+    "any WI-258 .ai byte modification"
   ],
   "predecessorContractDigest": "sha256:91aae1e40c6aa99b7ae1b039ddc6784376ed3a4168ac42fefd17609f632bf97d",
   "predecessorWorkItemId": "WI-258-governance-fixture-regression",
@@ -24,7 +25,7 @@
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-258-governance-fixture-regression.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:c364793afce36da3bea3f68614b05ec18ee5cd17d6679aac878a6133a4e54f64",
+  "repositorySnapshotDigest": "sha256:bcd5845ca6a696002be4a851d3e77183d25625b0131149e014f4868ca3d1d7e8",
   "requiredEvidenceClasses": [],
   "resourceContext": {
     "baseBranch": "main",
@@ -47,17 +48,8 @@
     "docs/work-items/WI-259-close-decision-recovery.ja.md",
     ".ai/decisions/WI-258-governance-fixture-regression.recovery.json"
   ],
-  "sources": [
-    "WI-258 immutable archive/evidence/finalization/close records",
-    "tests/docs/promote_closed_work_item.py",
-    "docs/reference/agent-workflow.md"
-  ],
-  "state": "ready",
-  "verification": [
-    "bash tests/docs/documentation_acceptance.sh",
-    "bash tests/docs/parity_status_check_test.sh",
-    "bash tests/ci/governance_integrity_gate_test.sh",
-    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all"
-  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
   "workItemId": "WI-259-close-decision-recovery"
 }
