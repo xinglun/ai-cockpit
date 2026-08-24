@@ -1,0 +1,62 @@
+{
+  "acceptanceCriteria": [
+    "Release route handles an absent .ai/work-items/active directory deterministically without failing.",
+    "A regression test proves the zero-active-Work-Item clean boundary.",
+    "Package metadata, lockfile, release docs, and tri-language parity identify v0.2.31 with v0.2.30 preserved as failed immutable history.",
+    "Hosted release checks pass and publish only the immutable v0.2.31 tag.",
+    "The public v0.2.31 artifact is later handed to a successor adopter-acceptance Work Item."
+  ],
+  "authority": "authorized",
+  "baseRevision": "35a75c89a1368908eec7ebb19ae14927e58976a5",
+  "createdAt": "2026-08-24T05:12:48Z",
+  "goal": "Make release quality planning succeed when .ai/work-items/active is absent, add a regression, bump the patch release to v0.2.31, and prove the public artifact through hosted release checks.",
+  "intent": "Repair the release quality route discovered at the clean-batch boundary and publish the next immutable release without rewriting the failed v0.2.30 tag.",
+  "mode": "implementation",
+  "outOfScope": [
+    "rewriting or deleting immutable v0.2.30 tag history",
+    "modifying user-owned files in the primary worktree",
+    "claiming v0.2.30 public artifact acceptance"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:02ddbab1479cad7577a4c010800bc9cdb00d60bc4097f1c9dc21f8f97fe7aeff",
+  "requiredEvidenceClasses": [
+    "release_route_manifest",
+    "verification",
+    "resource_finalization"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi237-release-route-fix",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/188",
+    "worktree": "/private/tmp/ai-cockpit-wi237-release-route"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Release quality planning passes when .ai/work-items/active is absent.",
+      "required": true,
+      "scenario": "release-route-no-active-work-item-directory",
+      "status": "unverified",
+      "verificationPlan": "Run the release quality route and its regression test from a clean repository with no active Work Item directory."
+    }
+  ],
+  "scope": [
+    ".github/workflows/release.yml",
+    "tests/ci",
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release",
+    "docs/architecture",
+    "docs/reference",
+    "docs/work-items"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-237-release-route-recovery-v0-2-31"
+}

@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-pre-merge-finalization-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "073ee5d1f68e409bcdf73d3e6ed865520d89bd72",
+    "name": "codex/wi238-release-v0-2-31-recovery",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:f90a5128a8605f7e350a9f1b38b1c7ba601309f295f9829eb8c62c069368a7ed",
+  "operationId": "operation-WI-238-release-v0-2-31-recovery-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "35a75c89a1368908eec7ebb19ae14927e58976a5",
+    "headRevision": "073ee5d1f68e409bcdf73d3e6ed865520d89bd72",
+    "number": 189,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/189"
+  },
+  "reason": "awaiting_merge_close: PR #189 is unmerged; retain the exact reviewed branch and clean worktree until hosted checks pass and the reviewed head is merged.",
+  "receiptId": "ai-cockpit-WI-238-release-v0-2-31-recovery-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi238-release-v0-2-31-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/189",
+    "worktree": "/private/tmp/ai-cockpit-wi238-release"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:94d8ee4e27023e1cb677486164af3e96633411105a4596140d4c0f4e64776137",
+  "runtimeVersion": "0.2.29",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-24T06:00:00Z",
+  "workItemId": "WI-238-release-v0-2-31-recovery",
+  "worktree": {
+    "branch": "codex/wi238-release-v0-2-31-recovery",
+    "headRevision": "073ee5d1f68e409bcdf73d3e6ed865520d89bd72",
+    "path": "/private/tmp/ai-cockpit-wi238-release",
+    "worktreeId": "WI-238-release-v0-2-31-recovery"
+  }
+}

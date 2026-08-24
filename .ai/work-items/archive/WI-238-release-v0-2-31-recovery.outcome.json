@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "Release quality planning succeeds when .ai/work-items/active is absent.",
+    "Regression coverage proves the clean no-active-directory boundary.",
+    "All three parity rows bind verification evidence and the pre-merge finalization receipt before hosted checks.",
+    "Public v0.2.31 is published only after hosted checks pass on the merged reviewed head.",
+    "A successor adopter acceptance uses only immutable public v0.2.31 artifacts and proves cleanup."
+  ],
+  "createdAt": "2026-08-24T05:55:57Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:ae8833d8c1e53f49af85b1a5b6fe195c948a5ada88548a772f3cc15cfc5f683e",
+  "evidenceRefs": [
+    ".ai/evidence/WI-238-release-v0-2-31-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-238-release-v0-2-31-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-238-release-v0-2-31-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:408fac9dc89adfc99a010a13303eb6080c7e65965438592af8472381f9f4e636",
+      "workItemId": "WI-238-release-v0-2-31-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-238-release-v0-2-31-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-238-release-v0-2-31-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-238-release-v0-2-31-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-238-release-v0-2-31-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-238-release-v0-2-31-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-238-release-v0-2-31-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-238-release-v0-2-31-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Repair the release workflow against an absent active Work Item directory, bind all tri-language parity evidence before finalization, publish v0.2.31 without rewriting the failed v0.2.30 tag, and complete public adopter acceptance."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-238-release-v0-2-31-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-238-release-v0-2-31-recovery"
+  },
+  "taskReportDigest": "sha256:c7e072ce541d72784c7fcbd8c06ead57cc0f7f731fab55a8ff0c73732f4fa23d",
+  "taskReportMarkdownDigest": "sha256:b8e345d1e5cac4ee62efdd08bb3bb607cdab7898602f7a07d1b9bcd8118f9142",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-238-release-v0-2-31-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-238-release-v0-2-31-recovery"
+}
