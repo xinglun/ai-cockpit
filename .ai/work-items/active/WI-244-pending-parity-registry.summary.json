@@ -1,0 +1,17 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-24T09:02:00Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T09:00:13Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-24T09:01:51Z",
+  "preflightContractDigest": "sha256:1ee7e5fe304b9057747ca71b02d43a68ab0a8da477e2615766fa849cdb429184",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:6f56d24875e3b3cd073aa697f4d6ef1cd7ab22b701fec863baf44c4698ecca5b",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-24T09:02:00Z",
+  "workItemId": "WI-244-pending-parity-registry"
+}

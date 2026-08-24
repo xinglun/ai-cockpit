@@ -84,6 +84,25 @@ current repository、Work Item、project profile はありません。Contract �
 
 Finalization evidence は append-only chain です。canonical `<id>.finalize.json` は不変の chain root であり、後続の provider observation は predecessor digest と sequence を束縛した `<id>.finalize.<digest>.json` に保存されます。`finalize-verify` と `close` は一意な線形 head を要求し、stale predecessor、fork、malformed record、symlink、identity drift は fail closed になります。pre-merge blocked root は連続する merge observation（`retained`）と cleanup（`deleted`）transition で進みます。canonical governance receipt の commit により PR head が進む場合、最初の unmerged-to-merged observation だけが `governanceAppendRevision` を宣言できます。PR、branch、worktree の各 head は同時に変わり、Git は旧 head が新 head の ancestor であることを証明します。この append 区間には、同一 Work Item の通常 finalization receipt と、Runtime が生成した完全な post-finalize evidence bundle だけを追加できます。bundle の path は `.ai/evidence/<id>/quality-route-post-finalize.json` と `.ai/evidence/<id>/repository-gates-post-finalize.json` に限定されます。受理される各 path は Git の `A`-only change で、tree entry は `100644` regular blob でなければなりません。両 evidence file は固定 schema に従い、archived Contract、PR base、bounded head、route receipt digest、manifest digest、selected profile、および passed required gates を束縛しなければなりません。これらは束縛済み observation であって、それ自体が authority ではなく、区間には引き続き finalization receipt の追加が必要です。bundle の欠落、別 Work Item または filename、malformed/duplicate-key JSON、binding mismatch、削除、変更、rename、symlink、無関係な変更、非 merge または後続の head drift は拒否されます。archive bytes は書き換えません。cleanup は受理済み head を保持します。
 
+## Pending parity 登録
+
+`docs/reference/pending-parity-registry.json` は、同じ scope の PR に三言語 parity row を
+安全に追加できない archived code Work Item のための厳密に型付けされた一時 bridge です。
+parity evidence ではなく、Implemented を意味しません。各 entry は repository、完全な
+Work Item ID、GitHub PR、Contract base、canonical finalization head、正確な
+archive/evidence/finalize path、3 つの正確な `In progress` row、RFC 3339 created time を
+束縛します。`headRevision` は canonical receipt の PR、branch、worktree head と一致し、
+`registryBaseRevision` は registry だけを変更する 1 commit の直接の親を別に束縛します。
+
+通常の archive、verification、finalization 検証が常に先に実行されます。正確な feature
+branch または pull-request entry だけが 3 つの `missing_parity_entry` を
+`pending_parity_registration` に置き換えられます。unknown/duplicate field、foreign
+identity、unsafe/symlink path、missing/mismatched record、別 ancestor、registry 以外の
+append、partial parity、malformed JSON は fail closed です。default branch、merge 後、
+またはいずれかの parity row が存在すると entry は `stale_pending_parity_registration`
+になります。後続 change は 3 言語 row を原子的に追加して entry を削除し、predecessor
+の `.ai` record を書き換えません。
+
 Merge は Work Item の close ではありません。hosted check が通った後、正確な
 branch と worktree は別の resource-finalization 境界で処理します。
 

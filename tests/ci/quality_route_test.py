@@ -75,6 +75,13 @@ strict_gate_ids = [
 assert automatic["requiredGateIds"] == strict_gate_ids
 assert "workspace_package_tests" in strict_gate_ids
 assert "release_adopter" in strict_gate_ids
+for profile in ("light", "standard", "strict"):
+    profile_gate_ids = [
+        gate["id"]
+        for gate in manifest["gates"]
+        if route.profile_includes(manifest, profile, gate["minimumProfile"])
+    ]
+    assert "docs_pending_parity_registry_regression" in profile_gate_ids
 
 with tempfile.TemporaryDirectory(prefix="ai-cockpit-quality-route-") as temporary:
     repository = Path(temporary)

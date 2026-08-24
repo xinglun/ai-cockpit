@@ -103,6 +103,28 @@ their source language; only the human presentation layer is localized.
 
 Finalization evidence is append-only. The canonical `<id>.finalize.json` is the immutable chain root; later provider observations use `<id>.finalize.<digest>.json` and bind the predecessor digest and sequence. `finalize-verify` and `close` require one unique linear head. Stale predecessors, forks, malformed records, symlinks, and identity drift fail closed. A pre-merge blocked root advances through continuous merge-observation (`retained`) and cleanup (`deleted`) transitions. If committing the canonical governance receipt advances the PR head, only the first unmerged-to-merged observation may declare `governanceAppendRevision`: all PR, branch, and worktree heads must move together, and Git must prove the old head is its ancestor. That append range may add regular same-Work-Item finalization receipts and the complete Runtime-generated post-finalize evidence bundle at exactly `.ai/evidence/<id>/quality-route-post-finalize.json` and `.ai/evidence/<id>/repository-gates-post-finalize.json`. Every accepted path is an `A`-only Git change whose tree entry is a `100644` regular blob. The evidence files must have their fixed schemas and bind the archived Contract, PR base and bounded head, route receipt digest, manifest digest, selected profile, and passing required gates. They are bound observations, not authority by themselves, and the range must still contain a finalization receipt addition. Missing bundle members, another Work Item or filename, malformed or duplicate-key JSON, mismatched bindings, deletion, modification, rename, symlink, unrelated change, non-merge drift, or later head drift is rejected. Archive bytes are never rewritten. Cleanup retains the accepted head.
 
+## Pending parity registration
+
+`docs/reference/pending-parity-registry.json` is a typed, temporary bridge for
+an archived code Work Item whose three parity rows cannot safely be added to
+the same scoped PR. It is not parity evidence and never means Implemented. An
+entry binds the repository, full Work Item ID, GitHub PR, Contract base,
+canonical finalization head, exact archive/evidence/finalize paths, three
+exact `In progress` rows, and an RFC 3339 creation time. `headRevision` equals
+the canonical receipt's PR, branch, and worktree heads.
+`registryBaseRevision` separately binds the direct parent of one registry-only
+commit, so a reviewed base merge is not confused with finalization identity.
+
+Normal archive, verification, and finalization validation runs first. Only an
+exact feature-branch or pull-request entry can replace the three
+`missing_parity_entry` findings with `pending_parity_registration`. Unknown or
+duplicate fields, foreign identities, unsafe or symlink paths, missing or
+mismatched records, another ancestor, non-registry append, partial parity, and
+malformed JSON fail closed. On the default branch, after merge, or when any
+parity row exists, the entry is `stale_pending_parity_registration`. A
+follow-up adds all three exact rows and removes the entry atomically without
+rewriting predecessor `.ai` records.
+
 Merge is not Work Item closure. After hosted checks pass, the exact branch and
 worktree are a separate resource-finalization boundary:
 

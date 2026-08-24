@@ -78,6 +78,24 @@ Work Item 或 project profile。Contract 条件保留其原始语言，只有面
 
 资源收尾 evidence 使用 append-only 链。canonical `<id>.finalize.json` 是不可变链根；后续 provider 观察写入 `<id>.finalize.<digest>.json`，并绑定 predecessor digest 与 sequence。`finalize-verify` 和 `close` 要求唯一线性 head；stale predecessor、fork、malformed record、symlink 或 identity drift 都会 fail closed。pre-merge blocked 链根通过连续的 merge observation（`retained`）与 cleanup（`deleted`）transition 推进。如果提交 canonical 治理 receipt 导致 PR head 前移，只有第一次 unmerged-to-merged observation 可以声明 `governanceAppendRevision`：PR、branch 与 worktree 的 head 必须同步变化，Git 必须证明旧 head 是新 head 的祖先。该追加区间可以新增同一 Work Item 的普通 finalization receipt，以及完整的 Runtime 生成 post-finalize evidence bundle；后者仅允许精确路径 `.ai/evidence/<id>/quality-route-post-finalize.json` 与 `.ai/evidence/<id>/repository-gates-post-finalize.json`。每个被接受的路径都必须是 Git `A`-only 变更，tree entry 必须是 `100644` regular blob。两个 evidence 文件必须符合固定 schema，并绑定归档 Contract、PR base、有界 head、route receipt digest、manifest digest、selected profile 和全部通过的 required gates。它们只是绑定后的观察结果，本身不授予 authority；该区间仍必须包含 finalization receipt 新增。缺少任一 bundle 文件、其他 Work Item 或文件名、malformed/duplicate-key JSON、绑定不一致、删除、修改、重命名、symlink、无关变更、非 merge 或后续 head 漂移都会被拒绝。归档 bytes 绝不重写；cleanup 必须保持已接受的 head。
 
+## Pending parity 登记
+
+`docs/reference/pending-parity-registry.json` 是严格 typed 的临时桥接，只供已归档的
+代码 Work Item 在同一 scope PR 中无法安全加入三语 parity 行时使用。它不是 parity
+evidence，也绝不表示“已实现”。每条记录绑定 repository、完整 Work Item ID、GitHub PR、
+Contract base、canonical finalization head、准确的 archive/evidence/finalize 路径、三条
+准确的“进行中”行与 RFC 3339 创建时间。`headRevision` 必须等于 canonical receipt 的
+PR、branch、worktree head；`registryBaseRevision` 单独绑定仅修改 registry 的一个 commit
+之直接父提交，避免把已评审 base merge 与 finalization identity 混淆。
+
+门禁始终先执行正常 archive、verification 与 finalization 校验。只有准确的 feature
+branch 或 pull-request 条目才能把三条 `missing_parity_entry` 投影为
+`pending_parity_registration`。未知/重复字段、foreign identity、不安全路径或 symlink、
+缺失/不匹配 record、其他祖先、非 registry 追加、部分 parity 与 malformed JSON 全部
+fail closed。在 default branch、合并后或任一 parity 行已存在时，条目成为
+`stale_pending_parity_registration`。后续变更必须原子加入全部三语行并删除条目，绝不
+改写 predecessor `.ai` records。
+
 合并不等于 Work Item 关闭。Hosted checks 通过后，准确的 branch 和 worktree 还必须经过
 独立的资源收尾边界：
 
