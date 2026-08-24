@@ -7,7 +7,7 @@ audience:
   - maintainer
   - reviewer
   - adopter
-status: implemented
+status: in_progress
 lastVerifiedBy: WI-241-release-sbom-binding
 authority: canonical
 ---

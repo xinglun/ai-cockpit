@@ -6,10 +6,11 @@
     "SHA256SUMS covers every intended public asset other than itself exactly once in stable filename order, and staged validation rejects missing, duplicate, extra, or digest-mismatched entries.",
     "The final SLSA attestation subject set matches the exact public asset set and existing staged/public adopter acceptance and hosted attestation gates remain fail-closed.",
     "Static policy tests and English, Simplified Chinese, and Japanese release documentation explain artifact binding, closed asset inventory, checksum coverage, and that v0.2.31 published truth is not rewritten.",
-    "Focused Rust, release policy, documentation, formatting, lint, and full workspace checks pass with current Runtime verification evidence."
+    "Focused Rust, release policy, documentation, formatting, lint, and full workspace checks pass with current Runtime verification evidence.",
+    "Before verification, the English, Simplified Chinese, and Japanese parity ledgers retain all current default-branch Work Items and register WI-241 as conditional In progress with the exact future archived Contract, verification evidence, canonical finalize, and close paths; only a verified reviewed close promotes that row to Implemented."
   ],
   "authority": "authorized",
-  "baseRevision": "1c988ce9b04c3dcd45843f6577ed321457eeca0e",
+  "baseRevision": "7d1bd78f1ee1945d1a4b989ad0fd46d4fe98510b",
   "createdAt": "2026-08-24T07:33:41Z",
   "goal": "Fail closed before publication when a target SBOM is orphaned, duplicated, unbound, or digest-mismatched, or when the release manifest and SHA256SUMS do not exactly cover the intended public assets.",
   "intent": "Make newly built release SBOMs verifiably describe the exact packaged archive and executable, and make the published asset inventory closed and checksum-complete without rewriting the already published v0.2.31 release truth.",
@@ -101,6 +102,7 @@
     "crates/cockpit-release/src/manifest.rs",
     "tests/release/workflow_policy.sh",
     "docs/release/distribution.md",
+    "tests/ci/governance_integrity_gate.py",
     "https://github.com/anchore/sbom-action/blob/f8bdd1d8ac5e901a77a92f111440fdb1b593736b/action.yml"
   ],
   "state": "implementation_active",
@@ -108,7 +110,7 @@
     "cargo fmt --all -- --check",
     "cargo clippy --locked --workspace --all-targets -- -D warnings",
     "cargo test --locked --package cockpit-release",
-    "bash tests/release/workflow_policy.sh",
+    "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
     "bash tests/docs/documentation_acceptance.sh .",
     "bash tests/docs/parity_status_check.sh . target/WI-241-parity-status.json",
     "python3 tests/ci/governance_integrity_gate.py --repo . --report target/WI-241-governance-integrity.json",
