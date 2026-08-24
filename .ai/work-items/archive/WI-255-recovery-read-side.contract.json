@@ -36,7 +36,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-255-recovery-read-side",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/207",
     "worktree": "/private/tmp/ai-cockpit-wi255-recovery-read-side"
   },
   "risk": "high",
