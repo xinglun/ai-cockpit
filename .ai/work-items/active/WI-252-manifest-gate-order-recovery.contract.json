@@ -38,11 +38,37 @@
     "baseBranch": "main",
     "baseRemote": "origin",
     "branch": "codex/wi-252-manifest-gate-order-recovery",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/204",
     "worktree": "/private/tmp/ai-cockpit-wi252-manifest-gate-order-recovery"
   },
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The Runtime successor receipt binds every WI-245 predecessor digest while the WI-252 branch imports no WI-245 archive, evidence, Outcome, event, or finalization byte and therefore does not falsely register WI-245 as a current parity Work Item.",
+      "required": true,
+      "scenario": "immutable-wi245-recovery",
+      "status": "unverified",
+      "verificationPlan": "Validate the recovery receipt and compare the successor diff against current origin/main and the retained predecessor branch."
+    },
+    {
+      "evidence": [],
+      "expected": "Gate IDs remain globally unique and lexically sorted; duplicate and out-of-order fixtures fail before route selection, while docs_work_item_status_consistency is registered after docs_pending_parity_registry_regression.",
+      "required": true,
+      "scenario": "manifest-ordering-fail-closed",
+      "status": "unverified",
+      "verificationPlan": "Run repository gate manifest and quality-route focused regressions, including the exact PR #203 out-of-order fixture."
+    },
+    {
+      "evidence": [],
+      "expected": "Still-applicable WI-245 documentation-governance content passes tri-language, inventory, release-truth, governance, full workspace, installed Runtime, and exact-head hosted quality without changing intervening truth.",
+      "required": true,
+      "scenario": "successor-redelivery-and-hosted-quality",
+      "status": "unverified",
+      "verificationPlan": "Run every declared local check, installed Runtime PR-stage verification, and hosted quality/Windows/V1 checks on the dedicated successor PR."
+    }
+  ],
   "scope": [
     ".ai/decisions/WI-245-doc-status-parity-recovery.recovery.json",
     "tests/ci/repository_gate_manifest.json",
@@ -67,32 +93,6 @@
     "docs/reference/reference-parity.zh-CN.md",
     "docs/reference/reference-parity.ja.md",
     "docs/work-items/**"
-  ],
-  "scenarioCoverage": [
-    {
-      "scenario": "immutable-wi245-recovery",
-      "required": true,
-      "expected": "The Runtime successor receipt binds every WI-245 predecessor digest while the WI-252 branch imports no WI-245 archive, evidence, Outcome, event, or finalization byte and therefore does not falsely register WI-245 as a current parity Work Item.",
-      "verificationPlan": "Validate the recovery receipt and compare the successor diff against current origin/main and the retained predecessor branch.",
-      "status": "unverified",
-      "evidence": []
-    },
-    {
-      "scenario": "manifest-ordering-fail-closed",
-      "required": true,
-      "expected": "Gate IDs remain globally unique and lexically sorted; duplicate and out-of-order fixtures fail before route selection, while docs_work_item_status_consistency is registered after docs_pending_parity_registry_regression.",
-      "verificationPlan": "Run repository gate manifest and quality-route focused regressions, including the exact PR #203 out-of-order fixture.",
-      "status": "unverified",
-      "evidence": []
-    },
-    {
-      "scenario": "successor-redelivery-and-hosted-quality",
-      "required": true,
-      "expected": "Still-applicable WI-245 documentation-governance content passes tri-language, inventory, release-truth, governance, full workspace, installed Runtime, and exact-head hosted quality without changing intervening truth.",
-      "verificationPlan": "Run every declared local check, installed Runtime PR-stage verification, and hosted quality/Windows/V1 checks on the dedicated successor PR.",
-      "status": "unverified",
-      "evidence": []
-    }
   ],
   "sources": [
     "origin/main@87bfd86645adf7f4a6f86e447763542988371039",
