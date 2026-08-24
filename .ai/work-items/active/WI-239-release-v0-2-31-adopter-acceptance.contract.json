@@ -35,28 +35,32 @@
       "required": true,
       "status": "verified",
       "expected": "v0.2.31 is published and its public archive, manifest, checksums, and binary identity agree.",
-      "verificationPlan": "Run the public Release acceptance harness and inspect runtime.json, release-manifest.json, and SHA256SUMS.release."
+      "verificationPlan": "Run the public Release acceptance harness and inspect runtime.json, release-manifest.json, and SHA256SUMS.release.",
+      "evidence": [".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/runtime.json", ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/release-manifest.json", ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/SHA256SUMS.release"]
     },
     {
       "scenario": "fresh isolated adopter",
       "required": true,
       "status": "verified",
       "expected": "A fresh adopter passes attach, Agent doctor, repository identity, isolation, lifecycle close, and run-root cleanup.",
-      "verificationPlan": "Run adopter_acceptance.sh against v0.2.31 using only the public archive and inspect acceptance.json, isolation.json, cleanup.json, and lifecycle evidence."
+      "verificationPlan": "Run adopter_acceptance.sh against v0.2.31 using only the public archive and inspect acceptance.json, isolation.json, cleanup.json, and lifecycle evidence.",
+      "evidence": [".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/acceptance.json", ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/isolation.json", ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/cleanup.json"]
     },
     {
       "scenario": "evidence reuse and not_ready scaffold",
       "required": true,
       "status": "verified",
       "expected": "first-adopter-smoke remains not_ready and the second verification reuses prior evidence without spawning a process.",
-      "verificationPlan": "Inspect first-adopter-smoke.contract.json, verify-first.json, verify-reuse.json, and the reuse assertion in acceptance.json."
+      "verificationPlan": "Inspect first-adopter-smoke.contract.json, verify-first.json, verify-reuse.json, and the reuse assertion in acceptance.json.",
+      "evidence": [".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/work-items/first-adopter-smoke.contract.json", ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/verify-first.json", ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/verify-reuse.json"]
     },
     {
       "scenario": "installed Runtime self-governance",
       "required": true,
       "status": "verified",
       "expected": "The installed v0.2.31 binary passes explicit repository-bound inspect, status, doctor, and Agent doctor for this repository.",
-      "verificationPlan": "Run the installed binary with --repo /Users/sei-rinn/dev/workspace_rust/ai-cockpit and compare Runtime identity and preserved root changes."
+      "verificationPlan": "Run the installed binary with --repo /Users/sei-rinn/dev/workspace_rust/ai-cockpit and compare Runtime identity and preserved root changes.",
+      "evidence": [".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/installed-runtime.json", ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/installed-inspect.json", ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/installed-status.json", ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/installed-doctor.json", ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/installed-agent-doctor.json"]
     }
   ],
   "resourceContext": {
