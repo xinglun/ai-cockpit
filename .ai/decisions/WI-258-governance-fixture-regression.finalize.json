@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-pre-merge-finalization-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "4835f899a6132a82ceff47221187bf97576faded",
+    "name": "codex/wi-258-governance-fixture",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:3e8d2effff40d3454d0582d3c2d1ca75d65287a557a378c568a8afcce27c1ef3",
+  "operationId": "operation-WI-258-governance-fixture-regression-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "b55bdcd91ca6e228aa9cc095ee1ac4fddc6c0be4",
+    "headRevision": "4835f899a6132a82ceff47221187bf97576faded",
+    "number": 210,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/210"
+  },
+  "reason": "awaiting_merge_close: PR #210 is unmerged; retain the exact reviewed branch and clean worktree until hosted checks pass, human review is complete, and the reviewed pull request is merged.",
+  "receiptId": "ai-cockpit-WI-258-governance-fixture-regression-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-258-governance-fixture",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/210",
+    "worktree": "/private/tmp/ai-cockpit-wi258-governance-fixture"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-24T23:36:58Z",
+  "workItemId": "WI-258-governance-fixture-regression",
+  "worktree": {
+    "branch": "codex/wi-258-governance-fixture",
+    "headRevision": "4835f899a6132a82ceff47221187bf97576faded",
+    "path": "/private/tmp/ai-cockpit-wi258-governance-fixture",
+    "worktreeId": "WI-258-governance-fixture-regression"
+  }
+}
