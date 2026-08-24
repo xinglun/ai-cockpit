@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:efab054a4a5ab5807cb13fa17bf4324201b95f683b38870afe05f799ad7aa4ae",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "post-merge-exact-resource-cleanup",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "628c219ff0477db2eedebbdcfb40b4d85fab34e6",
+      "name": "codex/wi-233-release-adopter-v0-2-29-retry",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:9ea50c81f640c4881551cf663143843b4bad9c417e8f533cb509d4c51bd38625",
+    "operationId": "operation-WI-233-release-adopter-v0-2-29-retry-resources-deleted",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "626d72d149acbaf25128393bd70eb2f31aac7c39",
+      "headRevision": "628c219ff0477db2eedebbdcfb40b4d85fab34e6",
+      "mergeCommit": "29e3c2985a3c25f0a3e847364d3889744cee9f43",
+      "number": 183,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/183"
+    },
+    "reason": "PR #183 merged as 29e3c2985a3c25f0a3e847364d3889744cee9f43; the exact remote and local WI-233 feature branches were deleted, the clean WI-233 feature worktree was removed, and origin/main was synchronized in the isolated closure worktree.",
+    "receiptId": "ai-cockpit-WI-233-release-adopter-v0-2-29-retry-resources-deleted",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-233-release-adopter-v0-2-29-retry",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/183",
+      "worktree": "/private/tmp/ai-cockpit-wi233-release-adopter-v0-2-29-retry"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:94d8ee4e27023e1cb677486164af3e96633411105a4596140d4c0f4e64776137",
+    "runtimeVersion": "0.2.29",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-24T02:45:00Z",
+    "workItemId": "WI-233-release-adopter-v0-2-29-retry",
+    "worktree": {
+      "branch": "codex/wi-233-release-adopter-v0-2-29-retry",
+      "headRevision": "628c219ff0477db2eedebbdcfb40b4d85fab34e6",
+      "path": "/private/tmp/ai-cockpit-wi233-release-adopter-v0-2-29-retry",
+      "worktreeId": "WI-233-release-adopter-v0-2-29-retry"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "transition-WI-233-release-adopter-v0-2-29-retry-resources-deleted-2"
+}
