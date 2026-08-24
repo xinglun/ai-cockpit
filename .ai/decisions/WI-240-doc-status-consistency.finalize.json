@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "WI-240 Contract owner authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "b34f4fecfd651edf0ebc288dadcb6626bf379065",
+    "name": "codex/wi-240-doc-status",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:904fd44ab306d37efc484cea158eee0b22aa6a69e1e0d50167141579ba9be203",
+  "operationId": "wi-240-finalization-premerge",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "1c988ce9b04c3dcd45843f6577ed321457eeca0e",
+    "headRevision": "b34f4fecfd651edf0ebc288dadcb6626bf379065",
+    "number": 194,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/194"
+  },
+  "reason": "await reviewed merge and exact branch/worktree cleanup",
+  "receiptId": "wi-240-premerge-b34f4fe",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-240-doc-status",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/194",
+    "worktree": "/private/tmp/ai-cockpit-wi240-doc-status"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-24T08:17:04Z",
+  "workItemId": "WI-240-doc-status-consistency",
+  "worktree": {
+    "branch": "codex/wi-240-doc-status",
+    "headRevision": "b34f4fecfd651edf0ebc288dadcb6626bf379065",
+    "path": "/private/tmp/ai-cockpit-wi240-doc-status",
+    "worktreeId": "ai-cockpit-wi240-doc-status"
+  }
+}
