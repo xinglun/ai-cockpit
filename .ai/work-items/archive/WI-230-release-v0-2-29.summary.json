@@ -30,8 +30,8 @@
     }
   ],
   "changedPaths": [
-    ".ai/work-items/active/WI-230-release-v0-2-29.contract.json",
-    ".ai/work-items/active/WI-230-release-v0-2-29.summary.json"
+    ".ai/work-items/archive/WI-230-release-v0-2-29.contract.json",
+    ".ai/work-items/archive/WI-230-release-v0-2-29.summary.json"
   ],
   "checkpointAt": "2026-08-24T01:00:52Z",
   "checkpointCount": 1,
@@ -48,11 +48,11 @@
   },
   "mode": "code",
   "outcomeState": "blocked",
-  "preflightAt": "2026-08-24T01:10:55Z",
+  "preflightAt": "2026-08-24T01:13:31Z",
   "preflightContractDigest": "sha256:5820201ae90af2c6ae37f1b166f5ca3ba4f16f0b65f630345188595bd16590b8",
-  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
-  "preflightRepositorySnapshotDigest": "sha256:20eb2cf58c74f4d118a1e350a593c347f10347033092265b5af658daf81bf0a6",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:42f64e8ebe8076336d877af3d050a5b4207658543c5d3f3142ba3cdb68483e2c",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -85,7 +85,7 @@
       "verificationPlan": "Install only the public artifact, record runtime identity, then run repository-bound lifecycle commands."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-08-24T01:10:08Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-24T01:13:37Z",
   "workItemId": "WI-230-release-v0-2-29"
 }
