@@ -1,17 +1,58 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-228-governance-append-evidence.recovery.json"
+    ".ai/work-items/active/WI-229-governance-append-parity-recovery.summary.json"
   ],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-08-24T00:24:20Z",
+  "checkpointCount": 1,
   "createdAt": "2026-08-24T00:20:55Z",
+  "intentAlignment": {
+    "basis": "WI-229 is the bounded successor required because hosted CI found an out-of-scope parity registration gap only after WI-228 had immutable archive and finalization bytes. It preserves that predecessor truth, carries the corrective validator delivery, and adds only the exact tri-language parity registrations needed for an auditable hosted handoff.",
+    "evidence": [
+      ".ai/decisions/WI-228-governance-append-evidence.recovery.json",
+      ".ai/work-items/archive/WI-228-governance-append-evidence.archive.json",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/32675897996",
+      ".ai/work-items/active/WI-229-governance-append-parity-recovery.contract.json"
+    ],
+    "state": "resolved"
+  },
   "mode": "code",
   "predecessorContractDigest": "sha256:84dc15c8cd02e038884e248dce8a82c4996fffc9ecea8049c3de1286205170a1",
   "predecessorWorkItemId": "WI-228-governance-append-evidence",
-  "preflightState": "not_run",
+  "preflightAt": "2026-08-24T00:28:15Z",
+  "preflightContractDigest": "sha256:bac2742f71a1b3926e036bd4b59f8d3ee7844c2d03fde651859b6e538347bd31",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:6c34ea8c0a21e85638d5042daf224e5d1e0f046b1d9c0909bd6d4d3b86fbdfad",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-228-governance-append-evidence.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "not_ready",
-  "updatedAt": "2026-08-24T00:20:55Z",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The cherry-picked WI-228 implementation and immutable predecessor lifecycle bytes remain byte-identical while the bounded validator accepts only the fixed same-Work-Item receipt pair and all negative paths remain fail closed.",
+      "required": true,
+      "scenario": "immutable predecessor and validator behavior",
+      "status": "unverified",
+      "verificationPlan": "Compare predecessor artifact digests, then run the protocol and repository resource-finalization regressions."
+    },
+    {
+      "evidence": [],
+      "expected": "English, Simplified Chinese, and Japanese reference-parity each contain one WI-228 row and one WI-229 row with the exact verification and recovery/finalization paths and the language-specific implemented state token.",
+      "required": true,
+      "scenario": "tri-language parity registration",
+      "status": "unverified",
+      "verificationPlan": "Run documentation acceptance, parity integrity, and parity regression gates after adding only the six bounded rows."
+    },
+    {
+      "evidence": [],
+      "expected": "Installed Runtime v0.2.28 binds the current Contract and PR-stage workspace evidence, archives a visible Chinese Outcome, records only a canonical pre-merge finalization receipt, and hosted quality, Windows, and V1 checks pass before merge.",
+      "required": true,
+      "scenario": "successor lifecycle and hosted gate",
+      "status": "unverified",
+      "verificationPlan": "Complete preflight/checkpoint/verify/finish/archive/finalize, push the reviewed branch, and inspect every hosted check without closing before merge."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-08-24T00:24:20Z",
   "workItemId": "WI-229-governance-append-parity-recovery"
 }
