@@ -1,0 +1,23 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-240-doc-status-consistency.contract.json",
+    ".ai/work-items/archive/WI-240-doc-status-consistency.summary.json"
+  ],
+  "checkpointAt": "2026-08-24T07:29:27Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T07:28:27Z",
+  "failedGate": "finish.governance",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-24T08:15:18Z",
+  "preflightContractDigest": "sha256:4a3790e582fb64758652789b29cc14c1400c5643128776026166c8f026bf2b88",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:b3a16df5d092647fd7da51aa9fc4f36848f6fbf374159192e9c4316fe4ee8fdc",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-24T08:15:22Z",
+  "workItemId": "WI-240-doc-status-consistency"
+}

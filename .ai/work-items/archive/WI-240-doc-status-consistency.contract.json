@@ -1,0 +1,73 @@
+{
+  "acceptanceCriteria": [
+    "Pinned reference commit remains unchanged and target baseline is the reviewed current main commit.",
+    "Every changed Work Item document has English, Simplified Chinese, and Japanese counterparts with identical workItemId, semantically equivalent status, and authoritative lastVerifiedBy.",
+    "Terminal docs status is derived from authoritative archive/decision/parity evidence; stale release-preparation, implementation, active, current, complete, or in_progress labels are corrected without rewriting historical bytes.",
+    "The ledger distinguishes implemented-different-by-design, generated-history, deferred-next-batch, and migrate-gap; the four capability/profile gaps remain explicit until a separate bounded implementation or policy decision.",
+    "Tri-language release distribution documentation does not call the mutable v0.2.31 provider Release immutable, distinguishes the persisted macOS ARM adopter receipt from the hosted Linux acceptance artifact, and keeps release identity and drift detection explicit without rewriting published Release truth.",
+    "A deterministic regression check fails on status/parity drift and passes on the synchronized repository.",
+    "Documentation acceptance, release truth regression, reference inventory check, governance integrity gate, and installed Runtime inspect/status/doctor evidence pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1c988ce9b04c3dcd45843f6577ed321457eeca0e",
+  "createdAt": "2026-08-24T07:28:27Z",
+  "goal": "Synchronize the file-by-file reference ledger and Work Item document status with authoritative current main evidence, while preserving immutable historical records and explicitly retaining unresolved migrate gaps.",
+  "intent": "Refresh the reference comparison ledger and user-facing Work Item documentation so published main truth, tri-language docs, parity baselines, and machine-readable comparison records cannot silently drift.",
+  "mode": "code",
+  "outOfScope": [
+    "Runtime/Core behavior",
+    " release assets",
+    " SBOM generation",
+    " rewriting .ai archive/evidence/decision bytes",
+    " changing the pinned reference commit",
+    " closing unresolved capability/profile migrate gaps",
+    " and changing the user-owned root worktree."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f095006276b05c7d0b35628318840c254dcc99d4085e8cef421a17abba11d3c2",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-240-doc-status",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/194",
+    "worktree": "/private/tmp/ai-cockpit-wi240-doc-status"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/docs/work_item_status_consistency.py",
+    "tests/docs/work_item_status_consistency_test.sh",
+    "tests/ci/repository_gate_manifest.json",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "tests/release/version_consistency.sh",
+    "tests/release/version_consistency_test.sh",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/**"
+  ],
+  "sources": [
+    ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/release.json",
+    ".ai/evidence/WI-239-release-v0-2-31-adopter-acceptance/acceptance.json",
+    "GitHub Release API repos/xinglun/ai-cockpit/releases/tags/v0.2.31"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-240-doc-status-consistency"
+}

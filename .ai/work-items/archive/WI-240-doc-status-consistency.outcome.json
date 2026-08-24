@@ -1,0 +1,146 @@
+{
+  "acceptanceResults": [
+    "Pinned reference commit remains unchanged and target baseline is the reviewed current main commit.",
+    "Every changed Work Item document has English, Simplified Chinese, and Japanese counterparts with identical workItemId, semantically equivalent status, and authoritative lastVerifiedBy.",
+    "Terminal docs status is derived from authoritative archive/decision/parity evidence; stale release-preparation, implementation, active, current, complete, or in_progress labels are corrected without rewriting historical bytes.",
+    "The ledger distinguishes implemented-different-by-design, generated-history, deferred-next-batch, and migrate-gap; the four capability/profile gaps remain explicit until a separate bounded implementation or policy decision.",
+    "Tri-language release distribution documentation does not call the mutable v0.2.31 provider Release immutable, distinguishes the persisted macOS ARM adopter receipt from the hosted Linux acceptance artifact, and keeps release identity and drift detection explicit without rewriting published Release truth.",
+    "A deterministic regression check fails on status/parity drift and passes on the synchronized repository.",
+    "Documentation acceptance, release truth regression, reference inventory check, governance integrity gate, and installed Runtime inspect/status/doctor evidence pass."
+  ],
+  "createdAt": "2026-08-24T08:15:22Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:654a5738c3b1803fdfea0d51984722833f7603aac13c55f2ba69376d9133ada8",
+  "evidenceRefs": [
+    ".ai/evidence/WI-240-doc-status-consistency.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-240-doc-status-consistency.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-240-doc-status-consistency.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b3a16df5d092647fd7da51aa9fc4f36848f6fbf374159192e9c4316fe4ee8fdc",
+      "workItemId": "WI-240-doc-status-consistency"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-240-doc-status-consistency.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-240-doc-status-consistency.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-240-doc-status-consistency.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-240-doc-status-consistency.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-240-doc-status-consistency.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-240-doc-status-consistency.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-240-doc-status-consistency.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-240-doc-status-consistency.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-240-doc-status-consistency.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-240-doc-status-consistency.contract.json"
+          ],
+          "inference": false,
+          "text": "Synchronize the file-by-file reference ledger and Work Item document status with authoritative current main evidence, while preserving immutable historical records and explicitly retaining unresolved migrate gaps."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-240-doc-status-consistency.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-240-doc-status-consistency"
+  },
+  "taskReportDigest": "sha256:2cd84a3f0feb25330828dc5f9202b939455330fe01699633d78dfba0f919302d",
+  "taskReportMarkdownDigest": "sha256:c753e19cfcbf514586e3b91323bc4f763243e459be64f6de6610156412b9ea22",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-240-doc-status-consistency.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-240-doc-status-consistency"
+}

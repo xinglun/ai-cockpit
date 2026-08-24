@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-24T08:15:44Z",
+  "files": {
+    "contractDigest": "sha256:904fd44ab306d37efc484cea158eee0b22aa6a69e1e0d50167141579ba9be203",
+    "contractPath": ".ai/work-items/archive/WI-240-doc-status-consistency.contract.json",
+    "eventsDigest": "sha256:0c4b1bbdde5ccd4ee34ba588e1d948c2c2df5a4c7d7db0cf571b42833348459e",
+    "eventsPath": ".ai/work-items/archive/WI-240-doc-status-consistency.events.jsonl",
+    "outcomeDigest": "sha256:24014cddd8dfff5ec049277d3e3bfa7de4a56498834746877a5cac1f464e0b37",
+    "outcomePath": ".ai/work-items/archive/WI-240-doc-status-consistency.outcome.json",
+    "summaryDigest": "sha256:0a9a961903bb6ec59a8906972c6c2d2a40ff59c06a8b1f3c5be09f57a8f3c404",
+    "summaryPath": ".ai/work-items/archive/WI-240-doc-status-consistency.summary.json",
+    "taskReportDigest": "sha256:2cd84a3f0feb25330828dc5f9202b939455330fe01699633d78dfba0f919302d",
+    "taskReportMarkdownDigest": "sha256:c753e19cfcbf514586e3b91323bc4f763243e459be64f6de6610156412b9ea22",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-240-doc-status-consistency.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-240-doc-status-consistency.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-240-doc-status-consistency"
+}
