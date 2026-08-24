@@ -35,7 +35,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-241-release-sbom-binding",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/193",
     "worktree": "/private/tmp/ai-cockpit-wi241-sbom"
   },
   "risk": "high",
