@@ -1,0 +1,129 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-236-release-v0-2-30.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3f28a3ea1df29be3250baab510bad15cfb0bebca5a83455238e96bb12440024a",
+      "workItemId": "WI-236-release-v0-2-30"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-236-release-v0-2-30.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-236-release-v0-2-30.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-236-release-v0-2-30.finalize.2cbb99e7901667e06784396140da2c18e3e113cde6b179f63527383e64f1a135.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via reviewed-pr-hosted-checks at 2026-08-24T05:06:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-236-release-v0-2-30.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-236-release-v0-2-30.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-236-release-v0-2-30.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-236-release-v0-2-30.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-236-release-v0-2-30.contract.json"
+          ],
+          "inference": false,
+          "text": "Establish the v0.2.30 release baseline, publish it, install the released binary, and prove adopter and upgrade acceptance from a clean environment."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-236-release-v0-2-30.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-236-release-v0-2-30"
+  },
+  "finalReportDigest": "sha256:0b38b8671430e3b51083a6daf51aa79985f6ee781a72c1a5570d1d4afad81970",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:82fea8255a62cd31405bc2bb1cfc368c6a24f2ee1fda05afeb27555a98d47d4d",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-236-release-v0-2-30.finalize.2cbb99e7901667e06784396140da2c18e3e113cde6b179f63527383e64f1a135.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "reviewed-pr-hosted-checks",
+    "decidedAt": "2026-08-24T05:06:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/decisions/WI-236-release-v0-2-30.finalize.2cbb99e7901667e06784396140da2c18e3e113cde6b179f63527383e64f1a135.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md"
+    ],
+    "reason": "PR #187 merged with all hosted checks passed; exact release branch/worktree deletion and terminal finalization transition verified. Post-release artifact/adopter acceptance is assigned to the successor Work Item.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-24T05:05:55Z",
+  "workItemId": "WI-236-release-v0-2-30"
+}
