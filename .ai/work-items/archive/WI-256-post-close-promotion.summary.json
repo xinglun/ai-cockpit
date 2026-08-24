@@ -1,0 +1,66 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-256-post-close-promotion.contract.json",
+    ".ai/work-items/archive/WI-256-post-close-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-08-24T17:36:02Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T17:34:16Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "tests/docs/post_close_work_item_test.sh",
+      "docs/reference/agent-workflow.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-24T18:03:10Z",
+  "preflightContractDigest": "sha256:2532d419808e1ca0bbab79d93e56febf8d992a7ba4e036db6de055006b38ef38",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:64c0df29686cb657a84a5c8c02e41c78ccee3955fdc42588b17232231e4e3a27",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/docs/post_close_work_item_test.sh"
+      ],
+      "required": true,
+      "scenario": "valid-plan-apply-and-idempotent-rerun",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/docs/post_close_work_item_test.sh"
+      ],
+      "required": true,
+      "scenario": "typed-identity-and-staleness-fail-closed",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/docs/post_close_work_item_test.sh"
+      ],
+      "required": true,
+      "scenario": "dirty-unexpected-and-partial-projection-fail-closed",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/repository_gate_manifest_test.sh",
+        "tests/docs/documentation_acceptance.sh",
+        "tests/ci/governance_integrity_gate.py"
+      ],
+      "required": true,
+      "scenario": "actionable-post-close-handoff-and-terminal-gate",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-24T18:03:55Z",
+  "workItemId": "WI-256-post-close-promotion"
+}

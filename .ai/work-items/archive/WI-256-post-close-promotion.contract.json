@@ -32,10 +32,44 @@
     "baseRemote": "origin",
     "branch": "codex/wi-256-post-close-promotion",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/208",
     "worktree": "/private/tmp/ai-cockpit-wi256-post-close-promotion"
   },
   "risk": "normal",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A plan created on a clean dedicated branch at the synchronized origin/main revision binds WI-255 terminal archive, verification, sequence-2 finalization, approved close, and the exact before/after digests of all six controlled documentation paths; apply promotes them and a fresh rerun reports current with no writes.",
+      "required": true,
+      "scenario": "valid-plan-apply-and-idempotent-rerun",
+      "status": "planned",
+      "verificationPlan": "Write and run a fixture-based RED/GREEN wrapper regression, then execute the wrapper against real WI-255 and compare immutable lifecycle digests before and after."
+    },
+    {
+      "evidence": [],
+      "expected": "A foreign repository or Work Item, stale repository revision, mismatched close/finalization/archive/evidence digest, malformed or symlinked plan/input, or unknown plan field fails before any documentation byte changes.",
+      "required": true,
+      "scenario": "typed-identity-and-staleness-fail-closed",
+      "status": "planned",
+      "verificationPlan": "Mutate one binding at a time in isolated fixtures and assert nonzero stable diagnostics plus identical before/after documentation digests."
+    },
+    {
+      "evidence": [],
+      "expected": "A dirty repository, unexpected changed path, or partial tri-language projection fails closed; apply never hides or overwrites unrelated user changes and accepts only the six exact planned paths.",
+      "required": true,
+      "scenario": "dirty-unexpected-and-partial-projection-fail-closed",
+      "status": "planned",
+      "verificationPlan": "Create fixtures with unrelated tracked/untracked changes and partial controlled-path edits, then verify no-write rejection and explicit path diagnostics."
+    },
+    {
+      "evidence": [],
+      "expected": "AGENTS, English, Simplified Chinese, and Japanese workflow/commands documentation require close → visible Outcome → post-close plan/apply → check-all → terminal CI, while the mandatory gate names the exact wrapper command needed to repair an omitted promotion.",
+      "required": true,
+      "scenario": "actionable-post-close-handoff-and-terminal-gate",
+      "status": "planned",
+      "verificationPlan": "Run documentation acceptance, manifest regression, governance integrity, and static wrapper-policy checks against both stale and promoted fixtures."
+    }
+  ],
   "scope": [
     "AGENTS.md",
     "tests/docs/post_close_work_item.py",
@@ -84,40 +118,6 @@
     "tests/docs/promote_closed_work_item.py",
     "tests/docs/promote_closed_work_item_test.sh",
     "https://github.com/xinglun/ai-cockpit/actions/runs/32756605523"
-  ],
-  "scenarioCoverage": [
-    {
-      "evidence": [],
-      "expected": "A plan created on a clean dedicated branch at the synchronized origin/main revision binds WI-255 terminal archive, verification, sequence-2 finalization, approved close, and the exact before/after digests of all six controlled documentation paths; apply promotes them and a fresh rerun reports current with no writes.",
-      "required": true,
-      "scenario": "valid-plan-apply-and-idempotent-rerun",
-      "status": "planned",
-      "verificationPlan": "Write and run a fixture-based RED/GREEN wrapper regression, then execute the wrapper against real WI-255 and compare immutable lifecycle digests before and after."
-    },
-    {
-      "evidence": [],
-      "expected": "A foreign repository or Work Item, stale repository revision, mismatched close/finalization/archive/evidence digest, malformed or symlinked plan/input, or unknown plan field fails before any documentation byte changes.",
-      "required": true,
-      "scenario": "typed-identity-and-staleness-fail-closed",
-      "status": "planned",
-      "verificationPlan": "Mutate one binding at a time in isolated fixtures and assert nonzero stable diagnostics plus identical before/after documentation digests."
-    },
-    {
-      "evidence": [],
-      "expected": "A dirty repository, unexpected changed path, or partial tri-language projection fails closed; apply never hides or overwrites unrelated user changes and accepts only the six exact planned paths.",
-      "required": true,
-      "scenario": "dirty-unexpected-and-partial-projection-fail-closed",
-      "status": "planned",
-      "verificationPlan": "Create fixtures with unrelated tracked/untracked changes and partial controlled-path edits, then verify no-write rejection and explicit path diagnostics."
-    },
-    {
-      "evidence": [],
-      "expected": "AGENTS, English, Simplified Chinese, and Japanese workflow/commands documentation require close → visible Outcome → post-close plan/apply → check-all → terminal CI, while the mandatory gate names the exact wrapper command needed to repair an omitted promotion.",
-      "required": true,
-      "scenario": "actionable-post-close-handoff-and-terminal-gate",
-      "status": "planned",
-      "verificationPlan": "Run documentation acceptance, manifest regression, governance integrity, and static wrapper-policy checks against both stale and promoted fixtures."
-    }
   ],
   "state": "implementation_active",
   "verification": [
