@@ -81,6 +81,7 @@ git -C "$fixture" commit -m 'prepare post-close fixture' >/dev/null
 git init --bare "$tmp/origin.git" >/dev/null
 git -C "$fixture" remote add origin "$tmp/origin.git"
 git -C "$fixture" push -u origin main >/dev/null
+git --git-dir="$tmp/origin.git" symbolic-ref HEAD refs/heads/main
 
 revision=$(git -C "$fixture" rev-parse HEAD)
 repository_id=$(jq -r .repositoryId "$fixture/.ai/project.json")

@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "authorized-WI-256-reviewed-pull-request-lifecycle",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "2419e03d00eeb403cd54d90bc73fabe4650bb78c",
+    "name": "codex/wi-256-post-close-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:3cd67eb8893ac603115835cbdec17011639831f35bbeed3062741be3c861cd3d",
+  "operationId": "operation-WI-256-post-close-promotion-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "b55bdcd91ca6e228aa9cc095ee1ac4fddc6c0be4",
+    "headRevision": "2419e03d00eeb403cd54d90bc73fabe4650bb78c",
+    "number": 208,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/208"
+  },
+  "reason": "awaiting_merge_close: PR #208 remains unmerged; retain the exact reviewed branch and clean worktree until hosted checks pass, human review completes, and the reviewed pull request is merged.",
+  "receiptId": "ai-cockpit-WI-256-post-close-promotion-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-256-post-close-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/208",
+    "worktree": "/private/tmp/ai-cockpit-wi256-post-close-promotion"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-24T18:10:00Z",
+  "workItemId": "WI-256-post-close-promotion",
+  "worktree": {
+    "branch": "codex/wi-256-post-close-promotion",
+    "headRevision": "2419e03d00eeb403cd54d90bc73fabe4650bb78c",
+    "path": "/private/tmp/ai-cockpit-wi256-post-close-promotion",
+    "worktreeId": "WI-256-post-close-promotion"
+  }
+}
