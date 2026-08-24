@@ -1,0 +1,96 @@
+{
+  "acceptanceCriteria": [
+    "A1: Workspace package metadata and Cargo.lock consistently identify v0.2.30.",
+    "A2: Release, versioning, distribution, and tri-language parity documents identify v0.2.30 and preserve v0.2.29 as N-1 where applicable.",
+    "A3: Format, clippy, workspace tests, documentation, conformance, release policy, and version consistency checks pass.",
+    "A4: The reviewed PR is merged, the public v0.2.30 Release tag and immutable artifacts are published, and release identity is recorded.",
+    "A5: Installed public v0.2.30 inspect/status/doctor/agent doctor pass, and isolated adopter/upgrade acceptance receipts bind the published runtime identity and clean temporary roots."
+  ],
+  "authority": "authorized",
+  "baseRevision": "488170a6e0b26141877cbd8d437c42c41471b8ff",
+  "createdAt": "2026-08-24T04:24:46Z",
+  "goal": "Establish the v0.2.30 release baseline, publish it, install the released binary, and prove adopter and upgrade acceptance from a clean environment.",
+  "intent": "Publish v0.2.30 from the merged default branch and verify the immutable public artifact with installed-runtime acceptance.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Rewriting prior release truth or historical archive bytes",
+    "Changing Runtime governance semantics unrelated to release versioning",
+    "Modifying global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:eac37b48c73d23e5a5967f7dab4514353b01097836d6e557bfcdf31517ce9ce5",
+  "requiredEvidenceClasses": [
+    "verification",
+    "repository_gate",
+    "release_manifest",
+    "release_adopter_acceptance",
+    "release_upgrade_acceptance",
+    "resource_finalization"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi236-release-v0-2-30",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi236-release"
+  },
+  "risk": "high",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-236-release-v0-2-30.md",
+    "docs/work-items/WI-236-release-v0-2-30.zh-CN.md",
+    "docs/work-items/WI-236-release-v0-2-30.ja.md",
+    ".ai/work-items/active/WI-236-release-v0-2-30.contract.json",
+    ".ai/work-items/active/WI-236-release-v0-2-30.summary.json"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "version-and-documentation-consistency",
+      "expected": "Cargo metadata, Cargo.lock, release documentation, and tri-language parity identify v0.2.30 with v0.2.29 as N-1.",
+      "required": true,
+      "status": "unverified",
+      "verificationPlan": "Run version consistency, documentation acceptance, parity, format, clippy, and workspace tests."
+    },
+    {
+      "scenario": "immutable-public-release-identity",
+      "expected": "The reviewed merge commit, v0.2.30 tag, release manifest, archive checksums, and binary digest are one immutable identity.",
+      "required": true,
+      "status": "unverified",
+      "verificationPlan": "Run the release workflow and record tag, manifest, archive, binary, and provider Release evidence."
+    },
+    {
+      "scenario": "installed-public-adopter-lifecycle",
+      "expected": "The downloaded v0.2.30 binary governs a fresh adopter repository, preserving first-adopter-smoke as not_ready and completing the Work Item lifecycle.",
+      "required": true,
+      "status": "unverified",
+      "verificationPlan": "Run the public adopter acceptance harness with isolated HOME, XDG_CONFIG_HOME, TMPDIR, and CARGO_HOME."
+    },
+    {
+      "scenario": "n-minus-one-upgrade-and-cleanup",
+      "expected": "The v0.2.29 adopter upgrades to v0.2.30 with migration/compatibility evidence, and all temporary roots are cleaned without changing Release truth.",
+      "required": true,
+      "status": "unverified",
+      "verificationPlan": "Run the public upgrade acceptance harness and verify cleanup manifests and receipts."
+    }
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-236-release-v0-2-30"
+}

@@ -1,0 +1,99 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "source version consistency",
+          "path": "tests/release/version_consistency.sh",
+          "type": "release-policy-gate",
+          "verification": "The source package metadata and Cargo.lock identify v0.2.30."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "tri-language documentation",
+          "path": "docs/reference/reference-parity.md",
+          "type": "documentation-gate",
+          "verification": "Documentation acceptance and parity checks pass for the v0.2.30 baseline."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "workspace verification",
+          "path": ".ai/evidence/WI-236-release-v0-2-30.verification.json",
+          "type": "runtime-verification",
+          "verification": "Installed Runtime v0.2.29 executed the documentation, parity, and workspace test commands with passed=true."
+        }
+      ]
+    }
+  ],
+  "changedPaths": [],
+  "checkpointAt": "2026-08-24T04:30:36Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T04:24:46Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-236-release-v0-2-30.contract.json",
+      "docs/work-items/WI-236-release-v0-2-30.md"
+    ],
+    "reason": "The current Work Item is limited to the v0.2.30 package identity, release documentation, reviewed public release, installed artifact acceptance, and clean-batch evidence.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-08-24T04:35:58Z",
+  "preflightContractDigest": "sha256:f6b7c584737d50d6281072b22247e2d5b7ab15a9896c4e2705e77fa4df3abd17",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:a3e67f6cc0b9571f03a884dd85397643f51487d03602917fe303119096bbc96c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-236-release-v0-2-30.verification.json",
+        "tests/release/version_consistency.sh",
+        "tests/docs/documentation_acceptance.sh",
+        "tests/docs/parity_status_check.sh"
+      ],
+      "expected": "Cargo metadata, Cargo.lock, release documentation, and tri-language parity identify v0.2.30 with v0.2.29 as N-1.",
+      "required": true,
+      "scenario": "version-and-documentation-consistency",
+      "status": "verified",
+      "verificationPlan": "Run version consistency, documentation acceptance, parity, format, clippy, and workspace tests."
+    },
+    {
+      "evidence": [],
+      "expected": "The reviewed merge commit, v0.2.30 tag, release manifest, archive checksums, and binary digest are one immutable identity.",
+      "required": true,
+      "scenario": "immutable-public-release-identity",
+      "status": "unverified",
+      "verificationPlan": "Run the release workflow and record tag, manifest, archive, binary, and provider Release evidence."
+    },
+    {
+      "evidence": [],
+      "expected": "The downloaded v0.2.30 binary governs a fresh adopter repository, preserving first-adopter-smoke as not_ready and completing the Work Item lifecycle.",
+      "required": true,
+      "scenario": "installed-public-adopter-lifecycle",
+      "status": "unverified",
+      "verificationPlan": "Run the public adopter acceptance harness with isolated HOME, XDG_CONFIG_HOME, TMPDIR, and CARGO_HOME."
+    },
+    {
+      "evidence": [],
+      "expected": "The v0.2.29 adopter upgrades to v0.2.30 with migration/compatibility evidence, and all temporary roots are cleaned without changing Release truth.",
+      "required": true,
+      "scenario": "n-minus-one-upgrade-and-cleanup",
+      "status": "unverified",
+      "verificationPlan": "Run the public upgrade acceptance harness and verify cleanup manifests and receipts."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-08-24T04:36:50.576263+00:00",
+  "workItemId": "WI-236-release-v0-2-30"
+}
