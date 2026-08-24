@@ -1,6 +1,6 @@
 {
   "captureMode": "full_capture",
-  "createdAt": "2026-08-24T15:23:26Z",
+  "createdAt": "2026-08-24T15:34:04Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -8,8 +8,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 107669,
-      "executionElapsedMs": 107443,
+      "elapsedMs": 105855,
+      "executionElapsedMs": 105620,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -24,8 +24,8 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 107669,
-    "executionElapsedMs": 107443,
+    "elapsedMs": 105855,
+    "executionElapsedMs": 105620,
     "filesHashed": 5,
     "filesRead": 5,
     "gitCalls": 8,
@@ -43,13 +43,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 107443,
+      "executionElapsedMs": 105620,
       "finalTier": "T2",
       "initialTier": "T2",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:ef1f471d6ad19be4ef958edc64cde50de1d72a1464d797a596809e916ea0e891",
+      "repositorySnapshotDigest": "sha256:de38f3dac40ef33365b8d2584ba4a52724f921313630beefb183668ef119de34",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -75,7 +75,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:7a88592f27f46374ecea18eb5b3f6f857e17d061267c5cae61c8e496f3fac12a",
+        "outputDigest": "sha256:57d00dfac5692cb0522d341494c1626e090eb7fe26481a314c0ce61aad970c35",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -91,9 +91,9 @@
     "runtimeVersion": "0.2.31",
     "workItemId": "WI-253-docs-terminalization"
   },
-  "receiptDigest": "sha256:d2eecbb65afee51c1a6af3c68c08b06216809b18f944e08a1eedcaba9428a4cb",
+  "receiptDigest": "sha256:3613c3116e72b3922640a9bf3974f63e17a122d74687ede215bc3e1001f1bcd9",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:ef1f471d6ad19be4ef958edc64cde50de1d72a1464d797a596809e916ea0e891",
+  "repositorySnapshotDigest": "sha256:de38f3dac40ef33365b8d2584ba4a52724f921313630beefb183668ef119de34",
   "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
   "runtimeVersion": "0.2.31",
   "workItemId": "WI-253-docs-terminalization"

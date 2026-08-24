@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:850de4b00c0919face617e700eb5cd4a810c362f1baae7c8a14257ccf98a72cb",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "reason": "Fresh final review confirms the unchanged authorized WI-253 scope after acceptance evidence and the current Runtime verification snapshot were bound; exact-head hosted quality, Windows Runtime, and V1 oracle checks passed.",
+  "recordedAt": "2026-08-24T15:31:23Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:de38f3dac40ef33365b8d2584ba4a52724f921313630beefb183668ef119de34",
+  "schemaVersion": 1,
+  "workItemId": "WI-253-docs-terminalization"
+}
