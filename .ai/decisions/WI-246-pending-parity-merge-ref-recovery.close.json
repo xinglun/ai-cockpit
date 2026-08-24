@@ -1,0 +1,129 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-246-pending-parity-merge-ref-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e12d3e41cbb1326adfe33ed85fa9edb8dff9970f07a89678e17a11c013cb416d",
+      "workItemId": "WI-246-pending-parity-merge-ref-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-246-pending-parity-merge-ref-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-246-pending-parity-merge-ref-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-246-pending-parity-merge-ref-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via reviewed-pr-hosted-checks at 2026-08-24T10:33:30Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-246-pending-parity-merge-ref-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-246-pending-parity-merge-ref-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-246-pending-parity-merge-ref-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-246-pending-parity-merge-ref-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-246-pending-parity-merge-ref-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Deliver the WI-244 pending parity registry through a verified successor while correcting the WI-243 merge-ref parity drift and preserving all immutable predecessor records."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-246-pending-parity-merge-ref-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-246-pending-parity-merge-ref-recovery"
+  },
+  "finalReportDigest": "sha256:25127e7f62b9c825a1a467a822a4cb509248f3e4f432db908e84d7c6865ce383",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:7bd34f6868b76be8b3987e4a26d84f7012f2a84be5a12cdd6643708b118ed282",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-246-pending-parity-merge-ref-recovery.finalize.4db3760b5e98f23113f030a54c34d375ba5222c5d472b935d9f39a1fc2fabdd7.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "reviewed-pr-hosted-checks",
+    "decidedAt": "2026-08-24T10:33:30Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-246-pending-parity-merge-ref-recovery.verification.json"
+    ],
+    "policyRefs": [
+      "repository-review-policy"
+    ],
+    "reason": "Reviewed PR #197 merged as 98d6575 after all hosted checks passed; sequence-2 finalization verifies exact branch and worktree cleanup.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-24T10:33:22Z",
+  "workItemId": "WI-246-pending-parity-merge-ref-recovery"
+}
