@@ -1,0 +1,32 @@
+{
+  "acceptanceCriteria": [],
+  "authority": "unknown",
+  "baseRevision": "5ed4af904f1593ad9b5801755f313cc5e64415b9",
+  "createdAt": "2026-08-24T13:37:52Z",
+  "goal": "",
+  "intent": "",
+  "mode": "code",
+  "outOfScope": [],
+  "predecessorContractDigest": "sha256:4a3790e582fb64758652789b29cc14c1400c5643128776026166c8f026bf2b88",
+  "predecessorWorkItemId": "WI-240-doc-status-consistency",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-240-doc-status-consistency.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:212cd8ce9e70b81ec8aacf7cb4315f2d59ee3589f47b1bf5a885d7797b1d10cf",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-240-doc-status",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi240-doc-status"
+  },
+  "risk": "unknown",
+  "scope": [],
+  "sources": [],
+  "state": "not_ready",
+  "verification": [],
+  "workItemId": "WI-245-doc-status-parity-recovery"
+}
