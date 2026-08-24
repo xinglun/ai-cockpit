@@ -1,0 +1,134 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-238-release-v0-2-31-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:408fac9dc89adfc99a010a13303eb6080c7e65965438592af8472381f9f4e636",
+      "workItemId": "WI-238-release-v0-2-31-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-238-release-v0-2-31-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-238-release-v0-2-31-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-238-release-v0-2-31-recovery.verification.json",
+            ".ai/decisions/WI-238-release-v0-2-31-recovery.finalize.0b2f7ac10ebcb21b64e3a37420d22a194a80edb178a523b30939ef3a13164df0.json",
+            "https://github.com/xinglun/ai-cockpit/pull/189"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via reviewed-pr-hosted-checks at 2026-08-24T06:06:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-238-release-v0-2-31-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-238-release-v0-2-31-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-238-release-v0-2-31-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-238-release-v0-2-31-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-238-release-v0-2-31-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Repair the release workflow against an absent active Work Item directory, bind all tri-language parity evidence before finalization, publish v0.2.31 without rewriting the failed v0.2.30 tag, and complete public adopter acceptance."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-238-release-v0-2-31-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-238-release-v0-2-31-recovery"
+  },
+  "finalReportDigest": "sha256:1b8ca89b541439e964c0b143bd35cdffedde4d9e00648b0a208de8780e82c3f9",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:04a733ff589cf2276a8119dd7a6cd07ebe808de28cacb1794322959208c6f280",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-238-release-v0-2-31-recovery.finalize.0b2f7ac10ebcb21b64e3a37420d22a194a80edb178a523b30939ef3a13164df0.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "reviewed-pr-hosted-checks",
+    "decidedAt": "2026-08-24T06:06:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-238-release-v0-2-31-recovery.verification.json",
+      ".ai/decisions/WI-238-release-v0-2-31-recovery.finalize.0b2f7ac10ebcb21b64e3a37420d22a194a80edb178a523b30939ef3a13164df0.json",
+      "https://github.com/xinglun/ai-cockpit/pull/189"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "PR #189 passed all hosted checks, merged as c5df7ebb417d323bbc901193afb7bc796f42b296, and the exact Work Item branch/worktree cleanup transition was verified.",
+    "resumeCondition": "Proceed with the next batch only after public v0.2.31 adopter acceptance is completed from immutable Release artifacts."
+  },
+  "timestamp": "2026-08-24T06:06:48Z",
+  "workItemId": "WI-238-release-v0-2-31-recovery"
+}
