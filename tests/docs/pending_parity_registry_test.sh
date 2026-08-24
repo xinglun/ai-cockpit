@@ -11,6 +11,9 @@ trap 'rm -rf "$tmp"' EXIT
 repo="$tmp/valid-pending"
 report="$tmp/valid-pending-report.json"
 python3 "$fixture_builder" --spec "$fixture_spec" --output "$repo"
+test -f "$repo/docs/reference/pending-parity-registry.json"
+jq -e '.schemaVersion == 1 and .entries == []' \
+  "$repo/docs/reference/pending-parity-registry.json" >/dev/null
 
 python3 - "$repo" <<'PY'
 import json

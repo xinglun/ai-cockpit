@@ -4,13 +4,14 @@
     "governance_integrity_gate_test.sh valid, archive-timestamp-current, awaiting-merge-close, and all negative cases pass with deterministic reports.",
     "pending_parity_registry_test.sh passes all valid and adversarial cases, including duplicate/unknown/symlink/stale/foreign mutations.",
     "No fixture test silently depends on a missing registry; failure diagnostics distinguish invalid registry from invalid Work Item state.",
-    "Tri-language Work Item and parity rows bind the exact implementation, verification, archive, finalization, and close evidence."
+    "Tri-language Work Item and parity rows bind the exact implementation, verification, archive, finalization, and close evidence.",
+    "The already-closed WI-255 tri-language Work Item projection is promoted from conditional to Implemented without changing any .ai lifecycle bytes."
   ],
   "authority": "authorized",
   "baseRevision": "b55bdcd91ca6e228aa9cc095ee1ac4fddc6c0be4",
   "createdAt": "2026-08-24T23:17:59Z",
   "goal": "使所有治理 fixture 明确生成 schemaVersion=1 的空 pending parity registry，并让回归测试验证 registry 基线与合法/非法 pending 场景。",
-  "intent": "修复 governance integrity fixture 与 pending parity registry gate 的契约不一致，确保合法的 current archive/finalize fixtures 在缺少真实 pending registration 时仍能通过，并防止 hosted CI 再次因 fixture 自身缺少 registry 而 fail-open 或 fail-closed。",
+  "intent": "修复 governance integrity fixture 与 pending parity registry gate 的契约不一致，并完成已关闭 WI-255 的三语 parity promotion，确保合法的 current archive/finalize fixtures 在缺少真实 pending registration 时仍能通过，并防止 hosted CI 再次因 fixture 或 post-close projection 缺口而失败。",
   "mode": "implementation",
   "outOfScope": [
     "crates/**",
@@ -44,7 +45,10 @@
     "docs/work-items/WI-258-governance-fixture-regression.ja.md",
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.zh-CN.md",
-    "docs/reference/reference-parity.ja.md"
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-255-recovery-read-side.md",
+    "docs/work-items/WI-255-recovery-read-side.zh-CN.md",
+    "docs/work-items/WI-255-recovery-read-side.ja.md"
   ],
   "sources": [],
   "state": "implementation_active",

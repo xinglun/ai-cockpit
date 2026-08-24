@@ -30,6 +30,10 @@ version = spec.get("currentRelease", "9.9.9")
 metadata = {"packages": [{"name": "fixture-package", "version": version, "source": None}]}
 write(root / "cargo-metadata.json", metadata)
 write(root / ".ai/project.json", {"repositoryId": repository_id})
+write(
+    root / "docs/reference/pending-parity-registry.json",
+    {"schemaVersion": 1, "entries": []},
+)
 
 rows = {"en": [], "zh": [], "ja": []}
 for item in spec.get("workItems", []):
