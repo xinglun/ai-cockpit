@@ -192,6 +192,8 @@ assert "target/quality-route-initial.json" in ci_workflow
 assert "--route-receipt target/quality-route-initial.json" not in ci_workflow
 assert ci_workflow.count("--route-receipt target/quality-route.json") == 1
 assert "target/release-quality-route.json" in release_workflow
+assert "contracts=()" in release_workflow
+assert "if [[ -d .ai/work-items/active ]]; then" in release_workflow
 assert "manual to_tag does not match staged candidate identity" in release_workflow
 assert "name: workspace-package-coverage" in ci_workflow
 assert "if: steps.initial_quality_route.outputs.profile != 'light'" in ci_workflow

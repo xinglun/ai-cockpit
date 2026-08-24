@@ -120,7 +120,10 @@ jobs:
           set -euo pipefail
           head_revision="$(git rev-parse "${GITHUB_SHA}^{commit}")"
           base_revision="$(git rev-parse "${head_revision}^" 2>/dev/null || printf '%s' "$head_revision")"
-          mapfile -t contracts < <(find .ai/work-items/active -maxdepth 1 -type f -name '*.contract.json' -print | sort)
+          contracts=()
+          if [[ -d .ai/work-items/active ]]; then
+            mapfile -t contracts < <(find .ai/work-items/active -maxdepth 1 -type f -name '*.contract.json' -print | sort)
+          fi
           (( ${#contracts[@]} <= 1 )) || { echo 'multiple active Contracts cannot select one release route' >&2; exit 1; }
           route_args=(
             --repo "$GITHUB_WORKSPACE"
