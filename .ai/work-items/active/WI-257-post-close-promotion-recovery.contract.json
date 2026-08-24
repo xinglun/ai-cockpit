@@ -1,0 +1,151 @@
+{
+  "acceptanceCriteria": [
+    "The typed post-close plan binds repositoryId, Work Item ID, exact synchronized origin/main revision, approved close receipt, sequence-2 finalization head, archive/evidence identities, and exact before/after digests for the six controlled documentation paths.",
+    "Plan/apply rejects stale or descendant HEAD, foreign identity, malformed or duplicate JSON, symlink/nonregular plan input/output, unknown or missing fields/paths, dirty or partial projection, terminal digest mismatch, and unexpected changes before mutation; atomic plan output and identical reapply are deterministic.",
+    "The wrapper regression sets the bare origin HEAD symbolic ref to main, covers normal and adversarial cases with no-write failure assertions, and the repository manifest/quality route invokes both mandatory check-only and regression gates.",
+    "WI-255 tri-language Work Item and reference-parity projections become Implemented and bind exact archive, verification, sequence-2 finalization, and close truth without changing any immutable .ai byte.",
+    "AGENTS and English, Simplified Chinese, and Japanese workflow/commands documentation define close → visible Outcome → synchronized post-close plan/apply → check-all → terminal CI and name the exact fail-closed corrective command.",
+    "WI-257 tri-language Work Item/parity projection records the WI-256 failed predecessor and PR #208 as preserved external history without copying or asserting absent WI-256 lifecycle records on main.",
+    "Focused wrapper/promoter/docs/manifest/governance checks, formatting, clippy, and locked full workspace tests pass under installed Runtime v0.2.31 verification with current Contract and PR bindings."
+  ],
+  "authority": "Human authorization in this task to create WI-257 from origin/main b55bdcd, selectively migrate repository-only behavior from commit 863afb5 plus the bare-origin symbolic-ref regression fix, exclude WI-256 .ai bytes, follow PR-first lifecycle ordering, and prepare a reviewed PR without merging.",
+  "baseRevision": "b55bdcd91ca6e228aa9cc095ee1ac4fddc6c0be4",
+  "createdAt": "2026-08-24T18:14:25Z",
+  "goal": "选择性迁移已验证的 repository docs/scripts 行为到 WI-257，提供严格 typed、同步主线、fail-closed 且可重复的 post-close plan/apply wrapper，正确完成 WI-255 六路径 promotion，并按 PR-first 顺序产生一致 Contract/evidence/archive/finalization。",
+  "intent": "在保留 WI-256 immutable failed-delivery bytes 与 PR #208 历史、且不触碰 root main 的前提下，从最新 origin/main 重新交付 repository-owned post-close documentation promotion，消除 WI-255 terminal docs drift 并防止 close 后遗漏下一动作。",
+  "mode": "code",
+  "outOfScope": [
+    "crates/**",
+    "all WI-256 .ai lifecycle/archive/evidence/finalization bytes",
+    "docs/work-items/WI-256-post-close-promotion*.md",
+    "automatic Runtime Core documentation mutation",
+    "global CLI semantics",
+    "release publication",
+    "unrelated docs/CI behavior",
+    "root main worktree"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:660010222a344cff1d35bb18c91535bd4b5244edd02cc2d277e832fc9317b749",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-257-post-close-promotion-recovery",
+    "provider": "github",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi257-post-close-promotion-recovery"
+  },
+  "risk": "normal",
+  "scope": [
+    "AGENTS.md",
+    "tests/docs/post_close_work_item.py",
+    "tests/docs/post_close_work_item_test.sh",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/ci/repository_gate_manifest.json",
+    "tests/ci/repository_gate_manifest_test.sh",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-255-recovery-read-side.md",
+    "docs/work-items/WI-255-recovery-read-side.zh-CN.md",
+    "docs/work-items/WI-255-recovery-read-side.ja.md",
+    "docs/work-items/WI-257-post-close-promotion-recovery.md",
+    "docs/work-items/WI-257-post-close-promotion-recovery.zh-CN.md",
+    "docs/work-items/WI-257-post-close-promotion-recovery.ja.md",
+    ".ai/work-items/active/WI-257-post-close-promotion-recovery.contract.json",
+    ".ai/work-items/active/WI-257-post-close-promotion-recovery.summary.json",
+    ".ai/work-items/active/WI-257-post-close-promotion-recovery.approach.json",
+    ".ai/evidence/WI-257-post-close-promotion-recovery.verification.json",
+    ".ai/work-items/archive/WI-257-post-close-promotion-recovery.contract.json",
+    ".ai/work-items/archive/WI-257-post-close-promotion-recovery.summary.json",
+    ".ai/work-items/archive/WI-257-post-close-promotion-recovery.outcome.json",
+    ".ai/work-items/archive/WI-257-post-close-promotion-recovery.events.jsonl",
+    ".ai/work-items/archive/WI-257-post-close-promotion-recovery.archive.json",
+    ".ai/work-items/archive/WI-257-post-close-promotion-recovery.task-report.json",
+    ".ai/work-items/archive/WI-257-post-close-promotion-recovery.task-report.md",
+    ".ai/decisions/WI-257-post-close-promotion-recovery.finalize*.json",
+    ".ai/decisions/WI-257-post-close-promotion-recovery.close.json"
+  ],
+  "sources": [
+    "Human authorization for WI-257 in this task",
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    ".ai/work-items/archive/WI-255-recovery-read-side.contract.json",
+    ".ai/evidence/WI-255-recovery-read-side.verification.json",
+    ".ai/decisions/WI-255-recovery-read-side.finalize.70b8faaab38e83dcd7d4fe55892abfe4c553ec1efb369bf81c2e259a9fe8566b.json",
+    ".ai/decisions/WI-255-recovery-read-side.close.json",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh",
+    "git commit 863afb5fb3b984593359981bedec506cd54eef5f",
+    "git commit 2fff6ac2cc0d118f6c5c1bcd813753c1f36f89e1 (bare-origin symbolic-ref test hunk only)",
+    "https://github.com/xinglun/ai-cockpit/pull/208",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/32756605523"
+  ],
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "On an exact clean origin/main checkout, plan and apply bind WI-255 terminal archive, verification, sequence-2 finalization, approved close, and six before/after document digests; apply promotes all six paths and identical reapply is a no-op.",
+      "required": true,
+      "scenario": "valid-synchronized-plan-apply-reapply",
+      "status": "planned",
+      "verificationPlan": "Run the isolated bare-origin fixture and the wrapper against a detached exact origin/main WI-255 checkout, then compare immutable .ai digests before and after."
+    },
+    {
+      "evidence": [],
+      "expected": "A descendant or stale HEAD, foreign repository or Work Item, mismatched archive/evidence/close/finalization binding, malformed or duplicate JSON, unknown/missing field or path, and symlink/nonregular input/output fail before writes.",
+      "required": true,
+      "scenario": "typed-identity-filesystem-and-staleness-fail-closed",
+      "status": "planned",
+      "verificationPlan": "Mutate each typed binding and filesystem boundary independently; assert stable nonzero diagnostics and identical before/after docs digests."
+    },
+    {
+      "evidence": [],
+      "expected": "Any unrelated tracked/untracked dirty path or partial controlled projection fails closed, while only clean all-before and exact six-path all-after states are accepted.",
+      "required": true,
+      "scenario": "dirty-unexpected-and-partial-projection-fail-closed",
+      "status": "planned",
+      "verificationPlan": "Exercise dirty, unexpected, and partial fixture states and verify no lifecycle or docs bytes change on failure."
+    },
+    {
+      "evidence": [],
+      "expected": "The bare fixture remote advertises main through its HEAD symbolic ref, clones deterministically, and wrapper plan output is written atomically without following a symlink.",
+      "required": true,
+      "scenario": "bare-origin-and-atomic-plan-boundary",
+      "status": "planned",
+      "verificationPlan": "Run the regression on a bare origin with symbolic-ref HEAD=refs/heads/main and symlink/nonregular output adversarial cases."
+    },
+    {
+      "evidence": [],
+      "expected": "AGENTS, tri-language workflow/commands/Work Item/parity docs and mandatory manifest gates define close → visible Outcome → synchronized plan/apply → check-all → terminal CI and provide the exact corrective command.",
+      "required": true,
+      "scenario": "actionable-post-close-handoff-and-terminal-ci",
+      "status": "planned",
+      "verificationPlan": "Run documentation acceptance, manifest regression, governance integrity, and hosted quality after WI-255 promotion and WI-257 conditional registration."
+    }
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "bash tests/docs/post_close_work_item_test.sh",
+    "bash tests/docs/promote_closed_work_item_test.sh",
+    "bash tests/ci/repository_gate_manifest_test.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report target/WI-257-governance-integrity.json",
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-257-post-close-promotion-recovery"
+}
