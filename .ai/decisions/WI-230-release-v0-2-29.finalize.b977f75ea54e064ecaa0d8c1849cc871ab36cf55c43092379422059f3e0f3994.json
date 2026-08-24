@@ -1,0 +1,65 @@
+{
+  "governanceAppendRevision": "41fbd7049020cf783be81b3d2f1da9b2c66ef9ae",
+  "predecessorReceiptDigest": "sha256:ace4f667182af71fbfba154158bc1141d848a8efa9f2ad1d41e85f6a88bb6180",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "explicit-pre-merge-finalization-boundary",
+    "before": {
+      "branch": "present",
+      "pullRequest": "unmerged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "41fbd7049020cf783be81b3d2f1da9b2c66ef9ae",
+      "name": "codex/wi-230-release-v0-2-29",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:f714183ea297ed422d031c3e99898cdf6db0801f5903ca8097274636109efc46",
+    "operationId": "operation-WI-230-release-v0-2-29-awaiting-merge-close",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "d690e0da6f2ed2bed85226fd83bfabd0265fc751",
+      "headRevision": "41fbd7049020cf783be81b3d2f1da9b2c66ef9ae",
+      "mergeCommit": "921f1d6f52b003014390b4ad710dc7b235dfe8ac",
+      "number": 179,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/179"
+    },
+    "reason": "provider merge observed for PR #179; retain the merged clean state before exact cleanup.",
+    "receiptId": "ai-cockpit-WI-230-release-v0-2-29-pre-merge",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-230-release-v0-2-29",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/179",
+      "worktree": "/private/tmp/ai-cockpit-wi230-release-v0-2-29"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:23e9a9824f35b9e0d3706bdcbad34777bca5b0a4d362b4101407412a905dcb5b",
+    "runtimeVersion": "0.2.28",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-24T03:25:00Z",
+    "workItemId": "WI-230-release-v0-2-29",
+    "worktree": {
+      "branch": "codex/wi-230-release-v0-2-29",
+      "headRevision": "41fbd7049020cf783be81b3d2f1da9b2c66ef9ae",
+      "path": "/private/tmp/ai-cockpit-wi230-release-v0-2-29",
+      "worktreeId": "WI-230-release-v0-2-29"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-230-release-v0-2-29-merge-observed"
+}

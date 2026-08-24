@@ -1,0 +1,132 @@
+{
+  "acceptanceCriteria": [
+    "A1: The stale-awaiting-merge-close governance regression remains present and passes on the reviewed successor branch.",
+    "A2: WI-234 remains immutable recovered history; the successor records a valid recovery decision and binds PR context before verification.",
+    "A3: The English, Chinese, and Japanese parity ledgers identify WI-234 as recovered and WI-235 with the exact evidence and decision paths.",
+    "A4: The successor completes finalize-plan before verify/archive, records a pre-merge finalization receipt, and leaves no obsolete branch/worktree from the failed PR #185 attempt.",
+    "A5: Installed Runtime v0.2.29 inspect/status/doctor/agent-doctor, focused governance/docs gates, and hosted checks pass; root user files remain untouched.",
+    "A6: The parallel attach migration fixture uses collision-resistant repository paths and the full workspace test suite passes without the observed git-init race."
+  ],
+  "authority": "authorized",
+  "baseRevision": "93efb791c9133a2d6d47637003339e29cbc9f7fa",
+  "createdAt": "2026-08-24T03:47:20Z",
+  "goal": "Complete the post-merge governance cleanup without rewriting WI-234 immutable history, and enforce finalize-plan before verify/archive.",
+  "intent": "Recover the archived WI-234 delivery through a reviewed successor so provider context is bound before verification and cleanup starts from a clean environment.",
+  "mode": "code",
+  "outOfScope": [
+    "Rewriting or deleting WI-234 Contract, Summary, Outcome, Events, verification, archive, or PR #185 failure bytes.",
+    "Changing the root worktree's pre-existing recovery_decision.rs or digest_temp.rs files.",
+    "Changing global Agent, MCP, HOME, or user configuration.",
+    "Adding unrelated runtime or business functionality."
+  ],
+  "predecessorContractDigest": "sha256:f6e49cb68bde7f2bb4e455ea0d9b2bb4bd986da3fdb7c0288d653b2fba224646",
+  "predecessorWorkItemId": "WI-234-post-merge-governance-cleanup",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-234-post-merge-governance-cleanup.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9b485e4a73bee712c82e05fa4ac7b9d2cf801234b92a3d7d5db31ba7dec7e446",
+  "requiredEvidenceClasses": [
+    "verification",
+    "repository_gate",
+    "documentation_parity",
+    "recovery_decision",
+    "resource_finalization"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-235-governance-cleanup",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/186",
+    "worktree": "/private/tmp/ai-cockpit-wi235-governance-cleanup"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "expected": "A reviewed head present on default with a stale unmerged pre-merge receipt fails closed with stale_awaiting_merge_close.",
+      "required": true,
+      "scenario": "stale-merge-close-regression",
+      "status": "unverified",
+      "verificationPlan": "Run the focused governance integrity regression."
+    },
+    {
+      "expected": "WI-234 bytes remain immutable and a valid successor recovery decision binds WI-235.",
+      "required": true,
+      "scenario": "immutable-wi234-recovery",
+      "status": "unverified",
+      "verificationPlan": "Run installed Runtime recovery with exact predecessor digests."
+    },
+    {
+      "expected": "PR context is planned before verification and archive, with a valid pre-merge receipt.",
+      "required": true,
+      "scenario": "premerge-finalization-order",
+      "status": "unverified",
+      "verificationPlan": "Create PR, run finalize-plan, then verify, finish, archive, and record finalize."
+    },
+    {
+      "expected": "Parity ledgers agree and the failed PR #185 branch/worktree is preserved then removed exactly.",
+      "required": true,
+      "scenario": "tri-language-parity-and-clean-boundary",
+      "status": "unverified",
+      "verificationPlan": "Run documentation/parity gates and inspect branch/worktree inventories."
+    }
+  ],
+  "scope": [
+    ".ai/decisions/WI-227-getting-started-capability-parity-integration.close.json",
+    ".ai/decisions/WI-227-getting-started-capability-parity-integration.finalize.85f61940ec9595c900b210791e77cfa1661f5bbd61131638f190950258726c56.json",
+    ".ai/decisions/WI-227-getting-started-capability-parity-integration.finalize.e3eb714c32dfdbada63d760c00e67373dc3545aefca02161dd72a23a02f50b76.json",
+    ".ai/decisions/WI-230-release-v0-2-29.finalize.a0bd200a943bd99c61460bbdc2fcb8ba40358c878bfce65860f6af2211e21df2.json",
+    ".ai/decisions/WI-230-release-v0-2-29.finalize.b977f75ea54e064ecaa0d8c1849cc871ab36cf55c43092379422059f3e0f3994.json",
+    ".ai/decisions/WI-230-release-v0-2-29.recovery.json",
+    ".ai/decisions/WI-234-post-merge-governance-cleanup.recovery.json",
+    ".ai/evidence/WI-234-post-merge-governance-cleanup.verification.json",
+    ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.approach.json",
+    ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.archive.json",
+    ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.contract.json",
+    ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.events.jsonl",
+    ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.outcome.json",
+    ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.summary.json",
+    ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.task-report.json",
+    ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.task-report.md",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "crates/cockpit-cli/tests/attach.rs",
+    "tests/ci/fixtures/governance-integrity/build_fixture.py",
+    "tests/ci/fixtures/governance-integrity/stale-merged-awaiting-close.json",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-234-post-merge-governance-cleanup.md",
+    "docs/work-items/WI-234-post-merge-governance-cleanup.zh-CN.md",
+    "docs/work-items/WI-234-post-merge-governance-cleanup.ja.md",
+    "docs/work-items/WI-235-finalization-recovery.md",
+    "docs/work-items/WI-235-finalization-recovery.zh-CN.md",
+    "docs/work-items/WI-235-finalization-recovery.ja.md",
+    ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.*",
+    ".ai/decisions/WI-234-post-merge-governance-cleanup.recovery.json",
+    ".ai/decisions/WI-234-post-merge-governance-cleanup.finalize*.json",
+    ".ai/decisions/WI-234-post-merge-governance-cleanup.close.json",
+    ".ai/evidence/WI-234-post-merge-governance-cleanup.verification.json",
+    ".ai/work-items/active/WI-235-finalization-recovery.*",
+    ".ai/work-items/archive/WI-235-finalization-recovery.*"
+  ],
+  "sources": [
+    "PR #185 immutable failure logs",
+    ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.*",
+    "tests/ci/governance_integrity_gate.py",
+    "AGENTS.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "bash tests/ci/governance_integrity_gate_test.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report target/governance-integrity-report.json",
+    "installed ai-cockpit v0.2.29 inspect/status/doctor/agent doctor --repo .",
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-235-finalization-recovery"
+}

@@ -133,8 +133,11 @@ fn migration_fixture_repository() -> std::path::PathBuf {
         .duration_since(UNIX_EPOCH)
         .expect("clock")
         .as_nanos();
-    let directory =
-        std::env::temp_dir().join(format!("cockpit-migration-{}-{suffix}", std::process::id()));
+    let sequence = NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed);
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-migration-{}-{suffix}-{sequence}",
+        std::process::id()
+    ));
     fs::create_dir_all(&directory).expect("directory");
     assert!(
         Command::new("git")

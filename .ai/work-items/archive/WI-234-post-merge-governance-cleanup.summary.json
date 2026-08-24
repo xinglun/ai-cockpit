@@ -1,0 +1,152 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "stale_awaiting_merge_close",
+          "path": "tests/ci/governance_integrity_gate_test.sh",
+          "type": "governance-regression",
+          "verification": "Merged-head stale pre-merge receipt is rejected with a stable finding and non-zero gate result."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "tri-language parity",
+          "path": "docs/reference/reference-parity.md",
+          "type": "documentation-gate",
+          "verification": "English, Chinese, and Japanese parity ledgers pass documentation and parity status checks."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "clean batch boundary",
+          "path": "/private/tmp/ai-cockpit-unmerged-history-20260824/SHA256SUMS",
+          "type": "cleanup-receipt",
+          "verification": "Dirty worktrees and branch tips were archived before exact obsolete resources were removed."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "root worktree preservation",
+          "path": "AGENTS.md",
+          "type": "repository-boundary",
+          "verification": "The pre-existing root worktree files remain outside this Work Item and untouched."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "installed Runtime v0.2.29",
+          "path": ".ai/evidence/WI-234-post-merge-governance-cleanup.verification.json",
+          "type": "runtime-verification",
+          "verification": "Governance regression, documentation, parity, and Runtime lifecycle checks passed with the installed binary."
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-227-getting-started-capability-parity-integration.close.json",
+    ".ai/decisions/WI-227-getting-started-capability-parity-integration.finalize.e3eb714c32dfdbada63d760c00e67373dc3545aefca02161dd72a23a02f50b76.json",
+    ".ai/decisions/WI-227-getting-started-capability-parity-integration.finalize.85f61940ec9595c900b210791e77cfa1661f5bbd61131638f190950258726c56.json",
+    ".ai/decisions/WI-230-release-v0-2-29.finalize.b977f75ea54e064ecaa0d8c1849cc871ab36cf55c43092379422059f3e0f3994.json",
+    ".ai/decisions/WI-230-release-v0-2-29.finalize.a0bd200a943bd99c61460bbdc2fcb8ba40358c878bfce65860f6af2211e21df2.json",
+    ".ai/decisions/WI-230-release-v0-2-29.recovery.json",
+    ".ai/evidence/WI-234-post-merge-governance-cleanup.verification.json",
+    ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.contract.json",
+    ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-234-post-merge-governance-cleanup.ja.md",
+    "docs/work-items/WI-234-post-merge-governance-cleanup.md",
+    "docs/work-items/WI-234-post-merge-governance-cleanup.zh-CN.md",
+    "tests/ci/fixtures/governance-integrity/build_fixture.py",
+    "tests/ci/fixtures/governance-integrity/stale-merged-awaiting-close.json",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh"
+  ],
+  "checkpointAt": "2026-08-24T03:35:13Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T03:12:14Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-234-post-merge-governance-cleanup.contract.json",
+      "docs/reference/reference-parity.md",
+      "tests/ci/governance_integrity_gate.py"
+    ],
+    "reason": "The stale-close gate, immutable recovery binding, and exact branch/worktree cleanup directly implement the authorized request to begin each batch from a clean environment.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-24T03:39:28Z",
+  "preflightContractDigest": "sha256:f6e49cb68bde7f2bb4e455ea0d9b2bb4bd986da3fdb7c0288d653b2fba224646",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:46fc4131cc7b14a5a6556f541d23a33a45a8515d5eda7610514f19201f027fd2",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh",
+        "tests/ci/fixtures/governance-integrity/stale-merged-awaiting-close.json"
+      ],
+      "expected": "A merged reviewed head with a stale unmerged pre-merge receipt fails closed with stale_awaiting_merge_close.",
+      "required": true,
+      "scenario": "merged-head-with-stale-premerge-receipt",
+      "status": "verified",
+      "verificationPlan": "Run the focused governance gate fixture and assert the stable finding."
+    },
+    {
+      "evidence": [
+        ".ai/decisions/WI-230-release-v0-2-29.recovery.json",
+        ".ai/decisions/WI-227-getting-started-capability-parity-integration.close.json"
+      ],
+      "expected": "WI-222 remains linked immutable history without a synthetic second successor edge; WI-227/WI-230 historical transitions remain append-only.",
+      "required": true,
+      "scenario": "immutable-predecessor-recovery-and-successor-closure",
+      "status": "verified",
+      "verificationPlan": "Validate the recovery and close paths with the installed Runtime and parity ledger."
+    },
+    {
+      "evidence": [
+        "/private/tmp/ai-cockpit-unmerged-history-20260824/SHA256SUMS",
+        "git worktree list --porcelain"
+      ],
+      "expected": "Superseded resources are preserved before exact deletion and no obsolete worktree or branch remains.",
+      "required": true,
+      "scenario": "historical-branch-and-worktree-cleanup",
+      "status": "verified",
+      "verificationPlan": "Inspect the digest archive, worktree inventory, and local/remote refs."
+    },
+    {
+      "evidence": [
+        "tests/docs/documentation_acceptance.sh",
+        "tests/docs/parity_status_check.sh"
+      ],
+      "expected": "The English, Chinese, and Japanese parity documents agree on the historical and current Work Item statuses.",
+      "required": true,
+      "scenario": "tri-language-parity-and-release-cycle",
+      "status": "verified",
+      "verificationPlan": "Run documentation acceptance and parity status checks after the cleanup."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-24T03:39:28Z",
+  "workItemId": "WI-234-post-merge-governance-cleanup"
+}

@@ -1,0 +1,263 @@
+{
+  "acceptanceResults": [
+    "A1: The CI governance inventory detects a current-release archived Work Item whose pre-merge finalization still says unmerged after the reviewed head is present on the synchronized default branch, and fails closed with a stable stale-awaiting-merge-close finding.",
+    "A2: WI-222 is preserved as immutable linked history without inventing a second Runtime successor edge; WI-227 and WI-230 receive append-only post-merge finalization/close evidence bound to their real reviewed merge commits and exact cleanup state.",
+    "A3: The three reference-parity documents identify WI-222 as a linked immutable delivery, WI-227 and WI-230 as implemented/closed, and WI-234 with evidence and terminal decision paths; no predecessor Contract, Summary, Outcome, Events, verification, or archive bytes are rewritten.",
+    "A4: The old WI-189, WI-193, WI-222, WI-223, WI-224, WI-225, and WI-228 branches/worktrees are either superseded with preserved PR/Work Item evidence or removed exactly; no untracked dirty worktree is left by this Work Item.",
+    "A5: Targeted governance regression, documentation/parity checks, Runtime lifecycle verification, hosted PR checks, and the installed v0.2.29 inspect/status/doctor/agent-doctor audit pass; the root worktree's pre-existing user files remain untouched."
+  ],
+  "createdAt": "2026-08-24T03:39:28Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:335044fa46cc3b37ed9a3bfe114c72a1a299cb560c5a2dbd260cfaa8d1beecea",
+  "evidenceRefs": [
+    ".ai/evidence/WI-234-post-merge-governance-cleanup.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-234-post-merge-governance-cleanup.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-234-post-merge-governance-cleanup.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:46fc4131cc7b14a5a6556f541d23a33a45a8515d5eda7610514f19201f027fd2",
+      "workItemId": "WI-234-post-merge-governance-cleanup"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-227-getting-started-capability-parity-integration.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-227-getting-started-capability-parity-integration.finalize.e3eb714c32dfdbada63d760c00e67373dc3545aefca02161dd72a23a02f50b76.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-227-getting-started-capability-parity-integration.finalize.85f61940ec9595c900b210791e77cfa1661f5bbd61131638f190950258726c56.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-230-release-v0-2-29.finalize.b977f75ea54e064ecaa0d8c1849cc871ab36cf55c43092379422059f3e0f3994.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-230-release-v0-2-29.finalize.a0bd200a943bd99c61460bbdc2fcb8ba40358c878bfce65860f6af2211e21df2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-230-release-v0-2-29.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-234-post-merge-governance-cleanup.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-234-post-merge-governance-cleanup.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-234-post-merge-governance-cleanup.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-234-post-merge-governance-cleanup.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-234-post-merge-governance-cleanup.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-234-post-merge-governance-cleanup.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/fixtures/governance-integrity/build_fixture.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/fixtures/governance-integrity/stale-merged-awaiting-close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/governance_integrity_gate.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/governance_integrity_gate_test.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-234-post-merge-governance-cleanup.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-234-post-merge-governance-cleanup.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-234-post-merge-governance-cleanup.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-234-post-merge-governance-cleanup.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-234-post-merge-governance-cleanup.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.contract.json"
+          ],
+          "inference": false,
+          "text": "Prevent stale merged or superseded Work Items from surviving into the next batch and preserve an auditable failure/recovery chain."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-234-post-merge-governance-cleanup"
+  },
+  "taskReportDigest": "sha256:c6c0257e58f8bb4911d39a659afb416ee3a587cb5029f822249c3d3fd1141eae",
+  "taskReportMarkdownDigest": "sha256:7b9ea78281e5930804a4c87bc47b7369e30416063f24eb3b6c022f8d924da3fe",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-234-post-merge-governance-cleanup.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-234-post-merge-governance-cleanup"
+}

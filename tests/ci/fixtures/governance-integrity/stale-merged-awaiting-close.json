@@ -1,0 +1,11 @@
+{
+  "currentRelease": "9.9.9",
+  "repositoryPhase": "main_merged",
+  "workItems": [
+    {
+      "classification": "current_release",
+      "id": "WI-901-release-v9-9-9",
+      "terminalDecision": "finalize"
+    }
+  ]
+}
