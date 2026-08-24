@@ -1,0 +1,136 @@
+{
+  "acceptanceResults": [
+    "Public v0.2.29 adopter acceptance is passed and its acceptance.json, runtime identity, lifecycle, isolation, cleanup, and SHA256SUMS are bound.",
+    "Public v0.2.28 to v0.2.29 upgrade acceptance is passed and its acceptance.json, historical evidence, lifecycle, isolation, cleanup, and SHA256SUMS are bound.",
+    "The installed v0.2.29 binary is used for current repository inspect, status, doctor, and agent doctor, with repository identity isolated and runtimeCodeInRepository=false.",
+    "Release truth remains immutable; any failure is recorded as post-release acceptance failure rather than rewriting the Release."
+  ],
+  "createdAt": "2026-08-24T02:29:11Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:913750bd5a938b0cffcc72860679d2c158ac0f20e9bc965ed860907648afd68d",
+  "evidenceRefs": [
+    ".ai/evidence/WI-233-release-adopter-v0-2-29-retry.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-233-release-adopter-v0-2-29-retry.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-233-release-adopter-v0-2-29-retry.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:26e5192478d97210f0d2015572543dcde54fed2135dc229228868c1c96eedfe5",
+      "workItemId": "WI-233-release-adopter-v0-2-29-retry"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-233-release-adopter-v0-2-29-retry.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-233-release-adopter-v0-2-29-retry.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-233-release-adopter-v0-2-29-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-233-release-adopter-v0-2-29-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-233-release-adopter-v0-2-29-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-233-release-adopter-v0-2-29-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-233-release-adopter-v0-2-29-retry.contract.json"
+          ],
+          "inference": false,
+          "text": "Produce an auditable post-release acceptance baseline using only immutable public Release artifacts, then close the Work Item after reviewed PR merge and exact cleanup without changing Release truth."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-233-release-adopter-v0-2-29-retry.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-233-release-adopter-v0-2-29-retry"
+  },
+  "taskReportDigest": "sha256:7532ec07efe6df66061af1c972b554dcd52e43276a61740c4850924caf0f41aa",
+  "taskReportMarkdownDigest": "sha256:1b305d50d4e5887d9b72d0c4561e6c1a2bfed0086cedb2e0c762f59f2c5964a7",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-233-release-adopter-v0-2-29-retry.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-233-release-adopter-v0-2-29-retry"
+}
