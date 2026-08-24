@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "tag": "v0.2.28",
+  "version": "0.2.28",
+  "target": "x86_64-unknown-linux-gnu",
+  "platform": "x86_64-unknown-linux-gnu",
+  "archive": "ai-cockpit-v0.2.28-x86_64-unknown-linux-gnu.tar.gz",
+  "archiveDigest": "sha256:350e29a1e0acbf484311ea75ece76f1e6bd9619d0133887a22f0736bcedec8e8",
+  "binaryDigest": "sha256:c2382c8b5f78a091b74f5c899d9a02c8404fea4c3a9f49bbf93e4fc07b226e15",
+  "downloadSource": "https://github.com/xinglun/ai-cockpit/releases/download/v0.2.28/ai-cockpit-v0.2.28-x86_64-unknown-linux-gnu.tar.gz",
+  "releasePublished": true,
+  "stagedCandidate": false
+}

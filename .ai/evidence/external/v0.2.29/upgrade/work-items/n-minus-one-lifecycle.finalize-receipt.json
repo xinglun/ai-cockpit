@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "release-adopter-upgrade-n-minus-one-lifecycle",
+  "operationId": "retain-n-minus-one-lifecycle",
+  "repositoryId": "sha256:d3d39cae5167b564bcb56b57c384ccb04ac5ee1a7938f5cb0325372e6e392f50",
+  "workItemId": "n-minus-one-lifecycle",
+  "runtimeVersion": "0.2.28",
+  "runtimeDigest": "sha256:c2382c8b5f78a091b74f5c899d9a02c8404fea4c3a9f49bbf93e4fc07b226e15",
+  "provider": "release-adopter-upgrade-harness",
+  "pullRequest": {
+    "number": 1,
+    "url": "acceptance://v0.2.28/n-minus-one-lifecycle",
+    "headRevision": "b579530888bdf22cba7a6444ffbf6267ed13a56d",
+    "baseBranch": "master",
+    "baseRemote": "local",
+    "baseRevision": "b579530888bdf22cba7a6444ffbf6267ed13a56d",
+    "mergeCommit": "b579530888bdf22cba7a6444ffbf6267ed13a56d"
+  },
+  "branch": {
+    "name": "master",
+    "remote": "local",
+    "headRevision": "b579530888bdf22cba7a6444ffbf6267ed13a56d"
+  },
+  "worktree": {
+    "worktreeId": "n-minus-one-lifecycle",
+    "path": "/tmp/ai-cockpit-n-minus-one.pa3OhR/adopter",
+    "branch": "master",
+    "headRevision": "b579530888bdf22cba7a6444ffbf6267ed13a56d"
+  },
+  "before": {
+    "pullRequest": "merged",
+    "branch": "present",
+    "worktree": "clean"
+  },
+  "after": {
+    "pullRequest": "merged",
+    "branch": "present",
+    "worktree": "clean"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "actor": "harness:release-adopter-upgrade",
+  "authoritySource": "release-adopter-upgrade-acceptance",
+  "reason": "The isolated N-1 adopter fixture is intentionally retained after upgrade verification.",
+  "timestamp": "2026-08-24T01:44:59Z",
+  "contractDigest": "sha256:15c8c3e20af5ecbebbd6a38b60831ff4fbfdf3d6d441b7fefc08a76db3dd2ef7",
+  "resourceContext": {
+    "branch": "master",
+    "worktree": "/tmp/ai-cockpit-n-minus-one.pa3OhR/adopter",
+    "baseBranch": "master",
+    "baseRemote": "local",
+    "provider": "release-adopter-upgrade-harness",
+    "pullRequest": "acceptance://v0.2.28/n-minus-one-lifecycle"
+  }
+}
