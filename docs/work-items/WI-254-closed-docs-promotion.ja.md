@@ -6,8 +6,12 @@ description: "exact immutable close evidence から controlled Work Item documen
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-254-closed-docs-promotion
+terminalArchive: .ai/work-items/archive/WI-254-closed-docs-promotion.contract.json
+terminalVerification: .ai/evidence/WI-254-closed-docs-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-254-closed-docs-promotion.finalize.51a5fc0158258cc2ac3e6ce03e20355202530af433005e342ba59495c474aa3a.json
+terminalDecision: .ai/decisions/WI-254-closed-docs-promotion.close.json
 authority: canonical
 ---
 

@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:65654eabe496e772b2e8074e097b920d998b0a36f9ec70836b827dfac7bbd3a3",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "reviewed-PR-206-merge-and-explicit-postmerge-cleanup-authorization",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "683d5fc77945dfb4a364f286e61f8efecb89c360",
+      "name": "codex/wi-254-closed-docs-promotion",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:b35ed253d383854dbeb2ab36a90999b78e9ac9ad3b0502d8070bbb93a77aab5a",
+    "operationId": "operation-WI-254-closed-docs-promotion-cleanup",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "0a5101ef551c9e0242d514740a68a2be4680d406",
+      "headRevision": "683d5fc77945dfb4a364f286e61f8efecb89c360",
+      "mergeCommit": "5cf906eccf92862110d97715890a8c8dacf01357",
+      "number": 206,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/206"
+    },
+    "reason": "Cleanup verified after reviewed PR #206 merge observation: only the exact clean WI-254 worktree, local branch, and provider branch were removed; immutable archive, evidence, and finalization records remain preserved.",
+    "receiptId": "ai-cockpit-WI-254-closed-docs-promotion-cleanup",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-254-closed-docs-promotion",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/206",
+      "worktree": "/private/tmp/ai-cockpit-wi254-closed-docs-promotion"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+    "runtimeVersion": "0.2.31",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-24T16:38:33Z",
+    "workItemId": "WI-254-closed-docs-promotion",
+    "worktree": {
+      "branch": "codex/wi-254-closed-docs-promotion",
+      "headRevision": "683d5fc77945dfb4a364f286e61f8efecb89c360",
+      "path": "/private/tmp/ai-cockpit-wi254-closed-docs-promotion",
+      "worktreeId": "WI-254-closed-docs-promotion"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "WI-254-cleanup-deleted"
+}
