@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "post-archive-finalization-recovery",
+  "decidedAt": "2026-08-24T03:55:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.archive.json",
+    ".ai/evidence/WI-234-post-merge-governance-cleanup.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/185"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:f6e49cb68bde7f2bb4e455ea0d9b2bb4bd986da3fdb7c0288d653b2fba224646",
+  "predecessorEventsDigest": "sha256:797da35584316999c1bf773c54c9c063fa251d3f3d3df80db5c050520741c246",
+  "predecessorOutcomeDigest": "sha256:d53f5701dfe0866245ccd9611856c674b7fdc92e48de9e57bf23fbaa274e79be",
+  "predecessorSummaryDigest": "sha256:5cbcda6905ac879e91a8512079bd9fb2c2033b37bd5525ee5b17c0e64207dc21",
+  "predecessorWorkItemId": "WI-234-post-merge-governance-cleanup",
+  "reason": "WI-234 was archived before finalize-plan and its pending resource context cannot bind the reviewed PR. Preserve all WI-234 immutable bytes and complete the exact finalization boundary through WI-235.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind PR context with finalize-plan before verify/archive, then complete the reviewed PR and close WI-235 without rewriting WI-234.",
+  "runtimeDigest": "sha256:94d8ee4e27023e1cb677486164af3e96633411105a4596140d4c0f4e64776137",
+  "runtimeVersion": "0.2.29",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-235-finalization-recovery",
+  "workItemId": "WI-234-post-merge-governance-cleanup"
+}

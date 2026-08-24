@@ -272,7 +272,7 @@ if repository_phase:
     )
     if repository_phase == "feature":
         subprocess.run(["git", "checkout", "-qb", "codex/fixture"], cwd=root, check=True)
-    elif repository_phase == "release_tag":
+    elif repository_phase in {"release_tag", "main_merged"}:
         # Model the provider merge that makes a pre-merge head an ancestor of
         # the immutable release tag.  Update the fixture receipt with the
         # actual feature commit after the history exists.
@@ -305,6 +305,7 @@ if repository_phase:
         tagged_head = subprocess.run(
             ["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True
         ).stdout.strip()
-        subprocess.run(["git", "tag", "v9.9.9", tagged_head], cwd=root, check=True)
+        if repository_phase == "release_tag":
+            subprocess.run(["git", "tag", "v9.9.9", tagged_head], cwd=root, check=True)
     elif repository_phase != "main":
         raise SystemExit(f"unsupported repositoryPhase fixture: {repository_phase}")

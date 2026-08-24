@@ -186,6 +186,56 @@ def release_tag_proves_merged_head(repo: Path, head_revision: str) -> bool:
     )
 
 
+def default_branch_contains_reviewed_head(repo: Path, head_revision: str) -> bool:
+    """Return true only when the exact reviewed PR head is in the checkout.
+
+    This is deliberately narrower than a provider merge lookup: a merge (or
+    an equivalent reviewed integration) is proven only when the immutable PR
+    head is an ancestor of the synchronized default-branch checkout. If a
+    provider used squash/rebase and the exact head cannot be proven, the gate
+    stays unknown and the normal explicit finalization/close path remains
+    required.
+    """
+    if not re.fullmatch(r"[0-9a-f]{40}", head_revision):
+        return False
+    current = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+        cwd=repo,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if current.returncode != 0:
+        return False
+    return (
+        subprocess.run(
+            ["git", "merge-base", "--is-ancestor", head_revision, current.stdout.strip()],
+            cwd=repo,
+            check=False,
+            capture_output=True,
+        ).returncode
+        == 0
+    )
+
+
+def stale_awaiting_merge_close(repo: Path, value: dict[str, Any], phase: str) -> bool:
+    """Detect a merged exact PR head whose pre-merge receipt was never closed."""
+    if phase != "default_branch":
+        return False
+    after = value.get("after")
+    pull_request = value.get("pullRequest")
+    result = value.get("result")
+    if not all(isinstance(item, dict) for item in (after, pull_request, result)):
+        return False
+    return (
+        after.get("pullRequest") == "unmerged"
+        and pull_request.get("mergeCommit") is None
+        and result.get("disposition") == "blocked"
+        and result.get("failureCodes") == ["unmerged_pull_request"]
+        and default_branch_contains_reviewed_head(repo, pull_request.get("headRevision", ""))
+    )
+
+
 def premerge_finalize_state(
     repo: Path, work_item: str, value: dict[str, Any]
 ) -> tuple[bool, str]:
@@ -643,29 +693,37 @@ def main() -> int:
                     finalize_valid, phase = premerge_finalize_state(
                         repo, work_item, finalize_value
                     )
-                    if finalize_valid and phase in {
-                        "feature_branch",
-                        "pull_request",
-                        "release_tag",
-                    }:
+                    if stale_awaiting_merge_close(repo, finalize_value, phase):
                         decision = finalize_path
                         record["decisionPath"] = decision
-                        record["lifecycleState"] = "awaiting_merge_close"
-                    else:
-                        record["lifecycleState"] = "closure_missing"
-                        code = (
-                            "premerge_finalize_not_applicable"
-                            if finalize_valid
-                            else "invalid_premerge_finalize"
-                        )
-                        findings.append(finding(work_item, code, finalize_path))
+                        record["lifecycleState"] = "stale_awaiting_merge_close"
                         findings.append(
-                            finding(
-                                work_item,
-                                "missing_terminal_decision",
-                                decision_paths[0],
-                            )
+                            finding(work_item, "stale_awaiting_merge_close", finalize_path)
                         )
+                    else:
+                        if finalize_valid and phase in {
+                            "feature_branch",
+                            "pull_request",
+                            "release_tag",
+                        }:
+                            decision = finalize_path
+                            record["decisionPath"] = decision
+                            record["lifecycleState"] = "awaiting_merge_close"
+                        else:
+                            record["lifecycleState"] = "closure_missing"
+                            code = (
+                                "premerge_finalize_not_applicable"
+                                if finalize_valid
+                                else "invalid_premerge_finalize"
+                            )
+                            findings.append(finding(work_item, code, finalize_path))
+                            findings.append(
+                                finding(
+                                    work_item,
+                                    "missing_terminal_decision",
+                                    decision_paths[0],
+                                )
+                            )
                 else:
                     record["lifecycleState"] = "closure_missing"
                     findings.append(

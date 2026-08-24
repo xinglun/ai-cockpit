@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-24T03:39:36Z",
+  "files": {
+    "approachDigest": "sha256:86a88f381ae87faf3f2b1218acf610dad726b1fe55f97e3fe756b8da77eb0325",
+    "approachPath": ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.approach.json",
+    "contractDigest": "sha256:391a6a78595d154e88543e34ddcfe900be3c034f30cc9a547459c5c65f3c3e36",
+    "contractPath": ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.contract.json",
+    "eventsDigest": "sha256:797da35584316999c1bf773c54c9c063fa251d3f3d3df80db5c050520741c246",
+    "eventsPath": ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.events.jsonl",
+    "outcomeDigest": "sha256:97d14f435a99ea241138286ad789c82afe36f32fbf063096777d0f6a9025884d",
+    "outcomePath": ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.outcome.json",
+    "summaryDigest": "sha256:f280ed6732e046612339ea9a86069bf383deddf7df417719259eaa639e85b9f6",
+    "summaryPath": ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.summary.json",
+    "taskReportDigest": "sha256:c6c0257e58f8bb4911d39a659afb416ee3a587cb5029f822249c3d3fd1141eae",
+    "taskReportMarkdownDigest": "sha256:7b9ea78281e5930804a4c87bc47b7369e30416063f24eb3b6c022f8d924da3fe",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-234-post-merge-governance-cleanup.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-234-post-merge-governance-cleanup"
+}

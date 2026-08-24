@@ -1,0 +1,108 @@
+{
+  "acceptanceCriteria": [
+    "A1: The CI governance inventory detects a current-release archived Work Item whose pre-merge finalization still says unmerged after the reviewed head is present on the synchronized default branch, and fails closed with a stable stale-awaiting-merge-close finding.",
+    "A2: WI-222 is preserved as immutable linked history without inventing a second Runtime successor edge; WI-227 and WI-230 receive append-only post-merge finalization/close evidence bound to their real reviewed merge commits and exact cleanup state.",
+    "A3: The three reference-parity documents identify WI-222 as a linked immutable delivery, WI-227 and WI-230 as implemented/closed, and WI-234 with evidence and terminal decision paths; no predecessor Contract, Summary, Outcome, Events, verification, or archive bytes are rewritten.",
+    "A4: The old WI-189, WI-193, WI-222, WI-223, WI-224, WI-225, and WI-228 branches/worktrees are either superseded with preserved PR/Work Item evidence or removed exactly; no untracked dirty worktree is left by this Work Item.",
+    "A5: Targeted governance regression, documentation/parity checks, Runtime lifecycle verification, hosted PR checks, and the installed v0.2.29 inspect/status/doctor/agent-doctor audit pass; the root worktree's pre-existing user files remain untouched."
+  ],
+  "authority": "authorized",
+  "baseRevision": "93efb791c9133a2d6d47637003339e29cbc9f7fa",
+  "createdAt": "2026-08-24T03:12:14Z",
+  "goal": "Prevent stale merged or superseded Work Items from surviving into the next batch and preserve an auditable failure/recovery chain.",
+  "intent": "Close the post-merge governance loop and remove obsolete PR branches/worktrees without rewriting historical truth.",
+  "mode": "code",
+  "outOfScope": [
+    "Changing any predecessor implementation, verification, archive, summary, outcome, events, or historical failure bytes.",
+    "Rewriting or deleting GitHub PR failure history.",
+    "Completing the deferred full adopter capability manifest beyond the already integrated WI-227 bounded delivery.",
+    "Modifying the root worktree's pre-existing recovery_decision.rs or digest_temp.rs files.",
+    "Changing global Agent, MCP, HOME, or user configuration."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "predecessorWorkItemId": "WI-230-release-v0-2-29",
+  "predecessorContractDigest": "sha256:5820201ae90af2c6ae37f1b166f5ca3ba4f16f0b65f630345188595bd16590b8",
+  "recoveryDecisionPath": ".ai/decisions/WI-230-release-v0-2-29.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1f56900a755b72853891540a4ddd07863bc6cc5289d6207dfab67a07b15e851f",
+  "requiredEvidenceClasses": [
+    "verification",
+    "repository_gate",
+    "documentation_parity",
+    "recovery_decision",
+    "resource_finalization",
+    "post_merge_cleanup"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-234-governance-cleanup",
+    "provider": "github",
+    "pullRequest": "pending",
+    "worktree": "/private/tmp/ai-cockpit-wi234-governance-cleanup"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "expected": "A current-release Work Item whose pre-merge receipt still reports unmerged while its reviewed head is in the default branch is rejected with a stable stale-awaiting-merge-close finding.",
+      "required": true,
+      "scenario": "merged-head-with-stale-premerge-receipt",
+      "status": "unverified",
+      "verificationPlan": "Run the focused governance gate fixture with a merged-head stale receipt and assert deterministic non-zero output."
+    },
+    {
+      "expected": "WI-222 remains immutable linked history without a synthetic second successor edge; WI-227 and WI-230 append valid merged/deleted finalization transitions and structured close decisions.",
+      "required": true,
+      "scenario": "immutable-predecessor-recovery-and-successor-closure",
+      "status": "unverified",
+      "verificationPlan": "Use installed Runtime v0.2.29 recover/finalize/finalize-verify/close with exact digest and merge identities."
+    },
+    {
+      "expected": "Superseded or merged historical branches/worktrees are removed exactly after evidence preservation; no dirty obsolete worktree remains.",
+      "required": true,
+      "scenario": "historical-branch-and-worktree-cleanup",
+      "status": "unverified",
+      "verificationPlan": "Archive uncommitted patches/bundles outside the repository, remove exact worktrees/refs, and inspect git worktree/branch inventories."
+    },
+    {
+      "expected": "The English, Chinese, and Japanese parity documents agree on recovered/implemented statuses and the current Work Item evidence/decision paths.",
+      "required": true,
+      "scenario": "tri-language-parity-and-release-cycle",
+      "status": "unverified",
+      "verificationPlan": "Run documentation acceptance, parity status, and governance integrity tests in one strict route."
+    }
+  ],
+  "scope": [
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "tests/ci/fixtures/governance-integrity/build_fixture.py",
+    "tests/ci/fixtures/governance-integrity/stale-merged-awaiting-close.json",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-234-post-merge-governance-cleanup.md",
+    "docs/work-items/WI-234-post-merge-governance-cleanup.zh-CN.md",
+    "docs/work-items/WI-234-post-merge-governance-cleanup.ja.md",
+    ".ai/decisions/WI-227-getting-started-capability-parity-integration.finalize.*.json",
+    ".ai/decisions/WI-227-getting-started-capability-parity-integration.close.json",
+    ".ai/decisions/WI-230-release-v0-2-29.finalize.*.json",
+    ".ai/decisions/WI-230-release-v0-2-29.close.json"
+  ],
+  "sources": [
+    "PR #171, #172, #173, #174, #176, #177 hosted check history",
+    "WI-222/WI-223/WI-224/WI-225/WI-227/WI-228/WI-230 immutable archive and finalization records",
+    "tests/ci/governance_integrity_gate.py",
+    "docs/reference/reference-parity.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "bash tests/ci/governance_integrity_gate_test.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report target/governance-integrity-report.json",
+    "installed ai-cockpit v0.2.29 inspect/status/doctor/agent doctor --repo .",
+    "git worktree list --porcelain and exact branch/remote cleanup audit"
+  ],
+  "workItemId": "WI-234-post-merge-governance-cleanup"
+}
