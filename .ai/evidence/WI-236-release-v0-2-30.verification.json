@@ -1,6 +1,6 @@
 {
   "captureMode": "full_capture",
-  "createdAt": "2026-08-24T04:35:58Z",
+  "createdAt": "2026-08-24T04:42:42Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -8,8 +8,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 103460,
-      "executionElapsedMs": 103215,
+      "elapsedMs": 395,
+      "executionElapsedMs": 249,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -24,10 +24,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 103460,
-    "executionElapsedMs": 103215,
-    "filesHashed": 35,
-    "filesRead": 35,
+    "elapsedMs": 395,
+    "executionElapsedMs": 249,
+    "filesHashed": 11,
+    "filesRead": 11,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,20 +36,6 @@
     "passed": true,
     "planReceipt": {
       "affectedPaths": [
-        "Cargo.lock",
-        "Cargo.toml",
-        "docs/architecture/release-distribution.ja.md",
-        "docs/architecture/release-distribution.md",
-        "docs/architecture/release-distribution.zh-CN.md",
-        "docs/architecture/versioning.ja.md",
-        "docs/architecture/versioning.md",
-        "docs/architecture/versioning.zh-CN.md",
-        "docs/reference/reference-parity.ja.md",
-        "docs/reference/reference-parity.md",
-        "docs/reference/reference-parity.zh-CN.md",
-        "docs/release/distribution.ja.md",
-        "docs/release/distribution.md",
-        "docs/release/distribution.zh-CN.md",
         "docs/work-items/WI-236-release-v0-2-30.ja.md",
         "docs/work-items/WI-236-release-v0-2-30.md",
         "docs/work-items/WI-236-release-v0-2-30.zh-CN.md"
@@ -61,13 +47,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 103215,
-      "finalTier": "T0",
-      "initialTier": "T0",
+      "executionElapsedMs": 249,
+      "finalTier": "T2",
+      "initialTier": "T2",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:a3e67f6cc0b9571f03a884dd85397643f51487d03602917fe303119096bbc96c",
+      "repositorySnapshotDigest": "sha256:3f28a3ea1df29be3250baab510bad15cfb0bebca5a83455238e96bb12440024a",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -77,7 +63,7 @@
         "cli_route_stage_explicit"
       ],
       "sharedNodes": [],
-      "stage": "task",
+      "stage": "pr",
       "workItemId": "WI-236-release-v0-2-30"
     },
     "planningElapsedMs": 0,
@@ -93,7 +79,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:8ac0c084bf82f3d702604100ff3b21aad43dde92b85c3f3bad7874192268b2f0",
+        "outputDigest": "sha256:8bc58161cd43d9306f15d31267fcbc0c174523bc278ff21f45fd56759ce30751",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -109,9 +95,9 @@
     "runtimeVersion": "0.2.29",
     "workItemId": "WI-236-release-v0-2-30"
   },
-  "receiptDigest": "sha256:2a286018ae4c722a907859e9d55dadf0f7a9f370fd07e94804157f74f5a9aa2c",
+  "receiptDigest": "sha256:9c3fd528cf6bca5a65710d470199f47d41e050b0c62abb29af9bfa3503c9673b",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:a3e67f6cc0b9571f03a884dd85397643f51487d03602917fe303119096bbc96c",
+  "repositorySnapshotDigest": "sha256:3f28a3ea1df29be3250baab510bad15cfb0bebca5a83455238e96bb12440024a",
   "runtimeDigest": "sha256:94d8ee4e27023e1cb677486164af3e96633411105a4596140d4c0f4e64776137",
   "runtimeVersion": "0.2.29",
   "workItemId": "WI-236-release-v0-2-30"

@@ -3,8 +3,8 @@
     "A1: Workspace package metadata and Cargo.lock consistently identify v0.2.30.",
     "A2: Release, versioning, distribution, and tri-language parity documents identify v0.2.30 and preserve v0.2.29 as N-1 where applicable.",
     "A3: Format, clippy, workspace tests, documentation, conformance, release policy, and version consistency checks pass.",
-    "A4: The reviewed PR is merged, the public v0.2.30 Release tag and immutable artifacts are published, and release identity is recorded.",
-    "A5: Installed public v0.2.30 inspect/status/doctor/agent doctor pass, and isolated adopter/upgrade acceptance receipts bind the published runtime identity and clean temporary roots."
+    "A4: The reviewed PR is ready for merge with a pre-merge finalization receipt; the v0.2.30 tag may be created only after the reviewed merge boundary.",
+    "A5: Post-release v0.2.30 artifact identity, installed-runtime checks, and isolated adopter/upgrade acceptance are explicitly handed off to a successor Work Item; this pre-release Work Item must not claim those facts."
   ],
   "authority": "authorized",
   "baseRevision": "488170a6e0b26141877cbd8d437c42c41471b8ff",
@@ -15,7 +15,8 @@
   "outOfScope": [
     "Rewriting prior release truth or historical archive bytes",
     "Changing Runtime governance semantics unrelated to release versioning",
-    "Modifying global Agent or MCP configuration"
+    "Modifying global Agent or MCP configuration",
+    "Post-release v0.2.30 artifact publication and adopter/upgrade acceptance (successor Work Item)"
   ],
   "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
   "protocolVersion": 1,
@@ -30,14 +31,47 @@
     "resource_finalization"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi236-release-v0-2-30",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/187",
     "worktree": "/private/tmp/ai-cockpit-wi236-release"
   },
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "expected": "Cargo metadata, Cargo.lock, release documentation, and tri-language parity identify v0.2.30 with v0.2.29 as N-1.",
+      "required": true,
+      "scenario": "version-and-documentation-consistency",
+      "status": "unverified",
+      "verificationPlan": "Run version consistency, documentation acceptance, parity, format, clippy, and workspace tests."
+    },
+    {
+      "expected": "The reviewed merge commit is bounded by a pre-merge finalization receipt; public release identity is verified only after merge by the successor acceptance Work Item.",
+      "required": true,
+      "scenario": "immutable-public-release-identity",
+      "status": "unverified",
+      "verificationPlan": "Record the pre-merge finalization receipt here; run public Release identity checks in the successor Work Item.",
+      "reason": "Public Release identity does not exist before the reviewed merge."
+    },
+    {
+      "expected": "The installed public v0.2.30 binary governs a fresh adopter repository only after publication, under a successor Work Item.",
+      "required": true,
+      "scenario": "installed-public-adopter-lifecycle",
+      "status": "unverified",
+      "verificationPlan": "Run the immutable public adopter acceptance harness after publication in the successor Work Item.",
+      "reason": "The public binary and fresh adopter do not exist before the reviewed merge and Release publication."
+    },
+    {
+      "expected": "The v0.2.29 adopter upgrades to the published v0.2.30 binary only after publication, under a successor Work Item.",
+      "required": true,
+      "scenario": "n-minus-one-upgrade-and-cleanup",
+      "status": "unverified",
+      "verificationPlan": "Run the immutable N-1 upgrade harness and verify cleanup manifests in the successor Work Item.",
+      "reason": "N-1 upgrade evidence depends on the immutable public v0.2.30 Release."
+    }
+  ],
   "scope": [
     "Cargo.toml",
     "Cargo.lock",
@@ -58,36 +92,6 @@
     "docs/work-items/WI-236-release-v0-2-30.ja.md",
     ".ai/work-items/active/WI-236-release-v0-2-30.contract.json",
     ".ai/work-items/active/WI-236-release-v0-2-30.summary.json"
-  ],
-  "scenarioCoverage": [
-    {
-      "scenario": "version-and-documentation-consistency",
-      "expected": "Cargo metadata, Cargo.lock, release documentation, and tri-language parity identify v0.2.30 with v0.2.29 as N-1.",
-      "required": true,
-      "status": "unverified",
-      "verificationPlan": "Run version consistency, documentation acceptance, parity, format, clippy, and workspace tests."
-    },
-    {
-      "scenario": "immutable-public-release-identity",
-      "expected": "The reviewed merge commit, v0.2.30 tag, release manifest, archive checksums, and binary digest are one immutable identity.",
-      "required": true,
-      "status": "unverified",
-      "verificationPlan": "Run the release workflow and record tag, manifest, archive, binary, and provider Release evidence."
-    },
-    {
-      "scenario": "installed-public-adopter-lifecycle",
-      "expected": "The downloaded v0.2.30 binary governs a fresh adopter repository, preserving first-adopter-smoke as not_ready and completing the Work Item lifecycle.",
-      "required": true,
-      "status": "unverified",
-      "verificationPlan": "Run the public adopter acceptance harness with isolated HOME, XDG_CONFIG_HOME, TMPDIR, and CARGO_HOME."
-    },
-    {
-      "scenario": "n-minus-one-upgrade-and-cleanup",
-      "expected": "The v0.2.29 adopter upgrades to v0.2.30 with migration/compatibility evidence, and all temporary roots are cleaned without changing Release truth.",
-      "required": true,
-      "status": "unverified",
-      "verificationPlan": "Run the public upgrade acceptance harness and verify cleanup manifests and receipts."
-    }
   ],
   "sources": [],
   "state": "implementation_active",

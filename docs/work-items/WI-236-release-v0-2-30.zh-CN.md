@@ -14,10 +14,11 @@ lastVerifiedBy: WI-236-release-v0-2-30
 
 # WI-236——v0.2.30 发布基线与 public adopter 验收
 
-本 Work Item 从已合并的默认分支建立下一份不可变公开 Runtime Release。
-先统一 package identity 与面向读者的发布文档，再把公开 archive、安装后的
-binary、adopter lifecycle、N-1 upgrade、隔离 manifest 与最终化 receipt 绑定到
-同一个 Release identity。
+本 Work Item 建立下一份不可变公开 Runtime Release 的发布前基线。先统一
+package identity 与面向读者的发布文档，再绑定已审阅 PR 与合并前最终化边界。
+公开 artifact identity、安装后的 binary、adopter lifecycle 与 N-1 upgrade
+都属于合并后的事实，由 successor Work Item 在发布后验收；本 Work Item 不会
+提前宣称这些事实。
 
 ## 验收边界
 
@@ -25,10 +26,10 @@ binary、adopter lifecycle、N-1 upgrade、隔离 manifest 与最终化 receipt 
 - 发布、版本、分发以及中/英/日 parity 文档标识 v0.2.30，并把 v0.2.29
   作为紧邻的 N-1 基线。
 - 发布前 source quality、release policy、version consistency 与文档 gate 通过。
-- 发布后验证公开 Release tag 与不可变 artifact；不接受源码 checkout 或 workspace
-  binary 作为发布证据。
-- 安装的 v0.2.30 binary 通过 inspect/status/doctor/agent doctor，隔离 adopter/upgrade
-  harness 通过；临时运行根目录必须清理，但验收 receipt 保持可审计。
+- 已审阅 PR 具备有效的合并前最终化边界；只有合并后才能创建公开 Release tag。
+  不接受源码 checkout 或 workspace binary 作为公开发布证据。
+- successor Work Item 在发布后验证安装的 v0.2.30 binary 与隔离 adopter/upgrade
+  harness；临时运行根目录必须清理，但 successor 的验收 receipt 保持可审计。
 
 ## 参考
 

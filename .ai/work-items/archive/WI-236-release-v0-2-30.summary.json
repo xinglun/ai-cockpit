@@ -1,0 +1,130 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "source version consistency",
+          "path": "tests/release/version_consistency.sh",
+          "type": "release-policy-gate",
+          "verification": "The source package metadata and Cargo.lock identify v0.2.30."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "tri-language documentation",
+          "path": "docs/reference/reference-parity.md",
+          "type": "documentation-gate",
+          "verification": "Documentation acceptance and parity checks pass for the v0.2.30 baseline."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "workspace verification",
+          "path": ".ai/evidence/WI-236-release-v0-2-30.verification.json",
+          "type": "runtime-verification",
+          "verification": "Installed Runtime v0.2.29 executed the workspace test command with passed=true."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "release tag ordering",
+          "path": "docs/reference/agent-workflow.md",
+          "type": "release-boundary",
+          "verification": "The release tag follows reviewed merge and pre-merge finalization; public identity is delegated to the successor acceptance Work Item."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "post-release handoff",
+          "path": "docs/reference/agent-workflow.md",
+          "type": "release-boundary",
+          "verification": "Installed artifact and adopter/upgrade acceptance are post-release evidence and are not claimed by this pre-release Work Item."
+        }
+      ]
+    }
+  ],
+  "changedPaths": [],
+  "checkpointAt": "2026-08-24T04:30:36Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T04:24:46Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-236-release-v0-2-30.contract.json",
+      "docs/work-items/WI-236-release-v0-2-30.md"
+    ],
+    "reason": "The current Work Item is limited to the v0.2.30 pre-release baseline, reviewed PR boundary, and an explicit handoff of post-release acceptance.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-08-24T04:42:42Z",
+  "preflightContractDigest": "sha256:bd3955d4bf6e2f6a8fab434f4d26fca4936c356911f36ddeb0763ed3036925d1",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:3f28a3ea1df29be3250baab510bad15cfb0bebca5a83455238e96bb12440024a",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-236-release-v0-2-30.verification.json",
+        "tests/release/version_consistency.sh",
+        "tests/docs/documentation_acceptance.sh",
+        "tests/docs/parity_status_check.sh"
+      ],
+      "expected": "Cargo metadata, Cargo.lock, release documentation, and tri-language parity identify v0.2.30 with v0.2.29 as N-1.",
+      "required": true,
+      "scenario": "version-and-documentation-consistency",
+      "status": "verified",
+      "verificationPlan": "Run version consistency, documentation acceptance, parity, format, clippy, and workspace tests."
+    },
+    {
+      "evidence": [
+        "docs/reference/agent-workflow.md"
+      ],
+      "expected": "The reviewed merge commit is bounded by a pre-merge finalization receipt; public release identity is verified only after merge by the successor acceptance Work Item.",
+      "reason": "Public Release identity does not exist before the reviewed merge.",
+      "required": true,
+      "scenario": "immutable-public-release-identity",
+      "status": "not_applicable",
+      "verificationPlan": "Record the pre-merge finalization receipt here; run public Release identity checks in the successor Work Item."
+    },
+    {
+      "evidence": [
+        "docs/reference/agent-workflow.md"
+      ],
+      "expected": "The installed public v0.2.30 binary governs a fresh adopter repository only after publication, under a successor Work Item.",
+      "reason": "The public binary and fresh adopter do not exist before the reviewed merge and Release publication.",
+      "required": true,
+      "scenario": "installed-public-adopter-lifecycle",
+      "status": "not_applicable",
+      "verificationPlan": "Run the immutable public adopter acceptance harness after publication in the successor Work Item."
+    },
+    {
+      "evidence": [
+        "docs/reference/agent-workflow.md"
+      ],
+      "expected": "The v0.2.29 adopter upgrades to the published v0.2.30 binary only after publication, under a successor Work Item.",
+      "reason": "N-1 upgrade evidence depends on the immutable public v0.2.30 Release.",
+      "required": true,
+      "scenario": "n-minus-one-upgrade-and-cleanup",
+      "status": "not_applicable",
+      "verificationPlan": "Run the immutable N-1 upgrade harness and verify cleanup manifests in the successor Work Item."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-24T04:42:50Z",
+  "workItemId": "WI-236-release-v0-2-30"
+}
