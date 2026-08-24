@@ -1,4 +1,34 @@
 {
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "workspace.package.version",
+          "path": "Cargo.toml",
+          "type": "workspace-version",
+          "verification": "0.2.29"
+        },
+        {
+          "locator": "source baseline",
+          "path": "tests/release/version_consistency.sh",
+          "type": "version-gate",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "PR-stage cargo workspace execution",
+          "path": ".ai/evidence/WI-230-release-v0-2-29.verification.json",
+          "type": "runtime-verification",
+          "verification": "passed=true; runtimeVersion=0.2.28; stage=pr; snapshot=sha256:83ff255d7001bea49aaccb04ca448fa0b15917eb235033807e3451c05dc14f"
+        }
+      ]
+    }
+  ],
   "changedPaths": [
     ".ai/work-items/active/WI-230-release-v0-2-29.contract.json",
     ".ai/work-items/active/WI-230-release-v0-2-29.summary.json"
@@ -16,20 +46,23 @@
     "state": "resolved"
   },
   "mode": "code",
-  "preflightAt": "2026-08-24T01:06:42Z",
-  "preflightContractDigest": "sha256:61205a1a548b12d256d51fdac474c27ace2bea5b44ee5ab24d1e2b7a3dd7ea91",
+  "preflightAt": "2026-08-24T01:09:05Z",
+  "preflightContractDigest": "sha256:18b52ce6477c89da2aa5f31f99a2405c2acdb5234c4ef9a6e0db41c43a396bf4",
   "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:753a59a5ae4c968aff88b638abaff0dc3042bd0e5b5909bfb313e39e563e2cbc",
+  "preflightRepositorySnapshotDigest": "sha256:83ff255d7001beaac49aaccb04ca448fa0b15917eb235033807e3451c05dc14f",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
-      "evidence": [],
+      "evidence": [
+        "tests/release/version_consistency.sh --repo .: passed 0.2.29",
+        "cargo metadata --offline: all workspace packages 0.2.29"
+      ],
       "expected": "All workspace packages and current release references identify v0.2.29.",
       "required": true,
       "scenario": "version and workspace consistency",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Run cargo metadata and tests/release/version_consistency.sh."
     },
     {
@@ -50,6 +83,6 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-08-24T01:00:52Z",
+  "updatedAt": "2026-08-24T01:09:38.884752+00:00",
   "workItemId": "WI-230-release-v0-2-29"
 }
