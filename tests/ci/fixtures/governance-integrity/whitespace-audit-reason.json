@@ -5,9 +5,8 @@
     {"classification": "current_release", "id": "WI-900-release-v9-9-9"},
     {
       "classification": "current_archive_timestamp",
-      "finalizeReason": "await reviewed merge and exact branch/worktree cleanup",
+      "finalizeReason": "   ",
       "id": "WI-901-corrective-after-baseline",
-      "invalidFinalize": "foreign",
       "terminalDecision": "finalize"
     }
   ]

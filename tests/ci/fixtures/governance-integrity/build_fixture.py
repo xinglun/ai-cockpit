@@ -178,7 +178,10 @@ for item in spec.get("workItems", []):
                     "repositoryId": finalize_repository_id,
                     "resourceContext": contract["resourceContext"],
                     "result": finalize_result,
-                    "reason": "awaiting_merge_close: fixture PR remains unmerged",
+                    "reason": item.get(
+                        "finalizeReason",
+                        "awaiting_merge_close: fixture PR remains unmerged",
+                    ),
                     "runtimeDigest": runtime_digest,
                     "runtimeVersion": runtime_version,
                     "worktree": {

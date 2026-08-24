@@ -1,0 +1,17 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-24T08:32:13Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T08:30:51Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-24T08:32:13Z",
+  "preflightContractDigest": "sha256:eb61f539972ec8fa07edbd77131b8526803eab74b5ebd215322fc039f0612fb9",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:e4cc6c7c6ce2941f626025dbd6c0f95165a63a5b26983be2cbe4da662ba56466",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-24T08:32:13Z",
+  "workItemId": "WI-243-finalization-reason-policy"
+}

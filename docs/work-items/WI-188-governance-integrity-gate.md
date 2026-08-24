@@ -23,9 +23,11 @@ unknown current problems fail closed.
 An archived feature-branch Work Item may report `awaiting_merge_close` only
 when its Runtime finalize receipt proves an unmerged PR, a present branch, a
 clean worktree, `blocked` disposition, the sole failure code
-`unmerged_pull_request`, no unknown codes, and a reason beginning with the
-`awaiting_merge_close` audit token. That receipt is not terminal closure: on
-the default branch the gate still requires an exact close or recovery decision.
+`unmerged_pull_request`, no unknown codes, and a nonempty auditable reason.
+The reason remains human-readable audit text; the gate derives
+`awaiting_merge_close` only from the typed result and repository state, never
+from a reason token. That receipt is not terminal closure: on the default
+branch the gate still requires an exact close or recovery decision.
 The exception also binds the repository identity, raw archived Contract digest,
 verification Runtime identity, actual remote default branch, and internally
 consistent PR, branch, worktree, and Contract resource context.

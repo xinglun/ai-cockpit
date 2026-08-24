@@ -267,10 +267,7 @@ def premerge_finalize_state(
     ):
         return False, "unknown"
     reason = value.get("reason")
-    reason_valid = isinstance(reason, str) and (
-        reason == "awaiting_merge_close"
-        or reason.startswith("awaiting_merge_close: ")
-    )
+    reason_valid = isinstance(reason, str) and bool(reason.strip())
     contract_path = (
         repo / ".ai/work-items/archive" / f"{work_item}.contract.json"
     )
