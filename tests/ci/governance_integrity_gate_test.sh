@@ -67,6 +67,9 @@ run_case ambiguous-current 1 ambiguous_short_id
 run_case invalid-outcome 1 invalid_outcome
 run_case archive-timestamp-current 0 none
 run_case awaiting-merge-close 0 none
+run_case runtime-audit-reason 0 none
+run_case empty-audit-reason 1 invalid_premerge_finalize
+run_case whitespace-audit-reason 1 invalid_premerge_finalize
 run_case stale-merged-awaiting-close 1 stale_awaiting_merge_close
 run_case release-tag-awaiting-close 0 none
 run_case release-tag-non-ancestor 1 invalid_premerge_finalize
@@ -151,6 +154,20 @@ assert classification["WI-901-corrective-after-baseline"] == "current_release_cy
 PY
 
 python3 - "$tmp/awaiting-merge-close-report.json" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+item = next(
+    item
+    for item in report["inventory"]
+    if item["workItemId"] == "WI-901-corrective-after-baseline"
+)
+assert item["lifecycleState"] == "awaiting_merge_close", item
+assert item["decisionPath"].endswith(".finalize.json"), item
+PY
+
+python3 - "$tmp/runtime-audit-reason-report.json" <<'PY'
 import json
 import sys
 

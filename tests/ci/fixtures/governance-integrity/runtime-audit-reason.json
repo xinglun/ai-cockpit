@@ -7,7 +7,6 @@
       "classification": "current_archive_timestamp",
       "finalizeReason": "await reviewed merge and exact branch/worktree cleanup",
       "id": "WI-901-corrective-after-baseline",
-      "invalidFinalize": "foreign",
       "terminalDecision": "finalize"
     }
   ]

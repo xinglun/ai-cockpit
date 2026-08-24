@@ -21,8 +21,10 @@ parity 绑定。更早的记录仍以 historical 或 legacy 项可审计地呈�
 
 只有当 Runtime finalize 回执证明 PR 尚未合并、分支仍存在、worktree 已干净、
 result disposition 为 `blocked`、唯一 failure code 为 `unmerged_pull_request`、
-unknown code 为空且 reason 以 `awaiting_merge_close` 审计 token 开头时，feature 分支上已 archive 的
-Work Item 才可标记为 `awaiting_merge_close`。该回执不是终态关闭；进入默认分支后，
+unknown code 为空且 reason 是非空可审计文本时，feature 分支上已 archive 的 Work Item
+才可标记为 `awaiting_merge_close`。reason 保持人类可读的审计文本；门禁仅从 typed result
+与 repository 状态推导 `awaiting_merge_close`，绝不把 reason token 当作生命周期状态。
+该回执不是终态关闭；进入默认分支后，
 门禁仍必须看到精确的 close 或 recovery decision。
 该例外还会绑定 repository identity、archived Contract 原始 SHA-256、verification Runtime
 identity、实际远程默认分支，并要求 PR、branch、worktree 与 Contract resource context

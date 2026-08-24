@@ -1,0 +1,106 @@
+{
+  "acceptanceCriteria": [
+    "The actual WI-240 audit reason `await reviewed merge and exact branch/worktree cleanup` is accepted when all existing repository, Contract, evidence, Runtime, PR, base, head, resourceContext, and blocked-unmerged bindings are valid.",
+    "Empty or whitespace-only reason text is rejected as invalid_premerge_finalize, and a foreign receipt remains rejected even with nonempty audit text.",
+    "Lifecycle state awaiting_merge_close derives from typed result disposition=blocked, failureCodes=[unmerged_pull_request], unknownCodes=[], and after branch=present/worktree=clean/pullRequest=unmerged; reason text is never interpreted as a lifecycle token.",
+    "English, Simplified Chinese, and Japanese WI-188 governance policy and reference parity describe the corrected reason boundary consistently."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1c988ce9b04c3dcd45843f6577ed321457eeca0e",
+  "createdAt": "2026-08-24T08:30:51Z",
+  "goal": "Runtime-valid pre-merge finalization receipt with arbitrary nonempty audit reason passes the hosted gate while empty/whitespace or foreign receipts still fail closed.",
+  "intent": "修正治理完整性门禁与 Runtime v0.2.31 finalization receipt 的 reason 语义不一致：reason 是非空可审计文本，awaiting_merge_close 状态由 typed blocked/unmerged result 推导，不依赖未文档化 token。",
+  "mode": "implementation",
+  "outOfScope": [
+    "All WI-240 and WI-242 archive, evidence, decision, Contract, Summary, and Outcome bytes",
+    "Runtime receipt schema and crates/**",
+    ".github/** and release behavior",
+    "Parallel isolation and post-finalize transitions"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e4cc6c7c6ce2941f626025dbd6c0f95165a63a5b26983be2cbe4da662ba56466",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-243-finalization-reason-policy",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/195",
+    "worktree": "/private/tmp/ai-cockpit-wi243-finalization-reason-policy"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A Runtime v0.2.31 pre-merge receipt using the exact WI-240 nonempty audit reason is classified as awaiting_merge_close when every typed identity and state binding is valid.",
+      "required": true,
+      "scenario": "runtime-audit-reason",
+      "status": "unverified",
+      "verificationPlan": "Run the governance integrity fixture with the literal WI-240 reason and assert a passing report whose lifecycleState is awaiting_merge_close."
+    },
+    {
+      "evidence": [],
+      "expected": "Empty and whitespace-only reason values fail closed as invalid_premerge_finalize.",
+      "required": true,
+      "scenario": "empty-audit-reason",
+      "status": "unverified",
+      "verificationPlan": "Run the empty and whitespace fixture cases and assert deterministic invalid_premerge_finalize findings."
+    },
+    {
+      "evidence": [],
+      "expected": "A foreign repository receipt remains invalid even when it supplies the same nonempty auditable reason text.",
+      "required": true,
+      "scenario": "foreign-receipt",
+      "status": "unverified",
+      "verificationPlan": "Run the foreign pre-merge fixture with the WI-240 reason and assert invalid_premerge_finalize."
+    },
+    {
+      "evidence": [],
+      "expected": "English, Simplified Chinese, and Japanese policy text consistently separates audit reason prose from typed lifecycle state.",
+      "required": true,
+      "scenario": "tri-language-policy",
+      "status": "unverified",
+      "verificationPlan": "Run documentation acceptance, parity status, and the strict governance gate."
+    }
+  ],
+  "scope": [
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "tests/ci/fixtures/governance-integrity/build_fixture.py",
+    "tests/ci/fixtures/governance-integrity/runtime-audit-reason.json",
+    "tests/ci/fixtures/governance-integrity/empty-audit-reason.json",
+    "tests/ci/fixtures/governance-integrity/whitespace-audit-reason.json",
+    "tests/ci/fixtures/governance-integrity/foreign-premerge-finalize.json",
+    "docs/work-items/WI-188-governance-integrity-gate.md",
+    "docs/work-items/WI-188-governance-integrity-gate.zh-CN.md",
+    "docs/work-items/WI-188-governance-integrity-gate.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "tests/ci/fixtures/governance-integrity/build_fixture.py",
+    "git:origin/codex/wi-240-doc-status:.ai/decisions/WI-240-doc-status-consistency.finalize.json",
+    "crates/cockpit-protocol/src/lib.rs",
+    ".ai/work-items/archive/WI-188-governance-integrity-gate.contract.json",
+    "docs/work-items/WI-188-governance-integrity-gate.md",
+    "docs/reference/reference-parity.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "tests/ci/governance_integrity_gate_test.sh",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/docs/parity_status_check.sh",
+    "tests/ci/repository_gate_manifest_test.sh",
+    "python3 tests/ci/quality_route_test.py",
+    "python3 tests/ci/quality_route.py --repo . --manifest tests/ci/repository_gate_manifest.json --base 1c988ce9b04c3dcd45843f6577ed321457eeca0e --head HEAD --stage task --risk high --profile strict --contract .ai/work-items/active/WI-243-finalization-reason-policy.contract.json --receipt target/quality-route-wi243.json",
+    "python3 tests/ci/run_repository_gates.py --repo . --manifest tests/ci/repository_gate_manifest.json --route-receipt target/quality-route-wi243.json --report target/repository-gates-wi243.json"
+  ],
+  "workItemId": "WI-243-finalization-reason-policy"
+}

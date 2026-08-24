@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-24T08:48:22Z",
+  "files": {
+    "contractDigest": "sha256:d5e273574e5b0a90343af22e58e71ba262b6d85b08e93c3bfa0fed638d26e2e2",
+    "contractPath": ".ai/work-items/archive/WI-243-finalization-reason-policy.contract.json",
+    "eventsDigest": "sha256:c8055cdec2efa367ef1e4fad3f39f940d4b49ce9a036d52db12ddd9393abb8ce",
+    "eventsPath": ".ai/work-items/archive/WI-243-finalization-reason-policy.events.jsonl",
+    "outcomeDigest": "sha256:55257404c9eef25c0fc87103a90fdec4746e5592e540b1f7a3e06998714da53b",
+    "outcomePath": ".ai/work-items/archive/WI-243-finalization-reason-policy.outcome.json",
+    "summaryDigest": "sha256:27b547021a94aeb2d4d3cc11409b2fdec68c73a94379ef35dbb23e3b9fef48b8",
+    "summaryPath": ".ai/work-items/archive/WI-243-finalization-reason-policy.summary.json",
+    "taskReportDigest": "sha256:c7c7c64f95f456304ce48daa8914b615af2dcacf8a579e05a7cefca35f17e70f",
+    "taskReportMarkdownDigest": "sha256:253641adba23c9cf163da0be095f8a7eccc30f3aba77ab7537f00cc507567131",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-243-finalization-reason-policy.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-243-finalization-reason-policy.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-243-finalization-reason-policy"
+}

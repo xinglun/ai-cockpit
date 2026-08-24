@@ -22,8 +22,10 @@ current problem は fail closed になります。
 
 archive 済み feature branch Work Item は、Runtime finalize receipt が unmerged PR、
 branch present、clean worktree、`blocked` disposition、唯一の failure code
-`unmerged_pull_request`、unknown code なし、`awaiting_merge_close` audit token で始まる reason を証明する
-場合だけ `awaiting_merge_close` になります。この receipt は terminal closure では
+`unmerged_pull_request`、unknown code なし、空ではない監査可能な reason を証明する
+場合だけ `awaiting_merge_close` になります。reason は人が読める監査テキストのままで、
+gate は typed result と repository state だけから `awaiting_merge_close` を導出し、reason
+token を lifecycle state として解釈しません。この receipt は terminal closure では
 ないため、default branch では正確な close または recovery decision が引き続き必須です。
 この例外は repository identity、archived Contract の raw SHA-256、verification Runtime
 identity、実際の remote default branch も bind し、PR、branch、worktree、Contract
