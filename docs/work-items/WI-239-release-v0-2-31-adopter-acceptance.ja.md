@@ -7,7 +7,7 @@ audience:
   - maintainer
   - reviewer
   - adopter
-status: current
+status: implemented
 lastVerifiedBy: WI-239-release-v0-2-31-adopter-acceptance
 authority: canonical
 ---
