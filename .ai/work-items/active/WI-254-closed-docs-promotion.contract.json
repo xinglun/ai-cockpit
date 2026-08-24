@@ -44,6 +44,57 @@
     "worktree": "/private/tmp/ai-cockpit-wi254-closed-docs-promotion"
   },
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "TDD RED: python3 tests/docs/promote_closed_work_item.py failed with missing helper before implementation",
+        "bash tests/docs/promote_closed_work_item_test.sh: passed valid write, check-only, second-write idempotence, and check-all fixture",
+        "real WI-253 pre-write check reported exactly six stale controlled targets; write followed by check returned current"
+      ],
+      "expected": "The helper verifies one repository-bound closed Work Item's regular archive Contract, passing verification evidence, unique sequence-2 deleted finalization head, structured close decision, and exact cross-digests before canonically promoting all three Work Item documents and parity rows; a second check-only run is idempotent and makes no writes.",
+      "required": true,
+      "scenario": "valid-terminal-promotion",
+      "status": "verified",
+      "verificationPlan": "Create a complete isolated fixture, observe the pre-implementation RED, then run tests/docs/promote_closed_work_item_test.sh and the helper in write plus check-only modes against WI-253 and post-close WI-254."
+    },
+    {
+      "evidence": [
+        "bash tests/docs/promote_closed_work_item_test.sh: passed repository, Work Item, Contract digest, close head, finalization disposition/digest, duplicate row, missing language, symlink, malformed JSON negative cases",
+        "every invalid fixture asserted identical before/after documentation SHA-256 listing"
+      ],
+      "expected": "Wrong repository or Work Item identity, digest mismatch, missing or malformed lifecycle records, non-unique or non-sequence-2 finalization, non-deleted cleanup, unconfirmed close, symlink, nonregular path, missing language counterpart, missing or duplicate parity row all fail before any documentation byte changes.",
+      "required": true,
+      "scenario": "identity-or-filesystem-fail-closed",
+      "status": "verified",
+      "verificationPlan": "Use fixture mutations with before/after tree digests in tests/docs/promote_closed_work_item_test.sh and assert each invalid case returns nonzero with zero writes."
+    },
+    {
+      "evidence": [
+        "bash tests/docs/documentation_acceptance.sh: passed and invoked --check-all",
+        "bash tests/ci/repository_gate_manifest_test.sh: passed with sorted unique check and regression gates",
+        "python3 tests/ci/quality_route_test.py: passed",
+        "python3 tests/ci/governance_integrity_gate.py --repo . --report /tmp/wi254-governance-integrity.json: passed for 213 Work Items with findings=[]"
+      ],
+      "expected": "Documentation acceptance and the quality-route manifest invoke check-only promotion validation and reject stale, conditional, ambiguous, or noncanonical closed Work Item projections while accepting helper-generated terminal output.",
+      "required": true,
+      "scenario": "mandatory-terminal-gate",
+      "status": "verified",
+      "verificationPlan": "Run the focused promotion, status consistency, documentation acceptance, repository manifest and quality-route regression suites including an intentionally stale closed fixture."
+    },
+    {
+      "evidence": [
+        "real closed WI-253 write and check-only promotion passed from its exact archive/evidence/sequence-2/close chain",
+        "fixture WI-999 proves the same closed-item write→check→idempotent sequence required for the future detached WI-254 closure context",
+        "git diff confirms no WI-253 archive Contract, verification, finalization, or close byte changed",
+        "post-close WI-254 execution and terminal hosted CI remain mandatory closure operations and are not claimed complete by this pre-merge evidence"
+      ],
+      "expected": "WI-253 is terminalized from its immutable sequence-2 and close truth during WI-254 implementation; after WI-254 close the same helper terminalizes WI-254 in the detached synchronized default-branch context and terminal main CI passes without creating another successor.",
+      "required": true,
+      "scenario": "wi253-and-wi254-nonrecursive-terminalization",
+      "status": "verified",
+      "verificationPlan": "Run the helper against real WI-253 before PR verification, then after WI-254 merge/finalize/close run it against real WI-254, run check-only plus terminal hosted CI, and confirm no immutable predecessor lifecycle path changed."
+    }
+  ],
   "scope": [
     ".ai/decisions/WI-253-docs-terminalization.recovery.json",
     ".ai/work-items/**",

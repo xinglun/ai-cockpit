@@ -87,18 +87,19 @@
   "checkpointCount": 1,
   "createdAt": "2026-08-24T15:57:42Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:d385c90b5c028c5ed20306fbd7c9f0bcb64ce245a27344f468a3fcf387cfeb63",
+    "contractDigest": "sha256:fd2e40fe3c47727999e85e8d6e126518fc5a785931c22e1395c9f62ed2a6b4ad",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:684166e33872341adcc76c399ecaed04e78735e453f34bdd6fca3e9347e8cb28",
-    "reason": "Fresh review accepts the exact installed Runtime v0.2.31 PR-stage verification snapshot for the already authorized WI-254 Contract and PR #206 context. Verification passed T2 with one process and binds base 0a5101ef551c9e0242d514740a68a2be4680d406. This authorizes finish/archive progression only; merge, post-merge cleanup, close, self-promotion, and terminal CI remain separate required boundaries.",
-    "recordedAt": "2026-08-24T16:22:05Z",
+    "preflightDecisionDigest": "sha256:9f92487e0755e0da84044f7018bdeb1621c751b6e1653192c5622f73fe004dcb",
+    "reason": "The repository owner explicitly authorized the bounded WI-254 Contract correction that copies the already verified four scenarioCoverage entries into the human-owned Contract, preserves the first fail-closed finish evidence, and requires fresh review plus Runtime verification before retrying finish. Scope and authority remain limited to WI-254.",
+    "recordedAt": "2026-08-24T16:24:22Z",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:dd85d77708a34054728cc243a277921ac0ae2c19efea760621a17978f873447e",
+    "repositorySnapshotDigest": "sha256:ad0af455958ef241cb6ccfdd11391500bbf0bd4ffe16b67e955b486226ba8d42",
     "schemaVersion": 1,
     "workItemId": "WI-254-closed-docs-promotion"
   },
+  "failedGate": "finish.verification",
   "intentAlignment": {
     "basis": "The implementation is limited to one evidence-derived documentation projection helper, its mandatory no-write gate, tests, and tri-language lifecycle/documentation surfaces. It promotes WI-253 without modifying immutable lifecycle bytes and explicitly leaves Runtime Core automatic Markdown mutation, releases, product code, unrelated Work Items, and root main outside scope.",
     "evidence": [
@@ -113,14 +114,16 @@
     "state": "resolved"
   },
   "mode": "code",
+  "outcomeState": "blocked",
   "predecessorContractDigest": "sha256:850de4b00c0919face617e700eb5cd4a810c362f1baae7c8a14257ccf98a72cb",
   "predecessorWorkItemId": "WI-253-docs-terminalization",
-  "preflightAt": "2026-08-24T16:21:38Z",
-  "preflightContractDigest": "sha256:d385c90b5c028c5ed20306fbd7c9f0bcb64ce245a27344f468a3fcf387cfeb63",
-  "preflightDecisionDigest": "sha256:684166e33872341adcc76c399ecaed04e78735e453f34bdd6fca3e9347e8cb28",
-  "preflightRepositorySnapshotDigest": "sha256:dd85d77708a34054728cc243a277921ac0ae2c19efea760621a17978f873447e",
+  "preflightAt": "2026-08-24T16:24:42Z",
+  "preflightContractDigest": "sha256:fd2e40fe3c47727999e85e8d6e126518fc5a785931c22e1395c9f62ed2a6b4ad",
+  "preflightDecisionDigest": "sha256:9f92487e0755e0da84044f7018bdeb1621c751b6e1653192c5622f73fe004dcb",
+  "preflightRepositorySnapshotDigest": "sha256:ad0af455958ef241cb6ccfdd11391500bbf0bd4ffe16b67e955b486226ba8d42",
   "preflightState": "yellow",
   "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
   "recoveryDecisionPath": ".ai/decisions/WI-253-docs-terminalization.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -175,6 +178,6 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-08-24T16:21:38.195105+00:00",
+  "updatedAt": "2026-08-24T16:24:36.530491+00:00",
   "workItemId": "WI-254-closed-docs-promotion"
 }

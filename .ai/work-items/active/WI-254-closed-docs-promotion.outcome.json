@@ -1,0 +1,151 @@
+{
+  "acceptanceResults": [
+    "A deterministic promotion helper accepts an exact Work Item ID only after regular-file non-symlink archive Contract, verification evidence, unique sequence-2 deleted finalization head, and structured close receipt agree on repository identity, Work Item identity, Contract/evidence/finalization digests, merge revision, and terminal decision; missing, malformed, ambiguous, foreign, symlinked, or mismatched inputs fail closed without document writes.",
+    "Promotion changes only explicit machine-owned frontmatter/marker fields in the three exact Work Item documents and the one exact Work Item row in each tri-language reference-parity document; it never rewrites Contract-language prose or any immutable lifecycle evidence.",
+    "A check-only mode and mandatory documentation/quality gate reject any structurally closed governed Work Item whose controlled tri-language projections are absent, conditional, stale, ambiguous, duplicated, or not canonical for its persisted terminal evidence.",
+    "WI-253 tri-language Work Item and reference-parity projections are promoted to terminal Implemented truth by the helper and cite its exact archive, verification, sequence-2 finalization, close, and recovery evidence without modifying predecessor lifecycle bytes.",
+    "Tri-language lifecycle and command documentation state the required close → promote closed docs → terminal CI sequence, the deterministic controlled-write boundary, the fail-closed identity checks, and the manual-helper boundary rather than claiming Runtime Core mutates docs automatically.",
+    "After WI-254 is merged, sequence-2 finalized and structurally closed, the same helper promotes WI-254 from a detached synchronized default-branch closure context; check-only mode passes and terminal main CI is green without a further documentation successor.",
+    "Focused RED/GREEN regressions cover valid promotion plus wrong repository/Work Item/digest/finalization/close identity, missing counterpart/row, duplicate row, conditional stale projection, symlink, nonregular or malformed input, no-write failure, and idempotent check-only behavior; documentation acceptance, manifest route, fmt, clippy, full workspace, installed Runtime verify, hosted CI, and post-close terminal CI pass."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
+  ],
+  "failedGate": "finish.verification",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ad0af455958ef241cb6ccfdd11391500bbf0bd4ffe16b67e955b486226ba8d42",
+      "workItemId": "WI-254-closed-docs-promotion"
+    },
+    "failedGate": "finish.verification",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-254-closed-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-253-docs-terminalization.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-254-closed-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-254-closed-docs-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-254-closed-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-254-closed-docs-promotion.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-254-closed-docs-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-254-closed-docs-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Provide and gate one auditable helper that validates exact close/archive/evidence/finalization identity, promotes only machine-owned Work Item metadata and exact reference-parity rows, terminalizes WI-253 now, and is reused after WI-254 closes so terminal CI does not require another successor."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-254-closed-docs-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-254-closed-docs-promotion"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-254-closed-docs-promotion.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-254-closed-docs-promotion"
+}
