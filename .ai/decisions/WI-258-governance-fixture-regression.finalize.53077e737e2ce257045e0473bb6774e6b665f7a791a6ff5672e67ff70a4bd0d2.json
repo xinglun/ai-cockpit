@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:83b4685de5edca7902e03506dad87155fdf10ab0d28c9fd81ba951edfa183884",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "exact-merged-branch-and-worktree-cleanup",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "339bd187d22e4ce1f07d41ff12d7430476598ee3",
+      "name": "codex/wi-258-governance-fixture",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:3e8d2effff40d3454d0582d3c2d1ca75d65287a557a378c568a8afcce27c1ef3",
+    "operationId": "operation-WI-258-governance-fixture-regression-cleanup-deleted",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "b55bdcd91ca6e228aa9cc095ee1ac4fddc6c0be4",
+      "headRevision": "339bd187d22e4ce1f07d41ff12d7430476598ee3",
+      "mergeCommit": "674a279a0c162206dbe9ffb9522e41932e9a39f2",
+      "number": 210,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/210"
+    },
+    "reason": "PR #210 is merged; the exact feature branch and worktree were removed and the synchronized default branch remains clean.",
+    "receiptId": "ai-cockpit-WI-258-governance-fixture-regression-cleanup-deleted",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-258-governance-fixture",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/210",
+      "worktree": "/private/tmp/ai-cockpit-wi258-governance-fixture"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+    "runtimeVersion": "0.2.31",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-24T23:45:53Z",
+    "workItemId": "WI-258-governance-fixture-regression",
+    "worktree": {
+      "branch": "codex/wi-258-governance-fixture",
+      "headRevision": "339bd187d22e4ce1f07d41ff12d7430476598ee3",
+      "path": "/private/tmp/ai-cockpit-wi258-governance-fixture",
+      "worktreeId": "WI-258-governance-fixture-regression"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "WI-258-governance-fixture-regression-cleanup"
+}
