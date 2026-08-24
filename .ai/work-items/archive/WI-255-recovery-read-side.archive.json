@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-24T17:15:34Z",
+  "files": {
+    "approachDigest": "sha256:10008f4c258f6b8ea6880b98e3929582c828b21e18369008d9b77bc1caf75220",
+    "approachPath": ".ai/work-items/archive/WI-255-recovery-read-side.approach.json",
+    "contractDigest": "sha256:e60d9fa3786a4eba31aba600f3116e788b52796d90206abf934ee470afc2e2f4",
+    "contractPath": ".ai/work-items/archive/WI-255-recovery-read-side.contract.json",
+    "eventsDigest": "sha256:2da8461536eaaa46085882784656c97c8d1047fd0b7f791e9ffd6d299e2feb49",
+    "eventsPath": ".ai/work-items/archive/WI-255-recovery-read-side.events.jsonl",
+    "outcomeDigest": "sha256:6333d3d016eccb353224994292dd1af6327a81ee16157042ef8586445c1c610b",
+    "outcomePath": ".ai/work-items/archive/WI-255-recovery-read-side.outcome.json",
+    "summaryDigest": "sha256:a49ee7516f0b2811dbfbcfd25d2ffc14b3c5e04c7aa88205939fff336a29b57c",
+    "summaryPath": ".ai/work-items/archive/WI-255-recovery-read-side.summary.json",
+    "taskReportDigest": "sha256:4b7cea2b460acab4fc3b6d583a125dab88781755d3de463476509c7e7883b11c",
+    "taskReportMarkdownDigest": "sha256:175948a832902dcb129658d1696298c7760041c8726ead991e2a236a1862da46",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-255-recovery-read-side.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-255-recovery-read-side.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-255-recovery-read-side"
+}

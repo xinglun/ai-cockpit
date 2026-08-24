@@ -1,0 +1,74 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-24T16:45:47Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T16:44:09Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-255-recovery-read-side.contract.json",
+      "crates/cockpit-repository/tests/recovery_decision.rs",
+      ".ai/evidence/WI-255-recovery-read-side.verification.json"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-08-24T17:14:07Z",
+  "preflightContractDigest": "sha256:1ab31e3294f94612c60f5ad99b74287fc505518a01aca3afcfa09b8aad2c74c9",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:a664fec4e85c35f0135f6033478da614d8b4a58e9af2c42229d0dfce55182452",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        ".ai/evidence/WI-255-recovery-read-side.verification.json"
+      ],
+      "required": true,
+      "scenario": "valid-current-recovery",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        ".ai/evidence/WI-255-recovery-read-side.verification.json"
+      ],
+      "required": true,
+      "scenario": "forged-current-recovery",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        ".ai/evidence/WI-255-recovery-read-side.verification.json"
+      ],
+      "required": true,
+      "scenario": "invalid-current-candidate-file",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        ".ai/evidence/WI-255-recovery-read-side.verification.json"
+      ],
+      "required": true,
+      "scenario": "deterministic-candidate-selection",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        "crates/cockpit-repository/tests/archive_integrity.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs",
+        ".ai/evidence/WI-255-recovery-read-side.verification.json"
+      ],
+      "required": true,
+      "scenario": "historical-archive-compatibility",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-24T17:15:17Z",
+  "workItemId": "WI-255-recovery-read-side"
+}

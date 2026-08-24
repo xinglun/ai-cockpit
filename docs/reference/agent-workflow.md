@@ -153,6 +153,17 @@ pre-merge receipt. Missing the later close path fails closed even when the push
 head was green. A Runtime recovery successor preserves predecessor bytes and
 tests the exact base-plus-feature topology before the delivery is promoted.
 
+Recovery evidence is also validated when it is read, not only when it is
+recorded. Before a current recovery candidate may affect Outcome projection or
+superseded archive behavior, the Runtime rechecks its regular-file and filename
+boundary, repository and current Runtime identity, predecessor
+Contract/Summary/Outcome/Events digests, timestamp, decision shape, and exact
+successor Contract binding. A malformed, foreign, stale, tampered, or
+ambiguous candidate produces the stable `recovery_decision_invalid` boundary
+and cannot move active artifacts. Historical archived records keep their
+immutable bytes and historical projection; this current-read rule does not
+retroactively rewrite or reclassify them.
+
 Merge is not Work Item closure. After hosted checks pass, the exact branch and
 worktree are a separate resource-finalization boundary:
 

@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "authorized-WI-255-reviewed-pull-request-lifecycle",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "8b5f84f7b2d009013a03962e32762d7d2856c076",
+    "name": "codex/wi-255-recovery-read-side",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:e60d9fa3786a4eba31aba600f3116e788b52796d90206abf934ee470afc2e2f4",
+  "operationId": "operation-WI-255-recovery-read-side-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "bd30ab939ae7f856703595d7661962087cfb12db",
+    "headRevision": "8b5f84f7b2d009013a03962e32762d7d2856c076",
+    "number": 207,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/207"
+  },
+  "reason": "awaiting_merge_close: PR #207 remains unmerged; retain the exact reviewed branch and clean worktree until hosted checks pass, human review completes, and the reviewed pull request is merged.",
+  "receiptId": "ai-cockpit-WI-255-recovery-read-side-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-255-recovery-read-side",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/207",
+    "worktree": "/private/tmp/ai-cockpit-wi255-recovery-read-side"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-24T17:16:13Z",
+  "workItemId": "WI-255-recovery-read-side",
+  "worktree": {
+    "branch": "codex/wi-255-recovery-read-side",
+    "headRevision": "8b5f84f7b2d009013a03962e32762d7d2856c076",
+    "path": "/private/tmp/ai-cockpit-wi255-recovery-read-side",
+    "worktreeId": "WI-255-recovery-read-side"
+  }
+}
