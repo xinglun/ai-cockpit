@@ -1,17 +1,22 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-247-parity-close-registration.recovery.json"
+    ".ai/work-items/active/WI-249-parity-finalization-registration.contract.json"
   ],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-08-24T11:07:09Z",
+  "checkpointCount": 1,
   "createdAt": "2026-08-24T10:59:01Z",
   "mode": "implementation",
   "predecessorContractDigest": "sha256:e536ebdc77619010b75a2c55c7a71d020e428aec469e8fe63d32e78056d15a6b",
   "predecessorWorkItemId": "WI-247-parity-close-registration",
-  "preflightState": "not_run",
+  "preflightAt": "2026-08-24T11:07:03Z",
+  "preflightContractDigest": "sha256:0e53efc5029f29435181f79d93307e37b80472e787496c15b34266de9b20601b",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:68575103f27b2865ef38cf43d83ca08f10476fe918f187fc4b0571882c51bb40",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-247-parity-close-registration.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "not_ready",
-  "updatedAt": "2026-08-24T10:59:01Z",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-24T11:07:09Z",
   "workItemId": "WI-249-parity-finalization-registration"
 }
