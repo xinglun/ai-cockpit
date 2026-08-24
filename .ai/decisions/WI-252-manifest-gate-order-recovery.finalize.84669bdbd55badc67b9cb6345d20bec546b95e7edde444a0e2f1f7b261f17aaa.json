@@ -1,0 +1,65 @@
+{
+  "governanceAppendRevision": "5ef0e4e65dfd898d9cd2cf9c87ecf91717600f05",
+  "predecessorReceiptDigest": "sha256:061eb6a1fa2aeec5acdee25f9cf4b20c999e5e8601d75dc9bb6eada0e032edfd",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "reviewed-PR-204-merge",
+    "before": {
+      "branch": "present",
+      "pullRequest": "unmerged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "5ef0e4e65dfd898d9cd2cf9c87ecf91717600f05",
+      "name": "codex/wi-252-manifest-gate-order-recovery",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:6964bd47c742d04a36331ac196dcb861a8834c56778425cc32d0331ec6ecbcb2",
+    "operationId": "operation-WI-252-manifest-gate-order-recovery-merge-observed",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "87bfd86645adf7f4a6f86e447763542988371039",
+      "headRevision": "5ef0e4e65dfd898d9cd2cf9c87ecf91717600f05",
+      "mergeCommit": "b4d9387f683bad97a82f05209f697e6d838e6424",
+      "number": 204,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/204"
+    },
+    "reason": "Observed reviewed PR #204 merged at exact head 5ef0e4e with merge commit b4d9387; retain the exact local branch and clean worktree until synchronized-main CI is green and bounded cleanup is recorded.",
+    "receiptId": "ai-cockpit-WI-252-manifest-gate-order-recovery-merge-observed",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-252-manifest-gate-order-recovery",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/204",
+      "worktree": "/private/tmp/ai-cockpit-wi252-manifest-gate-order-recovery"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+    "runtimeVersion": "0.2.31",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-24T14:46:09Z",
+    "workItemId": "WI-252-manifest-gate-order-recovery",
+    "worktree": {
+      "branch": "codex/wi-252-manifest-gate-order-recovery",
+      "headRevision": "5ef0e4e65dfd898d9cd2cf9c87ecf91717600f05",
+      "path": "/private/tmp/ai-cockpit-wi252-manifest-gate-order-recovery",
+      "worktreeId": "WI-252-manifest-gate-order-recovery"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-252-merge-observed"
+}
