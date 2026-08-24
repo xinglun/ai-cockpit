@@ -1,0 +1,20 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-24T01:52:31Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T01:51:56Z",
+  "failedGate": "finish.verification",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-24T01:54:27Z",
+  "preflightContractDigest": "sha256:15b525e6dcb3d79e367ffb5799573b404293a2d3254e0995d02629c3128df51f",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:fc82ad3dfbb52c8a3429489d3141cbf6f2475d14b6f19b8e1fb18e4a568e8b5c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-24T01:54:31Z",
+  "workItemId": "WI-231-release-adopter-v0-2-29"
+}

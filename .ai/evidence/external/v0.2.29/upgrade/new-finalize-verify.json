@@ -1,0 +1,66 @@
+{
+  "disposition": "retained",
+  "headDigest": "sha256:22faefe46ce51949c24c0cadeaadf0bc361abb2464c05de2d8474850310b1644",
+  "headPath": ".ai/decisions/n-minus-one-post-migration.finalize.json",
+  "receipt": {
+    "actor": "harness:release-adopter-upgrade",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "release-adopter-upgrade-acceptance",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "b579530888bdf22cba7a6444ffbf6267ed13a56d",
+      "name": "master",
+      "remote": "local"
+    },
+    "contractDigest": "sha256:b0882ade258195aa21695558eb10d2f16f2b1681bbc0573492f08dd418138657",
+    "operationId": "retain-n-minus-one-post-migration",
+    "provider": "release-adopter-upgrade-harness",
+    "pullRequest": {
+      "baseBranch": "master",
+      "baseRemote": "local",
+      "baseRevision": "b579530888bdf22cba7a6444ffbf6267ed13a56d",
+      "headRevision": "b579530888bdf22cba7a6444ffbf6267ed13a56d",
+      "mergeCommit": "b579530888bdf22cba7a6444ffbf6267ed13a56d",
+      "number": 1,
+      "url": "acceptance://v0.2.29/n-minus-one-post-migration"
+    },
+    "reason": "The isolated N-1 adopter fixture is intentionally retained after migration verification.",
+    "receiptId": "release-adopter-upgrade-n-minus-one-post-migration",
+    "repositoryId": "sha256:d3d39cae5167b564bcb56b57c384ccb04ac5ee1a7938f5cb0325372e6e392f50",
+    "resourceContext": {
+      "baseBranch": "master",
+      "baseRemote": "local",
+      "branch": "master",
+      "provider": "release-adopter-upgrade-harness",
+      "pullRequest": "acceptance://v0.2.29/n-minus-one-post-migration",
+      "worktree": "/tmp/ai-cockpit-n-minus-one.pa3OhR/adopter"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:9c254895e4f2acbfd5fcee7599c87d54db138de29a246f4ad5daa39b8f89a2e6",
+    "runtimeVersion": "0.2.29",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-24T01:44:59Z",
+    "workItemId": "n-minus-one-post-migration",
+    "worktree": {
+      "branch": "master",
+      "headRevision": "b579530888bdf22cba7a6444ffbf6267ed13a56d",
+      "path": "/tmp/ai-cockpit-n-minus-one.pa3OhR/adopter",
+      "worktreeId": "n-minus-one-post-migration"
+    }
+  },
+  "sequence": 0,
+  "state": "verified",
+  "workItemId": "n-minus-one-post-migration"
+}

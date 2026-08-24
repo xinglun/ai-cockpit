@@ -1,0 +1,21 @@
+{
+  "changedPaths": [
+    ".ai/agent-interface.json",
+    ".ai/cockpit.toml",
+    ".ai/decisions/profile-v1.json",
+    ".ai/project.json",
+    "AGENTS.md"
+  ],
+  "dependencyFingerprint": "sha256:3aa3bfe2765cb906a295f04b771cd93f900caa4c3d85741a43cc7d0a61bfacf6",
+  "diffDigest": "sha256:cc1e4d9d0256bb7296f2420ebdc0882f072ad54d6f1fda8d19d47881e0810db1",
+  "filesHashed": 3,
+  "filesRead": 3,
+  "gitCalls": 4,
+  "gitRoot": "/tmp/ai-cockpit-adopter-acceptance.Zu1hnL/adopter",
+  "head": "a5ae1ca6d64e38ec9b96066cbeca60c6c9ff0c18",
+  "protocolVersion": 1,
+  "repositoryRoot": "/tmp/ai-cockpit-adopter-acceptance.Zu1hnL/adopter",
+  "runtimeDigest": "sha256:9c254895e4f2acbfd5fcee7599c87d54db138de29a246f4ad5daa39b8f89a2e6",
+  "runtimeVersion": "0.2.29",
+  "treeDigest": "sha256:0ad041456b4f6bad52a31345184a81ab5c063c01aca673a410ba2e3367306257"
+}

@@ -1,0 +1,43 @@
+{
+  "acceptanceCriteria": [
+    "Public v0.2.29 adopter acceptance is passed and its acceptance.json, runtime identity, lifecycle, isolation, cleanup, and SHA256SUMS are bound.",
+    "Public v0.2.28 to v0.2.29 upgrade acceptance is passed and its acceptance.json, historical evidence, lifecycle, isolation, cleanup, and SHA256SUMS are bound.",
+    "The installed v0.2.29 binary is used for current repository inspect, status, doctor, and agent doctor, with repository identity isolated and runtimeCodeInRepository=false.",
+    "Release truth remains immutable; any failure would be recorded as post-release acceptance failure rather than rewriting the Release."
+  ],
+  "authority": "authorized",
+  "baseRevision": "921f1d6f52b003014390b4ad710dc7b235dfe8ac",
+  "createdAt": "2026-08-24T01:51:56Z",
+  "goal": "Record a reproducible post-release acceptance baseline without changing Release truth or source implementation.",
+  "intent": "Bind immutable public v0.2.29 adopter and v0.2.28 to v0.2.29 upgrade acceptance evidence, then prove the installed v0.2.29 Runtime governs the current repository.",
+  "mode": "implementation",
+  "outOfScope": [
+    "source code",
+    " Runtime implementation",
+    " immutable Release tag/assets",
+    " user-global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b9dda45b16b7a0612cfd263392d66c0479c10c9f47911ebeed7f8a9541222a13",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-231-release-adopter-v0-2-29",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/180",
+    "worktree": "/private/tmp/ai-cockpit-wi231-release-adopter-v0-2-29"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/evidence/external/v0.2.29/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-231-release-adopter-v0-2-29"
+}
