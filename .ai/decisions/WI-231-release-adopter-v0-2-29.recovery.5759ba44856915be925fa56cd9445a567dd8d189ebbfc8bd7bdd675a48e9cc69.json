@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-recovery-after-archive-gate",
+  "decidedAt": "2026-08-24T02:06:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-231-release-adopter-v0-2-29.recovery.json",
+    ".ai/evidence/external/v0.2.29/adopter/acceptance.json",
+    ".ai/evidence/external/v0.2.29/upgrade/acceptance.json"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:15b525e6dcb3d79e367ffb5799573b404293a2d3254e0995d02629c3128df51f",
+  "predecessorEventsDigest": "sha256:3efcc3ce6f42e446337d3113156dbed8100a194edb4b11a4d16d86bad654cf13",
+  "predecessorOutcomeDigest": "sha256:6e9f2fd32ec0c661dc5486bf9593c744656c20d045cfac0ae442fd07ba3213cb",
+  "predecessorSummaryDigest": "sha256:4313f9454ac5c32ff80ec3ac473001e8f5cf91693856eb365cb9c235a4e95337",
+  "predecessorWorkItemId": "WI-231-release-adopter-v0-2-29",
+  "reason": "Supersede the first attempt as historical recovery evidence; the successor repeats the same public acceptance with the final Contract fixed before verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete the successor lifecycle and close it after fresh verification and exact resource finalization.",
+  "runtimeDigest": "sha256:94d8ee4e27023e1cb677486164af3e96633411105a4596140d4c0f4e64776137",
+  "runtimeVersion": "0.2.29",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-232-release-adopter-v0-2-29-retry",
+  "workItemId": "WI-231-release-adopter-v0-2-29"
+}
