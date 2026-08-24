@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-corrective-work-item-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "d37b2259cfad150912edf1169799520f56b42370",
+    "name": "codex/wi-243-finalization-reason-policy",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:d5e273574e5b0a90343af22e58e71ba262b6d85b08e93c3bfa0fed638d26e2e2",
+  "operationId": "operation-WI-243-finalization-reason-policy-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "1c988ce9b04c3dcd45843f6577ed321457eeca0e",
+    "headRevision": "d37b2259cfad150912edf1169799520f56b42370",
+    "number": 195,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/195"
+  },
+  "reason": "await reviewed merge and exact branch/worktree cleanup",
+  "receiptId": "ai-cockpit-WI-243-finalization-reason-policy-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-243-finalization-reason-policy",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/195",
+    "worktree": "/private/tmp/ai-cockpit-wi243-finalization-reason-policy"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-24T08:48:39Z",
+  "workItemId": "WI-243-finalization-reason-policy",
+  "worktree": {
+    "branch": "codex/wi-243-finalization-reason-policy",
+    "headRevision": "d37b2259cfad150912edf1169799520f56b42370",
+    "path": "/private/tmp/ai-cockpit-wi243-finalization-reason-policy",
+    "worktreeId": "WI-243-finalization-reason-policy"
+  }
+}
