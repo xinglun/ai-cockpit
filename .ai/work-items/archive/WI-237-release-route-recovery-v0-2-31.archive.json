@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-24T05:36:49Z",
+  "files": {
+    "contractDigest": "sha256:85e27e92dcdd4f228e1ced8d66efebb3a3f0961be01850a4f4c76d1834fef387",
+    "contractPath": ".ai/work-items/archive/WI-237-release-route-recovery-v0-2-31.contract.json",
+    "eventsDigest": "sha256:23015090cc22e28cc7e52f6518320c6cbc691507057515816f1f758e507aa8fe",
+    "eventsPath": ".ai/work-items/archive/WI-237-release-route-recovery-v0-2-31.events.jsonl",
+    "outcomeDigest": "sha256:ef652ac96422799a9017b1de9f79b1bea7c171bd782069107ff5c169acd7645c",
+    "outcomePath": ".ai/work-items/archive/WI-237-release-route-recovery-v0-2-31.outcome.json",
+    "summaryDigest": "sha256:ca7b6b27c22dd4bbc959b9d9e2c44d712b298cfcdaa83bbdc4f452ccfdcde8ef",
+    "summaryPath": ".ai/work-items/archive/WI-237-release-route-recovery-v0-2-31.summary.json",
+    "taskReportDigest": "sha256:46b49ef05583a0dd399383baa3232d3fb83283ea6853e1106a2cac6ae2f3ab2b",
+    "taskReportMarkdownDigest": "sha256:daf9794938eabc43fae7e12dc5f334a6307fb157a1f3e7583bf72e4e849335d9",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-237-release-route-recovery-v0-2-31.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-237-release-route-recovery-v0-2-31.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-237-release-route-recovery-v0-2-31"
+}

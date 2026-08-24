@@ -27,22 +27,22 @@
     "resource_finalization"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi237-release-route-fix",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/188",
     "worktree": "/private/tmp/ai-cockpit-wi237-release-route"
   },
   "risk": "high",
   "scenarioCoverage": [
     {
-      "scenario": "release-route-no-active-work-item-directory",
-      "required": true,
-      "status": "unverified",
+      "evidence": [],
       "expected": "Release quality planning passes when .ai/work-items/active is absent.",
-      "verificationPlan": "Run the release quality route and its regression test from a clean repository with no active Work Item directory.",
-      "evidence": []
+      "required": true,
+      "scenario": "release-route-no-active-work-item-directory",
+      "status": "unverified",
+      "verificationPlan": "Run the release quality route and its regression test from a clean repository with no active Work Item directory."
     }
   ],
   "scope": [
