@@ -15,7 +15,7 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # Release and Distribution
 
-The public immutable `v0.2.28` Release is the current installation baseline.
+The public immutable `v0.2.29` Release is the current installation baseline.
 Homebrew and manual installation use the published archive and manifest; the
 repository configuration remains `cockpit.toml`, and installing the runtime
 never creates `.ai` in a target repository. The same acceptance harness has a
@@ -42,7 +42,7 @@ and gate receipts. `.gitattributes` excludes `.ai` and generated roots from the
 source archive while retaining Cargo sources and lockfile.
 
 The `tests/ci/runtime_verify_shadow.sh` receipt is an **execution smoke** for
-standard/strict routes. It verifies immutable public `v0.2.28` and runs the
+standard/strict routes. It verifies immutable public `v0.2.29` and runs the
 canonical repository profile. It does not claim Runtime-global T0–T3 routing,
 affected-graph completeness, cross-Work-Item physical execution, or per-Work-
 Item evidence coverage. The reference Makefile orchestration is different by
@@ -87,7 +87,7 @@ immutable GitHub Release. The checksum file covers all ten archive/SBOM files,
 so validate the exact archive you downloaded:
 
 ```bash
-archive="ai-cockpit-v0.2.28-aarch64-apple-darwin.tar.gz"
+archive="ai-cockpit-v0.2.29-aarch64-apple-darwin.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -98,8 +98,8 @@ gh attestation verify "$archive" \
 If you use GitHub CLI after the Release exists, the equivalent download is:
 
 ```bash
-archive="ai-cockpit-v0.2.28-aarch64-apple-darwin.tar.gz"
-gh release download v0.2.28 --repo xinglun/ai-cockpit \
+archive="ai-cockpit-v0.2.29-aarch64-apple-darwin.tar.gz"
+gh release download v0.2.29 --repo xinglun/ai-cockpit \
   --pattern "$archive" --pattern release-manifest.json --pattern SHA256SUMS
 ```
 
@@ -122,7 +122,7 @@ provider Release truth.
 
 Maintainers can repeat the public-binary acceptance baseline after a Release:
 
-**Complete adopter acceptance baseline: `x86_64-unknown-linux-gnu` for v0.2.28.**
+**Complete adopter acceptance baseline: `x86_64-unknown-linux-gnu` for v0.2.29.**
 The other four published targets have build and
 smoke evidence in the Release workflow; they are not claimed to have completed
 the full adopter lifecycle unless a separate acceptance run is recorded.
@@ -130,7 +130,7 @@ the full adopter lifecycle unless a separate acceptance run is recorded.
 ```bash
 tests/release/adopter_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --tag v0.2.28 \
+  --tag v0.2.29 \
   --target x86_64-unknown-linux-gnu \
   --output ./release-adopter-acceptance
 ```
@@ -195,7 +195,7 @@ that policy and this release note together.
 ### Historical N-1 schema migration acceptance
 
 The schema-changing baseline is the historical v0.1.1 to v0.2.0 migration.
-v0.2.28 is a same-schema patch release: its N-1 run follows the same harness
+v0.2.29 is a same-schema patch release: its N-1 run follows the same harness
 but records `migrationState: not_required` after compatibility is proven. To
 reproduce a current N-1 run, use the immediately previous public Release and
 the current Runtime:
@@ -203,8 +203,8 @@ the current Runtime:
 ```bash
 tests/release/adopter_upgrade_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --from-tag v0.2.27 \
-  --to-tag v0.2.28 \
+  --from-tag v0.2.28 \
+  --to-tag v0.2.29 \
   --target x86_64-unknown-linux-gnu \
   --output ./release-adopter-upgrade-acceptance
 ```
@@ -240,7 +240,7 @@ the exact Rust target, verify the archive, and place `ai-cockpit` in
 
 ```bash
 target="aarch64-apple-darwin" # choose the target matching your machine
-archive="ai-cockpit-v0.2.28-${target}.tar.gz"
+archive="ai-cockpit-v0.2.29-${target}.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -258,7 +258,7 @@ Windows users download the `.zip` and `SHA256SUMS`, compare the exact checksum,
 extract it to a user bin directory, and add that directory to the user `PATH`:
 
 ```powershell
-$archive = "ai-cockpit-v0.2.28-x86_64-pc-windows-msvc.zip"
+$archive = "ai-cockpit-v0.2.29-x86_64-pc-windows-msvc.zip"
 $expected = Get-Content .\SHA256SUMS |
   Where-Object { ($_ -split '\s+')[1] -eq $archive } |
   ForEach-Object { ($_ -split '\s+')[0].ToLowerInvariant() }
@@ -278,13 +278,13 @@ $env:Path = "$destination;$env:Path"
 
 ## Rust developer fallback
 
-This fallback is available for the current immutable `v0.2.28` tag.
+This fallback is available for the current immutable `v0.2.29` tag.
 
 After that publication, the workspace package must be selected explicitly:
 
 ```bash
 cargo install --git https://github.com/xinglun/ai-cockpit.git \
-  --tag v0.2.28 --locked --root "$HOME/.local" \
+  --tag v0.2.29 --locked --root "$HOME/.local" \
   --bin ai-cockpit cockpit-cli
 "$HOME/.local/bin/ai-cockpit" --version
 cargo uninstall --root "$HOME/.local" cockpit-cli

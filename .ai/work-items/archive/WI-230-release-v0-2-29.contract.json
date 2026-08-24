@@ -1,0 +1,59 @@
+{
+  "acceptanceCriteria": [
+    "workspace packages report 0.2.29 and version consistency passes",
+    "三语发布/版本文档的当前 baseline 与 v0.2.29 一致，并绑定已关闭 WI-229 的 terminal decision",
+    "PR #179 hosted source-quality, Windows, V1, and release-policy checks pass for the reviewed head",
+    "the merged source is ready for the immutable v0.2.29 publication boundary; post-release public artifact and adopter acceptance continue in a successor Work Item"
+  ],
+  "authority": "authorized",
+  "baseRevision": "d690e0da6f2ed2bed85226fd83bfabd0265fc751",
+  "createdAt": "2026-08-24T00:59:56Z",
+  "goal": "让 v0.2.29 成为可审计、可安装、可用于闭合历史 post-merge finalization 的公开 Runtime。",
+  "intent": "发布包含 WI-229 governance append 修复的 Runtime v0.2.29，并完成公开 Release 供后续治理流程使用。",
+  "mode": "code",
+  "outOfScope": [
+    "业务功能与治理协议变更",
+    "修改历史 archive/evidence/decision bytes",
+    "删除其他分支/worktree",
+    "post-release public adopter/N-1 acceptance and current-repository installation upgrade"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f669e220d9dc6d0493f8931640585997c505627df5b3cd35af679ca1f2050236",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-230-release-v0-2-29",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/179",
+    "worktree": "/private/tmp/ai-cockpit-wi230-release-v0-2-29"
+  },
+  "risk": "normal",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/distribution.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    ".github/workflows/release.yml"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-230-release-v0-2-29"
+}

@@ -1,0 +1,91 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "workspace.package.version",
+          "path": "Cargo.toml",
+          "type": "workspace-version",
+          "verification": "0.2.29"
+        },
+        {
+          "locator": "source baseline",
+          "path": "tests/release/version_consistency.sh",
+          "type": "version-gate",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "PR-stage cargo workspace execution",
+          "path": ".ai/evidence/WI-230-release-v0-2-29.verification.json",
+          "type": "runtime-verification",
+          "verification": "passed=true; runtimeVersion=0.2.28; stage=pr; snapshot=sha256:83ff255d7001bea49aaccb04ca448fa0b15917eb235033807e3451c05dc14f"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-230-release-v0-2-29.contract.json",
+    ".ai/work-items/archive/WI-230-release-v0-2-29.summary.json"
+  ],
+  "checkpointAt": "2026-08-24T01:00:52Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T00:59:56Z",
+  "failedGate": "finish.verification",
+  "intentAlignment": {
+    "basis": "WI-230 is the release boundary required to make the merged WI-229 Runtime fix installable and to close the previously blocked WI-227 lifecycle with the released binary.",
+    "evidence": [
+      ".ai/evidence/WI-229-governance-append-parity-recovery.verification.json",
+      ".ai/decisions/WI-229-governance-append-parity-recovery.close.json",
+      "https://github.com/xinglun/ai-cockpit/pull/178"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-24T01:13:31Z",
+  "preflightContractDigest": "sha256:5820201ae90af2c6ae37f1b166f5ca3ba4f16f0b65f630345188595bd16590b8",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:42f64e8ebe8076336d877af3d050a5b4207658543c5d3f3142ba3cdb68483e2c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/version_consistency.sh --repo .: passed 0.2.29",
+        "cargo metadata --offline: all workspace packages 0.2.29"
+      ],
+      "expected": "All workspace packages and current release references identify v0.2.29.",
+      "required": true,
+      "scenario": "version and workspace consistency",
+      "status": "verified",
+      "verificationPlan": "Run cargo metadata and tests/release/version_consistency.sh."
+    },
+    {
+      "evidence": [],
+      "expected": "The public v0.2.29 release binds the reviewed merge, five-target manifest, checksums, SBOM/provenance, and adopter acceptance.",
+      "required": true,
+      "scenario": "public immutable release",
+      "status": "unverified",
+      "verificationPlan": "Run hosted release workflow and immutable public artifact acceptance without source fallback."
+    },
+    {
+      "evidence": [],
+      "expected": "The downloaded v0.2.29 binary passes inspect/status/doctor/agent doctor and closes WI-227 post-merge finalization.",
+      "required": true,
+      "scenario": "installed runtime adoption",
+      "status": "unverified",
+      "verificationPlan": "Install only the public artifact, record runtime identity, then run repository-bound lifecycle commands."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-24T01:13:37Z",
+  "workItemId": "WI-230-release-v0-2-29"
+}
