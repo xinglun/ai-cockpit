@@ -21,13 +21,14 @@ behavior corpus; it is not a directory to copy into the Rust Runtime.
 ## Pinned baseline
 
 - Reference: [`spirex-ds-dev/ai-cockpit-template`](https://github.com/spirex-ds-dev/ai-cockpit-template) at `e5acb677da6621004d96f0ef353c58fe8d3acfbf`.
-- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `46e426625a8cae450f1190d0bdbafd6d8e648a90`.
-- Runtime used for the comparison work: `ai-cockpit 0.2.27`, binary SHA256 `ea9a4a090307cb650eeda008942a5bc72fd0d1276b131405868f31d1eabcc048`.
+- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `87bfd86645adf7f4a6f86e447763542988371039`.
+- Runtime used for the comparison work: `ai-cockpit 0.2.31`, binary SHA256 `1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9`.
 
 The machine-readable ledger is
 [`reference_file_inventory.json`](../../tests/conformance/reference_file_inventory.json).
 Its regression check requires one classification for every tracked reference
-path and rejects an unclassified first-batch path.
+path and rejects an unclassified first-batch path. Target checkout metadata is
+derived from the pinned commit, not from dirty or untracked working-tree files.
 
 ## Classification rules
 
@@ -70,6 +71,24 @@ The first batch therefore closes the only concrete entrypoint gap found in the
 baseline (`CONTRIBUTING.md`) without creating a second governance system. The
 remaining paths are explicitly staged in the ledger for the next semantic
 batches rather than silently treated as equivalent.
+
+## Current ledger snapshot
+
+At the pinned v0.2.31 comparison baseline, the ledger contains 5,119 records:
+4,262 `generated-history`, 132 `implemented-different-by-design`, one
+`implemented-equivalent`, 720 `deferred-next-batch`, and four `migrate-gap`
+records. Deferred records remain scheduled work, not parity claims. The four
+open capability/profile gaps are:
+
+1. `.ai/project/adopter-capability-manifest.json`
+2. `.ai/project/capabilities.json`
+3. `.ai/project/success_criteria.json`
+4. `.ai/project_profile.yaml`
+
+The governance entrypoints, getting-started routes, CI/release boundaries, and
+capability projections have been reviewed at this baseline. Existing Rust
+behavior does not automatically close those four file-level gaps or the 720
+deferred semantic comparisons.
 
 ## Batch order
 

@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-24T14:38:08Z",
+  "files": {
+    "contractDigest": "sha256:6964bd47c742d04a36331ac196dcb861a8834c56778425cc32d0331ec6ecbcb2",
+    "contractPath": ".ai/work-items/archive/WI-252-manifest-gate-order-recovery.contract.json",
+    "eventsDigest": "sha256:1e4d2f9bfc1b49ef83dfa190ac04f985884227bee95ee8e8fb16d5671031d690",
+    "eventsPath": ".ai/work-items/archive/WI-252-manifest-gate-order-recovery.events.jsonl",
+    "outcomeDigest": "sha256:fc5a0b11982b69a1d819363a2d8d9511d552825035d7b6900744fa4a8c8db44a",
+    "outcomePath": ".ai/work-items/archive/WI-252-manifest-gate-order-recovery.outcome.json",
+    "summaryDigest": "sha256:fa0e19f4edb35f9c7c60b9901a0406c0a71705c483b0e55017aab132218928ae",
+    "summaryPath": ".ai/work-items/archive/WI-252-manifest-gate-order-recovery.summary.json",
+    "taskReportDigest": "sha256:4327fc4b29beb05a2b781f17bb03f6e3c4b268acebde73e86bdfc0b5b8a2549c",
+    "taskReportMarkdownDigest": "sha256:d83e4c9ae5b268b4fac8bc101a7688296ad526e3648e9b09451981d4de44eab2",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-252-manifest-gate-order-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-252-manifest-gate-order-recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-252-manifest-gate-order-recovery"
+}

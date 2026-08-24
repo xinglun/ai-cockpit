@@ -6,7 +6,7 @@ description: "Close the post-merge governance loop, prevent stale merged receipt
 audience:
   - maintainer
   - reviewer
-status: current
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-234-post-merge-governance-cleanup
 ---

@@ -3,12 +3,12 @@
   "referenceRepository": "https://github.com/spirex-ds-dev/ai-cockpit-template",
   "referenceCommit": "e5acb677da6621004d96f0ef353c58fe8d3acfbf",
   "targetRepository": "https://github.com/xinglun/ai-cockpit",
-  "targetCommit": "46e426625a8cae450f1190d0bdbafd6d8e648a90",
+  "targetCommit": "87bfd86645adf7f4a6f86e447763542988371039",
   "referenceTrackedFileCount": 5119,
-  "targetTrackedFileCount": 2712,
-  "targetTrackedPathDigest": "sha256:d96498e74b6b971c1e71cc0704079e816b6c9aa5e112e537c3468a1f525e122d",
-  "targetWorkingTreeFileCount": 2718,
-  "targetWorkingTreePathDigest": "sha256:db231b04c103724ec025c3215214fc53a431ed292e6aa61623d4c293f3971f00",
+  "targetTrackedFileCount": 3570,
+  "targetTrackedPathDigest": "sha256:c30355fae0ec59d80157b49ad60b57c90692c829d6cedd86497088af7f71f451",
+  "targetWorkingTreeFileCount": 3570,
+  "targetWorkingTreePathDigest": "sha256:c30355fae0ec59d80157b49ad60b57c90692c829d6cedd86497088af7f71f451",
   "allowedClassifications": [
     "deferred-next-batch",
     "generated-history",
@@ -29997,7 +29997,7 @@
       "rustCounterparts": [
         "docs/getting-started/30-second-start.ja.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/30-second-start.md",
@@ -30006,7 +30006,7 @@
       "rustCounterparts": [
         "docs/getting-started/30-second-start.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/30-second-start.zh-CN.md",
@@ -30015,7 +30015,7 @@
       "rustCounterparts": [
         "docs/getting-started/30-second-start.zh-CN.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/adopter-configuration.ja.md",
@@ -30024,7 +30024,7 @@
       "rustCounterparts": [
         "docs/getting-started/adopter-configuration.ja.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/adopter-configuration.md",
@@ -30033,7 +30033,7 @@
       "rustCounterparts": [
         "docs/getting-started/adopter-configuration.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/calibration.ja.md",
@@ -30042,7 +30042,7 @@
       "rustCounterparts": [
         "docs/getting-started/calibration.ja.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/calibration.md",
@@ -30051,7 +30051,7 @@
       "rustCounterparts": [
         "docs/getting-started/calibration.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/calibration.zh-CN.md",
@@ -30060,7 +30060,7 @@
       "rustCounterparts": [
         "docs/getting-started/calibration.zh-CN.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/examples/android.ja.md",
@@ -30069,7 +30069,7 @@
       "rustCounterparts": [
         "docs/getting-started/examples/android.ja.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/examples/android.md",
@@ -30078,7 +30078,7 @@
       "rustCounterparts": [
         "docs/getting-started/examples/android.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/examples/android.zh-CN.md",
@@ -30087,7 +30087,7 @@
       "rustCounterparts": [
         "docs/getting-started/examples/android.zh-CN.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/examples/ios.ja.md",
@@ -30096,7 +30096,7 @@
       "rustCounterparts": [
         "docs/getting-started/examples/ios.ja.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/examples/ios.md",
@@ -30105,7 +30105,7 @@
       "rustCounterparts": [
         "docs/getting-started/examples/ios.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/examples/ios.zh-CN.md",
@@ -30114,7 +30114,7 @@
       "rustCounterparts": [
         "docs/getting-started/examples/ios.zh-CN.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/examples/java.ja.md",
@@ -30123,7 +30123,7 @@
       "rustCounterparts": [
         "docs/getting-started/examples/java.ja.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/examples/java.md",
@@ -30132,7 +30132,7 @@
       "rustCounterparts": [
         "docs/getting-started/examples/java.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/examples/java.zh-CN.md",
@@ -30141,7 +30141,7 @@
       "rustCounterparts": [
         "docs/getting-started/examples/java.zh-CN.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/first-calibration.ja.md",
@@ -30150,7 +30150,7 @@
       "rustCounterparts": [
         "docs/getting-started/first-calibration.ja.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/first-calibration.md",
@@ -30159,7 +30159,7 @@
       "rustCounterparts": [
         "docs/getting-started/first-calibration.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/first-calibration.zh-CN.md",
@@ -30168,7 +30168,7 @@
       "rustCounterparts": [
         "docs/getting-started/first-calibration.zh-CN.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/first-work-item.ja.md",
@@ -30177,7 +30177,7 @@
       "rustCounterparts": [
         "docs/getting-started/first-work-item.ja.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/first-work-item.md",
@@ -30186,7 +30186,7 @@
       "rustCounterparts": [
         "docs/getting-started/first-work-item.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/first-work-item.zh-CN.md",
@@ -30195,7 +30195,7 @@
       "rustCounterparts": [
         "docs/getting-started/first-work-item.zh-CN.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/installation-security.ja.md",
@@ -30204,7 +30204,7 @@
       "rustCounterparts": [
         "docs/getting-started/installation-security.ja.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/installation-security.md",
@@ -30213,7 +30213,7 @@
       "rustCounterparts": [
         "docs/getting-started/installation-security.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/installation-security.zh-CN.md",
@@ -30222,7 +30222,7 @@
       "rustCounterparts": [
         "docs/getting-started/installation-security.zh-CN.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/installation.ja.md",
@@ -30231,7 +30231,7 @@
       "rustCounterparts": [
         "docs/getting-started/installation.ja.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/installation.md",
@@ -30240,7 +30240,7 @@
       "rustCounterparts": [
         "docs/getting-started/installation.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/installation.zh-CN.md",
@@ -30249,7 +30249,7 @@
       "rustCounterparts": [
         "docs/getting-started/installation.zh-CN.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/security-release-verification.ja.md",
@@ -30258,7 +30258,7 @@
       "rustCounterparts": [
         "docs/getting-started/security-release-verification.ja.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/security-release-verification.md",
@@ -30267,7 +30267,7 @@
       "rustCounterparts": [
         "docs/getting-started/security-release-verification.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/security-release-verification.zh-CN.md",
@@ -30276,7 +30276,7 @@
       "rustCounterparts": [
         "docs/getting-started/security-release-verification.zh-CN.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/standard-adoption-guide.ja.md",
@@ -30285,7 +30285,7 @@
       "rustCounterparts": [
         "docs/getting-started/standard-adoption-guide.ja.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/standard-adoption-guide.md",
@@ -30294,7 +30294,7 @@
       "rustCounterparts": [
         "docs/getting-started/standard-adoption-guide.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/getting-started/standard-adoption-guide.zh-CN.md",
@@ -30303,7 +30303,7 @@
       "rustCounterparts": [
         "docs/getting-started/standard-adoption-guide.zh-CN.md"
       ],
-      "reason": "The target provides a tri-language shared-Runtime onboarding counterpart with explicit repository binding and without reference-local installer or Make workflows."
+      "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
       "referencePath": "docs/guides/lightweight-verification.ja.md",

@@ -6,7 +6,7 @@ description: "JSON interface を壊さず lifecycle command が検証済み Huma
 audience:
   - adopter
   - maintainer
-status: current
+status: recovered
 lastVerifiedBy: WI-250-outcome-handoff
 authority: canonical
 ---

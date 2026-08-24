@@ -6,7 +6,7 @@ description: "在不破坏 JSON 接口的前提下，让生命周期命令直接
 audience:
   - adopter
   - maintainer
-status: current
+status: recovered
 lastVerifiedBy: WI-250-outcome-handoff
 authority: canonical
 ---

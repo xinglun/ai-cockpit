@@ -6,7 +6,7 @@ audience:
   - maintainer
   - adopter
 workItemId: WI-203-release-v0-2-25
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-203-release-v0-2-25
 ---

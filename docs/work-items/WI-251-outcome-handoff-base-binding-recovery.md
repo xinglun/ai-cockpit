@@ -6,7 +6,7 @@ description: "Redeliver the direct lifecycle Outcome and make resource finalizat
 audience:
   - adopter
   - maintainer
-status: current
+status: implemented
 lastVerifiedBy: WI-251-outcome-handoff-base-binding-recovery
 authority: canonical
 ---

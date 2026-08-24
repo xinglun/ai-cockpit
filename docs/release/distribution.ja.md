@@ -15,9 +15,14 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # Release と配布
 
-現在の installation baseline は公開済みで immutable な `v0.2.31` Release です。Homebrew と manual install は
+現在の installation baseline は公開済みで identity-bound な `v0.2.31` Release です。Homebrew と manual install は
 public archive と manifest を使い、Repository configuration は `cockpit.toml` のままです。runtime の install は
 対象 repository に `.ai` を作成しません。同じ acceptance harness に publication 前の staged-candidate mode と publication 後の public-Release mode があり、どちらも source workspace から Runtime を取得しません。
+
+WI-239 に保存した provider snapshot と現在の provider API は、この Release を
+`immutable: false` と報告します。従って identity は drift-detectable ですが provider-immutable
+ではありません。tag、release manifest、`SHA256SUMS`、archive digest、post-release receipt
+が一貫していなければなりません。
 
 immutable な `v0.2.30` tag は active Work Item directory がない clean-batch で release route が失敗した事実を記録し、公開 Release はありません。失敗履歴として保持します。予約済みの `v0.2.24` tag は公開前 governance gate failure を記録し、immutable な `v0.2.25` tag も後続の
 source-quality failure を記録しています。どちらにも公開 Release はありません。これらは immutable history であり
@@ -37,9 +42,9 @@ deterministic package-by-package tests を使い、CI と release は route/gate
 upload します。`.gitattributes` は source archive から `.ai` と generated roots を除外し、
 Cargo sources と lockfile を保持します。
 
-過去の Runtime shadow baseline は immutable public `v0.2.28` であり、現在の release route は
+過去の Runtime shadow baseline は pinned public `v0.2.28` であり、現在の release route は
 `v0.2.31` も検証します。`tests/ci/runtime_verify_shadow.sh` receipt は standard/strict route の **execution smoke**
-です。public immutable `v0.2.31` を検証し、repository の canonical profile を実行します。
+です。identity-bound public `v0.2.31` を検証し、repository の canonical profile を実行します。
 Runtime-global T0–T3 route、affected graph completeness、cross-Work-Item physical execution、
 Work Item ごとの evidence coverage は claim しません。reference Makefile orchestration は
 この Rust repository では different-by-design で copy しません。Runtime-global routing と
@@ -48,7 +53,7 @@ generic CLI `verify --command` semantics は WI-224 の non-`crates/**` scope �
 
 ## 開始前
 
-公開済みの immutable Release、対象 repository path、OS に合う archive が必要です。Homebrew install
+公開済みの identity-bound Release、対象 repository path、OS に合う archive が必要です。Homebrew install
 には Homebrew、macOS/Linux の manual verification には `shasum` と `awk`、Windows には PowerShell
 を使います。`gh attestation verify` は追加の provenance check として任意です。
 
@@ -76,7 +81,7 @@ brew untap xinglun/tap                 # optional
 
 ## Release artifact の verify
 
-同じ immutable GitHub Release から archive、`release-manifest.json`、`SHA256SUMS` を取得します。
+同じ公開済み GitHub Release から archive、`release-manifest.json`、`SHA256SUMS` を取得します。
 v0.2.31 の checksum file は全十個の archive/SBOM を対象にするため、download した archive だけを検証します。
 
 ```bash
@@ -136,9 +141,13 @@ staged target への upgrade を行います。publish は両 job に依存し�
 
 Maintainer は Release 公開後に public binary acceptance baseline を再実行できます。
 
-**v0.2.31 の完全な adopter acceptance baseline は `x86_64-unknown-linux-gnu` です。**
-Release workflow は他の 4 target に build と smoke evidence を提供しますが、別の acceptance run が記録されない限り、
-full adopter lifecycle の完了とは主張しません。
+**永続化された adopter acceptance baseline: `aarch64-apple-darwin`（v0.2.31）。**
+repository に保持された WI-239 receipt が durable public-binary adopter baseline です。
+GitHub Actions run `32696048024` も `x86_64-unknown-linux-gnu` 上で staged、public、N-1
+adopter path を完了しましたが、この hosted Linux artifact は external/provider-retained
+かつ短命な evidence であり、repository に永続化された baseline ではありません。他の
+published target は build/smoke evidence のみで、別の acceptance receipt が永続化されない
+限り full adopter lifecycle の完了とは主張しません。
 
 ### 過去の N-1 schema migration 受入れ
 
@@ -152,7 +161,7 @@ tests/release/adopter_upgrade_acceptance.sh \
   --repository xinglun/ai-cockpit \
   --from-tag v0.2.29 \
   --to-tag v0.2.31 \
-  --target x86_64-unknown-linux-gnu \
+  --target aarch64-apple-darwin \
   --output ./release-adopter-upgrade-acceptance
 ```
 
@@ -179,7 +188,7 @@ API から直前の published semantic Release を解決します。最初の pu
 tests/release/adopter_acceptance.sh \
   --repository xinglun/ai-cockpit \
   --tag v0.2.31 \
-  --target x86_64-unknown-linux-gnu \
+  --target aarch64-apple-darwin \
   --output ./release-adopter-acceptance
 ```
 
@@ -262,7 +271,7 @@ $env:Path = "$destination;$env:Path"
 
 ## Rust developer fallback
 
-この fallback は現在公開済みの immutable な `v0.2.31` tag で利用できます。Workspace は複数 package を含むため `cockpit-cli` を明示します。
+この fallback は現在公開済みの identity-bound な `v0.2.31` tag で利用できます。Workspace は複数 package を含むため `cockpit-cli` を明示します。
 
 ```bash
 cargo install --git https://github.com/xinglun/ai-cockpit.git --tag v0.2.31 --locked --root "$HOME/.local" --bin ai-cockpit cockpit-cli
@@ -272,7 +281,7 @@ cargo uninstall --root "$HOME/.local" cockpit-cli
 
 ## Rollback
 
-Rollback では、名前付きの immutable な過去 Release archive を verify してから binary を
+Rollback では、名前付きの過去 Release archive を取得し、manifest と digest を verify してから binary を
 手動で置き換えます。Version を持たない Homebrew Formula は current release を追跡するため、
 rollback selector ではありません。
 

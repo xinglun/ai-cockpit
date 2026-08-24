@@ -7,7 +7,7 @@ audience:
   - adopter
   - reviewer
 workItemId: WI-213-release-v0-2-27
-status: current
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-213-release-v0-2-27
 ---

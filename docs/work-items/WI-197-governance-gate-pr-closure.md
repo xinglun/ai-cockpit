@@ -6,7 +6,7 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-197-governance-gate-pr-closure
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-197-governance-gate-pr-closure
 ---

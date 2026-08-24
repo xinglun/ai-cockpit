@@ -6,7 +6,7 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-200-governance-gate-github-head-binding
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-200-governance-gate-github-head-binding
 ---

@@ -6,7 +6,7 @@ description: "重新交付直接生命周期 Outcome，并让资源收尾拒绝�
 audience:
   - adopter
   - maintainer
-status: current
+status: implemented
 lastVerifiedBy: WI-251-outcome-handoff-base-binding-recovery
 authority: canonical
 ---
