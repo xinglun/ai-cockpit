@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-WI-253-docs-terminalization-successor-lifecycle-and-hosted-PR-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "2663dba81a9ed3270d943d6e769cc02cb6b43188",
+    "name": "codex/wi-253-docs-terminalization",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:6ee0a4cc17076ada921d7449ca10cd4e6d20f440e286a8d7c19756473ef9f6c9",
+  "operationId": "operation-WI-253-docs-terminalization-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "0ed41d1ca6f6b6455d3a42d91a2d578fe5b178eb",
+    "headRevision": "2663dba81a9ed3270d943d6e769cc02cb6b43188",
+    "number": 205,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/205"
+  },
+  "reason": "awaiting_merge_close: PR #205 is unmerged; retain the exact reviewed branch and clean worktree until final hosted checks pass, human review is complete, and the reviewed pull request is merged.",
+  "receiptId": "ai-cockpit-WI-253-docs-terminalization-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-253-docs-terminalization",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/205",
+    "worktree": "/private/tmp/ai-cockpit-wi253-docs-terminalization"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-24T15:35:14Z",
+  "workItemId": "WI-253-docs-terminalization",
+  "worktree": {
+    "branch": "codex/wi-253-docs-terminalization",
+    "headRevision": "2663dba81a9ed3270d943d6e769cc02cb6b43188",
+    "path": "/private/tmp/ai-cockpit-wi253-docs-terminalization",
+    "worktreeId": "WI-253-docs-terminalization"
+  }
+}
