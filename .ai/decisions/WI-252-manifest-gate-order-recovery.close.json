@@ -1,0 +1,129 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-252-manifest-gate-order-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0c4239b5eacae8b73d3cbaa47a5f7b5ed387cb2459e0dc349be9017f3b3b27d6",
+      "workItemId": "WI-252-manifest-gate-order-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-252-manifest-gate-order-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-252-manifest-gate-order-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-252-manifest-gate-order-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-WI-252-postmerge-cleanup-authorization at 2026-08-24T14:54:27Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-252-manifest-gate-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-252-manifest-gate-order-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-252-manifest-gate-order-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-252-manifest-gate-order-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-252-manifest-gate-order-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Replay only still-applicable WI-245 documentation-governance content on origin/main@87bfd866, preserve all WI-245 immutable lifecycle bytes, add focused manifest and quality-route ordering regressions, and deliver a hosted-green successor PR."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-252-manifest-gate-order-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-252-manifest-gate-order-recovery"
+  },
+  "finalReportDigest": "sha256:d31d96472613d9a59b6cafefbf7e13765d88150913d9d7631378fed4db2a76d5",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:63932e2404bb9ba371f2d40082bfd7a42f550a1427cfa1d0ef111521ea8449ea",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-252-manifest-gate-order-recovery.finalize.07417ba5ea8607d8f6267297eeaa81350c6394ef2245a1733da8edb253ef6951.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-WI-252-postmerge-cleanup-authorization",
+    "decidedAt": "2026-08-24T14:54:27Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-252-manifest-gate-order-recovery.verification.json"
+    ],
+    "policyRefs": [
+      "repository-review-policy"
+    ],
+    "reason": "PR #204 merged as b4d9387f683bad97a82f05209f697e6d838e6424 after all reviewed pull-request checks passed; sequence-2 finalization verifies exact WI-252 branch/worktree deletion, and the superseded WI-245 recovery receipt plus closed PR #203 preserve predecessor terminal governance.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-24T14:54:27Z",
+  "workItemId": "WI-252-manifest-gate-order-recovery"
+}
