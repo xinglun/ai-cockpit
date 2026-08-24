@@ -34,7 +34,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-244-pending-parity-registry",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/196",
     "worktree": "/private/tmp/ai-cockpit-wi244-pending-parity-registry"
   },
   "risk": "high",
