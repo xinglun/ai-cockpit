@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:d38790f3cbe40708bb3050d3ce3c83da3622de19091c1bd4b691d56ef2ff617a",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "reviewed-pr-hosted-checks",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "f58c7eda5b4b4f47082a37766e1bb14a01c5ad12",
+      "name": "codex/wi-243-finalization-reason-policy",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:d5e273574e5b0a90343af22e58e71ba262b6d85b08e93c3bfa0fed638d26e2e2",
+    "operationId": "operation-WI-243-finalization-reason-policy-cleanup",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "1c988ce9b04c3dcd45843f6577ed321457eeca0e",
+      "headRevision": "f58c7eda5b4b4f47082a37766e1bb14a01c5ad12",
+      "mergeCommit": "04aa8bf278c1aab0fe3103869dc39fd409709c5f",
+      "number": 195,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/195"
+    },
+    "reason": "cleanup verified: PR #195 merged as 04aa8bf, and the exact WI-243 remote branch, local branch, and feature worktree were removed.",
+    "receiptId": "ai-cockpit-WI-243-finalization-reason-policy-cleanup",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-243-finalization-reason-policy",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/195",
+      "worktree": "/private/tmp/ai-cockpit-wi243-finalization-reason-policy"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+    "runtimeVersion": "0.2.31",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-24T08:58:29Z",
+    "workItemId": "WI-243-finalization-reason-policy",
+    "worktree": {
+      "branch": "codex/wi-243-finalization-reason-policy",
+      "headRevision": "f58c7eda5b4b4f47082a37766e1bb14a01c5ad12",
+      "path": "/private/tmp/ai-cockpit-wi243-finalization-reason-policy",
+      "worktreeId": "WI-243-finalization-reason-policy"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "ai-cockpit-WI-243-finalization-reason-policy-cleanup"
+}
