@@ -18,45 +18,45 @@
     " do not modify root user files",
     " do not claim v0.2.30 publication or acceptance."
   ],
+  "predecessorContractDigest": "sha256:96568c5fc0765c5e1f02d7156e35f4b7f9f95581b58d4bf0016c02d8050657db",
+  "predecessorWorkItemId": "WI-237-release-route-recovery-v0-2-31",
   "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
   "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-237-release-route-recovery-v0-2-31.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:ef8a6dc5399c775896826f3cbb84a3c00ed2b098bf0fe094ef9db0171f1c90a7",
-  "predecessorWorkItemId": "WI-237-release-route-recovery-v0-2-31",
-  "predecessorContractDigest": "sha256:96568c5fc0765c5e1f02d7156e35f4b7f9f95581b58d4bf0016c02d8050657db",
-  "recoveryDecisionPath": ".ai/decisions/WI-237-release-route-recovery-v0-2-31.recovery.json",
   "requiredEvidenceClasses": [
     "release_route_manifest",
     "verification",
     "resource_finalization"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi238-release-v0-2-31-recovery",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/189",
     "worktree": "/private/tmp/ai-cockpit-wi238-release"
   },
+  "risk": "high",
   "scenarioCoverage": [
     {
-      "scenario": "release-route-no-active-work-item-directory",
-      "required": true,
-      "status": "unverified",
+      "evidence": [],
       "expected": "Release quality planning passes when .ai/work-items/active is absent.",
-      "verificationPlan": "Run the release quality route and its regression test from a clean repository with no active Work Item directory.",
-      "evidence": []
+      "required": true,
+      "scenario": "release-route-no-active-work-item-directory",
+      "status": "unverified",
+      "verificationPlan": "Run the release quality route and its regression test from a clean repository with no active Work Item directory."
     },
     {
-      "scenario": "parity-evidence-before-finalization",
-      "required": true,
-      "status": "unverified",
+      "evidence": [],
       "expected": "All three parity rows bind verification evidence and the pre-merge finalization receipt before hosted checks.",
-      "verificationPlan": "Run governance integrity and documentation parity gates after adding the evidence and finalization links, before recording the finalization receipt.",
-      "evidence": []
+      "required": true,
+      "scenario": "parity-evidence-before-finalization",
+      "status": "unverified",
+      "verificationPlan": "Run governance integrity and documentation parity gates after adding the evidence and finalization links, before recording the finalization receipt."
     }
   ],
-  "risk": "high",
   "scope": [
     ".github/workflows/release.yml",
     "tests/ci",
