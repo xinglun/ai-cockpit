@@ -6,7 +6,7 @@ audience:
   - maintainer
   - adopter
 workItemId: WI-206-release-tag-pending-close
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-206-release-tag-pending-close
 ---

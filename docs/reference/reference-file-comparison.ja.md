@@ -20,13 +20,14 @@ Reference は specification と behavior corpus であり、Rust Runtime にコ�
 ## 固定 baseline
 
 - Reference: [spirex-ds-dev/ai-cockpit-template](https://github.com/spirex-ds-dev/ai-cockpit-template)、commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf`。
-- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `46e426625a8cae450f1190d0bdbafd6d8e648a90`。
-- 比較に使う Runtime: `ai-cockpit 0.2.27`、binary SHA256 `ea9a4a090307cb650eeda008942a5bc72fd0d1276b131405868f31d1eabcc048`。
+- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `87bfd86645adf7f4a6f86e447763542988371039`。
+- 比較に使う Runtime: `ai-cockpit 0.2.31`、binary SHA256 `1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9`。
 
 Machine-readable ledger は
 [`reference_file_inventory.json`](../../tests/conformance/reference_file_inventory.json) です。
 Regression check は tracked reference path のすべてに一つだけ classification があることを確認し、
-first batch の未分類 file を拒否します。
+first batch の未分類 file を拒否します。Target checkout metadata は dirty/untracked な
+working-tree file ではなく pinned commit から導出します。
 
 ## Classification
 
@@ -57,6 +58,23 @@ reference の Python Runtime、Makefile target、YAML guard tree、provider-glob
 
 従って first batch で見つかった唯一の concrete entrypoint gap（`CONTRIBUTING.md`）は補完しました。
 Second governance system は作らず、残りは ledger に明示して後続の semantic batch に送ります。
+
+## 現在の ledger snapshot
+
+固定した v0.2.31 comparison baseline の ledger は 5,119 records です。内訳は
+4,262 `generated-history`、132 `implemented-different-by-design`、1
+`implemented-equivalent`、720 `deferred-next-batch`、4 `migrate-gap` です。
+Deferred record は予定された比較であり parity claim ではありません。未解決の
+capability/profile gap は次の 4 file です。
+
+1. `.ai/project/adopter-capability-manifest.json`
+2. `.ai/project/capabilities.json`
+3. `.ai/project/success_criteria.json`
+4. `.ai/project_profile.yaml`
+
+Governance entrypoint、getting-started route、CI/release boundary、capability
+projection はこの baseline で review 済みです。既存 Rust behavior はこの 4 file-level
+gap や 720 deferred semantic comparison を自動的に close しません。
 
 ## Batch order
 

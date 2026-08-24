@@ -6,7 +6,7 @@ description: "不変な公開 v0.2.23 Runtime が新しい adopter と N-1 upgra
 audience:
   - maintainer
   - reviewer
-status: current
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-186-release-v0-2-23-post-release-acceptance
 ---

@@ -6,7 +6,7 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-212-release-fixture-finalization-recovery
-status: current
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-212-release-fixture-finalization-recovery
 ---

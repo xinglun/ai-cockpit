@@ -6,7 +6,7 @@ description: "Make lifecycle commands surface the verified human Outcome without
 audience:
   - adopter
   - maintainer
-status: current
+status: recovered
 lastVerifiedBy: WI-250-outcome-handoff
 authority: canonical
 ---

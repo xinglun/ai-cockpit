@@ -3,7 +3,7 @@
     "A1: The Runtime recovery receipt binds WI-245 Contract, Summary, Outcome, Events, archive, verification, and finalization digests; no WI-245 immutable byte is imported, edited, or replaced.",
     "A2: The repository gate manifest contains every gate ID exactly once in global lexical order, registers docs_work_item_status_consistency after docs_pending_parity_registry_regression, and focused negative fixtures reject duplicate or out-of-order IDs before route selection.",
     "A3: The initial typed quality route consumes the corrected manifest successfully for both pull_request and merge stages, and the manifest/quality-route regression suites cover the exact PR #203 failure.",
-    "A4: Still-applicable WI-245 status, inventory, release-truth, and tri-language parity projections are replayed without removing intervening terminal evidence or changing the pinned reference source.",
+    "A4: Still-applicable WI-245 status, inventory, release-truth, and tri-language documentation are replayed without removing intervening terminal evidence or changing the pinned reference source; because WI-245 immutable archive bytes stay out of scope, its stale conditional parity row is removed and WI-252 receives the exact pre-archive parity registration.",
     "A5: Documentation acceptance, status consistency, inventory, parity, governance, manifest, quality-route, version truth, formatting, clippy, and full workspace tests pass under installed Runtime v0.2.31.",
     "A6: A dedicated WI-252 PR passes hosted quality, Windows Runtime, and V1 oracle checks at the exact reviewed head before any merge decision."
   ],
@@ -72,7 +72,7 @@
     {
       "scenario": "immutable-wi245-recovery",
       "required": true,
-      "expected": "The Runtime successor receipt binds every WI-245 predecessor digest while the WI-252 branch imports no WI-245 archive, evidence, Outcome, event, or finalization byte.",
+      "expected": "The Runtime successor receipt binds every WI-245 predecessor digest while the WI-252 branch imports no WI-245 archive, evidence, Outcome, event, or finalization byte and therefore does not falsely register WI-245 as a current parity Work Item.",
       "verificationPlan": "Validate the recovery receipt and compare the successor diff against current origin/main and the retained predecessor branch.",
       "status": "unverified",
       "evidence": []

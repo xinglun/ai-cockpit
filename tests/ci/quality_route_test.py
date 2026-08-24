@@ -28,6 +28,32 @@ assert manifest["schemaVersion"] == 2
 assert manifest["profileOrder"] == ["light", "standard", "strict"]
 
 
+def assert_invalid_gate_order(gates: list[dict], temporary: Path) -> None:
+    fixture = copy.deepcopy(manifest)
+    fixture["gates"] = gates
+    fixture_path = temporary / "invalid-manifest.json"
+    fixture_path.write_text(json.dumps(fixture), encoding="utf-8")
+    try:
+        route.load_manifest(fixture_path)
+    except ValueError as error:
+        assert str(error) == "gate IDs must be sorted and unique"
+    else:
+        raise AssertionError("invalid gate IDs must fail before route selection")
+
+
+with tempfile.TemporaryDirectory(prefix="ai-cockpit-gate-order-") as temporary_directory:
+    temporary = Path(temporary_directory)
+    out_of_order = copy.deepcopy(manifest["gates"])
+    out_of_order[0], out_of_order[1] = out_of_order[1], out_of_order[0]
+    assert_invalid_gate_order(out_of_order, temporary)
+
+    duplicate = copy.deepcopy(manifest["gates"])
+    duplicate_gate = copy.deepcopy(duplicate[0])
+    duplicate_gate["command"] = ["true"]
+    duplicate.insert(1, duplicate_gate)
+    assert_invalid_gate_order(duplicate, temporary)
+
+
 def selected(paths: list[str], *, risk: str = "normal", stage: str = "pull_request") -> str:
     return route.select_route(
         manifest,

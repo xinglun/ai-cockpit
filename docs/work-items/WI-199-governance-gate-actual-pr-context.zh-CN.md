@@ -6,7 +6,7 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-199-governance-gate-actual-pr-context
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-199-governance-gate-actual-pr-context
 ---
