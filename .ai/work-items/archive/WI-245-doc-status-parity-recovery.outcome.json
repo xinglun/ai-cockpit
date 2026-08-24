@@ -1,0 +1,140 @@
+{
+  "acceptanceResults": [
+    "The Runtime recovery receipt binds WI-240 Contract, Summary, Outcome, and Events digests; WI-240 archive/evidence/finalization bytes remain unchanged and are never imported as replacement lifecycle history.",
+    "Still-applicable WI-240 documentation status, inventory classification, release distribution clarification, and deterministic status-consistency regressions are replayed onto current main while retaining all intervening WI-243/WI-244/provider/release truth.",
+    "All three reference-parity files promote WI-241-release-sbom-binding from conditional prearchive prose to terminal Implemented truth and cite its exact archive Contract, verification evidence, sequence-2 deleted finalization transition, and structured close decision.",
+    "The same generic closed-plus-conditional regression terminalizes the already-closed WI-249 and WI-251 tri-language status/parity projections against their existing sequence-2 deleted transitions and close decisions; no immutable lifecycle record is changed.",
+    "All three reference-parity files register WI-245 with exact successor recovery, verification, finalization, and close paths without removing prior terminal evidence rows.",
+    "The status-consistency regression fails for stale conditional/after-close prose on an already closed Work Item and passes only for evidence-bound terminal status in English, Simplified Chinese, and Japanese.",
+    "Documentation acceptance, reference inventory, release version truth, parity status, strict governance integrity, formatting, clippy, and full workspace tests pass under Runtime v0.2.31 and hosted CI.",
+    "PR #194 remains closed as superseded; its exact branch/worktree are retained until WI-245 merged closure, then only those exact predecessor resources are removed after cleanup proof."
+  ],
+  "createdAt": "2026-08-24T14:10:38Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:652c89852267de3f828a2060d61868f9e255386c6b45a777a93cee4b7ba9ac56",
+  "evidenceRefs": [
+    ".ai/evidence/WI-245-doc-status-parity-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-245-doc-status-parity-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-245-doc-status-parity-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5059acf702b18deed832a5ab6ba132224b1fa5f88d7deeb3ca04de9e0cd0585c",
+      "workItemId": "WI-245-doc-status-parity-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-245-doc-status-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-245-doc-status-parity-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-245-doc-status-parity-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-245-doc-status-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-245-doc-status-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-245-doc-status-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-245-doc-status-parity-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Replay only still-applicable WI-240 documentation status/inventory regressions onto origin/main@87bfd866, preserve all intervening provider and parity truth, and make the tri-language WI-241/WI-245 ledger pass the strict governance gate without changing predecessor or WI-241 immutable bytes."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-245-doc-status-parity-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-245-doc-status-parity-recovery"
+  },
+  "taskReportDigest": "sha256:1ab741719716d8730a5d0527d6308e42ec015e8306aac86071d9e2b42dd14a20",
+  "taskReportMarkdownDigest": "sha256:278052252fafed29dad80103d0b50ae0853f39e71788ebd35d3fdb6512fa1b28",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-245-doc-status-parity-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-245-doc-status-parity-recovery"
+}

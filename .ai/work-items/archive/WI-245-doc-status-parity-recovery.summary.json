@@ -1,0 +1,94 @@
+{
+  "acceptanceEvidence": [],
+  "changedPaths": [],
+  "checkpointAt": "2026-08-24T13:40:59Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T13:37:52Z",
+  "intentAlignment": {
+    "basis": "WI-245 preserves the Runtime-recorded immutable WI-240 successor boundary, replays only still-applicable documentation governance on origin/main@87bfd866, and terminalizes already-closed conditional projections against existing authoritative evidence without changing lifecycle truth.",
+    "evidence": [
+      ".ai/decisions/WI-240-doc-status-consistency.recovery.json",
+      "docs/work-items/WI-240-doc-status-consistency.md",
+      "docs/work-items/WI-245-doc-status-parity-recovery.md",
+      "docs/reference/reference-parity.md",
+      "tests/docs/work_item_status_consistency_test.sh",
+      "tests/conformance/reference_file_inventory_test.sh",
+      ".ai/evidence/WI-245-doc-status-parity-recovery.verification.json",
+      "https://github.com/xinglun/ai-cockpit/pull/203"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "predecessorContractDigest": "sha256:4a3790e582fb64758652789b29cc14c1400c5643128776026166c8f026bf2b88",
+  "predecessorWorkItemId": "WI-240-doc-status-consistency",
+  "preflightAt": "2026-08-24T14:10:22Z",
+  "preflightContractDigest": "sha256:9980e8cfa7f43fc164e949f3463042814732d51c76c689f93f23dc12f4162b61",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:5059acf702b18deed832a5ab6ba132224b1fa5f88d7deeb3ca04de9e0cd0585c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-240-doc-status-consistency.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/decisions/WI-240-doc-status-consistency.recovery.json",
+        "Runtime v0.2.31 recover bound WI-240 Contract, Summary, Outcome, Events, archive, verification, and finalization digests to WI-245",
+        "git diff origin/main...09fe3bdb24d7fbf4e62a3db90fde123d047a0db7 contains no WI-240 immutable lifecycle path",
+        "PR #194 is closed and unmerged; its exact predecessor branch/worktree remain retained until successor closure"
+      ],
+      "expected": "WI-245 retains the Runtime-recorded WI-240 successor binding while replaying only still-applicable implementation and documentation changes on current main; no WI-240 archive, evidence, Outcome, event, or finalization byte is rewritten.",
+      "required": true,
+      "scenario": "immutable-predecessor-replay",
+      "status": "verified",
+      "verificationPlan": "Validate the recovery receipt, compare predecessor immutable artifact digests, and inspect the WI-245 branch history and changed paths."
+    },
+    {
+      "evidence": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        "bash tests/docs/documentation_acceptance.sh: passed",
+        "bash tests/docs/parity_status_check.sh: governance integrity gate passed for 211 Work Items",
+        "python3 tests/ci/governance_integrity_gate.py --repo .: findings=[]"
+      ],
+      "expected": "English, Simplified Chinese, and Japanese WI-241 parity rows are terminal Implemented entries bound to the exact archived Contract, verification evidence, sequence-2 deleted finalization transition, and structured close decision.",
+      "required": true,
+      "scenario": "wi241-terminal-parity",
+      "status": "verified",
+      "verificationPlan": "Run documentation acceptance, parity status, status-consistency, and the strict governance gate on the current repository."
+    },
+    {
+      "evidence": [
+        "tests/docs/work_item_status_consistency.py",
+        "tests/docs/work_item_status_consistency_test.sh",
+        "TDD RED: the checker initially accepted a closed conditional fixture",
+        "TDD GREEN: six status-consistency checks and the negative stale-conditional fixture passed"
+      ],
+      "expected": "A closed Work Item whose parity row still says conditional, prearchive, in progress, or after-close fails deterministically rather than being treated as terminal truth.",
+      "required": true,
+      "scenario": "stale-conditional-parity",
+      "status": "verified",
+      "verificationPlan": "Run the negative status-consistency and governance fixtures that inject stale conditional prose for a closed Work Item."
+    },
+    {
+      "evidence": [
+        "tests/conformance/reference_file_inventory.json: 5119 records, 720 deferred-next-batch, 4 migrate-gap",
+        "bash tests/conformance/reference_file_inventory_test.sh: passed",
+        "bash tests/release/version_consistency_test.sh: passed",
+        "cargo fmt --all -- --check: passed",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings: passed",
+        "cargo test --locked --workspace: passed",
+        ".ai/evidence/WI-245-doc-status-parity-recovery.verification.json: Runtime v0.2.31 PR-stage T2 passed for snapshot sha256:5059acf702b18deed832a5ab6ba132224b1fa5f88d7deeb3ca04de9e0cd0585c"
+      ],
+      "expected": "Replaying WI-240 documentation governance preserves intervening WI-243/WI-244/provider/release truth, all previous terminal evidence paths, the pinned reference commit, and explicit unresolved migrate gaps.",
+      "required": true,
+      "scenario": "intervening-truth-preservation",
+      "status": "verified",
+      "verificationPlan": "Run reference inventory, release version truth, tri-language documentation acceptance, strict governance, and full workspace regression checks."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-24T14:10:38Z",
+  "workItemId": "WI-245-doc-status-parity-recovery"
+}

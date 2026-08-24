@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-24T14:10:56Z",
+  "files": {
+    "contractDigest": "sha256:8dca8c4ddf9c2ca6df548eabe9b8810006f8fb939fcd8f812a17ff83cf5cdecd",
+    "contractPath": ".ai/work-items/archive/WI-245-doc-status-parity-recovery.contract.json",
+    "eventsDigest": "sha256:98b37325555136913d95fcef97e6a9e29bdcfe94cd9643bee107e6ca90fca03d",
+    "eventsPath": ".ai/work-items/archive/WI-245-doc-status-parity-recovery.events.jsonl",
+    "outcomeDigest": "sha256:f5da4f491fd37c2dd5acb1a2f57e280360fbe880f4fe5c5b745b33c6b9a91118",
+    "outcomePath": ".ai/work-items/archive/WI-245-doc-status-parity-recovery.outcome.json",
+    "summaryDigest": "sha256:6af386d62992e96731e444366d5d2282933e67153828a6adda8dfe0e4df760f7",
+    "summaryPath": ".ai/work-items/archive/WI-245-doc-status-parity-recovery.summary.json",
+    "taskReportDigest": "sha256:1ab741719716d8730a5d0527d6308e42ec015e8306aac86071d9e2b42dd14a20",
+    "taskReportMarkdownDigest": "sha256:278052252fafed29dad80103d0b50ae0853f39e71788ebd35d3fdb6512fa1b28",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-245-doc-status-parity-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-245-doc-status-parity-recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-245-doc-status-parity-recovery"
+}
