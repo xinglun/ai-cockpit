@@ -1,0 +1,140 @@
+{
+  "acceptanceResults": [
+    "The WI-244 archived Contract, Summary, Outcome, Events, archive manifest, verification evidence, and finalization receipt remain byte-identical and a Runtime-generated recovery decision binds their exact predecessor digests to WI-246.",
+    "The verified WI-244 pending parity registry implementation is projected without weakening its strict schema, repository/Work Item/Runtime/PR/base/head/record bindings, single-commit registry append proof, or normal lifecycle precedence.",
+    "Pending entries for active, historical, legacy, missing, foreign, malformed, duplicate, unsafe, symlinked, partially registered, merged, default-branch, or unrelated targets fail closed with deterministic findings.",
+    "The English, Simplified Chinese, and Japanese WI-243 parity rows retain the pre-merge finalize receipt and add the authoritative close receipt introduced on origin/main; WI-244 is projected as recovered and WI-246 is registered consistently.",
+    "A synthetic pull-request merge topology containing origin/main WI-243 close truth passes the governance and parity gates, preventing the push-green/merge-ref-red drift observed in PR #196.",
+    "The canonical manifest and typed route retain the pending parity regression at light, standard, and strict profiles; the strict runner, rustfmt, Clippy, and full workspace tests pass.",
+    "WI-246 opens a real draft PR before finalize-plan; the exact PR resource context is bound before fresh preflight, checkpoint, verification, finish, archive, finalization, merge, cleanup, and close.",
+    "The Contract baseRevision remains the latest remote default-branch revision 3fd982560ee28563bfab69d414f60575f3b2894a; 3a5693ab93df3cc50ba84013229919a0d9125d75 is only the successor recovery bootstrap commit and never substitutes for the base."
+  ],
+  "createdAt": "2026-08-24T10:20:04Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:bd506e984519c8eef8759a36ef08246850d791ef5034e0a3e00dca0c47733ecb",
+  "evidenceRefs": [
+    ".ai/evidence/WI-246-pending-parity-merge-ref-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-246-pending-parity-merge-ref-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-246-pending-parity-merge-ref-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e12d3e41cbb1326adfe33ed85fa9edb8dff9970f07a89678e17a11c013cb416d",
+      "workItemId": "WI-246-pending-parity-merge-ref-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-246-pending-parity-merge-ref-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-246-pending-parity-merge-ref-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-246-pending-parity-merge-ref-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-246-pending-parity-merge-ref-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-246-pending-parity-merge-ref-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-246-pending-parity-merge-ref-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-246-pending-parity-merge-ref-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Deliver the WI-244 pending parity registry through a verified successor while correcting the WI-243 merge-ref parity drift and preserving all immutable predecessor records."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-246-pending-parity-merge-ref-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-246-pending-parity-merge-ref-recovery"
+  },
+  "taskReportDigest": "sha256:0779f3c1387af06079f9d75fd5a8434703d33066f50bd789419132270323c894",
+  "taskReportMarkdownDigest": "sha256:16f76baf6dd35704b6663c13039d4eac5f3c85ec6840fe09d33370531daaa860",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-246-pending-parity-merge-ref-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-246-pending-parity-merge-ref-recovery"
+}
