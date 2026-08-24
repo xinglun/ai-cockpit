@@ -1,0 +1,65 @@
+{
+  "governanceAppendRevision": "76ed9b61d6684f8f55ba1b093d1ac777917fe25b",
+  "predecessorReceiptDigest": "sha256:d14af4756536159d2c5a9997048230b30ffc240b4760b38c5c5b0f79b95e1ce6",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "reviewed-pr-hosted-checks",
+    "before": {
+      "branch": "present",
+      "pullRequest": "unmerged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "76ed9b61d6684f8f55ba1b093d1ac777917fe25b",
+      "name": "codex/wi-249-parity-finalization-registration",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:02dab906ee0dd94501d531b0116a54f37992e8ba2547b2182439cacce5af6967",
+    "operationId": "operation-WI-249-parity-finalization-registration-merge-observation",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "381e9e5e5cccf6234a0ad88cb1e17c6d7c5f4d0b",
+      "headRevision": "76ed9b61d6684f8f55ba1b093d1ac777917fe25b",
+      "mergeCommit": "819b383ed1b74eb85c01fd9cb1db88e95484c9b1",
+      "number": 199,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/199"
+    },
+    "reason": "merge observed: PR #199 merged as 819b383 after review and all hosted checks passed; retain the exact branch and clean worktree until cleanup is verified.",
+    "receiptId": "ai-cockpit-WI-249-parity-finalization-registration-merge-observation",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-249-parity-finalization-registration",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/199",
+      "worktree": "/private/tmp/ai-cockpit-wi249-parity-finalization-registration"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+    "runtimeVersion": "0.2.31",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-24T11:45:58Z",
+    "workItemId": "WI-249-parity-finalization-registration",
+    "worktree": {
+      "branch": "codex/wi-249-parity-finalization-registration",
+      "headRevision": "76ed9b61d6684f8f55ba1b093d1ac777917fe25b",
+      "path": "/private/tmp/ai-cockpit-wi249-parity-finalization-registration",
+      "worktreeId": "WI-249-parity-finalization-registration"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "ai-cockpit-WI-249-parity-finalization-registration-merge-observation"
+}
