@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:4712986b98c7c3e3a6d0b1da5f685b1a10a115344db39bb3794e0dcf6c931fe8",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "explicit-WI-241-postmerge-cleanup-authorization",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "c8b8b21cbeb620f5c4540aed4afedabc498135c3",
+      "name": "codex/wi-241-release-sbom-binding",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:5ada5f7f230d2b0f5515ee045dde3cca0324a837aeb511913c184d6db762361f",
+    "operationId": "operation-WI-241-release-sbom-binding-cleanup",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "7d1bd78f1ee1945d1a4b989ad0fd46d4fe98510b",
+      "headRevision": "c8b8b21cbeb620f5c4540aed4afedabc498135c3",
+      "mergeCommit": "90cd89252a1436cca53ddfa67a82697ec9ff6b96",
+      "number": 193,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/193"
+    },
+    "reason": "cleanup verified: PR #193 merged as 90cd892, the provider-side branch was absent, and the exact WI-241 local branch and clean feature worktree were removed.",
+    "receiptId": "ai-cockpit-WI-241-release-sbom-binding-cleanup",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-241-release-sbom-binding",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/193",
+      "worktree": "/private/tmp/ai-cockpit-wi241-sbom"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+    "runtimeVersion": "0.2.31",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-24T13:27:43Z",
+    "workItemId": "WI-241-release-sbom-binding",
+    "worktree": {
+      "branch": "codex/wi-241-release-sbom-binding",
+      "headRevision": "c8b8b21cbeb620f5c4540aed4afedabc498135c3",
+      "path": "/private/tmp/ai-cockpit-wi241-sbom",
+      "worktreeId": "WI-241-release-sbom-binding"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "ai-cockpit-WI-241-release-sbom-binding-cleanup"
+}
