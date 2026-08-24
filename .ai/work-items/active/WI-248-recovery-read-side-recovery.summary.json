@@ -1,0 +1,17 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-242-recovery-read-side.recovery.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-08-24T12:48:31Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:d9b376af2af8e6020d52f35e5d21ab2b5839de9a1c2963770f89b2d8f62c4b75",
+  "predecessorWorkItemId": "WI-242-recovery-read-side",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-242-recovery-read-side.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "not_ready",
+  "updatedAt": "2026-08-24T12:48:31Z",
+  "workItemId": "WI-248-recovery-read-side-recovery"
+}
