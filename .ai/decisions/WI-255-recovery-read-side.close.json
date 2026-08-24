@@ -1,0 +1,133 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-255-recovery-read-side.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a664fec4e85c35f0135f6033478da614d8b4a58e9af2c42229d0dfce55182452",
+      "workItemId": "WI-255-recovery-read-side"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-255-recovery-read-side.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-255-recovery-read-side.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-255-recovery-read-side.verification.json",
+            ".ai/decisions/WI-255-recovery-read-side.finalize.70b8faaab38e83dcd7d4fe55892abfe4c553ec1efb369bf81c2e259a9fe8566b.json",
+            "https://github.com/xinglun/ai-cockpit/pull/207"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-WI-255-postmerge-cleanup-and-close-authorization at 2026-08-24T17:25:50Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-255-recovery-read-side.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-255-recovery-read-side.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-255-recovery-read-side.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-255-recovery-read-side.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-255-recovery-read-side.contract.json"
+          ],
+          "inference": false,
+          "text": "Outcome 与 archive consumer 在使用 current recovery candidate 前严格验证文件、JSON、repository、Runtime、predecessor artifacts、timestamp、decision shape 和 successor binding；invalid 或 ambiguous candidate 稳定 fail closed，历史 archive 保持兼容。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-255-recovery-read-side.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-255-recovery-read-side"
+  },
+  "finalReportDigest": "sha256:71b93353fc6cb7d57952464b7c0ea57dd21518d4223b80dc4ee0def62f8e0718",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:20559171adf3afe5fa8ad458446ee4efee244f1531a6834b0c152c2be8220a9f",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-255-recovery-read-side.finalize.70b8faaab38e83dcd7d4fe55892abfe4c553ec1efb369bf81c2e259a9fe8566b.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-WI-255-postmerge-cleanup-and-close-authorization",
+    "decidedAt": "2026-08-24T17:25:50Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-255-recovery-read-side.verification.json",
+      ".ai/decisions/WI-255-recovery-read-side.finalize.70b8faaab38e83dcd7d4fe55892abfe4c553ec1efb369bf81c2e259a9fe8566b.json",
+      "https://github.com/xinglun/ai-cockpit/pull/207"
+    ],
+    "policyRefs": [
+      "repository-review-policy"
+    ],
+    "reason": "PR #207 merged as 564cd9189d4517f860ecd0be765e4b0ec025d369 after exact-head hosted checks passed; sequence-2 finalization verifies deletion of only the exact WI-255 branch/worktree while immutable archive, evidence, recovery lineage, and finalization records remain preserved.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-24T17:25:58Z",
+  "workItemId": "WI-255-recovery-read-side"
+}
