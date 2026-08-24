@@ -1,0 +1,40 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-WI-246-successor-authorization",
+  "decidedAt": "2026-08-24T09:51:12Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-244-pending-parity-registry.contract.json",
+    ".ai/work-items/archive/WI-244-pending-parity-registry.summary.json",
+    ".ai/work-items/archive/WI-244-pending-parity-registry.outcome.json",
+    ".ai/work-items/archive/WI-244-pending-parity-registry.events.jsonl",
+    ".ai/work-items/archive/WI-244-pending-parity-registry.archive.json",
+    ".ai/evidence/WI-244-pending-parity-registry.verification.json",
+    ".ai/decisions/WI-244-pending-parity-registry.finalize.json",
+    "sha256:56d02fde8fad83716ebfa44bed6865574fa978099b845b5f26757b3798af59cd",
+    "https://github.com/xinglun/ai-cockpit/pull/196",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/32711981190",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/32711987442"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    "tests/ci/governance_integrity_gate.py",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:9240cb582bcfcca91d6b02cba1ef24d50113938aa89ab8c55e8f50cdaed3c464",
+  "predecessorEventsDigest": "sha256:e171f1e9d5583445ceb4b7a870af54c1fde0f0093f61040914d437b1118fd244",
+  "predecessorOutcomeDigest": "sha256:a3f83604e1e3518fe22576479d49ed6dc8178465b8bdc2de90620f089d7e31ce",
+  "predecessorSummaryDigest": "sha256:729001079337a1fcced364aaaa7472a8854bfb596d70fe4d68c86e49f45d52e1",
+  "predecessorWorkItemId": "WI-244-pending-parity-registry",
+  "reason": "WI-244 was immutably archived and finalized before hosted PR merge-ref verification exposed that origin/main added the WI-243 close receipt while all three parity rows still referenced only its finalize receipt. Preserve every WI-244 lifecycle byte and complete the merge-ref parity correction through the bounded WI-246 successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-246 from origin/main 3fd982560ee28563bfab69d414f60575f3b2894a with the exact WI-244 implementation and immutable lifecycle records, add the WI-243 close receipt to all three parity rows while retaining its finalize receipt, and pass Runtime v0.2.31 verification plus hosted merge-ref checks before merge, cleanup, and close.",
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-246-pending-parity-merge-ref-recovery",
+  "workItemId": "WI-244-pending-parity-registry"
+}
