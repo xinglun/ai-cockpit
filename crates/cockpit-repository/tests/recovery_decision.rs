@@ -1,9 +1,10 @@
 use cockpit_core::Digest;
-use cockpit_protocol::{HumanDecision, RuntimeContext};
+use cockpit_protocol::{HumanDecision, OutcomeState, RuntimeContext};
 use cockpit_repository::{
-    WorkItemStartOptions, archive_work_item, attach, checkpoint_work_item,
-    close_work_item_with_structured_decision, outcome_v2, preflight_work_item,
-    record_recovery_decision, render_human_outcome, repository_id, start_work_item_with_options,
+    WorkItemStartOptions, archive_work_item, archive_work_item_with_runtime, attach,
+    checkpoint_work_item, close_work_item_with_structured_decision, outcome_v2,
+    outcome_v2_with_runtime, preflight_work_item, record_recovery_decision, render_human_outcome,
+    repository_id, start_work_item_with_options,
 };
 use serde_json::json;
 use std::fs;
@@ -97,6 +98,186 @@ fn receipt(directory: &tempfile::TempDir, reason: &str) -> serde_json::Value {
         "decidedAt": "2026-08-23T00:00:00Z",
         "resumeCondition": "fresh verification evidence for the successor"
     })
+}
+
+fn current_runtime() -> RuntimeContext {
+    RuntimeContext {
+        runtime_version: "0.2.31".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"runtime-0.2.31"),
+    }
+}
+
+fn write_forged_supersede(
+    directory: &tempfile::TempDir,
+    mutate: impl FnOnce(&mut serde_json::Value),
+) {
+    let runtime = current_runtime();
+    let mut forged = receipt(directory, "forged read-side supersession");
+    forged["decision"] = json!("supersede");
+    forged["runtimeVersion"] = json!(runtime.runtime_version);
+    forged["runtimeDigest"] = json!(runtime.runtime_digest.to_string());
+    mutate(&mut forged);
+    fs::write(
+        directory
+            .path()
+            .join(".ai/decisions/WI-BLOCKED.recovery.json"),
+        serde_json::to_vec_pretty(&forged).unwrap(),
+    )
+    .unwrap();
+}
+
+fn record_valid_supersede(directory: &tempfile::TempDir, runtime: &RuntimeContext) {
+    let mut successor = receipt(directory, "create a bound successor");
+    successor["runtimeVersion"] = json!(runtime.runtime_version);
+    successor["runtimeDigest"] = json!(runtime.runtime_digest.to_string());
+    record_recovery_decision(directory.path(), "WI-BLOCKED", &successor, runtime)
+        .expect("successor recovery");
+    start_work_item_with_options(
+        directory.path(),
+        "WI-SUCCESSOR",
+        "continue on the successor",
+        "preserve predecessor recovery bindings",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["successor remains bound".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("activate successor scaffold");
+
+    let mut supersede = receipt(directory, "supersede the bound predecessor");
+    supersede["decision"] = json!("supersede");
+    supersede["decidedAt"] = json!("2026-08-23T00:01:00Z");
+    supersede["runtimeVersion"] = json!(runtime.runtime_version);
+    supersede["runtimeDigest"] = json!(runtime.runtime_digest.to_string());
+    record_recovery_decision(directory.path(), "WI-BLOCKED", &supersede, runtime)
+        .expect("supersede recovery");
+}
+
+#[test]
+fn outcome_rejects_a_foreign_current_recovery_with_a_stable_unknown() {
+    let directory = repository();
+    write_forged_supersede(&directory, |forged| {
+        forged["repositoryId"] = json!(Digest::sha256_bytes(b"foreign-repository"));
+    });
+
+    let outcome = outcome_v2_with_runtime(directory.path(), "WI-BLOCKED", &current_runtime())
+        .expect("invalid recovery remains a renderable fail-closed Outcome");
+
+    assert_eq!(outcome.state, OutcomeState::Unknown);
+    assert_eq!(
+        outcome.decision_state,
+        Some(cockpit_core::DecisionState::Red)
+    );
+    assert!(
+        outcome
+            .unknowns
+            .contains(&"recovery_decision_invalid".into()),
+        "{:?}",
+        outcome.unknowns
+    );
+    assert!(outcome.recovery_decision.is_none());
+    assert_ne!(outcome.historical_status.as_deref(), Some("superseded"));
+}
+
+#[test]
+fn archive_rejects_forged_current_recovery_bindings_without_moving_artifacts() {
+    for case in [
+        "repository",
+        "runtime",
+        "contract",
+        "summary",
+        "outcome",
+        "events",
+        "successor",
+        "timestamp",
+    ] {
+        let directory = repository();
+        write_forged_supersede(&directory, |forged| match case {
+            "repository" => {
+                forged["repositoryId"] = json!(Digest::sha256_bytes(b"foreign-repository"));
+            }
+            "runtime" => {
+                forged["runtimeDigest"] = json!(Digest::sha256_bytes(b"foreign-runtime"));
+            }
+            "contract" => {
+                forged["predecessorContractDigest"] =
+                    json!(Digest::sha256_bytes(b"stale-contract"));
+            }
+            "summary" => {
+                forged["predecessorSummaryDigest"] = json!(Digest::sha256_bytes(b"stale-summary"));
+            }
+            "outcome" => {
+                forged["predecessorOutcomeDigest"] = json!(Digest::sha256_bytes(b"stale-outcome"));
+            }
+            "events" => {
+                forged["predecessorEventsDigest"] = json!(Digest::sha256_bytes(b"stale-events"));
+            }
+            "successor" => forged["successorWorkItemId"] = json!("WI-MISSING-SUCCESSOR"),
+            "timestamp" => forged["decidedAt"] = json!("not-a-timestamp"),
+            _ => unreachable!(),
+        });
+
+        let error =
+            archive_work_item_with_runtime(directory.path(), "WI-BLOCKED", &current_runtime())
+                .expect_err("forged current recovery must fail closed");
+        assert!(
+            error.to_string().contains("recovery_decision_invalid"),
+            "{case}: {error}"
+        );
+        assert!(
+            directory
+                .path()
+                .join(".ai/work-items/active/WI-BLOCKED.contract.json")
+                .is_file(),
+            "{case} moved the predecessor"
+        );
+        assert!(
+            !directory
+                .path()
+                .join(".ai/work-items/archive/WI-BLOCKED.archive.json")
+                .exists(),
+            "{case} created an archive manifest"
+        );
+    }
+}
+
+#[test]
+fn recovery_read_side_detects_predecessor_and_successor_tamper_after_recording() {
+    for target in ["predecessor-summary", "successor-contract"] {
+        let directory = repository();
+        let runtime = current_runtime();
+        record_valid_supersede(&directory, &runtime);
+        let path = match target {
+            "predecessor-summary" => directory
+                .path()
+                .join(".ai/work-items/active/WI-BLOCKED.summary.json"),
+            "successor-contract" => directory
+                .path()
+                .join(".ai/work-items/active/WI-SUCCESSOR.contract.json"),
+            _ => unreachable!(),
+        };
+        let mut value: serde_json::Value =
+            serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+        value["tamperedAfterRecovery"] = json!(true);
+        fs::write(&path, serde_json::to_vec_pretty(&value).unwrap()).unwrap();
+
+        let error = archive_work_item_with_runtime(directory.path(), "WI-BLOCKED", &runtime)
+            .expect_err("post-recovery artifact tamper must fail closed");
+        assert!(
+            error.to_string().contains("recovery_decision_invalid"),
+            "{target}: {error}"
+        );
+        assert!(
+            directory
+                .path()
+                .join(".ai/work-items/active/WI-BLOCKED.contract.json")
+                .is_file(),
+            "{target} moved the predecessor"
+        );
+    }
 }
 
 #[test]
@@ -296,6 +477,19 @@ fn superseded_predecessor_preserves_bytes_and_closes_without_current_verificatio
     assert!(handoff.starts_with("Outcome: 🟡"), "{handoff}");
     assert!(!handoff.contains("失败 gate"), "{handoff}");
     assert!(!handoff.contains("修复失败的治理条件"), "{handoff}");
+
+    let current_runtime_outcome =
+        outcome_v2_with_runtime(directory.path(), "WI-BLOCKED", &current_runtime())
+            .expect("older archived recovery remains historical under the current Runtime");
+    assert_eq!(
+        current_runtime_outcome.historical_status.as_deref(),
+        Some("superseded")
+    );
+    assert!(
+        !current_runtime_outcome
+            .unknowns
+            .contains(&"recovery_decision_invalid".into())
+    );
 }
 
 #[test]

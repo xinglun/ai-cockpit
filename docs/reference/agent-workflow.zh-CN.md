@@ -116,6 +116,14 @@ snapshot 的简单重放。如果 default branch 带入较新的权威 lifecycle
 close 路径也必须 fail closed。Runtime recovery successor 保留 predecessor bytes，并在提升
 交付前验证准确的 base-plus-feature 拓扑。
 
+recovery evidence 不仅在记录时校验，也会在读取时重验。current recovery candidate 在影响
+Outcome 投影或 superseded archive 行为之前，Runtime 会重新检查 regular-file 与文件名边界、
+repository 和当前 Runtime identity、predecessor Contract/Summary/Outcome/Events digest、
+时间戳、decision shape，以及准确的 successor Contract 绑定。malformed、foreign、stale、
+tampered 或 ambiguous candidate 会落入稳定的 `recovery_decision_invalid` 边界，且不能移动
+active artifacts。历史 archive 的不可变 bytes 与历史投影保持不变；该 current-read 规则不会
+追溯改写或重新分类它们。
+
 合并不等于 Work Item 关闭。Hosted checks 通过后，准确的 branch 和 worktree 还必须经过
 独立的资源收尾边界：
 

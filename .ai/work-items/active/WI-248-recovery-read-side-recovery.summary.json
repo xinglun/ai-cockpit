@@ -1,17 +1,20 @@
 {
-  "changedPaths": [
-    ".ai/decisions/WI-242-recovery-read-side.recovery.json"
-  ],
-  "checkpointCount": 0,
+  "changedPaths": [],
+  "checkpointAt": "2026-08-24T12:51:41Z",
+  "checkpointCount": 1,
   "createdAt": "2026-08-24T12:48:31Z",
   "mode": "implementation",
   "predecessorContractDigest": "sha256:d9b376af2af8e6020d52f35e5d21ab2b5839de9a1c2963770f89b2d8f62c4b75",
   "predecessorWorkItemId": "WI-242-recovery-read-side",
-  "preflightState": "not_run",
+  "preflightAt": "2026-08-24T12:56:38Z",
+  "preflightContractDigest": "sha256:38cc3fab20687fbb9af1179f432b2251a67e1dabea457ec624090c8d5693e61f",
+  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "preflightRepositorySnapshotDigest": "sha256:d2fa055058800b9ecc4df61cbfdb31f16411deb00d22fba109d659b76c9c6045",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-242-recovery-read-side.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "not_ready",
-  "updatedAt": "2026-08-24T12:48:31Z",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-24T12:51:41Z",
   "workItemId": "WI-248-recovery-read-side-recovery"
 }

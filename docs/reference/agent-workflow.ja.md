@@ -128,6 +128,15 @@ snapshot の replay ではありません。default branch が後続の authorit
 recovery successor は predecessor bytes を保持し、delivery を昇格する前に正確な
 base-plus-feature topology を検証します。
 
+Recovery evidence は記録時だけでなく読み取り時にも再検証します。current recovery
+candidate が Outcome projection または superseded archive behavior に影響する前に、Runtime
+は regular-file/filename 境界、repository と current Runtime identity、predecessor の
+Contract/Summary/Outcome/Events digest、timestamp、decision shape、正確な successor Contract
+binding を再確認します。malformed、foreign、stale、tampered、ambiguous な candidate は安定した
+`recovery_decision_invalid` 境界となり、active artifact を移動できません。historical archive
+の immutable bytes と historical projection は保持され、この current-read rule が遡及的に
+書き換えたり再分類したりすることはありません。
+
 Merge は Work Item の close ではありません。hosted check が通った後、正確な
 branch と worktree は別の resource-finalization 境界で処理します。
 
