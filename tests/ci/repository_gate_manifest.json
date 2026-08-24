@@ -10,6 +10,7 @@
     {"category": "docs", "command": ["tests/docs/documentation_acceptance.sh"], "id": "docs_acceptance", "minimumProfile": "light"},
     {"category": "docs", "command": ["tests/docs/parity_status_check.sh"], "id": "docs_governance_integrity", "minimumProfile": "light"},
     {"category": "docs", "command": ["tests/docs/parity_status_check_test.sh"], "id": "docs_parity_regression", "minimumProfile": "light"},
+    {"category": "docs", "command": ["tests/docs/work_item_status_consistency_test.sh"], "id": "docs_work_item_status_consistency", "minimumProfile": "light"},
     {"category": "performance", "command": ["tests/performance/regression_gate_test.sh"], "id": "performance_regression", "minimumProfile": "strict"},
     {"category": "release", "command": ["tests/release/action_runtime_policy_test.sh"], "id": "release_action_runtime", "minimumProfile": "strict"},
     {"category": "release", "command": ["tests/release/adopter_acceptance_test.sh"], "covers": ["tests/release/isolation_manifest_test.sh"], "id": "release_adopter", "minimumProfile": "strict"},
