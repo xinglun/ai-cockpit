@@ -36,11 +36,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-251-outcome-handoff-base-binding-recovery",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/201",
     "worktree": "/private/tmp/ai-cockpit-wi251-outcome-handoff-base-binding-recovery"
   },
   "risk": "normal",
