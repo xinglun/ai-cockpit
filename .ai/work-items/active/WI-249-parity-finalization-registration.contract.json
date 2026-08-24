@@ -1,0 +1,32 @@
+{
+  "acceptanceCriteria": [],
+  "authority": "unknown",
+  "baseRevision": "2634c1173b361307f1e1c1d13a1c2c21cbb750ea",
+  "createdAt": "2026-08-24T10:59:01Z",
+  "goal": "",
+  "intent": "",
+  "mode": "implementation",
+  "outOfScope": [],
+  "predecessorContractDigest": "sha256:e536ebdc77619010b75a2c55c7a71d020e428aec469e8fe63d32e78056d15a6b",
+  "predecessorWorkItemId": "WI-247-parity-close-registration",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-247-parity-close-registration.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:bf1d8085b06b246e1d977aacb8ea0e3be90e3bf539a73d95ede2a59a81ce264f",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-247-parity-close-registration",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi247-parity-close-registration"
+  },
+  "risk": "unknown",
+  "scope": [],
+  "sources": [],
+  "state": "not_ready",
+  "verification": [],
+  "workItemId": "WI-249-parity-finalization-registration"
+}
