@@ -6,7 +6,7 @@ description: "Recover the WI-244 delivery and bind parity to decisions contribut
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-246-pending-parity-merge-ref-recovery
 authority: canonical
 ---
@@ -47,3 +47,13 @@ Focused governance, pending-registry, manifest, route, documentation, and
 parity tests run before the strict typed repository gate. Rustfmt, Clippy, and
 the full workspace suite remain required. Runtime v0.2.31 records the final
 verification, visible human Outcome, archive, and append-only finalization.
+
+## Closed projection
+
+PR #197 merged as `98d6575`. The immutable decision chain retains the canonical
+pre-merge receipt, records the governance-append merge observation and exact
+branch/worktree cleanup as sequences 1 and 2, and ends in the structured close
+receipt. WI-247 records the later ledger-only recovery decision because adding
+that authoritative close truth made the still-`In progress` parity rows fail
+closed. It changes the projection, not any WI-246 lifecycle record or acceptance
+fact.

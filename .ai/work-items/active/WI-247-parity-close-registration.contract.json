@@ -1,11 +1,11 @@
 {
   "acceptanceCriteria": [
-    "The Runtime-generated WI-246 recovery decision binds the exact predecessor Contract, Summary, Outcome, Events, terminal finalization head, and close receipt identities; every WI-246 archive, evidence, finalization, close, and PR byte remains unchanged.",
-    "The English, Simplified Chinese, and Japanese WI-246 parity rows are promoted from In progress to Implemented and list the canonical finalize receipt, sequence-1 merge observation, sequence-2 cleanup receipt, close receipt, verification evidence, archived Contract, and WI-246 recovery decision.",
-    "The three WI-246 Work Item documents project the closed lifecycle consistently without changing historical acceptance facts, and the three new WI-247 documents explain the bounded successor, root cause, and immutable predecessor boundary.",
-    "Parity status, governance integrity, repository manifest, and documentation acceptance gates pass with no missing_parity_decision or stale_parity_status finding for WI-246.",
+    "The Runtime-generated WI-246 recovery decision binds the exact predecessor Contract, Summary, Outcome, Events, terminal finalization head, and close receipt identities; every WI-246 lifecycle byte remains unchanged.",
+    "The English, Simplified Chinese, and Japanese WI-246 parity rows are promoted from In progress to Implemented and list the canonical finalize receipt, both transition receipts, close receipt, verification evidence, archived Contract, and WI-246 recovery decision.",
+    "The three WI-246 Work Item documents project the closed lifecycle consistently without changing historical acceptance facts, and the three WI-247 documents explain the bounded successor, root cause, and immutable predecessor boundary.",
+    "Parity status, governance integrity, repository manifest, and documentation acceptance gates pass with no missing or stale WI-246 finding.",
     "WI-247 changes no Rust crates, CI/release behavior, tests, GitHub workflow, WI-241 active records, unrelated Work Items, or predecessor-generated lifecycle bytes.",
-    "The successor follows the reviewed PR lifecycle from origin/main 381e9e5e5cccf6234a0ad88cb1e17c6d7c5f4d0b through Runtime verification, visible Outcome, archive, append-only finalization, merge, exact cleanup, and close."
+    "The successor follows the reviewed PR lifecycle from origin/main 381e9e5 through Runtime verification, visible Outcome, archive, append-only finalization, merge, exact cleanup, and close."
   ],
   "authority": "authorized",
   "baseRevision": "381e9e5e5cccf6234a0ad88cb1e17c6d7c5f4d0b",
@@ -14,16 +14,16 @@
   "intent": "Correct the bounded documentation-ledger projection exposed by WI-246 close ordering. The close receipt is authoritative immutable truth; WI-247 records recovery lineage and updates only the tri-language WI-246/WI-247 documentation required for the governance gate to agree with that truth.",
   "mode": "implementation",
   "outOfScope": [
-    "WI-246 archived Contract, Summary, Outcome, Events, archive manifest, task reports, verification evidence, finalization chain, close receipt, PR #197, and merge commits",
-    "WI-241 active Contract, branch, worktree, PR, implementation, and lifecycle records",
+    "WI-246 immutable lifecycle and PR #197",
+    "WI-241 active work",
     "crates/**",
     "tests/** modifications",
     ".github/**",
     "tests/release/**",
-    "release tags, Release API truth, and distribution artifacts",
-    "root main worktree and unrelated local user changes",
-    "other open or superseded PR implementation bytes; cleanup is performed only after their own governance authority is confirmed",
-    "global Agent, MCP, HOME, credentials, and user configuration"
+    "release truth",
+    "root main worktree",
+    "other PR implementation bytes",
+    "global configuration"
   ],
   "predecessorContractDigest": "sha256:11e82f1423cc1bda5a3ffda2718b3aeebbb6db9dc109ee6a0db265f4fb131453",
   "predecessorWorkItemId": "WI-246-pending-parity-merge-ref-recovery",
@@ -31,7 +31,7 @@
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-246-pending-parity-merge-ref-recovery.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:ae6b50340fb37fb9979c90eed2dcebfa429d5e6e4b3432afa5ad463764c59c18",
+  "repositorySnapshotDigest": "sha256:fa63603128306af3a87901df879d2dd2f04b6292db79d84625e06274d6a76ea3",
   "requiredEvidenceClasses": [
     "verification"
   ],
@@ -39,8 +39,8 @@
     "baseBranch": "main",
     "baseRemote": "origin",
     "branch": "codex/wi-247-parity-close-registration",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/198",
     "worktree": "/private/tmp/ai-cockpit-wi247-parity-close-registration"
   },
   "risk": "high",
@@ -105,7 +105,7 @@
     ".ai/README.md",
     ".ai/glossary.md"
   ],
-  "state": "not_ready",
+  "state": "implementation_active",
   "verification": [
     "bash tests/docs/parity_status_check.sh",
     "bash tests/ci/governance_integrity_gate_test.sh",

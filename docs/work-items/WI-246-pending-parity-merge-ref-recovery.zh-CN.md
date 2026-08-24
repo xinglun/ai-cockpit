@@ -6,7 +6,7 @@ description: "恢复 WI-244 交付，并将 parity 绑定到 hosted merge ref �
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-246-pending-parity-merge-ref-recovery
 authority: canonical
 ---
@@ -42,3 +42,11 @@ identity、Git ancestry、symlink 与 lifecycle 校验保持不变。
 先执行 governance、pending-registry、manifest、route、documentation 与 parity 聚焦测试，
 再运行 strict typed repository gate。Rustfmt、Clippy 与完整 workspace suite 仍为必需项。
 Runtime v0.2.31 记录最终 verification、可见人类 Outcome、archive 与 append-only finalization。
+
+## 关闭投影
+
+PR #197 以 `98d6575` 合并。不可变决定链保留 canonical 合并前 receipt，通过 sequence 1
+记录 governance-append 合并观察，通过 sequence 2 记录准确 branch/worktree cleanup，并以
+结构化 close receipt 结束。该权威 close truth 加入后，仍显示“进行中”的 parity 行正确
+fail closed，因此 WI-247 记录后续纯 ledger recovery decision。它只修改投影，不修改任何
+WI-246 生命周期记录或验收事实。

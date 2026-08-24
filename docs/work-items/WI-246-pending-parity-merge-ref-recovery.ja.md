@@ -6,7 +6,7 @@ description: "WI-244 delivery を recovery し、hosted merge ref が追加す�
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-246-pending-parity-merge-ref-recovery
 authority: canonical
 ---
@@ -46,3 +46,12 @@ governance、pending-registry、manifest、route、documentation、parity の fo
 strict typed repository gate を実行します。Rustfmt、Clippy、full workspace suite も必須です。
 Runtime v0.2.31 が最終 verification、可視 Human Outcome、archive、append-only finalization
 を記録します。
+
+## Closed projection
+
+PR #197 は `98d6575` として merge されました。不変の decision chain は canonical な
+pre-merge receipt を保持し、sequence 1 で governance-append merge observation、sequence 2
+で正確な branch/worktree cleanup を記録し、structured close receipt で終わります。この
+authoritative close truth の追加後、まだ `In progress` だった parity row は正しく fail closed
+になったため、WI-247 が後続の ledger-only recovery decision を記録します。変更するのは
+projection だけであり、WI-246 lifecycle record や acceptance fact は変更しません。
