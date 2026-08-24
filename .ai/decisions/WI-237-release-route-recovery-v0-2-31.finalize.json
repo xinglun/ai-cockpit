@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-pre-merge-finalization-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "72157dcf60694ac97cc5bb2a0ee83d8798b0254d",
+    "name": "codex/wi237-release-route-fix",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:85e27e92dcdd4f228e1ced8d66efebb3a3f0961be01850a4f4c76d1834fef387",
+  "operationId": "operation-WI-237-release-route-recovery-v0-2-31-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "35a75c89a1368908eec7ebb19ae14927e58976a5",
+    "headRevision": "72157dcf60694ac97cc5bb2a0ee83d8798b0254d",
+    "number": 188,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/188"
+  },
+  "reason": "awaiting_merge_close: PR #188 is unmerged; retain the exact reviewed branch and clean worktree until hosted checks pass and the reviewed head is merged.",
+  "receiptId": "ai-cockpit-WI-237-release-route-recovery-v0-2-31-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi237-release-route-fix",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/188",
+    "worktree": "/private/tmp/ai-cockpit-wi237-release-route"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:94d8ee4e27023e1cb677486164af3e96633411105a4596140d4c0f4e64776137",
+  "runtimeVersion": "0.2.29",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-24T05:39:00Z",
+  "workItemId": "WI-237-release-route-recovery-v0-2-31",
+  "worktree": {
+    "branch": "codex/wi237-release-route-fix",
+    "headRevision": "72157dcf60694ac97cc5bb2a0ee83d8798b0254d",
+    "path": "/private/tmp/ai-cockpit-wi237-release-route",
+    "worktreeId": "WI-237-release-route-recovery-v0-2-31"
+  }
+}
