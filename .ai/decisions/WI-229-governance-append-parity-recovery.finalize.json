@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-pre-merge-finalization-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "0dea7ed3bbdcec2f1d4624137c864ef7becb0e8b",
+    "name": "codex/wi-229-governance-append-parity-recovery",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:ea7d1fbfb0a464338523e47be690197407cf56819893c081167519175bb2264e",
+  "operationId": "operation-WI-229-governance-append-parity-recovery-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "02cbde2bf3d57176fbbf3acd0f348c9f67fc75e0",
+    "headRevision": "0dea7ed3bbdcec2f1d4624137c864ef7becb0e8b",
+    "number": 178,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/178"
+  },
+  "reason": "awaiting_merge_close: draft PR #178 is unmerged; retain the exact reviewed WI-229 branch and clean worktree until the post-archive hosted checks pass, human review is complete, and the reviewed pull request is merged.",
+  "receiptId": "ai-cockpit-WI-229-governance-append-parity-recovery-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-229-governance-append-parity-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/178",
+    "worktree": "/private/tmp/ai-cockpit-wi229-governance-append-parity-recovery"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:23e9a9824f35b9e0d3706bdcbad34777bca5b0a4d362b4101407412a905dcb5b",
+  "runtimeVersion": "0.2.28",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-24T00:40:22Z",
+  "workItemId": "WI-229-governance-append-parity-recovery",
+  "worktree": {
+    "branch": "codex/wi-229-governance-append-parity-recovery",
+    "headRevision": "0dea7ed3bbdcec2f1d4624137c864ef7becb0e8b",
+    "path": "/private/tmp/ai-cockpit-wi229-governance-append-parity-recovery",
+    "worktreeId": "WI-229-governance-append-parity-recovery"
+  }
+}
