@@ -1,0 +1,65 @@
+{
+  "governanceAppendRevision": "6da9c6370112bb6c83f98b008f89a5abb57c969a",
+  "predecessorReceiptDigest": "sha256:e1fd0732e28dd407aea3add0a9fe2ad7a22421761be68b15d462b2ff295cf852",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "reviewed-pr-hosted-checks",
+    "before": {
+      "branch": "present",
+      "pullRequest": "unmerged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "6da9c6370112bb6c83f98b008f89a5abb57c969a",
+      "name": "codex/wi-235-governance-cleanup",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:dd2dcc92e27bf32e6a55dae309de4e1ac8baaee35a3cbcd4eed1238aebbf3d3e",
+    "operationId": "operation-WI-235-finalization-recovery-merged",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "93efb791c9133a2d6d47637003339e29cbc9f7fa",
+      "headRevision": "6da9c6370112bb6c83f98b008f89a5abb57c969a",
+      "mergeCommit": "e40eefaaa1e72d428fb243cdf1606cb0b306d8c4",
+      "number": 186,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/186"
+    },
+    "reason": "PR #186 merged after all hosted checks passed; retain the exact branch and worktree until the terminal cleanup transition is recorded.",
+    "receiptId": "ai-cockpit-WI-235-finalization-recovery-merged",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-235-governance-cleanup",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/186",
+      "worktree": "/private/tmp/ai-cockpit-wi235-governance-cleanup"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:94d8ee4e27023e1cb677486164af3e96633411105a4596140d4c0f4e64776137",
+    "runtimeVersion": "0.2.29",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-24T04:15:01Z",
+    "workItemId": "WI-235-finalization-recovery",
+    "worktree": {
+      "branch": "codex/wi-235-governance-cleanup",
+      "headRevision": "6da9c6370112bb6c83f98b008f89a5abb57c969a",
+      "path": "/private/tmp/ai-cockpit-wi235-governance-cleanup",
+      "worktreeId": "WI-235-finalization-recovery"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-235-finalization-recovery-merge"
+}
