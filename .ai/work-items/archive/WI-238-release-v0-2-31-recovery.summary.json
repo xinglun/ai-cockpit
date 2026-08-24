@@ -1,0 +1,47 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-24T05:46:10Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T05:45:32Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-238-release-v0-2-31-recovery.md",
+      ".ai/decisions/WI-237-release-route-recovery-v0-2-31.recovery.json",
+      ".ai/evidence/WI-238-release-v0-2-31-recovery.verification.json"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-08-24T05:55:35Z",
+  "preflightContractDigest": "sha256:c5e9e5e56519698f34ff622114f7f1b0c0f0f1ac00e3dcb182877e4db948b496",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:408fac9dc89adfc99a010a13303eb6080c7e65965438592af8472381f9f4e636",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/quality_route_test.py",
+        "tests/ci/release_gate_policy_test.sh",
+        ".ai/evidence/WI-238-release-v0-2-31-recovery.verification.json"
+      ],
+      "required": true,
+      "scenario": "release-route-no-active-work-item-directory",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate.py",
+        "tests/docs/documentation_acceptance.sh",
+        ".ai/evidence/WI-238-release-v0-2-31-recovery.verification.json"
+      ],
+      "required": true,
+      "scenario": "parity-evidence-before-finalization",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-24T05:55:57Z",
+  "workItemId": "WI-238-release-v0-2-31-recovery"
+}
