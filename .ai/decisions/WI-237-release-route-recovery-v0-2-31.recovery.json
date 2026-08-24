@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "immutable-premerge-finalization-recovery",
+  "decidedAt": "2026-08-24T05:48:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-237-release-route-recovery-v0-2-31.archive.json",
+    ".ai/evidence/WI-237-release-route-recovery-v0-2-31.verification.json",
+    ".ai/decisions/WI-237-release-route-recovery-v0-2-31.finalize.json",
+    "https://github.com/xinglun/ai-cockpit/pull/188"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:96568c5fc0765c5e1f02d7156e35f4b7f9f95581b58d4bf0016c02d8050657db",
+  "predecessorEventsDigest": "sha256:23015090cc22e28cc7e52f6518320c6cbc691507057515816f1f758e507aa8fe",
+  "predecessorOutcomeDigest": "sha256:b225293ea8bcccf9d4861eae0602c0b1d772e155d37464bd8d31162ded335ba7",
+  "predecessorSummaryDigest": "sha256:59866f53089f8e3690614e5f1b950fe11c0a6bdbc7ab0f286ddc60387b1c058b",
+  "predecessorWorkItemId": "WI-237-release-route-recovery-v0-2-31",
+  "reason": "WI-237 was archived with an immutable pre-merge finalization receipt before hosted quality exposed the missing parity evidence bindings. The bounded in-scope parity correction advanced the unmerged branch head after that receipt, so Runtime correctly rejects replay. Preserve WI-237 bytes and redeliver from the synchronized default branch through WI-238 with parity evidence complete before finalization.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Close PR #188 as superseded, remove its exact branch/worktree, then complete WI-238 from the synchronized default branch with parity evidence bound before finalization.",
+  "runtimeDigest": "sha256:94d8ee4e27023e1cb677486164af3e96633411105a4596140d4c0f4e64776137",
+  "runtimeVersion": "0.2.29",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-238-release-v0-2-31-recovery",
+  "workItemId": "WI-237-release-route-recovery-v0-2-31"
+}

@@ -1,0 +1,17 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-24T05:46:10Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T05:45:32Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-24T05:46:06Z",
+  "preflightContractDigest": "sha256:c9561702ba47c10c764bbacdd3de1ad046a60e008b50114b99d51dea5e0aa2c7",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:ef8a6dc5399c775896826f3cbb84a3c00ed2b098bf0fe094ef9db0171f1c90a7",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-24T05:46:10Z",
+  "workItemId": "WI-238-release-v0-2-31-recovery"
+}

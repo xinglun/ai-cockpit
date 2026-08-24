@@ -1,0 +1,75 @@
+{
+  "acceptanceCriteria": [
+    "Release quality planning succeeds when .ai/work-items/active is absent.",
+    "Regression coverage proves the clean no-active-directory boundary.",
+    "All three parity rows bind verification evidence and the pre-merge finalization receipt before hosted checks.",
+    "Public v0.2.31 is published only after hosted checks pass on the merged reviewed head.",
+    "A successor adopter acceptance uses only immutable public v0.2.31 artifacts and proves cleanup."
+  ],
+  "authority": "authorized",
+  "baseRevision": "35a75c89a1368908eec7ebb19ae14927e58976a5",
+  "createdAt": "2026-08-24T05:45:32Z",
+  "goal": "Repair the release workflow against an absent active Work Item directory, bind all tri-language parity evidence before finalization, publish v0.2.31 without rewriting the failed v0.2.30 tag, and complete public adopter acceptance.",
+  "intent": "Deliver v0.2.31 from a clean release Work Item after WI-237 was preserved as immutable history because post-finalization parity correction caused an unmerged head drift.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Do not rewrite or delete v0.2.30",
+    " do not mutate WI-237 archive bytes",
+    " do not modify root user files",
+    " do not claim v0.2.30 publication or acceptance."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ef8a6dc5399c775896826f3cbb84a3c00ed2b098bf0fe094ef9db0171f1c90a7",
+  "predecessorWorkItemId": "WI-237-release-route-recovery-v0-2-31",
+  "predecessorContractDigest": "sha256:96568c5fc0765c5e1f02d7156e35f4b7f9f95581b58d4bf0016c02d8050657db",
+  "recoveryDecisionPath": ".ai/decisions/WI-237-release-route-recovery-v0-2-31.recovery.json",
+  "requiredEvidenceClasses": [
+    "release_route_manifest",
+    "verification",
+    "resource_finalization"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi238-release-v0-2-31-recovery",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi238-release"
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "release-route-no-active-work-item-directory",
+      "required": true,
+      "status": "unverified",
+      "expected": "Release quality planning passes when .ai/work-items/active is absent.",
+      "verificationPlan": "Run the release quality route and its regression test from a clean repository with no active Work Item directory.",
+      "evidence": []
+    },
+    {
+      "scenario": "parity-evidence-before-finalization",
+      "required": true,
+      "status": "unverified",
+      "expected": "All three parity rows bind verification evidence and the pre-merge finalization receipt before hosted checks.",
+      "verificationPlan": "Run governance integrity and documentation parity gates after adding the evidence and finalization links, before recording the finalization receipt.",
+      "evidence": []
+    }
+  ],
+  "risk": "high",
+  "scope": [
+    ".github/workflows/release.yml",
+    "tests/ci",
+    "tests/release",
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release",
+    "docs/architecture",
+    "docs/reference",
+    "docs/work-items"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-238-release-v0-2-31-recovery"
+}
