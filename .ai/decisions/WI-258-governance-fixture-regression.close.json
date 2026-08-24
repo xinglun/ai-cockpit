@@ -1,0 +1,131 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-258-governance-fixture-regression.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:eacafbe65ed4632dbc6057b7a73121ec32039bd9d75046d8ec78fc717f6e5b09",
+      "workItemId": "WI-258-governance-fixture-regression"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-258-governance-fixture-regression.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-258-governance-fixture-regression.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-258-governance-fixture-regression.verification.json",
+            ".ai/decisions/WI-258-governance-fixture-regression.finalize.53077e737e2ce257045e0473bb6774e6b665f7a791a6ff5672e67ff70a4bd0d2.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'Reviewed PR #210 was merged; exact branch/worktree cleanup and finalization verification passed.' by human:repository-owner via explicit-user-authorization-and-reviewed-pr at 2026-08-24T23:46:24Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-258-governance-fixture-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-258-governance-fixture-regression.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-258-governance-fixture-regression.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-258-governance-fixture-regression.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-258-governance-fixture-regression.contract.json"
+          ],
+          "inference": false,
+          "text": "使所有治理 fixture 明确生成 schemaVersion=1 的空 pending parity registry，并让回归测试验证 registry 基线与合法/非法 pending 场景。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-258-governance-fixture-regression.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-258-governance-fixture-regression"
+  },
+  "finalReportDigest": "sha256:457aca0e185fe6d6747c812cd40eaaa3f13486eabf737e15e2adb50f78ebec57",
+  "humanDecision": "Reviewed PR #210 was merged; exact branch/worktree cleanup and finalization verification passed.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:5266c75ee750bf0fc5b815959dd89c36e3266a5f4c37927c4d278bee24d74ef4",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-258-governance-fixture-regression.finalize.53077e737e2ce257045e0473bb6774e6b665f7a791a6ff5672e67ff70a4bd0d2.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization-and-reviewed-pr",
+    "decidedAt": "2026-08-24T23:46:24Z",
+    "decision": "Reviewed PR #210 was merged; exact branch/worktree cleanup and finalization verification passed.",
+    "evidenceRefs": [
+      ".ai/evidence/WI-258-governance-fixture-regression.verification.json",
+      ".ai/decisions/WI-258-governance-fixture-regression.finalize.53077e737e2ce257045e0473bb6774e6b665f7a791a6ff5672e67ff70a4bd0d2.json"
+    ],
+    "policyRefs": [
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "The governance fixture regression and WI-255 documentation promotion passed local and hosted checks; the merged PR is finalized and the exact feature branch/worktree were removed.",
+    "resumeCondition": "If hosted or post-merge evidence is later found invalid, open a bounded successor Work Item without rewriting these immutable records."
+  },
+  "timestamp": "2026-08-24T23:46:24Z",
+  "workItemId": "WI-258-governance-fixture-regression"
+}
