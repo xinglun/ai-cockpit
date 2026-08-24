@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-WI-249-successor-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "0168c76a037a079383359a7ef685fd950f8d8f3a",
+    "name": "codex/wi-249-parity-finalization-registration",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:02dab906ee0dd94501d531b0116a54f37992e8ba2547b2182439cacce5af6967",
+  "operationId": "operation-WI-249-parity-finalization-registration-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "381e9e5e5cccf6234a0ad88cb1e17c6d7c5f4d0b",
+    "headRevision": "0168c76a037a079383359a7ef685fd950f8d8f3a",
+    "number": 199,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/199"
+  },
+  "reason": "awaiting_merge_close: PR #199 is open and the exact reviewed branch and worktree must be retained",
+  "receiptId": "ai-cockpit-WI-249-parity-finalization-registration-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-249-parity-finalization-registration",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/199",
+    "worktree": "/private/tmp/ai-cockpit-wi249-parity-finalization-registration"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-24T11:39:56Z",
+  "workItemId": "WI-249-parity-finalization-registration",
+  "worktree": {
+    "branch": "codex/wi-249-parity-finalization-registration",
+    "headRevision": "0168c76a037a079383359a7ef685fd950f8d8f3a",
+    "path": "/private/tmp/ai-cockpit-wi249-parity-finalization-registration",
+    "worktreeId": "WI-249-parity-finalization-registration"
+  }
+}
