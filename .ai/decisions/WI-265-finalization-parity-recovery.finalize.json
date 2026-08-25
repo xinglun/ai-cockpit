@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-pre-merge-finalization-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "f9241b6eb801ee0f102959a7575d65a097df448c",
+    "name": "codex/wi-265-finalization-parity",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:85c709e21de8b83c63c4424ab1a3490550a507a82741f0f8b978ffd9228a4899",
+  "operationId": "operation-WI-265-finalization-parity-recovery-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "47c9dd8e7107526f280274a92ccc7399493125cb",
+    "headRevision": "f9241b6eb801ee0f102959a7575d65a097df448c",
+    "number": 217,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/217"
+  },
+  "reason": "PR #217 is the reviewed successor candidate but remains unmerged; retain the exact branch and clean worktree until hosted checks pass, human review completes, and the reviewed PR is merged.",
+  "receiptId": "ai-cockpit-WI-265-finalization-parity-recovery-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-265-finalization-parity",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/217",
+    "worktree": "/private/tmp/ai-cockpit-wi265-finalization-parity"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-25T03:10:00Z",
+  "workItemId": "WI-265-finalization-parity-recovery",
+  "worktree": {
+    "branch": "codex/wi-265-finalization-parity",
+    "headRevision": "f9241b6eb801ee0f102959a7575d65a097df448c",
+    "path": "/private/tmp/ai-cockpit-wi265-finalization-parity",
+    "worktreeId": "WI-265-finalization-parity-recovery"
+  }
+}
