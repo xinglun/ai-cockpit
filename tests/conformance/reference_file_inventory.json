@@ -33142,10 +33142,16 @@
     },
     {
       "referencePath": "scripts/ai_check_agent_risk.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-272-reference-agent-rule-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/governance_controls.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/contract_preflight.rs",
+        "crates/cockpit-repository/tests/preflight_review.rs"
+      ],
+      "reason": "The reference Python risk gate is mapped to typed Contract, preflight, checkpoint, scenario, and lifecycle validators in Rust; the Python module is intentionally not copied."
     },
     {
       "referencePath": "scripts/ai_check_archive_recovery.py",
@@ -34579,10 +34585,17 @@
     },
     {
       "referencePath": "templates/agents/AI_COCKPIT_RULES.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-272-reference-agent-rule-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "AGENTS.md",
+        ".ai/README.md",
+        "crates/cockpit-agent/src/lib.rs",
+        "docs/reference/agent-workflow.md",
+        "docs/reference/agent-workflow.zh-CN.md",
+        "docs/reference/agent-workflow.ja.md"
+      ],
+      "reason": "The reference Agent rules are projected into repository-local instructions and the generated Rust adapter; template prompt files and provider-global configuration are not copied."
     },
     {
       "referencePath": "templates/glossary.md",
@@ -34813,10 +34826,16 @@
     },
     {
       "referencePath": "tests/test_ai_check_agent_risk.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-272-reference-agent-rule-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-agent/tests/install.rs",
+        "crates/cockpit-repository/tests/contract_preflight.rs",
+        "crates/cockpit-repository/tests/preflight_review.rs",
+        "crates/cockpit-repository/tests/lifecycle_order.rs",
+        "crates/cockpit-cli/tests/lifecycle.rs"
+      ],
+      "reason": "Rust regression tests cover the typed Contract, human review, lifecycle ordering, and generated adapter boundaries represented by the reference Python test corpus."
     },
     {
       "referencePath": "tests/test_ai_check_archive_recovery.py",
@@ -35763,10 +35782,17 @@
     },
     {
       "referencePath": "tests/test_outcome_lifecycle_rules.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-272-reference-agent-rule-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "AGENTS.md",
+        ".ai/README.md",
+        "crates/cockpit-agent/tests/install.rs",
+        "docs/reference/agent-workflow.md",
+        "docs/reference/agent-workflow.zh-CN.md",
+        "docs/reference/agent-workflow.ja.md"
+      ],
+      "reason": "Outcome terminality, direct human handoff, current-Work-Item repair, and narrow successor rules are enforced by Rust-native instructions and adapter regression tests rather than copied reference Python tests."
     },
     {
       "referencePath": "tests/test_ownership.py",

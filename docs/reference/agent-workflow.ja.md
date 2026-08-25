@@ -23,6 +23,13 @@ capabilityClaims:
 
 - repository が検出した remote の default branch の最新 commit から開始し、
   remote、default branch、base revision を Work Item Contract に記録します。
+- 正規の delivery 順序は latest remote default base → 専用 branch/worktree →
+  implement → finish/archive → push → reviewed PR → merge → close → synchronize
+  and clean です。PR review 前に feature branch を local `main` へ merge せず、merge
+  前に branch を削除せず、provider の自動削除で finalization を迂回しません。remote
+  step が失敗したら retry checkout と identity を保持します。reviewed merge、default
+  branch 同期、正確な cleanup が完了して初めて `ready_on_base` であり、detached
+  worktree は ready ではありません。
 - Work Item ごとに一つの Contract、専用 branch/worktree、一つの PR を使います。
   scope、evidence ownership、repository context、serialized projection が分離し、
   Runtime が compatible と判定した独立 Work Item だけを並行できます。
@@ -60,6 +67,11 @@ capabilityClaims:
   `finish` は永続化済みの赤/黄 Outcome を出力した後も元の nonzero failure を返します。
   CLI は host の会話 panel を強制展開できないため、host は stderr を提示するか
   `work-item outcome` を再生する必要があります。
+- Rust の green terminal は reference の `status=completed` と
+  `humanStatusColor=green` に相当し、さらに `state=Verified`、`decisionState=green`、
+  current binding、直接の human-visible delivery を要求します。handoff には issue
+  count、blocker/停止理由、解決済み issue、risk、verification、impact、next action を
+  含めます。事実には evidence を付け、根拠のない benefit は inference と明示します。
 - 問題が現在の Work Item の範囲内なら、その Contract を amend/revalidate して
   現在の Work Item で修正します。scope、authority、base が本当に異なる場合、
   独立変更の場合、安全な in-scope 修正が不可能な場合、失敗した delivery の再実施、

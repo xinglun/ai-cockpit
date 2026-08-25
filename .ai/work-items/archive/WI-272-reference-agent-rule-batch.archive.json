@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-25T07:30:45Z",
+  "files": {
+    "contractDigest": "sha256:53f128aa21385ec268781164cc5358db82ac583f4ca56e649cc1f87a7792768b",
+    "contractPath": ".ai/work-items/archive/WI-272-reference-agent-rule-batch.contract.json",
+    "eventsDigest": "sha256:d87435af2676f1f4b9ccd177e774018de0fcd557e967f47994c3068451c7f980",
+    "eventsPath": ".ai/work-items/archive/WI-272-reference-agent-rule-batch.events.jsonl",
+    "outcomeDigest": "sha256:4661985b4bd40ec87ace023128f87eea69cffa92350ea4f7040ba5325b8e1c29",
+    "outcomePath": ".ai/work-items/archive/WI-272-reference-agent-rule-batch.outcome.json",
+    "summaryDigest": "sha256:bccfbf9b7fff89642080de24f0f5b9655dd624fcb31f594d936e1006e04373e9",
+    "summaryPath": ".ai/work-items/archive/WI-272-reference-agent-rule-batch.summary.json",
+    "taskReportDigest": "sha256:fbe83d38ab00fed0f2467131210a73b188164dff408440f1e64fb0a332b952c8",
+    "taskReportMarkdownDigest": "sha256:a0fc053e7a9b4aefdb8350ac23046d8f5488ea914393064432a3b1cda593321c",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-272-reference-agent-rule-batch.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-272-reference-agent-rule-batch.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-272-reference-agent-rule-batch"
+}

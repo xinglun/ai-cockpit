@@ -22,6 +22,12 @@ Rust Runtime 与本仓库的 Protocol 词汇。
 
 - 从仓库发现的远端 default branch 最新提交开始工作，并在 Work Item
   Contract 中记录 remote、default branch 和 base revision。
+- 标准交付顺序是：远端 default base 最新提交 → 专用 branch/worktree → 实现 →
+  finish/archive → push → reviewed PR → merge → close → 同步并清理。不得在 PR
+  review 前把 feature branch 合并到本地 `main`，不得提前删除 branch，也不得让
+  provider 自动删除 branch 以绕过 finalization。远端步骤失败时必须保留 retry
+  checkout 与 identity；只有 reviewed merge、default branch 同步和精确清理完成后
+  才是 `ready_on_base`，detached worktree 不算 ready。
 - 每个 Work Item 使用一个 Contract、一个专用 branch/worktree 和一个 PR。
   只有 scope、evidence ownership、repository context 与串行投影均隔离且
   Runtime 判定兼容时，独立 Work Item 才能并行。
@@ -56,6 +62,11 @@ Rust Runtime 与本仓库的 Protocol 词汇。
   交付该 handoff；`--json` 是机器专用形式。被阻止的 `finish` 输出已持久化的
   红/黄 Outcome 后仍返回原有 nonzero 失败。CLI 无法强制宿主展开对话面板，
   因此宿主必须展示 stderr 或重放 `work-item outcome`。
+- Rust 的绿色终态对应参考源的 `status=completed` 加
+  `humanStatusColor=green`，并且还要求 `state=Verified`、`decisionState=green`、
+  当前 Contract/Summary/evidence 绑定和直接面向人的交付。交接内容要说明问题数、
+  阻断问题或停止原因、已解决问题、风险、verification、影响和下一步；事实必须有
+  evidence，未经证明的收益必须标记为 inference。
 - 发现属于当前 Work Item 的问题时，先修复并 amend/revalidate 当前 Contract。
   只有 scope、authority 或 base 真正不同、变更独立、无法安全在当前范围修复、
   失败交付必须重新交付，或人明确指示时，才创建 successor。

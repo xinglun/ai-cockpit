@@ -24,6 +24,13 @@ the installed Rust Runtime and this repository's Protocol vocabulary.
 - Start from the latest commit on the repository's discovered remote default
   branch. Record the remote, default branch, and base revision in the Work Item
   Contract.
+- The canonical delivery order is latest remote default base → dedicated
+  branch/worktree → implement → finish/archive → push → reviewed PR → merge →
+  close → synchronize and clean. Never pre-merge a feature branch into local
+  `main`, delete its branch before merge, or let a provider auto-delete it to
+  bypass finalization. A failed remote step preserves the retry checkout and
+  identity; `ready_on_base` is true only after reviewed merge, synchronized
+  default branch, and exact cleanup, not for a detached worktree.
 - Use one Contract, one dedicated branch/worktree, and one PR per Work Item.
   Compatible independent Work Items may run concurrently when scope, evidence
   ownership, repository context, and serialized projections are isolated.
@@ -77,6 +84,12 @@ the installed Rust Runtime and this repository's Protocol vocabulary.
   blocked `finish` emits its persisted red/yellow Outcome and still returns the
   original nonzero failure. Because the CLI cannot force a host conversation
   panel to expand, hosts must surface stderr or replay `work-item outcome`.
+- A green Rust terminal is the reference equivalent of `status=completed` plus
+  `humanStatusColor=green`; it additionally requires `state=Verified`,
+  `decisionState=green`, current bindings, and direct human-visible delivery.
+  The handoff reports issue count, blockers or stopping reason, resolved issues,
+  risks, verification, impact, and next action. Facts require evidence and
+  unsupported benefits are explicitly an inference.
 - Resolve an in-scope defect in the current Work Item by amending and
   revalidating its Contract. Create a successor only when scope, authority, or
   base genuinely differs, the change is independent, safe in-scope repair is

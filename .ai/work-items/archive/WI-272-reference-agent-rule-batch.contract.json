@@ -1,0 +1,122 @@
+{
+  "acceptanceCriteria": [
+    "A1: Reference AI_COCKPIT_RULES terminality and in-Work-Item repair boundaries are explicitly represented in current repository instructions and native adapter guidance.",
+    "A2: Generated Agent adapter content contains the explicit Outcome terminality, human-visible handoff, and narrow successor/in-scope correction rules, with regression tests.",
+    "A3: Deferred reference Agent/rules files are classified with exact Rust counterparts and a reason; no equivalence or omission is claimed without evidence.",
+    "A4: English, Simplified Chinese, and Japanese documentation state the native Rust mapping and preserved boundaries without copying Python/Make implementation.",
+    "A5: Focused tests, inventory/parity/documentation gates, and full required quality checks pass; no generated status or historical evidence is hand-edited."
+  ],
+  "authority": "authorized",
+  "baseRevision": "5c2eeb8c6d4cc434bc4b1805731576382714403d",
+  "createdAt": "2026-08-25T07:03:11Z",
+  "goal": "Make the Rust repository inherit the reference Agent rule boundaries through explicit repository-local instructions, generated adapters, typed Runtime behavior, tests, and tri-language parity evidence.",
+  "intent": "Compare the reference Agent/rules surfaces file by file and close any missing repository-local Agent guidance or native Runtime enforcement without copying template Python or Make implementation.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Copying reference Python modules",
+    " Make commands",
+    " V1 runtime or template installers into Rust",
+    "Global Agent/MCP configuration",
+    " unrelated CI workflow comparison",
+    " and Runtime lib.rs architecture cleanup",
+    "Rewriting immutable predecessor Work Item evidence or changing business behavior outside Agent discovery and rule projection"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:75516bf1c87f837a61b51b0fc9d5eb524d52626c252e6791fab01bb05b9e5e48",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation_parity",
+    "repository_gate",
+    "reference_comparison",
+    "agent_adapter"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-272-reference-agent-rule-batch",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/227",
+    "worktree": "/private/tmp/ai-cockpit-wi272-clean"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The reference Agent rule surfaces are compared file by file and each deferred rule file is mapped to an explicit Rust instruction, adapter, test, or documented non-portability boundary.",
+      "required": true,
+      "scenario": "reference_agent_rule_projection",
+      "status": "unverified",
+      "verificationPlan": "Compare the four reference Agent/rules files, run adapter and inventory/parity/documentation tests, and inspect the resulting Rust projection."
+    },
+    {
+      "evidence": [],
+      "expected": "A generated Agent adapter requires a direct human Outcome handoff and repairs in-scope defects in the current Work Item before a narrow successor is created.",
+      "required": true,
+      "scenario": "visible_outcome_and_repair_boundary",
+      "status": "unverified",
+      "verificationPlan": "Run the cockpit-agent install regression and tri-language documentation/parity gates."
+    }
+  ],
+  "scope": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "crates/cockpit-agent/src/lib.rs",
+    "crates/cockpit-agent/tests/install.rs",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-272-reference-agent-rule-batch.md",
+    "docs/work-items/WI-272-reference-agent-rule-batch.zh-CN.md",
+    "docs/work-items/WI-272-reference-agent-rule-batch.ja.md",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory_test.sh",
+    ".ai/work-items/active/**",
+    ".ai/work-items/archive/**",
+    ".ai/evidence/**",
+    ".ai/decisions/**"
+  ],
+  "sources": [
+    {
+      "path": "reference:templates/agents/AI_COCKPIT_RULES.md",
+      "reason": "normative Agent lifecycle and Outcome boundaries"
+    },
+    {
+      "path": "reference:scripts/ai_check_agent_risk.py",
+      "reason": "reference risk-gate behavior to map natively without copying Python"
+    },
+    {
+      "path": "reference:tests/test_ai_check_agent_risk.py",
+      "reason": "reference risk-gate regression corpus"
+    },
+    {
+      "path": "reference:tests/test_outcome_lifecycle_rules.py",
+      "reason": "reference Agent rule and visible Outcome regression corpus"
+    }
+  ],
+  "state": "implementation_active",
+  "verification": [
+    {
+      "check": "cargo test --locked -p cockpit-agent --all-targets",
+      "required": true
+    },
+    {
+      "check": "bash tests/conformance/reference_file_inventory_test.sh",
+      "required": true
+    },
+    {
+      "check": "bash tests/docs/parity_status_check_test.sh",
+      "required": true
+    },
+    {
+      "check": "bash tests/docs/documentation_acceptance.sh",
+      "required": true
+    }
+  ],
+  "workItemId": "WI-272-reference-agent-rule-batch"
+}

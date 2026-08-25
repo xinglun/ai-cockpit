@@ -72,6 +72,13 @@ fn install_creates_only_owned_managed_section() {
     assert!(content.contains(
         "start or work-item new → preflight → checkpoint → verify → finish → archive → close."
     ));
+    assert!(content.contains("latest remote default base → dedicated branch/worktree"));
+    assert!(content.contains("Never merge a feature branch into local main before PR review"));
+    assert!(content.contains("preserve the retry checkout and identity"));
+    assert!(content.contains("status=completed plus humanStatusColor=green"));
+    assert!(content.contains("current Work Item"));
+    assert!(content.contains("before opening another Work Item or Issue"));
+    assert!(content.contains("genuinely different scope, authority, or base"));
     assert!(content.contains("AI_COCKPIT_ADAPTER_END"));
     assert_eq!(
         fs::read(repository.path().join(".ai/cockpit.toml")).expect("config"),

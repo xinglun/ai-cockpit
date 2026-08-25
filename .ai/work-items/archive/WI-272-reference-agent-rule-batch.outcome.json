@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "A1: Reference AI_COCKPIT_RULES terminality and in-Work-Item repair boundaries are explicitly represented in current repository instructions and native adapter guidance.",
+    "A2: Generated Agent adapter content contains the explicit Outcome terminality, human-visible handoff, and narrow successor/in-scope correction rules, with regression tests.",
+    "A3: Deferred reference Agent/rules files are classified with exact Rust counterparts and a reason; no equivalence or omission is claimed without evidence.",
+    "A4: English, Simplified Chinese, and Japanese documentation state the native Rust mapping and preserved boundaries without copying Python/Make implementation.",
+    "A5: Focused tests, inventory/parity/documentation gates, and full required quality checks pass; no generated status or historical evidence is hand-edited."
+  ],
+  "createdAt": "2026-08-25T07:30:40Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:7d26c05a01696ca61e49e92486cdd2e570f2f609c7a35fdce45d4858b5fca902",
+  "evidenceRefs": [
+    ".ai/evidence/WI-272-reference-agent-rule-batch.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-272-reference-agent-rule-batch.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-272-reference-agent-rule-batch.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ffd348fbc5d2aea4ad2d19d62745ffac10767c69da3567db3437cc942701d381",
+      "workItemId": "WI-272-reference-agent-rule-batch"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-272-reference-agent-rule-batch.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-272-reference-agent-rule-batch.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-272-reference-agent-rule-batch.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-272-reference-agent-rule-batch.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-272-reference-agent-rule-batch.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-272-reference-agent-rule-batch.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-272-reference-agent-rule-batch.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the Rust repository inherit the reference Agent rule boundaries through explicit repository-local instructions, generated adapters, typed Runtime behavior, tests, and tri-language parity evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-272-reference-agent-rule-batch.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-272-reference-agent-rule-batch"
+  },
+  "taskReportDigest": "sha256:fbe83d38ab00fed0f2467131210a73b188164dff408440f1e64fb0a332b952c8",
+  "taskReportMarkdownDigest": "sha256:a0fc053e7a9b4aefdb8350ac23046d8f5488ea914393064432a3b1cda593321c",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-272-reference-agent-rule-batch.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-272-reference-agent-rule-batch"
+}

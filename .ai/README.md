@@ -26,6 +26,15 @@ The Runtime has no global active Work Item, current repository, or project
 profile. Repository Protocol, Contract, evidence, knowledge, and adapter
 ownership records remain isolated under this repository's `.ai/`.
 
+The canonical delivery order is latest remote default base → dedicated
+branch/worktree → implement → finish/archive → push → reviewed PR → merge →
+close → synchronize and clean. Do not pre-merge a feature branch into local
+`main`, delete its branch before merge, or let a provider auto-delete it to
+bypass finalization. If a remote step fails, preserve the retry checkout and
+identity. A repository is `ready_on_base` only after merge, default-branch
+synchronization, and exact cleanup are verified; a detached worktree is not a
+ready base.
+
 ## Evidence discipline
 
 Do not claim `green`, `passed`, `approved`, `verified`, or `completed` from this
@@ -46,6 +55,15 @@ The visible human Outcome is a terminal handoff. It must retain its
 `Outcome: 🟢`, `Outcome: 🟡`, or `Outcome: 🔴` marker, unknowns, evidence,
 decision, and next action. A missing, folded-only, stale, contradictory, or
 malformed Outcome does not authorize finish, archive, merge, close, or release.
+The green Rust terminal corresponds to the reference's `status=completed` plus
+`humanStatusColor=green`: it requires `state=Verified`, `decisionState=green`,
+current Contract/Summary/evidence bindings, and direct human-visible delivery.
+The handoff includes issue count, blockers or stopping reason, resolved issues,
+risks, verification, impact, and next action; unsupported benefits are marked
+as inference. Repair an in-scope defect in the current Work Item before opening
+another Work Item or Issue; a successor needs a genuinely different scope,
+authority, or base, an independent change, an unsafe repair, immutable failed
+delivery, or explicit human direction.
 When a defect remains within the current Contract's scope, authority, and base,
 amend and revalidate that Contract before creating a successor. Independent
 Work Items may run concurrently only with isolated scopes, worktrees, evidence
