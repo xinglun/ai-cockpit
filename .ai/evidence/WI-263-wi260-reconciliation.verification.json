@@ -1,6 +1,6 @@
 {
   "captureMode": "full_capture",
-  "createdAt": "2026-08-25T02:12:20Z",
+  "createdAt": "2026-08-25T02:14:18Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -8,8 +8,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 14627,
-      "executionElapsedMs": 14459,
+      "elapsedMs": 13949,
+      "executionElapsedMs": 13797,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -24,10 +24,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 14627,
-    "executionElapsedMs": 14459,
-    "filesHashed": 23,
-    "filesRead": 23,
+    "elapsedMs": 13949,
+    "executionElapsedMs": 13797,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -35,17 +35,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/reference/reference-parity.ja.md",
-        "docs/reference/reference-parity.md",
-        "docs/reference/reference-parity.zh-CN.md",
-        "docs/work-items/WI-260-recovery-gate.ja.md",
-        "docs/work-items/WI-260-recovery-gate.md",
-        "docs/work-items/WI-260-recovery-gate.zh-CN.md",
-        "docs/work-items/WI-263-wi260-reconciliation.ja.md",
-        "docs/work-items/WI-263-wi260-reconciliation.md",
-        "docs/work-items/WI-263-wi260-reconciliation.zh-CN.md"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "5e426413f08ed54fe54029e0b910056aa4dceba2",
       "dependencyConfidence": "unknown",
@@ -53,13 +43,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 14459,
+      "executionElapsedMs": 13797,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:5f00aa6e97c945586e91bc4eff7dbd1c8763de215b53f57159c43687bb553af2",
+      "repositorySnapshotDigest": "sha256:3693033fe48b58af910cfaa9f381b1158711962ce3c5222f9dd280dd3a9c018b",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -85,7 +75,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:56595f9cba39019dda4bacf4e7f18e541962301ece1ecfe36ce0d73dbb5078ef",
+        "outputDigest": "sha256:6278077cabd014c5db25417c90781d44cff9f10c3c78135e5872df8ef9d59626",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -101,9 +91,9 @@
     "runtimeVersion": "0.2.31",
     "workItemId": "WI-263-wi260-reconciliation"
   },
-  "receiptDigest": "sha256:a451225be0193c59fb271ee3489165205c30228d8cead374dbf6542a4de910c0",
+  "receiptDigest": "sha256:26866d47e2430ae043807f0a39a81b51566639ddeabb10f9f6906a4b4c4d1244",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:5f00aa6e97c945586e91bc4eff7dbd1c8763de215b53f57159c43687bb553af2",
+  "repositorySnapshotDigest": "sha256:3693033fe48b58af910cfaa9f381b1158711962ce3c5222f9dd280dd3a9c018b",
   "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
   "runtimeVersion": "0.2.31",
   "workItemId": "WI-263-wi260-reconciliation"
