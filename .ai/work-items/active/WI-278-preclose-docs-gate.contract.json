@@ -1,0 +1,65 @@
+{
+  "acceptanceCriteria": [
+    "Parity/documentation-owned active Work Items require regular non-symlink docs/work-items/<WI>.md, <WI>.ja.md, and <WI>.zh-CN.md before verification/archive/close.",
+    "Current archived parity Work Items with a missing, malformed, or symlinked tri-language Work Item document fail the same static gate.",
+    "Current-cycle parity debts discovered by the new gate are repaired with truthful tri-language projections without rewriting generated .ai history.",
+    "Ordinary non-parity code Work Items remain active_non_parity and do not acquire a documentation requirement.",
+    "Regression tests cover missing, partial, symlinked, and valid tri-language projections with deterministic finding codes.",
+    "The English, Japanese, and Chinese governance documentation state the dynamic policy and object/adopter inheritance boundary."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "0125cd4a95e2954d0671c29b6eef9758b45651f9",
+  "createdAt": "2026-08-25T13:28:29Z",
+  "goal": "Make the CI governance gate fail closed before pre-close lifecycle progression when a parity-owned Work Item is missing or symlinked in any of its English, Japanese, or Simplified Chinese docs; repair current-cycle omissions exposed by the gate; add deterministic regression coverage and document the dynamic policy.",
+  "intent": "Prevent parity/documentation Work Items from reaching verification or closure without the required tri-language Work Item document projections, while preserving a lightweight path for ordinary code Work Items.",
+  "mode": "code",
+  "outOfScope": [
+    "Rust Runtime semantics",
+    " adopter capability semantics",
+    " reference inventory semantics",
+    " generated historical .ai records",
+    " global Agent or MCP configuration",
+    " architecture cleanup",
+    " ordinary non-parity Work Item documentation requirements"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0d064d3f36c645ada1db3450aa9a75302c5e928dea57e9d02d418391b76692d5",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-278-preclose-docs-gate",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi278-docs-gate"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "tests/ci/fixtures/governance-integrity/build_fixture.py",
+    "tests/docs/parity_status_check.sh",
+    "docs/reference/governance-integrity-gate.md",
+    "docs/reference/governance-integrity-gate.ja.md",
+    "docs/reference/governance-integrity-gate.zh-CN.md",
+    "docs/work-items/WI-243-finalization-reason-policy.md",
+    "docs/work-items/WI-243-finalization-reason-policy.ja.md",
+    "docs/work-items/WI-243-finalization-reason-policy.zh-CN.md",
+    "docs/work-items/WI-276-capability-profile-projection.md",
+    "docs/work-items/WI-276-capability-profile-projection.ja.md",
+    "docs/work-items/WI-276-capability-profile-projection.zh-CN.md",
+    "docs/work-items/WI-278-preclose-docs-gate.md",
+    "docs/work-items/WI-278-preclose-docs-gate.ja.md",
+    "docs/work-items/WI-278-preclose-docs-gate.zh-CN.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-278-preclose-docs-gate"
+}

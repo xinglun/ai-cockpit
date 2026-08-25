@@ -52,6 +52,23 @@ repository-level governance append used to keep a closed Work Item visible
 while its three-language parity row is being completed. Code, tests, unrelated
 evidence, or other repository changes force a fresh receipt and fail closed.
 
+## Dynamic Work Item document projection
+
+When a current Work Item declares `docs/reference/reference-parity*` or parity
+registration in its Contract or active Summary, it is a parity/documentation
+Work Item. The light gate then requires regular, non-symlink projections at
+`docs/work-items/<WI>.md`, `docs/work-items/<WI>.ja.md`, and
+`docs/work-items/<WI>.zh-CN.md` before verification, archive, or close. The
+projection must have valid frontmatter and bind its `workItemId`; it does not
+rewrite generated `.ai` history.
+
+The same check applies to current-cycle archived parity Work Items. Missing,
+malformed, foreign, or symlinked documents fail closed. Ordinary code Work
+Items remain `active_non_parity` and are not forced to create documentation.
+The policy is dynamic and is inherited by adopter repositories through their
+repository-bound gate, so an adopter receives the same boundary without
+copying the Rust Runtime.
+
 The gate does not choose verification tier or assurance. Risk/stage/policy
 selection and reference-source file-by-file conformance are separate
 verification boundaries and must not be inferred from this inventory.

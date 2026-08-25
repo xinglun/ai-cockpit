@@ -50,6 +50,20 @@ fail-closed とします。pending parity registry は、三言語 parity row �
 Work Item を可視のままにするための、明示的に許可された repository-level governance append
 です。
 
+## 動的な Work Item 文書 projection
+
+Contract または active Summary が `docs/reference/reference-parity*` または parity
+registration を明示的に所有する current Work Item は parity/documentation Work Item です。
+light gate は verification、archive、close の前に `docs/work-items/<WI>.md`、
+`docs/work-items/<WI>.ja.md`、`docs/work-items/<WI>.zh-CN.md` の三つを regular な
+non-symlink projection として要求します。frontmatter は有効で `workItemId` を束縛しなければ
+ならず、生成済み `.ai` history は書き換えません。
+
+同じ検査は current-cycle の archived parity Work Item にも適用されます。欠落、malformed、
+foreign、symlink の文書は fail-closed です。通常の code Work Item は `active_non_parity` のまま
+で、文書作成を強制されません。この方針は動的で、repository-bound gate を通じて adopter
+repository にも継承されます。Rust Runtime のコピーは不要です。
+
 この gate は verification tier や assurance を選択しません。risk/stage/policy による
 選択と reference source の逐文件 conformance は別の検証境界であり、この inventory から
 推測してはなりません。
