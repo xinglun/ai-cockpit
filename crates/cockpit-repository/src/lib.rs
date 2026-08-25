@@ -6300,7 +6300,11 @@ pub fn snapshot_digest(snapshot: &RepositorySnapshot) -> Result<Digest, Observer
     stable
         .change_evidence
         .retain(|change| !change.path.starts_with(".ai/"));
-    cockpit_protocol::digest_json(&stable).map_err(|error| ObserverError::State {
+    cockpit_protocol::digest_json(&serde_json::json!({
+        "repositoryId": repository_id(&snapshot.root),
+        "sourceSnapshot": stable,
+    }))
+    .map_err(|error| ObserverError::State {
         path: snapshot.root.join(".ai"),
         message: error.to_string(),
     })

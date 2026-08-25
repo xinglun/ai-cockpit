@@ -54,7 +54,7 @@ workflow matrix, dependency planner, or release-preflight sequence.
 
 ## Source-oriented snapshot identity
 
-The repository snapshot identity is source-oriented: the tracked source tree
+The repository snapshot identity is source-oriented and repository-bound: the tracked source tree
 and non-`.ai` working-tree facts are bound, while Git `HEAD`, absolute
 worktree paths, and governance-only `.ai/` commits are excluded. This allows a
 verified receipt to survive the normal commit of its Contract, Summary, and

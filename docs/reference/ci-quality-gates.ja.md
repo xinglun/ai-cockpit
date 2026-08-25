@@ -51,7 +51,7 @@ intent/scenario/operation/stage route、Agent-Risk/preflight 投影を検証し�
 
 ## ソース中心のスナップショット識別子
 
-リポジトリ・スナップショットの識別子はソース中心である。追跡対象のソースツリーと
+リポジトリ・スナップショットの識別子はソース中心かつ Repository Context に束縛される。追跡対象のソースツリーと
 `.ai` 以外のワークツリー事実を束縛し、Git の `HEAD`、絶対パス、ガバナンス専用の
 `.ai/` コミットは除外する。これにより、検証後に Contract、Summary、Outcome の記録を
 通常どおりコミットしても証拠は stale にならず、ソース変更による古い証拠の再利用は
