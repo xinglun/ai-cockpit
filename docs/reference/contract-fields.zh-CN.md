@@ -78,3 +78,17 @@ Runtime 保留 Contract 原文语言，不机器翻译治理事实。Outcome 的
 缺失、过期、矛盾、格式错误或 identity 不匹配的字段，按适用 gate 保持 yellow 或 red，不能通过文档 projection 变成 green。
 
 参见[参考源对齐](reference-parity.zh-CN.md)和[命令参考](commands.zh-CN.md)。
+
+## Contract 审查边界
+
+当前 Rust 边界会在治理评估前校验可选的 `scenarioCoverage` 列表结构。
+每个条目必须声明 `scenario`、布尔值 `required`、受支持的状态和 evidence
+列表；`verified` 条目必须有 evidence，`not_applicable` 条目必须有 reason，
+重复名称或未知嵌套字段会 fail closed。这只是结构校验：是否要求场景由风险
+策略决定，Runtime 不会替人生成场景、预期结果或 verification plan。
+
+`acceptanceCriteria` 必须是非空的人类声明。带编号的 `A<n>:` 条目仍是
+Summary evidence 映射的显式选择；未编号条目仍作为可读的 legacy/源语言声明
+保留。`concurrencyBoundary` 同样会校验 schema、正容量和非空理由，然后才能
+使用并行 slot。这些检查不会把 verification tier 变成 assurance，也不会把
+slot 声明变成授权决定。

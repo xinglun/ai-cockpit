@@ -1,0 +1,25 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "archive-snapshot-drift-successor",
+  "decidedAt": "2026-08-26T01:46:00+09:00",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-280-reference-contract-semantics-successor.verification.json",
+    ".ai/decisions/WI-280-reference-contract-semantics-successor.recovery.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:3d0380b2cc7057e8ba7c72374985f40c7555ad1ad1672feea91f7909566b6684",
+  "predecessorEventsDigest": "sha256:83b1fa8f67a897f25542ab41047063ac5ea31b59581e50890b7f9e328610da00",
+  "predecessorOutcomeDigest": "sha256:396e4719412ccf2eb8b6439c9de300a7289d4db425c7df15db7dbcb6e413a1d7",
+  "predecessorSummaryDigest": "sha256:c5b2aa0c1bec5a60871680f6b1b2af08f754183720ad42b3db5128c362e6e8b3",
+  "predecessorWorkItemId": "WI-280-reference-contract-semantics-successor",
+  "reason": "Supersede immutable WI-280 after creating explicit WI-282 successor; preserve WI-280 archive/evidence/finalization history and continue the bounded Contract-semantics batch on the current repository snapshot.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "WI-282 must complete the full lifecycle and reviewed PR before this reference-parity batch is accepted.",
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-282-reference-contract-semantics-recovery",
+  "workItemId": "WI-280-reference-contract-semantics-successor"
+}

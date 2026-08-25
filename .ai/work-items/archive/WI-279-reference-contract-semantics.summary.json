@@ -1,0 +1,23 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-279-reference-contract-semantics.contract.json",
+    ".ai/work-items/active/WI-279-reference-contract-semantics.summary.json"
+  ],
+  "checkpointAt": "2026-08-25T15:33:16Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T15:14:54Z",
+  "failedGate": "finish.governance",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-25T15:38:00Z",
+  "preflightContractDigest": "sha256:d0590d4b44a86a5ee28aaa71ec7d00efb32e11e1992a1417baaf608eb2276973",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:94121a9648637970148f697e4994ac458766e43fa70af2a0fefb90d56aae6b55",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-25T15:44:56Z",
+  "workItemId": "WI-279-reference-contract-semantics"
+}

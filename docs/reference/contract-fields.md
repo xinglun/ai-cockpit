@@ -89,3 +89,21 @@ gate; they never become green through a documentation projection.
 
 Use [Reference source parity](reference-parity.md) for the feature-level
 comparison and [Commands](commands.md) for the repository-bound CLI route.
+
+## Contract review boundary
+
+The current Rust boundary validates the shape of an optional `scenarioCoverage`
+list before governance evaluation. Each entry must declare `scenario`, boolean
+`required`, a supported status, and an evidence list; verified entries need
+evidence, not-applicable entries need a reason, and duplicate names or unknown
+nested fields fail closed. This is structural validation only: risk policy
+decides whether coverage is required, and the Runtime never invents a
+scenario, expected result, or verification plan.
+
+`acceptanceCriteria` must contain non-empty human statements. Numbered `A<n>:`
+criteria remain the opt-in form for Summary evidence mapping; unnumbered
+criteria remain readable legacy/source-language declarations. A
+`concurrencyBoundary` is similarly validated for schema, positive capacity,
+and a non-empty rationale before a parallel slot can be used. These checks do
+not turn verification tier into assurance, or a slot declaration into an
+authorization decision.

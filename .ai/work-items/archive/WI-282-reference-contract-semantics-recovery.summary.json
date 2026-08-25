@@ -1,0 +1,25 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-280-reference-contract-semantics-successor.recovery.8645c44de882c777aad7e4ac26d0ee5f99125570985c97063607c58baf6dab18.json",
+    ".ai/decisions/WI-280-reference-contract-semantics-successor.recovery.json",
+    ".ai/work-items/archive/WI-282-reference-contract-semantics-recovery.contract.json",
+    ".ai/work-items/archive/WI-282-reference-contract-semantics-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-08-25T16:43:28Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T16:40:50Z",
+  "mode": "code",
+  "predecessorContractDigest": "sha256:3d0380b2cc7057e8ba7c72374985f40c7555ad1ad1672feea91f7909566b6684",
+  "predecessorWorkItemId": "WI-280-reference-contract-semantics-successor",
+  "preflightAt": "2026-08-25T16:50:29Z",
+  "preflightContractDigest": "sha256:172364b64bc512f21133780b271e2dee6af11c2dde1d2e6c93a74753fe206d7a",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:f095a403cbaab59e82d1eff3c64e075b6db6a15e92c3541638f912899f04dd6d",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-280-reference-contract-semantics-successor.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-25T16:50:29Z",
+  "workItemId": "WI-282-reference-contract-semantics-recovery"
+}

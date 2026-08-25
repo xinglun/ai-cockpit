@@ -1734,6 +1734,106 @@ impl ContractIntentDetails {
     }
 }
 
+/// A strict, repository-neutral Scenario Coverage entry.  The outer Contract
+/// field remains JSON for protocol-v1 compatibility, but current readers use
+/// this shape to reject malformed or contradictory declarations instead of
+/// silently treating them as absent.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ScenarioCoverageEntry {
+    pub scenario: String,
+    pub required: bool,
+    pub status: String,
+    pub evidence: Vec<String>,
+    #[serde(default)]
+    pub reason: Option<String>,
+    #[serde(default)]
+    pub expected: Option<String>,
+    #[serde(default)]
+    pub expected_result: Option<String>,
+    #[serde(default)]
+    pub expected_outcome: Option<String>,
+    #[serde(default)]
+    pub verification_plan: Option<String>,
+    #[serde(default)]
+    pub description: Option<String>,
+}
+
+impl ScenarioCoverageEntry {
+    fn validate(&self, index: usize, errors: &mut Vec<String>) {
+        let prefix = format!("scenarioCoverage[{index}]");
+        if self.scenario.trim().is_empty() {
+            errors.push(format!("{prefix}.scenario is required"));
+        }
+        if !matches!(
+            self.status.as_str(),
+            "verified" | "unverified" | "not_applicable"
+        ) {
+            errors.push(format!(
+                "{prefix}.status must be verified, unverified, or not_applicable"
+            ));
+        }
+        if self.evidence.iter().any(|item| item.trim().is_empty()) {
+            errors.push(format!(
+                "{prefix}.evidence must contain only non-empty strings"
+            ));
+        }
+        if self.status == "verified" && self.evidence.is_empty() {
+            errors.push(format!(
+                "{prefix}.evidence must contain at least one item when status is verified"
+            ));
+        }
+        if self.status == "not_applicable"
+            && self
+                .reason
+                .as_deref()
+                .is_none_or(|value| value.trim().is_empty())
+        {
+            errors.push(format!(
+                "{prefix}.reason is required when status is not_applicable"
+            ));
+        }
+        for (name, value) in [
+            ("reason", self.reason.as_deref()),
+            ("expected", self.expected.as_deref()),
+            ("expectedResult", self.expected_result.as_deref()),
+            ("expectedOutcome", self.expected_outcome.as_deref()),
+            ("verificationPlan", self.verification_plan.as_deref()),
+            ("description", self.description.as_deref()),
+        ] {
+            if value.is_some_and(|value| value.trim().is_empty()) {
+                errors.push(format!("{prefix}.{name} must be non-empty when provided"));
+            }
+        }
+    }
+}
+
+/// Validate the optional Contract `scenarioCoverage` projection.  This is a
+/// shape/integrity check only: risk policy decides whether coverage is
+/// required, and the Runtime never invents scenarios or evidence.
+pub fn validate_scenario_coverage_projection(
+    value: &serde_json::Value,
+) -> Result<Vec<ScenarioCoverageEntry>, Vec<String>> {
+    let entries: Vec<ScenarioCoverageEntry> = serde_json::from_value(value.clone())
+        .map_err(|error| vec![format!("scenarioCoverage has invalid shape: {error}")])?;
+    let mut errors = Vec::new();
+    let mut names = std::collections::BTreeSet::new();
+    for (index, entry) in entries.iter().enumerate() {
+        entry.validate(index, &mut errors);
+        if !names.insert(entry.scenario.clone()) {
+            errors.push(format!(
+                "scenarioCoverage contains duplicate scenario {}",
+                entry.scenario
+            ));
+        }
+    }
+    if errors.is_empty() {
+        Ok(entries)
+    } else {
+        Err(errors)
+    }
+}
+
 /// Source references may be legacy strings or explicit path/reason objects.
 /// New V2 authors should use the structured representation; the legacy variant
 /// is retained so archived protocol-v1 Contracts are not rewritten.
@@ -2136,6 +2236,24 @@ impl Contract {
             && acceptance != &self.acceptance_criteria
         {
             errors.push("acceptance must match acceptanceCriteria when both are present".into());
+        }
+
+        for (index, criterion) in self.acceptance_criteria.iter().enumerate() {
+            if criterion.trim().is_empty() {
+                errors.push(format!("acceptanceCriteria[{index}] must be non-empty"));
+            }
+        }
+
+        if let Some(value) = &self.scenario_coverage
+            && let Err(scenario_errors) = validate_scenario_coverage_projection(value)
+        {
+            errors.extend(scenario_errors);
+        }
+
+        if let Some(boundary) = &self.concurrency_boundary
+            && let Err(error) = boundary.validate()
+        {
+            errors.push(error);
         }
 
         if self.mode.as_deref() == Some("code") {

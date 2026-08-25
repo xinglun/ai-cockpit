@@ -1,0 +1,136 @@
+{
+  "acceptanceResults": [
+    "Rust Contract scenario types and fail-closed validation are implemented and covered by tests",
+    "WI-279 through WI-283 predecessor records remain immutable and recovery/supersession bindings are explicit",
+    "Tri-language parity rows include prearchive evidence and terminal decision bindings before verification",
+    "Full workspace verification passes on the current-main Contract snapshot"
+  ],
+  "createdAt": "2026-08-25T17:20:04Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:5d88a14fd5f5e3b70a7ca352c0fc2f01c6bae49b9ef0d8d5b5e83296de75ed2d",
+  "evidenceRefs": [
+    ".ai/evidence/WI-284-reference-contract-semantics-terminal.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-284-reference-contract-semantics-terminal.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-284-reference-contract-semantics-terminal.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:09dca5ac3d901cf75be32c2449097540bba4683f58633e8cdfc73ac2c5b5f97e",
+      "workItemId": "WI-284-reference-contract-semantics-terminal"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-284-reference-contract-semantics-terminal.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-284-reference-contract-semantics-terminal.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-284-reference-contract-semantics-terminal.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-284-reference-contract-semantics-terminal.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-284-reference-contract-semantics-terminal.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-284-reference-contract-semantics-terminal.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-284-reference-contract-semantics-terminal.contract.json"
+          ],
+          "inference": false,
+          "text": "Deliver the bounded Rust Contract-semantics parity batch with complete lifecycle and prearchive documentation bindings."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-284-reference-contract-semantics-terminal.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-284-reference-contract-semantics-terminal"
+  },
+  "taskReportDigest": "sha256:1f01346e8a862d837deac5b973c7a241f2ecbbe812dc8c346a8353744a290f77",
+  "taskReportMarkdownDigest": "sha256:d60e784386bb405f44d4891c4a58b37cdba103dd0c6c544e49ccb937203da0d8",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-284-reference-contract-semantics-terminal.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-284-reference-contract-semantics-terminal"
+}

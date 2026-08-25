@@ -1,0 +1,17 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-25T17:17:03Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T17:14:27Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-25T17:20:03Z",
+  "preflightContractDigest": "sha256:d2938b2b7cbb5ae0052edf12aa585fbc1d277d90437f5144b9d2ace01a580665",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:09dca5ac3d901cf75be32c2449097540bba4683f58633e8cdfc73ac2c5b5f97e",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-25T17:20:04Z",
+  "workItemId": "WI-284-reference-contract-semantics-terminal"
+}

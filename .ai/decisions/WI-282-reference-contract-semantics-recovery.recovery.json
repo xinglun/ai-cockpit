@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "current-main-recovery-after-hosted-quality-rejection",
+  "decidedAt": "2026-08-26T02:03:00+09:00",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-282-reference-contract-semantics-recovery.verification.json",
+    ".ai/decisions/WI-282-reference-contract-semantics-recovery.finalize.json"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:172364b64bc512f21133780b271e2dee6af11c2dde1d2e6c93a74753fe206d7a",
+  "predecessorEventsDigest": "sha256:69e5a0c9a70fb54ca7d6ba65f9099d099e15a38e57fd740ff8ff6fc3097f5223",
+  "predecessorOutcomeDigest": "sha256:6d36335c0f3617a7884718dd3f207efe873139d407159d6b464d0d1fb6277766",
+  "predecessorSummaryDigest": "sha256:94d17c805d5adf53424c51720415238175c9cad5691bcef6ba704e213df3e9dc",
+  "predecessorWorkItemId": "WI-282-reference-contract-semantics-recovery",
+  "reason": "Supersede immutable WI-282 because its Contract was based on an older default-branch revision; preserve all predecessor bytes and revalidate the same bounded Contract-semantics batch from current main.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "WI-283 must complete the full lifecycle and reviewed PR before this reference-parity batch is accepted.",
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-283-reference-contract-semantics-current-main",
+  "workItemId": "WI-282-reference-contract-semantics-recovery"
+}
