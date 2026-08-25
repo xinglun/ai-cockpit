@@ -1,0 +1,151 @@
+{
+  "acceptanceResults": [
+    "WI-258 lifecycle bytes remain byte-identical and immutable",
+    "Recovery decision binds WI-258 as predecessor and records the non-canonical close decision reason",
+    "Tri-language WI-258 docs and parity rows are Recovered and link WI-259",
+    "WI-259 docs are promoted only after approved structured close",
+    "Declared documentation, parity, governance integrity, and promotion checks pass"
+  ],
+  "createdAt": "2026-08-25T00:02:18Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:930615f6163f753d762fc4fa7f7ca554ca10c1d9b78d4750372a89d53c56274d",
+  "evidenceRefs": [
+    ".ai/evidence/WI-259-close-decision-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-259-close-decision-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-259-close-decision-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ff79755dfa14fcd6c61e96e840a7c1a709d8adf30351ee34fa9fc5fb1fa2fed8",
+      "workItemId": "WI-259-close-decision-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-259-close-decision-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-259-close-decision-recovery.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-259-close-decision-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-259-close-decision-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-259-close-decision-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-259-close-decision-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-259-close-decision-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-259-close-decision-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-259-close-decision-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-259-close-decision-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-259-close-decision-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-259-close-decision-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Preserve WI-258 bytes, record an auditable recovery decision, and promote a canonical approved successor documentation path."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-259-close-decision-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-259-close-decision-recovery"
+  },
+  "taskReportDigest": "sha256:bcd7c9310e16f78df8e1bea68a4245f77529d224c11baea6eb982b2738c60dc3",
+  "taskReportMarkdownDigest": "sha256:2296ebc745425085abeaa0f14fe1965d4b56e83f0e592a9bccf5207523fbeb35",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-259-close-decision-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-259-close-decision-recovery"
+}
