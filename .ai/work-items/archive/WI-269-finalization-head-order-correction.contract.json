@@ -1,0 +1,86 @@
+{
+  "acceptanceCriteria": [
+    "A1: parity rows register WI-269 before its evidence and archive bytes",
+    "A2: archive and verification commit is created before pre-merge finalization is recorded",
+    "A3: finalization receipt binds the exact reviewed archive head and passes hosted quality",
+    "A4: merged PR is closed with synchronized default branch and exact branch cleanup"
+  ],
+  "authority": "authorized",
+  "baseRevision": "db7b426c375a0437b8cb490f3581b8914d36b90e",
+  "createdAt": "2026-08-25T04:52:13Z",
+  "goal": "Make the finalization receipt valid and reproducible without rewriting immutable predecessor history.",
+  "intent": "Record the required commit ordering so finalization binds the reviewed archive and evidence head.",
+  "mode": "code",
+  "outOfScope": [
+    "WI-268 and WI-267 immutable archive evidence finalization and recovery bytes",
+    "runtime implementation outside declared governance records and documentation"
+  ],
+  "predecessorContractDigest": "sha256:2072a5cbc41cae4475dc539018b3467b01c4fe2bff4da2697747c9e10eedb437",
+  "predecessorWorkItemId": "WI-268-finalization-receipt-correction",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-268-finalization-receipt-correction.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:89f6ad60d6891521a496d7bb841c9ae8e475204c426f6448e79597784f2d21a7",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation_parity",
+    "hosted_review"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-266-finalization-head-binding",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/220",
+    "worktree": "/private/tmp/ai-cockpit-wi266-finalization-head-binding"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The finalization head equals the commit containing the archived Contract and verification evidence.",
+      "required": true,
+      "scenario": "finalization is recorded only after the archive and verification commit is stable",
+      "status": "unverified",
+      "verificationPlan": "Inspect commit ancestry and validate the Runtime finalization receipt against the checked-out head."
+    },
+    {
+      "evidence": [],
+      "expected": "WI-267 and WI-268 remain Recovered while WI-269 has matching English Chinese and Japanese lifecycle rows.",
+      "required": true,
+      "scenario": "predecessor recovery remains immutable and all three parity documents stay synchronized",
+      "status": "unverified",
+      "verificationPlan": "Run the parity and documentation governance checks after each lifecycle boundary."
+    }
+  ],
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-269-finalization-head-order-correction.md",
+    "docs/work-items/WI-269-finalization-head-order-correction.zh-CN.md",
+    "docs/work-items/WI-269-finalization-head-order-correction.ja.md",
+    "docs/work-items/WI-267-finalization-parity-regression-repair.md",
+    "docs/work-items/WI-267-finalization-parity-regression-repair.zh-CN.md",
+    "docs/work-items/WI-267-finalization-parity-regression-repair.ja.md",
+    "docs/work-items/WI-268-finalization-receipt-correction.md",
+    "docs/work-items/WI-268-finalization-receipt-correction.zh-CN.md",
+    "docs/work-items/WI-268-finalization-receipt-correction.ja.md",
+    ".ai/decisions/**",
+    ".ai/work-items/active/WI-269-finalization-head-order-correction.approach.json",
+    ".ai/work-items/active/WI-269-finalization-head-order-correction.contract.json",
+    ".ai/work-items/active/WI-269-finalization-head-order-correction.summary.json",
+    ".ai/work-items/archive/WI-269-finalization-head-order-correction.contract.json",
+    ".ai/work-items/archive/WI-269-finalization-head-order-correction.summary.json",
+    ".ai/evidence/WI-269-finalization-head-order-correction.verification.json",
+    ".ai/decisions/WI-269-finalization-head-order-correction.finalize.json",
+    ".ai/decisions/WI-269-finalization-head-order-correction.close.json"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-269-finalization-head-order-correction"
+}

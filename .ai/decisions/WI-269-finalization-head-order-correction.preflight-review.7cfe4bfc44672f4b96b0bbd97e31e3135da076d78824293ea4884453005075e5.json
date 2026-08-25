@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:59a7873fb4e28e361a88d2bacb80a7512b02e136c09467bd925dfa2d71eb58d5",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "Confirm the bounded WI-269 recovery successor and its required commit ordering before the hosted review boundary.",
+  "recordedAt": "2026-08-25T05:03:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:09652b6a49a2732b914760fbcd49d1982b617ce2f98912661098e119de18e9cc",
+  "schemaVersion": 1,
+  "workItemId": "WI-269-finalization-head-order-correction"
+}

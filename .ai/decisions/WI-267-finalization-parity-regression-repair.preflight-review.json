@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:72a2fbf379be8d85c3802a40325214928c1b88974830f4c78f3ccd5b5f8f20b6",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
+  "reason": "Confirmed bounded successor scope: repair only the hosted finalization/parity regression, preserve WI-266 immutable history, and require fresh verification and reviewed cleanup.",
+  "recordedAt": "2026-08-25T04:14:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:59500135485a04b3d75ff05732ed190651f482a1fd8eef42f9f89bf5fd01738f",
+  "schemaVersion": 1,
+  "workItemId": "WI-267-finalization-parity-regression-repair"
+}

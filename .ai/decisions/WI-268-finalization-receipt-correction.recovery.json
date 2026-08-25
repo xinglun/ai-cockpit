@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-policy:immutable-failed-delivery",
+  "decidedAt": "2026-08-25T05:08:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-268-finalization-receipt-correction.finalize.json",
+    ".ai/work-items/archive/WI-268-finalization-receipt-correction.contract.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md#Work-Item-change-discipline"
+  ],
+  "predecessorContractDigest": "sha256:2072a5cbc41cae4475dc539018b3467b01c4fe2bff4da2697747c9e10eedb437",
+  "predecessorEventsDigest": "sha256:bdb8472d30ae099f3e447c229a798af8bf7d451c9db9da9893be5348d54bafc7",
+  "predecessorOutcomeDigest": "sha256:c781d59ef355a3600b3471651bde30def6d146b3841004c2f916838583f5d554",
+  "predecessorSummaryDigest": "sha256:b9d477c045de8a45432b23958667b8b9cd91a0086fc3dbaa2b33b99f832b3fde",
+  "predecessorWorkItemId": "WI-268-finalization-receipt-correction",
+  "reason": "WI-268's canonical pre-merge receipt became stale when its evidence/archive commit was added after the recorded reviewed head; create a successor to enforce the required commit ordering without rewriting WI-268.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Successor commits parity registration and archive/evidence before recording a finalization receipt whose reviewed head is stable.",
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-269-finalization-head-order-correction",
+  "workItemId": "WI-268-finalization-receipt-correction"
+}

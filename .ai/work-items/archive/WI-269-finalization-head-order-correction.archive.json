@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-25T05:02:47Z",
+  "files": {
+    "approachDigest": "sha256:260901b8e5ec00a1d3da23e691e54b7da7aad7ffec7a86093626784ba4253034",
+    "approachPath": ".ai/work-items/archive/WI-269-finalization-head-order-correction.approach.json",
+    "contractDigest": "sha256:24824946fc1d207dbafe119b747cebc52112693ac3cda4beb7e432cac966a6c7",
+    "contractPath": ".ai/work-items/archive/WI-269-finalization-head-order-correction.contract.json",
+    "eventsDigest": "sha256:c505644282f036826e7ea86cba10cb2c3b51957d88b81d936fe3278e97ac8dbb",
+    "eventsPath": ".ai/work-items/archive/WI-269-finalization-head-order-correction.events.jsonl",
+    "outcomeDigest": "sha256:24fd489b620680f15fb1b2d989496bf1e434700e9fc74f2bf546bed5ab46337b",
+    "outcomePath": ".ai/work-items/archive/WI-269-finalization-head-order-correction.outcome.json",
+    "summaryDigest": "sha256:0b6e69b968f92e76d6c205f6035245d984ccd7b09ca349937c0862ef0565df7a",
+    "summaryPath": ".ai/work-items/archive/WI-269-finalization-head-order-correction.summary.json",
+    "taskReportDigest": "sha256:70823a7ceca0643105d8bcef49eabd1484fbfb9659bc6c95edc48b7bba5b8c5e",
+    "taskReportMarkdownDigest": "sha256:f9aa1b71c6c82900ce1df020a03188d62d1fddb49048a891a177874792869b96",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-269-finalization-head-order-correction.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-269-finalization-head-order-correction.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-269-finalization-head-order-correction"
+}

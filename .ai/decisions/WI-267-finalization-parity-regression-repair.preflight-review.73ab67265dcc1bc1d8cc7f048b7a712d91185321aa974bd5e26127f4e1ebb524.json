@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:704f7aa99713d013402748e1b1a8afe8a5e50cabee1f944418630b01892006ba",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e5a0c05471f67066953f740c32e00ec5f04e1ed2eac9d23713b04d9512ead036",
+  "reason": "Confirmed the current bounded successor Contract after terminalizing immutable WI-266 as recovered; no new scope beyond the finalization/parity regression is authorized.",
+  "recordedAt": "2026-08-25T04:17:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:94443d6382bede63b733e3e1f7f42e0034e7fd602ea9ccef8b51225ed0aa16b0",
+  "schemaVersion": 1,
+  "workItemId": "WI-267-finalization-parity-regression-repair"
+}

@@ -132,6 +132,37 @@ item = next(
 assert item["lifecycleState"] == "awaiting_merge_close", item
 PY
 
+# A finalization receipt is bound to the reviewed checkout head, not merely
+# to a self-consistent head value copied into the receipt. Later code drift
+# must force a fresh finalization instead of remaining accepted.
+drift_repo="$tmp/post-finalization-code-drift"
+drift_report="$tmp/post-finalization-code-drift-report.json"
+build_fixture "$fixtures/awaiting-merge-close.json" "$drift_repo"
+printf 'post-finalization drift\n' > "$drift_repo/post-finalization-drift.txt"
+git -C "$drift_repo" add post-finalization-drift.txt
+git -C "$drift_repo" commit -qm "post-finalization code drift"
+set +e
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$drift_repo" --report "$drift_report" >/dev/null
+drift_code=$?
+set -e
+[[ "$drift_code" -eq 1 ]] || {
+  printf 'post-finalization drift: expected exit 1, got %s\n' "$drift_code" >&2
+  exit 1
+}
+python3 - "$drift_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert any(
+    finding["workItemId"] == "WI-901-corrective-after-baseline"
+    and finding["code"] == "invalid_premerge_finalize"
+    for finding in report["findings"]
+), report["findings"]
+PY
+
 # An immutable predecessor may retain a non-canonical historical close while a
 # valid recovery receipt supersedes it.  Recovery must be the terminal
 # projection; the stale close must not re-open a closure_invalid finding.
@@ -766,6 +797,7 @@ assert len(findings) == 3, findings
 PY
 
 python3 - "$prearchive_repo" "$prearchive_staged" <<'PY'
+import json
 import shutil
 import subprocess
 import sys
@@ -780,9 +812,33 @@ for source in sorted(staged.rglob(f"{work_item}.*.json")):
     destination = repo / relative
     destination.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(source, destination)
+# Archive/evidence are generated before finalization. Keep that lifecycle
+# append separate so the finalization receipt binds the exact reviewed
+# checkout it observes.
+receipt_path = repo / ".ai/decisions" / f"{work_item}.finalize.json"
+receipt_path.unlink()
 subprocess.run(["git", "add", "-A"], cwd=repo, check=True)
 subprocess.run(
-    ["git", "commit", "-qm", "archive and finalize without changing parity"],
+    ["git", "commit", "-qm", "archive before finalization"],
+    cwd=repo,
+    check=True,
+)
+receipt = json.loads(
+    (staged / ".ai/decisions" / f"{work_item}.finalize.json")
+    .read_text(encoding="utf-8")
+)
+reviewed_head = subprocess.check_output(
+    ["git", "rev-parse", "HEAD^{commit}"], cwd=repo, text=True
+).strip()
+receipt["branch"]["headRevision"] = reviewed_head
+receipt["pullRequest"]["headRevision"] = reviewed_head
+receipt["worktree"]["headRevision"] = reviewed_head
+receipt_path.write_text(
+    json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+)
+subprocess.run(["git", "add", str(receipt_path.relative_to(repo))], cwd=repo, check=True)
+subprocess.run(
+    ["git", "commit", "-qm", "append finalization after archive"],
     cwd=repo,
     check=True,
 )

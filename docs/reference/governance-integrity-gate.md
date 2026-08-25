@@ -41,6 +41,17 @@ digest checks remain mandatory. If an external event or remote declares a
 different base branch, the receipt is rejected. Missing or contradictory
 identity remains fail-closed.
 
+## Finalization head binding
+
+For `feature_branch` and `pull_request` phases, a pre-merge finalization
+receipt is valid only when its branch, pull-request, and worktree head resolve
+to the reviewed checkout head. A later checkout is accepted only for a bounded
+append of the canonical finalization transition or explicitly allow-listed
+same-Work-Item governance records. The pending parity registry is one explicit
+repository-level governance append used to keep a closed Work Item visible
+while its three-language parity row is being completed. Code, tests, unrelated
+evidence, or other repository changes force a fresh receipt and fail closed.
+
 The gate does not choose verification tier or assurance. Risk/stage/policy
 selection and reference-source file-by-file conformance are separate
 verification boundaries and must not be inferred from this inventory.

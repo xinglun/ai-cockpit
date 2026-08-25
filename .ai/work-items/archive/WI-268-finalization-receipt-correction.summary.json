@@ -1,0 +1,130 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "resource finalization receipt",
+          "path": ".ai/decisions/WI-268-finalization-receipt-correction.finalize.json",
+          "type": "receipt",
+          "verification": "governance integrity gate"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "predecessor digest bindings",
+          "path": ".ai/decisions/WI-267-finalization-parity-regression-repair.recovery.json",
+          "type": "recovery",
+          "verification": "Runtime recovery validator"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "WI-267 parity row",
+          "path": "docs/reference/reference-parity.md",
+          "type": "documentation",
+          "verification": "three-language parity check"
+        },
+        {
+          "locator": "WI-267 parity row",
+          "path": "docs/reference/reference-parity.zh-CN.md",
+          "type": "documentation",
+          "verification": "three-language parity check"
+        },
+        {
+          "locator": "WI-267 parity row",
+          "path": "docs/reference/reference-parity.ja.md",
+          "type": "documentation",
+          "verification": "three-language parity check"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "passed workspace test receipt",
+          "path": ".ai/evidence/WI-268-finalization-receipt-correction.verification.json",
+          "type": "verification",
+          "verification": "installed Runtime verify"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-267-finalization-parity-regression-repair.finalize.json",
+    ".ai/decisions/WI-267-finalization-parity-regression-repair.recovery.json",
+    ".ai/work-items/archive/WI-268-finalization-receipt-correction.contract.json",
+    ".ai/work-items/archive/WI-268-finalization-receipt-correction.summary.json"
+  ],
+  "checkpointAt": "2026-08-25T04:43:39Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T04:40:04Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:2072a5cbc41cae4475dc539018b3467b01c4fe2bff4da2697747c9e10eedb437",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Confirmed the bounded successor Contract for correcting the immutable finalization receipt and parity projection after full workspace verification.",
+    "recordedAt": "2026-08-25T04:54:00Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:a6f3f0b21e0bb5c062133255a4224d155c1c2a84a1d62c5c712b1108b3e3d053",
+    "schemaVersion": 1,
+    "workItemId": "WI-268-finalization-receipt-correction"
+  },
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-268-finalization-receipt-correction.md",
+      ".ai/decisions/WI-267-finalization-parity-regression-repair.recovery.json"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:9f1acb0caf91a22c0f49797e32b47bf5dad488a52812b5eee233b46677a594d4",
+  "predecessorWorkItemId": "WI-267-finalization-parity-regression-repair",
+  "preflightAt": "2026-08-25T04:48:28Z",
+  "preflightContractDigest": "sha256:2072a5cbc41cae4475dc539018b3467b01c4fe2bff4da2697747c9e10eedb437",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:a6f3f0b21e0bb5c062133255a4224d155c1c2a84a1d62c5c712b1108b3e3d053",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryDecisionPath": ".ai/decisions/WI-267-finalization-parity-regression-repair.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/decisions/WI-268-finalization-receipt-correction.finalize.json",
+        "tests/ci/governance_integrity_gate.py"
+      ],
+      "expected": "The receipt uses the successor Work Item ID as worktreeId and matches repository, branch, worktree, PR, Runtime, and Contract identities.",
+      "required": true,
+      "scenario": "successor finalization receipt binds the exact Work Item and reviewed resource context",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/decisions/WI-267-finalization-parity-regression-repair.recovery.json",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md"
+      ],
+      "expected": "WI-267 remains recovered with its invalid receipt preserved, and the three parity documents point to the recovery decision rather than a nonexistent close.",
+      "required": true,
+      "scenario": "predecessor recovery remains immutable and visible in all parity languages",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-25T04:49:19Z",
+  "workItemId": "WI-268-finalization-receipt-correction"
+}

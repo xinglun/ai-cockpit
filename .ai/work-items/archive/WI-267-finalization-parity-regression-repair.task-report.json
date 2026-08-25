@@ -1,0 +1,151 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-267-finalization-parity-regression-repair.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:94443d6382bede63b733e3e1f7f42e0034e7fd602ea9ccef8b51225ed0aa16b0",
+    "workItemId": "WI-267-finalization-parity-regression-repair"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-267-finalization-parity-regression-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-266-finalization-head-binding.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-267-finalization-parity-regression-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-267-finalization-parity-regression-repair.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-267-finalization-parity-regression-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-267-finalization-parity-regression-repair.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-267-finalization-parity-regression-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/governance-integrity-gate.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-267-finalization-parity-regression-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/governance-integrity-gate.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-267-finalization-parity-regression-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/governance-integrity-gate.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-267-finalization-parity-regression-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/ci/fixtures/governance-integrity/build_fixture.py"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-267-finalization-parity-regression-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/ci/governance_integrity_gate.py"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-267-finalization-parity-regression-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/docs/pending_parity_registry_test.sh"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-267-finalization-parity-regression-repair.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-267-finalization-parity-regression-repair.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-267-finalization-parity-regression-repair.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-267-finalization-parity-regression-repair.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-267-finalization-parity-regression-repair.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-267-finalization-parity-regression-repair.contract.json"
+        ],
+        "inference": false,
+        "text": "Make finalization head binding and pending parity regression fixtures converge without allowing implementation drift."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-267-finalization-parity-regression-repair.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-267-finalization-parity-regression-repair"
+}

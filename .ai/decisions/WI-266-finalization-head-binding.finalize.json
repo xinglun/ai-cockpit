@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-pre-merge-finalization-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "e783c3f6f0f56568fb1ce9404d983e1f77f7c3be",
+    "name": "codex/wi-266-finalization-head-binding",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:9080e5ef5d4f30d6bfeaf5c5f825456cb8dd5ce3b0398f295dd308712f4a2c8b",
+  "operationId": "operation-WI-266-finalization-head-binding-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "d98c93a342bd697077cd4523b8a36d2b0197f885",
+    "headRevision": "e783c3f6f0f56568fb1ce9404d983e1f77f7c3be",
+    "number": 220,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/220"
+  },
+  "reason": "PR #220 is the reviewed successor candidate but remains unmerged; retain the exact branch and clean worktree until hosted checks pass, human review completes, and the reviewed PR is merged.",
+  "receiptId": "ai-cockpit-WI-266-finalization-head-binding-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-266-finalization-head-binding",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/220",
+    "worktree": "/private/tmp/ai-cockpit-wi266-finalization-head-binding"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-25T04:15:00Z",
+  "workItemId": "WI-266-finalization-head-binding",
+  "worktree": {
+    "branch": "codex/wi-266-finalization-head-binding",
+    "headRevision": "e783c3f6f0f56568fb1ce9404d983e1f77f7c3be",
+    "path": "/private/tmp/ai-cockpit-wi266-finalization-head-binding",
+    "worktreeId": "WI-266-finalization-head-binding"
+  }
+}

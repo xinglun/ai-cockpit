@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-local",
+  "decidedAt": "2026-08-25T04:09:08Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-266-finalization-head-binding.verification.json",
+    ".ai/decisions/WI-266-finalization-head-binding.finalize.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    "docs/reference/governance-integrity-gate.md"
+  ],
+  "predecessorContractDigest": "sha256:f3e7bd8d36be6e4c7718708ee109126121d4dadc831172225d86ffe0be7c50a1",
+  "predecessorEventsDigest": "sha256:9bfdee40326b96b1cee4e1f8be6d943ad3b25bc2deb6cb27130723146d189e42",
+  "predecessorOutcomeDigest": "sha256:d313437a596dd33c18842ddbb0a550286cbacad528ae16fb8bfb3aa766ce0c99",
+  "predecessorSummaryDigest": "sha256:076573c94470dd327c5f040b70e47385799808b8cad70a0bcb8689741ff33fa4",
+  "predecessorWorkItemId": "WI-266-finalization-head-binding",
+  "reason": "The immutable WI-266 archive was verified before hosted CI exposed an in-scope finalization/parity fixture regression. Preserve WI-266 bytes and repair the bounded append semantics in a clean successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Successor must pass hosted quality, preserve the predecessor archive, and complete reviewed-head finalization before merge.",
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-267-finalization-parity-regression-repair",
+  "workItemId": "WI-266-finalization-head-binding"
+}

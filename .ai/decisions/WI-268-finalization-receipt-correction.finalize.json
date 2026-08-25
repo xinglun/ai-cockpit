@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "repository-policy:merge-review",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "cc4916a53ab529d9b6888040714370a659fbb253",
+    "name": "codex/wi-266-finalization-head-binding",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:3641b8d72c6ba941252296a1df012ef5c5df8343b0c6f49ff8df71c4a526da84",
+  "operationId": "wi268-premerge-finalization-cc4916a",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "cc4916a53ab529d9b6888040714370a659fbb253",
+    "headRevision": "cc4916a53ab529d9b6888040714370a659fbb253",
+    "number": 220,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/220"
+  },
+  "reason": "Hosted review is pending; preserve the exact branch and worktree until the reviewed PR is merged.",
+  "receiptId": "wi268-premerge-cc4916a",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-266-finalization-head-binding",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/220",
+    "worktree": "/private/tmp/ai-cockpit-wi266-finalization-head-binding"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-25T04:57:00Z",
+  "workItemId": "WI-268-finalization-receipt-correction",
+  "worktree": {
+    "branch": "codex/wi-266-finalization-head-binding",
+    "headRevision": "cc4916a53ab529d9b6888040714370a659fbb253",
+    "path": "/private/tmp/ai-cockpit-wi266-finalization-head-binding",
+    "worktreeId": "WI-268-finalization-receipt-correction"
+  }
+}

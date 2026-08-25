@@ -1,0 +1,42 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-266-finalization-head-binding.contract.json",
+    ".ai/work-items/archive/WI-266-finalization-head-binding.summary.json"
+  ],
+  "checkpointAt": "2026-08-25T03:43:22Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T03:34:48Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-266-finalization-head-binding.contract.json",
+      "tests/ci/governance_integrity_gate_test.sh",
+      ".ai/evidence/WI-266-finalization-head-binding.verification.json"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-25T03:45:34Z",
+  "preflightContractDigest": "sha256:f3e7bd8d36be6e4c7718708ee109126121d4dadc831172225d86ffe0be7c50a1",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:fa40673b9a2436dc2db5f5c19b0d4efde3ca5a376b7c00fb142286111345d288",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh",
+        ".ai/evidence/WI-266-finalization-head-binding.verification.json"
+      ],
+      "required": true,
+      "scenario": "post-finalization code drift fails closed",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-25T03:46:20Z",
+  "workItemId": "WI-266-finalization-head-binding"
+}

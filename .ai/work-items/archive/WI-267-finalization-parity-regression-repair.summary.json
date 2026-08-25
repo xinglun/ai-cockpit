@@ -1,0 +1,75 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-266-finalization-head-binding.recovery.json",
+    ".ai/work-items/archive/WI-267-finalization-parity-regression-repair.contract.json",
+    ".ai/work-items/archive/WI-267-finalization-parity-regression-repair.summary.json",
+    "docs/reference/governance-integrity-gate.ja.md",
+    "docs/reference/governance-integrity-gate.md",
+    "docs/reference/governance-integrity-gate.zh-CN.md",
+    "tests/ci/fixtures/governance-integrity/build_fixture.py",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/docs/pending_parity_registry_test.sh"
+  ],
+  "checkpointAt": "2026-08-25T04:14:41Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T04:09:42Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:9f1acb0caf91a22c0f49797e32b47bf5dad488a52812b5eee233b46677a594d4",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Confirmed the bounded successor Contract after binding the reviewed PR context; retain WI-266 immutable history and continue only to terminalize WI-267.",
+    "recordedAt": "2026-08-25T04:27:00Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:94443d6382bede63b733e3e1f7f42e0034e7fd602ea9ccef8b51225ed0aa16b0",
+    "schemaVersion": 1,
+    "workItemId": "WI-267-finalization-parity-regression-repair"
+  },
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-267-finalization-parity-regression-repair.md",
+      ".ai/decisions/WI-266-finalization-head-binding.recovery.json"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:f3e7bd8d36be6e4c7718708ee109126121d4dadc831172225d86ffe0be7c50a1",
+  "predecessorWorkItemId": "WI-266-finalization-head-binding",
+  "preflightAt": "2026-08-25T04:25:55Z",
+  "preflightContractDigest": "sha256:9f1acb0caf91a22c0f49797e32b47bf5dad488a52812b5eee233b46677a594d4",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:94443d6382bede63b733e3e1f7f42e0034e7fd602ea9ccef8b51225ed0aa16b0",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryDecisionPath": ".ai/decisions/WI-266-finalization-head-binding.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/docs/pending_parity_registry_test.sh",
+        "tests/ci/governance_integrity_gate.py"
+      ],
+      "expected": "The pending parity registry is accepted only as a bounded governance append after a reviewed finalization head.",
+      "required": true,
+      "scenario": "pending parity registry is an append-only governance transition after finalization",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh",
+        "tests/ci/governance_integrity_gate.py"
+      ],
+      "expected": "Implementation and unrelated repository drift invalidate the finalization receipt.",
+      "required": true,
+      "scenario": "post-finalization code, test, unrelated evidence, or arbitrary docs drift fails closed",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-25T04:26:52Z",
+  "workItemId": "WI-267-finalization-parity-regression-repair"
+}

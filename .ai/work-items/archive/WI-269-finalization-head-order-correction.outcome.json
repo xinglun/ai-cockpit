@@ -1,0 +1,192 @@
+{
+  "acceptanceResults": [
+    "A1: parity rows register WI-269 before its evidence and archive bytes",
+    "A2: archive and verification commit is created before pre-merge finalization is recorded",
+    "A3: finalization receipt binds the exact reviewed archive head and passes hosted quality",
+    "A4: merged PR is closed with synchronized default branch and exact branch cleanup"
+  ],
+  "createdAt": "2026-08-25T05:02:43Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:e9a3231312091c9d31a1aac1f81bc635a571bf4dc3b19df994a812d4b7ff4b5c",
+  "evidenceRefs": [
+    ".ai/evidence/WI-269-finalization-head-order-correction.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-269-finalization-head-order-correction.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-269-finalization-head-order-correction.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:09652b6a49a2732b914760fbcd49d1982b617ce2f98912661098e119de18e9cc",
+      "workItemId": "WI-269-finalization-head-order-correction"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-269-finalization-head-order-correction.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-268-finalization-receipt-correction.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-269-finalization-head-order-correction.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-269-finalization-head-order-correction.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-269-finalization-head-order-correction.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-269-finalization-head-order-correction.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-269-finalization-head-order-correction.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-269-finalization-head-order-correction.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-269-finalization-head-order-correction.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-269-finalization-head-order-correction.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-269-finalization-head-order-correction.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-269-finalization-head-order-correction.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-269-finalization-head-order-correction.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-269-finalization-head-order-correction.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-269-finalization-head-order-correction.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-269-finalization-head-order-correction.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-269-finalization-head-order-correction.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-269-finalization-head-order-correction.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-269-finalization-head-order-correction.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-269-finalization-head-order-correction.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-269-finalization-head-order-correction.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the finalization receipt valid and reproducible without rewriting immutable predecessor history."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-269-finalization-head-order-correction.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-269-finalization-head-order-correction"
+  },
+  "taskReportDigest": "sha256:70823a7ceca0643105d8bcef49eabd1484fbfb9659bc6c95edc48b7bba5b8c5e",
+  "taskReportMarkdownDigest": "sha256:f9aa1b71c6c82900ce1df020a03188d62d1fddb49048a891a177874792869b96",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-269-finalization-head-order-correction.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-269-finalization-head-order-correction"
+}

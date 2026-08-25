@@ -36,5 +36,14 @@ worktree、base/head revision、Runtime、证据和 Contract digest 检查仍然
 外部事件或 remote 声明了不同的 base branch，回执会被拒绝。缺失或矛盾的 identity 仍然
 fail-closed。
 
+## Finalization head 绑定
+
+在 `feature_branch` 与 `pull_request` 阶段，pre-merge finalization receipt 只有在其
+branch、pull request 和 worktree head 都解析到 reviewed checkout head 时才有效。后续
+checkout 只允许 canonical finalization transition 或明确列出的同一 Work Item 治理记录
+进行受限 append。pending parity registry 是唯一明确的 repository 级治理追加，用于在
+三语 parity 行完成前保持已关闭 Work Item 可见；代码、测试、无关证据或其他 repository
+变化都会要求重新生成 receipt，并以 fail-closed 处理。
+
 本门不选择 verification tier 或 assurance。风险/阶段/策略选择，以及逐文件参考源
 一致性，属于独立验证边界，不能从本盘点中推断。
