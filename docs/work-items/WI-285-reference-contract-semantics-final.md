@@ -6,8 +6,12 @@ description: "Complete the bounded Rust Contract-semantics parity batch after pr
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-285-reference-contract-semantics-final
+terminalArchive: .ai/work-items/archive/WI-285-reference-contract-semantics-final.contract.json
+terminalVerification: .ai/evidence/WI-285-reference-contract-semantics-final.verification.json
+terminalFinalization: .ai/decisions/WI-285-reference-contract-semantics-final.finalize.1086a11e42dc74baa147fc16496e4b294c5ffb4c59f44b01385ef6f7ec684aca.json
+terminalDecision: .ai/decisions/WI-285-reference-contract-semantics-final.close.json
 authority: canonical
 ---
 
