@@ -251,6 +251,39 @@ pub struct VerificationRoute {
     pub dependency_confidence: cockpit_verification::DependencyConfidence,
 }
 
+/// Read-only CI authority produced from the same Contract, repository
+/// snapshot, and policy route used by lifecycle verification.  It is a
+/// projection receipt only: the gate never writes `.ai/` state and never
+/// creates a human decision.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ContractQualityGateReport {
+    pub schema_version: u32,
+    pub kind: String,
+    pub state: String,
+    pub repository_id: Digest,
+    pub work_item_id: String,
+    pub contract_digest: Digest,
+    pub contract_file_digest: Digest,
+    pub repository_snapshot_digest: Digest,
+    pub base_revision: String,
+    pub head_revision: Option<String>,
+    pub changed_paths: Vec<String>,
+    pub stage: String,
+    pub runner: String,
+    pub operation: String,
+    pub verification_tier: VerificationTier,
+    pub evidence_assurance: EvidenceAssurance,
+    pub dependency_confidence: cockpit_verification::DependencyConfidence,
+    pub decision_state: String,
+    pub blockers: Vec<String>,
+    pub unknowns: Vec<String>,
+    pub required_checks: Vec<String>,
+    pub runtime_version: String,
+    pub runtime_digest: Digest,
+    pub receipt_digest: Digest,
+}
+
 /// Request-scoped repository state.  A context captures one immutable Git
 /// snapshot and memoizes the derived observation for the lifetime of the
 /// request.  Callers that need fresh facts must create a new context instead
@@ -6376,6 +6409,149 @@ pub fn resolve_verification_route(
         // changed paths.  Unknown is the truthful, conservative projection.
         dependency_confidence: cockpit_verification::DependencyConfidence::Unknown,
     })
+}
+
+/// Evaluate one active Contract for CI without recording preflight,
+/// verification, checkpoint, or decision evidence.  CI may use this source
+/// build projection before executing repository commands; lifecycle commands
+/// remain the authority for mutable `.ai/` evidence.
+pub fn evaluate_contract_quality_gate(
+    root: &Path,
+    contract_path: &Path,
+    stage: VerificationStage,
+    runner: &str,
+    expected_base_revision: Option<&str>,
+    runtime: &RuntimeContext,
+) -> Result<ContractQualityGateReport, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let candidate = if contract_path.is_absolute() {
+        contract_path.to_path_buf()
+    } else {
+        root.join(contract_path)
+    };
+    let metadata = fs::symlink_metadata(&candidate).map_err(|source| ObserverError::Read {
+        path: candidate.clone(),
+        source,
+    })?;
+    if !metadata.file_type().is_file() || metadata.file_type().is_symlink() {
+        return Err(ObserverError::State {
+            path: candidate,
+            message: "Contract path must be a regular non-symlink file".into(),
+        });
+    }
+    let contract_path = fs::canonicalize(&candidate).map_err(|source| ObserverError::Read {
+        path: candidate.clone(),
+        source,
+    })?;
+    contract_path
+        .strip_prefix(&root)
+        .map_err(|_| ObserverError::State {
+            path: contract_path.clone(),
+            message: "Contract path escapes repository".into(),
+        })?;
+    let contract = read_contract(&contract_path)?;
+    if contract.work_item_id.trim().is_empty() {
+        return Err(ObserverError::State {
+            path: contract_path,
+            message: "Contract workItemId is required for the CI gate".into(),
+        });
+    }
+    let expected_repository_id = repository_id(&root);
+    if contract.repository_id != expected_repository_id.to_string() {
+        return Err(ObserverError::State {
+            path: contract_path,
+            message: "Contract repositoryId does not match the repository context".into(),
+        });
+    }
+    if let Some(expected) = expected_base_revision
+        && contract.base_revision != expected
+    {
+        return Err(ObserverError::State {
+            path: contract_path,
+            message: "Contract baseRevision does not match the CI base revision".into(),
+        });
+    }
+    let git =
+        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
+    if fs::canonicalize(&snapshot.root).ok().as_ref() != Some(&root) {
+        return Err(ObserverError::SnapshotRootMismatch);
+    }
+    let current_snapshot_digest = snapshot_digest(&snapshot)?;
+    let current_contract_digest = contract_digest(&contract_path)?;
+    let contract_file_digest = Digest::sha256_bytes(&fs::read(&contract_path).map_err(
+        |source| ObserverError::Read {
+            path: contract_path.clone(),
+            source,
+        },
+    )?);
+    let route =
+        resolve_verification_route(&root, &contract.work_item_id, stage, runner, &snapshot)?;
+    let mut blockers = contract_freshness_findings(&root, &contract, &snapshot)?;
+    let decision = governance_decision_for_contract(&root, &contract, &snapshot)?;
+    blockers.extend(decision.blockers.clone());
+    blockers.sort();
+    blockers.dedup();
+    let mut unknowns = decision.unknowns.clone();
+    unknowns.sort();
+    unknowns.dedup();
+    let mut required_checks = decision.required_checks.clone();
+    required_checks.sort();
+    required_checks.dedup();
+    let decision_state = decision_state_name(decision.state.clone()).to_string();
+    let mut report = ContractQualityGateReport {
+        schema_version: 1,
+        kind: "repository_contract_quality_gate".into(),
+        state: if decision.state == DecisionState::Green && blockers.is_empty() {
+            "passed".into()
+        } else {
+            "blocked".into()
+        },
+        repository_id: expected_repository_id,
+        work_item_id: contract.work_item_id.clone(),
+        contract_digest: current_contract_digest,
+        contract_file_digest,
+        repository_snapshot_digest: current_snapshot_digest,
+        base_revision: contract.base_revision.clone(),
+        head_revision: snapshot.head.clone(),
+        changed_paths: route.affected_paths.clone(),
+        stage: stage.as_str().into(),
+        runner: runner.into(),
+        operation: route.operation.clone(),
+        verification_tier: route.actual_tier,
+        evidence_assurance: route.actual_assurance,
+        dependency_confidence: route.dependency_confidence,
+        decision_state,
+        blockers,
+        unknowns,
+        required_checks,
+        runtime_version: runtime.runtime_version.clone(),
+        runtime_digest: runtime.runtime_digest.clone(),
+        receipt_digest: Digest::sha256_bytes(b"pending"),
+    };
+    let mut payload = serde_json::to_value(&report).map_err(|error| ObserverError::State {
+        path: root.join(".ai/work-items/active"),
+        message: error.to_string(),
+    })?;
+    payload
+        .as_object_mut()
+        .expect("ContractQualityGateReport serializes as an object")
+        .remove("receiptDigest");
+    report.receipt_digest =
+        cockpit_protocol::digest_json(&payload).map_err(|error| ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message: error.to_string(),
+        })?;
+    Ok(report)
 }
 
 pub fn verification_operation_for_contract(contract: &cockpit_protocol::Contract) -> &str {

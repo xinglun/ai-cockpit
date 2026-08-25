@@ -91,14 +91,41 @@ jobs:
           if [[ -n "$ROUTE_CONTRACT_PATH" ]]; then route_args+=(--contract "$ROUTE_CONTRACT_PATH"); fi
           python3 tests/ci/quality_route.py "${route_args[@]}" >/dev/null
           echo "profile=$(jq -er '.selectedProfile' target/quality-route.json)" >> "$GITHUB_OUTPUT"
+      - name: Evaluate Rust Contract-aware quality gate
+        if: steps.quality_route.outputs.profile != 'light' && steps.initial_quality_route.outputs.contract_path != ''
+        shell: bash
+        env:
+          ROUTE_BASE_REVISION: ${{ steps.initial_quality_route.outputs.base_revision }}
+          ROUTE_CONTRACT_PATH: ${{ steps.initial_quality_route.outputs.contract_path }}
+          ROUTE_STAGE: ${{ steps.initial_quality_route.outputs.stage }}
+        run: |
+          set -euo pipefail
+          cargo run --locked --package cockpit-cli -- \
+            gate \
+            --repo "$GITHUB_WORKSPACE" \
+            --contract "$ROUTE_CONTRACT_PATH" \
+            --stage "$ROUTE_STAGE" \
+            --runner hosted \
+            --base-revision "$ROUTE_BASE_REVISION" \
+            --report target/rust-contract-quality-gate.json
       - name: run repository gates exactly once
         shell: bash
-        run: >-
-          python3 tests/ci/run_repository_gates.py
-          --repo "$GITHUB_WORKSPACE"
-          --manifest tests/ci/repository_gate_manifest.json
-          --route-receipt target/quality-route.json
-          --report target/repository-gates.json
+        env:
+          ROUTE_CONTRACT_PATH: ${{ steps.initial_quality_route.outputs.contract_path }}
+          ROUTE_PROFILE: ${{ steps.quality_route.outputs.profile }}
+        run: |
+          set -euo pipefail
+          gate_args=(
+            python3 tests/ci/run_repository_gates.py
+            --repo "$GITHUB_WORKSPACE"
+            --manifest tests/ci/repository_gate_manifest.json
+            --route-receipt target/quality-route.json
+            --report target/repository-gates.json
+          )
+          if [[ "$ROUTE_PROFILE" != light && -n "$ROUTE_CONTRACT_PATH" ]]; then
+            gate_args+=(--contract-gate-report target/rust-contract-quality-gate.json)
+          fi
+          "${gate_args[@]}"
       - name: verify workspace package coverage receipt
         if: steps.quality_route.outputs.profile != 'light'
         shell: bash
@@ -121,6 +148,14 @@ jobs:
             target/quality-route-initial.json
             target/quality-route.json
             target/repository-gates.json
+          if-no-files-found: error
+          retention-days: 7
+      - name: Upload Rust Contract gate receipt
+        if: always() && steps.quality_route.outputs.profile != 'light' && steps.initial_quality_route.outputs.contract_path != ''
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: rust-contract-quality-gate
+          path: target/rust-contract-quality-gate.json
           if-no-files-found: error
           retention-days: 7
       - name: upload workspace package coverage

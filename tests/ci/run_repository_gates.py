@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -34,6 +35,72 @@ def write_report(path: Path, report: dict[str, Any]) -> None:
     path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
+def load_contract_gate_report(
+    path: Path,
+    *,
+    repository: Path,
+    route: dict[str, Any],
+) -> dict[str, Any]:
+    report = load_receipt(path)
+    required = {
+        "schemaVersion",
+        "kind",
+        "state",
+        "repositoryId",
+        "workItemId",
+        "contractDigest",
+        "contractFileDigest",
+        "repositorySnapshotDigest",
+        "baseRevision",
+        "headRevision",
+        "changedPaths",
+        "stage",
+        "runner",
+        "operation",
+        "verificationTier",
+        "evidenceAssurance",
+        "dependencyConfidence",
+        "decisionState",
+        "blockers",
+        "unknowns",
+        "requiredChecks",
+        "runtimeVersion",
+        "runtimeDigest",
+        "receiptDigest",
+    }
+    if set(report) != required or report["schemaVersion"] != 1:
+        raise ValueError("Contract gate report fields do not match schemaVersion 1")
+    if report["kind"] != "repository_contract_quality_gate":
+        raise ValueError("Contract gate report kind is invalid")
+    if report["state"] != "passed" or report["decisionState"] != "green":
+        raise ValueError("Contract gate did not produce a green passing decision")
+    if not re.fullmatch(r"sha256:[0-9a-f]{64}", report["repositoryId"]):
+        raise ValueError("Contract gate repositoryId is invalid")
+    if not re.fullmatch(r"sha256:[0-9a-f]{64}", report["receiptDigest"]):
+        raise ValueError("Contract gate receiptDigest is invalid")
+    config = repository / ".ai/cockpit.toml"
+    text = config.read_text(encoding="utf-8") if config.is_file() else ""
+    match = re.search(r"^repository_id\s*=\s*\"([^\"]+)\"\s*$", text, re.MULTILINE)
+    if match is None or report["repositoryId"] != match.group(1):
+        raise ValueError("Contract gate repositoryId is not bound to repository config")
+    contract_path = route.get("contractPath")
+    if not isinstance(contract_path, str) or not contract_path:
+        raise ValueError("Contract gate report requires the route Contract")
+    if report["contractFileDigest"] != file_digest(repository / contract_path):
+        raise ValueError("Contract gate file digest does not match route Contract")
+    if report["baseRevision"] != route.get("baseRevision"):
+        raise ValueError("Contract gate baseRevision does not match route receipt")
+    expected_stage = "pr" if route.get("stage") == "pull_request" else route.get("stage")
+    if report["stage"] != expected_stage or report["runner"] != "hosted":
+        raise ValueError("Contract gate stage or runner does not match CI route")
+    expected_work_item = Path(contract_path).name.removesuffix(".contract.json")
+    if report["workItemId"] != expected_work_item:
+        raise ValueError("Contract gate workItemId does not match route Contract")
+    if report["blockers"] or report["unknowns"]:
+        raise ValueError("green Contract gate cannot contain blockers or unknowns")
+    return report
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="Run only canonical repository gates selected by a typed route receipt"
@@ -42,6 +109,7 @@ def main() -> int:
     parser.add_argument("--manifest", required=True)
     parser.add_argument("--report", required=True)
     parser.add_argument("--route-receipt")
+    parser.add_argument("--contract-gate-report")
     parser.add_argument("--profile", choices=PROFILE_ORDER)
     parser.add_argument("--list-only", action="store_true")
     args = parser.parse_args()
@@ -87,6 +155,20 @@ def main() -> int:
                 "requiredGateIds": required_gate_ids,
                 "selectedProfile": selected_profile,
             }
+            if args.contract_gate_report:
+                gate_report = load_contract_gate_report(
+                    Path(args.contract_gate_report),
+                    repository=repository,
+                    route=receipt,
+                )
+                route_binding["contractGateReportDigest"] = file_digest(
+                    Path(args.contract_gate_report)
+                )
+                route_binding["contractGateState"] = gate_report["state"]
+            elif receipt.get("contractPath") and selected_profile != "light":
+                raise ValueError(
+                    "standard/strict Contract routes require --contract-gate-report"
+                )
     except (OSError, ValueError, KeyError, TypeError) as error:
         parser.error(str(error))
 

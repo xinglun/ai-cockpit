@@ -21,7 +21,7 @@ behavior corpus; it is not a directory to copy into the Rust Runtime.
 ## Pinned baseline
 
 - Reference: [`spirex-ds-dev/ai-cockpit-template`](https://github.com/spirex-ds-dev/ai-cockpit-template) at `e5acb677da6621004d96f0ef353c58fe8d3acfbf`.
-- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `487f01970c49e2b85d17b0cb0536f9d60c8f05e0`.
+- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `b159deb4b1976befb0d1cc547c99c40a3bc3b13c`.
 - Runtime used for the comparison work: `ai-cockpit 0.2.31`, binary SHA256 `1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9`.
 
 The machine-readable ledger is
@@ -136,7 +136,7 @@ has no remaining `migrate-gap` records:
 
 The governance entrypoints, getting-started routes, CI/release boundaries, and
 capability/profile projections have been reviewed at this baseline. The four
-records above are Rust-native, explicitly bounded counterparts; the 689
+records above are Rust-native, explicitly bounded counterparts; the 687
 deferred semantic comparisons remain scheduled work.
 
 WI-274 rebinds only the target checkout metadata and canonical comparison
@@ -175,8 +175,9 @@ records and shared lifecycle validators enforce the bounded semantics.
 | `scripts/ai_checkpoint.py` | implemented-different-by-design | Typed `CheckpointEvidence`, amendment CLI, append-only chain, and resume-stale binding. |
 | `tests/test_ai_agent_risk.py`, `tests/test_ai_checkpoint.py`, `tests/test_outcome_lifecycle_rules.py` | implemented-different-by-design | Rust protocol/repository lifecycle and static Agent-rule parity tests. |
 
-This is semantic, not direct JSON-wire parity. CI invocation of the read-only
-Rust gate remains a later bounded CI batch.
+This is semantic, not direct JSON-wire parity. WI-291 adds the Rust read-only
+Contract-aware CI gate and keeps the Python route/manifest as a shadow during
+convergence; full workflow and release-preflight parity remains deferred.
 
 ## WI-287 checkpoint conformance closure
 
@@ -192,3 +193,21 @@ The object/adopter boundary is unchanged: the installed shared Runtime is
 request-scoped, every operation carries `--repo`, and human Outcome remains the
 visible handoff. CI workflow convergence and broader adopter surfaces remain
 separate bounded batches.
+
+## WI-291 CI Contract-aware quality gate
+
+WI-291 compares the reference workflow quality routing and preflight boundary
+with the Rust-native CI surface. The Python route remains a dynamic planner for
+`light`/`standard`/`strict` and the canonical manifest remains the command
+list. Before standard or strict pull-request commands, the Rust CLI's read-only
+`gate` validates the active Contract, repository/base/snapshot identity,
+intent/scenario/operation/stage route, and Agent-Risk/preflight projection. It
+emits an identity-bound `repository_contract_quality_gate` receipt; yellow or
+red is a fail-closed CI result. The gate does not write `.ai/` records.
+
+This batch is semantic parity, not source YAML or Python wire compatibility.
+CI source-build Runtime identity is diagnostic; immutable Release/adopter
+identity remains a separate published-artifact acceptance boundary. The
+remaining reference workflow matrix, gate metadata/timeout model, release
+preflight, and multi-stack adopter surfaces stay deferred and are recorded in
+the inventory ledger rather than claimed as implemented.
