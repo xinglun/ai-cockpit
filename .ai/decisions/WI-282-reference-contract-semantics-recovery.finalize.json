@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-pre-merge-finalization-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "442940e89881c43dcb190de9f2dd9bb993ee33c5",
+    "name": "codex/wi-282-reference-contract-semantics-recovery",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:9d4f047942236377b75e9e7ee988c90b56a8364660b852c3c25faffde5db0546",
+  "operationId": "operation-WI-282-reference-contract-semantics-recovery-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "6228361",
+    "headRevision": "442940e89881c43dcb190de9f2dd9bb993ee33c5",
+    "number": 242,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/242"
+  },
+  "reason": "PR #242 is unmerged; retain the reviewed branch and clean worktree until hosted checks pass and the reviewed PR is merged.",
+  "receiptId": "ai-cockpit-WI-282-reference-contract-semantics-recovery-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-282-reference-contract-semantics-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/242",
+    "worktree": "/private/tmp/ai-cockpit-wi282"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-26T02:00:00Z",
+  "workItemId": "WI-282-reference-contract-semantics-recovery",
+  "worktree": {
+    "branch": "codex/wi-282-reference-contract-semantics-recovery",
+    "headRevision": "442940e89881c43dcb190de9f2dd9bb993ee33c5",
+    "path": "/private/tmp/ai-cockpit-wi282",
+    "worktreeId": "WI-282-reference-contract-semantics-recovery"
+  }
+}
