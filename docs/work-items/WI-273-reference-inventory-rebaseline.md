@@ -6,7 +6,7 @@ description: "Rebind the file-level reference comparison ledger to the reviewed 
 audience:
   - maintainer
   - reviewer
-status: implemented
+status: recovered
 lastVerifiedBy: WI-273-reference-inventory-rebaseline
 terminalArchive: .ai/work-items/archive/WI-273-reference-inventory-rebaseline.contract.json
 terminalVerification: .ai/evidence/WI-273-reference-inventory-rebaseline.verification.json

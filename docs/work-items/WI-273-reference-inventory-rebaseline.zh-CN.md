@@ -6,7 +6,7 @@ description: "在不改变 Runtime 行为的前提下，将逐文件参考源比
 audience:
   - maintainer
   - reviewer
-status: implemented
+status: recovered
 lastVerifiedBy: WI-273-reference-inventory-rebaseline
 terminalArchive: .ai/work-items/archive/WI-273-reference-inventory-rebaseline.contract.json
 terminalVerification: .ai/evidence/WI-273-reference-inventory-rebaseline.verification.json
