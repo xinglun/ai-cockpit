@@ -1,0 +1,62 @@
+{
+  "acceptanceCriteria": [
+    "Rust Contract scenario types and fail-closed validation are implemented and covered by tests",
+    "WI-279 through WI-283 predecessor records remain immutable and recovery/supersession bindings are explicit",
+    "Tri-language parity rows include prearchive evidence and terminal decision bindings before verification",
+    "Full workspace verification passes on the current-main Contract snapshot"
+  ],
+  "authority": "authorized",
+  "baseRevision": "622836157e945a46f8cb34ee747084d3193e7f28",
+  "createdAt": "2026-08-25T17:14:27Z",
+  "goal": "Deliver the bounded Rust Contract-semantics parity batch with complete lifecycle and prearchive documentation bindings.",
+  "intent": "Complete the current-main Contract-semantics parity recovery with terminal parity bindings before verification, preserving all immutable predecessor records.",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:99640ab44b8c06e13ae2c452439dd652f378bbbf06090c28270b63e5e9e1412f",
+  "predecessorWorkItemId": "WI-283-reference-contract-semantics-current-main",
+  "outOfScope": [
+    ".github/workflows/**",
+    "tests/ci/**",
+    "tests/release/**",
+    "planner/dependency-graph/runtime architecture",
+    "global Agent/MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:19eecaa8c423853bca73ca24da990297cff7c74ca048c921a8fd5df8c35501ee",
+  "recoveryDecisionPath": ".ai/decisions/WI-283-reference-contract-semantics-current-main.recovery.json",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-284-reference-contract-semantics-terminal",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi284"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/**",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/contract_v2.rs",
+    "crates/cockpit-repository/src/governance_controls.rs",
+    "crates/cockpit-repository/tests/governance_controls.rs",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/contract-fields.md",
+    "docs/reference/contract-fields.zh-CN.md",
+    "docs/reference/contract-fields.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-284-reference-contract-semantics-terminal"
+}
