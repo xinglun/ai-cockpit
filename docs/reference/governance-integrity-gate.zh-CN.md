@@ -45,5 +45,19 @@ checkout 只允许 canonical finalization transition 或明确列出的同一 Wo
 三语 parity 行完成前保持已关闭 Work Item 可见；代码、测试、无关证据或其他 repository
 变化都会要求重新生成 receipt，并以 fail-closed 处理。
 
+## 动态 Work Item 文档投影
+
+如果当前 Work Item 的 Contract 或 active Summary 明确拥有
+`docs/reference/reference-parity*` 或 parity registration，它就是 parity/documentation
+Work Item。轻量门在 verification、archive 或 close 之前，要求
+`docs/work-items/<WI>.md`、`docs/work-items/<WI>.ja.md` 和
+`docs/work-items/<WI>.zh-CN.md` 三个 regular、非 symlink 投影。frontmatter 必须有效并绑定
+`workItemId`；该检查不会改写生成的 `.ai` 历史记录。
+
+同一检查也适用于当前发布周期内的 archived parity Work Item。缺失、malformed、foreign 或
+symlink 文档都会失败关闭。普通代码 Work Item 仍保持 `active_non_parity`，不会被强制创建
+文档。该策略是动态的，并通过 repository-bound gate 继承到 adopter repository；不需要复制
+Rust Runtime。
+
 本门不选择 verification tier 或 assurance。风险/阶段/策略选择，以及逐文件参考源
 一致性，属于独立验证边界，不能从本盘点中推断。

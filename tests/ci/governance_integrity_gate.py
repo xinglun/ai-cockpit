@@ -22,6 +22,11 @@ PARITY_DOCS = (
 )
 PENDING_PARITY_REGISTRY = "docs/reference/pending-parity-registry.json"
 RECORD_SUFFIXES = ("contract", "summary", "archive", "outcome")
+WORK_ITEM_DOCUMENTS = (
+    ("", "English"),
+    (".ja", "Japanese"),
+    (".zh-CN", "Simplified Chinese"),
+)
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -740,6 +745,33 @@ def _active_parity_projection_declared(
     return path_declared or acceptance_declared
 
 
+def _work_item_document_issue(
+    repo: Path,
+    work_item: str,
+    suffix: str,
+) -> tuple[str, str] | None:
+    """Return a stable finding code/path when a projection is not trustworthy."""
+
+    relative = f"docs/work-items/{work_item}{suffix}.md"
+    path = repo / relative
+    if path.is_symlink() or not path.exists():
+        return "missing_work_item_document", relative
+    if not path.is_file():
+        return "invalid_work_item_document", relative
+    try:
+        text = path.read_text(encoding="utf-8")
+    except (OSError, UnicodeError):
+        return "invalid_work_item_document", relative
+    if not text.startswith("---\n") or "\n---\n" not in text:
+        return "invalid_work_item_document", relative
+    if not re.search(
+        rf"(?m)^workItemId:\s*{re.escape(work_item)}\s*$",
+        text,
+    ):
+        return "invalid_work_item_document", relative
+    return None
+
+
 def _pending_append_is_bounded(
     repo: Path,
     head_revision: str,
@@ -1135,10 +1167,18 @@ def main() -> int:
             if not (base / f"{work_item}.{suffix}.json").is_file():
                 findings.append(finding(work_item, f"missing_{suffix}", relative))
 
-        if location == "active" and not _active_parity_projection_declared(
-            repo,
-            work_item,
-        ):
+        parity_projection = (
+            _active_parity_projection_declared(repo, work_item)
+            if location == "active"
+            else short_id(work_item) in rows
+        )
+        if parity_projection:
+            for document_suffix, _language in WORK_ITEM_DOCUMENTS:
+                issue = _work_item_document_issue(repo, work_item, document_suffix)
+                if issue is not None:
+                    findings.append(finding(work_item, issue[0], issue[1]))
+
+        if location == "active" and not parity_projection:
             record["lifecycleState"] = "active_non_parity"
         elif location == "active":
             work_item_rows = rows.get(short_id(work_item), {})

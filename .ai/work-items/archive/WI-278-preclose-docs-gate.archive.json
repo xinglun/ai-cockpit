@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-25T13:56:25Z",
+  "files": {
+    "approachDigest": "sha256:1fee8eea1558e308e67f6f0e68db8aee4bc0bf2c55b4778ce6d5a3e81eb22131",
+    "approachPath": ".ai/work-items/archive/WI-278-preclose-docs-gate.approach.json",
+    "contractDigest": "sha256:d172dd69281aefd8eee8498456259bc558efdf1917a33abf331a1ab1b27449a5",
+    "contractPath": ".ai/work-items/archive/WI-278-preclose-docs-gate.contract.json",
+    "eventsDigest": "sha256:a65deadf740d03c7605241674bf86e6c4589679398a62638a11d241c3ccf417c",
+    "eventsPath": ".ai/work-items/archive/WI-278-preclose-docs-gate.events.jsonl",
+    "outcomeDigest": "sha256:9a3d21b0af39c81fe91593d8b146741f2270f2475791aaa923de907cdfef3407",
+    "outcomePath": ".ai/work-items/archive/WI-278-preclose-docs-gate.outcome.json",
+    "summaryDigest": "sha256:42fca6ff6e5054c710e3ab7aead222924930928d1668c4b1f81eafecee668da4",
+    "summaryPath": ".ai/work-items/archive/WI-278-preclose-docs-gate.summary.json",
+    "taskReportDigest": "sha256:4e5fec447114f681cbad935eeb2649a641c2d0cf45abe099adcb6966feeebaf8",
+    "taskReportMarkdownDigest": "sha256:e3a26849baf5b4feb4fd8b6e360d87ac7aa723ba5424b6e8b3f69dc58ff29835",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-278-preclose-docs-gate.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-278-preclose-docs-gate.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-278-preclose-docs-gate"
+}

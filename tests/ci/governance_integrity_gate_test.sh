@@ -1079,6 +1079,190 @@ assert not any(
 ), report["findings"]
 PY
 
+# Parity/documentation-owned active Work Items must have all three human
+# projections before verification. Ordinary active code Work Items remain
+# lightweight; this fixture exercises the dynamic selector and symlink guard.
+active_parity_repo="$tmp/active-parity-docs"
+active_parity_report="$tmp/active-parity-docs-report.json"
+build_fixture "$fixtures/valid.json" "$active_parity_repo"
+python3 - "$active_parity_repo" <<'PY'
+import json
+import os
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+work_item = "WI-900-release-v9-9-9"
+archive = repo / ".ai/work-items/archive"
+active = repo / ".ai/work-items/active"
+contract_path = archive / f"{work_item}.contract.json"
+contract = json.loads(contract_path.read_text(encoding="utf-8"))
+contract["scope"] = ["docs/reference/reference-parity.md"]
+contract["acceptanceCriteria"] = ["parity registration is complete"]
+active.mkdir(parents=True, exist_ok=True)
+(active / f"{work_item}.contract.json").write_text(
+    json.dumps(contract, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+)
+(active / f"{work_item}.summary.json").write_text(
+    json.dumps(
+        {"workItemId": work_item, "changedPaths": ["docs/reference/reference-parity.md"]},
+        indent=2,
+        sort_keys=True,
+    )
+    + "\n",
+    encoding="utf-8",
+)
+for path in archive.glob(f"{work_item}.*.json"):
+    path.unlink()
+for suffix in ("", ".ja", ".zh-CN"):
+    (repo / "docs/work-items" / f"{work_item}{suffix}.md").unlink()
+records = (
+    f".ai/work-items/archive/{work_item}.contract.json",
+    f".ai/evidence/{work_item}.verification.json",
+    f".ai/decisions/{work_item}.finalize.json",
+    f".ai/decisions/{work_item}.close.json",
+)
+for relative in (
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+):
+    path = repo / relative
+    lines = path.read_text(encoding="utf-8").splitlines()
+    status = (
+        "进行中 → 验证关闭后已实现"
+        if relative.endswith(".zh-CN.md")
+        else "In progress → verified close 後 Implemented"
+        if relative.endswith(".ja.md")
+        else "In progress → Implemented after verified close"
+    )
+    replacement = (
+        f"| WI-900 — fixture | {status} | "
+        + "; ".join(f"`{record}`" for record in records)
+        + " |"
+    )
+    path.write_text(
+        "\n".join(replacement if line.startswith("| WI-900 ") else line for line in lines)
+        + "\n",
+        encoding="utf-8",
+    )
+PY
+set +e
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$active_parity_repo" --report "$active_parity_report" >/dev/null
+active_missing_code=$?
+set -e
+[[ "$active_missing_code" -eq 1 ]] || {
+  printf 'active parity missing docs: expected exit 1, got %s\n' "$active_missing_code" >&2
+  exit 1
+}
+python3 - "$active_parity_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+findings = [
+    finding
+    for finding in report["findings"]
+    if finding["workItemId"] == "WI-900-release-v9-9-9"
+]
+assert [finding["code"] for finding in findings].count("missing_work_item_document") == 3, findings
+assert {finding["path"] for finding in findings} == {
+    "docs/work-items/WI-900-release-v9-9-9.md",
+    "docs/work-items/WI-900-release-v9-9-9.ja.md",
+    "docs/work-items/WI-900-release-v9-9-9.zh-CN.md",
+}, findings
+PY
+python3 - "$active_parity_repo" <<'PY'
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+work_item = "WI-900-release-v9-9-9"
+for suffix in ("", ".ja", ".zh-CN"):
+    (repo / "docs/work-items" / f"{work_item}{suffix}.md").write_text(
+        "---\n"
+        f"workItemId: {work_item}\n"
+        "status: in_progress\n"
+        "---\n",
+        encoding="utf-8",
+    )
+PY
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$active_parity_repo" --report "$active_parity_report" >/dev/null
+python3 - "$active_parity_repo/docs/work-items/WI-900-release-v9-9-9.zh-CN.md" <<'PY'
+import sys
+from pathlib import Path
+
+Path(sys.argv[1]).write_text("malformed projection\n", encoding="utf-8")
+PY
+set +e
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$active_parity_repo" --report "$active_parity_report" >/dev/null
+active_malformed_code=$?
+set -e
+[[ "$active_malformed_code" -eq 1 ]] || {
+  printf 'active parity malformed doc: expected exit 1, got %s\n' "$active_malformed_code" >&2
+  exit 1
+}
+python3 - "$active_parity_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert any(
+    finding["workItemId"] == "WI-900-release-v9-9-9"
+    and finding["code"] == "invalid_work_item_document"
+    and finding["path"].endswith(".zh-CN.md")
+    for finding in report["findings"]
+), report["findings"]
+PY
+python3 - "$active_parity_repo/docs/work-items/WI-900-release-v9-9-9.zh-CN.md" <<'PY'
+import sys
+from pathlib import Path
+
+Path(sys.argv[1]).write_text(
+    "---\nworkItemId: WI-900-release-v9-9-9\nstatus: in_progress\n---\n",
+    encoding="utf-8",
+)
+PY
+python3 - "$active_parity_repo" <<'PY'
+import os
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+work_item = "WI-900-release-v9-9-9"
+symlink = repo / "docs/work-items" / f"{work_item}.zh-CN.md"
+symlink.unlink()
+os.symlink(f"{work_item}.md", symlink)
+PY
+set +e
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$active_parity_repo" --report "$active_parity_report" >/dev/null
+active_symlink_code=$?
+set -e
+[[ "$active_symlink_code" -eq 1 ]] || {
+  printf 'active parity symlink doc: expected exit 1, got %s\n' "$active_symlink_code" >&2
+  exit 1
+}
+python3 - "$active_parity_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert any(
+    finding["workItemId"] == "WI-900-release-v9-9-9"
+    and finding["code"] == "missing_work_item_document"
+    and finding["path"].endswith(".zh-CN.md")
+    for finding in report["findings"]
+), report["findings"]
+PY
+
 # A new current Work Item must be discovered without changing an ID list.
 python3 - "$fixtures/valid.json" "$tmp/dynamic.json" <<'PY'
 import json

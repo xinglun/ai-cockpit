@@ -1,0 +1,120 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "live governance gate",
+          "path": "tests/ci/governance_integrity_gate.py",
+          "type": "gate-source-and-run",
+          "verification": "The installed Runtime-bound gate passed all 232 repository Work Item records with zero findings; WI-243 and WI-276 projections are now regular tri-language files."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "governance gate regression",
+          "path": "tests/ci/governance_integrity_gate_test.sh",
+          "type": "regression",
+          "verification": "Missing, malformed, symlinked, valid, and ordinary non-parity fixture paths pass their expected deterministic outcomes."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "tri-language documentation acceptance",
+          "path": "tests/docs/documentation_acceptance.sh",
+          "type": "documentation-gate",
+          "verification": "Documentation acceptance, Work Item status consistency, and parity status checks pass."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "installed Runtime full workspace verification",
+          "path": ".ai/evidence/WI-278-preclose-docs-gate.verification.json",
+          "type": "runtime-evidence",
+          "verification": "Runtime 0.2.31 with binary digest sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9 ran the serialized full workspace tests successfully."
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-278-preclose-docs-gate.contract.json",
+    ".ai/work-items/archive/WI-278-preclose-docs-gate.summary.json"
+  ],
+  "checkpointAt": "2026-08-25T13:29:36Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T13:28:29Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-278-preclose-docs-gate.contract.json",
+      "tests/ci/governance_integrity_gate.py"
+    ],
+    "reason": "The gate, regression corpus, repaired projections, and adopter-bound documentation implement the bounded pre-close projection policy without changing Runtime semantics or generated history.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-25T13:56:18Z",
+  "preflightContractDigest": "sha256:40d720a010c77cbd55eab4ce571f93dfdbcae63df6c818a9bf6710d09941b51c",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:e9cefbbb7be73fb197b748ca93cc039ffb9788914c784d2bf4df1eff6f737c08",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "expected": "A parity-owned active Work Item missing any tri-language document is rejected before verification.",
+      "required": true,
+      "scenario": "missing active projection",
+      "status": "verified",
+      "verificationPlan": "Run the active parity fixture with all three Work Item documents removed."
+    },
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "expected": "Malformed or symlinked projections fail closed while valid regular files pass.",
+      "required": true,
+      "scenario": "malformed and symlink projection",
+      "status": "verified",
+      "verificationPlan": "Run malformed and symlink mutations against the active parity fixture."
+    },
+    {
+      "evidence": [
+        "docs/work-items/WI-243-finalization-reason-policy.md",
+        "docs/work-items/WI-276-capability-profile-projection.md"
+      ],
+      "expected": "Current-cycle archived parity Work Items have truthful tri-language projections without .ai history rewrites.",
+      "required": true,
+      "scenario": "current-cycle debt repair",
+      "status": "verified",
+      "verificationPlan": "Run the live gate and documentation acceptance against the repaired repository."
+    },
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "expected": "An ordinary non-parity active code Work Item remains lightweight.",
+      "required": true,
+      "scenario": "ordinary code dynamic policy",
+      "status": "verified",
+      "verificationPlan": "Run the fixture with an active code Work Item that does not declare parity ownership."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-25T13:56:18Z",
+  "workItemId": "WI-278-preclose-docs-gate"
+}

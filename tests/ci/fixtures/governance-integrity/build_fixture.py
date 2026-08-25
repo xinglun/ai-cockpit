@@ -72,6 +72,29 @@ for item in spec.get("workItems", []):
     )
     contract_digest = "sha256:" + hashlib.sha256(contract_path.read_bytes()).hexdigest()
     if is_current:
+        document_status = "recovered" if decision_kind == "recovery" else "implemented"
+        for document_suffix in ("", ".zh-CN", ".ja"):
+            write(
+                root
+                / "docs/work-items"
+                / f"{work_item}{document_suffix}.md",
+                "\n".join(
+                    (
+                        "---",
+                        f"title: {work_item}",
+                        f"workItemId: {work_item}",
+                        f"status: {document_status}",
+                        f"lastVerifiedBy: {work_item}",
+                        "authority: canonical",
+                        "---",
+                        "",
+                        f"# {work_item}",
+                        "",
+                        "Fixture Work Item documentation.",
+                        "",
+                    )
+                ),
+            )
         write(archive / f"{work_item}.summary.json", {"workItemId": work_item})
         write(
             archive / f"{work_item}.archive.json",
