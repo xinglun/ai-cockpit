@@ -29971,7 +29971,7 @@
       "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
-     "referencePath": "docs/features/work-item-parallelism.ja.md",
+      "referencePath": "docs/features/work-item-parallelism.ja.md",
       "batch": "WI-270-reference-contract-batch",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
@@ -29983,7 +29983,7 @@
       "reason": "WI-270 file-level comparison: Repository-local Contract boundaries and slot leases replace reference orchestration files; scope overlap is conservative and generated projections remain isolated."
     },
     {
-     "referencePath": "docs/features/work-item-parallelism.md",
+      "referencePath": "docs/features/work-item-parallelism.md",
       "batch": "WI-270-reference-contract-batch",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
@@ -29995,7 +29995,7 @@
       "reason": "WI-270 file-level comparison: Repository-local Contract boundaries and slot leases replace reference orchestration files; scope overlap is conservative and generated projections remain isolated."
     },
     {
-     "referencePath": "docs/features/work-item-parallelism.zh-CN.md",
+      "referencePath": "docs/features/work-item-parallelism.zh-CN.md",
       "batch": "WI-270-reference-contract-batch",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
@@ -31290,7 +31290,7 @@
       "reason": "The target preserves the reference reader intent through Rust-native route pages with different ownership and paths."
     },
     {
-     "referencePath": "docs/reference/safe-parallel-verification.md",
+      "referencePath": "docs/reference/safe-parallel-verification.md",
       "batch": "WI-270-reference-contract-batch",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
@@ -31406,7 +31406,7 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-     "referencePath": "docs/reference/work-item-intelligence-interface.md",
+      "referencePath": "docs/reference/work-item-intelligence-interface.md",
       "batch": "WI-270-reference-contract-batch",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
@@ -31440,7 +31440,7 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-     "referencePath": "docs/reference/work-item-state-machine.md",
+      "referencePath": "docs/reference/work-item-state-machine.md",
       "batch": "WI-270-reference-contract-batch",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
@@ -31451,7 +31451,7 @@
       "reason": "WI-270 file-level comparison: Lifecycle transitions, recovery, finalization, archive, and close are Runtime-native; provider PR states remain an explicit external boundary."
     },
     {
-     "referencePath": "docs/reference/work-item-status-interface.md",
+      "referencePath": "docs/reference/work-item-status-interface.md",
       "batch": "WI-270-reference-contract-batch",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
@@ -33040,7 +33040,7 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-     "referencePath": "scripts/ai_acceptance_policy.py",
+      "referencePath": "scripts/ai_acceptance_policy.py",
       "batch": "WI-270-reference-contract-batch",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
@@ -33259,7 +33259,7 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-     "referencePath": "scripts/ai_check_scenario_coverage.py",
+      "referencePath": "scripts/ai_check_scenario_coverage.py",
       "batch": "WI-270-reference-contract-batch",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
@@ -33318,7 +33318,7 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-     "referencePath": "scripts/ai_check_work_item.py",
+      "referencePath": "scripts/ai_check_work_item.py",
       "batch": "WI-270-reference-contract-batch",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
@@ -33371,7 +33371,7 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-     "referencePath": "scripts/ai_decision_protocol.py",
+      "referencePath": "scripts/ai_decision_protocol.py",
       "batch": "WI-270-reference-contract-batch",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
@@ -33662,7 +33662,7 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-     "referencePath": "scripts/ai_intent_policy.py",
+      "referencePath": "scripts/ai_intent_policy.py",
       "batch": "WI-270-reference-contract-batch",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
@@ -33757,7 +33757,7 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-     "referencePath": "scripts/ai_parallel_verification.py",
+      "referencePath": "scripts/ai_parallel_verification.py",
       "batch": "WI-270-reference-contract-batch",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
@@ -33789,7 +33789,7 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-     "referencePath": "scripts/ai_preflight_review.py",
+      "referencePath": "scripts/ai_preflight_review.py",
       "batch": "WI-270-reference-contract-batch",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
@@ -33926,7 +33926,7 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-     "referencePath": "scripts/ai_scenario_policy.py",
+      "referencePath": "scripts/ai_scenario_policy.py",
       "batch": "WI-270-reference-contract-batch",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
@@ -34090,7 +34090,7 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-     "referencePath": "scripts/ai_work_item_state.py",
+      "referencePath": "scripts/ai_work_item_state.py",
       "batch": "WI-270-reference-contract-batch",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
@@ -34773,7 +34773,7 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-     "referencePath": "tests/test_acceptance_policy.py",
+      "referencePath": "tests/test_acceptance_policy.py",
       "batch": "WI-270-reference-contract-batch",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
@@ -34943,7 +34943,7 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-     "referencePath": "tests/test_ai_parallel_verification.py",
+      "referencePath": "tests/test_ai_parallel_verification.py",
       "batch": "WI-270-reference-contract-batch",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
@@ -35107,7 +35107,7 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-     "referencePath": "tests/test_checkpoint_intent.py",
+      "referencePath": "tests/test_checkpoint_intent.py",
       "batch": "WI-270-reference-contract-batch",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
@@ -35138,7 +35138,7 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-     "referencePath": "tests/test_contract_and_policy.py",
+      "referencePath": "tests/test_contract_and_policy.py",
       "batch": "WI-270-reference-contract-batch",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
@@ -35645,7 +35645,7 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-     "referencePath": "tests/test_intent_policy.py",
+      "referencePath": "tests/test_intent_policy.py",
       "batch": "WI-270-reference-contract-batch",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
@@ -35802,7 +35802,7 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-     "referencePath": "tests/test_parallel_lifecycle_contract.py",
+      "referencePath": "tests/test_parallel_lifecycle_contract.py",
       "batch": "WI-270-reference-contract-batch",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
@@ -35840,7 +35840,7 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-     "referencePath": "tests/test_preflight_review.py",
+      "referencePath": "tests/test_preflight_review.py",
       "batch": "WI-270-reference-contract-batch",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
@@ -36060,7 +36060,7 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-     "referencePath": "tests/test_scenario_coverage_gate.py",
+      "referencePath": "tests/test_scenario_coverage_gate.py",
       "batch": "WI-270-reference-contract-batch",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
