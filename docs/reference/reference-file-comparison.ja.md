@@ -116,7 +116,7 @@ complete parity とは扱いません。
 
 Governance entrypoint、getting-started route、CI/release boundary、capability/profile
 projection はこの baseline で review 済みです。上記 4 件は bounded な Rust-native counterpart として登録済みで、
-689 deferred semantic comparison は後続作業として残ります。
+687 deferred semantic comparison は後続作業として残ります。
 
 WI-274 は target checkout metadata と canonical comparison snapshot だけを、レビュー済み
 default branch commit に再バインドします。WI-273 は immutable な failed-delivery record として
@@ -148,8 +148,9 @@ record と共有 lifecycle validator で bounded semantics を強制します。
 | `scripts/ai_checkpoint.py` | implemented-different-by-design | typed `CheckpointEvidence`、amendment CLI、append-only chain、resume-stale binding。 |
 | `tests/test_ai_agent_risk.py`、`tests/test_ai_checkpoint.py`、`tests/test_outcome_lifecycle_rules.py` | implemented-different-by-design | Rust protocol/repository lifecycle と static Agent-rule parity test。 |
 
-これは semantic parity であり、直接の JSON-wire parity ではありません。read-only
-Rust gate の CI invocation は後続の bounded CI batch です。
+これは semantic parity であり、直接の JSON-wire parity ではありません。WI-291 は
+read-only Rust Contract-aware CI gate を追加し、収束期間中は Python route/manifest を
+shadow として残します。完全な workflow と release-preflight parity は deferred のままです。
 
 ## WI-287 checkpoint conformance の収束
 
@@ -163,3 +164,18 @@ successor boundary があることを確認します。
 Object/adopter boundary は変わりません。shared Runtime は request-scoped、全操作は
 明示的な `--repo` を持ち、human Outcome が visible handoff です。CI workflow convergence
 と広い adopter surface は別の bounded batch です。
+
+## WI-291 CI Contract-aware quality gate
+
+WI-291 は reference workflow の quality routing と preflight boundary を Rust-native
+CI surface と比較します。Python route は `light`/`standard`/`strict` の dynamic planner、
+canonical manifest は command list として継続します。standard/strict の Pull Request
+command 実行前に、Rust CLI の read-only `gate` が active Contract、repository/base/
+snapshot identity、intent/scenario/operation/stage route、Agent-Risk/preflight projection
+を検証します。identity-bound な `repository_contract_quality_gate` receipt を出力し、
+yellow/red は fail-closed で CI を止めます。gate は `.ai/` record を書き込みません。
+
+この batch は semantic parity であり、source YAML や Python wire の copy ではありません。
+CI source-build Runtime identity は診断用で、immutable Release/adopter identity は published
+artifact acceptance の境界です。残りの workflow matrix、gate metadata/timeout、release
+preflight、多技術 stack adopter は ledger で deferred として扱い、実装済みとは主張しません。

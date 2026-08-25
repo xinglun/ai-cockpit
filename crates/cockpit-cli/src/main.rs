@@ -153,6 +153,22 @@ enum CommandKind {
         #[arg(long)]
         base_revision: Option<String>,
     },
+    /// Evaluate the Contract/policy route without writing repository
+    /// governance evidence.  CI uses this before executing its command gate.
+    Gate {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        contract: PathBuf,
+        #[arg(long, default_value = "pr")]
+        stage: String,
+        #[arg(long, default_value = "hosted")]
+        runner: String,
+        #[arg(long)]
+        base_revision: Option<String>,
+        #[arg(long)]
+        report: Option<PathBuf>,
+    },
     Evidence {
         #[command(subcommand)]
         command: EvidenceCommand,
@@ -978,6 +994,58 @@ fn run() -> Result<()> {
                 .context("record verification evidence")?;
             }
             println!("{}", serde_json::to_string_pretty(&output)?);
+        }
+        CommandKind::Gate {
+            repo,
+            contract,
+            stage,
+            runner,
+            base_revision,
+            report,
+        } => {
+            require_compatible(&repo, &runtime_context)?;
+            let stage = match stage.as_str() {
+                // The Python CI route uses the provider-facing spelling;
+                // Rust keeps `pr` as the protocol enum spelling.
+                "pull_request" => VerificationStage::PullRequest,
+                other => VerificationStage::parse(other).map_err(|error| anyhow::anyhow!(error))?,
+            };
+            let quality = cockpit_repository::evaluate_contract_quality_gate(
+                &repo,
+                &contract,
+                stage,
+                &runner,
+                base_revision.as_deref(),
+                &runtime_context,
+            )
+            .context("evaluate read-only Contract quality gate")?;
+            let serialized = serde_json::to_string_pretty(&quality)?;
+            if let Some(report) = report {
+                let report = if report.is_absolute() {
+                    report
+                } else {
+                    repo.join(report)
+                };
+                if report
+                    .components()
+                    .any(|component| component == std::path::Component::Normal(".ai".as_ref()))
+                {
+                    anyhow::bail!("CI gate report must not be written under .ai");
+                }
+                if let Some(parent) = report.parent() {
+                    std::fs::create_dir_all(parent).context("create CI gate report parent")?;
+                }
+                std::fs::write(&report, format!("{serialized}\n"))
+                    .context("write CI gate report")?;
+            }
+            println!("{serialized}");
+            if quality.state != "passed" {
+                anyhow::bail!(
+                    "read-only Contract quality gate is {} (decisionState={})",
+                    quality.state,
+                    quality.decision_state
+                );
+            }
         }
         CommandKind::Evidence { command } => match command {
             EvidenceCommand::Import {
