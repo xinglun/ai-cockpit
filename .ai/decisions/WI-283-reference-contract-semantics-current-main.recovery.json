@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "prearchive-parity-binding-recovery",
+  "decidedAt": "2026-08-26T02:15:00+09:00",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-283-reference-contract-semantics-current-main.verification.json",
+    ".ai/decisions/WI-283-reference-contract-semantics-current-main.finalize.json"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:99640ab44b8c06e13ae2c452439dd652f378bbbf06090c28270b63e5e9e1412f",
+  "predecessorEventsDigest": "sha256:1805b24bad3051f9153bd795228f4e39bea5c99b3cbb89dcf52f0fa7b18f62e9",
+  "predecessorOutcomeDigest": "sha256:210038a663ea7340cce80427bd7726a0777816c5f354ce9a211eca120f4902de",
+  "predecessorSummaryDigest": "sha256:603381d25adb439ceed5c733dd347e62c0cff6e52a301f96bf814d015b48a8b8",
+  "predecessorWorkItemId": "WI-283-reference-contract-semantics-current-main",
+  "reason": "Supersede immutable WI-283 because terminal parity evidence and decision links were discovered after archive; revalidate the same bounded batch with prearchive documentation bindings in place.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "WI-284 must complete the full lifecycle and reviewed PR before this reference-parity batch is accepted.",
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-284-reference-contract-semantics-terminal",
+  "workItemId": "WI-283-reference-contract-semantics-current-main"
+}
