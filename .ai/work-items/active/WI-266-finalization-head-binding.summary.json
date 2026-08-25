@@ -1,0 +1,20 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-266-finalization-head-binding.contract.json",
+    ".ai/work-items/active/WI-266-finalization-head-binding.summary.json"
+  ],
+  "checkpointAt": "2026-08-25T03:43:22Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T03:34:48Z",
+  "mode": "code",
+  "preflightAt": "2026-08-25T03:42:37Z",
+  "preflightContractDigest": "sha256:d54ddb15ec69701b10292f43f140d8fb340ee5a191cb64abaaaf3a42dbd7dc1b",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:882948fad372495468b3db92c83e8803f3bcdb809245b257c71759ec5093facf",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-25T03:43:22Z",
+  "workItemId": "WI-266-finalization-head-binding"
+}

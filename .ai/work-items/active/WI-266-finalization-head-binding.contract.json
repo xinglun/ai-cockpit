@@ -1,0 +1,83 @@
+{
+  "acceptanceCriteria": [
+    "Reviewed-head binding rejects code or unrelated changes after finalization.",
+    "Governance-integrity fixture and regression tests pass.",
+    "Documentation and parity remain synchronized in English, Simplified Chinese, and Japanese.",
+    "A reviewed PR merges, finalization is verified, and exact branch/worktree cleanup is recorded."
+  ],
+  "authority": "authorized",
+  "baseRevision": "d98c93a342bd697077cd4523b8a36d2b0197f885",
+  "createdAt": "2026-08-25T03:34:48Z",
+  "goal": "Carry the reviewed-head governance fix from the failed WI-261 attempt into the current default branch with fresh evidence and hosted review.",
+  "intent": "Bind repository finalization receipts to the exact reviewed provider head and reject post-finalization code drift.",
+  "mode": "code",
+  "outOfScope": [
+    "Immutable failed WI-261 archive/evidence bytes and the original PR #213 branch",
+    "WI-262 release cleanup implementation",
+    "WI-264 failed recovery attempt and PR #216",
+    "Quality-route Python-to-Rust migration",
+    "User-global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a25a872c19b260cd908dcdbe6d0034426068e44b6facf798e08a1f5d3932cfd0",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation_parity",
+    "hosted_review"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-266-finalization-head-binding",
+    "provider": "github",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi266-finalization-head-binding"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "expected": "A finalization receipt bound to a reviewed head is rejected after code or unrelated repository drift.",
+      "required": true,
+      "scenario": "post-finalization code drift fails closed",
+      "status": "unverified",
+      "verificationPlan": "Run the governance-integrity regression fixture for exact head, append-only governance records, code drift, and unrelated changes on the reviewed checkout."
+    }
+  ],
+  "scope": [
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "tests/ci/fixtures/governance-integrity/build_fixture.py",
+    "docs/reference/governance-integrity-gate.md",
+    "docs/reference/governance-integrity-gate.zh-CN.md",
+    "docs/reference/governance-integrity-gate.ja.md",
+    "docs/work-items/WI-266-finalization-head-binding.md",
+    "docs/work-items/WI-266-finalization-head-binding.zh-CN.md",
+    "docs/work-items/WI-266-finalization-head-binding.ja.md",
+    ".ai/evidence/WI-266-finalization-head-binding.verification.json",
+    ".ai/work-items/active/WI-266-finalization-head-binding.*",
+    ".ai/work-items/archive/WI-266-finalization-head-binding.*",
+    ".ai/decisions/WI-266-finalization-head-binding.*",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "PR #213 failed quality gate and WI-261 implementation commit 5bf748f",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "bash tests/ci/governance_integrity_gate_test.sh",
+    "bash tests/docs/parity_status_check_test.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "cargo fmt --all -- --check",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-266-finalization-head-binding"
+}
