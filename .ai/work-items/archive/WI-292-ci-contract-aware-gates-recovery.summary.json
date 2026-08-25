@@ -1,0 +1,187 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "dynamic light standard strict route regression",
+          "path": "tests/ci/quality_route_test.py",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "identity-bound read-only Contract gate",
+          "path": "crates/cockpit-repository/tests/ci_quality_gate.rs",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "Rust gate before repository gates with shadow checks",
+          "path": ".github/workflows/ci.yml",
+          "type": "ci",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "foreign, stale, symlink, policy, manifest, route, and human-review rejection",
+          "path": "crates/cockpit-repository/tests/ci_quality_gate.rs",
+          "type": "test",
+          "verification": "passed"
+        },
+        {
+          "locator": "tampered Contract gate report rejection",
+          "path": "tests/ci/repository_gate_manifest_test.py",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "tri-language documentation, parity rows, and inventory registration before verification",
+          "path": "docs/reference/ci-quality-gates.md",
+          "type": "documentation",
+          "verification": "passed"
+        },
+        {
+          "locator": "Simplified Chinese counterpart",
+          "path": "docs/reference/ci-quality-gates.zh-CN.md",
+          "type": "documentation",
+          "verification": "passed"
+        },
+        {
+          "locator": "Japanese counterpart",
+          "path": "docs/reference/ci-quality-gates.ja.md",
+          "type": "documentation",
+          "verification": "passed"
+        },
+        {
+          "locator": "parity inventory records",
+          "path": "tests/conformance/reference_file_inventory.json",
+          "type": "inventory",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "installed Runtime lifecycle and repository-bound verification",
+          "path": ".ai/evidence/WI-292-ci-contract-aware-gates-recovery.verification.json",
+          "type": "evidence",
+          "verification": "passed"
+        },
+        {
+          "locator": "object/adopter boundary and hosted PR acceptance",
+          "path": "docs/reference/ci-quality-gates.md",
+          "type": "documentation",
+          "verification": "passed"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/evidence/WI-291-ci-contract-aware-gates.verification.json",
+    ".ai/work-items/active/WI-291-ci-contract-aware-gates.contract.json",
+    ".ai/work-items/active/WI-291-ci-contract-aware-gates.summary.json",
+    ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.contract.json",
+    ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.summary.json",
+    ".github/workflows/ci.yml",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/ci_gate.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/ci_quality_gate.rs",
+    "docs/reference/ci-quality-gates.ja.md",
+    "docs/reference/ci-quality-gates.md",
+    "docs/reference/ci-quality-gates.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "tests/ci/quality_route_test.py",
+    "tests/ci/repository_gate_manifest_test.py",
+    "tests/ci/run_repository_gates.py",
+    "tests/conformance/reference_file_inventory.json"
+  ],
+  "checkpointAt": "2026-08-25T22:48:04Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T22:42:26Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-292-ci-contract-aware-gates-recovery.contract.json",
+      "crates/cockpit-repository/tests/ci_quality_gate.rs",
+      ".ai/evidence/WI-292-ci-contract-aware-gates-recovery.verification.json"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-25T23:10:54Z",
+  "preflightContractDigest": "sha256:a0c23319318dfb118f0807b184e8035bea771abe574f8e4ae8e74279507b0f7f",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:e2db3d88db774ae8255c1420b043e17352cd35f2e43dfa35572f4a7c4387d232",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/ci_quality_gate.rs",
+        "crates/cockpit-cli/tests/ci_gate.rs"
+      ],
+      "required": true,
+      "scenario": "rust_gate_rejects_invalid_contract_before_commands",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/quality_route_test.py",
+        "tests/ci/repository_gate_manifest_test.py",
+        ".github/workflows/ci.yml"
+      ],
+      "required": true,
+      "scenario": "dynamic_route_and_python_shadow_converge",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/ci_quality_gate.rs",
+        "crates/cockpit-cli/tests/ci_gate.rs"
+      ],
+      "required": true,
+      "scenario": "read_only_gate_preserves_repository_protocol",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "docs/reference/ci-quality-gates.md",
+        "docs/reference/ci-quality-gates.zh-CN.md",
+        "docs/reference/ci-quality-gates.ja.md"
+      ],
+      "required": true,
+      "scenario": "object_adopter_boundary_remains_explicit",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-25T23:11:00Z",
+  "workItemId": "WI-292-ci-contract-aware-gates-recovery"
+}

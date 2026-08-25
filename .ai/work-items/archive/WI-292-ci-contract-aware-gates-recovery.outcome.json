@@ -1,0 +1,271 @@
+{
+  "acceptanceResults": [
+    "A1: The dynamic light, standard, and strict route remains fail-closed and the Rust gate is the authority for Contract-bound standard/strict CI.",
+    "A2: Rust gate reports bind repository identity, Contract/base/snapshot digests, route, policy decision, and current Runtime without writing .ai records.",
+    "A3: CI invokes the Rust gate before repository commands for standard and strict routes while retaining Python/Cargo shadow checks and rejecting disagreement.",
+    "A4: Negative tests cover malformed, foreign, stale, symlink, policy-conflicting, manifest-tampered, route-tampered, and human-review-required inputs.",
+    "A5: Tri-language documentation, parity rows, and inventory records are registered before verification and describe the semantic/non-wire and source-build versus immutable Release boundaries.",
+    "A6: The installed Runtime lifecycle, hosted PR checks, finalization, close, exact branch/worktree cleanup, and object/adopter boundary are evidenced."
+  ],
+  "createdAt": "2026-08-25T23:11:00Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:bdd2b254d03067d691bd6560fde76642be981fc42f8ed5441133dcbb41752068",
+  "evidenceRefs": [
+    ".ai/evidence/WI-292-ci-contract-aware-gates-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-292-ci-contract-aware-gates-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-292-ci-contract-aware-gates-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e2db3d88db774ae8255c1420b043e17352cd35f2e43dfa35572f4a7c4387d232",
+      "workItemId": "WI-292-ci-contract-aware-gates-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-291-ci-contract-aware-gates.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-291-ci-contract-aware-gates.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-291-ci-contract-aware-gates.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .github/workflows/ci.yml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/src/main.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/ci_gate.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/ci_quality_gate.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/ci-quality-gates.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/ci-quality-gates.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/ci-quality-gates.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-file-comparison.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-file-comparison.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-file-comparison.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/quality_route_test.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/repository_gate_manifest_test.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/run_repository_gates.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/conformance/reference_file_inventory.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-292-ci-contract-aware-gates-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-292-ci-contract-aware-gates-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-292-ci-contract-aware-gates-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-292-ci-contract-aware-gates-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-292-ci-contract-aware-gates-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Make hosted CI consume the same Rust Contract and verification truth while retaining the dynamic light/standard/strict route and Python/Cargo shadow comparison."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-292-ci-contract-aware-gates-recovery"
+  },
+  "taskReportDigest": "sha256:5a550cbb3099dba916d4c85f7a8b82a778251b64951e040aea672741e0c56d6b",
+  "taskReportMarkdownDigest": "sha256:9e04499f0d49381ad2ffb20443d74efb046d5b2424f25e8efce7a037e979c022",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-292-ci-contract-aware-gates-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-292-ci-contract-aware-gates-recovery"
+}

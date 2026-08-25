@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-25T23:11:05Z",
+  "files": {
+    "contractDigest": "sha256:0d7a8da5f442fff29d5e83b512b87974f5e5c16d78a2c3f6b624ff390d60b5de",
+    "contractPath": ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.contract.json",
+    "eventsDigest": "sha256:c0def6ed583298c2efe4d14a7b9f99b849a670e8cee5a2cc3109b88b72d0c3cb",
+    "eventsPath": ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.events.jsonl",
+    "outcomeDigest": "sha256:b65a5cc1ade8e111065b6d8b07a488f2cba9141f72d15d5b9a9e1d72cb2d4dd3",
+    "outcomePath": ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.outcome.json",
+    "summaryDigest": "sha256:b50d3b54ccddd2712ed855dfdfda8217f0a0a166f7bc5c471a2b2b1ac19e80fa",
+    "summaryPath": ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.summary.json",
+    "taskReportDigest": "sha256:5a550cbb3099dba916d4c85f7a8b82a778251b64951e040aea672741e0c56d6b",
+    "taskReportMarkdownDigest": "sha256:9e04499f0d49381ad2ffb20443d74efb046d5b2424f25e8efce7a037e979c022",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-292-ci-contract-aware-gates-recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-292-ci-contract-aware-gates-recovery"
+}
