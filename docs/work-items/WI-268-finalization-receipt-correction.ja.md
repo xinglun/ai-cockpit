@@ -6,7 +6,7 @@ description: "immutable な invalid pre-merge finalization receipt を明示的 
 audience:
   - maintainer
   - reviewer
-status: in-progress
+status: recovered
 lastVerifiedBy: WI-268-finalization-receipt-correction
 authority: canonical
 ---

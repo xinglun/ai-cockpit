@@ -1,0 +1,123 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "tri-language WI-269 parity registration",
+          "path": "docs/reference/reference-parity.md",
+          "type": "document",
+          "verification": "parity_status_check.sh and documentation_acceptance.sh"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "archive/evidence before finalization ordering",
+          "path": "docs/work-items/WI-269-finalization-head-order-correction.md",
+          "type": "document",
+          "verification": "commit ancestry inspection and Runtime receipt validation"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "reviewed pull request hosted quality",
+          "path": "https://github.com/xinglun/ai-cockpit/pull/220",
+          "type": "hosted-review",
+          "verification": "GitHub Actions quality windows-runtime and v1-behavioral-oracle"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "post-merge synchronized cleanup",
+          "path": ".ai/decisions/WI-269-finalization-head-order-correction.close.json",
+          "type": "lifecycle",
+          "verification": "Runtime close and exact branch/worktree cleanup"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-268-finalization-receipt-correction.recovery.json",
+    ".ai/work-items/active/WI-269-finalization-head-order-correction.contract.json",
+    ".ai/work-items/active/WI-269-finalization-head-order-correction.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-269-finalization-head-order-correction.ja.md",
+    "docs/work-items/WI-269-finalization-head-order-correction.md",
+    "docs/work-items/WI-269-finalization-head-order-correction.zh-CN.md"
+  ],
+  "checkpointAt": "2026-08-25T04:57:44Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T04:52:13Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:59a7873fb4e28e361a88d2bacb80a7512b02e136c09467bd925dfa2d71eb58d5",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+    "reason": "Confirm the bounded WI-269 recovery successor and its required commit ordering before the hosted review boundary.",
+    "recordedAt": "2026-08-25T05:00:00Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:760547faf7a3f057e9c0da423fdbd3b9b12d336083331d449822f8d096e40fa9",
+    "schemaVersion": 1,
+    "workItemId": "WI-269-finalization-head-order-correction"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/decisions/WI-268-finalization-receipt-correction.recovery.json",
+      "docs/work-items/WI-269-finalization-head-order-correction.md"
+    ],
+    "reason": "The successor is limited to correcting immutable finalization ordering and preserving predecessor recovery history.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "predecessorContractDigest": "sha256:2072a5cbc41cae4475dc539018b3467b01c4fe2bff4da2697747c9e10eedb437",
+  "predecessorWorkItemId": "WI-268-finalization-receipt-correction",
+  "preflightAt": "2026-08-25T04:59:57Z",
+  "preflightContractDigest": "sha256:59a7873fb4e28e361a88d2bacb80a7512b02e136c09467bd925dfa2d71eb58d5",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:760547faf7a3f057e9c0da423fdbd3b9b12d336083331d449822f8d096e40fa9",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-268-finalization-receipt-correction.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "docs/work-items/WI-269-finalization-head-order-correction.md",
+        ".ai/work-items/active/WI-269-finalization-head-order-correction.contract.json"
+      ],
+      "expected": "The finalization head equals the commit containing the archived Contract and verification evidence.",
+      "required": true,
+      "scenario": "finalization is recorded only after the archive and verification commit is stable",
+      "status": "verified",
+      "verificationPlan": "Inspect commit ancestry and validate the Runtime finalization receipt against the checked-out head."
+    },
+    {
+      "evidence": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        ".ai/decisions/WI-268-finalization-receipt-correction.recovery.json"
+      ],
+      "expected": "WI-267 and WI-268 remain Recovered while WI-269 has matching English Chinese and Japanese lifecycle rows.",
+      "required": true,
+      "scenario": "predecessor recovery remains immutable and all three parity documents stay synchronized",
+      "status": "verified",
+      "verificationPlan": "Run the parity and documentation governance checks after each lifecycle boundary."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-08-25T04:59:57.276061+00:00",
+  "workItemId": "WI-269-finalization-head-order-correction"
+}

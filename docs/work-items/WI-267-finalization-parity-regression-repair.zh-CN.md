@@ -6,7 +6,7 @@ description: "修复 hosted quality 暴露的受限 finalization/parity append �
 audience:
   - maintainer
   - reviewer
-status: in-progress
+status: recovered
 lastVerifiedBy: WI-267-finalization-parity-regression-repair
 authority: canonical
 ---

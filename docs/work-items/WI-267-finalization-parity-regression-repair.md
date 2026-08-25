@@ -6,7 +6,7 @@ description: "Repair bounded finalization/parity append semantics exposed by hos
 audience:
   - maintainer
   - reviewer
-status: in-progress
+status: recovered
 lastVerifiedBy: WI-267-finalization-parity-regression-repair
 authority: canonical
 ---

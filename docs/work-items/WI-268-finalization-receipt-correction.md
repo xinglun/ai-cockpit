@@ -6,7 +6,7 @@ description: "Correct an immutable invalid pre-merge finalization receipt throug
 audience:
   - maintainer
   - reviewer
-status: in-progress
+status: recovered
 lastVerifiedBy: WI-268-finalization-receipt-correction
 authority: canonical
 ---

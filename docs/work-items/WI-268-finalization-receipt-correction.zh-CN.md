@@ -6,7 +6,7 @@ description: "通过显式 successor 修正不可变的无效 pre-merge finaliza
 audience:
   - maintainer
   - reviewer
-status: in-progress
+status: recovered
 lastVerifiedBy: WI-268-finalization-receipt-correction
 authority: canonical
 ---
