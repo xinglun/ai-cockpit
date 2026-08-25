@@ -10,9 +10,6 @@
   "createdAt": "2026-08-25T17:28:07Z",
   "goal": "Deliver the bounded Rust Contract-semantics parity batch with complete historical documentation, lifecycle, and hosted-gate evidence.",
   "intent": "Complete the Contract-semantics parity recovery with all historical documentation promotions and terminal bindings included before verification.",
-  "predecessorWorkItemId": "WI-284-reference-contract-semantics-terminal",
-  "predecessorContractDigest": "sha256:d2938b2b7cbb5ae0052edf12aa585fbc1d277d90437f5144b9d2ace01a580665",
-  "recoveryDecisionPath": ".ai/decisions/WI-284-reference-contract-semantics-terminal.recovery.json",
   "mode": "implementation",
   "outOfScope": [
     ".github/workflows/**",
@@ -21,8 +18,11 @@
     "planner/dependency-graph/runtime architecture",
     "global Agent/MCP configuration"
   ],
+  "predecessorContractDigest": "sha256:d2938b2b7cbb5ae0052edf12aa585fbc1d277d90437f5144b9d2ace01a580665",
+  "predecessorWorkItemId": "WI-284-reference-contract-semantics-terminal",
   "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
   "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-284-reference-contract-semantics-terminal.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:bbd381ec18f5d780bd3f84510afdb8c579ebcf67fe3a3dbe58c6f346f65f282d",
   "requiredEvidenceClasses": [
@@ -30,11 +30,11 @@
     "documentation"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-285-reference-contract-semantics-final",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/245",
     "worktree": "/private/tmp/ai-cockpit-wi285"
   },
   "risk": "normal",

@@ -1,0 +1,20 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-25T17:40:33Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T17:28:07Z",
+  "failedGate": "finish.governance",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-25T17:42:33Z",
+  "preflightContractDigest": "sha256:a9b45cb73177f4a447d2cc3b4444608bb1e4721574500849631182663c6bbe57",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:c9524aa3812d097d4b30ed992388c8b02ae1b927d0192696022883fcdf299af1",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-25T17:42:38Z",
+  "workItemId": "WI-285-reference-contract-semantics-final"
+}
