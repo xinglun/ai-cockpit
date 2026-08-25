@@ -7,7 +7,7 @@ script="$root/tests/conformance/reference_file_inventory.py"
 tmp=$(mktemp -d "${TMPDIR:-/tmp}/reference-file-inventory-test.XXXXXX")
 trap 'rm -rf "$tmp"' EXIT
 
-python3 "$script" --manifest "$manifest" --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf --target-commit 87bfd86645adf7f4a6f86e447763542988371039 --check
+python3 "$script" --manifest "$manifest" --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf --target-commit 487f01970c49e2b85d17b0cb0536f9d60c8f05e0 --check
 
 test "$(jq -r '.referenceTrackedFileCount' "$manifest")" -eq "$(jq '.records | length' "$manifest")"
 test "$(jq -r '.targetWorkingTreeFileCount' "$manifest")" -eq "$(jq -r '.targetTrackedFileCount' "$manifest")"
@@ -37,19 +37,19 @@ for agent_rule in \
 done
 
 jq '(.records[] | select(.referencePath == ".ai/project/adopter-capability-manifest.json") | .classification) = ""' "$manifest" > "$tmp/empty-capability-classification.json"
-if python3 "$script" --manifest "$tmp/empty-capability-classification.json" --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf --target-commit 87bfd86645adf7f4a6f86e447763542988371039 --check; then
+if python3 "$script" --manifest "$tmp/empty-capability-classification.json" --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf --target-commit 487f01970c49e2b85d17b0cb0536f9d60c8f05e0 --check; then
   echo "inventory accepted an empty scoped classification" >&2
   exit 1
 fi
 
 jq '.records[0].classification = "unclassified"' "$manifest" > "$tmp/invalid.json"
-if python3 "$script" --manifest "$tmp/invalid.json" --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf --target-commit 87bfd86645adf7f4a6f86e447763542988371039 --check; then
+if python3 "$script" --manifest "$tmp/invalid.json" --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf --target-commit 487f01970c49e2b85d17b0cb0536f9d60c8f05e0 --check; then
   echo "inventory accepted an unclassified record" >&2
   exit 1
 fi
 
 jq '.targetWorkingTreeFileCount += 1' "$manifest" > "$tmp/working-tree-drift.json"
-if python3 "$script" --manifest "$tmp/working-tree-drift.json" --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf --target-commit 87bfd86645adf7f4a6f86e447763542988371039 --check; then
+if python3 "$script" --manifest "$tmp/working-tree-drift.json" --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf --target-commit 487f01970c49e2b85d17b0cb0536f9d60c8f05e0 --check; then
   echo "inventory accepted target working-tree metadata outside the immutable baseline" >&2
   exit 1
 fi
@@ -58,14 +58,14 @@ cp "$manifest" "$tmp/getting-started.json"
 python3 "$script" \
   --manifest "$tmp/getting-started.json" \
   --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf \
-  --target-commit 87bfd86645adf7f4a6f86e447763542988371039 \
+  --target-commit 487f01970c49e2b85d17b0cb0536f9d60c8f05e0 \
   --apply-getting-started-batch
 test "$(jq '[.records[] | select(.referencePath | startswith("docs/getting-started/"))] | length' "$tmp/getting-started.json")" -eq 35
 test "$(jq '[.records[] | select((.referencePath | startswith("docs/getting-started/")) and .batch == "getting-started-onboarding" and .classification == "implemented-different-by-design" and (.rustCounterparts | length) > 0)] | length' "$tmp/getting-started.json")" -eq 35
 python3 "$script" \
   --manifest "$tmp/getting-started.json" \
   --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf \
-  --target-commit 87bfd86645adf7f4a6f86e447763542988371039 \
+  --target-commit 487f01970c49e2b85d17b0cb0536f9d60c8f05e0 \
   --check
 
 reference_fixture="$tmp/reference"

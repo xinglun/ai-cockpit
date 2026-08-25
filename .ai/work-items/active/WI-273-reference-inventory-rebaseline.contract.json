@@ -1,0 +1,58 @@
+{
+  "acceptanceCriteria": [
+    "A1: inventory targetCommit, tracked/working-tree counts, and path digests equal the clean current origin/main baseline 487f01970c49e2b85d17b0cb0536f9d60c8f05e0.",
+    "A2: existing reference classifications, WI-270/WI-272 records, and four explicit migrate-gap records are preserved; no deferred path is promoted without a separate semantic comparison.",
+    "A3: inventory generator and regression tests reject a stale target revision and verify the current metadata.",
+    "A4: English, Simplified Chinese, and Japanese comparison documentation use the same current baseline and counts.",
+    "A5: documentation acceptance, inventory regression, governance integrity, and full required checks pass; no Runtime business behavior changes."
+  ],
+  "authority": "authorized",
+  "baseRevision": "487f01970c49e2b85d17b0cb0536f9d60c8f05e0",
+  "createdAt": "2026-08-25T08:12:54Z",
+  "goal": "Make the reference inventory authoritative for the current default branch without changing Runtime behavior, silently closing deferred records, or rewriting historical Work Item evidence.",
+  "intent": "Rebaseline the file-by-file reference comparison ledger and canonical comparison documentation to the current reviewed origin/main commit before the next semantic comparison batch.",
+  "mode": "code",
+  "outOfScope": [
+    "crates/**",
+    ".github/**",
+    ".ai/**",
+    "historical docs/work-items/**"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0f73dff402ec7907fbb53d7e2b05e5031765e8965cbe50cc0a7df369bde479f3",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-273-inventory-rebaseline",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi273-inventory"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "tests/docs/documentation_acceptance.sh",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-273-reference-inventory-rebaseline.md",
+    "docs/work-items/WI-273-reference-inventory-rebaseline.zh-CN.md",
+    "docs/work-items/WI-273-reference-inventory-rebaseline.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-273-reference-inventory-rebaseline"
+}

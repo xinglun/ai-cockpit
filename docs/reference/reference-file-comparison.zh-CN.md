@@ -20,7 +20,7 @@ capabilityClaims:
 ## 固定基线
 
 - 参考源：[spirex-ds-dev/ai-cockpit-template](https://github.com/spirex-ds-dev/ai-cockpit-template)，提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf`。
-- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `87bfd86645adf7f4a6f86e447763542988371039`。
+- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `487f01970c49e2b85d17b0cb0536f9d60c8f05e0`。
 - 比较时使用的 Runtime：`ai-cockpit 0.2.31`，binary SHA256 为 `1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9`。
 
 机器可读台账见
@@ -102,8 +102,8 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 ## 当前台账快照
 
 在固定的 v0.2.31 比较基线上，台账共有 5,119 条记录：4,262 条
-`generated-history`、159 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、693 条 `deferred-next-batch` 与 4 条
+`generated-history`、163 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、689 条 `deferred-next-batch` 与 4 条
 `migrate-gap`。deferred 记录仍是待比较工作，不是 parity 声明。四个尚未补齐的
 capability/profile 文件是：
 
@@ -113,7 +113,11 @@ capability/profile 文件是：
 4. `.ai/project_profile.yaml`
 
 治理入口、getting-started 路线、CI/release 边界与 capability projection 已按该基线审阅；
-现有 Rust 行为不会自动关闭这四个文件级 gap，也不会把 720 条 deferred 语义比较当作完成。
+现有 Rust 行为不会自动关闭这四个文件级 gap，也不会把 689 条 deferred 语义比较当作完成。
+
+WI-273 只将目标 checkout metadata 和 canonical comparison snapshot 重新绑定到已审阅的
+默认分支提交。现有分类记录（包括 WI-270/WI-272）和四个明确的 migrate-gap 路径保持不变；
+metadata 刷新不会将任何 deferred 路径提前标记为已完成。
 
 ## 批次顺序
 

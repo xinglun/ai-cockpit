@@ -20,7 +20,7 @@ Reference は specification と behavior corpus であり、Rust Runtime にコ�
 ## 固定 baseline
 
 - Reference: [spirex-ds-dev/ai-cockpit-template](https://github.com/spirex-ds-dev/ai-cockpit-template)、commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf`。
-- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `87bfd86645adf7f4a6f86e447763542988371039`。
+- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `487f01970c49e2b85d17b0cb0536f9d60c8f05e0`。
 - 比較に使う Runtime: `ai-cockpit 0.2.31`、binary SHA256 `1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9`。
 
 Machine-readable ledger は
@@ -105,8 +105,8 @@ complete parity とは扱いません。
 ## 現在の ledger snapshot
 
 固定した v0.2.31 comparison baseline の ledger は 5,119 records です。内訳は
-4,262 `generated-history`、159 `implemented-different-by-design`、1
-`implemented-equivalent`、693 `deferred-next-batch`、4 `migrate-gap` です。
+4,262 `generated-history`、163 `implemented-different-by-design`、1
+`implemented-equivalent`、689 `deferred-next-batch`、4 `migrate-gap` です。
 Deferred record は予定された比較であり parity claim ではありません。未解決の
 capability/profile gap は次の 4 file です。
 
@@ -117,7 +117,11 @@ capability/profile gap は次の 4 file です。
 
 Governance entrypoint、getting-started route、CI/release boundary、capability
 projection はこの baseline で review 済みです。既存 Rust behavior はこの 4 file-level
-gap や 720 deferred semantic comparison を自動的に close しません。
+gap や 689 deferred semantic comparison を自動的に close しません。
+
+WI-273 は、対象 checkout metadata と canonical comparison snapshot を、レビュー済みの
+default branch commit に再バインドするだけです。WI-270/WI-272 を含む既存の分類と4つの
+明示的な migrate-gap path は保持し、metadata 更新によって deferred path を完了扱いにしません。
 
 ## Batch order
 
