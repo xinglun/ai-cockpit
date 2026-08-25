@@ -1,0 +1,168 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "dynamic light standard strict route regression",
+          "path": "tests/ci/quality_route_test.py",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "identity-bound read-only Contract gate",
+          "path": "crates/cockpit-repository/tests/ci_quality_gate.rs",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "deterministic report and nonzero blocked state",
+          "path": "crates/cockpit-cli/tests/ci_gate.rs",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "Rust gate before repository gates with shadow checks",
+          "path": ".github/workflows/ci.yml",
+          "type": "ci",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "foreign base, repository, and symlink rejection",
+          "path": "crates/cockpit-repository/tests/ci_quality_gate.rs",
+          "type": "test",
+          "verification": "passed"
+        },
+        {
+          "locator": "tampered Contract gate report rejection",
+          "path": "tests/ci/repository_gate_manifest_test.py",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "English dynamic route and release boundary",
+          "path": "docs/reference/ci-quality-gates.md",
+          "type": "documentation",
+          "verification": "passed"
+        },
+        {
+          "locator": "Simplified Chinese counterpart",
+          "path": "docs/reference/ci-quality-gates.zh-CN.md",
+          "type": "documentation",
+          "verification": "passed"
+        },
+        {
+          "locator": "Japanese counterpart",
+          "path": "docs/reference/ci-quality-gates.ja.md",
+          "type": "documentation",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A7",
+      "evidence": [
+        {
+          "locator": "explicit repository and read-only .ai boundary",
+          "path": "crates/cockpit-cli/tests/ci_gate.rs",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-291-ci-contract-aware-gates.contract.json",
+    ".ai/work-items/archive/WI-291-ci-contract-aware-gates.summary.json"
+  ],
+  "checkpointAt": "2026-08-25T22:09:46Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T21:41:25Z",
+  "failedGate": "finish.preflight",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-291-ci-contract-aware-gates.contract.json",
+      "crates/cockpit-repository/tests/ci_quality_gate.rs",
+      ".ai/evidence/WI-291-ci-contract-aware-gates.verification.json"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-25T22:20:46Z",
+  "preflightContractDigest": "sha256:7a3f4915b8effc89e66a1ef82d389984f1388f80b7015c04e1ce3b38fe29bf41",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:99cd9dfeb2028226d75a94edbc49dbefc88ad3bee0d8653aa14b6e8586c84021",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record a fresh non-red preflight result, then retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/ci_quality_gate.rs",
+        "crates/cockpit-cli/tests/ci_gate.rs"
+      ],
+      "required": true,
+      "scenario": "rust_gate_rejects_invalid_contract_before_commands",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/quality_route_test.py",
+        "tests/ci/repository_gate_manifest_test.py",
+        ".github/workflows/ci.yml"
+      ],
+      "required": true,
+      "scenario": "dynamic_route_and_python_shadow_converge",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/ci_quality_gate.rs",
+        "crates/cockpit-cli/tests/ci_gate.rs"
+      ],
+      "required": true,
+      "scenario": "read_only_gate_preserves_repository_protocol",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "docs/reference/ci-quality-gates.md",
+        "docs/reference/ci-quality-gates.zh-CN.md",
+        "docs/reference/ci-quality-gates.ja.md"
+      ],
+      "required": true,
+      "scenario": "object_adopter_boundary_remains_explicit",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-25T22:20:50Z",
+  "workItemId": "WI-291-ci-contract-aware-gates"
+}

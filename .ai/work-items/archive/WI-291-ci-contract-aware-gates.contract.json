@@ -1,0 +1,107 @@
+{
+  "acceptanceCriteria": [
+    "A1: The CI route remains dynamic across light, standard, and strict profiles and unknown or release-owned paths fail closed without a downgrade.",
+    "A2: Rust owns a read-only Contract-aware quality gate bound to repository, Contract, snapshot, route, Agent Risk, and preflight facts without writing .ai records.",
+    "A3: The Rust gate emits deterministic identity-bound JSON and yellow or red decisions exit non-zero.",
+    "A4: Pull-request CI invokes the Rust gate before repository commands for standard and strict routes while retaining existing Cargo/static shadow checks.",
+    "A5: Negative tests cover malformed, foreign, stale, symlink, policy-conflicting, manifest-tampered, route-tampered, and human-review-required inputs, plus read-only byte preservation.",
+    "A6: English, Simplified Chinese, and Japanese documentation describes the dynamic CI boundary, source-build versus immutable Release identity, and deferred workflow comparisons without overclaiming.",
+    "A7: Shared Runtime, explicit repository context, visible Outcome, and object/adopter isolation boundaries remain unchanged."
+  ],
+  "authority": "authorized",
+  "baseRevision": "b159deb4b1976befb0d1cc547c99c40a3bc3b13c",
+  "createdAt": "2026-08-25T21:41:25Z",
+  "goal": "Make CI consume the same Rust Contract and verification truth as the repository Runtime while retaining a dynamic, resource-aware quality route.",
+  "intent": "The current Python quality route selects a light, standard, or strict profile but does not ask the Rust Runtime to validate the active Contract and policy-bound route before executing repository gates. Introduce one read-only Rust Contract-aware gate and connect it to CI so missing or contradictory governance facts stop before command execution, while existing Cargo/static checks remain as a shadow comparison.",
+  "mode": "code",
+  "outOfScope": [
+    "full reference workflow graph and release-preflight parity",
+    "verification planner optimization and affected graph",
+    "removal of Python/Cargo shadow gates",
+    "release/adopter harness changes",
+    "MCP/knowledge/isolation redesign or lib.rs decomposition",
+    "global Agent/MCP configuration and source/V1 copying"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:722fbdb02cb50718177b67cc6dbfcd5bc4007ec9710f16770de92af832d35912",
+  "requiredEvidenceClasses": [
+    "verification",
+    "tests",
+    "documentation",
+    "ci_gate"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-291-ci-contract-aware-gates",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/251",
+    "worktree": "/private/tmp/ai-cockpit-wi291"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "missing, malformed, foreign, stale, symlink, or policy-conflicting Contract stops before repository gates",
+      "required": true,
+      "scenario": "rust_gate_rejects_invalid_contract_before_commands",
+      "status": "unverified",
+      "verificationPlan": "Rust repository and CLI negative tests"
+    },
+    {
+      "evidence": [],
+      "expected": "docs-only, source, and strict/release changes select the same bounded profile and disagreeing Rust/Python receipts fail closed",
+      "required": true,
+      "scenario": "dynamic_route_and_python_shadow_converge",
+      "status": "unverified",
+      "verificationPlan": "quality route and CI workflow regression tests"
+    },
+    {
+      "evidence": [],
+      "expected": "the Rust CI gate emits a receipt without changing .ai Contract, Summary, evidence, or decision bytes",
+      "required": true,
+      "scenario": "read_only_gate_preserves_repository_protocol",
+      "status": "unverified",
+      "verificationPlan": "repository snapshot and byte-diff regression test"
+    },
+    {
+      "evidence": [],
+      "expected": "CI source-build identity remains distinct from immutable Release/adopter identity and no global Agent/MCP state is written",
+      "required": true,
+      "scenario": "object_adopter_boundary_remains_explicit",
+      "status": "unverified",
+      "verificationPlan": "documentation and isolation gate checks"
+    }
+  ],
+  "scope": [
+    ".ai/**",
+    ".github/workflows/ci.yml",
+    "tests/ci/quality_route.py",
+    "tests/ci/quality_route_test.py",
+    "tests/ci/run_repository_gates.py",
+    "tests/ci/repository_gate_manifest.json",
+    "tests/ci/**",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/**",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/**",
+    "docs/reference/**",
+    "tests/conformance/reference_file_inventory.json"
+  ],
+  "sources": [
+    "spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf: .github/workflows/compatibility.yml",
+    "spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf: .github/workflows/smoke.yml",
+    "spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf: .github/workflows/release.yml",
+    "spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf: scripts/ai_preflight_review.py",
+    "spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf: tests/test_workflows.py",
+    "spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf: tests/test_release_workflow.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-291-ci-contract-aware-gates"
+}
