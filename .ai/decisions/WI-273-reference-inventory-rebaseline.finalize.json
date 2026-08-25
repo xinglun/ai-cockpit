@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "repository-policy:merge-review",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "2a03e92945562f0540e1232095052fc02fe05a55",
+    "name": "codex/wi-273-inventory-rebaseline",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:4ddbdd55c27655082bc06e8288950c460b0f8ffcd95109dea82d75ee31234703",
+  "operationId": "wi273-premerge-finalization-2a03e92",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "487f01970c49e2b85d17b0cb0536f9d60c8f05e0",
+    "headRevision": "2a03e92945562f0540e1232095052fc02fe05a55",
+    "number": 231,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/231"
+  },
+  "reason": "Hosted review is pending; bind the exact WI-273 archive and verification commit before the reviewed PR is merged.",
+  "receiptId": "wi273-premerge-2a03e92",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-273-inventory-rebaseline",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/231",
+    "worktree": "/private/tmp/ai-cockpit-wi273-inventory"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-25T08:35:00Z",
+  "workItemId": "WI-273-reference-inventory-rebaseline",
+  "worktree": {
+    "branch": "codex/wi-273-inventory-rebaseline",
+    "headRevision": "2a03e92945562f0540e1232095052fc02fe05a55",
+    "path": "/private/tmp/ai-cockpit-wi273-inventory",
+    "worktreeId": "WI-273-reference-inventory-rebaseline"
+  }
+}
