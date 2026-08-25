@@ -16,7 +16,7 @@
         },
         {
           "path": "docs/reference/reference-parity.zh-CN.md",
-          "row": "| WI-278——pre-close docs gate | 进行中 | `.ai/work-items/archive/WI-278-preclose-docs-gate.contract.json`；`.ai/evidence/WI-278-preclose-docs-gate.verification.json`；`.ai/decisions/WI-278-preclose-docs-gate.finalize.json`；`.ai/decisions/WI-278-preclose-docs-gate.close.json`。 |"
+          "row": "| WI-278 —— pre-close docs gate | 进行中 | `.ai/work-items/archive/WI-278-preclose-docs-gate.contract.json`；`.ai/evidence/WI-278-preclose-docs-gate.verification.json`；`.ai/decisions/WI-278-preclose-docs-gate.finalize.json`；`.ai/decisions/WI-278-preclose-docs-gate.close.json`。 |"
         },
         {
           "path": "docs/reference/reference-parity.ja.md",
@@ -28,7 +28,7 @@
         "number": 238,
         "url": "https://github.com/xinglun/ai-cockpit/pull/238"
       },
-      "registryBaseRevision": "341a4a6529bc7df31ee10b23e64bd6511134e603",
+      "registryBaseRevision": "d6476d7b9906a1f1d66e2e7726d19a03373be10f",
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
       "state": "in_progress",
       "workItemId": "WI-278-preclose-docs-gate"
