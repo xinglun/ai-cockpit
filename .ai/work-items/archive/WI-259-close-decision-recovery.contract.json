@@ -50,6 +50,10 @@
   ],
   "sources": [],
   "state": "implementation_active",
-  "verification": [],
+  "verification": [
+    "python3 tests/docs/work_item_status_consistency.py --repo .",
+    "bash tests/docs/parity_status_check_test.sh",
+    "bash tests/ci/governance_integrity_gate_test.sh"
+  ],
   "workItemId": "WI-259-close-decision-recovery"
 }
