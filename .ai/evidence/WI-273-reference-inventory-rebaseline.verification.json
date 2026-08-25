@@ -1,6 +1,6 @@
 {
   "captureMode": "full_capture",
-  "createdAt": "2026-08-25T08:25:07Z",
+  "createdAt": "2026-08-25T08:28:18Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -8,8 +8,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 102829,
-      "executionElapsedMs": 102529,
+      "elapsedMs": 97911,
+      "executionElapsedMs": 97647,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -24,10 +24,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 102829,
-    "executionElapsedMs": 102529,
-    "filesHashed": 31,
-    "filesRead": 31,
+    "elapsedMs": 97911,
+    "executionElapsedMs": 97647,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -35,21 +35,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/reference/reference-file-comparison.ja.md",
-        "docs/reference/reference-file-comparison.md",
-        "docs/reference/reference-file-comparison.zh-CN.md",
-        "docs/reference/reference-parity.ja.md",
-        "docs/reference/reference-parity.md",
-        "docs/reference/reference-parity.zh-CN.md",
-        "docs/work-items/WI-273-reference-inventory-rebaseline.ja.md",
-        "docs/work-items/WI-273-reference-inventory-rebaseline.md",
-        "docs/work-items/WI-273-reference-inventory-rebaseline.zh-CN.md",
-        "tests/conformance/reference_file_inventory.json",
-        "tests/conformance/reference_file_inventory.py",
-        "tests/conformance/reference_file_inventory_test.sh",
-        "tests/docs/documentation_acceptance.sh"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "487f01970c49e2b85d17b0cb0536f9d60c8f05e0",
       "dependencyConfidence": "unknown",
@@ -57,13 +43,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 102529,
+      "executionElapsedMs": 97647,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:656de0d63f2571c2caee3e6b976d503392f331186b0c359191ffbc1dd6ed7fa8",
+      "repositorySnapshotDigest": "sha256:0585acfca362370c91ec44879ca167c0141634cc154b3ad55e1896b871303ce5",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -89,7 +75,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:8e6f597e61ca1c5624b5c5943ef0b2bd7fb1fc37ed356670129bd4d0a010203d",
+        "outputDigest": "sha256:369adaec629f427f883946759de6024e56ab216218bda1e32eab47aaa1dade8f",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -105,9 +91,9 @@
     "runtimeVersion": "0.2.31",
     "workItemId": "WI-273-reference-inventory-rebaseline"
   },
-  "receiptDigest": "sha256:34a054b3546c80f5a1cd3f2e70d023ea26be5098ea24a45deca244ce0f6b05bd",
+  "receiptDigest": "sha256:457ccb21fbb5c8683bf43fa5229aa3764071ab76a33068aaff6bfdbd22329313",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:656de0d63f2571c2caee3e6b976d503392f331186b0c359191ffbc1dd6ed7fa8",
+  "repositorySnapshotDigest": "sha256:0585acfca362370c91ec44879ca167c0141634cc154b3ad55e1896b871303ce5",
   "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
   "runtimeVersion": "0.2.31",
   "workItemId": "WI-273-reference-inventory-rebaseline"
