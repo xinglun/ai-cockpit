@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-25T09:41:31Z",
+  "files": {
+    "contractDigest": "sha256:c990b786f9ab1983b2ec42ca92546f01ef2500315788b86443faf90d22b91c64",
+    "contractPath": ".ai/work-items/archive/WI-275-reference-inventory-rebaseline-finalization-recovery.contract.json",
+    "eventsDigest": "sha256:541e49977262d1fe0a38f3d24c39c56ca8b6b615e93fe4775ff72e5e4b3a4049",
+    "eventsPath": ".ai/work-items/archive/WI-275-reference-inventory-rebaseline-finalization-recovery.events.jsonl",
+    "outcomeDigest": "sha256:0f824773f27f31646fbcf3d6b5937e768f19fcc8ee6182388f44a5dc426d9d9f",
+    "outcomePath": ".ai/work-items/archive/WI-275-reference-inventory-rebaseline-finalization-recovery.outcome.json",
+    "summaryDigest": "sha256:9c89a5ce13f566d69b7a43f0806ce3633d0357a4ac356c1a7d4b10958e1a9a49",
+    "summaryPath": ".ai/work-items/archive/WI-275-reference-inventory-rebaseline-finalization-recovery.summary.json",
+    "taskReportDigest": "sha256:378a93a333ff14cc722fb04b03090a1cd52ceb75a5b66c283644da5831cde8c0",
+    "taskReportMarkdownDigest": "sha256:9b34e036789ad0d11e8f8b19d7e1934e21176229e513585fe023ba9403a84b71",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-275-reference-inventory-rebaseline-finalization-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-275-reference-inventory-rebaseline-finalization-recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-275-reference-inventory-rebaseline-finalization-recovery"
+}

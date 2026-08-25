@@ -73,11 +73,11 @@
   "mode": "code",
   "predecessorContractDigest": "sha256:abd2944f6738266bcbdd2f7b4d3f2e8411a402484f2e45b2ce079695815ae227",
   "predecessorWorkItemId": "WI-274-reference-inventory-rebaseline-recovery",
-  "preflightAt": "2026-08-25T09:38:19Z",
+  "preflightAt": "2026-08-25T09:41:16Z",
   "preflightContractDigest": "sha256:880fa0691076daeeea93940130700718843df34f0246efb7ef4c47c35abb0007",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:575ef09569e40204930f6f0a055919024844c17eb5c247ccffc0be72d20e427b",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:261ccf924d27e1d823d051afd9c45dbcc0e375b20375e24ebdd8835973a2c53c",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-274-reference-inventory-rebaseline-recovery.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -104,7 +104,7 @@
       "status": "verified"
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-08-25T09:38:56.923529+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-25T09:41:23Z",
   "workItemId": "WI-275-reference-inventory-rebaseline-finalization-recovery"
 }
