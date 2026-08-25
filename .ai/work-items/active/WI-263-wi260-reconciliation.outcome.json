@@ -6,17 +6,14 @@
     "English, Simplified Chinese, and Japanese WI/parity documentation describe the reconciliation and remaining unknowns accurately.",
     "Focused governance/docs checks and installed Runtime inspection/lifecycle checks pass."
   ],
-  "createdAt": "2026-08-25T02:14:26Z",
-  "decisionState": "green",
-  "evidenceDigest": "sha256:66a5991c0b5e7139f2653ec84771f8e168f38c83aac25872ccf59d0f66ee5282",
+  "decisionState": "red",
   "evidenceRefs": [
     ".ai/evidence/WI-263-wi260-reconciliation.verification.json"
   ],
+  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [
-      ".ai/evidence/WI-263-wi260-reconciliation.verification.json"
-    ],
+    "evidenceRefs": [],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -24,21 +21,24 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "finish_ready",
-  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-263-wi260-reconciliation.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:3693033fe48b58af910cfaa9f381b1158711962ce3c5222f9dd280dd3a9c018b",
+      "repositorySnapshotDigest": "sha256:5f00aa6e97c945586e91bc4eff7dbd1c8763de215b53f57159c43687bb553af2",
       "workItemId": "WI-263-wi260-reconciliation"
     },
+    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "green",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
@@ -59,7 +59,15 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-263-wi260-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -78,7 +86,7 @@
             ".ai/evidence/WI-263-wi260-reconciliation.verification.json"
           ],
           "inference": false,
-          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
         }
       ],
       "recurrencePrevention": [],
@@ -88,18 +96,10 @@
             ".ai/evidence/WI-263-wi260-reconciliation.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: user_visible_benefit_not_declared"
+          "text": "Remaining unknown: lifecycle_gate_failed"
         }
       ],
-      "resolutions": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-263-wi260-reconciliation.verification.json"
-          ],
-          "inference": false,
-          "text": "The current verification evidence is valid for this repository and Work Item."
-        }
-      ],
+      "resolutions": [],
       "risks": [],
       "taskOverview": [
         {
@@ -120,18 +120,16 @@
         }
       ]
     },
-    "status": "verified",
+    "status": "unknown",
     "workItemId": "WI-263-wi260-reconciliation"
   },
-  "taskReportDigest": "sha256:53c3739fb80c94804c04819bafe8e544d8d62abd5e3431d66b52c69284130fb7",
-  "taskReportMarkdownDigest": "sha256:492d99c07e8460b1f4433b27aa0dcd06f2edccb03fec7bedba57fd1d70574997",
   "unknowns": [
-    "user_visible_benefit_not_declared"
+    "lifecycle_gate_failed"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-263-wi260-reconciliation.verification.json",
     "required": true,
-    "status": "verified"
+    "status": "blocked"
   },
   "workItemId": "WI-263-wi260-reconciliation"
 }
