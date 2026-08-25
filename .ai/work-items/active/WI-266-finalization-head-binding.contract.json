@@ -32,7 +32,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-266-finalization-head-binding",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/220",
     "worktree": "/private/tmp/ai-cockpit-wi266-finalization-head-binding"
   },
   "risk": "high",
