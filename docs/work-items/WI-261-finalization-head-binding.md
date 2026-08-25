@@ -8,6 +8,7 @@ audience:
   - reviewer
 status: in_progress
 authority: canonical
+lastVerifiedBy: documentation-acceptance
 ---
 
 # WI-261 — Finalization head binding
