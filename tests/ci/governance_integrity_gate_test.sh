@@ -849,6 +849,50 @@ for path in sorted((staged / "parity").iterdir()):
     assert path.read_bytes() == (repo / "docs/reference" / path.name).read_bytes(), path
 PY
 
+# Enriching a row after archive is valid when the same Work Item/status row
+# was already registered before its evidence appeared. The history-aware
+# check must accept this projection update while the genuinely late-row case
+# above remains stale and fail-closed.
+enriched_repo="$tmp/postarchive-enriched-parity-projection"
+enriched_report="$tmp/postarchive-enriched-parity-report.json"
+cp -R "$prearchive_repo" "$enriched_repo"
+python3 - "$enriched_repo" <<'PY'
+import subprocess
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+for relative in (
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+):
+    path = repo / relative
+    lines = path.read_text(encoding="utf-8").splitlines()
+    updated = []
+    for line in lines:
+        if line.startswith("| WI-901 "):
+            line = line[:-1] + " post-archive evidence projection enrichment |"
+        updated.append(line)
+    path.write_text("\n".join(updated) + "\n", encoding="utf-8")
+subprocess.run(["git", "add", "docs/reference"], cwd=repo, check=True)
+subprocess.run(
+    ["git", "commit", "-qm", "enrich archived parity projection"],
+    cwd=repo,
+    check=True,
+)
+PY
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$enriched_repo" --report "$enriched_report" >/dev/null
+python3 - "$enriched_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert report["state"] == "passed", report["findings"]
+PY
+
 # A hosted pull-request merge ref combines the feature tree with decisions
 # newly present on the default branch.  Every authoritative decision must be
 # named by all three parity rows: retaining the pre-merge finalize receipt is

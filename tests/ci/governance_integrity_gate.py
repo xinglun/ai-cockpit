@@ -522,7 +522,16 @@ def _parity_row_precedes_record(
     row: str,
     record_relative: str,
 ) -> bool:
-    """Prove the exact lifecycle row was committed before evidence appeared."""
+    """Prove the lifecycle row was registered before evidence appeared.
+
+    The parity ledger is a projection, so a later commit may legitimately add
+    evidence/decision links to a row that was already registered before the
+    Work Item was archived. Blaming only the current, enriched line would
+    incorrectly classify that append as stale. We require the current row to
+    be unique and complete, then inspect its line history for the first commit
+    carrying the same Work Item/status registration key. A row introduced only
+    after the evidence path remains fail-closed.
+    """
 
     parity_path = repo / parity_relative
     matching_lines = [
@@ -534,25 +543,6 @@ def _parity_row_precedes_record(
     ]
     if len(matching_lines) != 1:
         return False
-    line_number = matching_lines[0]
-    blame = subprocess.run(
-        [
-            "git",
-            "blame",
-            "--porcelain",
-            f"-L{line_number},{line_number}",
-            "HEAD",
-            "--",
-            parity_relative,
-        ],
-        cwd=repo,
-        check=False,
-        capture_output=True,
-        text=True,
-    )
-    if blame.returncode != 0 or not blame.stdout:
-        return False
-    row_revision = blame.stdout.splitlines()[0].split()[0]
     record = subprocess.run(
         [
             "git",
@@ -570,21 +560,51 @@ def _parity_row_precedes_record(
         text=True,
     )
     record_revision = record.stdout.strip()
-    if (
-        re.fullmatch(r"[0-9a-f]{40}", row_revision) is None
-        or re.fullmatch(r"[0-9a-f]{40}", record_revision) is None
-        or row_revision == record_revision
-    ):
+    if re.fullmatch(r"[0-9a-f]{40}", record_revision) is None:
         return False
-    return (
-        subprocess.run(
-            ["git", "merge-base", "--is-ancestor", row_revision, record_revision],
-            cwd=repo,
-            check=False,
-            capture_output=True,
-        ).returncode
-        == 0
+    cells = [cell.strip() for cell in row.strip().strip("|").split("|")]
+    if len(cells) < 3 or not cells[0] or not cells[1]:
+        return False
+    registration_pattern = (
+        rf"^\|[[:space:]]*{re.escape(cells[0])}[[:space:]]*\|[[:space:]]*"
+        rf"{re.escape(cells[1])}[[:space:]]*\|"
     )
+    history = subprocess.run(
+        [
+            "git",
+            "log",
+            "--format=%H",
+            "--reverse",
+            "--follow",
+            f"-G{registration_pattern}",
+            "--",
+            parity_relative,
+        ],
+        cwd=repo,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if history.returncode != 0:
+        return False
+    for candidate in history.stdout.splitlines():
+        candidate = candidate.strip()
+        if (
+            re.fullmatch(r"[0-9a-f]{40}", candidate) is None
+            or candidate == record_revision
+        ):
+            continue
+        if (
+            subprocess.run(
+                ["git", "merge-base", "--is-ancestor", candidate, record_revision],
+                cwd=repo,
+                check=False,
+                capture_output=True,
+            ).returncode
+            == 0
+        ):
+            return True
+    return False
 
 
 def _active_parity_projection_declared(
