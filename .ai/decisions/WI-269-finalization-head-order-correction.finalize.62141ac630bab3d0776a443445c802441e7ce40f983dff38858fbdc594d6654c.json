@@ -1,0 +1,65 @@
+{
+  "governanceAppendRevision": "34048459782ea6ec988d7eefd096af6817d61aab",
+  "predecessorReceiptDigest": "sha256:26a8f430b394dca373f93305cb9d8c0f15c0bde3dde7f55d6147d5ab86130130",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "reviewed-PR-220-merge",
+    "before": {
+      "branch": "present",
+      "pullRequest": "unmerged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "34048459782ea6ec988d7eefd096af6817d61aab",
+      "name": "codex/wi-266-finalization-head-binding",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:24824946fc1d207dbafe119b747cebc52112693ac3cda4beb7e432cac966a6c7",
+    "operationId": "operation-WI-269-finalization-head-order-correction-merge-observed",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "db7b426c375a0437b8cb490f3581b8914d36b90e",
+      "headRevision": "34048459782ea6ec988d7eefd096af6817d61aab",
+      "mergeCommit": "a1707cf6db4c403879b8c667d81ecc3054d29854",
+      "number": 220,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/220"
+    },
+    "reason": "Observed reviewed PR #220 merged at the exact reviewed head; retain the clean feature worktree until synchronized-main cleanup is recorded.",
+    "receiptId": "ai-cockpit-WI-269-finalization-head-order-correction-merge-observed",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-266-finalization-head-binding",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/220",
+      "worktree": "/private/tmp/ai-cockpit-wi266-finalization-head-binding"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+    "runtimeVersion": "0.2.31",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-25T05:09:00Z",
+    "workItemId": "WI-269-finalization-head-order-correction",
+    "worktree": {
+      "branch": "codex/wi-266-finalization-head-binding",
+      "headRevision": "34048459782ea6ec988d7eefd096af6817d61aab",
+      "path": "/private/tmp/ai-cockpit-wi266-finalization-head-binding",
+      "worktreeId": "WI-269-finalization-head-order-correction"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-269-finalization-head-order-correction-merge-observed"
+}
