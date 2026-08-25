@@ -1,0 +1,157 @@
+{
+  "acceptanceResults": [
+    "Contract-parity implementation remains present and testable on the successor snapshot without changing WI-280 immutable records.",
+    "Fresh verification evidence binds the successor Work Item, repository identity, current snapshot, and installed Runtime.",
+    "Tri-language parity and Work Item documentation records the WI-280 recovery and WI-282 terminal lifecycle.",
+    "Focused and workspace tests pass, with no generated governance record hand-edited."
+  ],
+  "createdAt": "2026-08-25T16:50:29Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:ae442384a788589a25436ba5bc33617161e9704994af4d992281e651b122c3b8",
+  "evidenceRefs": [
+    ".ai/evidence/WI-282-reference-contract-semantics-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-282-reference-contract-semantics-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-282-reference-contract-semantics-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f095a403cbaab59e82d1eff3c64e075b6db6a15e92c3541638f912899f04dd6d",
+      "workItemId": "WI-282-reference-contract-semantics-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-282-reference-contract-semantics-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-280-reference-contract-semantics-successor.recovery.8645c44de882c777aad7e4ac26d0ee5f99125570985c97063607c58baf6dab18.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-282-reference-contract-semantics-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-280-reference-contract-semantics-successor.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-282-reference-contract-semantics-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-282-reference-contract-semantics-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-282-reference-contract-semantics-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-282-reference-contract-semantics-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-282-reference-contract-semantics-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-282-reference-contract-semantics-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-282-reference-contract-semantics-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-282-reference-contract-semantics-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-282-reference-contract-semantics-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-282-reference-contract-semantics-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Re-run and close the bounded Rust Contract-semantics parity batch with fresh snapshot-bound evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-282-reference-contract-semantics-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-282-reference-contract-semantics-recovery"
+  },
+  "taskReportDigest": "sha256:d6d9bb78156ed17b5879cb9096db7d86e1f4a7d8cb36502e2f4a93dc81d40af2",
+  "taskReportMarkdownDigest": "sha256:946a616ed5f20852547c035768af74bab58ef8642d8b394d0c66ad77cf001d9c",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-282-reference-contract-semantics-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-282-reference-contract-semantics-recovery"
+}
