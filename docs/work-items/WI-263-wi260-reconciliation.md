@@ -6,8 +6,8 @@ description: "Preserve WI-260 immutable truth and recover its post-merge resourc
 audience:
   - maintainer
   - reviewer
-status: in-progress
-lastVerifiedBy: WI-263-wi260-reconciliation
+status: recovered
+lastVerifiedBy: WI-265-finalization-parity-recovery
 authority: canonical
 ---
 

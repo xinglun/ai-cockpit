@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-25T03:07:22Z",
+  "files": {
+    "contractDigest": "sha256:85c709e21de8b83c63c4424ab1a3490550a507a82741f0f8b978ffd9228a4899",
+    "contractPath": ".ai/work-items/archive/WI-265-finalization-parity-recovery.contract.json",
+    "eventsDigest": "sha256:46fd9d929490637bb2cbde90dbad2ec35699d781636a30ca7665b4dabe9585ef",
+    "eventsPath": ".ai/work-items/archive/WI-265-finalization-parity-recovery.events.jsonl",
+    "outcomeDigest": "sha256:eaed3e8e915d275cefd0a3951e499d4e6c16413faec06bb8b7c2e309a4360d44",
+    "outcomePath": ".ai/work-items/archive/WI-265-finalization-parity-recovery.outcome.json",
+    "summaryDigest": "sha256:40782a7a0be6b7f23b5c4ad98906b33a02fe67ff1c95312d7f60cfc4de778bbb",
+    "summaryPath": ".ai/work-items/archive/WI-265-finalization-parity-recovery.summary.json",
+    "taskReportDigest": "sha256:dca3aaaad69ff0f7e93833fba206d23b936c44e430712811418b9da1401a3851",
+    "taskReportMarkdownDigest": "sha256:8363ad2f3f690d0cedf700d321e2a1b9b4dd2b709974fa84075b02f26ef75273",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-265-finalization-parity-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-265-finalization-parity-recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-265-finalization-parity-recovery"
+}

@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-recovery-of-stale-finalization-and-parity",
+  "decidedAt": "2026-08-25T03:00:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-263-wi260-reconciliation.archive.json",
+    ".ai/decisions/WI-263-wi260-reconciliation.finalize.json",
+    ".ai/decisions/WI-263-wi260-reconciliation.recovery.json",
+    "https://github.com/xinglun/ai-cockpit/pull/215"
+  ],
+  "policyRefs": [
+    "AGENTS.md:post-merge-finalization",
+    ".ai/README.md:immutable-history-and-successor-recovery"
+  ],
+  "predecessorContractDigest": "sha256:28a9bbab17cf3064b9d2c9b9b3fab7f3ebdeb1a679233ea2d15666d364e6d4e2",
+  "predecessorEventsDigest": "sha256:58fef73692ff5847adf0aea8375a6ba64a0de6efccaaff8cadf7a6d2b0ea7db2",
+  "predecessorOutcomeDigest": "sha256:4b1bdc7b61aa446622826807aab99cf37cb9320a6bfe059464b9d342869463d2",
+  "predecessorSummaryDigest": "sha256:d01d98100cf2883229bf5cfa1167719b3b74eb618f062d445f76c24469a74e73",
+  "predecessorWorkItemId": "WI-263-wi260-reconciliation",
+  "reason": "The WI-263 archive is immutable, but its pre-merge finalization head and tri-language parity projection remained stale after PR #215 merged. Supersede only the closure boundary with a fresh successor; do not rewrite predecessor bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-265 verification, hosted review, merge, finalization, exact cleanup, and structured close; keep all predecessor bytes unchanged.",
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-265-finalization-parity-recovery",
+  "workItemId": "WI-263-wi260-reconciliation"
+}

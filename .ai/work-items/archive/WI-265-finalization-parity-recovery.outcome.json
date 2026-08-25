@@ -1,0 +1,145 @@
+{
+  "acceptanceResults": [
+    "The immutable WI-263 archive, existing recovery decision, pre-merge finalization receipt, verification evidence, and archived Outcome/Summary/Event bytes remain byte-identical.",
+    "A new Runtime-recorded recovery decision, if required, binds WI-263 predecessor Contract/Summary/Outcome/Events digests, repository identity, current Runtime identity, and this successor Contract without rewriting the predecessor.",
+    "English, Simplified Chinese, and Japanese reference-parity rows accurately record WI-263 as recovered with the current recovery decision path and WI-265 as in progress; no row claims a close or merge before the provider receipt exists.",
+    "A non-provisional Runtime finalization plan is recorded before verification/archive for WI-265, binds the exact branch/worktree/provider/PR context, and the pre-merge receipt fails closed if the reviewed head drifts.",
+    "After hosted checks and human review, the merged PR head, synchronized default branch, exact Work Item branch/worktree cleanup, and structured close decision are recorded by the Runtime; no branch or worktree is removed before those postconditions are verified.",
+    "Focused governance-integrity, parity, Runtime lifecycle, and tri-language documentation checks pass on the exact reviewed head."
+  ],
+  "createdAt": "2026-08-25T03:07:18Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:0968dbd6cc3122fba5e347a974ff5942404be2c7a06336ed31bc1e18dc93bf0c",
+  "evidenceRefs": [
+    ".ai/evidence/WI-265-finalization-parity-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-265-finalization-parity-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-265-finalization-parity-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:384f308a6293a530f79f89c02201e29bd1040605041df674eaeab72cf7a1024a",
+      "workItemId": "WI-265-finalization-parity-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-265-finalization-parity-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-265-finalization-parity-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-265-finalization-parity-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-265-finalization-parity-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-265-finalization-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-265-finalization-parity-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-265-finalization-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-265-finalization-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-265-finalization-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-265-finalization-parity-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Create a clean successor with valid parity projection, pre-merge finalization, hosted merge, and exact cleanup."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-265-finalization-parity-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-265-finalization-parity-recovery"
+  },
+  "taskReportDigest": "sha256:dca3aaaad69ff0f7e93833fba206d23b936c44e430712811418b9da1401a3851",
+  "taskReportMarkdownDigest": "sha256:8363ad2f3f690d0cedf700d321e2a1b9b4dd2b709974fa84075b02f26ef75273",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-265-finalization-parity-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-265-finalization-parity-recovery"
+}

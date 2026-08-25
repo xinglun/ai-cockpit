@@ -1,0 +1,89 @@
+{
+  "acceptanceCriteria": [
+    "The immutable WI-263 archive, existing recovery decision, pre-merge finalization receipt, verification evidence, and archived Outcome/Summary/Event bytes remain byte-identical.",
+    "A new Runtime-recorded recovery decision, if required, binds WI-263 predecessor Contract/Summary/Outcome/Events digests, repository identity, current Runtime identity, and this successor Contract without rewriting the predecessor.",
+    "English, Simplified Chinese, and Japanese reference-parity rows accurately record WI-263 as recovered with the current recovery decision path and WI-265 as in progress; no row claims a close or merge before the provider receipt exists.",
+    "A non-provisional Runtime finalization plan is recorded before verification/archive for WI-265, binds the exact branch/worktree/provider/PR context, and the pre-merge receipt fails closed if the reviewed head drifts.",
+    "After hosted checks and human review, the merged PR head, synchronized default branch, exact Work Item branch/worktree cleanup, and structured close decision are recorded by the Runtime; no branch or worktree is removed before those postconditions are verified.",
+    "Focused governance-integrity, parity, Runtime lifecycle, and tri-language documentation checks pass on the exact reviewed head."
+  ],
+  "authority": "authorized",
+  "baseRevision": "47c9dd8e7107526f280274a92ccc7399493125cb",
+  "createdAt": "2026-08-25T02:56:00Z",
+  "goal": "Create a clean successor with valid parity projection, pre-merge finalization, hosted merge, and exact cleanup.",
+  "intent": "Recover the WI-263 finalization/parity boundary without rewriting immutable history.",
+  "mode": "code",
+  "outOfScope": [
+    "WI-263 immutable archive Contract, Summary, Outcome, Events, verification, existing finalization, and existing recovery bytes",
+    "WI-264 archived bytes, failed PR, branch, and worktree except as retained audit history",
+    "WI-261 and WI-262 implementation changes",
+    "Quality-route or Rust Runtime feature migration",
+    "User-global Agent or MCP configuration"
+  ],
+  "predecessorContractDigest": "sha256:28a9bbab17cf3064b9d2c9b9b3fab7f3ebdeb1a679233ea2d15666d364e6d4e2",
+  "predecessorWorkItemId": "WI-263-wi260-reconciliation",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-263-wi260-reconciliation.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:598529d4728ff6ee69d034bb40a7765dc795ac782c383c2c4e5dcd1aa37d1a69",
+  "requiredEvidenceClasses": [
+    "verification",
+    "recovery_decision",
+    "resource_finalization",
+    "documentation_parity"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-265-finalization-parity",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/217",
+    "worktree": "/private/tmp/ai-cockpit-wi265-finalization-parity"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "expected": "A stale or missing finalization/parity record blocks the governance gate while immutable predecessor bytes remain unchanged.",
+      "required": true,
+      "scenario": "stale predecessor finalization and parity projection fail closed",
+      "status": "unverified",
+      "verificationPlan": "Run the governance integrity and parity regression fixtures, then verify the Runtime-bound recovery, finalization, archive, and close evidence on the exact reviewed head."
+    }
+  ],
+  "scope": [
+    ".ai/decisions/WI-263-wi260-reconciliation.recovery.*",
+    ".ai/evidence/WI-265-finalization-parity-recovery.verification.json",
+    ".ai/decisions/WI-265-finalization-parity-recovery.finalize.*",
+    ".ai/decisions/WI-265-finalization-parity-recovery.close.json",
+    ".ai/work-items/active/WI-265-finalization-parity-recovery.*",
+    ".ai/work-items/archive/WI-265-finalization-parity-recovery.*",
+    "docs/work-items/WI-265-finalization-parity-recovery.md",
+    "docs/work-items/WI-265-finalization-parity-recovery.zh-CN.md",
+    "docs/work-items/WI-265-finalization-parity-recovery.ja.md",
+    "docs/work-items/WI-263-wi260-reconciliation.md",
+    "docs/work-items/WI-263-wi260-reconciliation.zh-CN.md",
+    "docs/work-items/WI-263-wi260-reconciliation.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "PR #215 merged head and WI-263 immutable recovery history",
+    "PR #216 quality failure run 32802620734/job 97666339958",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "bash tests/ci/governance_integrity_gate_test.sh",
+    "bash tests/docs/parity_status_check_test.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "cargo fmt --all -- --check",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-265-finalization-parity-recovery"
+}
