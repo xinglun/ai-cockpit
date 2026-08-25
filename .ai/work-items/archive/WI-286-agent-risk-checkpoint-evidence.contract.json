@@ -33,49 +33,49 @@
     "documentation",
     "ci_gate"
   ],
-  "scenarioCoverage": [
-    {
-      "scenario": "route_and_agent_risk_rejection",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "missing intent, required scenario, required gate, or conflicting execution decision stops before command execution",
-      "verificationPlan": "Rust repository and CLI negative tests"
-    },
-    {
-      "scenario": "checkpoint_append_only_amendment",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "before_edit and before_finish evidence bind stage, counts, Contract hash, and amendment lineage",
-      "verificationPlan": "Rust protocol and lifecycle tamper tests"
-    },
-    {
-      "scenario": "resume_invalidates_stale_evidence",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "resume or Contract amendment prevents reuse of stale verification/checkpoint evidence",
-      "verificationPlan": "Rust lifecycle recovery and stale digest tests"
-    },
-    {
-      "scenario": "repository_and_object_adopter_isolation",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "explicit repository context remains isolated and no global Agent/MCP or Runtime copy is introduced",
-      "verificationPlan": "repository isolation tests and release-adopter smoke"
-    }
-  ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-286-agent-risk-checkpoint-evidence",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/246",
     "worktree": "/private/tmp/ai-cockpit-wi286"
   },
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "missing intent, required scenario, required gate, or conflicting execution decision stops before command execution",
+      "required": true,
+      "scenario": "route_and_agent_risk_rejection",
+      "status": "unverified",
+      "verificationPlan": "Rust repository and CLI negative tests"
+    },
+    {
+      "evidence": [],
+      "expected": "before_edit and before_finish evidence bind stage, counts, Contract hash, and amendment lineage",
+      "required": true,
+      "scenario": "checkpoint_append_only_amendment",
+      "status": "unverified",
+      "verificationPlan": "Rust protocol and lifecycle tamper tests"
+    },
+    {
+      "evidence": [],
+      "expected": "resume or Contract amendment prevents reuse of stale verification/checkpoint evidence",
+      "required": true,
+      "scenario": "resume_invalidates_stale_evidence",
+      "status": "unverified",
+      "verificationPlan": "Rust lifecycle recovery and stale digest tests"
+    },
+    {
+      "evidence": [],
+      "expected": "explicit repository context remains isolated and no global Agent/MCP or Runtime copy is introduced",
+      "required": true,
+      "scenario": "repository_and_object_adopter_isolation",
+      "status": "unverified",
+      "verificationPlan": "repository isolation tests and release-adopter smoke"
+    }
+  ],
   "scope": [
     ".ai/**",
     "crates/cockpit-protocol/src/lib.rs",

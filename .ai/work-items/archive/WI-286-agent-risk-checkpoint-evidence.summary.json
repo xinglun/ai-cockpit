@@ -1,0 +1,169 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "checkpoint_policy_and_evidence_are_typed_and_strict",
+          "path": "crates/cockpit-protocol/tests/contract_v2.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "checkpoint_lifecycle_records_before_edit_evidence_for_strict_policy",
+          "path": "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "contract_amendment_chain_invalidates_stale_before_edit_evidence",
+          "path": "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "policy_route_rejects_missing_intent_before_execution",
+          "path": "crates/cockpit-repository/tests/verification_route.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "checkpoint_identity_and_unknown_fields_fail_closed",
+          "path": "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "agent_rules_keep_terminality_and_successor_boundaries_visible",
+          "path": "crates/cockpit-repository/tests/agent_rule_parity.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A7",
+      "evidence": [
+        {
+          "locator": "tri-language Agent Risk and checkpoint boundary",
+          "path": "docs/reference/agent-workflow.md",
+          "type": "documentation",
+          "verification": "documentation acceptance"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A8",
+      "evidence": [
+        {
+          "locator": "parallel_agent_operations_keep_repository_ids_and_records_separate",
+          "path": "crates/cockpit-agent/tests/isolation.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-286-agent-risk-checkpoint-evidence.contract.json",
+    ".ai/work-items/archive/WI-286-agent-risk-checkpoint-evidence.summary.json"
+  ],
+  "checkpointAt": "2026-08-25T18:13:54Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T18:12:15Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-286-agent-risk-checkpoint-evidence.md",
+      "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
+      "crates/cockpit-repository/tests/verification_route.rs"
+    ],
+    "reason": "The bounded batch projects reference Agent Risk and checkpoint semantics into one Rust-native, repository-bound lifecycle validator without copying source implementation or weakening human-owned Contract decisions.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-25T19:10:12Z",
+  "preflightContractDigest": "sha256:b72e8fab7a05d76e9d19a03440c8e1eef2756ef19bbc4e44ce60d2d5747b712c",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:fd0ff4c879b9160b97ba145b150ca890cf5e52354892d4fd70166fc23c96debe",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/verification_route.rs",
+        "crates/cockpit-repository/tests/agent_risk_checkpoint.rs"
+      ],
+      "expected": "missing intent, required scenario, required gate, or conflicting execution decision stops before command execution",
+      "required": true,
+      "scenario": "route_and_agent_risk_rejection",
+      "status": "verified",
+      "verificationPlan": "Rust repository and CLI negative tests"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-protocol/tests/contract_v2.rs",
+        "crates/cockpit-repository/tests/agent_risk_checkpoint.rs"
+      ],
+      "expected": "before_edit and before_finish evidence bind stage, counts, Contract hash, and amendment lineage",
+      "required": true,
+      "scenario": "checkpoint_append_only_amendment",
+      "status": "verified",
+      "verificationPlan": "Rust protocol and lifecycle tamper tests"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
+        "crates/cockpit-repository/tests/lifecycle_order.rs"
+      ],
+      "expected": "resume or Contract amendment prevents reuse of stale verification/checkpoint evidence",
+      "required": true,
+      "scenario": "resume_invalidates_stale_evidence",
+      "status": "verified",
+      "verificationPlan": "Rust lifecycle recovery and stale digest tests"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-agent/tests/isolation.rs",
+        "crates/cockpit-repository/tests/repository_context.rs",
+        "crates/cockpit-repository/tests/agent_risk_checkpoint.rs"
+      ],
+      "expected": "explicit repository context remains isolated and no global Agent/MCP or Runtime copy is introduced",
+      "required": true,
+      "scenario": "repository_and_object_adopter_isolation",
+      "status": "verified",
+      "verificationPlan": "repository isolation tests and release-adopter smoke"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-25T19:10:12Z",
+  "workItemId": "WI-286-agent-risk-checkpoint-evidence"
+}
