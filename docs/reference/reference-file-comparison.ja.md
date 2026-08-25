@@ -59,11 +59,54 @@ reference の Python Runtime、Makefile target、YAML guard tree、provider-glob
 従って first batch で見つかった唯一の concrete entrypoint gap（`CONTRIBUTING.md`）は補完しました。
 Second governance system は作らず、残りは ledger に明示して後続の semantic batch に送ります。
 
+## WI-270：Contract semantic file-by-file batch
+
+WI-270 は次の 27 reference path を一つずつ確認しました。ledger はすべてを
+`implemented-different-by-design` と分類しています。責任は Rust Runtime または
+repository-bound の docs/test に存在しますが、Python module、Make target、generated file、
+provider-global path はコピーしません。Counterpart は evidence index であり、byte-level
+identity の主張ではありません。
+
+| Reference path | Classification | Rust counterpart / boundary |
+| --- | --- | --- |
+| `docs/concepts/decision-states.ja.md` | 意図した別実装 | Japanese Contract/Outcome docs と typed decision test |
+| `docs/concepts/decision-states.md` | 意図した別実装 | Contract/Outcome docs と typed decision test |
+| `docs/concepts/decision-states.zh-CN.md` | 意図した別実装 | Chinese Contract/Outcome docs と typed decision test |
+| `docs/features/work-item-parallelism.ja.md` | 意図した別実装 | WI-123、Japanese configuration route、boundary/lease test |
+| `docs/features/work-item-parallelism.md` | 意図した別実装 | WI-123、configuration route、boundary/lease test |
+| `docs/features/work-item-parallelism.zh-CN.md` | 意図した別実装 | WI-123、Chinese configuration route、boundary/lease test |
+| `docs/reference/safe-parallel-verification.md` | 意図した別実装 | Rust bounded executor、`verify --workers`、argv/evidence test |
+| `docs/reference/work-item-intelligence-interface.md` | 意図した別実装 | request-scoped status/intelligence は実装済み；cost/wait/index-version aggregate は後続 boundary |
+| `docs/reference/work-item-state-machine.md` | 意図した別実装 | typed lifecycle/recovery/finalization；provider PR state は external evidence |
+| `docs/reference/work-item-status-interface.md` | 意図した別実装 | Rust status/Outcome projection と test が generated Python status を置換 |
+| `scripts/ai_acceptance_policy.py` | 意図した別実装 | `governance_controls.rs` の acceptance ID/evidence validation |
+| `scripts/ai_check_scenario_coverage.py` | 意図した別実装 | Runtime scenario coverage と Contract/Summary binding |
+| `scripts/ai_check_work_item.py` | 意図した別実装 | typed Contract scope、authority、unknown、execution、concurrency、lifecycle validation |
+| `scripts/ai_decision_protocol.py` | 意図した別実装 | repository-bound typed preflight decision receipt |
+| `scripts/ai_intent_policy.py` | 意図した別実装 | Runtime intent alignment と intent/scenario binding |
+| `scripts/ai_parallel_verification.py` | 意図した別実装 | Rust bounded execution、worker cap、deterministic result、scope safety |
+| `scripts/ai_preflight_review.py` | 意図した別実装 | typed preflight state、humanDecisionRequest、confirmation、recovery condition |
+| `scripts/ai_scenario_policy.py` | 意図した別実装 | risk-sensitive scenario policy と fail-closed unknown |
+| `scripts/ai_work_item_state.py` | 意図した別実装 | Rust lifecycle state machine と recovery receipt |
+| `tests/test_acceptance_policy.py` | 意図した別実装 | Rust Contract schema/preflight regression |
+| `tests/test_ai_parallel_verification.py` | 意図した別実装 | Rust CLI/executor verification regression |
+| `tests/test_checkpoint_intent.py` | 意図した別実装 | Rust preflight/checkpoint intent regression |
+| `tests/test_contract_and_policy.py` | 意図した別実装 | Rust strict Contract/policy regression |
+| `tests/test_intent_policy.py` | 意図した別実装 | Rust intent alignment regression |
+| `tests/test_parallel_lifecycle_contract.py` | 意図した別実装 | Rust parallel boundary、lease、lifecycle、isolation regression |
+| `tests/test_preflight_review.py` | 意図した別実装 | Rust preflight/review regression |
+| `tests/test_scenario_coverage_gate.py` | 意図した別実装 | Rust required-scenario と invalid-status regression |
+
+この slice では未記録の Contract semantic implementation gap は見つかりませんでした。
+Intelligence interface は意図的に bounded です。request-scoped status と evidence-derived
+Outcome は実装済みですが、reference の広い aggregate/cost/wait dimension は後続 batch であり、
+complete parity とは扱いません。
+
 ## 現在の ledger snapshot
 
 固定した v0.2.31 comparison baseline の ledger は 5,119 records です。内訳は
-4,262 `generated-history`、132 `implemented-different-by-design`、1
-`implemented-equivalent`、720 `deferred-next-batch`、4 `migrate-gap` です。
+4,262 `generated-history`、159 `implemented-different-by-design`、1
+`implemented-equivalent`、693 `deferred-next-batch`、4 `migrate-gap` です。
 Deferred record は予定された比較であり parity claim ではありません。未解決の
 capability/profile gap は次の 4 file です。
 

@@ -72,11 +72,56 @@ baseline (`CONTRIBUTING.md`) without creating a second governance system. The
 remaining paths are explicitly staged in the ledger for the next semantic
 batches rather than silently treated as equivalent.
 
+## WI-270 file-level Contract semantics slice
+
+WI-270 compares the following 27 reference paths individually. The inventory
+uses `implemented-different-by-design` for each path: the responsibility is
+present in the Rust Runtime or its repository-bound documentation/tests, but
+the Python module, Make target, generated file, and provider-global path are
+not copied. The counterpart column is evidence, not a claim that the two
+implementations have identical bytes.
+
+| Reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/concepts/decision-states.ja.md` | implemented-different-by-design | `docs/reference/contract-fields.ja.md`, `docs/reference/outcome-report.ja.md`, typed decision/Outcome tests |
+| `docs/concepts/decision-states.md` | implemented-different-by-design | `docs/reference/contract-fields.md`, `docs/reference/outcome-report.md`, typed decision/Outcome tests |
+| `docs/concepts/decision-states.zh-CN.md` | implemented-different-by-design | `docs/reference/contract-fields.zh-CN.md`, `docs/reference/outcome-report.zh-CN.md`, typed decision/Outcome tests |
+| `docs/features/work-item-parallelism.ja.md` | implemented-different-by-design | WI-123, Japanese configuration route, Contract boundary/lease tests |
+| `docs/features/work-item-parallelism.md` | implemented-different-by-design | WI-123, configuration route, Contract boundary/lease tests |
+| `docs/features/work-item-parallelism.zh-CN.md` | implemented-different-by-design | WI-123, Chinese configuration route, Contract boundary/lease tests |
+| `docs/reference/safe-parallel-verification.md` | implemented-different-by-design | Rust bounded executor, `verify --workers`, argv-only execution and per-command evidence tests |
+| `docs/reference/work-item-intelligence-interface.md` | implemented-different-by-design | Request-scoped Rust status/intelligence exists; full reference cost/wait/index-version aggregation remains a later projection boundary |
+| `docs/reference/work-item-state-machine.md` | implemented-different-by-design | Typed lifecycle/recovery/finalization state machine; provider PR states are external evidence |
+| `docs/reference/work-item-status-interface.md` | implemented-different-by-design | Rust status/Outcome projection and status tests replace the generated Python status file |
+| `scripts/ai_acceptance_policy.py` | implemented-different-by-design | `governance_controls.rs` acceptance identifiers/evidence validation |
+| `scripts/ai_check_scenario_coverage.py` | implemented-different-by-design | Runtime scenario coverage validation and Contract/Summary binding |
+| `scripts/ai_check_work_item.py` | implemented-different-by-design | Typed Contract scope, authority, unknown, execution, concurrency, and lifecycle validation |
+| `scripts/ai_decision_protocol.py` | implemented-different-by-design | Repository-bound typed preflight decision receipts |
+| `scripts/ai_intent_policy.py` | implemented-different-by-design | Runtime intent alignment and intent/scenario binding |
+| `scripts/ai_parallel_verification.py` | implemented-different-by-design | Rust bounded executor with worker caps, deterministic results, and scope safety |
+| `scripts/ai_preflight_review.py` | implemented-different-by-design | Typed preflight state, humanDecisionRequest, confirmation, and recovery conditions |
+| `scripts/ai_scenario_policy.py` | implemented-different-by-design | Risk-sensitive Runtime scenario policy and fail-closed unknowns |
+| `scripts/ai_work_item_state.py` | implemented-different-by-design | Rust lifecycle state machine and recovery receipts |
+| `tests/test_acceptance_policy.py` | implemented-different-by-design | Rust Contract schema/preflight regression tests |
+| `tests/test_ai_parallel_verification.py` | implemented-different-by-design | Rust CLI/executor verification tests |
+| `tests/test_checkpoint_intent.py` | implemented-different-by-design | Rust preflight/checkpoint intent tests |
+| `tests/test_contract_and_policy.py` | implemented-different-by-design | Rust strict Contract and policy tests |
+| `tests/test_intent_policy.py` | implemented-different-by-design | Rust intent alignment tests |
+| `tests/test_parallel_lifecycle_contract.py` | implemented-different-by-design | Rust parallel boundary, lease, lifecycle, and isolation tests |
+| `tests/test_preflight_review.py` | implemented-different-by-design | Rust preflight/review tests |
+| `tests/test_scenario_coverage_gate.py` | implemented-different-by-design | Rust required-scenario and invalid-status tests |
+
+The slice found no unrecorded implementation gap in these Contract semantics.
+The intelligence-interface row is deliberately bounded: request-scoped status
+and evidence-derived Outcome are implemented, while the reference's broader
+aggregation and cost/wait dimensions remain scheduled and are not treated as
+green parity.
+
 ## Current ledger snapshot
 
 At the pinned v0.2.31 comparison baseline, the ledger contains 5,119 records:
-4,262 `generated-history`, 132 `implemented-different-by-design`, one
-`implemented-equivalent`, 720 `deferred-next-batch`, and four `migrate-gap`
+4,262 `generated-history`, 159 `implemented-different-by-design`, one
+`implemented-equivalent`, 693 `deferred-next-batch`, and four `migrate-gap`
 records. Deferred records remain scheduled work, not parity claims. The four
 open capability/profile gaps are:
 
