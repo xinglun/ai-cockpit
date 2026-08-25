@@ -8,6 +8,10 @@ audience:
   - reviewer
 status: implemented
 lastVerifiedBy: WI-271-finalization-recovery
+terminalArchive: .ai/work-items/archive/WI-271-finalization-recovery.contract.json
+terminalVerification: .ai/evidence/WI-271-finalization-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-271-finalization-recovery.finalize.3fbc88f554e5c352127cb3872f4e082effd03d1ce8534bd87796be2862252152.json
+terminalDecision: .ai/decisions/WI-271-finalization-recovery.close.json
 authority: canonical
 ---
 
