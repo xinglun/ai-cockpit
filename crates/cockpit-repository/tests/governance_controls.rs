@@ -125,9 +125,35 @@ fn high_risk_scenario_coverage_fails_closed_until_verified() {
     assert_eq!(
         scenario_coverage_preflight_unknowns(&json!({
             "risk":"high",
-            "scenarioCoverage":[{"scenario":"rollback","required":true,"status":"unverified"}]
+            "scenarioCoverage":[{"scenario":"rollback","required":true,"status":"unverified","evidence":[]}]
         })),
         vec!["required_scenario_unverified:rollback"]
+    );
+}
+
+#[test]
+fn scenario_shape_is_checked_without_making_low_risk_coverage_mandatory() {
+    let (state, unknowns, findings) = validate_scenario_coverage_values(
+        &json!({"risk": "low", "scenarioCoverage": []}),
+        &json!({}),
+    );
+    assert_eq!(state, "not_applicable");
+    assert!(unknowns.is_empty());
+    assert!(findings.is_empty());
+
+    let (state, unknowns, findings) = validate_scenario_coverage_values(
+        &json!({
+            "risk": "low",
+            "scenarioCoverage": [{"scenario":"malformed","required":true,"status":"verified","evidence":[]}]
+        }),
+        &json!({}),
+    );
+    assert_eq!(state, "blocked");
+    assert_eq!(unknowns, vec!["scenario_coverage_invalid"]);
+    assert!(
+        findings
+            .iter()
+            .any(|item| item.code == "scenario_coverage_invalid")
     );
 }
 

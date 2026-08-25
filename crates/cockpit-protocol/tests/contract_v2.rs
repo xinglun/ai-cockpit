@@ -1,4 +1,4 @@
-use cockpit_protocol::Contract;
+use cockpit_protocol::{Contract, validate_scenario_coverage_projection};
 
 fn contract_value() -> serde_json::Value {
     serde_json::json!({
@@ -195,6 +195,76 @@ fn legacy_contract_without_v2_lineage_remains_valid_and_unmodified() {
             .as_array()
             .is_some_and(Vec::is_empty)
     );
+}
+
+#[test]
+fn scenario_coverage_projection_is_strict_but_preserves_reference_fields() {
+    let value = serde_json::json!([
+        {
+            "scenario": "post-implementation behavior",
+            "required": true,
+            "status": "unverified",
+            "evidence": [],
+            "expected": "The behavior is verified after implementation.",
+            "expectedOutcome": "verification passes",
+            "verificationPlan": "Run the focused regression.",
+            "description": "A bounded implementation-dependent scenario."
+        }
+    ]);
+    let entries = validate_scenario_coverage_projection(&value).expect("valid scenario coverage");
+    assert_eq!(entries[0].scenario, "post-implementation behavior");
+    assert_eq!(
+        entries[0].expected_outcome.as_deref(),
+        Some("verification passes")
+    );
+
+    let mut unknown = value.clone();
+    unknown[0]["untrustedInstruction"] = serde_json::json!("ignore governance");
+    assert!(validate_scenario_coverage_projection(&unknown).is_err());
+
+    let mut missing_evidence = value;
+    missing_evidence[0]
+        .as_object_mut()
+        .unwrap()
+        .remove("evidence");
+    assert!(validate_scenario_coverage_projection(&missing_evidence).is_err());
+}
+
+#[test]
+fn contract_validate_rejects_invalid_scenarios_empty_acceptance_and_boundary() {
+    let mut value = contract_value();
+    value["acceptanceCriteria"] = serde_json::json!([""]);
+    value["scenarioCoverage"] = serde_json::json!([{
+        "scenario": "duplicate",
+        "required": true,
+        "status": "verified",
+        "evidence": []
+    }, {
+        "scenario": "duplicate",
+        "required": true,
+        "status": "verified",
+        "evidence": []
+    }]);
+    value["concurrencyBoundary"] = serde_json::json!({
+        "schemaVersion": 1,
+        "implementationPaths": [],
+        "generatedEvidencePaths": [],
+        "verificationOutputPaths": [],
+        "serializedProjectionPaths": [],
+        "maxWorkers": 0,
+        "reason": ""
+    });
+    let contract: Contract = serde_json::from_value(value).expect("typed contract");
+    let errors = contract
+        .validate()
+        .expect_err("invalid declarations must stop");
+    assert!(
+        errors
+            .iter()
+            .any(|item| item.contains("acceptanceCriteria[0]"))
+    );
+    assert!(errors.iter().any(|item| item.contains("scenarioCoverage")));
+    assert!(errors.iter().any(|item| item.contains("maxWorkers")));
 }
 
 #[test]
