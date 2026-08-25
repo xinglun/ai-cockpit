@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "hosted-review-pending-merge",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "b61b4671080a906689785b8ebe0476c460afb442",
+    "name": "codex/wi-285-reference-contract-semantics-final",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:5ac87665231796689efeeba2773d6f7e5ded2830e90047c77a13c44d4f63d4c7",
+  "operationId": "operation-WI-285-reference-contract-semantics-final-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "622836157e945a46f8cb34ee747084d3193e7f28",
+    "headRevision": "b61b4671080a906689785b8ebe0476c460afb442",
+    "number": 245,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/245"
+  },
+  "reason": "PR #245 contains the archived WI-285 evidence and is awaiting hosted review and merge; retain the exact branch and clean worktree until review completes.",
+  "receiptId": "ai-cockpit-WI-285-reference-contract-semantics-final-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-285-reference-contract-semantics-final",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/245",
+    "worktree": "/private/tmp/ai-cockpit-wi285"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-26T12:45:00+09:00",
+  "workItemId": "WI-285-reference-contract-semantics-final",
+  "worktree": {
+    "branch": "codex/wi-285-reference-contract-semantics-final",
+    "headRevision": "b61b4671080a906689785b8ebe0476c460afb442",
+    "path": "/private/tmp/ai-cockpit-wi285",
+    "worktreeId": "WI-285-reference-contract-semantics-final"
+  }
+}
