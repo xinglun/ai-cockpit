@@ -6,7 +6,7 @@ description: "Re-deliver the bounded checkpoint conformance batch after hosted d
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 lastVerifiedBy: WI-289-checkpoint-conformance-terminal
 authority: canonical
 ---

@@ -6,7 +6,7 @@ description: "在 hosted 文档真相门阻断后重新交付有界 checkpoint �
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 lastVerifiedBy: WI-289-checkpoint-conformance-terminal
 authority: canonical
 ---

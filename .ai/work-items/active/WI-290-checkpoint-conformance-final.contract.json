@@ -13,28 +13,28 @@
   "goal": "Produce a provider-bound reviewed PR with complete parity lifecycle evidence and a closeable terminal checkpoint-conformance result.",
   "intent": "Re-deliver the checkpoint conformance batch from the latest remote default base while preserving WI-289 immutable recovery history.",
   "mode": "code",
-  "predecessorWorkItemId": "WI-289-checkpoint-conformance-terminal",
-  "predecessorContractDigest": "sha256:9dd6212499c1ae706d32299fccf2cce4ac865373763f0363d13c84b24ac720c9",
-  "recoveryDecisionPath": ".ai/decisions/WI-289-checkpoint-conformance-terminal.recovery.json",
   "outOfScope": [
     "new runtime feature semantics beyond this checkpoint batch",
     "scheduler or parallel execution optimization",
     "release packaging and adopter acceptance",
     "lib.rs architecture split"
   ],
+  "predecessorContractDigest": "sha256:9dd6212499c1ae706d32299fccf2cce4ac865373763f0363d13c84b24ac720c9",
+  "predecessorWorkItemId": "WI-289-checkpoint-conformance-terminal",
   "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
   "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-289-checkpoint-conformance-terminal.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:1d2d068199b12421ddb95580abae4063579e3e96ea2c4563276b874e963682d3",
   "requiredEvidenceClasses": [
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-290-checkpoint-conformance-final",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/250",
     "worktree": "/private/tmp/ai-cockpit-wi290"
   },
   "risk": "normal",

@@ -6,7 +6,7 @@ description: "Hosted documentation-truth gate の拒否後も predecessor bytes 
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 lastVerifiedBy: WI-289-checkpoint-conformance-terminal
 authority: canonical
 ---
