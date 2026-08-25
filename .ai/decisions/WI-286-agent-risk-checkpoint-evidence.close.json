@@ -1,0 +1,140 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-286-agent-risk-checkpoint-evidence.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:fd0ff4c879b9160b97ba145b150ca890cf5e52354892d4fd70166fc23c96debe",
+      "workItemId": "WI-286-agent-risk-checkpoint-evidence"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-286-agent-risk-checkpoint-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-286-agent-risk-checkpoint-evidence.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-286-agent-risk-checkpoint-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-286-agent-risk-checkpoint-evidence.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-286-agent-risk-checkpoint-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-286-agent-risk-checkpoint-evidence.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-286-agent-risk-checkpoint-evidence.verification.json",
+            ".ai/decisions/WI-286-agent-risk-checkpoint-evidence.finalize.bd7963be356babe9075d0f5451851b1cb12d4361b64918feb8bd1072ef85db94.json",
+            "https://github.com/xinglun/ai-cockpit/pull/246"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via reviewed-github-merge-and-repository-cleanup at 2026-08-25T19:31:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-286-agent-risk-checkpoint-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-286-agent-risk-checkpoint-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-286-agent-risk-checkpoint-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-286-agent-risk-checkpoint-evidence.contract.json"
+          ],
+          "inference": false,
+          "text": "Provide a typed, auditable Contract-risk/checkpoint boundary that the Runtime and CI can reuse without inventing human decisions or weakening repository isolation."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-286-agent-risk-checkpoint-evidence.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-286-agent-risk-checkpoint-evidence"
+  },
+  "finalReportDigest": "sha256:b925c35dc482ab5ff365272c8e3580d07f41f90fe444e1ced14b714c09283ab1",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:beefa6d5ec7b1355f40e00ff1f243464b67a1025496a9434fecb23efb3230cf0",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-286-agent-risk-checkpoint-evidence.finalize.bd7963be356babe9075d0f5451851b1cb12d4361b64918feb8bd1072ef85db94.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "reviewed-github-merge-and-repository-cleanup",
+    "decidedAt": "2026-08-25T19:31:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-286-agent-risk-checkpoint-evidence.verification.json",
+      ".ai/decisions/WI-286-agent-risk-checkpoint-evidence.finalize.bd7963be356babe9075d0f5451851b1cb12d4361b64918feb8bd1072ef85db94.json",
+      "https://github.com/xinglun/ai-cockpit/pull/246"
+    ],
+    "policyRefs": [
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "Confirmed the reviewed PR, archived evidence, runtime verification, and exact branch/worktree cleanup.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-25T19:35:25Z",
+  "workItemId": "WI-286-agent-risk-checkpoint-evidence"
+}

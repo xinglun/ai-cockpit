@@ -1,0 +1,65 @@
+{
+  "governanceAppendRevision": "489b9fd4847e1138e9b6fe29cc497b41e9e04e9d",
+  "predecessorReceiptDigest": "sha256:ba52c731b1aefbd7b01925da5653562ac6c5eb7a25fbe11de4ec5e3ffc7fdb81",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "github-merged-review",
+    "before": {
+      "branch": "present",
+      "pullRequest": "unmerged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "489b9fd4847e1138e9b6fe29cc497b41e9e04e9d",
+      "name": "codex/wi-286-agent-risk-checkpoint-evidence",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:e88d3f6d68db26d766f647c298f3b3958cc9aaa7d14dcd677ffa1bc6ee09e883",
+    "operationId": "operation-WI-286-agent-risk-checkpoint-evidence-merge-observed",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "66171582d1dcae547c40da19050b3c342cc9eacc",
+      "headRevision": "489b9fd4847e1138e9b6fe29cc497b41e9e04e9d",
+      "mergeCommit": "7fe43ae7ce03dad3567af0f70f6dbd220d3b4817",
+      "number": 246,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/246"
+    },
+    "reason": "PR #246 merged at the reviewed head; retain clean local resources until the exact branch and worktree cleanup is verified.",
+    "receiptId": "ai-cockpit-WI-286-agent-risk-checkpoint-evidence-merge-observed",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-286-agent-risk-checkpoint-evidence",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/246",
+      "worktree": "/private/tmp/ai-cockpit-wi286"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+    "runtimeVersion": "0.2.31",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-25T19:26:46Z",
+    "workItemId": "WI-286-agent-risk-checkpoint-evidence",
+    "worktree": {
+      "branch": "codex/wi-286-agent-risk-checkpoint-evidence",
+      "headRevision": "489b9fd4847e1138e9b6fe29cc497b41e9e04e9d",
+      "path": "/private/tmp/ai-cockpit-wi286",
+      "worktreeId": "WI-286-agent-risk-checkpoint-evidence"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-286-agent-risk-checkpoint-evidence-merge-observation"
+}

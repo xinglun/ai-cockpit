@@ -6,8 +6,12 @@ description: "Migrate the reference Agent Risk and checkpoint controls into one 
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-286-agent-risk-checkpoint-evidence
+terminalArchive: .ai/work-items/archive/WI-286-agent-risk-checkpoint-evidence.contract.json
+terminalVerification: .ai/evidence/WI-286-agent-risk-checkpoint-evidence.verification.json
+terminalFinalization: .ai/decisions/WI-286-agent-risk-checkpoint-evidence.finalize.bd7963be356babe9075d0f5451851b1cb12d4361b64918feb8bd1072ef85db94.json
+terminalDecision: .ai/decisions/WI-286-agent-risk-checkpoint-evidence.close.json
 authority: canonical
 ---
 
