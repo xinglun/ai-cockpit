@@ -47,8 +47,8 @@
   ],
   "changedPaths": [
     ".ai/decisions/WI-268-finalization-receipt-correction.recovery.json",
-    ".ai/work-items/active/WI-269-finalization-head-order-correction.contract.json",
-    ".ai/work-items/active/WI-269-finalization-head-order-correction.summary.json",
+    ".ai/work-items/archive/WI-269-finalization-head-order-correction.contract.json",
+    ".ai/work-items/archive/WI-269-finalization-head-order-correction.summary.json",
     "docs/reference/reference-parity.ja.md",
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.zh-CN.md",
@@ -63,15 +63,16 @@
     "contractDigest": "sha256:59a7873fb4e28e361a88d2bacb80a7512b02e136c09467bd925dfa2d71eb58d5",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
     "reason": "Confirm the bounded WI-269 recovery successor and its required commit ordering before the hosted review boundary.",
-    "recordedAt": "2026-08-25T05:00:00Z",
+    "recordedAt": "2026-08-25T05:03:00Z",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:760547faf7a3f057e9c0da423fdbd3b9b12d336083331d449822f8d096e40fa9",
+    "repositorySnapshotDigest": "sha256:09652b6a49a2732b914760fbcd49d1982b617ce2f98912661098e119de18e9cc",
     "schemaVersion": 1,
     "workItemId": "WI-269-finalization-head-order-correction"
   },
+  "failedGate": "finish.verification",
   "intentAlignment": {
     "evidence": [
       ".ai/decisions/WI-268-finalization-receipt-correction.recovery.json",
@@ -81,14 +82,16 @@
     "state": "resolved"
   },
   "mode": "code",
+  "outcomeState": "blocked",
   "predecessorContractDigest": "sha256:2072a5cbc41cae4475dc539018b3467b01c4fe2bff4da2697747c9e10eedb437",
   "predecessorWorkItemId": "WI-268-finalization-receipt-correction",
-  "preflightAt": "2026-08-25T04:59:57Z",
+  "preflightAt": "2026-08-25T05:02:38Z",
   "preflightContractDigest": "sha256:59a7873fb4e28e361a88d2bacb80a7512b02e136c09467bd925dfa2d71eb58d5",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:760547faf7a3f057e9c0da423fdbd3b9b12d336083331d449822f8d096e40fa9",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:09652b6a49a2732b914760fbcd49d1982b617ce2f98912661098e119de18e9cc",
+  "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
   "recoveryDecisionPath": ".ai/decisions/WI-268-finalization-receipt-correction.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -117,7 +120,7 @@
       "verificationPlan": "Run the parity and documentation governance checks after each lifecycle boundary."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-08-25T04:59:57.276061+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-25T05:02:43Z",
   "workItemId": "WI-269-finalization-head-order-correction"
 }
