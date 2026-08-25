@@ -1,0 +1,115 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "repository-local instructions and generated adapter",
+          "path": "AGENTS.md",
+          "type": "rule_projection",
+          "verification": "cockpit-agent install regression and documentation acceptance"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "generated adapter rule assertions",
+          "path": "crates/cockpit-agent/tests/install.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-agent --all-targets"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "four reference Agent/rules inventory records",
+          "path": "tests/conformance/reference_file_inventory.json",
+          "type": "reference_comparison",
+          "verification": "reference_file_inventory_test.sh"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "tri-language workflow and parity projection",
+          "path": "docs/reference/agent-workflow.md",
+          "type": "documentation",
+          "verification": "parity_status_check_test.sh and documentation_acceptance.sh"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "installed Runtime verification",
+          "path": ".ai/evidence/WI-272-reference-agent-rule-batch.verification.json",
+          "type": "lifecycle",
+          "verification": "installed Runtime verify with runtime identity 0.2.31"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [],
+  "checkpointAt": "2026-08-25T07:05:12Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T07:03:11Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-272-reference-agent-rule-batch.md",
+      "tests/conformance/reference_file_inventory.json"
+    ],
+    "reason": "The bounded batch projects the reference Agent rule boundaries into Rust-native instructions, adapter behavior, tests, and explicit parity evidence without copying template implementation.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-25T07:30:33Z",
+  "preflightContractDigest": "sha256:af8e768b543a38a499f90448deb947c47d34c422217f2d6545d19e40945040d7",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:ffd348fbc5d2aea4ad2d19d62745ffac10767c69da3567db3437cc942701d381",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-agent/src/lib.rs",
+        "crates/cockpit-agent/tests/install.rs",
+        "tests/conformance/reference_file_inventory.json",
+        ".ai/evidence/WI-272-reference-agent-rule-batch.verification.json"
+      ],
+      "expected": "The reference Agent rule surfaces are compared file by file and each deferred rule file is mapped to an explicit Rust instruction, adapter, test, or documented non-portability boundary.",
+      "required": true,
+      "scenario": "reference_agent_rule_projection",
+      "status": "verified",
+      "verificationPlan": "Compare the four reference Agent/rules files, run adapter and inventory/parity/documentation tests, and inspect the resulting Rust projection."
+    },
+    {
+      "evidence": [
+        "AGENTS.md",
+        ".ai/README.md",
+        "docs/reference/agent-workflow.md",
+        "docs/reference/agent-workflow.zh-CN.md",
+        "docs/reference/agent-workflow.ja.md",
+        ".ai/evidence/WI-272-reference-agent-rule-batch.verification.json"
+      ],
+      "expected": "A generated Agent adapter requires a direct human Outcome handoff and repairs in-scope defects in the current Work Item before a narrow successor is created.",
+      "required": true,
+      "scenario": "visible_outcome_and_repair_boundary",
+      "status": "verified",
+      "verificationPlan": "Run the cockpit-agent install regression and tri-language documentation/parity gates."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-25T07:30:40Z",
+  "workItemId": "WI-272-reference-agent-rule-batch"
+}
