@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "repository-policy:merge-review",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "cb3f2f29711198f68404d6e98ceac96544dc8075",
+    "name": "codex/wi-272-reference-agent-rule-batch",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:53f128aa21385ec268781164cc5358db82ac583f4ca56e649cc1f87a7792768b",
+  "operationId": "wi272-premerge-finalization-cb3f2f2",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "5c2eeb8c6d4cc434bc4b1805731576382714403d",
+    "headRevision": "cb3f2f29711198f68404d6e98ceac96544dc8075",
+    "number": 227,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/227"
+  },
+  "reason": "Hosted review is pending; bind the exact WI-272 archive and verification commit before the reviewed PR is merged.",
+  "receiptId": "wi272-premerge-cb3f2f2",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-272-reference-agent-rule-batch",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/227",
+    "worktree": "/private/tmp/ai-cockpit-wi272-clean"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-25T07:31:30Z",
+  "workItemId": "WI-272-reference-agent-rule-batch",
+  "worktree": {
+    "branch": "codex/wi-272-reference-agent-rule-batch",
+    "headRevision": "cb3f2f29711198f68404d6e98ceac96544dc8075",
+    "path": "/private/tmp/ai-cockpit-wi272-clean",
+    "worktreeId": "WI-272-reference-agent-rule-batch"
+  }
+}
