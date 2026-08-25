@@ -6,8 +6,12 @@ description: "immutable な履歴を書き換えずに WI-263 の closure bounda
 audience:
   - maintainer
   - reviewer
-status: in-progress
+status: implemented
 lastVerifiedBy: WI-265-finalization-parity-recovery
+terminalArchive: .ai/work-items/archive/WI-265-finalization-parity-recovery.contract.json
+terminalVerification: .ai/evidence/WI-265-finalization-parity-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-265-finalization-parity-recovery.finalize.d2ffd7299322f97652f941f2ba7a640ba750d0aa9d625cbd4edd4f169a5ec20d.json
+terminalDecision: .ai/decisions/WI-265-finalization-parity-recovery.close.json
 authority: canonical
 ---
 
@@ -23,12 +27,13 @@ close receipt の欠落を完了済みの決定として扱いません。
 ## Scope と evidence boundary
 
 - WI-263 の successor recovery decision を Runtime で記録します。
-- archive 前に英語・簡体字中国語・日本語の parity row を登録し、merge と cleanup
-  の evidence が揃うまでは In progress と明示します。
+- archive 前に英語・簡体字中国語・日本語の parity row を登録し、merge と正確な
+  cleanup の evidence が揃った後だけ Implemented に昇格します。
 - verification/archive 前に `work-item finalize-plan` で本 Work Item 自身の
   branch、worktree、provider、reviewed PR を bind します。
 - reviewed merge head からだけ hosted PR lifecycle と exact cleanup を完了します。
-  欠落・stale・foreign receipt は fail closed です。
+  欠落・stale・foreign receipt は fail closed です。Runtime は merge observation、
+  deletion transition、structured close decision を記録しました。
 
 WI-263 の archive、Outcome、Summary、Events、verification、既存 recovery、既存
 finalization bytes は historical evidence として変更しません。
@@ -37,7 +42,7 @@ finalization bytes は historical evidence として変更しません。
 
 三言語の parity、finalization receipt が欠ける場合、または記録された head が
 reviewed checkout から drift した場合、governance gate は fail closed でなければ
-なりません。新しい successor recovery は predecessor bytes を変更せずに closure
+なりません。この closed successor は predecessor bytes を変更せずに closure
 boundary を進めます。
 
 ## Verification
@@ -47,8 +52,8 @@ boundary を進めます。
 - `cargo fmt --all -- --check`
 - `cargo test --locked --workspace`
 - `--repo` を明示した installed Runtime の `inspect`、`status`、`doctor`、
-  `agent doctor`、lifecycle、`work-item outcome`
+  `agent doctor`、lifecycle、finalization verify、close、`work-item outcome`
 
 最終の human handoff は `Outcome: 🟢`、`Outcome: 🟡`、`Outcome: 🔴` のいずれかで
 始まり、status、unknowns、evidence、human decision、next action を含めます。
-In progress の parity は close decision ではありません。
+最終 parity row、deletion transition、close receipt がこの Work Item の終端記録です。
