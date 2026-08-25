@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-281-recovery-integrity-gate.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4965878629b60b28c944d2437850abb49043938a27c0dbbeffdf89d78b9eeb5a",
+      "workItemId": "WI-281-recovery-integrity-gate"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-281-recovery-integrity-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-281-recovery-integrity-gate.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-281-recovery-integrity-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-281-recovery-integrity-gate.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-281-recovery-integrity-gate.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-281-recovery-integrity-gate.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-281-recovery-integrity-gate.verification.json",
+            ".ai/decisions/WI-281-recovery-integrity-gate.finalize.75797b8a6607897f2f36b13ee0fa30e60a3cd6902b4adf0562390da662cb1ed1.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via reviewed-pr-241-and-post-merge-cleanup at 2026-08-26T00:00:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-281-recovery-integrity-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-281-recovery-integrity-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-281-recovery-integrity-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-281-recovery-integrity-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "Repair the hosted governance gate for digest-suffixed recovery receipts and document the required recovery evidence boundary."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-281-recovery-integrity-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-281-recovery-integrity-gate"
+  },
+  "finalReportDigest": "sha256:730dbb25596a27aebd468dbb69074a8040e3a92dc081964e6e062e9c5a436eaf",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:435fc9ef326f13e2929363a81a5e28a6536f28d08e1b049b8cba0fc25de33fcc",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-281-recovery-integrity-gate.finalize.75797b8a6607897f2f36b13ee0fa30e60a3cd6902b4adf0562390da662cb1ed1.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "reviewed-pr-241-and-post-merge-cleanup",
+    "decidedAt": "2026-08-26T00:00:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-281-recovery-integrity-gate.verification.json",
+      ".ai/decisions/WI-281-recovery-integrity-gate.finalize.75797b8a6607897f2f36b13ee0fa30e60a3cd6902b4adf0562390da662cb1ed1.json"
+    ],
+    "policyRefs": [
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "Hosted checks passed, PR #241 merged at the reviewed head, exact branch/worktree cleanup verified, and the append-only finalization chain is valid.",
+    "resumeCondition": "If a future audit finds a bounded defect, create an explicitly linked successor Work Item."
+  },
+  "timestamp": "2026-08-25T16:32:54Z",
+  "workItemId": "WI-281-recovery-integrity-gate"
+}

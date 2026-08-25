@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:388401665d04f3caa0d73759b5401017c4736a88ef15f0462858a2f65ad60a7f",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "post-merge-exact-cleanup",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "c10a42235b95075eaac8d8cf4846e61c7cf9dc88",
+      "name": "codex/wi-281-recovery-gate",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:0d9c2685ebefde157b9f12f9de0093ad693b9de2a7d083319e960b3c38292ae2",
+    "operationId": "operation-WI-281-recovery-integrity-gate-cleanup-deleted",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "87dce785b751f4ed407ede2997daf562bd7456d7",
+      "headRevision": "c10a42235b95075eaac8d8cf4846e61c7cf9dc88",
+      "mergeCommit": "7d0576fc6f0284e5f07559ceb242a21b504cdd69",
+      "number": 241,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/241"
+    },
+    "reason": "After PR #241 merge observation, removed only the exact WI-281 remote/local branch and exact feature worktree; no unrelated resources were touched.",
+    "receiptId": "ai-cockpit-WI-281-recovery-integrity-gate-cleanup-deleted",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-281-recovery-gate",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/241",
+      "worktree": "/private/tmp/ai-cockpit-wi281"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+    "runtimeVersion": "0.2.31",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-26T00:00:00Z",
+    "workItemId": "WI-281-recovery-integrity-gate",
+    "worktree": {
+      "branch": "codex/wi-281-recovery-gate",
+      "headRevision": "c10a42235b95075eaac8d8cf4846e61c7cf9dc88",
+      "path": "/private/tmp/ai-cockpit-wi281",
+      "worktreeId": "WI-281-recovery-integrity-gate"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "WI-281-cleanup-deleted"
+}
