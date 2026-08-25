@@ -1,0 +1,20 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-274-reference-inventory-rebaseline-recovery.contract.json",
+    ".ai/work-items/active/WI-274-reference-inventory-rebaseline-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-08-25T08:45:08Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T08:44:37Z",
+  "mode": "code",
+  "preflightAt": "2026-08-25T08:51:44Z",
+  "preflightContractDigest": "sha256:6c45f64d3cd9f53a3f10328b9e4c360374058222c4a45a8ac4077e0ee7923fd0",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:81f6094e22fc58239de6dbeb1145f25e882055b32f7c350b3df31c7a0b2e4b4b",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-25T08:45:08Z",
+  "workItemId": "WI-274-reference-inventory-rebaseline-recovery"
+}
