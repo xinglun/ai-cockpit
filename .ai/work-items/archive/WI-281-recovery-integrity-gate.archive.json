@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-25T16:12:14Z",
+  "files": {
+    "contractDigest": "sha256:0d9c2685ebefde157b9f12f9de0093ad693b9de2a7d083319e960b3c38292ae2",
+    "contractPath": ".ai/work-items/archive/WI-281-recovery-integrity-gate.contract.json",
+    "eventsDigest": "sha256:95959f885562ccc9b5ffdf6e5896594493c055a20bb73aea88a8428e1ce59338",
+    "eventsPath": ".ai/work-items/archive/WI-281-recovery-integrity-gate.events.jsonl",
+    "outcomeDigest": "sha256:a3f2aecc7bcbccc9bc5ea59bf784fb891be362dc74ff44d264be3b6d558605cc",
+    "outcomePath": ".ai/work-items/archive/WI-281-recovery-integrity-gate.outcome.json",
+    "summaryDigest": "sha256:8dc400928558c03e305ff1e3772847a59282db5935e1c6cd6f54287dc1b332c5",
+    "summaryPath": ".ai/work-items/archive/WI-281-recovery-integrity-gate.summary.json",
+    "taskReportDigest": "sha256:e7a2b6ccc6b9569b34825d7c05e26363b25dd3f28928e4938079dac97f5c962a",
+    "taskReportMarkdownDigest": "sha256:8ea1334f3d5aa163014b5dd61e296d4c698350b03b71cf29c297a7bbe59a41b2",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-281-recovery-integrity-gate.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-281-recovery-integrity-gate.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-281-recovery-integrity-gate"
+}

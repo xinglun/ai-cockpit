@@ -983,6 +983,46 @@ def valid_recovery_decision(
     )
 
 
+def recovery_decision_candidate(
+    repo: Path, work_item: str
+) -> tuple[Path, dict[str, Any]] | None:
+    """Resolve the valid head of an append-only recovery decision chain.
+
+    Runtime recovery receipts are immutable: a retry may remain at the
+    canonical ``.recovery.json`` path while a later successor/supersession
+    decision is written under a digest-suffixed path. The gate must inspect
+    that chain rather than treating the earlier retry as the terminal record.
+    Invalid candidates are never promoted; a deterministic preference for a
+    supersession, then successor, then the latest decision timestamp keeps
+    the projection stable when a predecessor has more than one valid receipt.
+    """
+    decisions = repo / ".ai/decisions"
+    canonical = decisions / f"{work_item}.recovery.json"
+    paths = [canonical]
+    paths.extend(sorted(decisions.glob(f"{work_item}.recovery.*.json")))
+    candidates: list[tuple[Path, dict[str, Any]]] = []
+    for path in paths:
+        if not path.is_file() or path.is_symlink():
+            continue
+        try:
+            value = load_json(path)
+        except ValueError:
+            continue
+        if valid_recovery_decision(repo, work_item, value):
+            candidates.append((path, value))
+    if not candidates:
+        return None
+    return max(
+        candidates,
+        key=lambda item: (
+            item[1].get("decision") == "supersede",
+            item[1].get("decision") == "successor",
+            item[1].get("decidedAt", ""),
+            str(item[0]),
+        ),
+    )
+
+
 def valid_close_decision(repo: Path, work_item: str, value: dict[str, Any]) -> bool:
     try:
         project = load_json(repo / ".ai/project.json")
@@ -1236,17 +1276,16 @@ def main() -> int:
                         f".ai/work-items/archive/{work_item}.archive.json",
                     )
                 )
-            recovery_path = repo / ".ai/decisions" / f"{work_item}.recovery.json"
-            recovery_value: dict[str, Any] = {}
-            recovery_receipt_valid = False
-            if recovery_path.is_file() and not recovery_path.is_symlink():
-                try:
-                    recovery_value = load_json(recovery_path)
-                except ValueError:
-                    recovery_value = {}
-                recovery_receipt_valid = valid_recovery_decision(
-                    repo, work_item, recovery_value
-                )
+            recovery_candidate = recovery_decision_candidate(repo, work_item)
+            recovery_path = (
+                recovery_candidate[0]
+                if recovery_candidate is not None
+                else repo / ".ai/decisions" / f"{work_item}.recovery.json"
+            )
+            recovery_value = (
+                recovery_candidate[1] if recovery_candidate is not None else {}
+            )
+            recovery_receipt_valid = recovery_candidate is not None
 
             outcome_path = base / f"{work_item}.outcome.json"
             if outcome_path.is_file():

@@ -54,6 +54,7 @@ capabilityClaims:
   だけを許可し、test、scenario、verification、release の完了を証明しません。欠落、stale、foreign、
   malformed、symlink の receipt は停止したままです。
 - review receipt は append-only です。Contract または repository snapshot が変わった場合、新しい receipt は digest suffix の decision path に保存され、以前の receipt は historical evidence として残り上書きされません。`work-item recover` は predecessor の Contract/Summary/Outcome/event digest と current Runtime に bind した strict な `retry`、`successor`、または `supersede` decision を記録します。`supersede` には bind 済み successor が必要で、predecessor を明示的な履歴終端状態として archive し、元の bytes を保持します。これは verification を自動で green にせず、predecessor を書き換えません。superseded は現在の成功・失敗ではなく、後続処理は successor が担います。
+- Recovery receipt は append-only chain です。canonical `<id>.recovery.json` が先行する retry の場合、CI は有効な digest-suffixed `<id>.recovery.<digest>.json` successor/supersession receipt を解決し、選択した path を各 parity projection に bind します。candidate が invalid または ambiguous なら fail-closed のままとし、gate は retry を terminal successor として扱いません。
 - 実装後にしか実行できない high-risk の必須 scenario は、Contract の `scenarioCoverage` で
   `unverified` のままにできますが、空でない `expected`（または `expectedResult`）と具体的な
   `verificationPlan` の両方が必要です。これは実装計画の evidence であり完了 evidence ではありません。

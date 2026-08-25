@@ -177,6 +177,12 @@ and cannot move active artifacts. Historical archived records keep their
 immutable bytes and historical projection; this current-read rule does not
 retroactively rewrite or reclassify them.
 
+Recovery receipts are an append-only chain. When the canonical
+`<id>.recovery.json` is an earlier retry, CI resolves valid digest-suffixed
+`<id>.recovery.<digest>.json` successor/supersession records and binds the
+selected path in each parity projection. Invalid or ambiguous candidates
+remain fail-closed; the gate never treats a retry as a terminal successor.
+
 Merge is not Work Item closure. After hosted checks pass, the exact branch and
 worktree are a separate resource-finalization boundary:
 

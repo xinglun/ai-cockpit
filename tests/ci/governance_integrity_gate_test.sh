@@ -89,6 +89,71 @@ run_case invalid-premerge-finalize 1 invalid_premerge_finalize
 run_case retained-premerge-finalize 1 invalid_premerge_finalize
 run_case foreign-premerge-finalize 1 invalid_premerge_finalize
 run_case spoofed-base-premerge-finalize 1 invalid_premerge_finalize
+
+# Runtime recovery is append-only. A canonical retry may coexist with a
+# digest-suffixed successor/supersession receipt; the latest valid terminal
+# recovery must be selected and bound into all parity rows.
+build_fixture "$fixtures/valid.json" "$tmp/recovery-suffixed"
+python3 - "$tmp/recovery-suffixed" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = "WI-900-release-v9-9-9"
+decisions = root / ".ai/decisions"
+decisions.mkdir(parents=True, exist_ok=True)
+(decisions / f"{work_item}.close.json").unlink()
+common = {
+    "schemaVersion": 1,
+    "decisionId": "work-item-recovery",
+    "workItemId": work_item,
+    "repositoryId": "sha256:" + "b" * 64,
+    "predecessorWorkItemId": work_item,
+    "runtimeVersion": "0.2.23",
+    "runtimeDigest": "sha256:" + "a" * 64,
+    "actor": "human:fixture",
+    "authoritySource": "fixture",
+    "reason": "preserve immutable predecessor history",
+    "evidenceRefs": [f".ai/evidence/{work_item}.verification.json"],
+    "policyRefs": [],
+    "decidedAt": "2026-03-01T00:00:00Z",
+    "resumeCondition": "continue through the successor",
+}
+retry = dict(common, decision="retry")
+retry["predecessorContractDigest"] = "sha256:" + "c" * 64
+retry["predecessorSummaryDigest"] = "sha256:" + "d" * 64
+(decisions / f"{work_item}.recovery.json").write_text(
+    json.dumps(retry, indent=2) + "\n", encoding="utf-8"
+)
+supersede = dict(common, decision="supersede", successorWorkItemId="WI-901-corrective-after-baseline")
+supersede["predecessorContractDigest"] = retry["predecessorContractDigest"]
+supersede["predecessorSummaryDigest"] = retry["predecessorSummaryDigest"]
+supersede["decidedAt"] = "2026-03-02T00:00:00Z"
+suffix = "a" * 64
+(decisions / f"{work_item}.recovery.{suffix}.json").write_text(
+    json.dumps(supersede, indent=2) + "\n", encoding="utf-8"
+)
+for name in ("reference-parity.md", "reference-parity.zh-CN.md", "reference-parity.ja.md"):
+    path = root / "docs/reference" / name
+    text = path.read_text(encoding="utf-8")
+    text = text.replace(
+        f"`.ai/decisions/{work_item}.close.json`",
+        f"`.ai/decisions/{work_item}.recovery.{suffix}.json`",
+    )
+    path.write_text(text, encoding="utf-8")
+PY
+python3 "$gate" --repo "$tmp/recovery-suffixed" --report "$tmp/recovery-suffixed-report.json" >/dev/null
+python3 - "$tmp/recovery-suffixed-report.json" <<'PY'
+import json
+import sys
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert report["findings"] == [], report["findings"]
+item = next(item for item in report["inventory"] if item["workItemId"] == "WI-900-release-v9-9-9")
+assert item["decisionPath"].endswith(".recovery." + "a" * 64 + ".json"), item
+assert item["lifecycleState"] == "recovered", item
+PY
+printf 'governance recovery suffix regression passed\n'
 run_case superseded-recovery 0 none
 run_case invalid-recovery 1 invalid_terminal_decision
 
