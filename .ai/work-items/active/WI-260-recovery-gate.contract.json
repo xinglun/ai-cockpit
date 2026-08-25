@@ -36,8 +36,14 @@
   "scope": [
     "tests/ci/governance_integrity_gate.py",
     "tests/ci/governance_integrity_gate_test.sh",
+    "tests/ci/recovery_gate_acceptance.sh",
     "tests/docs/promote_closed_work_item.py",
     "tests/docs/promote_closed_work_item_test.sh",
+    ".ai/decisions/WI-258-governance-fixture-regression.recovery.json",
+    ".ai/evidence/WI-259-close-decision-recovery.verification.json",
+    ".ai/work-items/archive/WI-259-close-decision-recovery/**",
+    "docs/work-items/WI-258-governance-fixture-regression.*",
+    "docs/work-items/WI-259-close-decision-recovery.*",
     "docs/work-items/WI-260-recovery-gate.md",
     "docs/work-items/WI-260-recovery-gate.zh-CN.md",
     "docs/work-items/WI-260-recovery-gate.ja.md",
@@ -48,7 +54,9 @@
   "sources": [],
   "state": "implementation_active",
   "verification": [
-    "cargo test --locked --workspace"
+    "bash tests/ci/governance_integrity_gate_test.sh",
+    "bash tests/docs/promote_closed_work_item_test.sh",
+    "bash tests/docs/documentation_acceptance.sh"
   ],
   "workItemId": "WI-260-recovery-gate"
 }
