@@ -6,7 +6,7 @@ description: "Make CI resolve append-only recovery heads and require complete cu
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-281-recovery-integrity-gate
 authority: canonical
 ---

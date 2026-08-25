@@ -6,7 +6,7 @@ description: "CI が append-only recovery head を解決し、current-cycle Work
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-281-recovery-integrity-gate
 authority: canonical
 ---

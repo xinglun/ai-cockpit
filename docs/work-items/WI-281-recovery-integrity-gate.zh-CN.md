@@ -6,7 +6,7 @@ description: "让 CI 解析 append-only recovery head，并要求当前周期完
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-281-recovery-integrity-gate
 authority: canonical
 ---
