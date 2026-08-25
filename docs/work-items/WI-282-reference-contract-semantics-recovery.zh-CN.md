@@ -2,17 +2,17 @@
 author: AI Cockpit maintainers
 title: "WI-282——参考 Contract 语义 recovery"
 workItemId: WI-282-reference-contract-semantics-recovery
-description: "在当前审阅快照上重新验收有界 Rust Contract 语义 parity 批次，保留不可变的 WI-280 证据。"
+description: "由于 hosted quality 拒绝了旧默认分支基线，WI-282 作为不可变 predecessor 由 WI-283 取代。"
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: superseded
 lastVerifiedBy: WI-282-reference-contract-semantics-recovery
 authority: canonical
 ---
 
 # WI-282——参考 Contract 语义 recovery
 
-WI-282 是不可变 WI-280 的显式 successor。由于文档和 finalization 绑定改变了
-repository snapshot，本 Work Item 在当前审阅快照上重新验收同一有界 Contract
-语义实现；WI-280 的历史证据保持不可变，不被重写。
+WI-282 是 WI-283 的不可变 predecessor。Hosted quality 发现其 pre-merge
+finalization 使用了早于最新默认分支的 Contract 基线；WI-282 的历史证据保持
+不可变，由 WI-283 取代且不改写 predecessor bytes。
