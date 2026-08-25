@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-pre-merge-finalization-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "bc8f8e655a7616965b06ddacbc0feb0c807e64a0",
+    "name": "codex/wi-263-wi260-reconciliation",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:f5fe1e343870ccfe3eca3d247bc28826678e4a2cd9052bbd173e1eeea9bf31f2",
+  "operationId": "operation-WI-263-wi260-reconciliation-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "5e426413f08ed54fe54029e0b910056aa4dceba2",
+    "headRevision": "bc8f8e655a7616965b06ddacbc0feb0c807e64a0",
+    "number": 215,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/215"
+  },
+  "reason": "awaiting_merge_close: PR #215 remains unmerged; retain the exact reviewed branch and clean worktree until hosted checks pass, human review is complete, and the reviewed pull request is merged.",
+  "receiptId": "ai-cockpit-WI-263-wi260-reconciliation-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-263-wi260-reconciliation",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/215",
+    "worktree": "/private/tmp/ai-cockpit-wi263-reconciliation"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-25T02:23:00Z",
+  "workItemId": "WI-263-wi260-reconciliation",
+  "worktree": {
+    "branch": "codex/wi-263-wi260-reconciliation",
+    "headRevision": "bc8f8e655a7616965b06ddacbc0feb0c807e64a0",
+    "path": "/private/tmp/ai-cockpit-wi263-reconciliation",
+    "worktreeId": "WI-263-wi260-reconciliation"
+  }
+}
