@@ -1,0 +1,132 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-272-reference-agent-rule-batch.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ffd348fbc5d2aea4ad2d19d62745ffac10767c69da3567db3437cc942701d381",
+      "workItemId": "WI-272-reference-agent-rule-batch"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-272-reference-agent-rule-batch.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-272-reference-agent-rule-batch.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-272-reference-agent-rule-batch.verification.json",
+            ".ai/decisions/WI-272-reference-agent-rule-batch.finalize.8520cbf7e78d5e8c13fb781aac5b10bf78961cec5b2e0964cce0caa3bffae985.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:repository-owner via repository-policy:merge-review at 2026-08-25T07:55:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-272-reference-agent-rule-batch.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-272-reference-agent-rule-batch.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-272-reference-agent-rule-batch.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-272-reference-agent-rule-batch.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-272-reference-agent-rule-batch.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the Rust repository inherit the reference Agent rule boundaries through explicit repository-local instructions, generated adapters, typed Runtime behavior, tests, and tri-language parity evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-272-reference-agent-rule-batch.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-272-reference-agent-rule-batch"
+  },
+  "finalReportDigest": "sha256:2dd195ed5bc6f0698cd3ac46934fb7bdc3426827ff472047cc40c96573b2527b",
+  "humanDecision": "confirmed",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:4b2b9ee12f05773bb34074624ff97558faaf9823f32349b20e2aab50f44ddbb6",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-272-reference-agent-rule-batch.finalize.8520cbf7e78d5e8c13fb781aac5b10bf78961cec5b2e0964cce0caa3bffae985.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "repository-policy:merge-review",
+    "decidedAt": "2026-08-25T07:55:00Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-272-reference-agent-rule-batch.verification.json",
+      ".ai/decisions/WI-272-reference-agent-rule-batch.finalize.8520cbf7e78d5e8c13fb781aac5b10bf78961cec5b2e0964cce0caa3bffae985.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md"
+    ],
+    "reason": "Hosted review passed, merge observation and cleanup receipts were verified, and the reference Agent rule batch is complete.",
+    "resumeCondition": "No resume is required; any follow-up must use a new bounded Work Item with explicit human scope."
+  },
+  "timestamp": "2026-08-25T07:53:38Z",
+  "workItemId": "WI-272-reference-agent-rule-batch"
+}
