@@ -48,6 +48,13 @@ decision state、verification tier 和 evidence assurance。黄色或红色结�
 后续批次才可以删除重复 policy。此 gate 不实现参考源完整 workflow 矩阵、依赖
 planner 或 release-preflight 顺序。
 
+## 以源代码为中心的快照身份
+
+仓库快照身份以源代码为中心：绑定已跟踪的源代码树和非 `.ai` 的工作树事实，
+排除 Git `HEAD`、绝对工作树路径以及仅治理用的 `.ai/` 提交。这样，验证成功后
+正常提交 Contract、Summary 和 Outcome 记录不会使证据失效，同时源代码变更仍
+不能复用过期证据。
+
 ## Evidence 与发布边界
 
 CI gate 是针对 reviewed change 的源码构建检查。它记录 Runtime identity 供诊断，

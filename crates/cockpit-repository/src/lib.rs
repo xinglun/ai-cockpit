@@ -4997,12 +4997,14 @@ fn record_verification_internal(
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.summary.json"));
     let summary: serde_json::Value = read_json(&summary_path)?;
-    if summary["state"] != serde_json::json!("checkpointed")
-        || summary["checkpointCount"] != serde_json::json!(1)
+    if !matches!(
+        summary["state"].as_str(),
+        Some("checkpointed" | "finish_ready")
+    ) || summary["checkpointCount"] != serde_json::json!(1)
     {
         return Err(ObserverError::State {
             path: summary_path.clone(),
-            message: "verification requires exactly one completed checkpoint".into(),
+            message: "verification requires exactly one completed checkpoint and an active lifecycle state".into(),
         });
     }
     if !matches!(summary["preflightState"].as_str(), Some("green" | "yellow")) {
@@ -5212,7 +5214,89 @@ fn record_verification_internal(
         snapshot_digest(&refreshed_snapshot)?.to_string().into();
     summary["preflightAt"] = now().into();
     atomic_json(&summary_path, &summary)?;
+    if summary["state"] == serde_json::json!("finish_ready") {
+        refresh_active_outcome_verification_binding(
+            &root,
+            work_item_id,
+            &evidence,
+            &snapshot_digest(&refreshed_snapshot)?,
+        )?;
+    }
     Ok(evidence)
+}
+
+/// Refresh the active human Outcome after a verification retry that occurs
+/// while the Work Item is already finish-ready.  A hosted PR gate may observe
+/// the normal governance-only commits made after the first verification; the
+/// retry must update every active Outcome/report binding instead of leaving an
+/// old evidence digest that would make archive/close fail later.
+fn refresh_active_outcome_verification_binding(
+    root: &Path,
+    work_item_id: &str,
+    evidence: &serde_json::Value,
+    current_snapshot_digest: &Digest,
+) -> Result<(), ObserverError> {
+    let active = root.join(".ai/work-items/active");
+    let outcome_path = active.join(format!("{work_item_id}.outcome.json"));
+    if !is_regular_non_symlink(&outcome_path)? {
+        return Err(ObserverError::State {
+            path: outcome_path,
+            message: "finish-ready verification retry requires a regular Outcome".into(),
+        });
+    }
+    let mut outcome = read_json(&outcome_path)?;
+    if outcome["state"] != serde_json::json!("finish_ready")
+        || outcome["verification"]["status"] != serde_json::json!("verified")
+    {
+        return Err(ObserverError::State {
+            path: outcome_path,
+            message: "finish-ready verification retry requires a verified Outcome".into(),
+        });
+    }
+    outcome["evidenceDigest"] = cockpit_protocol::digest_json(evidence)
+        .map_err(|error| ObserverError::State {
+            path: root.join(".ai/evidence"),
+            message: error.to_string(),
+        })?
+        .to_string()
+        .into();
+
+    let report_path = active.join(format!("{work_item_id}.task-report.json"));
+    if is_regular_non_symlink(&report_path)? {
+        let mut report: TaskOutcomeReport = serde_json::from_value(read_json(&report_path)?)
+            .map_err(|error| ObserverError::State {
+                path: report_path.clone(),
+                message: format!("invalid active Task Outcome report: {error}"),
+            })?;
+        if report.work_item_id != work_item_id {
+            return Err(ObserverError::State {
+                path: report_path,
+                message: "active Task Outcome report belongs to another Work Item".into(),
+            });
+        }
+        report.bindings.repository_snapshot_digest = Some(current_snapshot_digest.clone());
+        let report_value = serde_json::to_value(&report).map_err(|error| ObserverError::State {
+            path: report_path.clone(),
+            message: error.to_string(),
+        })?;
+        let report_bytes =
+            serde_json::to_vec_pretty(&report_value).map_err(|error| ObserverError::State {
+                path: report_path.clone(),
+                message: error.to_string(),
+            })?;
+        atomic_write(&report_path, &report_bytes)?;
+        let markdown_path = active.join(format!("{work_item_id}.task-report.md"));
+        if is_regular_non_symlink(&markdown_path)? {
+            atomic_write(&markdown_path, task_outcome_markdown(&report).as_bytes())?;
+            outcome["taskReportMarkdownDigest"] =
+                Digest::sha256_bytes(task_outcome_markdown(&report).as_bytes())
+                    .to_string()
+                    .into();
+        }
+        outcome["taskOutcomeReport"] = report_value;
+        outcome["taskReportDigest"] = Digest::sha256_bytes(&report_bytes).to_string().into();
+    }
+    atomic_json(&outcome_path, &outcome)
 }
 
 /// Bind a raw execution result to its Work Item/repository/Runtime identity
@@ -6166,11 +6250,56 @@ fn delegated_evidence_satisfies(
         }))
 }
 
+fn source_tree_digest(snapshot: &RepositorySnapshot) -> Result<Digest, ObserverError> {
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(&snapshot.git_root)
+        .args(["ls-files", "-s"])
+        .output()
+        .map_err(|source| ObserverError::Read {
+            path: snapshot.git_root.clone(),
+            source,
+        })?;
+    if !output.status.success() {
+        return Err(ObserverError::State {
+            path: snapshot.git_root.clone(),
+            message: "cannot enumerate the repository source tree".into(),
+        });
+    }
+    let mut hasher = Sha256::new();
+    for line in String::from_utf8_lossy(&output.stdout).lines() {
+        let Some((_, path)) = line.split_once('\t') else {
+            continue;
+        };
+        if path == ".ai" || path.starts_with(".ai/") {
+            continue;
+        }
+        hasher.update(path.as_bytes());
+        hasher.update([0]);
+        hasher.update(line.as_bytes());
+        hasher.update([0]);
+    }
+    Ok(Digest::sha256_bytes(&hasher.finalize()))
+}
+
+/// Digest the repository facts that govern source verification, not the
+/// governance records used to produce that verification.  In particular,
+/// committing `.ai/` receipts after a successful verification must not make
+/// the source evidence stale; a source commit or non-`.ai` working-tree change
+/// must still invalidate it.  Absolute worktree paths and Git HEAD are also
+/// excluded so local and hosted PR contexts share the same identity.
 pub fn snapshot_digest(snapshot: &RepositorySnapshot) -> Result<Digest, ObserverError> {
     let mut stable = snapshot.clone();
+    stable.root = PathBuf::from(".");
+    stable.git_root = PathBuf::from(".");
+    stable.head = None;
+    stable.tree_digest = source_tree_digest(snapshot)?.to_string();
     stable
         .changed_paths
         .retain(|path| !path.starts_with(".ai/"));
+    stable
+        .change_evidence
+        .retain(|change| !change.path.starts_with(".ai/"));
     cockpit_protocol::digest_json(&stable).map_err(|error| ObserverError::State {
         path: snapshot.root.join(".ai"),
         message: error.to_string(),

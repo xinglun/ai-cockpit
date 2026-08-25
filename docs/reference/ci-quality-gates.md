@@ -52,6 +52,14 @@ batch may remove duplicated policy only after hosted shadow comparisons prove
 semantic agreement. This gate does not implement the reference source's full
 workflow matrix, dependency planner, or release-preflight sequence.
 
+## Source-oriented snapshot identity
+
+The repository snapshot identity is source-oriented: the tracked source tree
+and non-`.ai` working-tree facts are bound, while Git `HEAD`, absolute
+worktree paths, and governance-only `.ai/` commits are excluded. This allows a
+verified receipt to survive the normal commit of its Contract, Summary, and
+Outcome records without allowing a source change to reuse stale evidence.
+
 ## Evidence and release boundary
 
 The CI gate is a source-built check for the reviewed change. Its Runtime

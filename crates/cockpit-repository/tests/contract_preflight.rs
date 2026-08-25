@@ -28,6 +28,73 @@ fn repository_snapshot_digest(path: &std::path::Path) -> cockpit_core::Digest {
     snapshot_digest(&snapshot).expect("snapshot digest")
 }
 
+fn commit(path: &std::path::Path, message: &str) {
+    assert!(
+        Command::new("git")
+            .args(["-C", path.to_str().expect("path"), "add", "."])
+            .status()
+            .expect("git add")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args([
+                "-C",
+                path.to_str().expect("path"),
+                "-c",
+                "user.name=AI Cockpit Test",
+                "-c",
+                "user.email=ai-cockpit@example.invalid",
+                "commit",
+                "-qm",
+                message,
+            ])
+            .status()
+            .expect("git commit")
+            .success()
+    );
+}
+
+#[test]
+fn snapshot_digest_ignores_governance_only_commits_but_tracks_source_commits() {
+    let directory = tempfile::tempdir().expect("tempdir");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(directory.path())
+        .status()
+        .expect("git init");
+    fs::create_dir_all(directory.path().join(".ai")).expect("ai directory");
+    fs::write(
+        directory.path().join("src.rs"),
+        "pub fn value() -> u8 { 1 }\n",
+    )
+    .expect("source");
+    fs::write(
+        directory.path().join(".ai/fact.json"),
+        "{\"state\":\"one\"}\n",
+    )
+    .expect("fact");
+    commit(directory.path(), "source and initial governance");
+    let source = repository_snapshot_digest(directory.path());
+
+    fs::write(
+        directory.path().join(".ai/fact.json"),
+        "{\"state\":\"two\"}\n",
+    )
+    .expect("updated fact");
+    assert_eq!(source, repository_snapshot_digest(directory.path()));
+    commit(directory.path(), "governance receipt");
+    assert_eq!(source, repository_snapshot_digest(directory.path()));
+
+    fs::write(
+        directory.path().join("src.rs"),
+        "pub fn value() -> u8 { 2 }\n",
+    )
+    .expect("updated source");
+    commit(directory.path(), "source change");
+    assert_ne!(source, repository_snapshot_digest(directory.path()));
+}
+
 fn set_operation(path: &std::path::Path, work_item_id: &str, operation: &str) {
     let contract_path = path
         .join(".ai/work-items/active")

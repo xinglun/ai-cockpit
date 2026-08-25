@@ -49,6 +49,14 @@ intent/scenario/operation/stage route、Agent-Risk/preflight 投影を検証し�
 確認した後の別 batch でのみ、重複した policy を削除します。この gate は参照源の
 全 workflow matrix、依存 planner、release-preflight 順序を実装するものではありません。
 
+## ソース中心のスナップショット識別子
+
+リポジトリ・スナップショットの識別子はソース中心である。追跡対象のソースツリーと
+`.ai` 以外のワークツリー事実を束縛し、Git の `HEAD`、絶対パス、ガバナンス専用の
+`.ai/` コミットは除外する。これにより、検証後に Contract、Summary、Outcome の記録を
+通常どおりコミットしても証拠は stale にならず、ソース変更による古い証拠の再利用は
+引き続き拒否される。
+
 ## Evidence と Release の境界
 
 CI gate は reviewed change に対する source build の検査です。診断用に Runtime

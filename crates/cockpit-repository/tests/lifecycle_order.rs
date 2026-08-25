@@ -194,3 +194,60 @@ fn verification_promotes_initial_yellow_preflight_and_allows_recovery() {
     assert_eq!(summary["preflightState"], "green");
     finish_work_item(directory.path(), "WI-ORDER-RECOVER").expect("finish after recovery");
 }
+
+#[test]
+fn verification_retry_refreshes_finish_ready_bindings_after_source_change() {
+    let directory = repository();
+    let id = "WI-ORDER-REVERIFY";
+    start(directory.path(), id, &[]);
+    let contract_path = contract(directory.path(), id);
+    plan_resource_finalization(
+        directory.path(),
+        id,
+        &ResourceFinalizationContext {
+            branch: format!("feature/{id}"),
+            worktree: directory.path().display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: format!("https://github.com/example/ai-cockpit/pull/{id}"),
+        },
+    )
+    .expect("finalization plan");
+    preflight_work_item(directory.path(), &contract_path).expect("preflight");
+    checkpoint_work_item(directory.path(), id).expect("checkpoint");
+    record_verification(
+        directory.path(),
+        id,
+        &serde_json::json!({"passed": true}),
+        "0.2.8",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("initial verification");
+    finish_work_item(directory.path(), id).expect("finish");
+
+    fs::write(directory.path().join("source.rs"), "pub fn changed() {}\n").expect("source");
+    let evidence = record_verification(
+        directory.path(),
+        id,
+        &serde_json::json!({"passed": true}),
+        "0.2.8",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification retry");
+    let evidence_digest = cockpit_protocol::digest_json(&evidence).expect("evidence digest");
+    let outcome: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(format!(".ai/work-items/active/{id}.outcome.json")),
+        )
+        .expect("outcome"),
+    )
+    .expect("outcome JSON");
+    assert_eq!(outcome["evidenceDigest"], evidence_digest.to_string());
+    assert_eq!(
+        outcome["taskOutcomeReport"]["bindings"]["repositorySnapshotDigest"],
+        evidence["repositorySnapshotDigest"]
+    );
+}
