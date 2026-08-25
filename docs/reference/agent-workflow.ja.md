@@ -97,6 +97,13 @@ start → preflight → checkpoint → verify → finish → archive → close
 current repository、Work Item、project profile はありません。Contract の criteria
 は原文を保持し、人間向け presentation 層だけを localize します。
 
+実装前の Contract review は、宣言された intent、scenario の形、acceptance
+ declaration、parallel boundary も検証します。壊れた scenario list、重複した
+ scenario、空の acceptance、無効な slot boundary は review finding であり、
+ Agent が推測で修復する事実ではありません。scenario coverage の必須性は
+risk policy が決め、人間の宣言と fresh evidence が揃うまで Runtime は
+yellow/red を維持します。
+
 ## Resource finalization の境界
 
 Finalization evidence は append-only chain です。canonical `<id>.finalize.json` は不変の chain root であり、後続の provider observation は predecessor digest と sequence を束縛した `<id>.finalize.<digest>.json` に保存されます。archived Contract は `baseRevision` を凍結し、canonical/transition receipt の `pullRequest.baseRevision` は record 時と `finalize-verify` 時の両方で完全一致しなければなりません。archive 前の rebase では active Contract の binding と review を更新し、archive 後の rebase は禁止して record を書き換えず fail-closed recovery を行います。`finalize-verify` と `close` は一意な線形 head を要求し、stale predecessor、fork、malformed record、symlink、base mismatch、identity drift は fail closed になります。pre-merge blocked root は連続する merge observation（`retained`）と cleanup（`deleted`）transition で進みます。canonical governance receipt の commit により PR head が進む場合、最初の unmerged-to-merged observation だけが `governanceAppendRevision` を宣言できます。PR、branch、worktree の各 head は同時に変わり、Git は旧 head が新 head の ancestor であることを証明します。この append 区間には、同一 Work Item の通常 finalization receipt と、Runtime が生成した完全な post-finalize evidence bundle だけを追加できます。bundle の path は `.ai/evidence/<id>/quality-route-post-finalize.json` と `.ai/evidence/<id>/repository-gates-post-finalize.json` に限定されます。受理される各 path は Git の `A`-only change で、tree entry は `100644` regular blob でなければなりません。両 evidence file は固定 schema に従い、archived Contract、PR base、bounded head、route receipt digest、manifest digest、selected profile、および passed required gates を束縛しなければなりません。これらは束縛済み observation であって、それ自体が authority ではなく、区間には引き続き finalization receipt の追加が必要です。bundle の欠落、別 Work Item または filename、malformed/duplicate-key JSON、binding mismatch、削除、変更、rename、symlink、無関係な変更、非 merge または後続の head drift は拒否されます。archive bytes は書き換えません。cleanup は受理済み head を保持します。
