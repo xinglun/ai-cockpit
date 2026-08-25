@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "github-review-and-cleanup-policy",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "b900bc459df4483900835c3771ef87decf00fc8e",
+    "name": "codex/wi-288-provider-finalization-correction",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:f67d329c13dbd2627629d5b2a73282966f1c0d6ff4ed6fe311d0bb63c159f449",
+  "operationId": "WI-288-provider-finalization-correction-provider-finalization",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "7dabc1748351448f244cf12ded88ad6f0095310d",
+    "headRevision": "b900bc459df4483900835c3771ef87decf00fc8e",
+    "number": 248,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/248"
+  },
+  "reason": "Hosted PR is reviewed but remains unmerged; retain the exact branch and worktree until the reviewed merge and post-merge cleanup are observed.",
+  "receiptId": "WI-288-provider-finalization-correction-finalize",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-288-provider-finalization-correction",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/248",
+    "worktree": "/private/tmp/ai-cockpit-wi287"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-26T00:00:00Z",
+  "workItemId": "WI-288-provider-finalization-correction",
+  "worktree": {
+    "branch": "codex/wi-288-provider-finalization-correction",
+    "headRevision": "b900bc459df4483900835c3771ef87decf00fc8e",
+    "path": "/private/tmp/ai-cockpit-wi287",
+    "worktreeId": "WI-288-provider-finalization-correction"
+  }
+}
