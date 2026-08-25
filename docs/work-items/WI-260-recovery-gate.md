@@ -32,6 +32,10 @@ lifecycle behavior and never rewrites WI-258's historical close bytes.
 - A valid approved close still takes precedence over an older recovery receipt.
 - Promotion skips only a valid recovered predecessor and fails closed for an
   invalid recovery receipt.
+- A retry recovery may omit `successorWorkItemId`; successor/supersede decisions
+  still require an explicit successor binding.
+- An unambiguous abbreviated Git revision is resolved to one exact commit for
+  finalization binding; ambiguous or invalid revisions remain fail-closed.
 - Regression tests cover both gate and promotion behavior.
 - The tri-language Work Item and parity rows bind the corrective evidence.
 

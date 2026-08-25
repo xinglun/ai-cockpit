@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-successor-authorization-after-PR-211-quality-failure",
+  "decidedAt": "2026-08-25T00:00:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-259-close-decision-recovery.verification.json",
+    ".ai/work-items/archive/WI-259-close-decision-recovery.archive.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:0bc24f04736c50a7680d556bf718cb7477ef83768057ce2616a0dbf945417b62",
+  "predecessorEventsDigest": "sha256:c75f203dba62ef82c0a33869c09c479b5bcaac5494769b0aadd7588e0c32b8ff",
+  "predecessorOutcomeDigest": "sha256:527e643744e397ecdc62263be1783a52d6c08ccc1f3c83f3c7f1466f4286c086",
+  "predecessorSummaryDigest": "sha256:45ba061565165d8d93d58d3552bd86bb4647853a50667dc3a1ff4da2fedc8751",
+  "predecessorWorkItemId": "WI-259-close-decision-recovery",
+  "reason": "WI-259 is an immutable predecessor whose archived delivery lacks a valid terminal provider finalization. Preserve its bytes and retry the same recovery-gate correction through WI-260.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-260 from the synchronized default branch, verify recovery-aware governance gates, and close the successor after hosted PR review.",
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "workItemId": "WI-259-close-decision-recovery"
+}

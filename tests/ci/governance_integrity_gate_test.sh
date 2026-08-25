@@ -92,6 +92,46 @@ run_case spoofed-base-premerge-finalize 1 invalid_premerge_finalize
 run_case superseded-recovery 0 none
 run_case invalid-recovery 1 invalid_terminal_decision
 
+# Provider receipts may use an unambiguous abbreviated Git revision. Resolve
+# it to the exact commit object before binding the finalization identity.
+short_head_repo="$tmp/short-head-finalize"
+short_head_report="$tmp/short-head-finalize-report.json"
+build_fixture "$fixtures/awaiting-merge-close.json" "$short_head_repo"
+python3 - "$short_head_repo" <<'PY'
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+path = repo / ".ai/decisions/WI-901-corrective-after-baseline.finalize.json"
+value = json.loads(path.read_text(encoding="utf-8"))
+full = subprocess.check_output(
+    ["git", "rev-parse", "HEAD^{commit}"], cwd=repo, text=True
+).strip()
+short = full[:7]
+value["pullRequest"]["headRevision"] = short
+value["branch"]["headRevision"] = short
+value["worktree"]["headRevision"] = short
+path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+PY
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$short_head_repo" --report "$short_head_report" >/dev/null
+python3 - "$short_head_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert report["state"] == "passed", report
+item = next(
+    item
+    for item in report["inventory"]
+    if item["workItemId"] == "WI-901-corrective-after-baseline"
+)
+assert item["lifecycleState"] == "awaiting_merge_close", item
+PY
+
 # An immutable predecessor may retain a non-canonical historical close while a
 # valid recovery receipt supersedes it.  Recovery must be the terminal
 # projection; the stale close must not re-open a closure_invalid finding.
@@ -139,6 +179,40 @@ assert not any(
     and finding["code"] == "invalid_terminal_decision"
     for finding in report["findings"]
 ), report["findings"]
+PY
+
+# A retry recovery is predecessor-bound but intentionally has no successor
+# Contract. The static gate must project it as recovered without requiring an
+# invented successor identity.
+retry_recovery_repo="$tmp/retry-recovery"
+retry_recovery_report="$tmp/retry-recovery-report.json"
+build_fixture "$fixtures/superseded-recovery.json" "$retry_recovery_repo"
+python3 - "$retry_recovery_repo/.ai/decisions/WI-902-recovered-predecessor.recovery.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+value = json.loads(path.read_text(encoding="utf-8"))
+value["decision"] = "retry"
+value.pop("successorWorkItemId", None)
+path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+PY
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$retry_recovery_repo" --report "$retry_recovery_report" >/dev/null
+python3 - "$retry_recovery_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert report["state"] == "passed", report
+item = next(
+    item
+    for item in report["inventory"]
+    if item["workItemId"] == "WI-902-recovered-predecessor"
+)
+assert item["lifecycleState"] == "recovered", item
 PY
 
 # A detached pull-request merge checkout may not retain origin/HEAD or event

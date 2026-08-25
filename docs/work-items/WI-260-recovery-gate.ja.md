@@ -31,6 +31,10 @@ WI-258 の歴史的 close bytes は書き換えません。
 - 有効な approved close は古い recovery より優先されます。
 - 文書 promotion は有効な recovered predecessor だけをスキップし、無効な recovery は
   fail closed します。
+- retry recovery は `successorWorkItemId` を省略できますが、successor/supersede の decision は
+  明示的な successor binding を引き続き要求します。
+- 曖昧でない短縮 Git revision は一意の commit に解決して finalization binding に使い、曖昧または無効な
+  revision は fail closed のままです。
 - gate と promotion の双方に回帰テストがあります。
 - 三言語 Work Item と parity 行が修正 evidence を束縛します。
 

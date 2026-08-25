@@ -29,6 +29,8 @@ authority: canonical
   `invalid_terminal_decision`。
 - 有效 approved close 仍优先于旧 recovery。
 - 文档晋级只跳过有效 recovered predecessor；无效 recovery 必须 fail closed。
+- retry recovery 可以省略 `successorWorkItemId`；successor/supersede 决定仍必须显式绑定 successor。
+- 不含歧义的缩写 Git revision 会解析为唯一 commit 用于 finalization 绑定；歧义或无效 revision 继续 fail closed。
 - 门和晋级两侧都有回归测试。
 - 三语 Work Item 与 parity 行绑定修复证据。
 
