@@ -66,8 +66,8 @@
     ".ai/decisions/WI-270-reference-contract-batch.preflight-review.json",
     ".ai/decisions/WI-270-reference-contract-batch.recovery.json",
     ".ai/evidence/WI-270-reference-contract-batch.verification.json",
-    ".ai/work-items/active/WI-271-finalization-recovery.contract.json",
-    ".ai/work-items/active/WI-271-finalization-recovery.summary.json",
+    ".ai/work-items/archive/WI-271-finalization-recovery.contract.json",
+    ".ai/work-items/archive/WI-271-finalization-recovery.summary.json",
     ".ai/work-items/archive/WI-270-reference-contract-batch.archive.json",
     ".ai/work-items/archive/WI-270-reference-contract-batch.contract.json",
     ".ai/work-items/archive/WI-270-reference-contract-batch.events.jsonl",
@@ -92,18 +92,19 @@
   "checkpointCount": 1,
   "createdAt": "2026-08-25T06:14:56Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:eaeb496255e271dd301d141365275501220d1c35d7bfff3a0819ab8f041b3201",
+    "contractDigest": "sha256:62d16d675074163029c74d05d013452f778da8de26c2d2fe450295b0a51d4377",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
     "reason": "Confirm the narrow WI-270 recovery successor, preserve immutable history, and require the actual PR context before verification/archive.",
-    "recordedAt": "2026-08-25T06:21:00Z",
+    "recordedAt": "2026-08-25T06:22:00Z",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:677acd85e580c186a8be394a1029e090dea2bc65fdea7fa970015027d436699d",
+    "repositorySnapshotDigest": "sha256:3262eae309a7767a13d5ef2ab0c831433ad0742e05ee159edb74b1519caaa499",
     "schemaVersion": 1,
     "workItemId": "WI-271-finalization-recovery"
   },
+  "failedGate": "finish.verification",
   "intentAlignment": {
     "evidence": [
       "docs/work-items/WI-271-finalization-recovery.md",
@@ -113,14 +114,16 @@
     "state": "resolved"
   },
   "mode": "implementation",
+  "outcomeState": "blocked",
   "predecessorContractDigest": "sha256:5fdd3a47db30f5f834298f7ec4f7b5b3a6d1b65a9b1ac828eb6d59d6398c8e0f",
   "predecessorWorkItemId": "WI-270-reference-contract-batch",
-  "preflightAt": "2026-08-25T06:19:04Z",
-  "preflightContractDigest": "sha256:eaeb496255e271dd301d141365275501220d1c35d7bfff3a0819ab8f041b3201",
-  "preflightDecisionDigest": "sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
-  "preflightRepositorySnapshotDigest": "sha256:677acd85e580c186a8be394a1029e090dea2bc65fdea7fa970015027d436699d",
-  "preflightState": "yellow",
+  "preflightAt": "2026-08-25T06:22:24Z",
+  "preflightContractDigest": "sha256:62d16d675074163029c74d05d013452f778da8de26c2d2fe450295b0a51d4377",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:3262eae309a7767a13d5ef2ab0c831433ad0742e05ee159edb74b1519caaa499",
+  "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
   "recoveryDecisionPath": ".ai/decisions/WI-270-reference-contract-batch.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -159,7 +162,7 @@
       "verificationPlan": "Run parity status, governance integrity, and documentation acceptance checks before archive and after close."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-08-25T06:19:09Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-25T06:22:29Z",
   "workItemId": "WI-271-finalization-recovery"
 }

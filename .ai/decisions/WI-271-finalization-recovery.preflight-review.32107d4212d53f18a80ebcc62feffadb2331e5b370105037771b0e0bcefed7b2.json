@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:62d16d675074163029c74d05d013452f778da8de26c2d2fe450295b0a51d4377",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "Confirm the narrow WI-270 recovery successor, preserve immutable history, and require the actual PR context before verification/archive.",
+  "recordedAt": "2026-08-25T06:22:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3262eae309a7767a13d5ef2ab0c831433ad0742e05ee159edb74b1519caaa499",
+  "schemaVersion": 1,
+  "workItemId": "WI-271-finalization-recovery"
+}
