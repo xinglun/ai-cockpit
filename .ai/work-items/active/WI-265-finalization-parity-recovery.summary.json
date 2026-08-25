@@ -1,0 +1,20 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-265-finalization-parity-recovery.contract.json",
+    ".ai/work-items/active/WI-265-finalization-parity-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-08-25T03:03:05Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T02:56:00Z",
+  "mode": "code",
+  "preflightAt": "2026-08-25T03:02:59Z",
+  "preflightContractDigest": "sha256:9f3bd1c57a385c10ae97d11a774016f1525ee4bc61e74e30ff715774323e706c",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:fb97f1013181cccd33dd90547baf3d7d6d25c56febdb29de0fb7a40a124de991",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-25T03:03:05Z",
+  "workItemId": "WI-265-finalization-parity-recovery"
+}
