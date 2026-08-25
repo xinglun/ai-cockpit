@@ -54,6 +54,16 @@ out-of-scope boundary, evidence, and verification commands current. If an
 in-scope defect is discovered, amend and verify the current Contract before
 opening another Work Item; do not hide it in a later task.
 
+The canonical delivery order is latest remote default base → dedicated
+branch/worktree → implement → finish/archive → push → reviewed PR → merge →
+close → synchronize and clean. Never merge a feature branch into local `main`
+before PR review, delete its branch before merge, or let a provider auto-delete
+it to bypass finalization. If a remote step fails, preserve the retry checkout
+and identity until recovery is complete. A repository is `ready_on_base` only
+after the reviewed merge, synchronized default branch, and exact cleanup have
+been verified; a detached or otherwise unbound worktree is not ready for the
+next Work Item.
+
 Merge only the reviewed PR after its hosted checks pass. Do not use local-main
 as a substitute for pre-merge review. After merge, synchronize the default
 branch, prove the Work Item is closed, and remove only the exact merged branch
@@ -83,6 +93,11 @@ action. For this Runtime, progression requires the equivalent of
 `state=Verified`, `decisionState=green`, current Contract/Summary/evidence
 bindings, and direct human-visible delivery. Missing, folded-only, stale,
 yellow, red, contradictory, or malformed Outcome evidence fails closed.
+The green Rust terminal is the reference equivalent of `status=completed` plus
+`humanStatusColor=green`. The handoff must also state the issue count,
+blockers or stopping reason, resolved issues, risks, verification, impact, and
+next action; every factual statement needs evidence and an unproven benefit is
+an inference.
 
 When a defect is discovered during implementation, verification, finish, or
 handoff, fix it in the current Work Item when its scope, authority, and base

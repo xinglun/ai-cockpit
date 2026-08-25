@@ -26,6 +26,16 @@ for gap in \
   test "$(jq -r --arg gap "$gap" '.records[] | select(.referencePath == $gap) | .classification' "$manifest")" = "migrate-gap"
 done
 
+for agent_rule in \
+  scripts/ai_check_agent_risk.py \
+  templates/agents/AI_COCKPIT_RULES.md \
+  tests/test_ai_check_agent_risk.py \
+  tests/test_outcome_lifecycle_rules.py; do
+  test "$(jq -r --arg path "$agent_rule" '.records[] | select(.referencePath == $path) | .batch' "$manifest")" = "WI-272-reference-agent-rule-batch"
+  test "$(jq -r --arg path "$agent_rule" '.records[] | select(.referencePath == $path) | .classification' "$manifest")" = "implemented-different-by-design"
+  test "$(jq -r --arg path "$agent_rule" '.records[] | select(.referencePath == $path) | (.rustCounterparts | length)' "$manifest")" -gt 0
+done
+
 jq '(.records[] | select(.referencePath == ".ai/project/adopter-capability-manifest.json") | .classification) = ""' "$manifest" > "$tmp/empty-capability-classification.json"
 if python3 "$script" --manifest "$tmp/empty-capability-classification.json" --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf --target-commit 87bfd86645adf7f4a6f86e447763542988371039 --check; then
   echo "inventory accepted an empty scoped classification" >&2
