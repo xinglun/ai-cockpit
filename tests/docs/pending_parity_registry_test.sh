@@ -29,6 +29,17 @@ parity_paths = (
     "docs/reference/reference-parity.zh-CN.md",
     "docs/reference/reference-parity.ja.md",
 )
+project = json.loads((repo / ".ai/project.json").read_text(encoding="utf-8"))
+finalize_path = repo / ".ai/decisions" / f"{work_item}.finalize.json"
+finalize = json.loads(finalize_path.read_text(encoding="utf-8"))
+# Rebuild the fixture history so the reviewed feature head precedes the
+# canonical finalization receipt. The fixture builder also exercises ordinary
+# finalization cases, but this regression specifically proves that the receipt
+# is append-only rather than edited in place.
+reviewed_base = subprocess.check_output(
+    ["git", "-C", str(repo), "rev-parse", "HEAD^"], text=True
+).strip()
+subprocess.run(["git", "-C", str(repo), "reset", "--hard", reviewed_base], check=True)
 expected_rows = []
 for relative in parity_paths:
     path = repo / relative
@@ -52,9 +63,6 @@ subprocess.run(
 registered_head = subprocess.check_output(
     ["git", "-C", str(repo), "rev-parse", "HEAD"], text=True
 ).strip()
-project = json.loads((repo / ".ai/project.json").read_text(encoding="utf-8"))
-finalize_path = repo / ".ai/decisions" / f"{work_item}.finalize.json"
-finalize = json.loads(finalize_path.read_text(encoding="utf-8"))
 finalize["branch"]["headRevision"] = registered_head
 finalize["pullRequest"]["headRevision"] = registered_head
 finalize["worktree"]["headRevision"] = registered_head

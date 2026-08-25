@@ -299,6 +299,7 @@ if repository_phase:
         # The canonical finalization receipt is an append-only governance
         # commit. Bind it to the immediately preceding reviewed head so the
         # gate can allow that receipt append while rejecting later code drift.
+        subprocess.run(["git", "checkout", "-qb", "codex/fixture"], cwd=root, check=True)
         feature_head = subprocess.run(
             ["git", "rev-parse", "HEAD^{commit}"],
             cwd=root,
@@ -325,7 +326,6 @@ if repository_phase:
                 cwd=root,
                 check=True,
             )
-        subprocess.run(["git", "checkout", "-qb", "codex/fixture"], cwd=root, check=True)
     elif repository_phase in {"release_tag", "main_merged"}:
         # Model the provider merge that makes a pre-merge head an ancestor of
         # the immutable release tag.  Update the fixture receipt with the

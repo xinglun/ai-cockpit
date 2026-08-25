@@ -6,12 +6,15 @@ description: "将 repository finalization receipt 绑定到精确的 reviewed pr
 audience:
   - maintainer
   - reviewer
-status: in-progress
-lastVerifiedBy: WI-266-finalization-head-binding
+status: recovered
+lastVerifiedBy: WI-267-finalization-parity-regression-repair
 authority: canonical
 ---
 
-# WI-266——Finalization head binding successor
+# WI-266——Finalization head binding successor（已恢复的前置 Work Item）
+
+本 Work Item 作为不可变的恢复历史保留。WI-267 是 WI-266 归档后由 hosted
+quality 发现回归而建立的干净 successor。
 
 ## 意图
 

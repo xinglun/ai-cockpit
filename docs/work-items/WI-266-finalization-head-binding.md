@@ -6,12 +6,15 @@ description: "Bind repository finalization receipts to the exact reviewed provid
 audience:
   - maintainer
   - reviewer
-status: in-progress
-lastVerifiedBy: WI-266-finalization-head-binding
+status: recovered
+lastVerifiedBy: WI-267-finalization-parity-regression-repair
 authority: canonical
 ---
 
-# WI-266 — Finalization head binding successor
+# WI-266 — Finalization head binding successor (recovered predecessor)
+
+This Work Item is immutable recovered history. WI-267 is the clean successor
+for the hosted-quality regression discovered after WI-266 was archived.
 
 ## Intent
 

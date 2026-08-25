@@ -245,12 +245,21 @@ def finalization_head_matches_checkout(
     canonical = f".ai/decisions/{work_item}.finalize.json"
     transition_prefix = f".ai/decisions/{work_item}.finalize."
     post_finalize_paths = {
+        # Pending parity registration is a bounded governance transition. It
+        # may be appended after the reviewed head so a merged/closed Work Item
+        # can remain visible as awaiting parity completion; it must not be
+        # accompanied by implementation or arbitrary documentation drift.
+        PENDING_PARITY_REGISTRY,
         f".ai/evidence/{work_item}/quality-route-post-finalize.json",
         f".ai/evidence/{work_item}/repository-gates-post-finalize.json",
         f".ai/decisions/{work_item}.close.json",
     }
     for line in changes.stdout.splitlines():
         status, _, relative = line.partition("\t")
+        if relative == PENDING_PARITY_REGISTRY:
+            if status not in {"A", "M"}:
+                return False
+            continue
         transition = (
             relative.startswith(transition_prefix)
             and relative.endswith(".json")

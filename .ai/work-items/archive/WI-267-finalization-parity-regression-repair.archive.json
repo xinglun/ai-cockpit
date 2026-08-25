@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-25T04:29:29Z",
+  "files": {
+    "contractDigest": "sha256:f518974cb0dcb4d68a23cdbd9aaa0bcff0ca850d89a57cbb8b12102a310aac30",
+    "contractPath": ".ai/work-items/archive/WI-267-finalization-parity-regression-repair.contract.json",
+    "eventsDigest": "sha256:9f83de6936bd2e5fcb37b9015d47fef6850cfa7f23cd9d8fc224e938eb41bb13",
+    "eventsPath": ".ai/work-items/archive/WI-267-finalization-parity-regression-repair.events.jsonl",
+    "outcomeDigest": "sha256:ed902a9f04b7d9084a2573b7bc69a0093aef9327aaf25e4c67caa1101ac22d63",
+    "outcomePath": ".ai/work-items/archive/WI-267-finalization-parity-regression-repair.outcome.json",
+    "summaryDigest": "sha256:9dd88e6fd9bf4bfef72a7d15423f02b241d12e3ca650d852ff4507cbfdc5374a",
+    "summaryPath": ".ai/work-items/archive/WI-267-finalization-parity-regression-repair.summary.json",
+    "taskReportDigest": "sha256:92b93d6d5b77b3b443350391e476cd0dcdee56684c5f3079d00ed5597427701b",
+    "taskReportMarkdownDigest": "sha256:b080c70b491b07f94c3813fcb2ae301c9675666d9f6a09a5e8a90d1c75eb42be",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-267-finalization-parity-regression-repair.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-267-finalization-parity-regression-repair.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-267-finalization-parity-regression-repair"
+}

@@ -46,7 +46,9 @@ branch、pull request、worktree head が reviewed checkout head に解決でき
 です。後続 checkout で許されるのは canonical finalization transition または明示的に
 allow-list された同一 Work Item の governance record の bounded append だけです。code、
 test、無関係な evidence、その他の repository 変更があれば新しい receipt を要求し、
-fail-closed とします。
+fail-closed とします。pending parity registry は、三言語 parity row の完了前に closed
+Work Item を可視のままにするための、明示的に許可された repository-level governance append
+です。
 
 この gate は verification tier や assurance を選択しません。risk/stage/policy による
 選択と reference source の逐文件 conformance は別の検証境界であり、この inventory から

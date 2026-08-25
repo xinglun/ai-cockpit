@@ -6,12 +6,15 @@ description: "repository finalization receipt を正確な reviewed provider hea
 audience:
   - maintainer
   - reviewer
-status: in-progress
-lastVerifiedBy: WI-266-finalization-head-binding
+status: recovered
+lastVerifiedBy: WI-267-finalization-parity-regression-repair
 authority: canonical
 ---
 
-# WI-266 — Finalization head binding successor
+# WI-266 — Finalization head binding successor（recovered predecessor）
+
+この Work Item は immutable な recovered history として保持します。WI-266
+archive 後に hosted quality が検出した回帰の clean successor は WI-267 です。
 
 ## Intent
 

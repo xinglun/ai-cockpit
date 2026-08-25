@@ -1,0 +1,93 @@
+{
+  "acceptanceCriteria": [
+    "Pending parity registry regression passes with append-only finalization history.",
+    "Code, test, or unrelated repository drift after finalization remains rejected.",
+    "Three-language governance documentation and Work Item parity remain synchronized.",
+    "A reviewed PR passes hosted quality and exact finalization/cleanup is recorded."
+  ],
+  "authority": "authorized",
+  "baseRevision": "e6fc99b45f54b991bcf1b106efa0869b481a4722",
+  "createdAt": "2026-08-25T04:09:42Z",
+  "goal": "Make finalization head binding and pending parity regression fixtures converge without allowing implementation drift.",
+  "intent": "Repair the bounded finalization append semantics exposed by hosted quality while preserving immutable WI-266 history.",
+  "mode": "code",
+  "outOfScope": [
+    "WI-266 immutable archive/evidence/finalization/close bytes",
+    "release-version consistency implementation",
+    "quality-route Python to Rust migration",
+    "global Agent or MCP configuration"
+  ],
+  "predecessorContractDigest": "sha256:f3e7bd8d36be6e4c7718708ee109126121d4dadc831172225d86ffe0be7c50a1",
+  "predecessorWorkItemId": "WI-266-finalization-head-binding",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-266-finalization-head-binding.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b1c1c4a05fdad088dbcc02bbf0880877b326f6f5a9717a72fcf823c42cd6dbf5",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation_parity",
+    "hosted_review"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-266-finalization-head-binding",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/220",
+    "worktree": "/private/tmp/ai-cockpit-wi266-finalization-head-binding"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/docs/pending_parity_registry_test.sh",
+        "tests/ci/governance_integrity_gate.py"
+      ],
+      "expected": "The pending parity registry is accepted only as a bounded governance append after a reviewed finalization head.",
+      "required": true,
+      "scenario": "pending parity registry is an append-only governance transition after finalization",
+      "status": "unverified",
+      "verificationPlan": "Run bash tests/docs/pending_parity_registry_test.sh and the governance integrity regression test."
+    },
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh",
+        "tests/ci/governance_integrity_gate.py"
+      ],
+      "expected": "Implementation and unrelated repository drift invalidate the finalization receipt.",
+      "required": true,
+      "scenario": "post-finalization code, test, unrelated evidence, or arbitrary docs drift fails closed",
+      "status": "unverified",
+      "verificationPlan": "Run bash tests/ci/governance_integrity_gate_test.sh and inspect the fail-closed regression cases."
+    }
+  ],
+  "scope": [
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/fixtures/governance-integrity/build_fixture.py",
+    "tests/docs/pending_parity_registry_test.sh",
+    "docs/reference/governance-integrity-gate.md",
+    "docs/reference/governance-integrity-gate.zh-CN.md",
+    "docs/reference/governance-integrity-gate.ja.md",
+    "docs/work-items/WI-267-finalization-parity-regression-repair.md",
+    "docs/work-items/WI-267-finalization-parity-regression-repair.zh-CN.md",
+    "docs/work-items/WI-267-finalization-parity-regression-repair.ja.md",
+    "docs/work-items/WI-266-finalization-head-binding.md",
+    "docs/work-items/WI-266-finalization-head-binding.zh-CN.md",
+    "docs/work-items/WI-266-finalization-head-binding.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    ".ai/work-items/active/WI-267-finalization-parity-regression-repair.*",
+    ".ai/work-items/archive/WI-267-finalization-parity-regression-repair.*",
+    ".ai/evidence/WI-267-finalization-parity-regression-repair.verification.json",
+    ".ai/decisions/WI-267-finalization-parity-regression-repair.*",
+    ".ai/decisions/WI-266-finalization-head-binding.recovery.json"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-267-finalization-parity-regression-repair"
+}
