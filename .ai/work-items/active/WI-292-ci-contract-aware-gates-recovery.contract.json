@@ -19,11 +19,11 @@
     "dependency graph and parallel execution",
     "Python/Make/V1 runtime copy"
   ],
-  "predecessorWorkItemId": "WI-291-ci-contract-aware-gates",
   "predecessorContractDigest": "sha256:7a3f4915b8effc89e66a1ef82d389984f1388f80b7015c04e1ce3b38fe29bf41",
-  "recoveryDecisionPath": ".ai/decisions/WI-291-ci-contract-aware-gates.recovery.json",
+  "predecessorWorkItemId": "WI-291-ci-contract-aware-gates",
   "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
   "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-291-ci-contract-aware-gates.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:ab868bc2517ebbc60eca1024c6ebdd8a17e0feee3d089918876456c3a1db7dbd",
   "requiredEvidenceClasses": [
@@ -31,11 +31,11 @@
     "hosted_ci"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-292-ci-contract-aware-gates-recovery",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/252",
     "worktree": "/private/tmp/ai-cockpit-wi292"
   },
   "risk": "normal",

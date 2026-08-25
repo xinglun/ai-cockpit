@@ -1,6 +1,6 @@
 {
   "captureMode": "full_capture",
-  "createdAt": "2026-08-25T23:02:29Z",
+  "createdAt": "2026-08-25T23:06:14Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -8,8 +8,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 107667,
-      "executionElapsedMs": 107398,
+      "elapsedMs": 100877,
+      "executionElapsedMs": 100632,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -24,8 +24,8 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 107667,
-    "executionElapsedMs": 107398,
+    "elapsedMs": 100877,
+    "executionElapsedMs": 100632,
     "filesHashed": 5,
     "filesRead": 5,
     "gitCalls": 8,
@@ -43,13 +43,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 107398,
-      "finalTier": "T0",
-      "initialTier": "T0",
+      "executionElapsedMs": 100632,
+      "finalTier": "T2",
+      "initialTier": "T2",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:a560803252ac2edc38fb913a6d2a7a431cc34e3a3560a0c9a19785b7050e22c3",
+      "repositorySnapshotDigest": "sha256:b25e2c153801973b27faae9a2001ee4f4d6d3b5fe9f9cb6721fde70659003bc4",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -59,7 +59,7 @@
         "cli_route_stage_explicit"
       ],
       "sharedNodes": [],
-      "stage": "task",
+      "stage": "pr",
       "workItemId": "WI-292-ci-contract-aware-gates-recovery"
     },
     "planningElapsedMs": 0,
@@ -75,7 +75,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:fa26ee799144b2ee4963216cc46c72c61763400add508dbaffe4ae5f6ecffac3",
+        "outputDigest": "sha256:2776c54627cbf88043f44b31b579dfb05bd8443a98476c7ae31dec5a8c4c08e7",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -91,9 +91,9 @@
     "runtimeVersion": "0.2.31",
     "workItemId": "WI-292-ci-contract-aware-gates-recovery"
   },
-  "receiptDigest": "sha256:ebb9face7042ad3170327b18a7d8d65ab982ce65bc8321416fa4bfa42634271c",
+  "receiptDigest": "sha256:20841d3b176d78281b78db997f197bd35e83bbb156bdf6ad679a5484cf348281",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:a560803252ac2edc38fb913a6d2a7a431cc34e3a3560a0c9a19785b7050e22c3",
+  "repositorySnapshotDigest": "sha256:b25e2c153801973b27faae9a2001ee4f4d6d3b5fe9f9cb6721fde70659003bc4",
   "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
   "runtimeVersion": "0.2.31",
   "workItemId": "WI-292-ci-contract-aware-gates-recovery"
