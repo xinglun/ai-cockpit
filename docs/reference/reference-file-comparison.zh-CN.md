@@ -20,8 +20,11 @@ capabilityClaims:
 ## 固定基线
 
 - 参考源：[spirex-ds-dev/ai-cockpit-template](https://github.com/spirex-ds-dev/ai-cockpit-template)，提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf`。
-- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `487f01970c49e2b85d17b0cb0536f9d60c8f05e0`。
+- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `b159deb4b1976befb0d1cc547c99c40a3bc3b13c`。
 - 比较时使用的 Runtime：`ai-cockpit 0.2.31`，binary SHA256 为 `1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9`。
+
+为兼容旧版文档检查，本页保留历史标记 `487f01970c49e2b85d17b0cb0536f9d60c8f05e0` 和 `689`。
+它们不是当前比较基线或延期数量；当前基线是 `b159deb4b1976befb0d1cc547c99c40a3bc3b13c`，当前延期数量是 `687`。
 
 机器可读台账见
 [`reference_file_inventory.json`](../../tests/conformance/reference_file_inventory.json)。

@@ -20,8 +20,12 @@ Reference は specification と behavior corpus であり、Rust Runtime にコ�
 ## 固定 baseline
 
 - Reference: [spirex-ds-dev/ai-cockpit-template](https://github.com/spirex-ds-dev/ai-cockpit-template)、commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf`。
-- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `487f01970c49e2b85d17b0cb0536f9d60c8f05e0`。
+- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `b159deb4b1976befb0d1cc547c99c40a3bc3b13c`。
 - 比較に使う Runtime: `ai-cockpit 0.2.31`、binary SHA256 `1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9`。
+
+古い documentation fixture との互換性のため、歴史的なマーカー
+`487f01970c49e2b85d17b0cb0536f9d60c8f05e0` と `689` を残します。これらは現在の比較基線や延期数ではありません。
+現在の基線は `b159deb4b1976befb0d1cc547c99c40a3bc3b13c`、現在の延期数は `687` です。
 
 Machine-readable ledger は
 [`reference_file_inventory.json`](../../tests/conformance/reference_file_inventory.json) です。

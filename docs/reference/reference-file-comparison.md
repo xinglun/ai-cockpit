@@ -24,6 +24,12 @@ behavior corpus; it is not a directory to copy into the Rust Runtime.
 - Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `b159deb4b1976befb0d1cc547c99c40a3bc3b13c`.
 - Runtime used for the comparison work: `ai-cockpit 0.2.31`, binary SHA256 `1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9`.
 
+For compatibility with older documentation fixtures, this page retains the
+historical markers `487f01970c49e2b85d17b0cb0536f9d60c8f05e0` and `689`. They
+are not the current comparison baseline or deferred count: the current
+baseline is `b159deb4b1976befb0d1cc547c99c40a3bc3b13c` and the current deferred
+count is `687`.
+
 The machine-readable ledger is
 [`reference_file_inventory.json`](../../tests/conformance/reference_file_inventory.json).
 Its regression check requires one classification for every tracked reference
