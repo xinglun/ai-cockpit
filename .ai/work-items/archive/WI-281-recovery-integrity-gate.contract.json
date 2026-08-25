@@ -1,0 +1,57 @@
+{
+  "acceptanceCriteria": [
+    "The governance integrity gate selects a valid append-only recovery successor or supersession receipt when the canonical recovery record is an earlier retry, without accepting malformed or foreign decisions.",
+    "The gate preserves fail-closed behavior for missing, invalid, or ambiguous terminal decisions and reports the selected recovery path deterministically.",
+    "A regression fixture proves digest-suffixed recovery decisions and parity decision bindings across English, Chinese, and Japanese rows.",
+    "The tri-language workflow and parity documentation define recovery receipt selection and current-cycle Work Item documentation requirements.",
+    "All existing governance, documentation, and repository tests remain passing."
+  ],
+  "authority": "authorized",
+  "baseRevision": "87dce785b751f4ed407ede2997daf562bd7456d7",
+  "createdAt": "2026-08-25T16:05:37Z",
+  "goal": "Repair the hosted governance gate for digest-suffixed recovery receipts and document the required recovery evidence boundary.",
+  "intent": "Make CI governance inventory recognize append-only recovery decisions and require complete tri-language Work Item records without weakening fail-closed checks.",
+  "mode": "code",
+  "outOfScope": [
+    "crates",
+    ".github/workflows",
+    "global-agent-and-mcp-configuration",
+    "release-automation"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6ce3ce402277776068861eb4e2e1715573964a8df8d881af1fff785802129f01",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-281-recovery-gate",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/241",
+    "worktree": "/private/tmp/ai-cockpit-wi281"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-281-recovery-integrity-gate.md",
+    "docs/work-items/WI-281-recovery-integrity-gate.zh-CN.md",
+    "docs/work-items/WI-281-recovery-integrity-gate.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-281-recovery-integrity-gate"
+}

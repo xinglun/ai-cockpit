@@ -1,0 +1,20 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-281-recovery-integrity-gate.contract.json",
+    ".ai/work-items/archive/WI-281-recovery-integrity-gate.summary.json"
+  ],
+  "checkpointAt": "2026-08-25T16:11:27Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T16:05:37Z",
+  "mode": "code",
+  "preflightAt": "2026-08-25T16:12:09Z",
+  "preflightContractDigest": "sha256:e6bf576455fc1333df0f2ca96cf459a8fcbdcb45f1394c89582264a3cbd41a87",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:4965878629b60b28c944d2437850abb49043938a27c0dbbeffdf89d78b9eeb5a",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-25T16:12:09Z",
+  "workItemId": "WI-281-recovery-integrity-gate"
+}
