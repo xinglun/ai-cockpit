@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "Valid recovery plus invalid historical close projects as recovered, not closure_invalid.",
+    "Approved close still takes precedence over an older recovery receipt.",
+    "Closed Work Item promotion skips only valid recovered predecessors and still fails closed on invalid recovery.",
+    "Regression tests cover both gate and promotion behavior.",
+    "Three-language WI and parity records bind the corrective evidence."
+  ],
+  "createdAt": "2026-08-25T00:21:01Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:cc1e3d898079b693ddcdc764c25cd315010977b13ec1d32166e3d0609042bc88",
+  "evidenceRefs": [
+    ".ai/evidence/WI-260-recovery-gate.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-260-recovery-gate.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-260-recovery-gate.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:752850271a84c2a6402b4355be2b74429db7b64035c103e5a606ccc29d49b8c6",
+      "workItemId": "WI-260-recovery-gate"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-260-recovery-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-260-recovery-gate.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-260-recovery-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-260-recovery-gate.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-260-recovery-gate.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-260-recovery-gate.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-260-recovery-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-260-recovery-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-260-recovery-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-260-recovery-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "Correct precedence and promotion behavior for recovered predecessors without rewriting historical close bytes."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-260-recovery-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-260-recovery-gate"
+  },
+  "taskReportDigest": "sha256:1a3f5e4fe868a0ed871a48f1953745d8ce55378d30320192df03695857dd2442",
+  "taskReportMarkdownDigest": "sha256:aee169d8367966a3b40374b86e81678c78aa962b51e89f515e450f8b0bdf1a64",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-260-recovery-gate.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-260-recovery-gate"
+}

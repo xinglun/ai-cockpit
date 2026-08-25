@@ -196,6 +196,90 @@ for document in "$fixture"/docs/work-items/WI-999-closed-docs-fixture*.md; do
 done
 python3 "$helper" --repo "$fixture" --check-all
 
+# A valid recovery receipt makes an immutable predecessor historical rather
+# than normally promotable.  An invalid/non-canonical close may remain for
+# audit purposes, but check-all must skip that predecessor and never demand an
+# invented approved close.
+cp -R "$tmp/unpromoted" "$tmp/recovered-predecessor"
+python3 - "$tmp/recovered-predecessor" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = "WI-999-closed-docs-fixture"
+repository_id = json.loads((root / ".ai/project.json").read_text())[
+    "repositoryId"
+]
+(root / ".ai/decisions" / f"{work_item}.close.json").write_text(
+    json.dumps(
+        {
+            "workItemId": work_item,
+            "repositoryId": repository_id,
+            "state": "closed",
+            "decisionState": "confirmed",
+            "humanDecision": "historical descriptive close",
+        },
+        indent=2,
+    )
+    + "\n",
+    encoding="utf-8",
+)
+(root / ".ai/decisions" / f"{work_item}.recovery.json").write_text(
+    json.dumps(
+        {
+            "schemaVersion": 1,
+            "workItemId": work_item,
+            "predecessorWorkItemId": work_item,
+            "successorWorkItemId": "WI-1000-successor",
+            "decision": "successor",
+            "repositoryId": repository_id,
+            "reason": "The predecessor close is preserved as immutable history.",
+            "evidenceRefs": [f".ai/evidence/{work_item}.verification.json"],
+        },
+        indent=2,
+    )
+    + "\n",
+    encoding="utf-8",
+)
+PY
+python3 "$helper" --repo "$tmp/recovered-predecessor" --check-all
+
+cp -R "$tmp/unpromoted" "$tmp/invalid-recovery"
+python3 - "$tmp/invalid-recovery" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = "WI-999-closed-docs-fixture"
+repository_id = json.loads((root / ".ai/project.json").read_text())[
+    "repositoryId"
+]
+(root / ".ai/decisions" / f"{work_item}.recovery.json").write_text(
+    json.dumps(
+        {
+            "schemaVersion": 1,
+            "workItemId": work_item,
+            "predecessorWorkItemId": work_item,
+            "successorWorkItemId": "WI-1000-successor",
+            "decision": "successor",
+            "repositoryId": "sha256:" + "f" * 64,
+            "reason": "foreign recovery must not suppress validation",
+            "evidenceRefs": [f".ai/evidence/{work_item}.verification.json"],
+        },
+        indent=2,
+    )
+    + "\n",
+    encoding="utf-8",
+)
+PY
+if python3 "$helper" --repo "$tmp/invalid-recovery" --check-all >"$tmp/invalid-recovery.out" 2>"$tmp/invalid-recovery.err"; then
+  echo 'promotion accepted invalid recovery receipt' >&2
+  exit 1
+fi
+grep -Fq 'recovery' "$tmp/invalid-recovery.err"
+
 docs_digest() {
   find "$1/docs" -type f -print0 | sort -z | xargs -0 shasum -a 256
 }

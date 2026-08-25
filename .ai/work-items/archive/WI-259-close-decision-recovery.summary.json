@@ -1,0 +1,34 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-259-close-decision-recovery.approach.json",
+    ".ai/work-items/archive/WI-259-close-decision-recovery.contract.json",
+    ".ai/work-items/archive/WI-259-close-decision-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-08-24T23:57:10Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-24T23:56:16Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/decisions/WI-258-governance-fixture-regression.recovery.json",
+      "docs/work-items/WI-258-governance-fixture-regression.md",
+      "docs/reference/reference-parity.md",
+      "docs/work-items/WI-259-close-decision-recovery.md"
+    ],
+    "reason": "The successor preserves WI-258 lifecycle bytes, records its recovery decision, and changes only the tri-language documentation projection and parity rows required to represent the predecessor as recovered.",
+    "state": "resolved"
+  },
+  "mode": "docs",
+  "predecessorContractDigest": "sha256:91aae1e40c6aa99b7ae1b039ddc6784376ed3a4168ac42fefd17609f632bf97d",
+  "predecessorWorkItemId": "WI-258-governance-fixture-regression",
+  "preflightAt": "2026-08-25T00:02:08Z",
+  "preflightContractDigest": "sha256:0bc24f04736c50a7680d556bf718cb7477ef83768057ce2616a0dbf945417b62",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:ff79755dfa14fcd6c61e96e840a7c1a709d8adf30351ee34fa9fc5fb1fa2fed8",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-258-governance-fixture-regression.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-25T00:02:18Z",
+  "workItemId": "WI-259-close-decision-recovery"
+}

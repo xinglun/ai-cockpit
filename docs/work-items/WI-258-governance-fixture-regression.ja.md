@@ -6,7 +6,7 @@ description: "pending parity 検証導入後も governance fixture を schema �
 audience:
   - maintainer
   - reviewer
-status: in-progress
+status: recovered
 lastVerifiedBy: WI-258-governance-fixture-regression
 authority: canonical
 ---
@@ -40,3 +40,11 @@ authority: canonical
 空 registry は fixture の基線であり、実際の Work Item が pending だという
 宣言ではありません。pending registration を試すテストは entry を明示的に
 作成し、identity、parity rows、lifecycle を引き続き検証します。
+
+## Recovery boundary
+
+WI-258 は immutable な履歴 delivery として保持します。Runtime close は
+confirmed ですが、human decision は promotion gate が要求する canonical な
+`approved` 値ではなく説明文でした。全記録を保存し、bounded successor
+[WI-259](WI-259-close-decision-recovery.ja.md) が predecessor を Recovered として
+投影します。WI-258 の `.ai` bytes は書き換えません。

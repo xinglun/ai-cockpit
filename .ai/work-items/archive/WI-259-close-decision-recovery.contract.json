@@ -1,0 +1,59 @@
+{
+  "acceptanceCriteria": [
+    "WI-258 lifecycle bytes remain byte-identical and immutable",
+    "Recovery decision binds WI-258 as predecessor and records the non-canonical close decision reason",
+    "Tri-language WI-258 docs and parity rows are Recovered and link WI-259",
+    "WI-259 docs are promoted only after approved structured close",
+    "Declared documentation, parity, governance integrity, and promotion checks pass"
+  ],
+  "authority": "explicit-user-authorization-and-fail-closed-recovery-policy",
+  "baseRevision": "e789afda9a12869a4e8dfa0b7249b0ddbff2bca9",
+  "createdAt": "2026-08-24T23:56:16Z",
+  "goal": "Preserve WI-258 bytes, record an auditable recovery decision, and promote a canonical approved successor documentation path.",
+  "intent": "Recover WI-258 documentation and decision projection without rewriting immutable lifecycle truth.",
+  "mode": "docs",
+  "outOfScope": [
+    "crates/**",
+    "production Runtime",
+    "release publication",
+    "global Agent/MCP configuration",
+    "any WI-258 .ai byte modification"
+  ],
+  "predecessorContractDigest": "sha256:91aae1e40c6aa99b7ae1b039ddc6784376ed3a4168ac42fefd17609f632bf97d",
+  "predecessorWorkItemId": "WI-258-governance-fixture-regression",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-258-governance-fixture-regression.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:bcd5845ca6a696002be4a851d3e77183d25625b0131149e014f4868ca3d1d7e8",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-259-close-decision-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/211",
+    "worktree": "/private/tmp/ai-cockpit-wi259-close-recovery"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-258-governance-fixture-regression.md",
+    "docs/work-items/WI-258-governance-fixture-regression.zh-CN.md",
+    "docs/work-items/WI-258-governance-fixture-regression.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-259-close-decision-recovery.md",
+    "docs/work-items/WI-259-close-decision-recovery.zh-CN.md",
+    "docs/work-items/WI-259-close-decision-recovery.ja.md",
+    ".ai/decisions/WI-258-governance-fixture-regression.recovery.json"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/work_item_status_consistency.py --repo .",
+    "bash tests/docs/parity_status_check_test.sh",
+    "bash tests/ci/governance_integrity_gate_test.sh"
+  ],
+  "workItemId": "WI-259-close-decision-recovery"
+}

@@ -1,0 +1,33 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-fail-closed-successor-recovery",
+  "decidedAt": "2026-08-24T23:50:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-258-governance-fixture-regression.contract.json",
+    ".ai/work-items/archive/WI-258-governance-fixture-regression.archive.json",
+    ".ai/evidence/WI-258-governance-fixture-regression.verification.json",
+    ".ai/decisions/WI-258-governance-fixture-regression.finalize.53077e737e2ce257045e0473bb6774e6b665f7a791a6ff5672e67ff70a4bd0d2.json",
+    ".ai/decisions/WI-258-governance-fixture-regression.close.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md",
+    "tests/docs/promote_closed_work_item.py"
+  ],
+  "predecessorContractDigest": "sha256:91aae1e40c6aa99b7ae1b039ddc6784376ed3a4168ac42fefd17609f632bf97d",
+  "predecessorEventsDigest": "sha256:02fb8d77d00ac49a3a3caceba25361c1b6ff20f83cdcd82cfebf395dbbecf181",
+  "predecessorOutcomeDigest": "sha256:f08d6d97036fc73294ebe5a97cbe6ccf0b47055f8205d7e0d035c47db4dcdae7",
+  "predecessorSummaryDigest": "sha256:ca0c86b9262d0b8d31c56a146e9f25087f5996d70f84c0c8f16fc99b2f7f38e1",
+  "predecessorWorkItemId": "WI-258-governance-fixture-regression",
+  "reason": "WI-258 is merged and closed with immutable evidence, but its humanDecision is a descriptive sentence rather than the canonical approved value required by the documentation promotion gate. Preserve every WI-258 byte; WI-259 records the recovery projection and creates a separately approved terminal documentation path.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-259 with approved structured close, promote its terminal documentation, and keep WI-258 projected as recovered without rewriting its lifecycle records.",
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-259-close-decision-recovery",
+  "workItemId": "WI-258-governance-fixture-regression"
+}

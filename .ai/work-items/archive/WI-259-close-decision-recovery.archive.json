@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-25T00:02:21Z",
+  "files": {
+    "approachDigest": "sha256:243feb8f27578e5f88ff4ff912ed14c2ddc3af0132d514dbb525567970ed41ab",
+    "approachPath": ".ai/work-items/archive/WI-259-close-decision-recovery.approach.json",
+    "contractDigest": "sha256:48c2d56b5aace3e2af456690a9858f6ed2cff72e7837e4ae93bb0dbc4420a5b9",
+    "contractPath": ".ai/work-items/archive/WI-259-close-decision-recovery.contract.json",
+    "eventsDigest": "sha256:c75f203dba62ef82c0a33869c09c479b5bcaac5494769b0aadd7588e0c32b8ff",
+    "eventsPath": ".ai/work-items/archive/WI-259-close-decision-recovery.events.jsonl",
+    "outcomeDigest": "sha256:96cf0db0047f354900e640536ab45eb08fb58b212704ea95b6afe4a206847398",
+    "outcomePath": ".ai/work-items/archive/WI-259-close-decision-recovery.outcome.json",
+    "summaryDigest": "sha256:a911ad5a05bb2385415215e2462056341585a70f0c9dc636f5504b1610e009a5",
+    "summaryPath": ".ai/work-items/archive/WI-259-close-decision-recovery.summary.json",
+    "taskReportDigest": "sha256:bcd7c9310e16f78df8e1bea68a4245f77529d224c11baea6eb982b2738c60dc3",
+    "taskReportMarkdownDigest": "sha256:2296ebc745425085abeaa0f14fe1965d4b56e83f0e592a9bccf5207523fbeb35",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-259-close-decision-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-259-close-decision-recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-259-close-decision-recovery"
+}

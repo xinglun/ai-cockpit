@@ -92,6 +92,129 @@ run_case spoofed-base-premerge-finalize 1 invalid_premerge_finalize
 run_case superseded-recovery 0 none
 run_case invalid-recovery 1 invalid_terminal_decision
 
+# Provider receipts may use an unambiguous abbreviated Git revision. Resolve
+# it to the exact commit object before binding the finalization identity.
+short_head_repo="$tmp/short-head-finalize"
+short_head_report="$tmp/short-head-finalize-report.json"
+build_fixture "$fixtures/awaiting-merge-close.json" "$short_head_repo"
+python3 - "$short_head_repo" <<'PY'
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+path = repo / ".ai/decisions/WI-901-corrective-after-baseline.finalize.json"
+value = json.loads(path.read_text(encoding="utf-8"))
+full = subprocess.check_output(
+    ["git", "rev-parse", "HEAD^{commit}"], cwd=repo, text=True
+).strip()
+short = full[:7]
+value["pullRequest"]["headRevision"] = short
+value["branch"]["headRevision"] = short
+value["worktree"]["headRevision"] = short
+path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+PY
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$short_head_repo" --report "$short_head_report" >/dev/null
+python3 - "$short_head_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert report["state"] == "passed", report
+item = next(
+    item
+    for item in report["inventory"]
+    if item["workItemId"] == "WI-901-corrective-after-baseline"
+)
+assert item["lifecycleState"] == "awaiting_merge_close", item
+PY
+
+# An immutable predecessor may retain a non-canonical historical close while a
+# valid recovery receipt supersedes it.  Recovery must be the terminal
+# projection; the stale close must not re-open a closure_invalid finding.
+recovered_close_repo="$tmp/recovered-with-invalid-close"
+recovered_close_report="$tmp/recovered-with-invalid-close-report.json"
+build_fixture "$fixtures/superseded-recovery.json" "$recovered_close_repo"
+python3 - "$recovered_close_repo/.ai/decisions/WI-902-recovered-predecessor.close.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+path.write_text(
+    json.dumps(
+        {
+            "workItemId": "WI-902-recovered-predecessor",
+            "repositoryId": "sha256:" + "b" * 64,
+            "state": "closed",
+            "decisionState": "confirmed",
+            "humanDecision": "historical descriptive close",
+        },
+        indent=2,
+    )
+    + "\n",
+    encoding="utf-8",
+)
+PY
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$recovered_close_repo" --report "$recovered_close_report" >/dev/null
+python3 - "$recovered_close_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+item = next(
+    item
+    for item in report["inventory"]
+    if item["workItemId"] == "WI-902-recovered-predecessor"
+)
+assert item["lifecycleState"] == "recovered", item
+assert item["decisionPath"] == ".ai/decisions/WI-902-recovered-predecessor.recovery.json", item
+assert not any(
+    finding["workItemId"] == "WI-902-recovered-predecessor"
+    and finding["code"] == "invalid_terminal_decision"
+    for finding in report["findings"]
+), report["findings"]
+PY
+
+# A retry recovery is predecessor-bound but intentionally has no successor
+# Contract. The static gate must project it as recovered without requiring an
+# invented successor identity.
+retry_recovery_repo="$tmp/retry-recovery"
+retry_recovery_report="$tmp/retry-recovery-report.json"
+build_fixture "$fixtures/superseded-recovery.json" "$retry_recovery_repo"
+python3 - "$retry_recovery_repo/.ai/decisions/WI-902-recovered-predecessor.recovery.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+value = json.loads(path.read_text(encoding="utf-8"))
+value["decision"] = "retry"
+value.pop("successorWorkItemId", None)
+path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+PY
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$retry_recovery_repo" --report "$retry_recovery_report" >/dev/null
+python3 - "$retry_recovery_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert report["state"] == "passed", report
+item = next(
+    item
+    for item in report["inventory"]
+    if item["workItemId"] == "WI-902-recovered-predecessor"
+)
+assert item["lifecycleState"] == "recovered", item
+PY
+
 # A detached pull-request merge checkout may not retain origin/HEAD or event
 # base-ref metadata. The immutable Contract resource context is the narrow
 # fallback; strict PR identity checks must still reject an externally known
@@ -724,6 +847,50 @@ item = next(
 assert item["lifecycleState"] == "closed", item
 for path in sorted((staged / "parity").iterdir()):
     assert path.read_bytes() == (repo / "docs/reference" / path.name).read_bytes(), path
+PY
+
+# Enriching a row after archive is valid when the same Work Item/status row
+# was already registered before its evidence appeared. The history-aware
+# check must accept this projection update while the genuinely late-row case
+# above remains stale and fail-closed.
+enriched_repo="$tmp/postarchive-enriched-parity-projection"
+enriched_report="$tmp/postarchive-enriched-parity-report.json"
+cp -R "$prearchive_repo" "$enriched_repo"
+python3 - "$enriched_repo" <<'PY'
+import subprocess
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+for relative in (
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+):
+    path = repo / relative
+    lines = path.read_text(encoding="utf-8").splitlines()
+    updated = []
+    for line in lines:
+        if line.startswith("| WI-901 "):
+            line = line[:-1] + " post-archive evidence projection enrichment |"
+        updated.append(line)
+    path.write_text("\n".join(updated) + "\n", encoding="utf-8")
+subprocess.run(["git", "add", "docs/reference"], cwd=repo, check=True)
+subprocess.run(
+    ["git", "commit", "-qm", "enrich archived parity projection"],
+    cwd=repo,
+    check=True,
+)
+PY
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$enriched_repo" --report "$enriched_report" >/dev/null
+python3 - "$enriched_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert report["state"] == "passed", report["findings"]
 PY
 
 # A hosted pull-request merge ref combines the feature tree with decisions

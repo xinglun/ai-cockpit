@@ -197,7 +197,8 @@ def default_branch_contains_reviewed_head(repo: Path, head_revision: str) -> boo
     stays unknown and the normal explicit finalization/close path remains
     required.
     """
-    if not re.fullmatch(r"[0-9a-f]{40}", head_revision):
+    resolved_head = resolve_commit_revision(repo, head_revision)
+    if resolved_head is None:
         return False
     current = subprocess.run(
         ["git", "rev-parse", "HEAD"],
@@ -210,13 +211,41 @@ def default_branch_contains_reviewed_head(repo: Path, head_revision: str) -> boo
         return False
     return (
         subprocess.run(
-            ["git", "merge-base", "--is-ancestor", head_revision, current.stdout.strip()],
+            ["git", "merge-base", "--is-ancestor", resolved_head, current.stdout.strip()],
             cwd=repo,
             check=False,
             capture_output=True,
         ).returncode
         == 0
     )
+
+
+def resolve_commit_revision(repo: Path, revision: str) -> str | None:
+    """Resolve a provider receipt revision without accepting ambiguous text.
+
+    Provider APIs and local Git commands occasionally emit an abbreviated
+    commit.  The receipt still has to bind one exact object: Git's
+    ``^{commit}`` resolution rejects ambiguous or non-commit names, and the
+    returned object name is always the canonical forty-character SHA.
+    """
+    if not isinstance(revision, str) or re.fullmatch(r"[0-9a-f]{7,40}", revision) is None:
+        return None
+    if len(revision) == 40:
+        # Existing fixture and provider records already carry a canonical
+        # object name.  Keep this path compatible with detached synthetic
+        # repositories used by the regression corpus.
+        return revision
+    resolved = subprocess.run(
+        ["git", "rev-parse", "--verify", f"{revision}^{{commit}}"],
+        cwd=repo,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    value = resolved.stdout.strip()
+    if resolved.returncode != 0 or re.fullmatch(r"[0-9a-f]{40}", value) is None:
+        return None
+    return value
 
 
 def stale_awaiting_merge_close(repo: Path, value: dict[str, Any], phase: str) -> bool:
@@ -305,6 +334,9 @@ def premerge_finalize_state(
     runtime_version = value.get("runtimeVersion")
     base_revision = pull_request.get("baseRevision")
     head_revision = pull_request.get("headRevision")
+    resolved_head = resolve_commit_revision(repo, head_revision)
+    resolved_branch_head = resolve_commit_revision(repo, branch_identity.get("headRevision"))
+    resolved_worktree_head = resolve_commit_revision(repo, worktree.get("headRevision"))
     pull_request_url = pull_request.get("url")
     valid = (
         value.get("workItemId") == work_item
@@ -335,10 +367,9 @@ def premerge_finalize_state(
         and worktree.get("branch") == branch_identity.get("name")
         and worktree.get("path") == resource_context.get("worktree")
         and worktree.get("worktreeId") == work_item
-        and isinstance(head_revision, str)
-        and re.fullmatch(r"[0-9a-f]{40}", head_revision) is not None
-        and branch_identity.get("headRevision") == head_revision
-        and worktree.get("headRevision") == head_revision
+        and resolved_head is not None
+        and resolved_branch_head == resolved_head
+        and resolved_worktree_head == resolved_head
         and isinstance(base_revision, str)
         and re.fullmatch(r"[0-9a-f]{40}", base_revision) is not None
         and base_revision == contract.get("baseRevision")
@@ -491,7 +522,16 @@ def _parity_row_precedes_record(
     row: str,
     record_relative: str,
 ) -> bool:
-    """Prove the exact lifecycle row was committed before evidence appeared."""
+    """Prove the lifecycle row was registered before evidence appeared.
+
+    The parity ledger is a projection, so a later commit may legitimately add
+    evidence/decision links to a row that was already registered before the
+    Work Item was archived. Blaming only the current, enriched line would
+    incorrectly classify that append as stale. We require the current row to
+    be unique and complete, then inspect its line history for the first commit
+    carrying the same Work Item/status registration key. A row introduced only
+    after the evidence path remains fail-closed.
+    """
 
     parity_path = repo / parity_relative
     matching_lines = [
@@ -503,25 +543,6 @@ def _parity_row_precedes_record(
     ]
     if len(matching_lines) != 1:
         return False
-    line_number = matching_lines[0]
-    blame = subprocess.run(
-        [
-            "git",
-            "blame",
-            "--porcelain",
-            f"-L{line_number},{line_number}",
-            "HEAD",
-            "--",
-            parity_relative,
-        ],
-        cwd=repo,
-        check=False,
-        capture_output=True,
-        text=True,
-    )
-    if blame.returncode != 0 or not blame.stdout:
-        return False
-    row_revision = blame.stdout.splitlines()[0].split()[0]
     record = subprocess.run(
         [
             "git",
@@ -539,21 +560,51 @@ def _parity_row_precedes_record(
         text=True,
     )
     record_revision = record.stdout.strip()
-    if (
-        re.fullmatch(r"[0-9a-f]{40}", row_revision) is None
-        or re.fullmatch(r"[0-9a-f]{40}", record_revision) is None
-        or row_revision == record_revision
-    ):
+    if re.fullmatch(r"[0-9a-f]{40}", record_revision) is None:
         return False
-    return (
-        subprocess.run(
-            ["git", "merge-base", "--is-ancestor", row_revision, record_revision],
-            cwd=repo,
-            check=False,
-            capture_output=True,
-        ).returncode
-        == 0
+    cells = [cell.strip() for cell in row.strip().strip("|").split("|")]
+    if len(cells) < 3 or not cells[0] or not cells[1]:
+        return False
+    registration_pattern = (
+        rf"^\|[[:space:]]*{re.escape(cells[0])}[[:space:]]*\|[[:space:]]*"
+        rf"{re.escape(cells[1])}[[:space:]]*\|"
     )
+    history = subprocess.run(
+        [
+            "git",
+            "log",
+            "--format=%H",
+            "--reverse",
+            "--follow",
+            f"-G{registration_pattern}",
+            "--",
+            parity_relative,
+        ],
+        cwd=repo,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if history.returncode != 0:
+        return False
+    for candidate in history.stdout.splitlines():
+        candidate = candidate.strip()
+        if (
+            re.fullmatch(r"[0-9a-f]{40}", candidate) is None
+            or candidate == record_revision
+        ):
+            continue
+        if (
+            subprocess.run(
+                ["git", "merge-base", "--is-ancestor", candidate, record_revision],
+                cwd=repo,
+                check=False,
+                capture_output=True,
+            ).returncode
+            == 0
+        ):
+            return True
+    return False
 
 
 def _active_parity_projection_declared(
@@ -783,13 +834,17 @@ def valid_recovery_decision(
         return False
     repository_id = project.get("repositoryId")
     evidence_refs = value.get("evidenceRefs")
+    decision = value.get("decision")
+    successor = value.get("successorWorkItemId")
+    successor_shape_valid = (
+        (decision == "retry" and (successor is None or (isinstance(successor, str) and bool(successor))))
+        or (decision in {"supersede", "successor"} and isinstance(successor, str) and bool(successor))
+    )
     return (
         value.get("schemaVersion") == 1
         and value.get("workItemId") == work_item
         and value.get("predecessorWorkItemId") == work_item
-        and isinstance(value.get("successorWorkItemId"), str)
-        and bool(value.get("successorWorkItemId"))
-        and value.get("decision") in {"supersede", "successor", "retry"}
+        and successor_shape_valid
         and isinstance(repository_id, str)
         and value.get("repositoryId") == repository_id
         and isinstance(evidence_refs, list)
@@ -1127,6 +1182,16 @@ def main() -> int:
                 if valid_close_decision(repo, work_item, decision_value):
                     record["decisionPath"] = decision
                     record["lifecycleState"] = "closed"
+                elif recovery_receipt_valid:
+                    # A predecessor may already contain an immutable, but
+                    # non-canonical, close receipt when a later recovery
+                    # explicitly supersedes it.  The recovery receipt is the
+                    # authoritative terminal projection in that case; do not
+                    # reclassify the predecessor as invalid merely because
+                    # its historical close cannot be rewritten.
+                    decision = str(recovery_path.relative_to(repo))
+                    record["decisionPath"] = decision
+                    record["lifecycleState"] = "recovered"
                 else:
                     record["lifecycleState"] = "closure_invalid"
                     findings.append(finding(work_item, "invalid_terminal_decision", decision))
