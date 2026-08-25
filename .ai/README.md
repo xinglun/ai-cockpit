@@ -26,6 +26,25 @@ The Runtime has no global active Work Item, current repository, or project
 profile. Repository Protocol, Contract, evidence, knowledge, and adapter
 ownership records remain isolated under this repository's `.ai/`.
 
+## Explicit project declarations
+
+Optional repository-owned declarations under `.ai/project/` are read-only
+inputs to the Runtime projection:
+
+- `capabilities.json` binds capabilities, non-capabilities, critical domains,
+  and explicit Contract operation mappings;
+- `success_criteria.json` exposes project criteria as non-authoritative
+  visibility only; Contract acceptance remains the source of authority;
+- `profile-policy.json` records approved boundaries, critical paths, review
+  requirements, and explicit unknowns beside `.ai/project.json` identity and
+  observed-quality facts.
+
+They are strict, regular-file-only, repository- and snapshot-bound JSON. A
+missing, malformed, foreign, stale, conflicting, or insufficient declaration
+keeps an explicit operation in human review; intent prose and detected files
+cannot satisfy a mapping. Contracts without an explicit operation retain
+legacy behavior. `attach` does not invent these governance declarations.
+
 The canonical delivery order is latest remote default base → dedicated
 branch/worktree → implement → finish/archive → push → reviewed PR → merge →
 close → synchronize and clean. Do not pre-merge a feature branch into local

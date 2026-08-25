@@ -220,6 +220,87 @@ pub struct QualityCommand {
     pub state: String,
 }
 
+/// Repository-owned capability declaration.  This is a human-authored input;
+/// the Runtime validates and binds it but never infers it from intent prose.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ProjectCapabilityDeclaration {
+    pub schema_version: u32,
+    pub repository_id: String,
+    /// Snapshot at which this declaration was last reviewed.  The Runtime
+    /// compares it with the current repository snapshot before using an
+    /// operation mapping; a missing value is an explicit unknown.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub repository_snapshot_digest: Option<Digest>,
+    pub capabilities: Vec<String>,
+    pub non_capabilities: Vec<String>,
+    pub critical_domains: Vec<String>,
+    pub operation_mappings: BTreeMap<String, Vec<String>>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ProjectSuccessCriteriaDeclaration {
+    pub schema_version: u32,
+    pub repository_id: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub repository_snapshot_digest: Option<Digest>,
+    pub work_item_id: String,
+    pub criteria: Vec<ProjectSuccessCriterion>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ProjectSuccessCriterion {
+    pub id: String,
+    pub statement: String,
+    #[serde(default)]
+    pub evidence_hints: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ProjectBoundaries {
+    pub production_roots: Vec<String>,
+    pub feature_roots: Vec<String>,
+    pub test_roots: Vec<String>,
+    pub generated_paths: Vec<String>,
+    pub critical_paths: Vec<String>,
+}
+
+/// Rust-native JSON projection of the reference Project Profile policy
+/// surface.  Identity/observed quality facts remain in `project.json`.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ProjectProfilePolicy {
+    pub schema_version: u32,
+    pub repository_id: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub repository_snapshot_digest: Option<Digest>,
+    pub approved_boundaries: ProjectBoundaries,
+    pub critical_domains: Vec<String>,
+    pub review_requirements: Vec<String>,
+    pub unknowns: Vec<String>,
+}
+
+/// Repository-bound projection metadata returned by capability/status routes.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ProjectGovernanceProjection {
+    pub schema_version: u32,
+    pub repository_id: String,
+    pub snapshot_digest: Digest,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub capabilities_digest: Option<Digest>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub success_criteria_digest: Option<Digest>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub success_criteria: Option<ProjectSuccessCriteriaDeclaration>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub profile_policy_digest: Option<Digest>,
+    pub unknowns: Vec<String>,
+}
+
 /// Verification strength is deliberately separate from evidence provenance.
 /// A T3 requirement asks for authoritative verification; it does not decide
 /// whether the resulting evidence is provider- or enterprise-verified.
@@ -2768,6 +2849,8 @@ pub struct CapabilityTruthRegistry {
     pub adopter_capabilities: Vec<AdopterCapabilityTruth>,
     pub exclusions: Vec<CapabilityExclusion>,
     pub unknowns: Vec<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub project_governance: Option<ProjectGovernanceProjection>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]

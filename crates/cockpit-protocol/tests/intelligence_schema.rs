@@ -2,9 +2,83 @@ use cockpit_core::{DecisionState, Digest};
 use cockpit_protocol::{
     AdopterCapabilityState, CapabilityConfidence, CapabilityOwnership, CapabilityTruth,
     CapabilityTruthRegistry, FactOrigin, HumanBenefitReport, ImplementationApproach, OutcomeState,
-    OutcomeV2, TaskOutcomeReport, TraceableDerivation, TraceableFact, TruthState,
-    WorkItemCompatibility, WorkItemIntelligence, WorkItemStatusIndex, WorkItemStatusIndexEntry,
+    OutcomeV2, ProjectCapabilityDeclaration, ProjectGovernanceProjection, ProjectProfilePolicy,
+    ProjectSuccessCriteriaDeclaration, TaskOutcomeReport, TraceableDerivation, TraceableFact,
+    TruthState, WorkItemCompatibility, WorkItemIntelligence, WorkItemStatusIndex,
+    WorkItemStatusIndexEntry,
 };
+
+#[test]
+fn project_governance_declarations_are_strict_and_repository_bound() {
+    let capabilities = ProjectCapabilityDeclaration {
+        schema_version: 1,
+        repository_id: "sha256:repo".into(),
+        repository_snapshot_digest: Some(Digest::sha256_bytes(b"snapshot")),
+        capabilities: vec!["ai_governance".into()],
+        non_capabilities: vec!["physical_operation".into()],
+        critical_domains: vec!["release".into()],
+        operation_mappings: [(
+            "repository_release.publish".into(),
+            vec!["ai_governance".into()],
+        )]
+        .into_iter()
+        .collect(),
+    };
+    let criteria = ProjectSuccessCriteriaDeclaration {
+        schema_version: 1,
+        repository_id: "sha256:repo".into(),
+        repository_snapshot_digest: Some(Digest::sha256_bytes(b"snapshot")),
+        work_item_id: "WI-276".into(),
+        criteria: vec![cockpit_protocol::ProjectSuccessCriterion {
+            id: "SC-1".into(),
+            statement: "The operation is explicitly covered.".into(),
+            evidence_hints: vec!["tests/example.rs".into()],
+        }],
+    };
+    let policy = ProjectProfilePolicy {
+        schema_version: 1,
+        repository_id: "sha256:repo".into(),
+        repository_snapshot_digest: Some(Digest::sha256_bytes(b"snapshot")),
+        approved_boundaries: cockpit_protocol::ProjectBoundaries {
+            production_roots: vec!["crates/**".into()],
+            feature_roots: vec!["crates/**".into()],
+            test_roots: vec!["tests/**".into()],
+            generated_paths: vec!["target/**".into()],
+            critical_paths: vec![".ai/**".into()],
+        },
+        critical_domains: vec!["release".into()],
+        review_requirements: vec!["quality".into()],
+        unknowns: Vec::new(),
+    };
+    let projection = ProjectGovernanceProjection {
+        schema_version: 1,
+        repository_id: "sha256:repo".into(),
+        snapshot_digest: Digest::sha256_bytes(b"snapshot"),
+        capabilities_digest: Some(Digest::sha256_bytes(b"capabilities")),
+        success_criteria_digest: Some(Digest::sha256_bytes(b"criteria")),
+        success_criteria: Some(criteria.clone()),
+        profile_policy_digest: Some(Digest::sha256_bytes(b"policy")),
+        unknowns: Vec::new(),
+    };
+    let encoded_capabilities = serde_json::to_value(&capabilities).expect("encode capabilities");
+    let encoded_criteria = serde_json::to_value(&criteria).expect("encode criteria");
+    let encoded_policy = serde_json::to_value(&policy).expect("encode policy");
+    let encoded_projection = serde_json::to_value(&projection).expect("encode projection");
+    assert_eq!(encoded_capabilities["repositoryId"], "sha256:repo");
+    assert_eq!(encoded_criteria["criteria"][0]["id"], "SC-1");
+    assert_eq!(
+        encoded_policy["approvedBoundaries"]["productionRoots"][0],
+        "crates/**"
+    );
+    assert_eq!(
+        encoded_projection["snapshotDigest"],
+        serde_json::json!(Digest::sha256_bytes(b"snapshot"))
+    );
+
+    let mut unknown = encoded_capabilities;
+    unknown["unexpected"] = serde_json::json!(true);
+    assert!(serde_json::from_value::<ProjectCapabilityDeclaration>(unknown).is_err());
+}
 
 #[test]
 fn v2_records_round_trip_with_explicit_unknowns_and_provenance() {
@@ -85,6 +159,7 @@ fn capability_and_parallel_records_are_strict_and_repository_bound() {
         adopter_capabilities: Vec::new(),
         exclusions: Vec::new(),
         unknowns: Vec::new(),
+        project_governance: None,
     };
     let value = serde_json::to_value(&registry).expect("encode");
     assert_eq!(value["repositoryId"], "sha256:repo");

@@ -1,0 +1,139 @@
+{
+  "acceptanceResults": [
+    "Reference capability/profile files are compared individually and each receives an evidence-backed Rust-native mapping or explicit external-boundary classification.",
+    "Repository capability declarations are strict, repository-bound, digest-bound, human-owned inputs; missing, malformed, foreign, stale, or conflicting declarations fail closed.",
+    "Preflight checks declared operation capability coverage without inferring capabilities from intent or model output, and legacy Contracts without an operation remain compatible.",
+    "Project-level success criteria never override Work Item Contract acceptance or invent approval; mismatched criteria remain visible unknowns.",
+    "Capability show and MCP capability_show expose runtime, repository, snapshot, declaration, and adopter-surface identity consistently without claiming external release evidence.",
+    "Two repositories can read projections concurrently with isolated repositoryId, snapshot, profile, and declaration state; projection commands remain read-only.",
+    "Three-language docs, inventory regression, focused tests, workspace quality, and a visible human Outcome pass."
+  ],
+  "createdAt": "2026-08-25T12:33:25Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:6ce2bce0221172c0e81b8514ee67aad516ef273beffc5c6040ee49496bcacad4",
+  "evidenceRefs": [
+    ".ai/evidence/WI-276-capability-profile-projection.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-276-capability-profile-projection.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-276-capability-profile-projection.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1bf9be725fde6cc559988f478e681e6f9586e120e7652c8d7f4f2bca4bcec8af",
+      "workItemId": "WI-276-capability-profile-projection"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-276-capability-profile-projection.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-276-capability-profile-projection.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-276-capability-profile-projection.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-276-capability-profile-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-276-capability-profile-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-276-capability-profile-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-276-capability-profile-projection.contract.json"
+          ],
+          "inference": false,
+          "text": "Bind repository capability and profile facts to preflight and capability projections while preserving explicit repository isolation and human-owned decisions."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-276-capability-profile-projection.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-276-capability-profile-projection"
+  },
+  "taskReportDigest": "sha256:a455971f0d34e228a6279fdee8e559d3b40faaec59cad5d08dafce664894cd60",
+  "taskReportMarkdownDigest": "sha256:5308abab81a71a457b5d717439b359c5806702e996474e27bf11a4a23cdb6fbd",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-276-capability-profile-projection.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-276-capability-profile-projection"
+}

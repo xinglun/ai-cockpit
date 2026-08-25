@@ -1,0 +1,54 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-25T11:53:51Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T11:51:23Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "docs/superpowers/specs/2026-08-25-capability-profile-projection-design.md",
+      "docs/reference/reference-file-comparison.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-25T12:33:25Z",
+  "preflightContractDigest": "sha256:bb1cd1a5ec46264da151dcee8b337b6e5665adb8a24c562b6a2fe8546eb60640",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:1bf9be725fde6cc559988f478e681e6f9586e120e7652c8d7f4f2bca4bcec8af",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/project_governance.rs"
+      ],
+      "required": true,
+      "scenario": "parallel repository declaration isolation",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/project_governance.rs",
+        "crates/cockpit-repository/tests/contract_preflight.rs"
+      ],
+      "required": true,
+      "scenario": "malformed or stale declaration fail closed",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/project_governance.rs"
+      ],
+      "required": true,
+      "scenario": "read-only projection",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-25T12:33:25Z",
+  "workItemId": "WI-276-capability-profile-projection"
+}

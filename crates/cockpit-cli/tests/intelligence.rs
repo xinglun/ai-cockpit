@@ -258,6 +258,18 @@ fn intelligence_commands_emit_repository_bound_json_and_unknowns() {
         serde_json::from_slice(&capability.stdout).expect("JSON");
     assert_eq!(capability_json["repositoryId"].as_str().unwrap().len(), 71);
     assert_eq!(capability_json["runtimeVersion"], env!("CARGO_PKG_VERSION"));
+    assert_eq!(capability_json["projectGovernance"]["schemaVersion"], 1);
+    assert_eq!(
+        capability_json["projectGovernance"]["repositoryId"],
+        capability_json["repositoryId"]
+    );
+    assert!(
+        capability_json["projectGovernance"]["unknowns"]
+            .as_array()
+            .expect("project governance unknowns")
+            .iter()
+            .any(|item| item == "project_capabilities_missing")
+    );
     assert!(
         capability_json["runtimeDigest"]
             .as_str()

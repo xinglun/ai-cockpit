@@ -383,8 +383,34 @@ inputs produce stable unknowns instead of a verified claim. `inspect` fails clos
 when dependencies, conflicts, or scope compatibility are not explicitly known.
 This registry is not an installed-surface manifest: it does not reproduce the
 reference template's `templateFiles`, `installedFiles`, schema/entrypoint lists,
-or `verifyInstalledSurface` checks. That manifest and project-level
-capability-to-scope acceptance remain explicit migration gaps.
+or `verifyInstalledSurface` checks. The installer-surface manifest remains an
+external Release/adopter boundary; it is not copied into the repository.
+
+### Declare project capabilities and profile policy
+
+Projects may add explicit, repository-owned JSON declarations under
+`.ai/project/`:
+
+- `capabilities.json` — capabilities, non-capabilities, critical domains, and
+  exact `operationMappings` used by an explicit Contract operation;
+- `success_criteria.json` — visible project criteria and evidence hints; it
+  cannot replace Contract acceptance or create approval;
+- `profile-policy.json` — approved path boundaries, critical paths, review
+  requirements, and explicit unknowns. `.ai/project.json` remains the strict
+  identity and observed-quality profile.
+
+Each declaration is strict, regular-file-only, repository-identity-bound, and
+bound to the reviewed repository snapshot. `capability show` and MCP
+`capability_show` expose semantic digests, visible non-authoritative success
+criteria, and stable unknown codes without writing declarations. When a Contract has an explicit `operation` or
+`requestedOperation`, Preflight requires a matching, sufficient mapping;
+missing, malformed, foreign, stale, conflicting, or insufficient declarations
+remain yellow/unknown. Contract intent prose and detected files never satisfy a
+mapping. Contracts without an explicit operation retain legacy behavior.
+
+These declarations are a Rust-native governance projection, not a copy of the
+reference Python runtime, Make targets, or installer manifest. `attach` does
+not invent them, and project success criteria never authorize a Work Item.
 Scope compatibility normalizes Windows `\\` separators, detects exact and
 nested-prefix overlaps (`src/**` with `src/main.rs` or `src/test/**`), and
 returns `scope_overlap_unknown` for patterns whose intersection cannot be

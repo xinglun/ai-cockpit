@@ -56,6 +56,27 @@ command is recorded as verified. The wrapper contains `profileVersion`,
 `repositoryId`, `state`, `profileDigest`, `tests`, and `buildSystems`. Unknown
 profile fields are rejected.
 
+## `.ai/project/` declarations
+
+An adopter may add three strict, repository-owned JSON declarations:
+
+- `capabilities.json` — capabilities, non-capabilities, critical domains, and
+  exact operation-to-capability mappings;
+- `success_criteria.json` — visible project criteria and evidence hints only;
+  Contract acceptance remains authoritative;
+- `profile-policy.json` — approved boundaries, critical paths, review
+  requirements, and explicit unknowns. This is the JSON projection of the
+  reference profile policy; `.ai/project.json` remains the identity and
+  observed-quality profile.
+
+Each file is regular-file-only, rejects unknown fields and duplicate keys, and
+binds its repository ID and reviewed snapshot digest. `capability show` and
+MCP `capability_show` report semantic declaration digests without writing
+them. A Contract with explicit `operation`/`requestedOperation` must match a
+sufficient mapping during Preflight; missing, malformed, foreign, stale, or
+conflicting input remains yellow/unknown. Intent prose cannot satisfy the
+mapping, and a project criterion cannot approve or complete a Work Item.
+
 ## `.ai/policy.json`
 
 Enterprise adopters may opt into a strict policy document without changing the

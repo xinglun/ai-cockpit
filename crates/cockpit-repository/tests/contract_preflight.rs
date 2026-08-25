@@ -1,7 +1,8 @@
 use cockpit_core::DecisionState;
+use cockpit_git::GitRepository;
 use cockpit_repository::{
     WorkItemStartOptions, attach, checkpoint_work_item, preflight_work_item, scaffold_work_item,
-    start_work_item_with_options,
+    snapshot_digest, start_work_item_with_options,
 };
 use std::{fs, process::Command};
 
@@ -17,6 +18,47 @@ fn repository() -> tempfile::TempDir {
     );
     attach(directory.path()).expect("attach");
     directory
+}
+
+fn repository_snapshot_digest(path: &std::path::Path) -> cockpit_core::Digest {
+    let snapshot = GitRepository::discover(path)
+        .expect("discover")
+        .snapshot()
+        .expect("snapshot");
+    snapshot_digest(&snapshot).expect("snapshot digest")
+}
+
+fn set_operation(path: &std::path::Path, work_item_id: &str, operation: &str) {
+    let contract_path = path
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let mut contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract")).expect("contract");
+    contract["operation"] = serde_json::json!(operation);
+    fs::write(
+        contract_path,
+        serde_json::to_vec_pretty(&contract).expect("encode contract"),
+    )
+    .expect("write operation");
+}
+
+fn write_capabilities(path: &std::path::Path, mappings: serde_json::Value) {
+    let project = path.join(".ai/project");
+    fs::create_dir_all(&project).expect("project directory");
+    let value = serde_json::json!({
+        "schemaVersion": 1,
+        "repositoryId": cockpit_repository::repository_id(path),
+        "repositorySnapshotDigest": repository_snapshot_digest(path),
+        "capabilities": ["documentation", "ai_governance"],
+        "nonCapabilities": ["physical_operation"],
+        "criticalDomains": ["release"],
+        "operationMappings": mappings
+    });
+    fs::write(
+        project.join("capabilities.json"),
+        serde_json::to_vec_pretty(&value).expect("encode capabilities"),
+    )
+    .expect("write capabilities");
 }
 
 #[test]
@@ -130,4 +172,163 @@ fn duplicate_or_unknown_contract_json_fails_before_governance_evaluation() {
     .expect("duplicate write");
     let error = preflight_work_item(directory.path(), &path).expect_err("duplicate fails");
     assert!(error.to_string().contains("duplicate JSON object key"));
+}
+
+#[test]
+fn explicit_operation_uses_only_a_valid_repository_mapping() {
+    let directory = repository();
+    start_work_item_with_options(
+        directory.path(),
+        "WI-CAPABILITY-MAPPED",
+        "documentation change",
+        "update docs",
+        &["docs/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["docs check".into()],
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    set_operation(
+        directory.path(),
+        "WI-CAPABILITY-MAPPED",
+        "documentation.modify",
+    );
+    write_capabilities(
+        directory.path(),
+        serde_json::json!({"documentation.modify": ["documentation"]}),
+    );
+    let decision = preflight_work_item(
+        directory.path(),
+        &directory
+            .path()
+            .join(".ai/work-items/active/WI-CAPABILITY-MAPPED.contract.json"),
+    )
+    .expect("preflight");
+    assert!(
+        !decision
+            .unknowns
+            .iter()
+            .any(|unknown| unknown.starts_with("project_capability_mapping_"))
+    );
+    assert_ne!(decision.state, DecisionState::Red);
+}
+
+#[test]
+fn missing_or_insufficient_operation_mapping_requires_review() {
+    for (operation, mappings, expected) in [
+        (
+            "release.publish",
+            serde_json::json!({"documentation.modify": ["documentation"]}),
+            "project_capability_mapping_missing",
+        ),
+        (
+            "release.publish",
+            serde_json::json!({"release.publish": ["unlisted"]}),
+            "project_capability_mapping_insufficient",
+        ),
+        (
+            "release.publish",
+            serde_json::json!({"release.publish": ["physical_operation"]}),
+            "project_capability_mapping_conflict",
+        ),
+    ] {
+        let directory = repository();
+        start_work_item_with_options(
+            directory.path(),
+            "WI-CAPABILITY-MAPPING",
+            "release text",
+            "release change",
+            &["docs/**".into()],
+            &WorkItemStartOptions {
+                authority: "authorized".into(),
+                acceptance_criteria: vec!["release check".into()],
+                ..Default::default()
+            },
+        )
+        .expect("start");
+        set_operation(directory.path(), "WI-CAPABILITY-MAPPING", operation);
+        write_capabilities(directory.path(), mappings);
+        let decision = preflight_work_item(
+            directory.path(),
+            &directory
+                .path()
+                .join(".ai/work-items/active/WI-CAPABILITY-MAPPING.contract.json"),
+        )
+        .expect("preflight");
+        assert!(decision.unknowns.iter().any(|unknown| unknown == expected));
+        assert_ne!(decision.state, DecisionState::Green);
+    }
+}
+
+#[test]
+fn intent_cannot_satisfy_a_missing_mapping_and_legacy_contracts_remain_compatible() {
+    let directory = repository();
+    start_work_item_with_options(
+        directory.path(),
+        "WI-CAPABILITY-MISSING",
+        "documentation.modify",
+        "the prose must not authorize the operation",
+        &["docs/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["docs check".into()],
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    set_operation(
+        directory.path(),
+        "WI-CAPABILITY-MISSING",
+        "documentation.modify",
+    );
+    let decision = preflight_work_item(
+        directory.path(),
+        &directory
+            .path()
+            .join(".ai/work-items/active/WI-CAPABILITY-MISSING.contract.json"),
+    )
+    .expect("preflight");
+    assert!(
+        decision
+            .unknowns
+            .iter()
+            .any(|unknown| unknown == "project_capabilities_missing")
+    );
+    assert!(
+        decision
+            .unknowns
+            .iter()
+            .any(|unknown| unknown == "project_capability_mapping_unknown")
+    );
+    assert_ne!(decision.state, DecisionState::Green);
+
+    let legacy = repository();
+    start_work_item_with_options(
+        legacy.path(),
+        "WI-LEGACY-NO-OPERATION",
+        "intent prose",
+        "legacy contract",
+        &["docs/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["legacy check".into()],
+            ..Default::default()
+        },
+    )
+    .expect("legacy start");
+    let legacy_decision = preflight_work_item(
+        legacy.path(),
+        &legacy
+            .path()
+            .join(".ai/work-items/active/WI-LEGACY-NO-OPERATION.contract.json"),
+    )
+    .expect("legacy preflight");
+    assert!(
+        !legacy_decision
+            .unknowns
+            .iter()
+            .any(|unknown| unknown.starts_with("project_"))
+    );
 }

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1bf9be725fde6cc559988f478e681e6f9586e120e7652c8d7f4f2bca4bcec8af",
+  "workItemId": "WI-276-capability-profile-projection",
+  "criteria": [
+    {
+      "id": "capability-projection-strict",
+      "statement": "Capability and profile declarations are strict, repository-bound, snapshot-bound, and read-only.",
+      "evidenceHints": [
+        "crates/cockpit-repository/tests/project_governance.rs",
+        "crates/cockpit-protocol/tests/intelligence_schema.rs"
+      ]
+    },
+    {
+      "id": "operation-binding-fail-closed",
+      "statement": "An explicit Contract operation is accepted only when its declared capability mapping is valid and sufficient.",
+      "evidenceHints": [
+        "crates/cockpit-repository/tests/contract_preflight.rs"
+      ]
+    },
+    {
+      "id": "projection-surface-parity",
+      "statement": "CLI and MCP capability projections expose the same repository-bound declaration metadata without granting project criteria authority.",
+      "evidenceHints": [
+        "crates/cockpit-cli/tests/intelligence.rs",
+        "crates/cockpit-mcp/tests/rpc.rs"
+      ]
+    }
+  ]
+}

@@ -17,13 +17,13 @@ test "$(jq -r '.records[] | select(.batch == "governance-entrypoints" and .class
 test "$(jq '[.records[] | select(.batch == "capability-status-projection")] | length' "$manifest")" -eq 6
 test "$(jq '[.records[] | select(.batch == "capability-status-projection" and (.classification == "deferred-next-batch" or .classification == ""))] | length' "$manifest")" -eq 0
 test "$(jq '[.records[] | select(.batch == "capability-status-projection" and ((.rustCounterparts | length) == 0 and (.reason | contains("no exact Rust counterpart") | not)))] | length' "$manifest")" -eq 0
-test "$(jq '[.records[] | select(.classification == "migrate-gap")] | length' "$manifest")" -eq 4
+test "$(jq '[.records[] | select(.classification == "migrate-gap")] | length' "$manifest")" -eq 0
 for gap in \
   .ai/project/adopter-capability-manifest.json \
   .ai/project/capabilities.json \
   .ai/project/success_criteria.json \
   .ai/project_profile.yaml; do
-  test "$(jq -r --arg gap "$gap" '.records[] | select(.referencePath == $gap) | .classification' "$manifest")" = "migrate-gap"
+  test "$(jq -r --arg gap "$gap" '.records[] | select(.referencePath == $gap) | .classification' "$manifest")" = "implemented-different-by-design"
 done
 
 for agent_rule in \

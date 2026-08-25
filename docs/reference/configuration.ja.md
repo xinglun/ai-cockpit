@@ -48,6 +48,21 @@ runtime は両方を validate し identity mismatch を拒否します。runtime
 増え、選択した quality command が verified として記録されます。wrapper は `profileVersion`、`repositoryId`、`state`、
 `profileDigest`、`tests`、`buildSystems` を持ちます。unknown profile field は拒否されます。
 
+## `.ai/project/` の宣言
+
+Adopter は repository-owned な strict JSON 宣言を 3 つ追加できます。
+
+- `capabilities.json`: capability、non-capability、critical domain、厳密な operation-to-capability mapping。
+- `success_criteria.json`: project criteria と evidence hint の表示だけを担い、Contract acceptance を置き換えません。
+- `profile-policy.json`: approved boundary、critical path、review requirement、明示的な unknown。reference profile policy の
+  JSON projection であり、`.ai/project.json` は identity と observed-quality profile として残ります。
+
+各 file は regular file のみを受け付け、unknown field と duplicate JSON key を拒否し、repository ID と review 時点の
+snapshot digest に bind します。`capability show` と MCP `capability_show` は semantic declaration digest を表示するだけで
+書き換えません。Contract が `operation`/`requestedOperation` を明示する場合、Preflight は十分な mapping を要求します。
+missing、malformed、foreign、stale、conflict の入力は yellow/unknown のままです。intent prose は mapping を満たさず、
+project criterion も Work Item を approve/complete しません。
+
 ## `.ai/policy.json`
 
 Enterprise adopter は TOML の設定形式を変更せず、strict な policy document を

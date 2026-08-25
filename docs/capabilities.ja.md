@@ -313,7 +313,27 @@ adopter acceptance ではなく、明示的な acceptance evidence がなけれ�
 external boundary のままです。missing、malformed、stale、foreign な input は verified claim ではなく
 stable unknown になります。この registry は installed-surface manifest ではなく、reference template の
 `templateFiles`、`installedFiles`、schema/entrypoint list、`verifyInstalledSurface` check を複製しません。
-その manifest と project-level capability-to-scope acceptance は明示的な migration gap のままです。
+installer-surface manifest は external Release/adopter boundary として残り、repository には copy しません。
+
+### Project capability と profile policy の宣言
+
+Project は `.ai/project/` に repository-owned な JSON 宣言を置けます。
+
+- `capabilities.json`: capability、non-capability、critical domain、Contract の明示的な
+  operation が参照する厳密な `operationMappings`。
+- `success_criteria.json`: project criteria と evidence hint の可視 projection。Contract の
+  acceptance を置き換えず、approval も作りません。
+- `profile-policy.json`: approved path boundary、critical path、review requirement、明示的な
+  unknown。`.ai/project.json` は strict な identity と observed-quality profile として残ります。
+
+各宣言は strict schema、regular file、repository identity、review 時点の repository snapshot に bind されます。
+`capability show` と MCP `capability_show` は semantic digest、authority を持たない success criteria、stable unknown code を表示しますが、宣言を
+書き換えません。Contract に `operation` または `requestedOperation` が明示される場合、Preflight は一致し十分な
+mapping を要求します。missing、malformed、foreign、stale、conflict、insufficient な宣言は yellow/unknown のままです。
+Contract の intent prose や検出した file から mapping を推論しません。明示的な operation がない legacy Contract は従来どおりです。
+
+これは Rust-native governance projection であり、reference Python runtime、Make target、installer manifest の copy ではありません。
+`attach` は宣言を発明せず、project success criteria は Work Item を authorize しません。
 `inspect` は dependency、conflict、scope compatibility が明示的に分からない場合に
 parallel execution を fail closed にします。Scope compatibility は Windows の `\\` separator を正規化し、exact path
 と nested prefix の overlap（`src/**` と `src/main.rs`、`src/test/**` など）を検出します。交差を証明できない

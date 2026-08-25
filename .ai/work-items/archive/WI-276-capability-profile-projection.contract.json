@@ -1,0 +1,141 @@
+{
+  "acceptanceCriteria": [
+    "Reference capability/profile files are compared individually and each receives an evidence-backed Rust-native mapping or explicit external-boundary classification.",
+    "Repository capability declarations are strict, repository-bound, digest-bound, human-owned inputs; missing, malformed, foreign, stale, or conflicting declarations fail closed.",
+    "Preflight checks declared operation capability coverage without inferring capabilities from intent or model output, and legacy Contracts without an operation remain compatible.",
+    "Project-level success criteria never override Work Item Contract acceptance or invent approval; mismatched criteria remain visible unknowns.",
+    "Capability show and MCP capability_show expose runtime, repository, snapshot, declaration, and adopter-surface identity consistently without claiming external release evidence.",
+    "Two repositories can read projections concurrently with isolated repositoryId, snapshot, profile, and declaration state; projection commands remain read-only.",
+    "Three-language docs, inventory regression, focused tests, workspace quality, and a visible human Outcome pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "2faea6a1ca09867a6aea3387eb2c478c92495e15",
+  "createdAt": "2026-08-25T11:51:23Z",
+  "goal": "Bind repository capability and profile facts to preflight and capability projections while preserving explicit repository isolation and human-owned decisions.",
+  "intent": "Compare the reference capability and project-profile surfaces and add truthful Rust-native repository capability declarations without copying the reference Python or Make runtime.",
+  "mode": "implementation",
+  "outOfScope": [
+    "reference Python runtime",
+    "reference Makefile",
+    "static adopter-installed manifest copied from the reference",
+    "global Agent or MCP configuration",
+    "architecture cleanup or lib.rs decomposition"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ea24b0c58cc702656167684ffe02017285c0176739c69bc31d17f1ca5800a245",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-276-capability-profile",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/WI-276-capability-profile-projection",
+    "worktree": "/private/tmp/ai-cockpit-wi276-capability-profile"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Concurrent capability and profile projections for repositories A and B remain repository-, snapshot-, and declaration-bound without cross-repository state.",
+      "required": true,
+      "scenario": "parallel repository declaration isolation",
+      "status": "unverified",
+      "verificationPlan": "Run concurrent CLI and MCP projections against two attached repositories and compare repositoryId, snapshot digest, declaration digest, and output paths."
+    },
+    {
+      "evidence": [],
+      "expected": "Missing, malformed, symlinked, foreign, stale, or conflicting capability/profile declarations remain unknown or require human confirmation and never produce a green governance decision.",
+      "required": true,
+      "scenario": "malformed or stale declaration fail closed",
+      "status": "unverified",
+      "verificationPlan": "Run focused tamper fixtures for every repository-owned declaration and Contract operation mapping."
+    },
+    {
+      "evidence": [],
+      "expected": "Repeated capability, profile, and MCP projections do not write repository bytes, generated status, or evidence.",
+      "required": true,
+      "scenario": "read-only projection",
+      "status": "unverified",
+      "verificationPlan": "Capture file, directory, and symlink manifests before and after repeated CLI/MCP projection calls."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-protocol/src/**",
+    "crates/cockpit-repository/src/**",
+    "crates/cockpit-cli/src/**",
+    "crates/cockpit-mcp/src/**",
+    "crates/cockpit-protocol/tests/**",
+    "crates/cockpit-repository/tests/**",
+    "crates/cockpit-cli/tests/**",
+    "crates/cockpit-mcp/tests/**",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/capabilities.md",
+    "docs/capabilities.ja.md",
+    "docs/capabilities.zh-CN.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/configuration.md",
+    "docs/reference/configuration.ja.md",
+    "docs/reference/configuration.zh-CN.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/superpowers/specs/2026-08-25-capability-profile-projection-design.md",
+    "docs/superpowers/plans/2026-08-25-capability-profile-projection.md",
+    ".ai/project/**",
+    ".ai/README.md"
+  ],
+  "sources": [
+    {
+      "path": "https://github.com/spirex-ds-dev/ai-cockpit-template/blob/e5acb677da6621004d96f0ef353c58fe8d3acfbf/.ai/project/adopter-capability-manifest.json",
+      "reason": "Reference adopter-facing capability and installed-surface truth contract."
+    },
+    {
+      "path": "https://github.com/spirex-ds-dev/ai-cockpit-template/blob/e5acb677da6621004d96f0ef353c58fe8d3acfbf/.ai/project/capabilities.json",
+      "reason": "Reference repository capability and operation mapping declaration."
+    },
+    {
+      "path": "https://github.com/spirex-ds-dev/ai-cockpit-template/blob/e5acb677da6621004d96f0ef353c58fe8d3acfbf/.ai/project/success_criteria.json",
+      "reason": "Reference project-level success criteria projection."
+    },
+    {
+      "path": "https://github.com/spirex-ds-dev/ai-cockpit-template/blob/e5acb677da6621004d96f0ef353c58fe8d3acfbf/.ai/project_profile.yaml",
+      "reason": "Reference project profile and approved boundary declaration."
+    },
+    {
+      "path": "tests/conformance/reference_file_inventory.json",
+      "reason": "Pinned file-by-file parity ledger and classification gate."
+    }
+  ],
+  "state": "implementation_active",
+  "verification": [
+    {
+      "check": "cargo fmt --all -- --check",
+      "required": true
+    },
+    {
+      "check": "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+      "required": true
+    },
+    {
+      "check": "cargo test --locked --workspace",
+      "required": true
+    },
+    {
+      "check": "bash tests/conformance/reference_file_inventory_test.sh",
+      "required": true
+    },
+    {
+      "check": "bash tests/docs/documentation_acceptance.sh",
+      "required": true
+    }
+  ],
+  "workItemId": "WI-276-capability-profile-projection"
+}
