@@ -6,7 +6,7 @@ description: "Revalidate the bounded Rust Contract-semantics parity batch from t
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 lastVerifiedBy: WI-283-reference-contract-semantics-current-main
 authority: canonical
 ---

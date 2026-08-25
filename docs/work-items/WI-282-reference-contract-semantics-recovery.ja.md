@@ -6,7 +6,7 @@ description: "古い default-branch base により hosted quality が拒否し�
 audience:
   - maintainer
   - reviewer
-status: superseded
+status: recovered
 lastVerifiedBy: WI-282-reference-contract-semantics-recovery
 authority: canonical
 ---

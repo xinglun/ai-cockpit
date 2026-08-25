@@ -6,7 +6,7 @@ description: "由于 hosted quality 拒绝了旧默认分支基线，WI-282 作�
 audience:
   - maintainer
   - reviewer
-status: superseded
+status: recovered
 lastVerifiedBy: WI-282-reference-contract-semantics-recovery
 authority: canonical
 ---

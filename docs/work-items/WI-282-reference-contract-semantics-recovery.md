@@ -6,7 +6,7 @@ description: "Immutable predecessor superseded by WI-283 after hosted quality re
 audience:
   - maintainer
   - reviewer
-status: superseded
+status: recovered
 lastVerifiedBy: WI-282-reference-contract-semantics-recovery
 authority: canonical
 ---
