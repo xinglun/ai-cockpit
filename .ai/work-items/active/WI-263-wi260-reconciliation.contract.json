@@ -1,0 +1,63 @@
+{
+  "acceptanceCriteria": [
+    "WI-260 immutable archive and blocked pre-merge finalization root remain byte-identical.",
+    "Reconciliation records bind PR #212, reviewed branch head 84b159d06038b16bbb4a3eae3c1252765c144efb, merge commit 5e426413f08ed54fe54029e0b910056aa4dceba2, and exact branch/worktree cleanup evidence.",
+    "The Runtime accepts a valid linear finalization chain or fails closed with a documented recovery boundary; no historical bytes are hand-edited.",
+    "English, Simplified Chinese, and Japanese WI/parity documentation describe the reconciliation and remaining unknowns accurately.",
+    "Focused governance/docs checks and installed Runtime inspection/lifecycle checks pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "5e426413f08ed54fe54029e0b910056aa4dceba2",
+  "createdAt": "2026-08-25T01:59:36Z",
+  "goal": "Record an auditable post-merge reconciliation plan for WI-260, preserve its immutable truth, and document the exact cleanup/closure boundary.",
+  "intent": "Reconcile the merged WI-260 recovery-gate resource boundary without rewriting its immutable archive, blocked root, or historical evidence.",
+  "mode": "implementation",
+  "outOfScope": [
+    "WI-260 archived Contract, Summary, Outcome, Events, verification, and archive bytes",
+    "WI-261 and WI-262 implementation paths or worktrees",
+    "Runtime/core protocol changes",
+    "User-global Agent or MCP configuration"
+  ],
+  "predecessorWorkItemId": "WI-260-recovery-gate",
+  "predecessorContractDigest": "sha256:be9fc928ede030f39d2b9a2ca61f115386cd62d1c8f434c3b1022f93455c25eb",
+  "recoveryDecisionPath": ".ai/decisions/WI-260-recovery-gate.recovery.json",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:21d23b9dfd594cec72f8b9b5dcc3a9572d30bd055b0b0f33ae2b763ac14cae0f",
+  "requiredEvidenceClasses": [
+    "verification",
+    "resource_finalization",
+    "recovery_decision",
+    "documentation_parity"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-263-wi260-reconciliation",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi263-reconciliation"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/decisions/WI-260-recovery-gate.recovery.json",
+    ".ai/decisions/WI-260-recovery-gate.finalize.*",
+    ".ai/decisions/WI-260-recovery-gate.close.json",
+    "docs/work-items/WI-260-recovery-gate.md",
+    "docs/work-items/WI-260-recovery-gate.zh-CN.md",
+    "docs/work-items/WI-260-recovery-gate.ja.md",
+    ".ai/decisions/WI-260-recovery-gate.recovery.json",
+    ".ai/decisions/WI-260-recovery-gate.close.json",
+    "docs/work-items/WI-263-wi260-reconciliation.md",
+    "docs/work-items/WI-263-wi260-reconciliation.zh-CN.md",
+    "docs/work-items/WI-263-wi260-reconciliation.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-263-wi260-reconciliation"
+}
