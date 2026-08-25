@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:1dda94841c55256b0bd900b6f5febf83488d5b177d44f1dda544af877431c847",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "github-review-and-cleanup-policy",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "04d77c8411032879ea0fa457d11929451b469a43",
+      "name": "codex/wi-290-checkpoint-conformance-final",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:576a86ad16af3a0feaacdf53e69e4b94386b56a3feb25e46d5e4f7bc824b701d",
+    "operationId": "WI-290-checkpoint-conformance-final-provider-finalization-deleted",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "bade01ddf52ed918237b9f18910c349e22ad6ebd",
+      "headRevision": "04d77c8411032879ea0fa457d11929451b469a43",
+      "mergeCommit": "601442e8aa769135d68c292d792fe1011708f2e1",
+      "number": 250,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/250"
+    },
+    "reason": "The merged PR head is synchronized; the exact remote branch and worktree were removed and independently verified.",
+    "receiptId": "WI-290-checkpoint-conformance-final-finalize-deleted",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-290-checkpoint-conformance-final",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/250",
+      "worktree": "/private/tmp/ai-cockpit-wi290"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+    "runtimeVersion": "0.2.31",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-26T00:00:00Z",
+    "workItemId": "WI-290-checkpoint-conformance-final",
+    "worktree": {
+      "branch": "codex/wi-290-checkpoint-conformance-final",
+      "headRevision": "04d77c8411032879ea0fa457d11929451b469a43",
+      "path": "/private/tmp/ai-cockpit-wi290",
+      "worktreeId": "WI-290-checkpoint-conformance-final"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "WI-290-checkpoint-conformance-final-finalize-transition-2"
+}

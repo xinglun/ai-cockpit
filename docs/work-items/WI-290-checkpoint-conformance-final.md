@@ -6,8 +6,12 @@ description: "Re-deliver the bounded checkpoint conformance batch from the lates
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-290-checkpoint-conformance-final
+terminalArchive: .ai/work-items/archive/WI-290-checkpoint-conformance-final.contract.json
+terminalVerification: .ai/evidence/WI-290-checkpoint-conformance-final.verification.json
+terminalFinalization: .ai/decisions/WI-290-checkpoint-conformance-final.finalize.85d018bce51ab697f9c5221fe5cb72440386baacf0b44063371653ec221a254c.json
+terminalDecision: .ai/decisions/WI-290-checkpoint-conformance-final.close.json
 authority: canonical
 ---
 

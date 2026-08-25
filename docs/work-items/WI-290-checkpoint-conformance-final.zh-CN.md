@@ -6,8 +6,12 @@ description: "从最新远端默认分支重新交付有界 checkpoint 一致性
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-290-checkpoint-conformance-final
+terminalArchive: .ai/work-items/archive/WI-290-checkpoint-conformance-final.contract.json
+terminalVerification: .ai/evidence/WI-290-checkpoint-conformance-final.verification.json
+terminalFinalization: .ai/decisions/WI-290-checkpoint-conformance-final.finalize.85d018bce51ab697f9c5221fe5cb72440386baacf0b44063371653ec221a254c.json
+terminalDecision: .ai/decisions/WI-290-checkpoint-conformance-final.close.json
 authority: canonical
 ---
 

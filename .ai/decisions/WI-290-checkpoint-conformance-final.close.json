@@ -1,0 +1,141 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-290-checkpoint-conformance-final.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:28732c63c415096d2421de7e34e83e824f824d0f1f8249c9a37299a9b52f47e0",
+      "workItemId": "WI-290-checkpoint-conformance-final"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-290-checkpoint-conformance-final.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-290-checkpoint-conformance-final.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-290-checkpoint-conformance-final.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-290-checkpoint-conformance-final.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-290-checkpoint-conformance-final.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-290-checkpoint-conformance-final.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-290-checkpoint-conformance-final.verification.json",
+            ".ai/decisions/WI-290-checkpoint-conformance-final.finalize.85d018bce51ab697f9c5221fe5cb72440386baacf0b44063371653ec221a254c.json",
+            "https://github.com/xinglun/ai-cockpit/pull/250"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via github-review-and-cleanup-policy at 2026-08-26T00:00:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-290-checkpoint-conformance-final.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-290-checkpoint-conformance-final.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-290-checkpoint-conformance-final.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-290-checkpoint-conformance-final.contract.json"
+          ],
+          "inference": false,
+          "text": "Produce a provider-bound reviewed PR with complete parity lifecycle evidence and a closeable terminal checkpoint-conformance result."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-290-checkpoint-conformance-final.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-290-checkpoint-conformance-final"
+  },
+  "finalReportDigest": "sha256:cc2c91db04bc02d7ad6ffe263b7e7fbaf737506d02300268707d550823ea3949",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:943051eec7778eaa938f91acf5c04ee38d5079e9f7e99d942ada6e0bf90dda33",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-290-checkpoint-conformance-final.finalize.85d018bce51ab697f9c5221fe5cb72440386baacf0b44063371653ec221a254c.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "github-review-and-cleanup-policy",
+    "decidedAt": "2026-08-26T00:00:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-290-checkpoint-conformance-final.verification.json",
+      ".ai/decisions/WI-290-checkpoint-conformance-final.finalize.85d018bce51ab697f9c5221fe5cb72440386baacf0b44063371653ec221a254c.json",
+      "https://github.com/xinglun/ai-cockpit/pull/250"
+    ],
+    "policyRefs": [
+      "AGENTS.md:premerge-finalization-before-close",
+      "docs/reference/agent-workflow.md:sequence-2-deleted-before-promotion"
+    ],
+    "reason": "Hosted PR #250 passed all required checks and merged at 601442e8; sequence-2 deleted finalization and synchronized default branch are verified.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-08-25T21:33:47Z",
+  "workItemId": "WI-290-checkpoint-conformance-final"
+}
