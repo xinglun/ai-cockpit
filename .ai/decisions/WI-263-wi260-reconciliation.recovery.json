@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-goal-and-post-merge-cleanup-policy",
+  "decidedAt": "2026-08-25T02:40:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-263-wi260-reconciliation.finalize.json",
+    ".ai/work-items/archive/WI-263-wi260-reconciliation.archive.json",
+    "https://github.com/xinglun/ai-cockpit/pull/215"
+  ],
+  "policyRefs": [
+    "AGENTS.md:post-merge-finalization"
+  ],
+  "predecessorContractDigest": "sha256:28a9bbab17cf3064b9d2c9b9b3fab7f3ebdeb1a679233ea2d15666d364e6d4e2",
+  "predecessorEventsDigest": "sha256:58fef73692ff5847adf0aea8375a6ba64a0de6efccaaff8cadf7a6d2b0ea7db2",
+  "predecessorOutcomeDigest": "sha256:4b1bdc7b61aa446622826807aab99cf37cb9320a6bfe059464b9d342869463d2",
+  "predecessorSummaryDigest": "sha256:d01d98100cf2883229bf5cfa1167719b3b74eb618f062d445f76c24469a74e73",
+  "predecessorWorkItemId": "WI-263-wi260-reconciliation",
+  "reason": "The merged WI-263 PR head advanced beyond its immutable pre-merge finalization root with a documented parity correction; supersede the predecessor without rewriting its archive or receipts and let WI-264 own the exact cleanup recovery.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "WI-264 must complete a fresh verification and exact provider/local resource cleanup before close.",
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-264-wi263-finalization-recovery",
+  "workItemId": "WI-263-wi260-reconciliation"
+}

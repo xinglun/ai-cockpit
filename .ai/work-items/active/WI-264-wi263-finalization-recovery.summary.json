@@ -1,0 +1,31 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-25T02:37:00Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T02:34:46Z",
+  "failedGate": "finish.governance",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-25T02:44:04Z",
+  "preflightContractDigest": "sha256:7486e0a9b2dd476b71e70a9eacb36d368613224671fe3d6c0d0ce02063c942d1",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:b68a222dc63f3899d5c61d0e8a5a766f27b48fdfdfe1d37ff9be5d2a63d5dbdf",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-264-wi263-finalization-recovery.verification.json",
+        ".ai/decisions/WI-263-wi260-reconciliation.finalize.json"
+      ],
+      "required": true,
+      "scenario": "stale finalization head fails closed",
+      "status": "verified"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-08-25T02:44:08Z",
+  "workItemId": "WI-264-wi263-finalization-recovery"
+}

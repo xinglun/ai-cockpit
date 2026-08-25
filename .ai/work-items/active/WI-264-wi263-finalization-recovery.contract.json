@@ -1,0 +1,67 @@
+{
+  "acceptanceCriteria": [
+    "WI-263 immutable archive and pre-merge finalization bytes remain unchanged",
+    "The recovery receipt binds predecessor Contract Summary Outcome and event digests and current Runtime identity",
+    "The exact merged PR 215 head and merge commit are recorded without rewriting predecessor receipts",
+    "Post-merge finalization is verified or fails closed with a documented recovery boundary",
+    "The exact WI-263 remote branch and worktree are deleted only after provider and local cleanup evidence is verified",
+    "English Simplified Chinese and Japanese documentation describe the recovery and remaining unknowns"
+  ],
+  "authority": "authorized",
+  "baseRevision": "47c9dd8e7107526f280274a92ccc7399493125cb",
+  "createdAt": "2026-08-25T02:34:46Z",
+  "goal": "Record a bounded recovery successor for WI-263 and close the exact merged branch and worktree boundary.",
+  "intent": "Reconcile the merged WI-263 finalization head mismatch and complete exact provider resource cleanup without rewriting immutable predecessor bytes.",
+  "mode": "implementation",
+  "outOfScope": [
+    "WI-263 immutable archive Contract Summary Outcome Events and verification bytes",
+    "quality route and gate migration",
+    "user-global Agent or MCP configuration"
+  ],
+  "predecessorWorkItemId": "WI-263-wi260-reconciliation",
+  "predecessorContractDigest": "sha256:28a9bbab17cf3064b9d2c9b9b3fab7f3ebdeb1a679233ea2d15666d364e6d4e2",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "recoveryDecisionPath": ".ai/decisions/WI-263-wi260-reconciliation.recovery.json",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:288e08a368df1716f36625869490f1db3c7589505f9667f6dbafa0ff6b48918d",
+  "scenarioCoverage": [
+    {
+      "scenario": "stale finalization head fails closed",
+      "required": true,
+      "status": "unverified",
+      "expected": "The installed Runtime rejects a post-merge finalization receipt whose predecessor head is stale instead of accepting a mismatched transition.",
+      "verificationPlan": "Run the focused governance integrity and resource-finalization checks and retain the Runtime-bound verification evidence before recording cleanup receipts."
+    }
+  ],
+  "requiredEvidenceClasses": [
+    "verification",
+    "recovery_decision",
+    "resource_finalization",
+    "documentation_parity"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-264-wi263-finalization-recovery",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi264-finalization-recovery"
+  },
+  "risk": "high",
+  "scope": [
+    ".ai/decisions/WI-263-wi260-reconciliation.finalize.json",
+    ".ai/decisions/WI-263-wi260-reconciliation.finalize.*",
+    ".ai/decisions/WI-264-wi263-finalization-recovery.recovery.json",
+    ".ai/evidence/WI-264-wi263-finalization-recovery.verification.json",
+    ".ai/work-items/active/WI-264-wi263-finalization-recovery.*",
+    ".ai/work-items/archive/WI-264-wi263-finalization-recovery.*",
+    "docs/work-items/WI-264-wi263-finalization-recovery.md",
+    "docs/work-items/WI-264-wi263-finalization-recovery.zh-CN.md",
+    "docs/work-items/WI-264-wi263-finalization-recovery.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-264-wi263-finalization-recovery"
+}
