@@ -547,6 +547,21 @@ fn repository_bound_capability_show_exposes_runtime_identity() {
         response["result"]["structuredContent"]["runtimeVersion"],
         test_runtime_context().runtime_version
     );
+    assert_eq!(
+        response["result"]["structuredContent"]["projectGovernance"]["schemaVersion"],
+        1
+    );
+    assert_eq!(
+        response["result"]["structuredContent"]["projectGovernance"]["repositoryId"],
+        response["result"]["structuredContent"]["repositoryId"]
+    );
+    assert!(
+        response["result"]["structuredContent"]["projectGovernance"]["unknowns"]
+            .as_array()
+            .expect("project governance unknowns")
+            .iter()
+            .any(|item| item == "project_capabilities_missing")
+    );
     assert!(
         response["result"]["structuredContent"]["adopterCapabilities"]
             .as_array()

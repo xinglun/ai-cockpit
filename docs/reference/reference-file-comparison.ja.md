@@ -105,19 +105,18 @@ complete parity とは扱いません。
 ## 現在の ledger snapshot
 
 固定した v0.2.31 comparison baseline の ledger は 5,119 records です。内訳は
-4,262 `generated-history`、163 `implemented-different-by-design`、1
-`implemented-equivalent`、689 `deferred-next-batch`、4 `migrate-gap` です。
-Deferred record は予定された比較であり parity claim ではありません。未解決の
-capability/profile gap は次の 4 file です。
+4,262 `generated-history`、167 `implemented-different-by-design`、1
+`implemented-equivalent`、689 `deferred-next-batch` です。Deferred record は予定された
+比較であり parity claim ではありません。capability/profile slice に `migrate-gap` は残っていません。
 
-1. `.ai/project/adopter-capability-manifest.json`
-2. `.ai/project/capabilities.json`
-3. `.ai/project/success_criteria.json`
-4. `.ai/project_profile.yaml`
+1. `.ai/project/adopter-capability-manifest.json` は Runtime registry で表現し、installer-surface は external boundary とします。
+2. `.ai/project/capabilities.json` は strict な Rust-native declaration と明示的な operation mapping で表現します。
+3. `.ai/project/success_criteria.json` は authority を持たない snapshot-bound visibility projection です。
+4. `.ai/project_profile.yaml` は `.ai/project.json` と strict JSON `profile-policy.json` projection で表現します。
 
-Governance entrypoint、getting-started route、CI/release boundary、capability
-projection はこの baseline で review 済みです。既存 Rust behavior はこの 4 file-level
-gap や 689 deferred semantic comparison を自動的に close しません。
+Governance entrypoint、getting-started route、CI/release boundary、capability/profile
+projection はこの baseline で review 済みです。上記 4 件は bounded な Rust-native counterpart として登録済みで、
+689 deferred semantic comparison は後続作業として残ります。
 
 WI-274 は target checkout metadata と canonical comparison snapshot だけを、レビュー済み
 default branch commit に再バインドします。WI-273 は immutable な failed-delivery record として

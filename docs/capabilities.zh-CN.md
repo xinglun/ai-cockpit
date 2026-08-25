@@ -301,8 +301,28 @@ ai-cockpit diagnose --repo /path/to/repository --work-item WI-123
 不会在缺少显式 acceptance evidence 时输出 `adopter_accepted`。hosted CI、签名、SBOM、production sandbox 等
 exclusion 仍属于外部边界。缺失、格式错误、过期或 foreign 输入会生成稳定 unknown，而不是 verified claim。
 该 registry 不是 installed-surface manifest：它不会复制 reference template 的 `templateFiles`、
-`installedFiles`、schema/entrypoint 列表或 `verifyInstalledSurface` 检查。该 manifest 与 project-level
-capability-to-scope acceptance 仍是明确的 migration gap。
+`installedFiles`、schema/entrypoint 列表或 `verifyInstalledSurface` 检查。installer-surface manifest
+仍属于外部 Release/adopter 边界，不复制到本 repository。
+
+### 声明项目 capability 与 profile policy
+
+项目可以在 `.ai/project/` 下添加明确、由 repository 所有的 JSON 声明：
+
+- `capabilities.json`：capability、non-capability、critical domain，以及由 Contract
+  显式 operation 使用的精确 `operationMappings`；
+- `success_criteria.json`：可见的项目 criteria 与 evidence hint；不能替代 Contract acceptance，
+  也不能产生批准；
+- `profile-policy.json`：批准的路径边界、critical path、review requirement 和显式 unknown。
+  `.ai/project.json` 仍是严格的 identity 与 observed-quality profile。
+
+每个声明都使用严格 schema，仅接受 regular file，绑定 repository identity 与审查时的 repository
+snapshot。`capability show` 和 MCP `capability_show` 暴露语义 digest、可见但不具授权能力的 success criteria 与稳定 unknown code，但不会写入声明。
+当 Contract 显式声明 `operation` 或 `requestedOperation` 时，Preflight 要求存在匹配且足够的 mapping；
+缺失、格式错误、foreign、过期、冲突或能力不足的声明保持 yellow/unknown。Contract intent prose 和
+自动检测到的文件都不能替代 mapping。没有显式 operation 的旧 Contract 保持兼容。
+
+这些声明是 Rust-native governance projection，不是复制 reference Python runtime、Make target 或
+installer manifest。`attach` 不会替人发明它们，project success criteria 也不能授权 Work Item。
 新生成的 OutcomeV2 还包含严格的
 `taskOutcomeReport`，其中有绑定 evidence 的 sections、`failedGate`/`recoveryCondition`，以及追加写入的
 `<id>.events.jsonl`。`finish` 创建事件流，`archive` 绑定其 digest，`close` 在 receipt 中记录已校验的

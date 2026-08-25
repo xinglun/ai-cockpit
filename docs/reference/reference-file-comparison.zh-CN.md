@@ -102,18 +102,18 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 ## 当前台账快照
 
 在固定的 v0.2.31 比较基线上，台账共有 5,119 条记录：4,262 条
-`generated-history`、163 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、689 条 `deferred-next-batch` 与 4 条
-`migrate-gap`。deferred 记录仍是待比较工作，不是 parity 声明。四个尚未补齐的
-capability/profile 文件是：
+`generated-history`、167 条 `implemented-different-by-design`、1 条
+`implemented-equivalent` 与 689 条 `deferred-next-batch`。deferred 记录仍是待比较
+工作，不是 parity 声明。capability/profile slice 已没有 `migrate-gap`：
 
-1. `.ai/project/adopter-capability-manifest.json`
-2. `.ai/project/capabilities.json`
-3. `.ai/project/success_criteria.json`
-4. `.ai/project_profile.yaml`
+1. `.ai/project/adopter-capability-manifest.json` 由 Runtime registry 表达，installer-surface
+   仍是外部边界。
+2. `.ai/project/capabilities.json` 由严格 Rust-native declaration 与显式 operation mapping 表达。
+3. `.ai/project/success_criteria.json` 作为不具授权能力、绑定 snapshot 的可见 projection 表达。
+4. `.ai/project_profile.yaml` 由 `.ai/project.json` 与严格 JSON `profile-policy.json` projection 表达。
 
-治理入口、getting-started 路线、CI/release 边界与 capability projection 已按该基线审阅；
-现有 Rust 行为不会自动关闭这四个文件级 gap，也不会把 689 条 deferred 语义比较当作完成。
+治理入口、getting-started 路线、CI/release 边界与 capability/profile projection 已按该基线审阅；
+以上四条是有界的 Rust-native counterpart，689 条 deferred 语义比较仍是后续工作。
 
 WI-274 只将目标 checkout metadata 和 canonical comparison snapshot 重新绑定到已审阅的
 默认分支提交。WI-273 保持为不可变的失败交付记录：其首次提交无法证明 parity 登记先于

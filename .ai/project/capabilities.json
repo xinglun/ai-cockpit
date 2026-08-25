@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e1e1bad3ed15b610ad4e30a69968a86ea8c2e87536fc60669336a785ff5c1a2e",
+  "capabilities": [
+    "ai_governance",
+    "documentation",
+    "release_supply_chain",
+    "rust_implementation",
+    "test_automation"
+  ],
+  "nonCapabilities": [
+    "enterprise_approval",
+    "hosted_ci",
+    "physical_operation",
+    "production_deployment"
+  ],
+  "criticalDomains": [
+    "repository_governance",
+    "release",
+    "security"
+  ],
+  "operationMappings": {
+    "documentation.modify": ["documentation"],
+    "implementation.modify": ["rust_implementation"],
+    "repository_governance.modify": ["ai_governance"],
+    "release.publish": ["release_supply_chain"],
+    "tests.modify": ["test_automation"]
+  }
+}

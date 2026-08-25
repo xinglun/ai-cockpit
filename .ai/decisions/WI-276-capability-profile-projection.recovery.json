@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-recovery",
+  "decidedAt": "2026-08-25T12:42:32Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-276-capability-profile-projection.verification.json",
+    "target/hosted-quality-WI-276.log"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md",
+    "docs/reference/governance-integrity-gate.md"
+  ],
+  "predecessorContractDigest": "sha256:bb1cd1a5ec46264da151dcee8b337b6e5665adb8a24c562b6a2fe8546eb60640",
+  "predecessorEventsDigest": "sha256:03b2c303446d90aab4912712c291771c8182a5239eb2915083912b1058dc2d26",
+  "predecessorOutcomeDigest": "sha256:eda9f49622507de3870ae8e9de6f6323fc22d9b69add8cddd467d8947c582564",
+  "predecessorSummaryDigest": "sha256:e892b2f97c9004c029b1f08b2afdfe4bab61da8106abf791b7441ec11032cf9e",
+  "predecessorWorkItemId": "WI-276-capability-profile-projection",
+  "reason": "Hosted governance found that the archived capability projection was delivered without the required tri-language parity registration and without a provider-bound finalization context; immutable predecessor bytes require a successor redelivery.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Create the bound successor with parity rows before verification, use the actual PR URL in finalization planning, then rerun adopter-equivalent release gates.",
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-277-capability-profile-parity-recovery",
+  "workItemId": "WI-276-capability-profile-projection"
+}

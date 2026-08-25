@@ -1629,47 +1629,57 @@
     {
       "referencePath": ".ai/project/adopter-capability-manifest.json",
       "batch": "capability-status-projection",
-      "classification": "migrate-gap",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-protocol/src/lib.rs",
         "crates/cockpit-repository/src/lib.rs",
         "crates/cockpit-cli/src/main.rs",
         "crates/cockpit-mcp/src/lib.rs",
+        "crates/cockpit-repository/tests/project_governance.rs",
         "docs/capabilities.md"
       ],
-      "reason": "No exact Rust counterpart exists for the reference installed-surface manifest: the Runtime-native registry binds current Runtime/repository truth, while templateFiles, installedFiles, schemas, entrypoint checks, verifyInstalledSurface, and adopter acceptance remain a deferred boundary."
+      "reason": "The Runtime-native capability registry and release/adopter acceptance evidence provide the governance projection; the reference templateFiles, installedFiles, schemas, and verifyInstalledSurface installer manifest remain an explicit external Release boundary and are not copied into the repository."
     },
     {
       "referencePath": ".ai/project/capabilities.json",
       "batch": "capability-status-projection",
-      "classification": "migrate-gap",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
+        ".ai/project/capabilities.json",
         "crates/cockpit-protocol/src/lib.rs",
-        "crates/cockpit-repository/src/lib.rs"
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/project_governance.rs",
+        "crates/cockpit-repository/tests/project_governance.rs"
       ],
-      "reason": "No exact Rust counterpart exists for the reference repository-authored capability declaration: the current projection reports observed and Runtime-supported truth only, and never infers adopter acceptance."
+      "reason": "A strict Rust-native repository declaration now binds capabilities, non-capabilities, critical domains, and explicit operation mappings to repository identity and snapshot; it never infers adopter acceptance."
     },
     {
       "referencePath": ".ai/project/success_criteria.json",
       "batch": "capability-status-projection",
-      "classification": "migrate-gap",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
+        ".ai/project/success_criteria.json",
         "crates/cockpit-protocol/src/lib.rs",
         "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/project_governance.rs",
+        "crates/cockpit-repository/tests/project_governance.rs",
         "docs/reference/commands.md"
       ],
-      "reason": "No exact Rust counterpart exists for the reference project-level capability/intent guard criteria; Contract acceptance and Summary/Outcome evidence cover per-Work-Item completion but do not prove capability-to-scope mappings."
+      "reason": "Project success criteria are a strict, visible compatibility projection bound to the repository snapshot; Contract acceptance remains authoritative and the criteria cannot approve, complete, or replace a Work Item."
     },
     {
       "referencePath": ".ai/project_profile.yaml",
       "batch": "capability-status-projection",
-      "classification": "migrate-gap",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         ".ai/project.json",
+        ".ai/project/profile-policy.json",
         "crates/cockpit-protocol/src/lib.rs",
-        "crates/cockpit-repository/src/lib.rs"
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/project_governance.rs",
+        "crates/cockpit-repository/tests/project_governance.rs"
       ],
-      "reason": "No exact Rust counterpart exists for the complete reference project-profile policy surface; .ai/project.json supplies only strict repository profile and identity facts."
+      "reason": "The Rust-native JSON profile policy preserves approved boundaries, critical domains, review requirements, and explicit unknowns beside the strict identity/observed profile in .ai/project.json; no YAML parser or reference runtime is copied."
     },
     {
       "referencePath": ".ai/quality/gates.yaml",

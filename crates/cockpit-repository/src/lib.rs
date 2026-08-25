@@ -47,9 +47,11 @@ use thiserror::Error;
 
 mod governance_controls;
 mod outcome_render;
+mod project_governance;
 
 pub use governance_controls::*;
 pub use outcome_render::render_human_outcome;
+pub use project_governance::*;
 
 static NEXT_ATOMIC_WRITE_ID: AtomicU64 = AtomicU64::new(0);
 static NEXT_REPOSITORY_ID: AtomicU64 = AtomicU64::new(0);
@@ -6469,6 +6471,7 @@ fn governance_decision_for_contract_base_internal_with_archive(
     )?;
     let mut explicit_unknowns = signals.unknowns;
     explicit_unknowns.extend(contract_review_unknowns(contract));
+    explicit_unknowns.extend(project_governance_unknowns(root, contract, snapshot)?);
     let contract_value = serde_json::to_value(contract).map_err(|error| ObserverError::State {
         path: root.join(".ai/work-items"),
         message: error.to_string(),
@@ -11617,6 +11620,7 @@ fn capability_truth_registry_internal(
         adopter_capabilities,
         exclusions,
         unknowns: registry_unknowns,
+        project_governance: Some(project_governance_projection(&root, &snapshot)?),
     })
 }
 

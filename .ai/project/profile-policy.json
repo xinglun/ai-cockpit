@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e1e1bad3ed15b610ad4e30a69968a86ea8c2e87536fc60669336a785ff5c1a2e",
+  "approvedBoundaries": {
+    "productionRoots": ["crates/**", "scripts/**"],
+    "featureRoots": ["crates/**", "tests/**"],
+    "testRoots": ["crates/**/tests/**", "tests/**"],
+    "generatedPaths": [".ai/evidence/**", ".ai/work-items/**", "target/**"],
+    "criticalPaths": [".ai/**", ".github/workflows/**", "Cargo.lock", "crates/cockpit-core/**"]
+  },
+  "criticalDomains": [
+    "repository_governance",
+    "release",
+    "security"
+  ],
+  "reviewRequirements": [
+    "high_risk_contract",
+    "hosted_ci_for_release",
+    "human_decision_for_terminal_state"
+  ],
+  "unknowns": []
+}

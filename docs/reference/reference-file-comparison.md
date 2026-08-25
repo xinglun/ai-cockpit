@@ -120,20 +120,24 @@ green parity.
 ## Current ledger snapshot
 
 At the pinned v0.2.31 comparison baseline, the ledger contains 5,119 records:
-4,262 `generated-history`, 163 `implemented-different-by-design`, one
-`implemented-equivalent`, 689 `deferred-next-batch`, and four `migrate-gap`
-records. Deferred records remain scheduled work, not parity claims. The four
-open capability/profile gaps are:
+4,262 `generated-history`, 167 `implemented-different-by-design`, one
+`implemented-equivalent`, and 689 `deferred-next-batch` records. Deferred
+records remain scheduled work, not parity claims. The capability/profile slice
+has no remaining `migrate-gap` records:
 
-1. `.ai/project/adopter-capability-manifest.json`
-2. `.ai/project/capabilities.json`
-3. `.ai/project/success_criteria.json`
-4. `.ai/project_profile.yaml`
+1. `.ai/project/adopter-capability-manifest.json` is represented by the
+   Runtime registry and remains an external installer-surface boundary.
+2. `.ai/project/capabilities.json` is represented by the strict Rust-native
+   declaration and explicit operation mapping.
+3. `.ai/project/success_criteria.json` is represented as a non-authoritative,
+   snapshot-bound visibility projection.
+4. `.ai/project_profile.yaml` is represented by `.ai/project.json` plus the
+   strict JSON `profile-policy.json` projection.
 
 The governance entrypoints, getting-started routes, CI/release boundaries, and
-capability projections have been reviewed at this baseline. Existing Rust
-behavior does not automatically close those four file-level gaps or the 689
-deferred semantic comparisons.
+capability/profile projections have been reviewed at this baseline. The four
+records above are Rust-native, explicitly bounded counterparts; the 689
+deferred semantic comparisons remain scheduled work.
 
 WI-274 rebinds only the target checkout metadata and canonical comparison
 snapshot to the reviewed default-branch commit. WI-273 remains an immutable

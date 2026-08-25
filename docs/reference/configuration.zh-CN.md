@@ -47,6 +47,20 @@ Runtime 会验证两个字段并拒绝 identity 不一致。不要把 runtime so
 version 增加，并把选定质量命令记录为 verified。wrapper 包含 `profileVersion`、`repositoryId`、
 `state`、`profileDigest`、`tests` 和 `buildSystems`；未知 profile 字段会被拒绝。
 
+## `.ai/project/` 声明
+
+采用者可以添加三个严格的、由 repository 所有的 JSON 声明：
+
+- `capabilities.json`：capability、non-capability、critical domain，以及精确的 operation-to-capability mapping；
+- `success_criteria.json`：只用于展示项目 criteria 与 evidence hint；Contract acceptance 仍然具有权威；
+- `profile-policy.json`：批准的边界、critical path、review requirement 与显式 unknown。这是 reference profile policy 的
+  JSON projection，`.ai/project.json` 仍然负责 identity 与 observed-quality profile。
+
+每个文件只接受 regular file，拒绝未知字段和重复 JSON 键，并绑定 repository ID 与审查时的 snapshot digest。
+`capability show` 和 MCP `capability_show` 只报告语义 declaration digest，不写入它们。Contract 显式声明
+`operation`/`requestedOperation` 时，Preflight 必须找到足够的 mapping；输入缺失、格式错误、foreign、过期或冲突时
+保持 yellow/unknown。intent prose 不能满足 mapping，project criterion 也不能批准或完成 Work Item。
+
 ## `.ai/policy.json`
 
 企业采用者可以选择严格的策略文件，而不改变 TOML 配置格式：

@@ -103,41 +103,51 @@ def wi270_counterpart(path: str) -> tuple[list[str], str] | None:
     return WI270_REFERENCE_FILES.get(path)
 CAPABILITY_STATUS_RECORDS: dict[str, tuple[str, list[str], str]] = {
     ".ai/project/adopter-capability-manifest.json": (
-        "migrate-gap",
+        "implemented-different-by-design",
         [
             "crates/cockpit-protocol/src/lib.rs",
             "crates/cockpit-repository/src/lib.rs",
             "crates/cockpit-cli/src/main.rs",
             "crates/cockpit-mcp/src/lib.rs",
+            "crates/cockpit-repository/tests/project_governance.rs",
             "docs/capabilities.md",
         ],
-        "No exact Rust counterpart exists for the reference installed-surface manifest: the Runtime-native registry binds current Runtime/repository truth, while templateFiles, installedFiles, schemas, entrypoint checks, verifyInstalledSurface, and adopter acceptance remain a deferred boundary.",
+        "The Runtime-native capability registry and release/adopter acceptance evidence provide the governance projection; the reference templateFiles, installedFiles, schemas, and verifyInstalledSurface installer manifest remain an explicit external Release boundary and are not copied into the repository.",
     ),
     ".ai/project/capabilities.json": (
-        "migrate-gap",
+        "implemented-different-by-design",
         [
+            ".ai/project/capabilities.json",
             "crates/cockpit-protocol/src/lib.rs",
             "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-repository/src/project_governance.rs",
+            "crates/cockpit-repository/tests/project_governance.rs",
         ],
-        "No exact Rust counterpart exists for the reference repository-authored capability declaration: the current projection reports observed and Runtime-supported truth only, and never infers adopter acceptance.",
+        "A strict Rust-native repository declaration now binds capabilities, non-capabilities, critical domains, and explicit operation mappings to repository identity and snapshot; it never infers adopter acceptance.",
     ),
     ".ai/project/success_criteria.json": (
-        "migrate-gap",
+        "implemented-different-by-design",
         [
+            ".ai/project/success_criteria.json",
             "crates/cockpit-protocol/src/lib.rs",
             "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-repository/src/project_governance.rs",
+            "crates/cockpit-repository/tests/project_governance.rs",
             "docs/reference/commands.md",
         ],
-        "No exact Rust counterpart exists for the reference project-level capability/intent guard criteria; Contract acceptance and Summary/Outcome evidence cover per-Work-Item completion but do not prove capability-to-scope mappings.",
+        "Project success criteria are a strict, visible compatibility projection bound to the repository snapshot; Contract acceptance remains authoritative and the criteria cannot approve, complete, or replace a Work Item.",
     ),
     ".ai/project_profile.yaml": (
-        "migrate-gap",
+        "implemented-different-by-design",
         [
             ".ai/project.json",
+            ".ai/project/profile-policy.json",
             "crates/cockpit-protocol/src/lib.rs",
             "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-repository/src/project_governance.rs",
+            "crates/cockpit-repository/tests/project_governance.rs",
         ],
-        "No exact Rust counterpart exists for the complete reference project-profile policy surface; .ai/project.json supplies only strict repository profile and identity facts.",
+        "The Rust-native JSON profile policy preserves approved boundaries, critical domains, review requirements, and explicit unknowns beside the strict identity/observed profile in .ai/project.json; no YAML parser or reference runtime is copied.",
     ),
     ".ai/cockpit/work-items/index.json": (
         "implemented-different-by-design",

@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-25T12:33:31Z",
+  "files": {
+    "contractDigest": "sha256:fd1b65b83c398e11f7d7e7d42c8e1918620b1145930939b49f343a9e8cf3394d",
+    "contractPath": ".ai/work-items/archive/WI-276-capability-profile-projection.contract.json",
+    "eventsDigest": "sha256:03b2c303446d90aab4912712c291771c8182a5239eb2915083912b1058dc2d26",
+    "eventsPath": ".ai/work-items/archive/WI-276-capability-profile-projection.events.jsonl",
+    "outcomeDigest": "sha256:27d94fac4de17821fda435998fe9c25d221454900b4c592ef268f037791d9979",
+    "outcomePath": ".ai/work-items/archive/WI-276-capability-profile-projection.outcome.json",
+    "summaryDigest": "sha256:e632025b7ebaf605f790ab57624d2c197a86c01c5fb1bb29ef0d36a9189d8e59",
+    "summaryPath": ".ai/work-items/archive/WI-276-capability-profile-projection.summary.json",
+    "taskReportDigest": "sha256:a455971f0d34e228a6279fdee8e559d3b40faaec59cad5d08dafce664894cd60",
+    "taskReportMarkdownDigest": "sha256:5308abab81a71a457b5d717439b359c5806702e996474e27bf11a4a23cdb6fbd",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-276-capability-profile-projection.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-276-capability-profile-projection.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-276-capability-profile-projection"
+}
