@@ -6,7 +6,7 @@ description: "以 Rust-native fail-closed regression 和真实台账关闭参考
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 lastVerifiedBy: WI-287-reference-checkpoint-conformance
 authority: canonical
 ---
@@ -43,4 +43,3 @@ authority: canonical
 
 执行 `cargo test --locked --workspace`、conformance 台账回归、文档验收和
 repository governance gate。
-

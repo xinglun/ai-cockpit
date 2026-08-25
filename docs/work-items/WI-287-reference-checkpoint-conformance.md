@@ -6,7 +6,7 @@ description: "Close the reference checkpoint file-level comparison gap with Rust
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 lastVerifiedBy: WI-287-reference-checkpoint-conformance
 authority: canonical
 ---
@@ -50,4 +50,3 @@ human Outcome remains the handoff boundary.
 
 Declared verification: `cargo test --locked --workspace`, conformance ledger
 regression, documentation acceptance, and the repository governance gate.
-

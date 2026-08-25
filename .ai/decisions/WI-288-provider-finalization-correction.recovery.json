@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "hosted-quality-doc-status-gate",
+  "decidedAt": "2026-08-26T00:00:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/248",
+    ".ai/work-items/archive/WI-288-provider-finalization-correction.archive.json",
+    ".ai/decisions/WI-288-provider-finalization-correction.finalize.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:premerge-finalization-before-close"
+  ],
+  "predecessorContractDigest": "sha256:4264dc3d27158a2e61439f32bb1dc1547bda653611b6bc6a72dde3bcb8098015",
+  "predecessorEventsDigest": "sha256:972a7e2a35047917bca18b886d9824cb63d3381a8cd8d391332e9c6510b1efd5",
+  "predecessorOutcomeDigest": "sha256:f32e6e6054c31424fa461ff635da05a171163cdfbf86f7413f835cfa66cba78a",
+  "predecessorSummaryDigest": "sha256:592052217fc45d36010281d56ba6cd98da3d99ac05966df2f3aa25abeb1f11ad",
+  "predecessorWorkItemId": "WI-288-provider-finalization-correction",
+  "reason": "Supersede immutable WI-288 because hosted quality found the recovered WI-287 tri-language documentation status still marked in_progress after archive. Preserve all WI-288 bytes and re-deliver the same bounded checkpoint-conformance correction with documentation status fixed before verification and finalization.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "WI-289 must start from the successor snapshot with WI-287 tri-language documentation status recovered, bind a new provider PR before verification, pass hosted quality, then finalize, verify, close, and clean the exact resources.",
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-289-checkpoint-conformance-terminal",
+  "workItemId": "WI-288-provider-finalization-correction"
+}

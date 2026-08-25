@@ -6,7 +6,7 @@ description: "在实际 Provider PR 身份已知后重新交付 predecessor 实�
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 lastVerifiedBy: WI-288-provider-finalization-correction
 authority: canonical
 ---
