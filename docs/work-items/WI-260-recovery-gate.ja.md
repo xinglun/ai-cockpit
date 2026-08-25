@@ -6,7 +6,7 @@ description: "不変 predecessor の recovery を governance inventory と文書
 audience:
   - maintainer
   - reviewer
-status: in-progress
+status: recovered
 lastVerifiedBy: WI-260-recovery-gate
 authority: canonical
 ---

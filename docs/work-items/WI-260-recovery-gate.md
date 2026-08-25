@@ -6,7 +6,7 @@ description: "Make immutable predecessor recovery converge in governance invento
 audience:
   - maintainer
   - reviewer
-status: in-progress
+status: recovered
 lastVerifiedBy: WI-260-recovery-gate
 authority: canonical
 ---

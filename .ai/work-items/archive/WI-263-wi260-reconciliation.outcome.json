@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "WI-260 immutable archive and blocked pre-merge finalization root remain byte-identical.",
+    "Reconciliation records bind PR #212, reviewed branch head 84b159d06038b16bbb4a3eae3c1252765c144efb, merge commit 5e426413f08ed54fe54029e0b910056aa4dceba2, and exact branch/worktree cleanup evidence.",
+    "The Runtime accepts a valid linear finalization chain or fails closed with a documented recovery boundary; no historical bytes are hand-edited.",
+    "English, Simplified Chinese, and Japanese WI/parity documentation describe the reconciliation and remaining unknowns accurately.",
+    "Focused governance/docs checks and installed Runtime inspection/lifecycle checks pass."
+  ],
+  "createdAt": "2026-08-25T02:16:58Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:bdf1c9737f03a0f61b1fffa219f91a02f97a3ffebd731c9d689993a73907a840",
+  "evidenceRefs": [
+    ".ai/evidence/WI-263-wi260-reconciliation.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-263-wi260-reconciliation.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-263-wi260-reconciliation.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c741b5f961a13b498512e8f55fb16c1f6bdabe43220bc4843f88310e353f6ccd",
+      "workItemId": "WI-263-wi260-reconciliation"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-263-wi260-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-263-wi260-reconciliation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-263-wi260-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-263-wi260-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-263-wi260-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-263-wi260-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-263-wi260-reconciliation.contract.json"
+          ],
+          "inference": false,
+          "text": "Record an auditable post-merge reconciliation plan for WI-260, preserve its immutable truth, and document the exact cleanup/closure boundary."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-263-wi260-reconciliation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-263-wi260-reconciliation"
+  },
+  "taskReportDigest": "sha256:b89e81f41093775f515917a78726524122b8b30ef09582fc4dddd5362be6cfab",
+  "taskReportMarkdownDigest": "sha256:492d99c07e8460b1f4433b27aa0dcd06f2edccb03fec7bedba57fd1d70574997",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-263-wi260-reconciliation.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-263-wi260-reconciliation"
+}

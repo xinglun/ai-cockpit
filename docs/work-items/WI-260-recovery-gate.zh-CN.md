@@ -6,7 +6,7 @@ description: "让不可变 predecessor 的恢复状态在治理清单和文档�
 audience:
   - maintainer
   - reviewer
-status: in-progress
+status: recovered
 lastVerifiedBy: WI-260-recovery-gate
 authority: canonical
 ---

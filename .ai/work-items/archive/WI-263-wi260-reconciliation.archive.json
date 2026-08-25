@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-25T02:17:01Z",
+  "files": {
+    "approachDigest": "sha256:eaa8fcddccba18eea507c2ffac989824345f66d87bfa166177a962acdccda150",
+    "approachPath": ".ai/work-items/archive/WI-263-wi260-reconciliation.approach.json",
+    "contractDigest": "sha256:f5fe1e343870ccfe3eca3d247bc28826678e4a2cd9052bbd173e1eeea9bf31f2",
+    "contractPath": ".ai/work-items/archive/WI-263-wi260-reconciliation.contract.json",
+    "eventsDigest": "sha256:58fef73692ff5847adf0aea8375a6ba64a0de6efccaaff8cadf7a6d2b0ea7db2",
+    "eventsPath": ".ai/work-items/archive/WI-263-wi260-reconciliation.events.jsonl",
+    "outcomeDigest": "sha256:245d5a63c7604b7e67d68e55d3be523aa51102a4d664377fa55b53cebae4bdad",
+    "outcomePath": ".ai/work-items/archive/WI-263-wi260-reconciliation.outcome.json",
+    "summaryDigest": "sha256:7d097bdd95798f490a3a7b4d52e365b0fca937f20271d52ed932679a75fae206",
+    "summaryPath": ".ai/work-items/archive/WI-263-wi260-reconciliation.summary.json",
+    "taskReportDigest": "sha256:b89e81f41093775f515917a78726524122b8b30ef09582fc4dddd5362be6cfab",
+    "taskReportMarkdownDigest": "sha256:492d99c07e8460b1f4433b27aa0dcd06f2edccb03fec7bedba57fd1d70574997",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-263-wi260-reconciliation.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-263-wi260-reconciliation.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-263-wi260-reconciliation"
+}

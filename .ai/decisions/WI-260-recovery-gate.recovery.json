@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-post-merge-reconciliation-recovery",
+  "decidedAt": "2026-08-25T02:10:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-260-recovery-gate.archive.json",
+    ".ai/evidence/WI-260-recovery-gate.verification.json",
+    ".ai/decisions/WI-260-recovery-gate.finalize.json",
+    "https://github.com/xinglun/ai-cockpit/pull/212"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:be9fc928ede030f39d2b9a2ca61f115386cd62d1c8f434c3b1022f93455c25eb",
+  "predecessorEventsDigest": "sha256:1c98e3395203feb7a69916f86f9abff4957d09c8baa6a3ce5c247b40b377735c",
+  "predecessorOutcomeDigest": "sha256:b9f4b202587ab421fd51c564de596467b7941ca67d390912b1eee28e58226c76",
+  "predecessorSummaryDigest": "sha256:f6c358928125503f89b612e61097d876dc3df43bdc7a37b81ce8b9589cd6bc8d",
+  "predecessorWorkItemId": "WI-260-recovery-gate",
+  "reason": "WI-260 PR #212 merged at reviewed head 84b159d06038b16bbb4a3eae3c1252765c144efb, but the immutable pre-merge receipt at d81475e cannot be advanced by the installed Runtime because the intervening reviewed commits are not an append-only finalization range. Preserve all WI-260 bytes and continue the exact cleanup/closure boundary through WI-263.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-263 from the synchronized default branch, bind its own reviewed PR context before verification/archive, and record exact cleanup with a valid Runtime finalization chain; never rewrite WI-260 historical bytes.",
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-263-wi260-reconciliation",
+  "workItemId": "WI-260-recovery-gate"
+}
