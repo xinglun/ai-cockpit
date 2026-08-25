@@ -6,12 +6,12 @@ description: "WI-273 の immutable failure truth を保持し、同期済み def
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 lastVerifiedBy: WI-274-reference-inventory-rebaseline-recovery
 terminalArchive: .ai/work-items/archive/WI-274-reference-inventory-rebaseline-recovery.contract.json
 terminalVerification: .ai/evidence/WI-274-reference-inventory-rebaseline-recovery.verification.json
 terminalFinalization: .ai/decisions/WI-274-reference-inventory-rebaseline-recovery.finalize.json
-terminalDecision: .ai/decisions/WI-274-reference-inventory-rebaseline-recovery.close.json
+terminalDecision: .ai/decisions/WI-274-reference-inventory-rebaseline-recovery.recovery.json
 authority: canonical
 ---
 

@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "post-archive-finalization-recovery",
+  "decidedAt": "2026-08-25T18:30:00+09:00",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-274-reference-inventory-rebaseline-recovery.finalize.json",
+    "https://github.com/xinglun/ai-cockpit/pull/232",
+    "docs/reference/reference-parity.md"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:premerge-finalization-before-close"
+  ],
+  "predecessorContractDigest": "sha256:abd2944f6738266bcbdd2f7b4d3f2e8411a402484f2e45b2ce079695815ae227",
+  "predecessorEventsDigest": "sha256:64737c529288c00b354e5713965e99f445c498d8852baaca15163f90c0679661",
+  "predecessorOutcomeDigest": "sha256:7edb8a9999878e66729e07cb24fe3d3769aa177a3b4c8fc64d2bb60805c25ee8",
+  "predecessorSummaryDigest": "sha256:602371f1791d8f6b1ee07a57289659ab911ec51920f488c4ef6ae924fd00ec28",
+  "predecessorWorkItemId": "WI-274-reference-inventory-rebaseline-recovery",
+  "reason": "WI-274 generated an immutable pre-merge finalization receipt before its final documentation correction. The hosted gate correctly rejects the receipt because its head revision is stale; preserve the predecessor bytes and redeliver the same bounded inventory from this branch with finalization recorded only after all documentation changes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-275 from the current branch, register its parity row before verification evidence, then finalize only after the final commit and complete hosted merge observation and cleanup.",
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-275-reference-inventory-rebaseline-finalization-recovery",
+  "workItemId": "WI-274-reference-inventory-rebaseline-recovery"
+}
