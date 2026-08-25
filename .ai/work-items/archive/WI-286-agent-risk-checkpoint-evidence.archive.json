@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-25T19:10:12Z",
+  "files": {
+    "approachDigest": "sha256:0dda98afff9876274dca5004369018815177c5620b623375e9bb87c49ca2a1ab",
+    "approachPath": ".ai/work-items/archive/WI-286-agent-risk-checkpoint-evidence.approach.json",
+    "contractDigest": "sha256:e88d3f6d68db26d766f647c298f3b3958cc9aaa7d14dcd677ffa1bc6ee09e883",
+    "contractPath": ".ai/work-items/archive/WI-286-agent-risk-checkpoint-evidence.contract.json",
+    "eventsDigest": "sha256:4c0f8c61ac4b46ff4e06c4fb8bf02c4e59c5caca9ea6765545338627326b4aa3",
+    "eventsPath": ".ai/work-items/archive/WI-286-agent-risk-checkpoint-evidence.events.jsonl",
+    "outcomeDigest": "sha256:3329036e3611920cbbd855328bd2678419f306662906d5b1a65ce8bd942e51b8",
+    "outcomePath": ".ai/work-items/archive/WI-286-agent-risk-checkpoint-evidence.outcome.json",
+    "summaryDigest": "sha256:22a8e1c6b7d8fdec7268440ef68f5068653ad3a0057acd112b7b19f01b674934",
+    "summaryPath": ".ai/work-items/archive/WI-286-agent-risk-checkpoint-evidence.summary.json",
+    "taskReportDigest": "sha256:635029aacd956473154540d7ff1e73b706219367b98172cb7b383686874c9463",
+    "taskReportMarkdownDigest": "sha256:ed55114d4cde6b562b570591b1d889f036b9c311141925aa83dba1f6834f80d5",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-286-agent-risk-checkpoint-evidence.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-286-agent-risk-checkpoint-evidence.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-286-agent-risk-checkpoint-evidence"
+}

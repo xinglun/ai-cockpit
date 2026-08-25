@@ -1,0 +1,147 @@
+{
+  "acceptanceResults": [
+    "A1: checkpointPolicy and checkpointEvidence are typed, strict, repository/Work Item/Contract bound, and preserve readable historical protocol-v1 records.",
+    "A2: before_edit and before_finish checkpoint stages are append-only and validated for stage, counts, Contract hash, required verification declarations, and fresh snapshot/lifecycle identity.",
+    "A3: Contract amendment and resume records form an append-only chain; stale pre-verification evidence cannot authorize finish, archive, close, or release.",
+    "A4: required verification declarations, riskAssessment, agentCapability, executionDecision, intent, and required scenarios are evaluated by the same Runtime route before execution and terminal lifecycle transitions.",
+    "A5: malformed, unknown-field, duplicate, missing, foreign, stale, contradictory, symlink, and policy-conflict inputs fail closed with stable machine codes and human-visible next actions.",
+    "A6: Rust-native regression tests cover the reference checkpoint/Agent-Risk negative matrix, and CI can invoke the same read-only gate without writing governance records.",
+    "A7: English, Simplified Chinese, and Japanese documentation accurately describe the enforced boundary, dynamic light/standard/strict policy boundary, and Contract-language presentation rule.",
+    "A8: the current repository remains an explicit-repo, shared-Runtime adopter; no Runtime code, global active state, global Agent/MCP configuration, or unbound repository state is introduced."
+  ],
+  "createdAt": "2026-08-25T19:10:12Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:9467e5799f7f0cef03af2555ad4482a0568094c5b03a93726189069073cd4d45",
+  "evidenceRefs": [
+    ".ai/evidence/WI-286-agent-risk-checkpoint-evidence.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-286-agent-risk-checkpoint-evidence.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-286-agent-risk-checkpoint-evidence.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:fd0ff4c879b9160b97ba145b150ca890cf5e52354892d4fd70166fc23c96debe",
+      "workItemId": "WI-286-agent-risk-checkpoint-evidence"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-286-agent-risk-checkpoint-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-286-agent-risk-checkpoint-evidence.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-286-agent-risk-checkpoint-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-286-agent-risk-checkpoint-evidence.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-286-agent-risk-checkpoint-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-286-agent-risk-checkpoint-evidence.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-286-agent-risk-checkpoint-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-286-agent-risk-checkpoint-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-286-agent-risk-checkpoint-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-286-agent-risk-checkpoint-evidence.contract.json"
+          ],
+          "inference": false,
+          "text": "Provide a typed, auditable Contract-risk/checkpoint boundary that the Runtime and CI can reuse without inventing human decisions or weakening repository isolation."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-286-agent-risk-checkpoint-evidence.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-286-agent-risk-checkpoint-evidence"
+  },
+  "taskReportDigest": "sha256:635029aacd956473154540d7ff1e73b706219367b98172cb7b383686874c9463",
+  "taskReportMarkdownDigest": "sha256:ed55114d4cde6b562b570591b1d889f036b9c311141925aa83dba1f6834f80d5",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-286-agent-risk-checkpoint-evidence.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-286-agent-risk-checkpoint-evidence"
+}

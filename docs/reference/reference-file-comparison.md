@@ -161,3 +161,19 @@ in this order:
 Each batch gets its own Contract and evidence. After a batch is reviewed and
 published, the next batch is rechecked with the published Runtime so that a
 working-tree change cannot masquerade as release behavior.
+
+## WI-286 file-level Agent Risk and checkpoint slice
+
+WI-286 compares the reference Agent Risk/checkpoint responsibility one file at
+a time. Source Python/YAML remains reference corpus only; Rust typed Protocol
+records and shared lifecycle validators enforce the bounded semantics.
+
+| Reference path | Classification | Rust counterpart |
+| --- | --- | --- |
+| `.ai/guards/agent_risk_policy.yaml` | implemented-different-by-design | Typed `checkpointPolicy`, Contract verification declarations, Agent Risk validator, and dynamic profile docs. |
+| `scripts/ai_check_agent_risk.py` | implemented-different-by-design | `validate_agent_risk_controls` is reused at lifecycle boundaries. |
+| `scripts/ai_checkpoint.py` | implemented-different-by-design | Typed `CheckpointEvidence`, amendment CLI, append-only chain, and resume-stale binding. |
+| `tests/test_ai_agent_risk.py`, `tests/test_ai_checkpoint.py`, `tests/test_outcome_lifecycle_rules.py` | implemented-different-by-design | Rust protocol/repository lifecycle and static Agent-rule parity tests. |
+
+This is semantic, not direct JSON-wire parity. CI invocation of the read-only
+Rust gate remains a later bounded CI batch.

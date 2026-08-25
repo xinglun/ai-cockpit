@@ -124,6 +124,26 @@ is a review finding, not a fact the Agent may repair by inference. Risk policy
 decides whether scenario coverage is required; the Runtime remains yellow/red
 until human-owned declarations and fresh evidence are present.
 
+Agent Risk and checkpoint controls use the same Rust lifecycle validator.
+Typed required verification declarations are consumed at preflight, verify,
+finish, archive, and close; missing, duplicate, failed, or invalidated gates
+never become permission through a presentation field. A typed
+`checkpointPolicy` selects only Verification strength (`light`, `standard`,
+`strict`, or `release`) and required stages/checks; it does not imply Evidence
+Assurance. `work-item revalidate-amendment --repo <repo> --id <id> --reason <text>`
+appends Contract-amendment evidence without replacing `before_edit`. After
+verification it invalidates prior required checks and requires fresh preflight
+and verification. Resume history is checked against checkpoint timestamps, so
+stale predecessor evidence cannot authorize a current Work Item.
+
+Finalization is snapshot-sensitive too: after the final verification, run
+`finish` and `archive` before committing Runtime-generated finish/outcome/archive
+records. A commit changes snapshot identity even when it contains only `.ai/`
+files; a commit between verification and archive makes the receipt stale and
+must be retried from the current Work Item, never bypassed. Commit archived
+records only after archive succeeds, then run provider finalization and hosted
+checks.
+
 ## Resource finalization boundary
 
 Finalization evidence is append-only. The canonical `<id>.finalize.json` is the immutable chain root; later provider observations use `<id>.finalize.<digest>.json` and bind the predecessor digest and sequence. The archived Contract freezes `baseRevision`: every canonical or transition receipt's `pullRequest.baseRevision` must equal that exact value during both recording and `finalize-verify`. Rebase before archive requires a fresh active Contract binding and review; rebase after archive is prohibited and requires fail-closed recovery instead of rewriting either record. `finalize-verify` and `close` require one unique linear head. Stale predecessors, forks, malformed records, symlinks, base mismatch, and identity drift fail closed. A pre-merge blocked root advances through continuous merge-observation (`retained`) and cleanup (`deleted`) transitions. If committing the canonical governance receipt advances the PR head, only the first unmerged-to-merged observation may declare `governanceAppendRevision`: all PR, branch, and worktree heads must move together, and Git must prove the old head is its ancestor. That append range may add regular same-Work-Item finalization receipts and the complete Runtime-generated post-finalize evidence bundle at exactly `.ai/evidence/<id>/quality-route-post-finalize.json` and `.ai/evidence/<id>/repository-gates-post-finalize.json`. Every accepted path is an `A`-only Git change whose tree entry is a `100644` regular blob. The evidence files must have their fixed schemas and bind the archived Contract, PR base and bounded head, route receipt digest, manifest digest, selected profile, and passing required gates. They are bound observations, not authority by themselves, and the range must still contain a finalization receipt addition. Missing bundle members, another Work Item or filename, malformed or duplicate-key JSON, mismatched bindings, deletion, modification, rename, symlink, unrelated change, non-merge drift, or later head drift is rejected. Archive bytes are never rewritten. Cleanup retains the accepted head.

@@ -124,6 +124,15 @@ preflight before its single checkpoint; verification refreshes that decision and
 finish/archive/close operations are rejected. Failed transitions leave active
 records in place for recovery.
 
+For a Contract that opts into typed checkpoint controls, `checkpointPolicy`
+declares a dynamic verification profile: `light` for low-risk/read-only work,
+`standard` for ordinary code changes, `strict` for governance/CI-sensitive
+changes, and `release` for immutable artifact and external-evidence boundaries.
+Required checks and stages remain explicit policy fields; the Runtime does not
+infer or silently upgrade them from the label. The profile does not mean
+Evidence Assurance; T3 and provider/enterprise assurance remain independent
+policy requirements.
+
 `work-item new --repo <path> --id <id> --mode <mode>` uses the same contract
 writer to create a `not_ready` skeleton. It fills only the four deterministic
 facts (`repositoryId`, `baseRevision`, `projectProfileDigest`, and

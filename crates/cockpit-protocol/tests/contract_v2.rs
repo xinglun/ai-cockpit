@@ -1,4 +1,6 @@
-use cockpit_protocol::{Contract, validate_scenario_coverage_projection};
+use cockpit_protocol::{
+    CheckpointEvidence, CheckpointPolicy, Contract, validate_scenario_coverage_projection,
+};
 
 fn contract_value() -> serde_json::Value {
     serde_json::json!({
@@ -339,4 +341,80 @@ fn legacy_nonempty_approval_extensions_remain_readable() {
     contract
         .validate()
         .expect("legacy approval remains readable");
+}
+
+#[test]
+fn checkpoint_policy_and_evidence_are_typed_and_strict() {
+    let policy: CheckpointPolicy = serde_json::from_value(serde_json::json!({
+        "schemaVersion": 1,
+        "profile": "strict",
+        "requiredBeforeFinish": true,
+        "requiredStages": ["before_edit", "before_finish"],
+        "requiredChecks": ["aiWorkItem", "aiScope"]
+    }))
+    .expect("typed checkpoint policy");
+    policy.validate().expect("valid checkpoint policy");
+
+    let evidence: CheckpointEvidence = serde_json::from_value(serde_json::json!({
+        "schemaVersion": 1,
+        "repositoryId": "sha256:repo",
+        "workItemId": "WI-CONTRACT-V2",
+        "stage": "before_edit",
+        "recorded": true,
+        "contractHash": "contract-hash",
+        "repositorySnapshotDigest": "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "acceptanceCount": 1,
+        "unknownCount": 0,
+        "requiredChecks": 2,
+        "requiredChecksPassed": 0,
+        "recordedAt": "2026-08-25T00:00:00Z"
+    }))
+    .expect("typed checkpoint evidence");
+    evidence
+        .validate_shape()
+        .expect("valid checkpoint evidence");
+
+    let mut unknown = serde_json::json!({
+        "schemaVersion": 1,
+        "profile": "strict",
+        "requiredBeforeFinish": true,
+        "requiredStages": ["before_edit"],
+        "untrusted": true
+    });
+    assert!(serde_json::from_value::<CheckpointPolicy>(unknown.take()).is_err());
+}
+
+#[test]
+fn invalid_checkpoint_policy_and_evidence_fail_closed() {
+    let policy: CheckpointPolicy = serde_json::from_value(serde_json::json!({
+        "profile": "strict",
+        "requiredBeforeFinish": true,
+        "requiredStages": ["before_edit", "before_edit"]
+    }))
+    .expect("shape remains readable");
+    let errors = policy.validate().expect_err("duplicate stage rejected");
+    assert!(errors.iter().any(|error| error.contains("duplicates")));
+
+    let evidence: CheckpointEvidence = serde_json::from_value(serde_json::json!({
+        "repositoryId": "sha256:repo",
+        "workItemId": "WI-CONTRACT-V2",
+        "stage": "before_edit",
+        "recorded": true,
+        "contractHash": "contract-hash",
+        "repositorySnapshotDigest": "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "acceptanceCount": 1,
+        "unknownCount": 0,
+        "requiredChecks": 1,
+        "requiredChecksPassed": 1,
+        "recordedAt": "2026-08-25T00:00:00Z"
+    }))
+    .expect("shape remains readable");
+    let errors = evidence
+        .validate_shape()
+        .expect_err("before_edit passed checks rejected");
+    assert!(
+        errors
+            .iter()
+            .any(|error| error.contains("zero passed checks"))
+    );
 }

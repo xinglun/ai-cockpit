@@ -1,0 +1,99 @@
+{
+  "acceptanceCriteria": [
+    "A1: checkpointPolicy and checkpointEvidence are typed, strict, repository/Work Item/Contract bound, and preserve readable historical protocol-v1 records.",
+    "A2: before_edit and before_finish checkpoint stages are append-only and validated for stage, counts, Contract hash, required verification declarations, and fresh snapshot/lifecycle identity.",
+    "A3: Contract amendment and resume records form an append-only chain; stale pre-verification evidence cannot authorize finish, archive, close, or release.",
+    "A4: required verification declarations, riskAssessment, agentCapability, executionDecision, intent, and required scenarios are evaluated by the same Runtime route before execution and terminal lifecycle transitions.",
+    "A5: malformed, unknown-field, duplicate, missing, foreign, stale, contradictory, symlink, and policy-conflict inputs fail closed with stable machine codes and human-visible next actions.",
+    "A6: Rust-native regression tests cover the reference checkpoint/Agent-Risk negative matrix, and CI can invoke the same read-only gate without writing governance records.",
+    "A7: English, Simplified Chinese, and Japanese documentation accurately describe the enforced boundary, dynamic light/standard/strict policy boundary, and Contract-language presentation rule.",
+    "A8: the current repository remains an explicit-repo, shared-Runtime adopter; no Runtime code, global active state, global Agent/MCP configuration, or unbound repository state is introduced."
+  ],
+  "authority": "authorized",
+  "baseRevision": "66171582d1dcae547c40da19050b3c342cc9eacc",
+  "createdAt": "2026-08-25T18:12:15Z",
+  "goal": "Provide a typed, auditable Contract-risk/checkpoint boundary that the Runtime and CI can reuse without inventing human decisions or weakening repository isolation.",
+  "intent": "Migrate the reference source Agent Risk and checkpoint evidence controls into the Rust Runtime so Contract intent, required verification, checkpoint stages, amendment lineage, resume invalidation, and execution decisions are enforced by one request-scoped fail-closed lifecycle validator.",
+  "mode": "code",
+  "outOfScope": [
+    "Verification planner tiers",
+    " affected dependency graph performance",
+    " cross-Work-Item physical execution deduplication",
+    " release/adopter harness implementation",
+    " global Agent/MCP configuration",
+    " and broad lib.rs decomposition."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:150067a0c5ca0a587d0c82b4dbab11f7cd9583c9d3fa5e29848762aa6c026daf",
+  "requiredEvidenceClasses": [
+    "verification",
+    "tests",
+    "documentation",
+    "ci_gate"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-286-agent-risk-checkpoint-evidence",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/246",
+    "worktree": "/private/tmp/ai-cockpit-wi286"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "missing intent, required scenario, required gate, or conflicting execution decision stops before command execution",
+      "required": true,
+      "scenario": "route_and_agent_risk_rejection",
+      "status": "unverified",
+      "verificationPlan": "Rust repository and CLI negative tests"
+    },
+    {
+      "evidence": [],
+      "expected": "before_edit and before_finish evidence bind stage, counts, Contract hash, and amendment lineage",
+      "required": true,
+      "scenario": "checkpoint_append_only_amendment",
+      "status": "unverified",
+      "verificationPlan": "Rust protocol and lifecycle tamper tests"
+    },
+    {
+      "evidence": [],
+      "expected": "resume or Contract amendment prevents reuse of stale verification/checkpoint evidence",
+      "required": true,
+      "scenario": "resume_invalidates_stale_evidence",
+      "status": "unverified",
+      "verificationPlan": "Rust lifecycle recovery and stale digest tests"
+    },
+    {
+      "evidence": [],
+      "expected": "explicit repository context remains isolated and no global Agent/MCP or Runtime copy is introduced",
+      "required": true,
+      "scenario": "repository_and_object_adopter_isolation",
+      "status": "unverified",
+      "verificationPlan": "repository isolation tests and release-adopter smoke"
+    }
+  ],
+  "scope": [
+    ".ai/**",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/governance_controls.rs",
+    "crates/cockpit-verification/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-protocol/tests/**",
+    "crates/cockpit-repository/tests/**",
+    "crates/cockpit-verification/tests/**",
+    "crates/cockpit-cli/tests/**",
+    "docs/reference/**",
+    "docs/work-items/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-286-agent-risk-checkpoint-evidence"
+}

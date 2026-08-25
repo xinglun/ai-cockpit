@@ -101,6 +101,12 @@ project 层可以增加要求，但不能弱化 organization 层。Work Item con
 完成后会刷新该决策，`finish` 要求结果为 green。重复 checkpoint 或乱序执行 finish/archive/close 都会被拒绝。失败的转换
 会保留 active 记录，以便修复后恢复。
 
+选择 typed checkpoint 控制的 Contract 可以使用动态 verification profile：低风险或只读工作使用
+`light`，普通代码变更使用 `standard`，治理/CI 敏感变更使用 `strict`，不可变 artifact 和外部
+evidence 边界使用 `release`。required checks 与 stages 仍必须由 policy 显式声明，Runtime 不会根据
+标签推断或静默升级它们。profile 不代表 Evidence Assurance；T3 以及 provider/enterprise assurance
+仍是独立的 policy requirement。
+
 `work-item new --repo <path> --id <id> --mode <mode>` 复用同一 contract writer，生成 `not_ready` 骨架。它只填充四个可确定
 推导事实（`repositoryId`、`baseRevision`、`projectProfileDigest`、`repositorySnapshotDigest`），intent、scope、acceptance criteria
 和 authority 保持空值或 `unknown`。`profile propose` 只输出候选 amendment，不改变正式 profile 的 bytes 或 digest。

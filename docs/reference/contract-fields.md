@@ -56,7 +56,8 @@ Status meanings:
 | `destructiveChangePolicy`, `rollbackNote`, `unknowns`, `notCodable` | Explicit safety, recovery, and unresolved-state declarations. | Implemented |
 | `scenarioCoverage` | Optional high-risk scenario projection; required/unverified scenarios fail closed before checkpoint. | Implemented |
 | `concurrencyBoundary` | Optional Contract-owned path boundary and slot authorization for parallel Work Items. | Implemented |
-| `checkpointPolicy`, `humanDecisionPoints`, `documentationImpact`, `performanceImpact`, `governanceProfile`, and similar extensions | Additive protocol values are preserved only where the current typed validator defines behavior; no generic field is an implicit approval. | Partial |
+| `checkpointPolicy` | Typed `light`/`standard`/`strict`/`release` profile with explicit required stages/checks; strict/release also require the six named Agent Risk gates (`aiWorkItem`, `aiScope`, `aiAgentRisk`, `aiSummary`, `aiStatus`, `aiStatusCheck`). Unknown fields and duplicate requirements fail closed. It is verification strength, not Evidence Assurance. | Implemented |
+| `humanDecisionPoints`, `documentationImpact`, `performanceImpact`, `governanceProfile`, and similar extensions | Additive protocol values are preserved only where the current typed validator defines behavior; no generic field is an implicit approval. | Partial |
 
 `authority: authorized` is a repository-local declaration. Enterprise identity,
 provider verification, organization policy, and approval authenticity remain
@@ -69,6 +70,7 @@ external evidence and must not be inferred from Contract bytes.
 | `workItemId`, `repositoryId`, `mode`, `state` | Contract and repository binding plus serial lifecycle state. | Implemented |
 | `changedPaths` | Snapshot-observed changed paths used for scope and archive checks. | Implemented |
 | `checkpointCount` | Exactly-one checkpoint gate for the current lifecycle. | Implemented |
+| `checkpointEvidence` | Strict repository/Work Item/snapshot/Contract-bound `before_edit` and `before_finish` records. Contract amendment revalidation is append-only; post-verification amendments invalidate prior required checks and resume history makes stale records unusable. | Implemented |
 | `preflightState`, `preflightAt`, `preflightContractDigest`, `preflightDecisionDigest`, `preflightRepositorySnapshotDigest` | Repository-bound preflight decision and freshness bindings. | Implemented |
 | `scenarioCoverage` | Summary-side scenario statuses, evidence, and reasons validated against the Contract. | Implemented |
 | `acceptanceEvidence` | Stable acceptance IDs mapped to explicit evidence and intent alignment. | Implemented |

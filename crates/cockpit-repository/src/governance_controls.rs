@@ -6,15 +6,251 @@
 //! decisions, or final-dimension evidence.
 
 use crate::{ObserverError, repository_id};
+use chrono::DateTime;
 use cockpit_core::Digest;
 use cockpit_protocol::{
-    Contract, PreflightDecisionEvidence, RuntimeContext, validate_scenario_coverage_projection,
+    CheckpointEvidence, Contract, PreflightDecisionEvidence, RuntimeContext,
+    VerificationDeclaration, validate_scenario_coverage_projection,
 };
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
 use std::path::Path;
+
+/// The reference hard-gate names are required for strict/release profiles.
+/// They are names only: the Runtime still requires fresh execution results
+/// for each declared check and never fabricates a pass.
+const STRICT_AGENT_RISK_CHECKS: [&str; 6] = [
+    "aiWorkItem",
+    "aiScope",
+    "aiAgentRisk",
+    "aiSummary",
+    "aiStatus",
+    "aiStatusCheck",
+];
+
+/// Return the required Contract verification declarations in a stable order.
+/// Legacy string declarations remain readable but cannot silently become hard
+/// gates; only typed `{check, required:true}` declarations authorize a gate.
+pub fn required_verification_checks(contract: &Contract) -> Vec<String> {
+    let mut checks = contract
+        .verification
+        .iter()
+        .filter_map(|declaration| match declaration {
+            VerificationDeclaration::Check(check) if check.required => {
+                Some(check.check.trim().to_owned())
+            }
+            VerificationDeclaration::Legacy(_) => None,
+            VerificationDeclaration::Check(_) => None,
+        })
+        .filter(|check| !check.is_empty())
+        .collect::<Vec<_>>();
+    checks.sort();
+    checks.dedup();
+    if contract
+        .checkpoint_policy
+        .as_ref()
+        .is_some_and(|policy| matches!(policy.profile.as_str(), "strict" | "release"))
+    {
+        checks.extend(STRICT_AGENT_RISK_CHECKS.iter().map(|check| (*check).into()));
+        checks.sort();
+        checks.dedup();
+    }
+    checks
+}
+
+/// Validate the strict checkpoint evidence projection shared by checkpoint,
+/// finish, archive, and close.  This is intentionally independent of any
+/// command execution: CI and the Runtime can both read the same evidence.
+pub fn validate_checkpoint_evidence_bindings(
+    contract: &Contract,
+    summary: &Value,
+    expected_repository_id: &str,
+    expected_snapshot_digest: &str,
+    expected_contract_hash: &str,
+) -> Result<(), Vec<String>> {
+    let policy = contract.checkpoint_policy.as_ref();
+    // No policy means protocol-v1 compatibility.  If evidence is present,
+    // still parse it so a malformed sidecar cannot be treated as valid.
+    if policy.is_none() && summary.get("checkpointEvidence").is_none() {
+        return Ok(());
+    }
+    let raw = summary
+        .get("checkpointEvidence")
+        .and_then(Value::as_array)
+        .ok_or_else(|| vec!["checkpoint_evidence_missing".into()])?;
+    let mut errors = Vec::new();
+    let mut entries = Vec::with_capacity(raw.len());
+    for value in raw {
+        match serde_json::from_value::<CheckpointEvidence>(value.clone()) {
+            Ok(entry) => {
+                if let Err(entry_errors) = entry.validate_shape() {
+                    errors.extend(entry_errors);
+                }
+                if DateTime::parse_from_rfc3339(&entry.recorded_at).is_err() {
+                    errors.push("checkpoint_evidence_recorded_at_invalid".into());
+                }
+                if entry.repository_id != expected_repository_id {
+                    errors.push("checkpoint_evidence_repository_identity_mismatch".into());
+                }
+                if entry.work_item_id != contract.work_item_id {
+                    errors.push("checkpoint_evidence_work_item_identity_mismatch".into());
+                }
+                if entry.repository_snapshot_digest.to_string() != expected_snapshot_digest {
+                    errors.push("checkpoint_evidence_snapshot_stale".into());
+                }
+                entries.push(entry);
+            }
+            Err(_) => errors.push("checkpoint_evidence_malformed".into()),
+        }
+    }
+    let required_checks = required_verification_checks(contract);
+    let expected_required_checks = policy
+        .map(|policy| {
+            if policy.required_checks.is_empty() {
+                required_checks.clone()
+            } else {
+                let mut checks = required_checks.clone();
+                checks.extend(policy.required_checks.iter().cloned());
+                checks.sort();
+                checks.dedup();
+                checks
+            }
+        })
+        .unwrap_or(required_checks);
+    let expected_acceptance = contract.acceptance_criteria.len() as u64;
+    let expected_unknowns = contract.unknowns.len() as u64;
+    let required_stages = policy
+        .map(|policy| policy.required_stages.clone())
+        .unwrap_or_else(|| vec!["before_edit".into(), "before_finish".into()]);
+    let before_edit = entries.iter().find(|entry| entry.stage == "before_edit");
+    let amendments = entries
+        .iter()
+        .filter(|entry| entry.stage == "contract_amendment_revalidation")
+        .collect::<Vec<_>>();
+    let before_edit_is_stale =
+        before_edit.is_some_and(|entry| entry.contract_hash != expected_contract_hash);
+    let mut amendment_chain_valid = !before_edit_is_stale;
+    if before_edit_is_stale {
+        if let Some(original) = before_edit {
+            amendment_chain_valid = true;
+            let original_hash = original.contract_hash.clone();
+            let mut previous_hash = original_hash.clone();
+            for amendment in &amendments {
+                if amendment.original_before_edit_contract_hash.as_deref()
+                    != Some(original_hash.as_str())
+                    || amendment.previous_contract_hash.as_deref() != Some(previous_hash.as_str())
+                    || amendment
+                        .reason
+                        .as_deref()
+                        .is_none_or(|value| value.trim().is_empty())
+                    || amendment.required_checks_passed != 0
+                {
+                    amendment_chain_valid = false;
+                    errors.push("checkpoint_evidence_amendment_chain_invalid".into());
+                    break;
+                }
+                previous_hash = amendment.contract_hash.clone();
+            }
+            if let Some(final_amendment) = amendments.last() {
+                if final_amendment.contract_hash != expected_contract_hash {
+                    amendment_chain_valid = false;
+                    errors.push("checkpoint_evidence_amendment_contract_stale".into());
+                }
+                if final_amendment.verification_started {
+                    let mut invalidated = final_amendment.invalidated_required_checks.clone();
+                    invalidated.sort();
+                    let mut expected = expected_required_checks.clone();
+                    expected.sort();
+                    if invalidated != expected
+                        || final_amendment
+                            .required_checks_passed_at_amendment
+                            .is_none_or(|passed| passed > expected.len() as u64)
+                    {
+                        amendment_chain_valid = false;
+                        errors.push("checkpoint_evidence_amendment_invalidation_invalid".into());
+                    }
+                }
+            } else {
+                amendment_chain_valid = false;
+                errors.push("checkpoint_evidence_amendment_missing".into());
+            }
+        } else {
+            amendment_chain_valid = false;
+            errors.push("checkpoint_evidence_before_edit_missing".into());
+        }
+    }
+    if !amendments.is_empty() && !before_edit_is_stale {
+        errors.push("checkpoint_evidence_amendment_without_stale_contract".into());
+    }
+    let latest_resume_at = contract
+        .resume_history
+        .last()
+        .and_then(|entry| DateTime::parse_from_rfc3339(&entry.recorded_at).ok());
+    for stage in required_stages {
+        let matches = entries.iter().filter(|entry| entry.stage == stage).count();
+        if matches != 1 {
+            errors.push(format!("checkpoint_evidence_stage_count:{stage}"));
+        }
+    }
+    for entry in &entries {
+        if entry.stage == "before_edit"
+            && entry.contract_hash != expected_contract_hash
+            && !amendment_chain_valid
+        {
+            errors.push("checkpoint_evidence_contract_stale_before_edit".into());
+        }
+        if entry.stage == "before_finish" && entry.contract_hash != expected_contract_hash {
+            errors.push("checkpoint_evidence_contract_stale_before_finish".into());
+        }
+        let historical_before_edit =
+            entry.stage == "before_edit" && before_edit_is_stale && amendment_chain_valid;
+        if entry.acceptance_count != expected_acceptance && !historical_before_edit {
+            errors.push("checkpoint_evidence_acceptance_count_stale".into());
+        }
+        if entry.unknown_count != expected_unknowns && !historical_before_edit {
+            errors.push("checkpoint_evidence_unknown_count_stale".into());
+        }
+        if entry.required_checks != expected_required_checks.len() as u64 && !historical_before_edit
+        {
+            errors.push("checkpoint_evidence_required_checks_count_stale".into());
+        }
+        if entry.stage == "before_finish"
+            && entry.required_checks_passed != expected_required_checks.len() as u64
+        {
+            errors.push("checkpoint_evidence_required_checks_not_passed".into());
+        }
+        if let Some(resume_at) = latest_resume_at.as_ref()
+            && DateTime::parse_from_rfc3339(&entry.recorded_at)
+                .ok()
+                .is_none_or(|recorded_at| recorded_at < *resume_at)
+        {
+            errors.push("checkpoint_evidence_resume_stale".into());
+        }
+    }
+    let verification = summary
+        .get("verification")
+        .and_then(Value::as_array)
+        .cloned()
+        .unwrap_or_default();
+    for required in expected_required_checks {
+        let matches = verification
+            .iter()
+            .filter(|item| item.get("check").and_then(Value::as_str) == Some(required.as_str()))
+            .collect::<Vec<_>>();
+        if matches.len() != 1 {
+            errors.push(format!("required_verification_gate_count:{required}"));
+        } else if matches[0].get("result").and_then(Value::as_str) != Some("passed") {
+            errors.push(format!("required_verification_gate_failed:{required}"));
+        }
+    }
+    if errors.is_empty() {
+        Ok(())
+    } else {
+        Err(errors)
+    }
+}
 
 /// The exact dimension names used by the reference final acceptance oracle.
 pub const FINAL_DIMENSIONS: [&str; 20] = [
@@ -1305,6 +1541,141 @@ pub fn validate_contract_summary_controls_with_runtime(
     validate_contract_summary_controls_internal(contract, contract_value, summary, Some(runtime))
 }
 
+/// Validate the Contract-owned Agent Risk controls without executing a
+/// command.  This is the Rust-native equivalent of the reference risk script;
+/// it reports stable codes and never turns an unknown into permission.
+pub fn validate_agent_risk_controls(
+    contract: &Contract,
+    summary: &Value,
+) -> (String, Vec<String>, Vec<GovernanceFinding>) {
+    let mut unknowns = Vec::new();
+    let mut findings = Vec::new();
+    let mode = contract.mode.as_deref().unwrap_or_default();
+    let execution_status = contract
+        .execution_decision
+        .as_ref()
+        .map(|decision| decision.status.as_str())
+        .unwrap_or("continue");
+    let allowed_non_coding = ["defer", "needs_human_decision", "block"];
+    if !matches!(
+        execution_status,
+        "continue" | "defer" | "needs_human_decision" | "block"
+    ) {
+        findings.push(finding(
+            "execution_decision_invalid",
+            "executionDecision.status is not a supported legal path",
+            "error",
+        ));
+    }
+    if mode == "code" {
+        if !contract.unknowns.is_empty() {
+            findings.push(finding(
+                "agent_unknowns_in_code_mode",
+                "code mode cannot continue with declared unknowns",
+                "error",
+            ));
+        }
+        if contract.not_codable == Some(true) {
+            findings.push(finding(
+                "agent_not_codable_in_code_mode",
+                "code mode cannot continue when notCodable is true",
+                "error",
+            ));
+        }
+        if execution_status != "continue" && !allowed_non_coding.contains(&execution_status) {
+            findings.push(finding(
+                "execution_decision_invalid",
+                "code mode has no legal execution decision",
+                "error",
+            ));
+        }
+    } else if !allowed_non_coding.contains(&execution_status) && execution_status != "continue" {
+        findings.push(finding(
+            "execution_decision_invalid",
+            "non-code Work Item has no legal execution decision",
+            "error",
+        ));
+    }
+    if let Some(capability) = contract.agent_capability.as_ref() {
+        if execution_status == "continue" && capability.needs_human_decision {
+            findings.push(finding(
+                "agent_human_decision_conflict",
+                "executionDecision=continue conflicts with agentCapability.needsHumanDecision",
+                "error",
+            ));
+        }
+        if mode == "code" && !capability.can_implement {
+            findings.push(finding(
+                "agent_cannot_implement",
+                "code mode requires agentCapability.canImplement",
+                "error",
+            ));
+        }
+    }
+    if let Some(assessment) = contract.risk_assessment.as_ref()
+        && !matches!(
+            assessment.level.as_str(),
+            "low" | "normal" | "high" | "critical"
+        )
+    {
+        findings.push(finding(
+            "risk_assessment_invalid",
+            "riskAssessment.level must be low, normal, high, or critical",
+            "error",
+        ));
+    }
+    let required = required_verification_checks(contract);
+    let verification = summary
+        .get("verification")
+        .and_then(Value::as_array)
+        .cloned()
+        .unwrap_or_default();
+    if summary
+        .get("verificationInvalidatedByContractAmendment")
+        .is_some()
+    {
+        findings.push(finding(
+            "required_verification_invalidated",
+            "Contract amendment invalidated prior verification; fresh required checks are required",
+            "error",
+        ));
+    }
+    for check in required {
+        let matches = verification
+            .iter()
+            .filter(|item| item.get("check").and_then(Value::as_str) == Some(check.as_str()))
+            .collect::<Vec<_>>();
+        if matches.is_empty() {
+            unknowns.push(format!("required_verification_missing:{check}"));
+            findings.push(finding(
+                "required_verification_missing",
+                format!("required verification gate {check} is missing from Summary"),
+                "error",
+            ));
+        } else if matches.len() > 1 {
+            findings.push(finding(
+                "required_verification_duplicate",
+                format!("required verification gate {check} appears more than once"),
+                "error",
+            ));
+        } else if matches[0].get("result").and_then(Value::as_str) != Some("passed") {
+            findings.push(finding(
+                "required_verification_failed",
+                format!("required verification gate {check} did not pass"),
+                "error",
+            ));
+        }
+    }
+    let state = if findings.iter().any(|item| item.severity == "error") {
+        "blocked"
+    } else if unknowns.is_empty() {
+        "verified"
+    } else {
+        "unknown"
+    };
+    (state.into(), unknowns, findings)
+}
+
 fn validate_contract_summary_controls_internal(
     contract: &Contract,
     contract_value: &Value,
@@ -1321,6 +1692,10 @@ fn validate_contract_summary_controls_internal(
         validate_intent_alignment_values(contract, summary);
     unknowns.extend(intent_unknowns);
     findings.extend(intent_findings);
+    let (_agent_risk_state, agent_unknowns, agent_findings) =
+        validate_agent_risk_controls(contract, summary);
+    unknowns.extend(agent_unknowns);
+    findings.extend(agent_findings);
     let (final_state, final_unknowns, final_findings) = summary
         .get("finalDimensions")
         .map(|value| {

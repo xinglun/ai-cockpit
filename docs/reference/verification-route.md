@@ -34,6 +34,13 @@ recomputes the declared policy requirement and rejects a missing, stale, or
 tampered binding. A `pr`, `merge`, or `release` route must have a valid base
 revision at the execution boundary; `task` remains base-revision independent.
 
+When a Contract is policy-routed, `resolve_verification_route` binds declared
+intent, scenario names, required scenarios, operation, and stage before the
+command executes. Missing intent, required scenario coverage, or an
+operation/stage mismatch is fail-closed. The same route feeds Agent Risk
+validation, so typed required checks, `agentCapability`, and
+`executionDecision` do not form a second CLI-only policy.
+
 When an effective policy declares `T3` or `ProviderVerified`, a local Runtime
 route cannot claim that requirement: verification stops before completion
 evidence is written. Hosted/provider evidence must come from the actual
