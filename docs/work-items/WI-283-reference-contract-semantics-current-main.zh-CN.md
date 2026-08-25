@@ -6,7 +6,7 @@ description: "在最新审阅的默认分支上重新验收有界 Rust Contract 
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 lastVerifiedBy: WI-283-reference-contract-semantics-current-main
 authority: canonical
 ---

@@ -6,7 +6,7 @@ description: "最新の reviewed default branch から bounded Rust Contract-sem
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 lastVerifiedBy: WI-283-reference-contract-semantics-current-main
 authority: canonical
 ---
