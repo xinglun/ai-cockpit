@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:4af3f81a79f1927ec6ae2ecc1f01c5c3eea196e7fea078b7c3727495ce484192",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "post-merge-exact-cleanup",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "708cfc36af71e884ddc57d752c7967ede832dbfc",
+      "name": "codex/wi-277-capability-profile-parity-recovery",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:514cb015384cebae64c099b415b2adda5a0c095770e02a7e657c1185260639e3",
+    "operationId": "operation-WI-277-capability-profile-parity-recovery-pre-merge",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "2faea6a1ca09867a6aea3387eb2c478c92495e15",
+      "headRevision": "708cfc36af71e884ddc57d752c7967ede832dbfc",
+      "mergeCommit": "d96d054dc879b541804d8866f3707bd80bf87d1c",
+      "number": 237,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/237"
+    },
+    "reason": "After PR #237 merge observation, the exact implementation branch and worktree were cleanly removed; no unrelated branch or worktree was touched.",
+    "receiptId": "ai-cockpit-WI-277-capability-profile-parity-recovery-cleaned",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-277-capability-profile-parity-recovery",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/237",
+      "worktree": "/private/tmp/ai-cockpit-wi276-capability-profile"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+    "runtimeVersion": "0.2.31",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-25T13:11:23Z",
+    "workItemId": "WI-277-capability-profile-parity-recovery",
+    "worktree": {
+      "branch": "codex/wi-277-capability-profile-parity-recovery",
+      "headRevision": "708cfc36af71e884ddc57d752c7967ede832dbfc",
+      "path": "/private/tmp/ai-cockpit-wi276-capability-profile",
+      "worktreeId": "WI-277-capability-profile-parity-recovery"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "WI-277-capability-profile-parity-recovery-cleanup"
+}
