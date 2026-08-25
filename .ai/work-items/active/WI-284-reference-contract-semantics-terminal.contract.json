@@ -11,8 +11,6 @@
   "goal": "Deliver the bounded Rust Contract-semantics parity batch with complete lifecycle and prearchive documentation bindings.",
   "intent": "Complete the current-main Contract-semantics parity recovery with terminal parity bindings before verification, preserving all immutable predecessor records.",
   "mode": "implementation",
-  "predecessorContractDigest": "sha256:99640ab44b8c06e13ae2c452439dd652f378bbbf06090c28270b63e5e9e1412f",
-  "predecessorWorkItemId": "WI-283-reference-contract-semantics-current-main",
   "outOfScope": [
     ".github/workflows/**",
     "tests/ci/**",
@@ -20,21 +18,23 @@
     "planner/dependency-graph/runtime architecture",
     "global Agent/MCP configuration"
   ],
+  "predecessorContractDigest": "sha256:99640ab44b8c06e13ae2c452439dd652f378bbbf06090c28270b63e5e9e1412f",
+  "predecessorWorkItemId": "WI-283-reference-contract-semantics-current-main",
   "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
   "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-283-reference-contract-semantics-current-main.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:19eecaa8c423853bca73ca24da990297cff7c74ca048c921a8fd5df8c35501ee",
-  "recoveryDecisionPath": ".ai/decisions/WI-283-reference-contract-semantics-current-main.recovery.json",
   "requiredEvidenceClasses": [
     "verification",
     "documentation"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-284-reference-contract-semantics-terminal",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/244",
     "worktree": "/private/tmp/ai-cockpit-wi284"
   },
   "risk": "normal",
