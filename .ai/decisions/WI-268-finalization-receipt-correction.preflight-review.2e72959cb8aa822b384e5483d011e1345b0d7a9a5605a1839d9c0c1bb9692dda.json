@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:2072a5cbc41cae4475dc539018b3467b01c4fe2bff4da2697747c9e10eedb437",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "Confirmed the bounded successor Contract for correcting the immutable finalization receipt and parity projection after full workspace verification.",
+  "recordedAt": "2026-08-25T04:54:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a6f3f0b21e0bb5c062133255a4224d155c1c2a84a1d62c5c712b1108b3e3d053",
+  "schemaVersion": 1,
+  "workItemId": "WI-268-finalization-receipt-correction"
+}

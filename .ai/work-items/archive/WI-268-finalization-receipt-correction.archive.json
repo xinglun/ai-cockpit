@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-25T04:49:23Z",
+  "files": {
+    "contractDigest": "sha256:3641b8d72c6ba941252296a1df012ef5c5df8343b0c6f49ff8df71c4a526da84",
+    "contractPath": ".ai/work-items/archive/WI-268-finalization-receipt-correction.contract.json",
+    "eventsDigest": "sha256:bdb8472d30ae099f3e447c229a798af8bf7d451c9db9da9893be5348d54bafc7",
+    "eventsPath": ".ai/work-items/archive/WI-268-finalization-receipt-correction.events.jsonl",
+    "outcomeDigest": "sha256:fcd85b61534051b00afed5725ec878670ecefffba47872c21d25e076631f5526",
+    "outcomePath": ".ai/work-items/archive/WI-268-finalization-receipt-correction.outcome.json",
+    "summaryDigest": "sha256:2079dca7b3b21074a07b3d5693e9cf9a6b0b8db8db124ba7bae5d09591cc278b",
+    "summaryPath": ".ai/work-items/archive/WI-268-finalization-receipt-correction.summary.json",
+    "taskReportDigest": "sha256:e1ef27b6e874fe0f870d4b5df1b45c65c63c963f2cd05aa834710ded90bbaa62",
+    "taskReportMarkdownDigest": "sha256:e88a728a4bd4f84748b5ea1445da48c91567f6607d71e3d26890b6ca7eecac40",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-268-finalization-receipt-correction.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-268-finalization-receipt-correction.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-268-finalization-receipt-correction"
+}

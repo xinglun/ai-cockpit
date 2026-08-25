@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-policy:immutable-failed-delivery",
+  "decidedAt": "2026-08-25T04:42:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-267-finalization-parity-regression-repair.finalize.json",
+    ".ai/work-items/archive/WI-267-finalization-parity-regression-repair.contract.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md#Work-Item-change-discipline"
+  ],
+  "predecessorContractDigest": "sha256:9f1acb0caf91a22c0f49797e32b47bf5dad488a52812b5eee233b46677a594d4",
+  "predecessorEventsDigest": "sha256:9f83de6936bd2e5fcb37b9015d47fef6850cfa7f23cd9d8fc224e938eb41bb13",
+  "predecessorOutcomeDigest": "sha256:861d21c5c2d43d9ec257040f3c5b8faed65d90ab28b8d8ec99cc0b104446ebf6",
+  "predecessorSummaryDigest": "sha256:cca8b0a348379ba4ac1b6f9430ca0acb98808677d94376ba7b3c97602eb06138",
+  "predecessorWorkItemId": "WI-267-finalization-parity-regression-repair",
+  "reason": "The archived WI-267 delivery contains an immutable invalid pre-merge finalization receipt with a non-protocol worktreeId; create a bounded successor to repair the receipt without rewriting predecessor evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Successor records a valid repository-bound pre-merge finalization receipt and hosted quality passes.",
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-268-finalization-receipt-correction",
+  "workItemId": "WI-267-finalization-parity-regression-repair"
+}
