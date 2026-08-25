@@ -1,12 +1,14 @@
 ---
 author: AI Cockpit maintainers
 title: "WI-262 Release version-consistency cleanup"
+workItemId: WI-262-release-version-consistency-cleanup
 description: "Make post-release version consistency cleanup deterministic and fail closed."
 audience:
   - maintainer
   - reviewer
 status: in_progress
 authority: canonical
+lastVerifiedBy: documentation-acceptance
 capabilityClaims:
   - release_cleanup
   - release_truth_preservation
