@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:3c6c0913dbfd1374e8cb17abaea1f2f806ef24ca4f7a357c21a1a729e5dc558f",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "Confirm the bounded next reference-comparison batch and require file-level evidence before any parity or implementation conclusion.",
+  "recordedAt": "2026-08-25T05:37:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f0c6f011c0c32acf20b365fc1f565e264febd081a6cebc688414e1b16c6642de",
+  "schemaVersion": 1,
+  "workItemId": "WI-270-reference-contract-batch"
+}

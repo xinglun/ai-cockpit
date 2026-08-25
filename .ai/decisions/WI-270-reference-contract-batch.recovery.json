@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "post-archive-finalization-recovery",
+  "decidedAt": "2026-08-25T06:20:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-270-reference-contract-batch.archive.json",
+    ".ai/evidence/WI-270-reference-contract-batch.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/223"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "docs/reference/agent-workflow.md:finalize-plan-before-archive"
+  ],
+  "predecessorContractDigest": "sha256:5fdd3a47db30f5f834298f7ec4f7b5b3a6d1b65a9b1ac828eb6d59d6398c8e0f",
+  "predecessorEventsDigest": "sha256:49dc8632eaf445873d04bd277d55ab36ccde1fcd975d149ce9e49668ad4e70a2",
+  "predecessorOutcomeDigest": "sha256:57a9275a9c018fd77a3564ffb8acd530d2f2c21aff06d778729099ab32cdc389",
+  "predecessorSummaryDigest": "sha256:ceddfb52894062fd4401385bc7b88f04ad77fac2867ef7352ef4596484f0615b",
+  "predecessorWorkItemId": "WI-270-reference-contract-batch",
+  "reason": "WI-270 was archived with a provisional pullRequest=pending resource context before PR #223 existed. Hosted governance correctly rejected the missing valid finalization boundary. Preserve all WI-270 bytes and complete the reviewed delivery through a successor with actual PR context bound before verification and archive.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind the actual reviewed PR context with finalize-plan before verification, finish, and archive; complete hosted review, merge observation, exact cleanup, finalization verification, and structured close for WI-271.",
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-271-finalization-recovery",
+  "workItemId": "WI-270-reference-contract-batch"
+}

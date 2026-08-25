@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-25T05:53:51Z",
+  "files": {
+    "contractDigest": "sha256:0cb2f8637e8a6116c241b332fc9e43f81215fd6062cd6dae92c64578e554c0e5",
+    "contractPath": ".ai/work-items/archive/WI-270-reference-contract-batch.contract.json",
+    "eventsDigest": "sha256:49dc8632eaf445873d04bd277d55ab36ccde1fcd975d149ce9e49668ad4e70a2",
+    "eventsPath": ".ai/work-items/archive/WI-270-reference-contract-batch.events.jsonl",
+    "outcomeDigest": "sha256:2601930ee303d223e7a828d7bd26eddea957915595ba8950a55bda54ff9f8331",
+    "outcomePath": ".ai/work-items/archive/WI-270-reference-contract-batch.outcome.json",
+    "summaryDigest": "sha256:ce3f037d1b9b230d890e74a575e75bc26ac7ef36d850a0809450cefa2b1fca42",
+    "summaryPath": ".ai/work-items/archive/WI-270-reference-contract-batch.summary.json",
+    "taskReportDigest": "sha256:8580120c13bb210ae8fe6a8a001dc7a365ab43d75f400066c8eb20312492206b",
+    "taskReportMarkdownDigest": "sha256:d2f650a9fd8e7db6f8169258bb0b96e1fd93057dbad62cce413ffa293da0c47b",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-270-reference-contract-batch.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-270-reference-contract-batch.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-270-reference-contract-batch"
+}

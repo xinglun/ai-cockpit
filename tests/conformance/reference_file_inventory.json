@@ -29779,24 +29779,39 @@
     },
     {
       "referencePath": "docs/concepts/decision-states.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-270-reference-contract-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/contract-fields.ja.md",
+        "docs/reference/outcome-report.ja.md",
+        "crates/cockpit-core/src/lib.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs"
+      ],
+      "reason": "WI-270 file-level comparison: The Runtime preserves the reference red/yellow/green stop semantics through typed decision and Outcome projections; the reference current_status.md file is not copied."
     },
     {
       "referencePath": "docs/concepts/decision-states.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-270-reference-contract-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/contract-fields.md",
+        "docs/reference/outcome-report.md",
+        "crates/cockpit-core/src/lib.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs"
+      ],
+      "reason": "WI-270 file-level comparison: The Runtime preserves the reference red/yellow/green stop semantics through typed decision and Outcome projections; the reference current_status.md file is not copied."
     },
     {
       "referencePath": "docs/concepts/decision-states.zh-CN.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-270-reference-contract-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/contract-fields.zh-CN.md",
+        "docs/reference/outcome-report.zh-CN.md",
+        "crates/cockpit-core/src/lib.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs"
+      ],
+      "reason": "WI-270 file-level comparison: The Runtime preserves the reference red/yellow/green stop semantics through typed decision and Outcome projections; the reference current_status.md file is not copied."
     },
     {
       "referencePath": "docs/concepts/evidence-governance.md",
@@ -29956,25 +29971,40 @@
       "reason": "The target keeps the reader route while documenting the shared Rust Runtime and explicit repository binding."
     },
     {
-      "referencePath": "docs/features/work-item-parallelism.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+     "referencePath": "docs/features/work-item-parallelism.ja.md",
+      "batch": "WI-270-reference-contract-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/work-items/WI-123-parallel-contract-boundary.ja.md",
+        "docs/reference/configuration.ja.md",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/tests/parallel_boundary.rs"
+      ],
+      "reason": "WI-270 file-level comparison: Repository-local Contract boundaries and slot leases replace reference orchestration files; scope overlap is conservative and generated projections remain isolated."
     },
     {
-      "referencePath": "docs/features/work-item-parallelism.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+     "referencePath": "docs/features/work-item-parallelism.md",
+      "batch": "WI-270-reference-contract-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/work-items/WI-123-parallel-contract-boundary.md",
+        "docs/reference/configuration.md",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/tests/parallel_boundary.rs"
+      ],
+      "reason": "WI-270 file-level comparison: Repository-local Contract boundaries and slot leases replace reference orchestration files; scope overlap is conservative and generated projections remain isolated."
     },
     {
-      "referencePath": "docs/features/work-item-parallelism.zh-CN.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+     "referencePath": "docs/features/work-item-parallelism.zh-CN.md",
+      "batch": "WI-270-reference-contract-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/work-items/WI-123-parallel-contract-boundary.zh-CN.md",
+        "docs/reference/configuration.zh-CN.md",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/tests/parallel_boundary.rs"
+      ],
+      "reason": "WI-270 file-level comparison: Repository-local Contract boundaries and slot leases replace reference orchestration files; scope overlap is conservative and generated projections remain isolated."
     },
     {
       "referencePath": "docs/fixtures/real-fixture-evidence.ja.md",
@@ -31260,11 +31290,15 @@
       "reason": "The target preserves the reference reader intent through Rust-native route pages with different ownership and paths."
     },
     {
-      "referencePath": "docs/reference/safe-parallel-verification.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+     "referencePath": "docs/reference/safe-parallel-verification.md",
+      "batch": "WI-270-reference-contract-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-verification/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-cli/tests/verify.rs"
+      ],
+      "reason": "WI-270 file-level comparison: The Rust bounded executor accepts structured command argv, caps workers, serializes unsafe scopes, and records per-command evidence; no Python runner is copied."
     },
     {
       "referencePath": "docs/reference/schemas.md",
@@ -31372,11 +31406,17 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-      "referencePath": "docs/reference/work-item-intelligence-interface.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+     "referencePath": "docs/reference/work-item-intelligence-interface.md",
+      "batch": "WI-270-reference-contract-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "docs/reference/commands.md",
+        "docs/reference/verification-cost.md"
+      ],
+      "reason": "WI-270 file-level comparison: The Runtime exposes request-scoped status and intelligence, but the reference's full cost/wait/index-version aggregation remains a later projection boundary; no silent parity is claimed."
     },
     {
       "referencePath": "docs/reference/work-item-intelligence-performance-baseline.md",
@@ -31400,18 +31440,27 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-      "referencePath": "docs/reference/work-item-state-machine.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+     "referencePath": "docs/reference/work-item-state-machine.md",
+      "batch": "WI-270-reference-contract-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+      ],
+      "reason": "WI-270 file-level comparison: Lifecycle transitions, recovery, finalization, archive, and close are Runtime-native; provider PR states remain an explicit external boundary."
     },
     {
-      "referencePath": "docs/reference/work-item-status-interface.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+     "referencePath": "docs/reference/work-item-status-interface.md",
+      "batch": "WI-270-reference-contract-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-repository/tests/status_projection.rs"
+      ],
+      "reason": "WI-270 file-level comparison: The Runtime publishes evidence-derived request-scoped status and human Outcome projections rather than the reference generated Python status file."
     },
     {
       "referencePath": "docs/releases/v0.5.33.md",
@@ -32991,11 +33040,14 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-      "referencePath": "scripts/ai_acceptance_policy.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+     "referencePath": "scripts/ai_acceptance_policy.py",
+      "batch": "WI-270-reference-contract-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/governance_controls.rs",
+        "crates/cockpit-repository/tests/contract_preflight.rs"
+      ],
+      "reason": "WI-270 file-level comparison: Typed Rust governance controls validate stable acceptance identifiers, evidence mappings, and fail-closed readiness."
     },
     {
       "referencePath": "scripts/ai_adoption_evidence.py",
@@ -33201,11 +33253,14 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-      "referencePath": "scripts/ai_check_scenario_coverage.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+     "referencePath": "scripts/ai_check_scenario_coverage.py",
+      "batch": "WI-270-reference-contract-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/governance_controls.rs",
+        "crates/cockpit-repository/tests/contract_preflight.rs"
+      ],
+      "reason": "WI-270 file-level comparison: Typed Runtime scenario coverage validation replaces the reference Python gate and binds Contract/Summary evidence."
     },
     {
       "referencePath": "scripts/ai_check_scope.py",
@@ -33257,11 +33312,15 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-      "referencePath": "scripts/ai_check_work_item.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+     "referencePath": "scripts/ai_check_work_item.py",
+      "batch": "WI-270-reference-contract-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/tests/contract_schema.rs"
+      ],
+      "reason": "WI-270 file-level comparison: Runtime Contract validation owns scope, authority, unknowns, execution decisions, concurrency, and lifecycle invariants."
     },
     {
       "referencePath": "scripts/ai_checkpoint.py",
@@ -33306,11 +33365,15 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-      "referencePath": "scripts/ai_decision_protocol.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+     "referencePath": "scripts/ai_decision_protocol.py",
+      "batch": "WI-270-reference-contract-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/governance_controls.rs",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/tests/preflight_review.rs"
+      ],
+      "reason": "WI-270 file-level comparison: Repository-bound typed decision receipts replace the reference Python decision protocol and never infer human approval."
     },
     {
       "referencePath": "scripts/ai_dependabot_intake.py",
@@ -33593,11 +33656,15 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-      "referencePath": "scripts/ai_intent_policy.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+     "referencePath": "scripts/ai_intent_policy.py",
+      "batch": "WI-270-reference-contract-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/governance_controls.rs",
+        "crates/cockpit-verification/src/lib.rs",
+        "crates/cockpit-verification/tests/intent_scenario_binding.rs"
+      ],
+      "reason": "WI-270 file-level comparison: Intent alignment and scenario binding are Runtime validation inputs with explicit unknowns and policy traceability."
     },
     {
       "referencePath": "scripts/ai_issue_log.py",
@@ -33684,11 +33751,15 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-      "referencePath": "scripts/ai_parallel_verification.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+     "referencePath": "scripts/ai_parallel_verification.py",
+      "batch": "WI-270-reference-contract-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-verification/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-cli/tests/verify.rs"
+      ],
+      "reason": "WI-270 file-level comparison: Rust bounded execution provides argv-only parallel verification, worker caps, deterministic results, and scope-safe execution."
     },
     {
       "referencePath": "scripts/ai_performance_budget.py",
@@ -33712,11 +33783,15 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-      "referencePath": "scripts/ai_preflight_review.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+     "referencePath": "scripts/ai_preflight_review.py",
+      "batch": "WI-270-reference-contract-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-core/src/lib.rs",
+        "crates/cockpit-repository/src/governance_controls.rs",
+        "crates/cockpit-repository/tests/preflight_review.rs"
+      ],
+      "reason": "WI-270 file-level comparison: Typed preflight derives yellow/red/green state, humanDecisionRequest, identity-bound confirmation, and recovery conditions."
     },
     {
       "referencePath": "scripts/ai_prepare_hosted_verification.py",
@@ -33845,11 +33920,14 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-      "referencePath": "scripts/ai_scenario_policy.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+     "referencePath": "scripts/ai_scenario_policy.py",
+      "batch": "WI-270-reference-contract-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/governance_controls.rs",
+        "crates/cockpit-core/src/lib.rs"
+      ],
+      "reason": "WI-270 file-level comparison: Risk-sensitive scenario coverage is evaluated by the Runtime policy layer and remains fail-closed for unknown required scenarios."
     },
     {
       "referencePath": "scripts/ai_schema_migration.py",
@@ -34006,11 +34084,15 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-      "referencePath": "scripts/ai_work_item_state.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+     "referencePath": "scripts/ai_work_item_state.py",
+      "batch": "WI-270-reference-contract-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+      ],
+      "reason": "WI-270 file-level comparison: The Rust lifecycle state machine and recovery receipts own transitions without copying the Python module."
     },
     {
       "referencePath": "scripts/ai_work_item_status.py",
@@ -34678,11 +34760,14 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-      "referencePath": "tests/test_acceptance_policy.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+     "referencePath": "tests/test_acceptance_policy.py",
+      "batch": "WI-270-reference-contract-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/contract_preflight.rs",
+        "crates/cockpit-repository/tests/contract_schema.rs"
+      ],
+      "reason": "WI-270 file-level comparison: Rust regression coverage exercises acceptance evidence identity, completeness, and fail-closed validation."
     },
     {
       "referencePath": "tests/test_adopter_feature_parity.py",
@@ -34839,11 +34924,14 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-      "referencePath": "tests/test_ai_parallel_verification.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+     "referencePath": "tests/test_ai_parallel_verification.py",
+      "batch": "WI-270-reference-contract-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-cli/tests/verify.rs",
+        "crates/cockpit-verification/tests/execution.rs"
+      ],
+      "reason": "WI-270 file-level comparison: Rust tests cover bounded workers, command results, failure retention, and snapshot binding."
     },
     {
       "referencePath": "tests/test_ai_performance_diagnosis.py",
@@ -35000,11 +35088,14 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-      "referencePath": "tests/test_checkpoint_intent.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+     "referencePath": "tests/test_checkpoint_intent.py",
+      "batch": "WI-270-reference-contract-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/contract_preflight.rs",
+        "crates/cockpit-cli/tests/preflight.rs"
+      ],
+      "reason": "WI-270 file-level comparison: Rust preflight/checkpoint tests require human-owned intent and preserve unknowns instead of inferring them."
     },
     {
       "referencePath": "tests/test_ci_quality_orchestration.py",
@@ -35028,11 +35119,14 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-      "referencePath": "tests/test_contract_and_policy.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+     "referencePath": "tests/test_contract_and_policy.py",
+      "batch": "WI-270-reference-contract-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/contract_schema.rs",
+        "crates/cockpit-repository/tests/contract_preflight.rs"
+      ],
+      "reason": "WI-270 file-level comparison: Typed Contract schema and policy tests cover strict fields, scope, authority, acceptance, and generated ownership."
     },
     {
       "referencePath": "tests/test_contract_examples.py",
@@ -35532,11 +35626,14 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-      "referencePath": "tests/test_intent_policy.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+     "referencePath": "tests/test_intent_policy.py",
+      "batch": "WI-270-reference-contract-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-verification/tests/intent_scenario_binding.rs",
+        "crates/cockpit-repository/tests/contract_preflight.rs"
+      ],
+      "reason": "WI-270 file-level comparison: Rust intent alignment tests distinguish unresolved, unknown, and resolved evidence."
     },
     {
       "referencePath": "tests/test_issue_log.py",
@@ -35679,11 +35776,14 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-      "referencePath": "tests/test_parallel_lifecycle_contract.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+     "referencePath": "tests/test_parallel_lifecycle_contract.py",
+      "batch": "WI-270-reference-contract-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/parallel_boundary.rs",
+        "crates/cockpit-cli/tests/parallel_boundary.rs"
+      ],
+      "reason": "WI-270 file-level comparison: Rust lifecycle/parallel tests cover isolated scopes, serialized projections, leases, overlap, and repository isolation."
     },
     {
       "referencePath": "tests/test_performance_budget.py",
@@ -35714,11 +35814,14 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-      "referencePath": "tests/test_preflight_review.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+     "referencePath": "tests/test_preflight_review.py",
+      "batch": "WI-270-reference-contract-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/preflight_review.rs",
+        "crates/cockpit-cli/tests/preflight.rs"
+      ],
+      "reason": "WI-270 file-level comparison: Rust preflight tests cover required human review, scenario coverage, policy signals, and identity-bound confirmation."
     },
     {
       "referencePath": "tests/test_project_governance.py",
@@ -35931,11 +36034,14 @@
       "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
-      "referencePath": "tests/test_scenario_coverage_gate.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+     "referencePath": "tests/test_scenario_coverage_gate.py",
+      "batch": "WI-270-reference-contract-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/contract_preflight.rs",
+        "crates/cockpit-repository/tests/preflight_review.rs"
+      ],
+      "reason": "WI-270 file-level comparison: Rust tests cover required verified/unverified/not-applicable scenarios, risk acknowledgement, and invalid status fail-closed behavior."
     },
     {
       "referencePath": "tests/test_schema_migration.py",

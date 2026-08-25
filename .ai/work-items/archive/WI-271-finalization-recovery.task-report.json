@@ -1,0 +1,298 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-271-finalization-recovery.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:3262eae309a7767a13d5ef2ab0c831433ad0742e05ee159edb74b1519caaa499",
+    "workItemId": "WI-271-finalization-recovery"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-270-reference-contract-batch.preflight-review.16f5500988afc86d3059467be285505aee47d93c2a861aaf5583ac884a52cf4a.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-270-reference-contract-batch.preflight-review.214762e6b041c05fafd913782650a065d4c43f8cc4b93ea898008f69795a67d7.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-270-reference-contract-batch.preflight-review.2ba478d4728a5cc8c35ebc1841031ecf15a3c52fa0feead4bce4cb5f70bcb7f4.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-270-reference-contract-batch.preflight-review.7f40bfefd29c0d4d6d5b58b29a900ecec0e5d03e5a249096a635f61f141b8287.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-270-reference-contract-batch.preflight-review.ae7d20b9583fe871f53eec77cc713ca408c0a4b1d0d4ff23f3d5c22d79bc31c3.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-270-reference-contract-batch.preflight-review.ef6e4874027f6579e1c9012f0dfd0e61faeb943c0a103864d47fd08036249135.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-270-reference-contract-batch.preflight-review.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-270-reference-contract-batch.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-270-reference-contract-batch.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-271-finalization-recovery.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-270-reference-contract-batch.archive.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-270-reference-contract-batch.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-270-reference-contract-batch.events.jsonl"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-270-reference-contract-batch.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-270-reference-contract-batch.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-270-reference-contract-batch.task-report.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-270-reference-contract-batch.task-report.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-file-comparison.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-file-comparison.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-file-comparison.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-270-reference-contract-batch.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-270-reference-contract-batch.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-270-reference-contract-batch.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/conformance/reference_file_inventory.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/conformance/reference_file_inventory.py"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/conformance/reference_file_inventory_test.sh"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-271-finalization-recovery.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-271-finalization-recovery.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-271-finalization-recovery.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-271-finalization-recovery.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-271-finalization-recovery.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.contract.json"
+        ],
+        "inference": false,
+        "text": "Complete the reference Contract batch delivery with a valid finalization boundary, exact cleanup, and no historical rewrite."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-271-finalization-recovery.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-271-finalization-recovery"
+}

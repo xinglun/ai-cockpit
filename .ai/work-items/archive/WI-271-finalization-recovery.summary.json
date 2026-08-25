@@ -1,0 +1,168 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "WI-270 recovery and immutable archive",
+          "path": ".ai/decisions/WI-270-reference-contract-batch.recovery.json",
+          "type": "recovery",
+          "verification": "Runtime recovery validation and archive digest comparison"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "tri-language recovery projection",
+          "path": "docs/reference/reference-parity.md",
+          "type": "document",
+          "verification": "parity_status_check.sh and documentation_acceptance.sh"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "actual PR resource context",
+          "path": ".ai/work-items/active/WI-271-finalization-recovery.contract.json",
+          "type": "finalization",
+          "verification": "finalize-plan before verify/archive"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "installed Runtime lifecycle and hosted checks",
+          "path": ".ai/evidence/WI-271-finalization-recovery.verification.json",
+          "type": "lifecycle",
+          "verification": "installed Runtime verify, repository gates, and hosted checks"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "visible human Outcome",
+          "path": ".ai/work-items/active/WI-271-finalization-recovery.summary.json",
+          "type": "outcome",
+          "verification": "work-item outcome human handoff"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-270-reference-contract-batch.preflight-review.16f5500988afc86d3059467be285505aee47d93c2a861aaf5583ac884a52cf4a.json",
+    ".ai/decisions/WI-270-reference-contract-batch.preflight-review.214762e6b041c05fafd913782650a065d4c43f8cc4b93ea898008f69795a67d7.json",
+    ".ai/decisions/WI-270-reference-contract-batch.preflight-review.2ba478d4728a5cc8c35ebc1841031ecf15a3c52fa0feead4bce4cb5f70bcb7f4.json",
+    ".ai/decisions/WI-270-reference-contract-batch.preflight-review.7f40bfefd29c0d4d6d5b58b29a900ecec0e5d03e5a249096a635f61f141b8287.json",
+    ".ai/decisions/WI-270-reference-contract-batch.preflight-review.ae7d20b9583fe871f53eec77cc713ca408c0a4b1d0d4ff23f3d5c22d79bc31c3.json",
+    ".ai/decisions/WI-270-reference-contract-batch.preflight-review.ef6e4874027f6579e1c9012f0dfd0e61faeb943c0a103864d47fd08036249135.json",
+    ".ai/decisions/WI-270-reference-contract-batch.preflight-review.json",
+    ".ai/decisions/WI-270-reference-contract-batch.recovery.json",
+    ".ai/evidence/WI-270-reference-contract-batch.verification.json",
+    ".ai/work-items/archive/WI-271-finalization-recovery.contract.json",
+    ".ai/work-items/archive/WI-271-finalization-recovery.summary.json",
+    ".ai/work-items/archive/WI-270-reference-contract-batch.archive.json",
+    ".ai/work-items/archive/WI-270-reference-contract-batch.contract.json",
+    ".ai/work-items/archive/WI-270-reference-contract-batch.events.jsonl",
+    ".ai/work-items/archive/WI-270-reference-contract-batch.outcome.json",
+    ".ai/work-items/archive/WI-270-reference-contract-batch.summary.json",
+    ".ai/work-items/archive/WI-270-reference-contract-batch.task-report.json",
+    ".ai/work-items/archive/WI-270-reference-contract-batch.task-report.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-270-reference-contract-batch.ja.md",
+    "docs/work-items/WI-270-reference-contract-batch.md",
+    "docs/work-items/WI-270-reference-contract-batch.zh-CN.md",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory_test.sh"
+  ],
+  "checkpointAt": "2026-08-25T06:19:09Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T06:14:56Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:62d16d675074163029c74d05d013452f778da8de26c2d2fe450295b0a51d4377",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Confirm the narrow WI-270 recovery successor, preserve immutable history, and require the actual PR context before verification/archive.",
+    "recordedAt": "2026-08-25T06:22:00Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:3262eae309a7767a13d5ef2ab0c831433ad0742e05ee159edb74b1519caaa499",
+    "schemaVersion": 1,
+    "workItemId": "WI-271-finalization-recovery"
+  },
+  "failedGate": "finish.verification",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-271-finalization-recovery.md",
+      ".ai/decisions/WI-270-reference-contract-batch.recovery.json"
+    ],
+    "reason": "The repository owner authorized recovery of the failed WI-270 delivery while preserving its immutable history and entering the next bounded batch only after exact cleanup.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:5fdd3a47db30f5f834298f7ec4f7b5b3a6d1b65a9b1ac828eb6d59d6398c8e0f",
+  "predecessorWorkItemId": "WI-270-reference-contract-batch",
+  "preflightAt": "2026-08-25T06:22:24Z",
+  "preflightContractDigest": "sha256:62d16d675074163029c74d05d013452f778da8de26c2d2fe450295b0a51d4377",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:3262eae309a7767a13d5ef2ab0c831433ad0742e05ee159edb74b1519caaa499",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "recoveryDecisionPath": ".ai/decisions/WI-270-reference-contract-batch.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/decisions/WI-270-reference-contract-batch.recovery.json",
+        ".ai/work-items/archive/WI-270-reference-contract-batch.archive.json"
+      ],
+      "expected": "WI-270 archive, verification, preflight records, docs, and inventory remain byte-identical while the successor records an explicit recovery decision.",
+      "required": true,
+      "scenario": "predecessor_immutable_history",
+      "status": "verified",
+      "verificationPlan": "Compare predecessor bytes and digests before and after the successor lifecycle, then run governance integrity checks."
+    },
+    {
+      "evidence": [
+        ".ai/work-items/active/WI-271-finalization-recovery.contract.json",
+        "https://github.com/xinglun/ai-cockpit/pull/224"
+      ],
+      "expected": "The actual reviewed PR URL, branch, worktree, provider, and base are bound before verification, finish, and archive.",
+      "required": true,
+      "scenario": "finalize_plan_before_verification_archive",
+      "status": "verified",
+      "verificationPlan": "Create the reviewed PR, run finalize-plan with its exact URL, then execute the installed Runtime lifecycle and verify the finalization receipt."
+    },
+    {
+      "evidence": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md"
+      ],
+      "expected": "English, Simplified Chinese, and Japanese parity ledgers identify WI-270 as recovered and WI-271 as the bounded successor with matching terminal paths.",
+      "required": true,
+      "scenario": "tri_language_recovery_projection",
+      "status": "verified",
+      "verificationPlan": "Run parity status, governance integrity, and documentation acceptance checks before archive and after close."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-25T06:22:29Z",
+  "workItemId": "WI-271-finalization-recovery"
+}

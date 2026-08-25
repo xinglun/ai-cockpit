@@ -76,7 +76,9 @@ for capability_path in \
   printf 'fixture\n' > "$reference_fixture/$capability_path"
 done
 printf 'reference\n' > "$reference_fixture/AGENTS.md"
-git -C "$reference_fixture" add AGENTS.md .ai
+mkdir -p "$reference_fixture/docs/concepts"
+printf 'reference decision states\n' > "$reference_fixture/docs/concepts/decision-states.md"
+git -C "$reference_fixture" add AGENTS.md .ai docs/concepts/decision-states.md
 git -C "$reference_fixture" commit -qm reference
 reference_revision=$(git -C "$reference_fixture" rev-parse HEAD)
 
@@ -100,5 +102,7 @@ python3 "$script" \
   --output "$tmp/generated.json"
 test "$(jq -r '.targetTrackedFileCount' "$tmp/generated.json")" -eq 1
 test "$(jq -r '.targetWorkingTreeFileCount' "$tmp/generated.json")" -eq 1
+test "$(jq '[.records[] | select(.batch == "WI-270-reference-contract-batch")] | length' "$tmp/generated.json")" -eq 1
+test "$(jq -r '.records[] | select(.referencePath == "docs/concepts/decision-states.md") | .classification' "$tmp/generated.json")" = "implemented-different-by-design"
 
 echo "reference file inventory regression passed"
