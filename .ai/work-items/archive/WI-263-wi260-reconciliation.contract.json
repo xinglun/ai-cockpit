@@ -18,11 +18,11 @@
     "Runtime/core protocol changes",
     "User-global Agent or MCP configuration"
   ],
-  "predecessorWorkItemId": "WI-260-recovery-gate",
   "predecessorContractDigest": "sha256:be9fc928ede030f39d2b9a2ca61f115386cd62d1c8f434c3b1022f93455c25eb",
-  "recoveryDecisionPath": ".ai/decisions/WI-260-recovery-gate.recovery.json",
+  "predecessorWorkItemId": "WI-260-recovery-gate",
   "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
   "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-260-recovery-gate.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:21d23b9dfd594cec72f8b9b5dcc3a9572d30bd055b0b0f33ae2b763ac14cae0f",
   "requiredEvidenceClasses": [
@@ -32,15 +32,16 @@
     "documentation_parity"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-263-wi260-reconciliation",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/215",
     "worktree": "/private/tmp/ai-cockpit-wi263-reconciliation"
   },
   "risk": "normal",
   "scope": [
+    ".ai/evidence/WI-263-wi260-reconciliation.verification.json",
     ".ai/decisions/WI-260-recovery-gate.recovery.json",
     ".ai/decisions/WI-260-recovery-gate.finalize.*",
     ".ai/decisions/WI-260-recovery-gate.close.json",
