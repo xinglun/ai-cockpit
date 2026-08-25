@@ -16,11 +16,11 @@
   "repositorySnapshotDigest": "sha256:1f391ea59cfb00500059764f53ff431f61d427189db944af696b403b9e28cde6",
   "requiredEvidenceClasses": [],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-289-checkpoint-conformance-terminal",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/249",
     "worktree": "/private/tmp/ai-cockpit-wi289"
   },
   "risk": "normal",
