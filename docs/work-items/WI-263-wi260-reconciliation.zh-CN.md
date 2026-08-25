@@ -6,8 +6,8 @@ description: "保留 WI-260 不可变事实，并通过正确绑定的 successor
 audience:
   - maintainer
   - reviewer
-status: in-progress
-lastVerifiedBy: WI-263-wi260-reconciliation
+status: recovered
+lastVerifiedBy: WI-265-finalization-parity-recovery
 authority: canonical
 ---
 

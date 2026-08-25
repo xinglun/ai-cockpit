@@ -6,8 +6,8 @@ description: "WI-260 の immutable truth を保持し、正しく bind された
 audience:
   - maintainer
   - reviewer
-status: in-progress
-lastVerifiedBy: WI-263-wi260-reconciliation
+status: recovered
+lastVerifiedBy: WI-265-finalization-parity-recovery
 authority: canonical
 ---
 
