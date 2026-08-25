@@ -9,7 +9,7 @@
   "authority": "authorized",
   "baseRevision": "487f01970c49e2b85d17b0cb0536f9d60c8f05e0",
   "createdAt": "2026-08-25T09:32:39Z",
-  "goal": "Redeliver the reference inventory rebaseline after preserving WI-274's immutable stale-finalization failure.",
+  "goal": "Redeliver the reference inventory rebaseline after preserving WI-274 immutable stale-finalization failure.",
   "intent": "Complete the bounded reference inventory from the synchronized default branch, register parity before evidence, and record finalization only after the final commit.",
   "mode": "code",
   "outOfScope": [
@@ -24,7 +24,7 @@
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-274-reference-inventory-rebaseline-recovery.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:7cf2ff3ef17226a0f35f4c17970b9cfd2cb3260a76b7fcf9d0f433d3e930fd54",
+  "repositorySnapshotDigest": "sha256:83c02a06f4685beb3118e5f0ba2007d5353793541e5908d4e842e4061d8a4165",
   "requiredEvidenceClasses": [
     "verification"
   ],
@@ -33,7 +33,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-275-inventory-finalization-recovery",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/233",
     "worktree": "/private/tmp/ai-cockpit-wi274-inventory"
   },
   "risk": "normal",
@@ -53,7 +53,7 @@
     "docs/work-items/WI-275-reference-inventory-rebaseline-finalization-recovery.ja.md"
   ],
   "sources": [],
-  "state": "not_ready",
+  "state": "implementation_active",
   "verification": [
     "cargo test --locked --workspace"
   ],
