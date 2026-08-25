@@ -1,0 +1,147 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-265-finalization-parity-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:384f308a6293a530f79f89c02201e29bd1040605041df674eaeab72cf7a1024a",
+      "workItemId": "WI-265-finalization-parity-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-265-finalization-parity-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-265-finalization-parity-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-265-finalization-parity-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-265-finalization-parity-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-265-finalization-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-265-finalization-parity-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-265-finalization-parity-recovery.verification.json",
+            ".ai/decisions/WI-265-finalization-parity-recovery.finalize.json",
+            ".ai/decisions/WI-265-finalization-parity-recovery.finalize.a37550fb65305d5ae55af9b26c6da17dec49180be49c2137a854819959e3b008.json",
+            ".ai/decisions/WI-265-finalization-parity-recovery.finalize.d2ffd7299322f97652f941f2ba7a640ba750d0aa9d625cbd4edd4f169a5ec20d.json",
+            "https://github.com/xinglun/ai-cockpit/pull/217",
+            "https://github.com/xinglun/ai-cockpit/pull/218"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via reviewed-PR-217-and-PR-218-postmerge-cleanup at 2026-08-25T03:35:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-265-finalization-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-265-finalization-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-265-finalization-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-265-finalization-parity-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Create a clean successor with valid parity projection, pre-merge finalization, hosted merge, and exact cleanup."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-265-finalization-parity-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-265-finalization-parity-recovery"
+  },
+  "finalReportDigest": "sha256:ede79264a17400525bb670f1626fa4a4191bd5ca7c88012e4dff286d99dcb9ef",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:b756e8a3fe77d3e255ecac9bc49bdd75d6181d1fa707d25550210c1602fc2b6d",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-265-finalization-parity-recovery.finalize.d2ffd7299322f97652f941f2ba7a640ba750d0aa9d625cbd4edd4f169a5ec20d.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "reviewed-PR-217-and-PR-218-postmerge-cleanup",
+    "decidedAt": "2026-08-25T03:35:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-265-finalization-parity-recovery.verification.json",
+      ".ai/decisions/WI-265-finalization-parity-recovery.finalize.json",
+      ".ai/decisions/WI-265-finalization-parity-recovery.finalize.a37550fb65305d5ae55af9b26c6da17dec49180be49c2137a854819959e3b008.json",
+      ".ai/decisions/WI-265-finalization-parity-recovery.finalize.d2ffd7299322f97652f941f2ba7a640ba750d0aa9d625cbd4edd4f169a5ec20d.json",
+      "https://github.com/xinglun/ai-cockpit/pull/217",
+      "https://github.com/xinglun/ai-cockpit/pull/218"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md"
+    ],
+    "reason": "PR #217 implementation and PR #218 merge-observation receipt are merged with hosted checks passing; exact branch, remote branch, and worktree cleanup were verified by Runtime. Immutable WI-263 history was preserved.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-25T03:25:36Z",
+  "workItemId": "WI-265-finalization-parity-recovery"
+}
