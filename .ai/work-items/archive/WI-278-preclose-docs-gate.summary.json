@@ -46,8 +46,8 @@
     }
   ],
   "changedPaths": [
-    ".ai/work-items/active/WI-278-preclose-docs-gate.contract.json",
-    ".ai/work-items/active/WI-278-preclose-docs-gate.summary.json"
+    ".ai/work-items/archive/WI-278-preclose-docs-gate.contract.json",
+    ".ai/work-items/archive/WI-278-preclose-docs-gate.summary.json"
   ],
   "checkpointAt": "2026-08-25T13:29:36Z",
   "checkpointCount": 1,
@@ -63,10 +63,10 @@
   },
   "mode": "code",
   "outcomeState": "blocked",
-  "preflightAt": "2026-08-25T13:51:11Z",
-  "preflightContractDigest": "sha256:fde708e650fa58028c0d5087f58ce17083873de92a7ebdb61aa8d4c364059ad4",
+  "preflightAt": "2026-08-25T13:56:18Z",
+  "preflightContractDigest": "sha256:40d720a010c77cbd55eab4ce571f93dfdbcae63df6c818a9bf6710d09941b51c",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:6fcef2751c3cd4b9fc81ff9e94d17007ab5461bf2b1bbfabb0cf6a36f9560159",
+  "preflightRepositorySnapshotDigest": "sha256:e9cefbbb7be73fb197b748ca93cc039ffb9788914c784d2bf4df1eff6f737c08",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
@@ -114,7 +114,7 @@
       "verificationPlan": "Run the fixture with an active code Work Item that does not declare parity ownership."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-08-25T13:51:11.660657+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-25T13:56:18Z",
   "workItemId": "WI-278-preclose-docs-gate"
 }

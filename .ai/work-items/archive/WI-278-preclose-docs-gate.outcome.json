@@ -1,0 +1,145 @@
+{
+  "acceptanceResults": [
+    "Parity/documentation-owned active Work Items require regular non-symlink docs/work-items/<WI>.md, <WI>.ja.md, and <WI>.zh-CN.md before verification/archive/close.",
+    "Current archived parity Work Items with a missing, malformed, or symlinked tri-language Work Item document fail the same static gate.",
+    "Current-cycle parity debts discovered by the new gate are repaired with truthful tri-language projections without rewriting generated .ai history.",
+    "Ordinary non-parity code Work Items remain active_non_parity and do not acquire a documentation requirement.",
+    "Regression tests cover missing, partial, symlinked, and valid tri-language projections with deterministic finding codes.",
+    "The English, Japanese, and Chinese governance documentation state the dynamic policy and object/adopter inheritance boundary."
+  ],
+  "createdAt": "2026-08-25T13:56:18Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:c19bd30be8a678b937e98cb7fbfb7a5d4cbed5ca523ba3fd9196687ed8f88581",
+  "evidenceRefs": [
+    ".ai/evidence/WI-278-preclose-docs-gate.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-278-preclose-docs-gate.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-278-preclose-docs-gate.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e9cefbbb7be73fb197b748ca93cc039ffb9788914c784d2bf4df1eff6f737c08",
+      "workItemId": "WI-278-preclose-docs-gate"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-278-preclose-docs-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-278-preclose-docs-gate.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-278-preclose-docs-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-278-preclose-docs-gate.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-278-preclose-docs-gate.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-278-preclose-docs-gate.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-278-preclose-docs-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-278-preclose-docs-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-278-preclose-docs-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-278-preclose-docs-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the CI governance gate fail closed before pre-close lifecycle progression when a parity-owned Work Item is missing or symlinked in any of its English, Japanese, or Simplified Chinese docs; repair current-cycle omissions exposed by the gate; add deterministic regression coverage and document the dynamic policy."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-278-preclose-docs-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-278-preclose-docs-gate"
+  },
+  "taskReportDigest": "sha256:4e5fec447114f681cbad935eeb2649a641c2d0cf45abe099adcb6966feeebaf8",
+  "taskReportMarkdownDigest": "sha256:e3a26849baf5b4feb4fd8b6e360d87ac7aa723ba5424b6e8b3f69dc58ff29835",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-278-preclose-docs-gate.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-278-preclose-docs-gate"
+}
