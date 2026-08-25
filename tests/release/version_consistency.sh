@@ -129,7 +129,37 @@ if [[ "$post_release" == true ]]; then
   command -v gh >/dev/null 2>&1 || die 'gh is unavailable for post-release checks'
   release_json="$(mktemp)"
   download_dir="$(mktemp -d)"
-  trap 'rm -f "$release_json"; rmdir "$download_dir" 2>/dev/null || true' EXIT
+  cleanup_release_download() {
+    local prior_exit=$1
+    local cleanup_failed=false
+    local cleanup_reason=''
+
+    if ! rm -f -- "$release_json"; then
+      cleanup_failed=true
+      cleanup_reason='release metadata temporary file could not be removed'
+    fi
+    if ! rm -rf -- "$download_dir" || [[ -e "$download_dir" ]]; then
+      cleanup_failed=true
+      if [[ -n "$cleanup_reason" ]]; then
+        cleanup_reason+="; "
+      fi
+      cleanup_reason+='download directory could not be removed'
+    fi
+
+    if [[ "$cleanup_failed" == true ]]; then
+      # Cleanup is an independent postcondition. Report it without changing
+      # the already observed public Release truth or rewriting any receipt.
+      printf 'post-release cleanup: failed (release truth unchanged): %s\n' \
+        "$cleanup_reason" >&2
+      if (( prior_exit == 0 )); then
+        prior_exit=1
+      fi
+    else
+      printf 'post-release cleanup: passed\n' >&2
+    fi
+    exit "$prior_exit"
+  }
+  trap 'cleanup_release_download "$?"' EXIT
   gh release view "$tag" --repo "$repository" --json tagName,isDraft,isPrerelease > "$release_json" || die 'public Release is unavailable'
   jq -e --arg tag "$tag" '.tagName == $tag and .isDraft == false and .isPrerelease == false' "$release_json" >/dev/null || die 'public Release is not stable'
   gh release download "$tag" --repo "$repository" --pattern release-manifest.json --dir "$download_dir" >/dev/null || die 'public release manifest is unavailable'

@@ -1,0 +1,78 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-262-release-version-consistency-cleanup.contract.json",
+    ".ai/work-items/archive/WI-262-release-version-consistency-cleanup.summary.json"
+  ],
+  "checkpointAt": "2026-08-25T01:29:54Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T01:25:17Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "tests/release/version_consistency.sh",
+      "tests/release/version_consistency_test.sh",
+      "docs/work-items/WI-262-release-version-consistency-cleanup.md"
+    ],
+    "reason": "The cleanup postcondition and isolated regression directly address the residual release-manifest root cause without changing Release truth.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-25T01:42:11Z",
+  "preflightContractDigest": "sha256:526973efdd12fbb2b158bccf2063e2a4b0044d5692bdc91d2397d898df9dc8ac",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:5c91156ce2a3cb242f334d486651f75c6bc893769ef31e6248a295d66b30ebe4",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/version_consistency_test.sh",
+        ".ai/evidence/WI-262-release-version-consistency-cleanup.verification.json"
+      ],
+      "expected": "A successful public Release check captures its receipt and removes the isolated download directory.",
+      "required": true,
+      "scenario": "successful post-release cleanup",
+      "status": "verified",
+      "verificationPlan": "Run the version consistency script with a fake gh command and an isolated mktemp implementation, then assert the run root is empty."
+    },
+    {
+      "evidence": [
+        "tests/release/version_consistency_test.sh",
+        ".ai/evidence/WI-262-release-version-consistency-cleanup.verification.json"
+      ],
+      "expected": "A malformed or mismatched release manifest fails closed, captures the failure, and removes the isolated download directory.",
+      "required": true,
+      "scenario": "manifest validation failure cleanup",
+      "status": "verified",
+      "verificationPlan": "Run the post-release script with a fake gh manifest that fails validation and assert cleanup and failure truth."
+    },
+    {
+      "evidence": [
+        "tests/release/version_consistency_test.sh",
+        ".ai/evidence/WI-262-release-version-consistency-cleanup.verification.json"
+      ],
+      "expected": "A cleanup failure is recorded explicitly and never rewrites release publication truth.",
+      "required": true,
+      "scenario": "cleanup failure after release truth",
+      "status": "verified",
+      "verificationPlan": "Inject a cleanup failure in the isolated test harness and assert the receipt preserves releasePublished=true while reporting cleanup failure."
+    },
+    {
+      "evidence": [
+        "tests/release/version_consistency_test.sh",
+        ".ai/evidence/WI-262-release-version-consistency-cleanup.verification.json"
+      ],
+      "expected": "The regression uses isolated temporary roots and a fake gh provider without network or source fallback.",
+      "required": true,
+      "scenario": "isolated TMPDIR and fake gh boundary",
+      "status": "verified",
+      "verificationPlan": "Run the focused shell regression with fake gh and assert all temporary roots are accounted for and cleaned."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-25T01:43:04Z",
+  "workItemId": "WI-262-release-version-consistency-cleanup"
+}

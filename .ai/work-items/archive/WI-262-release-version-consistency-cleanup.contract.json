@@ -1,0 +1,91 @@
+{
+  "acceptanceCriteria": [
+    "The release-manifest.json residual-file failure is reproduced before implementation.",
+    "Success and manifest-failure paths remove the isolated download directory after artifacts are captured.",
+    "Cleanup failure is explicitly recorded and causes a fail-closed result without changing release truth.",
+    "Regression tests cover isolated TMPDIR and fake gh behavior for success and manifest-failure cleanup.",
+    "No out-of-scope files are modified and the script remains compatible with shellcheck and repository release checks."
+  ],
+  "authority": "authorized",
+  "baseRevision": "5e426413f08ed54fe54029e0b910056aa4dceba2",
+  "createdAt": "2026-08-25T01:25:17Z",
+  "goal": "Make release version consistency success and manifest-failure paths clean their isolated download directory without hiding cleanup failures or mutating release truth.",
+  "intent": "Prevent release version consistency harness cleanup failures caused by residual release-manifest.json and preserve release truth when cleanup fails.",
+  "mode": "code",
+  "outOfScope": [
+    "all runtime crates; other release harnesses; release metadata; global Agent or MCP configuration; unrelated Work Items"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:064a7db82035ff56ad53e7abe12ea7beeb89bdc02124549ffc5c2dc5f8c997cc",
+  "requiredEvidenceClasses": [
+    "verification",
+    "pre_implementation_failure_reproduction",
+    "isolated_cleanup_manifest",
+    "release_truth_preservation",
+    "focused_regression"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-262-release-version-consistency-cleanup",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/262",
+    "worktree": "/private/tmp/ai-cockpit-wi262-release-version-consistency-cleanup"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "expected": "A successful public Release check captures its receipt and removes the isolated download directory.",
+      "required": true,
+      "scenario": "successful post-release cleanup",
+      "status": "unverified",
+      "verificationPlan": "Run the version consistency script with a fake gh command and an isolated mktemp implementation, then assert the run root is empty."
+    },
+    {
+      "expected": "A malformed or mismatched release manifest fails closed, captures the failure, and removes the isolated download directory.",
+      "required": true,
+      "scenario": "manifest validation failure cleanup",
+      "status": "unverified",
+      "verificationPlan": "Run the post-release script with a fake gh manifest that fails validation and assert cleanup and failure truth."
+    },
+    {
+      "expected": "A cleanup failure is recorded explicitly and never rewrites release publication truth.",
+      "required": true,
+      "scenario": "cleanup failure after release truth",
+      "status": "unverified",
+      "verificationPlan": "Inject a cleanup failure in the isolated test harness and assert the receipt preserves releasePublished=true while reporting cleanup failure."
+    },
+    {
+      "expected": "The regression uses isolated temporary roots and a fake gh provider without network or source fallback.",
+      "required": true,
+      "scenario": "isolated TMPDIR and fake gh boundary",
+      "status": "unverified",
+      "verificationPlan": "Run the focused shell regression with fake gh and assert all temporary roots are accounted for and cleaned."
+    }
+  ],
+  "scope": [
+    "tests/release/version_consistency.sh",
+    "tests/release/version_consistency_test.sh",
+    "docs/work-items/WI-262-release-version-consistency-cleanup.md",
+    "docs/work-items/WI-262-release-version-consistency-cleanup.zh-CN.md",
+    "docs/work-items/WI-262-release-version-consistency-cleanup.ja.md",
+    ".ai/work-items/active/WI-262-release-version-consistency-cleanup.contract.json",
+    ".ai/work-items/active/WI-262-release-version-consistency-cleanup.summary.json"
+  ],
+  "sources": [
+    "tests/release/version_consistency.sh",
+    "tests/release/version_consistency_test.sh",
+    "docs/release/distribution.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.zh-CN.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "bash -n tests/release/version_consistency.sh",
+    "bash tests/release/version_consistency_test.sh",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-262-release-version-consistency-cleanup"
+}

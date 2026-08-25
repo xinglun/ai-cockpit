@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-25T01:43:31Z",
+  "files": {
+    "approachDigest": "sha256:038733d169a4c529fa34800dd351182b0d6e2f16eee46188b9bf4ca8d87e1eb5",
+    "approachPath": ".ai/work-items/archive/WI-262-release-version-consistency-cleanup.approach.json",
+    "contractDigest": "sha256:d7accfd0b109df9fd59272cb72d5f0a8863c7bd35bf770b353431b6228ee0425",
+    "contractPath": ".ai/work-items/archive/WI-262-release-version-consistency-cleanup.contract.json",
+    "eventsDigest": "sha256:e4b89ae89361b5e50f78b2ba605743e66b0afd14d7b9aaaee76b3bfa2e7e8416",
+    "eventsPath": ".ai/work-items/archive/WI-262-release-version-consistency-cleanup.events.jsonl",
+    "outcomeDigest": "sha256:0ae4429be76824b831c7fe559f27bdbac4c9abacb9046381bc812e77d3259572",
+    "outcomePath": ".ai/work-items/archive/WI-262-release-version-consistency-cleanup.outcome.json",
+    "summaryDigest": "sha256:f2233e2281e7fba4997efeb502451c486cf680f732a63e0aa43b01326521e58b",
+    "summaryPath": ".ai/work-items/archive/WI-262-release-version-consistency-cleanup.summary.json",
+    "taskReportDigest": "sha256:3bcd5354af2221a4555cd2273b778f0d3b796a37aff6c0dbf82fd2e0288303de",
+    "taskReportMarkdownDigest": "sha256:a42f813abdd922790fa418c40543a2569a9a733a90c27d6b4e50625c8d136fd3",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-262-release-version-consistency-cleanup.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-262-release-version-consistency-cleanup.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-262-release-version-consistency-cleanup"
+}
