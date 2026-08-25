@@ -1,0 +1,67 @@
+{
+  "acceptanceCriteria": [
+    "Contract exposes and validates the reference-parity fields required for intent, scenario coverage, acceptance dimensions, parallel-slot declarations, and preflight review without silently accepting malformed or contradictory declarations.",
+    "Preflight review presents unresolved human decisions and required next actions, and not_ready or needs_human_confirmation remains fail-closed for implementation.",
+    "Existing Rust lifecycle, repository isolation, outcome, and evidence semantics remain compatible; no generated governance record is hand-edited.",
+    "Tri-language documentation explains the supported Rust mapping, deliberate differences, and the boundary between facts and human governance decisions.",
+    "Focused tests cover valid, missing, malformed, contradictory, stale, and scope-conflicting Contract inputs, including parallel-slot safety."
+  ],
+  "authority": "authorized",
+  "baseRevision": "87dce785b751f4ed407ede2997daf562bd7456d7",
+  "createdAt": "2026-08-25T15:14:54Z",
+  "goal": "Make the first Contract-parity batch fail closed and human-readable while preserving repository isolation and Rust protocol boundaries.",
+  "intent": "Compare Rust Contract governance boundary against pinned reference semantics and implement evidence-backed parity for structured intent, scenario coverage, acceptance dimensions, parallel-slot declarations, and preflight review visibility without inventing governance decisions.",
+  "mode": "code",
+  "outOfScope": [
+    "CI workflow routing and hosted-check policy",
+    "verification tier planner and dependency graph",
+    "runtime architecture refactors and release automation",
+    "Agent provider or global MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8333b03bcaafb99c8849e62d937120303084fd1932a4ba9f55d8b61014d19c56",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-279-reference-contract-semantics",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/239",
+    "worktree": "/private/tmp/ai-cockpit-wi279"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/contract_v2.rs",
+    "crates/cockpit-protocol/tests/preflight_review.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/governance_controls.rs",
+    "crates/cockpit-repository/tests/contract_schema.rs",
+    "crates/cockpit-repository/tests/contract_preflight.rs",
+    "crates/cockpit-repository/tests/preflight_review.rs",
+    "crates/cockpit-repository/tests/governance_controls.rs",
+    "docs/reference/contract-fields.md",
+    "docs/reference/contract-fields.zh-CN.md",
+    "docs/reference/contract-fields.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-279-reference-contract-semantics"
+}

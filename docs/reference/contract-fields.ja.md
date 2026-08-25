@@ -80,3 +80,20 @@ Outcome localization は label と presentation だけを変えます。missing�
 identity-mismatched field は適用される gate に従って yellow または red のままで、documentation projection で green にはなりません。
 
 [Reference source parity](reference-parity.ja.md) と [Commands](commands.ja.md) も参照してください。
+
+## Contract review の境界
+
+現在の Rust 境界は、ガバナンス評価の前に任意の `scenarioCoverage` リストの
+形を検証します。各項目には `scenario`、boolean の `required`、対応する
+status、evidence リストが必要です。`verified` には evidence、
+`not_applicable` には reason が必要で、重複名や未知の nested field は
+fail closed になります。これは構造検証だけです。シナリオを必須にするかは
+risk policy が決め、Runtime がシナリオ、期待結果、verification plan を作る
+ことはありません。
+
+`acceptanceCriteria` は空でない人間の宣言でなければなりません。`A<n>:` の
+番号付き criteria は Summary の evidence mapping を opt-in する形式として
+残し、番号なしの criteria は legacy/原文の宣言として読み取り可能です。
+`concurrencyBoundary` も schema、正の容量、空でない理由を検証してから
+parallel slot を使います。これらの検証は verification tier を assurance
+に変換せず、slot 宣言を権限決定にも変換しません。
