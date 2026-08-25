@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "decisionId": "work-item-recovery",
+  "workItemId": "WI-273-reference-inventory-rebaseline",
+  "predecessorWorkItemId": "WI-273-reference-inventory-rebaseline",
+  "successorWorkItemId": "WI-274-reference-inventory-rebaseline-recovery",
+  "decision": "successor",
+  "actor": "human:repository-owner",
+  "authoritySource": "post-archive-finalization-recovery",
+  "decidedAt": "2026-08-25T08:45:00Z",
+  "reason": "WI-273 is an immutable failed delivery: its first commit registered the parity row and generated verification evidence in the same commit, so the governance gate cannot prove registration preceded evidence. Preserve all WI-273 bytes and redeliver from the current default branch with the parity registration committed first.",
+  "resumeCondition": "Create WI-274 from the synchronized default branch, commit the tri-language prearchive parity registration before generating verification evidence, then complete hosted review, merge observation, exact cleanup, finalization verification, and structured close.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeVersion": "0.2.31",
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "predecessorContractDigest": "sha256:66ddd97bfc462631d888ecf41a847031d8d10b1a612cd4123853e237fcacf349",
+  "predecessorSummaryDigest": "sha256:ed52908e9365e99f1be532a10a05bb7da8c65e37d52e0744f2ba5a5edff2f3c3",
+  "predecessorOutcomeDigest": "sha256:2669d6bb83eae4fd952defffeda11f04c3dcbfc116831d49c5ec17cfef7eedba",
+  "predecessorEventsDigest": "sha256:474ee461f77dc7e3032c0394113c1d7c987f7dfb43db5e35b3f949fa423b9788",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-273-reference-inventory-rebaseline.archive.json",
+    ".ai/evidence/WI-273-reference-inventory-rebaseline.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/231"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "docs/reference/agent-workflow.md:prearchive-parity-registration"
+  ]
+}
