@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "hosted-review-pending-merge",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "f52349044c591d7eaaaae449fec3d87045807ac2",
+    "name": "codex/wi-291-ci-contract-aware-gates",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:d738ba3e85f567edabd2ef8af3ec53abba880d6f6ffdaabbb899797ad8779a09",
+  "operationId": "operation-WI-291-ci-contract-aware-gates-pre-merge",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "b159deb4b1976befb0d1cc547c99c40a3bc3b13c",
+    "headRevision": "f52349044c591d7eaaaae449fec3d87045807ac2",
+    "number": 251,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/251"
+  },
+  "reason": "PR #251 is archived and awaiting hosted review and merge; retain the exact branch and worktree until merge and cleanup are observed.",
+  "receiptId": "ai-cockpit-WI-291-ci-contract-aware-gates-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-291-ci-contract-aware-gates",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/251",
+    "worktree": "/private/tmp/ai-cockpit-wi291"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-26T13:30:00+09:00",
+  "workItemId": "WI-291-ci-contract-aware-gates",
+  "worktree": {
+    "branch": "codex/wi-291-ci-contract-aware-gates",
+    "headRevision": "f52349044c591d7eaaaae449fec3d87045807ac2",
+    "path": "/private/tmp/ai-cockpit-wi291",
+    "worktreeId": "WI-291-ci-contract-aware-gates"
+  }
+}
