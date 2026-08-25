@@ -24,6 +24,13 @@ Planner は tier を提案できますが、要求は Organization Policy、Proj
 
 Work Item route ではさらに `workItemId`、`repositoryId`、repository snapshot digest、`baseRevision`、Policy 参照、required tier/assurance、affected paths、dependency confidence を bind します。Lifecycle 検証は宣言された Policy requirement を再解決し、binding の欠落・stale・改ざんを拒否します。`pr`、`merge`、`release` route は実行境界で有効な base revision を必須とし、`task` は base revision に依存しません。
 
+Contract が policy route に入る場合、`resolve_verification_route` は command 実行前に
+宣言された intent、scenario 名、required scenario、operation、stage を bind します。
+intent の欠落、required scenario coverage の欠落、operation/stage mismatch は fail
+closed になります。同じ route を Agent Risk validation も利用し、typed required
+check、`agentCapability`、`executionDecision` が CLI だけの第二の policy にならない
+ようにします。
+
 Effective Policy が `T3` または `ProviderVerified` を要求する場合、local Runtime はその要求を満たしたと主張できず、完了 Evidence を書く前に停止します。Hosted/provider Evidence は実際の provider から取得する必要があります。typed verification requirement のない repository は、従来の no-policy route と legacy receipt 互換性を維持します。
 
 物理実行は共有できますが、各 Work Item は固有の束縛済み証拠レシートを持ちます。他の Work Item のレシートを認可証拠として流用してはなりません。

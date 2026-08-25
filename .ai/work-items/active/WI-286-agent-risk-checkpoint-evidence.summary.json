@@ -1,0 +1,70 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-286-agent-risk-checkpoint-evidence.contract.json",
+    ".ai/work-items/active/WI-286-agent-risk-checkpoint-evidence.summary.json"
+  ],
+  "checkpointAt": "2026-08-25T18:13:54Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T18:12:15Z",
+  "failedGate": "finish.governance",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-25T18:56:47Z",
+  "preflightContractDigest": "sha256:4d981a84ab636fc84291d755af7f603a2f873b4adf3e40a97c6e7647730a1f49",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:88fa723b51272336fd9533a3135587aca143e1db2ddf4951eb8a819cce2f3056",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/verification_route.rs",
+        "crates/cockpit-repository/tests/agent_risk_checkpoint.rs"
+      ],
+      "expected": "missing intent, required scenario, required gate, or conflicting execution decision stops before command execution",
+      "required": true,
+      "scenario": "route_and_agent_risk_rejection",
+      "status": "verified",
+      "verificationPlan": "Rust repository and CLI negative tests"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-protocol/tests/contract_v2.rs",
+        "crates/cockpit-repository/tests/agent_risk_checkpoint.rs"
+      ],
+      "expected": "before_edit and before_finish evidence bind stage, counts, Contract hash, and amendment lineage",
+      "required": true,
+      "scenario": "checkpoint_append_only_amendment",
+      "status": "verified",
+      "verificationPlan": "Rust protocol and lifecycle tamper tests"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
+        "crates/cockpit-repository/tests/lifecycle_order.rs"
+      ],
+      "expected": "resume or Contract amendment prevents reuse of stale verification/checkpoint evidence",
+      "required": true,
+      "scenario": "resume_invalidates_stale_evidence",
+      "status": "verified",
+      "verificationPlan": "Rust lifecycle recovery and stale digest tests"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-agent/tests/isolation.rs",
+        "crates/cockpit-repository/tests/repository_context.rs",
+        "crates/cockpit-repository/tests/agent_risk_checkpoint.rs"
+      ],
+      "expected": "explicit repository context remains isolated and no global Agent/MCP or Runtime copy is introduced",
+      "required": true,
+      "scenario": "repository_and_object_adopter_isolation",
+      "status": "verified",
+      "verificationPlan": "repository isolation tests and release-adopter smoke"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-08-25T18:57:12Z",
+  "workItemId": "WI-286-agent-risk-checkpoint-evidence"
+}

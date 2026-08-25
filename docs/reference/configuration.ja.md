@@ -104,6 +104,12 @@ serial lifecycle は fail-closed です。Work Item は non-red の preflight �
 verification 完了時に decision を refresh します。`finish` には green の結果が必要で、重複 checkpoint や順序外の
 finish/archive/close は拒否されます。失敗した transition の active record は復旧のため保持されます。
 
+typed checkpoint control を選ぶ Contract では dynamic verification profile を使えます。低リスク/読み取り専用は
+`light`、通常の code change は `standard`、governance/CI-sensitive change は `strict`、immutable artifact と
+external evidence boundary は `release` です。required check と stage は policy が明示的に宣言し、Runtime は
+label から推測したり暗黙に強化したりしません。profile は Evidence Assurance を意味せず、T3 と provider/enterprise
+assurance は独立した policy requirement です。
+
 `work-item new --repo <path> --id <id> --mode <mode>` は同じ contract writer を使って `not_ready` skeleton を作ります。自動入力は
 4 つの deterministic fact（`repositoryId`、`baseRevision`、`projectProfileDigest`、`repositorySnapshotDigest`）だけで、intent、scope、
 acceptance criteria、authority は空または `unknown` のままです。`profile propose` は candidate amendment を出力するだけで、formal

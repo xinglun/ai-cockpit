@@ -99,11 +99,23 @@ current repository、Work Item、project profile はありません。Contract �
 は原文を保持し、人間向け presentation 層だけを localize します。
 
 実装前の Contract review は、宣言された intent、scenario の形、acceptance
- declaration、parallel boundary も検証します。壊れた scenario list、重複した
- scenario、空の acceptance、無効な slot boundary は review finding であり、
- Agent が推測で修復する事実ではありません。scenario coverage の必須性は
+declaration、parallel boundary も検証します。壊れた scenario list、重複した
+scenario、空の acceptance、無効な slot boundary は review finding であり、
+Agent が推測で修復する事実ではありません。scenario coverage の必須性は
 risk policy が決め、人間の宣言と fresh evidence が揃うまで Runtime は
 yellow/red を維持します。
+
+Agent Risk と checkpoint は同じ Rust lifecycle validator で強制されます。typed
+required verification declaration は preflight、verify、finish、archive、close
+で共有され、missing、duplicate、failed、invalidated gate は presentation field
+によって許可にはなりません。typed `checkpointPolicy` は Verification strength
+（`light`、`standard`、`strict`、`release`）と required stages/checks だけを選び、
+Evidence Assurance を意味しません。
+`work-item revalidate-amendment --repo <repo> --id <id> --reason <text>` は
+Contract amendment evidence を append し、`before_edit` を置換しません。
+verification 開始後は既存 required check を無効化し、fresh preflight と
+verification を要求します。resume history と checkpoint timestamp も bind され、
+stale predecessor evidence は current Work Item を authorize できません。
 
 ## Resource finalization の境界
 

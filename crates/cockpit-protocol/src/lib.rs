@@ -1908,6 +1908,207 @@ pub struct ContractExecutionDecision {
     pub reason: String,
 }
 
+/// Typed Contract policy for the checkpoint and Agent-Risk boundary.
+///
+/// The policy is repository-local input. It declares the verification-strength
+/// profile (`light`, `standard`, `strict`, or `release`); required stages and
+/// checks remain explicit fields and are never inferred from the label. It
+/// never creates a human decision or claims that a check passed. Unknown
+/// fields are rejected so a misspelled policy cannot silently disable a gate.
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CheckpointPolicy {
+    #[serde(default = "default_checkpoint_policy_schema_version")]
+    pub schema_version: u32,
+    #[serde(default = "default_checkpoint_policy_profile")]
+    pub profile: String,
+    #[serde(default)]
+    pub required_before_finish: bool,
+    #[serde(default)]
+    pub required_stages: Vec<String>,
+    #[serde(default)]
+    pub required_checks: Vec<String>,
+}
+
+fn default_checkpoint_policy_schema_version() -> u32 {
+    1
+}
+
+fn default_checkpoint_policy_profile() -> String {
+    "standard".into()
+}
+
+impl CheckpointPolicy {
+    pub fn validate(&self) -> Result<(), Vec<String>> {
+        let mut errors = Vec::new();
+        if self.schema_version != 1 {
+            errors.push("checkpointPolicy.schemaVersion must be 1".into());
+        }
+        if !matches!(
+            self.profile.as_str(),
+            "light" | "standard" | "strict" | "release"
+        ) {
+            errors.push(
+                "checkpointPolicy.profile must be light, standard, strict, or release".into(),
+            );
+        }
+        let allowed_stages = ["before_edit", "before_finish"];
+        for stage in &self.required_stages {
+            if !allowed_stages.contains(&stage.as_str()) {
+                errors.push(format!(
+                    "checkpointPolicy.requiredStages contains unsupported stage {stage}"
+                ));
+            }
+        }
+        if self
+            .required_stages
+            .windows(2)
+            .any(|pair| pair[0] == pair[1])
+        {
+            errors.push("checkpointPolicy.requiredStages must not contain duplicates".into());
+        }
+        if self.required_before_finish && self.required_stages.is_empty() {
+            errors.push(
+                "checkpointPolicy.requiredStages is required when requiredBeforeFinish is true"
+                    .into(),
+            );
+        }
+        if self
+            .required_checks
+            .iter()
+            .any(|check| check.trim().is_empty())
+        {
+            errors.push("checkpointPolicy.requiredChecks must contain non-empty names".into());
+        }
+        let mut checks = self.required_checks.clone();
+        checks.sort();
+        checks.dedup();
+        if checks.len() != self.required_checks.len() {
+            errors.push("checkpointPolicy.requiredChecks must not contain duplicates".into());
+        }
+        if errors.is_empty() {
+            Ok(())
+        } else {
+            Err(errors)
+        }
+    }
+}
+
+/// A strict, append-only checkpoint evidence entry stored in a Work Item
+/// Summary.  The Runtime binds the identity and counts; it does not infer
+/// them from Agent prose.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CheckpointEvidence {
+    #[serde(default = "default_checkpoint_evidence_schema_version")]
+    pub schema_version: u32,
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub stage: String,
+    pub recorded: bool,
+    pub contract_hash: String,
+    pub repository_snapshot_digest: Digest,
+    pub acceptance_count: u64,
+    pub unknown_count: u64,
+    pub required_checks: u64,
+    pub required_checks_passed: u64,
+    #[serde(default)]
+    pub original_before_edit_contract_hash: Option<String>,
+    #[serde(default)]
+    pub previous_contract_hash: Option<String>,
+    #[serde(default)]
+    pub reason: Option<String>,
+    #[serde(default)]
+    pub verification_started: bool,
+    #[serde(default)]
+    pub invalidated_required_checks: Vec<String>,
+    #[serde(default)]
+    pub required_checks_passed_at_amendment: Option<u64>,
+    pub recorded_at: String,
+}
+
+fn default_checkpoint_evidence_schema_version() -> u32 {
+    1
+}
+
+impl CheckpointEvidence {
+    pub fn validate_shape(&self) -> Result<(), Vec<String>> {
+        let mut errors = Vec::new();
+        if self.schema_version != 1 {
+            errors.push("checkpointEvidence.schemaVersion must be 1".into());
+        }
+        if self.repository_id.trim().is_empty() {
+            errors.push("checkpointEvidence.repositoryId is required".into());
+        }
+        if self.work_item_id.trim().is_empty() {
+            errors.push("checkpointEvidence.workItemId is required".into());
+        }
+        if !matches!(
+            self.stage.as_str(),
+            "before_edit" | "before_finish" | "contract_amendment_revalidation"
+        ) {
+            errors.push("checkpointEvidence.stage is unsupported".into());
+        }
+        if !self.recorded {
+            errors.push("checkpointEvidence.recorded must be true".into());
+        }
+        if self.contract_hash.trim().is_empty() {
+            errors.push("checkpointEvidence.contractHash is required".into());
+        }
+        if self.recorded_at.trim().is_empty() {
+            errors.push("checkpointEvidence.recordedAt is required".into());
+        }
+        if self.stage == "before_edit" && self.required_checks_passed != 0 {
+            errors.push("before_edit checkpointEvidence must have zero passed checks".into());
+        }
+        if self.stage == "contract_amendment_revalidation" {
+            if self
+                .original_before_edit_contract_hash
+                .as_deref()
+                .is_none_or(str::is_empty)
+            {
+                errors.push(
+                    "contract amendment checkpoint requires originalBeforeEditContractHash".into(),
+                );
+            }
+            if self
+                .previous_contract_hash
+                .as_deref()
+                .is_none_or(str::is_empty)
+            {
+                errors.push("contract amendment checkpoint requires previousContractHash".into());
+            }
+            if self.reason.as_deref().is_none_or(str::is_empty) {
+                errors.push("contract amendment checkpoint requires reason".into());
+            }
+            if self.required_checks_passed != 0 {
+                errors.push(
+                    "contract amendment checkpoint must reset requiredChecksPassed to zero".into(),
+                );
+            }
+            if self.verification_started && self.invalidated_required_checks.is_empty() {
+                errors.push("post-verification amendment must invalidate required checks".into());
+            }
+        }
+        if self.required_checks_passed > self.required_checks {
+            errors.push(
+                "checkpointEvidence.requiredChecksPassed cannot exceed requiredChecks".into(),
+            );
+        }
+        if self.verification_started && self.required_checks_passed_at_amendment.is_none() {
+            errors.push(
+                "verification-started checkpoint amendment requires requiredChecksPassedAtAmendment"
+                    .into(),
+            );
+        }
+        if errors.is_empty() {
+            Ok(())
+        } else {
+            Err(errors)
+        }
+    }
+}
+
 /// Repository-bound evidence that a human selected the bounded preflight
 /// review option. This receipt authorizes only the workflow transition from
 /// `needs_human_confirmation` to implementation; it never asserts that an
@@ -2155,7 +2356,7 @@ pub struct Contract {
     /// the legacy intelligence/scope projection in that case.
     pub concurrency_boundary: Option<ConcurrencyBoundary>,
     #[serde(default)]
-    pub checkpoint_policy: Option<serde_json::Value>,
+    pub checkpoint_policy: Option<CheckpointPolicy>,
     #[serde(default)]
     pub human_decision_points: Option<serde_json::Value>,
     #[serde(default)]
@@ -2254,6 +2455,12 @@ impl Contract {
             && let Err(error) = boundary.validate()
         {
             errors.push(error);
+        }
+
+        if let Some(policy) = &self.checkpoint_policy
+            && let Err(policy_errors) = policy.validate()
+        {
+            errors.extend(policy_errors);
         }
 
         if self.mode.as_deref() == Some("code") {

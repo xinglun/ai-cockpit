@@ -134,3 +134,19 @@ default branch commit に再バインドします。WI-273 は immutable な fai
 
 各 batch は独立した Contract と evidence を持ちます。review と publish 後、次の batch は published Runtime で
 再度 acceptance を実施し、working-tree code を release behavior と取り違えないようにします。
+
+## WI-286 file-level Agent Risk と checkpoint batch
+
+WI-286 は reference の Agent Risk/checkpoint responsibility を一つずつ比較します。
+Source の Python/YAML は reference corpus のままとし、Rust の typed Protocol
+record と共有 lifecycle validator で bounded semantics を強制します。
+
+| Reference path | Classification | Rust counterpart |
+| --- | --- | --- |
+| `.ai/guards/agent_risk_policy.yaml` | implemented-different-by-design | typed `checkpointPolicy`、Contract verification declaration、Agent Risk validator、dynamic profile docs。 |
+| `scripts/ai_check_agent_risk.py` | implemented-different-by-design | `validate_agent_risk_controls` を lifecycle boundary で共有。 |
+| `scripts/ai_checkpoint.py` | implemented-different-by-design | typed `CheckpointEvidence`、amendment CLI、append-only chain、resume-stale binding。 |
+| `tests/test_ai_agent_risk.py`、`tests/test_ai_checkpoint.py`、`tests/test_outcome_lifecycle_rules.py` | implemented-different-by-design | Rust protocol/repository lifecycle と static Agent-rule parity test。 |
+
+これは semantic parity であり、直接の JSON-wire parity ではありません。read-only
+Rust gate の CI invocation は後続の bounded CI batch です。

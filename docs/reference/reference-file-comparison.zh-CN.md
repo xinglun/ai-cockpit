@@ -130,3 +130,18 @@ verification evidence，因此 successor 会隔离保留这段历史，不会改
 
 每批都有独立 Contract 和 evidence。批次通过 review 并发布后，下一批使用已发布 Runtime
 重新验收，避免工作树代码伪装成发布行为。
+
+## WI-286——Agent Risk 与 checkpoint 文件级批次
+
+WI-286 逐个比较参考源 Agent Risk/checkpoint 责任。源 Python/YAML 仍只作为参考
+corpus；Rust typed Protocol record 与共享 lifecycle validator 执行有界语义。
+
+| 参考路径 | 分类 | Rust 对应 |
+| --- | --- | --- |
+| `.ai/guards/agent_risk_policy.yaml` | implemented-different-by-design | typed `checkpointPolicy`、Contract verification 声明、Agent Risk validator 与动态 profile 文档。 |
+| `scripts/ai_check_agent_risk.py` | implemented-different-by-design | `validate_agent_risk_controls` 在 lifecycle 边界复用。 |
+| `scripts/ai_checkpoint.py` | implemented-different-by-design | typed `CheckpointEvidence`、amendment CLI、append-only chain 与 resume-stale 绑定。 |
+| `tests/test_ai_agent_risk.py`、`tests/test_ai_checkpoint.py`、`tests/test_outcome_lifecycle_rules.py` | implemented-different-by-design | Rust protocol/repository lifecycle 与 Agent 规则静态 parity test。 |
+
+本批次是 semantic parity，不是直接 JSON-wire parity。CI 调用 read-only Rust gate
+属于后续有界 CI 批次。

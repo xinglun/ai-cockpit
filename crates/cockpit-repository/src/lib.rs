@@ -10,11 +10,11 @@ use cockpit_protocol::{
     AdopterCapabilityState, AdopterCapabilityTruth, AgentAdapterCompatibility,
     AgentInterfaceAvailability, AgentInterfaceManifest, AgentInterfaces, AgentRootBinding,
     ApprovalMode, AuditEvent, AuditExportManifest, CapabilityConfidence, CapabilityExclusion,
-    CapabilityOwnership, CapabilityTruth, CapabilityTruthRegistry, ConcurrencyBoundary, Contract,
-    DataClassification, DelegatedEvidence, DelegatedEvidenceReceipt, DiagnosisState,
-    EvidenceAssurance, EvidenceDisposition, EvidenceDispositionItem, EvidencePersistence,
-    EvidenceRetention, EvidenceRetentionPolicy, EvidenceValidity, FactOrigin, GovernanceCost,
-    GovernancePolicy, GovernancePolicyDocument, HumanBenefitReport, HumanDecision,
+    CapabilityOwnership, CapabilityTruth, CapabilityTruthRegistry, CheckpointEvidence,
+    ConcurrencyBoundary, Contract, DataClassification, DelegatedEvidence, DelegatedEvidenceReceipt,
+    DiagnosisState, EvidenceAssurance, EvidenceDisposition, EvidenceDispositionItem,
+    EvidencePersistence, EvidenceRetention, EvidenceRetentionPolicy, EvidenceValidity, FactOrigin,
+    GovernanceCost, GovernancePolicy, GovernancePolicyDocument, HumanBenefitReport, HumanDecision,
     ImplementationApproach, OutcomeClaim, OutcomeReportBindings, OutcomeReportSections,
     OutcomeState, OutcomeV2, PARALLEL_SLOT_LEASE_SCHEMA_VERSION, ParallelSlotLease,
     PerformanceDiagnosis, PolicyLayer, QualityCommand, RecoveryDecisionReceipt, RepositoryConfig,
@@ -554,6 +554,8 @@ pub struct VerificationEvidenceV2 {
     pub runtime_version: String,
     pub runtime_digest: Digest,
     pub repository_snapshot_digest: Digest,
+    #[serde(default)]
+    pub contract_digest: Option<Digest>,
     pub passed: bool,
     pub receipt_digest: Digest,
     pub capture_mode: VerificationCaptureMode,
@@ -578,6 +580,8 @@ struct VerificationEvidenceEnvelope {
     runtime_version: String,
     runtime_digest: Digest,
     repository_snapshot_digest: Digest,
+    #[serde(default)]
+    contract_digest: Option<Digest>,
     passed: bool,
     receipt_digest: Digest,
     capture_mode: VerificationCaptureMode,
@@ -3728,9 +3732,23 @@ pub fn checkpoint_work_item(
         preflight_state,
     )?;
     let timestamp = now();
+    if contract.checkpoint_policy.is_some() {
+        append_checkpoint_evidence(
+            &mut summary,
+            &root,
+            &contract,
+            "before_edit",
+            &snapshot,
+            &current_contract_digest,
+            0,
+            &timestamp,
+        )?;
+    }
     summary["checkpointCount"] = 1.into();
     summary["state"] = "checkpointed".into();
     summary["checkpointAt"] = timestamp.clone().into();
+    summary["checkpointContractDigest"] = current_contract_digest.into();
+    summary["checkpointRepositorySnapshotDigest"] = current_snapshot_digest.into();
     summary["updatedAt"] = timestamp.clone().into();
     atomic_json(&path, &summary)?;
     Ok(LifecycleReceipt {
@@ -3738,6 +3756,220 @@ pub fn checkpoint_work_item(
         state: "checkpointed".into(),
         timestamp,
     })
+}
+
+fn checkpoint_required_check_names(contract: &Contract) -> Vec<String> {
+    let mut checks = required_verification_checks(contract);
+    if let Some(policy) = contract.checkpoint_policy.as_ref() {
+        checks.extend(policy.required_checks.iter().cloned());
+    }
+    checks.sort();
+    checks.dedup();
+    checks
+}
+
+fn checkpoint_passed_check_count(contract: &Contract, summary: &serde_json::Value) -> u64 {
+    let names = checkpoint_required_check_names(contract);
+    names
+        .iter()
+        .filter(|name| {
+            summary
+                .get("verification")
+                .and_then(serde_json::Value::as_array)
+                .is_some_and(|items| {
+                    items.iter().any(|item| {
+                        item.get("check").and_then(serde_json::Value::as_str) == Some(name.as_str())
+                            && item.get("result").and_then(serde_json::Value::as_str)
+                                == Some("passed")
+                    })
+                })
+        })
+        .count() as u64
+}
+
+#[allow(clippy::too_many_arguments)]
+fn append_checkpoint_evidence(
+    summary: &mut serde_json::Value,
+    root: &Path,
+    contract: &Contract,
+    stage: &str,
+    snapshot: &RepositorySnapshot,
+    contract_hash: &str,
+    required_checks_passed: u64,
+    recorded_at: &str,
+) -> Result<(), ObserverError> {
+    let evidence = summary
+        .as_object_mut()
+        .expect("Work Item Summary is an object")
+        .entry("checkpointEvidence")
+        .or_insert_with(|| serde_json::json!([]));
+    let entries = evidence
+        .as_array_mut()
+        .ok_or_else(|| ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message: "checkpointEvidence must be an array".into(),
+        })?;
+    if entries
+        .iter()
+        .any(|item| item.get("stage").and_then(serde_json::Value::as_str) == Some(stage))
+    {
+        return Err(ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message: format!("checkpointEvidence stage {stage} is already recorded"),
+        });
+    }
+    let required_checks = checkpoint_required_check_names(contract);
+    entries.push(serde_json::json!({
+        "schemaVersion": 1,
+        "repositoryId": repository_id(root),
+        "workItemId": contract.work_item_id,
+        "stage": stage,
+        "recorded": true,
+        "contractHash": contract_hash,
+        "repositorySnapshotDigest": snapshot_digest(snapshot)?,
+        "acceptanceCount": contract.acceptance_criteria.len(),
+        "unknownCount": contract.unknowns.len(),
+        "requiredChecks": required_checks.len(),
+        "requiredChecksPassed": required_checks_passed,
+        "recordedAt": recorded_at,
+    }));
+    Ok(())
+}
+
+/// Append a Contract-amendment revalidation record without rewriting the
+/// immutable `before_edit` checkpoint.  A post-verification amendment marks
+/// every prior required result stale; a fresh preflight and verification must
+/// clear that marker before finish/archive/close can proceed.
+pub fn revalidate_contract_amendment(
+    root: &Path,
+    work_item_id: &str,
+    reason: &str,
+) -> Result<serde_json::Value, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    if reason.trim().is_empty() {
+        return Err(ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message: "contract amendment reason must not be empty".into(),
+        });
+    }
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let active = root.join(".ai/work-items/active");
+    let contract_path = active.join(format!("{work_item_id}.contract.json"));
+    let summary_path = active.join(format!("{work_item_id}.summary.json"));
+    let contract = read_contract(&contract_path)?;
+    let mut summary = read_json(&summary_path)?;
+    let evidence = summary
+        .get("checkpointEvidence")
+        .and_then(serde_json::Value::as_array)
+        .ok_or_else(|| ObserverError::State {
+            path: summary_path.clone(),
+            message: "contract amendment requires typed checkpointEvidence".into(),
+        })?;
+    let before_edit = evidence
+        .iter()
+        .find(|entry| entry.get("stage").and_then(serde_json::Value::as_str) == Some("before_edit"))
+        .cloned()
+        .ok_or_else(|| ObserverError::State {
+            path: summary_path.clone(),
+            message: "contract amendment requires a before_edit checkpoint".into(),
+        })?;
+    let before_edit: CheckpointEvidence =
+        serde_json::from_value(before_edit).map_err(|error| ObserverError::State {
+            path: summary_path.clone(),
+            message: format!("before_edit checkpoint is malformed: {error}"),
+        })?;
+    if evidence.iter().any(|entry| {
+        entry.get("stage").and_then(serde_json::Value::as_str) == Some("before_finish")
+    }) {
+        return Err(ObserverError::State {
+            path: summary_path,
+            message: "contract amendment after before_finish requires a recovery Work Item".into(),
+        });
+    }
+    let amendment_hashes = evidence
+        .iter()
+        .filter(|entry| {
+            entry.get("stage").and_then(serde_json::Value::as_str)
+                == Some("contract_amendment_revalidation")
+        })
+        .map(|entry| {
+            serde_json::from_value::<CheckpointEvidence>(entry.clone()).map_err(|error| {
+                ObserverError::State {
+                    path: summary_path.clone(),
+                    message: format!("contract amendment checkpoint is malformed: {error}"),
+                }
+            })
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+    let previous_contract_hash = amendment_hashes
+        .last()
+        .map(|entry| entry.contract_hash.clone())
+        .unwrap_or_else(|| before_edit.contract_hash.clone());
+    let current_contract_hash = contract_digest(&contract_path)?.to_string();
+    if current_contract_hash == previous_contract_hash {
+        return Err(ObserverError::State {
+            path: contract_path,
+            message: "contract amendment must change Contract bytes".into(),
+        });
+    }
+    let git =
+        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
+    let required_checks = checkpoint_required_check_names(&contract);
+    let required_checks_passed = checkpoint_passed_check_count(&contract, &summary);
+    let verification_started = summary
+        .get("verification")
+        .and_then(serde_json::Value::as_array)
+        .is_some_and(|entries| {
+            entries.iter().any(|entry| {
+                matches!(
+                    entry.get("result").and_then(serde_json::Value::as_str),
+                    Some("passed" | "failed" | "warning" | "blocked")
+                )
+            })
+        });
+    let record = serde_json::json!({
+        "schemaVersion": 1,
+        "repositoryId": repository_id(&root),
+        "workItemId": work_item_id,
+        "stage": "contract_amendment_revalidation",
+        "recorded": true,
+        "contractHash": current_contract_hash.clone(),
+        "repositorySnapshotDigest": snapshot_digest(&snapshot)?,
+        "acceptanceCount": contract.acceptance_criteria.len(),
+        "unknownCount": contract.unknowns.len(),
+        "requiredChecks": required_checks.len(),
+        "requiredChecksPassed": 0,
+        "originalBeforeEditContractHash": before_edit.contract_hash,
+        "previousContractHash": previous_contract_hash,
+        "reason": reason.trim(),
+        "verificationStarted": verification_started,
+        "invalidatedRequiredChecks": if verification_started { required_checks.clone() } else { Vec::new() },
+        "requiredChecksPassedAtAmendment": if verification_started { Some(required_checks_passed) } else { None },
+        "recordedAt": now(),
+    });
+    let entries = summary
+        .get_mut("checkpointEvidence")
+        .and_then(serde_json::Value::as_array_mut)
+        .expect("checkpointEvidence was validated as an array");
+    entries.push(record.clone());
+    summary["preflightState"] = "not_run".into();
+    summary["verificationInvalidatedByContractAmendment"] = serde_json::json!({
+        "contractHash": current_contract_hash,
+        "invalidatedRequiredChecks": if verification_started { required_checks } else { Vec::new() },
+        "recordedAt": now(),
+    });
+    atomic_json(&summary_path, &summary)?;
+    Ok(record)
 }
 
 /// Evaluate and persist the preflight decision for an active Work Item.
@@ -3896,6 +4128,22 @@ fn contract_digest(path: &Path) -> Result<Digest, ObserverError> {
     })
 }
 
+fn contract_digest_for_evidence(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+) -> Result<Digest, ObserverError> {
+    let active = root
+        .join(".ai/work-items/active")
+        .join(format!("{}.contract.json", contract.work_item_id));
+    let path = if active.is_file() {
+        active
+    } else {
+        root.join(".ai/work-items/archive")
+            .join(format!("{}.contract.json", contract.work_item_id))
+    };
+    contract_digest(&path)
+}
+
 fn require_green_or_yellow_preflight_governance(
     root: &Path,
     contract_path: &Path,
@@ -3993,6 +4241,27 @@ fn finish_work_item_internal(
     }
     let contract_path = active.join(format!("{work_item_id}.contract.json"));
     let contract = read_contract(&contract_path)?;
+    if contract.checkpoint_policy.is_some() {
+        let current_contract_hash = contract_digest(&contract_path)?.to_string();
+        if summary["checkpointContractDigest"] != serde_json::json!(current_contract_hash) {
+            return Err(ObserverError::State {
+                path: summary_path.clone(),
+                message: "finish requires a checkpoint for the current Contract".into(),
+            });
+        }
+        let checkpoint_snapshot = summary["checkpointRepositorySnapshotDigest"]
+            .as_str()
+            .unwrap_or_default();
+        let preflight_snapshot = summary["preflightRepositorySnapshotDigest"]
+            .as_str()
+            .unwrap_or_default();
+        if checkpoint_snapshot.is_empty() || checkpoint_snapshot != preflight_snapshot {
+            return Err(ObserverError::State {
+                path: summary_path.clone(),
+                message: "finish requires a checkpoint for the current repository snapshot".into(),
+            });
+        }
+    }
     require_explicit_resource_finalization_plan(&contract, &contract_path, "finish")?;
     let original_summary = summary.clone();
     let evidence_path = root
@@ -4069,6 +4338,43 @@ fn finish_work_item_internal(
             path: evidence_path,
             message: "verification evidence is not a valid current receipt".into(),
         });
+    }
+    if contract.checkpoint_policy.is_some() {
+        let current_contract_hash = contract_digest(&contract_path)?.to_string();
+        let has_before_finish = summary
+            .get("checkpointEvidence")
+            .and_then(serde_json::Value::as_array)
+            .is_some_and(|entries| {
+                entries.iter().any(|entry| {
+                    entry.get("stage").and_then(serde_json::Value::as_str) == Some("before_finish")
+                })
+            });
+        if !has_before_finish {
+            let passed = checkpoint_passed_check_count(&contract, &summary);
+            append_checkpoint_evidence(
+                &mut summary,
+                &root,
+                &contract,
+                "before_finish",
+                &snapshot,
+                &current_contract_hash,
+                passed,
+                &now(),
+            )?;
+            atomic_json(&summary_path, &summary)?;
+        }
+        if let Err(errors) = validate_checkpoint_evidence_bindings(
+            &contract,
+            &summary,
+            &repository_id(&root).to_string(),
+            &current_digest.to_string(),
+            &current_contract_hash,
+        ) {
+            return Err(ObserverError::State {
+                path: summary_path.clone(),
+                message: format!("checkpoint evidence is invalid: {}", errors.join(", ")),
+            });
+        }
     }
     if let Some(runtime) = current_runtime {
         require_green_governance_with_runtime(
@@ -4698,6 +5004,7 @@ fn record_verification_internal(
             message: "current Runtime requires a strict typed verification receipt".into(),
         });
     }
+    let current_contract_digest = contract_digest(&active_contract)?;
     let retention_policy = read_evidence_retention_policy(&root, work_item_id)?;
     let (stored_receipt, capture_mode) = match retention_policy
         .as_ref()
@@ -4740,6 +5047,7 @@ fn record_verification_internal(
         "repositoryId": expected_repository_id,
         "runtimeVersion": runtime_version,
         "runtimeDigest": runtime_digest,
+        "contractDigest": current_contract_digest,
         "repositorySnapshotDigest": snapshot_digest(snapshot)?,
         "passed": true,
         "receiptDigest": receipt_digest,
@@ -4802,6 +5110,41 @@ fn record_verification_internal(
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.summary.json"));
     let mut summary: serde_json::Value = read_json(&summary_path)?;
+    summary
+        .as_object_mut()
+        .expect("Work Item Summary is an object")
+        .remove("verificationInvalidatedByContractAmendment");
+    let verification_entries = summary
+        .as_object_mut()
+        .expect("Work Item Summary is an object")
+        .entry("verification")
+        .or_insert_with(|| serde_json::json!([]));
+    let verification_entries =
+        verification_entries
+            .as_array_mut()
+            .ok_or_else(|| ObserverError::State {
+                path: summary_path.clone(),
+                message: "Summary.verification must be an array".into(),
+            })?;
+    if let Some(results) = receipt.get("results").and_then(serde_json::Value::as_array) {
+        for result in results {
+            let Some(node_id) = result.get("nodeId").and_then(serde_json::Value::as_str) else {
+                continue;
+            };
+            let value = serde_json::json!({
+                "check": node_id,
+                "result": if result.get("passed") == Some(&serde_json::Value::Bool(true)) {
+                    "passed"
+                } else {
+                    "failed"
+                },
+            });
+            verification_entries.retain(|item| {
+                item.get("check").and_then(serde_json::Value::as_str) != Some(node_id)
+            });
+            verification_entries.push(value);
+        }
+    }
     summary["preflightState"] = decision_state_name(decision.state.clone()).into();
     summary["preflightDecisionDigest"] = cockpit_protocol::digest_json(&decision_value)
         .map_err(|error| ObserverError::State {
@@ -4813,6 +5156,13 @@ fn record_verification_internal(
     summary["preflightRepositorySnapshotDigest"] =
         snapshot_digest(&refreshed_snapshot)?.to_string().into();
     summary["preflightContractDigest"] = contract_digest(&contract_path)?.to_string().into();
+    // A fresh verification after Contract amendment revalidates the existing
+    // checkpoint against the new Contract and snapshot. The immutable
+    // before_edit evidence remains in the append-only chain; only this
+    // current lifecycle binding advances.
+    summary["checkpointContractDigest"] = contract_digest(&contract_path)?.to_string().into();
+    summary["checkpointRepositorySnapshotDigest"] =
+        snapshot_digest(&refreshed_snapshot)?.to_string().into();
     summary["preflightAt"] = now().into();
     atomic_json(&summary_path, &summary)?;
     Ok(evidence)
@@ -5927,6 +6277,42 @@ pub fn resolve_verification_route(
     } else {
         None
     };
+    if let Some(plan) = policy_plan.as_ref() {
+        let coverage = contract
+            .scenario_coverage
+            .as_ref()
+            .and_then(|value| cockpit_protocol::validate_scenario_coverage_projection(value).ok())
+            .unwrap_or_default();
+        let scenarios = coverage
+            .iter()
+            .map(|entry| entry.scenario.clone())
+            .collect::<Vec<_>>();
+        let required_scenarios = coverage
+            .iter()
+            .filter(|entry| entry.required)
+            .map(|entry| entry.scenario.clone())
+            .collect::<Vec<_>>();
+        let intent = if contract.intent.is_empty() {
+            String::new()
+        } else {
+            "contract-intent-present".into()
+        };
+        cockpit_verification::bind_intent_scenario_route(
+            &cockpit_verification::IntentScenarioRouteInput {
+                intent,
+                scenarios,
+                required_scenarios,
+                operation: operation.clone(),
+                stage: stage.as_str().into(),
+                high_risk: contract.risk.to_ascii_lowercase().contains("high"),
+                policy_plan: plan.clone(),
+            },
+        )
+        .map_err(|error| ObserverError::State {
+            path: root.join(".ai/policy.json"),
+            message: format!("intent/scenario verification route is not bound: {error}"),
+        })?;
+    }
     let actual_tier = match stage {
         VerificationStage::Task => VerificationTier::T0,
         VerificationStage::PreCi => VerificationTier::T1,
@@ -6677,10 +7063,15 @@ fn contract_review_unknowns(contract: &cockpit_protocol::Contract) -> Vec<String
             unknowns.push("agent_needs_human_decision".into());
         }
     }
-    if let Some(decision) = &contract.execution_decision
-        && !matches!(decision.status.as_str(), "continue")
-    {
-        unknowns.push(format!("execution_decision:{}", decision.status));
+    if let Some(decision) = &contract.execution_decision {
+        if !matches!(
+            decision.status.as_str(),
+            "continue" | "defer" | "needs_human_decision" | "block"
+        ) {
+            unknowns.push("execution_decision_invalid".into());
+        } else if decision.status != "continue" {
+            unknowns.push(format!("execution_decision:{}", decision.status));
+        }
     }
     unknowns
 }
@@ -6989,6 +7380,11 @@ fn verification_evidence_state(
     let expected_repository_id = repository_id(root).to_string();
     if contract.repository_id != expected_repository_id
         || envelope.repository_id != expected_repository_id
+    {
+        return Ok(EvidenceState::Contradictory);
+    }
+    if let Some(contract_digest) = envelope.contract_digest.as_ref()
+        && contract_digest != &contract_digest_for_evidence(root, contract)?
     {
         return Ok(EvidenceState::Contradictory);
     }
@@ -7441,6 +7837,21 @@ fn archive_work_item_internal(
         path: root.clone(),
         message: error.to_string(),
     })?;
+    if contract.checkpoint_policy.is_some() {
+        let current_contract_hash = contract_digest(&contract_path)?.to_string();
+        if let Err(errors) = validate_checkpoint_evidence_bindings(
+            &contract,
+            &summary,
+            &repository_id(&root).to_string(),
+            &snapshot_digest(&snapshot)?.to_string(),
+            &current_contract_hash,
+        ) {
+            return Err(ObserverError::State {
+                path: summary_path.clone(),
+                message: format!("checkpoint evidence is invalid: {}", errors.join(", ")),
+            });
+        }
+    }
     if verification_evidence_state(&root, &contract, &snapshot, false, current_runtime)?
         != EvidenceState::Complete
     {
@@ -8974,6 +9385,31 @@ fn close_work_item_with_structured_decision_internal(
             path: root.clone(),
             message: error.to_string(),
         })?;
+        if contract.checkpoint_policy.is_some() {
+            let current_contract_hash = contract_digest(&contract_path)?.to_string();
+            let archived_snapshot = summary
+                .get("preflightRepositorySnapshotDigest")
+                .and_then(serde_json::Value::as_str)
+                .unwrap_or("")
+                .to_owned();
+            let expected_snapshot = if archived_snapshot.is_empty() {
+                snapshot_digest(&snapshot)?.to_string()
+            } else {
+                archived_snapshot
+            };
+            if let Err(errors) = validate_checkpoint_evidence_bindings(
+                &contract,
+                &summary,
+                &repository_id(&root).to_string(),
+                &expected_snapshot,
+                &current_contract_hash,
+            ) {
+                return Err(ObserverError::State {
+                    path: summary_path.clone(),
+                    message: format!("checkpoint evidence is invalid: {}", errors.join(", ")),
+                });
+            }
+        }
         let evidence_state =
             verification_evidence_state(&root, &contract, &snapshot, true, current_runtime)?;
         let historical_compatible = evidence_state != EvidenceState::Complete
@@ -12703,6 +13139,10 @@ fn read_json(path: &Path) -> Result<serde_json::Value, ObserverError> {
     let bytes = fs::read(path).map_err(|source| ObserverError::Read {
         path: path.into(),
         source,
+    })?;
+    reject_duplicate_json_keys(&bytes).map_err(|message| ObserverError::State {
+        path: path.into(),
+        message: format!("invalid JSON: {message}"),
     })?;
     serde_json::from_slice(&bytes).map_err(|error| ObserverError::State {
         path: path.into(),

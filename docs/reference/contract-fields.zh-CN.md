@@ -51,7 +51,8 @@ capabilityClaims:
 | `destructiveChangePolicy`、`rollbackNote`、`unknowns`、`notCodable` | 显式安全、恢复和未决状态声明。 | Implemented |
 | `scenarioCoverage` | 可选高风险 scenario projection；required/unverified scenario 会在 checkpoint 前 fail-closed。 | Implemented |
 | `concurrencyBoundary` | 并行 Work Item 的 Contract-owned 路径边界和 slot 授权。 | Implemented |
-| `checkpointPolicy`、`humanDecisionPoints`、`documentationImpact`、`performanceImpact`、`governanceProfile` 等扩展 | 只有在当前 typed validator 定义行为时才有行为保证；通用字段不是隐含批准。 | Partial |
+| `checkpointPolicy` | typed `light`/`standard`/`strict`/`release` profile，带显式 required stages/checks；strict/release 还要求六个 Agent Risk gate（`aiWorkItem`、`aiScope`、`aiAgentRisk`、`aiSummary`、`aiStatus`、`aiStatusCheck`）。unknown field 和重复要求 fail closed。它表示 Verification 强度，不表示 Evidence Assurance。 | Implemented |
+| `humanDecisionPoints`、`documentationImpact`、`performanceImpact`、`governanceProfile` 等扩展 | 只有在当前 typed validator 定义行为时才有行为保证；通用字段不是隐含批准。 | Partial |
 
 `authority: authorized` 只是 repository-local 声明。企业身份、provider 验证、组织策略和审批真实性仍是外部 evidence，不能从 Contract bytes 推断。
 
@@ -62,6 +63,7 @@ capabilityClaims:
 | `workItemId`、`repositoryId`、`mode`、`state` | Contract/repository 绑定和串行生命周期状态。 | Implemented |
 | `changedPaths` | 用于 scope 与 archive 检查的 snapshot 变更路径。 | Implemented |
 | `checkpointCount` | 当前生命周期的 exactly-one checkpoint gate。 | Implemented |
+| `checkpointEvidence` | 严格绑定 repository、Work Item、snapshot 与 Contract 的 `before_edit`/`before_finish` 记录。Contract amendment revalidation 为 append-only；验证开始后的 amendment 会使旧 required checks 失效，resume history 会使旧记录不可复用。 | Implemented |
 | `preflightState`、`preflightAt`、`preflightContractDigest`、`preflightDecisionDigest`、`preflightRepositorySnapshotDigest` | repository-bound preflight 决定及新鲜度绑定。 | Implemented |
 | `scenarioCoverage` | 与 Contract 对照校验的 Summary scenario 状态、evidence 和 reason。 | Implemented |
 | `acceptanceEvidence` | 稳定 acceptance ID、显式 evidence 和 intent alignment 的映射。 | Implemented |

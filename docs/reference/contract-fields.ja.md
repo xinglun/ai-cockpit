@@ -52,7 +52,8 @@ Status の意味：
 | `destructiveChangePolicy`、`rollbackNote`、`unknowns`、`notCodable` | explicit safety、recovery、unresolved state declaration。 | Implemented |
 | `scenarioCoverage` | optional high-risk scenario projection。required/unverified scenario は checkpoint 前に fail-closed。 | Implemented |
 | `concurrencyBoundary` | parallel Work Item の Contract-owned path boundary と slot authorization。 | Implemented |
-| `checkpointPolicy`、`humanDecisionPoints`、`documentationImpact`、`performanceImpact`、`governanceProfile` など | current typed validator が behavior を定義する場合だけ意味を持つ additive value。generic field は approval ではない。 | Partial |
+| `checkpointPolicy` | typed な `light`/`standard`/`strict`/`release` profile と明示的な required stages/checks。strict/release は Agent Risk の 6 gate（`aiWorkItem`、`aiScope`、`aiAgentRisk`、`aiSummary`、`aiStatus`、`aiStatusCheck`）も要求する。unknown field と重複要求は fail closed。Verification strength であり Evidence Assurance ではない。 | Implemented |
+| `humanDecisionPoints`、`documentationImpact`、`performanceImpact`、`governanceProfile` など | current typed validator が behavior を定義する場合だけ意味を持つ additive value。generic field は approval ではない。 | Partial |
 
 `authority: authorized` は repository-local declaration です。enterprise identity、provider verification、organization policy、approval authenticity は外部 evidence であり、Contract bytes から推測しません。
 
@@ -63,6 +64,7 @@ Status の意味：
 | `workItemId`、`repositoryId`、`mode`、`state` | Contract/repository binding と serial lifecycle state。 | Implemented |
 | `changedPaths` | scope と archive check に使う snapshot-observed paths。 | Implemented |
 | `checkpointCount` | current lifecycle の exactly-one checkpoint gate。 | Implemented |
+| `checkpointEvidence` | repository、Work Item、snapshot、Contract に strict bind された `before_edit`/`before_finish` record。Contract amendment revalidation は append-only、verification 開始後の amendment は既存 required check を無効化し、resume history は stale record の再利用を拒否する。 | Implemented |
 | `preflightState`、`preflightAt`、`preflightContractDigest`、`preflightDecisionDigest`、`preflightRepositorySnapshotDigest` | repository-bound preflight decision と freshness binding。 | Implemented |
 | `scenarioCoverage` | Contract と照合する Summary scenario status、evidence、reason。 | Implemented |
 | `acceptanceEvidence` | stable acceptance ID と explicit evidence、intent alignment の mapping。 | Implemented |

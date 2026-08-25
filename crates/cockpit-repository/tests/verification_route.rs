@@ -174,6 +174,49 @@ fn no_policy_route_remains_compatible() {
 }
 
 #[test]
+fn policy_route_rejects_missing_intent_before_execution() {
+    let (_directory, root) = repository();
+    start(&root);
+    fs::write(
+        root.join(".ai/policy.json"),
+        serde_json::to_vec_pretty(&policy_for(
+            "modify_source",
+            "pre_ci",
+            "T1",
+            "repository_verified",
+        ))
+        .unwrap(),
+    )
+    .expect("policy");
+    let contract_path = root.join(".ai/work-items/active/WI-ROUTE.contract.json");
+    let mut contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).unwrap()).unwrap();
+    contract["intent"] = json!("");
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&contract).unwrap(),
+    )
+    .unwrap();
+    let snapshot = cockpit_git::GitRepository::discover(&root)
+        .expect("git")
+        .snapshot()
+        .expect("snapshot");
+    let error = resolve_verification_route(
+        &root,
+        "WI-ROUTE",
+        VerificationStage::PreCi,
+        "local",
+        &snapshot,
+    )
+    .expect_err("missing intent must stop before command execution");
+    assert!(
+        error
+            .to_string()
+            .contains("intent/scenario verification route")
+    );
+}
+
+#[test]
 fn tampered_policy_plan_required_tier_blocks_outcome() {
     let (_directory, root) = repository();
     start(&root);

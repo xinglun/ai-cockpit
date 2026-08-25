@@ -332,6 +332,16 @@ enum WorkItemCommand {
         #[arg(long)]
         mode: String,
     },
+    /// Append a Contract-amendment revalidation without rewriting the
+    /// immutable before_edit checkpoint.
+    RevalidateAmendment {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+        #[arg(long)]
+        reason: String,
+    },
     Approach {
         #[arg(long)]
         repo: PathBuf,
@@ -1080,6 +1090,12 @@ fn run() -> Result<()> {
                 }
                 println!("\nState: {}", receipt.state);
                 println!("\n{}", serde_json::to_string_pretty(&receipt)?);
+            }
+            WorkItemCommand::RevalidateAmendment { repo, id, reason } => {
+                require_compatible(&repo, &runtime_context)?;
+                let record = cockpit_repository::revalidate_contract_amendment(&repo, &id, &reason)
+                    .context("revalidate amended Contract")?;
+                println!("{}", serde_json::to_string_pretty(&record)?);
             }
             WorkItemCommand::Approach { repo, id } => {
                 require_compatible(&repo, &runtime_context)?;
