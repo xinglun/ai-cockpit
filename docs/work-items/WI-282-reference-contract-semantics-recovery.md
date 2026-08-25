@@ -2,18 +2,18 @@
 author: AI Cockpit maintainers
 title: "WI-282 — reference Contract semantics recovery"
 workItemId: WI-282-reference-contract-semantics-recovery
-description: "Revalidate the bounded Rust Contract-semantics parity batch on the current reviewed snapshot after immutable WI-280 evidence became stale."
+description: "Immutable predecessor superseded by WI-283 after hosted quality rejected its older default-branch base revision."
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: superseded
 lastVerifiedBy: WI-282-reference-contract-semantics-recovery
 authority: canonical
 ---
 
 # WI-282 — reference Contract semantics recovery
 
-WI-282 is the explicit successor of immutable WI-280. Its purpose is to
-revalidate the same bounded Contract-semantics implementation on the current
-reviewed snapshot after documentation and finalization bindings changed the
-repository snapshot. WI-280 evidence remains immutable and is not rewritten.
+WI-282 is an immutable predecessor of WI-283. Hosted quality rejected its
+pre-merge finalization because its Contract base revision preceded the latest
+reviewed default branch. WI-282 evidence remains immutable and is superseded
+by WI-283 without rewriting predecessor bytes.
