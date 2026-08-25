@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "A1: inventory metadata and path digests match clean origin/main 487f01970c49e2b85d17b0cb0536f9d60c8f05e0.",
+    "A2: WI-273 immutable failed-delivery evidence is preserved and linked; no history is rewritten.",
+    "A3: parity registration is committed before verification evidence and the governance gate proves that order.",
+    "A4: all three language documents use the same baseline and counts.",
+    "A5: inventory, documentation, governance, full workspace, hosted, finalization, and cleanup checks pass."
+  ],
+  "createdAt": "2026-08-25T08:57:23Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:23c28eb3639faafdcd49d5a4409b092167679d98d41e0aa65bc10a054af900d4",
+  "evidenceRefs": [
+    ".ai/evidence/WI-274-reference-inventory-rebaseline-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-274-reference-inventory-rebaseline-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-274-reference-inventory-rebaseline-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:577d52db46878c8af53090bbd7d08f1e3c93f26ce6b5278ff0d8dad510480a26",
+      "workItemId": "WI-274-reference-inventory-rebaseline-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-274-reference-inventory-rebaseline-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-274-reference-inventory-rebaseline-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-274-reference-inventory-rebaseline-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-274-reference-inventory-rebaseline-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-274-reference-inventory-rebaseline-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-274-reference-inventory-rebaseline-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-274-reference-inventory-rebaseline-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-274-reference-inventory-rebaseline-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-274-reference-inventory-rebaseline-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-274-reference-inventory-rebaseline-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the file-level reference comparison ledger authoritative for origin/main while preserving WI-273 immutable failed-delivery truth and proving lifecycle ordering."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-274-reference-inventory-rebaseline-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-274-reference-inventory-rebaseline-recovery"
+  },
+  "taskReportDigest": "sha256:73839c60ccaa09218b6bc5d46c43ffd9a02e1b1f7ab1630eaadcc9ee91b08858",
+  "taskReportMarkdownDigest": "sha256:703711a83fd25e58599a92a8ac2dfc72e0b8cd69e7eea7144e19e4ae4a937e32",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-274-reference-inventory-rebaseline-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-274-reference-inventory-rebaseline-recovery"
+}

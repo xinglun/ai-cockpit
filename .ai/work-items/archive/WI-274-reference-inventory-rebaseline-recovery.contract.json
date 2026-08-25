@@ -17,22 +17,22 @@
     ".github/**",
     "historical docs/work-items/**"
   ],
-  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
-  "predecessorWorkItemId": "WI-273-reference-inventory-rebaseline",
   "predecessorContractDigest": "sha256:66ddd97bfc462631d888ecf41a847031d8d10b1a612cd4123853e237fcacf349",
-  "recoveryDecisionPath": ".ai/decisions/WI-273-reference-inventory-rebaseline.recovery.json",
+  "predecessorWorkItemId": "WI-273-reference-inventory-rebaseline",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
   "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-273-reference-inventory-rebaseline.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:99c9b0959969b3b2032dac7cd32f26acd74beec8f36ce625597e27a18c20abc7",
   "requiredEvidenceClasses": [
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-274-inventory-rebaseline-recovery",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/232",
     "worktree": "/private/tmp/ai-cockpit-wi274-inventory"
   },
   "risk": "normal",
