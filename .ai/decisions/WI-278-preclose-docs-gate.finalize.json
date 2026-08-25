@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "hosted-review-pending-merge",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "ec537812929733050f66a02cf078fac172b3f50c",
+    "name": "codex/wi-278-preclose-docs-gate",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:d172dd69281aefd8eee8498456259bc558efdf1917a33abf331a1ab1b27449a5",
+  "operationId": "operation-WI-278-preclose-docs-gate-pre-merge",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "0125cd4a95e2954d0671c29b6eef9758b45651f9",
+    "headRevision": "ec537812929733050f66a02cf078fac172b3f50c",
+    "number": 238,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/238"
+  },
+  "reason": "PR #238 has a clean archived Work Item and is awaiting hosted review and merge; retain the exact branch and worktree until merge and cleanup are observed.",
+  "receiptId": "ai-cockpit-WI-278-preclose-docs-gate-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-278-preclose-docs-gate",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/238",
+    "worktree": "/private/tmp/ai-cockpit-wi278-docs-gate"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-25T14:20:00Z",
+  "workItemId": "WI-278-preclose-docs-gate",
+  "worktree": {
+    "branch": "codex/wi-278-preclose-docs-gate",
+    "headRevision": "ec537812929733050f66a02cf078fac172b3f50c",
+    "path": "/private/tmp/ai-cockpit-wi278-docs-gate",
+    "worktreeId": "WI-278-preclose-docs-gate"
+  }
+}
