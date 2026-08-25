@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-278-preclose-docs-gate.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e9cefbbb7be73fb197b748ca93cc039ffb9788914c784d2bf4df1eff6f737c08",
+      "workItemId": "WI-278-preclose-docs-gate"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-278-preclose-docs-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-278-preclose-docs-gate.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-278-preclose-docs-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-278-preclose-docs-gate.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-278-preclose-docs-gate.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-278-preclose-docs-gate.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-278-preclose-docs-gate.verification.json",
+            ".ai/decisions/WI-278-preclose-docs-gate.finalize.4e0abb3fdff7fe5eb4446e3253b6b457bc3906f38641699ed8f11ecdde4e3d07.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via reviewed-PR-238-and-exact-cleanup at 2026-08-26T00:15:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-278-preclose-docs-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-278-preclose-docs-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-278-preclose-docs-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-278-preclose-docs-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the CI governance gate fail closed before pre-close lifecycle progression when a parity-owned Work Item is missing or symlinked in any of its English, Japanese, or Simplified Chinese docs; repair current-cycle omissions exposed by the gate; add deterministic regression coverage and document the dynamic policy."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-278-preclose-docs-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-278-preclose-docs-gate"
+  },
+  "finalReportDigest": "sha256:da79bfd4afe039e2396e9d5be90636657a3754660aff5394e71281932183200b",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:4d49ac334f6fdb74cdf66afe0ff775d861d9d046b77ca537eb408004e04b2906",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-278-preclose-docs-gate.finalize.4e0abb3fdff7fe5eb4446e3253b6b457bc3906f38641699ed8f11ecdde4e3d07.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "reviewed-PR-238-and-exact-cleanup",
+    "decidedAt": "2026-08-26T00:15:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-278-preclose-docs-gate.verification.json",
+      ".ai/decisions/WI-278-preclose-docs-gate.finalize.4e0abb3fdff7fe5eb4446e3253b6b457bc3906f38641699ed8f11ecdde4e3d07.json"
+    ],
+    "policyRefs": [
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "PR #238 passed hosted checks, merged at the reviewed head, and the exact branch/worktree cleanup receipt is verified.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-25T15:08:07Z",
+  "workItemId": "WI-278-preclose-docs-gate"
+}
