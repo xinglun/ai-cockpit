@@ -218,6 +218,8 @@ for workflow in (ci_workflow, release_workflow):
     assert "--command" not in workflow
 assert "stage=pull_request" in ci_workflow
 assert '--stage "$stage"' in ci_workflow
+assert 'contract_base_revision="$(jq -er' in ci_workflow
+assert 'base_revision="$(git rev-parse "${contract_base_revision}^{commit}")"' in ci_workflow
 assert "--stage release" in release_workflow
 assert "--profile strict" in release_workflow
 assert "target/quality-route.json" in ci_workflow

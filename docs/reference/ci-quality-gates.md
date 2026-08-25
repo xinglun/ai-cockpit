@@ -52,6 +52,11 @@ batch may remove duplicated policy only after hosted shadow comparisons prove
 semantic agreement. This gate does not implement the reference source's full
 workflow matrix, dependency planner, or release-preflight sequence.
 
+For a push event with one active Contract, the route uses that Contract's
+recorded base revision rather than `github.event.before`; this keeps push
+checks aligned with the same Work Item/PR base and prevents duplicate false
+failures while the pull-request event remains the review authority.
+
 ## Source-oriented snapshot identity
 
 The repository snapshot identity is source-oriented and repository-bound: the tracked source tree

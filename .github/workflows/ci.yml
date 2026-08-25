@@ -42,6 +42,14 @@ jobs:
           fi
           mapfile -t contracts < <(find .ai/work-items/active -maxdepth 1 -type f -name '*.contract.json' -print | sort)
           (( ${#contracts[@]} <= 1 )) || { echo 'multiple active Contracts cannot select one quality route' >&2; exit 1; }
+          if [[ "$EVENT_NAME" != pull_request && ${#contracts[@]} == 1 ]]; then
+            contract_base_revision="$(jq -er '.baseRevision' "${contracts[0]}")"
+            [[ "$contract_base_revision" =~ ^[0-9a-f]{40}$ ]] || {
+              echo 'active Contract baseRevision is not a valid commit' >&2
+              exit 1
+            }
+            base_revision="$(git rev-parse "${contract_base_revision}^{commit}")"
+          fi
           route_args=(
             --repo "$GITHUB_WORKSPACE"
             --manifest tests/ci/repository_gate_manifest.json
