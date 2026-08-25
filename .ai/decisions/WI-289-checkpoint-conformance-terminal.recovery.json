@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "hosted-quality-base-binding-gate",
+  "decidedAt": "2026-08-26T00:00:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/249",
+    ".ai/work-items/archive/WI-289-checkpoint-conformance-terminal.archive.json",
+    ".ai/decisions/WI-289-checkpoint-conformance-terminal.finalize.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:premerge-finalization-before-close",
+    "tests/ci/governance_integrity_gate.py:premerge_finalize_state"
+  ],
+  "predecessorContractDigest": "sha256:9dd6212499c1ae706d32299fccf2cce4ac865373763f0363d13c84b24ac720c9",
+  "predecessorEventsDigest": "sha256:cb82d9d31787a6195c1f201f5ce10c1b23c08edfad06d4a0621b25ed134eabde",
+  "predecessorOutcomeDigest": "sha256:65fd8ba36d4378939b042f735f5392cb97dbf2ad17e1c840e531535990052158",
+  "predecessorSummaryDigest": "sha256:b39c1dd68dcfde66f9c07a46f83809173bb2601e7871be8b7e77315e6534797c",
+  "predecessorWorkItemId": "WI-289-checkpoint-conformance-terminal",
+  "reason": "The predecessor was archived with a Contract baseRevision from the prior recovery branch, while hosted PR #249 was based on the latest remote default revision. Immutable pre-merge finalization therefore fails closed. Preserve every WI-289 byte and re-deliver the same bounded checkpoint-conformance correction from the correct remote default base with complete parity lifecycle records before archive.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Start WI-290 from the latest origin/main, bind the actual provider PR before verification, register complete tri-language parity lifecycle evidence before archive, pass hosted quality, finalize, verify, close, and clean the exact branch/worktree.",
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-290-checkpoint-conformance-final",
+  "workItemId": "WI-289-checkpoint-conformance-terminal"
+}

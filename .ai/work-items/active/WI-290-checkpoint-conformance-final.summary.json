@@ -1,0 +1,141 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "baseRevision",
+          "path": ".ai/work-items/active/WI-290-checkpoint-conformance-final.contract.json",
+          "type": "governance",
+          "verification": "Runtime contract inspection"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "predecessor recovery binding",
+          "path": ".ai/decisions/WI-289-checkpoint-conformance-terminal.recovery.json",
+          "type": "governance",
+          "verification": "Runtime recovery validation"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "tri-language parity rows",
+          "path": "docs/reference/reference-parity.md",
+          "type": "governance",
+          "verification": "documentation and governance gates"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "runtimeVersion/runtimeDigest/passed",
+          "path": ".ai/evidence/WI-290-checkpoint-conformance-final.verification.json",
+          "type": "test",
+          "verification": "installed Runtime verify"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "archive and finalization",
+          "path": ".ai/work-items/archive/WI-290-checkpoint-conformance-final.archive.json",
+          "type": "governance",
+          "verification": "provider finalization and close"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "human Outcome and repository isolation",
+          "path": "crates/cockpit-cli/tests/outcome_handoff.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/active/WI-290-checkpoint-conformance-final.contract.json",
+    ".ai/work-items/active/WI-290-checkpoint-conformance-final.summary.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-08-25T21:09:52Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-290-checkpoint-conformance-final.md",
+      ".ai/decisions/WI-289-checkpoint-conformance-terminal.recovery.json"
+    ],
+    "reason": "WI-290 only redelivers the already bounded checkpoint-conformance implementation from the correct remote base and closes the provider-bound governance gap; it does not add new runtime scope.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-08-25T21:13:03Z",
+  "preflightContractDigest": "sha256:b33236f443e4dcca629c29daceec0137f116c341d2f7f825358733e8eb7fc21e",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:bb0d76944738af51a54fca12954fb613f061cb2d3b28ed41231f7efc98f1af16",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/work-items/active/WI-290-checkpoint-conformance-final.contract.json"
+      ],
+      "expected": "The successor Contract baseRevision equals origin/main and the provider PR baseRevision is identical.",
+      "required": true,
+      "scenario": "latest_remote_base_binding",
+      "status": "verified",
+      "verificationPlan": "Contract inspection and hosted PR identity gate"
+    },
+    {
+      "evidence": [
+        ".ai/decisions/WI-289-checkpoint-conformance-terminal.recovery.json",
+        ".ai/work-items/archive/WI-289-checkpoint-conformance-terminal.archive.json"
+      ],
+      "expected": "WI-287, WI-288 and WI-289 archive, evidence and recovery bytes remain digest-valid and unchanged.",
+      "required": true,
+      "scenario": "predecessor_immutable_recovery",
+      "status": "verified",
+      "verificationPlan": "Runtime recovery validation and archive manifest checks"
+    },
+    {
+      "evidence": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md"
+      ],
+      "expected": "All three parity projections register WI-290 with complete lifecycle record paths before archive.",
+      "required": true,
+      "scenario": "parity_registration_before_archive",
+      "status": "verified",
+      "verificationPlan": "governance integrity gate and documentation acceptance"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-agent/tests/isolation.rs",
+        "crates/cockpit-cli/tests/outcome_handoff.rs"
+      ],
+      "expected": "The same installed Runtime, explicit repository context, fail-closed lifecycle and human Outcome remain available to an adopter.",
+      "required": true,
+      "scenario": "object_adopter_boundary",
+      "status": "verified",
+      "verificationPlan": "workspace lifecycle, isolation and Outcome tests"
+    }
+  ],
+  "state": "implementation_active",
+  "updatedAt": "2026-08-25T21:12:07.371539+00:00",
+  "workItemId": "WI-290-checkpoint-conformance-final"
+}

@@ -1,0 +1,73 @@
+{
+  "acceptanceCriteria": [
+    "Implementation and tests are preserved from the audited predecessor without rewriting immutable bytes",
+    "Contract baseRevision equals the latest origin main PR base revision",
+    "Three language parity rows contain complete lifecycle evidence paths before archive",
+    "Installed Runtime verification passes with runtime identity bound",
+    "Hosted quality windows and behavioral oracle checks pass",
+    "Finalize verify close and exact cleanup all succeed"
+  ],
+  "authority": "authorized",
+  "baseRevision": "bade01ddf52ed918237b9f18910c349e22ad6ebd",
+  "createdAt": "2026-08-25T21:09:52Z",
+  "goal": "Produce a provider-bound reviewed PR with complete parity lifecycle evidence and a closeable terminal checkpoint-conformance result.",
+  "intent": "Re-deliver the checkpoint conformance batch from the latest remote default base while preserving WI-289 immutable recovery history.",
+  "mode": "code",
+  "predecessorWorkItemId": "WI-289-checkpoint-conformance-terminal",
+  "predecessorContractDigest": "sha256:9dd6212499c1ae706d32299fccf2cce4ac865373763f0363d13c84b24ac720c9",
+  "recoveryDecisionPath": ".ai/decisions/WI-289-checkpoint-conformance-terminal.recovery.json",
+  "outOfScope": [
+    "new runtime feature semantics beyond this checkpoint batch",
+    "scheduler or parallel execution optimization",
+    "release packaging and adopter acceptance",
+    "lib.rs architecture split"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1d2d068199b12421ddb95580abae4063579e3e96ea2c4563276b874e963682d3",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-290-checkpoint-conformance-final",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi290"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-cli/tests/verify.rs",
+    "crates/cockpit-repository/src/governance_controls.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
+    "crates/cockpit-repository/tests/agent_rule_parity.rs",
+    "crates/cockpit-repository/tests/lifecycle_order.rs",
+    "docs/reference/reference-file-comparison.*",
+    "docs/reference/reference-parity.*",
+    "docs/reference/**",
+    "docs/work-items/**",
+    "docs/work-items/WI-287*",
+    "docs/work-items/WI-288*",
+    "docs/work-items/WI-289*",
+    "docs/work-items/WI-290*",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/**",
+    ".ai/decisions/WI-289-checkpoint-conformance-terminal.recovery.json",
+    ".ai/work-items/archive/WI-287*",
+    ".ai/work-items/archive/WI-288*",
+    ".ai/work-items/archive/WI-289*",
+    ".ai/evidence/WI-287*",
+    ".ai/evidence/WI-288*",
+    ".ai/evidence/WI-289*"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-290-checkpoint-conformance-final"
+}
