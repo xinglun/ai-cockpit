@@ -28,11 +28,11 @@
     "hosted_ci"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-293-ci-contract-aware-gates-recovery",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/253",
     "worktree": "/private/tmp/ai-cockpit-wi293"
   },
   "risk": "normal",
