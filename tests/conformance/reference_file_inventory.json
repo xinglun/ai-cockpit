@@ -33340,10 +33340,14 @@
     },
     {
       "referencePath": "scripts/ai_checkpoint.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-287-reference-checkpoint-conformance",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/governance_controls.rs"
+      ],
+      "reason": "Typed CheckpointPolicy/CheckpointEvidence and append-only amendment/resume validation provide the same fail-closed semantics without copying the reference Python implementation."
     },
     {
       "referencePath": "scripts/ai_classify_operation_impact.py",
@@ -34891,10 +34895,13 @@
     },
     {
       "referencePath": "tests/test_ai_checkpoint.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-287-reference-checkpoint-conformance",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
+        "crates/cockpit-repository/tests/lifecycle_order.rs"
+      ],
+      "reason": "Rust lifecycle and tamper regressions cover checkpoint ordering, immutable before_edit evidence, amendment lineage, resume freshness, and strict identity bindings; wire formats are intentionally not copied."
     },
     {
       "referencePath": "tests/test_ai_cross_wi_integration.py",

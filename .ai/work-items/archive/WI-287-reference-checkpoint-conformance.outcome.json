@@ -1,0 +1,145 @@
+{
+  "acceptanceResults": [
+    "A1: scripts/ai_checkpoint.py and tests/test_ai_checkpoint.py receive an evidence-backed non-deferred ledger classification with exact Rust counterparts and an explicit semantic/non-wire boundary.",
+    "A2: the Rust static parity regression asserts the source terminality and narrow-successor rule boundary, including current Work Item repair, no parallel Issue escape, visible green Outcome, completed/green status, and successor scope/authority/base limits.",
+    "A3: Rust regressions cover latest-resume stale evidence, invalid resume timestamps, immutable before_edit evidence, append-only amendment lineage, post-verification gate invalidation, and rejection of a before_edit checkpoint after verification has started.",
+    "A4: repository and CLI route regressions prove missing intent, required scenario, operation, or stage mismatch fails before command execution or evidence.",
+    "A5: English, Simplified Chinese, and Japanese comparison/parity documentation states what is implemented, what remains external, and does not overclaim wire compatibility.",
+    "A6: object/adopter capability remains equal to the Runtime boundary: explicit repository context, no global state/configuration, fail-closed unknowns, and human-visible Outcome handoff."
+  ],
+  "createdAt": "2026-08-25T20:18:40Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:3c563d70a54e2bab08e4f04e1306543d7e59e4efdc97ef618d799b237408109c",
+  "evidenceRefs": [
+    ".ai/evidence/WI-287-reference-checkpoint-conformance.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-287-reference-checkpoint-conformance.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-287-reference-checkpoint-conformance.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:853224ba8c761b9e8828c77364320189ff9ec4aed712b1a86bf05cc0f25d1544",
+      "workItemId": "WI-287-reference-checkpoint-conformance"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-287-reference-checkpoint-conformance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-287-reference-checkpoint-conformance.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-287-reference-checkpoint-conformance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-287-reference-checkpoint-conformance.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-287-reference-checkpoint-conformance.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-287-reference-checkpoint-conformance.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-287-reference-checkpoint-conformance.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-287-reference-checkpoint-conformance.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-287-reference-checkpoint-conformance.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-287-reference-checkpoint-conformance.contract.json"
+          ],
+          "inference": false,
+          "text": "Reference checkpoint and Agent rule semantics are explicitly mapped, regression-tested, and documented without copying Python or weakening repository isolation."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-287-reference-checkpoint-conformance.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-287-reference-checkpoint-conformance"
+  },
+  "taskReportDigest": "sha256:1c930c7846fae90f7add46b05abe0610ee622f06d9d60c1d1264696953df6c00",
+  "taskReportMarkdownDigest": "sha256:f2a52a7d9ae8a9248ada16b3cd98b45abcb8c288f05343fc16440dd2b753ebfa",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-287-reference-checkpoint-conformance.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-287-reference-checkpoint-conformance"
+}

@@ -99,6 +99,116 @@ fn verify_rejects_an_unknown_typed_stage() {
 }
 
 #[test]
+fn verify_cli_rejects_missing_intent_before_starting_the_command() {
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-verify-route-{}-{}",
+        std::process::id(),
+        NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed)
+    ));
+    fs::create_dir_all(&directory).expect("directory");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(&directory)
+        .status()
+        .expect("git init");
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    for args in [
+        vec![
+            "attach".into(),
+            "--repo".into(),
+            directory.display().to_string(),
+        ],
+        vec![
+            "start".into(),
+            "--repo".into(),
+            directory.display().to_string(),
+            "--id".into(),
+            "WI-CLI-ROUTE".into(),
+            "--intent".into(),
+            "route intent".into(),
+            "--goal".into(),
+            "route goal".into(),
+            "--scope".into(),
+            "**".into(),
+            "--authority".into(),
+            "authorized".into(),
+            "--acceptance".into(),
+            "route is enforced".into(),
+        ],
+    ] {
+        let output = Command::new(binary)
+            .args(args.iter().map(String::as_str))
+            .output()
+            .expect("lifecycle command");
+        assert!(
+            output.status.success(),
+            "stderr: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
+    fs::write(
+        directory.join(".ai/policy.json"),
+        r#"{
+          "schemaVersion": 1,
+          "organization": {
+            "policyId": "cli-route-v1",
+            "layer": "organization",
+            "rules": [{
+              "operation": "modify_source",
+              "approvalMode": "no_human_approval_for_low_risk",
+              "requiredEvidence": [],
+              "verificationRequirement": {
+                "schemaVersion": 1,
+                "requiredTier": "T0",
+                "requiredAssurance": "repository_verified",
+                "policyRefs": ["cli-route-v1"],
+                "stageRefs": ["task"],
+                "gateRefs": [],
+                "reason": "route test"
+              }
+            }]
+          }
+        }"#,
+    )
+    .expect("policy");
+    let contract_path = directory.join(".ai/work-items/active/WI-CLI-ROUTE.contract.json");
+    let mut contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract")).expect("JSON");
+    contract["intent"] = serde_json::json!("");
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&contract).expect("contract bytes"),
+    )
+    .expect("contract mutation");
+    let output = Command::new(binary)
+        .args([
+            "verify",
+            "--repo",
+            directory.to_str().expect("repo path"),
+            "--work-item",
+            "WI-CLI-ROUTE",
+            "--stage",
+            "task",
+            "--command",
+            "true",
+        ])
+        .output()
+        .expect("verify");
+    assert!(!output.status.success());
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(
+        stderr.contains("intent/scenario verification route"),
+        "{stderr}"
+    );
+    assert!(
+        !directory
+            .join(".ai/evidence/WI-CLI-ROUTE.verification.json")
+            .exists()
+    );
+    fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[test]
 fn verify_preserves_multiple_explicit_command_compatibility() {
     let suffix = SystemTime::now()
         .duration_since(UNIX_EPOCH)

@@ -1,0 +1,166 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "WI-287 checkpoint records",
+          "path": "tests/conformance/reference_file_inventory_test.sh",
+          "type": "test",
+          "verification": "reference inventory regression"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "source_terminality_rule_is_projected_without_template_copy",
+          "path": "crates/cockpit-repository/tests/agent_rule_parity.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "invalid_latest_resume_timestamp_fails_closed",
+          "path": "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        },
+        {
+          "locator": "before_edit_checkpoint_rejects_existing_verification_results",
+          "path": "crates/cockpit-repository/tests/lifecycle_order.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "verify_cli_rejects_missing_intent_before_starting_the_command",
+          "path": "crates/cockpit-cli/tests/verify.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "WI-287 checkpoint conformance closure",
+          "path": "docs/reference/reference-file-comparison.md",
+          "type": "documentation",
+          "verification": "documentation acceptance"
+        },
+        {
+          "locator": "WI-287 checkpoint 一致性收敛",
+          "path": "docs/reference/reference-file-comparison.zh-CN.md",
+          "type": "documentation",
+          "verification": "documentation acceptance"
+        },
+        {
+          "locator": "WI-287 checkpoint conformance の収束",
+          "path": "docs/reference/reference-file-comparison.ja.md",
+          "type": "documentation",
+          "verification": "documentation acceptance"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "default_lifecycle_commands_emit_localized_handoffs_without_changing_stdout_json",
+          "path": "crates/cockpit-cli/tests/outcome_handoff.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        },
+        {
+          "locator": "parallel_agent_operations_keep_repository_ids_and_records_separate",
+          "path": "crates/cockpit-agent/tests/isolation.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-287-reference-checkpoint-conformance.contract.json",
+    ".ai/work-items/archive/WI-287-reference-checkpoint-conformance.summary.json"
+  ],
+  "checkpointAt": "2026-08-25T20:04:25Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T20:04:08Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-287-reference-checkpoint-conformance.md",
+      "crates/cockpit-repository/src/lib.rs",
+      "crates/cockpit-repository/src/governance_controls.rs"
+    ],
+    "reason": "The checkpoint source semantics are projected into one Rust-native, explicit-repository lifecycle boundary; the source implementation remains reference-only and the object/adopter boundary is unchanged.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-08-25T20:18:23Z",
+  "preflightContractDigest": "sha256:10bf33d6771434531371848cb8db80894de98d75ea256b667ad954aa689e7687",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:853224ba8c761b9e8828c77364320189ff9ec4aed712b1a86bf05cc0f25d1544",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/conformance/reference_file_inventory_test.sh",
+        "tests/conformance/reference_file_inventory.json"
+      ],
+      "expected": "checkpoint source files are mapped to Rust counterparts and no deferred ledger record remains",
+      "required": true,
+      "scenario": "checkpoint_file_ledger_conformance",
+      "status": "verified",
+      "verificationPlan": "ledger regression and documentation acceptance"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/agent_rule_parity.rs"
+      ],
+      "expected": "source terminality and narrow successor rules remain visible in repository Agent instructions",
+      "required": true,
+      "scenario": "agent_rule_static_parity",
+      "status": "verified",
+      "verificationPlan": "Rust static parity regression"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
+        "crates/cockpit-repository/tests/lifecycle_order.rs"
+      ],
+      "expected": "resume, amendment, and checkpoint evidence cannot reuse stale or replaced authorization",
+      "required": true,
+      "scenario": "checkpoint_resume_amendment_regression",
+      "status": "verified",
+      "verificationPlan": "Rust checkpoint and lifecycle tamper tests"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/verification_route.rs",
+        "crates/cockpit-cli/tests/verify.rs"
+      ],
+      "expected": "intent, required scenario, operation, and stage route mismatches stop before command execution",
+      "required": true,
+      "scenario": "intent_scenario_route_cli_boundary",
+      "status": "verified",
+      "verificationPlan": "Rust repository and CLI route regressions"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-25T20:18:40Z",
+  "workItemId": "WI-287-reference-checkpoint-conformance"
+}

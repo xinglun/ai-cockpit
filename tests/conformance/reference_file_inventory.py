@@ -34,6 +34,7 @@ EXPECTED_REFERENCE_COMMIT = "e5acb677da6621004d96f0ef353c58fe8d3acfbf"
 EXPECTED_TARGET_COMMIT = "487f01970c49e2b85d17b0cb0536f9d60c8f05e0"
 CAPABILITY_STATUS_BATCH = "capability-status-projection"
 WI270_BATCH = "WI-270-reference-contract-batch"
+WI287_BATCH = "WI-287-reference-checkpoint-conformance"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -78,6 +79,24 @@ WI270_REFERENCE_FILES: dict[str, tuple[list[str], str]] = {
     "tests/test_parallel_lifecycle_contract.py": (["crates/cockpit-repository/tests/parallel_boundary.rs", "crates/cockpit-cli/tests/parallel_boundary.rs"], "Rust lifecycle/parallel tests cover isolated scopes, serialized projections, leases, overlap, and repository isolation."),
     "tests/test_preflight_review.py": (["crates/cockpit-repository/tests/preflight_review.rs", "crates/cockpit-cli/tests/preflight.rs"], "Rust preflight tests cover required human review, scenario coverage, policy signals, and identity-bound confirmation."),
     "tests/test_scenario_coverage_gate.py": (["crates/cockpit-repository/tests/contract_preflight.rs", "crates/cockpit-repository/tests/preflight_review.rs"], "Rust tests cover required verified/unverified/not-applicable scenarios, risk acknowledgement, and invalid status fail-closed behavior."),
+}
+
+WI287_REFERENCE_FILES: dict[str, tuple[list[str], str]] = {
+    "scripts/ai_checkpoint.py": (
+        [
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-repository/src/governance_controls.rs",
+        ],
+        "Typed CheckpointPolicy/CheckpointEvidence and append-only amendment/resume validation provide the same fail-closed semantics without copying the reference Python implementation.",
+    ),
+    "tests/test_ai_checkpoint.py": (
+        [
+            "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
+            "crates/cockpit-repository/tests/lifecycle_order.rs",
+        ],
+        "Rust lifecycle and tamper regressions cover checkpoint ordering, immutable before_edit evidence, amendment lineage, resume freshness, and strict identity bindings; wire formats are intentionally not copied.",
+    ),
 }
 
 
@@ -363,6 +382,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                     "classification": "implemented-different-by-design",
                     "rustCounterparts": counterparts,
                     "reason": f"WI-270 file-level comparison: {reason}",
+                }
+            )
+            continue
+        wi287 = WI287_REFERENCE_FILES.get(path)
+        if wi287 is not None:
+            counterparts, reason = wi287
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI287_BATCH,
+                    "classification": "implemented-different-by-design",
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
                 }
             )
             continue

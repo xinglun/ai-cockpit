@@ -105,8 +105,8 @@ complete parity とは扱いません。
 ## 現在の ledger snapshot
 
 固定した v0.2.31 comparison baseline の ledger は 5,119 records です。内訳は
-4,262 `generated-history`、167 `implemented-different-by-design`、1
-`implemented-equivalent`、689 `deferred-next-batch` です。Deferred record は予定された
+4,262 `generated-history`、169 `implemented-different-by-design`、1
+`implemented-equivalent`、687 `deferred-next-batch` です。Deferred record は予定された
 比較であり parity claim ではありません。capability/profile slice に `migrate-gap` は残っていません。
 
 1. `.ai/project/adopter-capability-manifest.json` は Runtime registry で表現し、installer-surface は external boundary とします。
@@ -150,3 +150,16 @@ record と共有 lifecycle validator で bounded semantics を強制します。
 
 これは semantic parity であり、直接の JSON-wire parity ではありません。read-only
 Rust gate の CI invocation は後続の bounded CI batch です。
+
+## WI-287 checkpoint conformance の収束
+
+WI-287 は checkpoint の実装と test source file に残っていた deferred ledger
+record を閉じます。Rust は verification 開始後の `before_edit` checkpoint と、
+不正な最新 resume timestamp を明示的に拒否します。Reference test の意味は Rust
+native lifecycle regression で表現し、Python test や source wire shape は copy
+しません。Static Agent-rule test は project rules に同じ terminality と narrow
+successor boundary があることを確認します。
+
+Object/adopter boundary は変わりません。shared Runtime は request-scoped、全操作は
+明示的な `--repo` を持ち、human Outcome が visible handoff です。CI workflow convergence
+と広い adopter surface は別の bounded batch です。
