@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-25T21:20:07Z",
+  "files": {
+    "contractDigest": "sha256:576a86ad16af3a0feaacdf53e69e4b94386b56a3feb25e46d5e4f7bc824b701d",
+    "contractPath": ".ai/work-items/archive/WI-290-checkpoint-conformance-final.contract.json",
+    "eventsDigest": "sha256:0a73f9eefae11c911485641853c09eb219d9730ff9c0501aed8ae6bd1ffab98b",
+    "eventsPath": ".ai/work-items/archive/WI-290-checkpoint-conformance-final.events.jsonl",
+    "outcomeDigest": "sha256:6ea81eedce4d84147141497d8af08c5282993cdbfed8754beec06b0e1e0ecc30",
+    "outcomePath": ".ai/work-items/archive/WI-290-checkpoint-conformance-final.outcome.json",
+    "summaryDigest": "sha256:17a838b010a7cf08fd383b7282de28b9f2a63e52f66a2b8f92916b8edd9ccec9",
+    "summaryPath": ".ai/work-items/archive/WI-290-checkpoint-conformance-final.summary.json",
+    "taskReportDigest": "sha256:c28c9bcf7c21430a1fac377de8603ecaa9e0d96db4b2319eb91b2a470ad0cae0",
+    "taskReportMarkdownDigest": "sha256:8a95f6ec266931aae70fdb17d38f3eedb3e6fa5a049685cbf0b81f603813a963",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-290-checkpoint-conformance-final.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-290-checkpoint-conformance-final.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-290-checkpoint-conformance-final"
+}

@@ -1,0 +1,151 @@
+{
+  "acceptanceResults": [
+    "A1: Preserve WI-287 immutable archive and recovery linkage without rewriting predecessor bytes.",
+    "A2: Bind the successor Contract resourceContext to the actual GitHub PR URL before final verification.",
+    "A3: Re-run the installed Runtime verification and hosted checks for the same Rust-native checkpoint/Agent rule implementation.",
+    "A4: Record provider finalization, verify it, close with a structured human decision, and clean only the exact merged branch/worktree.",
+    "A5: Keep object/adopter capability equal to the Runtime boundary: explicit repository context, fail-closed unknowns, and visible human Outcome."
+  ],
+  "createdAt": "2026-08-25T20:28:05Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:8b37efadad44187a5b64d4009e324da1954bd4cd5c4bd423337bc66e6591eb42",
+  "evidenceRefs": [
+    ".ai/evidence/WI-288-provider-finalization-correction.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-288-provider-finalization-correction.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-288-provider-finalization-correction.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4f543fa68ec68e74c17b81a964f080fa1977f2aad39a461eeea3cb5d7952b5b2",
+      "workItemId": "WI-288-provider-finalization-correction"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-288-provider-finalization-correction.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-287-reference-checkpoint-conformance.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-288-provider-finalization-correction.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-288-provider-finalization-correction.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-288-provider-finalization-correction.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-288-provider-finalization-correction.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-288-provider-finalization-correction.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-288-provider-finalization-correction.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-288-provider-finalization-correction.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-288-provider-finalization-correction.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-288-provider-finalization-correction.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-288-provider-finalization-correction.contract.json"
+          ],
+          "inference": false,
+          "text": "Produce an honestly bound reviewed PR and close the successor with immutable provider finalization evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-288-provider-finalization-correction.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-288-provider-finalization-correction"
+  },
+  "taskReportDigest": "sha256:8427c37fd6b479a2aa232f702ae1b5abddaa3c68cc3d1d08d351efd4354b6a18",
+  "taskReportMarkdownDigest": "sha256:cbf547310c33e24c24ef6d5eb6ac38e7ac758a34be90354fe020e2fab15d6a14",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-288-provider-finalization-correction.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-288-provider-finalization-correction"
+}

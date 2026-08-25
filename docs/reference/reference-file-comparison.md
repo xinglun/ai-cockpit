@@ -120,8 +120,8 @@ green parity.
 ## Current ledger snapshot
 
 At the pinned v0.2.31 comparison baseline, the ledger contains 5,119 records:
-4,262 `generated-history`, 167 `implemented-different-by-design`, one
-`implemented-equivalent`, and 689 `deferred-next-batch` records. Deferred
+4,262 `generated-history`, 169 `implemented-different-by-design`, one
+`implemented-equivalent`, and 687 `deferred-next-batch` records. Deferred
 records remain scheduled work, not parity claims. The capability/profile slice
 has no remaining `migrate-gap` records:
 
@@ -177,3 +177,18 @@ records and shared lifecycle validators enforce the bounded semantics.
 
 This is semantic, not direct JSON-wire parity. CI invocation of the read-only
 Rust gate remains a later bounded CI batch.
+
+## WI-287 checkpoint conformance closure
+
+WI-287 closes the two ledger records that were still deferred for the source
+checkpoint implementation and test corpus. The Rust side now explicitly
+rejects a `before_edit` checkpoint after verification has started and rejects an
+invalid latest resume timestamp. The source test behavior is represented by
+Rust-native lifecycle regressions, not copied Python tests or source wire
+shapes. The static Agent-rule test asserts the same terminality and narrow
+successor boundary using the repository's own instructions.
+
+The object/adopter boundary is unchanged: the installed shared Runtime is
+request-scoped, every operation carries `--repo`, and human Outcome remains the
+visible handoff. CI workflow convergence and broader adopter surfaces remain
+separate bounded batches.

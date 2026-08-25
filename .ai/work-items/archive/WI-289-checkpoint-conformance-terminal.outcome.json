@@ -1,0 +1,131 @@
+{
+  "acceptanceResults": [],
+  "createdAt": "2026-08-25T20:53:35Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:f250bf35e4d4a0484232d2532fa83a59aa4d7e428e690a597794ab7627bcaa85",
+  "evidenceRefs": [
+    ".ai/evidence/WI-289-checkpoint-conformance-terminal.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-289-checkpoint-conformance-terminal.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-289-checkpoint-conformance-terminal.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2ca9e47818e1389a6e2374ce8008452eed76e4fbbd20149738b8c0239db50311",
+      "workItemId": "WI-289-checkpoint-conformance-terminal"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-289-checkpoint-conformance-terminal.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-289-checkpoint-conformance-terminal.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-289-checkpoint-conformance-terminal.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-289-checkpoint-conformance-terminal.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-289-checkpoint-conformance-terminal.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-289-checkpoint-conformance-terminal.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-289-checkpoint-conformance-terminal.contract.json"
+          ],
+          "inference": false,
+          "text": "Produce an honestly bound reviewed PR and close the terminal checkpoint-conformance successor with immutable provider finalization evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-289-checkpoint-conformance-terminal.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-289-checkpoint-conformance-terminal"
+  },
+  "taskReportDigest": "sha256:23744e6aee327bbde9551722d5826a0b9813f964dca6bdc167f179479006a36c",
+  "taskReportMarkdownDigest": "sha256:452b33bf8228eb6d2f456133e6d8590de43dc967a33ce153cf40fe744ce767e0",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-289-checkpoint-conformance-terminal.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-289-checkpoint-conformance-terminal"
+}

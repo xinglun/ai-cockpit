@@ -1,0 +1,151 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "predecessor digest bindings",
+          "path": ".ai/decisions/WI-288-provider-finalization-correction.recovery.json",
+          "type": "governance",
+          "verification": "Runtime recovery validation"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "tri-language status and parity rows",
+          "path": "docs/reference/reference-parity.md",
+          "type": "governance",
+          "verification": "documentation and status gates"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "resourceContext.pullRequest",
+          "path": ".ai/work-items/active/WI-289-checkpoint-conformance-terminal.contract.json",
+          "type": "governance",
+          "verification": "Runtime preflight and finalization binding"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "runtimeVersion/runtimeDigest/passed",
+          "path": ".ai/evidence/WI-289-checkpoint-conformance-terminal.verification.json",
+          "type": "test",
+          "verification": "installed v0.2.31 verify"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "archive manifest and finalization receipts",
+          "path": ".ai/work-items/archive/WI-289-checkpoint-conformance-terminal.archive.json",
+          "type": "governance",
+          "verification": "provider finalization and close"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "localized Outcome and repository isolation regressions",
+          "path": "crates/cockpit-cli/tests/outcome_handoff.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        },
+        {
+          "locator": "parallel repository records remain isolated",
+          "path": "crates/cockpit-agent/tests/isolation.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [],
+  "checkpointAt": "2026-08-25T20:50:25Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T20:46:09Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-289-checkpoint-conformance-terminal.md",
+      ".ai/decisions/WI-288-provider-finalization-correction.recovery.json"
+    ],
+    "reason": "This successor exists only to correct the hosted documentation-truth and immutable provider-delivery boundary; it preserves the predecessor implementation and proves the same object/adopter Runtime boundary.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "predecessorContractDigest": "sha256:4264dc3d27158a2e61439f32bb1dc1547bda653611b6bc6a72dde3bcb8098015",
+  "predecessorWorkItemId": "WI-288-provider-finalization-correction",
+  "preflightAt": "2026-08-25T20:52:59Z",
+  "preflightContractDigest": "sha256:9dd6212499c1ae706d32299fccf2cce4ac865373763f0363d13c84b24ac720c9",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:2ca9e47818e1389a6e2374ce8008452eed76e4fbbd20149738b8c0239db50311",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-288-provider-finalization-correction.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/work-items/active/WI-289-checkpoint-conformance-terminal.contract.json",
+        "https://github.com/xinglun/ai-cockpit/pull/249"
+      ],
+      "expected": "The terminal successor Contract binds the actual GitHub PR URL before verification and finalization.",
+      "required": true,
+      "scenario": "provider_context_actual_pr",
+      "status": "verified",
+      "verificationPlan": "contract identity inspection and Runtime lifecycle"
+    },
+    {
+      "evidence": [
+        ".ai/decisions/WI-288-provider-finalization-correction.recovery.json",
+        ".ai/work-items/archive/WI-287-reference-checkpoint-conformance.archive.json",
+        ".ai/work-items/archive/WI-288-provider-finalization-correction.archive.json"
+      ],
+      "expected": "WI-287 and WI-288 archives and recovery linkage remain digest-valid and are not rewritten.",
+      "required": true,
+      "scenario": "predecessor_immutable_recovery",
+      "status": "verified",
+      "verificationPlan": "archive manifest and recovery binding checks"
+    },
+    {
+      "evidence": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "expected": "WI-287 and WI-288 are recovered and WI-289 is in progress in all three parity projections before archive.",
+      "required": true,
+      "scenario": "documentation_truth_before_archive",
+      "status": "verified",
+      "verificationPlan": "documentation acceptance and work-item status consistency gates"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-agent/tests/isolation.rs",
+        "crates/cockpit-cli/tests/outcome_handoff.rs"
+      ],
+      "expected": "The same explicit repository, fail-closed, human Outcome boundary remains available to adopters.",
+      "required": true,
+      "scenario": "object_adopter_boundary",
+      "status": "verified",
+      "verificationPlan": "workspace lifecycle, isolation, and Outcome handoff tests"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-25T20:53:35Z",
+  "workItemId": "WI-289-checkpoint-conformance-terminal"
+}

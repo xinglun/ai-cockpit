@@ -1,0 +1,96 @@
+{
+  "acceptanceCriteria": [
+    "A1: scripts/ai_checkpoint.py and tests/test_ai_checkpoint.py receive an evidence-backed non-deferred ledger classification with exact Rust counterparts and an explicit semantic/non-wire boundary.",
+    "A2: the Rust static parity regression asserts the source terminality and narrow-successor rule boundary, including current Work Item repair, no parallel Issue escape, visible green Outcome, completed/green status, and successor scope/authority/base limits.",
+    "A3: Rust regressions cover latest-resume stale evidence, invalid resume timestamps, immutable before_edit evidence, append-only amendment lineage, post-verification gate invalidation, and rejection of a before_edit checkpoint after verification has started.",
+    "A4: repository and CLI route regressions prove missing intent, required scenario, operation, or stage mismatch fails before command execution or evidence.",
+    "A5: English, Simplified Chinese, and Japanese comparison/parity documentation states what is implemented, what remains external, and does not overclaim wire compatibility.",
+    "A6: object/adopter capability remains equal to the Runtime boundary: explicit repository context, no global state/configuration, fail-closed unknowns, and human-visible Outcome handoff."
+  ],
+  "authority": "authorized",
+  "baseRevision": "bade01ddf52ed918237b9f18910c349e22ad6ebd",
+  "createdAt": "2026-08-25T20:04:08Z",
+  "goal": "Reference checkpoint and Agent rule semantics are explicitly mapped, regression-tested, and documented without copying Python or weakening repository isolation.",
+  "intent": "Close the remaining file-level reference checkpoint comparison gap by proving the Rust-native Agent Risk/checkpoint route and static Agent rules against the pinned source corpus, while fixing the verified before_edit lifecycle ordering gap and making the conformance ledger truthful.",
+  "mode": "code",
+  "outOfScope": [
+    "Release/adopter harness implementation",
+    "CI workflow convergence",
+    "Verification planner",
+    " performance",
+    " scheduler",
+    " or lib.rs decomposition",
+    "Python",
+    " Makefile",
+    " or V1 runtime copying"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:33bc95d4d418b8d25f4362acf08d0558a83171fb67f2c49f00ceed44d406e512",
+  "requiredEvidenceClasses": [
+    "verification",
+    "tests",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-287-reference-checkpoint-conformance",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/287",
+    "worktree": "/private/tmp/ai-cockpit-wi287"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "checkpoint source files are mapped to Rust counterparts and no deferred ledger record remains",
+      "required": true,
+      "scenario": "checkpoint_file_ledger_conformance",
+      "status": "unverified",
+      "verificationPlan": "ledger regression and documentation acceptance"
+    },
+    {
+      "evidence": [],
+      "expected": "source terminality and narrow successor rules remain visible in repository Agent instructions",
+      "required": true,
+      "scenario": "agent_rule_static_parity",
+      "status": "unverified",
+      "verificationPlan": "Rust static parity regression"
+    },
+    {
+      "evidence": [],
+      "expected": "resume, amendment, and checkpoint evidence cannot reuse stale or replaced authorization",
+      "required": true,
+      "scenario": "checkpoint_resume_amendment_regression",
+      "status": "unverified",
+      "verificationPlan": "Rust checkpoint and lifecycle tamper tests"
+    },
+    {
+      "evidence": [],
+      "expected": "intent, required scenario, operation, and stage route mismatches stop before command execution",
+      "required": true,
+      "scenario": "intent_scenario_route_cli_boundary",
+      "status": "unverified",
+      "verificationPlan": "Rust repository and CLI route regressions"
+    }
+  ],
+  "scope": [
+    ".ai/**",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/governance_controls.rs",
+    "crates/cockpit-repository/tests/**",
+    "crates/cockpit-cli/tests/verify.rs",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "docs/reference/**",
+    "docs/work-items/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-287-reference-checkpoint-conformance"
+}

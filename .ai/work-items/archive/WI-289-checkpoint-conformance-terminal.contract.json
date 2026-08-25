@@ -1,0 +1,39 @@
+{
+  "acceptanceCriteria": [],
+  "authority": "authorized",
+  "baseRevision": "75094b48c8de935397401f8aae45fd2728aba48e",
+  "createdAt": "2026-08-25T20:46:09Z",
+  "goal": "Produce an honestly bound reviewed PR and close the terminal checkpoint-conformance successor with immutable provider finalization evidence.",
+  "intent": "Re-deliver the completed reference checkpoint conformance implementation through a provider-bound terminal successor, correcting documentation truth before archive without rewriting predecessor history.",
+  "mode": "code",
+  "outOfScope": [],
+  "predecessorContractDigest": "sha256:4264dc3d27158a2e61439f32bb1dc1547bda653611b6bc6a72dde3bcb8098015",
+  "predecessorWorkItemId": "WI-288-provider-finalization-correction",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-288-provider-finalization-correction.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1f391ea59cfb00500059764f53ff431f61d427189db944af696b403b9e28cde6",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-289-checkpoint-conformance-terminal",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/249",
+    "worktree": "/private/tmp/ai-cockpit-wi289"
+  },
+  "risk": "normal",
+  "scope": [],
+  "sources": [
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/tree/e5acb677da6621004d96f0ef353c58fe8d3acfbf",
+    "docs/reference/reference-parity.md",
+    "docs/reference/agent-workflow.md",
+    ".ai/decisions/WI-288-provider-finalization-correction.recovery.json"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-289-checkpoint-conformance-terminal"
+}

@@ -1,0 +1,87 @@
+{
+  "acceptanceCriteria": [
+    "A1: Preserve WI-287 immutable archive and recovery linkage without rewriting predecessor bytes.",
+    "A2: Bind the successor Contract resourceContext to the actual GitHub PR URL before final verification.",
+    "A3: Re-run the installed Runtime verification and hosted checks for the same Rust-native checkpoint/Agent rule implementation.",
+    "A4: Record provider finalization, verify it, close with a structured human decision, and clean only the exact merged branch/worktree.",
+    "A5: Keep object/adopter capability equal to the Runtime boundary: explicit repository context, fail-closed unknowns, and visible human Outcome."
+  ],
+  "authority": "authorized",
+  "baseRevision": "7dabc1748351448f244cf12ded88ad6f0095310d",
+  "createdAt": "2026-08-25T20:23:54Z",
+  "goal": "Produce an honestly bound reviewed PR and close the successor with immutable provider finalization evidence.",
+  "intent": "Re-deliver the completed reference checkpoint conformance implementation through a provider-bound successor with the actual GitHub PR identity, without rewriting WI-287 history.",
+  "mode": "code",
+  "outOfScope": [
+    "new runtime semantics beyond the predecessor implementation",
+    "release/adopter harness",
+    " CI workflow convergence",
+    " planner/performance/scheduler",
+    " lib.rs decomposition",
+    " Python/Make/V1 copying"
+  ],
+  "predecessorContractDigest": "sha256:10bf33d6771434531371848cb8db80894de98d75ea256b667ad954aa689e7687",
+  "predecessorWorkItemId": "WI-287-reference-checkpoint-conformance",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-287-reference-checkpoint-conformance.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1bd4d13e26ebd08f5b33e6203181a55f2a31ac9f93e597ea4fb4bbd2639c4b52",
+  "requiredEvidenceClasses": [
+    "verification",
+    "archive",
+    "provider_finalization"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-288-provider-finalization-correction",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/248",
+    "worktree": "/private/tmp/ai-cockpit-wi287"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The successor Contract binds the actual GitHub PR URL before verification and finalization.",
+      "required": true,
+      "scenario": "provider_context_actual_pr",
+      "status": "unverified",
+      "verificationPlan": "contract identity inspection and Runtime lifecycle"
+    },
+    {
+      "evidence": [],
+      "expected": "WI-287 archive and recovery linkage remain digest-valid and are not rewritten.",
+      "required": true,
+      "scenario": "predecessor_immutable_recovery",
+      "status": "unverified",
+      "verificationPlan": "archive manifest and recovery binding checks"
+    },
+    {
+      "evidence": [],
+      "expected": "The same explicit repository, fail-closed, human Outcome boundary remains available to adopters.",
+      "required": true,
+      "scenario": "object_adopter_boundary",
+      "status": "unverified",
+      "verificationPlan": "workspace lifecycle, isolation, and Outcome handoff tests"
+    }
+  ],
+  "scope": [
+    ".ai/**",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/governance_controls.rs",
+    "crates/cockpit-repository/tests/**",
+    "crates/cockpit-cli/tests/verify.rs",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "docs/reference/**",
+    "docs/work-items/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-288-provider-finalization-correction"
+}

@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "github-review-and-cleanup-policy",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "a4a9d4b1359a86f8628a155f278ea13a7a47e2b6",
+    "name": "codex/wi-289-checkpoint-conformance-terminal",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:2dee04ae374cb69f73be5b4cc5f710e6e2ac8a2ba5051140e925672fd698f09d",
+  "operationId": "WI-289-checkpoint-conformance-terminal-provider-finalization",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "bade01ddf52ed918237b9f18910c349e22ad6ebd",
+    "headRevision": "a4a9d4b1359a86f8628a155f278ea13a7a47e2b6",
+    "number": 249,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/249"
+  },
+  "reason": "Hosted PR is reviewed but remains unmerged; retain the exact branch and worktree until the reviewed merge and post-merge cleanup are observed.",
+  "receiptId": "WI-289-checkpoint-conformance-terminal-finalize",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-289-checkpoint-conformance-terminal",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/249",
+    "worktree": "/private/tmp/ai-cockpit-wi289"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-26T05:54:00+09:00",
+  "workItemId": "WI-289-checkpoint-conformance-terminal",
+  "worktree": {
+    "branch": "codex/wi-289-checkpoint-conformance-terminal",
+    "headRevision": "a4a9d4b1359a86f8628a155f278ea13a7a47e2b6",
+    "path": "/private/tmp/ai-cockpit-wi289",
+    "worktreeId": "WI-289-checkpoint-conformance-terminal"
+  }
+}
