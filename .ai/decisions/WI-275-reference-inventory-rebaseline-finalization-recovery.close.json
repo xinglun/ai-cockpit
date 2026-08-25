@@ -1,0 +1,136 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-275-reference-inventory-rebaseline-finalization-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:261ccf924d27e1d823d051afd9c45dbcc0e375b20375e24ebdd8835973a2c53c",
+      "workItemId": "WI-275-reference-inventory-rebaseline-finalization-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-275-reference-inventory-rebaseline-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-275-reference-inventory-rebaseline-finalization-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-275-reference-inventory-rebaseline-finalization-recovery.verification.json",
+            ".ai/decisions/WI-275-reference-inventory-rebaseline-finalization-recovery.finalize.6447db8eaff82a97764a341b733710a51f6574664c28398b40f2026c52f4469b.json",
+            "https://github.com/xinglun/ai-cockpit/pull/233",
+            "https://github.com/xinglun/ai-cockpit/pull/234"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via hosted-review-and-exact-cleanup at 2026-08-25T19:12:00+09:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-275-reference-inventory-rebaseline-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-275-reference-inventory-rebaseline-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-275-reference-inventory-rebaseline-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-275-reference-inventory-rebaseline-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-275-reference-inventory-rebaseline-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Redeliver the reference inventory rebaseline after preserving WI-274 immutable stale-finalization failure."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-275-reference-inventory-rebaseline-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-275-reference-inventory-rebaseline-finalization-recovery"
+  },
+  "finalReportDigest": "sha256:b93bdfea5f2518490aacadf8d9ae5f8f4b29bde8c00ce86474947813c9e8bb0b",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:512c60452320e922584c2f926f973b36b14ba05fbfe45b8f63aeef3c3b2237ed",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-275-reference-inventory-rebaseline-finalization-recovery.finalize.6447db8eaff82a97764a341b733710a51f6574664c28398b40f2026c52f4469b.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "hosted-review-and-exact-cleanup",
+    "decidedAt": "2026-08-25T19:12:00+09:00",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-275-reference-inventory-rebaseline-finalization-recovery.verification.json",
+      ".ai/decisions/WI-275-reference-inventory-rebaseline-finalization-recovery.finalize.6447db8eaff82a97764a341b733710a51f6574664c28398b40f2026c52f4469b.json",
+      "https://github.com/xinglun/ai-cockpit/pull/233",
+      "https://github.com/xinglun/ai-cockpit/pull/234"
+    ],
+    "policyRefs": [
+      "AGENTS.md:reviewed-pr-close",
+      "AGENTS.md:exact-branch-worktree-cleanup"
+    ],
+    "reason": "PR #233 passed hosted quality, Windows, and V1 checks; merge observation PR #234 merged; finalization sequence 2 verified branch and worktree deletion.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-25T11:32:59Z",
+  "workItemId": "WI-275-reference-inventory-rebaseline-finalization-recovery"
+}
