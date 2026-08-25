@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:1bf9be725fde6cc559988f478e681e6f9586e120e7652c8d7f4f2bca4bcec8af",
+  "repositorySnapshotDigest": "sha256:e1e1bad3ed15b610ad4e30a69968a86ea8c2e87536fc60669336a785ff5c1a2e",
   "capabilities": [
     "ai_governance",
     "documentation",
