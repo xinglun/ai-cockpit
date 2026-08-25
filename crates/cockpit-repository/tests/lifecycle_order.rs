@@ -98,6 +98,52 @@ fn checkpoint_requires_preflight_and_duplicate_checkpoint_is_rejected() {
 }
 
 #[test]
+fn before_edit_checkpoint_rejects_existing_verification_results() {
+    let directory = repository();
+    let id = "WI-ORDER-BEFORE-VERIFY";
+    start(directory.path(), id, &[]);
+    let contract_path = contract(directory.path(), id);
+    let mut contract_value: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract"))
+            .expect("contract JSON");
+    contract_value["checkpointPolicy"] = serde_json::json!({
+        "schemaVersion": 1,
+        "profile": "strict",
+        "requiredBeforeFinish": true,
+        "requiredStages": ["before_edit", "before_finish"],
+        "requiredChecks": []
+    });
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&contract_value).expect("contract bytes"),
+    )
+    .expect("contract amendment");
+    preflight_work_item(directory.path(), &contract_path).expect("preflight");
+    let summary_path = directory
+        .path()
+        .join(".ai/work-items/active")
+        .join(format!("{id}.summary.json"));
+    let mut summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("summary")).expect("summary JSON");
+    summary["verification"] = serde_json::json!([
+        {"check": "quality", "result": "passed"}
+    ]);
+    fs::write(
+        &summary_path,
+        serde_json::to_vec_pretty(&summary).expect("summary bytes"),
+    )
+    .expect("summary amendment");
+    let error = checkpoint_work_item(directory.path(), id)
+        .expect_err("before_edit checkpoint after verification must fail closed");
+    assert!(
+        error
+            .to_string()
+            .contains("before_edit checkpoint must be recorded before required verification"),
+        "{error}"
+    );
+}
+
+#[test]
 fn verification_promotes_initial_yellow_preflight_and_allows_recovery() {
     let directory = repository();
     start(directory.path(), "WI-ORDER-RECOVER", &["verification"]);

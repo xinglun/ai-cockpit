@@ -183,6 +183,48 @@ fn checkpoint_invalid_timestamp_fails_closed() {
 }
 
 #[test]
+fn invalid_latest_resume_timestamp_fails_closed() {
+    let mut contract = contract();
+    let mut raw = serde_json::to_value(&contract).expect("contract JSON");
+    raw["resumeHistory"] = json!([{
+        "resumeVersion": 1,
+        "fromBaseCommit": "a",
+        "toBaseCommit": "b",
+        "baseRemote": "origin",
+        "baseBranch": "main",
+        "workBranch": "codex/risk",
+        "recordedAt": "not-a-timestamp",
+        "priorContractDigest": "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "predecessorWorkItemId": "WI-PREV",
+        "predecessorMergeCommit": "b",
+        "predecessorManifestPath": ".ai/archive.json",
+        "predecessorClosure": {
+            "statusClosed": true,
+            "prMerged": true,
+            "closureSucceeded": true,
+            "localBranchDeleted": true,
+            "remoteBranchDeleted": true,
+            "baseSynchronized": true
+        }
+    }]);
+    contract = serde_json::from_value(raw).expect("resumed contract");
+    let errors = validate_checkpoint_evidence_bindings(
+        &contract,
+        &summary(),
+        "sha256:repo",
+        "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "contract-hash",
+    )
+    .expect_err("invalid latest resume timestamp must fail closed");
+    assert!(
+        errors
+            .iter()
+            .any(|error| error == "checkpoint_evidence_resume_timestamp_invalid"),
+        "{errors:?}"
+    );
+}
+
+#[test]
 fn contract_amendment_chain_invalidates_stale_before_edit_evidence() {
     let contract = contract();
     let mut summary = summary();

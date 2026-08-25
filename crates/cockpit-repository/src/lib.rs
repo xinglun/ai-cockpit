@@ -3731,6 +3731,20 @@ pub fn checkpoint_work_item(
         &snapshot,
         preflight_state,
     )?;
+    // `before_edit` is the authorization-to-edit boundary. Once any
+    // verification result exists, recording that checkpoint would rewrite
+    // phase ordering and could make post-verification work appear authorized
+    // before execution. Keep this reference-defined boundary fail-closed.
+    if summary
+        .get("verification")
+        .and_then(serde_json::Value::as_array)
+        .is_some_and(|entries| !entries.is_empty())
+    {
+        return Err(ObserverError::State {
+            path: path.clone(),
+            message: "before_edit checkpoint must be recorded before required verification".into(),
+        });
+    }
     let timestamp = now();
     if contract.checkpoint_policy.is_some() {
         append_checkpoint_evidence(

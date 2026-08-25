@@ -184,10 +184,12 @@ pub fn validate_checkpoint_evidence_bindings(
     if !amendments.is_empty() && !before_edit_is_stale {
         errors.push("checkpoint_evidence_amendment_without_stale_contract".into());
     }
-    let latest_resume_at = contract
-        .resume_history
-        .last()
-        .and_then(|entry| DateTime::parse_from_rfc3339(&entry.recorded_at).ok());
+    let latest_resume_at = contract.resume_history.last().map(|entry| {
+        DateTime::parse_from_rfc3339(&entry.recorded_at).map_err(|_| {
+            errors.push("checkpoint_evidence_resume_timestamp_invalid".into());
+        })
+    });
+    let latest_resume_at = latest_resume_at.and_then(Result::ok);
     for stage in required_stages {
         let matches = entries.iter().filter(|entry| entry.stage == stage).count();
         if matches != 1 {

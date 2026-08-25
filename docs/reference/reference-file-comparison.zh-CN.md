@@ -102,8 +102,8 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 ## 当前台账快照
 
 在固定的 v0.2.31 比较基线上，台账共有 5,119 条记录：4,262 条
-`generated-history`、167 条 `implemented-different-by-design`、1 条
-`implemented-equivalent` 与 689 条 `deferred-next-batch`。deferred 记录仍是待比较
+`generated-history`、169 条 `implemented-different-by-design`、1 条
+`implemented-equivalent` 与 687 条 `deferred-next-batch`。deferred 记录仍是待比较
 工作，不是 parity 声明。capability/profile slice 已没有 `migrate-gap`：
 
 1. `.ai/project/adopter-capability-manifest.json` 由 Runtime registry 表达，installer-surface
@@ -145,3 +145,15 @@ corpus；Rust typed Protocol record 与共享 lifecycle validator 执行有界�
 
 本批次是 semantic parity，不是直接 JSON-wire parity。CI 调用 read-only Rust gate
 属于后续有界 CI 批次。
+
+## WI-287 checkpoint 一致性收敛
+
+WI-287 关闭了 checkpoint 实现与测试源文件仍处于 deferred 的两条台账记录。
+Rust 现在明确拒绝 verification 已开始后的 `before_edit` checkpoint，并拒绝
+无效的最新 resume timestamp。参考测试语义由 Rust-native lifecycle regression
+表达，不复制 Python 测试或 source wire shape。静态 Agent-rule test 也用本项目
+规则断言相同的终态与窄 successor 边界。
+
+对象工程边界不变：共享 Runtime 仍是 request-scoped，每个操作显式带 `--repo`，
+human Outcome 是可见交付边界。CI workflow 收敛和更广的 adopter surface 仍是独立
+有界批次。
