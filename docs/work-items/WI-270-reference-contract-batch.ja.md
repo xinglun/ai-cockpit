@@ -6,7 +6,7 @@ description: "固定した reference source の Contract と governance semantic
 audience:
   - maintainer
   - reviewer
-status: in-progress
+status: recovered
 lastVerifiedBy: WI-270-reference-contract-batch
 authority: canonical
 ---

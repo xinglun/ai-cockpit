@@ -6,7 +6,7 @@ description: "逐文件比较固定参考源的 Contract 与治理语义首批�
 audience:
   - maintainer
   - reviewer
-status: in-progress
+status: recovered
 lastVerifiedBy: WI-270-reference-contract-batch
 authority: canonical
 ---

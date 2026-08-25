@@ -6,7 +6,7 @@ description: "Compare the pinned reference source Contract and governance-semant
 audience:
   - maintainer
   - reviewer
-status: in-progress
+status: recovered
 lastVerifiedBy: WI-270-reference-contract-batch
 authority: canonical
 ---
