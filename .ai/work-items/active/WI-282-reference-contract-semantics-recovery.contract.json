@@ -1,0 +1,67 @@
+{
+  "acceptanceCriteria": [
+    "Contract-parity implementation remains present and testable on the successor snapshot without changing WI-280 immutable records.",
+    "Fresh verification evidence binds the successor Work Item, repository identity, current snapshot, and installed Runtime.",
+    "Tri-language parity and Work Item documentation records the WI-280 recovery and WI-282 terminal lifecycle.",
+    "Focused and workspace tests pass, with no generated governance record hand-edited."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1d34d390d9df64b6fa115c32d4ed0ddfadf09fa2",
+  "createdAt": "2026-08-25T16:40:50Z",
+  "goal": "Re-run and close the bounded Rust Contract-semantics parity batch with fresh snapshot-bound evidence.",
+  "intent": "Revalidate the first Contract-parity batch on the latest reviewed successor snapshot without rewriting immutable WI-280 evidence, and keep parity documentation and lifecycle evidence consistent.",
+  "mode": "code",
+  "outOfScope": [
+    ".github/workflows",
+    "planner-and-dependency-graph",
+    "runtime-architecture-refactors",
+    "release-automation",
+    "global-agent-and-mcp-configuration"
+  ],
+  "predecessorContractDigest": "sha256:3d0380b2cc7057e8ba7c72374985f40c7555ad1ad1672feea91f7909566b6684",
+  "predecessorWorkItemId": "WI-280-reference-contract-semantics-successor",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-280-reference-contract-semantics-successor.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1e44b31bfc86609dd61df56803a381d355abd99d9953ac000da2e5efe2e8addb",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-282-reference-contract-semantics-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/242",
+    "worktree": "/private/tmp/ai-cockpit-wi282"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/contract_v2.rs",
+    "crates/cockpit-repository/src/governance_controls.rs",
+    "crates/cockpit-repository/tests/governance_controls.rs",
+    "docs/reference/contract-fields.md",
+    "docs/reference/contract-fields.zh-CN.md",
+    "docs/reference/contract-fields.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-279-reference-contract-semantics.md",
+    "docs/work-items/WI-280-reference-contract-semantics-successor.md",
+    "docs/work-items/WI-282-reference-contract-semantics-recovery.md",
+    "docs/work-items/WI-282-reference-contract-semantics-recovery.zh-CN.md",
+    "docs/work-items/WI-282-reference-contract-semantics-recovery.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-282-reference-contract-semantics-recovery"
+}
