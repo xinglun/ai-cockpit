@@ -1,0 +1,61 @@
+{
+  "acceptanceCriteria": [
+    "A1: inventory metadata and path digests match clean origin/main 487f01970c49e2b85d17b0cb0536f9d60c8f05e0.",
+    "A2: WI-274 immutable finalization failure is preserved and linked; no predecessor history is rewritten.",
+    "A3: WI-275 parity registration is committed before verification evidence and the governance gate proves that order.",
+    "A4: all three language documents use the same baseline, counts, and recovery lineage.",
+    "A5: inventory, documentation, governance, full workspace, hosted, finalization, and cleanup checks pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "487f01970c49e2b85d17b0cb0536f9d60c8f05e0",
+  "createdAt": "2026-08-25T09:32:39Z",
+  "goal": "Redeliver the reference inventory rebaseline after preserving WI-274 immutable stale-finalization failure.",
+  "intent": "Complete the bounded reference inventory from the synchronized default branch, register parity before evidence, and record finalization only after the final commit.",
+  "mode": "code",
+  "outOfScope": [
+    "crates/**",
+    ".github/**",
+    "historical docs/work-items/**",
+    "architecture cleanup and lib.rs decomposition"
+  ],
+  "predecessorContractDigest": "sha256:abd2944f6738266bcbdd2f7b4d3f2e8411a402484f2e45b2ce079695815ae227",
+  "predecessorWorkItemId": "WI-274-reference-inventory-rebaseline-recovery",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-274-reference-inventory-rebaseline-recovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:83c02a06f4685beb3118e5f0ba2007d5353793541e5908d4e842e4061d8a4165",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-275-inventory-finalization-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/233",
+    "worktree": "/private/tmp/ai-cockpit-wi274-inventory"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "tests/docs/documentation_acceptance.sh",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-275-reference-inventory-rebaseline-finalization-recovery.md",
+    "docs/work-items/WI-275-reference-inventory-rebaseline-finalization-recovery.zh-CN.md",
+    "docs/work-items/WI-275-reference-inventory-rebaseline-finalization-recovery.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-275-reference-inventory-rebaseline-finalization-recovery"
+}

@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-WI-274-successor-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "ecfda874e07d8d4d3d48c346284309ab414804f3",
+    "name": "codex/wi-274-inventory-rebaseline-recovery",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:6e13327d4110aee063410b0d82e1cd1983e0b2d29328c25a4a86944efc67dc8b",
+  "operationId": "operation-WI-274-reference-inventory-rebaseline-recovery-pre-merge",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "487f01970c49e2b85d17b0cb0536f9d60c8f05e0",
+    "headRevision": "ecfda874e07d8d4d3d48c346284309ab414804f3",
+    "number": 232,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/232"
+  },
+  "reason": "PR #232 is reviewed only through its hosted checks; retain the exact branch and worktree until merge and cleanup are observed.",
+  "receiptId": "ai-cockpit-WI-274-reference-inventory-rebaseline-recovery-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-274-inventory-rebaseline-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/232",
+    "worktree": "/private/tmp/ai-cockpit-wi274-inventory"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-25T18:16:00+09:00",
+  "workItemId": "WI-274-reference-inventory-rebaseline-recovery",
+  "worktree": {
+    "branch": "codex/wi-274-inventory-rebaseline-recovery",
+    "headRevision": "ecfda874e07d8d4d3d48c346284309ab414804f3",
+    "path": "/private/tmp/ai-cockpit-wi274-inventory",
+    "worktreeId": "WI-274-reference-inventory-rebaseline-recovery"
+  }
+}

@@ -21,7 +21,7 @@ behavior corpus; it is not a directory to copy into the Rust Runtime.
 ## Pinned baseline
 
 - Reference: [`spirex-ds-dev/ai-cockpit-template`](https://github.com/spirex-ds-dev/ai-cockpit-template) at `e5acb677da6621004d96f0ef353c58fe8d3acfbf`.
-- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `87bfd86645adf7f4a6f86e447763542988371039`.
+- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `487f01970c49e2b85d17b0cb0536f9d60c8f05e0`.
 - Runtime used for the comparison work: `ai-cockpit 0.2.31`, binary SHA256 `1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9`.
 
 The machine-readable ledger is
@@ -120,8 +120,8 @@ green parity.
 ## Current ledger snapshot
 
 At the pinned v0.2.31 comparison baseline, the ledger contains 5,119 records:
-4,262 `generated-history`, 159 `implemented-different-by-design`, one
-`implemented-equivalent`, 693 `deferred-next-batch`, and four `migrate-gap`
+4,262 `generated-history`, 163 `implemented-different-by-design`, one
+`implemented-equivalent`, 689 `deferred-next-batch`, and four `migrate-gap`
 records. Deferred records remain scheduled work, not parity claims. The four
 open capability/profile gaps are:
 
@@ -132,8 +132,14 @@ open capability/profile gaps are:
 
 The governance entrypoints, getting-started routes, CI/release boundaries, and
 capability projections have been reviewed at this baseline. Existing Rust
-behavior does not automatically close those four file-level gaps or the 720
+behavior does not automatically close those four file-level gaps or the 689
 deferred semantic comparisons.
+
+WI-274 rebinds only the target checkout metadata and canonical comparison
+snapshot to the reviewed default-branch commit. WI-273 remains an immutable
+failed-delivery record: its first commit could not prove that parity
+registration preceded verification evidence, so the successor redelivery
+keeps that history separate and does not rewrite it.
 
 ## Batch order
 

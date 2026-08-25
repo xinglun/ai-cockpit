@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-25T08:57:35Z",
+  "files": {
+    "approachDigest": "sha256:49fccd39d0bc49870c29c2585892ed5c360110df8c3492f24e4e0a7ad4ac20cf",
+    "approachPath": ".ai/work-items/archive/WI-274-reference-inventory-rebaseline-recovery.approach.json",
+    "contractDigest": "sha256:6e13327d4110aee063410b0d82e1cd1983e0b2d29328c25a4a86944efc67dc8b",
+    "contractPath": ".ai/work-items/archive/WI-274-reference-inventory-rebaseline-recovery.contract.json",
+    "eventsDigest": "sha256:64737c529288c00b354e5713965e99f445c498d8852baaca15163f90c0679661",
+    "eventsPath": ".ai/work-items/archive/WI-274-reference-inventory-rebaseline-recovery.events.jsonl",
+    "outcomeDigest": "sha256:8101aec48cb761428fc27851c1ac3de9260e43da1747746f4d22d6286bc212ca",
+    "outcomePath": ".ai/work-items/archive/WI-274-reference-inventory-rebaseline-recovery.outcome.json",
+    "summaryDigest": "sha256:f4755f992f890caac772002a02539ea5b91465e4c1f1e28379ac7a455509efea",
+    "summaryPath": ".ai/work-items/archive/WI-274-reference-inventory-rebaseline-recovery.summary.json",
+    "taskReportDigest": "sha256:73839c60ccaa09218b6bc5d46c43ffd9a02e1b1f7ab1630eaadcc9ee91b08858",
+    "taskReportMarkdownDigest": "sha256:703711a83fd25e58599a92a8ac2dfc72e0b8cd69e7eea7144e19e4ae4a937e32",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-274-reference-inventory-rebaseline-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-274-reference-inventory-rebaseline-recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-274-reference-inventory-rebaseline-recovery"
+}

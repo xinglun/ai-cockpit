@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "A1: inventory metadata and path digests match clean origin/main 487f01970c49e2b85d17b0cb0536f9d60c8f05e0.",
+    "A2: WI-274 immutable finalization failure is preserved and linked; no predecessor history is rewritten.",
+    "A3: WI-275 parity registration is committed before verification evidence and the governance gate proves that order.",
+    "A4: all three language documents use the same baseline, counts, and recovery lineage.",
+    "A5: inventory, documentation, governance, full workspace, hosted, finalization, and cleanup checks pass."
+  ],
+  "createdAt": "2026-08-25T09:41:23Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:a2301c8bf766fe5adff7303bea9ea1674955169fdad16339f03465d35b4f2d09",
+  "evidenceRefs": [
+    ".ai/evidence/WI-275-reference-inventory-rebaseline-finalization-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-275-reference-inventory-rebaseline-finalization-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-275-reference-inventory-rebaseline-finalization-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:261ccf924d27e1d823d051afd9c45dbcc0e375b20375e24ebdd8835973a2c53c",
+      "workItemId": "WI-275-reference-inventory-rebaseline-finalization-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-275-reference-inventory-rebaseline-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-275-reference-inventory-rebaseline-finalization-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-275-reference-inventory-rebaseline-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-275-reference-inventory-rebaseline-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-275-reference-inventory-rebaseline-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-275-reference-inventory-rebaseline-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-275-reference-inventory-rebaseline-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Redeliver the reference inventory rebaseline after preserving WI-274 immutable stale-finalization failure."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-275-reference-inventory-rebaseline-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-275-reference-inventory-rebaseline-finalization-recovery"
+  },
+  "taskReportDigest": "sha256:378a93a333ff14cc722fb04b03090a1cd52ceb75a5b66c283644da5831cde8c0",
+  "taskReportMarkdownDigest": "sha256:9b34e036789ad0d11e8f8b19d7e1934e21176229e513585fe023ba9403a84b71",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-275-reference-inventory-rebaseline-finalization-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-275-reference-inventory-rebaseline-finalization-recovery"
+}
