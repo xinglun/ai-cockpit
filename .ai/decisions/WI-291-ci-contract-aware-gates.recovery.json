@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "hosted-quality-stale-parity-registration",
+  "decidedAt": "2026-08-26T14:00:00+09:00",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/251",
+    ".ai/work-items/archive/WI-291-ci-contract-aware-gates.archive.json",
+    ".ai/evidence/WI-291-ci-contract-aware-gates.verification.json",
+    ".ai/decisions/WI-291-ci-contract-aware-gates.finalize.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:premerge-finalization-before-close",
+    "tests/ci/governance_integrity_gate.py:prearchive-parity-order"
+  ],
+  "predecessorContractDigest": "sha256:7a3f4915b8effc89e66a1ef82d389984f1388f80b7015c04e1ce3b38fe29bf41",
+  "predecessorEventsDigest": "sha256:5184bfeabd938e4e56c428aec244391bc8ad5834374efbb143e884395de8c38e",
+  "predecessorOutcomeDigest": "sha256:587614d94387dbe52a8ffbe558a70349bdf73e6d9dd7cdc506979e846241072a",
+  "predecessorSummaryDigest": "sha256:9b883bca8b7de666860dcd63f85a8ed0d8d28f4008eee85378158c96ceafbaa2",
+  "predecessorWorkItemId": "WI-291-ci-contract-aware-gates",
+  "reason": "WI-291 verification evidence was created before its tri-language parity registration and documentation baseline compatibility correction. Hosted quality correctly rejected the later documentation projection as stale prearchive registration. Preserve every WI-291 lifecycle byte and redeliver the same bounded CI Contract-aware gate implementation through an explicit successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "WI-292 must start from the latest origin/main, register its tri-language parity rows and Work Item documents before verification, bind the actual provider PR before verification, retain the Rust/Python shadow boundary, pass hosted quality, then finalize, close, and clean the exact resources.",
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-292-ci-contract-aware-gates-recovery",
+  "workItemId": "WI-291-ci-contract-aware-gates"
+}
