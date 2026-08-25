@@ -1,0 +1,52 @@
+{
+  "acceptanceCriteria": [
+    "feature-branch finalization must match the actual checked-out HEAD",
+    "pull-request merge checkout must match HEAD^2 or equivalent provider review head",
+    "post-finalization non-governance code drift fails closed",
+    "governance-only append remains explicitly bounded",
+    "tri-language documentation explains the binding"
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "5e426413f08ed54fe54029e0b910056aa4dceba2",
+  "createdAt": "2026-08-25T01:09:48Z",
+  "goal": "Prevent CI from accepting a stale finalization receipt after additional non-governance commits.",
+  "intent": "Bind pre-merge finalization evidence to the actual reviewed branch and pull-request head, rejecting post-finalization code drift.",
+  "mode": "code",
+  "outOfScope": [
+    "crates/**",
+    "global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5751de07c6e051a12db000abe9222a763100b9b1bb924050fdee67ab6a4636b3",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-261-finalization-head-binding",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi261-finalization-head"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/ci/fixtures/governance-integrity/build_fixture.py",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "docs/reference/governance-integrity-gate.md",
+    "docs/reference/governance-integrity-gate.zh-CN.md",
+    "docs/reference/governance-integrity-gate.ja.md",
+    "docs/work-items/WI-261-finalization-head-binding.md",
+    "docs/work-items/WI-261-finalization-head-binding.zh-CN.md",
+    "docs/work-items/WI-261-finalization-head-binding.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-261-finalization-head-binding"
+}

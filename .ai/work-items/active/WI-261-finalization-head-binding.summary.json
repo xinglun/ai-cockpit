@@ -1,0 +1,23 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-261-finalization-head-binding.contract.json",
+    ".ai/work-items/active/WI-261-finalization-head-binding.summary.json"
+  ],
+  "checkpointAt": "2026-08-25T01:28:33Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T01:09:48Z",
+  "failedGate": "finish.governance",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-25T01:32:28Z",
+  "preflightContractDigest": "sha256:d080164e2bc2e9970db463e952434f84e2ee6d3b6876417d9a5f9c344c6f967e",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:e627776626cfbef68b51e5fa096bdc89bf21649537277f8b0fbc7a8b4ef30a30",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-25T01:32:33Z",
+  "workItemId": "WI-261-finalization-head-binding"
+}

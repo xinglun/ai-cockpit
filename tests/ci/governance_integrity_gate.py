@@ -187,6 +187,101 @@ def release_tag_proves_merged_head(repo: Path, head_revision: str) -> bool:
     )
 
 
+def checked_out_review_head(repo: Path, phase: str) -> str | None:
+    """Resolve the provider-reviewed head represented by this checkout.
+
+    GitHub pull-request jobs normally check out a synthetic merge commit, so
+    the second parent is the reviewed feature head. A detached fixture or
+    provider configuration may instead check out the feature head directly;
+    in that case the checkout itself is the only safe review-head candidate.
+    """
+    if phase == "pull_request":
+        parents = subprocess.run(
+            ["git", "rev-list", "--parents", "-n", "1", "HEAD"],
+            cwd=repo,
+            check=False,
+            capture_output=True,
+            text=True,
+        ).stdout.split()
+        spec = "HEAD^2" if len(parents) >= 3 else "HEAD"
+    elif phase == "feature_branch":
+        spec = "HEAD"
+    else:
+        return None
+    resolved = subprocess.run(
+        ["git", "rev-parse", "--verify", f"{spec}^{{commit}}"],
+        cwd=repo,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    value = resolved.stdout.strip()
+    return value if re.fullmatch(r"[0-9a-f]{40}", value) else None
+
+
+def finalization_head_matches_checkout(
+    repo: Path,
+    phase: str,
+    work_item: str,
+    recorded_head: str,
+) -> bool:
+    """Bind the receipt head to this review checkout with bounded append drift."""
+    reviewed_head = checked_out_review_head(repo, phase)
+    resolved_recorded = resolve_commit_revision(repo, recorded_head)
+    if reviewed_head is None or resolved_recorded is None:
+        return False
+    if resolved_recorded == reviewed_head:
+        return True
+    if (
+        subprocess.run(
+            ["git", "merge-base", "--is-ancestor", resolved_recorded, reviewed_head],
+            cwd=repo,
+            check=False,
+            capture_output=True,
+        ).returncode
+        != 0
+    ):
+        return False
+    changes = subprocess.run(
+        ["git", "diff", "--name-status", resolved_recorded, reviewed_head, "--"],
+        cwd=repo,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if changes.returncode != 0:
+        return False
+    canonical = f".ai/decisions/{work_item}.finalize.json"
+    transition_prefix = f".ai/decisions/{work_item}.finalize."
+    post_finalize_paths = {
+        f".ai/evidence/{work_item}/quality-route-post-finalize.json",
+        f".ai/evidence/{work_item}/repository-gates-post-finalize.json",
+        # A feature checkout may receive its repository-local close decision
+        # after the pre-merge finalization receipt. It is still a bounded
+        # same-Work-Item governance append; code or unrelated records remain
+        # outside this allow-list and fail closed.
+        f".ai/decisions/{work_item}.close.json",
+    }
+    for line in changes.stdout.splitlines():
+        status, _, relative = line.partition("\t")
+        transition = (
+            relative.startswith(transition_prefix)
+            and relative.endswith(".json")
+            and len(relative.removeprefix(transition_prefix)[:-5]) == 64
+            and all(
+                character in "0123456789abcdef"
+                for character in relative.removeprefix(transition_prefix)[:-5]
+            )
+        )
+        if status != "A" or (
+            relative != canonical
+            and not transition
+            and relative not in post_finalize_paths
+        ):
+            return False
+    return True
+
+
 def default_branch_contains_reviewed_head(repo: Path, head_revision: str) -> bool:
     """Return true only when the exact reviewed PR head is in the checkout.
 
@@ -382,7 +477,12 @@ def premerge_finalize_state(
         and result.get("unknownCodes") == []
         and reason_valid
         and (
-            phase in {"feature_branch", "pull_request"}
+            (
+                phase in {"feature_branch", "pull_request"}
+                and finalization_head_matches_checkout(
+                    repo, phase, work_item, head_revision
+                )
+            )
             or (
                 phase == "release_tag"
                 and release_tag_proves_merged_head(repo, head_revision)

@@ -263,6 +263,23 @@ for problem in spec.get("problems", []):
 
 repository_phase = spec.get("repositoryPhase")
 if repository_phase:
+    feature_finalize_work_items = []
+    feature_finalize_receipts = {}
+    if repository_phase == "feature":
+        # Model the canonical finalization receipt as the append-only
+        # governance commit that it represents.  Keeping it out of the
+        # initial base commit prevents the fixture from requiring an unsafe
+        # in-place modification when the gate checks the append range.
+        for release_item in spec.get("workItems", []):
+            if release_item.get("terminalDecision") != "finalize":
+                continue
+            receipt_path = root / ".ai/decisions" / f"{release_item['id']}.finalize.json"
+            if receipt_path.is_file():
+                feature_finalize_work_items.append(release_item["id"])
+                feature_finalize_receipts[release_item["id"]] = json.loads(
+                    receipt_path.read_text(encoding="utf-8")
+                )
+                receipt_path.unlink()
     subprocess.run(["git", "init", "-q", "-b", "main"], cwd=root, check=True)
     subprocess.run(["git", "config", "user.name", "Fixture"], cwd=root, check=True)
     subprocess.run(["git", "config", "user.email", "fixture@example.invalid"], cwd=root, check=True)
@@ -279,6 +296,38 @@ if repository_phase:
         check=True,
     )
     if repository_phase == "feature":
+        # The canonical finalization receipt is an append-only governance
+        # commit. Bind it to the immediately preceding reviewed head so the
+        # gate can allow that receipt append while rejecting later code drift.
+        feature_head = subprocess.run(
+            ["git", "rev-parse", "HEAD^{commit}"],
+            cwd=root,
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        for work_item in feature_finalize_work_items:
+            receipt_path = root / ".ai/decisions" / f"{work_item}.finalize.json"
+            receipt_path.parent.mkdir(parents=True, exist_ok=True)
+            # Restore the complete deterministic receipt that was withheld
+            # from the initial base commit, then bind all three resource
+            # heads to that reviewed base before appending it.
+            receipt = feature_finalize_receipts[work_item]
+            receipt["branch"]["headRevision"] = feature_head
+            receipt["pullRequest"]["headRevision"] = feature_head
+            receipt["worktree"]["headRevision"] = feature_head
+            write(receipt_path, receipt)
+        if any(item.get("terminalDecision") == "finalize" for item in spec.get("workItems", [])):
+            finalize_paths = [
+                str(path.relative_to(root))
+                for path in (root / ".ai/decisions").glob("*.finalize.json")
+            ]
+            subprocess.run(["git", "add", *finalize_paths], cwd=root, check=True)
+            subprocess.run(
+                ["git", "commit", "-qm", "bind fixture finalization"],
+                cwd=root,
+                check=True,
+            )
         subprocess.run(["git", "checkout", "-qb", "codex/fixture"], cwd=root, check=True)
     elif repository_phase in {"release_tag", "main_merged"}:
         # Model the provider merge that makes a pre-merge head an ancestor of

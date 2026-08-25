@@ -26,6 +26,20 @@ repository identity、原因和 evidence refs。Recovered predecessor 可以保�
 缺失、malformed、foreign 或绑定不足的 recovery 回执仍然是错误。Successor 必须独立
 通过自己的 Contract、证据、Outcome、parity 和终态决定检查。
 
+## Finalization 绑定 reviewed checkout
+
+对于 feature branch 或 pull request checkout，finalization 回执只有在其 branch、pull
+request 和 worktree 三个 head 都解析为实际 reviewed checkout 时才有效（普通 checkout
+使用 `HEAD`，synthetic merge checkout 使用 reviewed feature parent）。即使回执内部字段
+彼此一致，只要指向较旧 commit 也必须拒绝；这样可以防止后续代码提交默默继承较早的
+finalization。
+
+祖先回执只能通过同一 Work Item 的受限 append-only governance 更新跨越这个边界：canonical
+或 digest-suffixed finalization 记录、repository-local close 决定，以及两个固定的
+post-finalize evidence 记录。任何代码或无关记录、modified/deleted/renamed path，或后续
+非治理漂移都必须 fail-closed。因此，回执 head 是对 reviewed source 的绑定，而不是把一个
+数值复制进回执就算完成。
+
 ## 分离的 pull request 检出
 
 托管 pull request 作业可能使用 detached merge checkout，既没有

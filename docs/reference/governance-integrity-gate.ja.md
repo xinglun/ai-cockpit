@@ -29,6 +29,21 @@ merge や release の承認ともみなされません。
 successor は独立して Contract、evidence、Outcome、parity、terminal decision を通過
 しなければなりません。
 
+## Finalization と reviewed checkout の binding
+
+feature branch または pull request checkout では、finalization receipt の branch、pull
+request、worktree の三つの head が実際の reviewed checkout に解決できる場合だけ有効です
+（通常の checkout は `HEAD`、synthetic merge checkout は reviewed feature parent を使います）。
+receipt 内の値が相互に整合していても古い commit を指していれば拒否します。これにより、
+後続の code commit が古い finalization を暗黙に引き継ぐことを防ぎます。
+
+祖先 receipt が境界を越えられるのは、同じ Work Item に対する限定された append-only の
+governance 更新だけです。対象は canonical または digest-suffixed finalization record、
+repository-local close decision、固定された二つの post-finalize evidence record です。
+code または無関係な record、modified/deleted/renamed path、後続の非 governance drift は
+fail-closed になります。したがって receipt head は単に値をコピーしたものではなく、
+reviewed source への binding です。
+
 ## detached pull-request checkout
 
 Hosted pull request job は、`refs/remotes/origin/HEAD` や event の base branch metadata
