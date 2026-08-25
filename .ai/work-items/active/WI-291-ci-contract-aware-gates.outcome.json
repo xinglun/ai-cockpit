@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "A1: The CI route remains dynamic across light, standard, and strict profiles and unknown or release-owned paths fail closed without a downgrade.",
+    "A2: Rust owns a read-only Contract-aware quality gate bound to repository, Contract, snapshot, route, Agent Risk, and preflight facts without writing .ai records.",
+    "A3: The Rust gate emits deterministic identity-bound JSON and yellow or red decisions exit non-zero.",
+    "A4: Pull-request CI invokes the Rust gate before repository commands for standard and strict routes while retaining existing Cargo/static shadow checks.",
+    "A5: Negative tests cover malformed, foreign, stale, symlink, policy-conflicting, manifest-tampered, route-tampered, and human-review-required inputs, plus read-only byte preservation.",
+    "A6: English, Simplified Chinese, and Japanese documentation describes the dynamic CI boundary, source-build versus immutable Release identity, and deferred workflow comparisons without overclaiming.",
+    "A7: Shared Runtime, explicit repository context, visible Outcome, and object/adopter isolation boundaries remain unchanged."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-291-ci-contract-aware-gates.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-291-ci-contract-aware-gates.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:88703298d5eb145acf829a2629979a8ac5e9a9aeed4c191a4a64ed4a5000d2c3",
+      "workItemId": "WI-291-ci-contract-aware-gates"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-291-ci-contract-aware-gates.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-291-ci-contract-aware-gates.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-291-ci-contract-aware-gates.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-291-ci-contract-aware-gates.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-291-ci-contract-aware-gates.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-291-ci-contract-aware-gates.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-291-ci-contract-aware-gates.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-291-ci-contract-aware-gates.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-291-ci-contract-aware-gates.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-291-ci-contract-aware-gates.contract.json"
+          ],
+          "inference": false,
+          "text": "Make CI consume the same Rust Contract and verification truth as the repository Runtime while retaining a dynamic, resource-aware quality route."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-291-ci-contract-aware-gates.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-291-ci-contract-aware-gates"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-291-ci-contract-aware-gates.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-291-ci-contract-aware-gates"
+}
