@@ -6,8 +6,12 @@ description: "逐文件比对参考源 Agent/rules 表面，将边界投影到 R
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-272-reference-agent-rule-batch
+terminalArchive: .ai/work-items/archive/WI-272-reference-agent-rule-batch.contract.json
+terminalVerification: .ai/evidence/WI-272-reference-agent-rule-batch.verification.json
+terminalFinalization: .ai/decisions/WI-272-reference-agent-rule-batch.finalize.8520cbf7e78d5e8c13fb781aac5b10bf78961cec5b2e0964cce0caa3bffae985.json
+terminalDecision: .ai/decisions/WI-272-reference-agent-rule-batch.close.json
 authority: canonical
 ---
 

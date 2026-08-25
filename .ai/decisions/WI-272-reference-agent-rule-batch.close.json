@@ -39,7 +39,7 @@
             ".ai/decisions/WI-272-reference-agent-rule-batch.finalize.8520cbf7e78d5e8c13fb781aac5b10bf78961cec5b2e0964cce0caa3bffae985.json"
           ],
           "inference": false,
-          "text": "Human decision 'confirmed' by human:repository-owner via repository-policy:merge-review at 2026-08-25T07:55:00Z."
+          "text": "Human decision 'approved' by human:repository-owner via repository-policy:merge-review at 2026-08-25T07:55:00Z."
         }
       ],
       "interventions": [],
@@ -104,8 +104,8 @@
     "status": "verified",
     "workItemId": "WI-272-reference-agent-rule-batch"
   },
-  "finalReportDigest": "sha256:2dd195ed5bc6f0698cd3ac46934fb7bdc3426827ff472047cc40c96573b2527b",
-  "humanDecision": "confirmed",
+  "finalReportDigest": "sha256:213bd6446f815d42257544ee8f683f13d6f6a15783d2d7d9ceb217c86e3bb373",
+  "humanDecision": "approved",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "resourceFinalizationHeadDigest": "sha256:4b2b9ee12f05773bb34074624ff97558faaf9823f32349b20e2aab50f44ddbb6",
   "resourceFinalizationHeadPath": ".ai/decisions/WI-272-reference-agent-rule-batch.finalize.8520cbf7e78d5e8c13fb781aac5b10bf78961cec5b2e0964cce0caa3bffae985.json",
@@ -115,7 +115,7 @@
     "actor": "human:repository-owner",
     "authoritySource": "repository-policy:merge-review",
     "decidedAt": "2026-08-25T07:55:00Z",
-    "decision": "confirmed",
+    "decision": "approved",
     "evidenceRefs": [
       ".ai/evidence/WI-272-reference-agent-rule-batch.verification.json",
       ".ai/decisions/WI-272-reference-agent-rule-batch.finalize.8520cbf7e78d5e8c13fb781aac5b10bf78961cec5b2e0964cce0caa3bffae985.json"
@@ -127,6 +127,6 @@
     "reason": "Hosted review passed, merge observation and cleanup receipts were verified, and the reference Agent rule batch is complete.",
     "resumeCondition": "No resume is required; any follow-up must use a new bounded Work Item with explicit human scope."
   },
-  "timestamp": "2026-08-25T07:53:38Z",
+  "timestamp": "2026-08-25T08:01:04Z",
   "workItemId": "WI-272-reference-agent-rule-batch"
 }
