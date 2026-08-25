@@ -6,7 +6,7 @@ description: "在 verification 之前完成终态 parity 绑定的有界 Rust Co
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 lastVerifiedBy: WI-284-reference-contract-semantics-terminal
 authority: canonical
 ---

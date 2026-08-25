@@ -6,7 +6,7 @@ description: "verification 前に terminal parity binding を備えた bounded R
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 lastVerifiedBy: WI-284-reference-contract-semantics-terminal
 authority: canonical
 ---

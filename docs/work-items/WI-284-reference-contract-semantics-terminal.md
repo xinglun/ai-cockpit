@@ -6,7 +6,7 @@ description: "Complete the bounded Rust Contract-semantics parity batch with ter
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 lastVerifiedBy: WI-284-reference-contract-semantics-terminal
 authority: canonical
 ---
