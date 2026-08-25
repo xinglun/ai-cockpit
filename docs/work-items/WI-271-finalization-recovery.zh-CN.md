@@ -6,7 +6,7 @@ description: "不改写不可变 archive，恢复 WI-270，并在 verification/a
 audience:
   - maintainer
   - reviewer
-status: in-progress
+status: implemented
 lastVerifiedBy: WI-271-finalization-recovery
 authority: canonical
 ---
@@ -47,3 +47,15 @@ evidence，不会重构 Runtime 的大源文件，也不会修改全局 Agent/MC
 - finalization 与精确清理 receipt
 - 可见 `Outcome: 🟢`、`Outcome: 🟡` 或 `Outcome: 🔴`，包含状态、未知项、证据、
   人工决定和下一步
+
+## 终态证据
+
+- Archive：`.ai/work-items/archive/WI-271-finalization-recovery.contract.json`
+- Verification：`.ai/evidence/WI-271-finalization-recovery.verification.json`
+- Recovery：`.ai/decisions/WI-270-reference-contract-batch.recovery.json`
+- Finalization：`.ai/decisions/WI-271-finalization-recovery.finalize.json`、
+  `.ai/decisions/WI-271-finalization-recovery.finalize.e1afe79cf257e0675123913123a2eca1aba0b7bf7ffa85893d0054409b76a258.json`、
+  `.ai/decisions/WI-271-finalization-recovery.finalize.3fbc88f554e5c352127cb3872f4e082effd03d1ce8534bd87796be2862252152.json`
+- Close：`.ai/decisions/WI-271-finalization-recovery.close.json`
+- Reviewed 资源：PR [#224](https://github.com/xinglun/ai-cockpit/pull/224) 与合并观察 PR
+  [#225](https://github.com/xinglun/ai-cockpit/pull/225) 均已在托管检查通过后合并。
