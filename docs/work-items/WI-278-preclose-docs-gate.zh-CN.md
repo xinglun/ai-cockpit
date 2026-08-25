@@ -6,8 +6,12 @@ description: "对 parity/documentation 投影缺失失败关闭，同时保持�
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-278-preclose-docs-gate
+terminalArchive: .ai/work-items/archive/WI-278-preclose-docs-gate.contract.json
+terminalVerification: .ai/evidence/WI-278-preclose-docs-gate.verification.json
+terminalFinalization: .ai/decisions/WI-278-preclose-docs-gate.finalize.4e0abb3fdff7fe5eb4446e3253b6b457bc3906f38641699ed8f11ecdde4e3d07.json
+terminalDecision: .ai/decisions/WI-278-preclose-docs-gate.close.json
 authority: canonical
 ---
 

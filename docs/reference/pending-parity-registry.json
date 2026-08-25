@@ -1,38 +1,4 @@
 {
-  "entries": [
-    {
-      "baseRevision": "0125cd4a95e2954d0671c29b6eef9758b45651f9",
-      "createdAt": "2026-08-25T14:25:00Z",
-      "expectedRecords": {
-        "contract": ".ai/work-items/archive/WI-278-preclose-docs-gate.contract.json",
-        "finalize": ".ai/decisions/WI-278-preclose-docs-gate.finalize.json",
-        "verification": ".ai/evidence/WI-278-preclose-docs-gate.verification.json"
-      },
-      "headRevision": "ec537812929733050f66a02cf078fac172b3f50c",
-      "parityRows": [
-        {
-          "path": "docs/reference/reference-parity.md",
-          "row": "| WI-278 — pre-close docs gate | In progress | `.ai/work-items/archive/WI-278-preclose-docs-gate.contract.json`; `.ai/evidence/WI-278-preclose-docs-gate.verification.json`; `.ai/decisions/WI-278-preclose-docs-gate.finalize.json`; `.ai/decisions/WI-278-preclose-docs-gate.close.json`. |"
-        },
-        {
-          "path": "docs/reference/reference-parity.zh-CN.md",
-          "row": "| WI-278 —— pre-close docs gate | 进行中 | `.ai/work-items/archive/WI-278-preclose-docs-gate.contract.json`；`.ai/evidence/WI-278-preclose-docs-gate.verification.json`；`.ai/decisions/WI-278-preclose-docs-gate.finalize.json`；`.ai/decisions/WI-278-preclose-docs-gate.close.json`。 |"
-        },
-        {
-          "path": "docs/reference/reference-parity.ja.md",
-          "row": "| WI-278 — pre-close docs gate | In progress | `.ai/work-items/archive/WI-278-preclose-docs-gate.contract.json`; `.ai/evidence/WI-278-preclose-docs-gate.verification.json`; `.ai/decisions/WI-278-preclose-docs-gate.finalize.json`; `.ai/decisions/WI-278-preclose-docs-gate.close.json`. |"
-        }
-      ],
-      "provider": "github",
-      "pullRequest": {
-        "number": 238,
-        "url": "https://github.com/xinglun/ai-cockpit/pull/238"
-      },
-      "registryBaseRevision": "d6476d7b9906a1f1d66e2e7726d19a03373be10f",
-      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "state": "in_progress",
-      "workItemId": "WI-278-preclose-docs-gate"
-    }
-  ],
+  "entries": [],
   "schemaVersion": 1
 }
