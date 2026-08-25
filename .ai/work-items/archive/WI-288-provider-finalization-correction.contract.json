@@ -33,14 +33,40 @@
     "provider_finalization"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-288-provider-finalization-correction",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/248",
     "worktree": "/private/tmp/ai-cockpit-wi287"
   },
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The successor Contract binds the actual GitHub PR URL before verification and finalization.",
+      "required": true,
+      "scenario": "provider_context_actual_pr",
+      "status": "unverified",
+      "verificationPlan": "contract identity inspection and Runtime lifecycle"
+    },
+    {
+      "evidence": [],
+      "expected": "WI-287 archive and recovery linkage remain digest-valid and are not rewritten.",
+      "required": true,
+      "scenario": "predecessor_immutable_recovery",
+      "status": "unverified",
+      "verificationPlan": "archive manifest and recovery binding checks"
+    },
+    {
+      "evidence": [],
+      "expected": "The same explicit repository, fail-closed, human Outcome boundary remains available to adopters.",
+      "required": true,
+      "scenario": "object_adopter_boundary",
+      "status": "unverified",
+      "verificationPlan": "workspace lifecycle, isolation, and Outcome handoff tests"
+    }
+  ],
   "scope": [
     ".ai/**",
     "crates/cockpit-repository/src/lib.rs",

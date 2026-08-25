@@ -1,0 +1,131 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "predecessor digest bindings",
+          "path": ".ai/decisions/WI-287-reference-checkpoint-conformance.recovery.json",
+          "type": "governance",
+          "verification": "Runtime recovery validation"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "resourceContext.pullRequest",
+          "path": ".ai/work-items/active/WI-288-provider-finalization-correction.contract.json",
+          "type": "governance",
+          "verification": "Runtime preflight and finalization binding"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "runtimeVersion/runtimeDigest/passed",
+          "path": ".ai/evidence/WI-288-provider-finalization-correction.verification.json",
+          "type": "test",
+          "verification": "installed v0.2.31 verify"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "archive manifest and finalization receipts",
+          "path": ".ai/work-items/archive/WI-288-provider-finalization-correction.archive.json",
+          "type": "governance",
+          "verification": "provider finalization and close"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "default_lifecycle_commands_emit_localized_handoffs_without_changing_stdout_json",
+          "path": "crates/cockpit-cli/tests/outcome_handoff.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        },
+        {
+          "locator": "parallel_agent_operations_keep_repository_ids_and_records_separate",
+          "path": "crates/cockpit-agent/tests/isolation.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-287-reference-checkpoint-conformance.recovery.json",
+    ".ai/work-items/archive/WI-288-provider-finalization-correction.contract.json",
+    ".ai/work-items/archive/WI-288-provider-finalization-correction.summary.json"
+  ],
+  "checkpointAt": "2026-08-25T20:25:44Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T20:23:54Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-288-provider-finalization-correction.md",
+      ".ai/decisions/WI-287-reference-checkpoint-conformance.recovery.json",
+      ".ai/work-items/active/WI-288-provider-finalization-correction.contract.json"
+    ],
+    "reason": "This successor exists only to correct immutable provider identity sequencing; it preserves the predecessor implementation and proves the same object/adopter Runtime boundary.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "predecessorContractDigest": "sha256:10bf33d6771434531371848cb8db80894de98d75ea256b667ad954aa689e7687",
+  "predecessorWorkItemId": "WI-287-reference-checkpoint-conformance",
+  "preflightAt": "2026-08-25T20:27:57Z",
+  "preflightContractDigest": "sha256:4264dc3d27158a2e61439f32bb1dc1547bda653611b6bc6a72dde3bcb8098015",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:4f543fa68ec68e74c17b81a964f080fa1977f2aad39a461eeea3cb5d7952b5b2",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-287-reference-checkpoint-conformance.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/work-items/active/WI-288-provider-finalization-correction.contract.json",
+        "https://github.com/xinglun/ai-cockpit/pull/248"
+      ],
+      "expected": "The successor Contract binds the actual GitHub PR URL before verification and finalization.",
+      "required": true,
+      "scenario": "provider_context_actual_pr",
+      "status": "verified",
+      "verificationPlan": "contract identity inspection and Runtime lifecycle"
+    },
+    {
+      "evidence": [
+        ".ai/decisions/WI-287-reference-checkpoint-conformance.recovery.json",
+        ".ai/work-items/archive/WI-287-reference-checkpoint-conformance.archive.json"
+      ],
+      "expected": "WI-287 archive and recovery linkage remain digest-valid and are not rewritten.",
+      "required": true,
+      "scenario": "predecessor_immutable_recovery",
+      "status": "verified",
+      "verificationPlan": "archive manifest and recovery binding checks"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-agent/tests/isolation.rs",
+        "crates/cockpit-cli/tests/outcome_handoff.rs"
+      ],
+      "expected": "The same explicit repository, fail-closed, human Outcome boundary remains available to adopters.",
+      "required": true,
+      "scenario": "object_adopter_boundary",
+      "status": "verified",
+      "verificationPlan": "workspace lifecycle, isolation, and Outcome handoff tests"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-25T20:28:05Z",
+  "workItemId": "WI-288-provider-finalization-correction"
+}
