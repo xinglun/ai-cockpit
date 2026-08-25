@@ -33,11 +33,11 @@
     "ci_gate"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-291-ci-contract-aware-gates",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/251",
     "worktree": "/private/tmp/ai-cockpit-wi291"
   },
   "risk": "high",
