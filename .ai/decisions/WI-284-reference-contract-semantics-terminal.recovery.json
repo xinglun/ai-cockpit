@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "prearchive-history-promotion-recovery",
+  "decidedAt": "2026-08-26T12:00:00+09:00",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-284-reference-contract-semantics-terminal.verification.json",
+    ".ai/work-items/archive/WI-284-reference-contract-semantics-terminal.archive.json"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:d2938b2b7cbb5ae0052edf12aa585fbc1d277d90437f5144b9d2ace01a580665",
+  "predecessorEventsDigest": "sha256:9485ef149e945d813236783e23d0a5e8d44eb67360833e88089215b79e179514",
+  "predecessorOutcomeDigest": "sha256:114c7b1ed873189cb90759b33760ce48a2969502949135a5dc29b41f43e135e9",
+  "predecessorSummaryDigest": "sha256:18f2dffda87b339b873ea76273b3df1fdd293dcd412c24fb2eb0c4bf676915f9",
+  "predecessorWorkItemId": "WI-284-reference-contract-semantics-terminal",
+  "reason": "Supersede immutable WI-284 because hosted quality found historical WI-281 documentation promotion and predecessor status omissions after archive; complete the same bounded batch with all promotions present before verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-285 start/preflight/checkpoint/verify/finish/archive, obtain reviewed hosted PR checks, then close with merged-head and cleanup evidence.",
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-285-reference-contract-semantics-final",
+  "workItemId": "WI-284-reference-contract-semantics-terminal"
+}
