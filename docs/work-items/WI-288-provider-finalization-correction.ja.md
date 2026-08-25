@@ -6,7 +6,7 @@ description: "実際の Provider PR identity が確定した後、先行実装�
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 lastVerifiedBy: WI-288-provider-finalization-correction
 authority: canonical
 ---

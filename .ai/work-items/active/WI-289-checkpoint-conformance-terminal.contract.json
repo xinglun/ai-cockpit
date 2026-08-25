@@ -1,0 +1,71 @@
+{
+  "acceptanceCriteria": [
+    "A1: Preserve WI-287 and WI-288 immutable archives, evidence, recovery, and finalization bytes without rewriting predecessor history.",
+    "A2: Keep WI-287 and WI-288 tri-language documentation status recovered, and register WI-289 as in progress in all parity projections before archive.",
+    "A3: Bind this Contract resourceContext to the actual GitHub PR URL before final verification and hosted checks.",
+    "A4: Re-run the installed Runtime verification and hosted checks for the unchanged Rust-native checkpoint/Agent-rule implementation.",
+    "A5: Record provider finalization, verify it, close with a structured human decision, and clean only the exact merged branch/worktree.",
+    "A6: Prove object/adopter capability parity: explicit repository context, fail-closed unknowns, immutable evidence, and visible human Outcome."
+  ],
+  "authority": "authorized",
+  "baseRevision": "bade01ddf52ed918237b9f18910c349e22ad6ebd",
+  "createdAt": "2026-08-25T20:46:09Z",
+  "goal": "Produce an honestly bound reviewed PR and close the terminal checkpoint-conformance successor with immutable provider finalization evidence.",
+  "intent": "Re-deliver the completed reference checkpoint conformance implementation through a provider-bound terminal successor, correcting documentation truth before archive without rewriting predecessor history.",
+  "mode": "code",
+  "outOfScope": [
+    "new runtime semantics beyond the predecessor implementation",
+    "release/adopter harness",
+    "CI workflow convergence",
+    "planner/performance/scheduler",
+    "lib.rs decomposition",
+    "Python/Make/V1 copying"
+  ],
+  "predecessorContractDigest": "sha256:4264dc3d27158a2e61439f32bb1dc1547bda653611b6bc6a72dde3bcb8098015",
+  "predecessorWorkItemId": "WI-288-provider-finalization-correction",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-288-provider-finalization-correction.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1aca3886b8a446de4bb384f1b7973fbc8dcec073bd5c7e27f8408422891ce366",
+  "requiredEvidenceClasses": [
+    "verification",
+    "archive",
+    "provider_finalization"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-288-provider-finalization-correction",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi287"
+  },
+  "risk": "high",
+  "scope": [
+    ".ai/**",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/governance_controls.rs",
+    "crates/cockpit-repository/tests/**",
+    "crates/cockpit-cli/tests/verify.rs",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "docs/reference/**",
+    "docs/work-items/**"
+  ],
+  "sources": [
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/tree/e5acb677da6621004d96f0ef353c58fe8d3acfbf",
+    "docs/reference/reference-parity.md",
+    "docs/reference/agent-workflow.md",
+    ".ai/decisions/WI-288-provider-finalization-correction.recovery.json"
+  ],
+  "verification": [
+    "cargo test --locked --workspace",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "python3 tests/docs/work_item_status_consistency.py --repo ."
+  ],
+  "state": "not_ready",
+  "verification": [],
+  "workItemId": "WI-289-checkpoint-conformance-terminal"
+}

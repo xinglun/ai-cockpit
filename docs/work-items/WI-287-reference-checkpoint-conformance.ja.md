@@ -6,7 +6,7 @@ description: "Rust-native fail-closed regression と truthful ledger で referen
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 lastVerifiedBy: WI-287-reference-checkpoint-conformance
 authority: canonical
 ---
@@ -44,4 +44,3 @@ wire format は Runtime にコピーしません。
 
 `cargo test --locked --workspace`、conformance ledger regression、documentation
 acceptance、repository governance gate を実行します。
-

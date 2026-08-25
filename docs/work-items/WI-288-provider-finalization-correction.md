@@ -6,7 +6,7 @@ description: "Re-deliver the predecessor implementation with an actual provider-
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 lastVerifiedBy: WI-288-provider-finalization-correction
 authority: canonical
 ---

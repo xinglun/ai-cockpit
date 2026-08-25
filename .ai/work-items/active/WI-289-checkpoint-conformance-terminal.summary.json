@@ -1,0 +1,20 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-288-provider-finalization-correction.recovery.json",
+    "docs/work-items/WI-287-reference-checkpoint-conformance.ja.md",
+    "docs/work-items/WI-287-reference-checkpoint-conformance.md",
+    "docs/work-items/WI-287-reference-checkpoint-conformance.zh-CN.md"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-08-25T20:46:09Z",
+  "mode": "code",
+  "predecessorContractDigest": "sha256:4264dc3d27158a2e61439f32bb1dc1547bda653611b6bc6a72dde3bcb8098015",
+  "predecessorWorkItemId": "WI-288-provider-finalization-correction",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-288-provider-finalization-correction.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "not_ready",
+  "updatedAt": "2026-08-25T20:46:09Z",
+  "workItemId": "WI-289-checkpoint-conformance-terminal"
+}
