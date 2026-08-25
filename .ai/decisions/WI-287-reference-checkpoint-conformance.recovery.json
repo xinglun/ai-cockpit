@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-successor-recovery",
+  "decidedAt": "2026-08-26T00:00:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/247",
+    ".ai/work-items/archive/WI-287-reference-checkpoint-conformance.archive.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:premerge-finalization-before-close"
+  ],
+  "predecessorContractDigest": "sha256:10bf33d6771434531371848cb8db80894de98d75ea256b667ad954aa689e7687",
+  "predecessorEventsDigest": "sha256:38c845429b4404fe3958d3d005e32e41acde91fb2ebfa68b408601528189dfe1",
+  "predecessorOutcomeDigest": "sha256:a245fd4d77c34e9498b428247a59bdc2a11972ae585fbfb6bcd2b43de05f8c35",
+  "predecessorSummaryDigest": "sha256:6094086cd69985577dd0c21dddb6305db0ffc5f2755b9f65c467bb4da8311261",
+  "predecessorWorkItemId": "WI-287-reference-checkpoint-conformance",
+  "reason": "The predecessor was archived with a placeholder provider PR URL before GitHub allocated the actual PR number; immutable provider finalization therefore cannot be honestly completed.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Re-run the same implementation through a successor after the actual GitHub PR URL is known, then finalize, verify, close, and clean the exact branch/worktree.",
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-288-provider-finalization-correction",
+  "workItemId": "WI-287-reference-checkpoint-conformance"
+}
