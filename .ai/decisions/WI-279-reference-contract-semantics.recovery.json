@@ -1,0 +1,23 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "archive-failure-retry",
+  "decidedAt": "2026-08-25T15:40:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-279-reference-contract-semantics.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:d0590d4b44a86a5ee28aaa71ec7d00efb32e11e1992a1417baaf608eb2276973",
+  "predecessorEventsDigest": "sha256:755fb24eafa7b7db010cb59f2ce283409fb604804f49a474404f7c1950d69e7b",
+  "predecessorOutcomeDigest": "sha256:acafd2209f9b96792b5bc20282dc6e6f138af60020b244797b65b1bc66be803e",
+  "predecessorSummaryDigest": "sha256:5d448a4e5956337217638861b294b220a0eee07466933ddd682030a0dd464460",
+  "predecessorWorkItemId": "WI-279-reference-contract-semantics",
+  "reason": "Archive was attempted after a commit changed the snapshot binding; rerun fresh preflight and verification before archive.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Fresh preflight and verification evidence matches the current Contract and repository snapshot.",
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "workItemId": "WI-279-reference-contract-semantics"
+}
