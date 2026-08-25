@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "A1: inventory targetCommit, tracked/working-tree counts, and path digests equal the clean current origin/main baseline 487f01970c49e2b85d17b0cb0536f9d60c8f05e0.",
+    "A2: existing reference classifications, WI-270/WI-272 records, and four explicit migrate-gap records are preserved; no deferred path is promoted without a separate semantic comparison.",
+    "A3: inventory generator and regression tests reject a stale target revision and verify the current metadata.",
+    "A4: English, Simplified Chinese, and Japanese comparison documentation use the same current baseline and counts.",
+    "A5: documentation acceptance, inventory regression, governance integrity, and full required checks pass; no Runtime business behavior changes."
+  ],
+  "createdAt": "2026-08-25T08:29:18Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:3056b50090f553441f8db1e04550f61d8481002044e0ea333e79b3d97c8dd180",
+  "evidenceRefs": [
+    ".ai/evidence/WI-273-reference-inventory-rebaseline.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-273-reference-inventory-rebaseline.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-273-reference-inventory-rebaseline.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0585acfca362370c91ec44879ca167c0141634cc154b3ad55e1896b871303ce5",
+      "workItemId": "WI-273-reference-inventory-rebaseline"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-273-reference-inventory-rebaseline.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-273-reference-inventory-rebaseline.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-273-reference-inventory-rebaseline.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-273-reference-inventory-rebaseline.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-273-reference-inventory-rebaseline.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-273-reference-inventory-rebaseline.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-273-reference-inventory-rebaseline.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-273-reference-inventory-rebaseline.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-273-reference-inventory-rebaseline.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-273-reference-inventory-rebaseline.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the reference inventory authoritative for the current default branch without changing Runtime behavior, silently closing deferred records, or rewriting historical Work Item evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-273-reference-inventory-rebaseline.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-273-reference-inventory-rebaseline"
+  },
+  "taskReportDigest": "sha256:ac5d18dc062bdec1efc7d25ebefc5cae39de9531c112ed229ae7e7e2baceee89",
+  "taskReportMarkdownDigest": "sha256:89b67c8eeee34943c33828302f12f426529600d5a9504e6c89a029b965f69ea6",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-273-reference-inventory-rebaseline.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-273-reference-inventory-rebaseline"
+}
