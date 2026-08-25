@@ -4,7 +4,7 @@
       ".ai/evidence/WI-293-ci-contract-aware-gates-recovery.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:d9b0fd531343f9932bd029d5d6d9f76d8b0ad8a375a6f0782104b03f4e4bc5d8",
+    "repositorySnapshotDigest": "sha256:de22f500c57c60100d7548fa4acf29bcbe65e1539d23fda63763c8593a61943a",
     "workItemId": "WI-293-ci-contract-aware-gates-recovery"
   },
   "format": "ai-cockpit.task-outcome",
