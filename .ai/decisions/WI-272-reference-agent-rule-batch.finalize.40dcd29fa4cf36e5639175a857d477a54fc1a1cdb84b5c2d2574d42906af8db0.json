@@ -1,0 +1,65 @@
+{
+  "governanceAppendRevision": "c760c2411033d3df385d376038f2a687ca96986e",
+  "predecessorReceiptDigest": "sha256:4275255685305b5d3a038b4d56921a1c7464367de5a002f9243f2bd4eb7cc93d",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "repository-policy:merge-review",
+    "before": {
+      "branch": "present",
+      "pullRequest": "unmerged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "c760c2411033d3df385d376038f2a687ca96986e",
+      "name": "codex/wi-272-reference-agent-rule-batch",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:53f128aa21385ec268781164cc5358db82ac583f4ca56e649cc1f87a7792768b",
+    "operationId": "wi272-resource-finalization",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "5c2eeb8c6d4cc434bc4b1805731576382714403d",
+      "headRevision": "c760c2411033d3df385d376038f2a687ca96986e",
+      "mergeCommit": "ffd5210689c506dbf26a4da9a1b091f086020084",
+      "number": 227,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/227"
+    },
+    "reason": "PR #227 passed hosted review and was merged; retain the branch and worktree until the explicit cleanup receipt is recorded.",
+    "receiptId": "wi272-merge-observation-ffd5210",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-272-reference-agent-rule-batch",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/227",
+      "worktree": "/private/tmp/ai-cockpit-wi272-clean"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+    "runtimeVersion": "0.2.31",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-25T07:40:00Z",
+    "workItemId": "WI-272-reference-agent-rule-batch",
+    "worktree": {
+      "branch": "codex/wi-272-reference-agent-rule-batch",
+      "headRevision": "c760c2411033d3df385d376038f2a687ca96986e",
+      "path": "/private/tmp/ai-cockpit-wi272-clean",
+      "worktreeId": "WI-272-reference-agent-rule-batch"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "wi272-merge-observation-ffd5210"
+}
