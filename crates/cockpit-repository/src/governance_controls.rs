@@ -7,7 +7,9 @@
 
 use crate::{ObserverError, repository_id};
 use cockpit_core::Digest;
-use cockpit_protocol::{Contract, PreflightDecisionEvidence, RuntimeContext};
+use cockpit_protocol::{
+    Contract, PreflightDecisionEvidence, RuntimeContext, validate_scenario_coverage_projection,
+};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::{BTreeMap, BTreeSet};
@@ -154,7 +156,10 @@ pub fn validate_scenario_coverage_values(
     summary: &Value,
 ) -> (String, Vec<String>, Vec<GovernanceFinding>) {
     let high_risk = high_risk(contract);
-    let Some(contract_entries) = array(contract.get("scenarioCoverage")) else {
+    let Some(raw_contract_entries) = contract
+        .get("scenarioCoverage")
+        .filter(|value| !value.is_null())
+    else {
         if high_risk {
             return (
                 "blocked".into(),
@@ -168,13 +173,45 @@ pub fn validate_scenario_coverage_values(
         }
         return ("not_applicable".into(), Vec::new(), Vec::new());
     };
+    if let Err(errors) = validate_scenario_coverage_projection(raw_contract_entries) {
+        return (
+            "blocked".into(),
+            vec!["scenario_coverage_invalid".into()],
+            errors
+                .into_iter()
+                .map(|message| finding("scenario_coverage_invalid", message, "error"))
+                .collect(),
+        );
+    }
+    let Some(contract_entries) = raw_contract_entries.as_array() else {
+        unreachable!("scenario coverage shape was validated above");
+    };
     if contract_entries.is_empty() {
+        if !high_risk {
+            return ("not_applicable".into(), Vec::new(), Vec::new());
+        }
         return (
             "blocked".into(),
             vec!["scenario_coverage_empty".into()],
             vec![finding(
                 "scenario_coverage_empty",
                 "scenarioCoverage must contain an explicit scenario",
+                "error",
+            )],
+        );
+    }
+    if summary.get("scenarioCoverage").is_some()
+        && summary
+            .get("scenarioCoverage")
+            .and_then(Value::as_array)
+            .is_none()
+    {
+        return (
+            "blocked".into(),
+            vec!["scenario_summary_invalid".into()],
+            vec![finding(
+                "scenario_summary_invalid",
+                "Summary scenarioCoverage must be a list",
                 "error",
             )],
         );
@@ -308,6 +345,13 @@ pub fn validate_scenario_coverage_values(
 /// declarations without requiring the later Summary evidence projection, so
 /// a high-risk item stops for human review before checkpoint/verification.
 pub fn scenario_coverage_preflight_unknowns(contract: &Value) -> Vec<String> {
+    if let Some(value) = contract
+        .get("scenarioCoverage")
+        .filter(|value| !value.is_null())
+        && validate_scenario_coverage_projection(value).is_err()
+    {
+        return vec!["scenario_coverage_invalid".into()];
+    }
     if !high_risk(contract) {
         return Vec::new();
     }
