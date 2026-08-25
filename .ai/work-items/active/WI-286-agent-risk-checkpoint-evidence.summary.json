@@ -1,94 +1,4 @@
 {
-  "acceptanceEvidence": [
-    {
-      "acceptanceId": "A1",
-      "evidence": [
-        {
-          "locator": "checkpoint_policy_and_evidence_are_typed_and_strict",
-          "path": "crates/cockpit-protocol/tests/contract_v2.rs",
-          "type": "test",
-          "verification": "cargo test --locked --workspace"
-        }
-      ]
-    },
-    {
-      "acceptanceId": "A2",
-      "evidence": [
-        {
-          "locator": "checkpoint_lifecycle_records_before_edit_evidence_for_strict_policy",
-          "path": "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
-          "type": "test",
-          "verification": "cargo test --locked --workspace"
-        }
-      ]
-    },
-    {
-      "acceptanceId": "A3",
-      "evidence": [
-        {
-          "locator": "contract_amendment_chain_invalidates_stale_before_edit_evidence",
-          "path": "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
-          "type": "test",
-          "verification": "cargo test --locked --workspace"
-        }
-      ]
-    },
-    {
-      "acceptanceId": "A4",
-      "evidence": [
-        {
-          "locator": "policy_route_rejects_missing_intent_before_execution",
-          "path": "crates/cockpit-repository/tests/verification_route.rs",
-          "type": "test",
-          "verification": "cargo test --locked --workspace"
-        }
-      ]
-    },
-    {
-      "acceptanceId": "A5",
-      "evidence": [
-        {
-          "locator": "checkpoint_identity_and_unknown_fields_fail_closed",
-          "path": "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
-          "type": "test",
-          "verification": "cargo test --locked --workspace"
-        }
-      ]
-    },
-    {
-      "acceptanceId": "A6",
-      "evidence": [
-        {
-          "locator": "agent_rules_keep_terminality_and_successor_boundaries_visible",
-          "path": "crates/cockpit-repository/tests/agent_rule_parity.rs",
-          "type": "test",
-          "verification": "cargo test --locked --workspace"
-        }
-      ]
-    },
-    {
-      "acceptanceId": "A7",
-      "evidence": [
-        {
-          "locator": "tri-language Agent Risk and checkpoint boundary",
-          "path": "docs/reference/agent-workflow.md",
-          "type": "documentation",
-          "verification": "documentation acceptance"
-        }
-      ]
-    },
-    {
-      "acceptanceId": "A8",
-      "evidence": [
-        {
-          "locator": "parallel_agent_operations_keep_repository_ids_and_records_separate",
-          "path": "crates/cockpit-agent/tests/isolation.rs",
-          "type": "test",
-          "verification": "cargo test --locked --workspace"
-        }
-      ]
-    }
-  ],
   "changedPaths": [
     ".ai/work-items/active/WI-286-agent-risk-checkpoint-evidence.contract.json",
     ".ai/work-items/active/WI-286-agent-risk-checkpoint-evidence.summary.json"
@@ -97,21 +7,12 @@
   "checkpointCount": 1,
   "createdAt": "2026-08-25T18:12:15Z",
   "failedGate": "finish.governance",
-  "intentAlignment": {
-    "evidence": [
-      "docs/work-items/WI-286-agent-risk-checkpoint-evidence.md",
-      "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
-      "crates/cockpit-repository/tests/verification_route.rs"
-    ],
-    "reason": "The bounded batch projects reference Agent Risk and checkpoint semantics into one Rust-native, repository-bound lifecycle validator without copying source implementation or weakening human-owned Contract decisions.",
-    "state": "resolved"
-  },
   "mode": "code",
   "outcomeState": "blocked",
-  "preflightAt": "2026-08-25T19:02:37Z",
-  "preflightContractDigest": "sha256:b72e8fab7a05d76e9d19a03440c8e1eef2756ef19bbc4e44ce60d2d5747b712c",
+  "preflightAt": "2026-08-25T18:56:47Z",
+  "preflightContractDigest": "sha256:4d981a84ab636fc84291d755af7f603a2f873b4adf3e40a97c6e7647730a1f49",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:8c3044ea44f5ce13895baa69532aed3b75b230ac92547fd3d4d8fc6f46ed8e9c",
+  "preflightRepositorySnapshotDigest": "sha256:88fa723b51272336fd9533a3135587aca143e1db2ddf4951eb8a819cce2f3056",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
@@ -163,7 +64,7 @@
       "verificationPlan": "repository isolation tests and release-adopter smoke"
     }
   ],
-  "state": "finish_ready",
-  "updatedAt": "2026-08-25T19:02:37Z",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-25T18:57:12Z",
   "workItemId": "WI-286-agent-risk-checkpoint-evidence"
 }
