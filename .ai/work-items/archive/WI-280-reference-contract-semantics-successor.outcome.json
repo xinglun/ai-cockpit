@@ -1,0 +1,235 @@
+{
+  "acceptanceResults": [
+    "Contract exposes and validates the reference-parity fields required for intent, scenario coverage, acceptance dimensions, parallel-slot declarations, and preflight review without silently accepting malformed or contradictory declarations.",
+    "Preflight review presents unresolved human decisions and required next actions, and not_ready or needs_human_confirmation remains fail-closed for implementation.",
+    "Existing Rust lifecycle, repository isolation, outcome, and evidence semantics remain compatible; no generated governance record is hand-edited.",
+    "Tri-language documentation explains the supported Rust mapping, deliberate differences, and the boundary between facts and human governance decisions.",
+    "Focused tests cover valid, missing, malformed, contradictory, stale, and scope-conflicting Contract inputs, including parallel-slot safety."
+  ],
+  "createdAt": "2026-08-25T15:53:20Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:d81c8d56257e0bf9885d37967485bf87e8957328d8b7de7ff74f4f11bff75cb9",
+  "evidenceRefs": [
+    ".ai/evidence/WI-280-reference-contract-semantics-successor.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-280-reference-contract-semantics-successor.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-280-reference-contract-semantics-successor.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:67b14a879fc723d433f0d0efb41e3fd668721d69301b1d55b9790e32f135a33b",
+      "workItemId": "WI-280-reference-contract-semantics-successor"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-280-reference-contract-semantics-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-279-reference-contract-semantics.recovery.1dbef4733b4bbe00ee6f41e7accbd193d67733528f2a6be2e7d9b7e72eab8072.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-280-reference-contract-semantics-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-279-reference-contract-semantics.recovery.24e2fb7f991584a201968d617a09602fdaef6a8fd87d1bc59e052848fa18bde3.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-280-reference-contract-semantics-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-279-reference-contract-semantics.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-280-reference-contract-semantics-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-279-reference-contract-semantics.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-280-reference-contract-semantics-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-279-reference-contract-semantics.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-280-reference-contract-semantics-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-279-reference-contract-semantics.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-280-reference-contract-semantics-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-280-reference-contract-semantics-successor.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-280-reference-contract-semantics-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-280-reference-contract-semantics-successor.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-280-reference-contract-semantics-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-279-reference-contract-semantics.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-280-reference-contract-semantics-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-279-reference-contract-semantics.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-280-reference-contract-semantics-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-279-reference-contract-semantics.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-280-reference-contract-semantics-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-279-reference-contract-semantics.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-280-reference-contract-semantics-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-279-reference-contract-semantics.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-280-reference-contract-semantics-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-279-reference-contract-semantics.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-280-reference-contract-semantics-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-279-reference-contract-semantics.task-report.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-280-reference-contract-semantics-successor.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-280-reference-contract-semantics-successor.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-280-reference-contract-semantics-successor.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-280-reference-contract-semantics-successor.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-280-reference-contract-semantics-successor.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-280-reference-contract-semantics-successor.contract.json"
+          ],
+          "inference": false,
+          "text": "Introduce strict Rust Contract validation for reference-parity fields and fail-closed preflight review."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-280-reference-contract-semantics-successor.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-280-reference-contract-semantics-successor"
+  },
+  "taskReportDigest": "sha256:34d7ded25cec60e190961bd5883f5e44a70d0447eda64c5f49847cd2f035639f",
+  "taskReportMarkdownDigest": "sha256:f91144cbd601ddb9d1fbad0406ece4d536905ce68b9549639978d0d24bdc8d56",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-280-reference-contract-semantics-successor.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-280-reference-contract-semantics-successor"
+}
