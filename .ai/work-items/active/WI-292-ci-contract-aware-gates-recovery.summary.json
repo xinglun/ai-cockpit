@@ -21,13 +21,18 @@
     "tests/ci/run_repository_gates.py",
     "tests/conformance/reference_file_inventory.json"
   ],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-08-25T22:48:04Z",
+  "checkpointCount": 1,
   "createdAt": "2026-08-25T22:42:26Z",
   "mode": "code",
-  "preflightState": "not_run",
+  "preflightAt": "2026-08-25T22:47:59Z",
+  "preflightContractDigest": "sha256:2e732aab58113b6c81ea774033d5e28854829ff1ddc382f92ea9f35b97e92f04",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:ddc85e41846d59126ee0eee58928b22ed5b60661012543a37877afb5dc88bb93",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "implementation_active",
-  "updatedAt": "2026-08-25T22:42:58Z",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-25T22:48:04Z",
   "workItemId": "WI-292-ci-contract-aware-gates-recovery"
 }

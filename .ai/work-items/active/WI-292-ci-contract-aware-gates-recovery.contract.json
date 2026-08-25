@@ -19,6 +19,9 @@
     "dependency graph and parallel execution",
     "Python/Make/V1 runtime copy"
   ],
+  "predecessorWorkItemId": "WI-291-ci-contract-aware-gates",
+  "predecessorContractDigest": "sha256:7a3f4915b8effc89e66a1ef82d389984f1388f80b7015c04e1ce3b38fe29bf41",
+  "recoveryDecisionPath": ".ai/decisions/WI-291-ci-contract-aware-gates.recovery.json",
   "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -60,7 +63,13 @@
     "docs/work-items/WI-292-ci-contract-aware-gates-recovery.ja.md",
     ".ai/**"
   ],
-  "sources": [],
+  "sources": [
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf",
+    ".ai/decisions/WI-291-ci-contract-aware-gates.recovery.json",
+    ".ai/work-items/archive/WI-291-ci-contract-aware-gates.archive.json",
+    "tests/ci/quality_route.py",
+    "tests/ci/run_repository_gates.py"
+  ],
   "state": "implementation_active",
   "verification": [
     "cargo test --locked --workspace"
