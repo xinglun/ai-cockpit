@@ -1,0 +1,71 @@
+{
+  "acceptanceCriteria": [
+    "A1: WI-270 immutable bytes are preserved exactly and a Runtime-valid successor recovery decision binds the predecessor digests.",
+    "A2: The three language parity ledgers identify WI-270 as recovered and register WI-271 with exact terminal evidence paths.",
+    "A3: WI-271 binds the actual reviewed PR context with finalize-plan before verify, finish, and archive.",
+    "A4: Installed Runtime verification, focused governance/documentation gates, hosted checks, merge observation, exact cleanup, finalization verification, and structured close all bind the reviewed successor head.",
+    "A5: The visible human Outcome includes status, unknowns, evidence, human decision, and next action; no predecessor bytes are rewritten."
+  ],
+  "authority": "authorized",
+  "baseRevision": "ffcb623567fc85a9332c2ae9ac2149af80a9f1c5",
+  "createdAt": "2026-08-25T06:14:56Z",
+  "goal": "Complete the reference Contract batch delivery with a valid finalization boundary, exact cleanup, and no historical rewrite.",
+  "intent": "Recover WI-270 through a reviewed successor while preserving its immutable bytes and binding the actual PR context before verification and archive.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Rewrite or delete any WI-270 Contract",
+    " Summary",
+    " Outcome",
+    " Events",
+    " verification",
+    " archive",
+    " or PR #223 failure bytes.",
+    "Refactor runtime lib.rs or add unrelated runtime/business functionality; architecture cleanup follows the reference comparison batches.",
+    "Modify root main's pre-existing user files",
+    " global Agent/MCP/HOME/configuration",
+    " or unrelated worktrees."
+  ],
+  "predecessorContractDigest": "sha256:5fdd3a47db30f5f834298f7ec4f7b5b3a6d1b65a9b1ac828eb6d59d6398c8e0f",
+  "predecessorWorkItemId": "WI-270-reference-contract-batch",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-270-reference-contract-batch.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6bda5111cdb8503b35634f372c6abba03502b84c121242531c8c05fbb24674cc",
+  "requiredEvidenceClasses": [
+    "verification",
+    "repository_gate",
+    "documentation_parity",
+    "recovery_decision",
+    "resource_finalization"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-271-finalization-recovery",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi271-finalization-recovery"
+  },
+  "risk": "high",
+  "scope": [
+    ".ai/decisions/WI-270-reference-contract-batch.recovery.json",
+    ".ai/work-items/archive/WI-270-reference-contract-batch.*",
+    ".ai/evidence/WI-270-reference-contract-batch.verification.json",
+    "docs/reference/reference-file-comparison.*",
+    "tests/conformance/reference_file_inventory.*",
+    "docs/reference/reference-parity.*",
+    "docs/work-items/WI-270-reference-contract-batch.*",
+    "docs/work-items/WI-271-finalization-recovery.*",
+    ".ai/work-items/active/WI-271-finalization-recovery.*",
+    ".ai/work-items/archive/WI-271-finalization-recovery.*",
+    ".ai/decisions/WI-271-finalization-recovery.*",
+    ".ai/evidence/WI-271-finalization-recovery.*"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-271-finalization-recovery"
+}

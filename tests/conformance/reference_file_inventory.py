@@ -33,6 +33,74 @@ GETTING_STARTED_BATCH = "getting-started-onboarding"
 EXPECTED_REFERENCE_COMMIT = "e5acb677da6621004d96f0ef353c58fe8d3acfbf"
 EXPECTED_TARGET_COMMIT = "87bfd86645adf7f4a6f86e447763542988371039"
 CAPABILITY_STATUS_BATCH = "capability-status-projection"
+WI270_BATCH = "WI-270-reference-contract-batch"
+WI270_DOC_CONCEPTS = {
+    "docs/concepts/decision-states.ja.md": ("ja",),
+    "docs/concepts/decision-states.md": ("en",),
+    "docs/concepts/decision-states.zh-CN.md": ("zh-CN",),
+}
+WI270_PARALLEL_DOCS = {
+    "docs/features/work-item-parallelism.ja.md": ("ja",),
+    "docs/features/work-item-parallelism.md": ("en",),
+    "docs/features/work-item-parallelism.zh-CN.md": ("zh-CN",),
+}
+WI270_REFERENCE_FILES: dict[str, tuple[list[str], str]] = {
+    "docs/reference/safe-parallel-verification.md": (
+        ["crates/cockpit-verification/src/lib.rs", "crates/cockpit-cli/src/main.rs", "crates/cockpit-cli/tests/verify.rs"],
+        "The Rust bounded executor accepts structured command argv, caps workers, serializes unsafe scopes, and records per-command evidence; no Python runner is copied.",
+    ),
+    "docs/reference/work-item-intelligence-interface.md": (
+        ["crates/cockpit-protocol/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "crates/cockpit-cli/src/main.rs", "docs/reference/commands.md", "docs/reference/verification-cost.md"],
+        "The Runtime exposes request-scoped status and intelligence, but the reference's full cost/wait/index-version aggregation remains a later projection boundary; no silent parity is claimed.",
+    ),
+    "docs/reference/work-item-state-machine.md": (
+        ["crates/cockpit-protocol/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "crates/cockpit-repository/tests/resource_finalization_transition.rs"],
+        "Lifecycle transitions, recovery, finalization, archive, and close are Runtime-native; provider PR states remain an explicit external boundary.",
+    ),
+    "docs/reference/work-item-status-interface.md": (
+        ["crates/cockpit-protocol/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "crates/cockpit-cli/src/main.rs", "crates/cockpit-repository/tests/status_projection.rs"],
+        "The Runtime publishes evidence-derived request-scoped status and human Outcome projections rather than the reference generated Python status file.",
+    ),
+    "scripts/ai_acceptance_policy.py": (["crates/cockpit-repository/src/governance_controls.rs", "crates/cockpit-repository/tests/contract_preflight.rs"], "Typed Rust governance controls validate stable acceptance identifiers, evidence mappings, and fail-closed readiness."),
+    "scripts/ai_check_scenario_coverage.py": (["crates/cockpit-repository/src/governance_controls.rs", "crates/cockpit-repository/tests/contract_preflight.rs"], "Typed Runtime scenario coverage validation replaces the reference Python gate and binds Contract/Summary evidence."),
+    "scripts/ai_check_work_item.py": (["crates/cockpit-repository/src/lib.rs", "crates/cockpit-protocol/src/lib.rs", "crates/cockpit-repository/tests/contract_schema.rs"], "Runtime Contract validation owns scope, authority, unknowns, execution decisions, concurrency, and lifecycle invariants."),
+    "scripts/ai_decision_protocol.py": (["crates/cockpit-repository/src/governance_controls.rs", "crates/cockpit-protocol/src/lib.rs", "crates/cockpit-repository/tests/preflight_review.rs"], "Repository-bound typed decision receipts replace the reference Python decision protocol and never infer human approval."),
+    "scripts/ai_intent_policy.py": (["crates/cockpit-repository/src/governance_controls.rs", "crates/cockpit-verification/src/lib.rs", "crates/cockpit-verification/tests/intent_scenario_binding.rs"], "Intent alignment and scenario binding are Runtime validation inputs with explicit unknowns and policy traceability."),
+    "scripts/ai_parallel_verification.py": (["crates/cockpit-verification/src/lib.rs", "crates/cockpit-cli/src/main.rs", "crates/cockpit-cli/tests/verify.rs"], "Rust bounded execution provides argv-only parallel verification, worker caps, deterministic results, and scope-safe execution."),
+    "scripts/ai_preflight_review.py": (["crates/cockpit-core/src/lib.rs", "crates/cockpit-repository/src/governance_controls.rs", "crates/cockpit-repository/tests/preflight_review.rs"], "Typed preflight derives yellow/red/green state, humanDecisionRequest, identity-bound confirmation, and recovery conditions."),
+    "scripts/ai_scenario_policy.py": (["crates/cockpit-repository/src/governance_controls.rs", "crates/cockpit-core/src/lib.rs"], "Risk-sensitive scenario coverage is evaluated by the Runtime policy layer and remains fail-closed for unknown required scenarios."),
+    "scripts/ai_work_item_state.py": (["crates/cockpit-protocol/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "crates/cockpit-repository/tests/resource_finalization_transition.rs"], "The Rust lifecycle state machine and recovery receipts own transitions without copying the Python module."),
+    "tests/test_acceptance_policy.py": (["crates/cockpit-repository/tests/contract_preflight.rs", "crates/cockpit-repository/tests/contract_schema.rs"], "Rust regression coverage exercises acceptance evidence identity, completeness, and fail-closed validation."),
+    "tests/test_ai_parallel_verification.py": (["crates/cockpit-cli/tests/verify.rs", "crates/cockpit-verification/tests/execution.rs"], "Rust tests cover bounded workers, command results, failure retention, and snapshot binding."),
+    "tests/test_checkpoint_intent.py": (["crates/cockpit-repository/tests/contract_preflight.rs", "crates/cockpit-cli/tests/preflight.rs"], "Rust preflight/checkpoint tests require human-owned intent and preserve unknowns instead of inferring them."),
+    "tests/test_contract_and_policy.py": (["crates/cockpit-repository/tests/contract_schema.rs", "crates/cockpit-repository/tests/contract_preflight.rs"], "Typed Contract schema and policy tests cover strict fields, scope, authority, acceptance, and generated ownership."),
+    "tests/test_intent_policy.py": (["crates/cockpit-verification/tests/intent_scenario_binding.rs", "crates/cockpit-repository/tests/contract_preflight.rs"], "Rust intent alignment tests distinguish unresolved, unknown, and resolved evidence."),
+    "tests/test_parallel_lifecycle_contract.py": (["crates/cockpit-repository/tests/parallel_boundary.rs", "crates/cockpit-cli/tests/parallel_boundary.rs"], "Rust lifecycle/parallel tests cover isolated scopes, serialized projections, leases, overlap, and repository isolation."),
+    "tests/test_preflight_review.py": (["crates/cockpit-repository/tests/preflight_review.rs", "crates/cockpit-cli/tests/preflight.rs"], "Rust preflight tests cover required human review, scenario coverage, policy signals, and identity-bound confirmation."),
+    "tests/test_scenario_coverage_gate.py": (["crates/cockpit-repository/tests/contract_preflight.rs", "crates/cockpit-repository/tests/preflight_review.rs"], "Rust tests cover required verified/unverified/not-applicable scenarios, risk acknowledgement, and invalid status fail-closed behavior."),
+}
+
+
+def wi270_counterpart(path: str) -> tuple[list[str], str] | None:
+    if path in WI270_DOC_CONCEPTS:
+        language = WI270_DOC_CONCEPTS[path][0]
+        suffix = "" if language == "en" else f".{language}"
+        return [
+            f"docs/reference/contract-fields{suffix}.md",
+            f"docs/reference/outcome-report{suffix}.md",
+            "crates/cockpit-core/src/lib.rs",
+            "crates/cockpit-repository/tests/outcome_report.rs",
+        ], "The Runtime preserves the reference red/yellow/green stop semantics through typed decision and Outcome projections; the reference current_status.md file is not copied."
+    if path in WI270_PARALLEL_DOCS:
+        language = WI270_PARALLEL_DOCS[path][0]
+        suffix = "" if language == "en" else f".{language}"
+        return [
+            f"docs/work-items/WI-123-parallel-contract-boundary{suffix}.md",
+            f"docs/reference/configuration{suffix}.md",
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/tests/parallel_boundary.rs",
+        ], "Repository-local Contract boundaries and slot leases replace reference orchestration files; scope overlap is conservative and generated projections remain isolated."
+    return WI270_REFERENCE_FILES.get(path)
 CAPABILITY_STATUS_RECORDS: dict[str, tuple[str, list[str], str]] = {
     ".ai/project/adopter-capability-manifest.json": (
         "migrate-gap",
@@ -272,6 +340,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                     "classification": classification,
                     "rustCounterparts": counterparts,
                     "reason": reason,
+                }
+            )
+            continue
+        wi270 = wi270_counterpart(path)
+        if wi270 is not None:
+            counterparts, reason = wi270
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI270_BATCH,
+                    "classification": "implemented-different-by-design",
+                    "rustCounterparts": counterparts,
+                    "reason": f"WI-270 file-level comparison: {reason}",
                 }
             )
             continue

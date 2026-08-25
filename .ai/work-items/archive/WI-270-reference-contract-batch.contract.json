@@ -1,0 +1,99 @@
+{
+  "acceptanceCriteria": [
+    "A1: the pinned reference slice is enumerated with one classification and counterpart decision per path",
+    "A2: Contract intent scenario acceptance parallel and preflight semantics are compared without silent parity claims",
+    "A3: every concrete in-scope gap is either fixed in this Work Item or explicitly recorded with evidence and a bounded follow-up",
+    "A4: tri-language comparison documentation and inventory checks pass",
+    "A5: the installed Runtime verifies the batch and produces a visible Outcome"
+  ],
+  "authority": "authorized",
+  "baseRevision": "ffcb623567fc85a9332c2ae9ac2149af80a9f1c5",
+  "createdAt": "2026-08-25T05:31:38Z",
+  "goal": "Establish a complete file-level comparison for Contract intent scenario acceptance parallel and preflight surfaces without silently claiming parity.",
+  "intent": "Compare the pinned reference source one file at a time for the first Contract and governance-semantics slice and close only evidence-backed differences.",
+  "mode": "implementation",
+  "outOfScope": [
+    "reference source runtime code and generated history bytes",
+    "unrelated deferred batches outside Contract intent scenario acceptance parallel and preflight semantics",
+    "global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:aa7547d68d35a07edf9fb89e96d13701a0fe2f0ee463c6cdde8b5e8e7402bdbd",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation_parity",
+    "reference_inventory"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-270-reference-contract-batch",
+    "provider": "github",
+    "pullRequest": "pending",
+    "worktree": "/private/tmp/ai-cockpit-wi270-reference-contract-batch"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "description": "Every selected reference path has exactly one classification, counterpart or explicit external boundary, evidence reference, and gap/defer decision.",
+      "evidence": [
+        ".ai/work-items/active/WI-270-reference-contract-batch.contract.json",
+        "docs/work-items/WI-270-reference-contract-batch.md"
+      ],
+      "expectedOutcome": "no_selected_path_missing_from_the_ledger",
+      "scenario": "reference_slice_path_accounting",
+      "status": "verified",
+      "verificationPlan": "Pin the reference commit, inspect each selected path, update the three ledgers and inventory, then run the repository comparison and documentation gates."
+    },
+    {
+      "description": "Contract, intent, scenario, acceptance, parallel, and preflight behavior is compared against the pinned source without promoting an unverified gap to parity.",
+      "evidence": [
+        ".ai/work-items/active/WI-270-reference-contract-batch.contract.json",
+        "docs/reference/reference-file-comparison.md"
+      ],
+      "expectedOutcome": "implemented_or_bounded_gap_with_evidence",
+      "scenario": "reference_semantics_no_silent_parity",
+      "status": "verified",
+      "verificationPlan": "Compare the pinned source one file at a time and bind each result to an inventory record and a tri-language ledger row."
+    },
+    {
+      "description": "English, Simplified Chinese, and Japanese comparison documentation identify the same selected slice and bounded decisions.",
+      "evidence": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md"
+      ],
+      "expectedOutcome": "three_language_documents_remain_semantically_aligned",
+      "scenario": "tri_language_ledger_consistency",
+      "status": "verified",
+      "verificationPlan": "Run parity_status_check.sh and documentation_acceptance.sh after the comparison is recorded."
+    }
+  ],
+  "scope": [
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/work-items/WI-270-reference-contract-batch.md",
+    "docs/work-items/WI-270-reference-contract-batch.zh-CN.md",
+    "docs/work-items/WI-270-reference-contract-batch.ja.md",
+    ".ai/work-items/active/WI-270-reference-contract-batch.approach.json",
+    ".ai/work-items/active/WI-270-reference-contract-batch.contract.json",
+    ".ai/work-items/active/WI-270-reference-contract-batch.summary.json",
+    ".ai/work-items/archive/WI-270-reference-contract-batch.contract.json",
+    ".ai/work-items/archive/WI-270-reference-contract-batch.summary.json",
+    ".ai/evidence/WI-270-reference-contract-batch.verification.json",
+    ".ai/decisions/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-270-reference-contract-batch"
+}

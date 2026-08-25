@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "A1: the pinned reference slice is enumerated with one classification and counterpart decision per path",
+    "A2: Contract intent scenario acceptance parallel and preflight semantics are compared without silent parity claims",
+    "A3: every concrete in-scope gap is either fixed in this Work Item or explicitly recorded with evidence and a bounded follow-up",
+    "A4: tri-language comparison documentation and inventory checks pass",
+    "A5: the installed Runtime verifies the batch and produces a visible Outcome"
+  ],
+  "createdAt": "2026-08-25T05:53:45Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:40a13b94ca7032b79d45716f06cdb4051da847673b5e4348849a2952f8d1bfc8",
+  "evidenceRefs": [
+    ".ai/evidence/WI-270-reference-contract-batch.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-270-reference-contract-batch.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-270-reference-contract-batch.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:280ff9918c9d5ca0319ef33f9d9b18c065f7ff60a55cb5b970608d34b62d42fd",
+      "workItemId": "WI-270-reference-contract-batch"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-270-reference-contract-batch.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-270-reference-contract-batch.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-270-reference-contract-batch.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-270-reference-contract-batch.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-270-reference-contract-batch.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-270-reference-contract-batch.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-270-reference-contract-batch.contract.json"
+          ],
+          "inference": false,
+          "text": "Establish a complete file-level comparison for Contract intent scenario acceptance parallel and preflight surfaces without silently claiming parity."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-270-reference-contract-batch.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-270-reference-contract-batch"
+  },
+  "taskReportDigest": "sha256:8580120c13bb210ae8fe6a8a001dc7a365ab43d75f400066c8eb20312492206b",
+  "taskReportMarkdownDigest": "sha256:d2f650a9fd8e7db6f8169258bb0b96e1fd93057dbad62cce413ffa293da0c47b",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-270-reference-contract-batch.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-270-reference-contract-batch"
+}
