@@ -1,6 +1,6 @@
 {
   "captureMode": "full_capture",
-  "createdAt": "2026-08-25T00:19:47Z",
+  "createdAt": "2026-08-25T00:20:57Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -8,8 +8,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 16803,
-      "executionElapsedMs": 16619,
+      "elapsedMs": 16791,
+      "executionElapsedMs": 16586,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -24,10 +24,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 16803,
-    "executionElapsedMs": 16619,
-    "filesHashed": 7,
-    "filesRead": 7,
+    "elapsedMs": 16791,
+    "executionElapsedMs": 16586,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -35,9 +35,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "tests/ci/recovery_gate_acceptance.sh"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "e789afda9a12869a4e8dfa0b7249b0ddbff2bca9",
       "dependencyConfidence": "unknown",
@@ -45,13 +43,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 16619,
+      "executionElapsedMs": 16586,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:c05e382d9591dd68291c908f872a21c5bbc6fe8fa081fc58784eed73aaafbdfa",
+      "repositorySnapshotDigest": "sha256:752850271a84c2a6402b4355be2b74429db7b64035c103e5a606ccc29d49b8c6",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -77,7 +75,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:cc092853ebbe0fda6b43ea2a0340041dddb8cb9e9130670c3fc4958573a7eb53",
+        "outputDigest": "sha256:e76e06aa2a4ed644d7bffdc0ec848ae6ab6f260f2fae1989de6983785fc446ff",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -93,9 +91,9 @@
     "runtimeVersion": "0.2.31",
     "workItemId": "WI-260-recovery-gate"
   },
-  "receiptDigest": "sha256:e7794e81f74e5227144362e2f1d121a8ab7db8fe5c297aba75c389a3c7965ec9",
+  "receiptDigest": "sha256:0e7f55f658acde404e0686d74c180a95c86ac6df691fe9fe95d5e71394db79b4",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:c05e382d9591dd68291c908f872a21c5bbc6fe8fa081fc58784eed73aaafbdfa",
+  "repositorySnapshotDigest": "sha256:752850271a84c2a6402b4355be2b74429db7b64035c103e5a606ccc29d49b8c6",
   "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
   "runtimeVersion": "0.2.31",
   "workItemId": "WI-260-recovery-gate"

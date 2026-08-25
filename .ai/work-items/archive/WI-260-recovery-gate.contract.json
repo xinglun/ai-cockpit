@@ -25,11 +25,11 @@
     "repository_gate_receipt"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-260-recovery-gate",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/212",
     "worktree": "/private/tmp/ai-cockpit-wi260-recovery-gate"
   },
   "risk": "normal",

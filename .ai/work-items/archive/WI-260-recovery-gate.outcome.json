@@ -6,14 +6,17 @@
     "Regression tests cover both gate and promotion behavior.",
     "Three-language WI and parity records bind the corrective evidence."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-08-25T00:21:01Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:cc1e3d898079b693ddcdc764c25cd315010977b13ec1d32166e3d0609042bc88",
   "evidenceRefs": [
     ".ai/evidence/WI-260-recovery-gate.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-260-recovery-gate.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -21,41 +24,38 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-260-recovery-gate.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:c05e382d9591dd68291c908f872a21c5bbc6fe8fa081fc58784eed73aaafbdfa",
+      "repositorySnapshotDigest": "sha256:752850271a84c2a6402b4355be2b74429db7b64035c103e5a606ccc29d49b8c6",
       "workItemId": "WI-260-recovery-gate"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-260-recovery-gate.summary.json"
+            ".ai/work-items/archive/WI-260-recovery-gate.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-260-recovery-gate.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-260-recovery-gate.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-260-recovery-gate.summary.json"
+            ".ai/work-items/archive/WI-260-recovery-gate.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-260-recovery-gate.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-260-recovery-gate.summary.json"
         }
       ],
       "evidence": [
@@ -74,15 +74,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-260-recovery-gate.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -93,7 +85,7 @@
             ".ai/evidence/WI-260-recovery-gate.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -103,15 +95,23 @@
             ".ai/evidence/WI-260-recovery-gate.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-260-recovery-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-260-recovery-gate.contract.json"
+            ".ai/work-items/archive/WI-260-recovery-gate.contract.json"
           ],
           "inference": false,
           "text": "Correct precedence and promotion behavior for recovered predecessors without rewriting historical close bytes."
@@ -120,23 +120,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-260-recovery-gate.contract.json"
+            ".ai/work-items/archive/WI-260-recovery-gate.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-260-recovery-gate"
   },
+  "taskReportDigest": "sha256:1a3f5e4fe868a0ed871a48f1953745d8ce55378d30320192df03695857dd2442",
+  "taskReportMarkdownDigest": "sha256:aee169d8367966a3b40374b86e81678c78aa962b51e89f515e450f8b0bdf1a64",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-260-recovery-gate.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-260-recovery-gate"
 }

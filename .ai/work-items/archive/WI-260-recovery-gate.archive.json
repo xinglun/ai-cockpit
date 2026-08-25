@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-25T00:21:04Z",
+  "files": {
+    "contractDigest": "sha256:c73e4e49552c9a85c09c4415de3dcf9e1e58afd3355677981d94633f4e6319e3",
+    "contractPath": ".ai/work-items/archive/WI-260-recovery-gate.contract.json",
+    "eventsDigest": "sha256:1c98e3395203feb7a69916f86f9abff4957d09c8baa6a3ce5c247b40b377735c",
+    "eventsPath": ".ai/work-items/archive/WI-260-recovery-gate.events.jsonl",
+    "outcomeDigest": "sha256:d6374e3567dd9ec55826873d4e831496793bcb610593738efbbde4909f5db616",
+    "outcomePath": ".ai/work-items/archive/WI-260-recovery-gate.outcome.json",
+    "summaryDigest": "sha256:87797258ccebe0d61f4c3251895c3d1d23121f81262a4d01518363cb5f9b054e",
+    "summaryPath": ".ai/work-items/archive/WI-260-recovery-gate.summary.json",
+    "taskReportDigest": "sha256:1a3f5e4fe868a0ed871a48f1953745d8ce55378d30320192df03695857dd2442",
+    "taskReportMarkdownDigest": "sha256:aee169d8367966a3b40374b86e81678c78aa962b51e89f515e450f8b0bdf1a64",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-260-recovery-gate.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-260-recovery-gate.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-260-recovery-gate"
+}

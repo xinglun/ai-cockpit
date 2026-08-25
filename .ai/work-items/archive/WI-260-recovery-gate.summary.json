@@ -1,12 +1,12 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-260-recovery-gate.contract.json",
-    ".ai/work-items/active/WI-260-recovery-gate.summary.json"
+    ".ai/work-items/archive/WI-260-recovery-gate.contract.json",
+    ".ai/work-items/archive/WI-260-recovery-gate.summary.json"
   ],
   "checkpointAt": "2026-08-25T00:12:46Z",
   "checkpointCount": 1,
   "createdAt": "2026-08-25T00:09:03Z",
-  "failedGate": "finish.governance",
+  "failedGate": "finish.preflight",
   "intentAlignment": {
     "evidence": [
       "tests/ci/governance_integrity_gate.py",
@@ -19,15 +19,15 @@
   },
   "mode": "code",
   "outcomeState": "blocked",
-  "preflightAt": "2026-08-25T00:19:47Z",
-  "preflightContractDigest": "sha256:f864ed1e9942325eefd306b4cf711d998ee88bfe4054a2b7bb856aff2b5c5316",
+  "preflightAt": "2026-08-25T00:20:57Z",
+  "preflightContractDigest": "sha256:be9fc928ede030f39d2b9a2ca61f115386cd62d1c8f434c3b1022f93455c25eb",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:c05e382d9591dd68291c908f872a21c5bbc6fe8fa081fc58784eed73aaafbdfa",
+  "preflightRepositorySnapshotDigest": "sha256:752850271a84c2a6402b4355be2b74429db7b64035c103e5a606ccc29d49b8c6",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryCondition": "Record a fresh non-red preflight result, then retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-08-25T00:19:51Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-25T00:21:01Z",
   "workItemId": "WI-260-recovery-gate"
 }
