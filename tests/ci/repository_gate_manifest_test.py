@@ -182,6 +182,110 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-gate-runner-") as temporary:
     assert report["route"]["receiptDigest"] == receipt["receiptDigest"]
     assert [gate["id"] for gate in report["gates"]] == ["fixture_true"]
 
+    # A non-light Contract route must carry a green Rust Contract gate report
+    # bound to the same Contract file, base revision, repository identity, and
+    # provider stage before command execution is accepted.
+    (repository / ".ai/work-items/active").mkdir(parents=True)
+    (repository / ".ai/cockpit.toml").write_text(
+        'protocol_version = 1\nrepository_schema_version = 2\n'
+        'repository_id = "sha256:' + "1" * 64 + '"\n',
+        encoding="utf-8",
+    )
+    contract_file = repository / ".ai/work-items/active/WI-CI-FIX.contract.json"
+    contract_file.write_text('{"risk":"normal"}\n', encoding="utf-8")
+    contract_receipt = route.plan_repository_route(
+        repository=repository,
+        manifest_path=fixture_manifest,
+        base=base,
+        head=head,
+        stage="pull_request",
+        risk="normal",
+        contract_path=Path(".ai/work-items/active/WI-CI-FIX.contract.json"),
+        requested_profile=None,
+    )
+    contract_route_path = fixture / "contract-route.json"
+    contract_route_path.write_text(
+        json.dumps(contract_receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    contract_gate_path = fixture / "contract-gate.json"
+    contract_gate_path.write_text(
+        json.dumps(
+            {
+                "schemaVersion": 1,
+                "kind": "repository_contract_quality_gate",
+                "state": "passed",
+                "repositoryId": "sha256:" + "1" * 64,
+                "workItemId": "WI-CI-FIX",
+                "contractDigest": "sha256:" + "2" * 64,
+                "contractFileDigest": contract_receipt["contractDigest"],
+                "repositorySnapshotDigest": "sha256:" + "3" * 64,
+                "baseRevision": base,
+                "headRevision": head,
+                "changedPaths": [],
+                "stage": "pr",
+                "runner": "hosted",
+                "operation": "modify_source",
+                "verificationTier": "T2",
+                "evidenceAssurance": "provider_verified",
+                "dependencyConfidence": "unknown",
+                "decisionState": "green",
+                "blockers": [],
+                "unknowns": [],
+                "requiredChecks": [],
+                "runtimeVersion": "test",
+                "runtimeDigest": "sha256:" + "4" * 64,
+                "receiptDigest": "sha256:" + "5" * 64,
+            },
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    contract_report_path = fixture / "contract-report.json"
+    subprocess.run(
+        [
+            sys.executable,
+            str(root / "tests/ci/run_repository_gates.py"),
+            "--repo",
+            str(repository),
+            "--manifest",
+            str(fixture_manifest),
+            "--route-receipt",
+            str(contract_route_path),
+            "--contract-gate-report",
+            str(contract_gate_path),
+            "--report",
+            str(contract_report_path),
+        ],
+        check=True,
+    )
+    assert json.loads(contract_report_path.read_text(encoding="utf-8"))["state"] == "passed"
+    blocked_gate = json.loads(contract_gate_path.read_text(encoding="utf-8"))
+    blocked_gate["state"] = "blocked"
+    contract_gate_path.write_text(json.dumps(blocked_gate), encoding="utf-8")
+    rejected_contract_gate = subprocess.run(
+        [
+            sys.executable,
+            str(root / "tests/ci/run_repository_gates.py"),
+            "--repo",
+            str(repository),
+            "--manifest",
+            str(fixture_manifest),
+            "--route-receipt",
+            str(contract_route_path),
+            "--contract-gate-report",
+            str(contract_gate_path),
+            "--report",
+            str(fixture / "blocked-contract-report.json"),
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert rejected_contract_gate.returncode != 0
+    assert "Contract gate" in rejected_contract_gate.stderr
+
     tampered = dict(receipt)
     tampered["requiredGateIds"] = ["foreign_gate"]
     tampered_path = fixture / "tampered.json"

@@ -1,0 +1,15 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-293-ci-contract-aware-gates-recovery.contract.json",
+    ".ai/work-items/active/WI-293-ci-contract-aware-gates-recovery.summary.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-08-25T23:20:29Z",
+  "mode": "code",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "updatedAt": "2026-08-25T23:20:29Z",
+  "workItemId": "WI-293-ci-contract-aware-gates-recovery"
+}

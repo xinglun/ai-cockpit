@@ -222,6 +222,10 @@ assert "--stage release" in release_workflow
 assert "--profile strict" in release_workflow
 assert "target/quality-route.json" in ci_workflow
 assert "target/quality-route-initial.json" in ci_workflow
+assert "gate" in ci_workflow
+assert "--runner hosted" in ci_workflow
+assert "target/rust-contract-quality-gate.json" in ci_workflow
+assert "--contract-gate-report" in ci_workflow
 assert "--route-receipt target/quality-route-initial.json" not in ci_workflow
 assert ci_workflow.count("--route-receipt target/quality-route.json") == 1
 assert "target/release-quality-route.json" in release_workflow
@@ -239,8 +243,10 @@ assert (
 initial_route = ci_workflow.index("name: Plan the initial typed repository quality route")
 runtime_shadow = ci_workflow.index("name: verify immutable Runtime shadow")
 final_route = ci_workflow.index("name: Finalize the typed repository quality route")
+rust_gate = ci_workflow.index("name: Evaluate Rust Contract-aware quality gate")
 gate_execution = ci_workflow.index("name: run repository gates exactly once")
-assert initial_route < runtime_shadow < final_route < gate_execution
+assert initial_route < runtime_shadow < final_route < rust_gate < gate_execution
+assert "cargo run --locked --package cockpit-cli" in ci_workflow
 
 for relative in (
     "docs/reference/ci-runtime-shadow.md",
