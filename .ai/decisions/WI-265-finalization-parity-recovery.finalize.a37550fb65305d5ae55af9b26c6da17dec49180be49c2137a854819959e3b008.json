@@ -1,0 +1,65 @@
+{
+  "governanceAppendRevision": "fa3c5ebe85b460680ce26897a1cfc5fb775fcceb",
+  "predecessorReceiptDigest": "sha256:30aee37a3477af39e2b461f1894dfeebfed3661ffdbd057d24b600465efe7793",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "reviewed-PR-217-merge",
+    "before": {
+      "branch": "present",
+      "pullRequest": "unmerged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "fa3c5ebe85b460680ce26897a1cfc5fb775fcceb",
+      "name": "codex/wi-265-finalization-parity",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:85c709e21de8b83c63c4424ab1a3490550a507a82741f0f8b978ffd9228a4899",
+    "operationId": "operation-WI-265-finalization-parity-recovery-merge-observed",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "47c9dd8e7107526f280274a92ccc7399493125cb",
+      "headRevision": "fa3c5ebe85b460680ce26897a1cfc5fb775fcceb",
+      "mergeCommit": "cb0a45dd0b9271855a4ec937238fdc59fd9470b4",
+      "number": 217,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/217"
+    },
+    "reason": "Observed reviewed PR #217 merged at exact head f9241b6 with merge commit cb0a45d; retain the exact branch and clean worktree until the merge observation is preserved on synchronized main and bounded cleanup is recorded.",
+    "receiptId": "ai-cockpit-WI-265-finalization-parity-recovery-merge-observed",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-265-finalization-parity",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/217",
+      "worktree": "/private/tmp/ai-cockpit-wi265-finalization-parity"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+    "runtimeVersion": "0.2.31",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-25T03:14:00Z",
+    "workItemId": "WI-265-finalization-parity-recovery",
+    "worktree": {
+      "branch": "codex/wi-265-finalization-parity",
+      "headRevision": "fa3c5ebe85b460680ce26897a1cfc5fb775fcceb",
+      "path": "/private/tmp/ai-cockpit-wi265-finalization-parity",
+      "worktreeId": "WI-265-finalization-parity-recovery"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-265-finalization-parity-recovery-merge-observed"
+}
