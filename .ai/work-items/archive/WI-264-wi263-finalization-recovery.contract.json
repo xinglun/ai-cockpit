@@ -18,22 +18,13 @@
     "quality route and gate migration",
     "user-global Agent or MCP configuration"
   ],
-  "predecessorWorkItemId": "WI-263-wi260-reconciliation",
   "predecessorContractDigest": "sha256:28a9bbab17cf3064b9d2c9b9b3fab7f3ebdeb1a679233ea2d15666d364e6d4e2",
+  "predecessorWorkItemId": "WI-263-wi260-reconciliation",
   "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
-  "recoveryDecisionPath": ".ai/decisions/WI-263-wi260-reconciliation.recovery.json",
   "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-263-wi260-reconciliation.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:288e08a368df1716f36625869490f1db3c7589505f9667f6dbafa0ff6b48918d",
-  "scenarioCoverage": [
-    {
-      "scenario": "stale finalization head fails closed",
-      "required": true,
-      "status": "unverified",
-      "expected": "The installed Runtime rejects a post-merge finalization receipt whose predecessor head is stale instead of accepting a mismatched transition.",
-      "verificationPlan": "Run the focused governance integrity and resource-finalization checks and retain the Runtime-bound verification evidence before recording cleanup receipts."
-    }
-  ],
   "requiredEvidenceClasses": [
     "verification",
     "recovery_decision",
@@ -41,14 +32,23 @@
     "documentation_parity"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-264-wi263-finalization-recovery",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/216",
     "worktree": "/private/tmp/ai-cockpit-wi264-finalization-recovery"
   },
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "expected": "The installed Runtime rejects a post-merge finalization receipt whose predecessor head is stale instead of accepting a mismatched transition.",
+      "required": true,
+      "scenario": "stale finalization head fails closed",
+      "status": "unverified",
+      "verificationPlan": "Run the focused governance integrity and resource-finalization checks and retain the Runtime-bound verification evidence before recording cleanup receipts."
+    }
+  ],
   "scope": [
     ".ai/decisions/WI-263-wi260-reconciliation.finalize.json",
     ".ai/decisions/WI-263-wi260-reconciliation.finalize.*",

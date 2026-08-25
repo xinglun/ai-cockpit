@@ -1,6 +1,6 @@
 {
   "captureMode": "full_capture",
-  "createdAt": "2026-08-25T02:42:47Z",
+  "createdAt": "2026-08-25T02:45:08Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -8,8 +8,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 15905,
-      "executionElapsedMs": 15745,
+      "elapsedMs": 14973,
+      "executionElapsedMs": 14803,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -24,10 +24,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 15905,
-    "executionElapsedMs": 15745,
-    "filesHashed": 11,
-    "filesRead": 11,
+    "elapsedMs": 14973,
+    "executionElapsedMs": 14803,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -35,11 +35,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/work-items/WI-264-wi263-finalization-recovery.ja.md",
-        "docs/work-items/WI-264-wi263-finalization-recovery.md",
-        "docs/work-items/WI-264-wi263-finalization-recovery.zh-CN.md"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "47c9dd8e7107526f280274a92ccc7399493125cb",
       "dependencyConfidence": "unknown",
@@ -47,13 +43,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 15745,
+      "executionElapsedMs": 14803,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:b68a222dc63f3899d5c61d0e8a5a766f27b48fdfdfe1d37ff9be5d2a63d5dbdf",
+      "repositorySnapshotDigest": "sha256:de7d8d41b9863c5b7fb726e5192286cd2a644b943c6628d1407d4a2dbced5672",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -79,7 +75,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:a5adebbf74c419da7d5ea6e8eb58e65fe0d2a7800c5eddc826c8e0886e4753ad",
+        "outputDigest": "sha256:e88a99d08e840e476223b23564a95a8697d12220e3ec6dc6e46cd0fa4b26e2b7",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -95,9 +91,9 @@
     "runtimeVersion": "0.2.31",
     "workItemId": "WI-264-wi263-finalization-recovery"
   },
-  "receiptDigest": "sha256:bdfe8b7820903b9940f9cd9e460cbf2908bd1951b45a6c16f995ae450818c85b",
+  "receiptDigest": "sha256:395a489a5ef48e513f79dc0503801dd9aed704ddc0d77702d0aed9cdae125812",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:b68a222dc63f3899d5c61d0e8a5a766f27b48fdfdfe1d37ff9be5d2a63d5dbdf",
+  "repositorySnapshotDigest": "sha256:de7d8d41b9863c5b7fb726e5192286cd2a644b943c6628d1407d4a2dbced5672",
   "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
   "runtimeVersion": "0.2.31",
   "workItemId": "WI-264-wi263-finalization-recovery"
