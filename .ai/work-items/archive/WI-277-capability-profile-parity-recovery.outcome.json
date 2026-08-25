@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "Redeliver the predecessor capability/profile projection with immutable WI-276 recovery linkage and no archive-byte rewrite.",
+    "Register the exact tri-language reference-parity rows before verification evidence, with evidence, finalization, and close paths bound to this Work Item.",
+    "Use the actual hosted PR URL and head revision in the resource finalization plan before verification evidence is recorded.",
+    "Re-run Rust workspace quality, conformance, documentation, and repository governance gates; missing or stale parity registration fails closed.",
+    "Prove adopter inheritance through repository-bound CLI/MCP capability projection, strict declarations, two-repository isolation, and read-only behavior."
+  ],
+  "createdAt": "2026-08-25T12:58:20Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:0debcc88b287b447327cc9a0ec3bfc158946ef663057a79009bf53953efeeab5",
+  "evidenceRefs": [
+    ".ai/evidence/WI-277-capability-profile-parity-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-277-capability-profile-parity-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-277-capability-profile-parity-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8fd077a246c2c289f198323fa1bafcc78c528dae519ccd5649614c8608d88b26",
+      "workItemId": "WI-277-capability-profile-parity-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-277-capability-profile-parity-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-277-capability-profile-parity-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-277-capability-profile-parity-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-277-capability-profile-parity-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-277-capability-profile-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-277-capability-profile-parity-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-277-capability-profile-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-277-capability-profile-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-277-capability-profile-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-277-capability-profile-parity-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the published capability/profile surface and its object-engineering inheritance auditable from reference comparison through hosted merge."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-277-capability-profile-parity-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-277-capability-profile-parity-recovery"
+  },
+  "taskReportDigest": "sha256:4ea436398943449a2b65a547994fa54246bbd86b64f95976acaa87ae76e94115",
+  "taskReportMarkdownDigest": "sha256:247ac9304ae329c334bda65c2bd2bde39bc033713b7d04e712242509a1ba84d4",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-277-capability-profile-parity-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-277-capability-profile-parity-recovery"
+}

@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-25T12:58:24Z",
+  "files": {
+    "contractDigest": "sha256:514cb015384cebae64c099b415b2adda5a0c095770e02a7e657c1185260639e3",
+    "contractPath": ".ai/work-items/archive/WI-277-capability-profile-parity-recovery.contract.json",
+    "eventsDigest": "sha256:61580e92c0b54ce6e51c9e003f09844a5edbb56dd98a547d735915866e3673bf",
+    "eventsPath": ".ai/work-items/archive/WI-277-capability-profile-parity-recovery.events.jsonl",
+    "outcomeDigest": "sha256:e2917fc3defb79cd9099068cfb3fd1c08adced328fa53d441441a7d714cb3399",
+    "outcomePath": ".ai/work-items/archive/WI-277-capability-profile-parity-recovery.outcome.json",
+    "summaryDigest": "sha256:41057fe846ca4f9907a4238e60cdde0a705b11b1c88f6ba87b0c42ebc07a3354",
+    "summaryPath": ".ai/work-items/archive/WI-277-capability-profile-parity-recovery.summary.json",
+    "taskReportDigest": "sha256:4ea436398943449a2b65a547994fa54246bbd86b64f95976acaa87ae76e94115",
+    "taskReportMarkdownDigest": "sha256:247ac9304ae329c334bda65c2bd2bde39bc033713b7d04e712242509a1ba84d4",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-277-capability-profile-parity-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-277-capability-profile-parity-recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-277-capability-profile-parity-recovery"
+}

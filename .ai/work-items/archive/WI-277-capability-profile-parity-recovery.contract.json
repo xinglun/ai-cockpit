@@ -15,7 +15,7 @@
   "outOfScope": [
     "rewriting WI-276 archive, evidence, Outcome, or recovery bytes",
     "new Rust capability semantics beyond the predecessor projection",
-    "reference Python runtime, reference Makefile, global Agent or MCP configuration",
+    "reference Python or Make implementation and global Agent/MCP configuration",
     "architecture cleanup or lib.rs decomposition"
   ],
   "predecessorContractDigest": "sha256:bb1cd1a5ec46264da151dcee8b337b6e5665adb8a24c562b6a2fe8546eb60640",
@@ -24,57 +24,47 @@
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-276-capability-profile-projection.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:e1e1bad3ed15b610ad4e30a69968a86ea8c2e87536fc60669336a785ff5c1a2e",
-  "requiredEvidenceClasses": ["verification"],
+  "repositorySnapshotDigest": "sha256:8fd077a246c2c289f198323fa1bafcc78c528dae519ccd5649614c8608d88b26",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-277-capability-profile-parity-recovery",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/237",
     "worktree": "/private/tmp/ai-cockpit-wi276-capability-profile"
   },
   "risk": "high",
   "scenarioCoverage": [
     {
-      "scenario": "parity registration precedes verification",
-      "required": true,
-      "status": "unverified",
+      "evidence": [],
       "expected": "All three reference-parity rows exist in a commit before the new verification evidence and contain the exact Work Item evidence/finalization/close paths.",
-      "verificationPlan": "Run the hosted governance integrity gate and inspect the prearchive ordering result for all three parity documents.",
-      "evidence": []
+      "required": true,
+      "scenario": "parity registration precedes verification",
+      "status": "unverified",
+      "verificationPlan": "Run the hosted governance integrity gate and inspect the prearchive ordering result for all three parity documents."
     },
     {
-      "scenario": "adopter capability inheritance",
-      "required": true,
-      "status": "unverified",
+      "evidence": [],
       "expected": "A repository-bound CLI and MCP projection exposes the same strict declaration identity and remains isolated and read-only for an adopter repository.",
-      "verificationPlan": "Run capability projection, isolation, malformed/stale, and CLI/MCP parity tests against repository-bound fixtures.",
-      "evidence": []
+      "required": true,
+      "scenario": "adopter capability inheritance",
+      "status": "unverified",
+      "verificationPlan": "Run capability projection, isolation, malformed/stale, and CLI/MCP parity tests against repository-bound fixtures."
     }
   ],
   "scope": [
-    ".ai/decisions/WI-276-capability-profile-projection.recovery.json",
-    ".ai/work-items/active/WI-277-capability-profile-parity-recovery.contract.json",
-    ".ai/work-items/active/WI-277-capability-profile-parity-recovery.summary.json",
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.ja.md",
     "docs/reference/reference-parity.zh-CN.md",
-    "crates/cockpit-protocol/src/**",
-    "crates/cockpit-repository/src/**",
-    "crates/cockpit-cli/src/**",
-    "crates/cockpit-mcp/src/**",
-    "crates/cockpit-protocol/tests/**",
-    "crates/cockpit-repository/tests/**",
-    "crates/cockpit-cli/tests/**",
-    "crates/cockpit-mcp/tests/**",
-    ".ai/project/**",
-    "docs/capabilities.md",
-    "docs/capabilities.ja.md",
-    "docs/capabilities.zh-CN.md",
-    "docs/reference/configuration.md",
-    "docs/reference/configuration.ja.md",
-    "docs/reference/configuration.zh-CN.md"
+    ".ai/decisions/WI-276-capability-profile-projection.recovery.json",
+    "crates/cockpit-repository/**",
+    "crates/cockpit-protocol/**",
+    "crates/cockpit-cli/**",
+    "crates/cockpit-mcp/**",
+    ".ai/project/**"
   ],
   "sources": [
     "WI-276-capability-profile-projection",
@@ -82,14 +72,14 @@
     "docs/reference/agent-workflow.md",
     "docs/reference/governance-integrity-gate.md"
   ],
-  "state": "not_ready",
+  "state": "implementation_active",
   "verification": [
-    {"check": "cargo fmt --all -- --check", "required": true},
-    {"check": "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings", "required": true},
-    {"check": "cargo test --locked --workspace --all-targets --all-features -- --test-threads=1", "required": true},
-    {"check": "bash tests/docs/documentation_acceptance.sh", "required": true},
-    {"check": "bash tests/conformance/reference_file_inventory_test.sh", "required": true},
-    {"check": "python3 tests/ci/governance_integrity_gate.py --repo .", "required": true}
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "cargo test --locked --workspace --all-targets --all-features -- --test-threads=1",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/conformance/reference_file_inventory_test.sh",
+    "python3 tests/ci/governance_integrity_gate.py --repo ."
   ],
   "workItemId": "WI-277-capability-profile-parity-recovery"
 }

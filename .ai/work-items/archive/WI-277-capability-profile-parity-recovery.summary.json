@@ -1,0 +1,127 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "WI-276 recovery linkage and immutable predecessor records",
+          "path": ".ai/decisions/WI-276-capability-profile-projection.recovery.json",
+          "type": "receipt",
+          "verification": "cargo test --locked --workspace --all-targets --all-features -- --test-threads=1"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "tri-language parity rows and pre-verification ordering",
+          "path": "docs/reference/reference-parity.md",
+          "type": "document",
+          "verification": "python3 tests/ci/governance_integrity_gate.py --repo . --report target/wi277-governance-report.json"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "provider-bound finalization plan for PR #237",
+          "path": ".ai/work-items/active/WI-277-capability-profile-parity-recovery.contract.json",
+          "type": "contract",
+          "verification": "ai-cockpit work-item finalize-plan --repo ... --id WI-277-capability-profile-parity-recovery --input /private/tmp/wi277-finalization-plan.json"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "single-process full Rust workspace verification",
+          "path": ".ai/evidence/WI-277-capability-profile-parity-recovery.verification.json",
+          "type": "evidence",
+          "verification": "ai-cockpit verify --repo ... --work-item WI-277-capability-profile-parity-recovery --command cargo --args 'test,--locked,--workspace,--all-targets,--all-features,--,--test-threads=1' --workers 1 --stage task"
+        },
+        {
+          "locator": "documentation and conformance acceptance",
+          "path": "tests/docs/documentation_acceptance.sh",
+          "type": "test",
+          "verification": "bash tests/docs/documentation_acceptance.sh; bash tests/conformance/reference_file_inventory_test.sh"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "repository-bound capability and profile declarations",
+          "path": "crates/cockpit-repository/tests/project_governance.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace --all-targets --all-features -- --test-threads=1"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-277-capability-profile-parity-recovery.contract.json",
+    ".ai/work-items/archive/WI-277-capability-profile-parity-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-08-25T12:52:26Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T12:43:21Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/reference/reference-parity.md",
+      "docs/reference/agent-workflow.md",
+      "crates/cockpit-repository/tests/project_governance.rs"
+    ],
+    "reason": "This successor restores the hosted parity and finalization controls omitted from WI-276 while proving the capability/profile behavior is inherited through repository-bound CLI and MCP surfaces.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:bb1cd1a5ec46264da151dcee8b337b6e5665adb8a24c562b6a2fe8546eb60640",
+  "predecessorWorkItemId": "WI-276-capability-profile-projection",
+  "preflightAt": "2026-08-25T12:58:15Z",
+  "preflightContractDigest": "sha256:802349626ea2380540d98eb15564f6f5d58a294d68d194068fa6e32760de9c6f",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8fd077a246c2c289f198323fa1bafcc78c528dae519ccd5649614c8608d88b26",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-276-capability-profile-projection.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "tests/ci/governance_integrity_gate.py",
+        ".ai/evidence/WI-277-capability-profile-parity-recovery.verification.json"
+      ],
+      "expected": "All three reference-parity rows exist before verification evidence and bind the exact Work Item evidence, finalization, and close paths.",
+      "required": true,
+      "scenario": "parity registration precedes verification",
+      "status": "verified",
+      "verificationPlan": "Run the governance integrity gate and inspect the three parity documents plus the verification evidence commit ordering."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/project_governance.rs",
+        "crates/cockpit-repository/tests/repository_context.rs",
+        "crates/cockpit-cli/tests/intelligence.rs",
+        "crates/cockpit-mcp/tests/intelligence.rs",
+        ".ai/project/capabilities.json",
+        ".ai/project/success_criteria.json",
+        ".ai/project/profile-policy.json"
+      ],
+      "expected": "Repository-bound CLI and MCP projections expose the same strict declaration identity, remain isolated across repositories, and are read-only.",
+      "required": true,
+      "scenario": "adopter capability inheritance",
+      "status": "verified",
+      "verificationPlan": "Run project governance, repository isolation, malformed/stale declaration, and CLI/MCP projection tests in the single-process workspace verification."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-25T12:58:20Z",
+  "workItemId": "WI-277-capability-profile-parity-recovery"
+}
