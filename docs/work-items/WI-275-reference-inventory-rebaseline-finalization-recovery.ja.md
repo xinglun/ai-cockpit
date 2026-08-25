@@ -6,11 +6,11 @@ description: "WI-274 の immutable stale-finalization failure を保持し、bou
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-275-reference-inventory-rebaseline-finalization-recovery
 terminalArchive: .ai/work-items/archive/WI-275-reference-inventory-rebaseline-finalization-recovery.contract.json
 terminalVerification: .ai/evidence/WI-275-reference-inventory-rebaseline-finalization-recovery.verification.json
-terminalFinalization: .ai/decisions/WI-275-reference-inventory-rebaseline-finalization-recovery.finalize.json
+terminalFinalization: .ai/decisions/WI-275-reference-inventory-rebaseline-finalization-recovery.finalize.6447db8eaff82a97764a341b733710a51f6574664c28398b40f2026c52f4469b.json
 terminalDecision: .ai/decisions/WI-275-reference-inventory-rebaseline-finalization-recovery.close.json
 authority: canonical
 ---
