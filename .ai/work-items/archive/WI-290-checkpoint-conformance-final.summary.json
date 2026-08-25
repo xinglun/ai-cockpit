@@ -68,10 +68,11 @@
     }
   ],
   "changedPaths": [
-    ".ai/work-items/active/WI-290-checkpoint-conformance-final.contract.json",
-    ".ai/work-items/active/WI-290-checkpoint-conformance-final.summary.json"
+    ".ai/work-items/archive/WI-290-checkpoint-conformance-final.contract.json",
+    ".ai/work-items/archive/WI-290-checkpoint-conformance-final.summary.json"
   ],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-08-25T21:14:15Z",
+  "checkpointCount": 1,
   "createdAt": "2026-08-25T21:09:52Z",
   "intentAlignment": {
     "evidence": [
@@ -82,11 +83,11 @@
     "state": "resolved"
   },
   "mode": "code",
-  "preflightAt": "2026-08-25T21:13:03Z",
-  "preflightContractDigest": "sha256:b33236f443e4dcca629c29daceec0137f116c341d2f7f825358733e8eb7fc21e",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:bb0d76944738af51a54fca12954fb613f061cb2d3b28ed41231f7efc98f1af16",
-  "preflightState": "yellow",
+  "preflightAt": "2026-08-25T21:19:47Z",
+  "preflightContractDigest": "sha256:7ba0d6bbe15f72475d2dac843ee4a37972973dfdb44007910047283633909fb6",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:28732c63c415096d2421de7e34e83e824f824d0f1f8249c9a37299a9b52f47e0",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -135,7 +136,7 @@
       "verificationPlan": "workspace lifecycle, isolation and Outcome tests"
     }
   ],
-  "state": "implementation_active",
-  "updatedAt": "2026-08-25T21:12:07.371539+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-25T21:19:59Z",
   "workItemId": "WI-290-checkpoint-conformance-final"
 }
