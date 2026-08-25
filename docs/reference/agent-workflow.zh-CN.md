@@ -106,6 +106,12 @@ Contract amendment evidence，不替换 `before_edit`；verification 开始后�
 required checks 失效，并要求新的 preflight 与 verification。Runtime 会将 resume
 history 与 checkpoint 时间绑定，旧 predecessor evidence 不能授权当前 Work Item。
 
+最终收尾同样受快照约束：完成最后一次 verification 后，必须先执行 `finish` 和
+`archive`，再提交 Runtime 生成的 finish/outcome/archive 记录。即使提交只包含
+`.ai/` 文件，commit 也会改变 snapshot identity；在 verification 与 archive 之间提交
+会使 receipt 变 stale，必须从当前 Work Item 重新验证，不能绕过门禁。只有 archive
+成功后才提交归档记录，然后执行 provider finalization 和 hosted checks。
+
 ## 资源收尾边界
 
 资源收尾 evidence 使用 append-only 链。canonical `<id>.finalize.json` 是不可变链根；后续 provider 观察写入 `<id>.finalize.<digest>.json`，并绑定 predecessor digest 与 sequence。归档 Contract 会冻结 `baseRevision`；任何 canonical 或 transition receipt 的 `pullRequest.baseRevision` 在记录和 `finalize-verify` 时都必须与其完全一致。归档前 rebase 必须刷新 active Contract 绑定并重新评审；归档后禁止 rebase，只能 fail closed 并走 recovery，不得改写任一记录。`finalize-verify` 和 `close` 要求唯一线性 head；stale predecessor、fork、malformed record、symlink、base 不一致或 identity drift 都会 fail closed。pre-merge blocked 链根通过连续的 merge observation（`retained`）与 cleanup（`deleted`）transition 推进。如果提交 canonical 治理 receipt 导致 PR head 前移，只有第一次 unmerged-to-merged observation 可以声明 `governanceAppendRevision`：PR、branch 与 worktree 的 head 必须同步变化，Git 必须证明旧 head 是新 head 的祖先。该追加区间可以新增同一 Work Item 的普通 finalization receipt，以及完整的 Runtime 生成 post-finalize evidence bundle；后者仅允许精确路径 `.ai/evidence/<id>/quality-route-post-finalize.json` 与 `.ai/evidence/<id>/repository-gates-post-finalize.json`。每个被接受的路径都必须是 Git `A`-only 变更，tree entry 必须是 `100644` regular blob。两个 evidence 文件必须符合固定 schema，并绑定归档 Contract、PR base、有界 head、route receipt digest、manifest digest、selected profile 和全部通过的 required gates。它们只是绑定后的观察结果，本身不授予 authority；该区间仍必须包含 finalization receipt 新增。缺少任一 bundle 文件、其他 Work Item 或文件名、malformed/duplicate-key JSON、绑定不一致、删除、修改、重命名、symlink、无关变更、非 merge 或后续 head 漂移都会被拒绝。归档 bytes 绝不重写；cleanup 必须保持已接受的 head。

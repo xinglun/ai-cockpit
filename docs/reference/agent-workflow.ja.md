@@ -117,6 +117,13 @@ verification 開始後は既存 required check を無効化し、fresh preflight
 verification を要求します。resume history と checkpoint timestamp も bind され、
 stale predecessor evidence は current Work Item を authorize できません。
 
+最終化も snapshot に依存します。最後の verification 後は、Runtime が生成した
+finish/outcome/archive record を commit する前に `finish` と `archive` を実行します。
+`.ai/` だけの commit でも snapshot identity は変わるため、verification と archive の間に
+commit すると receipt は stale になります。現在の Work Item で再検証し、gate を迂回しては
+いけません。archive 成功後にだけ archive record を commit し、その後 provider finalization
+と hosted checks を行います。
+
 ## Resource finalization の境界
 
 Finalization evidence は append-only chain です。canonical `<id>.finalize.json` は不変の chain root であり、後続の provider observation は predecessor digest と sequence を束縛した `<id>.finalize.<digest>.json` に保存されます。archived Contract は `baseRevision` を凍結し、canonical/transition receipt の `pullRequest.baseRevision` は record 時と `finalize-verify` 時の両方で完全一致しなければなりません。archive 前の rebase では active Contract の binding と review を更新し、archive 後の rebase は禁止して record を書き換えず fail-closed recovery を行います。`finalize-verify` と `close` は一意な線形 head を要求し、stale predecessor、fork、malformed record、symlink、base mismatch、identity drift は fail closed になります。pre-merge blocked root は連続する merge observation（`retained`）と cleanup（`deleted`）transition で進みます。canonical governance receipt の commit により PR head が進む場合、最初の unmerged-to-merged observation だけが `governanceAppendRevision` を宣言できます。PR、branch、worktree の各 head は同時に変わり、Git は旧 head が新 head の ancestor であることを証明します。この append 区間には、同一 Work Item の通常 finalization receipt と、Runtime が生成した完全な post-finalize evidence bundle だけを追加できます。bundle の path は `.ai/evidence/<id>/quality-route-post-finalize.json` と `.ai/evidence/<id>/repository-gates-post-finalize.json` に限定されます。受理される各 path は Git の `A`-only change で、tree entry は `100644` regular blob でなければなりません。両 evidence file は固定 schema に従い、archived Contract、PR base、bounded head、route receipt digest、manifest digest、selected profile、および passed required gates を束縛しなければなりません。これらは束縛済み observation であって、それ自体が authority ではなく、区間には引き続き finalization receipt の追加が必要です。bundle の欠落、別 Work Item または filename、malformed/duplicate-key JSON、binding mismatch、削除、変更、rename、symlink、無関係な変更、非 merge または後続の head drift は拒否されます。archive bytes は書き換えません。cleanup は受理済み head を保持します。
