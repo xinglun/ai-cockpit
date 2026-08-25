@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-25T16:50:35Z",
+  "files": {
+    "contractDigest": "sha256:9d4f047942236377b75e9e7ee988c90b56a8364660b852c3c25faffde5db0546",
+    "contractPath": ".ai/work-items/archive/WI-282-reference-contract-semantics-recovery.contract.json",
+    "eventsDigest": "sha256:69e5a0c9a70fb54ca7d6ba65f9099d099e15a38e57fd740ff8ff6fc3097f5223",
+    "eventsPath": ".ai/work-items/archive/WI-282-reference-contract-semantics-recovery.events.jsonl",
+    "outcomeDigest": "sha256:88037ced11b9e0a6ef204aa04681f321a1c6c40a085a7a67cf3086fa7ff75397",
+    "outcomePath": ".ai/work-items/archive/WI-282-reference-contract-semantics-recovery.outcome.json",
+    "summaryDigest": "sha256:174ff62fdd160ec548ea91c88d76684f21163bd970aa9710ea83fd1635a57cd6",
+    "summaryPath": ".ai/work-items/archive/WI-282-reference-contract-semantics-recovery.summary.json",
+    "taskReportDigest": "sha256:d6d9bb78156ed17b5879cb9096db7d86e1f4a7d8cb36502e2f4a93dc81d40af2",
+    "taskReportMarkdownDigest": "sha256:946a616ed5f20852547c035768af74bab58ef8642d8b394d0c66ad77cf001d9c",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-282-reference-contract-semantics-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-282-reference-contract-semantics-recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-282-reference-contract-semantics-recovery"
+}
