@@ -1,15 +1,110 @@
 {
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "target metadata, file count, and path digest",
+          "path": "tests/conformance/reference_file_inventory.json",
+          "type": "inventory",
+          "verification": "bash tests/conformance/reference_file_inventory_test.sh"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "WI-274 immutable stale-finalization recovery",
+          "path": ".ai/decisions/WI-274-reference-inventory-rebaseline-recovery.recovery.json",
+          "type": "lineage",
+          "verification": "governance and parity integrity gates"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "WI-275 parity row committed before verification evidence",
+          "path": "docs/reference/reference-parity.md",
+          "type": "governance-order",
+          "verification": "governance integrity gate prearchive ordering check"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "synchronized English, Chinese, and Japanese baselines",
+          "path": "docs/reference/reference-file-comparison.md",
+          "type": "tri-language-documentation",
+          "verification": "bash tests/docs/documentation_acceptance.sh"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "installed Runtime verification and declared checks",
+          "path": ".ai/evidence/WI-275-reference-inventory-rebaseline-finalization-recovery.verification.json",
+          "type": "verification",
+          "verification": "ai-cockpit verify plus inventory/documentation/governance checks"
+        }
+      ]
+    }
+  ],
   "changedPaths": [],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-08-25T09:38:23Z",
+  "checkpointCount": 1,
   "createdAt": "2026-08-25T09:32:39Z",
+  "intentAlignment": {
+    "evidence": [
+      "tests/conformance/reference_file_inventory.json",
+      "docs/reference/reference-file-comparison.md",
+      "docs/reference/reference-parity.md",
+      ".ai/decisions/WI-274-reference-inventory-rebaseline-recovery.recovery.json"
+    ],
+    "reason": "WI-275 redelivers only the bounded reference inventory, preserves WI-274 immutable stale-finalization truth, and records finalization after the final commit.",
+    "state": "resolved"
+  },
   "mode": "code",
   "predecessorContractDigest": "sha256:abd2944f6738266bcbdd2f7b4d3f2e8411a402484f2e45b2ce079695815ae227",
   "predecessorWorkItemId": "WI-274-reference-inventory-rebaseline-recovery",
-  "preflightState": "not_run",
+  "preflightAt": "2026-08-25T09:38:19Z",
+  "preflightContractDigest": "sha256:880fa0691076daeeea93940130700718843df34f0246efb7ef4c47c35abb0007",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:575ef09569e40204930f6f0a055919024844c17eb5c247ccffc0be72d20e427b",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-274-reference-inventory-rebaseline-recovery.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "implementation_active",
-  "updatedAt": "2026-08-25T09:37:27Z",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/conformance/reference_file_inventory.json",
+        "bash tests/conformance/reference_file_inventory_test.sh"
+      ],
+      "expected": "The machine ledger and all language projections bind to 487f019 and the same path digest.",
+      "required": true,
+      "scenario": "current origin/main inventory baseline",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/decisions/WI-274-reference-inventory-rebaseline-recovery.recovery.json",
+        "docs/reference/reference-parity.md",
+        "governance integrity gate"
+      ],
+      "expected": "WI-274 remains immutable and WI-275 parity registration predates verification evidence.",
+      "required": true,
+      "scenario": "immutable predecessor and ordered parity registration",
+      "status": "verified"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-08-25T09:38:56.923529+00:00",
   "workItemId": "WI-275-reference-inventory-rebaseline-finalization-recovery"
 }
