@@ -6,8 +6,12 @@ description: "在 reviewed archive/evidence commit 稳定后才完成 finalizati
 audience:
   - maintainer
   - reviewer
-status: in-progress
+status: implemented
 lastVerifiedBy: WI-269-finalization-head-order-correction
+terminalArchive: .ai/work-items/archive/WI-269-finalization-head-order-correction.contract.json
+terminalVerification: .ai/evidence/WI-269-finalization-head-order-correction.verification.json
+terminalFinalization: .ai/decisions/WI-269-finalization-head-order-correction.finalize.b64cf4237f6474b2dcc9d4be732a67fce482bea85d799eb0c438e95e6d43a24f.json
+terminalDecision: .ai/decisions/WI-269-finalization-head-order-correction.close.json
 authority: canonical
 ---
 
