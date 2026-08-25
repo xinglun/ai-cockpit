@@ -1,0 +1,30 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-260-recovery-gate.contract.json",
+    ".ai/work-items/active/WI-260-recovery-gate.summary.json"
+  ],
+  "checkpointAt": "2026-08-25T00:12:46Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-25T00:09:03Z",
+  "intentAlignment": {
+    "evidence": [
+      "tests/ci/governance_integrity_gate.py",
+      "tests/docs/promote_closed_work_item.py",
+      "tests/ci/governance_integrity_gate_test.sh",
+      "tests/docs/promote_closed_work_item_test.sh"
+    ],
+    "reason": "The corrective scope makes recovery precedence explicit in the governance inventory and skips only valid recovered predecessors in documentation promotion, without rewriting immutable close bytes.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-08-25T00:12:46Z",
+  "preflightContractDigest": "sha256:0c6290fe1b7efe79bf81551c8f410e72c2a294c5c9e19702049a748722040dfa",
+  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "preflightRepositorySnapshotDigest": "sha256:a68104554533914025c0bc06675ac0370b4c4c456c3e0ccaea0d06cba8975881",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-25T00:12:46Z",
+  "workItemId": "WI-260-recovery-gate"
+}

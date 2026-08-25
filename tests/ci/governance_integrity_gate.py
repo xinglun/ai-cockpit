@@ -1127,6 +1127,16 @@ def main() -> int:
                 if valid_close_decision(repo, work_item, decision_value):
                     record["decisionPath"] = decision
                     record["lifecycleState"] = "closed"
+                elif recovery_receipt_valid:
+                    # A predecessor may already contain an immutable, but
+                    # non-canonical, close receipt when a later recovery
+                    # explicitly supersedes it.  The recovery receipt is the
+                    # authoritative terminal projection in that case; do not
+                    # reclassify the predecessor as invalid merely because
+                    # its historical close cannot be rewritten.
+                    decision = str(recovery_path.relative_to(repo))
+                    record["decisionPath"] = decision
+                    record["lifecycleState"] = "recovered"
                 else:
                     record["lifecycleState"] = "closure_invalid"
                     findings.append(finding(work_item, "invalid_terminal_decision", decision))

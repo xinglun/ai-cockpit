@@ -92,6 +92,55 @@ run_case spoofed-base-premerge-finalize 1 invalid_premerge_finalize
 run_case superseded-recovery 0 none
 run_case invalid-recovery 1 invalid_terminal_decision
 
+# An immutable predecessor may retain a non-canonical historical close while a
+# valid recovery receipt supersedes it.  Recovery must be the terminal
+# projection; the stale close must not re-open a closure_invalid finding.
+recovered_close_repo="$tmp/recovered-with-invalid-close"
+recovered_close_report="$tmp/recovered-with-invalid-close-report.json"
+build_fixture "$fixtures/superseded-recovery.json" "$recovered_close_repo"
+python3 - "$recovered_close_repo/.ai/decisions/WI-902-recovered-predecessor.close.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+path.write_text(
+    json.dumps(
+        {
+            "workItemId": "WI-902-recovered-predecessor",
+            "repositoryId": "sha256:" + "b" * 64,
+            "state": "closed",
+            "decisionState": "confirmed",
+            "humanDecision": "historical descriptive close",
+        },
+        indent=2,
+    )
+    + "\n",
+    encoding="utf-8",
+)
+PY
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$recovered_close_repo" --report "$recovered_close_report" >/dev/null
+python3 - "$recovered_close_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+item = next(
+    item
+    for item in report["inventory"]
+    if item["workItemId"] == "WI-902-recovered-predecessor"
+)
+assert item["lifecycleState"] == "recovered", item
+assert item["decisionPath"] == ".ai/decisions/WI-902-recovered-predecessor.recovery.json", item
+assert not any(
+    finding["workItemId"] == "WI-902-recovered-predecessor"
+    and finding["code"] == "invalid_terminal_decision"
+    for finding in report["findings"]
+), report["findings"]
+PY
+
 # A detached pull-request merge checkout may not retain origin/HEAD or event
 # base-ref metadata. The immutable Contract resource context is the narrow
 # fallback; strict PR identity checks must still reject an externally known

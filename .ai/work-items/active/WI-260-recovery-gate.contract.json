@@ -1,0 +1,54 @@
+{
+  "acceptanceCriteria": [
+    "Valid recovery plus invalid historical close projects as recovered, not closure_invalid.",
+    "Approved close still takes precedence over an older recovery receipt.",
+    "Closed Work Item promotion skips only valid recovered predecessors and still fails closed on invalid recovery.",
+    "Regression tests cover both gate and promotion behavior.",
+    "Three-language WI and parity records bind the corrective evidence."
+  ],
+  "authority": "explicit-user-authorization-and-pr-reviewed-corrective-scope",
+  "baseRevision": "e789afda9a12869a4e8dfa0b7249b0ddbff2bca9",
+  "createdAt": "2026-08-25T00:09:03Z",
+  "goal": "Correct precedence and promotion behavior for recovered predecessors without rewriting historical close bytes.",
+  "intent": "Make recovery-aware governance gates converge after an immutable predecessor close is superseded by a valid recovery receipt.",
+  "mode": "code",
+  "outOfScope": [
+    "historical WI-258 close bytes",
+    "Runtime core lifecycle semantics"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:bee8a959401529c22031c54ba320ce024ec10c486d679341dfb0e40e9f9b9458",
+  "requiredEvidenceClasses": [
+    "verification",
+    "repository_gate_receipt"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-260-recovery-gate",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi260-recovery-gate"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh",
+    "docs/work-items/WI-260-recovery-gate.md",
+    "docs/work-items/WI-260-recovery-gate.zh-CN.md",
+    "docs/work-items/WI-260-recovery-gate.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-260-recovery-gate"
+}

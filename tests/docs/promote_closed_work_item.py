@@ -82,6 +82,57 @@ def require(condition: bool, message: str) -> None:
         raise PromotionError(message)
 
 
+def valid_recovery_decision(repository: Path, work_item_id: str) -> bool:
+    """Return whether a recovery receipt supersedes an immutable predecessor close.
+
+    A recovered predecessor is intentionally not a normal ``closed`` item: its
+    historical close bytes may be non-canonical and must remain untouched.
+    Promotion therefore skips it here, while the governance inventory remains
+    responsible for validating and reporting the recovery boundary.
+    """
+    recovery_path = repository / ".ai/decisions" / f"{work_item_id}.recovery.json"
+    if not recovery_path.exists() and not recovery_path.is_symlink():
+        return False
+    try:
+        recovery = read_json(recovery_path)
+        project = read_json(repository / ".ai/project.json")
+    except PromotionError:
+        return False
+    evidence_refs = recovery.get("evidenceRefs")
+    return (
+        recovery.get("schemaVersion") == 1
+        and recovery.get("workItemId") == work_item_id
+        and recovery.get("predecessorWorkItemId") == work_item_id
+        and isinstance(recovery.get("successorWorkItemId"), str)
+        and bool(recovery["successorWorkItemId"])
+        and recovery.get("decision") in {"successor", "supersede", "retry"}
+        and recovery.get("repositoryId") == project.get("repositoryId")
+        and isinstance(evidence_refs, list)
+        and bool(evidence_refs)
+        and all(isinstance(item, str) and item for item in evidence_refs)
+        and isinstance(recovery.get("reason"), str)
+        and bool(recovery["reason"].strip())
+    )
+
+
+def confirmed_approved_close(repository: Path, work_item_id: str) -> bool:
+    close_path = repository / ".ai/decisions" / f"{work_item_id}.close.json"
+    if not close_path.exists() and not close_path.is_symlink():
+        return False
+    try:
+        close = read_json(close_path)
+    except PromotionError:
+        return False
+    structured = close.get("structuredDecision")
+    return (
+        close.get("state") == "closed"
+        and close.get("decisionState") == "confirmed"
+        and close.get("humanDecision") == "approved"
+        and isinstance(structured, dict)
+        and structured.get("decision") == "approved"
+    )
+
+
 @dataclass(frozen=True)
 class TerminalEvidence:
     work_item_id: str
@@ -438,6 +489,13 @@ def closed_work_items(repository: Path) -> list[str]:
         work_item_id = close.name.removesuffix(".close.json")
         match = re.match(r"^WI-([0-9]+)", work_item_id)
         if match and int(match.group(1)) >= PROMOTION_MINIMUM:
+            # Recovery is a separate terminal projection for an immutable
+            # predecessor.  Do not ask the normal promotion path to invent an
+            # approved close for it; the successor owns the future promotion.
+            if valid_recovery_decision(repository, work_item_id) and not confirmed_approved_close(
+                repository, work_item_id
+            ):
+                continue
             result.append(work_item_id)
     return result
 
