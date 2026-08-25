@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:5916a3678644886555cdbc5ac94a64e380f658ee0397f2f0f65b24c64892ee63",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "post-merge-exact-cleanup",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "2a66e76d01c167fd87693c57f92d931e8bce450f",
+      "name": "codex/wi-278-preclose-docs-gate",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:d172dd69281aefd8eee8498456259bc558efdf1917a33abf331a1ab1b27449a5",
+    "operationId": "operation-WI-278-preclose-docs-gate-cleanup-deleted",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "0125cd4a95e2954d0671c29b6eef9758b45651f9",
+      "headRevision": "2a66e76d01c167fd87693c57f92d931e8bce450f",
+      "mergeCommit": "83d80c309635e30205fc609be7371e0e61237942",
+      "number": 238,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/238"
+    },
+    "reason": "After PR #238 merge observation, removed only the exact WI-278 remote/local branch and exact feature worktree; no unrelated resources were touched.",
+    "receiptId": "ai-cockpit-WI-278-preclose-docs-gate-cleanup-deleted",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-278-preclose-docs-gate",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/238",
+      "worktree": "/private/tmp/ai-cockpit-wi278-docs-gate"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+    "runtimeVersion": "0.2.31",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-26T00:00:00Z",
+    "workItemId": "WI-278-preclose-docs-gate",
+    "worktree": {
+      "branch": "codex/wi-278-preclose-docs-gate",
+      "headRevision": "2a66e76d01c167fd87693c57f92d931e8bce450f",
+      "path": "/private/tmp/ai-cockpit-wi278-docs-gate",
+      "worktreeId": "WI-278-preclose-docs-gate"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "WI-278-cleanup-deleted"
+}
