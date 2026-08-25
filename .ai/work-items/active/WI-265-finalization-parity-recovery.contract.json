@@ -77,7 +77,8 @@
   "state": "implementation_active",
   "verification": [
     "bash tests/ci/governance_integrity_gate_test.sh",
-    "bash tests/ci/docs_parity_regression_test.sh",
+    "bash tests/docs/parity_status_check_test.sh",
+    "bash tests/docs/documentation_acceptance.sh",
     "cargo fmt --all -- --check",
     "cargo test --locked --workspace"
   ],
