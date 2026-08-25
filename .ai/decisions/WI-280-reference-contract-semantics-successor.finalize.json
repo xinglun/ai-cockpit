@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-pre-merge-finalization-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "61af0b36bde14429e95bbe654ac6669b0f0ba106",
+    "name": "codex/wi-280-reference-contract-semantics-successor",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:a5df8aaea293ed8fe1a44be15806b9b62f728afa45dd8dcc913af91c926a2248",
+  "operationId": "operation-WI-280-reference-contract-semantics-successor-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "6311a4656b2e9551fb4bb20f4ed37b26a5c6cf3f",
+    "headRevision": "61af0b36bde14429e95bbe654ac6669b0f0ba106",
+    "number": 240,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/240"
+  },
+  "reason": "awaiting_merge_close: PR #240 is unmerged, so the reviewed branch and clean worktree are retained; close is deferred until hosted checks pass and the reviewed PR is merged.",
+  "receiptId": "ai-cockpit-WI-280-reference-contract-semantics-successor-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-280-reference-contract-semantics-successor",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/240",
+    "worktree": "/private/tmp/ai-cockpit-wi279"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-25T15:59:23Z",
+  "workItemId": "WI-280-reference-contract-semantics-successor",
+  "worktree": {
+    "branch": "codex/wi-280-reference-contract-semantics-successor",
+    "headRevision": "61af0b36bde14429e95bbe654ac6669b0f0ba106",
+    "path": "/private/tmp/ai-cockpit-wi279",
+    "worktreeId": "WI-280-reference-contract-semantics-successor"
+  }
+}
