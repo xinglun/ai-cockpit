@@ -1,0 +1,91 @@
+{
+  "acceptanceCriteria": [
+    "All workspace package versions and Cargo.lock entries resolve to 0.2.33.",
+    "Current release and architecture documentation in all three languages names v0.2.33 as the current installation baseline and uses v0.2.33 archive examples; historical v0.2.32 facts remain immutable and explicitly historical.",
+    "Source version consistency, documentation acceptance, governance integrity, release policy, and complete workspace tests pass before publication.",
+    "The reviewed release workflow is configured to build and publish v0.2.33 only after the hosted gates, with manifest, SHA256SUMS, SBOM, provenance, and artifact smoke evidence, and to hand off post-release acceptance to WI-301.",
+    "The hosted release workflow is configured to publish v0.2.33 only after the reviewed PR and all pre-publication gates pass; its handoff declares the post-release acceptance successor boundary.",
+    "This Work Item closes only the release-preparation boundary; public artifact installation, current-repository upgrade, and adopter/N-1 acceptance are mandatory successor WI-301 activities and are not claimed here."
+  ],
+  "authority": "authorized",
+  "baseRevision": "3875e01f66249fd6f45050cbae043cd412743039",
+  "createdAt": "2026-08-26T05:27:00Z",
+  "goal": "Prepare and review the v0.2.33 release route; hand off immutable public-artifact installation and adopter acceptance to WI-301.",
+  "intent": "Prepare v0.2.33 from reviewed main after WI-299 corrected adopter finalization base binding, and establish an auditable handoff to post-release WI-301.",
+  "mode": "code",
+  "outOfScope": [
+    "historical-v0.2.32-release-bytes-and-receipts",
+    "new-runtime-governance-behavior",
+    "Homebrew-tap-publication-outside-this-repository",
+    "additional-adopter-technology-matrix",
+    "user-global-Agent-or-MCP-configuration",
+    "post-release-public-artifact-installation-and-adopter-acceptance"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c74564dafa5087161dbd7d6ac912ac7dc497572f10ecea10a97b90f02c37afa7",
+  "scenarioCoverage": [
+    {
+      "scenario": "public release artifact and adopter acceptance",
+      "required": true,
+      "status": "unverified",
+      "expected": "The published v0.2.33 artifact passes immutable manifest, checksum, installation, repository, and adopter acceptance checks.",
+      "verificationPlan": "Run the declared source and hosted release gates, then execute the public adopter and N-1 acceptance harnesses using only downloaded release artifacts.",
+      "evidence": []
+    }
+  ],
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-300-release-v0-2-33",
+    "provider": "github",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-release-v0-2-33"
+  },
+  "risk": "high",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-300-release-v0-2-33.md",
+    "docs/work-items/WI-300-release-v0-2-33.zh-CN.md",
+    "docs/work-items/WI-300-release-v0-2-33.ja.md"
+  ],
+  "sources": [
+    "docs/release/distribution.md",
+    "docs/architecture/release-distribution.md",
+    "tests/release/version_consistency.sh",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "WI-299-release-adopter-finalize-binding"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "bash tests/docs/documentation_acceptance.sh --repo <repo>",
+    "bash tests/release/version_consistency.sh --repo <repo>",
+    "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
+    "bash tests/release/action_runtime_policy_test.sh",
+    "bash tests/release/source_archive_policy_test.sh",
+    "bash tests/release/isolation_manifest_test.sh",
+    "bash tests/release/version_consistency_test.sh",
+    "bash tests/release/adopter_acceptance_test.sh",
+    "bash tests/release/adopter_upgrade_acceptance_test.sh"
+  ],
+  "workItemId": "WI-300-release-v0-2-33"
+}
