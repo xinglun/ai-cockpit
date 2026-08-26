@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "Consumed retry history remains historical after a predecessor closes",
+    "A valid direct terminal finalization receipt is accepted without weakening strict transition-chain validation",
+    "WI-294 terminal documentation and all three parity ledgers match its immutable closure evidence",
+    "Malformed, foreign, partial, or forked finalization and recovery evidence still fails closed",
+    "The full repository gate, documentation acceptance, and hosted quality checks pass"
+  ],
+  "createdAt": "2026-08-26T02:52:29Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:1866bc4364cf21a870e5bc507e337105e7c3aa28caed8866b6fd672fe82521a8",
+  "evidenceRefs": [
+    ".ai/evidence/WI-296-governance-closure-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-296-governance-closure-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-296-governance-closure-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f563bbc32e2f382e99d3b83f3d1a81db796b2fb4673e80b5425375dd230eec7c",
+      "workItemId": "WI-296-governance-closure-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-296-governance-closure-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-296-governance-closure-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-296-governance-closure-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-296-governance-closure-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-296-governance-closure-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-296-governance-closure-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-296-governance-closure-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Keep consumed retry evidence historical after close while accepting valid direct terminal finalization receipts and maintaining strict parity and fail-closed checks."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-296-governance-closure-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-296-governance-closure-recovery"
+  },
+  "taskReportDigest": "sha256:17658705203b15367de4c8ddaeafefba9afcb2a0123e3d41ce0af8643f9512f1",
+  "taskReportMarkdownDigest": "sha256:d3ed5d9c601386db7fa759e3a489d19a9b6f387a500d4b741b03977779578699",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-296-governance-closure-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-296-governance-closure-recovery"
+}
