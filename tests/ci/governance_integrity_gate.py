@@ -983,15 +983,32 @@ def valid_recovery_decision(
     )
 
 
-def retry_recovery_is_consumed(repo: Path, work_item: str) -> bool:
+def _json_digest(value: Any) -> str:
+    """Match cockpit-protocol::digest_json for repository JSON values."""
+
+    encoded = json.dumps(
+        value,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return "sha256:" + hashlib.sha256(encoded).hexdigest()
+
+
+def retry_recovery_is_consumed(
+    repo: Path,
+    work_item: str,
+    recovery: dict[str, Any] | None = None,
+) -> bool:
     """Distinguish a consumed retry from a predecessor still needing recovery.
 
-    A retry receipt is immutable history.  It is consumed only when the
-    archived summary still records the failed lifecycle boundary that the
-    retry repaired and the archived Outcome is green.  Older recovery items
-    use the same ``decision=retry`` receipt to represent an actual recovered
-    predecessor, so treating every green retry as consumed would erase that
-    required inventory state.
+    A retry receipt is immutable history.  Runtime determines that a retry is
+    stale when its predecessor Contract/Summary/Outcome/Events binding no
+    longer matches the archived bytes after a fresh verification.  Mirror that
+    identity check here so CI cannot turn a successfully retried item into a
+    false recovered predecessor merely because the archived Summary does not
+    retain the transient blocked projection.  Older minimal fixtures without
+    predecessor digests retain the historical blocked-Summary fallback.
     """
     try:
         outcome = load_json(
@@ -1002,11 +1019,64 @@ def retry_recovery_is_consumed(repo: Path, work_item: str) -> bool:
         )
     except ValueError:
         return False
+    if outcome.get("decisionState") != "green":
+        return False
+
+    if recovery is None:
+        path = repo / ".ai/decisions" / f"{work_item}.recovery.json"
+        try:
+            recovery = load_json(path)
+        except ValueError:
+            recovery = {}
+
+    predecessor_bindings = {
+        "predecessorContractDigest": (
+            repo
+            / ".ai/work-items/archive"
+            / f"{work_item}.contract.json"
+        ),
+        "predecessorSummaryDigest": (
+            repo
+            / ".ai/work-items/archive"
+            / f"{work_item}.summary.json"
+        ),
+        "predecessorOutcomeDigest": (
+            repo
+            / ".ai/work-items/archive"
+            / f"{work_item}.outcome.json"
+        ),
+    }
+    bound_fields = [
+        field for field in predecessor_bindings if field in recovery
+    ]
+    if bound_fields:
+        mismatched = False
+        for field in bound_fields:
+            expected = recovery.get(field)
+            if not isinstance(expected, str) or not re.fullmatch(
+                r"sha256:[0-9a-f]{64}", expected
+            ):
+                return False
+            path = predecessor_bindings[field]
+            try:
+                current = (
+                    "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest()
+                    if field == "predecessorContractDigest"
+                    else _json_digest(load_json(path))
+                )
+            except (OSError, ValueError):
+                return False
+            mismatched = mismatched or expected != current
+        if mismatched:
+            return True
+
+    # The pre-existing fixture shape has no predecessor digest fields.  Keep
+    # its explicit blocked-summary marker as the conservative compatibility
+    # path; a plain green Outcome never consumes an unbound retry.
     failed_gate = summary.get("failedGate")
     recovery_condition = summary.get("recoveryCondition")
     return (
-        outcome.get("decisionState") == "green"
-        and summary.get("outcomeState") == "blocked"
+        summary.get("outcomeState") == "blocked"
         and (
             (isinstance(failed_gate, str) and bool(failed_gate.strip()))
             or (
@@ -1067,10 +1137,7 @@ def recovery_decision_candidate(
             outcome = load_json(archived_outcome)
         except ValueError:
             outcome = {}
-        if (
-            outcome.get("decisionState") == "green"
-            and retry_recovery_is_consumed(repo, work_item)
-        ):
+        if retry_recovery_is_consumed(repo, work_item, selected[1]):
             return None
     return selected
 

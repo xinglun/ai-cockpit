@@ -52,7 +52,7 @@ Rust Runtime 与本仓库的 Protocol 词汇。
   snapshot digest、actor、时间戳和理由。有效 receipt 只允许跨过 checkpoint；它不能证明测试、scenario、
   verification 或 release 已完成。缺失、过期、foreign、格式错误或符号链接 receipt 都必须保持停止。
 - review receipt 采用 append-only 方式。Contract 或 repository snapshot 变化后，新的 receipt 写入带 digest 后缀的 decision path；旧 receipt 保留为历史 evidence，绝不覆盖。`work-item recover` 记录独立且严格的 `retry`、`successor` 或 `supersede` decision，并绑定 predecessor 的 Contract/Summary/Outcome/event digest 与当前 Runtime。`supersede` 要求已绑定 successor，并将 predecessor 归档为明确的历史终态，保持原始 bytes 不变；它不会让 verification 自动变绿，也不会重写 predecessor。被替代项既不是当前成功也不是当前失败，后续由 successor 负责。
-- Recovery receipt 是 append-only 链。当 canonical `<id>.recovery.json` 只是较早的 retry 时，CI 会解析有效的 digest-suffixed `<id>.recovery.<digest>.json` successor/supersession receipt，并在每个 parity 投影中绑定选中的路径。候选无效或有歧义时保持 fail-closed；gate 不会把 retry 当作 terminal successor。
+- Recovery receipt 是 append-only 链。当 canonical `<id>.recovery.json` 只是较早的 retry 时，CI 会解析有效的 digest-suffixed `<id>.recovery.<digest>.json` successor/supersession receipt，并在每个 parity 投影中绑定选中的路径。候选无效或有歧义时保持 fail-closed；gate 不会把 retry 当作 terminal successor。当 retry 的 predecessor Contract、Summary、Outcome 或 Events digest 在新鲜验证后不再匹配归档记录时，CI 会将其视为已消费的历史证据，并继续检查真正的 finalization decision。绑定仍然匹配且 Summary 明确为 blocked 的 retry 仍是当前 recovery 边界。
 - 只能在实现后才能执行的高风险必需 scenario，可以在 Contract `scenarioCoverage` 中保持 `unverified`，
   但必须同时提供非空 `expected`（或 `expectedResult`）和具体 `verificationPlan`。这只是实现计划证据，
   不是完成证据；Summary scenario guard 与 `finish` 仍然要求真实执行 evidence。
