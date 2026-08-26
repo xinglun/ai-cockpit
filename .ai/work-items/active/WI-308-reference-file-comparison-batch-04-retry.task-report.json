@@ -4,7 +4,7 @@
       ".ai/evidence/WI-308-reference-file-comparison-batch-04-retry.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:258bab17ba82d55f6375895ce5e2f4768184ec754fe50f8aaf4eccca8b6e6dba",
+    "repositorySnapshotDigest": "sha256:9cb7d84e46ea7235d8bcbac597c99739d00a78fdf20c6cc19d5a2669e9fbf013",
     "workItemId": "WI-308-reference-file-comparison-batch-04-retry"
   },
   "format": "ai-cockpit.task-outcome",
