@@ -6,8 +6,12 @@ description: "逐个比对四个固定参考文件，记录 Rust-native 且面�
 audience:
   - maintainer
   - reviewer
-status: in progress
+status: implemented
 lastVerifiedBy: WI-308-reference-file-comparison-batch-04-retry
+terminalArchive: .ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.contract.json
+terminalVerification: .ai/evidence/WI-308-reference-file-comparison-batch-04-retry.verification.json
+terminalFinalization: .ai/decisions/WI-308-reference-file-comparison-batch-04-retry.finalize.json
+terminalDecision: .ai/decisions/WI-308-reference-file-comparison-batch-04-retry.close.json
 authority: canonical
 ---
 
