@@ -9,7 +9,7 @@
   ],
   "createdAt": "2026-08-25T23:29:09Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:722c07ab329324f6ef5d98d0e5fc665910fc2fab0d98a355bfe437912e3ad547",
+  "evidenceDigest": "sha256:b94676bbb44e040947e709f7d3819cabe8a3c3307da17d432341c3f213615a9d",
   "evidenceRefs": [
     ".ai/evidence/WI-293-ci-contract-aware-gates-recovery.verification.json"
   ],
@@ -35,7 +35,7 @@
         ".ai/evidence/WI-293-ci-contract-aware-gates-recovery.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:fb393f44541d5742fdf1549cd311a17ab061928e7d1ab68f7169f3c522b0e334",
+      "repositorySnapshotDigest": "sha256:cf8e95101a8bbfa84ab178fa2c94bcbcd7f7df623923322934c87eb395a5a743",
       "workItemId": "WI-293-ci-contract-aware-gates-recovery"
     },
     "format": "ai-cockpit.task-outcome",
@@ -131,7 +131,7 @@
     "status": "verified",
     "workItemId": "WI-293-ci-contract-aware-gates-recovery"
   },
-  "taskReportDigest": "sha256:91c715c64be8b2efc4b0dda0bcff3eace9ee12f335dba447c8a4b65d2012b837",
+  "taskReportDigest": "sha256:70a39aaadaf1b1ab4f282aa3b752682be8f586b3a873b7a29b5f4681e229eeaa",
   "taskReportMarkdownDigest": "sha256:a96a53c26432da4018411dde3d4a082317c78634d20d0401eb217ad46a275544",
   "unknowns": [
     "user_visible_benefit_not_declared"
