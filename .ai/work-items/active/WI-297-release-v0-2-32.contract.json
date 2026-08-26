@@ -1,0 +1,91 @@
+{
+  "acceptanceCriteria": [
+    "Workspace package metadata and Cargo.lock resolve to 0.2.32.",
+    "The three release-distribution documents and three architecture release documents identify v0.2.32 as the current installation/public baseline while retaining historical release references accurately.",
+    "The three architecture versioning documents declare 0.2.32 as the current version.",
+    "Documentation acceptance, version consistency, release policy, and strict repository gates pass.",
+    "The published v0.2.32 artifacts are checked by immutable public-release adopter acceptance after publication."
+  ],
+  "authority": "authorized",
+  "baseRevision": "d5bafce2ca3c9cf8be225b44d79c5bcd9cce2b7c",
+  "createdAt": "2026-08-26T03:25:14Z",
+  "goal": "Prepare and publish ai-cockpit v0.2.32 with synchronized version metadata, reader-facing documentation, strict release gates, and public artifact acceptance.",
+  "intent": "Release the next Runtime version from the merged default branch and keep package, documentation, CI, manifests, and installation baselines consistent.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    ".github/workflows/**",
+    "docs/work-items/**",
+    "docs/reference/**",
+    "tests/release/**",
+    "external Homebrew tap"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f4efec8c9868666ddc957530aab5eebede4a84f171148654a5fc6d38484b6ec2",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "release-artifact-integrity",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "Published v0.2.32 archives, manifest, checksums, SBOMs, and formula are identity-bound.",
+      "verificationPlan": "Run strict source release gates and post-release artifact manifest/checksum validation."
+    },
+    {
+      "scenario": "adopter-isolation",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "A fresh adopter repository is governed by the published binary without global configuration writes.",
+      "verificationPlan": "Run the public adopter acceptance harness in isolated HOME, XDG_CONFIG_HOME, TMPDIR, and CARGO_HOME roots."
+    },
+    {
+      "scenario": "installation-upgrade",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "The published binary installs and the N-1 published binary upgrades the adopter repository correctly.",
+      "verificationPlan": "Run public adopter and N-1 upgrade acceptance using immutable Release artifacts only."
+    },
+    {
+      "scenario": "version-documentation-consistency",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "Package metadata, lockfile, and current tri-language release documentation agree on v0.2.32.",
+      "verificationPlan": "Run version_consistency.sh and documentation acceptance on the release candidate."
+    }
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-297-release-v0-2-32",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi297"
+  },
+  "risk": "high",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/distribution.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "tests/docs/documentation_acceptance.sh"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-297-release-v0-2-32"
+}

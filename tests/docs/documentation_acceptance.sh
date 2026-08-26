@@ -124,8 +124,14 @@ release_baselines = {
     Path('docs/release/distribution.zh-CN.md'): '持久化 adopter acceptance 基线：`aarch64-apple-darwin`',
     Path('docs/release/distribution.ja.md'): '永続化された adopter acceptance baseline: `aarch64-apple-darwin`',
 }
+baseline_patterns = {
+    Path('docs/release/distribution.md'): r'Adopter acceptance baseline(?: for v[0-9]+\.[0-9]+\.[0-9]+)?: `aarch64-apple-darwin`',
+    Path('docs/release/distribution.zh-CN.md'): r'v[0-9]+\.[0-9]+\.[0-9]+ adopter acceptance 基线：`aarch64-apple-darwin`',
+    Path('docs/release/distribution.ja.md'): r'v[0-9]+\.[0-9]+\.[0-9]+ adopter acceptance baseline: `aarch64-apple-darwin`',
+}
 for path, phrase in release_baselines.items():
-    if phrase not in path.read_text(encoding='utf-8'):
+    text = path.read_text(encoding='utf-8')
+    if phrase not in text and not re.search(baseline_patterns[path], text):
         missing.append(f'{path}: missing persisted single-target acceptance baseline')
 
 release_receipt = json.loads(

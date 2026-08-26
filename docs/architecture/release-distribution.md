@@ -16,7 +16,7 @@ keywords: [ai-cockpit, release, homebrew, distribution, provenance]
 
 # Release Distribution Architecture
 
-The current immutable release baseline is `v0.2.31`. The immutable `v0.2.30`
+The current immutable release baseline is `v0.2.32`. The immutable `v0.2.30`
 tag remains failed publication history after the clean-batch route defect and
 is not an installation baseline.
 
@@ -117,7 +117,7 @@ approval-gated migration branch.
 - `cockpit-release` and the release workflow own the local release contract,
   deterministic manifest, Formula projection, hosted checks, and published
   Release identity.
-- The current immutable public baseline is `v0.2.31`; the public adopter
+- The current immutable public baseline is `v0.2.32`; the public adopter
   acceptance and N-1 upgrade acceptance are post-release evidence. An external Homebrew tap is a separate provider surface
   and is not implied by this repository.
 - The reserved `v0.2.24` tag and immutable `v0.2.25` tag are retained as failed

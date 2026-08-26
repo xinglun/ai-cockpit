@@ -15,7 +15,7 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # 发布与分发
 
-当前安装基线是公开且绑定身份的 `v0.2.31` Release。Homebrew 和手动安装都使用公开 archive
+当前安装基线是公开且绑定身份的 `v0.2.32` Release。Homebrew 和手动安装都使用公开 archive
 与 manifest；仓库配置仍使用 `cockpit.toml`，安装 runtime 不会在目标仓库创建 `.ai`。
 同一套验收 harness 既有发布前 staged-candidate 模式，也有发布后 public-Release 模式；
 两者都不会从源码 workspace 获取 Runtime。
@@ -41,8 +41,8 @@ release source quality 始终请求 `strict`。manifest 管理的 Cargo gates �
 archive 排除 `.ai` 与生成目录，同时保留 Cargo 源码和 lockfile。
 
 历史 Runtime shadow 基线是固定的公开 `v0.2.28`；当前 release route 还会验证
-`v0.2.31`。`tests/ci/runtime_verify_shadow.sh` receipt 是 standard/strict route 的 **execution
-smoke**。它验证公开且绑定身份的 `v0.2.31`，并使用仓库规范 profile。它不宣称 Runtime
+`v0.2.32`。`tests/ci/runtime_verify_shadow.sh` receipt 是 standard/strict route 的 **execution
+smoke**。它验证公开且绑定身份的 `v0.2.32`，并使用仓库规范 profile。它不宣称 Runtime
 全局 T0–T3 route、affected graph 完整性、跨 Work Item 物理执行或每个 Work Item 的
 evidence coverage。参考 Makefile orchestration 在本 Rust 仓库中属于
 different-by-design，不会复制。Runtime 全局路由与通用 CLI `verify --command` 语义超出
@@ -78,10 +78,10 @@ brew untap xinglun/tap                 # 可选
 ## 验证 Release 制品
 
 从同一个已发布 GitHub Release 下载 archive、`release-manifest.json` 和 `SHA256SUMS`。
-v0.2.31 的校验文件覆盖全部十个 archive/SBOM，因此只校验实际下载的 archive：
+v0.2.32 的校验文件覆盖全部十个 archive/SBOM，因此只校验实际下载的 archive：
 
 ```bash
-archive="ai-cockpit-v0.2.31-aarch64-apple-darwin.tar.gz"
+archive="ai-cockpit-v0.2.32-aarch64-apple-darwin.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -91,8 +91,8 @@ gh attestation verify "$archive" --repo xinglun/ai-cockpit
 如果 Release 已存在，也可以使用 GitHub CLI 下载准确的三个文件：
 
 ```bash
-archive="ai-cockpit-v0.2.31-aarch64-apple-darwin.tar.gz"
-gh release download v0.2.31 --repo xinglun/ai-cockpit \
+archive="ai-cockpit-v0.2.32-aarch64-apple-darwin.tar.gz"
+gh release download v0.2.32 --repo xinglun/ai-cockpit \
   --pattern "$archive" --pattern release-manifest.json --pattern SHA256SUMS
 ```
 
@@ -104,10 +104,10 @@ CLI 和 MCP 的 `verify` JSON 会输出 `runtimeVersion` 与 `runtimeDigest` 这
 
 ### 后续 candidate 的制品绑定 SBOM 策略
 
-公开 v0.2.31 的 bytes 是不可变的历史事实。它的 `SHA256SUMS` 覆盖五个 archive 与五个
+公开 v0.2.32 的 bytes 是不可变的历史事实。它的 `SHA256SUMS` 覆盖五个 archive 与五个
 按 target 命名的 SBOM，Release 还包含旧的 `ai-cockpit-build.spdx.json` 上传。这个按 build
 命名的 SBOM 不能证明它绑定到某个准确的打包 archive 或 executable。本说明与后续 workflow
-修改不会重命名、删除或改写这些 v0.2.31 资产。
+修改不会重命名、删除或改写这些 v0.2.32 资产。
 
 使用 WI-241 边界构建的 release candidate 遵循更严格的契约。每个按 target 命名的 SPDX 2.3
 文档保留 dependency scan，并增加一个 release-archive Package 与一个 release-binary File。
@@ -133,9 +133,10 @@ publish 依赖这两个 job。其 receipt 记录 `stagedCandidate: true` 和
 
 维护者可以在 Release 发布后重复执行公开 binary 验收基线：
 
-**持久化 adopter acceptance 基线：`aarch64-apple-darwin`（v0.2.31）。**
-仓库保留的 WI-239 receipt 是持久化的公开 binary adopter 基线。GitHub Actions run
-`32696048024` 也在 `x86_64-unknown-linux-gnu` 上完成 staged、public 与 N-1 adopter
+**v0.2.32 adopter acceptance 基线：`aarch64-apple-darwin`。**
+WI-297 会在发布后持久化 v0.2.32 的公开 binary receipt；仓库保留的 WI-239 receipt
+仍是历史 v0.2.31 基线。GitHub Actions run `32696048024` 也在
+`x86_64-unknown-linux-gnu` 上完成 staged、public 与 N-1 adopter
 路径，但这些 hosted Linux artifacts 是外部、受 provider retention 限制的短期 evidence，
 不是仓库持久化基线。其他已发布 target 只有 build 与 smoke evidence；除非另有持久化的
 acceptance receipt，不能宣称它们完成完整 adopter lifecycle。
@@ -143,7 +144,7 @@ acceptance receipt，不能宣称它们完成完整 adopter lifecycle。
 ```bash
 tests/release/adopter_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --tag v0.2.31 \
+  --tag v0.2.32 \
   --target aarch64-apple-darwin \
   --output ./release-adopter-acceptance
 ```
@@ -182,15 +183,15 @@ ref 或缺少必需 action 时 fail closed。今后更新 action runtime 时，�
 
 ### 历史 N-1 schema 迁移验收
 
-发生 schema 变化的基线是历史上的 v0.1.1 到 v0.2.0 迁移。v0.2.31 是保持同一
+发生 schema 变化的基线是历史上的 v0.1.1 到 v0.2.0 迁移。v0.2.32 是保持同一
 schema 的 patch Release；其 N-1 run 仍使用同一个 harness，在确认 compatibility 后记录
 `migrationState: not_required`。当前 N-1 run 使用紧邻的上一个公开 Release 与当前 Runtime，例如：
 
 ```bash
 tests/release/adopter_upgrade_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --from-tag v0.2.29 \
-  --to-tag v0.2.31 \
+  --from-tag v0.2.31 \
+  --to-tag v0.2.32 \
   --target aarch64-apple-darwin \
   --output ./release-adopter-upgrade-acceptance
 ```
@@ -218,7 +219,7 @@ macOS/Linux 用户下载对应的 `.tar.gz` 和 `SHA256SUMS`，选择准确的 R
 
 ```bash
 target="aarch64-apple-darwin" # 选择与机器匹配的 target
-archive="ai-cockpit-v0.2.31-${target}.tar.gz"
+archive="ai-cockpit-v0.2.32-${target}.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -235,7 +236,7 @@ esac
 Windows 用户下载 `.zip` 和 `SHA256SUMS`，比较准确 checksum，解压到用户 bin 目录，并将该目录加入用户 `PATH`：
 
 ```powershell
-$archive = "ai-cockpit-v0.2.31-x86_64-pc-windows-msvc.zip"
+$archive = "ai-cockpit-v0.2.32-x86_64-pc-windows-msvc.zip"
 $expected = Get-Content .\SHA256SUMS |
   Where-Object { ($_ -split '\s+')[1] -eq $archive } |
   ForEach-Object { ($_ -split '\s+')[0].ToLowerInvariant() }
@@ -255,11 +256,11 @@ $env:Path = "$destination;$env:Path"
 
 ## Rust 开发者 fallback
 
-该 fallback 适用于当前已发布且绑定身份的 `v0.2.31` tag。
+该 fallback 适用于当前已发布且绑定身份的 `v0.2.32` tag。
 发布完成后，workspace 含多个 package，必须显式选择 `cockpit-cli`：
 
 ```bash
-cargo install --git https://github.com/xinglun/ai-cockpit.git --tag v0.2.31 --locked --root "$HOME/.local" --bin ai-cockpit cockpit-cli
+cargo install --git https://github.com/xinglun/ai-cockpit.git --tag v0.2.32 --locked --root "$HOME/.local" --bin ai-cockpit cockpit-cli
 "$HOME/.local/bin/ai-cockpit" --version
 cargo uninstall --root "$HOME/.local" cockpit-cli
 ```
