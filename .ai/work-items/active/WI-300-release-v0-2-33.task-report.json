@@ -1,0 +1,228 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-300-release-v0-2-33.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:2541598341407ea3087f9dfd0bde5b08018143cdca2211f1e39aa2a2d7eb3cec",
+    "workItemId": "WI-300-release-v0-2-33"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-300-release-v0-2-33.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-300-release-v0-2-33.approach.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-300-release-v0-2-33.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-300-release-v0-2-33.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-300-release-v0-2-33.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-300-release-v0-2-33.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-300-release-v0-2-33.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: Cargo.lock"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-300-release-v0-2-33.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: Cargo.toml"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-300-release-v0-2-33.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/architecture/release-distribution.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-300-release-v0-2-33.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/architecture/release-distribution.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-300-release-v0-2-33.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/architecture/release-distribution.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-300-release-v0-2-33.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/architecture/versioning.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-300-release-v0-2-33.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/architecture/versioning.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-300-release-v0-2-33.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/architecture/versioning.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-300-release-v0-2-33.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-300-release-v0-2-33.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-300-release-v0-2-33.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-300-release-v0-2-33.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/release/distribution.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-300-release-v0-2-33.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/release/distribution.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-300-release-v0-2-33.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/release/distribution.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-300-release-v0-2-33.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-300-release-v0-2-33.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-300-release-v0-2-33.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-300-release-v0-2-33.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-300-release-v0-2-33.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-300-release-v0-2-33.zh-CN.md"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-300-release-v0-2-33.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-300-release-v0-2-33.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-300-release-v0-2-33.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-300-release-v0-2-33.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-300-release-v0-2-33.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-300-release-v0-2-33.contract.json"
+        ],
+        "inference": false,
+        "text": "Prepare and review the v0.2.33 release route; hand off immutable public-artifact installation and adopter acceptance to WI-301."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-300-release-v0-2-33.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-300-release-v0-2-33"
+}

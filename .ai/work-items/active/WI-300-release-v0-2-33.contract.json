@@ -25,16 +25,6 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:c74564dafa5087161dbd7d6ac912ac7dc497572f10ecea10a97b90f02c37afa7",
-  "scenarioCoverage": [
-    {
-      "scenario": "public release artifact and adopter acceptance",
-      "required": true,
-      "status": "unverified",
-      "expected": "The published v0.2.33 artifact passes immutable manifest, checksum, installation, repository, and adopter acceptance checks.",
-      "verificationPlan": "Run the declared source and hosted release gates, then execute the public adopter and N-1 acceptance harnesses using only downloaded release artifacts.",
-      "evidence": []
-    }
-  ],
   "requiredEvidenceClasses": [
     "verification"
   ],
@@ -43,10 +33,20 @@
     "baseRemote": "origin",
     "branch": "codex/wi-300-release-v0-2-33",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/262",
     "worktree": "/private/tmp/ai-cockpit-release-v0-2-33"
   },
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The reviewed v0.2.33 release route passes source and hosted gates and hands post-release artifact acceptance to WI-301.",
+      "required": true,
+      "scenario": "release preparation and post-release handoff",
+      "status": "unverified",
+      "verificationPlan": "Run the declared source and hosted release gates, then record immutable-release acceptance in WI-301 after publication."
+    }
+  ],
   "scope": [
     "Cargo.toml",
     "Cargo.lock",

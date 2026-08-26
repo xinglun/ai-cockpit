@@ -24,15 +24,36 @@
   "checkpointAt": "2026-08-26T05:38:50Z",
   "checkpointCount": 1,
   "createdAt": "2026-08-26T05:27:00Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-300-release-v0-2-33.md"
+    ],
+    "state": "resolved"
+  },
   "mode": "code",
-  "preflightAt": "2026-08-26T05:47:54Z",
-  "preflightContractDigest": "sha256:8e8c22bbe75e2aee79d02818cc5869f7974d2af53e7b96b359fc2f0352a568b4",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-26T05:55:12Z",
+  "preflightContractDigest": "sha256:3f96703a41718eef3e49445b856fbff6c746211fbafad5e88e41c9828fbbf6f1",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:374e2a2594e95720889207d5796474f72a5dfa2d7173ff8191027f97be1d2782",
+  "preflightRepositorySnapshotDigest": "sha256:2541598341407ea3087f9dfd0bde5b08018143cdca2211f1e39aa2a2d7eb3cec",
   "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-08-26T05:38:50Z",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "cargo-test-workspace",
+        "tests/release/version_consistency.sh",
+        "tests/release/adopter_acceptance_test.sh"
+      ],
+      "required": true,
+      "scenario": "release preparation and post-release handoff",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-26T05:55:16Z",
   "workItemId": "WI-300-release-v0-2-33"
 }
