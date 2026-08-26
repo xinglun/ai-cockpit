@@ -209,6 +209,11 @@ Recovery receipts are an append-only chain. When the canonical
 `<id>.recovery.<digest>.json` successor/supersession records and binds the
 selected path in each parity projection. Invalid or ambiguous candidates
 remain fail-closed; the gate never treats a retry as a terminal successor.
+When a retry's predecessor Contract, Summary, Outcome, or Events digest no
+longer matches the archived record after fresh verification, CI treats that
+retry as consumed historical evidence and continues to the actual
+finalization decision. A retry with matching bindings and an explicit blocked
+Summary remains a current recovery boundary.
 
 A `retry` decision is an explicit lifecycle transition, not a green claim. If
 a failed gate left the active item in `finish_ready`, Runtime moves only the

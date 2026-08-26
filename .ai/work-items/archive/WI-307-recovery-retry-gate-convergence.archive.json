@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-26T14:58:19Z",
+  "files": {
+    "approachDigest": "sha256:c73d063086a3acfd727d75e11666090787eb9d066d57418f069b12e04dd622ba",
+    "approachPath": ".ai/work-items/archive/WI-307-recovery-retry-gate-convergence.approach.json",
+    "contractDigest": "sha256:ded88114d890d1d2e9ebe5baf680c53446b5aaed3c53d91f24d8d4ae64dc5451",
+    "contractPath": ".ai/work-items/archive/WI-307-recovery-retry-gate-convergence.contract.json",
+    "eventsDigest": "sha256:5e7724dfb5d1ac80bf0c89af3535405f016826020ebfb06bc28c05823062d8f3",
+    "eventsPath": ".ai/work-items/archive/WI-307-recovery-retry-gate-convergence.events.jsonl",
+    "outcomeDigest": "sha256:b9ccb623216331f72b022cbe0dd5ae25cc36baf3a907c97f33a34417f358690d",
+    "outcomePath": ".ai/work-items/archive/WI-307-recovery-retry-gate-convergence.outcome.json",
+    "summaryDigest": "sha256:e6187e65fc0f4d73ebbe88be415614b26c2e698d93f7fd840ec7036c362dcb3f",
+    "summaryPath": ".ai/work-items/archive/WI-307-recovery-retry-gate-convergence.summary.json",
+    "taskReportDigest": "sha256:50d862526dde7dbe9d9abceef54fc8583a8a854c2e08c6bb7d86d1ec592cdbe4",
+    "taskReportMarkdownDigest": "sha256:ca94b7435d3bf4e6f22f1398e14e4193fb64fd74697cbe91d6d316fe89f3474b",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-307-recovery-retry-gate-convergence.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-307-recovery-retry-gate-convergence.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-307-recovery-retry-gate-convergence"
+}

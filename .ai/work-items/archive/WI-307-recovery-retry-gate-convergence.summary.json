@@ -1,0 +1,40 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-307-recovery-retry-gate-convergence.approach.json",
+    ".ai/work-items/archive/WI-307-recovery-retry-gate-convergence.contract.json",
+    ".ai/work-items/archive/WI-307-recovery-retry-gate-convergence.summary.json",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/work-items/WI-307-recovery-retry-gate-convergence.ja.md",
+    "docs/work-items/WI-307-recovery-retry-gate-convergence.md",
+    "docs/work-items/WI-307-recovery-retry-gate-convergence.zh-CN.md",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh"
+  ],
+  "checkpointAt": "2026-08-26T14:47:05Z",
+  "checkpointContractDigest": "sha256:aa6d5c7ea4bb467724e76aad369de5104a802a517ea10825dc1779a52edeecf8",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:dbba78580bb82932ea771ed84db94bc669a6b4fb991a39aa8175037858e97910",
+  "createdAt": "2026-08-26T14:46:17Z",
+  "mode": "code",
+  "preflightAt": "2026-08-26T14:58:00Z",
+  "preflightContractDigest": "sha256:aa6d5c7ea4bb467724e76aad369de5104a802a517ea10825dc1779a52edeecf8",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:dbba78580bb82932ea771ed84db94bc669a6b4fb991a39aa8175037858e97910",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-26T14:58:15Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-307-recovery-retry-gate-convergence"
+}

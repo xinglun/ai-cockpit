@@ -212,6 +212,57 @@ assert item["decisionPath"].endswith(".finalize.json"), item
 PY
 printf 'governance successful-retry history regression passed\n'
 
+# Runtime also consumes a retry when its predecessor Contract/Summary binding
+# is stale after fresh verification. The archived Summary is then the normal
+# finish_ready projection (without the transient blocked fields), so the gate
+# must use the immutable predecessor digests rather than requiring a marker
+# that no longer exists.
+build_fixture "$fixtures/awaiting-merge-close.json" "$tmp/stale-retry-after-fresh-verify"
+python3 - "$tmp/stale-retry-after-fresh-verify" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = "WI-901-corrective-after-baseline"
+project = json.loads((root / ".ai/project.json").read_text(encoding="utf-8"))
+(root / ".ai/decisions" / f"{work_item}.recovery.json").write_text(
+    json.dumps(
+        {
+            "schemaVersion": 1,
+            "workItemId": work_item,
+            "predecessorWorkItemId": work_item,
+            "successorWorkItemId": None,
+            "decision": "retry",
+            "repositoryId": project["repositoryId"],
+            "predecessorContractDigest": "sha256:" + "c" * 64,
+            "predecessorSummaryDigest": "sha256:" + "d" * 64,
+            "reason": "A fresh verification advanced the archived bindings.",
+            "evidenceRefs": [f".ai/evidence/{work_item}.verification.json"],
+        },
+        indent=2,
+    )
+    + "\n",
+    encoding="utf-8",
+)
+PY
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF python3 "$gate" --repo "$tmp/stale-retry-after-fresh-verify" --report "$tmp/stale-retry-after-fresh-verify-report.json" >/dev/null
+python3 - "$tmp/stale-retry-after-fresh-verify-report.json" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert report["findings"] == [], report["findings"]
+item = next(
+    item
+    for item in report["inventory"]
+    if item["workItemId"] == "WI-901-corrective-after-baseline"
+)
+assert item["lifecycleState"] == "awaiting_merge_close", item
+assert item["decisionPath"].endswith(".finalize.json"), item
+PY
+printf 'governance stale-retry binding regression passed\n'
+
 # The same consumed retry remains historical after a valid close decision is
 # present.  Closing the item must not turn the historical parity warning into
 # a blocking current-cycle error.

@@ -1,0 +1,64 @@
+{
+  "acceptanceCriteria": [
+    "A retry with valid predecessor Contract/Summary/Outcome digests is consumed only when a fresh archived record advances those bindings and the archived Outcome is green.",
+    "A retry whose bindings still match a blocked archived record remains the current recovery and fails closed.",
+    "The governance-integrity regression covers both stale-after-fresh-verification and still-current-blocked retry paths deterministically.",
+    "Tri-language workflow and command documentation explain the recovery projection boundary without weakening fail-closed behavior.",
+    "The declared shell gates and cargo workspace tests pass without modifying Runtime lifecycle or historical evidence bytes."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "b0f105429c63e5ba307eada1ad725e4f361d94d3",
+  "createdAt": "2026-08-26T14:46:17Z",
+  "goal": "Make the CI governance-integrity projection converge with the installed Rust Runtime so a successfully retried Work Item can proceed through its real finalization path without being misclassified as recovered.",
+  "intent": "The WI-306 hosted quality gate exposed a static recovery projection mismatch. The gate treats every minimal retry receipt as a terminal recovery until a narrow Summary marker is present, while the Runtime deliberately stops projecting stale retry receipts after fresh verification advances the archived evidence. This false negative blocks valid PRs and must be corrected at the gate boundary without weakening fail-closed recovery handling.",
+  "mode": "code",
+  "outOfScope": [
+    "Rust Runtime protocol and lifecycle implementation",
+    "Historical Contract, Summary, Outcome, recovery, evidence, or archive bytes",
+    "Reference source copies, release/adopter behavior, provider configuration, and global Agent/MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d206fb1e86e0275b932a5351bc4926bef49a338e1dfde18de0d9438871da8103",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-307-recovery-retry-gate-convergence",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/269",
+    "worktree": "/private/tmp/ai-cockpit-wi307-recovery-retry-gate-convergence"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "tests/ci/fixtures/governance-integrity",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/work-items/WI-307-recovery-retry-gate-convergence.md",
+    "docs/work-items/WI-307-recovery-retry-gate-convergence.zh-CN.md",
+    "docs/work-items/WI-307-recovery-retry-gate-convergence.ja.md"
+  ],
+  "sources": [
+    "WI-306 hosted quality run 32978852886: docs_governance_integrity failed with missing_parity_decision while Runtime recovery retry was consumed by fresh verification",
+    "crates/cockpit-repository/src/lib.rs:load_recovery_decision: stale retry receipts are retained as history after fresh verification advances Summary",
+    "tests/ci/governance_integrity_gate.py:recovery_decision_candidate and retry_recovery_is_consumed",
+    "docs/reference/agent-workflow.md:Recovery receipt and parity gate semantics"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "bash tests/ci/governance_integrity_gate_test.sh",
+    "bash tests/ci/recovery_gate_acceptance.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets -- -D warnings",
+    "cargo test --locked --workspace --all-targets -- --test-threads=1"
+  ],
+  "workItemId": "WI-307-recovery-retry-gate-convergence"
+}

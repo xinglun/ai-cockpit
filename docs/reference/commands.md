@@ -115,6 +115,10 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
   Contract binding. Invalid or ambiguous candidates fail closed as
   `recovery_decision_invalid`; historical archive bytes and projections remain
   immutable.
+  A retry whose predecessor digest no longer matches the fresh archived
+  Contract/Summary/Outcome/Events is consumed history, so the static gate
+  projects the real finalization path instead of inventing a recovered
+  terminal state; matching blocked retries remain fail-closed recovery.
 - `profile propose --repo <path>` is read-only and reports a `candidate`/
   `proposed` amendment. It never applies a profile baseline change.
 - `agent list --repo <path>` is read-only. `agent install` is the only normal
