@@ -1,0 +1,46 @@
+{
+  "acceptanceCriteria": [
+    "A consumed retry remains historical at awaiting merge and closed phases",
+    "A genuine recovered predecessor remains recovered",
+    "Malformed or foreign retry evidence still fails closed",
+    "Default branch governance integrity gate passes after WI-294 close"
+  ],
+  "authority": "authorized",
+  "baseRevision": "bf1a8470eef9762dd562f1c592c63bbce0fb9305",
+  "createdAt": "2026-08-26T02:16:26Z",
+  "goal": "Keep historical retry evidence visible without blocking a valid closed Work Item.",
+  "intent": "Correct governance gate projection of consumed retry history after close.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    ".ai/work-items/archive/WI-294-*",
+    "tests/release/**"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d3c227db81fe20f483c60b94b4b5cfc511fb80e00fd0a78e23dc79752fbda404",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-295-governance-gate-recovery-closure",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi295"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "docs/reference/governance-integrity-gate.md",
+    "docs/reference/governance-integrity-gate.zh-CN.md",
+    "docs/reference/governance-integrity-gate.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-295-governance-gate-recovery-closure"
+}
