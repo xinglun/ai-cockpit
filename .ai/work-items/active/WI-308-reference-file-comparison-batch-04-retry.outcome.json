@@ -6,14 +6,17 @@
     "更新 inventory generator、JSON ledger、regression script、三语 comparison/parity/work-item 文档；四条 WI-308 记录不再 deferred，不产生 migrate-gap。",
     "安装 ai-cockpit 0.2.33 且所有命令显式 --repo；完成 preflight、checkpoint、verify、finish、archive、reviewed PR、merge、finalize-verify、close 和精确清理，交付可见中文 Outcome。"
   ],
-  "decisionState": "red",
+  "createdAt": "2026-08-26T21:14:21Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:1ce747266c9271603ef3f873437132022fa9d2147d7ea4559e45d67756eecd56",
   "evidenceRefs": [
     ".ai/evidence/WI-308-reference-file-comparison-batch-04-retry.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-308-reference-file-comparison-batch-04-retry.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -21,11 +24,10 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -35,10 +37,8 @@
       "repositorySnapshotDigest": "sha256:258bab17ba82d55f6375895ce5e2f4768184ec754fe50f8aaf4eccca8b6e6dba",
       "workItemId": "WI-308-reference-file-comparison-batch-04-retry"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
@@ -179,15 +179,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-308-reference-file-comparison-batch-04-retry.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -198,7 +190,7 @@
             ".ai/evidence/WI-308-reference-file-comparison-batch-04-retry.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -208,10 +200,18 @@
             ".ai/evidence/WI-308-reference-file-comparison-batch-04-retry.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-308-reference-file-comparison-batch-04-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
@@ -232,16 +232,18 @@
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-308-reference-file-comparison-batch-04-retry"
   },
+  "taskReportDigest": "sha256:918bde46d403a3398727d267d996a6df867a4d8881a4b35a128b0ee81b5471e2",
+  "taskReportMarkdownDigest": "sha256:39f35725b8ae95d885e3e7a3a0f4098fc7840af133586891434948d799b97b09",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-308-reference-file-comparison-batch-04-retry.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-308-reference-file-comparison-batch-04-retry"
 }
