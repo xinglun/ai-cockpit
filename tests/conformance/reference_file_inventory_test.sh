@@ -13,8 +13,10 @@ test "$(jq -r '.referenceTrackedFileCount' "$manifest")" -eq "$(jq '.records | l
 test "$(jq -r '.targetWorkingTreeFileCount' "$manifest")" -eq "$(jq -r '.targetTrackedFileCount' "$manifest")"
 test "$(jq -r '.targetWorkingTreePathDigest' "$manifest")" = "$(jq -r '.targetTrackedPathDigest' "$manifest")"
 test "$(jq -r '.targetCommit' "$manifest")" = "a533d49dfa848d95742833f8cd1b5f7e1bb897d5"
-test "$(jq '[.records[] | select(.batch == "WI-302-reference-file-comparison-batch-01")] | length' "$manifest")" -eq 10
-test "$(jq '[.records[] | select(.batch == "WI-302-reference-file-comparison-batch-01" and .classification == "deferred-next-batch")] | length' "$manifest")" -eq 2
+test "$(jq '[.records[] | select(.batch == "WI-302-reference-file-comparison-batch-01")] | length' "$manifest")" -eq 8
+test "$(jq '[.records[] | select(.batch == "WI-302-reference-file-comparison-batch-01" and .classification == "deferred-next-batch")] | length' "$manifest")" -eq 0
+test "$(jq '[.records[] | select(.batch == "WI-304-reference-file-comparison-batch-02")] | length' "$manifest")" -eq 2
+test "$(jq '[.records[] | select(.batch == "WI-304-reference-file-comparison-batch-02" and .classification == "implemented-different-by-design" and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$manifest")" -eq 2
 test "$(jq -r '.records[] | select(.referencePath == ".ai/cockpit/bandit_low_risk_baseline.json") | .classification' "$manifest")" = "not-applicable"
 test "$(jq -r '.records[] | select(.referencePath == ".github/workflows/release.yml") | .classification' "$manifest")" = "implemented-different-by-design"
 test "$(jq -r '.records[] | select(.referencePath == "Makefile") | .classification' "$manifest")" = "implemented-different-by-design"

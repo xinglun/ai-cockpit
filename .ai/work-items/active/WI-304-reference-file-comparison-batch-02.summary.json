@@ -1,0 +1,58 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.contract.json",
+    ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.summary.json",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/work-items/WI-304-reference-file-comparison-batch-02.md",
+    "docs/work-items/WI-304-reference-file-comparison-batch-02.zh-CN.md",
+    "docs/work-items/WI-304-reference-file-comparison-batch-02.ja.md"
+  ],
+  "checkpointAt": "2026-08-26T10:56:12Z",
+  "checkpointContractDigest": "sha256:f73dd03e4614678a5286d7c3efbf4d078c1235e69f26d8e26a23285b6cffa5da",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:cf9a8f136e6316f31a577cbde1ce211b47511ee3a868ae38234116716f617ffe",
+  "createdAt": "2026-08-26T10:50:27Z",
+  "failedGate": "finish.governance",
+  "mode": "code",
+  "observedIssues": [
+    "Source ShellCheck and Python/multi-stack installer matrices have no target install.sh or Make equivalent; recorded as explicit external/adopter boundaries rather than copied or overclaimed.",
+    "Target shell scripts have bash syntax checks; a target-wide ShellCheck policy remains a separate CI-hygiene decision and is not silently treated as source parity."
+  ],
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-26T11:12:39Z",
+  "preflightContractDigest": "sha256:f73dd03e4614678a5286d7c3efbf4d078c1235e69f26d8e26a23285b6cffa5da",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:cf9a8f136e6316f31a577cbde1ce211b47511ee3a868ae38234116716f617ffe",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "sourcesUsed": [
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/tree/e5acb677da6621004d96f0ef353c58fe8d3acfbf/.github/workflows/compatibility.yml",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/tree/e5acb677da6621004d96f0ef353c58fe8d3acfbf/.github/workflows/smoke.yml",
+    "docs/reference/reference-file-comparison.md",
+    "tests/conformance/reference_file_inventory.py"
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-08-26T11:12:49Z",
+  "verification": [
+    {
+      "check": "tests/conformance/reference_file_inventory_test.sh",
+      "result": "passed"
+    },
+    {
+      "check": "git diff --check",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-304-reference-file-comparison-batch-02"
+}
