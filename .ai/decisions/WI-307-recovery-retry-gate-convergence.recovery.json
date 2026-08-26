@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-26T15:00:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-307-recovery-retry-gate-convergence.verification.json",
+    ".ai/decisions/WI-307-recovery-retry-gate-convergence.finalize-plan.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:aa6d5c7ea4bb467724e76aad369de5104a802a517ea10825dc1779a52edeecf8",
+  "predecessorSummaryDigest": "sha256:36be0354e61de8cbd436add2f8977113afad47f5c43b9e28af3edca4e8a426d0",
+  "predecessorWorkItemId": "WI-307-recovery-retry-gate-convergence",
+  "reason": "Retry after finalize-plan bound the current Contract and correctly invalidated verification recorded before the exact PR resource context; preserve the retry history and regenerate current evidence before finish/archive.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification against the finalized PR binding, then finish and archive without changing governed source files.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-307-recovery-retry-gate-convergence"
+}
