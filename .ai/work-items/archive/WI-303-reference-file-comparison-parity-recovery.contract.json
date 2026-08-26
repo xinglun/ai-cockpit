@@ -1,0 +1,72 @@
+{
+  "acceptanceCriteria": [
+    "Preserve every WI-302 archived contract, summary, verification, finalization, recovery, and merge-observation byte and digest; do not rewrite predecessor .ai records.",
+    "Register WI-302 as Recovered in English, Simplified Chinese, and Japanese reference-parity projections with explicit successor and recovery evidence links.",
+    "Register WI-303 as an in-progress parity Work Item in all three projections before verification, using the exact terminal projection path and no unsupported completion claim.",
+    "Remove the stale WI-302 entry from docs/reference/pending-parity-registry.json atomically with the recovered parity projections; no pending bridge remains on the default branch after this Work Item.",
+    "Keep the change limited to parity/documentation recovery and governance projections; do not alter Runtime behavior, release artifacts, or historical generated evidence.",
+    "Pass the installed Runtime lifecycle and the repository documentation/governance integrity checks with a fresh verification receipt bound to this repository and Work Item."
+  ],
+  "authority": "authorized",
+  "baseRevision": "f61636267a035721117d4c5e5320969dfdf1d52f",
+  "createdAt": "2026-08-26T10:16:18Z",
+  "goal": "Recover the merged WI-302 parity registration without rewriting immutable history, and establish a truthful three-language parity projection for this recovery Work Item.",
+  "intent": "Repair the provenance gap left by WI-302's immutable post-merge parity bridge so the default branch has complete, auditable reference-parity rows and no stale pending registry.",
+  "mode": "code",
+  "outOfScope": [
+    "Rust Runtime or CLI behavior",
+    "Historical WI-302 .ai records",
+    "Reference-source inventory semantics beyond promoting the already completed WI-302 comparison",
+    "Release",
+    " CI implementation",
+    " adopter acceptance",
+    " performance",
+    " or architecture changes",
+    "Global Agent or MCP configuration"
+  ],
+  "predecessorContractDigest": "sha256:5cd39bf094ed5e3333bb49c5b74f70263ae244486cefdd1385ee8c8410040f42",
+  "predecessorWorkItemId": "WI-302-reference-file-comparison-batch-01",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-302-reference-file-comparison-batch-01.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f4d3d6190a412b5dcae0793ede60c981be02e9fe95e0c54199cbd2a6ab9d6128",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-303-reference-file-comparison-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/265",
+    "worktree": "/private/tmp/ai-cockpit-wi303-reference-file-comparison-recovery"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/pending-parity-registry.json",
+    "docs/work-items/WI-303-reference-file-comparison-parity-recovery.md",
+    "docs/work-items/WI-303-reference-file-comparison-parity-recovery.zh-CN.md",
+    "docs/work-items/WI-303-reference-file-comparison-parity-recovery.ja.md"
+  ],
+  "sources": [
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/pending-parity-registry.json",
+    ".ai/decisions/WI-302-reference-file-comparison-batch-01.recovery.json",
+    ".ai/work-items/archive/WI-302-reference-file-comparison-batch-01.contract.json",
+    ".ai/evidence/WI-302-reference-file-comparison-batch-01.verification.json"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-303-reference-file-comparison-parity-recovery"
+}

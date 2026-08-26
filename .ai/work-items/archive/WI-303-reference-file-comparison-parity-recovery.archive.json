@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-26T10:33:55Z",
+  "files": {
+    "approachDigest": "sha256:72f2f78b44073c044580ca6e95f64fbf3f32162a3256cf96b662fd7d5348a49b",
+    "approachPath": ".ai/work-items/archive/WI-303-reference-file-comparison-parity-recovery.approach.json",
+    "contractDigest": "sha256:0ccfaaf05de0b736d561c8aeed5b08a1227017b55b75c320b4defa5d03ecda6a",
+    "contractPath": ".ai/work-items/archive/WI-303-reference-file-comparison-parity-recovery.contract.json",
+    "eventsDigest": "sha256:24500b6d3a926cdfc5ae510545543453fbfca4bc0165082b49dbe02892650650",
+    "eventsPath": ".ai/work-items/archive/WI-303-reference-file-comparison-parity-recovery.events.jsonl",
+    "outcomeDigest": "sha256:2bf01c31a4f7fa723a4b0a8c98ce6e0297eb94482d07fe1e962fad5ef8746a73",
+    "outcomePath": ".ai/work-items/archive/WI-303-reference-file-comparison-parity-recovery.outcome.json",
+    "summaryDigest": "sha256:a6c9b4542000f6f2b783a95d66e6593d744716905cab87a66efa597420883cc9",
+    "summaryPath": ".ai/work-items/archive/WI-303-reference-file-comparison-parity-recovery.summary.json",
+    "taskReportDigest": "sha256:9dacc5466ebb7e464e57c2ba5b6d87fc03ee4938d6f573c419c32c6afa08136c",
+    "taskReportMarkdownDigest": "sha256:6bf46780fe32baa246c08051a0101410940d23de128682e8773222050ac38b91",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-303-reference-file-comparison-parity-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-303-reference-file-comparison-parity-recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-303-reference-file-comparison-parity-recovery"
+}

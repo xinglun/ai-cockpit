@@ -6,7 +6,7 @@ description: "最初の10件の deferred reference source file を Rust target �
 audience:
   - maintainer
   - reviewer
-status: in-progress
+status: recovered
 lastVerifiedBy: WI-302-reference-file-comparison-batch-01
 terminalArchive: .ai/work-items/archive/WI-302-reference-file-comparison-batch-01.contract.json
 terminalVerification: .ai/evidence/WI-302-reference-file-comparison-batch-01.verification.json

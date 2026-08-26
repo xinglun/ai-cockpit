@@ -6,7 +6,7 @@ description: "将前十个延后的参考源文件与 Rust 目标逐项对比，
 audience:
   - maintainer
   - reviewer
-status: in-progress
+status: recovered
 lastVerifiedBy: WI-302-reference-file-comparison-batch-01
 terminalArchive: .ai/work-items/archive/WI-302-reference-file-comparison-batch-01.contract.json
 terminalVerification: .ai/evidence/WI-302-reference-file-comparison-batch-01.verification.json
