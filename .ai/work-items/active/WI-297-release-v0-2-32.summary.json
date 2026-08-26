@@ -3,15 +3,55 @@
   "checkpointAt": "2026-08-26T03:29:10Z",
   "checkpointCount": 1,
   "createdAt": "2026-08-26T03:25:14Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-297-release-v0-2-32.contract.json"
+    ],
+    "state": "resolved"
+  },
   "mode": "implementation",
-  "preflightAt": "2026-08-26T03:32:47Z",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-26T03:33:00Z",
   "preflightContractDigest": "sha256:243a7dca65ddfb4b545c2d7ae491501f84f081b413ebbaaea1a1d17fb1dc960b",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:a58bffff3d8d0252a6c05958ca73b9af4daea7789fe0be42321ac621e86a2848",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:a0450d34c7310576a58ab00cd3d3d5b01940a22abf68308fc1a00e23cc8b5f88",
+  "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-08-26T03:29:10Z",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "reason": "Provider publication is a later boundary; the public Release manifest, checksums, SBOMs, and formula will be validated after publication.",
+      "required": true,
+      "scenario": "release-artifact-integrity",
+      "status": "not_applicable"
+    },
+    {
+      "evidence": [],
+      "reason": "Public adopter isolation is a post-release acceptance boundary and is not executed before the Release exists.",
+      "required": true,
+      "scenario": "adopter-isolation",
+      "status": "not_applicable"
+    },
+    {
+      "evidence": [],
+      "reason": "Published installation and N-1 upgrade acceptance require immutable public Release artifacts and run after publication.",
+      "required": true,
+      "scenario": "installation-upgrade",
+      "status": "not_applicable"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-297-release-v0-2-32.verification.json"
+      ],
+      "required": true,
+      "scenario": "version-documentation-consistency",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-26T03:35:13Z",
   "workItemId": "WI-297-release-v0-2-32"
 }
