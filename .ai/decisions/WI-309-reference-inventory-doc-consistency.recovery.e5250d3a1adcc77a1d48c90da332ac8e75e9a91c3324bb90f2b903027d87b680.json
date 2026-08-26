@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-27T00:10:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-309-reference-inventory-doc-consistency.verification.json",
+    ".ai/work-items/active/WI-309-reference-inventory-doc-consistency.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery-retry-boundary"
+  ],
+  "predecessorContractDigest": "sha256:0d3a686e0efe73afbfcdbfeaa9de5521ef75486d9ae2d5c4c0647c20f8d2d3b9",
+  "predecessorEventsDigest": "sha256:2e94b410b66a8cb98a41b1e11ec19bfb5133992d70f24ffbc2ebd9b50ced5212",
+  "predecessorOutcomeDigest": "sha256:267194c19f8a15817feeeef1ab0737af101d8b3d7e18586fe3ed3959ad84755c",
+  "predecessorSummaryDigest": "sha256:e890cb19c4795ce5d14d9858de4c7cf2325eda40a48edab57f53176a36bb0c20",
+  "predecessorWorkItemId": "WI-309-reference-inventory-doc-consistency",
+  "reason": "The first finish attempt correctly stopped on stale evidence and scope drift after adding the deterministic documentation-count check. The Contract scope is now explicit and the retry will use fresh verification evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification against the corrected Contract, then retry finish.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-309-reference-inventory-doc-consistency"
+}

@@ -8,6 +8,7 @@ tmp=$(mktemp -d "${TMPDIR:-/tmp}/reference-file-inventory-test.XXXXXX")
 trap 'rm -rf "$tmp"' EXIT
 
 python3 "$script" --manifest "$manifest" --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf --target-commit a533d49dfa848d95742833f8cd1b5f7e1bb897d5 --check
+python3 "$root/tests/conformance/reference_inventory_docs_test.py"
 
 test "$(jq -r '.referenceTrackedFileCount' "$manifest")" -eq "$(jq '.records | length' "$manifest")"
 test "$(jq -r '.targetWorkingTreeFileCount' "$manifest")" -eq "$(jq -r '.targetTrackedFileCount' "$manifest")"
@@ -30,6 +31,7 @@ test "$(jq '[.records[] | select(.batch == "WI-308-reference-file-comparison-bat
 test "$(jq -r '.records[] | select(.referencePath == "docs/assets/ai-cockpit-demo.gif") | .classification' "$manifest")" = "reference-only"
 test "$(jq '[.records[] | select(.batch == "WI-308-reference-file-comparison-batch-04-retry" and .classification == "deferred-next-batch")] | length' "$manifest")" -eq 0
 test "$(jq -r '.records[] | select(.batch == "governance-entrypoints" and .classification == "deferred-next-batch") | .referencePath' "$manifest" | wc -l | tr -d ' ')" -eq 0
+
 test "$(jq '[.records[] | select(.batch == "capability-status-projection")] | length' "$manifest")" -eq 6
 test "$(jq '[.records[] | select(.batch == "capability-status-projection" and (.classification == "deferred-next-batch" or .classification == ""))] | length' "$manifest")" -eq 0
 test "$(jq '[.records[] | select(.batch == "capability-status-projection" and ((.rustCounterparts | length) == 0 and (.reason | contains("no exact Rust counterpart") | not)))] | length' "$manifest")" -eq 0

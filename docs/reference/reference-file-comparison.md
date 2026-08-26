@@ -123,9 +123,11 @@ green parity.
 
 ## Current ledger snapshot
 
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=182 implemented-equivalent=1 not-applicable=3 reference-only=2 deferred-next-batch=669 migrate-gap=0 -->
+
 At the pinned v0.2.33 comparison baseline, the ledger contains 5,119 records:
-4,262 `generated-history`, 176 `implemented-different-by-design`, one
-`implemented-equivalent`, three `not-applicable`, and 677
+4,262 `generated-history`, 182 `implemented-different-by-design`, one
+`implemented-equivalent`, three `not-applicable`, and 669
 `deferred-next-batch` records. Deferred records remain scheduled work, not
 parity claims. The capability/profile slice has no remaining `migrate-gap`
 records:
@@ -141,7 +143,7 @@ records:
 
 The governance entrypoints, getting-started routes, CI/release boundaries, and
 capability/profile projections have been reviewed at this baseline. The four
-records above are Rust-native, explicitly bounded counterparts; the 677
+records above are Rust-native, explicitly bounded counterparts; the 669
 deferred semantic comparisons remain scheduled work.
 
 WI-274 rebinds only the target checkout metadata and canonical comparison
@@ -239,8 +241,8 @@ adopter boundary.
 | `Makefile` | implemented-different-by-design | Rust CLI, Cargo, and explicit CI/release scripts replace source Python Make orchestration with request-scoped `--repo`. |
 
 The WI-302/WI-304 batches found no `migrate-gap`. The inventory is now 4,262
-`generated-history`, 176 `implemented-different-by-design`, one
-`implemented-equivalent`, three `not-applicable`, and 677
+`generated-history`, 182 `implemented-different-by-design`, one
+`implemented-equivalent`, three `not-applicable`, and 669
 `deferred-next-batch` records. The two workflow records are closed as
 Rust-native, different-by-design boundaries; this does not claim that the
 source's Python installer or multi-stack matrix runs inside the Rust Runtime.
