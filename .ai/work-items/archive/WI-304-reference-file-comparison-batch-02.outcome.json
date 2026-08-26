@@ -49,77 +49,77 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.summary.json"
+            ".ai/work-items/archive/WI-304-reference-file-comparison-batch-02.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-304-reference-file-comparison-batch-02.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-304-reference-file-comparison-batch-02.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.summary.json"
+            ".ai/work-items/archive/WI-304-reference-file-comparison-batch-02.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-304-reference-file-comparison-batch-02.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-304-reference-file-comparison-batch-02.summary.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.summary.json"
+            ".ai/work-items/archive/WI-304-reference-file-comparison-batch-02.summary.json"
           ],
           "inference": false,
           "text": "Changed path: tests/conformance/reference_file_inventory.py"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.summary.json"
+            ".ai/work-items/archive/WI-304-reference-file-comparison-batch-02.summary.json"
           ],
           "inference": false,
           "text": "Changed path: tests/conformance/reference_file_inventory.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.summary.json"
+            ".ai/work-items/archive/WI-304-reference-file-comparison-batch-02.summary.json"
           ],
           "inference": false,
           "text": "Changed path: tests/conformance/reference_file_inventory_test.sh"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.summary.json"
+            ".ai/work-items/archive/WI-304-reference-file-comparison-batch-02.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/reference-file-comparison.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.summary.json"
+            ".ai/work-items/archive/WI-304-reference-file-comparison-batch-02.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/reference-file-comparison.zh-CN.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.summary.json"
+            ".ai/work-items/archive/WI-304-reference-file-comparison-batch-02.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/reference-file-comparison.ja.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.summary.json"
+            ".ai/work-items/archive/WI-304-reference-file-comparison-batch-02.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/work-items/WI-304-reference-file-comparison-batch-02.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.summary.json"
+            ".ai/work-items/archive/WI-304-reference-file-comparison-batch-02.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/work-items/WI-304-reference-file-comparison-batch-02.zh-CN.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.summary.json"
+            ".ai/work-items/archive/WI-304-reference-file-comparison-batch-02.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/work-items/WI-304-reference-file-comparison-batch-02.ja.md"
@@ -178,7 +178,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.contract.json"
+            ".ai/work-items/archive/WI-304-reference-file-comparison-batch-02.contract.json"
           ],
           "inference": false,
           "text": "Establish an auditable, file-level semantic comparison for the reference compatibility and smoke workflows without copying source runtime orchestration, and correct any concrete target-side quality omission discovered within this bounded batch."
@@ -187,7 +187,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.contract.json"
+            ".ai/work-items/archive/WI-304-reference-file-comparison-batch-02.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -197,8 +197,8 @@
     "status": "verified",
     "workItemId": "WI-304-reference-file-comparison-batch-02"
   },
-  "taskReportDigest": "sha256:e89836b792e52e203162f5580b34d8136e097ebad4fd65c33ddc3b6bee5c4d41",
-  "taskReportMarkdownDigest": "sha256:056b3e2285bc303877ee6bd39ba754f80766407570b675c9cc46d789ff66bb73",
+  "taskReportDigest": "sha256:3159399ae58461fb207081c1308490fb43deb1e266cce1800dcb7fdf842903c5",
+  "taskReportMarkdownDigest": "sha256:4c4c7a2b4cb883bb5070d53508ea0af34de95127a111b3e21edb43d7d76ffe78",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

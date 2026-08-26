@@ -1,7 +1,7 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.contract.json",
-    ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.summary.json",
+    ".ai/work-items/archive/WI-304-reference-file-comparison-batch-02.contract.json",
+    ".ai/work-items/archive/WI-304-reference-file-comparison-batch-02.summary.json",
     "tests/conformance/reference_file_inventory.py",
     "tests/conformance/reference_file_inventory.json",
     "tests/conformance/reference_file_inventory_test.sh",

@@ -14,8 +14,8 @@
 
 ## Delivered changes
 
-- Changed path: .ai/work-items/active/WI-304-reference-file-comparison-batch-02.contract.json
-- Changed path: .ai/work-items/active/WI-304-reference-file-comparison-batch-02.summary.json
+- Changed path: .ai/work-items/archive/WI-304-reference-file-comparison-batch-02.contract.json
+- Changed path: .ai/work-items/archive/WI-304-reference-file-comparison-batch-02.summary.json
 - Changed path: tests/conformance/reference_file_inventory.py
 - Changed path: tests/conformance/reference_file_inventory.json
 - Changed path: tests/conformance/reference_file_inventory_test.sh
