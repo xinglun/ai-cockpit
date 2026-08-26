@@ -1,0 +1,32 @@
+{
+  "acceptanceCriteria": [],
+  "authority": "unknown",
+  "baseRevision": "a136ef3ecd624795491220afe89b6ab2c6a346da",
+  "createdAt": "2026-08-26T23:09:29Z",
+  "goal": "",
+  "intent": "",
+  "mode": "docs",
+  "outOfScope": [],
+  "predecessorContractDigest": "sha256:b2dcf5715e398251eadb86c4d0786a5d17852c7889eaca0a8b3b3ab326c7d54a",
+  "predecessorWorkItemId": "WI-310-reference-inventory-doc-consistency-successor",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-310-reference-inventory-doc-consistency-successor.recovery.8d03bf82978deb2a2a281d4ba7448ad9e8ff2a7811fe933d6f8a23348dffc86b.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0e4122eb0d4a8035295a306216bd7ed29dc154539e74b4a38fc1c836e51976b0",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-310-reference-inventory-doc-consistency-successor",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi310-reference-inventory-doc-consistency-successor"
+  },
+  "risk": "unknown",
+  "scope": [],
+  "sources": [],
+  "state": "not_ready",
+  "verification": [],
+  "workItemId": "WI-311-reference-inventory-doc-consistency-parity-recovery"
+}

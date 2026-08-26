@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-26T23:10:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/273",
+    ".ai/work-items/archive/WI-310-reference-inventory-doc-consistency-successor.archive.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:premerge-finalization-before-close"
+  ],
+  "predecessorContractDigest": "sha256:b2dcf5715e398251eadb86c4d0786a5d17852c7889eaca0a8b3b3ab326c7d54a",
+  "predecessorEventsDigest": "sha256:cefda9354563673cb254c3192a789b674787b9011f970aba3ccf31a0e70879c4",
+  "predecessorOutcomeDigest": "sha256:ef8264c144dbe264f3dd3dba5e21b958c58cec0b987517e584774b04894db4f4",
+  "predecessorSummaryDigest": "sha256:4b1fed4aee7714355a7c99f690c8c0f4c555daddc6bb8551691fa9f746cb389a",
+  "predecessorWorkItemId": "WI-310-reference-inventory-doc-consistency-successor",
+  "reason": "The immutable W310 delivery was archived before the required tri-language reference-parity registration, and hosted quality correctly rejected the missing parity entries. Redeliver the same inventory documentation correction with parity registration declared before archive without rewriting W310 bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Start W311 from the latest origin/main, include the inventory count regression and prearchive tri-language parity registration in one bounded Contract, pass hosted quality, then finish, archive, finalize, merge, close, and clean the exact resources.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-311-reference-inventory-doc-consistency-parity-recovery",
+  "workItemId": "WI-310-reference-inventory-doc-consistency-successor"
+}
