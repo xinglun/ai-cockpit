@@ -104,8 +104,8 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 ## 当前台账快照
 
 在固定的 v0.2.33 比较基线上，台账共有 5,119 条记录：4,262 条
-`generated-history`、174 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、3 条 `not-applicable` 与 679 条
+`generated-history`、176 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、3 条 `not-applicable` 与 677 条
 `deferred-next-batch`。deferred 记录仍是待比较工作，不是 parity 声明。
 capability/profile slice 已没有 `migrate-gap`：
 
@@ -116,7 +116,7 @@ capability/profile slice 已没有 `migrate-gap`：
 4. `.ai/project_profile.yaml` 由 `.ai/project.json` 与严格 JSON `profile-policy.json` projection 表达。
 
 治理入口、getting-started 路线、CI/release 边界与 capability/profile projection 已按该基线审阅；
-以上四条是有界的 Rust-native counterpart，679 条 deferred 语义比较仍是后续工作。
+以上四条是有界的 Rust-native counterpart，677 条 deferred 语义比较仍是后续工作。
 
 WI-274 只将目标 checkout metadata 和 canonical comparison snapshot 重新绑定到已审阅的
 默认分支提交。WI-273 保持为不可变的失败交付记录：其首次提交无法证明 parity 登记先于
@@ -180,8 +180,8 @@ workflow 矩阵、gate metadata/timeout、release preflight 和多技术栈 adop
 ## WI-302 首批 deferred 文件比对
 
 WI-302 按字典序将前 10 个 deferred 路径与固定参考源提交逐文件比对。其中 8 条记录已经
-得到有证据支持的结论；包含参考源广泛 Python/多技术栈矩阵的两个 workflow 记录，明确保留
-为后续有界批次，不宣称已经等价。
+得到有证据支持的结论。WI-304 随后比对了包含参考源广泛 Python/多技术栈矩阵的两个
+workflow，并记录 Rust-native 拆分与对象工程/外部 adopter 边界。
 
 | 参考源路径 | 分类 | Rust 对应/边界 |
 | --- | --- | --- |
@@ -189,14 +189,42 @@ WI-302 按字典序将前 10 个 deferred 路径与固定参考源提交逐文�
 | `.gitattributes` | 有意采用不同实现 | Rust source archive 边界及 `tests/release/source_archive_policy_test.sh` 排除治理/构建目录，同时保留 Cargo 源码。 |
 | `.github/CODEOWNERS` | 不适用 | 参考源的个人 owner 不可移植；adopter 的 review owner 由外部 repository/provider 决定，并在 contributor/adopter 文档中说明。 |
 | `.github/dependabot.yml` | 不适用 | pip/Actions 更新是 provider 可选自动化；Rust 依赖事实由 `Cargo.toml`/`Cargo.lock` 与 action pin policy 表达。 |
-| `.github/workflows/compatibility.yml` | 后续批次 | Rust `ci.yml` 覆盖共享 Contract gate；参考源 Python/多技术栈 compatibility matrix 需要单独的比对/adopter 批次。 |
+| `.github/workflows/compatibility.yml` | 有意采用不同实现 | WI-304 比对了 ShellCheck、lockfile、Python、real/extended/mobile 矩阵及非阻断 latest probe。Rust `ci.yml`、动态质量路由、规范 gate 与公开 adopter 验收负责 Rust 产品；参考源 installer/Python/多技术栈覆盖明确属于 adopter/外部边界。 |
 | `.github/workflows/release.yml` | 有意采用不同实现 | Rust release workflow 与 release tests 提供目标 archive、checksum、SBOM/provenance、平台 smoke 及公开/N-1 adopter 验收。 |
-| `.github/workflows/smoke.yml` | 后续批次 | Rust CI/release 拆分覆盖 Rust 与 release smoke；参考源 Python project-test 和多技术栈 smoke graph 仍 deferred。 |
+| `.github/workflows/smoke.yml` | 有意采用不同实现 | WI-304 比对所有 source shard、dispatch input、artifact、依赖边、release/measurement 条件和 installer 检查。Rust `ci.yml`、`release.yml`、gate manifest 与不可变 adopter harness 拆分承担这些责任；参考源 Python/Make/install smoke 明确由外部/adopter 负责。 |
 | `.gitignore` | 有意采用不同实现 | Rust/Cargo 构建与治理 review 路径被忽略，source archive policy 有回归测试。 |
 | `LICENSE` | 有意采用不同实现 | 两边都是 MIT；版权主体和 Rust packaging 按目标工程定义，不复制参考源文本。 |
 | `Makefile` | 有意采用不同实现 | Rust CLI、Cargo 和显式 CI/release 脚本替代 Python Make 编排，并保持 request-scoped `--repo`。 |
 
-本批没有发现 `migrate-gap`。台账现在为：4,262 条 `generated-history`、174 条
-`implemented-different-by-design`、1 条 `implemented-equivalent`、3 条 `not-applicable`、
-679 条 `deferred-next-batch`。这里只关闭表内记录，不代表参考源剩余 compatibility/smoke
-矩阵已经 parity。
+WI-302/WI-304 批次没有发现 `migrate-gap`。台账现在为：4,262 条
+`generated-history`、176 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、3 条 `not-applicable`、677 条 `deferred-next-batch`。
+两个 workflow 已作为 Rust-native 的有意差异边界关闭；这不表示参考源 Python installer
+或多技术栈矩阵会在 Rust Runtime 内运行。
+
+## WI-304 workflow 比对
+
+WI-304 在固定参考源提交上比对 `.github/workflows/compatibility.yml` 与
+`.github/workflows/smoke.yml`，覆盖 trigger、permission、concurrency、每个 job 与 matrix、
+`needs` 依赖、dispatch input、artifact 上传/下载、阻断与非阻断条件、release/measurement
+分支及 installer 检查。
+
+`compatibility.yml` 有八类责任：对参考源 `install.sh` 的 ShellCheck；固定 Python 平台与
+lockfile 可复现性；real、extended、mobile 技术栈质量矩阵；非阻断的 latest ecosystem
+probe；以及独立的阻断/latest 汇总 gate。Rust 对应责任刻意拆分：`ci.yml` 选择仓库动态
+`light`/`standard`/`strict` 路由和规范 gate manifest，Rust workspace/platform 检查及公开
+adopter harness 验证 Runtime 与 Repository Protocol。目标没有 `install.sh`、Python lockfile
+或参考源 Make 编排，因此 adopter 的工具链/技术栈覆盖由 adopter 或其 hosted provider
+配置并提供证据，不静默宣称为产品 parity。
+
+`smoke.yml` 有 project-test manifest/core/governance/installer/lifecycle/release 分片、模板
+汇总、installation smoke、条件式 release evidence 以及最终 CI evidence receipt。Rust 目标将
+对应边界放在 `ci.yml`（Contract-aware quality、Windows、锁定的行为 oracle）、`release.yml`
+（archive、SBOM、checksum、provenance、release policy）、规范 gate manifest 和严格的公开/
+N-1 adopter 验收中。参考源 Python test shard、`install.sh`/Make smoke 与探索性的 latest
+toolchain probe 没有目标等价物，明确属于外部或 adopter 责任。
+
+这是责任语义 parity，不是 workflow 字节或 source command parity。目标 Shell 脚本目前有
+语法校验；针对目标脚本增加 ShellCheck 是独立的 CI hygiene 决策，因为参考源 gate 检查的是
+目标不存在的 installer。本批不复制任何参考源 Python module、Make target、installer 或多
+技术栈 fixture。

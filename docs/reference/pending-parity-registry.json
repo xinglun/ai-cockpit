@@ -1,4 +1,38 @@
 {
-  "entries": [],
+  "entries": [
+    {
+      "baseRevision": "c1f7383955fe800b112cd4cb45e0abf21b4ec791",
+      "createdAt": "2026-08-26T11:55:00Z",
+      "expectedRecords": {
+        "contract": ".ai/work-items/archive/WI-304-reference-file-comparison-batch-02.contract.json",
+        "finalize": ".ai/decisions/WI-304-reference-file-comparison-batch-02.finalize.json",
+        "verification": ".ai/evidence/WI-304-reference-file-comparison-batch-02.verification.json"
+      },
+      "headRevision": "52a22f36804e3bbd0aa7cbc96ff0f3d2c052d2cf",
+      "parityRows": [
+        {
+          "path": "docs/reference/reference-parity.md",
+          "row": "| WI-304 — reference compatibility and smoke workflow comparison | In progress | [Work Item](../work-items/WI-304-reference-file-comparison-batch-02.md); archive `.ai/work-items/archive/WI-304-reference-file-comparison-batch-02.contract.json`; verification `.ai/evidence/WI-304-reference-file-comparison-batch-02.verification.json`; finalization `.ai/decisions/WI-304-reference-file-comparison-batch-02.finalize.json`; close `.ai/decisions/WI-304-reference-file-comparison-batch-02.close.json`. |"
+        },
+        {
+          "path": "docs/reference/reference-parity.zh-CN.md",
+          "row": "| WI-304 — 参考 compatibility 与 smoke workflow 对比 | 进行中 | [Work Item](../work-items/WI-304-reference-file-comparison-batch-02.zh-CN.md)；archive `.ai/work-items/archive/WI-304-reference-file-comparison-batch-02.contract.json`；verification `.ai/evidence/WI-304-reference-file-comparison-batch-02.verification.json`；finalization `.ai/decisions/WI-304-reference-file-comparison-batch-02.finalize.json`；close `.ai/decisions/WI-304-reference-file-comparison-batch-02.close.json`。 |"
+        },
+        {
+          "path": "docs/reference/reference-parity.ja.md",
+          "row": "| WI-304 — reference compatibility と smoke workflow の比較 | In progress | [Work Item](../work-items/WI-304-reference-file-comparison-batch-02.ja.md)；archive `.ai/work-items/archive/WI-304-reference-file-comparison-batch-02.contract.json`；verification `.ai/evidence/WI-304-reference-file-comparison-batch-02.verification.json`；finalization `.ai/decisions/WI-304-reference-file-comparison-batch-02.finalize.json`；close `.ai/decisions/WI-304-reference-file-comparison-batch-02.close.json`。 |"
+        }
+      ],
+      "provider": "github",
+      "pullRequest": {
+        "number": 266,
+        "url": "https://github.com/xinglun/ai-cockpit/pull/266"
+      },
+      "registryBaseRevision": "156daf528553f82bb32045ab7c4e3b68c77e756b",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "state": "in_progress",
+      "workItemId": "WI-304-reference-file-comparison-batch-02"
+    }
+  ],
   "schemaVersion": 1
 }

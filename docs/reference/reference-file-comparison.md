@@ -124,8 +124,8 @@ green parity.
 ## Current ledger snapshot
 
 At the pinned v0.2.33 comparison baseline, the ledger contains 5,119 records:
-4,262 `generated-history`, 174 `implemented-different-by-design`, one
-`implemented-equivalent`, three `not-applicable`, and 679
+4,262 `generated-history`, 176 `implemented-different-by-design`, one
+`implemented-equivalent`, three `not-applicable`, and 677
 `deferred-next-batch` records. Deferred records remain scheduled work, not
 parity claims. The capability/profile slice has no remaining `migrate-gap`
 records:
@@ -141,7 +141,7 @@ records:
 
 The governance entrypoints, getting-started routes, CI/release boundaries, and
 capability/profile projections have been reviewed at this baseline. The four
-records above are Rust-native, explicitly bounded counterparts; the 679
+records above are Rust-native, explicitly bounded counterparts; the 677
 deferred semantic comparisons remain scheduled work.
 
 WI-274 rebinds only the target checkout metadata and canonical comparison
@@ -220,9 +220,10 @@ the inventory ledger rather than claimed as implemented.
 ## WI-302 first deferred file batch
 
 WI-302 compared the first ten deferred paths in lexical order against the
-pinned source commit. Eight records now have an evidence-backed conclusion;
-the two workflow records that contain the source's broad Python/multi-stack
-matrix remain explicitly deferred for a later bounded batch.
+pinned source commit. Eight records received an evidence-backed conclusion.
+WI-304 then compared the two workflow records that contain the source's broad
+Python/multi-stack matrix and recorded their Rust-native split and external
+adopter boundary.
 
 | Reference path | Classification | Rust counterpart / boundary |
 | --- | --- | --- |
@@ -230,15 +231,53 @@ matrix remain explicitly deferred for a later bounded batch.
 | `.gitattributes` | implemented-different-by-design | Rust source-archive boundary and `tests/release/source_archive_policy_test.sh` exclude governance/build roots while retaining Cargo sources. |
 | `.github/CODEOWNERS` | not-applicable | Personal source owner is not portable; adopter review ownership is an external repository/provider decision documented in contributor/adopter guidance. |
 | `.github/dependabot.yml` | not-applicable | Optional pip/Actions update automation is provider-owned; Rust dependency facts are `Cargo.toml`/`Cargo.lock` and pinned-action policy. |
-| `.github/workflows/compatibility.yml` | deferred-next-batch | Rust `ci.yml` covers the shared Contract gate; source Python and multi-stack compatibility matrix needs its own comparison/adopter batch. |
+| `.github/workflows/compatibility.yml` | implemented-different-by-design | WI-304 compares shellcheck, lockfile, Python, real/extended/mobile matrix, and non-blocking latest probes. Rust `ci.yml`, dynamic quality routing, canonical gates, and public adopter acceptance own the Rust product; source installer/Python/multi-stack coverage remains an explicit adopter/external boundary. |
 | `.github/workflows/release.yml` | implemented-different-by-design | Rust release workflow and release tests provide target archives, checksums, SBOM/provenance, platform smoke, and public/N-1 adopter acceptance. |
-| `.github/workflows/smoke.yml` | deferred-next-batch | Rust CI/release split covers Rust and release smoke; source Python project-test and multi-stack smoke graph remains deferred. |
+| `.github/workflows/smoke.yml` | implemented-different-by-design | WI-304 compares every source shard, dispatch input, artifact, dependency edge, release/measurement condition, and installer check. Rust `ci.yml`, `release.yml`, gate manifest, and immutable adopter harnesses split those responsibilities; source Python/Make/install smoke remains external/adopter-owned. |
 | `.gitignore` | implemented-different-by-design | Rust/Cargo build and governance review paths are ignored and source-archive policy is tested. |
 | `LICENSE` | implemented-different-by-design | Both publish MIT; target-specific copyright and Rust packaging are intentionally not copied from the source. |
 | `Makefile` | implemented-different-by-design | Rust CLI, Cargo, and explicit CI/release scripts replace source Python Make orchestration with request-scoped `--repo`. |
 
-The batch found no `migrate-gap`. The inventory is now 4,262
-`generated-history`, 174 `implemented-different-by-design`, one
-`implemented-equivalent`, three `not-applicable`, and 679
-`deferred-next-batch` records. This closes only the listed records; it does
-not claim parity for the source's remaining compatibility/smoke matrix.
+The WI-302/WI-304 batches found no `migrate-gap`. The inventory is now 4,262
+`generated-history`, 176 `implemented-different-by-design`, one
+`implemented-equivalent`, three `not-applicable`, and 677
+`deferred-next-batch` records. The two workflow records are closed as
+Rust-native, different-by-design boundaries; this does not claim that the
+source's Python installer or multi-stack matrix runs inside the Rust Runtime.
+
+## WI-304 workflow comparison
+
+WI-304 compares `.github/workflows/compatibility.yml` and
+`.github/workflows/smoke.yml` at the pinned source commit, including triggers,
+permissions, concurrency, every job and matrix, `needs` edges, dispatch
+inputs, artifact uploads/downloads, blocking versus non-blocking conditions,
+release/measurement branches, and installer checks.
+
+`compatibility.yml` has eight responsibilities: ShellCheck of the source
+`install.sh`; pinned Python platform and lockfile reproducibility lanes;
+real, extended, and mobile stack quality matrices; a non-blocking latest
+ecosystem probe; and separate blocking/latest aggregate gates. The Rust
+counterpart is intentionally split: `ci.yml` selects the repository's
+dynamic `light`/`standard`/`strict` route and canonical gate manifest, while
+Rust workspace/platform checks and the published adopter harness verify the
+Runtime and repository Protocol. There is no target `install.sh`, Python
+lockfile, or source Make orchestration. Toolchain and stack coverage for an
+adopter is therefore configured and evidenced by that adopter or its hosted
+provider; it is not silently claimed as product parity.
+
+`smoke.yml` has project-test manifest/core/governance/installer/lifecycle/
+release shards, a template aggregation job, installation smoke, conditional
+release evidence, and a final CI evidence receipt. The Rust target assigns
+the corresponding boundaries to `ci.yml` (Contract-aware quality, Windows,
+and locked behavioral oracle), `release.yml` (archives, SBOM, checksums,
+provenance, release policy), the canonical gate manifest, and strict public/
+N-1 adopter acceptance. The source's Python test shards, `install.sh`/Make
+smoke, and exploratory latest-toolchain probes have no target equivalent and
+are explicitly external or adopter-owned.
+
+This is semantic responsibility parity, not workflow-byte or source-command
+parity. The target shell scripts currently have syntax validation; a
+ShellCheck gate for target scripts is a separate CI-hygiene decision because
+the source gate specifically checks a non-existent target installer. No
+source Python module, Make target, installer, or multi-stack fixture is copied
+by this batch.

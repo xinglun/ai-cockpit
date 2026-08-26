@@ -1,0 +1,65 @@
+{
+  "acceptanceCriteria": [
+    "Compare exactly the two pinned reference workflow files including every job matrix blocking boundary artifact and input",
+    "Record an evidence-backed target counterpart explicit external boundary or deferred follow-up for every source responsibility",
+    "Preserve request-scoped repository context and dynamic light/standard/strict routing without copying source workflow bytes",
+    "Validate target CI/release coverage for Rust workspace Contract gate package coverage source archive release evidence and published adopter boundaries",
+    "Fix any concrete in-scope fail-open or shell/CI quality omission, or explicitly record it as deferred/external in all languages",
+    "Update the inventory generator JSON ledger regression and tri-language reports with WI-304 evidence and no unclassified records",
+    "Use installed ai-cockpit 0.2.33 with explicit repo context for the complete lifecycle and bind verification evidence to repository snapshot and Runtime identity",
+    "Demonstrate the stack-neutral shared Runtime and object/adopter external toolchain boundary",
+    "Run declared inventory CI documentation and workspace checks, then complete reviewed PR merge finalization close exact cleanup and visible human Outcome"
+  ],
+  "authority": "authorized",
+  "baseRevision": "c1f7383955fe800b112cd4cb45e0abf21b4ec791",
+  "createdAt": "2026-08-26T10:50:27Z",
+  "goal": "Establish an auditable, file-level semantic comparison for the reference compatibility and smoke workflows without copying source runtime orchestration, and correct any concrete target-side quality omission discovered within this bounded batch.",
+  "intent": "Compare the next two deferred reference workflow files against the Rust target, preserve the dynamic verification and object/adopter boundaries, and make every difference explicit before proceeding to another batch.",
+  "mode": "code",
+  "outOfScope": [
+    "Copying reference Python modules or Make targets",
+    "Implementing a full multi-language or mobile compatibility matrix or second-technology adopter acceptance",
+    "Changing crates/** or Rust Runtime semantics",
+    "Adding global current-project state or modifying user-global Agent/MCP configuration",
+    "Changing release version or publishing a Release",
+    "Rewriting immutable historical Work Item decision evidence or archive bytes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9e57f411451005c2784ace41171d5e68f23846afd2f9c02435270fb17ea955f7",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-304-reference-file-comparison-batch-02",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/266",
+    "worktree": "/private/tmp/ai-cockpit-wi304-reference-file-comparison-batch-02"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/work-items/WI-304-reference-file-comparison-batch-02.md",
+    "docs/work-items/WI-304-reference-file-comparison-batch-02.zh-CN.md",
+    "docs/work-items/WI-304-reference-file-comparison-batch-02.ja.md"
+  ],
+  "sources": [
+    "https://github.com/spirex-ds-dev/ai-cockpit/tree/e5acb677da6621004d96f0ef353c58fe8d3acfbf/.github/workflows/compatibility.yml",
+    "https://github.com/spirex-ds-dev/ai-cockpit/tree/e5acb677da6621004d96f0ef353c58fe8d3acfbf/.github/workflows/smoke.yml",
+    "docs/reference/reference-file-comparison.md",
+    "tests/conformance/reference_file_inventory.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-304-reference-file-comparison-batch-02"
+}

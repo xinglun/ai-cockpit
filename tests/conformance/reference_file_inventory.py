@@ -36,6 +36,7 @@ CAPABILITY_STATUS_BATCH = "capability-status-projection"
 WI270_BATCH = "WI-270-reference-contract-batch"
 WI287_BATCH = "WI-287-reference-checkpoint-conformance"
 WI302_BATCH = "WI-302-reference-file-comparison-batch-01"
+WI304_BATCH = "WI-304-reference-file-comparison-batch-02"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -121,20 +122,10 @@ WI302_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
         ["Cargo.toml", "Cargo.lock", ".github/workflows/ci.yml", "docs/security/enterprise-deployment-boundary.md"],
         "The source configuration is optional provider automation for pip and GitHub Actions updates. The Rust target has Cargo.lock and pinned-action policy, while dependency-update service selection remains external and repository-owned rather than a Runtime capability.",
     ),
-    ".github/workflows/compatibility.yml": (
-        "deferred-next-batch",
-        [".github/workflows/ci.yml", "crates/cockpit-cli/src/main.rs", "tests/ci/quality_route.py"],
-        "The batch audit confirms the shared Contract-aware gate in .github/workflows/ci.yml, but the source's Python/multi-stack compatibility matrix and second-stack adopter coverage remain a separate deferred comparison; no full workflow parity is claimed.",
-    ),
     ".github/workflows/release.yml": (
         "implemented-different-by-design",
         [".github/workflows/release.yml", "tests/release/workflow_policy.sh", "tests/release/version_consistency.sh", "tests/release/adopter_acceptance.sh", "tests/release/adopter_upgrade_acceptance.sh"],
         "The Rust release workflow preserves the source publication responsibility through target-specific archives, checksums, SBOM/provenance, Homebrew/Linux/Windows smoke, and public/N-1 adopter acceptance. Cargo and Rust Runtime gates replace Python/Make steps; byte-level workflow parity is not claimed.",
-    ),
-    ".github/workflows/smoke.yml": (
-        "deferred-next-batch",
-        [".github/workflows/ci.yml", "crates/cockpit-repository/src/lib.rs"],
-        "The target splits smoke responsibilities across .github/workflows/ci.yml and release.yml, including Rust package, Windows, V1 oracle, source-archive, and adopter checks. The source Python project-test graph and multi-stack smoke matrix remain deferred for a dedicated batch.",
     ),
     ".gitignore": (
         "implemented-different-by-design",
@@ -150,6 +141,34 @@ WI302_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
         "implemented-different-by-design",
         [".github/workflows/ci.yml", "tests/ci/run_repository_gates.py", "docs/reference/commands.md", "Cargo.toml"],
         "The source Makefile is a Python orchestration surface. The target deliberately uses the Rust CLI, Cargo, and explicit CI/release scripts with repository-bound --repo context; no second Make governance layer is required.",
+    ),
+}
+
+WI304_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    ".github/workflows/compatibility.yml": (
+        "implemented-different-by-design",
+        [
+            ".github/workflows/ci.yml",
+            "tests/ci/quality_route.py",
+            "tests/ci/run_repository_gates.py",
+            "tests/release/adopter_acceptance.sh",
+            "docs/capabilities.md",
+            "docs/release/distribution.md",
+        ],
+        "WI-304 compares every source job and boundary: shellcheck/install.sh, pinned Python and lockfile lanes, real/extended/mobile stack matrices, and non-blocking latest probes. The Rust target uses its dynamic light/standard/strict route, canonical manifest, Rust workspace and platform gates, and immutable Release adopter acceptance. It has no install.sh or source Make/Python matrix; object-repository toolchain coverage remains an explicit adopter/external responsibility rather than hidden parity.",
+    ),
+    ".github/workflows/smoke.yml": (
+        "implemented-different-by-design",
+        [
+            ".github/workflows/ci.yml",
+            ".github/workflows/release.yml",
+            "tests/ci/repository_gate_manifest.json",
+            "tests/release/adopter_acceptance.sh",
+            "tests/release/adopter_upgrade_acceptance.sh",
+            "docs/reference/reference-file-comparison.md",
+            "docs/release/distribution.md",
+        ],
+        "WI-304 compares all source smoke jobs, dispatch inputs, needs edges, artifacts, release/measurement conditions, and installer checks. The Rust target deliberately splits those responsibilities across ci.yml, release.yml, the canonical gate manifest, and immutable public/N-1 adopter acceptance. Source Python project-test shards, install.sh/Make smoke, and source-specific latest-toolchain probes have no target equivalent and remain documented external/adopter boundaries; no byte-level workflow parity is claimed.",
     ),
 }
 
@@ -447,6 +466,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                     "referencePath": path,
                     "batch": WI287_BATCH,
                     "classification": "implemented-different-by-design",
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
+        wi304 = WI304_REFERENCE_FILES.get(path)
+        if wi304 is not None:
+            classification, counterparts, reason = wi304
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI304_BATCH,
+                    "classification": classification,
                     "rustCounterparts": counterparts,
                     "reason": reason,
                 }

@@ -108,8 +108,8 @@ complete parity とは扱いません。
 ## 現在の ledger snapshot
 
 固定した v0.2.33 comparison baseline の ledger は 5,119 records です。内訳は
-4,262 `generated-history`、174 `implemented-different-by-design`、1
-`implemented-equivalent`、3 `not-applicable`、679 `deferred-next-batch` です。
+4,262 `generated-history`、176 `implemented-different-by-design`、1
+`implemented-equivalent`、3 `not-applicable`、677 `deferred-next-batch` です。
 Deferred record は予定された比較であり parity claim ではありません。
 capability/profile slice に `migrate-gap` は残っていません。
 
@@ -120,7 +120,7 @@ capability/profile slice に `migrate-gap` は残っていません。
 
 Governance entrypoint、getting-started route、CI/release boundary、capability/profile
 projection はこの baseline で review 済みです。上記 4 件は bounded な Rust-native counterpart として登録済みで、
-679 deferred semantic comparison は後続作業として残ります。
+677 deferred semantic comparison は後続作業として残ります。
 
 WI-274 は target checkout metadata と canonical comparison snapshot だけを、レビュー済み
 default branch commit に再バインドします。WI-273 は immutable な failed-delivery record として
@@ -187,8 +187,9 @@ preflight、多技術 stack adopter は ledger で deferred として扱い、�
 ## WI-302 最初の deferred file batch
 
 WI-302 は lexical order の最初の 10 deferred path を pinned source commit と一つずつ比較しました。
-8 records は evidence-backed な結論になり、reference の広い Python/multi-stack matrix を含む
-2 workflow record は、後続の bounded batch として明示的に deferred のままです。
+8 records は evidence-backed な結論になりました。WI-304 は続けて reference の広い
+Python/multi-stack matrix を含む 2 workflow record を比較し、Rust-native の分割と
+adopter/external boundary を記録しました。
 
 | Reference path | Classification | Rust counterpart / boundary |
 | --- | --- | --- |
@@ -196,14 +197,45 @@ WI-302 は lexical order の最初の 10 deferred path を pinned source commit 
 | `.gitattributes` | implemented-different-by-design | Rust の source-archive boundary と `tests/release/source_archive_policy_test.sh` が governance/build root を除外し Cargo source を保持します。 |
 | `.github/CODEOWNERS` | not-applicable | 個人 owner は portable ではありません。Adopter の review owner は external repository/provider の判断です。 |
 | `.github/dependabot.yml` | not-applicable | pip/Actions の更新は optional な provider automation です。Rust の dependency facts は `Cargo.toml`/`Cargo.lock` と action pin policy が持ちます。 |
-| `.github/workflows/compatibility.yml` | deferred-next-batch | Rust `ci.yml` は共有 Contract gate を担当しますが、source の Python/multi-stack compatibility matrix は別 batch で比較します。 |
+| `.github/workflows/compatibility.yml` | implemented-different-by-design | WI-304 は ShellCheck、lockfile、Python、real/extended/mobile matrix、non-blocking latest probe を比較しました。Rust `ci.yml`、dynamic quality route、canonical gate、public adopter acceptance が Rust product を担当し、source installer/Python/multi-stack coverage は adopter/external boundary です。 |
 | `.github/workflows/release.yml` | implemented-different-by-design | Rust release workflow と release tests が target archive、checksum、SBOM/provenance、platform smoke、public/N-1 adopter acceptance を提供します。 |
-| `.github/workflows/smoke.yml` | deferred-next-batch | Rust CI/release split は Rust と release smoke を担当しますが、source の Python project-test/multi-stack graph は deferred です。 |
+| `.github/workflows/smoke.yml` | implemented-different-by-design | WI-304 は全 source shard、dispatch input、artifact、dependency edge、release/measurement condition、installer check を比較しました。Rust `ci.yml`、`release.yml`、gate manifest、immutable adopter harness が分割して担当し、source Python/Make/install smoke は external/adopter-owned です。 |
 | `.gitignore` | implemented-different-by-design | Rust/Cargo build と governance review path を ignore し、source-archive policy を regression test します。 |
 | `LICENSE` | implemented-different-by-design | 両方 MIT です。Copyright と Rust packaging は target 定義であり source の本文は copy しません。 |
 | `Makefile` | implemented-different-by-design | Rust CLI、Cargo、明示的な CI/release script が Python Make orchestration を置き換え、request-scoped `--repo` を保ちます。 |
 
-この batch に `migrate-gap` はありません。Ledger は 4,262 `generated-history`、174
-`implemented-different-by-design`、1 `implemented-equivalent`、3 `not-applicable`、679
-`deferred-next-batch` です。表の records だけを close し、source の残りの
-compatibility/smoke matrix を parity とは主張しません。
+WI-302/WI-304 batch に `migrate-gap` はありません。Ledger は 4,262
+`generated-history`、176 `implemented-different-by-design`、1 `implemented-equivalent`、
+3 `not-applicable`、677 `deferred-next-batch` です。2 workflow record は
+Rust-native の意図した別実装 boundary として close しましたが、source の Python installer
+や multi-stack matrix が Rust Runtime 内で実行されるとは主張しません。
+
+## WI-304 workflow comparison
+
+WI-304 は pinned source commit の `.github/workflows/compatibility.yml` と
+`.github/workflows/smoke.yml` を比較し、trigger、permission、concurrency、全 job/matrix、
+`needs` edge、dispatch input、artifact upload/download、blocking/non-blocking condition、
+release/measurement branch、installer check を確認しました。
+
+`compatibility.yml` の責任は、source `install.sh` の ShellCheck、pinned Python platform と
+lockfile reproducibility、real/extended/mobile stack quality matrix、non-blocking latest
+ecosystem probe、および blocking/latest aggregate gate の 8 種類です。Rust は意図的に
+分割し、`ci.yml` の dynamic `light`/`standard`/`strict` route と canonical gate manifest、
+Rust workspace/platform check、published adopter harness が Runtime と Repository Protocol
+を検証します。target には `install.sh`、Python lockfile、source Make orchestration がなく、
+adopter の toolchain/stack coverage は adopter または hosted provider が設定し evidence を
+提供します。これは product parity として暗黙に扱いません。
+
+`smoke.yml` は project-test manifest/core/governance/installer/lifecycle/release shard、
+template aggregation、installation smoke、conditional release evidence、最終 CI evidence
+receipt を持ちます。Rust target は `ci.yml`（Contract-aware quality、Windows、locked
+behavioral oracle）、`release.yml`（archive、SBOM、checksum、provenance、release policy）、
+canonical gate manifest、strict public/N-1 adopter acceptance に分割しています。source の
+Python test shard、`install.sh`/Make smoke、exploratory latest-toolchain probe に target の
+equivalent はなく、external/adopter responsibility と明示します。
+
+これは responsibility の semantic parity であり、workflow byte や source command の
+parity ではありません。target shell script には現在 syntax validation がありますが、
+target script の ShellCheck gate は、存在しない target installer を検査する source gate と
+異なるため、別の CI hygiene decision とします。本 batch は source Python module、Make
+target、installer、multi-stack fixture を copy しません。
