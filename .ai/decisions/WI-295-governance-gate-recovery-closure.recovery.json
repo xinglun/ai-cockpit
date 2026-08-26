@@ -1,0 +1,23 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-review-policy",
+  "decidedAt": "2026-08-26T02:30:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-295-governance-gate-recovery-closure.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:b16b6ed807b132ede92e008e2e7991de7c382fdd6a23a30c622f4438019455d9",
+  "predecessorEventsDigest": "sha256:efaead2a34205dbc5bd0c8d157852ea3397d45494dee999d7024fd503e8ba441",
+  "predecessorOutcomeDigest": "sha256:3ed17ab1f9a6ec6bfaef6efdc88c83e7a301cb564555486069909e99d6291b01",
+  "predecessorSummaryDigest": "sha256:4223442868018495483e802aab71fc2dceb8418eb5ecaed1dfa147ccadc7e967",
+  "predecessorWorkItemId": "WI-295-governance-gate-recovery-closure",
+  "reason": "The reviewed PR finalization context changed the Contract after the initial verification; retry from the legal checkpoint with fresh preflight and verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh non-red preflight and verification after the exact PR context is bound, then retry finish.",
+  "runtimeDigest": "sha256:59e1a4a6e076f05149ee9e08482a0a550d2741fc5c9bdf2b8d2f831821ba368b",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "workItemId": "WI-295-governance-gate-recovery-closure"
+}

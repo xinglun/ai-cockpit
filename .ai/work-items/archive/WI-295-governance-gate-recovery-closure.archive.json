@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-26T02:23:39Z",
+  "files": {
+    "approachDigest": "sha256:777205d123c44d069fe8d98e7f89385f7feeefa3513ceceb80cd9fc42a9d3e65",
+    "approachPath": ".ai/work-items/archive/WI-295-governance-gate-recovery-closure.approach.json",
+    "contractDigest": "sha256:22ae0a30ee0aeed38a104acdc74c667c5246dda24de7b762bab9c48916321c87",
+    "contractPath": ".ai/work-items/archive/WI-295-governance-gate-recovery-closure.contract.json",
+    "eventsDigest": "sha256:0e0e876b789c029809ac089ea3625a79cfab71e239f26842ea148089ff771819",
+    "eventsPath": ".ai/work-items/archive/WI-295-governance-gate-recovery-closure.events.jsonl",
+    "outcomeDigest": "sha256:6887bef42a47db71d1a329f575744c0550b865807d97687b1bd77fc65f70b511",
+    "outcomePath": ".ai/work-items/archive/WI-295-governance-gate-recovery-closure.outcome.json",
+    "summaryDigest": "sha256:3f469ebbbd51f843aaaaf2a8e82fface8bdc233fb5665c50b48366e367f1193a",
+    "summaryPath": ".ai/work-items/archive/WI-295-governance-gate-recovery-closure.summary.json",
+    "taskReportDigest": "sha256:53cfa0cd7df3502d9e10b160d2c993649cb49af729040e5a0b9b5a50649e1f84",
+    "taskReportMarkdownDigest": "sha256:4abdc3818434faaf67837c9b33c6ad858d44f5fc4975742483e36c9ee7874953",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-295-governance-gate-recovery-closure.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-295-governance-gate-recovery-closure.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-295-governance-gate-recovery-closure"
+}

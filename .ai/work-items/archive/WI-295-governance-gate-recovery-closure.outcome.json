@@ -1,0 +1,136 @@
+{
+  "acceptanceResults": [
+    "A consumed retry remains historical at awaiting merge and closed phases",
+    "A genuine recovered predecessor remains recovered",
+    "Malformed or foreign retry evidence still fails closed",
+    "Default branch governance integrity gate passes after WI-294 close"
+  ],
+  "createdAt": "2026-08-26T02:23:34Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:3b1fbb746e8d7e86aef7a5d80cc945fcdc2cd55afe8f6176aaec4dd7634124d9",
+  "evidenceRefs": [
+    ".ai/evidence/WI-295-governance-gate-recovery-closure.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-295-governance-gate-recovery-closure.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-295-governance-gate-recovery-closure.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b1659389744eeb62470dc57d11558957eb185b052cb443626e87175f63395494",
+      "workItemId": "WI-295-governance-gate-recovery-closure"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-295-governance-gate-recovery-closure.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-295-governance-gate-recovery-closure.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-295-governance-gate-recovery-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-295-governance-gate-recovery-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-295-governance-gate-recovery-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-295-governance-gate-recovery-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-295-governance-gate-recovery-closure.contract.json"
+          ],
+          "inference": false,
+          "text": "Keep historical retry evidence visible without blocking a valid closed Work Item."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-295-governance-gate-recovery-closure.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-295-governance-gate-recovery-closure"
+  },
+  "taskReportDigest": "sha256:53cfa0cd7df3502d9e10b160d2c993649cb49af729040e5a0b9b5a50649e1f84",
+  "taskReportMarkdownDigest": "sha256:4abdc3818434faaf67837c9b33c6ad858d44f5fc4975742483e36c9ee7874953",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-295-governance-gate-recovery-closure.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-295-governance-gate-recovery-closure"
+}

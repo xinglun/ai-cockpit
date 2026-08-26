@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:c9ed4c90a0f81bc239ed641abaf03267b5c20a08ad9915ef92a1e83585983043",
-  "createdAt": "2026-08-26T02:16:44Z",
+  "contractDigest": "sha256:b16b6ed807b132ede92e008e2e7991de7c382fdd6a23a30c622f4438019455d9",
+  "createdAt": "2026-08-26T02:23:28Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 207,
-      "executionElapsedMs": 12,
+      "elapsedMs": 236,
+      "executionElapsedMs": 13,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,8 +25,8 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 207,
-    "executionElapsedMs": 12,
+    "elapsedMs": 236,
+    "executionElapsedMs": 13,
     "filesHashed": 5,
     "filesRead": 5,
     "gitCalls": 8,
@@ -44,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 12,
+      "executionElapsedMs": 13,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -92,7 +92,7 @@
     "runtimeVersion": "0.2.31",
     "workItemId": "WI-295-governance-gate-recovery-closure"
   },
-  "receiptDigest": "sha256:24219a2e0fdf35ee1f4575c3bbc701f7c27b5cc360d5ccc19d073690d1aba579",
+  "receiptDigest": "sha256:f34b5edf578964f0b2b1fa9ac75ad301fee26c5ddbc3b1cac32e2044ebe4e083",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:b1659389744eeb62470dc57d11558957eb185b052cb443626e87175f63395494",
   "runtimeDigest": "sha256:59e1a4a6e076f05149ee9e08482a0a550d2741fc5c9bdf2b8d2f831821ba368b",
