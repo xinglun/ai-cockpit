@@ -19,10 +19,10 @@
     "no historical evidence rewrite."
   ],
   "predecessorContractDigest": "sha256:6eb3217363c278c1c1bc47a81bad9d2eceecc72a638e493a88dd21cb3213b7af",
-  "recoveryDecisionPath": ".ai/decisions/WI-309-reference-inventory-doc-consistency.recovery.json",
   "predecessorWorkItemId": "WI-309-reference-inventory-doc-consistency",
   "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
   "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-309-reference-inventory-doc-consistency.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:d1202eb389268d283bf40f324ba94c5dd3dfbf7e5fed953baceceff097a5e0db",
   "requiredEvidenceClasses": [
@@ -30,11 +30,11 @@
     "documentation"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-310-reference-inventory-doc-consistency-successor",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/273",
     "worktree": "/private/tmp/ai-cockpit-wi310-reference-inventory-doc-consistency-successor"
   },
   "risk": "low",

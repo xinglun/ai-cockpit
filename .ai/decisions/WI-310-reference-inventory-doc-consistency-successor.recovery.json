@@ -1,0 +1,25 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-26T22:56:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-310-reference-inventory-doc-consistency-successor.verification.json",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/33020610733"
+  ],
+  "policyRefs": [
+    "AGENTS.md:premerge-finalization-before-close",
+    "AGENTS.md:immutable-history-and-successor-recovery"
+  ],
+  "predecessorContractDigest": "sha256:b2dcf5715e398251eadb86c4d0786a5d17852c7889eaca0a8b3b3ab326c7d54a",
+  "predecessorSummaryDigest": "sha256:7f184986f59f5c2b850e02ba9b55f4db566b2e57f45a7325a6ae4c00857904aa",
+  "predecessorWorkItemId": "WI-310-reference-inventory-doc-consistency-successor",
+  "reason": "Revalidate the current Contract after finalize-plan bound the reviewed provider context and invalidated the prior verification digest.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification against the finalized Contract, then finish and archive after the reviewed PR remains green.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-310-reference-inventory-doc-consistency-successor"
+}
