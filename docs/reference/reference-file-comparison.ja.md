@@ -107,9 +107,11 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=182 implemented-equivalent=1 not-applicable=3 reference-only=2 deferred-next-batch=669 migrate-gap=0 -->
+
 固定した v0.2.33 comparison baseline の ledger は 5,119 records です。内訳は
-4,262 `generated-history`、176 `implemented-different-by-design`、1
-`implemented-equivalent`、3 `not-applicable`、677 `deferred-next-batch` です。
+4,262 `generated-history`、182 `implemented-different-by-design`、1
+`implemented-equivalent`、3 `not-applicable`、669 `deferred-next-batch` です。
 Deferred record は予定された比較であり parity claim ではありません。
 capability/profile slice に `migrate-gap` は残っていません。
 
@@ -120,7 +122,7 @@ capability/profile slice に `migrate-gap` は残っていません。
 
 Governance entrypoint、getting-started route、CI/release boundary、capability/profile
 projection はこの baseline で review 済みです。上記 4 件は bounded な Rust-native counterpart として登録済みで、
-677 deferred semantic comparison は後続作業として残ります。
+669 deferred semantic comparison は後続作業として残ります。
 
 WI-274 は target checkout metadata と canonical comparison snapshot だけを、レビュー済み
 default branch commit に再バインドします。WI-273 は immutable な failed-delivery record として
@@ -205,8 +207,8 @@ adopter/external boundary を記録しました。
 | `Makefile` | implemented-different-by-design | Rust CLI、Cargo、明示的な CI/release script が Python Make orchestration を置き換え、request-scoped `--repo` を保ちます。 |
 
 WI-302/WI-304 batch に `migrate-gap` はありません。Ledger は 4,262
-`generated-history`、176 `implemented-different-by-design`、1 `implemented-equivalent`、
-3 `not-applicable`、677 `deferred-next-batch` です。2 workflow record は
+`generated-history`、182 `implemented-different-by-design`、1 `implemented-equivalent`、
+3 `not-applicable`、669 `deferred-next-batch` です。2 workflow record は
 Rust-native の意図した別実装 boundary として close しましたが、source の Python installer
 や multi-stack matrix が Rust Runtime 内で実行されるとは主張しません。
 
