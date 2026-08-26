@@ -6,8 +6,12 @@ description: "Consumed retry の履歴投影と parity、terminal finalization �
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-296-governance-closure-recovery
+terminalArchive: .ai/work-items/archive/WI-296-governance-closure-recovery.contract.json
+terminalVerification: .ai/evidence/WI-296-governance-closure-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-296-governance-closure-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-296-governance-closure-recovery.close.json
 authority: canonical
 ---
 
