@@ -36,7 +36,7 @@
     "nonRiskExplanations": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-305-reference-file-comparison-batch-03.summary.json"
+          ".ai/work-items/archive/WI-305-reference-file-comparison-batch-03.summary.json"
         ],
         "inference": false,
         "text": "No repository paths were observed as changed by the current Summary."
@@ -74,7 +74,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-305-reference-file-comparison-batch-03.contract.json"
+          ".ai/work-items/archive/WI-305-reference-file-comparison-batch-03.contract.json"
         ],
         "inference": false,
         "text": "在不复制参考源 Python/Make/交互向导实现的前提下，完成四个参考文件的语义结论、目标 counterpart 或明确 reference-only 边界，并更新逐文件清单和面向采用者的安装路线。"
@@ -83,7 +83,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-305-reference-file-comparison-batch-03.contract.json"
+          ".ai/work-items/archive/WI-305-reference-file-comparison-batch-03.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
