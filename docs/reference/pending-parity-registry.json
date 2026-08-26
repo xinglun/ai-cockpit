@@ -28,7 +28,7 @@
         "number": 266,
         "url": "https://github.com/xinglun/ai-cockpit/pull/266"
       },
-      "registryBaseRevision": "5958ea2af5f71d6d1fd46a1d86224c6f07f05fd7",
+      "registryBaseRevision": "156daf528553f82bb32045ab7c4e3b68c77e756b",
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
       "state": "in_progress",
       "workItemId": "WI-304-reference-file-comparison-batch-02"
