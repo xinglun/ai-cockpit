@@ -1,0 +1,129 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-296-governance-closure-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f563bbc32e2f382e99d3b83f3d1a81db796b2fb4673e80b5425375dd230eec7c",
+      "workItemId": "WI-296-governance-closure-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-296-governance-closure-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-296-governance-closure-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-296-governance-closure-recovery.verification.json",
+            ".ai/decisions/WI-296-governance-closure-recovery.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-26T03:30:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-296-governance-closure-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-296-governance-closure-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-296-governance-closure-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-296-governance-closure-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-296-governance-closure-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Keep consumed retry evidence historical after close while accepting valid direct terminal finalization receipts and maintaining strict parity and fail-closed checks."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-296-governance-closure-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-296-governance-closure-recovery"
+  },
+  "finalReportDigest": "sha256:82150bf6eca2a3f6a4a0963bd3755d75e81b3d79cb76e44f35f8aacf94ab45ff",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:79a408d44bbb8504328abec283a8d6ed3986f427f5ca716e3bfe8c4f8db6ce1b",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-296-governance-closure-recovery.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-26T03:30:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-296-governance-closure-recovery.verification.json",
+      ".ai/decisions/WI-296-governance-closure-recovery.finalize.json"
+    ],
+    "policyRefs": [],
+    "reason": "已核对 PR #256 的托管检查与合并结果，并确认精确分支和工作树已清理。",
+    "resumeCondition": "none; terminal closure"
+  },
+  "timestamp": "2026-08-26T03:18:41Z",
+  "workItemId": "WI-296-governance-closure-recovery"
+}
