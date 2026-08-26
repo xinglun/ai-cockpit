@@ -1,0 +1,28 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.contract.json",
+    ".ai/work-items/active/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.summary.json"
+  ],
+  "checkpointAt": "2026-08-26T23:44:28Z",
+  "checkpointContractDigest": "sha256:acce06993ac89f421ea2cd867ecb48869bb5cb8c9051139322c29ca70c428031",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:92e3286cd66f389d82778854c2fa960eadf8bbc401bd0404cad5561d21127799",
+  "createdAt": "2026-08-26T23:40:48Z",
+  "mode": "docs",
+  "preflightAt": "2026-08-26T23:48:42Z",
+  "preflightContractDigest": "sha256:acce06993ac89f421ea2cd867ecb48869bb5cb8c9051139322c29ca70c428031",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:92e3286cd66f389d82778854c2fa960eadf8bbc401bd0404cad5561d21127799",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-26T23:48:46Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-312-reference-inventory-doc-consistency-parity-recovery-successor"
+}

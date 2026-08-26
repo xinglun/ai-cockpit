@@ -22,19 +22,22 @@
     "rewriting WI-311 or any historical evidence/archive bytes",
     "new governance semantics or unrelated reference-file batches"
   ],
+  "predecessorContractDigest": "sha256:59925202b5e2dce0d42de5249125b80f5da4cca283f34065b09853e49430dd53",
+  "predecessorWorkItemId": "WI-311-reference-inventory-doc-consistency-parity-recovery",
   "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
   "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-311-reference-inventory-doc-consistency-parity-recovery.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:d1202eb389268d283bf40f324ba94c5dd3dfbf7e5fed953baceceff097a5e0db",
   "requiredEvidenceClasses": [
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-312-reference-inventory-doc-consistency-runtime-retry",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/275",
     "worktree": "/private/tmp/ai-cockpit-wi312-reference-inventory-doc-consistency-runtime-retry"
   },
   "risk": "low",
@@ -62,8 +65,5 @@
   "verification": [
     "cargo test --locked --workspace"
   ],
-  "workItemId": "WI-312-reference-inventory-doc-consistency-parity-recovery-successor",
-  "predecessorWorkItemId": "WI-311-reference-inventory-doc-consistency-parity-recovery",
-  "predecessorContractDigest": "sha256:59925202b5e2dce0d42de5249125b80f5da4cca283f34065b09853e49430dd53",
-  "recoveryDecisionPath": ".ai/decisions/WI-311-reference-inventory-doc-consistency-parity-recovery.recovery.json"
+  "workItemId": "WI-312-reference-inventory-doc-consistency-parity-recovery-successor"
 }
