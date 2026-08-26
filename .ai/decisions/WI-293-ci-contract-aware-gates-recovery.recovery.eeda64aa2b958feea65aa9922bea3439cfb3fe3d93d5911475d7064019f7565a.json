@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "human-explicit",
+  "decidedAt": "2026-08-26T00:24:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-293-ci-contract-aware-gates-recovery.verification.json",
+    ".ai/decisions/WI-293-ci-contract-aware-gates-recovery.recovery.json"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:1584d93dd6f48d23bc45632846fc46367ea71f7f553c68783ce2e47b40938e84",
+  "predecessorEventsDigest": "sha256:b89487014d47ce76f266d3b8b6d6c11ce629bd6fc0416594b1460e3919108635",
+  "predecessorOutcomeDigest": "sha256:009ff68317a8bded0eda73b629a9c10173ff246509a3fa29641a4bc70676596b",
+  "predecessorSummaryDigest": "sha256:e1a97eed5967f76b3a88fed1e17706064dfb5eb9b05268ac5a1482fb273e6962",
+  "predecessorWorkItemId": "WI-293-ci-contract-aware-gates-recovery",
+  "reason": "The merged CI gate delivery exposed a lifecycle recovery gap: a failed finish must be retryable without hand-editing generated Outcome/Summary records or opening an unrelated successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Implement and verify an identity-bound retry transition that restores only the legal lifecycle state; keep predecessor bytes immutable and close both records with hosted evidence.",
+  "runtimeDigest": "sha256:9cd9d9b4c97c5a11b73190793ca06090dde51d0b6140e4edbe884dd3f628d821",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-294-lifecycle-recovery-state-machine",
+  "workItemId": "WI-293-ci-contract-aware-gates-recovery"
+}
