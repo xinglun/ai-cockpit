@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "5ec0cf29c93070dac88de799d48479d5726a58c3",
+    "name": "codex/wi-300-release-v0-2-33",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:9410ad10a344e052b6da27f89cb3cdec18e58b335e48ea9cb1e32d1a8298de21",
+  "operationId": "github-pr-262-merge-cleanup-20260826",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "3875e01f66249fd6f45050cbae043cd412743039",
+    "headRevision": "5ec0cf29c93070dac88de799d48479d5726a58c3",
+    "mergeCommit": "c20b061766bb1f58a6ba0bf3984c240ebf0696bc",
+    "number": 262,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/262"
+  },
+  "reason": "PR #262 passed all hosted checks and was merged; the exact feature branch and worktree were removed and verified.",
+  "receiptId": "github-pr-262-finalization-20260826",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-300-release-v0-2-33",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/262",
+    "worktree": "/private/tmp/ai-cockpit-release-v0-2-33"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:82ae92817ab281b7046736a8f7b47ef934fc09091e182adf660f752fb7c6c40a",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-26T06:28:00Z",
+  "workItemId": "WI-300-release-v0-2-33",
+  "worktree": {
+    "branch": "codex/wi-300-release-v0-2-33",
+    "headRevision": "5ec0cf29c93070dac88de799d48479d5726a58c3",
+    "path": "/private/tmp/ai-cockpit-release-v0-2-33",
+    "worktreeId": "wi-300-release-v0-2-33"
+  }
+}
