@@ -1,0 +1,150 @@
+{
+  "acceptanceResults": [
+    "Predecessor WI-297 archive and recovery bytes remain immutable.",
+    "Exact PR #258 resources are bound before successor verification and archive.",
+    "Installed Runtime verification evidence is valid and visibly delivered.",
+    "Hosted checks pass and exact branch/worktree cleanup is verified before close."
+  ],
+  "createdAt": "2026-08-26T04:12:54Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:dde58f656d010f32a3b79c309f01ea728d824eca59194ca56a2b4a5e148027ee",
+  "evidenceRefs": [
+    ".ai/evidence/WI-298-release-v0-2-32-finalization-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-298-release-v0-2-32-finalization-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-298-release-v0-2-32-finalization-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:877a430252c67b9062a8a6f2c22d841da13b2048a2a96289b3f67807f8d2bc01",
+      "workItemId": "WI-298-release-v0-2-32-finalization-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-298-release-v0-2-32-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-297-release-v0-2-32.recovery.9ef8b4589933bbb5792a0335c1a56ba7e974446d1cf1f1a6f12427dc55605ed2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-298-release-v0-2-32-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-298-release-v0-2-32-finalization-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-298-release-v0-2-32-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-298-release-v0-2-32-finalization-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-298-release-v0-2-32-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-298-release-v0-2-32-finalization-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-298-release-v0-2-32-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-298-release-v0-2-32-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-298-release-v0-2-32-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-298-release-v0-2-32-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Complete a reviewed, auditable finalize-plan to finalize-verify and structured close chain before publishing v0.2.32."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-298-release-v0-2-32-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-298-release-v0-2-32-finalization-recovery"
+  },
+  "taskReportDigest": "sha256:e10adbf2bfdfc509aa82157f24068104aa9641b6adcc2d0400586d9737a4d742",
+  "taskReportMarkdownDigest": "sha256:71517f6694dffd6a228250c07aa316a2a4299fc50239507d3b31881af078d00b",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-298-release-v0-2-32-finalization-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-298-release-v0-2-32-finalization-recovery"
+}
