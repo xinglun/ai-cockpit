@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-26T21:39:30Z",
+  "files": {
+    "approachDigest": "sha256:7a2ffbe5a68a9156e5b07327af98d3e049bd584abc997c7b73705f775443c162",
+    "approachPath": ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.approach.json",
+    "contractDigest": "sha256:b4a606eff05b1216d2e2f4c48257bd16be897c17da64ee0dd3b71c561d0713fc",
+    "contractPath": ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.contract.json",
+    "eventsDigest": "sha256:85f813ffd6fc90b558942672f542866e8fdfe4a9cc311562d14c28abf8513d0b",
+    "eventsPath": ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.events.jsonl",
+    "outcomeDigest": "sha256:ad11aae3e33253baef8d8c192dc8f6e37d0062c64eb78a7006f29a860bc089f8",
+    "outcomePath": ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.outcome.json",
+    "summaryDigest": "sha256:251215897beb0ed46629c282d72de718e3564bf9d81b274ad9eec4df6ecdf151",
+    "summaryPath": ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json",
+    "taskReportDigest": "sha256:eceec75a59b172a4a09e236c715e4219be64e2358f8d5e1f4f9bd83c8c2700d0",
+    "taskReportMarkdownDigest": "sha256:0a24a2357e7bee4a9b654a9ca7bc8a8cbd00c2b9483f683acf25e642420251d7",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-308-reference-file-comparison-batch-04-retry"
+}

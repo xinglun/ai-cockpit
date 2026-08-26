@@ -45,119 +45,119 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-308-reference-file-comparison-batch-04-retry.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/reference-file-comparison.ja.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/reference-file-comparison.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/reference-file-comparison.zh-CN.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/reference-parity.ja.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/reference-parity.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/security/adversarial-validation.ja.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/security/adversarial-validation.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/security/adversarial-validation.zh-CN.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/work-items/WI-308-reference-file-comparison-batch-04-retry.ja.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/work-items/WI-308-reference-file-comparison-batch-04-retry.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/work-items/WI-308-reference-file-comparison-batch-04-retry.zh-CN.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
           ],
           "inference": false,
           "text": "Changed path: tests/conformance/reference_file_inventory.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
           ],
           "inference": false,
           "text": "Changed path: tests/conformance/reference_file_inventory.py"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
           ],
           "inference": false,
           "text": "Changed path: tests/conformance/reference_file_inventory_test.sh"
@@ -216,7 +216,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-308-reference-file-comparison-batch-04-retry.contract.json"
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.contract.json"
           ],
           "inference": false,
           "text": "把参考源四个文件的职责、事实、边界与迁移证据完整投影到 Rust 工程的三语文档、inventory、regression 与 parity ledger，明确 GIF reference-only、回滚腐化对抗性验证、Evidence Governance、Trust Layer，且不复制参考源实现。"
@@ -225,7 +225,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-308-reference-file-comparison-batch-04-retry.contract.json"
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -235,8 +235,8 @@
     "status": "verified",
     "workItemId": "WI-308-reference-file-comparison-batch-04-retry"
   },
-  "taskReportDigest": "sha256:d49b013821bf3c7c51a74a66100943efd07d67596dda81df5ca302150584a824",
-  "taskReportMarkdownDigest": "sha256:39f35725b8ae95d885e3e7a3a0f4098fc7840af133586891434948d799b97b09",
+  "taskReportDigest": "sha256:eceec75a59b172a4a09e236c715e4219be64e2358f8d5e1f4f9bd83c8c2700d0",
+  "taskReportMarkdownDigest": "sha256:0a24a2357e7bee4a9b654a9ca7bc8a8cbd00c2b9483f683acf25e642420251d7",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

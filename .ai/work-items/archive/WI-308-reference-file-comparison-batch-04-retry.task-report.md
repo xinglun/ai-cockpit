@@ -14,8 +14,8 @@
 
 ## Delivered changes
 
-- Changed path: .ai/work-items/active/WI-308-reference-file-comparison-batch-04-retry.contract.json
-- Changed path: .ai/work-items/active/WI-308-reference-file-comparison-batch-04-retry.summary.json
+- Changed path: .ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.contract.json
+- Changed path: .ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json
 - Changed path: docs/reference/reference-file-comparison.ja.md
 - Changed path: docs/reference/reference-file-comparison.md
 - Changed path: docs/reference/reference-file-comparison.zh-CN.md
