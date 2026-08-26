@@ -1,0 +1,201 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-303-reference-file-comparison-parity-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:19df3a861a2cae390af96d9235b3948b3efbab74843e8e7a67138566760dfc64",
+      "workItemId": "WI-303-reference-file-comparison-parity-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-303-reference-file-comparison-parity-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-302-reference-file-comparison-batch-01.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-303-reference-file-comparison-parity-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-303-reference-file-comparison-parity-recovery.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-303-reference-file-comparison-parity-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-303-reference-file-comparison-parity-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-303-reference-file-comparison-parity-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-303-reference-file-comparison-parity-recovery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-303-reference-file-comparison-parity-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/pending-parity-registry.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-303-reference-file-comparison-parity-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-303-reference-file-comparison-parity-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-303-reference-file-comparison-parity-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-303-reference-file-comparison-parity-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-303-reference-file-comparison-parity-recovery.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-303-reference-file-comparison-parity-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-303-reference-file-comparison-parity-recovery.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-303-reference-file-comparison-parity-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-303-reference-file-comparison-parity-recovery.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-303-reference-file-comparison-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-303-reference-file-comparison-parity-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-303-reference-file-comparison-parity-recovery.verification.json",
+            ".ai/decisions/WI-303-reference-file-comparison-parity-recovery.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-26T10:46:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-303-reference-file-comparison-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-303-reference-file-comparison-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-303-reference-file-comparison-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-303-reference-file-comparison-parity-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Recover the merged WI-302 parity registration without rewriting immutable history, and establish a truthful three-language parity projection for this recovery Work Item."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-303-reference-file-comparison-parity-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-303-reference-file-comparison-parity-recovery"
+  },
+  "finalReportDigest": "sha256:7bdd20eeeb719cfca266c0ae9cb782ff9d4799e4f001cb3186bf2578d6aa2997",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:dcab682a563a4578330737ad701e2d7c7ad7f9bf6b648ffb8c4e2886e742ecd6",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-303-reference-file-comparison-parity-recovery.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-26T10:46:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-303-reference-file-comparison-parity-recovery.verification.json",
+      ".ai/decisions/WI-303-reference-file-comparison-parity-recovery.finalize.json"
+    ],
+    "policyRefs": [
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "The reviewed PR passed hosted checks, merged into main, and exact branch/worktree cleanup was verified by the Runtime.",
+    "resumeCondition": "No resume condition; the recovery parity projection is complete and any later comparison remains a separate bounded batch."
+  },
+  "timestamp": "2026-08-26T10:43:20Z",
+  "workItemId": "WI-303-reference-file-comparison-parity-recovery"
+}
