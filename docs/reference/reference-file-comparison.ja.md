@@ -239,3 +239,45 @@ parity ではありません。target shell script には現在 syntax validatio
 target script の ShellCheck gate は、存在しない target installer を検査する source gate と
 異なるため、別の CI hygiene decision とします。本 batch は source Python module、Make
 target、installer、multi-stack fixture を copy しません。
+
+## WI-305 — architecture、installation、verification の file-level batch
+
+WI-305 は pinned commit の次の 4 つの deferred reference file を一つずつ比較します。
+read-only installation detector、任意の 10 段階 Interactive Installer Wizard、stage-aware
+lightweight verification、Wizard の input/localization primitive を対象にします。Python
+adapter の byte を copy するのではなく、Rust Runtime、adopter の external boundary、または
+reference-only を各 file ごとに記録します。
+
+| Reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/architecture/installation-detection-boundary.md` | implemented-different-by-design | `inspect`、`status`、`doctor`、`attach`、`profile propose`、first-calibration 文書と CLI attach/profile test が read-only facts と明示的な write boundary を提供します。immutable Release install と repository onboarding は分離されます。 |
+| `docs/architecture/interactive-installation-wizard.md` | reference-only | source の 10-stage wizard、dry-run Installer preview、confirmation UI は Rust Runtime の feature ではありません。target の adopter route は public Release verify の後に `inspect` → `attach` → profile review/confirm → `doctor` を明示的に行います。Agent adapter は conversation UI を持てますが approval を作れません。 |
+| `docs/architecture/lightweight-verification-and-soft-gates.md` | implemented-different-by-design | typed stage、policy-driven tier、fail-closed governance decision、明示的な skipped/unknown、request-scoped context、dynamic `light`/`standard`/`strict` route、advisory cost/reuse telemetry を verification route、CI gate、cost test がカバーします。source の `hard`/`soft`/`informational` checker label は generic wire enum として copy せず、documented boundary として明示します。Make/Python checker orchestration も copy しません。 |
+| `docs/architecture/wizard-io-and-localization.md` | implemented-different-by-design | CLI/MCP の human Outcome と command presentation は `en`/`zh-CN`/`ja` を localize し、Contract value をそのまま保持し、明示的 command/preflight boundary で fail closed します。target に Interactive Installer Wizard はないため Wizard 専用 TTY back/pause/help は Runtime feature ではなく、conversation control は adapter が所有します。 |
+
+### File-level findings と migration boundary
+
+source detector の `new_adoption`/`upgrade` は、target では Release install と repository-local
+attach/profile decision の分離に対応します。target inspection は read-only、`attach` と
+profile confirmation は明示的な repository write です。prose や検出した stack から authority
+を推論しません。active Work Item、dirty state、conflict、symlink risk、missing facts は stop
+または review の理由であり、推測の理由ではありません。
+
+source Interactive Wizard は Python Installer の convenience layer であり、Installer を Rust
+repository に持ち込む要件ではありません。10 stages、dry-run、cancel、rollback boundary、
+commit/push/PR/merge をしない約束は target installation route の adopter boundary として明示
+します。target は第二の transaction authority や Contract/preflight/human decision を迂回する
+prompt を提供しません。
+
+source soft-gate の `hard`、`soft`、`informational` は target の generic wire enum として copy
+せず、fail-closed governance decision と明示的な advisory observation の boundary に対応します。
+stage に適用しない check も理由付きで明示され、trend/cost observation は advisory のままです。
+`pre_ci` は hosted CI evidence ではありません。tier と assurance は policy に bind され、
+execution speed から推論されません。adopter repository でも shared Runtime、明示的な `--repo`、
+provider/enterprise の delegated evidence という境界を保持します。
+
+Localization は presentation のみを対象にします。Runtime が生成する heading、status、unknown、
+recovery、next action は設定言語にできますが、path、command、Contract intent、acceptance
+criteria、machine evidence は authored value のままです。一般翻訳や source-compatible Wizard UI
+を提供するという主張ではありません。この slice に `migrate-gap` はなく、Interactive Wizard は
+未記録の omission ではなく明示された reference-only boundary です。

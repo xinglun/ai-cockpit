@@ -17,6 +17,10 @@ test "$(jq '[.records[] | select(.batch == "WI-302-reference-file-comparison-bat
 test "$(jq '[.records[] | select(.batch == "WI-302-reference-file-comparison-batch-01" and .classification == "deferred-next-batch")] | length' "$manifest")" -eq 0
 test "$(jq '[.records[] | select(.batch == "WI-304-reference-file-comparison-batch-02")] | length' "$manifest")" -eq 2
 test "$(jq '[.records[] | select(.batch == "WI-304-reference-file-comparison-batch-02" and .classification == "implemented-different-by-design" and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$manifest")" -eq 2
+test "$(jq '[.records[] | select(.batch == "WI-305-reference-file-comparison-batch-03")] | length' "$manifest")" -eq 4
+test "$(jq '[.records[] | select(.batch == "WI-305-reference-file-comparison-batch-03" and (.classification == "implemented-different-by-design" or .classification == "reference-only") and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$manifest")" -eq 4
+test "$(jq -r '.records[] | select(.referencePath == "docs/architecture/interactive-installation-wizard.md") | .classification' "$manifest")" = "reference-only"
+test "$(jq '[.records[] | select(.batch == "WI-305-reference-file-comparison-batch-03" and .classification == "deferred-next-batch")] | length' "$manifest")" -eq 0
 test "$(jq -r '.records[] | select(.referencePath == ".ai/cockpit/bandit_low_risk_baseline.json") | .classification' "$manifest")" = "not-applicable"
 test "$(jq -r '.records[] | select(.referencePath == ".github/workflows/release.yml") | .classification' "$manifest")" = "implemented-different-by-design"
 test "$(jq -r '.records[] | select(.referencePath == "Makefile") | .classification' "$manifest")" = "implemented-different-by-design"

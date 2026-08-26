@@ -29415,7 +29415,7 @@
     },
     {
       "referencePath": ".github/workflows/release.yml",
-    "batch": "WI-302-reference-file-comparison-batch-01",
+      "batch": "WI-302-reference-file-comparison-batch-01",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
         ".github/workflows/release.yml",
@@ -29424,7 +29424,7 @@
         "tests/release/adopter_acceptance.sh",
         "tests/release/adopter_upgrade_acceptance.sh"
       ],
-    "reason": "The Rust release workflow preserves the source publication responsibility through target-specific archives, checksums, SBOM/provenance, Homebrew/Linux/Windows smoke, and public/N-1 adopter acceptance. Cargo and Rust Runtime gates replace Python/Make steps; byte-level workflow parity is not claimed."
+      "reason": "The Rust release workflow preserves the source publication responsibility through target-specific archives, checksums, SBOM/provenance, Homebrew/Linux/Windows smoke, and public/N-1 adopter acceptance. Cargo and Rust Runtime gates replace Python/Make steps; byte-level workflow parity is not claimed."
     },
     {
       "referencePath": ".github/workflows/smoke.yml",
@@ -29604,31 +29604,57 @@
     },
     {
       "referencePath": "docs/architecture/installation-detection-boundary.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-305-reference-file-comparison-batch-03",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/installation.md",
+        "docs/getting-started/first-calibration.md",
+        "docs/getting-started/adopter-configuration.md",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/tests/attach.rs",
+        "crates/cockpit-cli/tests/profile_propose.rs"
+      ],
+      "reason": "The target exposes the same read-only-first facts and explicit write boundary through inspect, status, doctor, attach, profile propose, and calibration. It intentionally has no source-local Installer or implicit installation plan: the shared Runtime is installed from an immutable Release, while repository attachment and profile decisions remain explicit."
     },
     {
       "referencePath": "docs/architecture/interactive-installation-wizard.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-305-reference-file-comparison-batch-03",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/getting-started/installation.md",
+        "docs/getting-started/adopter-configuration.md",
+        "docs/architecture/product-boundary.md"
+      ],
+      "reason": "The source ten-stage interactive Installer Wizard is retained as reference architecture only. Rust deliberately does not ship a second interactive installer: public Release installation, explicit inspect/attach/profile commands, preflight human review, and provider-owned installation boundaries are the supported adopter flow."
     },
     {
       "referencePath": "docs/architecture/lightweight-verification-and-soft-gates.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-305-reference-file-comparison-batch-03",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/verification-route.md",
+        "docs/reference/verification-semantics.md",
+        "docs/reference/ci-quality-gates.md",
+        "docs/reference/verification-cost.md",
+        "crates/cockpit-verification/src/lib.rs",
+        "crates/cockpit-repository/tests/verification_route.rs",
+        "crates/cockpit-verification/tests/cost_observation.rs"
+      ],
+      "reason": "Rust preserves stage-aware verification, fail-closed governance decisions, explicit skipped or unknown boundaries, one request-scoped context, dynamic light/standard/strict CI routing, and advisory cost/reuse telemetry through typed Runtime services. The source hard/soft/informational checker labels are represented as a documented boundary rather than copied as a generic wire enum; the source Make command and Python checker registry are not copied."
     },
     {
       "referencePath": "docs/architecture/wizard-io-and-localization.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-305-reference-file-comparison-batch-03",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/installation.md",
+        "docs/reference/outcome-report.md",
+        "docs/reference/commands.md",
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-cli/tests/outcome_handoff.rs",
+        "crates/cockpit-mcp/tests/rpc.rs"
+      ],
+      "reason": "The target localizes Runtime-generated CLI/MCP Outcome and command presentation in en/zh-CN/ja, preserves contract/source values verbatim, and fails closed at explicit command and preflight boundaries. Source Wizard-specific TTY back/help/pause input is not a Runtime feature because the target has no interactive Installer Wizard; adapters remain responsible for conversation UX."
     },
     {
       "referencePath": "docs/archive/documentation-authority-boundary.md",
@@ -36095,10 +36121,13 @@
     },
     {
       "referencePath": "tests/test_release_workflow.py",
-    "batch": "WI-293-ci-contract-aware-gates-recovery",
+      "batch": "WI-293-ci-contract-aware-gates-recovery",
       "classification": "deferred-next-batch",
-      "rustCounterparts": ["tests/ci/quality_route_test.py", "tests/ci/repository_gate_manifest_test.py"],
-    "reason": "WI-293 adds Rust/Python Contract gate convergence checks; complete release workflow ordering and provider evidence remain deferred."
+      "rustCounterparts": [
+        "tests/ci/quality_route_test.py",
+        "tests/ci/repository_gate_manifest_test.py"
+      ],
+      "reason": "WI-293 adds Rust/Python Contract gate convergence checks; complete release workflow ordering and provider evidence remain deferred."
     },
     {
       "referencePath": "tests/test_required_evidence.py",
@@ -36406,10 +36435,13 @@
     },
     {
       "referencePath": "tests/test_workflows.py",
-    "batch": "WI-293-ci-contract-aware-gates-recovery",
+      "batch": "WI-293-ci-contract-aware-gates-recovery",
       "classification": "deferred-next-batch",
-      "rustCounterparts": ["tests/ci/quality_route_test.py", ".github/workflows/ci.yml"],
-    "reason": "WI-293 adds the Contract gate order and shadow boundary; full workflow graph, timeout, concurrency, and action policy parity remain deferred."
+      "rustCounterparts": [
+        "tests/ci/quality_route_test.py",
+        ".github/workflows/ci.yml"
+      ],
+      "reason": "WI-293 adds the Contract gate order and shadow boundary; full workflow graph, timeout, concurrency, and action policy parity remain deferred."
     }
   ]
 }

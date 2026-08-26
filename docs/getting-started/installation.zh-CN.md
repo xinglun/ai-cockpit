@@ -26,6 +26,11 @@ ai-cockpit --version
 安装本身不会创建 `.ai/`、选择工程质量命令、安装 Agent adapter、证明 hosted CI，
 也不会让 repository 自动达到生产可用状态。这些都是独立且需要审查的 repository 操作。
 
+这个 Rust Runtime 有意不提供参考模板的十阶段交互式 Installer Wizard。安装属于不可变
+Release 边界；repository onboarding 通过 `inspect`、`attach`、profile proposal/confirm
+和 `doctor` 显式执行，不会隐式发生。Provider 或 Agent adapter 可以提供自己的对话界面，
+但必须调用这些带 repository 绑定的操作；预览或提示本身不能变成批准。
+
 安装后按只读优先路线执行：
 
 ```bash

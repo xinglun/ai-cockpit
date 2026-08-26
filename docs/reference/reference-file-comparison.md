@@ -281,3 +281,54 @@ ShellCheck gate for target scripts is a separate CI-hygiene decision because
 the source gate specifically checks a non-existent target installer. No
 source Python module, Make target, installer, or multi-stack fixture is copied
 by this batch.
+
+## WI-305 architecture installation and verification slice
+
+WI-305 compares the next four deferred reference files individually at the
+pinned commit. They describe a read-only installation detector, an optional
+ten-stage interactive Installer Wizard, stage-aware lightweight verification,
+and Wizard input/localization primitives. The target is intentionally not a
+byte-compatible copy of those Python adapters. Each responsibility is mapped
+to the shared Rust Runtime, an explicit adopter boundary, or reference-only
+material below.
+
+| Reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/architecture/installation-detection-boundary.md` | implemented-different-by-design | `inspect`, `status`, `doctor`, `attach`, `profile propose`, first-calibration docs, and CLI attach/profile tests provide read-only facts and explicit write boundaries. Immutable Release installation is separate from repository onboarding. |
+| `docs/architecture/interactive-installation-wizard.md` | reference-only | The source ten-stage wizard, dry-run Installer preview, and confirmation UI are not a Rust Runtime feature. The supported target route is public Release verification followed by explicit `inspect` → `attach` → profile review/confirmation → `doctor`; an Agent adapter may supply conversation UX but cannot create approval. |
+| `docs/architecture/lightweight-verification-and-soft-gates.md` | implemented-different-by-design | Typed stages, policy-driven tiers, fail-closed governance decisions, skipped/unknown reasons, one request-scoped context, dynamic `light`/`standard`/`strict` routing, and advisory cost/reuse telemetry are covered by the verification route, CI gate, and cost-observation tests. The source `hard`/`soft`/`informational` checker labels are an explicit documented boundary, not a copied generic wire enum; source Make/Python checker orchestration is not copied. |
+| `docs/architecture/wizard-io-and-localization.md` | implemented-different-by-design | CLI/MCP human Outcome and command presentation localize `en`/`zh-CN`/`ja`, preserve contract values verbatim, and fail closed on explicit command/preflight boundaries. Wizard-specific TTY back/pause/help controls are not shipped because the target has no interactive Installer Wizard; adapters own conversation controls. |
+
+### File-level findings and migration boundary
+
+The source detector's `new_adoption`/`upgrade` distinction maps to the target's
+separate Release installation and repository-local attach/profile decisions.
+Target inspection is read-only; `attach` and profile confirmation are explicit
+repository writes, and no command infers authority from prose or a detected
+stack. Active Work Items, dirty state, conflicts, symlink risks, and missing
+facts remain reasons to stop or request review rather than reasons to guess.
+
+The source interactive wizard is a convenience layer around its Python
+Installer, not a requirement to copy an Installer into this Rust repository.
+Its ten steps, dry-run preview, cancellation, rollback boundary, and no-PR/no-
+merge promise are preserved as adopter-facing boundaries in the installation
+route. The target does not expose a second transaction authority or an
+interactive prompt that could bypass Contract/preflight/human-decision rules.
+
+The source soft-gate document's `hard`, `soft`, and `informational` distinction
+is not copied as a generic target wire enum. The target maps the same safety
+boundary to fail-closed governance decision states plus explicitly advisory
+observations; a stage-inapplicable check is explicit rather than omitted,
+trend/cost observations remain advisory, and `pre_ci` never becomes hosted CI
+evidence. The selected tier and assurance are policy-bound, not inferred from
+execution speed. The same rule applies in an adopter repository: the shared
+Runtime is external, `--repo` is explicit, and provider or enterprise controls
+remain delegated evidence.
+
+Localization is presentation-only. Runtime-generated headings, status,
+unknowns, recovery text, and next actions can follow the configured language;
+paths, commands, Contract intent, acceptance criteria, and machine evidence
+remain their authored values. This is not a claim that the Runtime provides
+general translation or a source-compatible Wizard UI. No `migrate-gap` was
+found in this slice; the interactive wizard itself remains an explicit
+reference-only boundary rather than an unrecorded omission.

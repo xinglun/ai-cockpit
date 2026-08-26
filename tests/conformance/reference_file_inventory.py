@@ -37,6 +37,7 @@ WI270_BATCH = "WI-270-reference-contract-batch"
 WI287_BATCH = "WI-287-reference-checkpoint-conformance"
 WI302_BATCH = "WI-302-reference-file-comparison-batch-01"
 WI304_BATCH = "WI-304-reference-file-comparison-batch-02"
+WI305_BATCH = "WI-305-reference-file-comparison-batch-03"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -98,6 +99,68 @@ WI287_REFERENCE_FILES: dict[str, tuple[list[str], str]] = {
             "crates/cockpit-repository/tests/lifecycle_order.rs",
         ],
         "Rust lifecycle and tamper regressions cover checkpoint ordering, immutable before_edit evidence, amendment lineage, resume freshness, and strict identity bindings; wire formats are intentionally not copied.",
+    ),
+}
+
+WI272_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "scripts/ai_check_agent_risk.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/governance_controls.rs",
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-repository/tests/contract_preflight.rs",
+            "crates/cockpit-repository/tests/preflight_review.rs",
+        ],
+        "The reference Python risk gate is mapped to typed Contract, preflight, checkpoint, scenario, and lifecycle validators in Rust; the Python module is intentionally not copied.",
+    ),
+    "templates/agents/AI_COCKPIT_RULES.md": (
+        "implemented-different-by-design",
+        [
+            "AGENTS.md",
+            ".ai/README.md",
+            "crates/cockpit-agent/src/lib.rs",
+            "docs/reference/agent-workflow.md",
+            "docs/reference/agent-workflow.zh-CN.md",
+            "docs/reference/agent-workflow.ja.md",
+        ],
+        "The reference Agent rules are projected into repository-local instructions and the generated Rust adapter; template prompt files and provider-global configuration are not copied.",
+    ),
+    "tests/test_ai_check_agent_risk.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-agent/tests/install.rs",
+            "crates/cockpit-repository/tests/contract_preflight.rs",
+            "crates/cockpit-repository/tests/preflight_review.rs",
+            "crates/cockpit-repository/tests/lifecycle_order.rs",
+            "crates/cockpit-cli/tests/lifecycle.rs",
+        ],
+        "Rust regression tests cover the typed Contract, human review, lifecycle ordering, and generated adapter boundaries represented by the reference Python test corpus.",
+    ),
+    "tests/test_outcome_lifecycle_rules.py": (
+        "implemented-different-by-design",
+        [
+            "AGENTS.md",
+            ".ai/README.md",
+            "crates/cockpit-agent/tests/install.rs",
+            "docs/reference/agent-workflow.md",
+            "docs/reference/agent-workflow.zh-CN.md",
+            "docs/reference/agent-workflow.ja.md",
+        ],
+        "Outcome terminality, direct human handoff, current-Work-Item repair, and narrow successor rules are enforced by Rust-native instructions and adapter regression tests rather than copied reference Python tests.",
+    ),
+}
+
+WI293_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "tests/test_release_workflow.py": (
+        "deferred-next-batch",
+        ["tests/ci/quality_route_test.py", "tests/ci/repository_gate_manifest_test.py"],
+        "WI-293 adds Rust/Python Contract gate convergence checks; complete release workflow ordering and provider evidence remain deferred.",
+    ),
+    "tests/test_workflows.py": (
+        "deferred-next-batch",
+        ["tests/ci/quality_route_test.py", ".github/workflows/ci.yml"],
+        "WI-293 adds the Contract gate order and shadow boundary; full workflow graph, timeout, concurrency, and action policy parity remain deferred.",
     ),
 }
 
@@ -169,6 +232,55 @@ WI304_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
             "docs/release/distribution.md",
         ],
         "WI-304 compares all source smoke jobs, dispatch inputs, needs edges, artifacts, release/measurement conditions, and installer checks. The Rust target deliberately splits those responsibilities across ci.yml, release.yml, the canonical gate manifest, and immutable public/N-1 adopter acceptance. Source Python project-test shards, install.sh/Make smoke, and source-specific latest-toolchain probes have no target equivalent and remain documented external/adopter boundaries; no byte-level workflow parity is claimed.",
+    ),
+}
+
+WI305_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "docs/architecture/installation-detection-boundary.md": (
+        "implemented-different-by-design",
+        [
+            "docs/getting-started/installation.md",
+            "docs/getting-started/first-calibration.md",
+            "docs/getting-started/adopter-configuration.md",
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-cli/tests/attach.rs",
+            "crates/cockpit-cli/tests/profile_propose.rs",
+        ],
+        "The target exposes the same read-only-first facts and explicit write boundary through inspect, status, doctor, attach, profile propose, and calibration. It intentionally has no source-local Installer or implicit installation plan: the shared Runtime is installed from an immutable Release, while repository attachment and profile decisions remain explicit.",
+    ),
+    "docs/architecture/interactive-installation-wizard.md": (
+        "reference-only",
+        [
+            "docs/getting-started/installation.md",
+            "docs/getting-started/adopter-configuration.md",
+            "docs/architecture/product-boundary.md",
+        ],
+        "The source ten-stage interactive Installer Wizard is retained as reference architecture only. Rust deliberately does not ship a second interactive installer: public Release installation, explicit inspect/attach/profile commands, preflight human review, and provider-owned installation boundaries are the supported adopter flow.",
+    ),
+    "docs/architecture/lightweight-verification-and-soft-gates.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/verification-route.md",
+            "docs/reference/verification-semantics.md",
+            "docs/reference/ci-quality-gates.md",
+            "docs/reference/verification-cost.md",
+            "crates/cockpit-verification/src/lib.rs",
+            "crates/cockpit-repository/tests/verification_route.rs",
+            "crates/cockpit-verification/tests/cost_observation.rs",
+        ],
+        "Rust preserves stage-aware verification, fail-closed governance decisions, explicit skipped or unknown boundaries, one request-scoped context, dynamic light/standard/strict CI routing, and advisory cost/reuse telemetry through typed Runtime services. The source hard/soft/informational checker labels are represented as a documented boundary rather than copied as a generic wire enum; the source Make command and Python checker registry are not copied.",
+    ),
+    "docs/architecture/wizard-io-and-localization.md": (
+        "implemented-different-by-design",
+        [
+            "docs/getting-started/installation.md",
+            "docs/reference/outcome-report.md",
+            "docs/reference/commands.md",
+            "crates/cockpit-cli/src/main.rs",
+            "crates/cockpit-cli/tests/outcome_handoff.rs",
+            "crates/cockpit-mcp/tests/rpc.rs",
+        ],
+        "The target localizes Runtime-generated CLI/MCP Outcome and command presentation in en/zh-CN/ja, preserves contract/source values verbatim, and fails closed at explicit command and preflight boundaries. Source Wizard-specific TTY back/help/pause input is not a Runtime feature because the target has no interactive Installer Wizard; adapters remain responsible for conversation UX.",
     ),
 }
 
@@ -471,6 +583,32 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 }
             )
             continue
+        wi272 = WI272_REFERENCE_FILES.get(path)
+        if wi272 is not None:
+            classification, counterparts, reason = wi272
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": "WI-272-reference-agent-rule-batch",
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
+        wi293 = WI293_REFERENCE_FILES.get(path)
+        if wi293 is not None:
+            classification, counterparts, reason = wi293
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": "WI-293-ci-contract-aware-gates-recovery",
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
         wi304 = WI304_REFERENCE_FILES.get(path)
         if wi304 is not None:
             classification, counterparts, reason = wi304
@@ -478,6 +616,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 {
                     "referencePath": path,
                     "batch": WI304_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
+        wi305 = WI305_REFERENCE_FILES.get(path)
+        if wi305 is not None:
+            classification, counterparts, reason = wi305
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI305_BATCH,
                     "classification": classification,
                     "rustCounterparts": counterparts,
                     "reason": reason,
