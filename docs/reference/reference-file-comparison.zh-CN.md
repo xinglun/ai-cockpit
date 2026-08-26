@@ -103,9 +103,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=182 implemented-equivalent=1 not-applicable=3 reference-only=2 deferred-next-batch=669 migrate-gap=0 -->
+
 在固定的 v0.2.33 比较基线上，台账共有 5,119 条记录：4,262 条
-`generated-history`、176 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、3 条 `not-applicable` 与 677 条
+`generated-history`、182 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、3 条 `not-applicable` 与 669 条
 `deferred-next-batch`。deferred 记录仍是待比较工作，不是 parity 声明。
 capability/profile slice 已没有 `migrate-gap`：
 
@@ -116,7 +118,7 @@ capability/profile slice 已没有 `migrate-gap`：
 4. `.ai/project_profile.yaml` 由 `.ai/project.json` 与严格 JSON `profile-policy.json` projection 表达。
 
 治理入口、getting-started 路线、CI/release 边界与 capability/profile projection 已按该基线审阅；
-以上四条是有界的 Rust-native counterpart，677 条 deferred 语义比较仍是后续工作。
+以上四条是有界的 Rust-native counterpart，669 条 deferred 语义比较仍是后续工作。
 
 WI-274 只将目标 checkout metadata 和 canonical comparison snapshot 重新绑定到已审阅的
 默认分支提交。WI-273 保持为不可变的失败交付记录：其首次提交无法证明 parity 登记先于
@@ -197,8 +199,8 @@ workflow，并记录 Rust-native 拆分与对象工程/外部 adopter 边界。
 | `Makefile` | 有意采用不同实现 | Rust CLI、Cargo 和显式 CI/release 脚本替代 Python Make 编排，并保持 request-scoped `--repo`。 |
 
 WI-302/WI-304 批次没有发现 `migrate-gap`。台账现在为：4,262 条
-`generated-history`、176 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、3 条 `not-applicable`、677 条 `deferred-next-batch`。
+`generated-history`、182 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、3 条 `not-applicable`、669 条 `deferred-next-batch`。
 两个 workflow 已作为 Rust-native 的有意差异边界关闭；这不表示参考源 Python installer
 或多技术栈矩阵会在 Rust Runtime 内运行。
 
