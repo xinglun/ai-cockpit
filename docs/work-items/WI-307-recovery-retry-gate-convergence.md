@@ -6,8 +6,12 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-307-recovery-retry-gate-convergence
-status: in progress
+status: implemented
 lastVerifiedBy: WI-307-recovery-retry-gate-convergence
+terminalArchive: .ai/work-items/archive/WI-307-recovery-retry-gate-convergence.contract.json
+terminalVerification: .ai/evidence/WI-307-recovery-retry-gate-convergence.verification.json
+terminalFinalization: .ai/decisions/WI-307-recovery-retry-gate-convergence.finalize.45784a2d6fa2092944e6e238cb7b05755f4f7a30aab55c317032d6b81207da36.json
+terminalDecision: .ai/decisions/WI-307-recovery-retry-gate-convergence.close.json
 authority: canonical
 ---
 
