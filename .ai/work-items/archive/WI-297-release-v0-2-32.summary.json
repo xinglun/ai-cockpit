@@ -3,7 +3,7 @@
   "checkpointAt": "2026-08-26T03:29:10Z",
   "checkpointCount": 1,
   "createdAt": "2026-08-26T03:25:14Z",
-  "failedGate": "finish.governance",
+  "failedGate": "finish.lifecycle",
   "intentAlignment": {
     "evidence": [
       ".ai/work-items/active/WI-297-release-v0-2-32.contract.json"
@@ -12,13 +12,14 @@
   },
   "mode": "implementation",
   "outcomeState": "blocked",
-  "preflightAt": "2026-08-26T03:33:00Z",
+  "preflightAt": "2026-08-26T03:46:19Z",
   "preflightContractDigest": "sha256:243a7dca65ddfb4b545c2d7ae491501f84f081b413ebbaaea1a1d17fb1dc960b",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:a0450d34c7310576a58ab00cd3d3d5b01940a22abf68308fc1a00e23cc8b5f88",
+  "preflightRepositorySnapshotDigest": "sha256:99c5f3a92ca80c5af7aac3772d6662559d98e4102a1fce92cdb715d850fb5504",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+  "recoveryRetryPending": true,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -52,6 +53,6 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-08-26T03:35:13Z",
+  "updatedAt": "2026-08-26T03:47:17Z",
   "workItemId": "WI-297-release-v0-2-32"
 }

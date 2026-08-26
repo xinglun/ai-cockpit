@@ -6,9 +6,9 @@
     "Documentation acceptance, version consistency, release policy, and strict repository gates pass.",
     "The published v0.2.32 artifacts are checked by immutable public-release adopter acceptance after publication."
   ],
-  "createdAt": "2026-08-26T03:35:13Z",
+  "createdAt": "2026-08-26T03:47:17Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:832f113bbecbb0acfeb837a9309e9f92e07dd2dd1bde34f6fa05c35e67bd540e",
+  "evidenceDigest": "sha256:cada2b4079ce51c0715d698da449f615b50912515cbf3c943930e00df73a76c9",
   "evidenceRefs": [
     ".ai/evidence/WI-297-release-v0-2-32.verification.json"
   ],
@@ -34,7 +34,7 @@
         ".ai/evidence/WI-297-release-v0-2-32.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:a0450d34c7310576a58ab00cd3d3d5b01940a22abf68308fc1a00e23cc8b5f88",
+      "repositorySnapshotDigest": "sha256:99c5f3a92ca80c5af7aac3772d6662559d98e4102a1fce92cdb715d850fb5504",
       "workItemId": "WI-297-release-v0-2-32"
     },
     "format": "ai-cockpit.task-outcome",
@@ -66,7 +66,7 @@
       "nonRiskExplanations": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-297-release-v0-2-32.summary.json"
+            ".ai/work-items/archive/WI-297-release-v0-2-32.summary.json"
           ],
           "inference": false,
           "text": "No repository paths were observed as changed by the current Summary."
@@ -104,7 +104,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-297-release-v0-2-32.contract.json"
+            ".ai/work-items/archive/WI-297-release-v0-2-32.contract.json"
           ],
           "inference": false,
           "text": "Prepare and publish ai-cockpit v0.2.32 with synchronized version metadata, reader-facing documentation, strict release gates, and public artifact acceptance."
@@ -113,7 +113,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-297-release-v0-2-32.contract.json"
+            ".ai/work-items/archive/WI-297-release-v0-2-32.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -123,7 +123,7 @@
     "status": "verified",
     "workItemId": "WI-297-release-v0-2-32"
   },
-  "taskReportDigest": "sha256:82981139e9cce39fbc5a9244a563e9f21e829f0195b129156997e697f7f0d454",
+  "taskReportDigest": "sha256:f1ef74aea7a1e4e469d9e48881d3961840f7e37105683da1572129b30621d43e",
   "taskReportMarkdownDigest": "sha256:3a61e444b37fddabd096ea555260af1ed9bf4e5975a6b6c922c8c3a96d540c57",
   "unknowns": [
     "user_visible_benefit_not_declared"
