@@ -176,6 +176,20 @@ binding を再確認します。malformed、foreign、stale、tampered、ambiguo
 の immutable bytes と historical projection は保持され、この current-read rule が遡及的に
 書き換えたり再分類したりすることはありません。
 
+`retry` は明示的な lifecycle transition であり、green の宣言ではありません。失敗した
+gate が active item を `finish_ready` に残した場合、Runtime は現在の Summary だけを合法な
+`checkpointed` retry point に戻し、一時的な失敗 projection を消去します。blocked Outcome
+と predecessor digest は append-only recovery receipt が参照し続け、新しい current Outcome
+には fresh な `verify` と `finish` が必要です。それ以外の lifecycle state からの retry は
+拒否されます。superseded manifest はコピーされた report digest を直接 bind するため、
+生成された task-report digest を埋める目的で歴史的 Outcome bytes を書き換えません。
+
+`finish.lifecycle` failure の後に人が認可した retry を行う場合、Runtime は明示的な
+`recoveryRetryPending` marker を設定できます。この marker は記録済み recovery receipt
+に対する fresh な verification を一度だけ許可するもので、green の preflight を合成しません。
+置換 report と event binding が成功した後にだけ `finish` が marker を消去するため、途中までの
+retry は可視のまま recovery できます。
+
 Merge は Work Item の close ではありません。hosted check が通った後、正確な
 branch と worktree は別の resource-finalization 境界で処理します。
 

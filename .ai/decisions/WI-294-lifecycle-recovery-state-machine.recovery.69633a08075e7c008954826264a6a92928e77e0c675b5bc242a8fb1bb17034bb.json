@@ -1,0 +1,23 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "human-explicit",
+  "decidedAt": "2026-08-26T01:10:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-294-lifecycle-recovery-state-machine.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:71d1882dc53ea514b813d6da406fa6ce6e7d9caec3d1d440d5c168826feb889f",
+  "predecessorEventsDigest": "sha256:1e2eb5c60f58fefd557e5b72b7f577a89e5ef6d53decf9404ed772deb0c8f23f",
+  "predecessorOutcomeDigest": "sha256:9e24e46c57e05a51db4dec85be610b8fdd6f5e777e10541c24a4d743a65fbc6e",
+  "predecessorSummaryDigest": "sha256:5acfdce325726d8657d48a5e92589970d2c4f20e5f3b5efd7f6bf387330cf18c",
+  "predecessorWorkItemId": "WI-294-lifecycle-recovery-state-machine",
+  "reason": "Retry WI-294 after the Contract scope was reconciled with the governance tests; preserve failed evidence and re-enter the legal checkpointed state.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification with the amended Contract, then complete hosted review and closure.",
+  "runtimeDigest": "sha256:1db1fe02ea977efb674935b32877837ad5e880b3e32d41341c378210ffdf4978",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "workItemId": "WI-294-lifecycle-recovery-state-machine"
+}

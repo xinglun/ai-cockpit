@@ -133,6 +133,11 @@ and names the failed gate and deterministic recovery condition. A later valid
 retry appends a completion event; it does not rewrite the earlier blocked event.
 Malformed, foreign, symlinked, or unknown event records fail closed.
 
+When a retry follows a failed `finish` projection, Runtime restores the active
+Summary to `checkpointed` through the identity-bound recovery receipt. It does
+not make the blocked Outcome green; `verify` and `finish` must produce a fresh
+current Outcome before archive or close.
+
 `finish` writes `<id>.events.jsonl` beside the active outcome. The stream is
 append-only and rejects malformed, foreign, secret-like, or relationship-invalid
 events. When a Work Item is archived, generated report references and

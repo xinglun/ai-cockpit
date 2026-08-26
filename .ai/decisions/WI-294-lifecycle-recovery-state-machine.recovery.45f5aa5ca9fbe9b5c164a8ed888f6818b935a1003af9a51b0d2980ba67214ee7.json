@@ -1,0 +1,23 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "human-explicit",
+  "decidedAt": "2026-08-26T01:15:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-294-lifecycle-recovery-state-machine.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:71d1882dc53ea514b813d6da406fa6ce6e7d9caec3d1d440d5c168826feb889f",
+  "predecessorEventsDigest": "sha256:1e2eb5c60f58fefd557e5b72b7f577a89e5ef6d53decf9404ed772deb0c8f23f",
+  "predecessorOutcomeDigest": "sha256:9e24e46c57e05a51db4dec85be610b8fdd6f5e777e10541c24a4d743a65fbc6e",
+  "predecessorSummaryDigest": "sha256:125c261700dc09f38f169f7fcf023ddd4f0e8e2e6e671cb668cd02fa8ab1763e",
+  "predecessorWorkItemId": "WI-294-lifecycle-recovery-state-machine",
+  "reason": "Retry WI-294 after rebuilding the recovery Runtime; keep prior recovery bytes immutable and bind this attempt to the current Runtime identity.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification with the amended Contract, then complete hosted review and closure.",
+  "runtimeDigest": "sha256:078f76777eb210660f13d64bfa49d50d30e9dd42777e69e2436b2b4afae0721d",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "workItemId": "WI-294-lifecycle-recovery-state-machine"
+}

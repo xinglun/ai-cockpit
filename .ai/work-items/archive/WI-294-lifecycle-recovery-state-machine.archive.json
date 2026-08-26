@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-26T01:23:43Z",
+  "files": {
+    "contractDigest": "sha256:9661b2582e72a2f0ec63da906b1a02417be61a938db86b425dc01c785d3f9cc6",
+    "contractPath": ".ai/work-items/archive/WI-294-lifecycle-recovery-state-machine.contract.json",
+    "eventsDigest": "sha256:25d2df519957ebb76077bd10e584bacfeeabc4f38b32607d9e066485d8e91ef9",
+    "eventsPath": ".ai/work-items/archive/WI-294-lifecycle-recovery-state-machine.events.jsonl",
+    "outcomeDigest": "sha256:8811ffebdb1a2592edbff9dc770962d47d6964279304720ed7fe2a29c78e35b0",
+    "outcomePath": ".ai/work-items/archive/WI-294-lifecycle-recovery-state-machine.outcome.json",
+    "summaryDigest": "sha256:fdbd9e82f9914dcaa3a7717fca69c4795edca366cddf08d8d3e1d62623d52902",
+    "summaryPath": ".ai/work-items/archive/WI-294-lifecycle-recovery-state-machine.summary.json",
+    "taskReportDigest": "sha256:d88e568e79cc207379ee081aebf92abd1a34a89ca9db0c6c6bd4a0e8ce4e9ee9",
+    "taskReportMarkdownDigest": "sha256:a12656020d70537dc68f0f05f3a1c14f1675485ec43e4de30cfdff82ba6133a8",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-294-lifecycle-recovery-state-machine.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-294-lifecycle-recovery-state-machine.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-294-lifecycle-recovery-state-machine"
+}

@@ -106,6 +106,7 @@
   "checkpointCount": 1,
   "checkpointRepositorySnapshotDigest": "sha256:703a7cfafa2998c4c3582f094838dbf882ce6183cc5272435192fd095aa5aafa",
   "createdAt": "2026-08-25T23:20:29Z",
+  "failedGate": "finish.governance",
   "intentAlignment": {
     "evidence": [
       ".ai/work-items/active/WI-293-ci-contract-aware-gates-recovery.contract.json",
@@ -115,12 +116,14 @@
     "state": "resolved"
   },
   "mode": "code",
-  "preflightAt": "2026-08-26T00:10:31Z",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-26T00:18:41Z",
   "preflightContractDigest": "sha256:1584d93dd6f48d23bc45632846fc46367ea71f7f553c68783ce2e47b40938e84",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:703a7cfafa2998c4c3582f094838dbf882ce6183cc5272435192fd095aa5aafa",
   "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -163,7 +166,7 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-08-25T23:29:09Z",
+  "updatedAt": "2026-08-26T00:18:35Z",
   "verification": [
     {
       "check": "project-command-0",

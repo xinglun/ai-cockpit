@@ -1,0 +1,69 @@
+{
+  "acceptanceCriteria": [
+    "Recovery retry is identity-bound and restores only a legal lifecycle state after a failed finish; no generated status or Outcome bytes are hand-edited.",
+    "Superseded archive manifests bind contract, summary, outcome, task report, and markdown digests, and the predecessor can reach an explicit historical close.",
+    "Documentation promotion recognizes digest-addressed supersede receipts after a retry receipt without rewriting the predecessor's immutable bytes.",
+    "Regression tests cover failed finish retry, supersession, archive binding, malformed or stale recovery receipts, and predecessor immutability.",
+    "Tri-language workflow and Outcome documentation describe the recovery boundary and successor rule.",
+    "All existing workspace tests and governance gates remain passing."
+  ],
+  "authority": "authorized",
+  "baseRevision": "e9a4b88dd92ebf745b2b5bb76f8346daedd2dcfe",
+  "createdAt": "2026-08-26T00:26:06Z",
+  "goal": "A failed finish or equivalent governance gate can be explicitly retried or superseded, archive manifests remain internally bound, and the recovery path cannot strand a valid Work Item or weaken predecessor immutability.",
+  "intent": "Repair fail-closed Work Item recovery after a lifecycle gate failure without hand-editing generated records.",
+  "mode": "code",
+  "outOfScope": [
+    ".github/**",
+    "tests/release/**",
+    "crates/cockpit-cli/**",
+    "release/adopter/**"
+  ],
+  "predecessorContractDigest": "sha256:1584d93dd6f48d23bc45632846fc46367ea71f7f553c68783ce2e47b40938e84",
+  "predecessorWorkItemId": "WI-293-ci-contract-aware-gates-recovery",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-293-ci-contract-aware-gates-recovery.recovery.eeda64aa2b958feea65aa9922bea3439cfb3fe3d93d5911475d7064019f7565a.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9b1339285afd79cec2d287962d5e3b1c57340379c20dbf905c8c287f545441f6",
+  "requiredEvidenceClasses": [
+    "verification",
+    "hosted_ci"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-294-lifecycle-recovery-state-machine",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/254",
+    "worktree": "/private/tmp/ai-cockpit-wi294"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "crates/cockpit-repository/tests/lifecycle_order.rs",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/outcome-report.md",
+    "docs/reference/outcome-report.zh-CN.md",
+    "docs/reference/outcome-report.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-293-ci-contract-aware-gates-recovery.md",
+    "docs/work-items/WI-293-ci-contract-aware-gates-recovery.zh-CN.md",
+    "docs/work-items/WI-293-ci-contract-aware-gates-recovery.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-294-lifecycle-recovery-state-machine"
+}

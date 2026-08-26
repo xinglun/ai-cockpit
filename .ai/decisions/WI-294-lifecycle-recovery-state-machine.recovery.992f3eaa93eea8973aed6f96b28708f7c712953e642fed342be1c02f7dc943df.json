@@ -1,0 +1,23 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "human-explicit",
+  "decidedAt": "2026-08-26T01:30:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-294-lifecycle-recovery-state-machine.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:71d1882dc53ea514b813d6da406fa6ce6e7d9caec3d1d440d5c168826feb889f",
+  "predecessorEventsDigest": "sha256:317093df5f927d16cc77acf870f5e5c5f3368a229d608bfa2b281f3bf2929abe",
+  "predecessorOutcomeDigest": "sha256:3c2cb8dfd186bfe7a1cf302f7dd87e38553ff34a2e0c8dce5d3340646f10baf1",
+  "predecessorSummaryDigest": "sha256:5105103c196c89cdd4a0abc68cb4c13f81d297eaa8fcf385187c567a42ce511e",
+  "predecessorWorkItemId": "WI-294-lifecycle-recovery-state-machine",
+  "reason": "Retry WI-294 after rebuilding the complete lifecycle recovery implementation; preserve every failed receipt and authorize one fresh finish attempt.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Verify the current source, replace only the stale active report projection, and finish with current evidence.",
+  "runtimeDigest": "sha256:ff4f469e0aebeb5fcec63b8ed3bbbf25201f93acece8506811df413c4e76bf68",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "workItemId": "WI-294-lifecycle-recovery-state-machine"
+}

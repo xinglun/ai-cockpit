@@ -1,0 +1,24 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "human-explicit",
+  "decidedAt": "2026-08-26T00:22:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-293-ci-contract-aware-gates-recovery.verification.json",
+    ".ai/decisions/WI-293-ci-contract-aware-gates-recovery.finalize.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:1584d93dd6f48d23bc45632846fc46367ea71f7f553c68783ce2e47b40938e84",
+  "predecessorEventsDigest": "sha256:b89487014d47ce76f266d3b8b6d6c11ce629bd6fc0416594b1460e3919108635",
+  "predecessorOutcomeDigest": "sha256:009ff68317a8bded0eda73b629a9c10173ff246509a3fa29641a4bc70676596b",
+  "predecessorSummaryDigest": "sha256:e1a97eed5967f76b3a88fed1e17706064dfb5eb9b05268ac5a1482fb273e6962",
+  "predecessorWorkItemId": "WI-293-ci-contract-aware-gates-recovery",
+  "reason": "Retry the current Work Item after the post-merge finalization plan; no successor is created.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Re-run verification with the current Contract and Runtime, then complete finish, archive, finalize-verify, and close.",
+  "runtimeDigest": "sha256:9cd9d9b4c97c5a11b73190793ca06090dde51d0b6140e4edbe884dd3f628d821",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "workItemId": "WI-293-ci-contract-aware-gates-recovery"
+}

@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:1584d93dd6f48d23bc45632846fc46367ea71f7f553c68783ce2e47b40938e84",
-  "createdAt": "2026-08-26T00:18:41Z",
+  "contractDigest": "sha256:71d1882dc53ea514b813d6da406fa6ce6e7d9caec3d1d440d5c168826feb889f",
+  "createdAt": "2026-08-26T01:23:30Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,7 +9,7 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 162,
+      "elapsedMs": 205,
       "executionElapsedMs": 13,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
@@ -20,15 +20,15 @@
       "processesSpawned": 1,
       "protectedNodesExecuted": 0,
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "runtimeDigest": "sha256:9cd9d9b4c97c5a11b73190793ca06090dde51d0b6140e4edbe884dd3f628d821",
+      "runtimeDigest": "sha256:a1af1c18d5f6ba406946afd8ac092d018741a5115e5681b298d1b43096c32936",
       "runtimeVersion": "0.2.31",
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 162,
+    "elapsedMs": 205,
     "executionElapsedMs": 13,
-    "filesHashed": 5,
-    "filesRead": 5,
+    "filesHashed": 35,
+    "filesRead": 35,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,9 +36,25 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [],
+      "affectedPaths": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        "docs/reference/agent-workflow.ja.md",
+        "docs/reference/agent-workflow.md",
+        "docs/reference/agent-workflow.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/work-items/WI-293-ci-contract-aware-gates-recovery.ja.md",
+        "docs/work-items/WI-293-ci-contract-aware-gates-recovery.md",
+        "docs/work-items/WI-293-ci-contract-aware-gates-recovery.zh-CN.md",
+        "tests/ci/governance_integrity_gate.py",
+        "tests/ci/governance_integrity_gate_test.sh",
+        "tests/docs/promote_closed_work_item.py",
+        "tests/docs/promote_closed_work_item_test.sh"
+      ],
       "assurance": "repository_verified",
-      "baseRevision": "b159deb4b1976befb0d1cc547c99c40a3bc3b13c",
+      "baseRevision": "e9a4b88dd92ebf745b2b5bb76f8346daedd2dcfe",
       "dependencyConfidence": "unknown",
       "escalations": [],
       "executedNodes": [
@@ -50,7 +66,7 @@
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:703a7cfafa2998c4c3582f094838dbf882ce6183cc5272435192fd095aa5aafa",
+      "repositorySnapshotDigest": "sha256:f0ddf8d6adb28396090625b01669a4bc703c38647e9ff670959b7769d1467d88",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -61,7 +77,7 @@
       ],
       "sharedNodes": [],
       "stage": "pr",
-      "workItemId": "WI-293-ci-contract-aware-gates-recovery"
+      "workItemId": "WI-294-lifecycle-recovery-state-machine"
     },
     "planningElapsedMs": 0,
     "processSpawnFailures": 0,
@@ -88,14 +104,14 @@
         "timedOut": false
       }
     ],
-    "runtimeDigest": "sha256:9cd9d9b4c97c5a11b73190793ca06090dde51d0b6140e4edbe884dd3f628d821",
+    "runtimeDigest": "sha256:a1af1c18d5f6ba406946afd8ac092d018741a5115e5681b298d1b43096c32936",
     "runtimeVersion": "0.2.31",
-    "workItemId": "WI-293-ci-contract-aware-gates-recovery"
+    "workItemId": "WI-294-lifecycle-recovery-state-machine"
   },
-  "receiptDigest": "sha256:ab54b74493de02eff3e14457703692724bbf4a0818bc9e6a233ef0b05e9b29c5",
+  "receiptDigest": "sha256:9fffa54c7ab19c789ffccdd9f34970d50e2bbb7ef1a616b1f8204851d11614d6",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:703a7cfafa2998c4c3582f094838dbf882ce6183cc5272435192fd095aa5aafa",
-  "runtimeDigest": "sha256:9cd9d9b4c97c5a11b73190793ca06090dde51d0b6140e4edbe884dd3f628d821",
+  "repositorySnapshotDigest": "sha256:f0ddf8d6adb28396090625b01669a4bc703c38647e9ff670959b7769d1467d88",
+  "runtimeDigest": "sha256:a1af1c18d5f6ba406946afd8ac092d018741a5115e5681b298d1b43096c32936",
   "runtimeVersion": "0.2.31",
-  "workItemId": "WI-293-ci-contract-aware-gates-recovery"
+  "workItemId": "WI-294-lifecycle-recovery-state-machine"
 }

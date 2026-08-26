@@ -1,0 +1,23 @@
+{
+  "createdAt": "2026-08-26T00:23:44Z",
+  "files": {
+    "contractDigest": "sha256:8e5eec441fb56d0f81d699bedf7301dd01f3cf75994af4183a101a939c775a35",
+    "contractPath": ".ai/work-items/archive/WI-293-ci-contract-aware-gates-recovery.contract.json",
+    "eventsDigest": "sha256:b89487014d47ce76f266d3b8b6d6c11ce629bd6fc0416594b1460e3919108635",
+    "eventsPath": ".ai/work-items/archive/WI-293-ci-contract-aware-gates-recovery.events.jsonl",
+    "outcomeDigest": "sha256:80704108b325018a500717ee788d7226eb0f5919aae80cf43deb6429f751d3e6",
+    "outcomePath": ".ai/work-items/archive/WI-293-ci-contract-aware-gates-recovery.outcome.json",
+    "summaryDigest": "sha256:20e55e5fa9720144ab2e3c6d9cd8706257af68ee311d2ee75af50475d43e73b3",
+    "summaryPath": ".ai/work-items/archive/WI-293-ci-contract-aware-gates-recovery.summary.json",
+    "taskReportDigest": "sha256:b8685ded037c14ae221bcb180dc333065e98cd470c257e1fd6cd729adfff107d",
+    "taskReportMarkdownDigest": "sha256:a96a53c26432da4018411dde3d4a082317c78634d20d0401eb217ad46a275544",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-293-ci-contract-aware-gates-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-293-ci-contract-aware-gates-recovery.task-report.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "state": "superseded",
+  "supersededBy": "WI-294-lifecycle-recovery-state-machine",
+  "supersessionDecisionPath": ".ai/decisions/WI-293-ci-contract-aware-gates-recovery.recovery.9182196b49fbe4454b7a7c4625baec2a7d758958c255137ff8246d7359f6bbf2.json",
+  "workItemId": "WI-293-ci-contract-aware-gates-recovery"
+}
