@@ -507,6 +507,48 @@ fn recovery_rejects_foreign_runtime_and_predecessor_digest() {
 }
 
 #[test]
+fn retry_recovery_restores_checkpointed_state_after_failed_finish() {
+    let directory = repository();
+    let runtime = current_runtime();
+    let summary_path = directory
+        .path()
+        .join(".ai/work-items/active/WI-BLOCKED.summary.json");
+    let mut summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).unwrap()).unwrap();
+    summary["state"] = json!("finish_ready");
+    summary["failedGate"] = json!("finish.governance");
+    summary["recoveryCondition"] = json!("retry after repairing the lifecycle gate");
+    fs::write(&summary_path, serde_json::to_vec_pretty(&summary).unwrap()).unwrap();
+
+    let mut retry = receipt(&directory, "retry after a failed finish projection");
+    retry["decision"] = json!("retry");
+    retry.as_object_mut().unwrap().remove("successorWorkItemId");
+    retry["runtimeVersion"] = json!(runtime.runtime_version);
+    retry["runtimeDigest"] = json!(runtime.runtime_digest.to_string());
+    retry["decidedAt"] = json!("2026-08-23T00:04:00Z");
+    record_recovery_decision(directory.path(), "WI-BLOCKED", &retry, &runtime)
+        .expect("retry recovery should reopen the legal checkpointed state");
+
+    let recovered: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).unwrap()).unwrap();
+    assert_eq!(recovered["state"], "checkpointed");
+    assert_eq!(recovered["checkpointCount"], 1);
+    assert_eq!(recovered["preflightState"], "green");
+    assert!(recovered.get("failedGate").is_none());
+    assert!(recovered.get("recoveryCondition").is_none());
+    let outcome: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(".ai/work-items/active/WI-BLOCKED.outcome.json"),
+        )
+        .unwrap(),
+    )
+    .unwrap();
+    assert_eq!(outcome["state"], "blocked");
+}
+
+#[test]
 fn superseded_predecessor_preserves_bytes_and_closes_without_current_verification() {
     let directory = repository();
     let runtime = RuntimeContext {

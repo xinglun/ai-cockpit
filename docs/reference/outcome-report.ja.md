@@ -108,6 +108,11 @@ repository と Work Item に bind され、`decisionState: "red"` と失敗し�
 示します。その後の有効な retry は completion event を追加するだけで、先行する blocked event を
 書き換えません。不正形式、外部 identity、symlink、未知の event type は fail closed になります。
 
+失敗した `finish` projection の後に retry する場合、Runtime は identity-bound recovery receipt
+を通じて active Summary を `checkpointed` に戻します。blocked Outcome を green にはせず、
+archive または close の前に `verify` と `finish` を再実行して新しい current Outcome を生成する
+必要があります。
+
 `finish` は active outcome と同じ場所に `<id>.events.jsonl` を書きます。event stream は
 append-only で、malformed、foreign、secret らしい内容、関係不正の event を拒否します。
 archive の作成時には、manifest を束縛する前に、生成された report reference と

@@ -158,6 +158,13 @@ tampered 或 ambiguous candidate 会落入稳定的 `recovery_decision_invalid` 
 active artifacts。历史 archive 的不可变 bytes 与历史投影保持不变；该 current-read 规则不会
 追溯改写或重新分类它们。
 
+`retry` 是显式的生命周期转换，不是绿灯声明。如果失败门禁把 active Work Item 留在
+`finish_ready`，Runtime 只把当前 Summary 恢复到合法的 `checkpointed` 重试点，并清除临时
+失败投影。blocked Outcome 与 predecessor digest 仍由追加式 recovery receipt 引用；必须
+重新执行 `verify` 与 `finish` 才能生成新的当前 Outcome。其他生命周期状态拒绝 retry。
+superseded manifest 直接绑定复制的报告 digest，因此不会为了嵌入生成的 task-report digest
+而重写历史 Outcome bytes。
+
 合并不等于 Work Item 关闭。Hosted checks 通过后，准确的 branch 和 worktree 还必须经过
 独立的资源收尾边界：
 

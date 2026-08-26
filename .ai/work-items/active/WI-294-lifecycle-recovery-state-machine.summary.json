@@ -1,0 +1,28 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-294-lifecycle-recovery-state-machine.contract.json",
+    ".ai/work-items/active/WI-294-lifecycle-recovery-state-machine.summary.json"
+  ],
+  "checkpointAt": "2026-08-26T00:34:34Z",
+  "checkpointContractDigest": "sha256:3a0d6c12c4a3ccf2f8641510402cede3fd84fc54d8f03faffaf3215c84e240c3",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:254e3976cbddf44c235d2cdc59878133ffbf4989896ee99972d9b58a175368c5",
+  "createdAt": "2026-08-26T00:26:06Z",
+  "mode": "code",
+  "preflightAt": "2026-08-26T00:35:56Z",
+  "preflightContractDigest": "sha256:3a0d6c12c4a3ccf2f8641510402cede3fd84fc54d8f03faffaf3215c84e240c3",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:254e3976cbddf44c235d2cdc59878133ffbf4989896ee99972d9b58a175368c5",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-26T00:36:00Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-294-lifecycle-recovery-state-machine"
+}

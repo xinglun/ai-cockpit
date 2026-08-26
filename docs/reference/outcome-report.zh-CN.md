@@ -99,6 +99,10 @@ Agent 需要向人展示结果时，必须使用明确 `workItemId` 调用 repos
 完成事件，不改写之前的 blocked 事件。格式错误、外部身份、符号链接或未知类型的事件都会
 fail closed。
 
+当 retry 紧跟失败的 `finish` 投影时，Runtime 通过绑定 identity 的 recovery receipt 将 active
+Summary 恢复到 `checkpointed`。它不会把 blocked Outcome 变成绿色；在 archive 或 close 之前，
+必须重新执行 `verify` 与 `finish` 生成新的当前 Outcome。
+
 `finish` 会在 active outcome 旁写入 `<id>.events.jsonl`。事件流追加写入，并拒绝
 malformed、foreign、疑似 secret 或关系无效的事件。归档时，Runtime 会在绑定 archive
 manifest 前，将生成的报告引用和 `changedPaths` 从 `.ai/work-items/active/` 投影到对应的

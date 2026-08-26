@@ -210,6 +210,16 @@ Recovery receipts are an append-only chain. When the canonical
 selected path in each parity projection. Invalid or ambiguous candidates
 remain fail-closed; the gate never treats a retry as a terminal successor.
 
+A `retry` decision is an explicit lifecycle transition, not a green claim. If
+a failed gate left the active item in `finish_ready`, Runtime moves only the
+current Summary back to the legal `checkpointed` retry point and clears the
+transient failure projection. The blocked Outcome and predecessor digests
+remain referenced by the append-only recovery receipt; a fresh `verify` and
+`finish` must generate the next current Outcome. Other lifecycle states reject
+retry. Superseded manifests bind copied report digests directly, so historical
+Outcome bytes are never rewritten merely to embed generated task-report
+digests.
+
 Merge is not Work Item closure. After hosted checks pass, the exact branch and
 worktree are a separate resource-finalization boundary:
 

@@ -4857,7 +4857,17 @@ pub fn record_recovery_decision(
             message: "recovery decision receipt already exists with different content".into(),
         });
     }
-    atomic_json(&path, &value)?;
+    let retry_summary_backup = if typed.decision == "retry" {
+        Some(prepare_retryable_lifecycle(&root, work_item_id)?)
+    } else {
+        None
+    };
+    if let Err(error) = atomic_json(&path, &value) {
+        if let Some((summary_path, original_summary)) = retry_summary_backup {
+            let _ = atomic_json(&summary_path, &original_summary);
+        }
+        return Err(error);
+    }
     if typed.decision == "successor" {
         let successor_id = typed
             .successor_work_item_id
@@ -4887,6 +4897,47 @@ pub fn record_recovery_decision(
         atomic_json(&successor_summary_path, &successor_summary)?;
     }
     Ok(value)
+}
+
+/// Restore the only legal retry point after a lifecycle gate has projected a
+/// blocked Outcome.  The failed Outcome remains bound by the recovery receipt;
+/// a fresh verify/finish cycle will generate the next current projection.
+fn prepare_retryable_lifecycle(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<(PathBuf, serde_json::Value), ObserverError> {
+    let summary_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.summary.json"));
+    let mut summary = read_json(&summary_path)?;
+    let state = summary["state"].as_str().unwrap_or_default();
+    if state == "checkpointed" {
+        return Ok((summary_path, summary));
+    }
+    if state != "finish_ready" {
+        return Err(ObserverError::State {
+            path: summary_path,
+            message: format!("retry recovery requires finish_ready state, got {state}"),
+        });
+    }
+    if summary["checkpointCount"] != serde_json::json!(1)
+        || !matches!(summary["preflightState"].as_str(), Some("green" | "yellow"))
+    {
+        return Err(ObserverError::State {
+            path: summary_path,
+            message: "retry recovery requires one checkpoint and a non-red preflight result".into(),
+        });
+    }
+    let original = summary.clone();
+    summary["state"] = serde_json::json!("checkpointed");
+    summary["updatedAt"] = serde_json::json!(now());
+    if let Some(object) = summary.as_object_mut() {
+        object.remove("failedGate");
+        object.remove("recoveryCondition");
+        object.remove("outcomeState");
+    }
+    atomic_json(&summary_path, &summary)?;
+    Ok((summary_path, original))
 }
 
 fn work_item_artifact_path(
@@ -9944,21 +9995,27 @@ fn verify_archive_manifest(
             });
         }
     }
-    let archived_outcome = read_json(&archive.join(format!("{work_item_id}.outcome.json")))?;
-    for name in ["taskReport", "taskReportMarkdown"] {
-        let manifest_digest = manifest["files"][format!("{name}Digest")].as_str();
-        let outcome_key = match name {
-            "taskReport" => "taskReportDigest",
-            _ => "taskReportMarkdownDigest",
-        };
-        let outcome_digest = archived_outcome
-            .get(outcome_key)
-            .and_then(|value| value.as_str());
-        if manifest_digest != outcome_digest {
-            return Err(ObserverError::State {
-                path: archive.join(format!("{work_item_id}.outcome.json")),
-                message: format!("archived outcome and manifest {name} digests are not bound"),
-            });
+    // Normal terminal archives embed the generated report digests in the
+    // archived Outcome. Superseded predecessors must retain their original
+    // Outcome bytes verbatim; their manifest is the immutable binding for the
+    // copied report artifacts and therefore must not force a historical rewrite.
+    if manifest["state"] != serde_json::json!("superseded") {
+        let archived_outcome = read_json(&archive.join(format!("{work_item_id}.outcome.json")))?;
+        for name in ["taskReport", "taskReportMarkdown"] {
+            let manifest_digest = manifest["files"][format!("{name}Digest")].as_str();
+            let outcome_key = match name {
+                "taskReport" => "taskReportDigest",
+                _ => "taskReportMarkdownDigest",
+            };
+            let outcome_digest = archived_outcome
+                .get(outcome_key)
+                .and_then(|value| value.as_str());
+            if manifest_digest != outcome_digest {
+                return Err(ObserverError::State {
+                    path: archive.join(format!("{work_item_id}.outcome.json")),
+                    message: format!("archived outcome and manifest {name} digests are not bound"),
+                });
+            }
         }
     }
     for (name, suffix) in [
