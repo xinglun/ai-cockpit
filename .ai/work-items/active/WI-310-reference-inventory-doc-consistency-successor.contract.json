@@ -1,0 +1,54 @@
+{
+  "acceptanceCriteria": [
+    "All three comparison documents report the current ledger counts from the manifest.",
+    "A regression computes classification counts from the manifest and verifies the tri-language machine-readable snapshot markers.",
+    "The regression fails on stale or malformed documentation counts and passes on the corrected documents.",
+    "No governance claims or historical Work Item bytes are changed."
+  ],
+  "authority": "authorized",
+  "baseRevision": "a10b643479da4edf0028c2930dd835524947b2f9",
+  "createdAt": "2026-08-26T22:24:27Z",
+  "goal": "Correct the documented classification counts and add a deterministic regression that derives expected counts from reference_file_inventory.json.",
+  "intent": "Keep the tri-language reference comparison snapshot synchronized with the machine-readable inventory and prevent future count drift.",
+  "mode": "docs",
+  "outOfScope": [
+    "No Runtime behavior",
+    "no reference classification changes",
+    "no source repository changes",
+    "no release or adopter changes",
+    "no historical evidence rewrite."
+  ],
+  "predecessorContractDigest": "sha256:6eb3217363c278c1c1bc47a81bad9d2eceecc72a638e493a88dd21cb3213b7af",
+  "recoveryDecisionPath": ".ai/decisions/WI-309-reference-inventory-doc-consistency.recovery.json",
+  "predecessorWorkItemId": "WI-309-reference-inventory-doc-consistency",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d1202eb389268d283bf40f324ba94c5dd3dfbf7e5fed953baceceff097a5e0db",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-310-reference-inventory-doc-consistency-successor",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi310-reference-inventory-doc-consistency-successor"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "tests/conformance/reference_inventory_docs_test.py"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-310-reference-inventory-doc-consistency-successor"
+}
