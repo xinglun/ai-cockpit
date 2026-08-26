@@ -50,3 +50,7 @@ recovery.
 Use the installed Runtime with an explicit `--repo`, repository governance and
 documentation gates, hosted quality checks, and the complete
 `finalize-plan → finalize → finalize-verify → close` chain.
+
+The hosted quality result for the reviewed PR is part of the terminal evidence;
+an earlier pre-archive run that lacked verification evidence remains a failed
+historical attempt and is not reused.

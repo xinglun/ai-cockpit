@@ -43,3 +43,6 @@ verification、recovery receipts 和已合并 PR 保持不可变；本 Work Item
 
 使用显式 `--repo` 的已安装 Runtime、仓库治理和文档 gate、hosted quality checks，
 以及完整的 `finalize-plan → finalize → finalize-verify → close` 链。
+
+reviewed PR 的 hosted quality 结果属于终态证据；之前缺少 verification evidence
+的 pre-archive 运行保持为历史失败，不会被重用。

@@ -48,3 +48,6 @@ Homebrew 公開、過去 archive の書き換えはこの recovery の範囲外�
 明示的な `--repo` を付けた installed Runtime、repository/documentation gate、
 hosted quality checks、および完全な
 `finalize-plan → finalize → finalize-verify → close` chain を使用します。
+
+reviewed PR の hosted quality 結果は terminal evidence の一部です。verification
+evidence が不足していた以前の pre-archive 実行は履歴上の失敗として保持し、再利用しません。
