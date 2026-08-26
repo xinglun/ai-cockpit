@@ -48,7 +48,9 @@ decision state、verification tier 和 evidence assurance。黄色或红色结�
 后续批次才可以删除重复 policy。此 gate 不实现参考源完整 workflow 矩阵、依赖
 planner 或 release-preflight 顺序。
 
-当 push 事件包含一个 active Contract 时，route 使用 Contract 记录的 base revision，
+质量 workflow 运行于 Pull Request 和 `main` push；feature branch push 只由 Pull Request
+workflow 覆盖，避免同一提交产生两套互相竞争的质量结论。当 push 事件包含一个 active
+Contract 时，route 使用 Contract 记录的 base revision，
 而不是 `github.event.before`；这样 push 检查与同一 Work Item/PR 的 base 保持一致，
 不会产生重复的伪失败，而 Pull Request 事件仍然是 review authority。
 

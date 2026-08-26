@@ -49,6 +49,8 @@ intent/scenario/operation/stage route、Agent-Risk/preflight 投影を検証し�
 確認した後の別 batch でのみ、重複した policy を削除します。この gate は参照源の
 全 workflow matrix、依存 planner、release-preflight 順序を実装するものではありません。
 
+quality workflow は Pull Request と `main` push で実行し、feature branch の push は Pull Request
+workflow のみで検証します。同じ commit に競合する二つの verdict を作らないためです。
 push イベントに active Contract が 1 件ある場合、route は `github.event.before` ではなく
 Contract に記録された base revision を使います。これにより push 検査は同じ Work Item/PR
 base と一致し、重複した誤失敗を防ぎます。review の権威は Pull Request イベントに残ります。
