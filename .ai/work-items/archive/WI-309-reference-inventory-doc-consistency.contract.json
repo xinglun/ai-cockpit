@@ -27,11 +27,11 @@
     "documentation"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-309-reference-inventory-doc-consistency",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/271",
     "worktree": "/private/tmp/ai-cockpit-wi309-reference-inventory-doc-consistency"
   },
   "risk": "low",

@@ -1,0 +1,31 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-309-reference-inventory-doc-consistency.contract.json",
+    ".ai/work-items/archive/WI-309-reference-inventory-doc-consistency.summary.json"
+  ],
+  "checkpointAt": "2026-08-26T22:07:13Z",
+  "checkpointContractDigest": "sha256:cc81a90467cd0215913790c69526cc504f14cb82020be4eef08b1dae2732b556",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:e7d441a6c670a0f13953d49e0e375f0e8cc3470116083d7466e891bdc7d6edfa",
+  "createdAt": "2026-08-26T22:06:44Z",
+  "failedGate": "finish.preflight",
+  "mode": "docs",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-26T22:19:53Z",
+  "preflightContractDigest": "sha256:cc81a90467cd0215913790c69526cc504f14cb82020be4eef08b1dae2732b556",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:e7d441a6c670a0f13953d49e0e375f0e8cc3470116083d7466e891bdc7d6edfa",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record a fresh non-red preflight result, then retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-26T22:19:56Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-309-reference-inventory-doc-consistency"
+}

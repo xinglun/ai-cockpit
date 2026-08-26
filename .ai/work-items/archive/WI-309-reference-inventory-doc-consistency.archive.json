@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-26T22:20:02Z",
+  "files": {
+    "approachDigest": "sha256:043372fe2747c168c24a21b246b31a2265f5e7f7855e434e2152738b69efb110",
+    "approachPath": ".ai/work-items/archive/WI-309-reference-inventory-doc-consistency.approach.json",
+    "contractDigest": "sha256:6eb3217363c278c1c1bc47a81bad9d2eceecc72a638e493a88dd21cb3213b7af",
+    "contractPath": ".ai/work-items/archive/WI-309-reference-inventory-doc-consistency.contract.json",
+    "eventsDigest": "sha256:b8d538e7e3ef09d9978553548f0779c548db5ef274824d2b3055afb84e0d2251",
+    "eventsPath": ".ai/work-items/archive/WI-309-reference-inventory-doc-consistency.events.jsonl",
+    "outcomeDigest": "sha256:76ec364e9572efa1493ef3037215afb6dd11c191296001cbac48b0632aa8cc3c",
+    "outcomePath": ".ai/work-items/archive/WI-309-reference-inventory-doc-consistency.outcome.json",
+    "summaryDigest": "sha256:387935e279a6f5cdabf746db243b06522023998e5324110f0f2376b9f3dc1f87",
+    "summaryPath": ".ai/work-items/archive/WI-309-reference-inventory-doc-consistency.summary.json",
+    "taskReportDigest": "sha256:0dc6b089ce65f915a85852161deb7c9c3c09d7e45d50f8d015e6a885189e6b92",
+    "taskReportMarkdownDigest": "sha256:753bb545ddff445ad4f53606881d05572adc8d62d002c0097d62cde1b5176cb9",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-309-reference-inventory-doc-consistency.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-309-reference-inventory-doc-consistency.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-309-reference-inventory-doc-consistency"
+}
