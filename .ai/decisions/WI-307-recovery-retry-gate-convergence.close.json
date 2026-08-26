@@ -1,0 +1,227 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-307-recovery-retry-gate-convergence.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:dbba78580bb82932ea771ed84db94bc669a6b4fb991a39aa8175037858e97910",
+      "workItemId": "WI-307-recovery-retry-gate-convergence"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-307-recovery-retry-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-307-recovery-retry-gate-convergence.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-307-recovery-retry-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-307-recovery-retry-gate-convergence.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-307-recovery-retry-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-307-recovery-retry-gate-convergence.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-307-recovery-retry-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-workflow.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-307-recovery-retry-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-workflow.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-307-recovery-retry-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-workflow.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-307-recovery-retry-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-307-recovery-retry-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-307-recovery-retry-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-307-recovery-retry-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-307-recovery-retry-gate-convergence.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-307-recovery-retry-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-307-recovery-retry-gate-convergence.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-307-recovery-retry-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-307-recovery-retry-gate-convergence.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-307-recovery-retry-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/governance_integrity_gate.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-307-recovery-retry-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/governance_integrity_gate_test.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-307-recovery-retry-gate-convergence.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-307-recovery-retry-gate-convergence.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-307-recovery-retry-gate-convergence.verification.json",
+            ".ai/decisions/WI-307-recovery-retry-gate-convergence.finalize.2d3fbac2d3a5b5bf2e961c03da97c449f7ee2fe659d6960de81b960e0f40d89e.json",
+            ".ai/decisions/WI-307-recovery-retry-gate-convergence.finalize.45784a2d6fa2092944e6e238cb7b05755f4f7a30aab55c317032d6b81207da36.json",
+            "https://github.com/xinglun/ai-cockpit/pull/269"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via reviewed-PR-269-and-exact-cleanup at 2026-08-26T20:45:23Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-307-recovery-retry-gate-convergence.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-307-recovery-retry-gate-convergence.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-307-recovery-retry-gate-convergence.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-307-recovery-retry-gate-convergence.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the CI governance-integrity projection converge with the installed Rust Runtime so a successfully retried Work Item can proceed through its real finalization path without being misclassified as recovered."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-307-recovery-retry-gate-convergence.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-307-recovery-retry-gate-convergence"
+  },
+  "finalReportDigest": "sha256:6dc75fa8408387963d9d9fcca0b4e0fac188c4e7aa5094d12e67486e367b83b7",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:fc942571fb1e20218e61a9d8308641ef1400666d5c71da3120828f370e8d3008",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-307-recovery-retry-gate-convergence.finalize.45784a2d6fa2092944e6e238cb7b05755f4f7a30aab55c317032d6b81207da36.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "reviewed-PR-269-and-exact-cleanup",
+    "decidedAt": "2026-08-26T20:45:23Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-307-recovery-retry-gate-convergence.verification.json",
+      ".ai/decisions/WI-307-recovery-retry-gate-convergence.finalize.2d3fbac2d3a5b5bf2e961c03da97c449f7ee2fe659d6960de81b960e0f40d89e.json",
+      ".ai/decisions/WI-307-recovery-retry-gate-convergence.finalize.45784a2d6fa2092944e6e238cb7b05755f4f7a30aab55c317032d6b81207da36.json",
+      "https://github.com/xinglun/ai-cockpit/pull/269"
+    ],
+    "policyRefs": [
+      "docs/reference/agent-workflow.md",
+      "AGENTS.md:premerge-finalization-before-close"
+    ],
+    "reason": "Hosted quality, Windows Runtime, V1 behavioral oracle, and task-list checks passed; PR #269 merged at 2ee4762; exact branch and worktree cleanup plus synchronized main were verified.",
+    "resumeCondition": "Closed; any future change requires a new human-owned Work Item."
+  },
+  "timestamp": "2026-08-26T20:45:39Z",
+  "workItemId": "WI-307-recovery-retry-gate-convergence"
+}
