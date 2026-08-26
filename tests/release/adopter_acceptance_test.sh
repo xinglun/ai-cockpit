@@ -60,6 +60,23 @@ close_line=$(grep -n -- 'lifecycle-close.json close' "$script" | head -1 | cut -
   printf 'adopter acceptance must record preflight before checkpoint\n' >&2
   exit 1
 }
+base_revision_line=$(grep -n -- 'lifecycle_base_revision' "$script" | head -1 | cut -d: -f1)
+[[ -n "$base_revision_line" ]] || {
+  printf 'adopter acceptance must preserve the archived Contract base revision\n' >&2
+  exit 1
+}
+grep -q -- '--arg lifecycleBaseRevision "$lifecycle_base_revision"' "$script" || {
+  printf 'adopter acceptance finalization must bind the Contract base revision\n' >&2
+  exit 1
+}
+grep -q -- 'baseRevision:$lifecycleBaseRevision' "$script" || {
+  printf 'adopter acceptance finalization must emit the preserved base revision\n' >&2
+  exit 1
+}
+if grep -q -- 'baseRevision:$lifecycle_head' "$script"; then
+  printf 'adopter acceptance must not bind the post-mutation HEAD as baseRevision\n' >&2
+  exit 1
+fi
 if grep -Eq 'cargo[[:space:]]+(build|run)' "$script"; then
   printf 'acceptance harness must not obtain Runtime through cargo build/run\n' >&2
   exit 1

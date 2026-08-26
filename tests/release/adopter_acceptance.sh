@@ -626,6 +626,7 @@ capture_runtime lifecycle-start.json start --repo "$adopter_root" --id "$lifecyc
   --acceptance 'cargo test passes for the adopter change' --required-evidence verification
 lifecycle_contract="$adopter_root/.ai/work-items/active/$lifecycle_id.contract.json"
 [[ -f "$lifecycle_contract" ]] || die 'lifecycle contract was not created'
+lifecycle_base_revision="$(jq -er '.baseRevision | select(type == "string" and test("^[0-9a-f]{40}$"))' "$lifecycle_contract")" || die 'lifecycle Contract base revision is missing or malformed'
 # Resource finalization is a mandatory part of the Runtime lifecycle.  The
 # adopter fixture intentionally retains its local branch/worktree, so the
 # harness binds an explicit, auditable retained receipt rather than pretending
@@ -669,6 +670,7 @@ jq -n \
   --arg branch "$lifecycle_branch" \
   --arg worktree "$adopter_root" \
   --arg headRevision "$lifecycle_head" \
+  --arg lifecycleBaseRevision "$lifecycle_base_revision" \
   --arg contractDigest "$archived_lifecycle_contract_digest" \
   --arg timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
   '{
@@ -680,7 +682,7 @@ jq -n \
     runtimeVersion:$runtimeVersion,
     runtimeDigest:$runtimeDigest,
     provider:$provider,
-    pullRequest:{number:1,url:$pullRequest,headRevision:$headRevision,baseBranch:$branch,baseRemote:"local",baseRevision:$headRevision,mergeCommit:$headRevision},
+    pullRequest:{number:1,url:$pullRequest,headRevision:$headRevision,baseBranch:$branch,baseRemote:"local",baseRevision:$lifecycleBaseRevision,mergeCommit:$headRevision},
     branch:{name:$branch,remote:"local",headRevision:$headRevision},
     worktree:{worktreeId:$workItemId,path:$worktree,branch:$branch,headRevision:$headRevision},
     before:{pullRequest:"merged",branch:"present",worktree:"clean"},

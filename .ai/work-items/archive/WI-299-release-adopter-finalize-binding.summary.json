@@ -1,0 +1,20 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-299-release-adopter-finalize-binding.contract.json",
+    ".ai/work-items/archive/WI-299-release-adopter-finalize-binding.summary.json"
+  ],
+  "checkpointAt": "2026-08-26T04:55:28Z",
+  "checkpointCount": 1,
+  "createdAt": "2026-08-26T04:43:51Z",
+  "mode": "code",
+  "preflightAt": "2026-08-26T05:01:47Z",
+  "preflightContractDigest": "sha256:55689e6d6f628b9e4e4af362306b4e7550e625fe4ebe33c253e31099b2e34f87",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:688945953e742521e2a997643f00e4b606cc4fb8d00f72b5462237c648a459b8",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-26T05:01:51Z",
+  "workItemId": "WI-299-release-adopter-finalize-binding"
+}

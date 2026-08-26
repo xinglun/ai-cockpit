@@ -420,6 +420,9 @@ git -C "$adopter" commit -qm 'attach adopter governance state'
 pass old-schema-assertion "old Runtime repository schema $old_schema"
 work_item=n-minus-one-lifecycle
 run "$from_bin" old-start.json start --repo "$adopter" --id "$work_item" --intent 'Validate upgrade without losing governed history.' --goal 'Prove N-1 compatibility and explicit migration.' --scope '**' --out-of-scope target --risk normal --authority authorized --acceptance 'cargo test passes' --required-evidence verification
+old_contract="$adopter/.ai/work-items/active/$work_item.contract.json"
+[[ -f "$old_contract" && ! -L "$old_contract" ]] || die 'old Work Item Contract was not created as a regular file'
+old_base_revision="$(jq -er '.baseRevision | select(type == "string" and test("^[0-9a-f]{40}$"))' "$old_contract")" || die 'old Contract base revision is missing or malformed'
 old_branch="$(git -C "$adopter" branch --show-current)"
 old_pr="acceptance://$from_tag/$work_item"
 old_context="$run_root/$work_item.finalize-context.json"
@@ -468,6 +471,7 @@ jq -n \
   --arg pullRequest "$old_pr" \
   --arg branch "$old_branch" \
   --arg worktree "$adopter" \
+  --arg oldBaseRevision "$old_base_revision" \
   --arg headRevision "$old_head" \
   --arg contractDigest "$old_archived_contract_digest" \
   --arg timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
@@ -480,7 +484,7 @@ jq -n \
     runtimeVersion:$runtimeVersion,
     runtimeDigest:$runtimeDigest,
     provider:$provider,
-    pullRequest:{number:1,url:$pullRequest,headRevision:$headRevision,baseBranch:$branch,baseRemote:"local",baseRevision:$headRevision,mergeCommit:$headRevision},
+    pullRequest:{number:1,url:$pullRequest,headRevision:$headRevision,baseBranch:$branch,baseRemote:"local",baseRevision:$oldBaseRevision,mergeCommit:$headRevision},
     branch:{name:$branch,remote:"local",headRevision:$headRevision},
     worktree:{worktreeId:$workItemId,path:$worktree,branch:$branch,headRevision:$headRevision},
     before:{pullRequest:"merged",branch:"present",worktree:"clean"},
@@ -542,6 +546,9 @@ run "$to_bin" new-compatibility-after.json compatibility --repo "$adopter"
 jq -e '.state=="COMPATIBLE" and .repositorySchemaVersion==2' "$output/new-compatibility-after.json" >/dev/null || die 'migrated adopter is not compatible'
 new_work_item=n-minus-one-post-migration
 run "$to_bin" new-start.json start --repo "$adopter" --id "$new_work_item" --intent 'Validate operation after an approved repository migration.' --goal 'Prove the new Runtime can govern a fresh Work Item after N-1 migration.' --scope '**' --out-of-scope target --risk normal --authority authorized --acceptance 'cargo test passes' --required-evidence verification
+new_contract="$adopter/.ai/work-items/active/$new_work_item.contract.json"
+[[ -f "$new_contract" && ! -L "$new_contract" ]] || die 'new Work Item Contract was not created as a regular file'
+new_base_revision="$(jq -er '.baseRevision | select(type == "string" and test("^[0-9a-f]{40}$"))' "$new_contract")" || die 'new Contract base revision is missing or malformed'
 new_branch="$(git -C "$adopter" branch --show-current)"
 new_pr="acceptance://$to_tag/$new_work_item"
 new_context="$run_root/$new_work_item.finalize-context.json"
@@ -580,6 +587,7 @@ jq -n \
   --arg pullRequest "$new_pr" \
   --arg branch "$new_branch" \
   --arg worktree "$adopter" \
+  --arg newBaseRevision "$new_base_revision" \
   --arg headRevision "$new_head" \
   --arg contractDigest "$new_archived_contract_digest" \
   --arg timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
@@ -592,7 +600,7 @@ jq -n \
     runtimeVersion:$runtimeVersion,
     runtimeDigest:$runtimeDigest,
     provider:$provider,
-    pullRequest:{number:1,url:$pullRequest,headRevision:$headRevision,baseBranch:$branch,baseRemote:"local",baseRevision:$headRevision,mergeCommit:$headRevision},
+    pullRequest:{number:1,url:$pullRequest,headRevision:$headRevision,baseBranch:$branch,baseRemote:"local",baseRevision:$newBaseRevision,mergeCommit:$headRevision},
     branch:{name:$branch,remote:"local",headRevision:$headRevision},
     worktree:{worktreeId:$workItemId,path:$worktree,branch:$branch,headRevision:$headRevision},
     before:{pullRequest:"merged",branch:"present",worktree:"clean"},

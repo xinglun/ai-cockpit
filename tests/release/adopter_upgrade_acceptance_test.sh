@@ -75,6 +75,32 @@ new_close_line=$(grep -n -- 'new-close.json close' "$script" | head -1 | cut -d:
   printf 'adopter upgrade acceptance must run new preflight, checkpoint, verify, finalize, finalize-verify, then close\n' >&2
   exit 1
 }
+old_base_revision_line=$(grep -n -- 'old_base_revision' "$script" | head -1 | cut -d: -f1)
+new_base_revision_line=$(grep -n -- 'new_base_revision' "$script" | head -1 | cut -d: -f1)
+[[ -n "$old_base_revision_line" && -n "$new_base_revision_line" ]] || {
+  printf 'adopter upgrade acceptance must preserve both archived Contract base revisions\n' >&2
+  exit 1
+}
+grep -q -- '--arg oldBaseRevision "$old_base_revision"' "$script" || {
+  printf 'adopter upgrade old finalization must bind its Contract base revision\n' >&2
+  exit 1
+}
+grep -q -- 'baseRevision:$oldBaseRevision' "$script" || {
+  printf 'adopter upgrade old finalization must emit its preserved base revision\n' >&2
+  exit 1
+}
+grep -q -- '--arg newBaseRevision "$new_base_revision"' "$script" || {
+  printf 'adopter upgrade new finalization must bind its Contract base revision\n' >&2
+  exit 1
+}
+grep -q -- 'baseRevision:$newBaseRevision' "$script" || {
+  printf 'adopter upgrade new finalization must emit its preserved base revision\n' >&2
+  exit 1
+}
+if grep -q -- 'baseRevision:$old_head\|baseRevision:$new_head' "$script"; then
+  printf 'adopter upgrade acceptance must not bind post-mutation HEAD as baseRevision\n' >&2
+  exit 1
+fi
 old_verify_line=$(grep -n -- 'old-verify.json verify' "$script" | head -1 | cut -d: -f1)
 old_finalize_line=$(grep -n -- 'old-finalize.json work-item finalize' "$script" | head -1 | cut -d: -f1)
 old_finalize_verify_line=$(grep -n -- 'old-finalize-verify.json work-item finalize-verify' "$script" | head -1 | cut -d: -f1)
