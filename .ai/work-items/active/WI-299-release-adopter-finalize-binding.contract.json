@@ -1,0 +1,56 @@
+{
+  "acceptanceCriteria": [
+    "staged acceptance uses archived Contract base revision",
+    "upgrade acceptance uses archived Contract base revision for every finalization receipt",
+    "regression rejects post-mutation HEAD as baseRevision",
+    "upgrade regression rejects post-mutation HEAD as baseRevision",
+    "candidate acceptance reaches finalize-verify and close",
+    "source checkout unchanged and temporary run root cleanup remains proven"
+  ],
+  "authority": "authorized",
+  "baseRevision": "8fae5fd6399d02a3fa3db3143db9bb8d5520cd77",
+  "createdAt": "2026-08-26T04:43:51Z",
+  "goal": "Make staged and published adopter acceptance complete finalize and close against the archived Contract base revision.",
+  "intent": "Fix the Work Item finalization receipt baseRevision binding used by release adopter acceptance.",
+  "mode": "code",
+  "outOfScope": [
+    "rust-runtime-lifecycle",
+    "historical-v0.2.32-bytes",
+    "additional-adopter-stack"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9cb0b0d6f957b173c1bc142fae2fe884d88d520bba994012977afe4ecb275939",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-299-release-adopter-finalize-binding",
+    "provider": "github",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi299-release-adopter"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_acceptance_test.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh",
+    "docs/work-items/WI-299-release-adopter-finalize-binding.md",
+    "docs/work-items/WI-299-release-adopter-finalize-binding.zh-CN.md",
+    "docs/work-items/WI-299-release-adopter-finalize-binding.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "bash tests/release/adopter_acceptance_test.sh",
+    "bash tests/release/adopter_upgrade_acceptance_test.sh",
+    "bash tests/docs/documentation_acceptance.sh --repo <repo>",
+    "python3 tests/ci/governance_integrity_gate.py --repo <repo> --report <report>",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-299-release-adopter-finalize-binding"
+}
