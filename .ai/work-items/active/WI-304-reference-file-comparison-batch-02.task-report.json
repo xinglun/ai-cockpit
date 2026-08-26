@@ -1,0 +1,165 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-304-reference-file-comparison-batch-02.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:16b98cf5ada6d4c82dc02205c3da9f3fe1ea96c34e1097bc4c2298bbdebf6055",
+    "workItemId": "WI-304-reference-file-comparison-batch-02"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-304-reference-file-comparison-batch-02.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-304-reference-file-comparison-batch-02.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/conformance/reference_file_inventory.py"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/conformance/reference_file_inventory.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/conformance/reference_file_inventory_test.sh"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-file-comparison.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-file-comparison.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-file-comparison.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-304-reference-file-comparison-batch-02.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-304-reference-file-comparison-batch-02.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-304-reference-file-comparison-batch-02.ja.md"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-304-reference-file-comparison-batch-02.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-304-reference-file-comparison-batch-02.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-304-reference-file-comparison-batch-02.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-304-reference-file-comparison-batch-02.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-304-reference-file-comparison-batch-02.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.contract.json"
+        ],
+        "inference": false,
+        "text": "Establish an auditable, file-level semantic comparison for the reference compatibility and smoke workflows without copying source runtime orchestration, and correct any concrete target-side quality omission discovered within this bounded batch."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-304-reference-file-comparison-batch-02"
+}

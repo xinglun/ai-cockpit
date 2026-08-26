@@ -70,7 +70,7 @@
     }
   ],
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:9e57f411451005c2784ace41171d5e68f23846afd2f9c02435270fb17ea955f7",
+  "repositorySnapshotDigest": "sha256:16b98cf5ada6d4c82dc02205c3da9f3fe1ea96c34e1097bc4c2298bbdebf6055",
   "schemaVersion": 2,
   "unknowns": [],
   "workItemId": "WI-304-reference-file-comparison-batch-02"

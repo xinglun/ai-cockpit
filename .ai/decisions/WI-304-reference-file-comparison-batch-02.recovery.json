@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-26T11:30:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-304-reference-file-comparison-batch-02.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:45cb8acc6f0c93364e1bb1e634bafea15280e5ddad817e5756a5a299ed897e19",
+  "predecessorEventsDigest": "sha256:b72a63da81e3b531dc976caba803d6aca68a0bef29851bcdcddb168cd61904a6",
+  "predecessorOutcomeDigest": "sha256:825378e1784e94b1b04de1cd6abe2f41a266b6da99b2878c82f9907cbdc88f29",
+  "predecessorSummaryDigest": "sha256:0c6df557ebba8287165fc2ca832ecc0130e961637e6d8d23c2f116f0281207dd",
+  "predecessorWorkItemId": "WI-304-reference-file-comparison-batch-02",
+  "reason": "Retry after the finish gate correctly rejected the amended resource context; preserve the blocked Outcome and rerun preflight and verification against the finalized PR binding.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun a non-red preflight and fresh verification with the finalized PR resource context, then retry finish without changing governed source files.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-304-reference-file-comparison-batch-02"
+}

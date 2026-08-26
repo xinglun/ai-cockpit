@@ -13,9 +13,9 @@
     "docs/work-items/WI-304-reference-file-comparison-batch-02.ja.md"
   ],
   "checkpointAt": "2026-08-26T10:56:12Z",
-  "checkpointContractDigest": "sha256:f73dd03e4614678a5286d7c3efbf4d078c1235e69f26d8e26a23285b6cffa5da",
+  "checkpointContractDigest": "sha256:45cb8acc6f0c93364e1bb1e634bafea15280e5ddad817e5756a5a299ed897e19",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:cf9a8f136e6316f31a577cbde1ce211b47511ee3a868ae38234116716f617ffe",
+  "checkpointRepositorySnapshotDigest": "sha256:16b98cf5ada6d4c82dc02205c3da9f3fe1ea96c34e1097bc4c2298bbdebf6055",
   "createdAt": "2026-08-26T10:50:27Z",
   "failedGate": "finish.governance",
   "mode": "code",
@@ -24,10 +24,10 @@
     "Target shell scripts have bash syntax checks; a target-wide ShellCheck policy remains a separate CI-hygiene decision and is not silently treated as source parity."
   ],
   "outcomeState": "blocked",
-  "preflightAt": "2026-08-26T11:12:39Z",
-  "preflightContractDigest": "sha256:f73dd03e4614678a5286d7c3efbf4d078c1235e69f26d8e26a23285b6cffa5da",
+  "preflightAt": "2026-08-26T11:24:14Z",
+  "preflightContractDigest": "sha256:45cb8acc6f0c93364e1bb1e634bafea15280e5ddad817e5756a5a299ed897e19",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:cf9a8f136e6316f31a577cbde1ce211b47511ee3a868ae38234116716f617ffe",
+  "preflightRepositorySnapshotDigest": "sha256:16b98cf5ada6d4c82dc02205c3da9f3fe1ea96c34e1097bc4c2298bbdebf6055",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
@@ -38,8 +38,8 @@
     "docs/reference/reference-file-comparison.md",
     "tests/conformance/reference_file_inventory.py"
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-08-26T11:12:49Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-26T11:24:24Z",
   "verification": [
     {
       "check": "tests/conformance/reference_file_inventory_test.sh",
