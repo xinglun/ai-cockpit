@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "hosted-review-pending-merge",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "cfaebfb",
+    "name": "codex/wi-307-recovery-retry-gate-convergence",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:ded88114d890d1d2e9ebe5baf680c53446b5aaed3c53d91f24d8d4ae64dc5451",
+  "operationId": "operation-WI-307-recovery-retry-gate-convergence-pre-merge-rebuilt",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "b0f105429c63e5ba307eada1ad725e4f361d94d3",
+    "headRevision": "cfaebfb",
+    "number": 269,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/269"
+  },
+  "reason": "PR #269 is awaiting hosted review and merge; retain the exact branch and worktree until merge and cleanup are observed.",
+  "receiptId": "ai-cockpit-WI-307-recovery-retry-gate-convergence-pre-merge-rebuilt",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-307-recovery-retry-gate-convergence",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/269",
+    "worktree": "/private/tmp/ai-cockpit-wi307-recovery-retry-gate-convergence"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-27T00:26:00Z",
+  "workItemId": "WI-307-recovery-retry-gate-convergence",
+  "worktree": {
+    "branch": "codex/wi-307-recovery-retry-gate-convergence",
+    "headRevision": "cfaebfb",
+    "path": "/private/tmp/ai-cockpit-wi307-recovery-retry-gate-convergence",
+    "worktreeId": "WI-307-recovery-retry-gate-convergence"
+  }
+}
