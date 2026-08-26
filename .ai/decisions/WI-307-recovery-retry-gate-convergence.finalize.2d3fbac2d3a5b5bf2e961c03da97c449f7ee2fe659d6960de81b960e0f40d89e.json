@@ -1,0 +1,65 @@
+{
+  "governanceAppendRevision": "71795e97a59e2095d1512e3a71427360a3e5239c",
+  "predecessorReceiptDigest": "sha256:88672a9a36fe991e1f8119298a728b70684123dc7af6f3e7f652f03dde09b243",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "reviewed-PR-269-merge",
+    "before": {
+      "branch": "present",
+      "pullRequest": "unmerged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "71795e97a59e2095d1512e3a71427360a3e5239c",
+      "name": "codex/wi-307-recovery-retry-gate-convergence",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:ded88114d890d1d2e9ebe5baf680c53446b5aaed3c53d91f24d8d4ae64dc5451",
+    "operationId": "operation-WI-307-recovery-retry-gate-convergence-merge-observed",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "b0f105429c63e5ba307eada1ad725e4f361d94d3",
+      "headRevision": "71795e97a59e2095d1512e3a71427360a3e5239c",
+      "mergeCommit": "2ee4762665a86acdede1abfd2567b727b0ce63c8",
+      "number": 269,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/269"
+    },
+    "reason": "Observed reviewed PR #269 merged at exact reviewed head 71795e9 with merge commit 2ee4762; retain the exact branch and clean worktree until cleanup is verified.",
+    "receiptId": "ai-cockpit-WI-307-recovery-retry-gate-convergence-merge-observed",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-307-recovery-retry-gate-convergence",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/269",
+      "worktree": "/private/tmp/ai-cockpit-wi307-recovery-retry-gate-convergence"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+    "runtimeVersion": "0.2.33",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-26T20:42:39Z",
+    "workItemId": "WI-307-recovery-retry-gate-convergence",
+    "worktree": {
+      "branch": "codex/wi-307-recovery-retry-gate-convergence",
+      "headRevision": "71795e97a59e2095d1512e3a71427360a3e5239c",
+      "path": "/private/tmp/ai-cockpit-wi307-recovery-retry-gate-convergence",
+      "worktreeId": "WI-307-recovery-retry-gate-convergence"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-307-recovery-retry-gate-convergence-merge-observed"
+}
