@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "d53c04e928754743404ddf9bcb38dbf3606b2667",
+    "name": "codex/wi-308-reference-file-comparison-batch-04-retry",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:b4a606eff05b1216d2e2f4c48257bd16be897c17da64ee0dd3b71c561d0713fc",
+  "operationId": "github-pr-270-merge-cleanup-20260827",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "d5d24d2659bc8da1fb2cffc019a6a75c3be74e97",
+    "headRevision": "d53c04e928754743404ddf9bcb38dbf3606b2667",
+    "mergeCommit": "eb1243dbf7e4a98e82e6ab671db1e0db4322d853",
+    "number": 270,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/270"
+  },
+  "reason": "PR #270 passed all hosted checks and was merged; the exact feature branch and worktree were removed and verified.",
+  "receiptId": "github-pr-270-finalization-20260827",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-308-reference-file-comparison-batch-04-retry",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/270",
+    "worktree": "/private/tmp/ai-cockpit-wi308-reference-file-comparison-batch-04-retry"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-27T00:15:00Z",
+  "workItemId": "WI-308-reference-file-comparison-batch-04-retry",
+  "worktree": {
+    "branch": "codex/wi-308-reference-file-comparison-batch-04-retry",
+    "headRevision": "d53c04e928754743404ddf9bcb38dbf3606b2667",
+    "path": "/private/tmp/ai-cockpit-wi308-reference-file-comparison-batch-04-retry",
+    "worktreeId": "WI-308-reference-file-comparison-batch-04-retry"
+  }
+}
