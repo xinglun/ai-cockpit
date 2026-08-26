@@ -332,3 +332,26 @@ remain their authored values. This is not a claim that the Runtime provides
 general translation or a source-compatible Wizard UI. No `migrate-gap` was
 found in this slice; the interactive wizard itself remains an explicit
 reference-only boundary rather than an unrecorded omission.
+
+## WI-308 reference evidence, trust, and rollback-corruption slice
+
+WI-308 compares four files at the pinned source commit `e5acb677`: one visual
+demo asset, a hypothetical rollback-corruption case study, Evidence Governance,
+and the Trust Layer. The target records each file separately and keeps the
+source implementation and binary assets out of the Rust repository.
+
+| Reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/assets/ai-cockpit-demo.gif` | reference-only | The pinned GIF is GIF89a, 800x435, 587,945 bytes, SHA-256 `88838de7221dc859efde7e8e87913d0a23a21466195647ded60612adbad1f795`. It remains a source visual reference; no binary copy or Runtime contract is claimed. |
+| `docs/case-study-ai-rollback-corruption.md` | implemented-different-by-design | Tri-language adversarial-validation docs plus typed Contract/scope checks cover unauthorized paths, unrelated changes, and controlled recovery. The case remains hypothetical and the Runtime does not auto-rollback, approve a merge, or infer business impact. |
+| `docs/concepts/evidence-governance.md` | implemented-different-by-design | `docs/security/enterprise-governance.*`, `docs/reference/outcome-report.md`, and typed Protocol/Repository evidence project the Evidence → Governance Decision → Human Control chain. Provider evidence remains delegated and prose is never proof. |
+| `docs/concepts/trust-layer.md` | implemented-different-by-design | `docs/architecture/product-boundary.md`, `docs/philosophy.md`, enterprise-governance, and the capability truth matrix define calibrated trust, fail-closed unknowns, human control, and explicit non-goals. |
+
+The migration is semantic responsibility parity, not source wire or byte
+compatibility. The target's richer Contract/evidence schemas and shared
+request-scoped Runtime preserve the source safety intent while adding explicit
+repository identity, snapshots, human decisions, and provider boundaries. The
+GIF is deliberately reference-only. No source Python, Make, installer, or
+binary is copied, and no local evidence is promoted to provider or enterprise
+assurance. The same conclusions and reader route are available in Chinese and
+Japanese.

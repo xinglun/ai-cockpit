@@ -1,0 +1,67 @@
+{
+  "acceptanceCriteria": [
+    "固定 commit e5acb677 的四个参考文件逐个读取；GIF 记录类型、大小、摘要和 reference-only 边界，三个文本文件记录职责、事实、边界与迁移证据。",
+    "回滚腐化案例的 scope violation、无关变更、恢复已完成工作风险在三语对抗性验证文档中以 Rust-native 命令/证据边界表达，不制造模型检测或安全保证的 overclaim。",
+    "Evidence Governance 与 Trust Layer 分别绑定到现有企业治理、Outcome/evidence 文档、产品边界和设计哲学；读者路线明确，Contract/Runtime/外部 provider 责任不混淆。",
+    "更新 inventory generator、JSON ledger、regression script、三语 comparison/parity/work-item 文档；四条 WI-308 记录不再 deferred，不产生 migrate-gap。",
+    "安装 ai-cockpit 0.2.33 且所有命令显式 --repo；完成 preflight、checkpoint、verify、finish、archive、reviewed PR、merge、finalize-verify、close 和精确清理，交付可见中文 Outcome。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "d5d24d2659bc8da1fb2cffc019a6a75c3be74e97",
+  "createdAt": "2026-08-26T21:02:18Z",
+  "goal": "把参考源四个文件的职责、事实、边界与迁移证据完整投影到 Rust 工程的三语文档、inventory、regression 与 parity ledger，明确 GIF reference-only、回滚腐化对抗性验证、Evidence Governance、Trust Layer，且不复制参考源实现。",
+  "intent": "从最新 main 重新完成参考源固定四个文件的逐文件 evidence-backed 比对；WI-306 的实现提交已完成但其归档 PR 在 WI-307 合入后与新基线冲突，按 immutable failed delivery 规则保留旧 PR 审计记录并以独立 successor 重新治理同一范围。",
+  "mode": "code",
+  "outOfScope": [
+    "crates/**",
+    "scripts/**",
+    "copying reference Python/Make/installer source",
+    "copying the reference GIF or other binary assets",
+    "new Runtime commands or governance semantics",
+    "release/adopter/CI changes",
+    "global Agent or MCP configuration",
+    "immutable historical evidence or archive bytes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:13a7d24416851c24755337fbfd0a8846ac9c3599db7e765f3c938bc90dd988bd",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation",
+    "hosted CI checks",
+    "predecessor PR #268 closure and exact branch/worktree cleanup recorded as recovery context"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-308-reference-file-comparison-batch-04-retry",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi308-reference-file-comparison-batch-04-retry"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/security/adversarial-validation.md",
+    "docs/security/adversarial-validation.zh-CN.md",
+    "docs/security/adversarial-validation.ja.md",
+    "docs/work-items/WI-308-reference-file-comparison-batch-04-retry.md",
+    "docs/work-items/WI-308-reference-file-comparison-batch-04-retry.zh-CN.md",
+    "docs/work-items/WI-308-reference-file-comparison-batch-04-retry.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-308-reference-file-comparison-batch-04-retry"
+}

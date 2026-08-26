@@ -48,6 +48,29 @@ Manifest 还把 RAI-01 到 RAI-12 的命名案例绑定到明确状态（`pass`�
 
 `pass` 只表示确定性事实被覆盖，不表示 AI Cockpit 能识别所有恶意意图或验证所有外部身份。
 
+## 回滚腐化案例
+
+参考案例描述一个假设的 session validation 修改：本来只应修改两个认证文件，
+但 diff 同时碰到了无关的支付和 billing 文件。Rust 版本保留这一安全边界，但不假装
+实现自动语义回滚：由人拥有的 Contract 先声明允许路径和排除路径，Runtime 在 review
+或关闭前比较真实 snapshot/diff。
+
+```text
+scope: src/auth/session.rs, tests/auth/session_test.rs
+outOfScope: src/auth/payment.rs, src/billing/**
+```
+
+如果 Agent 修改了排除路径、悄悄删除已完成的 guard，或无法解释无关变更，scope/Contract
+门会保持阻断。Agent 必须保留 Work Item evidence，并展示可见 handoff：
+
+```bash
+ai-cockpit work-item outcome --repo /path/to/repository --id session-validation
+```
+
+这样一个看似合理的补丁不能抹掉审计轨迹，同时边界保持诚实：Runtime 可以证明路径、
+snapshot、verification 和 receipt 事实，但不能推导所有 caller、业务影响或外部契约。
+这些未知项必须交给人 review。本案例不表示自动 rollback、merge 批准或安全保证。
+
 运行时边界测试还验证仓库文本只作为数据、Work Item ID 不能路径穿越、MCP evidence 路径
 必须位于仓库内、验证命令使用 allowlist 和目标 cwd，以及 finish 不能在没有新鲜通过回执时
 自我声明完成。
