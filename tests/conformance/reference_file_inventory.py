@@ -102,6 +102,68 @@ WI287_REFERENCE_FILES: dict[str, tuple[list[str], str]] = {
     ),
 }
 
+WI272_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "scripts/ai_check_agent_risk.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/governance_controls.rs",
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-repository/tests/contract_preflight.rs",
+            "crates/cockpit-repository/tests/preflight_review.rs",
+        ],
+        "The reference Python risk gate is mapped to typed Contract, preflight, checkpoint, scenario, and lifecycle validators in Rust; the Python module is intentionally not copied.",
+    ),
+    "templates/agents/AI_COCKPIT_RULES.md": (
+        "implemented-different-by-design",
+        [
+            "AGENTS.md",
+            ".ai/README.md",
+            "crates/cockpit-agent/src/lib.rs",
+            "docs/reference/agent-workflow.md",
+            "docs/reference/agent-workflow.zh-CN.md",
+            "docs/reference/agent-workflow.ja.md",
+        ],
+        "The reference Agent rules are projected into repository-local instructions and the generated Rust adapter; template prompt files and provider-global configuration are not copied.",
+    ),
+    "tests/test_ai_check_agent_risk.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-agent/tests/install.rs",
+            "crates/cockpit-repository/tests/contract_preflight.rs",
+            "crates/cockpit-repository/tests/preflight_review.rs",
+            "crates/cockpit-repository/tests/lifecycle_order.rs",
+            "crates/cockpit-cli/tests/lifecycle.rs",
+        ],
+        "Rust regression tests cover the typed Contract, human review, lifecycle ordering, and generated adapter boundaries represented by the reference Python test corpus.",
+    ),
+    "tests/test_outcome_lifecycle_rules.py": (
+        "implemented-different-by-design",
+        [
+            "AGENTS.md",
+            ".ai/README.md",
+            "crates/cockpit-agent/tests/install.rs",
+            "docs/reference/agent-workflow.md",
+            "docs/reference/agent-workflow.zh-CN.md",
+            "docs/reference/agent-workflow.ja.md",
+        ],
+        "Outcome terminality, direct human handoff, current-Work-Item repair, and narrow successor rules are enforced by Rust-native instructions and adapter regression tests rather than copied reference Python tests.",
+    ),
+}
+
+WI293_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "tests/test_release_workflow.py": (
+        "deferred-next-batch",
+        ["tests/ci/quality_route_test.py", "tests/ci/repository_gate_manifest_test.py"],
+        "WI-293 adds Rust/Python Contract gate convergence checks; complete release workflow ordering and provider evidence remain deferred.",
+    ),
+    "tests/test_workflows.py": (
+        "deferred-next-batch",
+        ["tests/ci/quality_route_test.py", ".github/workflows/ci.yml"],
+        "WI-293 adds the Contract gate order and shadow boundary; full workflow graph, timeout, concurrency, and action policy parity remain deferred.",
+    ),
+}
+
 WI302_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
     ".ai/cockpit/bandit_low_risk_baseline.json": (
         "not-applicable",
@@ -516,6 +578,32 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                     "referencePath": path,
                     "batch": WI287_BATCH,
                     "classification": "implemented-different-by-design",
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
+        wi272 = WI272_REFERENCE_FILES.get(path)
+        if wi272 is not None:
+            classification, counterparts, reason = wi272
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": "WI-272-reference-agent-rule-batch",
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
+        wi293 = WI293_REFERENCE_FILES.get(path)
+        if wi293 is not None:
+            classification, counterparts, reason = wi293
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": "WI-293-ci-contract-aware-gates-recovery",
+                    "classification": classification,
                     "rustCounterparts": counterparts,
                     "reason": reason,
                 }
