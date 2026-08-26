@@ -1,0 +1,243 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-308-reference-file-comparison-batch-04-retry.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d9c56106480b400b6e04b521a484b01e63bbc61a4a2f83771f51d878edbcf012",
+      "workItemId": "WI-308-reference-file-comparison-batch-04-retry"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-file-comparison.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-file-comparison.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-file-comparison.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/security/adversarial-validation.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/security/adversarial-validation.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/security/adversarial-validation.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-308-reference-file-comparison-batch-04-retry.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-308-reference-file-comparison-batch-04-retry.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-308-reference-file-comparison-batch-04-retry.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/conformance/reference_file_inventory.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/conformance/reference_file_inventory.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/conformance/reference_file_inventory_test.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-308-reference-file-comparison-batch-04-retry.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-308-reference-file-comparison-batch-04-retry.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-308-reference-file-comparison-batch-04-retry.verification.json",
+            ".ai/decisions/WI-308-reference-file-comparison-batch-04-retry.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-27T00:20:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-308-reference-file-comparison-batch-04-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-308-reference-file-comparison-batch-04-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-308-reference-file-comparison-batch-04-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.contract.json"
+          ],
+          "inference": false,
+          "text": "把参考源四个文件的职责、事实、边界与迁移证据完整投影到 Rust 工程的三语文档、inventory、regression 与 parity ledger，明确 GIF reference-only、回滚腐化对抗性验证、Evidence Governance、Trust Layer，且不复制参考源实现。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-308-reference-file-comparison-batch-04-retry"
+  },
+  "finalReportDigest": "sha256:052532d3eb22220f6b98e1c05b55522b6240953d36e2f4e5dd5043a9aadf566f",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:743f6f156766c7a1ff4a118b4d7f3fba2a2575a75ebf6e96ba66ab05b3857170",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-308-reference-file-comparison-batch-04-retry.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-27T00:20:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-308-reference-file-comparison-batch-04-retry.verification.json",
+      ".ai/decisions/WI-308-reference-file-comparison-batch-04-retry.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md:canonical-delivery-order"
+    ],
+    "reason": "确认 WI-308 已通过 fresh Runtime verification、完整 hosted CI、PR review/merge、资源最终化与精确清理。",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-26T21:55:17Z",
+  "workItemId": "WI-308-reference-file-comparison-batch-04-retry"
+}
