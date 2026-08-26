@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "e6929fca13482eb15dba368db3239b306daf779e",
+    "name": "codex/wi-299-release-adopter-finalize-binding",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:4c347adc38bd346696b439353d6054150e98797e01c3105ad69e6010c84f657d",
+  "operationId": "github-pr-261-merge-cleanup-20260826",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "8fae5fd6399d02a3fa3db3143db9bb8d5520cd77",
+    "headRevision": "e6929fca13482eb15dba368db3239b306daf779e",
+    "mergeCommit": "87eee26ca923bab86e7208b9de1724a6d081092a",
+    "number": 261,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/261"
+  },
+  "reason": "PR #261 passed all hosted checks and was merged; the exact feature branch and worktree were removed and verified absent.",
+  "receiptId": "github-pr-261-finalization-20260826",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-299-release-adopter-finalize-binding",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/261",
+    "worktree": "/private/tmp/ai-cockpit-wi299-release-adopter"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-26T05:23:00Z",
+  "workItemId": "WI-299-release-adopter-finalize-binding",
+  "worktree": {
+    "branch": "codex/wi-299-release-adopter-finalize-binding",
+    "headRevision": "e6929fca13482eb15dba368db3239b306daf779e",
+    "path": "/private/tmp/ai-cockpit-wi299-release-adopter",
+    "worktreeId": "wi-299-release-adopter-finalize-binding"
+  }
+}
