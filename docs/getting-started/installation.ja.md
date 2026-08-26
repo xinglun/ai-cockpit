@@ -27,6 +27,12 @@ Install だけでは `.ai/` の作成、project quality command の選択、Agen
 hosted CI の証明、production readiness の判断は行いません。これらは独立した reviewable
 な repository 操作です。
 
+この Rust Runtime は reference template の 10 段階 Interactive Installer Wizard を意図的に
+提供しません。Install は immutable Release の境界であり、repository onboarding は `inspect`、
+`attach`、profile の proposal/confirmation、`doctor` を使って明示的かつ非暗黙に行います。
+Provider や Agent adapter は独自の conversation UI を提供できますが、これらの repository-bound
+operation を呼び出す必要があり、preview や prompt だけで approval を作ることはできません。
+
 Install 後は read-only-first route を使います。
 
 ```bash

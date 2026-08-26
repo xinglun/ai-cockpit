@@ -228,3 +228,41 @@ toolchain probe 没有目标等价物，明确属于外部或 adopter 责任。
 语法校验；针对目标脚本增加 ShellCheck 是独立的 CI hygiene 决策，因为参考源 gate 检查的是
 目标不存在的 installer。本批不复制任何参考源 Python module、Make target、installer 或多
 技术栈 fixture。
+
+## WI-305——架构、安装与验证文件级批次
+
+WI-305 在固定提交上逐个比对接下来的四个 deferred 参考文件。它们分别描述只读安装侦测器、
+可选的十阶段交互式 Installer Wizard、按阶段的轻量验证，以及 Wizard 输入/本地化原语。目标
+不是复制这些 Python adapter 的字节，而是逐项记录 Rust Runtime、adopter 外部边界或
+reference-only 结论。
+
+| 参考路径 | 分类 | Rust 对应物 / 有界结论 |
+| --- | --- | --- |
+| `docs/architecture/installation-detection-boundary.md` | implemented-different-by-design | `inspect`、`status`、`doctor`、`attach`、`profile propose`、首次校准文档和 CLI attach/profile 测试提供只读事实与显式写入边界。不可变 Release 安装与 repository onboarding 分离。 |
+| `docs/architecture/interactive-installation-wizard.md` | reference-only | 源十阶段 wizard、dry-run Installer preview 与确认界面不属于 Rust Runtime。目标支持公开 Release 校验后显式执行 `inspect` → `attach` → profile review/confirm → `doctor`；Agent adapter 可提供对话 UI，但不能制造批准。 |
+| `docs/architecture/lightweight-verification-and-soft-gates.md` | implemented-different-by-design | typed stage、policy 驱动 tier、fail-closed 治理决定、显式 skipped/unknown、单次 request-scoped context、动态 `light`/`standard`/`strict` 路由和 advisory cost/reuse telemetry 由 verification route、CI gate 和 cost 测试覆盖。源 `hard`/`soft`/`informational` checker 标签作为文档边界保留，不复制成通用 wire enum；源 Make/Python checker 编排不复制。 |
+| `docs/architecture/wizard-io-and-localization.md` | implemented-different-by-design | CLI/MCP 人类 Outcome 和命令展示支持 `en`/`zh-CN`/`ja`，保留 Contract 值原文，并在显式命令/preflight 边界 fail closed。由于目标没有交互式 Installer Wizard，不提供 Wizard 专用 TTY back/pause/help；对话控制由 adapter 负责。 |
+
+### 文件级发现与迁移边界
+
+源 detector 的 `new_adoption`/`upgrade` 区分，在目标中对应 Release 安装与 repository-local
+attach/profile 决定的分离。目标 inspection 是只读的；`attach` 和 profile confirm 是显式
+repository 写入，任何命令都不会从 prose 或检测到的技术栈推导 authority。active Work Item、
+dirty state、conflict、symlink risk 和缺失事实仍然是停止或请求审查的理由，而不是猜测的依据。
+
+源 interactive wizard 是其 Python Installer 外层的便利层，不是把 Installer 安装进 Rust
+repository 的要求。它的十个阶段、dry-run、取消、rollback boundary 与不 commit/push/PR/merge
+的承诺，在目标安装路线中作为 adopter 边界说明；目标不提供第二套 transaction authority，
+也没有可以绕过 Contract/preflight/human decision 的交互提示。
+
+源 soft-gate 文档的 `hard`、`soft`、`informational` 区分不会复制成目标通用 wire enum，而是
+映射为 fail-closed 治理决定和显式 advisory observation 的安全边界。不适用某阶段的检查也会
+显式输出，而不是被省略；trend 与 cost observation 仍是 advisory；`pre_ci` 不能变成 hosted CI
+evidence。tier 和 assurance 由 policy 绑定，不由执行速度推断。
+这同样适用于对象工程：共享 Runtime 在外部、每个请求显式带 `--repo`，provider/enterprise
+控制属于 delegated evidence。
+
+本地化只作用于 presentation。Runtime 生成的标题、状态、unknown、恢复文字和下一步可以按
+配置语言显示；路径、命令、Contract intent、acceptance criteria 与 machine evidence 保持
+编写时的值。这不代表 Runtime 提供通用翻译或 source-compatible Wizard UI。此批未发现
+`migrate-gap`；交互式 wizard 仍是明确的 reference-only 边界，而不是未记录的遗漏。

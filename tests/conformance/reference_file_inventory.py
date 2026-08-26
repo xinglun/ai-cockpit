@@ -37,6 +37,7 @@ WI270_BATCH = "WI-270-reference-contract-batch"
 WI287_BATCH = "WI-287-reference-checkpoint-conformance"
 WI302_BATCH = "WI-302-reference-file-comparison-batch-01"
 WI304_BATCH = "WI-304-reference-file-comparison-batch-02"
+WI305_BATCH = "WI-305-reference-file-comparison-batch-03"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -169,6 +170,55 @@ WI304_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
             "docs/release/distribution.md",
         ],
         "WI-304 compares all source smoke jobs, dispatch inputs, needs edges, artifacts, release/measurement conditions, and installer checks. The Rust target deliberately splits those responsibilities across ci.yml, release.yml, the canonical gate manifest, and immutable public/N-1 adopter acceptance. Source Python project-test shards, install.sh/Make smoke, and source-specific latest-toolchain probes have no target equivalent and remain documented external/adopter boundaries; no byte-level workflow parity is claimed.",
+    ),
+}
+
+WI305_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "docs/architecture/installation-detection-boundary.md": (
+        "implemented-different-by-design",
+        [
+            "docs/getting-started/installation.md",
+            "docs/getting-started/first-calibration.md",
+            "docs/getting-started/adopter-configuration.md",
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-cli/tests/attach.rs",
+            "crates/cockpit-cli/tests/profile_propose.rs",
+        ],
+        "The target exposes the same read-only-first facts and explicit write boundary through inspect, status, doctor, attach, profile propose, and calibration. It intentionally has no source-local Installer or implicit installation plan: the shared Runtime is installed from an immutable Release, while repository attachment and profile decisions remain explicit.",
+    ),
+    "docs/architecture/interactive-installation-wizard.md": (
+        "reference-only",
+        [
+            "docs/getting-started/installation.md",
+            "docs/getting-started/adopter-configuration.md",
+            "docs/architecture/product-boundary.md",
+        ],
+        "The source ten-stage interactive Installer Wizard is retained as reference architecture only. Rust deliberately does not ship a second interactive installer: public Release installation, explicit inspect/attach/profile commands, preflight human review, and provider-owned installation boundaries are the supported adopter flow.",
+    ),
+    "docs/architecture/lightweight-verification-and-soft-gates.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/verification-route.md",
+            "docs/reference/verification-semantics.md",
+            "docs/reference/ci-quality-gates.md",
+            "docs/reference/verification-cost.md",
+            "crates/cockpit-verification/src/lib.rs",
+            "crates/cockpit-repository/tests/verification_route.rs",
+            "crates/cockpit-verification/tests/cost_observation.rs",
+        ],
+        "Rust preserves stage-aware verification, fail-closed governance decisions, explicit skipped or unknown boundaries, one request-scoped context, dynamic light/standard/strict CI routing, and advisory cost/reuse telemetry through typed Runtime services. The source hard/soft/informational checker labels are represented as a documented boundary rather than copied as a generic wire enum; the source Make command and Python checker registry are not copied.",
+    ),
+    "docs/architecture/wizard-io-and-localization.md": (
+        "implemented-different-by-design",
+        [
+            "docs/getting-started/installation.md",
+            "docs/reference/outcome-report.md",
+            "docs/reference/commands.md",
+            "crates/cockpit-cli/src/main.rs",
+            "crates/cockpit-cli/tests/outcome_handoff.rs",
+            "crates/cockpit-mcp/tests/rpc.rs",
+        ],
+        "The target localizes Runtime-generated CLI/MCP Outcome and command presentation in en/zh-CN/ja, preserves contract/source values verbatim, and fails closed at explicit command and preflight boundaries. Source Wizard-specific TTY back/help/pause input is not a Runtime feature because the target has no interactive Installer Wizard; adapters remain responsible for conversation UX.",
     ),
 }
 
@@ -478,6 +528,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 {
                     "referencePath": path,
                     "batch": WI304_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
+        wi305 = WI305_REFERENCE_FILES.get(path)
+        if wi305 is not None:
+            classification, counterparts, reason = wi305
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI305_BATCH,
                     "classification": classification,
                     "rustCounterparts": counterparts,
                     "reason": reason,

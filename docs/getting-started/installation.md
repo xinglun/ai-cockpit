@@ -28,6 +28,13 @@ Installation alone does not create `.ai/`, choose project quality commands,
 install an Agent adapter, prove hosted CI, or make a repository production
 ready. Those are separate, reviewable repository actions.
 
+This Rust Runtime intentionally does not ship the reference template's
+ten-stage interactive Installer Wizard. Installation is an immutable Release
+boundary; repository onboarding is explicit and non-implicit through
+`inspect`, `attach`, profile proposal/confirmation, and `doctor`. A provider
+or Agent adapter may offer its own conversation UI, but it must call these
+repository-bound operations and cannot turn a preview or prompt into approval.
+
 After installation, use the read-only-first route:
 
 ```bash
