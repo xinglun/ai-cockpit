@@ -1,0 +1,61 @@
+{
+  "acceptanceCriteria": [
+    "对固定 commit e5acb677 的四个参考 architecture 文件逐个读取并记录其职责、边界、测试/实现依据。",
+    "每个文件必须得到 evidence-backed 的 Rust counterpart、reference-only 边界或 migrate-gap；不得把未提供的交互向导能力标为 equivalent。",
+    "安装文档三语明确共享外部 Runtime、显式 --repo、attach/校准路线，以及当前 Rust 不提供参考源十阶段交互安装向导的设计边界。",
+    "轻量验证与软门的 task/PR/release 视图、hard/soft/informational、stage_not_applicable、共享上下文、动态 light/standard/strict 和 CI shadow 边界均有目标证据。",
+    "更新 inventory generator、JSON ledger、regression script 和三语 comparison/work-item 文档；四条 WI-305 记录不再 deferred，且不存在 migrate-gap 或无依据 overclaim。",
+    "使用安装的 ai-cockpit 0.2.33，所有命令显式 --repo；完成 preflight、checkpoint、verify、finish、archive、reviewed PR、merge、close、精确清理并交付可见中文 Outcome。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "32ccab718c7b68d1e17ca3bfa51a3829d6288902",
+  "createdAt": "2026-08-26T12:27:33Z",
+  "goal": "在不复制参考源 Python/Make/交互向导实现的前提下，完成四个参考文件的语义结论、目标 counterpart 或明确 reference-only 边界，并更新逐文件清单和面向采用者的安装路线。",
+  "intent": "逐文件比对参考源四个 architecture 文档，确认 Rust Runtime 与对象工程的安装侦测、向导边界、轻量验证软门和本地化能力没有被遗漏，并把差异写成可审计的三语文档与清单。",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    "scripts/**",
+    "copying reference Python/Make/installer/wizard source",
+    "implementing an interactive installer wizard or new Runtime commands",
+    "release version or Homebrew changes",
+    "global Agent or MCP configuration",
+    "immutable historical evidence or archive records",
+    "second technology adopter"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9c541d5b28850f71921ab03cd720f822304af90408529e1ebfcd548accf1be24",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-305-reference-file-comparison-batch-03",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi305-reference-file-comparison-batch-03"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/getting-started/installation.md",
+    "docs/getting-started/installation.zh-CN.md",
+    "docs/getting-started/installation.ja.md",
+    "docs/work-items/WI-305-reference-file-comparison-batch-03.md",
+    "docs/work-items/WI-305-reference-file-comparison-batch-03.zh-CN.md",
+    "docs/work-items/WI-305-reference-file-comparison-batch-03.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-305-reference-file-comparison-batch-03"
+}
