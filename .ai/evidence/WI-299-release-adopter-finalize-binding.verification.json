@@ -1,6 +1,6 @@
 {
   "captureMode": "full_capture",
-  "createdAt": "2026-08-26T04:57:59Z",
+  "createdAt": "2026-08-26T05:01:47Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -8,8 +8,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 142550,
-      "executionElapsedMs": 142301,
+      "elapsedMs": 113225,
+      "executionElapsedMs": 113004,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -24,10 +24,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 142550,
-    "executionElapsedMs": 142301,
-    "filesHashed": 19,
-    "filesRead": 19,
+    "elapsedMs": 113225,
+    "executionElapsedMs": 113004,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -35,15 +35,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/work-items/WI-299-release-adopter-finalize-binding.ja.md",
-        "docs/work-items/WI-299-release-adopter-finalize-binding.md",
-        "docs/work-items/WI-299-release-adopter-finalize-binding.zh-CN.md",
-        "tests/release/adopter_acceptance.sh",
-        "tests/release/adopter_acceptance_test.sh",
-        "tests/release/adopter_upgrade_acceptance.sh",
-        "tests/release/adopter_upgrade_acceptance_test.sh"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "8fae5fd6399d02a3fa3db3143db9bb8d5520cd77",
       "dependencyConfidence": "unknown",
@@ -51,13 +43,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 142301,
+      "executionElapsedMs": 113004,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:17c9e181e21b27cdd9af8f99781bfca68acadf8f0da93612d9d33fff8c189977",
+      "repositorySnapshotDigest": "sha256:688945953e742521e2a997643f00e4b606cc4fb8d00f72b5462237c648a459b8",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -83,7 +75,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:dd7d128b345d3f26090207d86a5533c8a4bb989e5f5b638266f781f676a3e13e",
+        "outputDigest": "sha256:dae57a8e18a051ccd945b39d376505364a0a41a3d270a7b4fa19ce2cf573f5fa",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -99,9 +91,9 @@
     "runtimeVersion": "0.2.31",
     "workItemId": "WI-299-release-adopter-finalize-binding"
   },
-  "receiptDigest": "sha256:6a73bba69280ec9df413ee6ce41f7f7e113fb33519fe428c942c40e1280a201f",
+  "receiptDigest": "sha256:a63caba332cf824fd07bf340ddebeb560ea3d3a384a4ec274179f64820bd805a",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:17c9e181e21b27cdd9af8f99781bfca68acadf8f0da93612d9d33fff8c189977",
+  "repositorySnapshotDigest": "sha256:688945953e742521e2a997643f00e4b606cc4fb8d00f72b5462237c648a459b8",
   "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
   "runtimeVersion": "0.2.31",
   "workItemId": "WI-299-release-adopter-finalize-binding"

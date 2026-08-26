@@ -30,7 +30,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-299-release-adopter-finalize-binding",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/261",
     "worktree": "/private/tmp/ai-cockpit-wi299-release-adopter"
   },
   "risk": "normal",
