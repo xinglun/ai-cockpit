@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-26T04:20:00+09:00",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-297-release-v0-2-32.contract.json",
+    ".ai/work-items/archive/WI-297-release-v0-2-32.summary.json",
+    ".ai/work-items/archive/WI-297-release-v0-2-32.outcome.json",
+    ".ai/work-items/archive/WI-297-release-v0-2-32.events.jsonl",
+    "https://github.com/xinglun/ai-cockpit/pull/258"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:243a7dca65ddfb4b545c2d7ae491501f84f081b413ebbaaea1a1d17fb1dc960b",
+  "predecessorEventsDigest": "sha256:ef501ef541e20ee91c71cf319971808efdef72039836a461ca050703f2965848",
+  "predecessorOutcomeDigest": "sha256:a654086c0f0e28e8dc3122c9e73f95e33fed22e9f8b951fd6793a4c994fbac75",
+  "predecessorSummaryDigest": "sha256:b02c905794599247975ce624a34314b573208e8fbd706dee7b1174bb120db0cc",
+  "predecessorWorkItemId": "WI-297-release-v0-2-32",
+  "reason": "WI-297 was archived before its exact reviewed PR resource-finalization plan was recorded. Preserve every WI-297 byte and complete the missing finalization, cleanup verification, and structured closure through a narrow successor before publishing v0.2.32.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Create the linked successor from current main, bind the exact merged PR resources before verification, then finalize, verify cleanup, and close both the successor and predecessor relationship without rewriting predecessor bytes.",
+  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-298-release-v0-2-32-finalization-recovery",
+  "workItemId": "WI-297-release-v0-2-32"
+}
