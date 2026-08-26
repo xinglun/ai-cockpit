@@ -1,0 +1,23 @@
+{
+  "actor": "user-authorized",
+  "authoritySource": "user instruction in active task",
+  "decidedAt": "2026-08-26T04:05:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-297-release-v0-2-32.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:243a7dca65ddfb4b545c2d7ae491501f84f081b413ebbaaea1a1d17fb1dc960b",
+  "predecessorEventsDigest": "sha256:2d96d2791a978b6e2fc30df420756b1e8126e24cae977bbf44cb1ec4a27d7e68",
+  "predecessorOutcomeDigest": "sha256:fed04b78fb73d2185f8e4e5c0f96051baef999bae4b0aa555388abf14433e4bf",
+  "predecessorSummaryDigest": "sha256:e6ca9eb03e84ec8c4c3e279db0e0bc8ef39a879a6af0bb66d310e63cb367c4f9",
+  "predecessorWorkItemId": "WI-297-release-v0-2-32",
+  "reason": "Retry after the installed Runtime rejected replacing a retry-generated Task Outcome artifact; reopen the legal checkpointed state and regenerate current evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun verify, finish, and archive without changing source files between verification and archive.",
+  "runtimeDigest": "sha256:d7fd3ab24154aff7299c30d95932a8d48aff3ee8da0614bb4606ce45d10d42f9",
+  "runtimeVersion": "0.2.32",
+  "schemaVersion": 1,
+  "workItemId": "WI-297-release-v0-2-32"
+}

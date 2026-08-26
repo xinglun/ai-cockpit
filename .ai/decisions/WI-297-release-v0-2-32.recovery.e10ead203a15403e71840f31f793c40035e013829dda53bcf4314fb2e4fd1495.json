@@ -1,0 +1,23 @@
+{
+  "actor": "user-authorized",
+  "authoritySource": "user instruction in active task",
+  "decidedAt": "2026-08-26T04:00:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-297-release-v0-2-32.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:243a7dca65ddfb4b545c2d7ae491501f84f081b413ebbaaea1a1d17fb1dc960b",
+  "predecessorEventsDigest": "sha256:6cb7ca3c02d569096d55b128d257a1571a40b4c169f6e441e3668f5cd2662183",
+  "predecessorOutcomeDigest": "sha256:e009f88ff126003621853cc9ca075f6f29c72a3405a526047d093da6bfb358e6",
+  "predecessorSummaryDigest": "sha256:de73c308414d46d24ff280917a2c7ec4a7126fe806dd88067e8f199a1f28b3bd",
+  "predecessorWorkItemId": "WI-297-release-v0-2-32",
+  "reason": "Retry after the source snapshot changed between verification and archive; regenerate current Runtime evidence before archive.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun verify, finish, and archive without changing source files between verification and archive.",
+  "runtimeDigest": "sha256:d7fd3ab24154aff7299c30d95932a8d48aff3ee8da0614bb4606ce45d10d42f9",
+  "runtimeVersion": "0.2.32",
+  "schemaVersion": 1,
+  "workItemId": "WI-297-release-v0-2-32"
+}
