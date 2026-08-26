@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-26T13:05:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-305-reference-file-comparison-batch-03.verification.json",
+    ".ai/work-items/active/WI-305-reference-file-comparison-batch-03.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:900706c9880621a9b42cd7b71f2cf7f4f99b22a2f25991d52fa65c3507e0b840",
+  "predecessorEventsDigest": "sha256:75cbc89ba33ed5b4ac6fb521a80d1ebf435b9e2e3ae79ad458411f4e15cd9148",
+  "predecessorOutcomeDigest": "sha256:eae988e22326bc4104a252ed5dddedb77d315de6177dd0071cb4ec83adf1487c",
+  "predecessorSummaryDigest": "sha256:768097ecb80946f95f43f98c34b58da92b60893dbb03ac2347a9470dba512a9a",
+  "predecessorWorkItemId": "WI-305-reference-file-comparison-batch-03",
+  "reason": "Retry after the hosted Contract gate correctly rejected stale evidence following the in-scope inventory generator history-preservation fix; preserve the blocked Outcome and refresh the current Contract and verification evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run a fresh checkpoint and verification with the corrected inventory generator, then complete finish, archive, finalization, and close after hosted checks pass.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-305-reference-file-comparison-batch-03"
+}

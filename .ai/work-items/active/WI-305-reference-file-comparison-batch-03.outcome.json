@@ -7,9 +7,9 @@
     "更新 inventory generator、JSON ledger、regression script 和三语 comparison/work-item 文档；四条 WI-305 记录不再 deferred，且不存在 migrate-gap 或无依据 overclaim。",
     "使用安装的 ai-cockpit 0.2.33，所有命令显式 --repo；完成 preflight、checkpoint、verify、finish、archive、reviewed PR、merge、close、精确清理并交付可见中文 Outcome。"
   ],
-  "createdAt": "2026-08-26T12:50:10Z",
+  "createdAt": "2026-08-26T13:05:15Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:fe69387d7f9246467edbf69275d7c6dd499b25f3985a1b3982b388a128308d04",
+  "evidenceDigest": "sha256:5c5ed027a48ed436a3574476b1719c7d93abfe23df558909812823b9136aa1cf",
   "evidenceRefs": [
     ".ai/evidence/WI-305-reference-file-comparison-batch-03.verification.json"
   ],
@@ -35,7 +35,7 @@
         ".ai/evidence/WI-305-reference-file-comparison-batch-03.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:286cb60835842f2785796d98c42ec64bb2d3ae9437aa47dabc294bbe2f52387f",
+      "repositorySnapshotDigest": "sha256:1c7a4e81750e85dd9b21443488f2205b84221b14e90ca8b227c96472835c9e91",
       "workItemId": "WI-305-reference-file-comparison-batch-03"
     },
     "format": "ai-cockpit.task-outcome",
@@ -124,7 +124,7 @@
     "status": "verified",
     "workItemId": "WI-305-reference-file-comparison-batch-03"
   },
-  "taskReportDigest": "sha256:6eb53a33d3eb10ee424d347a77ba1440f5ed6ad2c0a93a08b33f3698e21e318f",
+  "taskReportDigest": "sha256:da27ace657d2ef2a818b94de2f7145599d57c94426388b54b983b443079127b9",
   "taskReportMarkdownDigest": "sha256:f22be605ea33e24a4c4906fc023703216a88c23fced1b696d1aee8c6eb34425a",
   "unknowns": [
     "user_visible_benefit_not_declared"

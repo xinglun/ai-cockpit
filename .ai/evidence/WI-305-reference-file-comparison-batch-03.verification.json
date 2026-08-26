@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
   "contractDigest": "sha256:900706c9880621a9b42cd7b71f2cf7f4f99b22a2f25991d52fa65c3507e0b840",
-  "createdAt": "2026-08-26T12:49:55Z",
+  "createdAt": "2026-08-26T13:05:07Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 127405,
-      "executionElapsedMs": 127154,
+      "elapsedMs": 121616,
+      "executionElapsedMs": 121300,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,8 +25,8 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 127405,
-    "executionElapsedMs": 127154,
+    "elapsedMs": 121616,
+    "executionElapsedMs": 121300,
     "filesHashed": 5,
     "filesRead": 5,
     "gitCalls": 8,
@@ -44,13 +44,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 127154,
+      "executionElapsedMs": 121300,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:286cb60835842f2785796d98c42ec64bb2d3ae9437aa47dabc294bbe2f52387f",
+      "repositorySnapshotDigest": "sha256:1c7a4e81750e85dd9b21443488f2205b84221b14e90ca8b227c96472835c9e91",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -76,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:8f20fca268e7016cedc9bcc53df0239c5b43b8815033d678e262f81ed8641391",
+        "outputDigest": "sha256:4fdf02cb6f5ad7747cc407f02f7edca43b5354d61a6c4125aad2b8bd384e18ef",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -92,9 +92,9 @@
     "runtimeVersion": "0.2.33",
     "workItemId": "WI-305-reference-file-comparison-batch-03"
   },
-  "receiptDigest": "sha256:5d93a9f6ed57c84f4bfb7392de93f2df9d2a48a307cc248d431d819a402f25e3",
+  "receiptDigest": "sha256:1e876fadb025f08b95a0e7f49155b8591b0664f350b71588d4eb53a776195bd1",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:286cb60835842f2785796d98c42ec64bb2d3ae9437aa47dabc294bbe2f52387f",
+  "repositorySnapshotDigest": "sha256:1c7a4e81750e85dd9b21443488f2205b84221b14e90ca8b227c96472835c9e91",
   "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
   "runtimeVersion": "0.2.33",
   "workItemId": "WI-305-reference-file-comparison-batch-03"

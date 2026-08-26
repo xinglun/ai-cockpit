@@ -4,7 +4,7 @@
       ".ai/evidence/WI-305-reference-file-comparison-batch-03.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:286cb60835842f2785796d98c42ec64bb2d3ae9437aa47dabc294bbe2f52387f",
+    "repositorySnapshotDigest": "sha256:1c7a4e81750e85dd9b21443488f2205b84221b14e90ca8b227c96472835c9e91",
     "workItemId": "WI-305-reference-file-comparison-batch-03"
   },
   "format": "ai-cockpit.task-outcome",
