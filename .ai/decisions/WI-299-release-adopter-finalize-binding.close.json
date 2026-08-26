@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-299-release-adopter-finalize-binding.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:688945953e742521e2a997643f00e4b606cc4fb8d00f72b5462237c648a459b8",
+      "workItemId": "WI-299-release-adopter-finalize-binding"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-299-release-adopter-finalize-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-299-release-adopter-finalize-binding.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-299-release-adopter-finalize-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-299-release-adopter-finalize-binding.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-299-release-adopter-finalize-binding.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-299-release-adopter-finalize-binding.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-299-release-adopter-finalize-binding.verification.json",
+            ".ai/decisions/WI-299-release-adopter-finalize-binding.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-26T05:26:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-299-release-adopter-finalize-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-299-release-adopter-finalize-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-299-release-adopter-finalize-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-299-release-adopter-finalize-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "Make staged and published adopter acceptance complete finalize and close against the archived Contract base revision."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-299-release-adopter-finalize-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-299-release-adopter-finalize-binding"
+  },
+  "finalReportDigest": "sha256:c8e12542655476ca355bc75e4f3a85d25946e3b968e25e6799988b4d6bfee04e",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:cc06f33ee92098cebbe2ef48ca43b0d17c6cff446ee9da0eaf2c8aed8e001a11",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-299-release-adopter-finalize-binding.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-26T05:26:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-299-release-adopter-finalize-binding.verification.json",
+      ".ai/decisions/WI-299-release-adopter-finalize-binding.finalize.json"
+    ],
+    "policyRefs": [
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "Reviewed hosted checks passed, the merged PR is finalized, and exact branch/worktree cleanup was verified.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-26T05:24:37Z",
+  "workItemId": "WI-299-release-adopter-finalize-binding"
+}

@@ -6,8 +6,12 @@ description: "release adopter の finalization receipt をアーカイブ済み 
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-299-release-adopter-finalize-binding
+terminalArchive: .ai/work-items/archive/WI-299-release-adopter-finalize-binding.contract.json
+terminalVerification: .ai/evidence/WI-299-release-adopter-finalize-binding.verification.json
+terminalFinalization: .ai/decisions/WI-299-release-adopter-finalize-binding.finalize.json
+terminalDecision: .ai/decisions/WI-299-release-adopter-finalize-binding.close.json
 authority: canonical
 ---
 
