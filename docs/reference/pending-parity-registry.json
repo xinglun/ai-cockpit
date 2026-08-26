@@ -1,4 +1,38 @@
 {
-  "entries": [],
+  "entries": [
+    {
+      "baseRevision": "a533d49dfa848d95742833f8cd1b5f7e1bb897d5",
+      "createdAt": "2026-08-26T09:50:35Z",
+      "expectedRecords": {
+        "contract": ".ai/work-items/archive/WI-302-reference-file-comparison-batch-01.contract.json",
+        "finalize": ".ai/decisions/WI-302-reference-file-comparison-batch-01.finalize.json",
+        "verification": ".ai/evidence/WI-302-reference-file-comparison-batch-01.verification.json"
+      },
+      "headRevision": "7679f2ea8f4ea77200fad3ab77d9b4bbd9c5acf7",
+      "parityRows": [
+        {
+          "path": "docs/reference/reference-parity.md",
+          "row": "| WI-302 — first deferred reference-file comparison batch | In progress | `.ai/work-items/archive/WI-302-reference-file-comparison-batch-01.contract.json`; `.ai/evidence/WI-302-reference-file-comparison-batch-01.verification.json`; `.ai/decisions/WI-302-reference-file-comparison-batch-01.finalize.json`; `.ai/decisions/WI-302-reference-file-comparison-batch-01.close.json`. |"
+        },
+        {
+          "path": "docs/reference/reference-parity.zh-CN.md",
+          "row": "| WI-302——第一批延后参考文件对比 | 进行中 | `.ai/work-items/archive/WI-302-reference-file-comparison-batch-01.contract.json`；`.ai/evidence/WI-302-reference-file-comparison-batch-01.verification.json`；`.ai/decisions/WI-302-reference-file-comparison-batch-01.finalize.json`；`.ai/decisions/WI-302-reference-file-comparison-batch-01.close.json`。 |"
+        },
+        {
+          "path": "docs/reference/reference-parity.ja.md",
+          "row": "| WI-302 — deferred reference-file comparison batch 01 | In progress | `.ai/work-items/archive/WI-302-reference-file-comparison-batch-01.contract.json`; `.ai/evidence/WI-302-reference-file-comparison-batch-01.verification.json`; `.ai/decisions/WI-302-reference-file-comparison-batch-01.finalize.json`; `.ai/decisions/WI-302-reference-file-comparison-batch-01.close.json`. |"
+        }
+      ],
+      "provider": "github",
+      "pullRequest": {
+        "number": 264,
+        "url": "https://github.com/xinglun/ai-cockpit/pull/264"
+      },
+      "registryBaseRevision": "1631e9d9571c559b2210893153fb91c6fe2567c7",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "state": "in_progress",
+      "workItemId": "WI-302-reference-file-comparison-batch-01"
+    }
+  ],
   "schemaVersion": 1
 }
