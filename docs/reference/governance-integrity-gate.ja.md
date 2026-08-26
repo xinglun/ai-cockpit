@@ -29,6 +29,11 @@ merge や release の承認ともみなされません。
 successor は独立して Contract、evidence、Outcome、parity、terminal decision を通過
 しなければなりません。
 
+有効な retry receipt に対応する archived Summary が修復済みの blocked finish を記録して
+いる場合、それは消費済みの履歴であり、新しい terminal decision ではありません。その
+pre-archive parity 順序 warning は merge と close の後も historical として保持しますが、
+malformed または foreign の retry record は引き続き fail-closed です。
+
 ## detached pull-request checkout
 
 Hosted pull request job は、`refs/remotes/origin/HEAD` や event の base branch metadata
