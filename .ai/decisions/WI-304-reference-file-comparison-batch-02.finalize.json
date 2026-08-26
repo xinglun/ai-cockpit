@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-pre-merge-finalization-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "52a22f36804e3bbd0aa7cbc96ff0f3d2c052d2cf",
+    "name": "codex/wi-304-reference-file-comparison-batch-02",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:c30a435aa1a516b5f069492298ade5278665657f999214e882c0967b9886c409",
+  "operationId": "operation-WI-304-reference-file-comparison-batch-02-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "c1f7383955fe800b112cd4cb45e0abf21b4ec791",
+    "headRevision": "52a22f36804e3bbd0aa7cbc96ff0f3d2c052d2cf",
+    "number": 266,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/266"
+  },
+  "reason": "PR #266 is reviewed but unmerged; retain the exact branch and clean worktree until hosted checks pass and merge/close are verified.",
+  "receiptId": "ai-cockpit-WI-304-reference-file-comparison-batch-02-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-304-reference-file-comparison-batch-02",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/266",
+    "worktree": "/private/tmp/ai-cockpit-wi304-reference-file-comparison-batch-02"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-26T11:45:00Z",
+  "workItemId": "WI-304-reference-file-comparison-batch-02",
+  "worktree": {
+    "branch": "codex/wi-304-reference-file-comparison-batch-02",
+    "headRevision": "52a22f36804e3bbd0aa7cbc96ff0f3d2c052d2cf",
+    "path": "/private/tmp/ai-cockpit-wi304-reference-file-comparison-batch-02",
+    "worktreeId": "WI-304-reference-file-comparison-batch-02"
+  }
+}
