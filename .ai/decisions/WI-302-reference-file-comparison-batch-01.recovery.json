@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "post-merge-parity-registration-recovery",
+  "decidedAt": "2026-08-26T10:14:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-302-reference-file-comparison-batch-01.verification.json",
+    ".ai/decisions/WI-302-reference-file-comparison-batch-01.finalize.json",
+    "docs/reference/agent-workflow.md"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:5cd39bf094ed5e3333bb49c5b74f70263ae244486cefdd1385ee8c8410040f42",
+  "predecessorEventsDigest": "sha256:b6e619d70d54d457d0ece3d97fe25fe1a35e54219846aa2445f51153c7382e30",
+  "predecessorOutcomeDigest": "sha256:d357df604bfac2642bdb0851cd4c7851016b008f8cbbd2267f27e2cd282fbbc3",
+  "predecessorSummaryDigest": "sha256:9ec98790e4837f0310fd0492ed09d244bab59e055437551155eff4c8b1db356b",
+  "predecessorWorkItemId": "WI-302-reference-file-comparison-batch-01",
+  "reason": "WI-302 is immutable merged delivery whose parity bridge could not be converted to three-language rows without violating finalization append provenance. Preserve all WI-302 bytes and use a narrow successor to promote the recovery projection and remove the stale bridge.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete successor parity registration and fresh hosted verification without rewriting WI-302 archived records.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-303-reference-file-comparison-parity-recovery",
+  "workItemId": "WI-302-reference-file-comparison-batch-01"
+}
