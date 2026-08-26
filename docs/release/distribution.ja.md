@@ -141,7 +141,7 @@ staged target への upgrade を行います。publish は両 job に依存し�
 Maintainer は Release 公開後に public binary acceptance baseline を再実行できます。
 
 **v0.2.33 adopter acceptance baseline: `aarch64-apple-darwin`。**
-WI-300 は公開後に v0.2.33 の public-binary receipt を永続化します。repository に保持された
+WI-301 は公開後に v0.2.33 の public-binary receipt を永続化します。repository に保持された
 WI-239 receipt は historical v0.2.31 baseline として残ります。GitHub Actions run `32696048024` も
 `x86_64-unknown-linux-gnu` 上で staged、public、N-1
 adopter path を完了しましたが、この hosted Linux artifact は external/provider-retained

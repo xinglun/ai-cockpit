@@ -1,0 +1,199 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/n-minus-one-post-migration.verification.json"
+      ],
+      "repositoryId": "sha256:d2bdc7fcc2e72cd4e70015cba43f0430d8d839997b09c3cba3057cb85a039945",
+      "repositorySnapshotDigest": "sha256:02d92fa13876216656e33fafaa2654df9cbd44c386d138e163904ca21bcb1fed",
+      "workItemId": "n-minus-one-post-migration"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/n-minus-one-post-migration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/n-minus-one-lifecycle.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/n-minus-one-post-migration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/n-minus-one-lifecycle.finalize.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/n-minus-one-post-migration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/n-minus-one-lifecycle.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/n-minus-one-post-migration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/n-minus-one-lifecycle.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/n-minus-one-post-migration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/n-minus-one-lifecycle.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/n-minus-one-post-migration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/n-minus-one-lifecycle.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/n-minus-one-post-migration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/n-minus-one-lifecycle.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/n-minus-one-post-migration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/n-minus-one-lifecycle.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/n-minus-one-post-migration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/n-minus-one-lifecycle.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/n-minus-one-post-migration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/n-minus-one-lifecycle.task-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/n-minus-one-post-migration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: Cargo.lock"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/n-minus-one-post-migration.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/n-minus-one-post-migration.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/n-minus-one-post-migration.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:release-acceptance via release-adopter-upgrade-acceptance at 2026-08-26T07:14:52Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/n-minus-one-post-migration.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/n-minus-one-post-migration.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/n-minus-one-post-migration.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/n-minus-one-post-migration.contract.json"
+          ],
+          "inference": false,
+          "text": "Prove the new Runtime can govern a fresh Work Item after N-1 migration."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/n-minus-one-post-migration.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "n-minus-one-post-migration"
+  },
+  "finalReportDigest": "sha256:67111562aaf2d83e162ced0fe4d96ff73cdd6f86916fa5b9e13027c61d5c9e70",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:d2bdc7fcc2e72cd4e70015cba43f0430d8d839997b09c3cba3057cb85a039945",
+  "resourceFinalizationHeadDigest": "sha256:9ffc350a563629beffb4ddae8c0977d25ec22f92d443fe068a82da2a31d2609e",
+  "resourceFinalizationHeadPath": ".ai/decisions/n-minus-one-post-migration.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:release-acceptance",
+    "authoritySource": "release-adopter-upgrade-acceptance",
+    "decidedAt": "2026-08-26T07:14:52Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/n-minus-one-post-migration.verification.json"
+    ],
+    "policyRefs": [
+      "release-adopter-upgrade-acceptance:v0.2.33"
+    ],
+    "reason": "Confirm continued governed operation after approved migration and public Release evidence passed.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-26T07:14:52Z",
+  "workItemId": "n-minus-one-post-migration"
+}

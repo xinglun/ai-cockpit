@@ -1,0 +1,8 @@
+{
+  "branch": "main",
+  "worktree": "/private/tmp/ai-cockpit-n-minus-one.n6kSAr/adopter",
+  "baseBranch": "main",
+  "baseRemote": "local",
+  "provider": "release-adopter-upgrade-harness",
+  "pullRequest": "acceptance://v0.2.31/n-minus-one-lifecycle"
+}

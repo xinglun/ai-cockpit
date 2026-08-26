@@ -135,7 +135,7 @@ publish 依赖这两个 job。其 receipt 记录 `stagedCandidate: true` 和
 维护者可以在 Release 发布后重复执行公开 binary 验收基线：
 
 **v0.2.33 adopter acceptance 基线：`aarch64-apple-darwin`。**
-WI-300 会在发布后持久化 v0.2.33 的公开 binary receipt；仓库保留的 WI-239 receipt
+WI-301 会在发布后持久化 v0.2.33 的公开 binary receipt；仓库保留的 WI-239 receipt
 仍是历史 v0.2.31 基线。GitHub Actions run `32696048024` 也在
 `x86_64-unknown-linux-gnu` 上完成 staged、public 与 N-1 adopter
 路径，但这些 hosted Linux artifacts 是外部、受 provider retention 限制的短期 evidence，

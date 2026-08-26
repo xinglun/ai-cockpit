@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "release-adopter-release-adopter-lifecycle",
+  "operationId": "retain-release-adopter-lifecycle",
+  "repositoryId": "sha256:6522f1339f3b9dc27d6556320728edf52a941c7c720d16d70dcaa1a0112abc4c",
+  "workItemId": "release-adopter-lifecycle",
+  "runtimeVersion": "0.2.33",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "provider": "release-adopter-harness",
+  "pullRequest": {
+    "number": 1,
+    "url": "acceptance://v0.2.33/release-adopter-lifecycle",
+    "headRevision": "5aadbb1be8450baceaf8866aa174d5fe3f518627",
+    "baseBranch": "main",
+    "baseRemote": "local",
+    "baseRevision": "efde78d95f7b549db2608285eac5206b2e3f905d",
+    "mergeCommit": "5aadbb1be8450baceaf8866aa174d5fe3f518627"
+  },
+  "branch": {
+    "name": "main",
+    "remote": "local",
+    "headRevision": "5aadbb1be8450baceaf8866aa174d5fe3f518627"
+  },
+  "worktree": {
+    "worktreeId": "release-adopter-lifecycle",
+    "path": "/private/tmp/ai-cockpit-adopter-acceptance.zO2rlp/adopter",
+    "branch": "main",
+    "headRevision": "5aadbb1be8450baceaf8866aa174d5fe3f518627"
+  },
+  "before": {
+    "pullRequest": "merged",
+    "branch": "present",
+    "worktree": "clean"
+  },
+  "after": {
+    "pullRequest": "merged",
+    "branch": "present",
+    "worktree": "clean"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "actor": "harness:release-adopter",
+  "authoritySource": "release-adopter-acceptance",
+  "reason": "The isolated adopter fixture is intentionally retained after lifecycle verification.",
+  "timestamp": "2026-08-26T07:07:56Z",
+  "contractDigest": "sha256:2d4fb0140dbd9e83ecda5e3f1d77a3728a5ff2af2bbb3c325d619cac9aa6ef87",
+  "resourceContext": {
+    "branch": "main",
+    "worktree": "/private/tmp/ai-cockpit-adopter-acceptance.zO2rlp/adopter",
+    "baseBranch": "main",
+    "baseRemote": "local",
+    "provider": "release-adopter-harness",
+    "pullRequest": "acceptance://v0.2.33/release-adopter-lifecycle"
+  }
+}
