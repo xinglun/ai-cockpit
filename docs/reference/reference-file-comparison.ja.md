@@ -281,3 +281,22 @@ recovery、next action は設定言語にできますが、path、command、Cont
 criteria、machine evidence は authored value のままです。一般翻訳や source-compatible Wizard UI
 を提供するという主張ではありません。この slice に `migrate-gap` はなく、Interactive Wizard は
 未記録の omission ではなく明示された reference-only boundary です。
+
+## WI-306 — evidence governance、trust、rollback-corruption の file-level slice
+
+WI-306 は pinned source commit `e5acb677` の 4 file、すなわち visual demo asset、仮想の
+rollback-corruption case study、Evidence Governance、Trust Layer を一つずつ比較します。
+source の実装や binary asset は Rust repository に copy しません。
+
+| Reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/assets/ai-cockpit-demo.gif` | reference-only | GIF89a、800x435、587,945 bytes、SHA-256 `88838de7221dc859efde7e8e87913d0a23a21466195647ded60612adbad1f795` の固定 visual reference です。binary copy や Runtime contract は主張しません。 |
+| `docs/case-study-ai-rollback-corruption.md` | implemented-different-by-design | 三言語 adversarial-validation と typed Contract/scope check が unauthorized path、無関係な変更、controlled recovery を扱います。case は仮想であり、Runtime は auto-rollback、merge approval、business impact 推論を行いません。 |
+| `docs/concepts/evidence-governance.md` | implemented-different-by-design | `docs/security/enterprise-governance.*`、`docs/reference/outcome-report.md`、typed Protocol/Repository evidence が Evidence → Governance Decision → Human Control を投影します。provider evidence は delegated で、prose は proof ではありません。 |
+| `docs/concepts/trust-layer.md` | implemented-different-by-design | `docs/architecture/product-boundary.md`、`docs/philosophy.md`、enterprise-governance、capability truth matrix が calibrated trust、fail-closed unknown、human control、non-goals を定義します。 |
+
+これは semantic responsibility parity であり source wire/byte compatibility ではありません。target
+の Contract/evidence schema と shared request-scoped Runtime は source の安全意図を保ちつつ、repository
+identity、snapshot、human decision、provider boundary を明示します。GIF は意図的に reference-only
+です。Python、Make、installer、binary は copy せず、local evidence を provider/enterprise assurance
+へ昇格させません。中国語と英語にも同じ結論と reader route を記載します。

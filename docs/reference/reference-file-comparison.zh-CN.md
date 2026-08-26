@@ -266,3 +266,21 @@ evidence。tier 和 assurance 由 policy 绑定，不由执行速度推断。
 配置语言显示；路径、命令、Contract intent、acceptance criteria 与 machine evidence 保持
 编写时的值。这不代表 Runtime 提供通用翻译或 source-compatible Wizard UI。此批未发现
 `migrate-gap`；交互式 wizard 仍是明确的 reference-only 边界，而不是未记录的遗漏。
+
+## WI-306：证据治理、信任层与回滚腐化案例
+
+WI-306 在固定参考提交 `e5acb677` 上逐个比对四个文件：一个演示用视觉资产、假设性的
+回滚腐化案例、Evidence Governance 和 Trust Layer。目标逐条记录结论，不复制参考源实现
+或二进制资产。
+
+| 参考源路径 | 分类 | Rust 对应/有界结论 |
+| --- | --- | --- |
+| `docs/assets/ai-cockpit-demo.gif` | reference-only | 固定 GIF 为 GIF89a、800x435、587,945 字节，SHA-256 为 `88838de7221dc859efde7e8e87913d0a23a21466195647ded60612adbad1f795`。仅作为视觉参考，不复制二进制，也不宣称它是 Runtime 合同。 |
+| `docs/case-study-ai-rollback-corruption.md` | implemented-different-by-design | 三语 adversarial-validation 文档与 typed Contract/scope 校验覆盖越权路径、无关变更和受控恢复。案例仍是假设性的；Runtime 不自动回滚、不批准合并，也不推断业务影响。 |
+| `docs/concepts/evidence-governance.md` | implemented-different-by-design | `docs/security/enterprise-governance.*`、`docs/reference/outcome-report.md` 以及 typed Protocol/Repository evidence 投影 Evidence → Governance Decision → Human Control 链。Provider evidence 仍由外部负责，文字本身不是证明。 |
+| `docs/concepts/trust-layer.md` | implemented-different-by-design | `docs/architecture/product-boundary.md`、`docs/philosophy.md`、企业治理文档和 capability truth matrix 定义校准信任、fail-closed 未知、人类控制及明确非目标。 |
+
+这里是语义责任 parity，不是 source wire 或字节兼容。目标更严格的 Contract/evidence schema 与共享
+request-scoped Runtime 保留源安全意图，并增加 repository identity、snapshot、人类决定和 provider
+边界。GIF 明确为 reference-only；不复制 Python、Make、installer 或二进制，也不把本地 evidence
+提升为 provider/enterprise assurance。日文文档提供同样结论和阅读路径。

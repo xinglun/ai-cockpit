@@ -57,6 +57,33 @@ review or external-assurance boundary:
 claim that AI Cockpit detects every malicious intention or verifies every
 external identity.
 
+## Rollback-corruption case study
+
+The reference case study describes a hypothetical session-validation change
+whose diff also touches unrelated payment and billing files. Rust preserves
+that safety boundary without pretending to implement an automatic semantic
+rollback: a human-owned Contract declares the allowed paths and exclusions,
+and the Runtime compares the actual snapshot/diff before review or closure.
+
+```text
+scope: src/auth/session.rs, tests/auth/session_test.rs
+outOfScope: src/auth/payment.rs, src/billing/**
+```
+
+If an agent changes an excluded path, silently removes a completed guard, or
+cannot explain an unrelated change, the scope/Contract gate remains blocked.
+The agent must keep the Work Item evidence and present the visible handoff:
+
+```bash
+ai-cockpit work-item outcome --repo /path/to/repository --id session-validation
+```
+
+This prevents a plausible patch from erasing the audit trail, while keeping
+the limits explicit: the Runtime can prove path, snapshot, verification, and
+receipt facts, but it cannot infer every caller, business impact, or external
+contract. Those unknowns remain visible for human review. No automatic
+rollback, merge approval, or security guarantee is implied by this example.
+
 Runtime boundary tests additionally verify that repository text is treated as
 data, Work Item IDs cannot traverse paths, MCP evidence paths stay inside the
 repository, verification commands use an allowlist and target cwd, and finish

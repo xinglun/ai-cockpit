@@ -1,0 +1,65 @@
+{
+  "acceptanceCriteria": [
+    "固定 commit e5acb677 的四个参考文件逐个读取；GIF 记录类型、大小、摘要和 reference-only 边界，三个文本文件记录职责、事实、边界与迁移证据。",
+    "回滚腐化案例的 scope violation、无关变更、恢复已完成工作风险在三语对抗性验证文档中以 Rust-native 命令/证据边界表达，不制造模型检测或安全保证的 overclaim。",
+    "Evidence Governance 与 Trust Layer 分别绑定到现有企业治理、Outcome/evidence 文档、产品边界和设计哲学；读者路线明确，Contract/Runtime/外部 provider 责任不混淆。",
+    "更新 inventory generator、JSON ledger、regression script、三语 comparison/parity/work-item 文档；四条 WI-306 记录不再 deferred，不产生 migrate-gap。",
+    "安装 ai-cockpit 0.2.33 且所有命令显式 --repo；完成 preflight、checkpoint、verify、finish、archive、reviewed PR、merge、finalize-verify、close 和精确清理，交付可见中文 Outcome。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "b0f105429c63e5ba307eada1ad725e4f361d94d3",
+  "createdAt": "2026-08-26T13:45:46Z",
+  "goal": "完成参考源四个文件的 evidence-backed 分类与三语读者文档迁移：把回滚腐化防护明确接入对抗性验证说明，把证据治理与信任层接入现有企业治理/产品边界/设计哲学路线，并诚实记录演示 GIF 的 reference-only 边界。",
+  "intent": "逐文件比对固定参考源中的演示资产、回滚腐化案例、Evidence Governance 与 Trust Layer，确保这些面向采用者的语义在 Rust Runtime 的现有文档和边界中有可审计 counterpart，且不复制参考源实现或二进制。",
+  "mode": "code",
+  "outOfScope": [
+    "crates/**",
+    "scripts/**",
+    "copying reference Python/Make/installer source",
+    "copying the reference GIF or other binary assets",
+    "new Runtime commands or governance semantics",
+    "release/adopter/CI changes",
+    "global Agent or MCP configuration",
+    "immutable historical evidence or archive bytes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7784cfe8371ba8eb47e42df84764e8b30f72a6fe274abf1351065e142c8e0a9f",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-306-reference-file-comparison-batch-04",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi306-reference-file-comparison-batch-04"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/security/adversarial-validation.md",
+    "docs/security/adversarial-validation.zh-CN.md",
+    "docs/security/adversarial-validation.ja.md",
+    "docs/work-items/WI-306-reference-file-comparison-batch-04.md",
+    "docs/work-items/WI-306-reference-file-comparison-batch-04.zh-CN.md",
+    "docs/work-items/WI-306-reference-file-comparison-batch-04.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-306-reference-file-comparison-batch-04"
+}
