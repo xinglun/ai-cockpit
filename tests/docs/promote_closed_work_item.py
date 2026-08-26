@@ -90,29 +90,42 @@ def valid_recovery_decision(repository: Path, work_item_id: str) -> bool:
     Promotion therefore skips it here, while the governance inventory remains
     responsible for validating and reporting the recovery boundary.
     """
-    recovery_path = repository / ".ai/decisions" / f"{work_item_id}.recovery.json"
-    if not recovery_path.exists() and not recovery_path.is_symlink():
-        return False
+    decision_dir = repository / ".ai/decisions"
+    recovery_paths = [decision_dir / f"{work_item_id}.recovery.json"]
+    recovery_paths.extend(sorted(decision_dir.glob(f"{work_item_id}.recovery.*.json")))
     try:
-        recovery = read_json(recovery_path)
         project = read_json(repository / ".ai/project.json")
     except PromotionError:
         return False
-    evidence_refs = recovery.get("evidenceRefs")
-    return (
-        recovery.get("schemaVersion") == 1
-        and recovery.get("workItemId") == work_item_id
-        and recovery.get("predecessorWorkItemId") == work_item_id
-        and isinstance(recovery.get("successorWorkItemId"), str)
-        and bool(recovery["successorWorkItemId"])
-        and recovery.get("decision") in {"successor", "supersede", "retry"}
-        and recovery.get("repositoryId") == project.get("repositoryId")
-        and isinstance(evidence_refs, list)
-        and bool(evidence_refs)
-        and all(isinstance(item, str) and item for item in evidence_refs)
-        and isinstance(recovery.get("reason"), str)
-        and bool(recovery["reason"].strip())
-    )
+    for recovery_path in recovery_paths:
+        if not recovery_path.exists() and not recovery_path.is_symlink():
+            continue
+        try:
+            recovery = read_json(recovery_path)
+        except PromotionError:
+            continue
+        evidence_refs = recovery.get("evidenceRefs")
+        if not (
+            recovery.get("schemaVersion") == 1
+            and recovery.get("workItemId") == work_item_id
+            and recovery.get("predecessorWorkItemId") == work_item_id
+            and isinstance(recovery.get("successorWorkItemId"), str)
+            and bool(recovery["successorWorkItemId"])
+            and recovery.get("decision") in {"successor", "supersede"}
+            and recovery.get("repositoryId") == project.get("repositoryId")
+            and isinstance(evidence_refs, list)
+            and bool(evidence_refs)
+            and all(isinstance(item, str) and item for item in evidence_refs)
+            and isinstance(recovery.get("reason"), str)
+            and bool(recovery["reason"].strip())
+        ):
+            continue
+        if recovery_path.name != f"{work_item_id}.recovery.json":
+            expected = canonical_digest(recovery).removeprefix("sha256:")
+            if recovery_path.name != f"{work_item_id}.recovery.{expected}.json":
+                continue
+        return True
+    return False
 
 
 def confirmed_approved_close(repository: Path, work_item_id: str) -> bool:

@@ -4,7 +4,7 @@
       ".ai/evidence/WI-294-lifecycle-recovery-state-machine.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:254e3976cbddf44c235d2cdc59878133ffbf4989896ee99972d9b58a175368c5",
+    "repositorySnapshotDigest": "sha256:f0ddf8d6adb28396090625b01669a4bc703c38647e9ff670959b7769d1467d88",
     "workItemId": "WI-294-lifecycle-recovery-state-machine"
   },
   "format": "ai-cockpit.task-outcome",
@@ -15,17 +15,17 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-294-lifecycle-recovery-state-machine.summary.json"
+          ".ai/work-items/archive/WI-294-lifecycle-recovery-state-machine.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-294-lifecycle-recovery-state-machine.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-294-lifecycle-recovery-state-machine.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-294-lifecycle-recovery-state-machine.summary.json"
+          ".ai/work-items/archive/WI-294-lifecycle-recovery-state-machine.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-294-lifecycle-recovery-state-machine.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-294-lifecycle-recovery-state-machine.summary.json"
       }
     ],
     "evidence": [
@@ -81,7 +81,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-294-lifecycle-recovery-state-machine.contract.json"
+          ".ai/work-items/archive/WI-294-lifecycle-recovery-state-machine.contract.json"
         ],
         "inference": false,
         "text": "A failed finish or equivalent governance gate can be explicitly retried or superseded, archive manifests remain internally bound, and the recovery path cannot strand a valid Work Item or weaken predecessor immutability."
@@ -90,7 +90,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-294-lifecycle-recovery-state-machine.contract.json"
+          ".ai/work-items/archive/WI-294-lifecycle-recovery-state-machine.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

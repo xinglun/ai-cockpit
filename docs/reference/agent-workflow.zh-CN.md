@@ -165,6 +165,11 @@ active artifacts。历史 archive 的不可变 bytes 与历史投影保持不变
 superseded manifest 直接绑定复制的报告 digest，因此不会为了嵌入生成的 task-report digest
 而重写历史 Outcome bytes。
 
+当人工授权的 retry 是由 `finish.lifecycle` 失败触发时，Runtime 可以设置显式的
+`recoveryRetryPending` 标记。该标记只允许基于已记录 recovery receipt 再执行一次新的
+验证；它不会伪造绿色 preflight。只有替换后的 report 与事件绑定都成功，`finish` 才会清除
+该标记；部分完成的 retry 会继续可见并可恢复。
+
 合并不等于 Work Item 关闭。Hosted checks 通过后，准确的 branch 和 worktree 还必须经过
 独立的资源收尾边界：
 

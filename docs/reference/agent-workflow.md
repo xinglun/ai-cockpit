@@ -220,6 +220,12 @@ retry. Superseded manifests bind copied report digests directly, so historical
 Outcome bytes are never rewritten merely to embed generated task-report
 digests.
 
+When a human-authorized retry follows a `finish.lifecycle` failure, Runtime may set an
+explicit `recoveryRetryPending` marker. That marker permits one fresh verification attempt
+against the recorded recovery receipt; it never synthesizes a green preflight. `finish` clears
+the marker only after replacement report and event bindings succeed, so a partial retry remains
+visible and recoverable.
+
 Merge is not Work Item closure. After hosted checks pass, the exact branch and
 worktree are a separate resource-finalization boundary:
 

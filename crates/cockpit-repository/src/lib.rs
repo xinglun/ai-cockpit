@@ -4266,6 +4266,7 @@ fn finish_work_item_internal(
     let summary_path = active.join(format!("{work_item_id}.summary.json"));
     let mut summary: serde_json::Value = read_json(&summary_path)?;
     let summary_state = summary["state"].as_str().unwrap_or("");
+    let retry_recovery_pending = summary["recoveryRetryPending"] == serde_json::json!(true);
     if summary_state != "checkpointed" {
         return Err(ObserverError::State {
             path: summary_path.clone(),
@@ -4456,7 +4457,14 @@ fn finish_work_item_internal(
         historical: false,
     });
     let (task_report_digest, task_report_markdown_digest) =
-        write_task_outcome_artifacts(&root, work_item_id, &task_report)?;
+        write_task_outcome_artifacts(&root, work_item_id, &task_report, retry_recovery_pending)?;
+    if retry_recovery_pending {
+        summary
+            .as_object_mut()
+            .expect("Work Item Summary is an object")
+            .remove("recoveryRetryPending");
+        atomic_json(&summary_path, &summary)?;
+    }
     let outcome_v2 = OutcomeV2 {
         schema_version: 2,
         repository_id: contract.repository_id.clone(),
@@ -4511,7 +4519,9 @@ fn finish_work_item_internal(
         let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.md")));
         return Err(error);
     }
-    if let Err(error) = append_task_outcome_events(&root, &contract, &task_report) {
+    if let Err(error) =
+        append_task_outcome_events(&root, &contract, &task_report, retry_recovery_pending)
+    {
         let _ = fs::remove_file(active.join(format!("{work_item_id}.outcome.json")));
         let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.json")));
         let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.md")));
@@ -4664,11 +4674,16 @@ fn validate_recovery_predecessor_bindings(
             message: error.to_string(),
         })?;
     if receipt.predecessor_summary_digest != expected_summary_digest {
-        return Err(recovery_decision_error(
-            summary_path,
-            "predecessor_summary_mismatch",
-            "predecessor Summary digest mismatch",
-        ));
+        let retry_pending = receipt.decision == "retry"
+            && summary["state"] == serde_json::json!("checkpointed")
+            && summary["recoveryRetryPending"] == serde_json::json!(true);
+        if !retry_pending {
+            return Err(recovery_decision_error(
+                summary_path,
+                "predecessor_summary_mismatch",
+                "predecessor Summary digest mismatch",
+            ));
+        }
     }
 
     let outcome_path = work_item_artifact_path_optional(root, work_item_id, "outcome.json")?;
@@ -4912,7 +4927,10 @@ fn prepare_retryable_lifecycle(
     let mut summary = read_json(&summary_path)?;
     let state = summary["state"].as_str().unwrap_or_default();
     if state == "checkpointed" {
-        return Ok((summary_path, summary));
+        let original = summary.clone();
+        summary["recoveryRetryPending"] = serde_json::json!(true);
+        atomic_json(&summary_path, &summary)?;
+        return Ok((summary_path, original));
     }
     if state != "finish_ready" {
         return Err(ObserverError::State {
@@ -4920,12 +4938,17 @@ fn prepare_retryable_lifecycle(
             message: format!("retry recovery requires finish_ready state, got {state}"),
         });
     }
+    let preflight_state = summary["preflightState"]
+        .as_str()
+        .unwrap_or_default()
+        .to_owned();
+    let lifecycle_retry = summary["failedGate"].as_str() == Some("finish.lifecycle");
     if summary["checkpointCount"] != serde_json::json!(1)
-        || !matches!(summary["preflightState"].as_str(), Some("green" | "yellow"))
+        || (!matches!(preflight_state.as_str(), "green" | "yellow") && !lifecycle_retry)
     {
         return Err(ObserverError::State {
             path: summary_path,
-            message: "retry recovery requires one checkpoint and a non-red preflight result".into(),
+            message: "retry recovery requires one checkpoint and either a non-red preflight result or a failed finish.lifecycle transition".into(),
         });
     }
     let original = summary.clone();
@@ -4936,6 +4959,7 @@ fn prepare_retryable_lifecycle(
         object.remove("recoveryCondition");
         object.remove("outcomeState");
     }
+    summary["recoveryRetryPending"] = serde_json::json!(true);
     atomic_json(&summary_path, &summary)?;
     Ok((summary_path, original))
 }
@@ -5058,10 +5082,13 @@ fn record_verification_internal(
             message: "verification requires exactly one completed checkpoint and an active lifecycle state".into(),
         });
     }
-    if !matches!(summary["preflightState"].as_str(), Some("green" | "yellow")) {
+    let recovery_retry_pending = summary["recoveryRetryPending"] == serde_json::json!(true);
+    if !matches!(summary["preflightState"].as_str(), Some("green" | "yellow"))
+        && !recovery_retry_pending
+    {
         return Err(ObserverError::State {
             path: summary_path,
-            message: "verification requires a recorded non-red preflight result".into(),
+            message: "verification requires a recorded non-red preflight result unless an explicit recovery retry is pending".into(),
         });
     }
     if receipt["passed"] != serde_json::Value::Bool(true) {
@@ -11574,6 +11601,7 @@ fn append_task_outcome_events(
     root: &Path,
     contract: &Contract,
     report: &TaskOutcomeReport,
+    allow_recovery_retry: bool,
 ) -> Result<(), ObserverError> {
     let path = task_outcome_event_path(root, &contract.work_item_id, false);
     let mut events = if fs::symlink_metadata(&path).is_ok() {
@@ -11583,7 +11611,17 @@ fn append_task_outcome_events(
             &contract.repository_id,
             &contract.work_item_id,
         )?;
-        if existing.iter().any(|event| event.event_type == "completed") {
+        let last_completed = existing
+            .iter()
+            .rposition(|event| event.event_type == "completed");
+        let completed_then_blocked = last_completed.is_some_and(|index| {
+            existing[index + 1..]
+                .iter()
+                .any(|event| event.event_type == "blocked")
+        });
+        if existing.iter().any(|event| event.event_type == "completed")
+            && !(allow_recovery_retry && completed_then_blocked)
+        {
             return Err(ObserverError::State {
                 path,
                 message: "Task Outcome event stream already contains a completion event".into(),
@@ -11702,6 +11740,7 @@ fn write_task_outcome_artifacts(
     root: &Path,
     work_item_id: &str,
     report: &TaskOutcomeReport,
+    replace_existing: bool,
 ) -> Result<(Digest, Digest), ObserverError> {
     let active = root.join(".ai/work-items/active");
     let report_value = serde_json::to_value(report).map_err(|error| ObserverError::State {
@@ -11719,7 +11758,9 @@ fn write_task_outcome_artifacts(
     let json_path = active.join(format!("{work_item_id}.task-report.json"));
     let markdown_path = active.join(format!("{work_item_id}.task-report.md"));
     for path in [&json_path, &markdown_path] {
-        if fs::symlink_metadata(path).is_ok() {
+        if fs::symlink_metadata(path).is_ok()
+            && (!replace_existing || !is_regular_non_symlink(path)?)
+        {
             return Err(ObserverError::State {
                 path: path.clone(),
                 message: "Task Outcome report artifact already exists".into(),
@@ -12156,6 +12197,7 @@ fn load_recovery_decision(
         .is_some_and(|parent| parent.ends_with("archive"));
     let (paths, strict) = recovery_decision_candidate_paths(root, work_item_id, archived)?;
     let mut candidates = Vec::new();
+    let mut stale_candidates = Vec::new();
     for path in paths {
         let receipt = match read_and_validate_recovery_decision(
             root,
@@ -12167,12 +12209,60 @@ fn load_recovery_decision(
         ) {
             Ok(receipt) => receipt,
             Err(_) if !strict => continue,
-            Err(error) => return Err(error),
+            Err(error) => {
+                // An append-only recovery chain may contain an older retry
+                // receipt whose predecessor bindings became stale after a
+                // Contract amendment or Runtime upgrade.  Preserve that
+                // historical byte, but allow a newer valid receipt to become
+                // the current projection.  Malformed, misnamed, foreign, or
+                // otherwise untrusted candidates still fail closed.
+                let stale_binding = [
+                    "predecessor_contract_mismatch",
+                    "predecessor_summary_mismatch",
+                    "predecessor_outcome_mismatch",
+                    "predecessor_events_mismatch",
+                    "runtime_mismatch",
+                ]
+                .iter()
+                .any(|code| error.to_string().contains(code));
+                if !stale_binding {
+                    return Err(error);
+                }
+                let parsed = read_json(&path).ok().map(|value| {
+                    let decision = value["decision"].as_str().map(str::to_owned);
+                    let timestamp = value["decidedAt"]
+                        .as_str()
+                        .and_then(|value| DateTime::parse_from_rfc3339(value).ok())
+                        .map(|value| value.timestamp_millis());
+                    (timestamp, decision)
+                });
+                let (timestamp, decision) = parsed.unwrap_or((None, None));
+                stale_candidates.push((timestamp, decision, error));
+                continue;
+            }
         };
         let decided_at = DateTime::parse_from_rfc3339(&receipt.decided_at)
             .expect("recovery validator accepted RFC3339")
             .timestamp_millis();
         candidates.push((decided_at, path, receipt));
+    }
+    if let Some(latest_valid) = candidates.iter().map(|item| item.0).max() {
+        if let Some((_, _, error)) = stale_candidates
+            .into_iter()
+            .find(|(timestamp, _, _)| timestamp.is_none_or(|value| value >= latest_valid))
+        {
+            return Err(error);
+        }
+    } else if stale_candidates
+        .iter()
+        .all(|(_, decision, _)| decision.as_deref() == Some("retry"))
+    {
+        // Retry receipts bind the pre-retry Summary by design. Once fresh
+        // verification advances that Summary, retain the bytes as history
+        // without projecting them as a current recovery decision.
+        return Ok(None);
+    } else if let Some((_, _, error)) = stale_candidates.into_iter().next() {
+        return Err(error);
     }
     candidates.sort_by(|left, right| left.0.cmp(&right.0).then_with(|| left.1.cmp(&right.1)));
     Ok(candidates.pop().map(|(_, _, receipt)| receipt))

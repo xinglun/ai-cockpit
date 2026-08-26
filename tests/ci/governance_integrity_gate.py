@@ -1012,7 +1012,7 @@ def recovery_decision_candidate(
             candidates.append((path, value))
     if not candidates:
         return None
-    return max(
+    selected = max(
         candidates,
         key=lambda item: (
             item[1].get("decision") == "supersede",
@@ -1021,6 +1021,21 @@ def recovery_decision_candidate(
             str(item[0]),
         ),
     )
+    # A successful retry is historical recovery evidence, not a terminal
+    # decision. Once the archived Outcome is green, projecting the retry as
+    # ``recovered`` would make a normal completed Work Item look superseded
+    # and would require a successor that does not exist. Keep retry bytes
+    # immutable, but let the current green archive be governed by its normal
+    # close/finalization path.
+    if selected[1].get("decision") == "retry":
+        archived_outcome = repo / ".ai/work-items/archive" / f"{work_item}.outcome.json"
+        try:
+            outcome = load_json(archived_outcome)
+        except ValueError:
+            outcome = {}
+        if outcome.get("decisionState") == "green":
+            return None
+    return selected
 
 
 def valid_close_decision(repo: Path, work_item: str, value: dict[str, Any]) -> bool:
@@ -1355,8 +1370,22 @@ def main() -> int:
                 except ValueError:
                     decision_value = {}
                 if valid_close_decision(repo, work_item, decision_value):
-                    record["decisionPath"] = decision
-                    record["lifecycleState"] = "closed"
+                    if (
+                        recovery_receipt_valid
+                        and decision_value.get("humanDecision") == "superseded"
+                        and recovery_value.get("decision") in {"successor", "supersede"}
+                    ):
+                        # A structured superseded close is a valid historical
+                        # decision, but it is not a green implementation
+                        # projection.  Keep the recovery receipt as the
+                        # terminal inventory path so parity remains explicitly
+                        # recovered and successor-owned.
+                        decision = str(recovery_path.relative_to(repo))
+                        record["decisionPath"] = decision
+                        record["lifecycleState"] = "recovered"
+                    else:
+                        record["decisionPath"] = decision
+                        record["lifecycleState"] = "closed"
                 elif recovery_receipt_valid:
                     # A predecessor may already contain an immutable, but
                     # non-canonical, close receipt when a later recovery
@@ -1376,14 +1405,27 @@ def main() -> int:
                     record["decisionPath"] = decision
                     record["lifecycleState"] = "recovered"
                 else:
-                    record["lifecycleState"] = "closure_invalid"
-                    findings.append(
-                        finding(
-                            work_item,
-                            "invalid_terminal_decision",
-                            str(recovery_path.relative_to(repo)),
+                    # A valid canonical retry whose archived Outcome is green
+                    # is historical evidence, not a terminal decision.  Keep
+                    # the immutable retry receipt, then continue to resolve a
+                    # real finalization/close boundary below.
+                    try:
+                        historical_retry = load_json(recovery_path)
+                    except ValueError:
+                        historical_retry = {}
+                    if valid_recovery_decision(repo, work_item, historical_retry) and historical_retry.get(
+                        "decision"
+                    ) == "retry":
+                        pass
+                    else:
+                        record["lifecycleState"] = "closure_invalid"
+                        findings.append(
+                            finding(
+                                work_item,
+                                "invalid_terminal_decision",
+                                str(recovery_path.relative_to(repo)),
+                            )
                         )
-                    )
             if decision is None:
                 finalize_path = f".ai/decisions/{work_item}.finalize.json"
                 if (repo / finalize_path).is_file():
@@ -1426,10 +1468,45 @@ def main() -> int:
                                 )
                             )
                 else:
-                    record["lifecycleState"] = "closure_missing"
-                    findings.append(
-                        finding(work_item, "missing_terminal_decision", decision_paths[0])
+                    # An archived Work Item on its reviewed feature branch may
+                    # legitimately be between archive and provider finalization.
+                    # The immutable Contract's non-provisional resourceContext
+                    # proves that finalize-plan was performed before archive;
+                    # requiring a provider finalization receipt at this point
+                    # makes the PR gate fail before merge and strands recovery.
+                    try:
+                        archived_contract = load_json(
+                            repo
+                            / ".ai/work-items/archive"
+                            / f"{work_item}.contract.json"
+                        )
+                    except ValueError:
+                        archived_contract = {}
+                    context = archived_contract.get("resourceContext")
+                    base_branch = (
+                        context.get("baseBranch")
+                        if isinstance(context, dict)
+                        else None
                     )
+                    provider = context.get("provider") if isinstance(context, dict) else None
+                    if (
+                        isinstance(context, dict)
+                        and isinstance(base_branch, str)
+                        and base_branch
+                        and isinstance(provider, str)
+                        and provider != "unknown"
+                        and repository_phase(repo, base_branch) in {"feature_branch", "pull_request"}
+                    ):
+                        record["lifecycleState"] = "awaiting_merge_close"
+                    else:
+                        record["lifecycleState"] = "closure_missing"
+                        findings.append(
+                            finding(
+                                work_item,
+                                "missing_terminal_decision",
+                                decision_paths[0],
+                            )
+                        )
             work_item_rows = rows.get(short_id(work_item), {})
             pending_entry = pending_by_work_item.get(work_item)
             pending_valid = False

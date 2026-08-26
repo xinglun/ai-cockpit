@@ -1,0 +1,23 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "human-explicit",
+  "decidedAt": "2026-08-26T01:25:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-294-lifecycle-recovery-state-machine.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:71d1882dc53ea514b813d6da406fa6ce6e7d9caec3d1d440d5c168826feb889f",
+  "predecessorEventsDigest": "sha256:1e2eb5c60f58fefd557e5b72b7f577a89e5ef6d53decf9404ed772deb0c8f23f",
+  "predecessorOutcomeDigest": "sha256:0e266cb4379ad76fe5eba88c73535c32dfe19a64c81b10e2d104ffc46a5024a3",
+  "predecessorSummaryDigest": "sha256:af36a340ab69bd48179e1fb1d394280e681ab5922f5b2fd69c4c0968d0c59a32",
+  "predecessorWorkItemId": "WI-294-lifecycle-recovery-state-machine",
+  "reason": "Retry WI-294 after the full lifecycle recovery fix rebuilt; permit a fresh finish projection without discarding the failed attempt.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Finish with the current Contract and evidence, then complete hosted review and closure.",
+  "runtimeDigest": "sha256:496f84610ab385f522215bcb31ffe00493e2ed413b6d74874d3b9ecdad3cade2",
+  "runtimeVersion": "0.2.31",
+  "schemaVersion": 1,
+  "workItemId": "WI-294-lifecycle-recovery-state-machine"
+}

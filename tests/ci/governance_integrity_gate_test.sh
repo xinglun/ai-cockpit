@@ -154,6 +154,120 @@ assert item["decisionPath"].endswith(".recovery." + "a" * 64 + ".json"), item
 assert item["lifecycleState"] == "recovered", item
 PY
 printf 'governance recovery suffix regression passed\n'
+
+# A successful retry remains immutable history and must not turn an otherwise
+# normal archived/finalized item into a recovered predecessor. The static gate
+# must continue to project the real finalization boundary.
+build_fixture "$fixtures/awaiting-merge-close.json" "$tmp/successful-retry-history"
+python3 - "$tmp/successful-retry-history" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = "WI-901-corrective-after-baseline"
+project = json.loads((root / ".ai/project.json").read_text(encoding="utf-8"))
+(root / ".ai/decisions" / f"{work_item}.recovery.json").write_text(
+    json.dumps(
+        {
+            "schemaVersion": 1,
+            "workItemId": work_item,
+            "predecessorWorkItemId": work_item,
+            "successorWorkItemId": None,
+            "decision": "retry",
+            "repositoryId": project["repositoryId"],
+            "reason": "Retry a failed lifecycle transition without rewriting history.",
+            "evidenceRefs": [f".ai/evidence/{work_item}.verification.json"],
+        },
+        indent=2,
+    )
+    + "\n",
+    encoding="utf-8",
+)
+PY
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF python3 "$gate" --repo "$tmp/successful-retry-history" --report "$tmp/successful-retry-history-report.json" >/dev/null
+python3 - "$tmp/successful-retry-history-report.json" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert report["findings"] == [], report["findings"]
+item = next(
+    item
+    for item in report["inventory"]
+    if item["workItemId"] == "WI-901-corrective-after-baseline"
+)
+assert item["lifecycleState"] == "awaiting_merge_close", item
+assert item["decisionPath"].endswith(".finalize.json"), item
+PY
+printf 'governance successful-retry history regression passed\n'
+
+# A predecessor may have a structurally valid close whose human decision is
+# explicitly superseded.  The recovery receipt must still own the inventory
+# projection so the parity row cannot claim a green implementation.
+build_fixture "$fixtures/valid.json" "$tmp/superseded-structured-close"
+python3 - "$tmp/superseded-structured-close" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = "WI-900-release-v9-9-9"
+repository_id = "sha256:" + "b" * 64
+decisions = root / ".ai/decisions"
+close_path = decisions / f"{work_item}.close.json"
+close = json.loads(close_path.read_text(encoding="utf-8"))
+close["humanDecision"] = "superseded"
+close["structuredDecision"]["decision"] = "superseded"
+close_path.write_text(json.dumps(close, indent=2) + "\n", encoding="utf-8")
+recovery_path = decisions / f"{work_item}.recovery.json"
+recovery_path.write_text(
+    json.dumps(
+        {
+            "schemaVersion": 1,
+            "workItemId": work_item,
+            "predecessorWorkItemId": work_item,
+            "successorWorkItemId": "WI-901-corrective-after-baseline",
+            "decision": "supersede",
+            "repositoryId": repository_id,
+            "reason": "Preserve the predecessor as immutable history.",
+            "evidenceRefs": [f".ai/evidence/{work_item}.verification.json"],
+        },
+        indent=2,
+    )
+    + "\n",
+    encoding="utf-8",
+)
+for name in ("reference-parity.md", "reference-parity.zh-CN.md", "reference-parity.ja.md"):
+    path = root / "docs/reference" / name
+    text = path.read_text(encoding="utf-8")
+    text = text.replace(
+        f"`.ai/decisions/{work_item}.close.json`",
+        f"`.ai/decisions/{work_item}.recovery.json`",
+    )
+    text = text.replace("| Implemented |", "| Recovered |", 1)
+    text = text.replace("| 已实现 |", "| 已恢复 |", 1)
+    path.write_text(text, encoding="utf-8")
+PY
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$tmp/superseded-structured-close" \
+  --report "$tmp/superseded-structured-close-report.json" >/dev/null
+python3 - "$tmp/superseded-structured-close-report.json" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert report["findings"] == [], report["findings"]
+item = next(
+    item
+    for item in report["inventory"]
+    if item["workItemId"] == "WI-900-release-v9-9-9"
+)
+assert item["lifecycleState"] == "recovered", item
+assert item["decisionPath"].endswith(".recovery.json"), item
+PY
+printf 'governance structured superseded-close regression passed\n'
 run_case superseded-recovery 0 none
 run_case invalid-recovery 1 invalid_terminal_decision
 

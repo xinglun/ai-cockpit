@@ -245,6 +245,72 @@ repository_id = json.loads((root / ".ai/project.json").read_text())[
 PY
 python3 "$helper" --repo "$tmp/recovered-predecessor" --check-all
 
+# A retry receipt may remain the canonical recovery record while a later,
+# digest-addressed supersede receipt records the immutable predecessor
+# boundary.  Promotion must discover the valid hashed receipt rather than
+# treating the predecessor as a normal approved close.
+cp -R "$tmp/unpromoted" "$tmp/retry-then-superseded"
+python3 - "$tmp/retry-then-superseded" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = "WI-999-closed-docs-fixture"
+repository_id = json.loads((root / ".ai/project.json").read_text())["repositoryId"]
+
+def canonical_digest(value: object) -> str:
+    encoded = json.dumps(value, ensure_ascii=False, separators=(",", ":"), sort_keys=True).encode()
+    return "sha256:" + hashlib.sha256(encoded).hexdigest()
+
+(root / ".ai/decisions" / f"{work_item}.close.json").write_text(
+    json.dumps(
+        {
+            "workItemId": work_item,
+            "repositoryId": repository_id,
+            "state": "closed",
+            "decisionState": "confirmed",
+            "humanDecision": "historical descriptive close",
+        },
+        indent=2,
+    )
+    + "\n",
+    encoding="utf-8",
+)
+(root / ".ai/decisions" / f"{work_item}.recovery.json").write_text(
+    json.dumps(
+        {
+            "schemaVersion": 1,
+            "workItemId": work_item,
+            "predecessorWorkItemId": work_item,
+            "decision": "retry",
+            "repositoryId": repository_id,
+            "reason": "A failed delivery was retried before the predecessor was superseded.",
+            "evidenceRefs": [f".ai/evidence/{work_item}.verification.json"],
+        },
+        indent=2,
+    )
+    + "\n",
+    encoding="utf-8",
+)
+supersede = {
+    "schemaVersion": 1,
+    "workItemId": work_item,
+    "predecessorWorkItemId": work_item,
+    "successorWorkItemId": "WI-1000-successor",
+    "decision": "supersede",
+    "repositoryId": repository_id,
+    "reason": "The predecessor close is preserved as immutable history.",
+    "evidenceRefs": [f".ai/evidence/{work_item}.verification.json"],
+}
+suffix = canonical_digest(supersede).removeprefix("sha256:")
+(root / ".ai/decisions" / f"{work_item}.recovery.{suffix}.json").write_text(
+    json.dumps(supersede, indent=2) + "\n", encoding="utf-8"
+)
+PY
+python3 "$helper" --repo "$tmp/retry-then-superseded" --check-all
+
 cp -R "$tmp/unpromoted" "$tmp/invalid-recovery"
 python3 - "$tmp/invalid-recovery" <<'PY'
 import json

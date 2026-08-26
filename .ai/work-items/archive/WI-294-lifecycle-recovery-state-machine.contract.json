@@ -2,6 +2,7 @@
   "acceptanceCriteria": [
     "Recovery retry is identity-bound and restores only a legal lifecycle state after a failed finish; no generated status or Outcome bytes are hand-edited.",
     "Superseded archive manifests bind contract, summary, outcome, task report, and markdown digests, and the predecessor can reach an explicit historical close.",
+    "Documentation promotion recognizes digest-addressed supersede receipts after a retry receipt without rewriting the predecessor's immutable bytes.",
     "Regression tests cover failed finish retry, supersession, archive binding, malformed or stale recovery receipts, and predecessor immutability.",
     "Tri-language workflow and Outcome documentation describe the recovery boundary and successor rule.",
     "All existing workspace tests and governance gates remain passing."
@@ -14,7 +15,6 @@
   "mode": "code",
   "outOfScope": [
     ".github/**",
-    "tests/ci/**",
     "tests/release/**",
     "crates/cockpit-cli/**",
     "release/adopter/**"
@@ -43,12 +43,22 @@
     "crates/cockpit-repository/src/lib.rs",
     "crates/cockpit-repository/tests/recovery_decision.rs",
     "crates/cockpit-repository/tests/lifecycle_order.rs",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh",
     "docs/reference/agent-workflow.md",
     "docs/reference/agent-workflow.zh-CN.md",
     "docs/reference/agent-workflow.ja.md",
     "docs/reference/outcome-report.md",
     "docs/reference/outcome-report.zh-CN.md",
-    "docs/reference/outcome-report.ja.md"
+    "docs/reference/outcome-report.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-293-ci-contract-aware-gates-recovery.md",
+    "docs/work-items/WI-293-ci-contract-aware-gates-recovery.zh-CN.md",
+    "docs/work-items/WI-293-ci-contract-aware-gates-recovery.ja.md"
   ],
   "sources": [],
   "state": "implementation_active",

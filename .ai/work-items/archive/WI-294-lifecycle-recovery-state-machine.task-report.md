@@ -14,8 +14,8 @@
 
 ## Delivered changes
 
-- Changed path: .ai/work-items/active/WI-294-lifecycle-recovery-state-machine.contract.json
-- Changed path: .ai/work-items/active/WI-294-lifecycle-recovery-state-machine.summary.json
+- Changed path: .ai/work-items/archive/WI-294-lifecycle-recovery-state-machine.contract.json
+- Changed path: .ai/work-items/archive/WI-294-lifecycle-recovery-state-machine.summary.json
 
 ## Findings
 

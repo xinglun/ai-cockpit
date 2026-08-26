@@ -2,13 +2,14 @@
   "acceptanceResults": [
     "Recovery retry is identity-bound and restores only a legal lifecycle state after a failed finish; no generated status or Outcome bytes are hand-edited.",
     "Superseded archive manifests bind contract, summary, outcome, task report, and markdown digests, and the predecessor can reach an explicit historical close.",
+    "Documentation promotion recognizes digest-addressed supersede receipts after a retry receipt without rewriting the predecessor's immutable bytes.",
     "Regression tests cover failed finish retry, supersession, archive binding, malformed or stale recovery receipts, and predecessor immutability.",
     "Tri-language workflow and Outcome documentation describe the recovery boundary and successor rule.",
     "All existing workspace tests and governance gates remain passing."
   ],
-  "createdAt": "2026-08-26T00:36:00Z",
+  "createdAt": "2026-08-26T01:23:33Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:a4ce6c15ecb0cbca4962a0d44c05958d3d1223b6e750d8d332c5e433caf4c95d",
+  "evidenceDigest": "sha256:cd771450186dfcdb72877a649e79fe4f1b89ea5ebba70f1106266bad05205fea",
   "evidenceRefs": [
     ".ai/evidence/WI-294-lifecycle-recovery-state-machine.verification.json"
   ],
@@ -34,7 +35,7 @@
         ".ai/evidence/WI-294-lifecycle-recovery-state-machine.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:254e3976cbddf44c235d2cdc59878133ffbf4989896ee99972d9b58a175368c5",
+      "repositorySnapshotDigest": "sha256:f0ddf8d6adb28396090625b01669a4bc703c38647e9ff670959b7769d1467d88",
       "workItemId": "WI-294-lifecycle-recovery-state-machine"
     },
     "format": "ai-cockpit.task-outcome",
@@ -45,17 +46,17 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-294-lifecycle-recovery-state-machine.summary.json"
+            ".ai/work-items/archive/WI-294-lifecycle-recovery-state-machine.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-294-lifecycle-recovery-state-machine.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-294-lifecycle-recovery-state-machine.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-294-lifecycle-recovery-state-machine.summary.json"
+            ".ai/work-items/archive/WI-294-lifecycle-recovery-state-machine.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-294-lifecycle-recovery-state-machine.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-294-lifecycle-recovery-state-machine.summary.json"
         }
       ],
       "evidence": [
@@ -111,7 +112,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-294-lifecycle-recovery-state-machine.contract.json"
+            ".ai/work-items/archive/WI-294-lifecycle-recovery-state-machine.contract.json"
           ],
           "inference": false,
           "text": "A failed finish or equivalent governance gate can be explicitly retried or superseded, archive manifests remain internally bound, and the recovery path cannot strand a valid Work Item or weaken predecessor immutability."
@@ -120,7 +121,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-294-lifecycle-recovery-state-machine.contract.json"
+            ".ai/work-items/archive/WI-294-lifecycle-recovery-state-machine.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -130,8 +131,8 @@
     "status": "verified",
     "workItemId": "WI-294-lifecycle-recovery-state-machine"
   },
-  "taskReportDigest": "sha256:a4ff8739bf573d4100d450da3fd6b29c29079f8817a71836590293e1b58fdb0f",
-  "taskReportMarkdownDigest": "sha256:3361529cf5deceb4c2d143873e61db53beefa4b3375696accc7966bdc59f275d",
+  "taskReportDigest": "sha256:d88e568e79cc207379ee081aebf92abd1a34a89ca9db0c6c6bd4a0e8ce4e9ee9",
+  "taskReportMarkdownDigest": "sha256:a12656020d70537dc68f0f05f3a1c14f1675485ec43e4de30cfdff82ba6133a8",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

@@ -6,8 +6,8 @@ description: "Re-deliver the bounded CI Contract-aware gate from the latest remo
 audience:
   - maintainer
   - reviewer
-status: in_progress
-lastVerifiedBy: WI-293-ci-contract-aware-gates-recovery
+status: recovered
+lastVerifiedBy: WI-294-lifecycle-recovery-state-machine
 authority: canonical
 ---
 
@@ -15,14 +15,13 @@ authority: canonical
 
 ## Purpose
 
-WI-291 is preserved as immutable recovery history after hosted quality rejected
-its late parity projection. This successor delivers the same bounded Rust gate
-from the latest remote default branch and registers all tri-language parity and
-Work Item documentation before verification evidence is created.
+WI-293 is preserved as immutable recovered history. Its merged CI gate delivery
+is recorded by PR #253, and the post-merge lifecycle recovery defect is owned by
+the narrow successor WI-294; neither Work Item rewrites the predecessor bytes.
 
 ## Boundary
 
-- Preserve WI-291 archive, evidence, blocked finalization, and recovery bytes.
+- Preserve WI-293 archive, evidence, blocked finalization, and recovery bytes.
 - Keep Rust as the Contract gate authority while retaining Python/Cargo shadow
   checks; do not remove the existing CI policy in this batch.
 - Bind the actual provider PR before final verification, then complete hosted
@@ -31,11 +30,11 @@ Work Item documentation before verification evidence is created.
 ## Object/adopter parity
 
 The same installed Runtime, explicit `--repo` context, fail-closed evidence,
-and visible human Outcome must govern this repository and a fresh adopter.
+and visible human Outcome governed the merged delivery. WI-294 records the
+recovery boundary discovered during closure.
 
 ## Verification
 
 Declared verification: `cargo test --locked --workspace`, CI/conformance and
 documentation gates, hosted PR checks, provider finalization verification,
 close, and post-close status/doctor checks.
-
