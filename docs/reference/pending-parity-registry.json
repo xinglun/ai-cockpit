@@ -12,15 +12,15 @@
       "parityRows": [
         {
           "path": "docs/reference/reference-parity.md",
-          "row": "| WI-304 — reference compatibility and smoke workflow comparison | In progress → Implemented after verified close | [Work Item](../work-items/WI-304-reference-file-comparison-batch-02.md); archive `.ai/work-items/archive/WI-304-reference-file-comparison-batch-02.contract.json`; verification `.ai/evidence/WI-304-reference-file-comparison-batch-02.verification.json`; finalization `.ai/decisions/WI-304-reference-file-comparison-batch-02.finalize.json`; close `.ai/decisions/WI-304-reference-file-comparison-batch-02.close.json`. |"
+          "row": "| WI-304 — reference compatibility and smoke workflow comparison | In progress | [Work Item](../work-items/WI-304-reference-file-comparison-batch-02.md); archive `.ai/work-items/archive/WI-304-reference-file-comparison-batch-02.contract.json`; verification `.ai/evidence/WI-304-reference-file-comparison-batch-02.verification.json`; finalization `.ai/decisions/WI-304-reference-file-comparison-batch-02.finalize.json`; close `.ai/decisions/WI-304-reference-file-comparison-batch-02.close.json`. |"
         },
         {
           "path": "docs/reference/reference-parity.zh-CN.md",
-          "row": "| WI-304——参考 compatibility 与 smoke workflow 对比 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-304-reference-file-comparison-batch-02.zh-CN.md)；archive `.ai/work-items/archive/WI-304-reference-file-comparison-batch-02.contract.json`；verification `.ai/evidence/WI-304-reference-file-comparison-batch-02.verification.json`；finalization `.ai/decisions/WI-304-reference-file-comparison-batch-02.finalize.json`；close `.ai/decisions/WI-304-reference-file-comparison-batch-02.close.json`。 |"
+          "row": "| WI-304 — 参考 compatibility 与 smoke workflow 对比 | 进行中 | [Work Item](../work-items/WI-304-reference-file-comparison-batch-02.zh-CN.md)；archive `.ai/work-items/archive/WI-304-reference-file-comparison-batch-02.contract.json`；verification `.ai/evidence/WI-304-reference-file-comparison-batch-02.verification.json`；finalization `.ai/decisions/WI-304-reference-file-comparison-batch-02.finalize.json`；close `.ai/decisions/WI-304-reference-file-comparison-batch-02.close.json`。 |"
         },
         {
           "path": "docs/reference/reference-parity.ja.md",
-          "row": "| WI-304 — reference compatibility と smoke workflow の比較 | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-304-reference-file-comparison-batch-02.ja.md)；archive `.ai/work-items/archive/WI-304-reference-file-comparison-batch-02.contract.json`；verification `.ai/evidence/WI-304-reference-file-comparison-batch-02.verification.json`；finalization `.ai/decisions/WI-304-reference-file-comparison-batch-02.finalize.json`；close `.ai/decisions/WI-304-reference-file-comparison-batch-02.close.json`。 |"
+          "row": "| WI-304 — reference compatibility と smoke workflow の比較 | In progress | [Work Item](../work-items/WI-304-reference-file-comparison-batch-02.ja.md)；archive `.ai/work-items/archive/WI-304-reference-file-comparison-batch-02.contract.json`；verification `.ai/evidence/WI-304-reference-file-comparison-batch-02.verification.json`；finalization `.ai/decisions/WI-304-reference-file-comparison-batch-02.finalize.json`；close `.ai/decisions/WI-304-reference-file-comparison-batch-02.close.json`。 |"
         }
       ],
       "provider": "github",
