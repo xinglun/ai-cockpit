@@ -6,7 +6,7 @@ description: "在不改写 predecessor 记录的前提下，恢复不可变 WI-3
 audience:
   - maintainer
   - reviewer
-status: in-progress
+status: implemented
 lastVerifiedBy: WI-303-reference-file-comparison-parity-recovery
 terminalArchive: .ai/work-items/archive/WI-303-reference-file-comparison-parity-recovery.contract.json
 terminalVerification: .ai/evidence/WI-303-reference-file-comparison-parity-recovery.verification.json

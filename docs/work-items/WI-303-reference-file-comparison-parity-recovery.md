@@ -6,7 +6,7 @@ description: "Recover the missing three-language parity registration for the imm
 audience:
   - maintainer
   - reviewer
-status: in-progress
+status: implemented
 lastVerifiedBy: WI-303-reference-file-comparison-parity-recovery
 terminalArchive: .ai/work-items/archive/WI-303-reference-file-comparison-parity-recovery.contract.json
 terminalVerification: .ai/evidence/WI-303-reference-file-comparison-parity-recovery.verification.json

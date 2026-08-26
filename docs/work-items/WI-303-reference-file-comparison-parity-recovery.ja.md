@@ -6,7 +6,7 @@ description: "predecessor の記録を書き換えず、immutable な WI-302 比
 audience:
   - maintainer
   - reviewer
-status: in-progress
+status: implemented
 lastVerifiedBy: WI-303-reference-file-comparison-parity-recovery
 terminalArchive: .ai/work-items/archive/WI-303-reference-file-comparison-parity-recovery.contract.json
 terminalVerification: .ai/evidence/WI-303-reference-file-comparison-parity-recovery.verification.json
