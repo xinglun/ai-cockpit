@@ -6,8 +6,12 @@ description: "发布已修正的 Runtime，验证不可变制品，并用公开 
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-300-release-v0-2-33
+terminalArchive: .ai/work-items/archive/WI-300-release-v0-2-33.contract.json
+terminalVerification: .ai/evidence/WI-300-release-v0-2-33.verification.json
+terminalFinalization: .ai/decisions/WI-300-release-v0-2-33.finalize.json
+terminalDecision: .ai/decisions/WI-300-release-v0-2-33.close.json
 authority: canonical
 ---
 

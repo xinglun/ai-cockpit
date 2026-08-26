@@ -6,8 +6,12 @@ description: "Publish the corrected runtime, verify immutable artifacts, and ins
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-300-release-v0-2-33
+terminalArchive: .ai/work-items/archive/WI-300-release-v0-2-33.contract.json
+terminalVerification: .ai/evidence/WI-300-release-v0-2-33.verification.json
+terminalFinalization: .ai/decisions/WI-300-release-v0-2-33.finalize.json
+terminalDecision: .ai/decisions/WI-300-release-v0-2-33.close.json
 authority: canonical
 ---
 
