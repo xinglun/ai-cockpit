@@ -1660,7 +1660,6 @@ def main() -> int:
                         severity = (
                             "historical"
                             if historical_retry_receipt
-                            and record.get("lifecycleState") == "awaiting_merge_close"
                             else "error"
                         )
                         findings.append(

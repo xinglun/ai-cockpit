@@ -26,6 +26,10 @@ repository identity、原因和 evidence refs。Recovered predecessor 可以保�
 缺失、malformed、foreign 或绑定不足的 recovery 回执仍然是错误。Successor 必须独立
 通过自己的 Contract、证据、Outcome、parity 和终态决定检查。
 
+如果合法 retry 回执对应的归档 Summary 仍记录了已修复的 blocked finish，则它属于已消费的
+历史记录，而不是新的终态决定。其归档前 parity 顺序警告在合并和 close 后仍标记为历史；但
+malformed 或 foreign 的 retry 记录仍然 fail-closed。
+
 ## 分离的 pull request 检出
 
 托管 pull request 作业可能使用 detached merge checkout，既没有
