@@ -1,0 +1,136 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-294-lifecycle-recovery-state-machine.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f0ddf8d6adb28396090625b01669a4bc703c38647e9ff670959b7769d1467d88",
+      "workItemId": "WI-294-lifecycle-recovery-state-machine"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-294-lifecycle-recovery-state-machine.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-294-lifecycle-recovery-state-machine.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-294-lifecycle-recovery-state-machine.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-294-lifecycle-recovery-state-machine.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-294-lifecycle-recovery-state-machine.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-294-lifecycle-recovery-state-machine.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-294-lifecycle-recovery-state-machine.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via repository-review-policy at 2026-08-26T02:08:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-294-lifecycle-recovery-state-machine.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-294-lifecycle-recovery-state-machine.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-294-lifecycle-recovery-state-machine.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-294-lifecycle-recovery-state-machine.contract.json"
+          ],
+          "inference": false,
+          "text": "A failed finish or equivalent governance gate can be explicitly retried or superseded, archive manifests remain internally bound, and the recovery path cannot strand a valid Work Item or weaken predecessor immutability."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-294-lifecycle-recovery-state-machine.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-294-lifecycle-recovery-state-machine"
+  },
+  "finalReportDigest": "sha256:7f16661c9e2b8e5ac29331acad2b414f88d225ab8c4e5b5b0c0f47e57580597a",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:7dfab1b9d393f79f1682dbf8a17bad24cceaf00cb332f31169116a6d35303578",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-294-lifecycle-recovery-state-machine.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "repository-review-policy",
+    "decidedAt": "2026-08-26T02:08:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-294-lifecycle-recovery-state-machine.verification.json"
+    ],
+    "policyRefs": [
+      "repository-review-policy"
+    ],
+    "reason": "Reviewed hosted checks, merged PR, historical evidence compatibility, finalization evidence, and exact branch/worktree cleanup.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-26T02:09:59Z",
+  "workItemId": "WI-294-lifecycle-recovery-state-machine"
+}
