@@ -6,9 +6,9 @@
     "更新 inventory generator、JSON ledger、regression script、三语 comparison/parity/work-item 文档；四条 WI-308 记录不再 deferred，不产生 migrate-gap。",
     "安装 ai-cockpit 0.2.33 且所有命令显式 --repo；完成 preflight、checkpoint、verify、finish、archive、reviewed PR、merge、finalize-verify、close 和精确清理，交付可见中文 Outcome。"
   ],
-  "createdAt": "2026-08-26T21:23:00Z",
+  "createdAt": "2026-08-26T21:39:09Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:77b90ba365cc6b66f3049fe7843fc3c98a104778d37deb871b235db4e36b041d",
+  "evidenceDigest": "sha256:db3fe140d20de9790b53de347b58bb0c8074adda54e8c0533cc907053c947eca",
   "evidenceRefs": [
     ".ai/evidence/WI-308-reference-file-comparison-batch-04-retry.verification.json"
   ],
@@ -34,7 +34,7 @@
         ".ai/evidence/WI-308-reference-file-comparison-batch-04-retry.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:9cb7d84e46ea7235d8bcbac597c99739d00a78fdf20c6cc19d5a2669e9fbf013",
+      "repositorySnapshotDigest": "sha256:d9c56106480b400b6e04b521a484b01e63bbc61a4a2f83771f51d878edbcf012",
       "workItemId": "WI-308-reference-file-comparison-batch-04-retry"
     },
     "format": "ai-cockpit.task-outcome",
@@ -235,7 +235,7 @@
     "status": "verified",
     "workItemId": "WI-308-reference-file-comparison-batch-04-retry"
   },
-  "taskReportDigest": "sha256:ffc5418c06acd68276448d78122c0944cca80118bb78d31bfc3af23e0ede3e35",
+  "taskReportDigest": "sha256:d49b013821bf3c7c51a74a66100943efd07d67596dda81df5ca302150584a824",
   "taskReportMarkdownDigest": "sha256:39f35725b8ae95d885e3e7a3a0f4098fc7840af133586891434948d799b97b09",
   "unknowns": [
     "user_visible_benefit_not_declared"

@@ -70,7 +70,7 @@
     }
   ],
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:258bab17ba82d55f6375895ce5e2f4768184ec754fe50f8aaf4eccca8b6e6dba",
+  "repositorySnapshotDigest": "sha256:d9c56106480b400b6e04b521a484b01e63bbc61a4a2f83771f51d878edbcf012",
   "schemaVersion": 2,
   "unknowns": [],
   "workItemId": "WI-308-reference-file-comparison-batch-04-retry"
