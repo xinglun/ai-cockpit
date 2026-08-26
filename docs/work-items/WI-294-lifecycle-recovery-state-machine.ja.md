@@ -6,8 +6,12 @@ description: "人が認可した lifecycle recovery を明示的・identity-boun
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-294-lifecycle-recovery-state-machine
+terminalArchive: .ai/work-items/archive/WI-294-lifecycle-recovery-state-machine.contract.json
+terminalVerification: .ai/evidence/WI-294-lifecycle-recovery-state-machine.verification.json
+terminalFinalization: .ai/decisions/WI-294-lifecycle-recovery-state-machine.finalize.json
+terminalDecision: .ai/decisions/WI-294-lifecycle-recovery-state-machine.close.json
 authority: canonical
 ---
 

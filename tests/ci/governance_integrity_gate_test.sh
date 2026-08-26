@@ -235,6 +235,14 @@ close["structuredDecision"]["evidenceRefs"] = [
 (root / ".ai/decisions" / f"{work_item}.close.json").write_text(
     json.dumps(close, indent=2) + "\n", encoding="utf-8"
 )
+for name in ("reference-parity.md", "reference-parity.zh-CN.md", "reference-parity.ja.md"):
+    path = root / "docs/reference" / name
+    text = path.read_text(encoding="utf-8")
+    text = text.replace(
+        f"`.ai/decisions/{work_item}.finalize.json`",
+        f"`.ai/decisions/{work_item}.finalize.json`; `.ai/decisions/{work_item}.close.json`",
+    )
+    path.write_text(text, encoding="utf-8")
 PY
 env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF python3 "$gate" --repo "$tmp/successful-retry-history" --report "$tmp/successful-retry-history-closed-report.json" >/dev/null
 python3 - "$tmp/successful-retry-history-closed-report.json" <<'PY'
