@@ -1,0 +1,60 @@
+{
+  "acceptanceCriteria": [
+    "Consumed retry history remains historical after a predecessor closes",
+    "A valid direct terminal finalization receipt is accepted without weakening strict transition-chain validation",
+    "WI-294 terminal documentation and all three parity ledgers match its immutable closure evidence",
+    "Malformed, foreign, partial, or forked finalization and recovery evidence still fails closed",
+    "The full repository gate, documentation acceptance, and hosted quality checks pass"
+  ],
+  "authority": "authorized",
+  "baseRevision": "bf1a8470eef9762dd562f1c592c63bbce0fb9305",
+  "createdAt": "2026-08-26T02:39:43Z",
+  "goal": "Keep consumed retry evidence historical after close while accepting valid direct terminal finalization receipts and maintaining strict parity and fail-closed checks.",
+  "intent": "Re-deliver consumed retry-history correction with complete governance and documentation closure.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    ".ai/work-items/archive/WI-294-*",
+    "tests/release/**"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d3c227db81fe20f483c60b94b4b5cfc511fb80e00fd0a78e23dc79752fbda404",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-296-governance-closure-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/256",
+    "worktree": "/private/tmp/ai-cockpit-wi296"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "docs/reference/governance-integrity-gate.md",
+    "docs/reference/governance-integrity-gate.zh-CN.md",
+    "docs/reference/governance-integrity-gate.ja.md",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh",
+    "docs/work-items/WI-294-lifecycle-recovery-state-machine.md",
+    "docs/work-items/WI-294-lifecycle-recovery-state-machine.zh-CN.md",
+    "docs/work-items/WI-294-lifecycle-recovery-state-machine.ja.md",
+    "docs/work-items/WI-296-governance-closure-recovery.md",
+    "docs/work-items/WI-296-governance-closure-recovery.zh-CN.md",
+    "docs/work-items/WI-296-governance-closure-recovery.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    ".ai/decisions/WI-294-lifecycle-recovery-state-machine.finalize.json",
+    ".ai/decisions/WI-294-lifecycle-recovery-state-machine.close.json"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-296-governance-closure-recovery"
+}

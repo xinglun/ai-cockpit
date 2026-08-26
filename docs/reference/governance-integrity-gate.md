@@ -29,6 +29,11 @@ Missing, malformed, foreign, or weakly bound recovery receipts remain errors.
 The successor must independently pass its own Contract, evidence, Outcome,
 parity, and terminal-decision checks.
 
+A valid retry receipt whose archived Summary still records the repaired blocked
+finish is consumed history, not a new terminal decision. Its pre-archive parity
+ordering warning remains historical after merge and close; malformed or foreign
+retry records still fail closed.
+
 ## Detached pull-request checkouts
 
 Hosted pull-request jobs can run from a detached merge checkout without

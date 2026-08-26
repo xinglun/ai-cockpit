@@ -212,6 +212,54 @@ assert item["decisionPath"].endswith(".finalize.json"), item
 PY
 printf 'governance successful-retry history regression passed\n'
 
+# The same consumed retry remains historical after a valid close decision is
+# present.  Closing the item must not turn the historical parity warning into
+# a blocking current-cycle error.
+python3 - "$tmp/successful-retry-history" "$tmp/valid" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+source = Path(sys.argv[2])
+work_item = "WI-901-corrective-after-baseline"
+close = json.loads(
+    (source / ".ai/decisions/WI-900-release-v9-9-9.close.json").read_text(
+        encoding="utf-8"
+    )
+)
+close["workItemId"] = work_item
+close["structuredDecision"]["evidenceRefs"] = [
+    f".ai/evidence/{work_item}.verification.json"
+]
+(root / ".ai/decisions" / f"{work_item}.close.json").write_text(
+    json.dumps(close, indent=2) + "\n", encoding="utf-8"
+)
+for name in ("reference-parity.md", "reference-parity.zh-CN.md", "reference-parity.ja.md"):
+    path = root / "docs/reference" / name
+    text = path.read_text(encoding="utf-8")
+    text = text.replace(
+        f"`.ai/decisions/{work_item}.finalize.json`",
+        f"`.ai/decisions/{work_item}.finalize.json`; `.ai/decisions/{work_item}.close.json`",
+    )
+    path.write_text(text, encoding="utf-8")
+PY
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF python3 "$gate" --repo "$tmp/successful-retry-history" --report "$tmp/successful-retry-history-closed-report.json" >/dev/null
+python3 - "$tmp/successful-retry-history-closed-report.json" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert report["findings"] == [], report["findings"]
+item = next(
+    item
+    for item in report["inventory"]
+    if item["workItemId"] == "WI-901-corrective-after-baseline"
+)
+assert item["lifecycleState"] == "closed", item
+PY
+printf 'governance successful-retry closed-history regression passed\n'
+
 # A predecessor may have a structurally valid close whose human decision is
 # explicitly superseded.  The recovery receipt must still own the inventory
 # projection so the parity row cannot claim a green implementation.

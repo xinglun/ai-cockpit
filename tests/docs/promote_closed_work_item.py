@@ -262,34 +262,71 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
         )
         transitions[sequence] = (path, envelope, receipt)
 
-    require(sorted(transitions) == [1, 2], "finalization chain must have unique sequences 1 and 2")
-    previous_digest = canonical_digest(root_receipt)
-    merge_commit: str | None = None
-    for sequence in (1, 2):
-        _, envelope, receipt = transitions[sequence]
+    if not transitions:
+        # A provider may observe the merge and exact resource cleanup in one
+        # atomic receipt.  Accept that terminal root only when its complete
+        # deleted shape is explicit; partial or retained roots remain stopped.
+        result = root_receipt.get("result")
+        before = root_receipt.get("before")
+        after = root_receipt.get("after")
+        pull_request = root_receipt.get("pullRequest")
         require(
-            envelope.get("predecessorReceiptDigest") == previous_digest,
-            "finalization predecessor digest mismatch",
+            isinstance(result, dict) and result.get("disposition") == "deleted",
+            "direct terminal finalization must be deleted",
         )
-        pull_request = receipt["pullRequest"]
-        current_merge_commit = pull_request.get("mergeCommit")
         require(
-            isinstance(current_merge_commit, str) and current_merge_commit,
-            "finalization merge commit is missing",
+            isinstance(before, dict)
+            and before.get("pullRequest") == "merged"
+            and before.get("branch") == "present"
+            and before.get("worktree") == "clean",
+            "direct terminal finalization before-state is incomplete",
         )
-        if merge_commit is None:
-            merge_commit = current_merge_commit
-        require(current_merge_commit == merge_commit, "finalization merge identity mismatch")
-        previous_digest = canonical_digest(receipt)
+        require(
+            isinstance(after, dict)
+            and after.get("pullRequest") == "merged"
+            and after.get("branch") == "deleted"
+            and after.get("worktree") == "removed",
+            "direct terminal finalization after-state is incomplete",
+        )
+        require(
+            isinstance(pull_request, dict)
+            and isinstance(pull_request.get("mergeCommit"), str)
+            and bool(pull_request["mergeCommit"]),
+            "direct terminal finalization merge commit is missing",
+        )
+        finalization_sequence = 0
+        finalization_path = root_path.relative_to(repository).as_posix()
+        finalization_digest = canonical_digest(root_receipt)
+    else:
+        require(sorted(transitions) == [1, 2], "finalization chain must have unique sequences 1 and 2")
+        previous_digest = canonical_digest(root_receipt)
+        merge_commit: str | None = None
+        for sequence in (1, 2):
+            _, envelope, receipt = transitions[sequence]
+            require(
+                envelope.get("predecessorReceiptDigest") == previous_digest,
+                "finalization predecessor digest mismatch",
+            )
+            pull_request = receipt["pullRequest"]
+            current_merge_commit = pull_request.get("mergeCommit")
+            require(
+                isinstance(current_merge_commit, str) and current_merge_commit,
+                "finalization merge commit is missing",
+            )
+            if merge_commit is None:
+                merge_commit = current_merge_commit
+            require(current_merge_commit == merge_commit, "finalization merge identity mismatch")
+            previous_digest = canonical_digest(receipt)
 
-    head_path, _, head_receipt = transitions[2]
-    result = head_receipt.get("result")
-    require(
-        isinstance(result, dict) and result.get("disposition") == "deleted",
-        "sequence-2 finalization is not deleted",
-    )
-    finalization_path = head_path.relative_to(repository).as_posix()
-    finalization_digest = canonical_digest(head_receipt)
+        head_path, _, head_receipt = transitions[2]
+        result = head_receipt.get("result")
+        require(
+            isinstance(result, dict) and result.get("disposition") == "deleted",
+            "sequence-2 finalization is not deleted",
+        )
+        finalization_sequence = 2
+        finalization_path = head_path.relative_to(repository).as_posix()
+        finalization_digest = canonical_digest(head_receipt)
     require(
         close.get("workItemId") == work_item_id
         and close.get("repositoryId") == repository_id,
@@ -301,7 +338,10 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
         and close.get("humanDecision") == "approved",
         "close is not a confirmed approved decision",
     )
-    require(close.get("resourceFinalizationSequence") == 2, "close finalization sequence mismatch")
+    require(
+        close.get("resourceFinalizationSequence") == finalization_sequence,
+        "close finalization sequence mismatch",
+    )
     require(
         close.get("resourceFinalizationHeadPath") == finalization_path,
         "close finalization head path mismatch",
@@ -319,7 +359,7 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
     require(
         isinstance(structured_refs, list)
         and evidence_path in structured_refs
-        and finalization_path in structured_refs,
+        and (finalization_path in structured_refs or finalization_sequence == 0),
         "structured close evidence bindings are incomplete",
     )
     final_report = close.get("finalReport")
@@ -339,10 +379,18 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
         require(
             recovery.get("workItemId") == work_item_id
             and recovery.get("predecessorWorkItemId") == work_item_id
-            and recovery.get("repositoryId") == repository_id
-            and recovery.get("decision") in {"successor", "supersede"},
+            and recovery.get("repositoryId") == repository_id,
             "recovery identity mismatch",
         )
+        # Retry receipts describe an earlier failed attempt and do not
+        # supersede a confirmed terminal close. They remain governed history,
+        # but must not be projected as a successor recovery reference.
+        if recovery.get("decision") in {"successor", "supersede"}:
+            pass
+        elif recovery.get("decision") == "retry":
+            recovery_path = None
+        else:
+            raise PromotionError("recovery identity mismatch")
     else:
         recovery_path = None
 

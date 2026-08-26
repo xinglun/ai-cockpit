@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-26T02:52:37Z",
+  "files": {
+    "contractDigest": "sha256:e5175c345fb64df895218fc2f3c7e4d7f425ecc7fa4d0286262b02278efee0df",
+    "contractPath": ".ai/work-items/archive/WI-296-governance-closure-recovery.contract.json",
+    "eventsDigest": "sha256:e11f2476bf54dd08c448f01c3717abd7e5928e1263a4c5760405aaed88aac7f7",
+    "eventsPath": ".ai/work-items/archive/WI-296-governance-closure-recovery.events.jsonl",
+    "outcomeDigest": "sha256:61591b285125623c5f7bc9508679868a42be7a6aff9dc30e2644b46cbf117709",
+    "outcomePath": ".ai/work-items/archive/WI-296-governance-closure-recovery.outcome.json",
+    "summaryDigest": "sha256:204a54d678d57e7d3e686de3e36de2d53eb1c092383afeaa1c7cccc40a8e2083",
+    "summaryPath": ".ai/work-items/archive/WI-296-governance-closure-recovery.summary.json",
+    "taskReportDigest": "sha256:17658705203b15367de4c8ddaeafefba9afcb2a0123e3d41ce0af8643f9512f1",
+    "taskReportMarkdownDigest": "sha256:d3ed5d9c601386db7fa759e3a489d19a9b6f387a500d4b741b03977779578699",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-296-governance-closure-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-296-governance-closure-recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-296-governance-closure-recovery"
+}
