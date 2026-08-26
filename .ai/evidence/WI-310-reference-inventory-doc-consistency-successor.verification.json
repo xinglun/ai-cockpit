@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
   "contractDigest": "sha256:d86121caa7aa986c7a12d364241770751fdfcd76714b1882e47e59404859cfee",
-  "createdAt": "2026-08-26T22:26:14Z",
+  "createdAt": "2026-08-26T22:31:02Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 1833,
-      "executionElapsedMs": 1670,
+      "elapsedMs": 1907,
+      "executionElapsedMs": 1751,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 1833,
-    "executionElapsedMs": 1670,
-    "filesHashed": 15,
-    "filesRead": 15,
+    "elapsedMs": 1907,
+    "executionElapsedMs": 1751,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,13 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/reference/reference-file-comparison.ja.md",
-        "docs/reference/reference-file-comparison.md",
-        "docs/reference/reference-file-comparison.zh-CN.md",
-        "tests/conformance/reference_file_inventory_test.sh",
-        "tests/conformance/reference_inventory_docs_test.py"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "a10b643479da4edf0028c2930dd835524947b2f9",
       "dependencyConfidence": "unknown",
@@ -50,13 +44,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 1670,
+      "executionElapsedMs": 1751,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:081b464beb50e145501d1cd56df91ee00fe9a54589c675c392dcfa16a66575f0",
+      "repositorySnapshotDigest": "sha256:0e4122eb0d4a8035295a306216bd7ed29dc154539e74b4a38fc1c836e51976b0",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -98,9 +92,9 @@
     "runtimeVersion": "0.2.33",
     "workItemId": "WI-310-reference-inventory-doc-consistency-successor"
   },
-  "receiptDigest": "sha256:f3093d7be26fd8de48ef1caf8b794a29293c3dc95572dabeace483e3a3bfd1ee",
+  "receiptDigest": "sha256:15867e34a649e7586de6bc00be4db4218e411a09a7085ffbe1ff17eb32ff25cd",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:081b464beb50e145501d1cd56df91ee00fe9a54589c675c392dcfa16a66575f0",
+  "repositorySnapshotDigest": "sha256:0e4122eb0d4a8035295a306216bd7ed29dc154539e74b4a38fc1c836e51976b0",
   "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
   "runtimeVersion": "0.2.33",
   "workItemId": "WI-310-reference-inventory-doc-consistency-successor"
