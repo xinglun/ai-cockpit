@@ -1,0 +1,31 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-311-reference-inventory-doc-consistency-parity-recovery.contract.json",
+    ".ai/work-items/active/WI-311-reference-inventory-doc-consistency-parity-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-08-26T23:11:37Z",
+  "checkpointContractDigest": "sha256:59925202b5e2dce0d42de5249125b80f5da4cca283f34065b09853e49430dd53",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:4d0106174e6c70064aed2222512e331735e90e314729dc283a565179c78592f6",
+  "createdAt": "2026-08-26T23:10:39Z",
+  "failedGate": "finish.verification",
+  "mode": "docs",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-26T23:26:35Z",
+  "preflightContractDigest": "sha256:59925202b5e2dce0d42de5249125b80f5da4cca283f34065b09853e49430dd53",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:4d0106174e6c70064aed2222512e331735e90e314729dc283a565179c78592f6",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-26T23:26:39Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-311-reference-inventory-doc-consistency-parity-recovery"
+}

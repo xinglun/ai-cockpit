@@ -1,0 +1,64 @@
+{
+  "acceptanceCriteria": [
+    "All three comparison documents report the current manifest-derived classification counts and contain one identical machine-readable snapshot marker.",
+    "The conformance regression derives counts from reference_file_inventory.json and fails on stale, malformed, missing, or divergent tri-language markers.",
+    "All three reference-parity documents contain a prearchive W311 row with the required status and exact archive, verification, finalization, and close receipt paths; the row is registered before the verification evidence.",
+    "All three W311 Work Item documents have valid frontmatter and describe the same bounded scope, recovery reason, and semantic documentation boundary.",
+    "No reference classifications, Runtime behavior, or immutable W310 bytes are changed; the installed Runtime lifecycle and repository-bound evidence remain valid through reviewed merge and close."
+  ],
+  "authority": "authorized",
+  "baseRevision": "a10b643479da4edf0028c2930dd835524947b2f9",
+  "createdAt": "2026-08-26T23:10:39Z",
+  "goal": "Redeliver the W310 inventory documentation correction from current main with a deterministic documentation gate and prearchive parity rows that remain valid through reviewed merge and close.",
+  "intent": "Synchronize the reference inventory count regression with the required tri-language parity registration so every current-cycle comparison batch is auditable before archive.",
+  "mode": "docs",
+  "outOfScope": [
+    "Rust production code or Runtime behavior",
+    "reference inventory classification changes or source reference copies",
+    "release",
+    " adopter",
+    " CI workflow",
+    " or Agent/MCP global configuration changes",
+    "rewriting W310 or any historical evidence/archive bytes",
+    "new governance semantics or unrelated reference-file batches"
+  ],
+  "predecessorContractDigest": "sha256:b2dcf5715e398251eadb86c4d0786a5d17852c7889eaca0a8b3b3ab326c7d54a",
+  "predecessorWorkItemId": "WI-310-reference-inventory-doc-consistency-successor",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-310-reference-inventory-doc-consistency-successor.recovery.8d03bf82978deb2a2a281d4ba7448ad9e8ff2a7811fe933d6f8a23348dffc86b.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d1202eb389268d283bf40f324ba94c5dd3dfbf7e5fed953baceceff097a5e0db",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-311-reference-inventory-doc-consistency-parity-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/274",
+    "worktree": "/private/tmp/ai-cockpit-wi311-reference-inventory-doc-consistency-parity-recovery"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-311-reference-inventory-doc-consistency-parity-recovery.md",
+    "docs/work-items/WI-311-reference-inventory-doc-consistency-parity-recovery.zh-CN.md",
+    "docs/work-items/WI-311-reference-inventory-doc-consistency-parity-recovery.ja.md",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "tests/conformance/reference_inventory_docs_test.py"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-311-reference-inventory-doc-consistency-parity-recovery"
+}

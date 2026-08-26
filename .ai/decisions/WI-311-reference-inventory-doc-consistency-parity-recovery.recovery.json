@@ -1,0 +1,25 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-26T23:22:53Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-311-reference-inventory-doc-consistency-parity-recovery.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:canonical-delivery-order"
+  ],
+  "predecessorContractDigest": "sha256:59925202b5e2dce0d42de5249125b80f5da4cca283f34065b09853e49430dd53",
+  "predecessorEventsDigest": "sha256:ced102dabe03b2dd66feacd9598ce91b1b297d291159a1925d851423b6caab25",
+  "predecessorOutcomeDigest": "sha256:c36acdb03319909242d6e31c96876bad463672a364079192bea0b081667fde09",
+  "predecessorSummaryDigest": "sha256:7d46927767b060996b6eb9f415d1cf31cbd7aa85e02952c4687219fcb3463cb4",
+  "predecessorWorkItemId": "WI-311-reference-inventory-doc-consistency-parity-recovery",
+  "reason": "The first finish attempt correctly stopped because finalization planning was missing, and the subsequent attempt correctly stopped because its verification evidence was stale after the Contract binding changed. Retry with a fresh preflight and verification receipt bound to the explicit GitHub resource context.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight, checkpoint, and verify after the explicit finalization plan; finish only with a current passing evidence receipt.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-311-reference-inventory-doc-consistency-parity-recovery"
+}
