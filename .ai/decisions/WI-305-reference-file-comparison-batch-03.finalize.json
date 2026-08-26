@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "post-merge-exact-resource-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "7423213e8104c24dd7d476eaf5beb43d2df1d250",
+    "name": "codex/wi-305-reference-file-comparison-batch-03",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:5f64e9823e6d0158129a882641d8ebab81f1acff3c361fb1499c5c19aa0e3ab9",
+  "operationId": "operation-WI-305-reference-file-comparison-batch-03-cleanup",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "32ccab718c7b68d1e17ca3bfa51a3829d6288902",
+    "headRevision": "7423213e8104c24dd7d476eaf5beb43d2df1d250",
+    "mergeCommit": "a53063b565cf975c7d00d8ed9bea68201fe3f7be",
+    "number": 267,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/267"
+  },
+  "reason": "PR #267 merged at a53063b; the exact WI-305 branch and worktree were removed after clean-state verification.",
+  "receiptId": "ai-cockpit-WI-305-reference-file-comparison-batch-03-cleanup",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-305-reference-file-comparison-batch-03",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/267",
+    "worktree": "/private/tmp/ai-cockpit-wi305-reference-file-comparison-batch-03"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-26T13:35:00Z",
+  "workItemId": "WI-305-reference-file-comparison-batch-03",
+  "worktree": {
+    "branch": "codex/wi-305-reference-file-comparison-batch-03",
+    "headRevision": "7423213e8104c24dd7d476eaf5beb43d2df1d250",
+    "path": "/private/tmp/ai-cockpit-wi305-reference-file-comparison-batch-03",
+    "worktreeId": "WI-305-reference-file-comparison-batch-03"
+  }
+}

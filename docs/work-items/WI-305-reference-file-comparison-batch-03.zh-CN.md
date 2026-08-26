@@ -6,8 +6,12 @@ description: "逐个比对固定参考源的四个架构文件，记录 Rust/ado
 audience:
   - maintainer
   - reviewer
-status: in progress
+status: implemented
 lastVerifiedBy: WI-305-reference-file-comparison-batch-03
+terminalArchive: .ai/work-items/archive/WI-305-reference-file-comparison-batch-03.contract.json
+terminalVerification: .ai/evidence/WI-305-reference-file-comparison-batch-03.verification.json
+terminalFinalization: .ai/decisions/WI-305-reference-file-comparison-batch-03.finalize.json
+terminalDecision: .ai/decisions/WI-305-reference-file-comparison-batch-03.close.json
 authority: canonical
 ---
 
