@@ -27,49 +27,49 @@
   "requiredEvidenceClasses": [
     "verification"
   ],
-  "scenarioCoverage": [
-    {
-      "scenario": "release-artifact-integrity",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "Published v0.2.32 archives, manifest, checksums, SBOMs, and formula are identity-bound.",
-      "verificationPlan": "Run strict source release gates and post-release artifact manifest/checksum validation."
-    },
-    {
-      "scenario": "adopter-isolation",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "A fresh adopter repository is governed by the published binary without global configuration writes.",
-      "verificationPlan": "Run the public adopter acceptance harness in isolated HOME, XDG_CONFIG_HOME, TMPDIR, and CARGO_HOME roots."
-    },
-    {
-      "scenario": "installation-upgrade",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "The published binary installs and the N-1 published binary upgrades the adopter repository correctly.",
-      "verificationPlan": "Run public adopter and N-1 upgrade acceptance using immutable Release artifacts only."
-    },
-    {
-      "scenario": "version-documentation-consistency",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "Package metadata, lockfile, and current tri-language release documentation agree on v0.2.32.",
-      "verificationPlan": "Run version_consistency.sh and documentation acceptance on the release candidate."
-    }
-  ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-297-release-v0-2-32",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/258",
     "worktree": "/private/tmp/ai-cockpit-wi297"
   },
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Published v0.2.32 archives, manifest, checksums, SBOMs, and formula are identity-bound.",
+      "required": true,
+      "scenario": "release-artifact-integrity",
+      "status": "unverified",
+      "verificationPlan": "Run strict source release gates and post-release artifact manifest/checksum validation."
+    },
+    {
+      "evidence": [],
+      "expected": "A fresh adopter repository is governed by the published binary without global configuration writes.",
+      "required": true,
+      "scenario": "adopter-isolation",
+      "status": "unverified",
+      "verificationPlan": "Run the public adopter acceptance harness in isolated HOME, XDG_CONFIG_HOME, TMPDIR, and CARGO_HOME roots."
+    },
+    {
+      "evidence": [],
+      "expected": "The published binary installs and the N-1 published binary upgrades the adopter repository correctly.",
+      "required": true,
+      "scenario": "installation-upgrade",
+      "status": "unverified",
+      "verificationPlan": "Run public adopter and N-1 upgrade acceptance using immutable Release artifacts only."
+    },
+    {
+      "evidence": [],
+      "expected": "Package metadata, lockfile, and current tri-language release documentation agree on v0.2.32.",
+      "required": true,
+      "scenario": "version-documentation-consistency",
+      "status": "unverified",
+      "verificationPlan": "Run version_consistency.sh and documentation acceptance on the release candidate."
+    }
+  ],
   "scope": [
     "Cargo.toml",
     "Cargo.lock",
