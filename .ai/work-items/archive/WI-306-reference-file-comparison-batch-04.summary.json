@@ -1,0 +1,28 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-306-reference-file-comparison-batch-04.contract.json",
+    ".ai/work-items/archive/WI-306-reference-file-comparison-batch-04.summary.json"
+  ],
+  "checkpointAt": "2026-08-26T13:47:42Z",
+  "checkpointContractDigest": "sha256:231253e1fd5ebe7e447e86ebb0379d80c85a6210a02f606bbc540110fbf40348",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:c4a75e39bacf18cd1a170d1758da9c067342d2f1b473253ce596ae9d177866b8",
+  "createdAt": "2026-08-26T13:45:46Z",
+  "mode": "code",
+  "preflightAt": "2026-08-26T14:11:16Z",
+  "preflightContractDigest": "sha256:231253e1fd5ebe7e447e86ebb0379d80c85a6210a02f606bbc540110fbf40348",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:c4a75e39bacf18cd1a170d1758da9c067342d2f1b473253ce596ae9d177866b8",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-26T14:11:31Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-306-reference-file-comparison-batch-04"
+}

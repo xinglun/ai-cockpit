@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-WI-306-retry-after-contract-context-reconciliation",
+  "decidedAt": "2026-08-26T14:08:51Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-306-reference-file-comparison-batch-04.verification.json",
+    ".ai/work-items/active/WI-306-reference-file-comparison-batch-04.contract.json",
+    "https://github.com/xinglun/ai-cockpit/pull/268"
+  ],
+  "policyRefs": [
+    "AGENTS.md:current-work-item-retry-boundary",
+    "docs/reference/agent-workflow.md:recovery-retry"
+  ],
+  "predecessorContractDigest": "sha256:231253e1fd5ebe7e447e86ebb0379d80c85a6210a02f606bbc540110fbf40348",
+  "predecessorSummaryDigest": "sha256:754246c1185d191901da402f7e87f066c287dbe4ea709af47425139592edbd45",
+  "predecessorWorkItemId": "WI-306-reference-file-comparison-batch-04",
+  "reason": "The first verification was recorded before the exact reviewed PR resource context was bound. Preflight correctly rejected that evidence as contradictory; preserve the prior bytes and retry the same bounded verification after reconciling the Contract context.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Record fresh verification evidence bound to the reviewed PR context, rerun non-red preflight, then finish and archive this same Work Item.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-306-reference-file-comparison-batch-04"
+}
