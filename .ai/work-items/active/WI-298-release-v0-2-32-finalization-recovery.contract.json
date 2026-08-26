@@ -1,0 +1,55 @@
+{
+  "acceptanceCriteria": [
+    "Predecessor WI-297 archive and recovery bytes remain immutable.",
+    "Exact PR #258 resources are bound before successor verification and archive.",
+    "Installed Runtime verification evidence is valid and visibly delivered.",
+    "Hosted checks pass and exact branch/worktree cleanup is verified before close."
+  ],
+  "authority": "authorized",
+  "baseRevision": "ccc5fa66b0dfa014631f58b1bc863a25b855bd00",
+  "createdAt": "2026-08-26T04:04:34Z",
+  "goal": "Complete a reviewed, auditable finalize-plan to finalize-verify and structured close chain before publishing v0.2.32.",
+  "intent": "Recover the missing post-merge resource finalization for WI-297 without rewriting its immutable release-preparation archive.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates",
+    "tests/release",
+    ".github",
+    "Cargo.toml",
+    "Cargo.lock"
+  ],
+  "predecessorContractDigest": "sha256:243a7dca65ddfb4b545c2d7ae491501f84f081b413ebbaaea1a1d17fb1dc960b",
+  "predecessorWorkItemId": "WI-297-release-v0-2-32",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-297-release-v0-2-32.recovery.9ef8b4589933bbb5792a0335c1a56ba7e974446d1cf1f1a6f12427dc55605ed2.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:89018b90331be57dc8bb620f0275a23cf1a4707e37001632d15fcc65d084a107",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-298-release-v0-2-32-finalization-recovery",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi297-close"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/decisions",
+    ".ai/work-items",
+    ".ai/evidence",
+    "docs/work-items",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-298-release-v0-2-32-finalization-recovery"
+}

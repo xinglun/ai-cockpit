@@ -1,0 +1,19 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-297-release-v0-2-32.recovery.9ef8b4589933bbb5792a0335c1a56ba7e974446d1cf1f1a6f12427dc55605ed2.json",
+    ".ai/work-items/active/WI-298-release-v0-2-32-finalization-recovery.contract.json",
+    ".ai/work-items/active/WI-298-release-v0-2-32-finalization-recovery.summary.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-08-26T04:04:34Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:243a7dca65ddfb4b545c2d7ae491501f84f081b413ebbaaea1a1d17fb1dc960b",
+  "predecessorWorkItemId": "WI-297-release-v0-2-32",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-297-release-v0-2-32.recovery.9ef8b4589933bbb5792a0335c1a56ba7e974446d1cf1f1a6f12427dc55605ed2.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "updatedAt": "2026-08-26T04:05:12Z",
+  "workItemId": "WI-298-release-v0-2-32-finalization-recovery"
+}
