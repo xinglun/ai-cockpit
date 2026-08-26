@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 2,
+  "sourceRepository": "/private/tmp/ai-cockpit-wi301",
+  "sourceAiState": "present",
+  "sourceBeforeStatus": "?? .ai/work-items/active/",
+  "sourceAfterStatus": "?? .ai/work-items/active/",
+  "sourceManifest": {
+    "format": "typed-jsonl",
+    "beforeDigest": "sha256:aaca2959250dcaf7ec409effad75ebdef331b8b417a009a22276b4c44fdeffeb",
+    "afterDigest": "sha256:aaca2959250dcaf7ec409effad75ebdef331b8b417a009a22276b4c44fdeffeb"
+  },
+  "sourceUnchanged": true,
+  "adopterRepository": "/private/tmp/ai-cockpit-adopter-acceptance.zO2rlp/adopter",
+  "repositoryIsolation": true,
+  "roots": {
+    "HOME": {
+      "classification": "global-config",
+      "allowedWrites": false,
+      "allowedPrefixes": [],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "unchanged": true
+    },
+    "XDG_CONFIG_HOME": {
+      "classification": "global-config",
+      "allowedWrites": false,
+      "allowedPrefixes": [],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "unchanged": true
+    },
+    "TMPDIR": {
+      "classification": "runtime-temporary",
+      "allowedWrites": true,
+      "allowedPrefixes": [
+        "<TMPDIR>/**"
+      ],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "symlinkTargetsContained": true
+    },
+    "CARGO_HOME": {
+      "classification": "dependency-cache",
+      "allowedWrites": true,
+      "allowedPrefixes": [
+        "<CARGO_HOME>/**"
+      ],
+      "beforeDigest": "sha256:7b46c69184dd9c6cab99a4f17710b9343d0397df12355255a412b30209479b13",
+      "afterDigest": "sha256:f72de5bee48d9316061d0b8b17a811d02905e226a9378f6bc3b372b7f0763c40",
+      "symlinkTargetsContained": true
+    }
+  }
+}

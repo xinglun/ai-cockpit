@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "release-adopter-upgrade-n-minus-one-post-migration",
+  "operationId": "retain-n-minus-one-post-migration",
+  "repositoryId": "sha256:d2bdc7fcc2e72cd4e70015cba43f0430d8d839997b09c3cba3057cb85a039945",
+  "workItemId": "n-minus-one-post-migration",
+  "runtimeVersion": "0.2.33",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "provider": "release-adopter-upgrade-harness",
+  "pullRequest": {
+    "number": 1,
+    "url": "acceptance://v0.2.33/n-minus-one-post-migration",
+    "headRevision": "5265ed707bc98acb0fab945039610e6b56472406",
+    "baseBranch": "main",
+    "baseRemote": "local",
+    "baseRevision": "5265ed707bc98acb0fab945039610e6b56472406",
+    "mergeCommit": "5265ed707bc98acb0fab945039610e6b56472406"
+  },
+  "branch": {
+    "name": "main",
+    "remote": "local",
+    "headRevision": "5265ed707bc98acb0fab945039610e6b56472406"
+  },
+  "worktree": {
+    "worktreeId": "n-minus-one-post-migration",
+    "path": "/private/tmp/ai-cockpit-n-minus-one.n6kSAr/adopter",
+    "branch": "main",
+    "headRevision": "5265ed707bc98acb0fab945039610e6b56472406"
+  },
+  "before": {
+    "pullRequest": "merged",
+    "branch": "present",
+    "worktree": "clean"
+  },
+  "after": {
+    "pullRequest": "merged",
+    "branch": "present",
+    "worktree": "clean"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "actor": "harness:release-adopter-upgrade",
+  "authoritySource": "release-adopter-upgrade-acceptance",
+  "reason": "The isolated N-1 adopter fixture is intentionally retained after migration verification.",
+  "timestamp": "2026-08-26T07:14:52Z",
+  "contractDigest": "sha256:1e49dc5283ad556a8ad78b1f59a475c1d9473df5c8c4af64f6e0c2510eff42d0",
+  "resourceContext": {
+    "branch": "main",
+    "worktree": "/private/tmp/ai-cockpit-n-minus-one.n6kSAr/adopter",
+    "baseBranch": "main",
+    "baseRemote": "local",
+    "provider": "release-adopter-upgrade-harness",
+    "pullRequest": "acceptance://v0.2.33/n-minus-one-post-migration"
+  }
+}

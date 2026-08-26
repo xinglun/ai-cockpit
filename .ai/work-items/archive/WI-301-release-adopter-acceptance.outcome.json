@@ -1,0 +1,145 @@
+{
+  "acceptanceResults": [
+    "The public v0.2.33 archive and extracted binary are downloaded from the immutable GitHub Release and verified against release-manifest.json and SHA256SUMS; no source checkout, workspace binary, or cargo fallback is accepted.",
+    "A fresh adopter is attached with the installed public binary in isolated HOME, XDG_CONFIG_HOME, TMPDIR, and CARGO_HOME roots; forbidden roots remain unchanged and all runtime writes are classified.",
+    "The acceptance receipt binds tag, version, archive digest, binary digest, platform, download source, repositoryId, root manifests, evidence digests, and cleanup state.",
+    "first-adopter-smoke remains not_ready until human-owned contract input is supplied; no governance decision is fabricated by scaffolding.",
+    "A complete Work Item lifecycle and evidence reuse are proven; published Release truth is never rewritten by post-release acceptance.",
+    "The published N-1 binary upgrades the adopter using immutable public artifacts, with failure and cleanup states auditable."
+  ],
+  "createdAt": "2026-08-26T07:35:36Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:9db79d892c35fc9c08ac83fffe8b1c581d261345bce5306f0ee30f1ab5f09f3b",
+  "evidenceRefs": [
+    ".ai/evidence/WI-301-release-adopter-acceptance.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-301-release-adopter-acceptance.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-301-release-adopter-acceptance.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ed796dbe80ef4c486cb1d8694ce52c09fb9b8c3659ecd4c7d54a905b00d03b05",
+      "workItemId": "WI-301-release-adopter-acceptance"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-301-release-adopter-acceptance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-301-release-adopter-acceptance.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-301-release-adopter-acceptance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-301-release-adopter-acceptance.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-301-release-adopter-acceptance.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-301-release-adopter-acceptance.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-301-release-adopter-acceptance.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-301-release-adopter-acceptance.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-301-release-adopter-acceptance.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-301-release-adopter-acceptance.contract.json"
+          ],
+          "inference": false,
+          "text": "Establish a reproducible post-release adopter acceptance baseline for v0.2.33 and bind its runtime, release, isolation, evidence-reuse, lifecycle, and cleanup receipts."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-301-release-adopter-acceptance.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-301-release-adopter-acceptance"
+  },
+  "taskReportDigest": "sha256:23db0b165631730cae1a41a87927e3ea1467a8e63647f271ae279fbf99649eb9",
+  "taskReportMarkdownDigest": "sha256:6b36b6123e45960e8a7c12a546a10f9de95df74ba164345de5a367556c5dc804",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-301-release-adopter-acceptance.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-301-release-adopter-acceptance"
+}

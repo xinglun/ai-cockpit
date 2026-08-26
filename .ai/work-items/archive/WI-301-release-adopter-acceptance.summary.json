@@ -1,0 +1,107 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-301-release-adopter-acceptance.contract.json",
+    ".ai/work-items/archive/WI-301-release-adopter-acceptance.summary.json"
+  ],
+  "checkpointAt": "2026-08-26T07:22:53Z",
+  "checkpointContractDigest": "sha256:c2ec48f562a003d46fa08d70760d7a8d998a372a126428b8086ac54d7c50f3b7",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:ed796dbe80ef4c486cb1d8694ce52c09fb9b8c3659ecd4c7d54a905b00d03b05",
+  "createdAt": "2026-08-26T07:03:54Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:c2ec48f562a003d46fa08d70760d7a8d998a372a126428b8086ac54d7c50f3b7",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Explicit user authorization confirms bounded continuation to collect and validate immutable public Release acceptance evidence; this receipt does not assert missing checks passed.",
+    "recordedAt": "2026-08-26T08:20:00Z",
+    "recordedBy": "human:release-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:ed796dbe80ef4c486cb1d8694ce52c09fb9b8c3659ecd4c7d54a905b00d03b05",
+    "schemaVersion": 1,
+    "workItemId": "WI-301-release-adopter-acceptance"
+  },
+  "failedGate": "finish.verification",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-26T07:35:32Z",
+  "preflightContractDigest": "sha256:c2ec48f562a003d46fa08d70760d7a8d998a372a126428b8086ac54d7c50f3b7",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:ed796dbe80ef4c486cb1d8694ce52c09fb9b8c3659ecd4c7d54a905b00d03b05",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/runtime.json",
+        ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/release-manifest.json",
+        ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/SHA256SUMS"
+      ],
+      "reason": "Public Release archive, manifest, and checksums were validated.",
+      "required": true,
+      "scenario": "release-artifact-integrity",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/acceptance.json",
+        ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/isolation.json"
+      ],
+      "reason": "Forbidden roots were unchanged and runtime-write roots were isolated.",
+      "required": true,
+      "scenario": "fresh-adopter-isolation",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/first-adopter-smoke.json"
+      ],
+      "reason": "The scaffold remained not_ready and supplied no governance decisions.",
+      "required": true,
+      "scenario": "first-adopter-smoke-boundary",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/verify-first.json",
+        ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/verify-reuse.json",
+        ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/work-items/lifecycle.evidence.json"
+      ],
+      "reason": "The lifecycle completed and exact evidence reuse was observed.",
+      "required": true,
+      "scenario": "evidence-reuse-and-lifecycle",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/v0.2.33/upgrade-v0.2.31-to-v0.2.33/acceptance.json",
+        ".ai/evidence/external/v0.2.33/upgrade-v0.2.31-to-v0.2.33/history-digest.json"
+      ],
+      "reason": "The public v0.2.31 adopter upgraded and historical evidence stayed byte-identical.",
+      "required": true,
+      "scenario": "n-minus-one-upgrade",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/cleanup.json",
+        ".ai/evidence/external/v0.2.33/upgrade-v0.2.31-to-v0.2.33/cleanup.json"
+      ],
+      "reason": "Both harnesses validated and removed their temporary run_root.",
+      "required": true,
+      "scenario": "temporary-root-cleanup",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-26T07:35:36Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-301-release-adopter-acceptance"
+}

@@ -1,0 +1,8 @@
+{
+  "branch": "main",
+  "worktree": "/private/tmp/ai-cockpit-adopter-acceptance.zO2rlp/adopter",
+  "baseBranch": "main",
+  "baseRemote": "local",
+  "provider": "release-adopter-harness",
+  "pullRequest": "acceptance://v0.2.33/release-adopter-lifecycle"
+}

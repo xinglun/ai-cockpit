@@ -162,7 +162,7 @@ provider Release truth.
 Maintainers can repeat the public-binary acceptance baseline after a Release:
 
 **Adopter acceptance baseline for v0.2.33: `aarch64-apple-darwin`.**
-WI-300 persists the v0.2.33 public-binary receipt after publication; the
+WI-301 persists the v0.2.33 public-binary receipt after publication; the
 repository-retained WI-239 receipt remains the historical v0.2.31 baseline.
 GitHub Actions run `32696048024` also completed the full staged,
 public, and N-1 adopter paths on `x86_64-unknown-linux-gnu`, but those hosted

@@ -1,0 +1,129 @@
+{
+  "acceptanceCriteria": [
+    "The public v0.2.33 archive and extracted binary are downloaded from the immutable GitHub Release and verified against release-manifest.json and SHA256SUMS; no source checkout, workspace binary, or cargo fallback is accepted.",
+    "A fresh adopter is attached with the installed public binary in isolated HOME, XDG_CONFIG_HOME, TMPDIR, and CARGO_HOME roots; forbidden roots remain unchanged and all runtime writes are classified.",
+    "The acceptance receipt binds tag, version, archive digest, binary digest, platform, download source, repositoryId, root manifests, evidence digests, and cleanup state.",
+    "first-adopter-smoke remains not_ready until human-owned contract input is supplied; no governance decision is fabricated by scaffolding.",
+    "A complete Work Item lifecycle and evidence reuse are proven; published Release truth is never rewritten by post-release acceptance.",
+    "The published N-1 binary upgrades the adopter using immutable public artifacts, with failure and cleanup states auditable."
+  ],
+  "authority": "authorized",
+  "baseRevision": "00560cb0d5ecc2f220f7268042c8d9834696390a",
+  "createdAt": "2026-08-26T07:03:54Z",
+  "goal": "Establish a reproducible post-release adopter acceptance baseline for v0.2.33 and bind its runtime, release, isolation, evidence-reuse, lifecycle, and cleanup receipts.",
+  "intent": "Use the immutable public v0.2.33 Release binary to prove a fresh adopter repository can be attached, governed, upgraded from a published N-1 binary, and cleaned up without global configuration writes.",
+  "mode": "code",
+  "outOfScope": [
+    "crates/**",
+    ".github/workflows/**",
+    "Cargo.toml",
+    "Cargo.lock",
+    "external Homebrew tap",
+    "user-global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c70fba71f0219a500404f6f88a9bcec4a0ae5515ff71dde33d72f51a12abe0d0",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-301-release-adopter-acceptance",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/263",
+    "worktree": "/private/tmp/ai-cockpit-wi301"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/runtime.json",
+        ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/release-manifest.json",
+        ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/SHA256SUMS"
+      ],
+      "expected": "The immutable v0.2.33 archive and extracted binary match the public release manifest and checksum receipt.",
+      "required": true,
+      "scenario": "release-artifact-integrity",
+      "status": "verified",
+      "verificationPlan": "Validate runtime.json, release-manifest.json, and SHA256SUMS from the public Release download."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/acceptance.json",
+        ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/isolation.json"
+      ],
+      "expected": "A fresh repository is governed by the public binary without writes to forbidden global roots.",
+      "required": true,
+      "scenario": "fresh-adopter-isolation",
+      "status": "verified",
+      "verificationPlan": "Run the public adopter harness with isolated HOME, XDG_CONFIG_HOME, TMPDIR, and CARGO_HOME."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/first-adopter-smoke.json"
+      ],
+      "expected": "The first-adopter scaffold remains not_ready until human-owned governance input is supplied.",
+      "required": true,
+      "scenario": "first-adopter-smoke-boundary",
+      "status": "verified",
+      "verificationPlan": "Assert the scaffold output and contract state are not_ready with no fabricated governance decisions."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/verify-first.json",
+        ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/verify-reuse.json",
+        ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/work-items/lifecycle.evidence.json"
+      ],
+      "expected": "The adopter completes the governed lifecycle and reuses fresh exact evidence without re-execution.",
+      "required": true,
+      "scenario": "evidence-reuse-and-lifecycle",
+      "status": "verified",
+      "verificationPlan": "Validate the first execution, exact reuse receipt, and lifecycle close evidence."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/v0.2.33/upgrade-v0.2.31-to-v0.2.33/acceptance.json",
+        ".ai/evidence/external/v0.2.33/upgrade-v0.2.31-to-v0.2.33/history-digest.json"
+      ],
+      "expected": "A public v0.2.31 adopter upgrades to v0.2.33 while historical evidence remains byte-identical.",
+      "required": true,
+      "scenario": "n-minus-one-upgrade",
+      "status": "verified",
+      "verificationPlan": "Run the public N-1 harness and validate the history digest and both Runtime identities."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/cleanup.json",
+        ".ai/evidence/external/v0.2.33/upgrade-v0.2.31-to-v0.2.33/cleanup.json"
+      ],
+      "expected": "Every validated temporary run_root is removed on the success path and failure-safe cleanup is recorded.",
+      "required": true,
+      "scenario": "temporary-root-cleanup",
+      "status": "verified",
+      "verificationPlan": "Require cleanupState=passed, removed=true, and validated=true in both receipts."
+    }
+  ],
+  "scope": [
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    ".ai/evidence/external/v0.2.33",
+    "docs/work-items/WI-301-release-adopter-acceptance.md",
+    "docs/work-items/WI-301-release-adopter-acceptance.ja.md",
+    "docs/work-items/WI-301-release-adopter-acceptance.zh-CN.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.zh-CN.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-301-release-adopter-acceptance"
+}
