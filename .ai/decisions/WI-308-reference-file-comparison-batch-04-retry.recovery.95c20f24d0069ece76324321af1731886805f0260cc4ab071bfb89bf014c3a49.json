@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-local-authorized-retry",
+  "decidedAt": "2026-08-26T21:20:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-308-reference-file-comparison-batch-04-retry.verification.json",
+    ".ai/work-items/active/WI-308-reference-file-comparison-batch-04-retry.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery-retry-boundary"
+  ],
+  "predecessorContractDigest": "sha256:ab96bdc4e4d4f386a982a2e8c70565e7515d8f3846d818d990793325166dedc3",
+  "predecessorEventsDigest": "sha256:6d2345f704c867b90828adac845d961f7c08977211ddaa35541bfd4c143a1788",
+  "predecessorOutcomeDigest": "sha256:c6b96393f080ca1c9ee8a57e4fca144e827b8598e4e912823a8c650766cc38cc",
+  "predecessorSummaryDigest": "sha256:4d204457d6de6a3d591e6ae747523cc423f605a5eaf6f0d4f619699fd6f3c878",
+  "predecessorWorkItemId": "WI-308-reference-file-comparison-batch-04-retry",
+  "reason": "Refresh verification after the in-scope inventory regression assertion was corrected.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification against the bound Contract, then retry finish.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-308-reference-file-comparison-batch-04-retry"
+}

@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-local-authorized-retry",
+  "decidedAt": "2026-08-26T21:20:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-308-reference-file-comparison-batch-04-retry.verification.json",
+    ".ai/work-items/active/WI-308-reference-file-comparison-batch-04-retry.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery-retry-boundary"
+  ],
+  "predecessorContractDigest": "sha256:ab96bdc4e4d4f386a982a2e8c70565e7515d8f3846d818d990793325166dedc3",
+  "predecessorEventsDigest": "sha256:120a8f5682d1fdc6dcad45d5af48cee975deb82cc94e7cc5350fad0f20482363",
+  "predecessorOutcomeDigest": "sha256:bd10f91a5848a64d4aee551be47906dd94565e1e03f0e58f791914ad65f37719",
+  "predecessorSummaryDigest": "sha256:3c563e95ea5d4f1506e267bc321df11b75a2b35f4840a0159fe1f6e21977be51",
+  "predecessorWorkItemId": "WI-308-reference-file-comparison-batch-04-retry",
+  "reason": "Refresh verification after binding the reviewed pull request resource context changed the Contract digest.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification against the bound Contract, then retry finish.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-308-reference-file-comparison-batch-04-retry"
+}

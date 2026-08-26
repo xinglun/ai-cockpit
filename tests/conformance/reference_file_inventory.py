@@ -284,6 +284,47 @@ WI305_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
     ),
 }
 
+WI306_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "docs/assets/ai-cockpit-demo.gif": (
+        "reference-only",
+        [],
+        "The reference GIF is a visual demonstration asset, not Runtime code or a repository-governance contract. The Rust project records its pinned type, dimensions, size, and digest in the comparison Work Item but does not copy binary media into the Runtime repository.",
+    ),
+    "docs/case-study-ai-rollback-corruption.md": (
+        "implemented-different-by-design",
+        [
+            "docs/security/adversarial-validation.md",
+            "docs/security/adversarial-validation.zh-CN.md",
+            "docs/security/adversarial-validation.ja.md",
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-repository/tests/contract_preflight.rs",
+        ],
+        "The hypothetical rollback-corruption scenario is projected into the tri-language adversarial-validation route and typed scope/Contract checks. Rust stops on unauthorized paths and preserves evidence; it does not claim automatic semantic rollback or detection of every business-impacting regression.",
+    ),
+    "docs/concepts/evidence-governance.md": (
+        "implemented-different-by-design",
+        [
+            "docs/security/enterprise-governance.md",
+            "docs/security/enterprise-governance.zh-CN.md",
+            "docs/security/enterprise-governance.ja.md",
+            "docs/reference/outcome-report.md",
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+        ],
+        "The Evidence → Governance Decision → Human Control chain is documented by the enterprise-governance and human-facing Outcome routes and implemented by typed repository-bound evidence/lifecycle services. Provider proof remains delegated and is never inferred from Agent prose.",
+    ),
+    "docs/concepts/trust-layer.md": (
+        "implemented-different-by-design",
+        [
+            "docs/architecture/product-boundary.md",
+            "docs/philosophy.md",
+            "docs/security/enterprise-governance.md",
+            "docs/reference/capability-truth-matrix.md",
+        ],
+        "The reference calibrated-trust explanation is preserved across the Rust product-boundary, design-philosophy, enterprise-governance, and capability-truth routes. The target explicitly remains a Repository Governance Layer, not an Agent Runtime, sandbox, identity provider, or compliance certificate.",
+    ),
+}
+
 
 def wi270_counterpart(path: str) -> tuple[list[str], str] | None:
     if path in WI270_DOC_CONCEPTS:
@@ -629,6 +670,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 {
                     "referencePath": path,
                     "batch": WI305_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
+        wi306 = WI306_REFERENCE_FILES.get(path)
+        if wi306 is not None:
+            classification, counterparts, reason = wi306
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": "WI-308-reference-file-comparison-batch-04-retry",
                     "classification": classification,
                     "rustCounterparts": counterparts,
                     "reason": reason,

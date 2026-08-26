@@ -52,6 +52,31 @@ Reference corpus は 12 の実例 scenario も評価します。Rust は proven 
 
 `pass` は表現された deterministic facts の coverage を意味し、すべての悪意や external identity を検証する主張ではありません。
 
+## rollback corruption のケーススタディ
+
+Reference のケースは、session validation の小さな変更が無関係な payment と billing の
+ファイルまで変更してしまう仮説です。Rust 版は自動的な意味的 rollback を実装したと
+装わず、人間所有の Contract で許可/除外 path を先に宣言し、review または close の前に
+Runtime が実際の snapshot/diff を比較します。
+
+```text
+scope: src/auth/session.rs, tests/auth/session_test.rs
+outOfScope: src/auth/payment.rs, src/billing/**
+```
+
+Agent が除外 path を変更したり、完成済み guard を黙って削除したり、無関係な変更を説明
+できない場合、scope/Contract gate は blocked のままです。Agent は Work Item evidence を
+保持し、次の visible handoff を提示しなければなりません。
+
+```bash
+ai-cockpit work-item outcome --repo /path/to/repository --id session-validation
+```
+
+これにより、もっともらしい patch が監査 trail を消去することを防ぎます。ただし Runtime
+が証明できるのは path、snapshot、verification、receipt の事実であり、すべての caller、
+business impact、外部 contract を推論することはできません。それらの unknown は human
+review に戻ります。この例は自動 rollback、merge 承認、または security guarantee を意味しません。
+
 runtime 境界テストでは、repository text を data として扱うこと、Work Item ID の path traversal
 防止、MCP evidence path の repository 内制限、allowlist と対象 cwd の検証、fresh な passed receipt
 なしに finish が完了を自己宣言できないことも確認します。

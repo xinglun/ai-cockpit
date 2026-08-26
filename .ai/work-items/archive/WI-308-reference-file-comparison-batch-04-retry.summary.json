@@ -1,0 +1,46 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.contract.json",
+    ".ai/work-items/archive/WI-308-reference-file-comparison-batch-04-retry.summary.json",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/security/adversarial-validation.ja.md",
+    "docs/security/adversarial-validation.md",
+    "docs/security/adversarial-validation.zh-CN.md",
+    "docs/work-items/WI-308-reference-file-comparison-batch-04-retry.ja.md",
+    "docs/work-items/WI-308-reference-file-comparison-batch-04-retry.md",
+    "docs/work-items/WI-308-reference-file-comparison-batch-04-retry.zh-CN.md",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory_test.sh"
+  ],
+  "checkpointAt": "2026-08-26T21:02:25Z",
+  "checkpointContractDigest": "sha256:ab96bdc4e4d4f386a982a2e8c70565e7515d8f3846d818d990793325166dedc3",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:d9c56106480b400b6e04b521a484b01e63bbc61a4a2f83771f51d878edbcf012",
+  "createdAt": "2026-08-26T21:02:18Z",
+  "failedGate": "finish.preflight",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-26T21:39:03Z",
+  "preflightContractDigest": "sha256:ab96bdc4e4d4f386a982a2e8c70565e7515d8f3846d818d990793325166dedc3",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:d9c56106480b400b6e04b521a484b01e63bbc61a4a2f83771f51d878edbcf012",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record a fresh non-red preflight result, then retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-26T21:39:09Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-308-reference-file-comparison-batch-04-retry"
+}

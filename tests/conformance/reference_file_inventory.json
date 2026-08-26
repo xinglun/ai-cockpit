@@ -29686,10 +29686,10 @@
     },
     {
       "referencePath": "docs/assets/ai-cockpit-demo.gif",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
+      "batch": "WI-308-reference-file-comparison-batch-04-retry",
+      "classification": "reference-only",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "reason": "The reference GIF is a visual demonstration asset, not Runtime code or a repository-governance contract. The Rust project records its pinned type, dimensions, size, and digest in the comparison Work Item but does not copy binary media into the Runtime repository."
     },
     {
       "referencePath": "docs/audits/final-release-readiness-audit.md",
@@ -29853,10 +29853,16 @@
     },
     {
       "referencePath": "docs/case-study-ai-rollback-corruption.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-308-reference-file-comparison-batch-04-retry",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/security/adversarial-validation.md",
+        "docs/security/adversarial-validation.zh-CN.md",
+        "docs/security/adversarial-validation.ja.md",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/contract_preflight.rs"
+      ],
+      "reason": "The hypothetical rollback-corruption scenario is projected into the tri-language adversarial-validation route and typed scope/Contract checks. Rust stops on unauthorized paths and preserves evidence; it does not claim automatic semantic rollback or detection of every business-impacting regression."
     },
     {
       "referencePath": "docs/concepts/decision-states.ja.md",
@@ -29896,17 +29902,29 @@
     },
     {
       "referencePath": "docs/concepts/evidence-governance.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-308-reference-file-comparison-batch-04-retry",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/security/enterprise-governance.md",
+        "docs/security/enterprise-governance.zh-CN.md",
+        "docs/security/enterprise-governance.ja.md",
+        "docs/reference/outcome-report.md",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "The Evidence → Governance Decision → Human Control chain is documented by the enterprise-governance and human-facing Outcome routes and implemented by typed repository-bound evidence/lifecycle services. Provider proof remains delegated and is never inferred from Agent prose."
     },
     {
       "referencePath": "docs/concepts/trust-layer.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-308-reference-file-comparison-batch-04-retry",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/architecture/product-boundary.md",
+        "docs/philosophy.md",
+        "docs/security/enterprise-governance.md",
+        "docs/reference/capability-truth-matrix.md"
+      ],
+      "reason": "The reference calibrated-trust explanation is preserved across the Rust product-boundary, design-philosophy, enterprise-governance, and capability-truth routes. The target explicitly remains a Repository Governance Layer, not an Agent Runtime, sandbox, identity provider, or compliance certificate."
     },
     {
       "referencePath": "docs/configuration.ja.md",
