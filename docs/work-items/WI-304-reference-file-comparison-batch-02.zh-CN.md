@@ -6,8 +6,12 @@ description: "逐文件比对固定参考源的下两个 workflow，记录 Rust-
 audience:
   - maintainer
   - reviewer
-status: in-progress
+status: implemented
 lastVerifiedBy: WI-304-reference-file-comparison-batch-02
+terminalArchive: .ai/work-items/archive/WI-304-reference-file-comparison-batch-02.contract.json
+terminalVerification: .ai/evidence/WI-304-reference-file-comparison-batch-02.verification.json
+terminalFinalization: .ai/decisions/WI-304-reference-file-comparison-batch-02.finalize.453c648a442f9cff7ada6d294032a3a0a4043b669d0be65fa1afca407a3b49cf.json
+terminalDecision: .ai/decisions/WI-304-reference-file-comparison-batch-02.close.json
 authority: canonical
 ---
 
