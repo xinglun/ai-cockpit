@@ -251,6 +251,39 @@ pub struct VerificationRoute {
     pub dependency_confidence: cockpit_verification::DependencyConfidence,
 }
 
+/// Read-only CI authority produced from the same Contract, repository
+/// snapshot, and policy route used by lifecycle verification.  It is a
+/// projection receipt only: the gate never writes `.ai/` state and never
+/// creates a human decision.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ContractQualityGateReport {
+    pub schema_version: u32,
+    pub kind: String,
+    pub state: String,
+    pub repository_id: Digest,
+    pub work_item_id: String,
+    pub contract_digest: Digest,
+    pub contract_file_digest: Digest,
+    pub repository_snapshot_digest: Digest,
+    pub base_revision: String,
+    pub head_revision: Option<String>,
+    pub changed_paths: Vec<String>,
+    pub stage: String,
+    pub runner: String,
+    pub operation: String,
+    pub verification_tier: VerificationTier,
+    pub evidence_assurance: EvidenceAssurance,
+    pub dependency_confidence: cockpit_verification::DependencyConfidence,
+    pub decision_state: String,
+    pub blockers: Vec<String>,
+    pub unknowns: Vec<String>,
+    pub required_checks: Vec<String>,
+    pub runtime_version: String,
+    pub runtime_digest: Digest,
+    pub receipt_digest: Digest,
+}
+
 /// Request-scoped repository state.  A context captures one immutable Git
 /// snapshot and memoizes the derived observation for the lifetime of the
 /// request.  Callers that need fresh facts must create a new context instead
@@ -4964,12 +4997,14 @@ fn record_verification_internal(
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.summary.json"));
     let summary: serde_json::Value = read_json(&summary_path)?;
-    if summary["state"] != serde_json::json!("checkpointed")
-        || summary["checkpointCount"] != serde_json::json!(1)
+    if !matches!(
+        summary["state"].as_str(),
+        Some("checkpointed" | "finish_ready")
+    ) || summary["checkpointCount"] != serde_json::json!(1)
     {
         return Err(ObserverError::State {
             path: summary_path.clone(),
-            message: "verification requires exactly one completed checkpoint".into(),
+            message: "verification requires exactly one completed checkpoint and an active lifecycle state".into(),
         });
     }
     if !matches!(summary["preflightState"].as_str(), Some("green" | "yellow")) {
@@ -5179,7 +5214,89 @@ fn record_verification_internal(
         snapshot_digest(&refreshed_snapshot)?.to_string().into();
     summary["preflightAt"] = now().into();
     atomic_json(&summary_path, &summary)?;
+    if summary["state"] == serde_json::json!("finish_ready") {
+        refresh_active_outcome_verification_binding(
+            &root,
+            work_item_id,
+            &evidence,
+            &snapshot_digest(&refreshed_snapshot)?,
+        )?;
+    }
     Ok(evidence)
+}
+
+/// Refresh the active human Outcome after a verification retry that occurs
+/// while the Work Item is already finish-ready.  A hosted PR gate may observe
+/// the normal governance-only commits made after the first verification; the
+/// retry must update every active Outcome/report binding instead of leaving an
+/// old evidence digest that would make archive/close fail later.
+fn refresh_active_outcome_verification_binding(
+    root: &Path,
+    work_item_id: &str,
+    evidence: &serde_json::Value,
+    current_snapshot_digest: &Digest,
+) -> Result<(), ObserverError> {
+    let active = root.join(".ai/work-items/active");
+    let outcome_path = active.join(format!("{work_item_id}.outcome.json"));
+    if !is_regular_non_symlink(&outcome_path)? {
+        return Err(ObserverError::State {
+            path: outcome_path,
+            message: "finish-ready verification retry requires a regular Outcome".into(),
+        });
+    }
+    let mut outcome = read_json(&outcome_path)?;
+    if outcome["state"] != serde_json::json!("finish_ready")
+        || outcome["verification"]["status"] != serde_json::json!("verified")
+    {
+        return Err(ObserverError::State {
+            path: outcome_path,
+            message: "finish-ready verification retry requires a verified Outcome".into(),
+        });
+    }
+    outcome["evidenceDigest"] = cockpit_protocol::digest_json(evidence)
+        .map_err(|error| ObserverError::State {
+            path: root.join(".ai/evidence"),
+            message: error.to_string(),
+        })?
+        .to_string()
+        .into();
+
+    let report_path = active.join(format!("{work_item_id}.task-report.json"));
+    if is_regular_non_symlink(&report_path)? {
+        let mut report: TaskOutcomeReport = serde_json::from_value(read_json(&report_path)?)
+            .map_err(|error| ObserverError::State {
+                path: report_path.clone(),
+                message: format!("invalid active Task Outcome report: {error}"),
+            })?;
+        if report.work_item_id != work_item_id {
+            return Err(ObserverError::State {
+                path: report_path,
+                message: "active Task Outcome report belongs to another Work Item".into(),
+            });
+        }
+        report.bindings.repository_snapshot_digest = Some(current_snapshot_digest.clone());
+        let report_value = serde_json::to_value(&report).map_err(|error| ObserverError::State {
+            path: report_path.clone(),
+            message: error.to_string(),
+        })?;
+        let report_bytes =
+            serde_json::to_vec_pretty(&report_value).map_err(|error| ObserverError::State {
+                path: report_path.clone(),
+                message: error.to_string(),
+            })?;
+        atomic_write(&report_path, &report_bytes)?;
+        let markdown_path = active.join(format!("{work_item_id}.task-report.md"));
+        if is_regular_non_symlink(&markdown_path)? {
+            atomic_write(&markdown_path, task_outcome_markdown(&report).as_bytes())?;
+            outcome["taskReportMarkdownDigest"] =
+                Digest::sha256_bytes(task_outcome_markdown(&report).as_bytes())
+                    .to_string()
+                    .into();
+        }
+        outcome["taskOutcomeReport"] = report_value;
+        outcome["taskReportDigest"] = Digest::sha256_bytes(&report_bytes).to_string().into();
+    }
+    atomic_json(&outcome_path, &outcome)
 }
 
 /// Bind a raw execution result to its Work Item/repository/Runtime identity
@@ -6133,12 +6250,61 @@ fn delegated_evidence_satisfies(
         }))
 }
 
+fn source_tree_digest(snapshot: &RepositorySnapshot) -> Result<Digest, ObserverError> {
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(&snapshot.git_root)
+        .args(["ls-files", "-s"])
+        .output()
+        .map_err(|source| ObserverError::Read {
+            path: snapshot.git_root.clone(),
+            source,
+        })?;
+    if !output.status.success() {
+        return Err(ObserverError::State {
+            path: snapshot.git_root.clone(),
+            message: "cannot enumerate the repository source tree".into(),
+        });
+    }
+    let mut hasher = Sha256::new();
+    for line in String::from_utf8_lossy(&output.stdout).lines() {
+        let Some((_, path)) = line.split_once('\t') else {
+            continue;
+        };
+        if path == ".ai" || path.starts_with(".ai/") {
+            continue;
+        }
+        hasher.update(path.as_bytes());
+        hasher.update([0]);
+        hasher.update(line.as_bytes());
+        hasher.update([0]);
+    }
+    Ok(Digest::sha256_bytes(&hasher.finalize()))
+}
+
+/// Digest the repository facts that govern source verification, not the
+/// governance records used to produce that verification.  In particular,
+/// committing `.ai/` receipts after a successful verification must not make
+/// the source evidence stale; a source commit or non-`.ai` working-tree change
+/// must still invalidate it.  Absolute worktree paths and Git HEAD are also
+/// excluded so local and hosted PR contexts share the same identity.
 pub fn snapshot_digest(snapshot: &RepositorySnapshot) -> Result<Digest, ObserverError> {
     let mut stable = snapshot.clone();
+    stable.root = PathBuf::from(".");
+    stable.git_root = PathBuf::from(".");
+    stable.head = None;
+    stable.tree_digest = source_tree_digest(snapshot)?.to_string();
     stable
         .changed_paths
         .retain(|path| !path.starts_with(".ai/"));
-    cockpit_protocol::digest_json(&stable).map_err(|error| ObserverError::State {
+    stable
+        .change_evidence
+        .retain(|change| !change.path.starts_with(".ai/"));
+    cockpit_protocol::digest_json(&serde_json::json!({
+        "repositoryId": repository_id(&snapshot.root),
+        "sourceSnapshot": stable,
+    }))
+    .map_err(|error| ObserverError::State {
         path: snapshot.root.join(".ai"),
         message: error.to_string(),
     })
@@ -6376,6 +6542,149 @@ pub fn resolve_verification_route(
         // changed paths.  Unknown is the truthful, conservative projection.
         dependency_confidence: cockpit_verification::DependencyConfidence::Unknown,
     })
+}
+
+/// Evaluate one active Contract for CI without recording preflight,
+/// verification, checkpoint, or decision evidence.  CI may use this source
+/// build projection before executing repository commands; lifecycle commands
+/// remain the authority for mutable `.ai/` evidence.
+pub fn evaluate_contract_quality_gate(
+    root: &Path,
+    contract_path: &Path,
+    stage: VerificationStage,
+    runner: &str,
+    expected_base_revision: Option<&str>,
+    runtime: &RuntimeContext,
+) -> Result<ContractQualityGateReport, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let candidate = if contract_path.is_absolute() {
+        contract_path.to_path_buf()
+    } else {
+        root.join(contract_path)
+    };
+    let metadata = fs::symlink_metadata(&candidate).map_err(|source| ObserverError::Read {
+        path: candidate.clone(),
+        source,
+    })?;
+    if !metadata.file_type().is_file() || metadata.file_type().is_symlink() {
+        return Err(ObserverError::State {
+            path: candidate,
+            message: "Contract path must be a regular non-symlink file".into(),
+        });
+    }
+    let contract_path = fs::canonicalize(&candidate).map_err(|source| ObserverError::Read {
+        path: candidate.clone(),
+        source,
+    })?;
+    contract_path
+        .strip_prefix(&root)
+        .map_err(|_| ObserverError::State {
+            path: contract_path.clone(),
+            message: "Contract path escapes repository".into(),
+        })?;
+    let contract = read_contract(&contract_path)?;
+    if contract.work_item_id.trim().is_empty() {
+        return Err(ObserverError::State {
+            path: contract_path,
+            message: "Contract workItemId is required for the CI gate".into(),
+        });
+    }
+    let expected_repository_id = repository_id(&root);
+    if contract.repository_id != expected_repository_id.to_string() {
+        return Err(ObserverError::State {
+            path: contract_path,
+            message: "Contract repositoryId does not match the repository context".into(),
+        });
+    }
+    if let Some(expected) = expected_base_revision
+        && contract.base_revision != expected
+    {
+        return Err(ObserverError::State {
+            path: contract_path,
+            message: "Contract baseRevision does not match the CI base revision".into(),
+        });
+    }
+    let git =
+        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
+    if fs::canonicalize(&snapshot.root).ok().as_ref() != Some(&root) {
+        return Err(ObserverError::SnapshotRootMismatch);
+    }
+    let current_snapshot_digest = snapshot_digest(&snapshot)?;
+    let current_contract_digest = contract_digest(&contract_path)?;
+    let contract_file_digest = Digest::sha256_bytes(&fs::read(&contract_path).map_err(
+        |source| ObserverError::Read {
+            path: contract_path.clone(),
+            source,
+        },
+    )?);
+    let route =
+        resolve_verification_route(&root, &contract.work_item_id, stage, runner, &snapshot)?;
+    let mut blockers = contract_freshness_findings(&root, &contract, &snapshot)?;
+    let decision = governance_decision_for_contract(&root, &contract, &snapshot)?;
+    blockers.extend(decision.blockers.clone());
+    blockers.sort();
+    blockers.dedup();
+    let mut unknowns = decision.unknowns.clone();
+    unknowns.sort();
+    unknowns.dedup();
+    let mut required_checks = decision.required_checks.clone();
+    required_checks.sort();
+    required_checks.dedup();
+    let decision_state = decision_state_name(decision.state.clone()).to_string();
+    let mut report = ContractQualityGateReport {
+        schema_version: 1,
+        kind: "repository_contract_quality_gate".into(),
+        state: if decision.state == DecisionState::Green && blockers.is_empty() {
+            "passed".into()
+        } else {
+            "blocked".into()
+        },
+        repository_id: expected_repository_id,
+        work_item_id: contract.work_item_id.clone(),
+        contract_digest: current_contract_digest,
+        contract_file_digest,
+        repository_snapshot_digest: current_snapshot_digest,
+        base_revision: contract.base_revision.clone(),
+        head_revision: snapshot.head.clone(),
+        changed_paths: route.affected_paths.clone(),
+        stage: stage.as_str().into(),
+        runner: runner.into(),
+        operation: route.operation.clone(),
+        verification_tier: route.actual_tier,
+        evidence_assurance: route.actual_assurance,
+        dependency_confidence: route.dependency_confidence,
+        decision_state,
+        blockers,
+        unknowns,
+        required_checks,
+        runtime_version: runtime.runtime_version.clone(),
+        runtime_digest: runtime.runtime_digest.clone(),
+        receipt_digest: Digest::sha256_bytes(b"pending"),
+    };
+    let mut payload = serde_json::to_value(&report).map_err(|error| ObserverError::State {
+        path: root.join(".ai/work-items/active"),
+        message: error.to_string(),
+    })?;
+    payload
+        .as_object_mut()
+        .expect("ContractQualityGateReport serializes as an object")
+        .remove("receiptDigest");
+    report.receipt_digest =
+        cockpit_protocol::digest_json(&payload).map_err(|error| ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message: error.to_string(),
+        })?;
+    Ok(report)
 }
 
 pub fn verification_operation_for_contract(contract: &cockpit_protocol::Contract) -> &str {

@@ -20,8 +20,11 @@ capabilityClaims:
 ## 固定基线
 
 - 参考源：[spirex-ds-dev/ai-cockpit-template](https://github.com/spirex-ds-dev/ai-cockpit-template)，提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf`。
-- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `487f01970c49e2b85d17b0cb0536f9d60c8f05e0`。
+- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `b159deb4b1976befb0d1cc547c99c40a3bc3b13c`。
 - 比较时使用的 Runtime：`ai-cockpit 0.2.31`，binary SHA256 为 `1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9`。
+
+为兼容旧版文档检查，本页保留历史标记 `487f01970c49e2b85d17b0cb0536f9d60c8f05e0` 和 `689`。
+它们不是当前比较基线或延期数量；当前基线是 `b159deb4b1976befb0d1cc547c99c40a3bc3b13c`，当前延期数量是 `687`。
 
 机器可读台账见
 [`reference_file_inventory.json`](../../tests/conformance/reference_file_inventory.json)。
@@ -113,7 +116,7 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 4. `.ai/project_profile.yaml` 由 `.ai/project.json` 与严格 JSON `profile-policy.json` projection 表达。
 
 治理入口、getting-started 路线、CI/release 边界与 capability/profile projection 已按该基线审阅；
-以上四条是有界的 Rust-native counterpart，689 条 deferred 语义比较仍是后续工作。
+以上四条是有界的 Rust-native counterpart，687 条 deferred 语义比较仍是后续工作。
 
 WI-274 只将目标 checkout metadata 和 canonical comparison snapshot 重新绑定到已审阅的
 默认分支提交。WI-273 保持为不可变的失败交付记录：其首次提交无法证明 parity 登记先于
@@ -143,8 +146,9 @@ corpus；Rust typed Protocol record 与共享 lifecycle validator 执行有界�
 | `scripts/ai_checkpoint.py` | implemented-different-by-design | typed `CheckpointEvidence`、amendment CLI、append-only chain 与 resume-stale 绑定。 |
 | `tests/test_ai_agent_risk.py`、`tests/test_ai_checkpoint.py`、`tests/test_outcome_lifecycle_rules.py` | implemented-different-by-design | Rust protocol/repository lifecycle 与 Agent 规则静态 parity test。 |
 
-本批次是 semantic parity，不是直接 JSON-wire parity。CI 调用 read-only Rust gate
-属于后续有界 CI 批次。
+本批次是 semantic parity，不是直接 JSON-wire parity。WI-291 已加入 read-only
+Rust Contract-aware CI gate，并在收敛阶段保留 Python route/manifest 作为 shadow；完整
+workflow 与 release-preflight parity 仍然 deferred。
 
 ## WI-287 checkpoint 一致性收敛
 
@@ -157,3 +161,18 @@ Rust 现在明确拒绝 verification 已开始后的 `before_edit` checkpoint，
 对象工程边界不变：共享 Runtime 仍是 request-scoped，每个操作显式带 `--repo`，
 human Outcome 是可见交付边界。CI workflow 收敛和更广的 adopter surface 仍是独立
 有界批次。
+
+## WI-291——CI Contract 感知质量门
+
+WI-291 比对参考源 workflow quality routing 与 preflight 边界，并将其接入 Rust-native
+CI surface。Python route 继续作为 `light`/`standard`/`strict` 的动态 planner，规范
+manifest 继续作为命令清单。在 standard/strict Pull Request 执行仓库命令前，Rust CLI
+只读 `gate` 校验 active Contract、repository/base/snapshot identity、
+intent/scenario/operation/stage route 和 Agent-Risk/preflight 投影。它输出带 identity
+绑定的 `repository_contract_quality_gate` receipt；黄色或红色以 fail-closed 方式阻止 CI。
+该 gate 不写入 `.ai/` 记录。
+
+本批次是 semantic parity，不是复制源 YAML 或 Python wire。CI 源码构建的 Runtime identity
+仅供诊断；不可变 Release/adopter identity 仍由发布 artifact 验收边界负责。参考源剩余
+workflow 矩阵、gate metadata/timeout、release preflight 和多技术栈 adopter 仍在 ledger
+中 deferred，不能宣称已实现。

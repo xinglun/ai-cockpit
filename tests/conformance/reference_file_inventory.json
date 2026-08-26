@@ -29389,24 +29389,24 @@
     },
     {
       "referencePath": ".github/workflows/compatibility.yml",
-      "batch": "later-batch",
+    "batch": "WI-293-ci-contract-aware-gates-recovery",
       "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "rustCounterparts": [".github/workflows/ci.yml", "crates/cockpit-cli/src/main.rs", "tests/ci/quality_route.py"],
+    "reason": "WI-293 re-delivers only the shared Contract-aware dynamic gate boundary; compatibility matrix parity remains deferred and no full equivalence is claimed."
     },
     {
       "referencePath": ".github/workflows/release.yml",
-      "batch": "later-batch",
+    "batch": "WI-293-ci-contract-aware-gates-recovery",
       "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "rustCounterparts": [".github/workflows/ci.yml", "tests/ci/run_repository_gates.py"],
+    "reason": "WI-293 binds the shared Contract-aware gate boundary only; release preflight and immutable provider workflow parity remain deferred."
     },
     {
       "referencePath": ".github/workflows/smoke.yml",
-      "batch": "later-batch",
+    "batch": "WI-293-ci-contract-aware-gates-recovery",
       "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "rustCounterparts": [".github/workflows/ci.yml", "crates/cockpit-repository/src/lib.rs"],
+    "reason": "WI-293 covers the read-only Contract gate before command execution; the reference smoke graph remains deferred."
     },
     {
       "referencePath": ".gitignore",
@@ -36050,10 +36050,10 @@
     },
     {
       "referencePath": "tests/test_release_workflow.py",
-      "batch": "later-batch",
+    "batch": "WI-293-ci-contract-aware-gates-recovery",
       "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "rustCounterparts": ["tests/ci/quality_route_test.py", "tests/ci/repository_gate_manifest_test.py"],
+    "reason": "WI-293 adds Rust/Python Contract gate convergence checks; complete release workflow ordering and provider evidence remain deferred."
     },
     {
       "referencePath": "tests/test_required_evidence.py",
@@ -36361,10 +36361,10 @@
     },
     {
       "referencePath": "tests/test_workflows.py",
-      "batch": "later-batch",
+    "batch": "WI-293-ci-contract-aware-gates-recovery",
       "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "rustCounterparts": ["tests/ci/quality_route_test.py", ".github/workflows/ci.yml"],
+    "reason": "WI-293 adds the Contract gate order and shadow boundary; full workflow graph, timeout, concurrency, and action policy parity remain deferred."
     }
   ]
 }
