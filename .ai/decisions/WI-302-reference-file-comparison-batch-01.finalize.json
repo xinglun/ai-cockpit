@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "hosted-review-pending-merge",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "7679f2ea8f4ea77200fad3ab77d9b4bbd9c5acf7",
+    "name": "codex/wi-302-reference-file-comparison-batch-01",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:caef1bbfe32f56ce4da093ba30c678ea3b6b7aa723916b8493ad68813e8f7299",
+  "operationId": "operation-WI-302-reference-file-comparison-batch-01-pre-merge",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "a533d49dfa848d95742833f8cd1b5f7e1bb897d5",
+    "headRevision": "7679f2ea8f4ea77200fad3ab77d9b4bbd9c5acf7",
+    "number": 264,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/264"
+  },
+  "reason": "PR #264 is awaiting hosted review and merge; retain the exact branch and worktree until merge and cleanup are observed.",
+  "receiptId": "ai-cockpit-WI-302-reference-file-comparison-batch-01-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-302-reference-file-comparison-batch-01",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/264",
+    "worktree": "/private/tmp/ai-cockpit-wi302-reference-file-comparison-batch-01"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-26T09:50:03Z",
+  "workItemId": "WI-302-reference-file-comparison-batch-01",
+  "worktree": {
+    "branch": "codex/wi-302-reference-file-comparison-batch-01",
+    "headRevision": "7679f2ea8f4ea77200fad3ab77d9b4bbd9c5acf7",
+    "path": "/private/tmp/ai-cockpit-wi302-reference-file-comparison-batch-01",
+    "worktreeId": "WI-302-reference-file-comparison-batch-01"
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "WI-302-reference-file-comparison-batch-01 records",
+          "path": "tests/conformance/reference_file_inventory.json",
+          "type": "source",
+          "verification": "Pinned source commit e5acb677 and lexical first-ten selection are recorded in the inventory."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "WI-302 first deferred file batch",
+          "path": "docs/reference/reference-file-comparison.md",
+          "type": "documentation",
+          "verification": "All ten records have counterparts, classification, reason, and evidence references."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "implementation-different-by-design and not-applicable rows",
+          "path": "docs/reference/reference-file-comparison.md",
+          "type": "documentation",
+          "verification": "Source-language and provider ownership boundaries are explicitly separated from Runtime semantics."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "source archive policy regression",
+          "path": "tests/release/source_archive_policy_test.sh",
+          "type": "test",
+          "verification": "Source archive, dependency, release and license boundaries are checked by the declared scripts."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "WI-302 first deferred file batch",
+          "path": "docs/reference/reference-file-comparison.zh-CN.md",
+          "type": "documentation",
+          "verification": "English, Simplified Chinese, and Japanese comparison documents share the current source/target/runtime identity."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "classification=deferred-next-batch",
+          "path": "tests/conformance/reference_file_inventory.json",
+          "type": "inventory",
+          "verification": "Only the two workflow boundaries remain explicitly deferred with bounded reasons; no actionable omission is hidden."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A7",
+      "evidence": [
+        {
+          "locator": "inventory regression",
+          "path": "tests/conformance/reference_file_inventory_test.sh",
+          "type": "test",
+          "verification": "Installed Runtime verification passed; full workspace quality and documentation/inventory checks passed."
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-302-reference-file-comparison-batch-01.contract.json",
+    ".ai/work-items/archive/WI-302-reference-file-comparison-batch-01.summary.json"
+  ],
+  "checkpointAt": "2026-08-26T09:10:29Z",
+  "checkpointContractDigest": "sha256:5cd39bf094ed5e3333bb49c5b74f70263ae244486cefdd1385ee8c8410040f42",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:84f021a7a9cdfe72d9cbf814667ed467c4c4fc2be5d1e6899c30d9ea0e273501",
+  "createdAt": "2026-08-26T09:08:10Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "tests/conformance/reference_file_inventory.json",
+      "docs/reference/reference-file-comparison.md",
+      "docs/reference/reference-file-comparison.zh-CN.md",
+      "docs/reference/reference-file-comparison.ja.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "investigate",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-26T09:35:23Z",
+  "preflightContractDigest": "sha256:5cd39bf094ed5e3333bb49c5b74f70263ae244486cefdd1385ee8c8410040f42",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:84f021a7a9cdfe72d9cbf814667ed467c4c4fc2be5d1e6899c30d9ea0e273501",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-26T09:35:27Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-302-reference-file-comparison-batch-01"
+}

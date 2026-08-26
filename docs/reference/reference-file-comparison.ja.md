@@ -20,12 +20,11 @@ Reference は specification と behavior corpus であり、Rust Runtime にコ�
 ## 固定 baseline
 
 - Reference: [spirex-ds-dev/ai-cockpit-template](https://github.com/spirex-ds-dev/ai-cockpit-template)、commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf`。
-- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `b159deb4b1976befb0d1cc547c99c40a3bc3b13c`。
-- 比較に使う Runtime: `ai-cockpit 0.2.31`、binary SHA256 `1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9`。
+- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `a533d49dfa848d95742833f8cd1b5f7e1bb897d5`。
+- 比較に使う Runtime: `ai-cockpit 0.2.33`、binary SHA256 `eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4`。
 
-古い documentation fixture との互換性のため、歴史的なマーカー
-`487f01970c49e2b85d17b0cb0536f9d60c8f05e0` と `689` を残します。これらは現在の比較基線や延期数ではありません。
-現在の基線は `b159deb4b1976befb0d1cc547c99c40a3bc3b13c`、現在の延期数は `687` です。
+このページは現在固定した比較 baseline だけを説明します。歴史的な delivery detail は
+Work Item archive evidence に保持し、reader-facing route には載せません。
 
 Machine-readable ledger は
 [`reference_file_inventory.json`](../../tests/conformance/reference_file_inventory.json) です。
@@ -108,10 +107,11 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-固定した v0.2.31 comparison baseline の ledger は 5,119 records です。内訳は
-4,262 `generated-history`、169 `implemented-different-by-design`、1
-`implemented-equivalent`、687 `deferred-next-batch` です。Deferred record は予定された
-比較であり parity claim ではありません。capability/profile slice に `migrate-gap` は残っていません。
+固定した v0.2.33 comparison baseline の ledger は 5,119 records です。内訳は
+4,262 `generated-history`、174 `implemented-different-by-design`、1
+`implemented-equivalent`、3 `not-applicable`、679 `deferred-next-batch` です。
+Deferred record は予定された比較であり parity claim ではありません。
+capability/profile slice に `migrate-gap` は残っていません。
 
 1. `.ai/project/adopter-capability-manifest.json` は Runtime registry で表現し、installer-surface は external boundary とします。
 2. `.ai/project/capabilities.json` は strict な Rust-native declaration と明示的な operation mapping で表現します。
@@ -120,7 +120,7 @@ complete parity とは扱いません。
 
 Governance entrypoint、getting-started route、CI/release boundary、capability/profile
 projection はこの baseline で review 済みです。上記 4 件は bounded な Rust-native counterpart として登録済みで、
-687 deferred semantic comparison は後続作業として残ります。
+679 deferred semantic comparison は後続作業として残ります。
 
 WI-274 は target checkout metadata と canonical comparison snapshot だけを、レビュー済み
 default branch commit に再バインドします。WI-273 は immutable な failed-delivery record として
@@ -183,3 +183,27 @@ yellow/red は fail-closed で CI を止めます。gate は `.ai/` record を�
 CI source-build Runtime identity は診断用で、immutable Release/adopter identity は published
 artifact acceptance の境界です。残りの workflow matrix、gate metadata/timeout、release
 preflight、多技術 stack adopter は ledger で deferred として扱い、実装済みとは主張しません。
+
+## WI-302 最初の deferred file batch
+
+WI-302 は lexical order の最初の 10 deferred path を pinned source commit と一つずつ比較しました。
+8 records は evidence-backed な結論になり、reference の広い Python/multi-stack matrix を含む
+2 workflow record は、後続の bounded batch として明示的に deferred のままです。
+
+| Reference path | Classification | Rust counterpart / boundary |
+| --- | --- | --- |
+| `.ai/cockpit/bandit_low_risk_baseline.json` | not-applicable | Reference Python tooling の生成 Bandit baseline であり、Rust/Bandit の product surface はありません。 |
+| `.gitattributes` | implemented-different-by-design | Rust の source-archive boundary と `tests/release/source_archive_policy_test.sh` が governance/build root を除外し Cargo source を保持します。 |
+| `.github/CODEOWNERS` | not-applicable | 個人 owner は portable ではありません。Adopter の review owner は external repository/provider の判断です。 |
+| `.github/dependabot.yml` | not-applicable | pip/Actions の更新は optional な provider automation です。Rust の dependency facts は `Cargo.toml`/`Cargo.lock` と action pin policy が持ちます。 |
+| `.github/workflows/compatibility.yml` | deferred-next-batch | Rust `ci.yml` は共有 Contract gate を担当しますが、source の Python/multi-stack compatibility matrix は別 batch で比較します。 |
+| `.github/workflows/release.yml` | implemented-different-by-design | Rust release workflow と release tests が target archive、checksum、SBOM/provenance、platform smoke、public/N-1 adopter acceptance を提供します。 |
+| `.github/workflows/smoke.yml` | deferred-next-batch | Rust CI/release split は Rust と release smoke を担当しますが、source の Python project-test/multi-stack graph は deferred です。 |
+| `.gitignore` | implemented-different-by-design | Rust/Cargo build と governance review path を ignore し、source-archive policy を regression test します。 |
+| `LICENSE` | implemented-different-by-design | 両方 MIT です。Copyright と Rust packaging は target 定義であり source の本文は copy しません。 |
+| `Makefile` | implemented-different-by-design | Rust CLI、Cargo、明示的な CI/release script が Python Make orchestration を置き換え、request-scoped `--repo` を保ちます。 |
+
+この batch に `migrate-gap` はありません。Ledger は 4,262 `generated-history`、174
+`implemented-different-by-design`、1 `implemented-equivalent`、3 `not-applicable`、679
+`deferred-next-batch` です。表の records だけを close し、source の残りの
+compatibility/smoke matrix を parity とは主張しません。

@@ -1,0 +1,146 @@
+{
+  "acceptanceResults": [
+    "A1: Compare exactly the first ten deferred reference records in lexical order against the pinned source commit e5acb677da6621004d96f0ef353c58fe8d3acfbf.",
+    "A2: For every record document source responsibility Rust target counterpart or absence classification semantic conclusion and stable evidence references; no deferred record may be reclassified without a recorded rationale.",
+    "A3: Distinguish runtime/product semantics from source-language repository-owner and external provider boundaries; do not copy Python modules Make orchestration personal CODEOWNERS or V1 wire/config assumptions into the Rust target.",
+    "A4: Verify the target CI release source-archive dependency and license controls that replace or intentionally omit each source file including their test or hosted evidence where applicable.",
+    "A5: Update the reference inventory and English Simplified Chinese and Japanese comparison documentation only with evidence-backed conclusions; preserve the pinned source identity and current target/runtime identity.",
+    "A6: If an actionable target omission is found keep it in this Work Item when scope and authority permit; otherwise record a bounded follow-up with an explicit reason rather than silently deferring it.",
+    "A7: Run documentation acceptance inventory/conformance checks and installed-Runtime lifecycle verification; the Work Item must finish with no unreviewed comparison claims."
+  ],
+  "createdAt": "2026-08-26T09:35:27Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:00e9e374d6cefa3aa0f8d42c5266ebf43a8a91697a22d751d716bfdb6f0a47fa",
+  "evidenceRefs": [
+    ".ai/evidence/WI-302-reference-file-comparison-batch-01.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-302-reference-file-comparison-batch-01.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-302-reference-file-comparison-batch-01.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:84f021a7a9cdfe72d9cbf814667ed467c4c4fc2be5d1e6899c30d9ea0e273501",
+      "workItemId": "WI-302-reference-file-comparison-batch-01"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-302-reference-file-comparison-batch-01.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-302-reference-file-comparison-batch-01.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-302-reference-file-comparison-batch-01.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-302-reference-file-comparison-batch-01.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-302-reference-file-comparison-batch-01.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-302-reference-file-comparison-batch-01.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-302-reference-file-comparison-batch-01.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-302-reference-file-comparison-batch-01.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-302-reference-file-comparison-batch-01.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-302-reference-file-comparison-batch-01.contract.json"
+          ],
+          "inference": false,
+          "text": "Complete an evidence-backed first batch of the reference-source file-by-file comparison without introducing a second governance system."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-302-reference-file-comparison-batch-01.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-302-reference-file-comparison-batch-01"
+  },
+  "taskReportDigest": "sha256:937b41596e049fd60a5db557a85b705504ace2e3654339dcbcf3013e4b1dd1f8",
+  "taskReportMarkdownDigest": "sha256:02ae2cf5203cbce8b709a93a64dea4d00621d41c791e038f76407ed33924ea57",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-302-reference-file-comparison-batch-01.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-302-reference-file-comparison-batch-01"
+}

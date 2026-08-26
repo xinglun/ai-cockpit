@@ -104,10 +104,9 @@ comparison_documents = (
     Path('docs/reference/reference-file-comparison.ja.md'),
 )
 comparison_markers = (
-    '487f01970c49e2b85d17b0cb0536f9d60c8f05e0',
-    'ai-cockpit 0.2.31',
-    '1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9',
-    '689',
+    'a533d49dfa848d95742833f8cd1b5f7e1bb897d5',
+    'ai-cockpit 0.2.33',
+    'eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4',
     '.ai/project/adopter-capability-manifest.json',
     '.ai/project/capabilities.json',
     '.ai/project/success_criteria.json',
@@ -118,6 +117,14 @@ for path in comparison_documents:
     for marker in comparison_markers:
         if marker not in text:
             missing.append(f'{path}: current comparison baseline omits {marker}')
+    for stale_marker in (
+        '487f01970c49e2b85d17b0cb0536f9d60c8f05e0',
+        'b159deb4b1976befb0d1cc547c99c40a3bc3b13c',
+        'ai-cockpit 0.2.31',
+        '1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9',
+    ):
+        if stale_marker in text:
+            missing.append(f'{path}: stale comparison baseline remains: {stale_marker}')
 
 release_baselines = {
     Path('docs/release/distribution.md'): 'Persisted adopter acceptance baseline: `aarch64-apple-darwin`',
