@@ -1,0 +1,64 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-300-release-v0-2-33.approach.json",
+    ".ai/work-items/archive/WI-300-release-v0-2-33.contract.json",
+    ".ai/work-items/archive/WI-300-release-v0-2-33.summary.json",
+    "Cargo.lock",
+    "Cargo.toml",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/work-items/WI-300-release-v0-2-33.ja.md",
+    "docs/work-items/WI-300-release-v0-2-33.md",
+    "docs/work-items/WI-300-release-v0-2-33.zh-CN.md"
+  ],
+  "checkpointAt": "2026-08-26T05:38:50Z",
+  "checkpointContractDigest": "sha256:3f96703a41718eef3e49445b856fbff6c746211fbafad5e88e41c9828fbbf6f1",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:757b4e811744303c382de706951985192debf3c9c2197e8fa3063552a08e8d9f",
+  "createdAt": "2026-08-26T05:27:00Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-300-release-v0-2-33.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-08-26T06:11:21Z",
+  "preflightContractDigest": "sha256:3f96703a41718eef3e49445b856fbff6c746211fbafad5e88e41c9828fbbf6f1",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:757b4e811744303c382de706951985192debf3c9c2197e8fa3063552a08e8d9f",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "cargo-test-workspace",
+        "tests/release/version_consistency.sh",
+        "tests/release/adopter_acceptance_test.sh"
+      ],
+      "required": true,
+      "scenario": "release preparation and post-release handoff",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-26T06:11:36Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-300-release-v0-2-33"
+}
