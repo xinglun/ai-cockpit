@@ -6,8 +6,12 @@ description: "Complete the missing reviewed resource-finalization chain for WI-2
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-298-release-v0-2-32-finalization-recovery
+terminalArchive: .ai/work-items/archive/WI-298-release-v0-2-32-finalization-recovery.contract.json
+terminalVerification: .ai/evidence/WI-298-release-v0-2-32-finalization-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-298-release-v0-2-32-finalization-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-298-release-v0-2-32-finalization-recovery.close.json
 authority: canonical
 ---
 
