@@ -1,6 +1,7 @@
 {
   "captureMode": "full_capture",
-  "createdAt": "2026-08-26T05:55:12Z",
+  "contractDigest": "sha256:3f96703a41718eef3e49445b856fbff6c746211fbafad5e88e41c9828fbbf6f1",
+  "createdAt": "2026-08-26T06:11:21Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -8,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 121962,
-      "executionElapsedMs": 121713,
+      "elapsedMs": 125438,
+      "executionElapsedMs": 125170,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -19,13 +20,13 @@
       "processesSpawned": 1,
       "protectedNodesExecuted": 0,
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
-      "runtimeVersion": "0.2.31",
+      "runtimeDigest": "sha256:7c0ef5f54e67ff23f276a4010045fbf6f5b2d1194d60c485a9b48e34d1daa2c0",
+      "runtimeVersion": "0.2.33",
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 121962,
-    "executionElapsedMs": 121713,
+    "elapsedMs": 125438,
+    "executionElapsedMs": 125170,
     "filesHashed": 5,
     "filesRead": 5,
     "gitCalls": 8,
@@ -43,13 +44,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 121713,
+      "executionElapsedMs": 125170,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:2541598341407ea3087f9dfd0bde5b08018143cdca2211f1e39aa2a2d7eb3cec",
+      "repositorySnapshotDigest": "sha256:757b4e811744303c382de706951985192debf3c9c2197e8fa3063552a08e8d9f",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -75,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:6a9bf712a4e65bad256b15928c3abeb9f65b565c0bd03877b70c800954456a43",
+        "outputDigest": "sha256:de0553006389c37e470051b4c31332604ea423e847a80d201a24c32b87df86dc",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -87,14 +88,14 @@
         "timedOut": false
       }
     ],
-    "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
-    "runtimeVersion": "0.2.31",
+    "runtimeDigest": "sha256:7c0ef5f54e67ff23f276a4010045fbf6f5b2d1194d60c485a9b48e34d1daa2c0",
+    "runtimeVersion": "0.2.33",
     "workItemId": "WI-300-release-v0-2-33"
   },
-  "receiptDigest": "sha256:22ac38f84bfd9acacaa449ed9815dd2d87dc99ec9f1896ae1a7a9aaa882eb481",
+  "receiptDigest": "sha256:f6aca704a11a28266e8bcef5e5c6f2933f87ef195a440313a13e7bd7a69325e9",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:2541598341407ea3087f9dfd0bde5b08018143cdca2211f1e39aa2a2d7eb3cec",
-  "runtimeDigest": "sha256:1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9",
-  "runtimeVersion": "0.2.31",
+  "repositorySnapshotDigest": "sha256:757b4e811744303c382de706951985192debf3c9c2197e8fa3063552a08e8d9f",
+  "runtimeDigest": "sha256:7c0ef5f54e67ff23f276a4010045fbf6f5b2d1194d60c485a9b48e34d1daa2c0",
+  "runtimeVersion": "0.2.33",
   "workItemId": "WI-300-release-v0-2-33"
 }

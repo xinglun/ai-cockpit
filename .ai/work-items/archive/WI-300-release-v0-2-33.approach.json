@@ -70,7 +70,7 @@
     }
   ],
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:c74564dafa5087161dbd7d6ac912ac7dc497572f10ecea10a97b90f02c37afa7",
+  "repositorySnapshotDigest": "sha256:a88ca3a45ce9c422304c71295243a5eb252700ced9213499b2476857ca568cdb",
   "schemaVersion": 2,
   "unknowns": [],
   "workItemId": "WI-300-release-v0-2-33"

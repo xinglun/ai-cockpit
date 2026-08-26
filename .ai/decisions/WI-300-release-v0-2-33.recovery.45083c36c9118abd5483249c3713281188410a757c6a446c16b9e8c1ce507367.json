@@ -1,0 +1,25 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-26T06:05:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-300-release-v0-2-33.outcome.json"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:3f96703a41718eef3e49445b856fbff6c746211fbafad5e88e41c9828fbbf6f1",
+  "predecessorEventsDigest": "sha256:741b348b417dcaf05629e481102c01e0834dbf21bfc9eb41e5aaa5a741446d07",
+  "predecessorOutcomeDigest": "sha256:4e34dd43b793ed75abd136610d9682d00bf193938b986dc5c0dc183e572e02a6",
+  "predecessorSummaryDigest": "sha256:ca16227c17a4a5a7353e0d0c045155549432bc95de5fb8b7108c895e9f7c5337",
+  "predecessorWorkItemId": "WI-300-release-v0-2-33",
+  "reason": "Retry after the finish gate correctly rejected an amended governance projection; rerun the current Contract and verification before archive.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Fresh verification evidence matches the current Contract and repository snapshot.",
+  "runtimeDigest": "sha256:7c0ef5f54e67ff23f276a4010045fbf6f5b2d1194d60c485a9b48e34d1daa2c0",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-300-release-v0-2-33"
+}

@@ -1,8 +1,8 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-300-release-v0-2-33.approach.json",
-    ".ai/work-items/active/WI-300-release-v0-2-33.contract.json",
-    ".ai/work-items/active/WI-300-release-v0-2-33.summary.json",
+    ".ai/work-items/archive/WI-300-release-v0-2-33.approach.json",
+    ".ai/work-items/archive/WI-300-release-v0-2-33.contract.json",
+    ".ai/work-items/archive/WI-300-release-v0-2-33.summary.json",
     "Cargo.lock",
     "Cargo.toml",
     "docs/architecture/release-distribution.ja.md",
@@ -22,9 +22,10 @@
     "docs/work-items/WI-300-release-v0-2-33.zh-CN.md"
   ],
   "checkpointAt": "2026-08-26T05:38:50Z",
+  "checkpointContractDigest": "sha256:3f96703a41718eef3e49445b856fbff6c746211fbafad5e88e41c9828fbbf6f1",
   "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:757b4e811744303c382de706951985192debf3c9c2197e8fa3063552a08e8d9f",
   "createdAt": "2026-08-26T05:27:00Z",
-  "failedGate": "finish.governance",
   "intentAlignment": {
     "evidence": [
       "docs/work-items/WI-300-release-v0-2-33.md"
@@ -32,14 +33,12 @@
     "state": "resolved"
   },
   "mode": "code",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-08-26T05:55:12Z",
+  "preflightAt": "2026-08-26T06:11:21Z",
   "preflightContractDigest": "sha256:3f96703a41718eef3e49445b856fbff6c746211fbafad5e88e41c9828fbbf6f1",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:2541598341407ea3087f9dfd0bde5b08018143cdca2211f1e39aa2a2d7eb3cec",
+  "preflightRepositorySnapshotDigest": "sha256:757b4e811744303c382de706951985192debf3c9c2197e8fa3063552a08e8d9f",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -54,6 +53,12 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-08-26T05:55:16Z",
+  "updatedAt": "2026-08-26T06:11:36Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-300-release-v0-2-33"
 }

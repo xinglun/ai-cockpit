@@ -14,9 +14,9 @@
 
 ## Delivered changes
 
-- Changed path: .ai/work-items/active/WI-300-release-v0-2-33.approach.json
-- Changed path: .ai/work-items/active/WI-300-release-v0-2-33.contract.json
-- Changed path: .ai/work-items/active/WI-300-release-v0-2-33.summary.json
+- Changed path: .ai/work-items/archive/WI-300-release-v0-2-33.approach.json
+- Changed path: .ai/work-items/archive/WI-300-release-v0-2-33.contract.json
+- Changed path: .ai/work-items/archive/WI-300-release-v0-2-33.summary.json
 - Changed path: Cargo.lock
 - Changed path: Cargo.toml
 - Changed path: docs/architecture/release-distribution.ja.md
