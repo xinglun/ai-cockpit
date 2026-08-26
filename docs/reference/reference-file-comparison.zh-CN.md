@@ -20,11 +20,10 @@ capabilityClaims:
 ## 固定基线
 
 - 参考源：[spirex-ds-dev/ai-cockpit-template](https://github.com/spirex-ds-dev/ai-cockpit-template)，提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf`。
-- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `b159deb4b1976befb0d1cc547c99c40a3bc3b13c`。
-- 比较时使用的 Runtime：`ai-cockpit 0.2.31`，binary SHA256 为 `1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9`。
+- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `a533d49dfa848d95742833f8cd1b5f7e1bb897d5`。
+- 比较时使用的 Runtime：`ai-cockpit 0.2.33`，binary SHA256 为 `eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4`。
 
-为兼容旧版文档检查，本页保留历史标记 `487f01970c49e2b85d17b0cb0536f9d60c8f05e0` 和 `689`。
-它们不是当前比较基线或延期数量；当前基线是 `b159deb4b1976befb0d1cc547c99c40a3bc3b13c`，当前延期数量是 `687`。
+本页只报告当前固定的比较基线。历史交付细节保存在 Work Item 归档证据中，不放在面向读者的入口。
 
 机器可读台账见
 [`reference_file_inventory.json`](../../tests/conformance/reference_file_inventory.json)。
@@ -104,10 +103,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-在固定的 v0.2.31 比较基线上，台账共有 5,119 条记录：4,262 条
-`generated-history`、169 条 `implemented-different-by-design`、1 条
-`implemented-equivalent` 与 687 条 `deferred-next-batch`。deferred 记录仍是待比较
-工作，不是 parity 声明。capability/profile slice 已没有 `migrate-gap`：
+在固定的 v0.2.33 比较基线上，台账共有 5,119 条记录：4,262 条
+`generated-history`、174 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、3 条 `not-applicable` 与 679 条
+`deferred-next-batch`。deferred 记录仍是待比较工作，不是 parity 声明。
+capability/profile slice 已没有 `migrate-gap`：
 
 1. `.ai/project/adopter-capability-manifest.json` 由 Runtime registry 表达，installer-surface
    仍是外部边界。
@@ -116,7 +116,7 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 4. `.ai/project_profile.yaml` 由 `.ai/project.json` 与严格 JSON `profile-policy.json` projection 表达。
 
 治理入口、getting-started 路线、CI/release 边界与 capability/profile projection 已按该基线审阅；
-以上四条是有界的 Rust-native counterpart，687 条 deferred 语义比较仍是后续工作。
+以上四条是有界的 Rust-native counterpart，679 条 deferred 语义比较仍是后续工作。
 
 WI-274 只将目标 checkout metadata 和 canonical comparison snapshot 重新绑定到已审阅的
 默认分支提交。WI-273 保持为不可变的失败交付记录：其首次提交无法证明 parity 登记先于
@@ -176,3 +176,27 @@ intent/scenario/operation/stage route 和 Agent-Risk/preflight 投影。它输�
 仅供诊断；不可变 Release/adopter identity 仍由发布 artifact 验收边界负责。参考源剩余
 workflow 矩阵、gate metadata/timeout、release preflight 和多技术栈 adopter 仍在 ledger
 中 deferred，不能宣称已实现。
+
+## WI-302 首批 deferred 文件比对
+
+WI-302 按字典序将前 10 个 deferred 路径与固定参考源提交逐文件比对。其中 8 条记录已经
+得到有证据支持的结论；包含参考源广泛 Python/多技术栈矩阵的两个 workflow 记录，明确保留
+为后续有界批次，不宣称已经等价。
+
+| 参考源路径 | 分类 | Rust 对应/边界 |
+| --- | --- | --- |
+| `.ai/cockpit/bandit_low_risk_baseline.json` | 不适用 | 这是参考源 Python 工具的 Bandit 生成基线，Rust Runtime 没有 Python/Bandit 产品表面。 |
+| `.gitattributes` | 有意采用不同实现 | Rust source archive 边界及 `tests/release/source_archive_policy_test.sh` 排除治理/构建目录，同时保留 Cargo 源码。 |
+| `.github/CODEOWNERS` | 不适用 | 参考源的个人 owner 不可移植；adopter 的 review owner 由外部 repository/provider 决定，并在 contributor/adopter 文档中说明。 |
+| `.github/dependabot.yml` | 不适用 | pip/Actions 更新是 provider 可选自动化；Rust 依赖事实由 `Cargo.toml`/`Cargo.lock` 与 action pin policy 表达。 |
+| `.github/workflows/compatibility.yml` | 后续批次 | Rust `ci.yml` 覆盖共享 Contract gate；参考源 Python/多技术栈 compatibility matrix 需要单独的比对/adopter 批次。 |
+| `.github/workflows/release.yml` | 有意采用不同实现 | Rust release workflow 与 release tests 提供目标 archive、checksum、SBOM/provenance、平台 smoke 及公开/N-1 adopter 验收。 |
+| `.github/workflows/smoke.yml` | 后续批次 | Rust CI/release 拆分覆盖 Rust 与 release smoke；参考源 Python project-test 和多技术栈 smoke graph 仍 deferred。 |
+| `.gitignore` | 有意采用不同实现 | Rust/Cargo 构建与治理 review 路径被忽略，source archive policy 有回归测试。 |
+| `LICENSE` | 有意采用不同实现 | 两边都是 MIT；版权主体和 Rust packaging 按目标工程定义，不复制参考源文本。 |
+| `Makefile` | 有意采用不同实现 | Rust CLI、Cargo 和显式 CI/release 脚本替代 Python Make 编排，并保持 request-scoped `--repo`。 |
+
+本批没有发现 `migrate-gap`。台账现在为：4,262 条 `generated-history`、174 条
+`implemented-different-by-design`、1 条 `implemented-equivalent`、3 条 `not-applicable`、
+679 条 `deferred-next-batch`。这里只关闭表内记录，不代表参考源剩余 compatibility/smoke
+矩阵已经 parity。

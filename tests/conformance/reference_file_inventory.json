@@ -3,12 +3,12 @@
   "referenceRepository": "https://github.com/spirex-ds-dev/ai-cockpit-template",
   "referenceCommit": "e5acb677da6621004d96f0ef353c58fe8d3acfbf",
   "targetRepository": "https://github.com/xinglun/ai-cockpit",
-  "targetCommit": "487f01970c49e2b85d17b0cb0536f9d60c8f05e0",
+  "targetCommit": "a533d49dfa848d95742833f8cd1b5f7e1bb897d5",
   "referenceTrackedFileCount": 5119,
-  "targetTrackedFileCount": 3850,
-  "targetTrackedPathDigest": "sha256:a1a511f104a05e32882c38ae08022ae318a92af77c7ea7db22ba3f9f9a936d9e",
-  "targetWorkingTreeFileCount": 3850,
-  "targetWorkingTreePathDigest": "sha256:a1a511f104a05e32882c38ae08022ae318a92af77c7ea7db22ba3f9f9a936d9e",
+  "targetTrackedFileCount": 4350,
+  "targetTrackedPathDigest": "sha256:fc68e3a4611e2a399f0fe0d746956d033c5f98e74c0e5e5fb8030bddbbb84e02",
+  "targetWorkingTreeFileCount": 4350,
+  "targetWorkingTreePathDigest": "sha256:fc68e3a4611e2a399f0fe0d746956d033c5f98e74c0e5e5fb8030bddbbb84e02",
   "allowedClassifications": [
     "deferred-next-batch",
     "generated-history",
@@ -79,10 +79,10 @@
     },
     {
       "referencePath": ".ai/cockpit/bandit_low_risk_baseline.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
+      "batch": "WI-302-reference-file-comparison-batch-01",
+      "classification": "not-applicable",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "reason": "The source file is a generated Bandit baseline for the reference repository's Python tooling. The Rust Runtime has no Python/Bandit surface; this is not a product or repository Protocol omission."
     },
     {
       "referencePath": ".ai/cockpit/checks.yaml",
@@ -29368,52 +29368,73 @@
     },
     {
       "referencePath": ".gitattributes",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-302-reference-file-comparison-batch-01",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".gitattributes",
+        "tests/release/source_archive_policy_test.sh"
+      ],
+      "reason": "The source excludes selected mutable governance projections from its Python archive. Rust uses a stricter, tested source-archive boundary that excludes .ai, .worktrees, dist, and target while retaining Cargo sources and lockfile."
     },
     {
       "referencePath": ".github/CODEOWNERS",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-302-reference-file-comparison-batch-01",
+      "classification": "not-applicable",
+      "rustCounterparts": [
+        "CONTRIBUTING.md",
+        "docs/getting-started/adopter-configuration.md",
+        "docs/security/enterprise-deployment-boundary.md"
+      ],
+      "reason": "The source entry assigns a personal GitHub owner. A universal owner cannot be inferred for adopters and is not Runtime authority; review ownership remains an external repository/provider decision documented as a boundary."
     },
     {
       "referencePath": ".github/dependabot.yml",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-302-reference-file-comparison-batch-01",
+      "classification": "not-applicable",
+      "rustCounterparts": [
+        "Cargo.toml",
+        "Cargo.lock",
+        ".github/workflows/ci.yml",
+        "docs/security/enterprise-deployment-boundary.md"
+      ],
+      "reason": "The source configuration is optional provider automation for pip and GitHub Actions updates. The Rust target has Cargo.lock and pinned-action policy, while dependency-update service selection remains external and repository-owned rather than a Runtime capability."
     },
     {
       "referencePath": ".github/workflows/compatibility.yml",
-    "batch": "WI-293-ci-contract-aware-gates-recovery",
+    "batch": "WI-302-reference-file-comparison-batch-01",
       "classification": "deferred-next-batch",
       "rustCounterparts": [".github/workflows/ci.yml", "crates/cockpit-cli/src/main.rs", "tests/ci/quality_route.py"],
-    "reason": "WI-293 re-delivers only the shared Contract-aware dynamic gate boundary; compatibility matrix parity remains deferred and no full equivalence is claimed."
+    "reason": "The batch audit confirms the shared Contract-aware gate in .github/workflows/ci.yml, but the source's Python/multi-stack compatibility matrix and second-stack adopter coverage remain a separate deferred comparison; no full workflow parity is claimed."
     },
     {
       "referencePath": ".github/workflows/release.yml",
-    "batch": "WI-293-ci-contract-aware-gates-recovery",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [".github/workflows/ci.yml", "tests/ci/run_repository_gates.py"],
-    "reason": "WI-293 binds the shared Contract-aware gate boundary only; release preflight and immutable provider workflow parity remain deferred."
+    "batch": "WI-302-reference-file-comparison-batch-01",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".github/workflows/release.yml",
+        "tests/release/workflow_policy.sh",
+        "tests/release/version_consistency.sh",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh"
+      ],
+    "reason": "The Rust release workflow preserves the source publication responsibility through target-specific archives, checksums, SBOM/provenance, Homebrew/Linux/Windows smoke, and public/N-1 adopter acceptance. Cargo and Rust Runtime gates replace Python/Make steps; byte-level workflow parity is not claimed."
     },
     {
       "referencePath": ".github/workflows/smoke.yml",
-    "batch": "WI-293-ci-contract-aware-gates-recovery",
+    "batch": "WI-302-reference-file-comparison-batch-01",
       "classification": "deferred-next-batch",
       "rustCounterparts": [".github/workflows/ci.yml", "crates/cockpit-repository/src/lib.rs"],
-    "reason": "WI-293 covers the read-only Contract gate before command execution; the reference smoke graph remains deferred."
+    "reason": "The target splits smoke responsibilities across .github/workflows/ci.yml and release.yml, including Rust package, Windows, V1 oracle, source-archive, and adopter checks. The source Python project-test graph and multi-stack smoke matrix remain deferred for a dedicated batch."
     },
     {
       "referencePath": ".gitignore",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-302-reference-file-comparison-batch-01",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".gitignore",
+        "tests/release/source_archive_policy_test.sh"
+      ],
+      "reason": "The target ignore policy covers Cargo/Rust build outputs, cross-platform tooling, and local governance review files. Source Python bytecode and Make-era paths are retained only where applicable; archive policy is regression-tested."
     },
     {
       "referencePath": "AGENTS.md",
@@ -29455,17 +29476,26 @@
     },
     {
       "referencePath": "LICENSE",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-302-reference-file-comparison-batch-01",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "LICENSE",
+        ".github/workflows/release.yml",
+        "tests/release/source_archive_policy_test.sh"
+      ],
+      "reason": "Both projects publish an MIT license boundary. The copyright holder is target-specific and the Rust release package includes the target LICENSE; source copyright text is not copied as a governance decision."
     },
     {
       "referencePath": "Makefile",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-302-reference-file-comparison-batch-01",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".github/workflows/ci.yml",
+        "tests/ci/run_repository_gates.py",
+        "docs/reference/commands.md",
+        "Cargo.toml"
+      ],
+      "reason": "The source Makefile is a Python orchestration surface. The target deliberately uses the Rust CLI, Cargo, and explicit CI/release scripts with repository-bound --repo context; no second Make governance layer is required."
     },
     {
       "referencePath": "README.ja.md",

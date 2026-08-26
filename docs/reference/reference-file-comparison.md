@@ -21,14 +21,12 @@ behavior corpus; it is not a directory to copy into the Rust Runtime.
 ## Pinned baseline
 
 - Reference: [`spirex-ds-dev/ai-cockpit-template`](https://github.com/spirex-ds-dev/ai-cockpit-template) at `e5acb677da6621004d96f0ef353c58fe8d3acfbf`.
-- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `b159deb4b1976befb0d1cc547c99c40a3bc3b13c`.
-- Runtime used for the comparison work: `ai-cockpit 0.2.31`, binary SHA256 `1064f61154168149aebb63a4ad15374d50fc729c8699142c7a193c22eb6fb8f9`.
+- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `a533d49dfa848d95742833f8cd1b5f7e1bb897d5`.
+- Runtime used for the comparison work: `ai-cockpit 0.2.33`, binary SHA256 `eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4`.
 
-For compatibility with older documentation fixtures, this page retains the
-historical markers `487f01970c49e2b85d17b0cb0536f9d60c8f05e0` and `689`. They
-are not the current comparison baseline or deferred count: the current
-baseline is `b159deb4b1976befb0d1cc547c99c40a3bc3b13c` and the current deferred
-count is `687`.
+This page reports only the current pinned comparison baseline. Historical
+delivery details are retained in Work Item archive evidence, not in this
+reader-facing route.
 
 The machine-readable ledger is
 [`reference_file_inventory.json`](../../tests/conformance/reference_file_inventory.json).
@@ -125,11 +123,12 @@ green parity.
 
 ## Current ledger snapshot
 
-At the pinned v0.2.31 comparison baseline, the ledger contains 5,119 records:
-4,262 `generated-history`, 169 `implemented-different-by-design`, one
-`implemented-equivalent`, and 687 `deferred-next-batch` records. Deferred
-records remain scheduled work, not parity claims. The capability/profile slice
-has no remaining `migrate-gap` records:
+At the pinned v0.2.33 comparison baseline, the ledger contains 5,119 records:
+4,262 `generated-history`, 174 `implemented-different-by-design`, one
+`implemented-equivalent`, three `not-applicable`, and 679
+`deferred-next-batch` records. Deferred records remain scheduled work, not
+parity claims. The capability/profile slice has no remaining `migrate-gap`
+records:
 
 1. `.ai/project/adopter-capability-manifest.json` is represented by the
    Runtime registry and remains an external installer-surface boundary.
@@ -142,7 +141,7 @@ has no remaining `migrate-gap` records:
 
 The governance entrypoints, getting-started routes, CI/release boundaries, and
 capability/profile projections have been reviewed at this baseline. The four
-records above are Rust-native, explicitly bounded counterparts; the 687
+records above are Rust-native, explicitly bounded counterparts; the 679
 deferred semantic comparisons remain scheduled work.
 
 WI-274 rebinds only the target checkout metadata and canonical comparison
@@ -217,3 +216,29 @@ identity remains a separate published-artifact acceptance boundary. The
 remaining reference workflow matrix, gate metadata/timeout model, release
 preflight, and multi-stack adopter surfaces stay deferred and are recorded in
 the inventory ledger rather than claimed as implemented.
+
+## WI-302 first deferred file batch
+
+WI-302 compared the first ten deferred paths in lexical order against the
+pinned source commit. Eight records now have an evidence-backed conclusion;
+the two workflow records that contain the source's broad Python/multi-stack
+matrix remain explicitly deferred for a later bounded batch.
+
+| Reference path | Classification | Rust counterpart / boundary |
+| --- | --- | --- |
+| `.ai/cockpit/bandit_low_risk_baseline.json` | not-applicable | Generated Bandit baseline for source Python tooling; no Rust/Bandit product surface. |
+| `.gitattributes` | implemented-different-by-design | Rust source-archive boundary and `tests/release/source_archive_policy_test.sh` exclude governance/build roots while retaining Cargo sources. |
+| `.github/CODEOWNERS` | not-applicable | Personal source owner is not portable; adopter review ownership is an external repository/provider decision documented in contributor/adopter guidance. |
+| `.github/dependabot.yml` | not-applicable | Optional pip/Actions update automation is provider-owned; Rust dependency facts are `Cargo.toml`/`Cargo.lock` and pinned-action policy. |
+| `.github/workflows/compatibility.yml` | deferred-next-batch | Rust `ci.yml` covers the shared Contract gate; source Python and multi-stack compatibility matrix needs its own comparison/adopter batch. |
+| `.github/workflows/release.yml` | implemented-different-by-design | Rust release workflow and release tests provide target archives, checksums, SBOM/provenance, platform smoke, and public/N-1 adopter acceptance. |
+| `.github/workflows/smoke.yml` | deferred-next-batch | Rust CI/release split covers Rust and release smoke; source Python project-test and multi-stack smoke graph remains deferred. |
+| `.gitignore` | implemented-different-by-design | Rust/Cargo build and governance review paths are ignored and source-archive policy is tested. |
+| `LICENSE` | implemented-different-by-design | Both publish MIT; target-specific copyright and Rust packaging are intentionally not copied from the source. |
+| `Makefile` | implemented-different-by-design | Rust CLI, Cargo, and explicit CI/release scripts replace source Python Make orchestration with request-scoped `--repo`. |
+
+The batch found no `migrate-gap`. The inventory is now 4,262
+`generated-history`, 174 `implemented-different-by-design`, one
+`implemented-equivalent`, three `not-applicable`, and 679
+`deferred-next-batch` records. This closes only the listed records; it does
+not claim parity for the source's remaining compatibility/smoke matrix.

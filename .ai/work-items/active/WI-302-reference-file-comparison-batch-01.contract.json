@@ -1,0 +1,74 @@
+{
+  "acceptanceCriteria": [
+    "A1: Compare exactly the first ten deferred reference records in lexical order against the pinned source commit e5acb677da6621004d96f0ef353c58fe8d3acfbf.",
+    "A2: For every record document source responsibility Rust target counterpart or absence classification semantic conclusion and stable evidence references; no deferred record may be reclassified without a recorded rationale.",
+    "A3: Distinguish runtime/product semantics from source-language repository-owner and external provider boundaries; do not copy Python modules Make orchestration personal CODEOWNERS or V1 wire/config assumptions into the Rust target.",
+    "A4: Verify the target CI release source-archive dependency and license controls that replace or intentionally omit each source file including their test or hosted evidence where applicable.",
+    "A5: Update the reference inventory and English Simplified Chinese and Japanese comparison documentation only with evidence-backed conclusions; preserve the pinned source identity and current target/runtime identity.",
+    "A6: If an actionable target omission is found keep it in this Work Item when scope and authority permit; otherwise record a bounded follow-up with an explicit reason rather than silently deferring it.",
+    "A7: Run documentation acceptance inventory/conformance checks and installed-Runtime lifecycle verification; the Work Item must finish with no unreviewed comparison claims."
+  ],
+  "authority": "authorized",
+  "baseRevision": "a533d49dfa848d95742833f8cd1b5f7e1bb897d5",
+  "createdAt": "2026-08-26T09:08:10Z",
+  "goal": "Complete an evidence-backed first batch of the reference-source file-by-file comparison without introducing a second governance system.",
+  "intent": "Compare the first ten deferred reference files with the Rust target, classify each semantic boundary, and correct or explicitly record any omission before moving to the next batch.",
+  "mode": "investigate",
+  "outOfScope": [
+    "Runtime architecture refactoring",
+    "New governance policy or approval model",
+    "Copying Python Makefile V1 runtime or source-language-specific wire formats",
+    "Changing personal or organization-wide GitHub ownership policy without explicit human direction",
+    "Performance parallel scheduler release-version changes and second-stack adopter acceptance"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0466d4beefe57b70851a0f2626434ffe0045a4efd790e09238a3d18a6703405f",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-302-reference-file-comparison-batch-01",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi302-reference-file-comparison-batch-01"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/work-items/active/**",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    ".gitattributes",
+    ".github/workflows/ci.yml",
+    ".github/workflows/release.yml",
+    ".gitignore",
+    "LICENSE",
+    "tests/docs/**",
+    "tests/release/**",
+    "tests/ci/**"
+  ],
+  "sources": [
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/tree/e5acb677da6621004d96f0ef353c58fe8d3acfbf",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "tests/conformance/reference_file_inventory.json",
+    ".github/workflows/ci.yml",
+    ".github/workflows/release.yml",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/release/source_archive_policy_test.sh",
+    "tests/ci/governance_integrity_gate.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-302-reference-file-comparison-batch-01"
+}

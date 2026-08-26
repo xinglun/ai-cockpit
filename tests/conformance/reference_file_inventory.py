@@ -31,10 +31,11 @@ ALLOWED_CLASSIFICATIONS = {
 FIRST_BATCH = "governance-entrypoints"
 GETTING_STARTED_BATCH = "getting-started-onboarding"
 EXPECTED_REFERENCE_COMMIT = "e5acb677da6621004d96f0ef353c58fe8d3acfbf"
-EXPECTED_TARGET_COMMIT = "487f01970c49e2b85d17b0cb0536f9d60c8f05e0"
+EXPECTED_TARGET_COMMIT = "a533d49dfa848d95742833f8cd1b5f7e1bb897d5"
 CAPABILITY_STATUS_BATCH = "capability-status-projection"
 WI270_BATCH = "WI-270-reference-contract-batch"
 WI287_BATCH = "WI-287-reference-checkpoint-conformance"
+WI302_BATCH = "WI-302-reference-file-comparison-batch-01"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -96,6 +97,59 @@ WI287_REFERENCE_FILES: dict[str, tuple[list[str], str]] = {
             "crates/cockpit-repository/tests/lifecycle_order.rs",
         ],
         "Rust lifecycle and tamper regressions cover checkpoint ordering, immutable before_edit evidence, amendment lineage, resume freshness, and strict identity bindings; wire formats are intentionally not copied.",
+    ),
+}
+
+WI302_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    ".ai/cockpit/bandit_low_risk_baseline.json": (
+        "not-applicable",
+        [],
+        "The source file is a generated Bandit baseline for the reference repository's Python tooling. The Rust Runtime has no Python/Bandit surface; this is not a product or repository Protocol omission.",
+    ),
+    ".gitattributes": (
+        "implemented-different-by-design",
+        [".gitattributes", "tests/release/source_archive_policy_test.sh"],
+        "The source excludes selected mutable governance projections from its Python archive. Rust uses a stricter, tested source-archive boundary that excludes .ai, .worktrees, dist, and target while retaining Cargo sources and lockfile.",
+    ),
+    ".github/CODEOWNERS": (
+        "not-applicable",
+        ["CONTRIBUTING.md", "docs/getting-started/adopter-configuration.md", "docs/security/enterprise-deployment-boundary.md"],
+        "The source entry assigns a personal GitHub owner. A universal owner cannot be inferred for adopters and is not Runtime authority; review ownership remains an external repository/provider decision documented as a boundary.",
+    ),
+    ".github/dependabot.yml": (
+        "not-applicable",
+        ["Cargo.toml", "Cargo.lock", ".github/workflows/ci.yml", "docs/security/enterprise-deployment-boundary.md"],
+        "The source configuration is optional provider automation for pip and GitHub Actions updates. The Rust target has Cargo.lock and pinned-action policy, while dependency-update service selection remains external and repository-owned rather than a Runtime capability.",
+    ),
+    ".github/workflows/compatibility.yml": (
+        "deferred-next-batch",
+        [".github/workflows/ci.yml", "crates/cockpit-cli/src/main.rs", "tests/ci/quality_route.py"],
+        "The batch audit confirms the shared Contract-aware gate in .github/workflows/ci.yml, but the source's Python/multi-stack compatibility matrix and second-stack adopter coverage remain a separate deferred comparison; no full workflow parity is claimed.",
+    ),
+    ".github/workflows/release.yml": (
+        "implemented-different-by-design",
+        [".github/workflows/release.yml", "tests/release/workflow_policy.sh", "tests/release/version_consistency.sh", "tests/release/adopter_acceptance.sh", "tests/release/adopter_upgrade_acceptance.sh"],
+        "The Rust release workflow preserves the source publication responsibility through target-specific archives, checksums, SBOM/provenance, Homebrew/Linux/Windows smoke, and public/N-1 adopter acceptance. Cargo and Rust Runtime gates replace Python/Make steps; byte-level workflow parity is not claimed.",
+    ),
+    ".github/workflows/smoke.yml": (
+        "deferred-next-batch",
+        [".github/workflows/ci.yml", "crates/cockpit-repository/src/lib.rs"],
+        "The target splits smoke responsibilities across .github/workflows/ci.yml and release.yml, including Rust package, Windows, V1 oracle, source-archive, and adopter checks. The source Python project-test graph and multi-stack smoke matrix remain deferred for a dedicated batch.",
+    ),
+    ".gitignore": (
+        "implemented-different-by-design",
+        [".gitignore", "tests/release/source_archive_policy_test.sh"],
+        "The target ignore policy covers Cargo/Rust build outputs, cross-platform tooling, and local governance review files. Source Python bytecode and Make-era paths are retained only where applicable; archive policy is regression-tested.",
+    ),
+    "LICENSE": (
+        "implemented-different-by-design",
+        ["LICENSE", ".github/workflows/release.yml", "tests/release/source_archive_policy_test.sh"],
+        "Both projects publish an MIT license boundary. The copyright holder is target-specific and the Rust release package includes the target LICENSE; source copyright text is not copied as a governance decision.",
+    ),
+    "Makefile": (
+        "implemented-different-by-design",
+        [".github/workflows/ci.yml", "tests/ci/run_repository_gates.py", "docs/reference/commands.md", "Cargo.toml"],
+        "The source Makefile is a Python orchestration surface. The target deliberately uses the Rust CLI, Cargo, and explicit CI/release scripts with repository-bound --repo context; no second Make governance layer is required.",
     ),
 }
 
@@ -393,6 +447,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                     "referencePath": path,
                     "batch": WI287_BATCH,
                     "classification": "implemented-different-by-design",
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
+        wi302 = WI302_REFERENCE_FILES.get(path)
+        if wi302 is not None:
+            classification, counterparts, reason = wi302
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI302_BATCH,
+                    "classification": classification,
                     "rustCounterparts": counterparts,
                     "reason": reason,
                 }
