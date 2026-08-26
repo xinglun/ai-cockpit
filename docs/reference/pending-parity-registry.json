@@ -16,7 +16,7 @@
         },
         {
           "path": "docs/reference/reference-parity.zh-CN.md",
-          "row": "| WI-302——第一批延后参考文件对比 | 进行中 | `.ai/work-items/archive/WI-302-reference-file-comparison-batch-01.contract.json`；`.ai/evidence/WI-302-reference-file-comparison-batch-01.verification.json`；`.ai/decisions/WI-302-reference-file-comparison-batch-01.finalize.json`；`.ai/decisions/WI-302-reference-file-comparison-batch-01.close.json`。 |"
+          "row": "| WI-302 —— 第一批延后参考文件对比 | 进行中 | `.ai/work-items/archive/WI-302-reference-file-comparison-batch-01.contract.json`；`.ai/evidence/WI-302-reference-file-comparison-batch-01.verification.json`；`.ai/decisions/WI-302-reference-file-comparison-batch-01.finalize.json`；`.ai/decisions/WI-302-reference-file-comparison-batch-01.close.json`。 |"
         },
         {
           "path": "docs/reference/reference-parity.ja.md",
