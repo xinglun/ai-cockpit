@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-26T22:58:21Z",
+  "files": {
+    "contractDigest": "sha256:09d9a20d5060d1e16b992a154df6ba0236717bf152fc8863e61d0cfdff15a775",
+    "contractPath": ".ai/work-items/archive/WI-310-reference-inventory-doc-consistency-successor.contract.json",
+    "eventsDigest": "sha256:cefda9354563673cb254c3192a789b674787b9011f970aba3ccf31a0e70879c4",
+    "eventsPath": ".ai/work-items/archive/WI-310-reference-inventory-doc-consistency-successor.events.jsonl",
+    "outcomeDigest": "sha256:75a1af0719a6c03dfbed63bee96d0f0bacaeb32ac7928f634726c680a1212ad2",
+    "outcomePath": ".ai/work-items/archive/WI-310-reference-inventory-doc-consistency-successor.outcome.json",
+    "summaryDigest": "sha256:202d773d96972e04874e80b2d12a7be7a0f1a414ec311b415baa24b993f690b4",
+    "summaryPath": ".ai/work-items/archive/WI-310-reference-inventory-doc-consistency-successor.summary.json",
+    "taskReportDigest": "sha256:be1807fe2a97d8f750a2926a0c39aa054fcec2218f45b1f64277a94f3be9156f",
+    "taskReportMarkdownDigest": "sha256:bb39a032bdd6348f8e96c1cee2425562b75fbfe5f1f44db7fa91ce39daf3e065",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-310-reference-inventory-doc-consistency-successor.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-310-reference-inventory-doc-consistency-successor.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-310-reference-inventory-doc-consistency-successor"
+}

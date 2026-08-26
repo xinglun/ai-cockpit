@@ -14,8 +14,8 @@
 
 ## Delivered changes
 
-- Changed path: .ai/work-items/active/WI-310-reference-inventory-doc-consistency-successor.contract.json
-- Changed path: .ai/work-items/active/WI-310-reference-inventory-doc-consistency-successor.summary.json
+- Changed path: .ai/work-items/archive/WI-310-reference-inventory-doc-consistency-successor.contract.json
+- Changed path: .ai/work-items/archive/WI-310-reference-inventory-doc-consistency-successor.summary.json
 
 ## Findings
 

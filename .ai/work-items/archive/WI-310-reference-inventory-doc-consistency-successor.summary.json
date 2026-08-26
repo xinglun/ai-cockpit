@@ -1,7 +1,7 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-310-reference-inventory-doc-consistency-successor.contract.json",
-    ".ai/work-items/active/WI-310-reference-inventory-doc-consistency-successor.summary.json"
+    ".ai/work-items/archive/WI-310-reference-inventory-doc-consistency-successor.contract.json",
+    ".ai/work-items/archive/WI-310-reference-inventory-doc-consistency-successor.summary.json"
   ],
   "checkpointAt": "2026-08-26T22:25:18Z",
   "checkpointContractDigest": "sha256:b2dcf5715e398251eadb86c4d0786a5d17852c7889eaca0a8b3b3ab326c7d54a",
