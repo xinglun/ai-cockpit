@@ -1,33 +1,36 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-301-release-adopter-acceptance.contract.json",
-    ".ai/work-items/active/WI-301-release-adopter-acceptance.summary.json"
+    ".ai/work-items/archive/WI-301-release-adopter-acceptance.contract.json",
+    ".ai/work-items/archive/WI-301-release-adopter-acceptance.summary.json"
   ],
   "checkpointAt": "2026-08-26T07:22:53Z",
-  "checkpointContractDigest": "sha256:ed2afeec467994a40aa6589d65feb2dce539a16a6f5287e5210db8188fd8a330",
+  "checkpointContractDigest": "sha256:c2ec48f562a003d46fa08d70760d7a8d998a372a126428b8086ac54d7c50f3b7",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:5f462ede0eccd5eb2a623e18c0dd7e8837549500d646477a530be7a2f455a557",
+  "checkpointRepositorySnapshotDigest": "sha256:ed796dbe80ef4c486cb1d8694ce52c09fb9b8c3659ecd4c7d54a905b00d03b05",
   "createdAt": "2026-08-26T07:03:54Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:ed2afeec467994a40aa6589d65feb2dce539a16a6f5287e5210db8188fd8a330",
+    "contractDigest": "sha256:c2ec48f562a003d46fa08d70760d7a8d998a372a126428b8086ac54d7c50f3b7",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
     "reason": "Explicit user authorization confirms bounded continuation to collect and validate immutable public Release acceptance evidence; this receipt does not assert missing checks passed.",
-    "recordedAt": "2026-08-26T07:12:00Z",
+    "recordedAt": "2026-08-26T08:20:00Z",
     "recordedBy": "human:release-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:5f462ede0eccd5eb2a623e18c0dd7e8837549500d646477a530be7a2f455a557",
+    "repositorySnapshotDigest": "sha256:ed796dbe80ef4c486cb1d8694ce52c09fb9b8c3659ecd4c7d54a905b00d03b05",
     "schemaVersion": 1,
     "workItemId": "WI-301-release-adopter-acceptance"
   },
+  "failedGate": "finish.verification",
   "mode": "code",
-  "preflightAt": "2026-08-26T07:27:40Z",
-  "preflightContractDigest": "sha256:ed2afeec467994a40aa6589d65feb2dce539a16a6f5287e5210db8188fd8a330",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-26T07:35:32Z",
+  "preflightContractDigest": "sha256:c2ec48f562a003d46fa08d70760d7a8d998a372a126428b8086ac54d7c50f3b7",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:5f462ede0eccd5eb2a623e18c0dd7e8837549500d646477a530be7a2f455a557",
+  "preflightRepositorySnapshotDigest": "sha256:ed796dbe80ef4c486cb1d8694ce52c09fb9b8c3659ecd4c7d54a905b00d03b05",
   "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -92,8 +95,8 @@
       "status": "verified"
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-08-26T07:27:32.759040+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-26T07:35:36Z",
   "verification": [
     {
       "check": "project-command-0",

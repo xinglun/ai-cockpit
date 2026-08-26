@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-26T07:35:43Z",
+  "files": {
+    "approachDigest": "sha256:2c4baaa2285cfba64da79a1cf954edbfe4957e16ef660de0b33006cdc4844d15",
+    "approachPath": ".ai/work-items/archive/WI-301-release-adopter-acceptance.approach.json",
+    "contractDigest": "sha256:cfa3c9f920c4b932935d4593c2811de8c4bb2727e86d29842abb4450669697de",
+    "contractPath": ".ai/work-items/archive/WI-301-release-adopter-acceptance.contract.json",
+    "eventsDigest": "sha256:00ccaf65db41004309bcc2f271dc74a7cb6b70481ec08415b86bb0e33785c3b7",
+    "eventsPath": ".ai/work-items/archive/WI-301-release-adopter-acceptance.events.jsonl",
+    "outcomeDigest": "sha256:6f46c1ca803428b3b80a136ca8cc649132c0004f13204e38bfb73f479fc58af2",
+    "outcomePath": ".ai/work-items/archive/WI-301-release-adopter-acceptance.outcome.json",
+    "summaryDigest": "sha256:096ae85cd3b3b7084ead993fcb7136b5ad8203b2cccb7f737d8cc377a5948202",
+    "summaryPath": ".ai/work-items/archive/WI-301-release-adopter-acceptance.summary.json",
+    "taskReportDigest": "sha256:23db0b165631730cae1a41a87927e3ea1467a8e63647f271ae279fbf99649eb9",
+    "taskReportMarkdownDigest": "sha256:6b36b6123e45960e8a7c12a546a10f9de95df74ba164345de5a367556c5dc804",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-301-release-adopter-acceptance.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-301-release-adopter-acceptance.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-301-release-adopter-acceptance"
+}

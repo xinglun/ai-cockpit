@@ -28,84 +28,84 @@
   "requiredEvidenceClasses": [
     "verification"
   ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-301-release-adopter-acceptance",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/263",
+    "worktree": "/private/tmp/ai-cockpit-wi301"
+  },
+  "risk": "high",
   "scenarioCoverage": [
     {
-      "scenario": "release-artifact-integrity",
-      "required": true,
-      "status": "verified",
       "evidence": [
         ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/runtime.json",
         ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/release-manifest.json",
         ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/SHA256SUMS"
       ],
       "expected": "The immutable v0.2.33 archive and extracted binary match the public release manifest and checksum receipt.",
+      "required": true,
+      "scenario": "release-artifact-integrity",
+      "status": "verified",
       "verificationPlan": "Validate runtime.json, release-manifest.json, and SHA256SUMS from the public Release download."
     },
     {
-      "scenario": "fresh-adopter-isolation",
-      "required": true,
-      "status": "verified",
       "evidence": [
         ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/acceptance.json",
         ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/isolation.json"
       ],
       "expected": "A fresh repository is governed by the public binary without writes to forbidden global roots.",
+      "required": true,
+      "scenario": "fresh-adopter-isolation",
+      "status": "verified",
       "verificationPlan": "Run the public adopter harness with isolated HOME, XDG_CONFIG_HOME, TMPDIR, and CARGO_HOME."
     },
     {
-      "scenario": "first-adopter-smoke-boundary",
-      "required": true,
-      "status": "verified",
       "evidence": [
         ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/first-adopter-smoke.json"
       ],
       "expected": "The first-adopter scaffold remains not_ready until human-owned governance input is supplied.",
+      "required": true,
+      "scenario": "first-adopter-smoke-boundary",
+      "status": "verified",
       "verificationPlan": "Assert the scaffold output and contract state are not_ready with no fabricated governance decisions."
     },
     {
-      "scenario": "evidence-reuse-and-lifecycle",
-      "required": true,
-      "status": "verified",
       "evidence": [
         ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/verify-first.json",
         ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/verify-reuse.json",
         ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/work-items/lifecycle.evidence.json"
       ],
       "expected": "The adopter completes the governed lifecycle and reuses fresh exact evidence without re-execution.",
+      "required": true,
+      "scenario": "evidence-reuse-and-lifecycle",
+      "status": "verified",
       "verificationPlan": "Validate the first execution, exact reuse receipt, and lifecycle close evidence."
     },
     {
-      "scenario": "n-minus-one-upgrade",
-      "required": true,
-      "status": "verified",
       "evidence": [
         ".ai/evidence/external/v0.2.33/upgrade-v0.2.31-to-v0.2.33/acceptance.json",
         ".ai/evidence/external/v0.2.33/upgrade-v0.2.31-to-v0.2.33/history-digest.json"
       ],
       "expected": "A public v0.2.31 adopter upgrades to v0.2.33 while historical evidence remains byte-identical.",
+      "required": true,
+      "scenario": "n-minus-one-upgrade",
+      "status": "verified",
       "verificationPlan": "Run the public N-1 harness and validate the history digest and both Runtime identities."
     },
     {
-      "scenario": "temporary-root-cleanup",
-      "required": true,
-      "status": "verified",
       "evidence": [
         ".ai/evidence/external/v0.2.33/adopter-aarch64-apple-darwin/cleanup.json",
         ".ai/evidence/external/v0.2.33/upgrade-v0.2.31-to-v0.2.33/cleanup.json"
       ],
       "expected": "Every validated temporary run_root is removed on the success path and failure-safe cleanup is recorded.",
+      "required": true,
+      "scenario": "temporary-root-cleanup",
+      "status": "verified",
       "verificationPlan": "Require cleanupState=passed, removed=true, and validated=true in both receipts."
     }
   ],
-  "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
-    "branch": "codex/wi-301-release-adopter-acceptance",
-    "provider": "unknown",
-    "pullRequest": "unknown",
-    "worktree": "/private/tmp/ai-cockpit-wi301"
-  },
-  "risk": "high",
   "scope": [
     "tests/release/adopter_acceptance.sh",
     "tests/release/adopter_upgrade_acceptance.sh",

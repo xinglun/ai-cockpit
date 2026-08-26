@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:c2ec48f562a003d46fa08d70760d7a8d998a372a126428b8086ac54d7c50f3b7",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:b01568b44e1b8ca238a099adc09d4b6d20698baacadac354fd392dbc937880c4",
+  "reason": "Explicit user authorization confirms bounded continuation to collect and validate immutable public Release acceptance evidence; this receipt does not assert missing checks passed.",
+  "recordedAt": "2026-08-26T08:20:00Z",
+  "recordedBy": "human:release-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ed796dbe80ef4c486cb1d8694ce52c09fb9b8c3659ecd4c7d54a905b00d03b05",
+  "schemaVersion": 1,
+  "workItemId": "WI-301-release-adopter-acceptance"
+}
