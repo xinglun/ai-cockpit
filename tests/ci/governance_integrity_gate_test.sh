@@ -167,6 +167,16 @@ from pathlib import Path
 root = Path(sys.argv[1])
 work_item = "WI-901-corrective-after-baseline"
 project = json.loads((root / ".ai/project.json").read_text(encoding="utf-8"))
+summary_path = root / ".ai/work-items/archive" / f"{work_item}.summary.json"
+summary = json.loads(summary_path.read_text(encoding="utf-8"))
+summary.update(
+    {
+        "outcomeState": "blocked",
+        "failedGate": "finish.lifecycle",
+        "recoveryCondition": "Restore the required lifecycle state before retrying.",
+    }
+)
+summary_path.write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
 (root / ".ai/decisions" / f"{work_item}.recovery.json").write_text(
     json.dumps(
         {

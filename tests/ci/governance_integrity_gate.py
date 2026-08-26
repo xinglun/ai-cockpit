@@ -983,6 +983,40 @@ def valid_recovery_decision(
     )
 
 
+def retry_recovery_is_consumed(repo: Path, work_item: str) -> bool:
+    """Distinguish a consumed retry from a predecessor still needing recovery.
+
+    A retry receipt is immutable history.  It is consumed only when the
+    archived summary still records the failed lifecycle boundary that the
+    retry repaired and the archived Outcome is green.  Older recovery items
+    use the same ``decision=retry`` receipt to represent an actual recovered
+    predecessor, so treating every green retry as consumed would erase that
+    required inventory state.
+    """
+    try:
+        outcome = load_json(
+            repo / ".ai/work-items/archive" / f"{work_item}.outcome.json"
+        )
+        summary = load_json(
+            repo / ".ai/work-items/archive" / f"{work_item}.summary.json"
+        )
+    except ValueError:
+        return False
+    failed_gate = summary.get("failedGate")
+    recovery_condition = summary.get("recoveryCondition")
+    return (
+        outcome.get("decisionState") == "green"
+        and summary.get("outcomeState") == "blocked"
+        and (
+            (isinstance(failed_gate, str) and bool(failed_gate.strip()))
+            or (
+                isinstance(recovery_condition, str)
+                and bool(recovery_condition.strip())
+            )
+        )
+    )
+
+
 def recovery_decision_candidate(
     repo: Path, work_item: str
 ) -> tuple[Path, dict[str, Any]] | None:
@@ -1033,7 +1067,10 @@ def recovery_decision_candidate(
             outcome = load_json(archived_outcome)
         except ValueError:
             outcome = {}
-        if outcome.get("decisionState") == "green":
+        if (
+            outcome.get("decisionState") == "green"
+            and retry_recovery_is_consumed(repo, work_item)
+        ):
             return None
     return selected
 
@@ -1301,6 +1338,17 @@ def main() -> int:
                 recovery_candidate[1] if recovery_candidate is not None else {}
             )
             recovery_receipt_valid = recovery_candidate is not None
+            historical_retry_receipt = False
+            canonical_recovery = repo / ".ai/decisions" / f"{work_item}.recovery.json"
+            if canonical_recovery.is_file() and not canonical_recovery.is_symlink():
+                try:
+                    canonical_recovery_value = load_json(canonical_recovery)
+                except ValueError:
+                    canonical_recovery_value = {}
+                historical_retry_receipt = (
+                    valid_recovery_decision(repo, work_item, canonical_recovery_value)
+                    and canonical_recovery_value.get("decision") == "retry"
+                )
 
             outcome_path = base / f"{work_item}.outcome.json"
             if outcome_path.is_file():
@@ -1413,9 +1461,11 @@ def main() -> int:
                         historical_retry = load_json(recovery_path)
                     except ValueError:
                         historical_retry = {}
-                    if valid_recovery_decision(repo, work_item, historical_retry) and historical_retry.get(
-                        "decision"
-                    ) == "retry":
+                    if (
+                        valid_recovery_decision(repo, work_item, historical_retry)
+                        and historical_retry.get("decision") == "retry"
+                        and retry_recovery_is_consumed(repo, work_item)
+                    ):
                         pass
                     else:
                         record["lifecycleState"] = "closure_invalid"
@@ -1607,11 +1657,18 @@ def main() -> int:
                         line,
                         evidence,
                     ):
+                        severity = (
+                            "historical"
+                            if historical_retry_receipt
+                            and record.get("lifecycleState") == "awaiting_merge_close"
+                            else "error"
+                        )
                         findings.append(
                             finding(
                                 work_item,
                                 "stale_prearchive_parity_registration",
                                 parity_doc,
+                                severity,
                             )
                         )
                 status_tokens = (implemented,)
