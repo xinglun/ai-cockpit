@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-retry-after-finalize-plan",
+  "decidedAt": "2026-08-28T00:40:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-333-comprehension-validation.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:808bd4365c5b8509194a85cdc2a4cac0610d855cf94ce3e104617a774de97750",
+  "predecessorEventsDigest": "sha256:f29ced1c7864dd50641c855adad0cee8827196ffeeda3546cd497ea8d134b954",
+  "predecessorOutcomeDigest": "sha256:f13d076962885e1c33e5b582b7f0cd1278384c1ebbc0c44d15e9a9b04867554c",
+  "predecessorSummaryDigest": "sha256:3b84fed46a005db4f491e7a066607ecc69d6ac8142be9563e0f06b1b7de4eb58",
+  "predecessorWorkItemId": "WI-333-comprehension-validation",
+  "reason": "Retry the same bounded WI after finalize-plan changed the Contract binding and the first finish attempt recorded a stale preflight failure; preserve the blocked Outcome and refresh verification against the current Contract.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Record a fresh non-red preflight and verification, then retry finish without changing the bounded scope.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-333-comprehension-validation"
+}
