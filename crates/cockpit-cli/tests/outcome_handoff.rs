@@ -149,7 +149,17 @@ fn default_lifecycle_commands_emit_localized_handoffs_without_changing_stdout_js
         let archive_json: serde_json::Value =
             serde_json::from_slice(&archive.stdout).expect("archive stdout JSON");
         assert_eq!(archive_json["workItemId"], id);
-        assert_handoff(&archive.stderr, success, &[unknowns, decisions, next]);
+        // Once the Work Item is archived, a bound provider context still
+        // requires a valid provider-side finalization receipt.  The Runtime
+        // therefore exposes a visible yellow handoff here; close becomes
+        // green only after `record_deleted` binds that receipt below.
+        let archive_prefix = match language {
+            "en" => "Outcome: 🟡 Needs attention",
+            "zh-CN" => "Outcome: 🟡 需要关注",
+            "ja" => "Outcome: 🟡 要確認",
+            _ => unreachable!(),
+        };
+        assert_handoff(&archive.stderr, archive_prefix, &[unknowns, decisions, next]);
 
         common::record_deleted(binary, repo.path(), id);
         let close = Command::new(binary)
