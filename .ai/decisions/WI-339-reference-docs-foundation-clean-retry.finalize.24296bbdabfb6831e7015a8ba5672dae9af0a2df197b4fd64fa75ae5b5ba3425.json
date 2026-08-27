@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:ebc4c2113edc5dc93de9ca07e13d06ce72c85099e6b2d16bfed9dc6f7edfbb55",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "post-merge-exact-resource-cleanup",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "b0af29f57e661f23bbdc24043233e3a2fd566090",
+      "name": "codex/wi-336-reference-docs-foundation",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:f9e14c850afea66851ba2ef8c5af7e9d1d4359de969cc9bd109d243f09b2a76d",
+    "operationId": "operation-WI-339-reference-docs-foundation-clean-retry-cleanup",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "a3872ed186454a8389ffefe0620ddef4c0ccfed3",
+      "headRevision": "b0af29f57e661f23bbdc24043233e3a2fd566090",
+      "mergeCommit": "823b2646a4e179ac49689e80ab0edfe313ee3e48",
+      "number": 300,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/300"
+    },
+    "reason": "PR #300 merged at 823b264; exact WI-339 branch and worktree were removed after clean-state verification.",
+    "receiptId": "ai-cockpit-WI-339-reference-docs-foundation-clean-retry-cleanup-deleted",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-336-reference-docs-foundation",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/300",
+      "worktree": "/private/tmp/ai-cockpit-wi336-reference-docs-foundation"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+    "runtimeVersion": "0.2.33",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-28T00:40:00Z",
+    "workItemId": "WI-339-reference-docs-foundation-clean-retry",
+    "worktree": {
+      "branch": "codex/wi-336-reference-docs-foundation",
+      "headRevision": "b0af29f57e661f23bbdc24043233e3a2fd566090",
+      "path": "/private/tmp/ai-cockpit-wi336-reference-docs-foundation",
+      "worktreeId": "WI-336-reference-docs-foundation"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-339-reference-docs-foundation-clean-retry-cleanup-deleted"
+}
