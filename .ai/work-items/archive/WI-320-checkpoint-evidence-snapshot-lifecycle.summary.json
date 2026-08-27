@@ -1,0 +1,229 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "before_edit_checkpoint_survives_authorized_edit_and_fresh_preflight",
+          "path": "crates/cockpit-repository/tests/lifecycle_order.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "historical_before_edit_snapshot_is_allowed_but_before_finish_must_be_current",
+          "path": "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "undeclared_checkpoint_check_cannot_become_a_phantom_pass",
+          "path": "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "lifecycle_order_regressions",
+          "path": "crates/cockpit-repository/tests/lifecycle_order.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "Checkpoint snapshots are intentionally temporal",
+          "path": "docs/reference/agent-workflow.md",
+          "type": "documentation",
+          "verification": "documentation acceptance passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "governance confirmed-decision regression",
+          "path": "tests/ci/governance_integrity_gate_test.sh",
+          "type": "test",
+          "verification": "governance integrity gate regression passed"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-320-checkpoint-evidence-snapshot-lifecycle.contract.json",
+    ".ai/work-items/archive/WI-320-checkpoint-evidence-snapshot-lifecycle.summary.json",
+    "crates/cockpit-repository/src/governance_controls.rs",
+    "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
+    "crates/cockpit-repository/tests/lifecycle_order.rs",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-320-checkpoint-evidence-snapshot-lifecycle.ja.md",
+    "docs/work-items/WI-320-checkpoint-evidence-snapshot-lifecycle.md",
+    "docs/work-items/WI-320-checkpoint-evidence-snapshot-lifecycle.zh-CN.md"
+  ],
+  "checkpointAt": "2026-08-27T05:02:54Z",
+  "checkpointContractDigest": "sha256:aae0bbb9d4df6e3b6224f3dc85e5d6158f21f4114b917b4f97d05e80954b6ca6",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:3b17831aad0649597aeaf2667a3c12aa11d28444c331e98ae7347d99bd083508",
+      "recorded": true,
+      "recordedAt": "2026-08-27T05:02:54Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:cd433aa2fe0060c07ee857f351995b8035222bd78cf8db2721a6629a974c66a7",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-320-checkpoint-evidence-snapshot-lifecycle"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:d64505d4351b61f5088d5877248d6a205dc2233ee62c3151e36317ae8700875a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3b17831aad0649597aeaf2667a3c12aa11d28444c331e98ae7347d99bd083508",
+      "previousContractHash": "sha256:3b17831aad0649597aeaf2667a3c12aa11d28444c331e98ae7347d99bd083508",
+      "reason": "Bind the reviewed branch, worktree, provider, and pull request before terminal lifecycle checks.",
+      "recorded": true,
+      "recordedAt": "2026-08-27T05:04:16Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2521b5ea96b53a3b060e00e29f0cd82bcdc9d240ef935f9fc13380ab12bd265d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-320-checkpoint-evidence-snapshot-lifecycle"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:3a2176bd7b68cafdf74ce60fd110c2e0470098bf77d3b340751cf056bbfd8736",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3b17831aad0649597aeaf2667a3c12aa11d28444c331e98ae7347d99bd083508",
+      "previousContractHash": "sha256:d64505d4351b61f5088d5877248d6a205dc2233ee62c3151e36317ae8700875a",
+      "reason": "Include the discovered terminal-gate compatibility redelivery in this lifecycle correction so confirmed close records are accepted by static consumers.",
+      "recorded": true,
+      "recordedAt": "2026-08-27T05:13:56Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ae628f6aebec74a216ce463ef0fba7239e2931bed938274f4002a82fcabdb047",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-320-checkpoint-evidence-snapshot-lifecycle"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:c18e884e39bb54c3c7fcdcec4dce2366eca77b8148a70ac896ed7fd4e7e1ec7c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3b17831aad0649597aeaf2667a3c12aa11d28444c331e98ae7347d99bd083508",
+      "previousContractHash": "sha256:3a2176bd7b68cafdf74ce60fd110c2e0470098bf77d3b340751cf056bbfd8736",
+      "reason": "Include the recovery retry refresh that removes stale before_finish checkpoint candidates before a fresh terminal attempt.",
+      "recorded": true,
+      "recordedAt": "2026-08-27T05:39:39Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:845adf8179e2e051176cfea7ffe803c66831464756604313d40651d3fdc75582",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-320-checkpoint-evidence-snapshot-lifecycle"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:aae0bbb9d4df6e3b6224f3dc85e5d6158f21f4114b917b4f97d05e80954b6ca6",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3b17831aad0649597aeaf2667a3c12aa11d28444c331e98ae7347d99bd083508",
+      "previousContractHash": "sha256:c18e884e39bb54c3c7fcdcec4dce2366eca77b8148a70ac896ed7fd4e7e1ec7c",
+      "reason": "Bind the recovery retry regression test that proves stale before_finish candidates are refreshed before a terminal attempt.",
+      "recorded": true,
+      "recordedAt": "2026-08-27T05:40:12Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:845adf8179e2e051176cfea7ffe803c66831464756604313d40651d3fdc75582",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-320-checkpoint-evidence-snapshot-lifecycle"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:aae0bbb9d4df6e3b6224f3dc85e5d6158f21f4114b917b4f97d05e80954b6ca6",
+      "recorded": true,
+      "recordedAt": "2026-08-27T05:45:05Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:459cdef7c241160e6447c2d9aa6cfa3ec0b0d0f14bf6d5f30a464441063ebd2d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_finish",
+      "unknownCount": 0,
+      "workItemId": "WI-320-checkpoint-evidence-snapshot-lifecycle"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:459cdef7c241160e6447c2d9aa6cfa3ec0b0d0f14bf6d5f30a464441063ebd2d",
+  "createdAt": "2026-08-27T04:55:08Z",
+  "failedGate": "finish.verification",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/governance_controls.rs",
+      "crates/cockpit-repository/tests/lifecycle_order.rs",
+      "crates/cockpit-repository/tests/agent_risk_checkpoint.rs"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-27T05:45:04Z",
+  "preflightContractDigest": "sha256:aae0bbb9d4df6e3b6224f3dc85e5d6158f21f4114b917b4f97d05e80954b6ca6",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:459cdef7c241160e6447c2d9aa6cfa3ec0b0d0f14bf6d5f30a464441063ebd2d",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-27T05:45:05Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-320-checkpoint-evidence-snapshot-lifecycle"
+}

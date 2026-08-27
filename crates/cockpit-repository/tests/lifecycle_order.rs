@@ -3,7 +3,7 @@ use cockpit_protocol::ResourceFinalizationContext;
 use cockpit_repository::{
     WorkItemStartOptions, attach, checkpoint_work_item, finish_work_item,
     plan_resource_finalization, preflight_work_item, record_verification,
-    start_work_item_with_options,
+    revalidate_contract_amendment, start_work_item_with_options,
 };
 use std::{fs, process::Command};
 
@@ -249,5 +249,106 @@ fn verification_retry_refreshes_finish_ready_bindings_after_source_change() {
     assert_eq!(
         outcome["taskOutcomeReport"]["bindings"]["repositorySnapshotDigest"],
         evidence["repositorySnapshotDigest"]
+    );
+}
+
+#[test]
+fn before_edit_checkpoint_survives_authorized_edit_and_fresh_preflight() {
+    let directory = repository();
+    let id = "WI-ORDER-SNAPSHOT-HISTORY";
+    start(directory.path(), id, &[]);
+    let contract_path = contract(directory.path(), id);
+    let mut contract_value: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract"))
+            .expect("contract JSON");
+    contract_value["checkpointPolicy"] = serde_json::json!({
+        "schemaVersion": 1,
+        "profile": "standard",
+        "requiredBeforeFinish": true,
+        "requiredStages": ["before_edit", "before_finish"],
+        "requiredChecks": []
+    });
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&contract_value).expect("serialize contract"),
+    )
+    .expect("contract amendment");
+    plan_resource_finalization(
+        directory.path(),
+        id,
+        &ResourceFinalizationContext {
+            branch: format!("feature/{id}"),
+            worktree: directory.path().display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: format!("https://github.com/example/ai-cockpit/pull/{id}"),
+        },
+    )
+    .expect("finalization plan");
+    preflight_work_item(directory.path(), &contract_path).expect("initial preflight");
+    checkpoint_work_item(directory.path(), id).expect("before_edit checkpoint");
+
+    fs::write(directory.path().join("source.rs"), "pub fn changed() {}\n").expect("source edit");
+    preflight_work_item(directory.path(), &contract_path).expect("fresh preflight");
+    record_verification(
+        directory.path(),
+        id,
+        &serde_json::json!({"passed": true}),
+        "0.2.33",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+    finish_work_item(directory.path(), id).expect("finish after fresh snapshot binding");
+}
+
+#[test]
+fn legacy_command_only_amendment_after_verification_has_no_gate_to_invalidate() {
+    let directory = repository();
+    let id = "WI-ORDER-LEGACY-AMENDMENT";
+    start(directory.path(), id, &[]);
+    let contract_path = contract(directory.path(), id);
+    let mut contract_value: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract"))
+            .expect("contract JSON");
+    contract_value["checkpointPolicy"] = serde_json::json!({
+        "schemaVersion": 1,
+        "profile": "standard",
+        "requiredBeforeFinish": true,
+        "requiredStages": ["before_edit", "before_finish"],
+        "requiredChecks": []
+    });
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&contract_value).expect("serialize contract"),
+    )
+    .expect("contract amendment");
+    preflight_work_item(directory.path(), &contract_path).expect("preflight");
+    checkpoint_work_item(directory.path(), id).expect("checkpoint");
+    record_verification(
+        directory.path(),
+        id,
+        &serde_json::json!({"passed": true}),
+        "0.2.33",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+
+    contract_value["title"] = serde_json::json!("amended after verification");
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&contract_value).expect("serialize amended contract"),
+    )
+    .expect("amended contract");
+    let amendment = revalidate_contract_amendment(
+        directory.path(),
+        id,
+        "record the post-verification legacy amendment",
+    )
+    .expect("legacy amendment with no required gates");
+    assert_eq!(amendment["verificationStarted"], serde_json::json!(false));
+    assert_eq!(
+        amendment["invalidatedRequiredChecks"],
+        serde_json::json!([])
     );
 }

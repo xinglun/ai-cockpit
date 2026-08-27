@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-27T05:50:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-320-checkpoint-evidence-snapshot-lifecycle.verification.json",
+    ".ai/work-items/active/WI-320-checkpoint-evidence-snapshot-lifecycle.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery-retry-boundary"
+  ],
+  "predecessorContractDigest": "sha256:3a2176bd7b68cafdf74ce60fd110c2e0470098bf77d3b340751cf056bbfd8736",
+  "predecessorEventsDigest": "sha256:48bb57166547e417d64fcc6a0ba331d6fb3b817cfb76321a416cc5978883d2b2",
+  "predecessorOutcomeDigest": "sha256:64d053f9b4e8dd2bd4ecb9b5e67cb89a8c1fd14147dd7bda52c7c96f86f0196e",
+  "predecessorSummaryDigest": "sha256:db7f39106bc0e12503d6b734695e29341969b7bd0a295de893802fd604d358df",
+  "predecessorWorkItemId": "WI-320-checkpoint-evidence-snapshot-lifecycle",
+  "reason": "Retry WI-320 with the checkpoint snapshot lifecycle fix rebuilt; preserve the blocked predecessor bytes and bind this attempt to the fixed Runtime candidate.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh verification with explicit recovery retry authorization, then complete finish and the reviewed PR lifecycle.",
+  "runtimeDigest": "sha256:ea6a4b73b5515dfa2e951a0ff88a50f6a573101dae5b40fc4b9561c6d3b6d200",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-320-checkpoint-evidence-snapshot-lifecycle"
+}

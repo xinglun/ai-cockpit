@@ -136,6 +136,13 @@ verification it invalidates prior required checks and requires fresh preflight
 and verification. Resume history is checked against checkpoint timestamps, so
 stale predecessor evidence cannot authorize a current Work Item.
 
+Checkpoint snapshots are intentionally temporal. A valid `before_edit` or
+amendment entry records the repository state at that authorization boundary and
+may be older after an authorized edit and fresh preflight. Only `before_finish`
+is terminal evidence: it must match the current Contract, repository identity,
+and snapshot, and stale, foreign, malformed, duplicate, or symlink-backed
+entries fail closed.
+
 Finalization is snapshot-sensitive too: after the final verification, run
 `finish` and `archive` before committing Runtime-generated finish/outcome/archive
 records. A commit changes snapshot identity even when it contains only `.ai/`

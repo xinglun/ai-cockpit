@@ -1157,8 +1157,12 @@ def valid_close_decision(repo: Path, work_item: str, value: dict[str, Any]) -> b
         value.get("workItemId") == work_item
         and value.get("state") == "closed"
         and value.get("decisionState") == "confirmed"
-        and value.get("humanDecision") in {"approved", "superseded"}
-        and structured.get("decision") in {"approved", "superseded"}
+        # The Runtime accepts an explicit ``confirmed`` human decision as a
+        # positive terminal choice alongside the documented ``approved``
+        # token. Keep ``superseded`` for recovered historical predecessors;
+        # rejected decisions never promote a Work Item to Implemented.
+        and value.get("humanDecision") in {"approved", "confirmed", "superseded"}
+        and structured.get("decision") in {"approved", "confirmed", "superseded"}
         and all(nonempty(key) for key in ("actor", "authoritySource", "reason", "decidedAt"))
         and isinstance(structured.get("evidenceRefs"), list)
         and bool(structured["evidenceRefs"])

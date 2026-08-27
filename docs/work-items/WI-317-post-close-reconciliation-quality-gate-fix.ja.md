@@ -6,9 +6,13 @@ description: "不変の履歴を書き換えず、W316 の bounded quality-gate 
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-317-post-close-reconciliation-quality-gate-fix
+terminalArchive: .ai/work-items/archive/WI-317-post-close-reconciliation-quality-gate-fix.contract.json
+terminalVerification: .ai/evidence/WI-317-post-close-reconciliation-quality-gate-fix.verification.json
+terminalFinalization: .ai/decisions/WI-317-post-close-reconciliation-quality-gate-fix.finalize.ef51268d4b7db25d8f189d4bbd6b87faa306e48150888b884c32006a428f4f1d.json
+terminalDecision: .ai/decisions/WI-317-post-close-reconciliation-quality-gate-fix.close.json
 ---
 
 # WI-317 — post-close reconciliation quality gate fix

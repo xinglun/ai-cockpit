@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-27T05:45:11Z",
+  "files": {
+    "contractDigest": "sha256:976ec81aa8ca610f4934f17f818765c7e49b107ae1a9bea6e669165a559fe7e8",
+    "contractPath": ".ai/work-items/archive/WI-320-checkpoint-evidence-snapshot-lifecycle.contract.json",
+    "eventsDigest": "sha256:a42e83514eace99d007fef7413b37820412ac6b87a9f010d0fafebae5a091af5",
+    "eventsPath": ".ai/work-items/archive/WI-320-checkpoint-evidence-snapshot-lifecycle.events.jsonl",
+    "outcomeDigest": "sha256:8b598e8cef4841bb7ea7f2d274e77b348de72f6626b98d7208e174b8eb25e918",
+    "outcomePath": ".ai/work-items/archive/WI-320-checkpoint-evidence-snapshot-lifecycle.outcome.json",
+    "summaryDigest": "sha256:fdc8db340c1d32696b71799523cabfe1ea18bbd2222fc5a573f29c754370b355",
+    "summaryPath": ".ai/work-items/archive/WI-320-checkpoint-evidence-snapshot-lifecycle.summary.json",
+    "taskReportDigest": "sha256:cb9cab033e3b8382069c82bb4f90ffde803e87e6855e1a7c530230d73b702f19",
+    "taskReportMarkdownDigest": "sha256:907892ea98664b09ee6e9048bd0ca51b1f66d2f51228e19e606156e4dd081e8f",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-320-checkpoint-evidence-snapshot-lifecycle.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-320-checkpoint-evidence-snapshot-lifecycle.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-320-checkpoint-evidence-snapshot-lifecycle"
+}

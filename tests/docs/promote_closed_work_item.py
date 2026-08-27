@@ -296,8 +296,11 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
             # A pre-v0.2.34 Runtime could close after recording a retained
             # root.  The Rust Runtime now rejects that order, but it must
             # provide a narrow, append-only cleanup reconciliation for such
-            # immutable historical records.  The close remains bound to the
-            # retained root; this transition proves the later exact cleanup.
+            # immutable historical records.  The current Runtime may also
+            # record the deleted transition before close. Both shapes share
+            # the same strict transition validation below; only the close
+            # binding distinguishes historical reconciliation from the
+            # current terminal sequence-1 path.
             _, envelope, receipt = transitions[1]
             require(
                 envelope.get("predecessorReceiptDigest") == canonical_digest(root_receipt),
@@ -320,10 +323,35 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
                 and after.get("worktree") == "removed",
                 "post-close reconciliation cleanup state is incomplete",
             )
-            finalization_sequence = 1
-            finalization_path = transitions[1][0].relative_to(repository).as_posix()
-            finalization_digest = canonical_digest(receipt)
-            reconciled_after_close = True
+            transition_path = transitions[1][0].relative_to(repository).as_posix()
+            transition_digest = canonical_digest(receipt)
+            close_sequence = close.get("resourceFinalizationSequence")
+            bound_close_path = close.get("resourceFinalizationHeadPath")
+            close_digest = close.get("resourceFinalizationHeadDigest")
+            if (
+                close_sequence == 0
+                and bound_close_path == root_path.relative_to(repository).as_posix()
+                and close_digest == canonical_digest(root_receipt)
+            ):
+                # Legacy post-close reconciliation: close remains bound to
+                # the retained root and the later transition is historical.
+                finalization_sequence = 0
+                finalization_path = root_path.relative_to(repository).as_posix()
+                finalization_digest = canonical_digest(root_receipt)
+                reconciled_after_close = True
+            elif (
+                close_sequence == 1
+                and bound_close_path == transition_path
+                and close_digest == transition_digest
+            ):
+                # Current Runtime flow: cleanup is observed before close, so
+                # close binds the deleted sequence-1 head.
+                finalization_sequence = 1
+                finalization_path = transition_path
+                finalization_digest = transition_digest
+                reconciled_after_close = False
+            else:
+                raise PromotionError("sequence-1 close finalization head binding mismatch")
         else:
             require(sorted(transitions) == [1, 2], "finalization chain must have unique sequences 1 and 2")
             reconciled_after_close = False
@@ -380,23 +408,19 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
     require(
         close.get("state") == "closed"
         and close.get("decisionState") == "confirmed"
-        and close.get("humanDecision") == "approved",
-        "close is not a confirmed approved decision",
+        and close.get("humanDecision") in {"approved", "confirmed"},
+        "close is not a confirmed approved/confirmed decision",
     )
     structured = close.get("structuredDecision")
     require(
-        isinstance(structured, dict) and structured.get("decision") == "approved",
+        isinstance(structured, dict)
+        and structured.get("decision") in {"approved", "confirmed"},
         "structured close decision is missing",
     )
     structured_refs = structured.get("evidenceRefs")
     require(
         isinstance(structured_refs, list)
-        and evidence_path in structured_refs
-        and (
-            finalization_path in structured_refs
-            or (reconciled_after_close and root_path.relative_to(repository).as_posix() in structured_refs)
-            or finalization_sequence == 0
-        ),
+        and evidence_path in structured_refs,
         "structured close evidence bindings are incomplete",
     )
     final_report = close.get("finalReport")

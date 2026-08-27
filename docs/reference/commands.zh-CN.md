@@ -86,7 +86,8 @@ deleted transition，作为有限的历史 reconciliation。该 transition 必�
 - `preflight --contract` 通常指向 `start` 生成的 `.ai/work-items/active/<id>.contract.json`。
 - `work-item new` 生成的骨架状态是 `not_ready`。对它执行 `preflight` 会有意返回
   `yellow` 与 `reviewState: needs_human_confirmation`；补齐人工字段后必须重新 preflight 才能 checkpoint。
-- `close --human-decision approved|rejected` 是 human decision 记录，不是 verification evidence。
+- `close --human-decision approved|confirmed|rejected` 是 human decision 记录，不是 verification evidence。
+  `approved` 和显式的 `confirmed` 都是正向终态决定；`rejected` 不能把 Work Item 晋级为已实现。
 - `evidence import --repo <path> --work-item <id> --metadata <metadata.json>
   --raw <provider-output>` 会用精确 raw bytes 的 digest 校验严格的
   `DelegatedEvidence` metadata，并在 `.ai/evidence/external/` 写入绑定

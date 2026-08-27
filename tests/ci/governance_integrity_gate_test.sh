@@ -69,6 +69,33 @@ PY
 }
 
 run_case valid 0 none
+
+# ``confirmed`` is an explicit positive Runtime decision token equivalent to
+# ``approved`` for terminal promotion; arbitrary/rejected decisions remain
+# non-green.
+build_fixture "$fixtures/valid.json" "$tmp/confirmed-decision"
+python3 - "$tmp/confirmed-decision" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+for path in root.glob(".ai/decisions/*.close.json"):
+    value = json.loads(path.read_text(encoding="utf-8"))
+    value["humanDecision"] = "confirmed"
+    value["structuredDecision"]["decision"] = "confirmed"
+    path.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
+PY
+python3 "$gate" --repo "$tmp/confirmed-decision" --report "$tmp/confirmed-decision-report.json" >/dev/null
+python3 - "$tmp/confirmed-decision-report.json" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert report["findings"] == [], report["findings"]
+PY
+printf 'governance confirmed-decision regression passed\n'
+
 run_case missing-work-item 1 missing_work_item
 run_case missing-evidence 1 missing_evidence
 run_case missing-close 1 missing_terminal_decision

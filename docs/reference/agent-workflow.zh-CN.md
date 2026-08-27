@@ -106,6 +106,11 @@ Contract amendment evidence，不替换 `before_edit`；verification 开始后�
 required checks 失效，并要求新的 preflight 与 verification。Runtime 会将 resume
 history 与 checkpoint 时间绑定，旧 predecessor evidence 不能授权当前 Work Item。
 
+Checkpoint 快照具有明确的时间语义。有效的 `before_edit` 或 amendment 记录
+的是授权边界当时的仓库状态；完成授权编辑并重新 preflight 后，它可以早于当前
+快照。只有 `before_finish` 是终态证据：必须匹配当前 Contract、仓库身份和快照；
+过期、跨仓库、格式错误、重复或符号链接证据都必须 fail closed。
+
 最终收尾同样受快照约束：完成最后一次 verification 后，必须先执行 `finish` 和
 `archive`，再提交 Runtime 生成的 finish/outcome/archive 记录。即使提交只包含
 `.ai/` 文件，commit 也会改变 snapshot identity；在 verification 与 archive 之间提交

@@ -1,0 +1,229 @@
+{
+  "acceptanceResults": [
+    "A1: historical before_edit checkpoint evidence remains valid after a later repository edit and fresh preflight, while before_finish binds the current snapshot",
+    "A2: before_finish checkpoint evidence with stale snapshot, wrong repository identity, malformed shape, duplicate stage, or symlink-backed summary fails closed",
+    "A3: checkpoint required-check counts are derived from declared verification checks without inventing a check name that the verification receipt cannot provide",
+    "A4: amendment and resume chain validation remains fail-closed, and existing lifecycle regressions continue to pass",
+    "A5: tri-language documentation describes checkpoint snapshot history and the exact verification boundary",
+    "A6: static promotion, status, and governance gates accept the installed Runtime's confirmed close decision and sequence-1 finalization without accepting rejected or mismatched records"
+  ],
+  "createdAt": "2026-08-27T05:45:05Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:977166f3991a9ff0514ceaf858e5eab3a7be849bfca49174bf053b057264fe24",
+  "evidenceRefs": [
+    ".ai/evidence/WI-320-checkpoint-evidence-snapshot-lifecycle.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-320-checkpoint-evidence-snapshot-lifecycle.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-320-checkpoint-evidence-snapshot-lifecycle.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:459cdef7c241160e6447c2d9aa6cfa3ec0b0d0f14bf6d5f30a464441063ebd2d",
+      "workItemId": "WI-320-checkpoint-evidence-snapshot-lifecycle"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-320-checkpoint-evidence-snapshot-lifecycle.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-320-checkpoint-evidence-snapshot-lifecycle.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-320-checkpoint-evidence-snapshot-lifecycle.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-320-checkpoint-evidence-snapshot-lifecycle.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-320-checkpoint-evidence-snapshot-lifecycle.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/governance_controls.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-320-checkpoint-evidence-snapshot-lifecycle.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/agent_risk_checkpoint.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-320-checkpoint-evidence-snapshot-lifecycle.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/lifecycle_order.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-320-checkpoint-evidence-snapshot-lifecycle.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-workflow.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-320-checkpoint-evidence-snapshot-lifecycle.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-workflow.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-320-checkpoint-evidence-snapshot-lifecycle.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-workflow.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-320-checkpoint-evidence-snapshot-lifecycle.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-320-checkpoint-evidence-snapshot-lifecycle.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-320-checkpoint-evidence-snapshot-lifecycle.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-320-checkpoint-evidence-snapshot-lifecycle.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-320-checkpoint-evidence-snapshot-lifecycle.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-320-checkpoint-evidence-snapshot-lifecycle.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-320-checkpoint-evidence-snapshot-lifecycle.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-320-checkpoint-evidence-snapshot-lifecycle.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-320-checkpoint-evidence-snapshot-lifecycle.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-320-checkpoint-evidence-snapshot-lifecycle.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-320-checkpoint-evidence-snapshot-lifecycle.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-320-checkpoint-evidence-snapshot-lifecycle.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-320-checkpoint-evidence-snapshot-lifecycle.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-320-checkpoint-evidence-snapshot-lifecycle.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-320-checkpoint-evidence-snapshot-lifecycle.contract.json"
+          ],
+          "inference": false,
+          "text": "Allow historical edit checkpoints while keeping terminal checkpoint evidence current and bound."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-320-checkpoint-evidence-snapshot-lifecycle.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-320-checkpoint-evidence-snapshot-lifecycle"
+  },
+  "taskReportDigest": "sha256:cb9cab033e3b8382069c82bb4f90ffde803e87e6855e1a7c530230d73b702f19",
+  "taskReportMarkdownDigest": "sha256:907892ea98664b09ee6e9048bd0ca51b1f66d2f51228e19e606156e4dd081e8f",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-320-checkpoint-evidence-snapshot-lifecycle.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-320-checkpoint-evidence-snapshot-lifecycle"
+}
