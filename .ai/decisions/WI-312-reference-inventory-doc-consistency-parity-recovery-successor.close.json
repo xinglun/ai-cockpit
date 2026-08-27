@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:92e3286cd66f389d82778854c2fa960eadf8bbc401bd0404cad5561d21127799",
+      "workItemId": "WI-312-reference-inventory-doc-consistency-parity-recovery-successor"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.verification.json",
+            ".ai/decisions/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via repository-owner at 2026-08-27T00:10:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.contract.json"
+          ],
+          "inference": false,
+          "text": "Synchronize manifest-derived counts, deterministic marker validation, and tri-language parity registration before verification so the comparison batch can pass hosted documentation acceptance."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-312-reference-inventory-doc-consistency-parity-recovery-successor"
+  },
+  "finalReportDigest": "sha256:d0cf55b974fcbaa95b68459823fa0772051d5271ef0715bbec11b32160d4659e",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:412475d8563b31b882a04c0e327dec1a798e698b5f3dc83eb7cef708c15c1439",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "repository-owner",
+    "decidedAt": "2026-08-27T00:10:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.verification.json",
+      ".ai/decisions/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md:canonical-delivery-order"
+    ],
+    "reason": "已审阅 W312 证据；归档后的最终提交通过 hosted quality、Windows runtime 与 V1 behavioral oracle，并已合并到 main。",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-27T00:09:43Z",
+  "workItemId": "WI-312-reference-inventory-doc-consistency-parity-recovery-successor"
+}

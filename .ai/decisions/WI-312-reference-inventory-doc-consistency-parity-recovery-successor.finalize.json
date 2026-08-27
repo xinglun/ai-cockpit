@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "repository-owner",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "b2aea7299bae4ca6ea458227a869567d7f4de245",
+    "name": "codex/wi-312-reference-inventory-doc-consistency-runtime-retry",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:a3d12f58b898ac8467b0cd422773a2fc4fb3a7731ce4dc63395c963e3e1e7126",
+  "operationId": "merge-WI-312-reference-inventory-doc-consistency-parity-recovery-successor",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "a10b643479da4edf0028c2930dd835524947b2f9",
+    "headRevision": "b2aea7299bae4ca6ea458227a869567d7f4de245",
+    "mergeCommit": "3329827309b168dd215678c17d244093fd2d9e39",
+    "number": 275,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/275"
+  },
+  "reason": "Reviewed PR #275 passed hosted quality, Windows, and V1 behavioral checks and was merged into the synchronized default branch.",
+  "receiptId": "WI-312-reference-inventory-doc-consistency-parity-recovery-successor-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-312-reference-inventory-doc-consistency-runtime-retry",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/275",
+    "worktree": "/private/tmp/ai-cockpit-wi312-reference-inventory-doc-consistency-runtime-retry"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-27T00:08:00Z",
+  "workItemId": "WI-312-reference-inventory-doc-consistency-parity-recovery-successor",
+  "worktree": {
+    "branch": "codex/wi-312-reference-inventory-doc-consistency-runtime-retry",
+    "headRevision": "b2aea7299bae4ca6ea458227a869567d7f4de245",
+    "path": "/private/tmp/ai-cockpit-wi312-reference-inventory-doc-consistency-runtime-retry",
+    "worktreeId": "WI-312-reference-inventory-doc-consistency-parity-recovery-successor"
+  }
+}
