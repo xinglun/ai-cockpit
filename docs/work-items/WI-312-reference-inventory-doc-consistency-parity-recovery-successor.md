@@ -6,7 +6,7 @@ description: "Re-deliver the manifest-derived inventory counts with prearchive t
 audience:
   - maintainer
   - reviewer
-status: recovered
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-312-reference-inventory-doc-consistency-parity-recovery-successor
 ---

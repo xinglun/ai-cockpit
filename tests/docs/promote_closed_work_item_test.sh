@@ -538,7 +538,7 @@ expect_no_write_failure contract-digest "$tmp/contract-digest" 'archive Contract
 cp -R "$tmp/unpromoted" "$tmp/close-head"
 perl -0pi -e 's/"resourceFinalizationHeadDigest": "sha256:[^"]+"/"resourceFinalizationHeadDigest": "sha256:bad"/' \
   "$tmp/close-head/.ai/decisions/WI-999-closed-docs-fixture.close.json"
-expect_no_write_failure close-head "$tmp/close-head" 'close finalization head digest mismatch'
+expect_no_write_failure close-head "$tmp/close-head" 'close finalization head binding mismatch'
 
 cp -R "$tmp/unpromoted" "$tmp/nondeleted"
 sequence_two=

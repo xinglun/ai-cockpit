@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-successor-after-hosted-gate-failure",
+  "decidedAt": "2026-08-27T03:10:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-316-post-close-reconciliation-promotion-base-fix.archive.json",
+    "https://github.com/xinglun/ai-cockpit/pull/280",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/33034923064"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:fix-in-current-work-item-or-record-successor",
+    "AGENTS.md:latest-remote-default-base"
+  ],
+  "predecessorContractDigest": "sha256:f7e20d4da75695646a2141f08835540af24983425b375dc749f852ef69764917",
+  "predecessorEventsDigest": "sha256:4fa18cfe8ea891aa55a9b9713075af5212cf56abf38574bdffc23294a9364f27",
+  "predecessorOutcomeDigest": "sha256:93da4d0db0a63931c94a680a86aff9039789bf95fae4db4d40346b198efee294",
+  "predecessorSummaryDigest": "sha256:b3f0a1c45c6483d83c9fd38ffb3f512a41694ea156c28407db06460694410205",
+  "predecessorWorkItemId": "WI-316-post-close-reconciliation-promotion-base-fix",
+  "reason": "W316 hosted quality exposed documentation parity/status, resource-finalization wording, and regression assertion defects after W316 archive. Preserve W316 immutable bytes and redeliver the bounded fixes from the latest remote default base.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Start W317 from the latest origin/main, include the W316 bounded delivery plus these corrections, rerun all focused and full gates, pass hosted CI, merge, finalize, close, and clean exact resources.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-317-post-close-reconciliation-quality-gate-fix",
+  "workItemId": "WI-316-post-close-reconciliation-promotion-base-fix"
+}

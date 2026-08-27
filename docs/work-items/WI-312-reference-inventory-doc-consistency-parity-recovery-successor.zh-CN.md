@@ -6,7 +6,7 @@ description: "在 WI-311 不可变重试边界后，重新交付 manifest 派生
 audience:
   - maintainer
   - reviewer
-status: recovered
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-312-reference-inventory-doc-consistency-parity-recovery-successor
 ---

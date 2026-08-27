@@ -6,7 +6,7 @@ description: "WI-311 の immutable retry boundary 後に、manifest 派生 inven
 audience:
   - maintainer
   - reviewer
-status: recovered
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-312-reference-inventory-doc-consistency-parity-recovery-successor
 ---
