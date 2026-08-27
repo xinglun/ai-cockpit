@@ -25,41 +25,52 @@
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:e04aee2567af4fa208b52ade943b32deb56d6b7f9b1357f17a66d9d452f69f7d",
   "requiredEvidenceClasses": [],
-  "scenarioCoverage": [
-    {
-      "scenario": "current CI base binding",
-      "expected": "The active Contract baseRevision equals the latest origin/main revision used by hosted pull-request CI.",
-      "required": true,
-      "status": "verified",
-      "evidence": [".ai/work-items/active/WI-316-post-close-reconciliation-promotion-base-fix.contract.json", "tests/docs/documentation_acceptance.sh"],
-      "verificationPlan": "Run the hosted Contract-aware gate and confirm it accepts the exact CI base revision."
-    },
-    {
-      "scenario": "recovered promotion projection",
-      "expected": "Valid successor recovery suppresses predecessor promotion even when predecessor close is confirmed; invalid and retry recovery remain fail-closed.",
-      "required": true,
-      "status": "verified",
-      "evidence": ["tests/docs/promote_closed_work_item.py", "tests/docs/promote_closed_work_item_test.sh"],
-      "verificationPlan": "Run focused promotion and documentation regressions."
-    },
-    {
-      "scenario": "immutable W315 history and tri-language parity",
-      "expected": "W315 archive bytes remain unchanged and W316 is registered consistently in English, Simplified Chinese, and Japanese documentation.",
-      "required": true,
-      "status": "verified",
-      "evidence": [".ai/work-items/archive/WI-315-post-close-reconciliation-promotion-recovery.archive.json", "docs/reference/reference-parity.md", "docs/reference/reference-parity.zh-CN.md", "docs/reference/reference-parity.ja.md"],
-      "verificationPlan": "Run documentation acceptance and compare W315 archive manifest digests before and after."
-    }
-  ],
   "resourceContext": {
     "baseBranch": "main",
     "baseRemote": "origin",
     "branch": "codex/wi-316-post-close-reconciliation-promotion-base-fix",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/280",
     "worktree": "/private/tmp/ai-cockpit-wi316-post-close-reconciliation-promotion-base-fix"
   },
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/work-items/active/WI-316-post-close-reconciliation-promotion-base-fix.contract.json",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "expected": "The active Contract baseRevision equals the latest origin/main revision used by hosted pull-request CI.",
+      "required": true,
+      "scenario": "current CI base binding",
+      "status": "verified",
+      "verificationPlan": "Run the hosted Contract-aware gate and confirm it accepts the exact CI base revision."
+    },
+    {
+      "evidence": [
+        "tests/docs/promote_closed_work_item.py",
+        "tests/docs/promote_closed_work_item_test.sh"
+      ],
+      "expected": "Valid successor recovery suppresses predecessor promotion even when predecessor close is confirmed; invalid and retry recovery remain fail-closed.",
+      "required": true,
+      "scenario": "recovered promotion projection",
+      "status": "verified",
+      "verificationPlan": "Run focused promotion and documentation regressions."
+    },
+    {
+      "evidence": [
+        ".ai/work-items/archive/WI-315-post-close-reconciliation-promotion-recovery.archive.json",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md"
+      ],
+      "expected": "W315 archive bytes remain unchanged and W316 is registered consistently in English, Simplified Chinese, and Japanese documentation.",
+      "required": true,
+      "scenario": "immutable W315 history and tri-language parity",
+      "status": "verified",
+      "verificationPlan": "Run documentation acceptance and compare W315 archive manifest digests before and after."
+    }
+  ],
   "scope": [
     "crates/cockpit-repository/src/lib.rs",
     "crates/cockpit-repository/tests/resource_finalization_transition.rs",

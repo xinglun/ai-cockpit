@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-27T02:55:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-316-post-close-reconciliation-promotion-base-fix.verification.json",
+    ".ai/work-items/active/WI-316-post-close-reconciliation-promotion-base-fix.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:premerge-finalization-before-close"
+  ],
+  "predecessorContractDigest": "sha256:f7e20d4da75695646a2141f08835540af24983425b375dc749f852ef69764917",
+  "predecessorEventsDigest": "sha256:e607904bb2b566e3d7347cbe51ee0078ac35607584060e8be6e2b15ab3ffddd8",
+  "predecessorOutcomeDigest": "sha256:0d0b1e40042f61ca1f6f97009f58389fd799cbbf8406192ba90b770a5d92329b",
+  "predecessorSummaryDigest": "sha256:689c6db91642516e1cfd89294dcdbf722252d326bff9cac4a5971f919deb3fbf",
+  "predecessorWorkItemId": "WI-316-post-close-reconciliation-promotion-base-fix",
+  "reason": "The first W316 finish attempt correctly stopped after binding the real PR context, because prior evidence no longer matched the Contract snapshot. Preserve the blocked Outcome and retry only after fresh preflight and verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification against the finalized W316 Contract, then finish/archive with PR #280 context and hosted CI.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-316-post-close-reconciliation-promotion-base-fix"
+}
