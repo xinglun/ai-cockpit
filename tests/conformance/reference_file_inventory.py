@@ -42,6 +42,7 @@ WI325_BATCH = "WI-325-reference-file-comparison-batch-05"
 WI326_BATCH = "WI-326-reference-file-comparison-batch-06"
 WI327_BATCH = "WI-327-reference-file-comparison-batch-07"
 WI328_BATCH = "WI-328-reference-file-comparison-batch-08"
+WI331_BATCH = "WI-331-reference-file-comparison-batch-09"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -812,6 +813,36 @@ WI328_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
     ),
 }
 
+WI331_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "docs/reference/checks-catalog.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/checks-catalog.md",
+            "docs/reference/checks-catalog.zh-CN.md",
+            "docs/reference/checks-catalog.ja.md",
+            "docs/reference/ci-quality-gates.md",
+            "tests/ci/repository_gate_manifest.json",
+            "crates/cockpit-repository/src/lib.rs",
+        ],
+        "The source check catalog is represented by tri-language Rust-native documentation, the versioned gate manifest, and Runtime Contract/lifecycle validators. Target profiles remain policy-selected and distinguish verification coverage from Evidence Assurance; source Make/Python command ownership is not copied.",
+    ),
+    "docs/reference/ci-release-evidence.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/ci-release-evidence.md",
+            "docs/reference/ci-release-evidence.zh-CN.md",
+            "docs/reference/ci-release-evidence.ja.md",
+            "tests/ci/repository_gate_manifest.json",
+            ".github/workflows/ci.yml",
+            ".github/workflows/release.yml",
+            "tests/release/adopter_acceptance.sh",
+            "tests/release/adopter_upgrade_acceptance.sh",
+            "docs/release/distribution.md",
+        ],
+        "The source CI/Release evidence contract is represented by the provider-bound Rust Contract gate, versioned manifest, CI/release workflows, checksum/SBOM/provenance policy, and published-binary adopter harness. Local, provider, public Release, and enterprise evidence remain separate; PR prose and source fixtures are never treated as proof.",
+    ),
+}
+
 
 def wi270_counterpart(path: str) -> tuple[list[str], str] | None:
     if path in WI270_DOC_CONCEPTS:
@@ -1241,6 +1272,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 }
             )
             continue
+        wi331 = WI331_REFERENCE_FILES.get(path)
+        if wi331 is not None:
+            classification, counterparts, reason = wi331
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI331_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
         wi302 = WI302_REFERENCE_FILES.get(path)
         if wi302 is not None:
             classification, counterparts, reason = wi302
@@ -1515,6 +1559,38 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for classification in wi328_classifications
         ):
             errors.append("WI-328 batch cannot leave deferred or migrate-gap records")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI331_BATCH
+        for record in records
+    ):
+        wi331_records = [
+            record
+            for record in records
+            if isinstance(record, dict) and record.get("batch") == WI331_BATCH
+        ]
+        expected_wi331_paths = set(WI331_REFERENCE_FILES)
+        actual_wi331_paths = {
+            record.get("referencePath")
+            for record in wi331_records
+            if isinstance(record.get("referencePath"), str)
+        }
+        if actual_wi331_paths != expected_wi331_paths:
+            errors.append(
+                "WI-331 batch paths do not match the pinned two-file set: "
+                f"expected {sorted(expected_wi331_paths)!r}, got {sorted(actual_wi331_paths)!r}"
+            )
+        if len(wi331_records) != len(expected_wi331_paths):
+            errors.append(
+                f"WI-331 batch must contain {len(expected_wi331_paths)} records, found {len(wi331_records)}"
+            )
+        wi331_classifications = [record.get("classification") for record in wi331_records]
+        if wi331_classifications.count("implemented-different-by-design") != len(expected_wi331_paths):
+            errors.append("WI-331 batch must contain two implemented-different-by-design records")
+        if any(
+            classification in {"deferred-next-batch", "migrate-gap"}
+            for classification in wi331_classifications
+        ):
+            errors.append("WI-331 batch cannot leave deferred or migrate-gap records")
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(records):
         errors.append(f"referenceTrackedFileCount {expected_count!r} != record count {len(records)}")

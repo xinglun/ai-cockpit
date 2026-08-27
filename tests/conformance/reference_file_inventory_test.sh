@@ -51,6 +51,9 @@ test "$(jq '[.records[] | select(.batch == "WI-328-reference-file-comparison-bat
 test "$(jq '[.records[] | select(.batch == "WI-328-reference-file-comparison-batch-08" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$manifest")" -eq 0
 test "$(jq -r '.records[] | select(.referencePath == "docs/reference/capability-truth-matrix.json") | .classification' "$manifest")" = "reference-only"
 jq -r '.records[] | select(.referencePath == "docs/reference/capability-claim-authoring.md") | .reason' "$manifest" | grep -q "bounded capability-claim/evidence"
+test "$(jq '[.records[] | select(.batch == "WI-331-reference-file-comparison-batch-09")] | length' "$manifest")" -eq 2
+test "$(jq '[.records[] | select(.batch == "WI-331-reference-file-comparison-batch-09" and .classification == "implemented-different-by-design" and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$manifest")" -eq 2
+test "$(jq '[.records[] | select(.batch == "WI-331-reference-file-comparison-batch-09" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$manifest")" -eq 0
 test "$(jq -r '.records[] | select(.batch == "governance-entrypoints" and .classification == "deferred-next-batch") | .referencePath' "$manifest" | wc -l | tr -d ' ')" -eq 0
 test "$(jq '[.records[] | select(.batch == "capability-status-projection")] | length' "$manifest")" -eq 6
 test "$(jq '[.records[] | select(.batch == "capability-status-projection" and (.classification == "deferred-next-batch" or .classification == ""))] | length' "$manifest")" -eq 0

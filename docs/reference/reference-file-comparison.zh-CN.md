@@ -103,11 +103,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=219 implemented-equivalent=1 not-applicable=3 reference-only=10 deferred-next-batch=624 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=221 implemented-equivalent=1 not-applicable=3 reference-only=10 deferred-next-batch=622 migrate-gap=0 -->
 
 在固定的 v0.2.33 比较基线上，台账共有 5,119 条记录：4,262 条
-`generated-history`、214 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、3 条 `not-applicable`、6 条 `reference-only` 与 633 条
+`generated-history`、221 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、3 条 `not-applicable`、10 条 `reference-only` 与 622 条
 `deferred-next-batch`。deferred 记录仍是待比较工作，不是 parity 声明。
 capability/profile slice 已没有 `migrate-gap`：
 
@@ -118,7 +118,7 @@ capability/profile slice 已没有 `migrate-gap`：
 4. `.ai/project_profile.yaml` 由 `.ai/project.json` 与严格 JSON `profile-policy.json` projection 表达。
 
 治理入口、getting-started 路线、CI/release 边界与 capability/profile projection 已按该基线审阅；
-以上四条是有界的 Rust-native counterpart，633 条 deferred 语义比较仍是后续工作。
+以上四条是有界的 Rust-native counterpart，622 条 deferred 语义比较仍是后续工作。
 
 WI-274 只将目标 checkout metadata 和 canonical comparison snapshot 重新绑定到已审阅的
 默认分支提交。WI-273 保持为不可变的失败交付记录：其首次提交无法证明 parity 登记先于
@@ -405,3 +405,14 @@ Capability Truth 行过期策略明确不属于当前 Runtime。
 这是产品边界决定，不是未登记遗漏。未来若人工拥有的 Work Item 引入 claim binding 或行级
 freshness，必须先定义 Rust-native schema、evidence 生成、过期处理、三语 scope 和 adopter
 验收，才能改变分类。
+
+## WI-331 checks catalog 与 CI/release evidence
+
+WI-331 逐一对比固定源版本中的以下两个路径。两者均按“有意不同实现”登记：Rust 目标保留源项目的质量与发布证据责任边界，但不复制源项目 Make、Python 或 V1 runtime。
+
+| 固定源路径 | 分类 | Rust 对应物 / 有界决定 |
+| --- | --- | --- |
+| `docs/reference/checks-catalog.md` | implemented-different-by-design | `docs/reference/checks-catalog.*`、Contract-aware `gate` 路由、repository gate manifest、Rust workspace 检查、conformance/docs 检查以及 release/adopter 检查保留同一分层质量意图。本地检查与 provider/enterprise assurance 分离；dynamic light/standard/strict profile 会在 unknown 或 release-owned 控制项上升级。 |
+| `docs/reference/ci-release-evidence.md` | implemented-different-by-design | `docs/reference/ci-release-evidence.*`、`.github/workflows/ci.yml`、`.github/workflows/release.yml`、发布分发检查和 adopter acceptance harness 绑定 provider job、commit/base/head、artifact、checksum、SBOM、provenance 与隔离 receipt。跳过或失败的 job 保持可见，PR 文本不会成为证据。 |
+
+边界明确如下：目标 Runtime 负责 repository-local Contract 与 gate 决定；托管 CI、签名、SBOM/provenance provider 和企业审计系统负责其 delegated evidence。公开发布事实绑定不可变 tag 与下载 artifact。所有命令仍必须显式 `--repo`；源项目 Makefile、Python runner 或复制的 V1 runtime 不是目标要求。六份语言对应文档与 inventory 断言共同构成此批次的防遗漏记录。
