@@ -103,11 +103,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=206 implemented-equivalent=1 not-applicable=3 reference-only=5 deferred-next-batch=642 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=214 implemented-equivalent=1 not-applicable=3 reference-only=6 deferred-next-batch=633 migrate-gap=0 -->
 
 在固定的 v0.2.33 比较基线上，台账共有 5,119 条记录：4,262 条
-`generated-history`、206 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、3 条 `not-applicable`、5 条 `reference-only` 与 642 条
+`generated-history`、214 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、3 条 `not-applicable`、6 条 `reference-only` 与 633 条
 `deferred-next-batch`。deferred 记录仍是待比较工作，不是 parity 声明。
 capability/profile slice 已没有 `migrate-gap`：
 
@@ -118,7 +118,7 @@ capability/profile slice 已没有 `migrate-gap`：
 4. `.ai/project_profile.yaml` 由 `.ai/project.json` 与严格 JSON `profile-policy.json` projection 表达。
 
 治理入口、getting-started 路线、CI/release 边界与 capability/profile projection 已按该基线审阅；
-以上四条是有界的 Rust-native counterpart，642 条 deferred 语义比较仍是后续工作。
+以上四条是有界的 Rust-native counterpart，633 条 deferred 语义比较仍是后续工作。
 
 WI-274 只将目标 checkout metadata 和 canonical comparison snapshot 重新绑定到已审阅的
 默认分支提交。WI-273 保持为不可变的失败交付记录：其首次提交无法证明 parity 登记先于
@@ -336,3 +336,27 @@ WI-326 逐一比对固定参考源中的以下 9 个路径。其中 8 个按有�
 manifest 与当前 Runtime 负责，托管 provider 检查、对象工程技术栈命令和企业控制仍由各自责任方
 提供。动态路由由策略选择；不会只因执行速度就推断更严格 tier，也不会把 tier 当作 assurance。
 对象工程使用发布版 Runtime 时同样必须显式携带 `--repo`。
+
+## WI-327 采用方、校准与长周期文档切片
+
+WI-327 在固定参考源提交上逐个比较接下来的九个 deferred 路径。其中八条是有意采用不同
+实现，Bandit 扫描审计是源 Python 工具链特有的历史记录，因此保留为 reference-only。
+
+| 参考源路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `docs/reference/adopter-long-cycle-validation.ja.md` | 有意采用不同实现 | 发布二进制采用方与升级验收脚本、分发路线及日文生命周期/安全文档保留隔离安装、生命周期、回滚和清理证据。不复制源多技术栈 fixture 与 Make/Python 编排。 |
+| `docs/reference/adopter-long-cycle-validation.md` | 有意采用不同实现 | 发布二进制采用方与升级验收脚本、分发路线及生命周期/安全文档保留隔离安装、生命周期、回滚和清理证据。不复制源多技术栈 fixture 与 Make/Python 编排。 |
+| `docs/reference/adoption-reality-report.md` | 有意采用不同实现 | Runtime capability/profile/status projection 与不可变 adopter 验收 receipt 区分模板能力、采用方执行、provider evidence 和企业 assurance；不会把本地文件提升为外部证明。 |
+| `docs/reference/bandit-synchronization-security-audit.md` | 仅供参考 | 这是源 Python 工具链的 Bandit 历史发现清单。目标没有 Python/Bandit 产品表面，也不宣称源发现数量或 digest；Rust 原生质量门和 threat model 边界单独维护。 |
+| `docs/reference/calibration-inventory.md` | 有意采用不同实现 | 仓库绑定的 profile proposal/confirm、capability/status projection 与显式 unknown 保留事实/证据边界，不复制源十列 Python inventory。 |
+| `docs/reference/calibration-profiles.ja.md` | 有意采用不同实现 | 日文校准指南和严格 JSON profile policy 保留累积的 Lite/Standard/Strict 控制、人工选择、单调升级与明确降级证据；校准与单个 Work Item 质量路由分离。 |
+| `docs/reference/calibration-profiles.md` | 有意采用不同实现 | 校准指南和严格 JSON profile policy 保留累积的 Lite/Standard/Strict 控制、人工选择、单调升级与明确降级证据；校准与单个 Work Item 质量路由分离。 |
+| `docs/reference/calibration-profiles.zh-CN.md` | 有意采用不同实现 | 中文校准指南和严格 JSON profile policy 保留累积的 Lite/Standard/Strict 控制、人工选择、单调升级与明确降级证据；校准与单个 Work Item 质量路由分离。 |
+| `docs/reference/calibration-session-model.ja.md` | 有意采用不同实现 | 目标明确保留校准 proposal、确认和仓库绑定事实，不静默引入通用交互 Session 或 checklist 权威；unknown 与人的责任保持可见。 |
+
+本批次是语义责任对齐，不是源 wire 或命令字节对齐。目标使用一份共享外部 Runtime、仓库本地
+`.ai/` 状态以及显式 `--repo`；provider 身份、托管 CI、签名、SBOM、provenance 和企业控制
+仍属于委托证据。Cursor 采用方必须显式安装仓库本地 adapter，并重放持久化的
+`work-item outcome` handoff；Runtime 无法强制 IDE 展开聊天面板。因此，Runtime 当前的输出和
+生命周期入口门禁不等于自动向聊天发布。诊断 remediation、close-gap 便利命令和 controls
+自动脚手架仍是独立的产品决策。

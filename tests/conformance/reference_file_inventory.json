@@ -30775,24 +30775,43 @@
     },
     {
       "referencePath": "docs/reference/adopter-long-cycle-validation.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-327-reference-file-comparison-batch-07",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "docs/release/distribution.ja.md",
+        "docs/reference/commands.ja.md",
+        "docs/security/adversarial-validation.ja.md"
+      ],
+      "reason": "The source multi-stack and independent-adopter long-cycle semantics are represented by the immutable published-binary adopter/upgrade acceptance harness and the Rust lifecycle/distribution boundaries. Source Python, Make, and fixture matrix execution is not copied; provider and enterprise claims remain separate evidence boundaries."
     },
     {
       "referencePath": "docs/reference/adopter-long-cycle-validation.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-327-reference-file-comparison-batch-07",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "docs/release/distribution.md",
+        "docs/reference/commands.md",
+        "docs/security/adversarial-validation.md"
+      ],
+      "reason": "The source multi-stack and independent-adopter long-cycle semantics are represented by the immutable published-binary adopter/upgrade acceptance harness and the Rust lifecycle/distribution boundaries. Source Python, Make, and fixture matrix execution is not copied; provider and enterprise claims remain separate evidence boundaries."
     },
     {
       "referencePath": "docs/reference/adoption-reality-report.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-327-reference-file-comparison-batch-07",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/capabilities.md",
+        "docs/release/distribution.md",
+        "docs/security/enterprise-governance.md",
+        "crates/cockpit-repository/src/project_governance.rs",
+        "crates/cockpit-repository/tests/project_governance.rs",
+        "tests/release/adopter_acceptance.sh"
+      ],
+      "reason": "The source conservative capability/adopter reality projection is represented by Runtime capability, profile, status, and published-adopter evidence boundaries. Template-owned bytes never prove adopter/provider configuration, external identity, SBOM, provenance, signing, or enterprise assurance; the source report generator is not copied."
     },
     {
       "referencePath": "docs/reference/agent-parallel-work-items.md",
@@ -30816,45 +30835,83 @@
     },
     {
       "referencePath": "docs/reference/bandit-synchronization-security-audit.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-327-reference-file-comparison-batch-07",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/ci-quality-gates.md",
+        "docs/security/threat-model.md",
+        "tests/ci/run_repository_gates.py"
+      ],
+      "reason": "The source document is a scanner-specific historical Bandit finding inventory and synchronization incident. The Rust target has no Python/Bandit surface and must not claim the source count or digest; its native quality and threat-model boundaries remain separate and do not require copying the source audit bytes."
     },
     {
       "referencePath": "docs/reference/calibration-inventory.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-327-reference-file-comparison-batch-07",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/calibration.md",
+        "docs/getting-started/first-calibration.md",
+        "docs/reference/configuration.md",
+        "docs/capabilities.md",
+        "crates/cockpit-repository/src/project_governance.rs",
+        "crates/cockpit-repository/tests/project_governance.rs"
+      ],
+      "reason": "The source calibration inventory's fact/evidence boundary is represented by repository-bound profile proposal and confirmation, capability/status projections, and explicit unknowns. The Rust Runtime does not copy the source ten-column Python inventory or turn static presence into adopter, identity, audit, sandbox, or enterprise proof."
     },
     {
       "referencePath": "docs/reference/calibration-profiles.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-327-reference-file-comparison-batch-07",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/calibration.ja.md",
+        "docs/getting-started/first-calibration.ja.md",
+        "docs/reference/configuration.ja.md",
+        "docs/capabilities.ja.md",
+        ".ai/project/profile-policy.json",
+        "crates/cockpit-repository/src/project_governance.rs"
+      ],
+      "reason": "The source Lite/Standard/Strict calibration boundary is represented by the Rust repository profile policy and explicit proposal/confirmation flow. It remains distinct from per-Work-Item quality routing, preserves unknowns and human selection, and does not claim source YAML or external identity/compliance proof."
     },
     {
       "referencePath": "docs/reference/calibration-profiles.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-327-reference-file-comparison-batch-07",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/calibration.md",
+        "docs/getting-started/first-calibration.md",
+        "docs/reference/configuration.md",
+        "docs/capabilities.md",
+        ".ai/project/profile-policy.json",
+        "crates/cockpit-repository/src/project_governance.rs"
+      ],
+      "reason": "The source Lite/Standard/Strict calibration boundary is represented by the Rust repository profile policy and explicit proposal/confirmation flow. It remains distinct from per-Work-Item quality routing, preserves unknowns and human selection, and does not claim source YAML or external identity/compliance proof."
     },
     {
       "referencePath": "docs/reference/calibration-profiles.zh-CN.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-327-reference-file-comparison-batch-07",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/calibration.zh-CN.md",
+        "docs/getting-started/first-calibration.zh-CN.md",
+        "docs/reference/configuration.zh-CN.md",
+        "docs/capabilities.zh-CN.md",
+        ".ai/project/profile-policy.json",
+        "crates/cockpit-repository/src/project_governance.rs"
+      ],
+      "reason": "源文件关于 Lite/Standard/Strict 的校准边界，由 Rust repository profile policy 与显式 proposal/confirm 流程保留。它与单个 Work Item 的质量路由分离，保留 unknown 和人工选择，不宣称复制源 YAML，也不宣称外部身份或合规证明。"
     },
     {
       "referencePath": "docs/reference/calibration-session-model.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-327-reference-file-comparison-batch-07",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/calibration.ja.md",
+        "docs/getting-started/first-calibration.ja.md",
+        "docs/reference/configuration.ja.md",
+        "crates/cockpit-repository/src/project_governance.rs",
+        "crates/cockpit-repository/tests/project_governance.rs"
+      ],
+      "reason": "The source internal resumable calibration Session model is represented only by the target's explicit read-only profile proposal, human confirmation, and repository-bound calibration facts. No generic interactive Session or checklist is silently introduced; unknowns and human authority remain visible."
     },
     {
       "referencePath": "docs/reference/calibration-session-model.md",

@@ -107,11 +107,11 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=206 implemented-equivalent=1 not-applicable=3 reference-only=5 deferred-next-batch=642 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=214 implemented-equivalent=1 not-applicable=3 reference-only=6 deferred-next-batch=633 migrate-gap=0 -->
 
 固定した v0.2.33 comparison baseline の ledger は 5,119 records です。内訳は
-4,262 `generated-history`、206 `implemented-different-by-design`、1
-`implemented-equivalent`、3 `not-applicable`、5 `reference-only`、642 `deferred-next-batch` です。
+4,262 `generated-history`、214 `implemented-different-by-design`、1
+`implemented-equivalent`、3 `not-applicable`、6 `reference-only`、633 `deferred-next-batch` です。
 Deferred record は予定された比較であり parity claim ではありません。
 capability/profile slice に `migrate-gap` は残っていません。
 
@@ -122,7 +122,7 @@ capability/profile slice に `migrate-gap` は残っていません。
 
 Governance entrypoint、getting-started route、CI/release boundary、capability/profile
 projection はこの baseline で review 済みです。上記 4 件は bounded な Rust-native counterpart として登録済みで、
-642 deferred semantic comparison は後続作業として残ります。
+633 deferred semantic comparison は後続作業として残ります。
 
 WI-274 は target checkout metadata と canonical comparison snapshot だけを、レビュー済み
 default branch commit に再バインドします。WI-273 は immutable な failed-delivery record として
@@ -356,3 +356,29 @@ hosted provider check、adopter stack command、enterprise control は delegated
 Dynamic routing は policy が選び、execution speed から stricter tier を推測せず、tier を assurance
 level と同一視しません。Published Runtime を object engineering repository で使う場合も明示的な
 `--repo` binding が必要です。
+
+## WI-327 adopter、calibration、long-cycle 文書 slice
+
+WI-327 は pinned source commit の次の 9 deferred path を一つずつ比較します。8 path は
+implemented-different-by-design、Bandit audit は source Python toolchain に固有の履歴であるため
+reference-only とします。
+
+| Reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/adopter-long-cycle-validation.ja.md` | implemented-different-by-design | Published binary の adopter/upgrade acceptance、distribution route、日本語 lifecycle/security docs が isolated install、lifecycle、rollback、cleanup evidence を保ちます。source multi-stack fixture と Make/Python orchestration は copy しません。 |
+| `docs/reference/adopter-long-cycle-validation.md` | implemented-different-by-design | Published binary の adopter/upgrade acceptance、distribution route、lifecycle/security docs が isolated install、lifecycle、rollback、cleanup evidence を保ちます。source multi-stack fixture と Make/Python orchestration は copy しません。 |
+| `docs/reference/adoption-reality-report.md` | implemented-different-by-design | Runtime capability/profile/status projection と immutable adopter acceptance receipt が template capability、adopter execution、provider evidence、enterprise assurance を分離します。local file を external proof へ昇格させません。 |
+| `docs/reference/bandit-synchronization-security-audit.md` | reference-only | Source 固有の historical Bandit finding inventory です。target に Python/Bandit surface はなく、source count/digest を主張しません。Rust-native quality と threat-model boundary は別に記載します。 |
+| `docs/reference/calibration-inventory.md` | implemented-different-by-design | Repository-bound profile proposal/confirmation、capability/status projection、explicit unknown が fact/evidence boundary を保ち、source の ten-column Python inventory は copy しません。 |
+| `docs/reference/calibration-profiles.ja.md` | implemented-different-by-design | 日本語 calibration guide と strict JSON profile policy が累積 Lite/Standard/Strict control、人の選択、単調な upgrade、明示的 downgrade evidence を保ちます。Work Item quality routing とは別です。 |
+| `docs/reference/calibration-profiles.md` | implemented-different-by-design | Calibration guide と strict JSON profile policy が累積 Lite/Standard/Strict control、人の選択、単調な upgrade、明示的 downgrade evidence を保ちます。Work Item quality routing とは別です。 |
+| `docs/reference/calibration-profiles.zh-CN.md` | implemented-different-by-design | 中国語 calibration guide と strict JSON profile policy が累積 Lite/Standard/Strict control、人の選択、単調な upgrade、明示的 downgrade evidence を保ちます。Work Item quality routing とは別です。 |
+| `docs/reference/calibration-session-model.ja.md` | implemented-different-by-design | Target は calibration proposal、confirmation、repository-bound fact を明示します。汎用 interactive Session や checklist authority は導入せず、unknown と human responsibility を可視化します。 |
+
+これは semantic responsibility parity であり、source wire や command byte parity ではありません。Target は
+shared external Runtime、repository-local `.ai/`、明示的な `--repo` を使い、provider identity、hosted
+CI、signing、SBOM、provenance、enterprise control は delegated evidence とします。Cursor adopter は
+repository-local adapter を明示的に install し、永続化された `work-item outcome` handoff を再生します。
+Runtime は IDE chat panel を強制的に expand できないため、現在の output と lifecycle entry gate は
+automatic chat posting の主張ではありません。Diagnostic remediation、close-gap convenience command、
+automatic controls scaffold は別の product decision として扱います。

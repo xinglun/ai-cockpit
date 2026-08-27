@@ -40,6 +40,7 @@ WI304_BATCH = "WI-304-reference-file-comparison-batch-02"
 WI305_BATCH = "WI-305-reference-file-comparison-batch-03"
 WI325_BATCH = "WI-325-reference-file-comparison-batch-05"
 WI326_BATCH = "WI-326-reference-file-comparison-batch-06"
+WI327_BATCH = "WI-327-reference-file-comparison-batch-07"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -616,6 +617,111 @@ WI326_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
     ),
 }
 
+WI327_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "docs/reference/adopter-long-cycle-validation.ja.md": (
+        "implemented-different-by-design",
+        [
+            "tests/release/adopter_acceptance.sh",
+            "tests/release/adopter_upgrade_acceptance.sh",
+            "docs/release/distribution.ja.md",
+            "docs/reference/commands.ja.md",
+            "docs/security/adversarial-validation.ja.md",
+        ],
+        "The source multi-stack and independent-adopter long-cycle semantics are represented by the immutable published-binary adopter/upgrade acceptance harness and the Rust lifecycle/distribution boundaries. Source Python, Make, and fixture matrix execution is not copied; provider and enterprise claims remain separate evidence boundaries.",
+    ),
+    "docs/reference/adopter-long-cycle-validation.md": (
+        "implemented-different-by-design",
+        [
+            "tests/release/adopter_acceptance.sh",
+            "tests/release/adopter_upgrade_acceptance.sh",
+            "docs/release/distribution.md",
+            "docs/reference/commands.md",
+            "docs/security/adversarial-validation.md",
+        ],
+        "The source multi-stack and independent-adopter long-cycle semantics are represented by the immutable published-binary adopter/upgrade acceptance harness and the Rust lifecycle/distribution boundaries. Source Python, Make, and fixture matrix execution is not copied; provider and enterprise claims remain separate evidence boundaries.",
+    ),
+    "docs/reference/adoption-reality-report.md": (
+        "implemented-different-by-design",
+        [
+            "docs/capabilities.md",
+            "docs/release/distribution.md",
+            "docs/security/enterprise-governance.md",
+            "crates/cockpit-repository/src/project_governance.rs",
+            "crates/cockpit-repository/tests/project_governance.rs",
+            "tests/release/adopter_acceptance.sh",
+        ],
+        "The source conservative capability/adopter reality projection is represented by Runtime capability, profile, status, and published-adopter evidence boundaries. Template-owned bytes never prove adopter/provider configuration, external identity, SBOM, provenance, signing, or enterprise assurance; the source report generator is not copied.",
+    ),
+    "docs/reference/bandit-synchronization-security-audit.md": (
+        "reference-only",
+        [
+            "docs/reference/ci-quality-gates.md",
+            "docs/security/threat-model.md",
+            "tests/ci/run_repository_gates.py",
+        ],
+        "The source document is a scanner-specific historical Bandit finding inventory and synchronization incident. The Rust target has no Python/Bandit surface and must not claim the source count or digest; its native quality and threat-model boundaries remain separate and do not require copying the source audit bytes.",
+    ),
+    "docs/reference/calibration-inventory.md": (
+        "implemented-different-by-design",
+        [
+            "docs/getting-started/calibration.md",
+            "docs/getting-started/first-calibration.md",
+            "docs/reference/configuration.md",
+            "docs/capabilities.md",
+            "crates/cockpit-repository/src/project_governance.rs",
+            "crates/cockpit-repository/tests/project_governance.rs",
+        ],
+        "The source calibration inventory's fact/evidence boundary is represented by repository-bound profile proposal and confirmation, capability/status projections, and explicit unknowns. The Rust Runtime does not copy the source ten-column Python inventory or turn static presence into adopter, identity, audit, sandbox, or enterprise proof.",
+    ),
+    "docs/reference/calibration-profiles.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/getting-started/calibration.ja.md",
+            "docs/getting-started/first-calibration.ja.md",
+            "docs/reference/configuration.ja.md",
+            "docs/capabilities.ja.md",
+            ".ai/project/profile-policy.json",
+            "crates/cockpit-repository/src/project_governance.rs",
+        ],
+        "The source Lite/Standard/Strict calibration boundary is represented by the Rust repository profile policy and explicit proposal/confirmation flow. It remains distinct from per-Work-Item quality routing, preserves unknowns and human selection, and does not claim source YAML or external identity/compliance proof.",
+    ),
+    "docs/reference/calibration-profiles.md": (
+        "implemented-different-by-design",
+        [
+            "docs/getting-started/calibration.md",
+            "docs/getting-started/first-calibration.md",
+            "docs/reference/configuration.md",
+            "docs/capabilities.md",
+            ".ai/project/profile-policy.json",
+            "crates/cockpit-repository/src/project_governance.rs",
+        ],
+        "The source Lite/Standard/Strict calibration boundary is represented by the Rust repository profile policy and explicit proposal/confirmation flow. It remains distinct from per-Work-Item quality routing, preserves unknowns and human selection, and does not claim source YAML or external identity/compliance proof.",
+    ),
+    "docs/reference/calibration-profiles.zh-CN.md": (
+        "implemented-different-by-design",
+        [
+            "docs/getting-started/calibration.zh-CN.md",
+            "docs/getting-started/first-calibration.zh-CN.md",
+            "docs/reference/configuration.zh-CN.md",
+            "docs/capabilities.zh-CN.md",
+            ".ai/project/profile-policy.json",
+            "crates/cockpit-repository/src/project_governance.rs",
+        ],
+        "源文件关于 Lite/Standard/Strict 的校准边界，由 Rust repository profile policy 与显式 proposal/confirm 流程保留。它与单个 Work Item 的质量路由分离，保留 unknown 和人工选择，不宣称复制源 YAML，也不宣称外部身份或合规证明。",
+    ),
+    "docs/reference/calibration-session-model.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/getting-started/calibration.ja.md",
+            "docs/getting-started/first-calibration.ja.md",
+            "docs/reference/configuration.ja.md",
+            "crates/cockpit-repository/src/project_governance.rs",
+            "crates/cockpit-repository/tests/project_governance.rs",
+        ],
+        "The source internal resumable calibration Session model is represented only by the target's explicit read-only profile proposal, human confirmation, and repository-bound calibration facts. No generic interactive Session or checklist is silently introduced; unknowns and human authority remain visible.",
+    ),
+}
+
 
 def wi270_counterpart(path: str) -> tuple[list[str], str] | None:
     if path in WI270_DOC_CONCEPTS:
@@ -1019,6 +1125,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 }
             )
             continue
+        wi327 = WI327_REFERENCE_FILES.get(path)
+        if wi327 is not None:
+            classification, counterparts, reason = wi327
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI327_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
         wi302 = WI302_REFERENCE_FILES.get(path)
         if wi302 is not None:
             classification, counterparts, reason = wi302
@@ -1225,6 +1344,40 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for classification in wi326_classifications
         ):
             errors.append("WI-326 batch cannot leave deferred or migrate-gap records")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI327_BATCH
+        for record in records
+    ):
+        wi327_records = [
+            record
+            for record in records
+            if isinstance(record, dict) and record.get("batch") == WI327_BATCH
+        ]
+        expected_wi327_paths = set(WI327_REFERENCE_FILES)
+        actual_wi327_paths = {
+            record.get("referencePath")
+            for record in wi327_records
+            if isinstance(record.get("referencePath"), str)
+        }
+        if actual_wi327_paths != expected_wi327_paths:
+            errors.append(
+                "WI-327 batch paths do not match the pinned nine-file set: "
+                f"expected {sorted(expected_wi327_paths)!r}, got {sorted(actual_wi327_paths)!r}"
+            )
+        if len(wi327_records) != len(expected_wi327_paths):
+            errors.append(
+                f"WI-327 batch must contain {len(expected_wi327_paths)} records, found {len(wi327_records)}"
+            )
+        wi327_classifications = [record.get("classification") for record in wi327_records]
+        if wi327_classifications.count("implemented-different-by-design") != 8:
+            errors.append("WI-327 batch must contain eight implemented-different-by-design records")
+        if wi327_classifications.count("reference-only") != 1:
+            errors.append("WI-327 batch must contain one reference-only record")
+        if any(
+            classification in {"deferred-next-batch", "migrate-gap"}
+            for classification in wi327_classifications
+        ):
+            errors.append("WI-327 batch cannot leave deferred or migrate-gap records")
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(records):
         errors.append(f"referenceTrackedFileCount {expected_count!r} != record count {len(records)}")
