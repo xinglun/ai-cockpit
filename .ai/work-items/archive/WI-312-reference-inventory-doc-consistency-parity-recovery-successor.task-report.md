@@ -14,8 +14,8 @@
 
 ## Delivered changes
 
-- Changed path: .ai/work-items/active/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.contract.json
-- Changed path: .ai/work-items/active/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.summary.json
+- Changed path: .ai/work-items/archive/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.contract.json
+- Changed path: .ai/work-items/archive/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.summary.json
 
 ## Findings
 

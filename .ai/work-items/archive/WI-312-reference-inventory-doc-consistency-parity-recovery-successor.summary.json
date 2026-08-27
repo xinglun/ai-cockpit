@@ -1,7 +1,7 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.contract.json",
-    ".ai/work-items/active/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.summary.json"
+    ".ai/work-items/archive/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.contract.json",
+    ".ai/work-items/archive/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.summary.json"
   ],
   "checkpointAt": "2026-08-26T23:44:28Z",
   "checkpointContractDigest": "sha256:acce06993ac89f421ea2cd867ecb48869bb5cb8c9051139322c29ca70c428031",

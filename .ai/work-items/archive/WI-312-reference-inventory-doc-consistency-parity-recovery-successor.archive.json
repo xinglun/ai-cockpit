@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-27T00:01:45Z",
+  "files": {
+    "contractDigest": "sha256:a3d12f58b898ac8467b0cd422773a2fc4fb3a7731ce4dc63395c963e3e1e7126",
+    "contractPath": ".ai/work-items/archive/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.contract.json",
+    "eventsDigest": "sha256:43cd494aae3c2ab29774be1d36cc7d43da876308c7ede662d48c24f5e1ae9031",
+    "eventsPath": ".ai/work-items/archive/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.events.jsonl",
+    "outcomeDigest": "sha256:b125d6f5f370b540dd87733f8aea691ff00c9cca0a58183b851e0e4c14071f26",
+    "outcomePath": ".ai/work-items/archive/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.outcome.json",
+    "summaryDigest": "sha256:acd49cd16904f17d6634859276de89531d95a348a8bfd5c900be7afde246ff7f",
+    "summaryPath": ".ai/work-items/archive/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.summary.json",
+    "taskReportDigest": "sha256:9a61157b0a5f81fda9bfa279c9e1709f3171f8442624e3fcae6f8d1e3a3ef7d5",
+    "taskReportMarkdownDigest": "sha256:00a53201c3a5c912ec3ffd7f0a229c4f5c8f7c34f9a5831aecfd3661bf684286",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-312-reference-inventory-doc-consistency-parity-recovery-successor"
+}

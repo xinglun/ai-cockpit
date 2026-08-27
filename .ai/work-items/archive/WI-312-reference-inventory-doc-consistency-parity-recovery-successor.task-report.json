@@ -15,17 +15,17 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.summary.json"
+          ".ai/work-items/archive/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.summary.json"
+          ".ai/work-items/archive/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.summary.json"
       }
     ],
     "evidence": [
@@ -81,7 +81,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.contract.json"
+          ".ai/work-items/archive/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.contract.json"
         ],
         "inference": false,
         "text": "Synchronize manifest-derived counts, deterministic marker validation, and tri-language parity registration before verification so the comparison batch can pass hosted documentation acceptance."
@@ -90,7 +90,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.contract.json"
+          ".ai/work-items/archive/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
