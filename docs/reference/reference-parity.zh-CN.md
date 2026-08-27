@@ -257,7 +257,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 
 | 批次 08 前置交付（已关闭 PR #291） | 历史失败交付 | [已关闭 PR #291](https://github.com/xinglun/ai-cockpit/pull/291)；其不可变失败交付 archive/evidence 保留在已关闭 PR 中，当前 successor 修复 hosted inventory 回归，不改写前置交付事实。五个校准/术语路径按有意不同实现登记；WI-330 已将四个能力声明/矩阵路径记录为明确的 reference-only 边界。Cursor 反馈已对照，不宣称自动聊天发布、Makefile 集成、controls 脚手架或 close-gap 便利功能。 |
 | WI-329——参考源文件对比批次 08 的 CI 回归修复 | 已实现 | [Work Item](../work-items/WI-329-reference-file-comparison-batch-08-retry.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-329-reference-file-comparison-batch-08-retry.contract.json`; verification `.ai/evidence/WI-329-reference-file-comparison-batch-08-retry.verification.json`; finalization `.ai/decisions/WI-329-reference-file-comparison-batch-08-retry.finalize.json`; close `.ai/decisions/WI-329-reference-file-comparison-batch-08-retry.close.json`. |
-| WI-330——能力真相边界校准 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-330-capability-truth-boundary.zh-CN.md); 终态记录：archive `.ai/work-items/archive/WI-330-capability-truth-boundary.contract.json`; verification `.ai/evidence/WI-330-capability-truth-boundary.verification.json`; finalization `.ai/decisions/WI-330-capability-truth-boundary.finalize.json`; close `.ai/decisions/WI-330-capability-truth-boundary.close.json`. |
+| WI-330——能力真相边界校准 | 已实现 | [Work Item](../work-items/WI-330-capability-truth-boundary.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-330-capability-truth-boundary.contract.json`; verification `.ai/evidence/WI-330-capability-truth-boundary.verification.json`; finalization `.ai/decisions/WI-330-capability-truth-boundary.finalize.0c1ecf840859c3ce2fda21da34d25e8e742386d4d8de7674ade851d217dcdcdc.json`; close `.ai/decisions/WI-330-capability-truth-boundary.close.json`. |
 
 ## 当前边界
 

@@ -7,9 +7,13 @@ audience:
   - adopter
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-330-capability-truth-boundary
+terminalArchive: .ai/work-items/archive/WI-330-capability-truth-boundary.contract.json
+terminalVerification: .ai/evidence/WI-330-capability-truth-boundary.verification.json
+terminalFinalization: .ai/decisions/WI-330-capability-truth-boundary.finalize.0c1ecf840859c3ce2fda21da34d25e8e742386d4d8de7674ade851d217dcdcdc.json
+terminalDecision: .ai/decisions/WI-330-capability-truth-boundary.close.json
 capabilityClaims:
   - reference_parity
 ---
