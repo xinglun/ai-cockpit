@@ -7,9 +7,13 @@ audience:
   - adopter
   - maintainer
   - reviewer
-status: implementation
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-329-reference-file-comparison-batch-08-retry
+terminalArchive: .ai/work-items/archive/WI-329-reference-file-comparison-batch-08-retry.contract.json
+terminalVerification: .ai/evidence/WI-329-reference-file-comparison-batch-08-retry.verification.json
+terminalFinalization: .ai/decisions/WI-329-reference-file-comparison-batch-08-retry.finalize.json
+terminalDecision: .ai/decisions/WI-329-reference-file-comparison-batch-08-retry.close.json
 ---
 
 # WI-329 — reference file comparison batch 08 CI regression repair
