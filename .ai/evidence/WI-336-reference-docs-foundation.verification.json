@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:fef0711edfdbd74d185a1c366c1ad0172c11e718c54cb952b551001d3bd5e49c",
-  "createdAt": "2026-08-27T18:23:12Z",
+  "contractDigest": "sha256:2b7367ad07f457acb1787d1bfcbb41b14ba317c4a99656e731fc3660aec41563",
+  "createdAt": "2026-08-27T18:30:46Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 280482,
-      "executionElapsedMs": 280293,
+      "elapsedMs": 286221,
+      "executionElapsedMs": 285952,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 280482,
-    "executionElapsedMs": 280293,
-    "filesHashed": 17,
-    "filesRead": 17,
+    "elapsedMs": 286221,
+    "executionElapsedMs": 285952,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,14 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/reference/reference-parity.ja.md",
-        "docs/reference/reference-parity.md",
-        "docs/reference/reference-parity.zh-CN.md",
-        "docs/work-items/WI-336-reference-docs-foundation.ja.md",
-        "docs/work-items/WI-336-reference-docs-foundation.md",
-        "docs/work-items/WI-336-reference-docs-foundation.zh-CN.md"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "b9efcd6847560eac9056c96f0229617a253ddab9",
       "dependencyConfidence": "unknown",
@@ -51,13 +44,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 280293,
+      "executionElapsedMs": 285952,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:b62dc107918a517f8dd7d0cc9770e8f29f55efa93188332f715ad82ec14384c7",
+      "repositorySnapshotDigest": "sha256:aa0f32dd4f02846629dca98b9ee335d1ecedebf899ebbc9ab97ce1c326553682",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -99,9 +92,9 @@
     "runtimeVersion": "0.2.33",
     "workItemId": "WI-336-reference-docs-foundation"
   },
-  "receiptDigest": "sha256:c422a835fdbb6b6021fe61df644f5fb96c2e04f05b953eacbfa9914ef5ab918d",
+  "receiptDigest": "sha256:10a433a0d0eb60f6341e016e06ca0ce96b007948d9fd9d9120864f078eb4d780",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:b62dc107918a517f8dd7d0cc9770e8f29f55efa93188332f715ad82ec14384c7",
+  "repositorySnapshotDigest": "sha256:aa0f32dd4f02846629dca98b9ee335d1ecedebf899ebbc9ab97ce1c326553682",
   "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
   "runtimeVersion": "0.2.33",
   "workItemId": "WI-336-reference-docs-foundation"

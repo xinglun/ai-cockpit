@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "current-main-work-item-revalidation",
+  "decidedAt": "2026-08-27T18:20:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-336-reference-docs-foundation.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:2b7367ad07f457acb1787d1bfcbb41b14ba317c4a99656e731fc3660aec41563",
+  "predecessorEventsDigest": "sha256:19b47d28fc6aeb5eb912a3cd76f609daefff472e97816b115d9da37ddf7309d5",
+  "predecessorOutcomeDigest": "sha256:492d24b989e85ba9e7a9f1665019d9fef3cc2c5824809f4dd345493e1be55746",
+  "predecessorSummaryDigest": "sha256:7b59cdc5862d1d66dfa51e01d50954a323cea1b6bc5d1b21e9853fd6b4c74671",
+  "predecessorWorkItemId": "WI-336-reference-docs-foundation",
+  "reason": "Retry after binding the reviewed GitHub PR context; the finalization plan changed the Contract binding and requires fresh verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification after the finalization plan, then finish and archive the current Contract.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-336-reference-docs-foundation"
+}

@@ -7,17 +7,17 @@
     "Inventory documentation parity and workspace verification commands pass."
   ],
   "authority": "authorized",
+  "baseRevision": "b9efcd6847560eac9056c96f0229617a253ddab9",
   "checkpointPolicy": {
-    "schemaVersion": 1,
     "profile": "standard",
     "requiredBeforeFinish": true,
+    "requiredChecks": [],
     "requiredStages": [
       "before_edit",
       "before_finish"
     ],
-    "requiredChecks": []
+    "schemaVersion": 1
   },
-  "baseRevision": "b9efcd6847560eac9056c96f0229617a253ddab9",
   "createdAt": "2026-08-27T17:29:33Z",
   "goal": "Complete the first bounded file-by-file semantic comparison batch for reference governance documentation without copying V1 runtime implementation.",
   "intent": "Establish an auditable Rust-native mapping for the first five deferred reference documentation files so the remaining comparison ledger converges without claiming unsupported parity.",
@@ -45,11 +45,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-336-reference-docs-foundation",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/300",
     "worktree": "/private/tmp/ai-cockpit-wi336-reference-docs-foundation"
   },
   "risk": "normal",
