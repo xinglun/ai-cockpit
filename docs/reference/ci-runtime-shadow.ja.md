@@ -21,6 +21,13 @@ path/digest、manifest byte digest、選択理由、順序付き gate ID を bin
 `run_repository_gates.py` は repository facts から receipt を再計算し、canonical
 manifest に保存された command だけを実行します。任意 command override はありません。
 
+Runtime shadow は Contract に bind されます。`standard` または `strict` の pull request
+は、initial route が active Contract を一つ解決した場合だけ shadow を実行して upload
+します。finish/archive 後で active Contract がない PR は通常の repository gate を実行
+しますが、現在の Contract なしでは immutable Runtime が Work Item verification evidence
+を生成できないため、この execution-only shadow は skip します。これは明示的な skip で
+あり、選択された repository gate を弱めたり、missing evidence を pass にしたりしません。
+
 profile は累積です。`light` は docs と governance-policy regression、`standard` は
 Cargo fmt/Clippy/package gates、immutable Runtime shadow、source conformance を追加し、
 `strict` は release、workflow、performance、adopter、source-archive gates を追加します。

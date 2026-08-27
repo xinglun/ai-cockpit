@@ -69,11 +69,11 @@ jobs:
           echo "stage=$stage" >> "$GITHUB_OUTPUT"
           echo "contract_path=${contracts[0]:-}" >> "$GITHUB_OUTPUT"
       - name: verify immutable Runtime shadow
-        if: steps.initial_quality_route.outputs.profile != 'light'
+        if: steps.initial_quality_route.outputs.profile != 'light' && steps.initial_quality_route.outputs.contract_path != ''
         shell: bash
         run: bash tests/ci/runtime_verify_shadow.sh "$GITHUB_WORKSPACE" target/ci-runtime-verify-shadow.json
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
-        if: steps.initial_quality_route.outputs.profile != 'light'
+        if: steps.initial_quality_route.outputs.profile != 'light' && steps.initial_quality_route.outputs.contract_path != ''
         with:
           name: ci-runtime-verify-shadow
           path: target/ci-runtime-verify-shadow.json
