@@ -1,0 +1,62 @@
+{
+  "acceptanceCriteria": [
+    "WI-313 remains immutable historical failed-delivery truth and is explicitly recovered only through the Runtime-generated successor decision bound to this Work Item.",
+    "The governance integrity gate has a regression proving an orphaned retry with no successor cannot be treated as terminal success, while the explicit successor recovery is accepted without weakening normal close requirements.",
+    "English, Simplified Chinese, and Japanese Work Item/parity documentation identifies WI-313 as recovered and explains the failed unmerged PR boundary without claiming that its implementation was merged.",
+    "No predecessor Contract, Summary, Outcome, Events, archive, verification, retry receipt, branch, or PR bytes are rewritten, and no global Agent/MCP configuration is changed.",
+    "Focused static gates, documentation acceptance, locked workspace tests, and hosted CI pass from the latest remote default branch."
+  ],
+  "authority": "authorized",
+  "baseRevision": "881c71ad8cbfa5e9630f26d75d45738648f84bf0",
+  "createdAt": "2026-08-27T06:14:31Z",
+  "goal": "Record an explicit successor-owned boundary for the immutable WI-313 failed delivery so the governance gate cannot leave an orphaned retry history or silently treat it as completed.",
+  "intent": "Resolve the post-merge quality failure caused by WI-313 unmerged PR #277 and retry-only recovery history. Preserve all historical bytes, bind WI-313 to an explicit successor, and make the static gate regression prevent recurrence.",
+  "mode": "code",
+  "outOfScope": [
+    "Any rewrite or deletion of WI-313 or WI-314/WI-315 historical bytes",
+    "Changes to Rust Runtime lifecycle semantics or provider APIs",
+    "Release/adopter acceptance scheduler/parallelism/performance unrelated CI policy",
+    "Automatic branch/worktree deletion global Agent or MCP configuration and reference-source/V1 code copying"
+  ],
+  "predecessorContractDigest": "sha256:e780807535f2736885aab99243cef936fd60346a2aa35f4ce6eb189945f841f7",
+  "predecessorWorkItemId": "WI-313-post-close-finalization-reconciliation",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-313-post-close-finalization-reconciliation.recovery.89f886c2520e7078035e984d67a3f4f42100b74cdaac4993f405e7dc213bf7b1.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b506dfb164dbed029de6c46ad48a16c37320c84fd18d7ec31dbc979b9d92e7c2",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-321-explicit-failed-delivery",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi321-explicit-failed-delivery"
+  },
+  "risk": "low",
+  "scope": [
+    "tests/ci/governance_integrity_gate_test.sh",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-313-post-close-finalization-reconciliation.md",
+    "docs/work-items/WI-313-post-close-finalization-reconciliation.zh-CN.md",
+    "docs/work-items/WI-313-post-close-finalization-reconciliation.ja.md",
+    "docs/work-items/WI-321-explicit-failed-delivery.md",
+    "docs/work-items/WI-321-explicit-failed-delivery.zh-CN.md",
+    "docs/work-items/WI-321-explicit-failed-delivery.ja.md"
+  ],
+  "sources": [
+    "tests/ci/governance_integrity_gate.py",
+    "docs/reference/agent-workflow.md",
+    "AGENTS.md",
+    ".ai/decisions/WI-313-post-close-finalization-reconciliation.recovery.89f886c2520e7078035e984d67a3f4f42100b74cdaac4993f405e7dc213bf7b1.json",
+    "https://github.com/xinglun/ai-cockpit/pull/277"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-321-explicit-failed-delivery"
+}

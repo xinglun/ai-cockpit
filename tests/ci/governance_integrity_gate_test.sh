@@ -117,6 +117,85 @@ run_case retained-premerge-finalize 1 invalid_premerge_finalize
 run_case foreign-premerge-finalize 1 invalid_premerge_finalize
 run_case spoofed-base-premerge-finalize 1 invalid_premerge_finalize
 
+# An immutable retry is not a terminal decision.  Without a successor (or a
+# normal finalize/close chain), the gate must keep the predecessor open and
+# fail closed rather than treating the retry receipt as a completed delivery.
+build_fixture "$fixtures/valid.json" "$tmp/orphaned-retry"
+python3 - "$tmp/orphaned-retry" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = "WI-900-release-v9-9-9"
+decisions = root / ".ai/decisions"
+(decisions / f"{work_item}.close.json").unlink()
+project = json.loads((root / ".ai/project.json").read_text(encoding="utf-8"))
+(decisions / f"{work_item}.recovery.json").write_text(
+    json.dumps(
+        {
+            "schemaVersion": 1,
+            "workItemId": work_item,
+            "predecessorWorkItemId": work_item,
+            "successorWorkItemId": None,
+            "decision": "retry",
+            "repositoryId": project["repositoryId"],
+            "predecessorContractDigest": "sha256:" + "c" * 64,
+            "predecessorSummaryDigest": "sha256:" + "d" * 64,
+            "predecessorOutcomeDigest": "sha256:" + "e" * 64,
+            "reason": "Preserve an immutable failed delivery while awaiting an explicit successor.",
+            "evidenceRefs": [f".ai/evidence/{work_item}.verification.json"],
+        },
+        indent=2,
+    )
+    + "\n",
+    encoding="utf-8",
+)
+for name in ("reference-parity.md", "reference-parity.zh-CN.md", "reference-parity.ja.md"):
+    path = root / "docs/reference" / name
+    text = path.read_text(encoding="utf-8")
+    text = text.replace(
+        f"`.ai/decisions/{work_item}.close.json`",
+        f"`.ai/decisions/{work_item}.recovery.json`",
+    )
+    path.write_text(text, encoding="utf-8")
+PY
+set +e
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$tmp/orphaned-retry" \
+  --report "$tmp/orphaned-retry-report.json" >/dev/null
+orphaned_retry_code=$?
+set -e
+[[ "$orphaned_retry_code" -eq 1 ]] || {
+  printf 'orphaned retry: expected exit 1, got %s\n' "$orphaned_retry_code" >&2
+  exit 1
+}
+python3 - "$tmp/orphaned-retry-report.json" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+findings = report["findings"]
+assert any(
+    finding["workItemId"] == "WI-900-release-v9-9-9"
+    and finding["code"] == "missing_terminal_decision"
+    for finding in findings
+), findings
+item = next(
+    item
+    for item in report["inventory"]
+    if item["workItemId"] == "WI-900-release-v9-9-9"
+)
+assert item["lifecycleState"] == "closure_missing", item
+assert not any(
+    finding["workItemId"] == "WI-900-release-v9-9-9"
+    and finding["code"] == "invalid_terminal_decision"
+    for finding in findings
+), findings
+PY
+printf 'governance orphaned-retry regression passed\n'
+
 # Runtime recovery is append-only. A canonical retry may coexist with a
 # digest-suffixed successor/supersession receipt; the latest valid terminal
 # recovery must be selected and bound into all parity rows.
