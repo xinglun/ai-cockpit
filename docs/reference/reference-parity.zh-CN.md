@@ -40,6 +40,7 @@ capabilityClaims:
 | Repository attach 和最小 scaffold | 已实现 | `attach` 创建 repository-owned Protocol scaffold，不在项目内安装 Runtime 副本。 |
 | 显式 Agent Discovery / Adapter 层 | 已实现 | Agent 安装是显式、可拥有、可回滚且 repository-local；生成的 guidance 继承 Contract-first/暂停/Summary/Outcome/closure 语义，Cursor 新安装使用 `.cursor/rules/ai-cockpit.mdc`，已管理的 legacy `.md` 保持可读。 |
 | Work Item 生命周期和治理决定 | 部分实现 | 核心生命周期和 human decision record 已存在；参考源更广的 status、cost、recovery projection 尚未统一为一个 adopter 接口。 |
+| 参考源专属的跨 Work Item 聚合、Dependabot 接入和过时资产 registry | 外部边界 | 源聚合报告、bot 分支接入和面向当前内容的删除扫描属于源/provider 工具。Rust 保留每个 Work Item 的 archive/Outcome 权威、通用 delegated evidence 和精确审查清理，不提供这些命令，也不把其文件当作 Runtime authority。 |
 | 资源收尾与准确的 branch/worktree 关闭 | 已实现 | Runtime 提供 `finalize-plan`、`finalize`、`finalize-verify`；严格 typed receipt 绑定 repository、Work Item、Contract、PR、branch、worktree 和 Runtime identity。缺失/unknown 清理会 fail-closed，Runtime 升级后的归档证据明确作为历史事实投影。 |
 | Task Outcome 与 Human Benefit 报告 | 部分实现 | WI-136 增加 Rust-native 严格报告投影、追加事件流、archive 绑定和 close final report；完整 recovery/event 重建仍不在本边界。证据：`.ai/evidence/WI-136-task-outcome-report.verification.json`。 |
 | 归档 Outcome 路径投影 | 已实现 | WI-148 在绑定 manifest 前将新归档生成的报告引用和 `changedPaths` 从 active 投影到 archive；历史 archive bytes 保持不可变。 |
@@ -263,6 +264,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-333——理解验证协议与参与者记录 | 已实现 | [Work Item](../work-items/WI-333-comprehension-validation.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-333-comprehension-validation.contract.json`; verification `.ai/evidence/WI-333-comprehension-validation.verification.json`; finalization `.ai/decisions/WI-333-comprehension-validation.finalize.c6e13e0df12bdce915174643c5ca06ca89b004152f1ca4632cbdd580713b0fa5.json`; close `.ai/decisions/WI-333-comprehension-validation.close.json`. |
 | WI-334——Evidence Binding 与 reuse 基础 | 已恢复 | [Work Item](../work-items/WI-334-evidence-binding-reuse.zh-CN.md)；不可变 archive `.ai/work-items/archive/WI-334-evidence-binding-reuse.archive.json` 与 evidence `.ai/evidence/WI-334-evidence-binding-reuse.verification.json` 保持不变；`.ai/decisions/WI-334-evidence-binding-reuse.recovery.json` 已记录 successor recovery，并由 WI-335 继续。 |
 | WI-335——Provider finalization 修正 | 已实现 | [Work Item](../work-items/WI-335-provider-finalization-correction.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-335-provider-finalization-correction.contract.json`; verification `.ai/evidence/WI-335-provider-finalization-correction.verification.json`; finalization `.ai/decisions/WI-335-provider-finalization-correction.finalize.ba4e6148c90ef176ea251397fe70c446779d1a7612d9442fd87db79dc4dee90e.json`; close `.ai/decisions/WI-335-provider-finalization-correction.close.json`. |
+| WI-336——前五个治理文档路径 | 已实现 | [Work Item](../work-items/WI-336-reference-docs-foundation.zh-CN.md)；终态 evidence 绑定五个固定源路径的分类和三语台账：archive `.ai/work-items/archive/WI-336-reference-docs-foundation.contract.json`；verification `.ai/evidence/WI-336-reference-docs-foundation.verification.json`；finalization 与 close receipt 在 reviewed merge 后补齐。 |
 
 ## 当前边界
 

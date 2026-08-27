@@ -103,11 +103,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=231 implemented-equivalent=1 not-applicable=3 reference-only=25 deferred-next-batch=597 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=232 implemented-equivalent=1 not-applicable=4 reference-only=28 deferred-next-batch=592 migrate-gap=0 -->
 
 在固定的 v0.2.33 比较基线上，台账共有 5,119 条记录：4,262 条
-`generated-history`、231 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、3 条 `not-applicable`、25 条 `reference-only` 与 597 条
+`generated-history`、232 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、4 条 `not-applicable`、28 条 `reference-only` 与 592 条
 `deferred-next-batch`。deferred 记录仍是待比较工作，不是 parity 声明。
 capability/profile slice 已没有 `migrate-gap`：
 
@@ -118,7 +118,7 @@ capability/profile slice 已没有 `migrate-gap`：
 4. `.ai/project_profile.yaml` 由 `.ai/project.json` 与严格 JSON `profile-policy.json` projection 表达。
 
 治理入口、getting-started 路线、CI/release 边界与 capability/profile projection 已按该基线审阅；
-以上四条是有界的 Rust-native counterpart，597 条 deferred 语义比较仍是后续工作。
+以上四条是有界的 Rust-native counterpart，592 条 deferred 语义比较仍是后续工作。
 
 WI-274 只将目标 checkout metadata 和 canonical comparison snapshot 重新绑定到已审阅的
 默认分支提交。WI-273 保持为不可变的失败交付记录：其首次提交无法证明 parity 登记先于
@@ -504,3 +504,20 @@ command、toolchain、policy、profile、Runtime、stage 和 runner identity 组
 本批建立的是语义责任对齐，不是源 wire 对齐。Reuse 只是优化/证据观察：只有精确 fresh binding
 可以被考虑，治理、coverage、安全和 required-check gate 仍由调用方负责。Inventory、三语 ledger
 和 WI-334 evidence 绑定这一决定；不引入源 participant、Python、Make 或 V1 artifact。
+
+## WI-336：前五个治理文档路径
+
+WI-336 在固定参考提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 上逐个阅读下面五个路径。
+结果区分可继承的治理责任、参考源专属报告、provider 自动化和历史清理工具。
+
+| 固定源路径 | 分类 | Rust 对应物 / 有界决定 |
+| --- | --- | --- |
+| `docs/reference/cross-wi-integration.md` | reference-only | `docs/reference/reference-parity.md`、`docs/reference/outcome-report.md` 与每个 Work Item 的 archive 校验提供目标审计边界。源 WI-04..WI-13 聚合报告及不可观察的 conversation receipt 不是 Runtime 命令。 |
+| `docs/reference/dependabot-intake.md` | not-applicable | Dependabot bot 分支接入是 provider 专属能力。通用 delegated provider evidence 和显式 Work Item source binding 在 `docs/reference/ci-release-evidence.md` 中描述，但不构成 Dependabot 授权路径。 |
+| `docs/reference/deprecated-assets-registry.json` | reference-only | `.ai/README.md`、`docs/reference/agent-workflow.md` 和精确 resource finalization 保留显式审查清理与不可变历史边界；不提供源 registry 或 Make 扫描。 |
+| `docs/reference/deprecated-assets.md` | reference-only | 过时命令链和 registry hygiene 的说明属于源文档。Rust 使用显式 `--repo`、Runtime lifecycle、不可变 archive 和 resource finalization，不声称存在 `check-deprecated-assets`。 |
+| `docs/reference/derived-artifacts.md` | implemented-different-by-design | `docs/reference/outcome-report.md`、`docs/reference/verification-semantics.md`、`.ai/README.md` 和 typed Runtime projection 将 Contract/evidence/archive 事实与 status/Outcome 视图分开；不需要也不读取源 Python registry 作为 authority。 |
+
+本批是语义责任比较，不是源命令或 wire 兼容性。Rust 不复制参考源 Python、Make target、
+Dependabot workflow、删除 registry 或生成历史。每个 Work Item 的 archive 与面向人的 Outcome
+仍是权威来源；derived view 不能授权后续决定。其余台账记录继续明确保持 deferred。

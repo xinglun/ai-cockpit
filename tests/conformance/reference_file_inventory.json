@@ -31247,37 +31247,58 @@
     {
       "referencePath": "docs/reference/cross-wi-integration.md",
       "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/outcome-report.md",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "The source is an advisory aggregate report over that repository's historical WI-04..WI-13 bundles and its conversation UI receipt is not observable. Rust keeps each Work Item's immutable archive and human Outcome authoritative; no source-specific cross-WI report command is shipped or claimed."
     },
     {
       "referencePath": "docs/reference/dependabot-intake.md",
       "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "classification": "not-applicable",
+      "rustCounterparts": [
+        "docs/reference/ci-release-evidence.md",
+        "docs/security/enterprise-governance.md",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "Dependabot bot-branch intake is provider-specific automation outside the Runtime product boundary. Rust accepts explicitly bound external provider evidence and fresh Work Item source context, but does not own or authorize a Dependabot branch."
     },
     {
       "referencePath": "docs/reference/deprecated-assets-registry.json",
       "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "classification": "reference-only",
+      "rustCounterparts": [
+        ".ai/README.md",
+        "docs/reference/agent-workflow.md",
+        "docs/reference/reference-file-comparison.md"
+      ],
+      "reason": "The registry is a source-specific current-facing command-chain scan and deletion-candidate list. Rust preserves immutable history and requires an explicit reviewed Work Item for cleanup, but has no equivalent registry or source Make command."
     },
     {
       "referencePath": "docs/reference/deprecated-assets.md",
       "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "classification": "reference-only",
+      "rustCounterparts": [
+        ".ai/README.md",
+        "docs/reference/agent-workflow.md",
+        "docs/reference/verification-semantics.md"
+      ],
+      "reason": "The explanatory registry hygiene and obsolete Make-chain guard remain reference guidance. Rust's explicit --repo lifecycle, immutable archive boundary, and exact resource finalization provide the adopted safety rule without claiming the source scan or deletion command."
     },
     {
       "referencePath": "docs/reference/derived-artifacts.md",
       "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/outcome-report.md",
+        "docs/reference/verification-semantics.md",
+        ".ai/README.md",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "The fact-versus-view authority boundary is enforced by typed Runtime Contract, evidence, archive, status, and Outcome projections. Rust deliberately has no source registry file or Python generator; derived views are never read back as governance facts."
     },
     {
       "referencePath": "docs/reference/diff-bound-evidence-reuse.md",
