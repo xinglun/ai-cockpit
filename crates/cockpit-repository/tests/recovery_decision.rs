@@ -1,10 +1,13 @@
 use cockpit_core::Digest;
-use cockpit_protocol::{HumanDecision, OutcomeState, RuntimeContext};
+use cockpit_protocol::{HumanDecision, OutcomeState, ResourceFinalizationContext, RuntimeContext};
 use cockpit_repository::{
-    WorkItemStartOptions, archive_work_item, archive_work_item_with_runtime, attach,
-    checkpoint_work_item, close_work_item_with_structured_decision, outcome_v2,
-    outcome_v2_with_runtime, preflight_work_item, record_recovery_decision, render_human_outcome,
-    repository_id, start_work_item_with_options,
+    RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
+    archive_work_item, archive_work_item_with_runtime, attach, checkpoint_work_item,
+    close_work_item_with_structured_decision, close_work_item_with_structured_decision_and_runtime,
+    finish_work_item, outcome_v2, outcome_v2_with_runtime, plan_resource_finalization,
+    preflight_work_item, record_recovery_decision, record_verification_with_runtime,
+    render_human_outcome, repository_id, revalidate_contract_amendment,
+    run_repository_verification, start_work_item_with_options,
 };
 use serde_json::json;
 use std::fs;
@@ -106,6 +109,124 @@ fn current_runtime() -> RuntimeContext {
         protocol_version: 1,
         runtime_digest: Digest::sha256_bytes(b"runtime-0.2.31"),
     }
+}
+
+fn ready_archived_repository() -> tempfile::TempDir {
+    let directory = tempfile::tempdir().expect("tempdir");
+    assert!(
+        Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(directory.path())
+            .status()
+            .expect("git init")
+            .success()
+    );
+    attach(directory.path()).expect("attach");
+    let id = "WI-ARCHIVED-RECOVERY";
+    start_work_item_with_options(
+        directory.path(),
+        id,
+        "recover an archived item",
+        "preserve immutable archive truth",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["archive remains immutable".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start");
+    plan_resource_finalization(
+        directory.path(),
+        id,
+        &ResourceFinalizationContext {
+            branch: "feature/archived-recovery".into(),
+            worktree: directory.path().display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: "https://github.com/example/ai-cockpit/pull/340".into(),
+        },
+    )
+    .expect("finalization plan");
+    let contract = directory
+        .path()
+        .join(format!(".ai/work-items/active/{id}.contract.json"));
+    preflight_work_item(directory.path(), &contract).expect("preflight");
+    checkpoint_work_item(directory.path(), id).expect("checkpoint");
+    let runtime = RuntimeContext {
+        runtime_version: "0.2.33".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"archived-recovery-runtime"),
+    };
+    let run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "archived-recovery-check".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src/**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("verify");
+    let raw = serde_json::to_value(&run.receipt).expect("receipt JSON");
+    record_verification_with_runtime(directory.path(), id, &raw, &runtime, &run.final_snapshot)
+        .expect("verification");
+    finish_work_item(directory.path(), id).expect("finish");
+    archive_work_item(directory.path(), id).expect("archive");
+    directory
+}
+
+fn archived_recovery_receipt(
+    directory: &tempfile::TempDir,
+    decision: &str,
+    successor: Option<&str>,
+    runtime: &RuntimeContext,
+) -> serde_json::Value {
+    let root = directory.path();
+    let id = "WI-ARCHIVED-RECOVERY";
+    let archive = root.join(".ai/work-items/archive");
+    let contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(archive.join(format!("{id}.contract.json"))).unwrap())
+            .unwrap();
+    let summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(archive.join(format!("{id}.summary.json"))).unwrap())
+            .unwrap();
+    let outcome: serde_json::Value =
+        serde_json::from_slice(&fs::read(archive.join(format!("{id}.outcome.json"))).unwrap())
+            .unwrap();
+    let events_path = archive.join(format!("{id}.events.jsonl"));
+    let mut receipt = json!({
+        "schemaVersion": 1,
+        "decisionId": "work-item-recovery",
+        "decision": decision,
+        "workItemId": id,
+        "repositoryId": repository_id(root),
+        "predecessorWorkItemId": id,
+        "predecessorContractDigest": cockpit_protocol::digest_json(&contract).unwrap(),
+        "predecessorSummaryDigest": cockpit_protocol::digest_json(&summary).unwrap(),
+        "predecessorOutcomeDigest": cockpit_protocol::digest_json(&outcome).unwrap(),
+        "predecessorEventsDigest": Digest::sha256_bytes(&fs::read(events_path).unwrap()),
+        "runtimeVersion": runtime.runtime_version,
+        "runtimeDigest": runtime.runtime_digest,
+        "actor": "human:owner",
+        "authoritySource": "repository-owner",
+        "reason": "recover archived predecessor after immutable base mismatch",
+        "evidenceRefs": [format!(".ai/work-items/archive/{id}.outcome.json")],
+        "policyRefs": ["docs/reference/agent-workflow.md"],
+        "decidedAt": "2026-08-28T00:00:00Z",
+        "resumeCondition": "continue on the successor Work Item"
+    });
+    if let Some(successor) = successor {
+        receipt["successorWorkItemId"] = json!(successor);
+    }
+    receipt
 }
 
 fn write_forged_supersede(
@@ -775,6 +896,157 @@ fn superseded_predecessor_preserves_bytes_and_closes_without_current_verificatio
         !current_runtime_outcome
             .unknowns
             .contains(&"recovery_decision_invalid".into())
+    );
+}
+
+#[test]
+fn archived_pending_finalization_requires_explicit_supersede_recovery_before_close() {
+    let directory = ready_archived_repository();
+    let id = "WI-ARCHIVED-RECOVERY";
+    let runtime = RuntimeContext {
+        runtime_version: "0.2.33".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"archived-recovery-runtime"),
+    };
+
+    let before = outcome_v2_with_runtime(directory.path(), id, &runtime).expect("outcome");
+    assert_ne!(
+        before.state,
+        OutcomeState::Verified,
+        "archived work with a resource context but no finalization receipt must not be green"
+    );
+    assert_ne!(
+        before.decision_state,
+        Some(cockpit_core::DecisionState::Green),
+        "pending finalization must remain visibly non-green"
+    );
+    assert!(
+        before
+            .unknowns
+            .contains(&"resource_finalization_pending".into())
+    );
+    assert!(
+        render_human_outcome(directory.path(), &before, "zh").starts_with("Outcome: 🟡"),
+        "pending finalization must be visible to a human"
+    );
+
+    let predecessor_contract = fs::read(
+        directory
+            .path()
+            .join(format!(".ai/work-items/archive/{id}.contract.json")),
+    )
+    .unwrap();
+    let successor =
+        archived_recovery_receipt(&directory, "successor", Some("WI-ARCHIVED-NEXT"), &runtime);
+    record_recovery_decision(directory.path(), id, &successor, &runtime)
+        .expect("successor recovery decision");
+    let mut supersede =
+        archived_recovery_receipt(&directory, "supersede", Some("WI-ARCHIVED-NEXT"), &runtime);
+    supersede["decidedAt"] = json!("2026-08-28T00:01:00Z");
+    record_recovery_decision(directory.path(), id, &supersede, &runtime)
+        .expect("supersede recovery decision");
+
+    let close = close_work_item_with_structured_decision_and_runtime(
+        directory.path(),
+        id,
+        &HumanDecision {
+            decision: "approved".into(),
+            actor: "human:owner".into(),
+            authority_source: "repository-owner".into(),
+            reason: "close the immutable predecessor after explicit supersede recovery".into(),
+            evidence_refs: vec![format!(".ai/decisions/{id}.recovery.json")],
+            policy_refs: vec!["docs/reference/agent-workflow.md".into()],
+            decided_at: "2026-08-28T00:01:00Z".into(),
+            resume_condition: Some("continue on WI-ARCHIVED-NEXT".into()),
+        },
+        &runtime,
+    );
+    assert!(
+        close.is_ok(),
+        "valid supersede recovery should permit close: {close:?}"
+    );
+    assert_eq!(
+        fs::read(
+            directory
+                .path()
+                .join(format!(".ai/work-items/archive/{id}.contract.json")),
+        )
+        .unwrap(),
+        predecessor_contract,
+        "recovery must not rewrite predecessor archive bytes"
+    );
+}
+
+#[test]
+fn invalid_archived_recovery_cannot_bypass_finalization_gate() {
+    let directory = ready_archived_repository();
+    let id = "WI-ARCHIVED-RECOVERY";
+    let runtime = RuntimeContext {
+        runtime_version: "0.2.33".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"archived-recovery-runtime"),
+    };
+    fs::write(
+        directory
+            .path()
+            .join(format!(".ai/decisions/{id}.recovery.json")),
+        b"{not-json",
+    )
+    .unwrap();
+    let close = close_work_item_with_structured_decision_and_runtime(
+        directory.path(),
+        id,
+        &HumanDecision {
+            decision: "approved".into(),
+            actor: "human:owner".into(),
+            authority_source: "repository-owner".into(),
+            reason: "invalid recovery must not bypass finalization".into(),
+            evidence_refs: Vec::new(),
+            policy_refs: Vec::new(),
+            decided_at: "2026-08-28T00:02:00Z".into(),
+            resume_condition: Some("repair recovery evidence".into()),
+        },
+        &runtime,
+    )
+    .expect_err("malformed archived recovery must fail closed");
+    assert!(close.to_string().contains("recovery_decision_invalid"));
+}
+
+#[test]
+fn contract_amendment_accepts_legacy_checkpoint_without_typed_evidence() {
+    let directory = repository();
+    let contract_path = directory
+        .path()
+        .join(".ai/work-items/active/WI-BLOCKED.contract.json");
+    let mut contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).unwrap()).unwrap();
+    contract["title"] = json!("amended after legacy checkpoint");
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&contract).unwrap(),
+    )
+    .unwrap();
+
+    let amendment = revalidate_contract_amendment(
+        directory.path(),
+        "WI-BLOCKED",
+        "bind recovery evidence scope after a legacy checkpoint",
+    )
+    .expect("legacy checkpoint should be upgraded during amendment");
+    assert_eq!(amendment["stage"], "contract_amendment_revalidation");
+    let summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(".ai/work-items/active/WI-BLOCKED.summary.json"),
+        )
+        .unwrap(),
+    )
+    .unwrap();
+    assert!(
+        summary["checkpointEvidence"]
+            .as_array()
+            .is_some_and(|entries| { entries.iter().any(|entry| entry["stage"] == "before_edit") })
     );
 }
 

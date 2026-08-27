@@ -1,0 +1,55 @@
+{
+  "acceptanceCriteria": [
+    "有效 supersede recovery decision 可在不改写前驱 archive bytes 的情况下使其通过明确的 close 流程",
+    "无 supersede 或无效/恶意 supersede decision 不能绕过 finalization 与 evidence 校验",
+    "有 resourceContext 但缺少有效 finalization 的普通 archived Work Item，Outcome 不得返回 Verified 或 🟢",
+    "已正常 finalization 的 Work Item 保持现有绿色路径",
+    "新增回归测试覆盖 archived recovery、pending finalization、invalid decision 与既有 finalized 路径",
+    "三语文档说明 recovery 与 Outcome 的边界，且不修改历史 archive bytes"
+  ],
+  "authority": "authorized",
+  "baseRevision": "823b2646a4e179ac49689e80ab0edfe313ee3e48",
+  "createdAt": "2026-08-27T20:12:17Z",
+  "goal": "在不改写既有归档字节的前提下，允许绑定有效 supersede recovery decision 的前驱 Work Item 完成可审计关闭，并让 pending finalization 明确呈现为非绿色状态",
+  "intent": "修复已归档 Work Item 的合法 supersede 恢复路径，并确保未完成 finalization 的普通归档 Work Item 不会被 Outcome 误报为成功",
+  "mode": "implementation",
+  "outOfScope": [
+    "协议枚举重设计、Provider API 集成、全量参考源迁移、Runtime 架构拆分、CI/release/adopter 流程、全局 Agent/MCP 配置"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:feb85b7c0a2720855b8c260bb4983972ce14fbc396cb306aa79905fb37233186",
+  "requiredEvidenceClasses": [
+    "verification",
+    "tests"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-340-finalization-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/301",
+    "worktree": "/private/tmp/ai-cockpit-wi340-finalization-recovery"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/**",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/outcome-report.md",
+    "docs/reference/outcome-report.zh-CN.md",
+    "docs/reference/outcome-report.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    ".ai/work-items/**",
+    ".ai/decisions/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-340-finalization-recovery"
+}

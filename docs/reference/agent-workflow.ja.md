@@ -56,6 +56,7 @@ capabilityClaims:
   malformed、symlink の receipt は停止したままです。
 - review receipt は append-only です。Contract または repository snapshot が変わった場合、新しい receipt は digest suffix の decision path に保存され、以前の receipt は historical evidence として残り上書きされません。`work-item recover` は predecessor の Contract/Summary/Outcome/event digest と current Runtime に bind した strict な `retry`、`successor`、または `supersede` decision を記録します。`supersede` には bind 済み successor が必要で、predecessor を明示的な履歴終端状態として archive し、元の bytes を保持します。これは verification を自動で green にせず、predecessor を書き換えません。superseded は現在の成功・失敗ではなく、後続処理は successor が担います。
 - Recovery receipt は append-only chain です。canonical `<id>.recovery.json` が先行する retry の場合、CI は有効な digest-suffixed `<id>.recovery.<digest>.json` successor/supersession receipt を解決し、選択した path を各 parity projection に bind します。candidate が invalid または ambiguous なら fail-closed のままとし、gate は retry を terminal successor として扱いません。新しい検証後に retry の predecessor Contract、Summary、Outcome、Events digest が archive の記録と一致しなくなった場合、CI はその retry を消費済みの履歴 evidence として扱い、実際の finalization decision へ進みます。binding が一致し、Summary に blocked が明示された retry は現在の recovery 境界として残ります。
+- manifest がまだ `archived` の Work Item でも、元の archive 後に有効な append-only `supersede` recovery decision を追加できます（provider の PR base と凍結された Contract base を一致させられない場合など）。Runtime は明示的な recovery 経路を通じて predecessor を close できますが、archive manifest やアーカイブ artifact bytes は書き換えません。resource context を持つ通常の archived Work Item に有効な provider finalization receipt がない場合、Outcome は yellow/not-ready のままです。無効な recovery candidate がこの finalization gate を回避することはありません。
 - 実装後にしか実行できない high-risk の必須 scenario は、Contract の `scenarioCoverage` で
   `unverified` のままにできますが、空でない `expected`（または `expectedResult`）と具体的な
   `verificationPlan` の両方が必要です。これは実装計画の evidence であり完了 evidence ではありません。
@@ -117,6 +118,9 @@ Contract amendment evidence を append し、`before_edit` を置換しません
 verification 開始後は既存 required check を無効化し、fresh preflight と
 verification を要求します。resume history と checkpoint timestamp も bind され、
 stale predecessor evidence は current Work Item を authorize できません。
+typed checkpoint evidence 導入前に作成された repository では、amendment が保存済みの
+legacy checkpoint identity fields から typed `before_edit` entry を決定的に昇格できます。
+これは intent、authority、verification を推測するものではありません。
 
 Checkpoint snapshot には時間的な意味があります。有効な `before_edit` または
 amendment entry はその認可境界の repository state を記録するため、認可された

@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-27T20:01:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-339-reference-docs-foundation-clean-retry.recovery.2e08ecabe021efd7fd639a0e0c0b69a36a4f20ee74d1435f8c8a9648b0eb5754.json",
+    ".ai/work-items/archive/WI-339-reference-docs-foundation-clean-retry.archive.json"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:2c11fe457fd25b43b79a8884bf662b06ade5ac3da653f94bf652b6c07e9b0ddf",
+  "predecessorEventsDigest": "sha256:8d4d481db7e603df8ae2e0cdc364711fe5af859fc03e377c1be51bad22497be7",
+  "predecessorOutcomeDigest": "sha256:a4dfa94a322a70f08e57478202066a0c13e25b0c227fe56be33e25d1ef65cfaa",
+  "predecessorSummaryDigest": "sha256:aab6c52ba0b938bd5980dc831c432c545b0b259081c1f73d3b7fbde9127ead58",
+  "predecessorWorkItemId": "WI-339-reference-docs-foundation-clean-retry",
+  "reason": "The predecessor is permanently blocked from truthful finalization because its immutable Contract baseRevision differs from the provider PR base. Mark it as historical superseded evidence without rewriting any archive bytes; WI-340 owns the Runtime recovery behavior.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "WI-340 must implement and verify the archived supersede projection before the predecessor is closed or its exact branch and Worktree are removed.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-340-finalization-recovery",
+  "workItemId": "WI-339-reference-docs-foundation-clean-retry"
+}

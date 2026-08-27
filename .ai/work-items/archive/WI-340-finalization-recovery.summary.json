@@ -1,0 +1,42 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-339-reference-docs-foundation-clean-retry.recovery.2e08ecabe021efd7fd639a0e0c0b69a36a4f20ee74d1435f8c8a9648b0eb5754.json",
+    ".ai/decisions/WI-339-reference-docs-foundation-clean-retry.recovery.797fb2b7a35fe9b71944193fe555517a9b35f229295ecae64a3179175b9f8f3f.json",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/outcome-report.ja.md",
+    "docs/reference/outcome-report.md",
+    "docs/reference/outcome-report.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md"
+  ],
+  "checkpointAt": "2026-08-27T20:12:22Z",
+  "checkpointContractDigest": "sha256:057d5c22e85189bf14e73b798f2c8944c22085a609e1f755c0abb1f0883bba1c",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:862a21d6806fcb24a63ee4fe13e7d0ae3b20d34f5b0858319093c5dd0e2a4d81",
+  "createdAt": "2026-08-27T20:12:17Z",
+  "failedGate": "finish.governance",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-27T20:18:37Z",
+  "preflightContractDigest": "sha256:057d5c22e85189bf14e73b798f2c8944c22085a609e1f755c0abb1f0883bba1c",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:862a21d6806fcb24a63ee4fe13e7d0ae3b20d34f5b0858319093c5dd0e2a4d81",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-27T20:18:37Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-340-finalization-recovery"
+}

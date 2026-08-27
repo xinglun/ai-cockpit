@@ -4218,6 +4218,60 @@ pub fn revalidate_contract_amendment(
     let summary_path = active.join(format!("{work_item_id}.summary.json"));
     let contract = read_contract(&contract_path)?;
     let mut summary = read_json(&summary_path)?;
+    // Contracts created before typed checkpoint evidence was introduced may
+    // still have the original checkpoint identity fields on Summary while
+    // `checkpointEvidence` is absent.  Upgrade that deterministic legacy
+    // record in-memory so an explicit amendment can proceed; the original
+    // Contract/Summary bytes remain bound by the generated before_edit hash.
+    if !summary
+        .get("checkpointEvidence")
+        .is_some_and(serde_json::Value::is_array)
+    {
+        let legacy_contract_hash = summary
+            .get("checkpointContractDigest")
+            .and_then(serde_json::Value::as_str)
+            .filter(|value| !value.trim().is_empty())
+            .ok_or_else(|| ObserverError::State {
+                path: summary_path.clone(),
+                message: "contract amendment requires a legacy checkpoint Contract digest".into(),
+            })?;
+        let legacy_snapshot_digest = summary
+            .get("checkpointRepositorySnapshotDigest")
+            .and_then(serde_json::Value::as_str)
+            .filter(|value| !value.trim().is_empty())
+            .ok_or_else(|| ObserverError::State {
+                path: summary_path.clone(),
+                message: "contract amendment requires a legacy checkpoint snapshot digest".into(),
+            })?;
+        let recorded_at = summary
+            .get("checkpointAt")
+            .and_then(serde_json::Value::as_str)
+            .filter(|value| !value.trim().is_empty())
+            .ok_or_else(|| ObserverError::State {
+                path: summary_path.clone(),
+                message: "contract amendment requires a legacy checkpoint timestamp".into(),
+            })?;
+        if summary["checkpointCount"] != serde_json::json!(1) {
+            return Err(ObserverError::State {
+                path: summary_path.clone(),
+                message: "contract amendment requires exactly one legacy checkpoint".into(),
+            });
+        }
+        summary["checkpointEvidence"] = serde_json::json!([{
+            "schemaVersion": 1,
+            "repositoryId": repository_id(&root),
+            "workItemId": work_item_id,
+            "stage": "before_edit",
+            "recorded": true,
+            "contractHash": legacy_contract_hash,
+            "repositorySnapshotDigest": legacy_snapshot_digest,
+            "acceptanceCount": contract.acceptance_criteria.len(),
+            "unknownCount": contract.unknowns.len(),
+            "requiredChecks": 0,
+            "requiredChecksPassed": 0,
+            "recordedAt": recorded_at,
+        }]);
+    }
     let evidence = summary
         .get("checkpointEvidence")
         .and_then(serde_json::Value::as_array)
@@ -10189,8 +10243,18 @@ fn close_work_item_with_structured_decision_internal(
         .join(format!("{work_item_id}.archive.json"));
     let manifest = read_json(&archive)?;
     verify_archive_manifest(&root, work_item_id, &manifest)?;
-    let superseded = manifest["state"] == serde_json::json!("superseded");
-    if superseded
+    // An archived predecessor may have a valid, append-only supersede
+    // recovery decision recorded after the original archive.  The recovery
+    // decision is the explicit authority for this transition; the immutable
+    // archive manifest remains `archived` and is never rewritten merely to
+    // make close succeed.
+    let manifest_superseded = manifest["state"] == serde_json::json!("superseded");
+    let recovery_decision = load_recovery_decision(&root, work_item_id, current_runtime)?;
+    let superseded = manifest_superseded
+        || recovery_decision
+            .as_ref()
+            .is_some_and(|decision| decision.decision == "supersede");
+    if manifest_superseded
         && (!manifest["historicalEvidence"].as_bool().unwrap_or(false)
             || manifest["supersededBy"].as_str().is_none())
     {
@@ -12364,6 +12428,22 @@ fn outcome_v2_internal(
             }
         }
     }
+    // A normal archived Work Item with a bound resource context is not a
+    // terminal success until its provider-side finalization receipt is
+    // present and valid.  Keep this as a yellow, actionable state rather
+    // than allowing the archived verification receipt alone to appear green.
+    // Superseded and historical records are handled by their explicit
+    // recovery/compatibility projections below.
+    let finalization_pending = archived
+        && !historical
+        && contract.resource_context.is_some()
+        && verify_resource_finalization_internal(&root, work_item_id, current_runtime).is_err();
+    if finalization_pending && state == OutcomeState::Verified {
+        state = OutcomeState::NotReady;
+        decision_state = DecisionState::Yellow;
+        summary = "Archived verification is valid, but provider finalization evidence is missing or invalid; outcome is not ready.";
+        evidence_unknown = Some("resource_finalization_pending");
+    }
     // A failed lifecycle gate is persisted as an active, repository-bound
     // blocked projection.  Prefer that projection over recomputing the
     // evidence-only view so a failed finish cannot be presented as merely
@@ -12652,7 +12732,17 @@ fn load_recovery_decision(
             &summary_path,
         ) {
             Ok(receipt) => receipt,
-            Err(_) if !strict => continue,
+            Err(error) if !strict => {
+                // Archived recovery records are historical inputs, but they
+                // are still repository-local evidence.  Do not silently
+                // ignore malformed, foreign, or tampered candidates: a
+                // caller must see the stable invalid-recovery boundary rather
+                // than falling through to a weaker finalization path.
+                if archived {
+                    return Err(error);
+                }
+                continue;
+            }
             Err(error) => {
                 // An append-only recovery chain may contain an older retry
                 // receipt whose predecessor bindings became stale after a

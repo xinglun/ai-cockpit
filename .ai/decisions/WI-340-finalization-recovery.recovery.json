@@ -1,0 +1,25 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-28T00:10:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-340-finalization-recovery.verification.json"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:49e7c98e9a3862c01f11dee7c72ac9cf35df664913d9b8327b4f6a2811ddd7f9",
+  "predecessorEventsDigest": "sha256:56602b080be6d94401554639f3fa302e2396d75d2e368174d6f556cf3dfb0d75",
+  "predecessorOutcomeDigest": "sha256:5845f9e868faeee0c5201428f05b6153b90b74f2e62174210b763883903b28dd",
+  "predecessorSummaryDigest": "sha256:f8f47444e4b7eb4ec507572621e10931e630e745de82abe9d034d5849d63b91d",
+  "predecessorWorkItemId": "WI-340-finalization-recovery",
+  "reason": "retry after finish correctly rejected missing provider finalization plan; create the reviewed PR before finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "create the reviewed PR, bind its exact finalization plan, then rerun preflight and verification",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-340-finalization-recovery"
+}

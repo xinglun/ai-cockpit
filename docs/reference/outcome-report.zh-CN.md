@@ -75,6 +75,11 @@ v2 envelope 的 `createdAt` 和 retention 的 `createdAt` 必须是 RFC3339 时�
 `historicalStatus: "superseded"` 并显示黄色历史标记。这表示原始 evidence
 被保留，未作为当前结果重新验证；它不是红色失败，也不是绿色授权。
 
+对于绑定 resource context 的普通 archived Work Item，如果 provider
+finalization receipt 缺失或无效，Outcome 会加入稳定 unknown
+`resource_finalization_pending`，不得显示为 green/verified。该 receipt
+属于独立的 provider-side 边界，不等同于 repository verification。
+
 CLI 直接输出优先使用 `AI_COCKPIT_LANGUAGE`，其次使用进程 locale。Agent 对话应
 使用用户当前语言。JSON 字段名和枚举值在不同语言之间保持稳定。
 
