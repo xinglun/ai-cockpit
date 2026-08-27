@@ -1,0 +1,25 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-28T00:20:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-340-finalization-recovery.verification.json"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:057d5c22e85189bf14e73b798f2c8944c22085a609e1f755c0abb1f0883bba1c",
+  "predecessorEventsDigest": "sha256:56602b080be6d94401554639f3fa302e2396d75d2e368174d6f556cf3dfb0d75",
+  "predecessorOutcomeDigest": "sha256:5845f9e868faeee0c5201428f05b6153b90b74f2e62174210b763883903b28dd",
+  "predecessorSummaryDigest": "sha256:566b637f1d606158e70724dc841d7e3b655ca4eb3b0084f73e624151d45dd9a0",
+  "predecessorWorkItemId": "WI-340-finalization-recovery",
+  "reason": "retry after finalize-plan refreshed the Contract binding and invalidated the prior verification snapshot",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "rerun preflight and verification against the bound PR context before finish",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-340-finalization-recovery"
+}

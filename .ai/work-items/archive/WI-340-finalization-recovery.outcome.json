@@ -7,14 +7,17 @@
     "新增回归测试覆盖 archived recovery、pending finalization、invalid decision 与既有 finalized 路径",
     "三语文档说明 recovery 与 Outcome 的边界，且不修改历史 archive bytes"
   ],
-  "decisionState": "red",
+  "createdAt": "2026-08-27T20:18:37Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:25bf121a3f38728f892fd60bebd3e089e4fd16544c4e6c1ef9c4360f23784165",
   "evidenceRefs": [
     ".ai/evidence/WI-340-finalization-recovery.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-340-finalization-recovery.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -22,115 +25,112 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-340-finalization-recovery.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:feb85b7c0a2720855b8c260bb4983972ce14fbc396cb306aa79905fb37233186",
+      "repositorySnapshotDigest": "sha256:862a21d6806fcb24a63ee4fe13e7d0ae3b20d34f5b0858319093c5dd0e2a4d81",
       "workItemId": "WI-340-finalization-recovery"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-340-finalization-recovery.summary.json"
+            ".ai/work-items/archive/WI-340-finalization-recovery.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-339-reference-docs-foundation-clean-retry.recovery.2e08ecabe021efd7fd639a0e0c0b69a36a4f20ee74d1435f8c8a9648b0eb5754.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-340-finalization-recovery.summary.json"
+            ".ai/work-items/archive/WI-340-finalization-recovery.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-339-reference-docs-foundation-clean-retry.recovery.797fb2b7a35fe9b71944193fe555517a9b35f229295ecae64a3179175b9f8f3f.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-340-finalization-recovery.summary.json"
+            ".ai/work-items/archive/WI-340-finalization-recovery.summary.json"
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-repository/src/lib.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-340-finalization-recovery.summary.json"
+            ".ai/work-items/archive/WI-340-finalization-recovery.summary.json"
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-repository/tests/recovery_decision.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-340-finalization-recovery.summary.json"
+            ".ai/work-items/archive/WI-340-finalization-recovery.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/agent-workflow.ja.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-340-finalization-recovery.summary.json"
+            ".ai/work-items/archive/WI-340-finalization-recovery.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/agent-workflow.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-340-finalization-recovery.summary.json"
+            ".ai/work-items/archive/WI-340-finalization-recovery.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/agent-workflow.zh-CN.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-340-finalization-recovery.summary.json"
+            ".ai/work-items/archive/WI-340-finalization-recovery.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/outcome-report.ja.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-340-finalization-recovery.summary.json"
+            ".ai/work-items/archive/WI-340-finalization-recovery.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/outcome-report.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-340-finalization-recovery.summary.json"
+            ".ai/work-items/archive/WI-340-finalization-recovery.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/outcome-report.zh-CN.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-340-finalization-recovery.summary.json"
+            ".ai/work-items/archive/WI-340-finalization-recovery.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/reference-parity.ja.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-340-finalization-recovery.summary.json"
+            ".ai/work-items/archive/WI-340-finalization-recovery.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/reference-parity.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-340-finalization-recovery.summary.json"
+            ".ai/work-items/archive/WI-340-finalization-recovery.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
@@ -152,15 +152,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-340-finalization-recovery.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -171,7 +163,7 @@
             ".ai/evidence/WI-340-finalization-recovery.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -181,15 +173,23 @@
             ".ai/evidence/WI-340-finalization-recovery.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-340-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-340-finalization-recovery.contract.json"
+            ".ai/work-items/archive/WI-340-finalization-recovery.contract.json"
           ],
           "inference": false,
           "text": "在不改写既有归档字节的前提下，允许绑定有效 supersede recovery decision 的前驱 Work Item 完成可审计关闭，并让 pending finalization 明确呈现为非绿色状态"
@@ -198,23 +198,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-340-finalization-recovery.contract.json"
+            ".ai/work-items/archive/WI-340-finalization-recovery.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-340-finalization-recovery"
   },
+  "taskReportDigest": "sha256:628b781bbcf213f85751a6b9f87db8f0b74e727f317f732dfffd0dce1ce06959",
+  "taskReportMarkdownDigest": "sha256:56af42db90556995b441cd82649c3cc0beab03c46ec1564775a92b0e7b781a44",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-340-finalization-recovery.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-340-finalization-recovery"
 }
