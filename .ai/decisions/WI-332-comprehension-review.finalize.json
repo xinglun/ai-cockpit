@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "fc7c4f4271f8deeebb16eb31c2dd340fe416bf38",
+    "name": "codex/wi-332-comprehension-review",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:27ea5240e05168b323ffa780238a5df3ffc8616e0ee195283043607f305afae7",
+  "operationId": "github-pr-296-merge-cleanup-20260828",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "23a657c847e444b0e5142534eb80182c687ed7da",
+    "headRevision": "fc7c4f4271f8deeebb16eb31c2dd340fe416bf38",
+    "mergeCommit": "ca3dc27fc03cadf1eb248eb2c62aaf922d0eab06",
+    "number": 296,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/296"
+  },
+  "reason": "PR #296 merged with all hosted checks passed; retain the exact branch and worktree until the deleted cleanup receipt is verified.",
+  "receiptId": "github-pr-296-finalization-retained-20260828",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-332-comprehension-review",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/296",
+    "worktree": "/private/tmp/ai-cockpit-wi332-comprehension-review"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-28T00:08:00+09:00",
+  "workItemId": "WI-332-comprehension-review",
+  "worktree": {
+    "branch": "codex/wi-332-comprehension-review",
+    "headRevision": "fc7c4f4271f8deeebb16eb31c2dd340fe416bf38",
+    "path": "/private/tmp/ai-cockpit-wi332-comprehension-review",
+    "worktreeId": "WI-332-comprehension-review"
+  }
+}
