@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-27T19:10:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-325-reference-file-comparison-batch-05.verification.json",
+    ".ai/work-items/active/WI-325-reference-file-comparison-batch-05.outcome.json",
+    "https://github.com/xinglun/ai-cockpit/pull/288"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:d569b825cf9cf5a6cfafab6b8233b216acd2102edf6d89709c40d065cd7593ff",
+  "predecessorEventsDigest": "sha256:41a07b769b51f10cb760a66ffb9391f5b7f170256516dfbcb56eef6b1b7c41c4",
+  "predecessorOutcomeDigest": "sha256:81c45242d8fd9cb235b35f6ad3f087373f6ab98bce39c6673198af635e9a9658",
+  "predecessorSummaryDigest": "sha256:764097adebb6c69d8548d9af79c3f484c888ab3ce73d62fe9f9d2bcf26ef389a",
+  "predecessorWorkItemId": "WI-325-reference-file-comparison-batch-05",
+  "reason": "Retry after the first finish attempt exposed the provisional PR context and the subsequent Contract binding made the previous verification receipt stale; preserve the blocked Outcome and regenerate evidence against the reviewed PR.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification against the exact PR 288 binding, then finish and archive without changing the governed source files.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-325-reference-file-comparison-batch-05"
+}

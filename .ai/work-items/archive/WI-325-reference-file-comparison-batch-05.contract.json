@@ -1,0 +1,61 @@
+{
+  "acceptanceCriteria": [
+    "Each of the nine pinned reference paths is read and individually classified with a non-empty evidence-backed reason.",
+    "The generated inventory records exactly nine WI-325 classifications with no deferred or migrate-gap entries for this batch.",
+    "English, Simplified Chinese, and Japanese parity pages and the Work Item record remain semantically aligned and cross-linked.",
+    "Reference-only internal progress or source-specific fixture claims are not copied as current Rust Runtime capability.",
+    "Installed Runtime inspect/status/doctor, focused docs and conformance checks, finish/archive/close, hosted CI, and exact cleanup all pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "3b9e01e1558cfbb0260f65491dd3fcbbc247aa57",
+  "createdAt": "2026-08-27T09:44:35Z",
+  "goal": "Classify nine reference paths with semantic counterparts or explicit no-change reasons, update the generated inventory and tri-language parity documentation, and verify the clean repository with the installed Runtime.",
+  "intent": "Compare the next pinned reference documentation batch one file at a time and carry forward only evidence-backed governance semantics for the Rust Runtime and adopter repositories.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates",
+    "scripts",
+    ".github",
+    "templates",
+    "source-runtime-files",
+    "new-runtime-commands",
+    "global-agent-config"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3b56eee44d8385bffc5e9c3d204a4328341751437ad8ecd75962bf9c78f25ba1",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-325-reference-file-comparison-batch-05",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/288",
+    "worktree": "/private/tmp/ai-cockpit-wi325-reference-file-comparison-batch-05"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/features/task-outcome-report-self-check.md",
+    "docs/fixtures/real-fixture-evidence.ja.md",
+    "docs/fixtures/real-fixture-evidence.md",
+    "docs/guides/lightweight-verification.ja.md",
+    "docs/guides/lightweight-verification.md",
+    "docs/guides/lightweight-verification.zh-CN.md",
+    "docs/installation.md",
+    "docs/maintainers/adding-or-classifying-a-check.md",
+    "docs/maintainers/task-outcome-events.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "docs/work-items/WI-325-reference-file-comparison-batch-05.md",
+    "docs/work-items/WI-325-reference-file-comparison-batch-05.zh-CN.md",
+    "docs/work-items/WI-325-reference-file-comparison-batch-05.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-325-reference-file-comparison-batch-05"
+}
