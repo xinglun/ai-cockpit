@@ -1,0 +1,84 @@
+{
+  "acceptanceCriteria": [
+    "W315 Contract, Summary, Outcome, Events, archive, verification, recovery, finalization, and PR #279 bytes remain unchanged.",
+    "The W316 Contract baseRevision equals the latest origin/main revision used by hosted CI, and the recovered W314/W315 correction is evaluated from that exact base.",
+    "Valid successor recovery suppresses predecessor promotion even when the predecessor close is confirmed approved; retry, malformed, foreign, and non-canonical recovery remain fail-closed.",
+    "Tri-language Work Item and reference-parity documentation register W316 before verification and preserve immutable W315 failure history.",
+    "Focused promotion/documentation regressions, cargo fmt, clippy with warnings denied, locked workspace tests, and hosted CI pass on the exact reviewed branch."
+  ],
+  "authority": "authorized",
+  "baseRevision": "01c4a9ff10f7ab62f1ba9c6129129a3f9c127f82",
+  "createdAt": "2026-08-27T02:43:13Z",
+  "goal": "Redeliver the W314/W315 corrections with an exact current CI base and immutable predecessor history.",
+  "intent": "Rebind the recovered W315 redelivery to the latest origin/main base revision so hosted Contract-aware CI evaluates the intended promotion fix.",
+  "mode": "code",
+  "outOfScope": [
+    "W315 lifecycle and evidence bytes plus PR #279 remain immutable historical evidence",
+    "Unrelated Runtime features; new reference-source copying; release/adopter acceptance; scheduler/parallelism/performance; global Agent/MCP configuration; V1 runtime or template copying",
+    "Broad CI gate weakening; only the exact base binding and recovered promotion projection are corrected"
+  ],
+  "predecessorContractDigest": "sha256:57ab71d6ae84d3e3b52e116d30860d50d81bcc42a4d13320ed232cfb5934b3e1",
+  "predecessorWorkItemId": "WI-315-post-close-reconciliation-promotion-recovery",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-315-post-close-reconciliation-promotion-recovery.recovery.3d6e6dabe5791481de8e15caaf79a5034375d796e32c872ef0026c1899619bbb.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e04aee2567af4fa208b52ade943b32deb56d6b7f9b1357f17a66d9d452f69f7d",
+  "requiredEvidenceClasses": [],
+  "scenarioCoverage": [
+    {
+      "scenario": "current CI base binding",
+      "expected": "The active Contract baseRevision equals the latest origin/main revision used by hosted pull-request CI.",
+      "required": true,
+      "status": "verified",
+      "evidence": [".ai/work-items/active/WI-316-post-close-reconciliation-promotion-base-fix.contract.json", "tests/docs/documentation_acceptance.sh"],
+      "verificationPlan": "Run the hosted Contract-aware gate and confirm it accepts the exact CI base revision."
+    },
+    {
+      "scenario": "recovered promotion projection",
+      "expected": "Valid successor recovery suppresses predecessor promotion even when predecessor close is confirmed; invalid and retry recovery remain fail-closed.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/docs/promote_closed_work_item.py", "tests/docs/promote_closed_work_item_test.sh"],
+      "verificationPlan": "Run focused promotion and documentation regressions."
+    },
+    {
+      "scenario": "immutable W315 history and tri-language parity",
+      "expected": "W315 archive bytes remain unchanged and W316 is registered consistently in English, Simplified Chinese, and Japanese documentation.",
+      "required": true,
+      "status": "verified",
+      "evidence": [".ai/work-items/archive/WI-315-post-close-reconciliation-promotion-recovery.archive.json", "docs/reference/reference-parity.md", "docs/reference/reference-parity.zh-CN.md", "docs/reference/reference-parity.ja.md"],
+      "verificationPlan": "Run documentation acceptance and compare W315 archive manifest digests before and after."
+    }
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-316-post-close-reconciliation-promotion-base-fix",
+    "provider": "github",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi316-post-close-reconciliation-promotion-base-fix"
+  },
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+    "crates/cockpit-cli/tests/**",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh",
+    "tests/docs/documentation_acceptance.sh",
+    "docs/**",
+    ".ai/**"
+  ],
+  "sources": [
+    "origin/main@01c4a9ff10f7ab62f1ba9c6129129a3f9c127f82",
+    "https://github.com/xinglun/ai-cockpit/pull/279",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/33033591839",
+    "spirex-ds-dev/ai-cockpit-template: latest remote base and immutable successor rules"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-316-post-close-reconciliation-promotion-base-fix"
+}

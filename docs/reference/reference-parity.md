@@ -250,6 +250,7 @@ record for each boundary.
 
 | WI-314 — finalization reconciliation redelivery | In progress | [Work Item](../work-items/WI-314-finalization-reconciliation-redelivery.md); redelivers the cleanup-before-close and append-only reconciliation correction, with planned verification evidence `.ai/evidence/WI-314-finalization-reconciliation-redelivery.verification.json`. |
 | WI-315 — post-close reconciliation promotion recovery | In progress | [Work Item](../work-items/WI-315-post-close-reconciliation-promotion-recovery.md); corrects valid successor recovery projection when a predecessor also has a confirmed close, with planned verification evidence `.ai/evidence/WI-315-post-close-reconciliation-promotion-recovery.verification.json`. |
+| WI-316 — post-close reconciliation promotion base fix | In progress | [Work Item](../work-items/WI-316-post-close-reconciliation-promotion-base-fix.md); rebinds the recovered correction to the latest remote default base after hosted CI rejected W315's stale base, with planned verification evidence `.ai/evidence/WI-316-post-close-reconciliation-promotion-base-fix.verification.json`. |
 
 ## Current boundary
 

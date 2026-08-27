@@ -247,6 +247,7 @@ verification record です。
 
 | WI-314 — finalization reconciliation redelivery | In progress | [Work Item](../work-items/WI-314-finalization-reconciliation-redelivery.ja.md); cleanup-before-close と append-only reconciliation correction を再配信し、planned verification evidence は `.ai/evidence/WI-314-finalization-reconciliation-redelivery.verification.json` です。 |
 | WI-315 — post-close reconciliation promotion recovery | In progress | [Work Item](../work-items/WI-315-post-close-reconciliation-promotion-recovery.ja.md); predecessor に confirmed close がある場合も有効な successor recovery を歴史投影として扱う修正で、planned verification evidence は `.ai/evidence/WI-315-post-close-reconciliation-promotion-recovery.verification.json` です。 |
+| WI-316 — post-close reconciliation promotion base fix | In progress | [Work Item](../work-items/WI-316-post-close-reconciliation-promotion-base-fix.ja.md); hosted CI が W315 の古い base を拒否したため、correction を最新 remote default base に再 bind し、planned verification evidence は `.ai/evidence/WI-316-post-close-reconciliation-promotion-base-fix.verification.json` です。 |
 
 ## 現在の境界
 
