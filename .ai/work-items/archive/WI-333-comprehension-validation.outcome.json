@@ -45,17 +45,17 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-333-comprehension-validation.summary.json"
+            ".ai/work-items/archive/WI-333-comprehension-validation.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-333-comprehension-validation.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-333-comprehension-validation.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-333-comprehension-validation.summary.json"
+            ".ai/work-items/archive/WI-333-comprehension-validation.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-333-comprehension-validation.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-333-comprehension-validation.summary.json"
         }
       ],
       "evidence": [
@@ -111,7 +111,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-333-comprehension-validation.contract.json"
+            ".ai/work-items/archive/WI-333-comprehension-validation.contract.json"
           ],
           "inference": false,
           "text": "为 12 个 comprehension-validation 源路径建立可审计的分类、Rust/文档对应物和不可移植边界，不捏造本工程读者研究结果。"
@@ -120,7 +120,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-333-comprehension-validation.contract.json"
+            ".ai/work-items/archive/WI-333-comprehension-validation.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -130,8 +130,8 @@
     "status": "verified",
     "workItemId": "WI-333-comprehension-validation"
   },
-  "taskReportDigest": "sha256:49f9bf8a87a231899093e74a548427b224684555c0163a422363f7d1eee198a4",
-  "taskReportMarkdownDigest": "sha256:0eab60dc56e32bc95503b3897392c9988b4c495448840ca231315c5e300dd53e",
+  "taskReportDigest": "sha256:5b76e0da69b95e796dcbc3d428ea016cd4e4bd043a30fedeff03003f08daa102",
+  "taskReportMarkdownDigest": "sha256:800f16a99e9e7b33f1fdb2fe3e8e8a5de07f384482f1c41322b820ea93e85c99",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

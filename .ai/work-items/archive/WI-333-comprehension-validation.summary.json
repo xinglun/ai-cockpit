@@ -1,7 +1,7 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-333-comprehension-validation.contract.json",
-    ".ai/work-items/active/WI-333-comprehension-validation.summary.json"
+    ".ai/work-items/archive/WI-333-comprehension-validation.contract.json",
+    ".ai/work-items/archive/WI-333-comprehension-validation.summary.json"
   ],
   "checkpointAt": "2026-08-27T15:21:12Z",
   "checkpointContractDigest": "sha256:808bd4365c5b8509194a85cdc2a4cac0610d855cf94ce3e104617a774de97750",

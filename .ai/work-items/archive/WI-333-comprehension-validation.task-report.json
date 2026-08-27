@@ -15,17 +15,17 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-333-comprehension-validation.summary.json"
+          ".ai/work-items/archive/WI-333-comprehension-validation.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-333-comprehension-validation.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-333-comprehension-validation.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-333-comprehension-validation.summary.json"
+          ".ai/work-items/archive/WI-333-comprehension-validation.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-333-comprehension-validation.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-333-comprehension-validation.summary.json"
       }
     ],
     "evidence": [
@@ -81,7 +81,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-333-comprehension-validation.contract.json"
+          ".ai/work-items/archive/WI-333-comprehension-validation.contract.json"
         ],
         "inference": false,
         "text": "为 12 个 comprehension-validation 源路径建立可审计的分类、Rust/文档对应物和不可移植边界，不捏造本工程读者研究结果。"
@@ -90,7 +90,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-333-comprehension-validation.contract.json"
+          ".ai/work-items/archive/WI-333-comprehension-validation.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

@@ -14,8 +14,8 @@
 
 ## Delivered changes
 
-- Changed path: .ai/work-items/active/WI-333-comprehension-validation.contract.json
-- Changed path: .ai/work-items/active/WI-333-comprehension-validation.summary.json
+- Changed path: .ai/work-items/archive/WI-333-comprehension-validation.contract.json
+- Changed path: .ai/work-items/archive/WI-333-comprehension-validation.summary.json
 
 ## Findings
 
