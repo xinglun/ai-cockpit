@@ -1,0 +1,133 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-335-provider-finalization-correction.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9d0beb121925e47b252670a316b55aa7461b881e776a4f2f61974952e487872c",
+      "workItemId": "WI-335-provider-finalization-correction"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-335-provider-finalization-correction.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-335-provider-finalization-correction.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-335-provider-finalization-correction.archive.json",
+            ".ai/evidence/WI-335-provider-finalization-correction.verification.json",
+            ".ai/decisions/WI-335-provider-finalization-correction.finalize.ba4e6148c90ef176ea251397fe70c446779d1a7612d9442fd87db79dc4dee90e.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-28T03:10:00+09:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-335-provider-finalization-correction.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-335-provider-finalization-correction.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-335-provider-finalization-correction.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-335-provider-finalization-correction.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-335-provider-finalization-correction.contract.json"
+          ],
+          "inference": false,
+          "text": "Re-deliver the bounded evidence-binding parity documentation with the actual reviewed PR identity bound before verification and complete the auditable lifecycle."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-335-provider-finalization-correction.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-335-provider-finalization-correction"
+  },
+  "finalReportDigest": "sha256:3358f9d98bc3de66c24a577661e0c65639195447a37f3935e2a596651a6e7f29",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:c792bd96824dfcc16c3c7a41d3ba93b312a7ef0d9a6cfb35cb279491d96e6535",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-335-provider-finalization-correction.finalize.ba4e6148c90ef176ea251397fe70c446779d1a7612d9442fd87db79dc4dee90e.json",
+  "resourceFinalizationSequence": 1,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-28T03:10:00+09:00",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/work-items/archive/WI-335-provider-finalization-correction.archive.json",
+      ".ai/evidence/WI-335-provider-finalization-correction.verification.json",
+      ".ai/decisions/WI-335-provider-finalization-correction.finalize.ba4e6148c90ef176ea251397fe70c446779d1a7612d9442fd87db79dc4dee90e.json"
+    ],
+    "policyRefs": [
+      ".ai/README.md"
+    ],
+    "reason": "Reviewed PR #299 passed hosted checks; archive and finalization receipts bind the merged commit and exact cleanup.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-27T17:10:12Z",
+  "workItemId": "WI-335-provider-finalization-correction"
+}
