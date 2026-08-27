@@ -6,9 +6,13 @@ description: "Repair the hosted documentation-governance omission discovered aft
 audience:
   - maintainer
   - reviewer
-status: in-progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-324-reference-parity-registration
+terminalArchive: .ai/work-items/archive/WI-324-reference-parity-registration.contract.json
+terminalVerification: .ai/evidence/WI-324-reference-parity-registration.verification.json
+terminalFinalization: .ai/decisions/WI-324-reference-parity-registration.finalize.json
+terminalDecision: .ai/decisions/WI-324-reference-parity-registration.close.json
 ---
 
 # WI-324 — reference parity registration recovery

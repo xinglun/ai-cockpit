@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "15242fa7a203314631e612d628507681de680f99",
+    "name": "codex/wi-324-reference-parity-registration",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:ecdfe079e4cd5b5601fe1edf046cbd2ceafad5a8add600f19e4d90cadee563b5",
+  "operationId": "github-pr-287-merge-cleanup-20260827",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "290b5982dec60d0e5603b982d2407f4b6656bbf4",
+    "headRevision": "15242fa7a203314631e612d628507681de680f99",
+    "mergeCommit": "11d7598ea409f51f8380a46d186979685cf4d47e",
+    "number": 287,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/287"
+  },
+  "reason": "PR #287 passed all hosted checks and was merged; the exact feature branch and worktrees were removed after preserving the reviewed merge and recovery evidence.",
+  "receiptId": "github-pr-287-finalization-20260827",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-324-reference-parity-registration",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/287",
+    "worktree": "/private/tmp/ai-cockpit-wi324-reference-parity-registration"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-27T09:32:00Z",
+  "workItemId": "WI-324-reference-parity-registration",
+  "worktree": {
+    "branch": "codex/wi-324-reference-parity-registration",
+    "headRevision": "15242fa7a203314631e612d628507681de680f99",
+    "path": "/private/tmp/ai-cockpit-wi324-reference-parity-registration",
+    "worktreeId": "WI-324-reference-parity-registration"
+  }
+}
