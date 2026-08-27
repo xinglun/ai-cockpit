@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "无 active Contract 的 standard/strict PR 不执行 Runtime shadow 且不要求 shadow artifact，不再产生 false failure",
+    "有 active Contract 的 standard/strict PR 仍执行不可变 public Runtime shadow，light 路由仍跳过",
+    "CI 回归测试锁定 shadow 与 artifact 的 Contract-aware 条件，并覆盖 archived/no-contract 路径",
+    "英文、简体中文、日文文档同步说明该边界，不扩大 Runtime/CI assurance 声明",
+    "保持拒绝源码 fallback、workspace binary、任意 --command 和未固定 Release artifact 的既有策略"
+  ],
+  "createdAt": "2026-08-27T20:41:17Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:79e2bae794005c72b2e1e13ce124f14cb03cf20d79fff5f55145ca6960268b7a",
+  "evidenceRefs": [
+    ".ai/evidence/WI-341-runtime-shadow-archived-state.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-341-runtime-shadow-archived-state.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-341-runtime-shadow-archived-state.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:adc9ed75fcdcd26a0568b75e39ae93784f08e5aee68d9af78e9713b49fd80e1f",
+      "workItemId": "WI-341-runtime-shadow-archived-state"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-341-runtime-shadow-archived-state.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-341-runtime-shadow-archived-state.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-341-runtime-shadow-archived-state.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-341-runtime-shadow-archived-state.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-341-runtime-shadow-archived-state.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-341-runtime-shadow-archived-state.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-341-runtime-shadow-archived-state.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-341-runtime-shadow-archived-state.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-341-runtime-shadow-archived-state.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-341-runtime-shadow-archived-state.contract.json"
+          ],
+          "inference": false,
+          "text": "让动态质量路由根据 Contract 是否存在安全决定 shadow 执行与制品上传，保持有 active Contract 的 standard/strict 路由不变"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-341-runtime-shadow-archived-state.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-341-runtime-shadow-archived-state"
+  },
+  "taskReportDigest": "sha256:d94d660f772eb917f08313dee2f95c4fa6a3355e2e364d9e8ad4d81224ae8a48",
+  "taskReportMarkdownDigest": "sha256:c96e96588885b7dd3e759507e071504df514169b0bbb8c15bc4dcc0424e28518",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-341-runtime-shadow-archived-state.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-341-runtime-shadow-archived-state"
+}
