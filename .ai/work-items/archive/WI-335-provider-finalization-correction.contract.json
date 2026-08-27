@@ -7,13 +7,6 @@
   ],
   "authority": "authorized",
   "baseRevision": "50b0b89e2d38b0ed35666a34e58ce293c348bb3e",
-  "checkpointPolicy": {
-    "profile": "standard",
-    "requiredBeforeFinish": true,
-    "requiredChecks": [],
-    "requiredStages": ["before_edit", "before_finish"],
-    "schemaVersion": 1
-  },
   "createdAt": "2026-08-27T16:45:01Z",
   "goal": "Re-deliver the bounded evidence-binding parity documentation with the actual reviewed PR identity bound before verification and complete the auditable lifecycle.",
   "intent": "Correct WI-334 provider finalization metadata without changing immutable predecessor truth.",
@@ -37,11 +30,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-335-provider-finalization-correction",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/299",
     "worktree": "/private/tmp/ai-cockpit-wi335-provider-finalization-correction"
   },
   "risk": "normal",

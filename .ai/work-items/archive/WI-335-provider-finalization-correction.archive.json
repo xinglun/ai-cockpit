@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-27T17:00:06Z",
+  "files": {
+    "contractDigest": "sha256:d1e60be5fe487ac9457c2db80e73095a1ceff5c5b425ec5e273d85709de90d17",
+    "contractPath": ".ai/work-items/archive/WI-335-provider-finalization-correction.contract.json",
+    "eventsDigest": "sha256:5625146f158a2a359aaadbda28004ec42e93bb0eeb49824dba7d9c3b42afd772",
+    "eventsPath": ".ai/work-items/archive/WI-335-provider-finalization-correction.events.jsonl",
+    "outcomeDigest": "sha256:c34cc2b6ffb1663ef1cb69456446a5e7fa7821e453fc993c3b91936913e863af",
+    "outcomePath": ".ai/work-items/archive/WI-335-provider-finalization-correction.outcome.json",
+    "summaryDigest": "sha256:9e020e13573e8fbc40d787439da8633acb88010f90d7d3aba380b0930769bc2e",
+    "summaryPath": ".ai/work-items/archive/WI-335-provider-finalization-correction.summary.json",
+    "taskReportDigest": "sha256:4c0a5d529a0ae21de80323a49d3fe19df7444763b2e017bb78dea89c5799d01c",
+    "taskReportMarkdownDigest": "sha256:5f1479e3a842775f55016129e2b4d38d27608864329d5bd4ff953443006a8514",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-335-provider-finalization-correction.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-335-provider-finalization-correction.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-335-provider-finalization-correction"
+}
