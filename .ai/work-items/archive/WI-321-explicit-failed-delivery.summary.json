@@ -1,0 +1,35 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-313-post-close-finalization-reconciliation.recovery.89f886c2520e7078035e984d67a3f4f42100b74cdaac4993f405e7dc213bf7b1.json",
+    ".ai/work-items/archive/WI-321-explicit-failed-delivery.contract.json",
+    ".ai/work-items/archive/WI-321-explicit-failed-delivery.summary.json"
+  ],
+  "checkpointAt": "2026-08-27T06:22:40Z",
+  "checkpointContractDigest": "sha256:a39d26afb8afc19a32dbad786764d04f456ece95e501e8e3a8eaae24a4682e32",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:5a9deb75f1e2292a03261ead8b951a6bbc519fd0b7d4dbc4881456dc8ac3ea8f",
+  "createdAt": "2026-08-27T06:14:31Z",
+  "failedGate": "finish.governance",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:e780807535f2736885aab99243cef936fd60346a2aa35f4ce6eb189945f841f7",
+  "predecessorWorkItemId": "WI-313-post-close-finalization-reconciliation",
+  "preflightAt": "2026-08-27T06:25:18Z",
+  "preflightContractDigest": "sha256:a39d26afb8afc19a32dbad786764d04f456ece95e501e8e3a8eaae24a4682e32",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:5a9deb75f1e2292a03261ead8b951a6bbc519fd0b7d4dbc4881456dc8ac3ea8f",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryDecisionPath": ".ai/decisions/WI-313-post-close-finalization-reconciliation.recovery.89f886c2520e7078035e984d67a3f4f42100b74cdaac4993f405e7dc213bf7b1.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-27T06:25:22Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-321-explicit-failed-delivery"
+}

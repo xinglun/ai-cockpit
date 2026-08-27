@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-27T06:20:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-313-post-close-finalization-reconciliation.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/277",
+    "https://github.com/xinglun/ai-cockpit/pull/278"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:fix-in-current-work-item-or-record-successor"
+  ],
+  "predecessorContractDigest": "sha256:e780807535f2736885aab99243cef936fd60346a2aa35f4ce6eb189945f841f7",
+  "predecessorEventsDigest": "sha256:fb3e12f27dab6d0419ecf09d661c64864e33dee4d18b1b256bf48ac0d680c3d1",
+  "predecessorOutcomeDigest": "sha256:f9efddbe2f6e9948df6ce047852f32c81314d7e5d2168e0f71aa67903ff28fa2",
+  "predecessorSummaryDigest": "sha256:768cc5d603a779e497778b2b9ff57c0318816516642314f7414ae83235f58f8c",
+  "predecessorWorkItemId": "WI-313-post-close-finalization-reconciliation",
+  "reason": "WI-313 PR #277 is an immutable failed delivery. Record an explicit successor-owned failure boundary without rewriting its Contract, archive, evidence, retry receipts, branch, or PR history.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "The successor must preserve the failed-delivery boundary, record the provider failure evidence, and complete its own reviewed lifecycle before the repository gate can proceed.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-321-explicit-failed-delivery",
+  "workItemId": "WI-313-post-close-finalization-reconciliation"
+}

@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-27T06:25:28Z",
+  "files": {
+    "contractDigest": "sha256:25039749c7242738673a1b7fbb0d41e9aea62ca97a48f40988b147f3a70206c5",
+    "contractPath": ".ai/work-items/archive/WI-321-explicit-failed-delivery.contract.json",
+    "eventsDigest": "sha256:bb393b6d8fb677c3129f2cc8e7f563e6223ff3f43beb7015415367bd8dc6b15a",
+    "eventsPath": ".ai/work-items/archive/WI-321-explicit-failed-delivery.events.jsonl",
+    "outcomeDigest": "sha256:554d5288af6f1b6d77ff3184e3cfd687a4da971a47ce49c52cba8a163a256aa9",
+    "outcomePath": ".ai/work-items/archive/WI-321-explicit-failed-delivery.outcome.json",
+    "summaryDigest": "sha256:8fed404ae55cbd923120b1ccb0c76356b1841f7a43bc3dda41ab1d5c6e237891",
+    "summaryPath": ".ai/work-items/archive/WI-321-explicit-failed-delivery.summary.json",
+    "taskReportDigest": "sha256:d9f5e81bea990cb88ab37dfc43a9096b110a52edac36069f07ec457f334a9128",
+    "taskReportMarkdownDigest": "sha256:d599fe8a056a78b58c932c660a2a19abeb82c30aeeb0a7aedc40fb368afb6122",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-321-explicit-failed-delivery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-321-explicit-failed-delivery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-321-explicit-failed-delivery"
+}
