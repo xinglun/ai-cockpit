@@ -1,0 +1,69 @@
+{
+  "acceptanceCriteria": [
+    "All three comparison documents report the current manifest-derived classification counts and contain one identical machine-readable snapshot marker.",
+    "The conformance regression derives counts from reference_file_inventory.json and fails on stale, malformed, missing, or divergent tri-language markers.",
+    "All three reference-parity documents contain a prearchive W312 row with exact archive, verification, finalization, and close receipt paths, registered before verification evidence.",
+    "All three W312 Work Item documents have valid frontmatter including lastVerifiedBy and describe the same bounded scope and recovery boundary.",
+    "No reference classifications, Runtime behavior, or immutable WI-311 bytes are changed; installed Runtime evidence remains valid through reviewed merge and close."
+  ],
+  "authority": "authorized",
+  "baseRevision": "a10b643479da4edf0028c2930dd835524947b2f9",
+  "createdAt": "2026-08-26T23:40:48Z",
+  "goal": "Synchronize manifest-derived counts, deterministic marker validation, and tri-language parity registration before verification so the comparison batch can pass hosted documentation acceptance.",
+  "intent": "Redeliver the bounded reference inventory documentation correction after WI-311 encountered an immutable Runtime retry-event boundary, preserving all predecessor evidence.",
+  "mode": "docs",
+  "outOfScope": [
+    "Rust production code or Runtime behavior",
+    "reference inventory classification changes or source reference copies",
+    "release",
+    " adopter",
+    " CI workflow",
+    " or global Agent/MCP configuration changes",
+    "rewriting WI-311 or any historical evidence/archive bytes",
+    "new governance semantics or unrelated reference-file batches"
+  ],
+  "predecessorContractDigest": "sha256:59925202b5e2dce0d42de5249125b80f5da4cca283f34065b09853e49430dd53",
+  "predecessorWorkItemId": "WI-311-reference-inventory-doc-consistency-parity-recovery",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-311-reference-inventory-doc-consistency-parity-recovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d1202eb389268d283bf40f324ba94c5dd3dfbf7e5fed953baceceff097a5e0db",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-312-reference-inventory-doc-consistency-runtime-retry",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/275",
+    "worktree": "/private/tmp/ai-cockpit-wi312-reference-inventory-doc-consistency-runtime-retry"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.md",
+    "docs/work-items/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.zh-CN.md",
+    "docs/work-items/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.ja.md",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "tests/conformance/reference_inventory_docs_test.py"
+  ],
+  "sources": [
+    "tests/conformance/reference_file_inventory.json",
+    "tests/ci/governance_integrity_gate.py",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-parity.md",
+    "WI-311-reference-inventory-doc-consistency-parity-recovery"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-312-reference-inventory-doc-consistency-parity-recovery-successor"
+}
