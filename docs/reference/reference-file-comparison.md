@@ -123,11 +123,11 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=232 implemented-equivalent=1 not-applicable=4 reference-only=28 deferred-next-batch=592 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=239 implemented-equivalent=1 not-applicable=3 reference-only=27 deferred-next-batch=587 migrate-gap=0 -->
 
 At the pinned v0.2.33 comparison baseline, the ledger contains 5,119 records:
-4,262 `generated-history`, 232 `implemented-different-by-design`, one
-`implemented-equivalent`, four `not-applicable`, 28 `reference-only`, and 592
+4,262 `generated-history`, 239 `implemented-different-by-design`, one
+`implemented-equivalent`, three `not-applicable`, 27 `reference-only`, and 587
 `deferred-next-batch` records. Deferred records remain scheduled work, not
 parity claims. The capability/profile slice has no remaining `migrate-gap`
 records:
@@ -143,7 +143,7 @@ records:
 
 The governance entrypoints, getting-started routes, CI/release boundaries, and
 capability/profile projections have been reviewed at this baseline. The four
-records above are Rust-native, explicitly bounded counterparts; the 592
+records above are Rust-native, explicitly bounded counterparts; the 587
 deferred semantic comparisons remain scheduled work.
 
 WI-274 rebinds only the target checkout metadata and canonical comparison
@@ -240,7 +240,7 @@ adopter boundary.
 | `LICENSE` | implemented-different-by-design | Both publish MIT; target-specific copyright and Rust packaging are intentionally not copied from the source. |
 | `Makefile` | implemented-different-by-design | Rust CLI, Cargo, and explicit CI/release scripts replace source Python Make orchestration with request-scoped `--repo`. |
 
-The WI-302/WI-304 batches found no `migrate-gap`. The inventory is now 4,262
+At the completion of the WI-302/WI-304 batches, the inventory snapshot was 4,262
 `generated-history`, 190 `implemented-different-by-design`, one
 `implemented-equivalent`, three `not-applicable`, three `reference-only`, and 660
 `deferred-next-batch` records. The two workflow records are closed as
@@ -626,6 +626,41 @@ be considered, and the caller still owns governance, coverage, security, and
 required-check gates. The inventory, tri-language ledgers, and WI-334 evidence
 bind this decision; no source participant, Python, Make, or V1 artifact is
 introduced.
+
+## WI-342 documentation, distribution, and enterprise-boundary batch
+
+WI-342 reads the following ten pinned reference paths individually at
+`e5acb677da6621004d96f0ef353c58fe8d3acfbf`. Eight are implemented differently
+by design and two are reference-only. The target preserves the reader,
+distribution, authority, and enterprise-boundary responsibilities without
+copying source-specific Python/Make orchestration, source adopter records, or
+provider claims.
+
+| Pinned source path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/distribution.md` | implemented-different-by-design | `docs/release/distribution.*` and the public/N-1 adopter acceptance harness provide immutable Release verification, shared-Runtime installation, repository binding, checksum/SBOM/provenance, and cleanup boundaries. |
+| `docs/reference/distribution.ja.md` | implemented-different-by-design | The Japanese route is represented by `docs/release/distribution.ja.md` plus the same target-specific acceptance harness; source Make/Python installer details and bytes are not copied. |
+| `docs/reference/documentation-architecture.md` | implemented-different-by-design | `docs/current/README.md`, getting-started/reference routes, tri-language documentation checks, and this ledger preserve canonical layers, reader routes, ownership, and split rules. |
+| `docs/reference/documentation-architecture.ja.md` | implemented-different-by-design | Japanese current/getting-started/reference routes preserve the source reader map and language boundary; `.ai/README.md` and explicit Runtime pages remain the instruction boundary. |
+| `docs/reference/documentation-authority-boundary.md` | implemented-different-by-design | `.ai/README.md`, `AGENTS.md`, current/reference routes, frontmatter, and documentation acceptance separate current instructions from opt-in reference and historical records. |
+| `docs/reference/documentation-authority-registry.json` | implemented-different-by-design | Explicit target routes and metadata checks replace the source topic registry; no global Agent configuration or unverified source topic claim is introduced. |
+| `docs/reference/documentation-context-registry.json` | reference-only | Source plan/context labels are source-internal records, not portable Runtime authority or adopter evidence. Target keeps current `.ai` instructions and immutable Work Item/archive history without copying the source registry. |
+| `docs/reference/enterprise-control-checklist.md` | implemented-different-by-design | Tri-language enterprise-governance, deployment-boundary, and adopter-configuration pages distinguish repository facts, delegated evidence, retention/audit ownership, and non-certification claims. |
+| `docs/reference/enterprise-control-matrix.json` | reference-only | The source observed-control rows are not portable compliance results. Target delegated evidence and policy routes require current external receipts instead of copying `not_verified` source state. |
+| `docs/reference/external-identity-boundary.md` | implemented-different-by-design | Typed Rust authority/approval evidence, policy precedence, external evidence import, contract-field documentation, and enterprise pages preserve identity levels without authenticating a person locally. |
+
+The two reference-only records are deliberately not promoted to target
+capabilities: source context metadata and source adopter control observations
+cannot be transferred as evidence. This is semantic/documentation parity, not
+JSON-wire parity. The target's object/adopter boundary remains explicit:
+one shared Runtime, repository-scoped `.ai/` state, external provider evidence,
+and no organization-wide identity or compliance claim.
+
+The current ledger after this batch is 5,119 records: 4,262
+`generated-history`, 239 `implemented-different-by-design`, one
+`implemented-equivalent`, three `not-applicable`, 27 `reference-only`, and 587
+`deferred-next-batch`; `migrate-gap` remains zero. The 587 deferred records are
+still scheduled comparison work and are not parity claims.
 
 ## WI-336 first five governance-documentation paths
 
