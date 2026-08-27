@@ -1,0 +1,140 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-332-comprehension-review.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:55daa5dcf0132d7fd86f14f0c05984c13e32eba58148f17edcca721526b4a97e",
+      "workItemId": "WI-332-comprehension-review"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-332-comprehension-review.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-332-comprehension-review.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-332-comprehension-review.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-332-comprehension-review.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-332-comprehension-review.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-332-comprehension-review.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-332-comprehension-review.verification.json",
+            ".ai/decisions/WI-332-comprehension-review.finalize.json",
+            ".ai/decisions/WI-332-comprehension-review.finalize.4c1eadcb1b565faeccd4e23ff87d56f407820bc32f6d30f51715ff8cb0503626.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-28T00:12:00+09:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-332-comprehension-review.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-332-comprehension-review.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-332-comprehension-review.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-332-comprehension-review.contract.json"
+          ],
+          "inference": false,
+          "text": "对 comprehension review 三语路径给出可审计的 Rust-native 对应、明确非母语编辑质量声明，并把每条路径登记到 pinned inventory。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-332-comprehension-review.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-332-comprehension-review"
+  },
+  "finalReportDigest": "sha256:467bb11372b93bf18601b0846f183d7587e553b9ce420fd2cd1794c6518ec317",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:bdb82868d10c0fd39d75055610299092f33227ca105571cbeb8d3b753c876141",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-332-comprehension-review.finalize.4c1eadcb1b565faeccd4e23ff87d56f407820bc32f6d30f51715ff8cb0503626.json",
+  "resourceFinalizationSequence": 1,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-28T00:12:00+09:00",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-332-comprehension-review.verification.json",
+      ".ai/decisions/WI-332-comprehension-review.finalize.json",
+      ".ai/decisions/WI-332-comprehension-review.finalize.4c1eadcb1b565faeccd4e23ff87d56f407820bc32f6d30f51715ff8cb0503626.json"
+    ],
+    "policyRefs": [
+      "docs/reference/reference-file-comparison.md"
+    ],
+    "reason": "确认参考源理解审查三文件已逐文件比对并记录 reference-only 边界；Cursor 采用方反馈已纳入三语文档评估，未将宿主便利功能冒充 Runtime 能力。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-08-27T15:11:45Z",
+  "workItemId": "WI-332-comprehension-review"
+}
