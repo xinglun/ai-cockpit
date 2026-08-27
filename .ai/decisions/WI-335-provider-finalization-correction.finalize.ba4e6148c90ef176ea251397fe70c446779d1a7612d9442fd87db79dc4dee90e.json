@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:f694a0478959a5c471642d7f163a18e7fd728eb831afefe6e898cafe46338553",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "explicit-user-authorization",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "c6e8a880697496cad81472f50d01dee7494c763c",
+      "name": "codex/wi-335-provider-finalization-correction",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:d1e60be5fe487ac9457c2db80e73095a1ceff5c5b425ec5e273d85709de90d17",
+    "operationId": "github-pr-299-merge-cleanup-20260828",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "50b0b89e2d38b0ed35666a34e58ce293c348bb3e",
+      "headRevision": "c6e8a880697496cad81472f50d01dee7494c763c",
+      "mergeCommit": "e1478d94d6354edda525a22646344cbd519670f8",
+      "number": 299,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/299"
+    },
+    "reason": "The merged PR #299 branch and exact worktree were removed after synchronization; append the verified deleted cleanup receipt.",
+    "receiptId": "github-pr-299-finalization-deleted-20260828",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-335-provider-finalization-correction",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/299",
+      "worktree": "/private/tmp/ai-cockpit-wi335-provider-finalization-correction"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+    "runtimeVersion": "0.2.33",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-28T03:05:00+09:00",
+    "workItemId": "WI-335-provider-finalization-correction",
+    "worktree": {
+      "branch": "codex/wi-335-provider-finalization-correction",
+      "headRevision": "c6e8a880697496cad81472f50d01dee7494c763c",
+      "path": "/private/tmp/ai-cockpit-wi335-provider-finalization-correction",
+      "worktreeId": "WI-335-provider-finalization-correction"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-335-provider-finalization-correction-cleanup-deleted"
+}
