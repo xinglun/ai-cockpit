@@ -1,0 +1,139 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-333-comprehension-validation.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:08244892e2a0df518817b571797b7190e6cb875c079903bb93df3fb9e3eb773d",
+      "workItemId": "WI-333-comprehension-validation"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-333-comprehension-validation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-333-comprehension-validation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-333-comprehension-validation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-333-comprehension-validation.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-333-comprehension-validation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-333-comprehension-validation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-333-comprehension-validation.verification.json",
+            ".ai/decisions/WI-333-comprehension-validation.finalize.c6e13e0df12bdce915174643c5ca06ca89b004152f1ca4632cbdd580713b0fa5.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:repository-owner via explicit-user-authorization at 2026-08-28T00:58:00+09:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-333-comprehension-validation.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-333-comprehension-validation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-333-comprehension-validation.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-333-comprehension-validation.contract.json"
+          ],
+          "inference": false,
+          "text": "为 12 个 comprehension-validation 源路径建立可审计的分类、Rust/文档对应物和不可移植边界，不捏造本工程读者研究结果。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-333-comprehension-validation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-333-comprehension-validation"
+  },
+  "finalReportDigest": "sha256:71a1a008f9db9301317fe0ff6a556c454947b5d3171b5a078a7ea21b58bda4e2",
+  "humanDecision": "confirmed",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:2520927fac5a4983f2741c15fc48e4ced7e91b6194c09e97df145c675cd3d4ca",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-333-comprehension-validation.finalize.c6e13e0df12bdce915174643c5ca06ca89b004152f1ca4632cbdd580713b0fa5.json",
+  "resourceFinalizationSequence": 1,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-28T00:58:00+09:00",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-333-comprehension-validation.verification.json",
+      ".ai/decisions/WI-333-comprehension-validation.finalize.c6e13e0df12bdce915174643c5ca06ca89b004152f1ca4632cbdd580713b0fa5.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "确认 WI-333 已完成固定源理解验证文件的逐一比对；参与者记录保持 reference-only，不将源研究结果移植为目标证据。",
+    "resumeCondition": "后续若开展目标读者研究，必须由新的 human-owned Contract 定义同意、保留、隐私和 evidence 边界。"
+  },
+  "timestamp": "2026-08-27T15:51:35Z",
+  "workItemId": "WI-333-comprehension-validation"
+}
