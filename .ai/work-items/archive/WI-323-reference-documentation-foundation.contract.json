@@ -44,11 +44,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-323-reference-documentation-foundation",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/286",
     "worktree": "/private/tmp/ai-cockpit-wi323-reference-documentation-foundation"
   },
   "risk": "low",
