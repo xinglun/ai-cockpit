@@ -325,6 +325,109 @@ WI306_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
     ),
 }
 
+WI323_BATCH = "WI-323-reference-documentation-foundation"
+WI323_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "docs/contributing/installation-document-maintenance.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/README.md",
+            "docs/reference/README.zh-CN.md",
+            "docs/reference/README.ja.md",
+            "tests/docs/documentation_acceptance.sh",
+            "tests/docs/getting_started_semantic.sh",
+        ],
+        "The target keeps the source maintenance responsibilities as a tri-language, thin reader route with link/metadata acceptance checks and dedicated release/security/recovery pages. Rust uses the shared Runtime and explicit --repo commands; source Make metadata commands are not copied.",
+    ),
+    "docs/current/README.md": (
+        "implemented-different-by-design",
+        [
+            "docs/current/README.md",
+            "docs/current/README.zh-CN.md",
+            "docs/current/README.ja.md",
+            ".ai/README.md",
+            ".ai/glossary.md",
+            "AGENTS.md",
+            "docs/reference/README.md",
+        ],
+        "The target provides the same canonical current-agent route through the repository-owned .ai read set, AGENTS.md, and tri-language current/reference pages. The source make ai-documentation-read-set command and source Python authority files are not target commands.",
+    ),
+    "docs/design/harden-work-item-pr-closure.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/agent-workflow.md",
+            "docs/reference/agent-workflow.zh-CN.md",
+            "docs/reference/agent-workflow.ja.md",
+            "docs/reference/commands.md",
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-cli/tests/resource_finalization.rs",
+        ],
+        "The target enforces the same latest-base, dedicated-branch, reviewed-PR, merge-before-close, synchronization, and exact-cleanup boundary through the Rust lifecycle and repository workflow. Provider PR creation and merging remain external; source make targets are not copied.",
+    ),
+    "docs/distribution.md": (
+        "implemented-different-by-design",
+        [
+            "docs/release/distribution.md",
+            "docs/release/distribution.zh-CN.md",
+            "docs/release/distribution.ja.md",
+            "docs/current/README.md",
+            "docs/current/README.zh-CN.md",
+            "docs/current/README.ja.md",
+        ],
+        "The source compatibility entry is represented by the target's adopter-first current route and detailed Rust Release distribution/installation/adopter-acceptance pages. The public artifact and installer contract is target-specific and is not a byte-level source copy.",
+    ),
+    "docs/enterprise-security-boundary.md": (
+        "implemented-different-by-design",
+        [
+            "docs/security/enterprise-deployment-boundary.md",
+            "docs/security/enterprise-deployment-boundary.zh-CN.md",
+            "docs/security/enterprise-deployment-boundary.ja.md",
+            "docs/security/enterprise-governance.md",
+            "docs/security/enterprise-governance.zh-CN.md",
+            "docs/security/enterprise-governance.ja.md",
+            "SECURITY.md",
+        ],
+        "The target preserves the source separation between repository evidence and external enterprise controls, with additional authority, delegated evidence, retention, audit, deployment, and non-certification boundaries. It does not claim sandbox, identity-provider, or compliance certification capabilities.",
+    ),
+    "docs/examples/trust-layer-demo.sh": (
+        "reference-only",
+        [],
+        "The offline shell demonstration is retained as explanatory reference material only. Its stop/continue examples are represented by typed Runtime preflight, intent, capability, and adversarial tests, but the source demo script is not copied or executed as Runtime authority.",
+    ),
+    "docs/features/human-benefit-report.md": (
+        "implemented-different-by-design",
+        [
+            "docs/features/human-benefit-report.md",
+            "docs/reference/outcome-report.md",
+            "docs/reference/task-outcome-events.md",
+            "crates/cockpit-cli/tests/outcome_handoff.rs",
+            "crates/cockpit-mcp/tests/rpc.rs",
+        ],
+        "The target preserves the person-facing report order, evidence-count semantics, stale/malformed stop boundary, and no-unsupported-benefit rule through Rust OutcomeV2, CLI human handoff, and MCP projection. It uses work-item outcome and work_item_outcome rather than the source make/Python report generator.",
+    ),
+    "docs/features/human-benefit-report.zh-CN.md": (
+        "implemented-different-by-design",
+        [
+            "docs/features/human-benefit-report.zh-CN.md",
+            "docs/reference/outcome-report.zh-CN.md",
+            "docs/reference/task-outcome-events.zh-CN.md",
+            "crates/cockpit-cli/tests/outcome_handoff.rs",
+            "crates/cockpit-mcp/tests/rpc.rs",
+        ],
+        "Rust 版保留中文面向人的报告顺序、evidence 计数语义、过期/损坏即停止和不臆造收益的边界，使用 work-item outcome 与 MCP work_item_outcome；不复制参考源的 Make/Python 报告生成器。",
+    ),
+    "docs/features/human-benefit-report.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/features/human-benefit-report.ja.md",
+            "docs/reference/outcome-report.ja.md",
+            "docs/reference/task-outcome-events.ja.md",
+            "crates/cockpit-cli/tests/outcome_handoff.rs",
+            "crates/cockpit-mcp/tests/rpc.rs",
+        ],
+        "Rust 版は人向け report の順序、evidence count の意味、stale/malformed の停止、根拠のない benefit を fact にしない境界を OutcomeV2/CLI/MCP で保ちます。source の Make/Python report generator はコピーしません。",
+    ),
+}
+
 
 def wi270_counterpart(path: str) -> tuple[list[str], str] | None:
     if path in WI270_DOC_CONCEPTS:
@@ -683,6 +786,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 {
                     "referencePath": path,
                     "batch": "WI-308-reference-file-comparison-batch-04-retry",
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
+        wi323 = WI323_REFERENCE_FILES.get(path)
+        if wi323 is not None:
+            classification, counterparts, reason = wi323
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI323_BATCH,
                     "classification": classification,
                     "rustCounterparts": counterparts,
                     "reason": reason,

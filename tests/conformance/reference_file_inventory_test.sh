@@ -30,6 +30,11 @@ test "$(jq '[.records[] | select(.batch == "WI-308-reference-file-comparison-bat
 test "$(jq '[.records[] | select(.batch == "WI-308-reference-file-comparison-batch-04-retry" and .classification == "implemented-different-by-design" and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$manifest")" -eq 3
 test "$(jq -r '.records[] | select(.referencePath == "docs/assets/ai-cockpit-demo.gif") | .classification' "$manifest")" = "reference-only"
 test "$(jq '[.records[] | select(.batch == "WI-308-reference-file-comparison-batch-04-retry" and .classification == "deferred-next-batch")] | length' "$manifest")" -eq 0
+test "$(jq '[.records[] | select(.batch == "WI-323-reference-documentation-foundation")] | length' "$manifest")" -eq 9
+test "$(jq '[.records[] | select(.batch == "WI-323-reference-documentation-foundation" and ((.classification == "implemented-different-by-design" and (.rustCounterparts | length) > 0) or .classification == "reference-only") and (.reason | length) > 0)] | length' "$manifest")" -eq 9
+test "$(jq '[.records[] | select(.batch == "WI-323-reference-documentation-foundation" and .classification == "deferred-next-batch")] | length' "$manifest")" -eq 0
+test "$(jq -r '.records[] | select(.referencePath == "docs/examples/trust-layer-demo.sh") | .classification' "$manifest")" = "reference-only"
+test "$(jq -r '.records[] | select(.referencePath == "docs/features/human-benefit-report.md") | .classification' "$manifest")" = "implemented-different-by-design"
 test "$(jq -r '.records[] | select(.batch == "governance-entrypoints" and .classification == "deferred-next-batch") | .referencePath' "$manifest" | wc -l | tr -d ' ')" -eq 0
 test "$(jq '[.records[] | select(.batch == "capability-status-projection")] | length' "$manifest")" -eq 6
 test "$(jq '[.records[] | select(.batch == "capability-status-projection" and (.classification == "deferred-next-batch" or .classification == ""))] | length' "$manifest")" -eq 0

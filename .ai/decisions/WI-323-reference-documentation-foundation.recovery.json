@@ -1,0 +1,28 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "repository-local",
+  "decidedAt": "2026-08-27T09:00:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/286",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/33054874497"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    "docs/reference/reference-parity.md"
+  ],
+  "predecessorContractDigest": "sha256:403592af8988eca088f0a73c86ad521fa443fb0df3c59273394cd850b4509329",
+  "predecessorEventsDigest": "sha256:1f5068032197822f1e25ae91000fa57c43f85e864f87b0c810a891475859595b",
+  "predecessorOutcomeDigest": "sha256:7e53155c1bca25fdada3c275f2e55050d59c0f93d8715703201ddb1646b0487b",
+  "predecessorSummaryDigest": "sha256:47d58cb36dba4c0aaf1f8c8d15705498c79bd9fcaa6f71309def8e34fbe5b180",
+  "predecessorWorkItemId": "WI-323-reference-documentation-foundation",
+  "reason": "Hosted docs governance found missing tri-language reference-parity registration after the predecessor archive; preserve the predecessor immutable and repair the omission in a bounded successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Fresh verification and hosted docs governance checks for the successor, followed by reviewed PR merge and predecessor cleanup.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-324-reference-parity-registration",
+  "workItemId": "WI-323-reference-documentation-foundation"
+}

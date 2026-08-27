@@ -107,11 +107,11 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=182 implemented-equivalent=1 not-applicable=3 reference-only=2 deferred-next-batch=669 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=190 implemented-equivalent=1 not-applicable=3 reference-only=3 deferred-next-batch=660 migrate-gap=0 -->
 
 固定した v0.2.33 comparison baseline の ledger は 5,119 records です。内訳は
-4,262 `generated-history`、182 `implemented-different-by-design`、1
-`implemented-equivalent`、3 `not-applicable`、669 `deferred-next-batch` です。
+4,262 `generated-history`、190 `implemented-different-by-design`、1
+`implemented-equivalent`、3 `not-applicable`、3 `reference-only`、660 `deferred-next-batch` です。
 Deferred record は予定された比較であり parity claim ではありません。
 capability/profile slice に `migrate-gap` は残っていません。
 
@@ -122,7 +122,7 @@ capability/profile slice に `migrate-gap` は残っていません。
 
 Governance entrypoint、getting-started route、CI/release boundary、capability/profile
 projection はこの baseline で review 済みです。上記 4 件は bounded な Rust-native counterpart として登録済みで、
-669 deferred semantic comparison は後続作業として残ります。
+660 deferred semantic comparison は後続作業として残ります。
 
 WI-274 は target checkout metadata と canonical comparison snapshot だけを、レビュー済み
 default branch commit に再バインドします。WI-273 は immutable な failed-delivery record として
@@ -207,8 +207,8 @@ adopter/external boundary を記録しました。
 | `Makefile` | implemented-different-by-design | Rust CLI、Cargo、明示的な CI/release script が Python Make orchestration を置き換え、request-scoped `--repo` を保ちます。 |
 
 WI-302/WI-304 batch に `migrate-gap` はありません。Ledger は 4,262
-`generated-history`、182 `implemented-different-by-design`、1 `implemented-equivalent`、
-3 `not-applicable`、669 `deferred-next-batch` です。2 workflow record は
+`generated-history`、190 `implemented-different-by-design`、1 `implemented-equivalent`、
+3 `not-applicable`、3 `reference-only`、660 `deferred-next-batch` です。2 workflow record は
 Rust-native の意図した別実装 boundary として close しましたが、source の Python installer
 や multi-stack matrix が Rust Runtime 内で実行されるとは主張しません。
 
@@ -302,3 +302,32 @@ source の実装や binary asset は Rust repository に copy しません。
 identity、snapshot、human decision、provider boundary を明示します。GIF は意図的に reference-only
 です。Python、Make、installer、binary は copy せず、local evidence を provider/enterprise assurance
 へ昇格させません。中国語と英語にも同じ結論と reader route を記載します。
+## WI-323 reference documentation foundation
+
+WI-323 は pinned source commit の次の 9 つの deferred documentation path を一つずつ比較します。
+source tooling を copy せず、Runtime authority も変更しない documentation batch です。
+
+| Reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/contributing/installation-document-maintenance.md` | implemented-different-by-design | tri-language reader route と documentation acceptance が thin home、link/metadata、version-neutral、no-guess/no-overwrite/no-fallback、separate approval の boundary を保ちます。 |
+| `docs/current/README.md` | implemented-different-by-design | `docs/current/README.*`、`.ai/README.md`、`.ai/glossary.md`、`AGENTS.md`、`docs/reference/README.*` が current Agent read route です。source の `make ai-documentation-read-set` は target command ではありません。 |
+| `docs/design/harden-work-item-pr-closure.md` | implemented-different-by-design | `docs/reference/agent-workflow.*`、`docs/reference/commands.md`、Rust lifecycle が latest base、dedicated branch、reviewed PR、merge-before-close、synchronization、exact cleanup を強制します。provider PR operation は external です。 |
+| `docs/distribution.md` | implemented-different-by-design | target の current route と `docs/release/distribution.*` が compatibility entry、immutable artifact install、post-release adopter boundary を提供します。 |
+| `docs/enterprise-security-boundary.md` | implemented-different-by-design | `docs/security/enterprise-deployment-boundary.*`、`enterprise-governance.*`、`SECURITY.md` が repository evidence と delegated identity、sandbox、audit、certification control を分離します。 |
+| `docs/examples/trust-layer-demo.sh` | reference-only | offline stop/continue example は explanatory source material のままです。target evidence は typed Runtime preflight、capability、intent、adversarial test であり、shell authority は copy しません。 |
+| `docs/features/human-benefit-report.md` | implemented-different-by-design | Rust `OutcomeV2`、`work-item outcome`、MCP `work_item_outcome`、tri-language handoff test が human report order と evidence boundary を保ちます。 |
+| `docs/features/human-benefit-report.zh-CN.md` | implemented-different-by-design | Chinese presentation は同じ Rust Outcome/MCP route を使い、Contract acceptance text は authored value のまま machine translation しません。 |
+| `docs/features/human-benefit-report.ja.md` | implemented-different-by-design | Japanese presentation は同じ Rust Outcome/MCP route を使い、Contract acceptance text は authored value のまま machine translation しません。 |
+
+Cursor adopter feedback は version を正規化すると、この boundary と整合します。現在の
+Runtime は安定した stdout JSON と human handoff を出し、`work-item new`/`start` は未 close
+archive と事前変更を拒否し、readiness も明示します。CLI は Cursor の chat panel を展開できない
+ため、provider/Agent adapter が human handoff を表示または再生します。診断 remediation、
+close-gap convenience command、optional controls scaffold は後続の product decision であり、
+この batch の parity として暗黙に claim しません。target に `Makefile.ai` 要件はなく、明示的
+`--repo` の CLI/MCP が repository-neutral adopter interface です。
+
+これは semantic responsibility parity であり source wire/byte parity ではありません。source
+Make/Python report generator、installer script、trust demo は copy しません。object/adopter
+boundary は全 adopter で同じです。shared external Runtime、repository-local `.ai/` state、
+explicit repository context、provider-owned conversation presentation を使います。
