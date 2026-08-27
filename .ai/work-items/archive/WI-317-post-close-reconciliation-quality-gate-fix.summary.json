@@ -1,8 +1,8 @@
 {
   "changedPaths": [
     ".ai/decisions/WI-316-post-close-reconciliation-promotion-base-fix.recovery.732a549fc74bb49d5cb487892bc40d584f16e80071bfc5c9f3789185c178efa2.json",
-    ".ai/work-items/active/WI-317-post-close-reconciliation-quality-gate-fix.contract.json",
-    ".ai/work-items/active/WI-317-post-close-reconciliation-quality-gate-fix.summary.json"
+    ".ai/work-items/archive/WI-317-post-close-reconciliation-quality-gate-fix.contract.json",
+    ".ai/work-items/archive/WI-317-post-close-reconciliation-quality-gate-fix.summary.json"
   ],
   "checkpointAt": "2026-08-27T03:29:42Z",
   "checkpointContractDigest": "sha256:62555d2a27e4a7ee6c50184af9a8676d4109c1a9bee12599e18d878e3cd7e464",

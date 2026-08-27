@@ -15,24 +15,24 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-317-post-close-reconciliation-quality-gate-fix.summary.json"
+          ".ai/work-items/archive/WI-317-post-close-reconciliation-quality-gate-fix.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/WI-316-post-close-reconciliation-promotion-base-fix.recovery.732a549fc74bb49d5cb487892bc40d584f16e80071bfc5c9f3789185c178efa2.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-317-post-close-reconciliation-quality-gate-fix.summary.json"
+          ".ai/work-items/archive/WI-317-post-close-reconciliation-quality-gate-fix.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-317-post-close-reconciliation-quality-gate-fix.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-317-post-close-reconciliation-quality-gate-fix.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-317-post-close-reconciliation-quality-gate-fix.summary.json"
+          ".ai/work-items/archive/WI-317-post-close-reconciliation-quality-gate-fix.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-317-post-close-reconciliation-quality-gate-fix.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-317-post-close-reconciliation-quality-gate-fix.summary.json"
       }
     ],
     "evidence": [
@@ -88,7 +88,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-317-post-close-reconciliation-quality-gate-fix.contract.json"
+          ".ai/work-items/archive/WI-317-post-close-reconciliation-quality-gate-fix.contract.json"
         ],
         "inference": false,
         "text": "Make the recovery/parity/resource-finalization quality gate pass from the latest remote default base."
@@ -97,7 +97,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-317-post-close-reconciliation-quality-gate-fix.contract.json"
+          ".ai/work-items/archive/WI-317-post-close-reconciliation-quality-gate-fix.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

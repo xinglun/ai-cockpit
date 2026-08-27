@@ -15,8 +15,8 @@
 ## Delivered changes
 
 - Changed path: .ai/decisions/WI-316-post-close-reconciliation-promotion-base-fix.recovery.732a549fc74bb49d5cb487892bc40d584f16e80071bfc5c9f3789185c178efa2.json
-- Changed path: .ai/work-items/active/WI-317-post-close-reconciliation-quality-gate-fix.contract.json
-- Changed path: .ai/work-items/active/WI-317-post-close-reconciliation-quality-gate-fix.summary.json
+- Changed path: .ai/work-items/archive/WI-317-post-close-reconciliation-quality-gate-fix.contract.json
+- Changed path: .ai/work-items/archive/WI-317-post-close-reconciliation-quality-gate-fix.summary.json
 
 ## Findings
 
