@@ -1,0 +1,32 @@
+{
+  "acceptanceCriteria": [],
+  "authority": "unknown",
+  "baseRevision": "499d41f4472c7c20942ad4d99933937a10dbe1e3",
+  "createdAt": "2026-08-27T16:45:01Z",
+  "goal": "",
+  "intent": "",
+  "mode": "code",
+  "outOfScope": [],
+  "predecessorContractDigest": "sha256:8eeac4531a4d2ab5771967c1c8c71b060d9a3ebe804c621809d263b646104913",
+  "predecessorWorkItemId": "WI-334-evidence-binding-reuse",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-334-evidence-binding-reuse.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8e3162db52ca87a21171a0da348d6d0f90ae79c1b88c7caeea0b27ca612171c5",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "main",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "risk": "unknown",
+  "scope": [],
+  "sources": [],
+  "state": "not_ready",
+  "verification": [],
+  "workItemId": "WI-335-provider-finalization-correction"
+}
