@@ -107,7 +107,7 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=221 implemented-equivalent=1 not-applicable=3 reference-only=10 deferred-next-batch=622 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=221 implemented-equivalent=1 not-applicable=3 reference-only=13 deferred-next-batch=619 migrate-gap=0 -->
 
 固定した v0.2.33 comparison baseline の ledger は 5,119 records です。内訳は
 4,262 `generated-history`、221 `implemented-different-by-design`、1
@@ -449,3 +449,45 @@ tag と download artifact に bind します。全 command は明示的な `--re
 source Makefile、Python runner、コピーした V1 runtime は target requirement
 ではありません。6 つの言語版と inventory assertion がこの batch の omission
 防止記録です。
+
+## WI-332 — P0 comprehension-review evidence
+
+WI-332 は pinned source の comprehension-review evidence 3 file を一つずつ読みます。
+3 file はすべて `reference-only` です。これは reference repository 固有の過去の desk
+review record であり、reviewer、日付、score、言語別の結論を target の evidence に移す
+ことはできません。Target は localized home、philosophy、architecture、Agent workflow
+と documentation acceptance check で 6 問の reader route を保ちますが、独立した母語
+editorial review を捏造したり source evidence bytes を copy したりしません。これは
+semantic reader alignment であり、source study の合格を宣言するものではありません。
+
+| Pinned source path | 分類 | Rust counterpart / 境界の決定 |
+| --- | --- | --- |
+| `docs/reference/comprehension-review-2026-08-14.md` | reference-only | `docs/README.md`、`docs/philosophy.md`、`docs/architecture.md`、`docs/reference/agent-workflow.md`、`tests/docs/documentation_acceptance.sh` が English reader route と構造 check を担います。source reviewer result は移植しません。 |
+| `docs/reference/comprehension-review-2026-08-14.zh-CN.md` | reference-only | `docs/README.zh-CN.md`、`docs/philosophy.zh-CN.md`、`docs/architecture.zh-CN.md`、`docs/reference/agent-workflow.zh-CN.md` と documentation acceptance check が Chinese route を担います。母語 reviewer score は claim しません。 |
+| `docs/reference/comprehension-review-2026-08-14.ja.md` | reference-only | `docs/README.ja.md`、`docs/philosophy.ja.md`、`docs/architecture.ja.md`、`docs/reference/agent-workflow.ja.md` と documentation acceptance check が Japanese route を担います。母語 reviewer score は claim しません。 |
+
+外部 Cursor adopter feedback は別の validation input として扱います。Runtime の stable
+lifecycle JSON、replay 可能な human Outcome、readiness/start gate、verification
+invalidation は別 batch で確認済みです。この batch は automatic Cursor chat posting、
+`Makefile.ai`、close-gap convenience、controls template を current parity として
+黙って追加しません。
+
+### Cursor adopter feedback の評価（v0.2.33）
+
+以下の adopter matrix は現在の保証と明示的な境界を記録するもので、source の wire
+互換性を宣言するものではありません。
+
+| Feedback | Current boundary | Decision |
+| --- | --- | --- |
+| Agent 向け Outcome output | `finish`、`archive`、`close` は stdout に stable lifecycle JSON を出力します。`work-item outcome --json` と repository context 付き MCP `work_item_outcome` は replayable な machine entrypoint です。 | Runtime 実装済み。Cursor chat への handoff 表示は Cursor 側であり、CLI は IDE panel を開けません。 |
+| 次の Work Item 前の close | readiness/lifecycle entry は active Work Item、未 close の archive、dirty source path、detached HEAD、未同期 default base を拒否します。 | fail-closed で実装済み。`ready_on_base` は明示状態です。 |
+| start timing と base binding | start 前の non-governance change を拒否し、実装前に明示 branch/worktree/base context を bind します。 | fail-closed で実装済み。 |
+| finalize/close diagnostics | error は failure boundary と recovery condition を示しますが、専用 `close-gap` remediation command はありません。 | Partial。詳細な診断は将来の bounded product decision です。 |
+| controls scaffolding | 宣言済み controls/evidence を検証し、acceptance decision を発明せず完全な controls template も生成しません。 | 意図した decision-free boundary です。 |
+| merge 後の close recovery | 明示的な `finalize`、`finalize-verify`、`close` と readiness/status projection が lifecycle をカバーします。 | Current lifecycle が authoritative。`close-gap` alias は任意の host UX です。 |
+| Make integration | target は明示的な `--repo` CLI/MCP と provider adapter を使用します。source `Makefile.ai` orchestration は protocol requirement ではありません。 | parity omission ではなく、source Make/Python orchestration はコピーしません。 |
+| verification invalidation | lifecycle boundary で source snapshot、Contract、repository identity、evidence binding を検証し、source change 後は fresh verification が必要です。 | fail-closed で実装済み。archive bytes は immutable historical truth です。 |
+
+今後の Runtime 変更は human-owned な bounded Contract、test、三言語 documentation、
+published-Runtime acceptance を持つ Work Item で行います。adopter feedback を未追跡の
+promise にしません。

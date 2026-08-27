@@ -43,6 +43,7 @@ WI326_BATCH = "WI-326-reference-file-comparison-batch-06"
 WI327_BATCH = "WI-327-reference-file-comparison-batch-07"
 WI328_BATCH = "WI-328-reference-file-comparison-batch-08"
 WI331_BATCH = "WI-331-reference-file-comparison-batch-09"
+WI332_BATCH = "WI-332-reference-file-comparison-batch-10"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -843,6 +844,42 @@ WI331_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
     ),
 }
 
+WI332_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "docs/reference/comprehension-review-2026-08-14.md": (
+        "reference-only",
+        [
+            "docs/README.md",
+            "docs/philosophy.md",
+            "docs/architecture.md",
+            "docs/reference/agent-workflow.md",
+            "tests/docs/documentation_acceptance.sh",
+        ],
+        "This source file is a historical P0 desk-review evidence record authored for the reference repository. Its reviewer result cannot be transferred as target evidence or recreated without an actual independent review. The target preserves the six-question reader route through its English documentation and acceptance checks, while keeping native editorial quality explicitly unverified.",
+    ),
+    "docs/reference/comprehension-review-2026-08-14.zh-CN.md": (
+        "reference-only",
+        [
+            "docs/README.zh-CN.md",
+            "docs/philosophy.zh-CN.md",
+            "docs/architecture.zh-CN.md",
+            "docs/reference/agent-workflow.zh-CN.md",
+            "tests/docs/documentation_acceptance.sh",
+        ],
+        "This source file is a historical Simplified Chinese desk-review evidence record from the reference repository, not a portable claim about the target. The target supplies the same reader questions through localized routes and link checks, but does not invent a native-language reviewer result or copy source evidence bytes.",
+    ),
+    "docs/reference/comprehension-review-2026-08-14.ja.md": (
+        "reference-only",
+        [
+            "docs/README.ja.md",
+            "docs/philosophy.ja.md",
+            "docs/architecture.ja.md",
+            "docs/reference/agent-workflow.ja.md",
+            "tests/docs/documentation_acceptance.sh",
+        ],
+        "This source file is a historical Japanese desk-review evidence record from the reference repository. The target keeps the six-question reader route and localized link checks, but cannot claim an independent native editorial review or transfer the source review's score as evidence.",
+    ),
+}
+
 
 def wi270_counterpart(path: str) -> tuple[list[str], str] | None:
     if path in WI270_DOC_CONCEPTS:
@@ -1285,6 +1322,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 }
             )
             continue
+        wi332 = WI332_REFERENCE_FILES.get(path)
+        if wi332 is not None:
+            classification, counterparts, reason = wi332
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI332_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
         wi302 = WI302_REFERENCE_FILES.get(path)
         if wi302 is not None:
             classification, counterparts, reason = wi302
@@ -1591,6 +1641,38 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for classification in wi331_classifications
         ):
             errors.append("WI-331 batch cannot leave deferred or migrate-gap records")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI332_BATCH
+        for record in records
+    ):
+        wi332_records = [
+            record
+            for record in records
+            if isinstance(record, dict) and record.get("batch") == WI332_BATCH
+        ]
+        expected_wi332_paths = set(WI332_REFERENCE_FILES)
+        actual_wi332_paths = {
+            record.get("referencePath")
+            for record in wi332_records
+            if isinstance(record.get("referencePath"), str)
+        }
+        if actual_wi332_paths != expected_wi332_paths:
+            errors.append(
+                "WI-332 batch paths do not match the pinned three-file set: "
+                f"expected {sorted(expected_wi332_paths)!r}, got {sorted(actual_wi332_paths)!r}"
+            )
+        if len(wi332_records) != len(expected_wi332_paths):
+            errors.append(
+                f"WI-332 batch must contain {len(expected_wi332_paths)} records, found {len(wi332_records)}"
+            )
+        wi332_classifications = [record.get("classification") for record in wi332_records]
+        if wi332_classifications.count("reference-only") != len(expected_wi332_paths):
+            errors.append("WI-332 batch must contain three reference-only records")
+        if any(
+            classification in {"deferred-next-batch", "migrate-gap"}
+            for classification in wi332_classifications
+        ):
+            errors.append("WI-332 batch cannot leave deferred or migrate-gap records")
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(records):
         errors.append(f"referenceTrackedFileCount {expected_count!r} != record count {len(records)}")

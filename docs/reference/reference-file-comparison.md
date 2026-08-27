@@ -123,7 +123,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=221 implemented-equivalent=1 not-applicable=3 reference-only=10 deferred-next-batch=622 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=221 implemented-equivalent=1 not-applicable=3 reference-only=13 deferred-next-batch=619 migrate-gap=0 -->
 
 At the pinned v0.2.33 comparison baseline, the ledger contains 5,119 records:
 4,262 `generated-history`, 221 `implemented-different-by-design`, one
@@ -482,6 +482,26 @@ Cursor/host adapters must surface the durable handoff because the Runtime
 cannot expand an IDE chat panel. Diagnostic remediation, controls scaffolding,
 close-gap convenience, and Makefile integration remain explicit non-goals here.
 
+### Cursor adopter feedback assessment (v0.2.33)
+
+This adopter matrix records current guarantees and explicit boundaries; it is
+not a source wire-compatibility claim.
+
+| Feedback | Current boundary | Decision |
+| --- | --- | --- |
+| Agent-facing Outcome output | `finish`, `archive`, and `close` emit stable lifecycle JSON on stdout; `work-item outcome --json` and repository-bound MCP `work_item_outcome` are replayable machine entrypoints. | Implemented in Runtime. Cursor must surface the handoff in chat; the CLI cannot expand an IDE panel. |
+| Close before the next Work Item | Readiness/lifecycle entry rejects active Work Items, unclosed archives, dirty source paths, detached heads, and unsynchronized default bases. | Implemented fail-closed; `ready_on_base` is explicit. |
+| Start timing and base binding | Start rejects pre-existing non-governance changes and binds explicit branch/worktree/base context before implementation. | Implemented fail-closed. |
+| Finalize/close diagnostics | Errors include the failing boundary and recovery condition; there is no dedicated `close-gap` remediation command. | Partial; richer diagnostics are a future bounded product decision. |
+| Controls scaffolding | Declared controls/evidence are validated; acceptance decisions are never invented and a complete controls template is not generated. | Deliberately decision-free. |
+| Post-merge close recovery | Explicit `finalize`, `finalize-verify`, `close`, and readiness/status projections cover the lifecycle. | Current lifecycle is authoritative; a `close-gap` alias is optional host UX. |
+| Make integration | The target uses explicit `--repo` CLI/MCP and provider adapters; source `Makefile.ai` orchestration is not a protocol requirement. | Not a parity omission; source Make/Python orchestration is not copied. |
+| Verification invalidation | Source snapshot, Contract, repository identity, and evidence bindings are checked at lifecycle boundaries; source changes require fresh verification. | Implemented fail-closed; archived bytes remain immutable historical truth. |
+
+Any future Runtime change must use a human-owned bounded Contract, tests,
+tri-language documentation, and published-Runtime acceptance; adopter feedback
+does not become an untracked promise.
+
 ## WI-330 capability-truth boundary decision
 
 WI-330 re-reads the four pinned source files individually and records the
@@ -520,3 +540,28 @@ bound to immutable tags and downloaded artifacts. `--repo` remains mandatory,
 and a source `Makefile`, Python runner, or copied V1 runtime is not a target
 requirement. The six language counterparts and inventory assertions are the
 anti-omission record for this batch.
+
+## WI-332 P0 comprehension-review evidence
+
+WI-332 reads the three pinned comprehension-review evidence files individually.
+All three remain `reference-only`: they are historical desk-review records
+whose reviewer, date, score, and language claims belong to the reference
+repository and cannot be transferred as evidence for this target. The target
+does preserve the six-question reader route through its localized home,
+philosophy, architecture, and Agent-workflow pages, with link and metadata
+checks. It does not invent an independent native-language editorial review or
+copy source evidence bytes. This is semantic reader alignment, not a claim that
+the target has passed the source study.
+
+| Pinned source path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/comprehension-review-2026-08-14.md` | reference-only | `docs/README.md`, `docs/philosophy.md`, `docs/architecture.md`, `docs/reference/agent-workflow.md`, and `tests/docs/documentation_acceptance.sh` provide the English reader route and structural checks; the source reviewer result is not portable evidence. |
+| `docs/reference/comprehension-review-2026-08-14.zh-CN.md` | reference-only | `docs/README.zh-CN.md`, `docs/philosophy.zh-CN.md`, `docs/architecture.zh-CN.md`, `docs/reference/agent-workflow.zh-CN.md`, and the documentation acceptance checks provide the Chinese route; no native reviewer score is claimed. |
+| `docs/reference/comprehension-review-2026-08-14.ja.md` | reference-only | `docs/README.ja.md`, `docs/philosophy.ja.md`, `docs/architecture.ja.md`, `docs/reference/agent-workflow.ja.md`, and the documentation acceptance checks provide the Japanese route; no native reviewer score is claimed. |
+
+The external Cursor adopter feedback remains a separate validation input. The
+Runtime's stable lifecycle JSON, replayable human Outcome, readiness/start
+gates, and verification invalidation are already covered elsewhere. Automatic
+Cursor chat posting, `Makefile.ai`, close-gap convenience commands, and
+controls templates are not silently promoted to current parity by this evidence
+batch.

@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-27T14:48:35Z",
+  "files": {
+    "contractDigest": "sha256:27ea5240e05168b323ffa780238a5df3ffc8616e0ee195283043607f305afae7",
+    "contractPath": ".ai/work-items/archive/WI-332-comprehension-review.contract.json",
+    "eventsDigest": "sha256:c5e774fc598936927d356db82f02d436d0f4f1879a89adc95f7cb19e3f4c889d",
+    "eventsPath": ".ai/work-items/archive/WI-332-comprehension-review.events.jsonl",
+    "outcomeDigest": "sha256:e266c2e387bb451050dde231e18f12ed24d2573507995f67d1c8792a2c6a9bf5",
+    "outcomePath": ".ai/work-items/archive/WI-332-comprehension-review.outcome.json",
+    "summaryDigest": "sha256:21fc30e666943ef1dca4d1c4cc2b604d02b51dba9618f7f596e9a83960c7019d",
+    "summaryPath": ".ai/work-items/archive/WI-332-comprehension-review.summary.json",
+    "taskReportDigest": "sha256:0ffda2cb0c6734f5cf372a33fd3df9adea7d958f704691dbf3fb65a154ce8d7b",
+    "taskReportMarkdownDigest": "sha256:c32072a439c1c912b9e3eb1625d1d3d9e11ba656cd68d4e3365a5fa4dace3ed5",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-332-comprehension-review.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-332-comprehension-review.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-332-comprehension-review"
+}

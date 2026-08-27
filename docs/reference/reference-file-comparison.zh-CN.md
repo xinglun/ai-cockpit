@@ -103,7 +103,7 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=221 implemented-equivalent=1 not-applicable=3 reference-only=10 deferred-next-batch=622 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=221 implemented-equivalent=1 not-applicable=3 reference-only=13 deferred-next-batch=619 migrate-gap=0 -->
 
 在固定的 v0.2.33 比较基线上，台账共有 5,119 条记录：4,262 条
 `generated-history`、221 条 `implemented-different-by-design`、1 条
@@ -416,3 +416,40 @@ WI-331 逐一对比固定源版本中的以下两个路径。两者均按“有�
 | `docs/reference/ci-release-evidence.md` | implemented-different-by-design | `docs/reference/ci-release-evidence.*`、`.github/workflows/ci.yml`、`.github/workflows/release.yml`、发布分发检查和 adopter acceptance harness 绑定 provider job、commit/base/head、artifact、checksum、SBOM、provenance 与隔离 receipt。跳过或失败的 job 保持可见，PR 文本不会成为证据。 |
 
 边界明确如下：目标 Runtime 负责 repository-local Contract 与 gate 决定；托管 CI、签名、SBOM/provenance provider 和企业审计系统负责其 delegated evidence。公开发布事实绑定不可变 tag 与下载 artifact。所有命令仍必须显式 `--repo`；源项目 Makefile、Python runner 或复制的 V1 runtime 不是目标要求。六份语言对应文档与 inventory 断言共同构成此批次的防遗漏记录。
+
+## WI-332：P0 理解审查证据
+
+WI-332 逐一读取固定参考源中的三个理解审查证据文件。三者均登记为
+`reference-only`：它们是参考源仓库的历史桌面审查记录，审查者、日期、得分和语言结论
+不能转移为本工程的证据。目标通过本地化首页、设计思想、架构、Agent workflow 和
+文档 acceptance 检查保留六问读者路线，但不虚构独立的母语编辑审查，也不复制源证据
+字节。这是语义读者路线对齐，不是宣称目标通过了源项目的审查。
+
+| 固定源路径 | 分类 | Rust 对应物 / 有界决定 |
+| --- | --- | --- |
+| `docs/reference/comprehension-review-2026-08-14.md` | reference-only | `docs/README.md`、`docs/philosophy.md`、`docs/architecture.md`、`docs/reference/agent-workflow.md` 与 `tests/docs/documentation_acceptance.sh` 提供英文读者路线和结构检查；源审查结果不可移植。 |
+| `docs/reference/comprehension-review-2026-08-14.zh-CN.md` | reference-only | `docs/README.zh-CN.md`、`docs/philosophy.zh-CN.md`、`docs/architecture.zh-CN.md`、`docs/reference/agent-workflow.zh-CN.md` 与文档 acceptance 检查提供中文路线；不宣称母语审查得分。 |
+| `docs/reference/comprehension-review-2026-08-14.ja.md` | reference-only | `docs/README.ja.md`、`docs/philosophy.ja.md`、`docs/architecture.ja.md`、`docs/reference/agent-workflow.ja.md` 与文档 acceptance 检查提供日文路线；不宣称母语审查得分。 |
+
+外部 Cursor 采用方反馈仍是独立的验证输入。Runtime 的稳定 lifecycle JSON、可重放的
+human Outcome、readiness/start 门禁以及 verification 失效机制已在其他批次覆盖。本批不把
+自动向 Cursor 聊天发布、`Makefile.ai`、close-gap 便利命令或 controls 模板静默提升为当前
+parity。
+
+### Cursor 采用方反馈评估（v0.2.33）
+
+下面的采用方矩阵记录当前保证和明确边界，不是源工程 wire 兼容性声明。
+
+| 反馈 | 当前边界 | 决定 |
+| --- | --- | --- |
+| 面向 Agent 的 Outcome 输出 | `finish`、`archive`、`close` 在 stdout 输出稳定 lifecycle JSON；`work-item outcome --json` 和带 repository context 的 MCP `work_item_outcome` 是可重放机器入口。 | Runtime 已实现。Cursor 必须在对话中展示 handoff；CLI 无法展开 IDE 面板。 |
+| 下一个 Work Item 之前必须 close | readiness/lifecycle entry 拒绝 active Work Item、未关闭 archive、脏源文件、detached HEAD 以及未同步默认基线。 | 已实现且 fail-closed；`ready_on_base` 是显式状态。 |
+| start 时机和 base 绑定 | start 拒绝开始前已有的非治理变更，并在实现前绑定显式 branch/worktree/base context。 | 已实现且 fail-closed。 |
+| finalize/close 诊断 | 错误包含失败边界和恢复条件，但没有专用 `close-gap` 修复命令。 | 部分实现；更丰富的诊断属于未来有边界的产品决策。 |
+| controls 脚手架 | 校验已声明的 controls/evidence，不发明 acceptance 决定，也不生成完整 controls 模板。 | 有意保持不生成治理决定。 |
+| merge 后 close 恢复 | 显式 `finalize`、`finalize-verify`、`close` 以及 readiness/status 投影覆盖 lifecycle。 | 当前 lifecycle 是权威；`close-gap` 别名属于可选宿主 UX。 |
+| Make 集成 | 目标使用显式 `--repo` CLI/MCP 和 provider adapter；源 `Makefile.ai` 编排不是协议要求。 | 不是 parity 遗漏；不复制源 Make/Python 编排。 |
+| verification 失效 | lifecycle 边界校验 source snapshot、Contract、repository identity 和 evidence binding；源变更后必须重新 verification。 | 已实现且 fail-closed；归档 bytes 保持不可变历史事实。 |
+
+任何未来 Runtime 变更都必须使用人拥有的有边界 Contract、测试、三语文档和发布版本验收；
+采用方反馈不会变成未登记的承诺。

@@ -1,0 +1,60 @@
+{
+  "acceptanceCriteria": [
+    "Each pinned comprehension-review source path is read and classified with evidence-backed Rust correspondence or reference-only reason.",
+    "The three target-language documents preserve the six-question semantic boundary without claiming independent native editorial review.",
+    "Reference comparison/parity and generated inventory are updated consistently; no deferred path in this batch remains unrecorded.",
+    "Cursor adopter feedback remains explicitly bounded: machine-readable Outcome is available, host chat display and Makefile.ai are not silently claimed."
+  ],
+  "authority": "authorized",
+  "baseRevision": "23a657c847e444b0e5142534eb80182c687ed7da",
+  "createdAt": "2026-08-27T14:39:06Z",
+  "goal": "对 comprehension review 三语路径给出可审计的 Rust-native 对应、明确非母语编辑质量声明，并把每条路径登记到 pinned inventory。",
+  "intent": "完成固定参考源 P0 comprehension review 证据三语文件的逐文件语义比对，并在 Rust 工程记录等价的读者理解与证据边界。",
+  "mode": "code",
+  "outOfScope": [
+    "docs/reference/comprehension-validation-protocol.*",
+    "docs/reference/comprehension-validation-response.schema.json",
+    "docs/reference/comprehension-validation-responses/**",
+    "docs/reference/comprehension-validation-results.*",
+    "source Python/Make implementation or provider chat automation"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9609137d8e591ec171915141027bada8a7a7e3c5641e9f39b730f9521437aebc",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-332-comprehension-review",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/296",
+    "worktree": "/private/tmp/ai-cockpit-wi332-comprehension-review"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/comprehension-review-2026-08-14.md",
+    "docs/reference/comprehension-review-2026-08-14.zh-CN.md",
+    "docs/reference/comprehension-review-2026-08-14.ja.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/work-items/WI-332-comprehension-review.md",
+    "docs/work-items/WI-332-comprehension-review.zh-CN.md",
+    "docs/work-items/WI-332-comprehension-review.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-332-comprehension-review"
+}
