@@ -107,11 +107,11 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=232 implemented-equivalent=1 not-applicable=4 reference-only=28 deferred-next-batch=592 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=239 implemented-equivalent=1 not-applicable=3 reference-only=27 deferred-next-batch=587 migrate-gap=0 -->
 
 固定した v0.2.33 comparison baseline の ledger は 5,119 records です。内訳は
-4,262 `generated-history`、232 `implemented-different-by-design`、1
-`implemented-equivalent`、4 `not-applicable`、28 `reference-only`、592 `deferred-next-batch` です。
+4,262 `generated-history`、239 `implemented-different-by-design`、1
+`implemented-equivalent`、3 `not-applicable`、27 `reference-only`、587 `deferred-next-batch` です。
 Deferred record は予定された比較であり parity claim ではありません。
 capability/profile slice に `migrate-gap` は残っていません。
 
@@ -122,7 +122,7 @@ capability/profile slice に `migrate-gap` は残っていません。
 
 Governance entrypoint、getting-started route、CI/release boundary、capability/profile
 projection はこの baseline で review 済みです。上記 4 件は bounded な Rust-native counterpart として登録済みで、
-592 deferred semantic comparison は後続作業として残ります。
+587 deferred semantic comparison は後続作業として残ります。
 
 WI-274 は target checkout metadata と canonical comparison snapshot だけを、レビュー済み
 default branch commit に再バインドします。WI-273 は immutable な failed-delivery record として
@@ -206,7 +206,7 @@ adopter/external boundary を記録しました。
 | `LICENSE` | implemented-different-by-design | 両方 MIT です。Copyright と Rust packaging は target 定義であり source の本文は copy しません。 |
 | `Makefile` | implemented-different-by-design | Rust CLI、Cargo、明示的な CI/release script が Python Make orchestration を置き換え、request-scoped `--repo` を保ちます。 |
 
-WI-302/WI-304 batch に `migrate-gap` はありません。Ledger は 4,262
+WI-302/WI-304 batch 完了時の ledger snapshot は 4,262
 `generated-history`、190 `implemented-different-by-design`、1 `implemented-equivalent`、
 3 `not-applicable`、3 `reference-only`、660 `deferred-next-batch` です。2 workflow record は
 Rust-native の意図した別実装 boundary として close しましたが、source の Python installer
@@ -563,3 +563,34 @@ automation、historical cleanup tooling を分離して判定しています。
 これは semantic responsibility comparison であり、source command や wire compatibility の主張ではありません。
 Rust は reference Python、Make target、Dependabot workflow、deletion registry、generated history を copy しません。
 Work Item archive と human Outcome が authority であり、derived view は後続の決定を authorize できません。残りの ledger record は明示的に deferred のままです。
+
+## WI-342 — ドキュメント、配布、enterprise boundary の batch
+
+WI-342 は pinned reference commit
+`e5acb677da6621004d96f0ef353c58fe8d3acfbf` の次の 10 path を一つずつ読みました。
+8 path は `implemented-different-by-design`、2 path は `reference-only` です。
+target は reader route、distribution、authority boundary、enterprise boundary の責任を保持しますが、
+source の Python/Make orchestration、source adopter record、provider claim はコピーしません。
+
+| Pinned source path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/distribution.md` | implemented-different-by-design | `docs/release/distribution.*` と public/N-1 adopter acceptance が immutable Release、shared Runtime install、repository binding、checksum/SBOM/provenance、cleanup boundary を担当します。 |
+| `docs/reference/distribution.ja.md` | implemented-different-by-design | Japanese route は `docs/release/distribution.ja.md` と同じ target-specific acceptance harness で表現し、source Make/Python の詳細や bytes はコピーしません。 |
+| `docs/reference/documentation-architecture.md` | implemented-different-by-design | `docs/current/README.md`、getting-started/reference route、tri-language documentation checks、comparison ledger が canonical layer、reader route、owner、split rule を保持します。 |
+| `docs/reference/documentation-architecture.ja.md` | implemented-different-by-design | Japanese current/getting-started/reference route が source の reader map と language boundary を保持し、`.ai/README.md` と明示的 Runtime page が instruction boundary です。 |
+| `docs/reference/documentation-authority-boundary.md` | implemented-different-by-design | `.ai/README.md`、`AGENTS.md`、current/reference route、frontmatter、documentation acceptance が current instruction、opt-in reference、historical record を分離します。 |
+| `docs/reference/documentation-authority-registry.json` | implemented-different-by-design | 明示的な target route と metadata check が source topic registry を置き換えます。global Agent configuration や未検証の source topic capability は導入しません。 |
+| `docs/reference/documentation-context-registry.json` | reference-only | Source plan/context label は source 内部 record であり、portable Runtime authority や adopter evidence ではありません。target は current `.ai` instruction と immutable Work Item/archive history を保持し、registry はコピーしません。 |
+| `docs/reference/enterprise-control-checklist.md` | implemented-different-by-design | tri-language enterprise-governance、deployment-boundary、adopter-configuration が repository fact、delegated evidence、retention/audit owner、non-certification claim を分離します。 |
+| `docs/reference/enterprise-control-matrix.json` | reference-only | Source observed-control row は portable compliance result ではありません。target は delegated evidence と policy route で current external receipt を要求し、source `not_verified` state はコピーしません。 |
+| `docs/reference/external-identity-boundary.md` | implemented-different-by-design | typed Rust authority/approval evidence、policy precedence、external evidence import、Contract field、enterprise page が identity level を保持しますが、person を local に authenticate しません。 |
+
+2 つの `reference-only` record は target capability に昇格しません。source context metadata と source adopter
+control observation は evidence として移転できません。これは semantic/documentation parity であり、
+JSON-wire parity ではありません。object/adopter boundary は shared Runtime、repository ごとの `.ai/` isolation、
+external provider evidence、organization-level identity/compliance を主張しないことです。
+
+この batch 後の ledger は 5,119 record です。4,262 `generated-history`、239
+`implemented-different-by-design`、1 `implemented-equivalent`、3 `not-applicable`、27
+`reference-only`、587 `deferred-next-batch`、`migrate-gap` は 0 です。587 deferred は後続の逐次比較であり、
+parity claim ではありません。

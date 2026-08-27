@@ -46,6 +46,7 @@ WI331_BATCH = "WI-331-reference-file-comparison-batch-09"
 WI332_BATCH = "WI-332-reference-file-comparison-batch-10"
 WI333_BATCH = "WI-333-reference-file-comparison-batch-11"
 WI334_BATCH = "WI-334-reference-file-comparison-batch-12"
+WI342_BATCH = "WI-342-reference-documentation-batch-13"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -1089,6 +1090,122 @@ WI334_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
     ),
 }
 
+WI342_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "docs/reference/distribution.md": (
+        "implemented-different-by-design",
+        [
+            "docs/release/distribution.md",
+            "docs/release/distribution.zh-CN.md",
+            "docs/release/distribution.ja.md",
+            "tests/release/adopter_acceptance.sh",
+            "tests/release/adopter_upgrade_acceptance.sh",
+        ],
+        "The source distribution reference is represented by the target's release/distribution route and immutable public/N-1 adopter acceptance harness. Rust documents explicit shared-Runtime installation, repository binding, checksum/SBOM/provenance and cleanup boundaries; source Make/Python commands and source release bytes are not copied.",
+    ),
+    "docs/reference/distribution.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/release/distribution.ja.md",
+            "docs/release/distribution.zh-CN.md",
+            "docs/release/distribution.md",
+            "tests/release/adopter_acceptance.sh",
+            "tests/release/adopter_upgrade_acceptance.sh",
+        ],
+        "The Japanese source distribution route is preserved in the target's tri-language release/distribution pages and public/N-1 acceptance harness. Target-specific Rust Runtime and repository binding semantics replace source Make/Python installer details without claiming byte or wire parity.",
+    ),
+    "docs/reference/documentation-architecture.md": (
+        "implemented-different-by-design",
+        [
+            "docs/current/README.md",
+            "docs/getting-started/README.md",
+            "docs/reference/README.md",
+            "docs/reference/reference-file-comparison.md",
+            "tests/docs/documentation_acceptance.sh",
+        ],
+        "The source documentation layers, reader-criticality, canonical ownership, multilingual map, and split rules are represented by the target current/getting-started/reference routes, tri-language acceptance checks, and explicit parity ledger. The target keeps the installed Runtime and repository-local .ai read set as authority; source make/Python documentation tooling is not copied.",
+    ),
+    "docs/reference/documentation-architecture.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/current/README.ja.md",
+            "docs/getting-started/README.ja.md",
+            "docs/reference/README.ja.md",
+            "docs/reference/reference-file-comparison.ja.md",
+            "tests/docs/documentation_acceptance.sh",
+        ],
+        "The Japanese source reader map and layer ownership are represented by the target Japanese current/getting-started/reference routes and shared tri-language acceptance checks. The source navigation prose is not a Runtime authority file; repository-local .ai instructions and explicit Rust pages remain the boundary.",
+    ),
+    "docs/reference/documentation-authority-boundary.md": (
+        "implemented-different-by-design",
+        [
+            "docs/current/README.md",
+            "docs/current/README.zh-CN.md",
+            "docs/current/README.ja.md",
+            ".ai/README.md",
+            "AGENTS.md",
+            "tests/docs/documentation_acceptance.sh",
+        ],
+        "The target preserves the source separation between current instructions, supporting reference pages, and historical records through the repository-owned .ai read set, AGENTS.md, current/reference routes, frontmatter, and documentation acceptance. It intentionally has no second generic authority router or source-specific Python command.",
+    ),
+    "docs/reference/documentation-authority-registry.json": (
+        "implemented-different-by-design",
+        [
+            "docs/current/README.md",
+            "docs/current/README.zh-CN.md",
+            "docs/current/README.ja.md",
+            "docs/reference/README.md",
+            "docs/reference/README.zh-CN.md",
+            "docs/reference/README.ja.md",
+            "tests/docs/documentation_acceptance.sh",
+        ],
+        "The source machine-readable authority/topic registry is replaced by explicit target current/reference navigation, frontmatter authority/status metadata, tri-language route checks, and the .ai/AGENTS read boundary. No source topic inventory is treated as Runtime capability or copied as a global Agent configuration.",
+    ),
+    "docs/reference/documentation-context-registry.json": (
+        "reference-only",
+        [
+            "docs/current/README.md",
+            "docs/reference/README.md",
+            ".ai/README.md",
+            ".ai/glossary.md",
+            "docs/reference/reference-file-comparison.md",
+        ],
+        "The source registry classifies source-specific plans and historical records. Those context labels are not portable adopter evidence or Runtime authority. The target explicitly keeps current instructions in .ai/README.md and AGENTS.md, reference pages opt-in, and Work Item/archive records immutable; no source plan registry is copied.",
+    ),
+    "docs/reference/enterprise-control-checklist.md": (
+        "implemented-different-by-design",
+        [
+            "docs/security/enterprise-governance.md",
+            "docs/security/enterprise-governance.zh-CN.md",
+            "docs/security/enterprise-governance.ja.md",
+            "docs/security/enterprise-deployment-boundary.md",
+            "docs/getting-started/adopter-configuration.md",
+        ],
+        "The source adopter checklist is represented by the target enterprise-governance, deployment-boundary, and adopter-configuration routes. Rust distinguishes repository facts, delegated provider evidence, retention/audit responsibilities, and non-certification claims; a checklist row never becomes enterprise approval by presence alone.",
+    ),
+    "docs/reference/enterprise-control-matrix.json": (
+        "reference-only",
+        [
+            "docs/security/enterprise-governance.md",
+            "docs/security/enterprise-deployment-boundary.md",
+            "docs/getting-started/adopter-configuration.md",
+            "docs/reference/reference-file-comparison.md",
+        ],
+        "The source JSON is an observed-control inventory owned by the reference adopter context, not a portable compliance result. The target documents the same external-control boundary and imports typed delegated evidence when supplied, but does not copy source not_verified rows or infer organization state.",
+    ),
+    "docs/reference/external-identity-boundary.md": (
+        "implemented-different-by-design",
+        [
+            "docs/security/enterprise-governance.md",
+            "docs/security/enterprise-governance.zh-CN.md",
+            "docs/security/enterprise-governance.ja.md",
+            "docs/reference/contract-fields.md",
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/tests/contract_v2.rs",
+        ],
+        "The source identity levels and approval boundary are implemented through typed Rust authority/approval evidence, policy precedence, external delegated evidence, and tri-language enterprise documentation. Repository declarations never authenticate a person; provider and enterprise assurance remain external and must be bound explicitly.",
+    ),
+}
+
 
 def wi270_counterpart(path: str) -> tuple[list[str], str] | None:
     if path in WI270_DOC_CONCEPTS:
@@ -1570,6 +1687,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 }
             )
             continue
+        wi342 = WI342_REFERENCE_FILES.get(path)
+        if wi342 is not None:
+            classification, counterparts, reason = wi342
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI342_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
         wi302 = WI302_REFERENCE_FILES.get(path)
         if wi302 is not None:
             classification, counterparts, reason = wi302
@@ -1940,6 +2070,40 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for classification in wi334_classifications
         ):
             errors.append("WI-334 batch cannot leave deferred or migrate-gap records")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI342_BATCH
+        for record in records
+    ):
+        wi342_records = [
+            record
+            for record in records
+            if isinstance(record, dict) and record.get("batch") == WI342_BATCH
+        ]
+        expected_wi342_paths = set(WI342_REFERENCE_FILES)
+        actual_wi342_paths = {
+            record.get("referencePath")
+            for record in wi342_records
+            if isinstance(record.get("referencePath"), str)
+        }
+        if actual_wi342_paths != expected_wi342_paths:
+            errors.append(
+                "WI-342 batch paths do not match the pinned ten-file set: "
+                f"expected {sorted(expected_wi342_paths)!r}, got {sorted(actual_wi342_paths)!r}"
+            )
+        if len(wi342_records) != len(expected_wi342_paths):
+            errors.append(
+                f"WI-342 batch must contain {len(expected_wi342_paths)} records, found {len(wi342_records)}"
+            )
+        wi342_classifications = [record.get("classification") for record in wi342_records]
+        if wi342_classifications.count("implemented-different-by-design") != 8:
+            errors.append("WI-342 batch must contain eight implemented-different-by-design records")
+        if wi342_classifications.count("reference-only") != 2:
+            errors.append("WI-342 batch must contain two reference-only records")
+        if any(
+            classification in {"deferred-next-batch", "migrate-gap"}
+            for classification in wi342_classifications
+        ):
+            errors.append("WI-342 batch cannot leave deferred or migrate-gap records")
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(records):
         errors.append(f"referenceTrackedFileCount {expected_count!r} != record count {len(records)}")
