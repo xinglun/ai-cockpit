@@ -95,7 +95,7 @@ fn closed_work_item(binary: &str) -> tempfile::TempDir {
         &["archive", "--id", "WI-OUTCOME-DECISION"],
         repo.path(),
     );
-    common::record_retained(binary, repo.path(), "WI-OUTCOME-DECISION");
+    common::record_deleted(binary, repo.path(), "WI-OUTCOME-DECISION");
     run(
         binary,
         &[

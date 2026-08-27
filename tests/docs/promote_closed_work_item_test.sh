@@ -249,6 +249,77 @@ grep -Fq 'promotion required' "$tmp/direct-terminal.err"
 python3 "$helper" --repo "$tmp/direct-terminal" --work-item WI-999-closed-docs-fixture
 python3 "$helper" --repo "$tmp/direct-terminal" --work-item WI-999-closed-docs-fixture --check
 
+# A legacy Runtime could close after a retained merged root.  The current
+# Runtime rejects that order, but a later append-only deleted transition is a
+# valid bounded reconciliation and must be promotable without rewriting the
+# original close binding.
+cp -R "$tmp/unpromoted" "$tmp/post-close-reconciliation"
+python3 - "$tmp/post-close-reconciliation" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = "WI-999-closed-docs-fixture"
+repository_id = json.loads((root / ".ai/project.json").read_text())["repositoryId"]
+decision_dir = root / ".ai/decisions"
+
+def canonical_digest(value: object) -> str:
+    encoded = json.dumps(value, ensure_ascii=False, separators=(",", ":"), sort_keys=True).encode()
+    return "sha256:" + hashlib.sha256(encoded).hexdigest()
+
+def write_json(path: Path, value: object) -> None:
+    path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+for path in decision_dir.glob(f"{work_item}.finalize.*.json"):
+    path.unlink()
+root_path = decision_dir / f"{work_item}.finalize.json"
+retained = json.loads(root_path.read_text(encoding="utf-8"))
+retained["before"] = {"branch": "present", "pullRequest": "merged", "worktree": "clean"}
+retained["after"] = {"branch": "present", "pullRequest": "merged", "worktree": "clean"}
+retained["pullRequest"]["mergeCommit"] = "f" * 40
+retained["result"] = {"disposition": "retained", "failureCodes": [], "unknownCodes": []}
+write_json(root_path, retained)
+root_digest = canonical_digest(retained)
+
+close_path = decision_dir / f"{work_item}.close.json"
+close = json.loads(close_path.read_text(encoding="utf-8"))
+root_relative = f".ai/decisions/{work_item}.finalize.json"
+close["resourceFinalizationSequence"] = 0
+close["resourceFinalizationHeadPath"] = root_relative
+close["resourceFinalizationHeadDigest"] = root_digest
+close["structuredDecision"]["evidenceRefs"] = [
+    f".ai/evidence/{work_item}.verification.json",
+    root_relative,
+]
+write_json(close_path, close)
+
+deleted = json.loads(json.dumps(retained))
+deleted["receiptId"] = "legacy-reconciliation"
+deleted["operationId"] = "legacy-reconciliation-operation"
+deleted["before"] = retained["after"]
+deleted["after"] = {"branch": "deleted", "pullRequest": "merged", "worktree": "removed"}
+deleted["result"] = {"disposition": "deleted", "failureCodes": [], "unknownCodes": []}
+transition = {
+    "schemaVersion": 1,
+    "transitionId": "legacy-cleanup-reconciliation",
+    "sequence": 1,
+    "predecessorReceiptDigest": root_digest,
+    "receipt": deleted,
+}
+transition_path = decision_dir / f"{work_item}.finalize.{canonical_digest(transition).removeprefix('sha256:')}.json"
+write_json(transition_path, transition)
+PY
+if python3 "$helper" --repo "$tmp/post-close-reconciliation" --work-item WI-999-closed-docs-fixture --check \
+  >"$tmp/post-close-reconciliation.out" 2>"$tmp/post-close-reconciliation.err"; then
+  echo 'promotion check accepted stale post-close reconciliation documentation' >&2
+  exit 1
+fi
+grep -Fq 'promotion required' "$tmp/post-close-reconciliation.err"
+python3 "$helper" --repo "$tmp/post-close-reconciliation" --work-item WI-999-closed-docs-fixture
+python3 "$helper" --repo "$tmp/post-close-reconciliation" --work-item WI-999-closed-docs-fixture --check
+
 # A valid recovery receipt makes an immutable predecessor historical rather
 # than normally promotable.  An invalid/non-canonical close may remain for
 # audit purposes, but check-all must skip that predecessor and never demand an

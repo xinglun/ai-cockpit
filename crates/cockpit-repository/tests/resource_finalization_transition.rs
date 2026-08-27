@@ -142,6 +142,21 @@ fn transition(previous: &Value, sequence: u64, deleted: bool) -> Value {
     .unwrap()
 }
 
+fn retained_root(previous: &Value) -> Value {
+    let mut receipt = previous.clone();
+    receipt["receiptId"] = "retained-root".into();
+    receipt["operationId"] = "retained-root-operation".into();
+    receipt["pullRequest"]["mergeCommit"] = "merge-191".into();
+    receipt["before"]["pullRequest"] = "merged".into();
+    receipt["after"]["pullRequest"] = "merged".into();
+    receipt["result"] = json!({
+        "disposition": "retained",
+        "failureCodes": [],
+        "unknownCodes": []
+    });
+    receipt
+}
+
 fn set_receipt_head(value: &mut Value, head: &str) {
     value["pullRequest"]["headRevision"] = head.into();
     value["branch"]["headRevision"] = head.into();
@@ -394,6 +409,138 @@ fn wi190_topology_appends_two_transitions_and_resolves_deleted_head() {
     assert_eq!(
         close["resourceFinalizationHeadDigest"],
         verified["headDigest"]
+    );
+}
+
+#[test]
+fn close_rejects_retained_finalization_before_writing_decision() {
+    let (directory, context, contract) = repository();
+    let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+    let blocked = blocked(&repository_id, &context, &contract);
+    let retained = retained_root(&blocked);
+    let input = write_input(&directory, "retained-root.json", &retained);
+    record_resource_finalization(directory.path(), ID, &input, &runtime()).unwrap();
+
+    let error = cockpit_repository::close_work_item_with_structured_decision(
+        directory.path(),
+        ID,
+        &HumanDecision {
+            decision: "approved".into(),
+            actor: "human:test".into(),
+            authority_source: "test".into(),
+            reason: "retained resources must be cleaned first".into(),
+            evidence_refs: vec![],
+            policy_refs: vec![],
+            decided_at: "2026-08-23T00:10:00Z".into(),
+            resume_condition: None,
+        },
+    )
+    .expect_err("close must fail before retained resources are deleted");
+    assert!(
+        error
+            .to_string()
+            .contains("requires resource finalization disposition deleted")
+    );
+    assert!(
+        !directory
+            .path()
+            .join(format!(".ai/decisions/{ID}.close.json"))
+            .exists()
+    );
+}
+
+#[test]
+fn post_close_reconciliation_appends_deleted_head_without_rewriting_close() {
+    let (directory, context, contract) = repository();
+    let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+    let blocked = blocked(&repository_id, &context, &contract);
+    let retained = retained_root(&blocked);
+    let input = write_input(&directory, "retained-root.json", &retained);
+    record_resource_finalization(directory.path(), ID, &input, &runtime()).unwrap();
+    let canonical = directory
+        .path()
+        .join(format!(".ai/decisions/{ID}.finalize.json"));
+    let canonical_value: Value = serde_json::from_slice(&fs::read(&canonical).unwrap()).unwrap();
+    let canonical_digest = cockpit_protocol::digest_json(&canonical_value).unwrap();
+    let close = json!({
+        "schemaVersion": 1,
+        "state": "closed",
+        "workItemId": ID,
+        "repositoryId": repository_id,
+        "decisionState": "confirmed",
+        "humanDecision": "approved",
+        "resourceFinalizationSequence": 0,
+        "resourceFinalizationHeadPath": format!(".ai/decisions/{ID}.finalize.json"),
+        "resourceFinalizationHeadDigest": canonical_digest
+    });
+    let close_path = directory
+        .path()
+        .join(format!(".ai/decisions/{ID}.close.json"));
+    fs::write(&close_path, serde_json::to_vec_pretty(&close).unwrap()).unwrap();
+    let close_before = fs::read(&close_path).unwrap();
+
+    let deleted = transition(&canonical_value, 1, true);
+    let deleted_input = write_input(&directory, "deleted-after-close.json", &deleted);
+    let result = record_resource_finalization(directory.path(), ID, &deleted_input, &runtime())
+        .expect("legacy post-close cleanup transition");
+    assert_eq!(result["state"], "appended");
+    assert_eq!(result["sequence"], 1);
+    assert_eq!(fs::read(&close_path).unwrap(), close_before);
+
+    let verified = verify_resource_finalization(directory.path(), ID, &runtime()).unwrap();
+    assert_eq!(verified["sequence"], 1);
+    assert_eq!(verified["disposition"], "deleted");
+}
+
+#[test]
+fn post_close_reconciliation_rejects_foreign_transition_runtime_identity() {
+    let (directory, context, contract) = repository();
+    let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+    let blocked = blocked(&repository_id, &context, &contract);
+    let retained = retained_root(&blocked);
+    let input = write_input(&directory, "retained-root.json", &retained);
+    record_resource_finalization(directory.path(), ID, &input, &runtime()).unwrap();
+    let canonical = directory
+        .path()
+        .join(format!(".ai/decisions/{ID}.finalize.json"));
+    let canonical_value: Value = serde_json::from_slice(&fs::read(&canonical).unwrap()).unwrap();
+    let canonical_digest = cockpit_protocol::digest_json(&canonical_value).unwrap();
+    let close = json!({
+        "schemaVersion": 1,
+        "state": "closed",
+        "workItemId": ID,
+        "repositoryId": repository_id,
+        "decisionState": "confirmed",
+        "humanDecision": "approved",
+        "resourceFinalizationSequence": 0,
+        "resourceFinalizationHeadPath": format!(".ai/decisions/{ID}.finalize.json"),
+        "resourceFinalizationHeadDigest": canonical_digest
+    });
+    let close_path = directory
+        .path()
+        .join(format!(".ai/decisions/{ID}.close.json"));
+    fs::write(&close_path, serde_json::to_vec_pretty(&close).unwrap()).unwrap();
+
+    let mut foreign = transition(&canonical_value, 1, true);
+    foreign["receipt"]["runtimeVersion"] = "foreign-runtime".into();
+    foreign["receipt"]["runtimeDigest"] =
+        Digest::sha256_bytes(b"foreign-runtime").to_string().into();
+    let foreign_input = write_input(&directory, "foreign-after-close.json", &foreign);
+    let error = record_resource_finalization(
+        directory.path(),
+        ID,
+        &foreign_input,
+        &RuntimeContext {
+            runtime_version: "new-runtime".into(),
+            protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"new-runtime"),
+        },
+    )
+    .expect_err("post-close reconciliation must preserve predecessor Runtime identity");
+    assert!(
+        error.to_string().contains("Runtime identity")
+            || error.to_string().contains("runtime identity"),
+        "unexpected error: {error}"
     );
 }
 
