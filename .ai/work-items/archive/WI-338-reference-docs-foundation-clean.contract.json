@@ -1,0 +1,77 @@
+{
+  "acceptanceCriteria": [
+    "Each pinned reference file is compared and recorded with explicit classification Rust counterparts and reason.",
+    "Tri-language comparison and parity documents state the semantic boundary without unsupported commands or capabilities.",
+    "Derived-artifact authority is documented without adding a second runtime authority or copying source implementation.",
+    "Provider and history-only behavior is explicitly classified and no unsupported parity is claimed.",
+    "Inventory documentation parity and workspace verification commands pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "b9efcd6847560eac9056c96f0229617a253ddab9",
+  "checkpointPolicy": {
+    "profile": "standard",
+    "requiredBeforeFinish": true,
+    "requiredChecks": [],
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "schemaVersion": 1
+  },
+  "createdAt": "2026-08-27T18:50:14Z",
+  "goal": "Complete the first bounded file-by-file semantic comparison batch for reference governance documentation without copying V1 runtime implementation.",
+  "intent": "Establish an auditable Rust-native mapping for the first five deferred reference documentation files so the remaining comparison ledger converges without claiming unsupported parity.",
+  "mode": "code",
+  "outOfScope": [
+    "Reference Python scripts",
+    "Make targets",
+    "V1 runtime modules",
+    "Source archive and history records",
+    "New cross-WI report engine",
+    "Dependabot provider integration",
+    "Deprecated-assets deletion workflow",
+    "Generic derived-artifact registry",
+    "Rust Core architecture",
+    "CI release adopter workflows",
+    "Scheduler and performance behavior",
+    "Global Agent and MCP configuration",
+    "Rewriting immutable historical records"
+  ],
+  "predecessorContractDigest": "sha256:53904beeb15a22988300349e93d01b464f5741f683ac43d2880048bbaac648df",
+  "predecessorWorkItemId": "WI-337-reference-docs-foundation-retry",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-337-reference-docs-foundation-retry.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e1d13a55ebdd1ea083c2d4e52633d88f3e793591d64d89d899c158e0b68b1a2a",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-336-reference-docs-foundation",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/300",
+    "worktree": "/private/tmp/ai-cockpit-wi336-reference-docs-foundation"
+  },
+  "risk": "low",
+  "scope": [
+    "tests/conformance/reference_file_inventory.json",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-338-reference-docs-foundation-clean.md",
+    "docs/work-items/WI-338-reference-docs-foundation-clean.zh-CN.md",
+    "docs/work-items/WI-338-reference-docs-foundation-clean.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-338-reference-docs-foundation-clean"
+}

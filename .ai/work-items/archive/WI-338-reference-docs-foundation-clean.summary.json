@@ -1,0 +1,66 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-337-reference-docs-foundation-retry.recovery.json",
+    ".ai/evidence/WI-337-reference-docs-foundation-retry.verification.json",
+    ".ai/work-items/active/WI-337-reference-docs-foundation-retry.events.jsonl",
+    ".ai/work-items/active/WI-337-reference-docs-foundation-retry.outcome.json",
+    ".ai/work-items/active/WI-337-reference-docs-foundation-retry.summary.json",
+    ".ai/work-items/archive/WI-338-reference-docs-foundation-clean.contract.json",
+    ".ai/work-items/archive/WI-338-reference-docs-foundation-clean.summary.json"
+  ],
+  "checkpointAt": "2026-08-27T18:51:36Z",
+  "checkpointContractDigest": "sha256:141ef3592709cfcec834475e4af5db4f7f47fabd2319d4c8250b004ecd9f8e12",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:141ef3592709cfcec834475e4af5db4f7f47fabd2319d4c8250b004ecd9f8e12",
+      "recorded": true,
+      "recordedAt": "2026-08-27T18:51:36Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8f75138f5a46b9c9340c8e7362379df236681350477d495fde3ab7962217dce4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-338-reference-docs-foundation-clean"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:141ef3592709cfcec834475e4af5db4f7f47fabd2319d4c8250b004ecd9f8e12",
+      "recorded": true,
+      "recordedAt": "2026-08-27T18:56:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8f75138f5a46b9c9340c8e7362379df236681350477d495fde3ab7962217dce4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_finish",
+      "unknownCount": 0,
+      "workItemId": "WI-338-reference-docs-foundation-clean"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:8f75138f5a46b9c9340c8e7362379df236681350477d495fde3ab7962217dce4",
+  "createdAt": "2026-08-27T18:50:14Z",
+  "mode": "code",
+  "predecessorContractDigest": "sha256:53904beeb15a22988300349e93d01b464f5741f683ac43d2880048bbaac648df",
+  "predecessorWorkItemId": "WI-337-reference-docs-foundation-retry",
+  "preflightAt": "2026-08-27T18:56:28Z",
+  "preflightContractDigest": "sha256:141ef3592709cfcec834475e4af5db4f7f47fabd2319d4c8250b004ecd9f8e12",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8f75138f5a46b9c9340c8e7362379df236681350477d495fde3ab7962217dce4",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-337-reference-docs-foundation-retry.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-27T18:56:32Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-338-reference-docs-foundation-clean"
+}

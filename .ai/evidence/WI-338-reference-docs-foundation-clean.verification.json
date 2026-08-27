@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:53904beeb15a22988300349e93d01b464f5741f683ac43d2880048bbaac648df",
-  "createdAt": "2026-08-27T18:49:09Z",
+  "contractDigest": "sha256:141ef3592709cfcec834475e4af5db4f7f47fabd2319d4c8250b004ecd9f8e12",
+  "createdAt": "2026-08-27T18:56:28Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 282960,
-      "executionElapsedMs": 282783,
+      "elapsedMs": 284043,
+      "executionElapsedMs": 283505,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 282960,
-    "executionElapsedMs": 282783,
-    "filesHashed": 5,
-    "filesRead": 5,
+    "elapsedMs": 284043,
+    "executionElapsedMs": 283505,
+    "filesHashed": 17,
+    "filesRead": 17,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,7 +36,14 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [],
+      "affectedPaths": [
+        "docs/reference/reference-parity.ja.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/work-items/WI-338-reference-docs-foundation-clean.ja.md",
+        "docs/work-items/WI-338-reference-docs-foundation-clean.md",
+        "docs/work-items/WI-338-reference-docs-foundation-clean.zh-CN.md"
+      ],
       "assurance": "repository_verified",
       "baseRevision": "b9efcd6847560eac9056c96f0229617a253ddab9",
       "dependencyConfidence": "unknown",
@@ -44,13 +51,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 282783,
+      "executionElapsedMs": 283505,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:e1d13a55ebdd1ea083c2d4e52633d88f3e793591d64d89d899c158e0b68b1a2a",
+      "repositorySnapshotDigest": "sha256:8f75138f5a46b9c9340c8e7362379df236681350477d495fde3ab7962217dce4",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -61,7 +68,7 @@
       ],
       "sharedNodes": [],
       "stage": "task",
-      "workItemId": "WI-337-reference-docs-foundation-retry"
+      "workItemId": "WI-338-reference-docs-foundation-clean"
     },
     "planningElapsedMs": 0,
     "processSpawnFailures": 0,
@@ -90,12 +97,12 @@
     ],
     "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
     "runtimeVersion": "0.2.33",
-    "workItemId": "WI-337-reference-docs-foundation-retry"
+    "workItemId": "WI-338-reference-docs-foundation-clean"
   },
-  "receiptDigest": "sha256:119285c1dc0629b5f8e5ac6c3c719fee45141e1f9421dc0b53fe0e85aec820d0",
+  "receiptDigest": "sha256:65bcc21514afc5f424cd21e3b6bc017701030132059675bec720395987692de8",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:e1d13a55ebdd1ea083c2d4e52633d88f3e793591d64d89d899c158e0b68b1a2a",
+  "repositorySnapshotDigest": "sha256:8f75138f5a46b9c9340c8e7362379df236681350477d495fde3ab7962217dce4",
   "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
   "runtimeVersion": "0.2.33",
-  "workItemId": "WI-337-reference-docs-foundation-retry"
+  "workItemId": "WI-338-reference-docs-foundation-clean"
 }
