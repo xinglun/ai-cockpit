@@ -103,11 +103,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=232 implemented-equivalent=1 not-applicable=4 reference-only=28 deferred-next-batch=592 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=239 implemented-equivalent=1 not-applicable=3 reference-only=27 deferred-next-batch=587 migrate-gap=0 -->
 
 在固定的 v0.2.33 比较基线上，台账共有 5,119 条记录：4,262 条
-`generated-history`、232 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、4 条 `not-applicable`、28 条 `reference-only` 与 592 条
+`generated-history`、239 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、3 条 `not-applicable`、27 条 `reference-only` 与 587 条
 `deferred-next-batch`。deferred 记录仍是待比较工作，不是 parity 声明。
 capability/profile slice 已没有 `migrate-gap`：
 
@@ -118,7 +118,7 @@ capability/profile slice 已没有 `migrate-gap`：
 4. `.ai/project_profile.yaml` 由 `.ai/project.json` 与严格 JSON `profile-policy.json` projection 表达。
 
 治理入口、getting-started 路线、CI/release 边界与 capability/profile projection 已按该基线审阅；
-以上四条是有界的 Rust-native counterpart，592 条 deferred 语义比较仍是后续工作。
+以上四条是有界的 Rust-native counterpart，587 条 deferred 语义比较仍是后续工作。
 
 WI-274 只将目标 checkout metadata 和 canonical comparison snapshot 重新绑定到已审阅的
 默认分支提交。WI-273 保持为不可变的失败交付记录：其首次提交无法证明 parity 登记先于
@@ -198,7 +198,7 @@ workflow，并记录 Rust-native 拆分与对象工程/外部 adopter 边界。
 | `LICENSE` | 有意采用不同实现 | 两边都是 MIT；版权主体和 Rust packaging 按目标工程定义，不复制参考源文本。 |
 | `Makefile` | 有意采用不同实现 | Rust CLI、Cargo 和显式 CI/release 脚本替代 Python Make 编排，并保持 request-scoped `--repo`。 |
 
-WI-302/WI-304 批次没有发现 `migrate-gap`。台账现在为：4,262 条
+WI-302/WI-304 批次完成时的台账快照为：4,262 条
 `generated-history`、190 条 `implemented-different-by-design`、1 条
 `implemented-equivalent`、3 条 `not-applicable`、3 条 `reference-only`、660 条 `deferred-next-batch`。
 两个 workflow 已作为 Rust-native 的有意差异边界关闭；这不表示参考源 Python installer
@@ -521,3 +521,34 @@ WI-336 在固定参考提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 上逐�
 本批是语义责任比较，不是源命令或 wire 兼容性。Rust 不复制参考源 Python、Make target、
 Dependabot workflow、删除 registry 或生成历史。每个 Work Item 的 archive 与面向人的 Outcome
 仍是权威来源；derived view 不能授权后续决定。其余台账记录继续明确保持 deferred。
+
+## WI-342：文档、分发与企业边界批次
+
+WI-342 在固定参考提交
+`e5acb677da6621004d96f0ef353c58fe8d3acfbf` 上逐一读取以下 10 个路径。
+其中 8 个判定为 `implemented-different-by-design`，2 个判定为
+`reference-only`。目标保留读者路线、分发、权威边界和企业边界责任，但不复制
+源 Python/Make 编排、源 adopter 记录或 provider 声明。
+
+| 固定参考路径 | 分类 | Rust 对应物 / 有界决定 |
+| --- | --- | --- |
+| `docs/reference/distribution.md` | implemented-different-by-design | `docs/release/distribution.*` 与公开/N-1 adopter 验收脚本提供不可变 Release 验证、共享 Runtime 安装、repository 绑定、checksum/SBOM/provenance 与清理边界。 |
+| `docs/reference/distribution.ja.md` | implemented-different-by-design | 日文路线由 `docs/release/distribution.ja.md` 与同一目标验收脚本承接；不复制源 Make/Python 安装细节或源字节。 |
+| `docs/reference/documentation-architecture.md` | implemented-different-by-design | `docs/current/README.md`、getting-started/reference 路线、三语文档检查和本 ledger 保留 canonical layers、读者路线、owner 与拆分规则。 |
+| `docs/reference/documentation-architecture.ja.md` | implemented-different-by-design | 日文 current/getting-started/reference 路线保留源读者地图和语言边界；`.ai/README.md` 与显式 Runtime 页面仍是 instruction 边界。 |
+| `docs/reference/documentation-authority-boundary.md` | implemented-different-by-design | `.ai/README.md`、`AGENTS.md`、current/reference 路线、frontmatter 与文档 acceptance 将当前指示、可选参考和历史记录分开。 |
+| `docs/reference/documentation-authority-registry.json` | implemented-different-by-design | 目标的显式路线与元数据检查替代源 topic registry；不引入全局 Agent 配置，也不把未验证的源 topic 声明为能力。 |
+| `docs/reference/documentation-context-registry.json` | reference-only | 源计划/context 标签是源内部记录，不是可移植的 Runtime 权威或 adopter 证据。目标保留当前 `.ai` 指示和不可变 Work Item/archive 历史，不复制源 registry。 |
+| `docs/reference/enterprise-control-checklist.md` | implemented-different-by-design | 三语 enterprise-governance、deployment-boundary 和 adopter-configuration 页面区分 repository facts、delegated evidence、retention/audit 责任与非认证声明。 |
+| `docs/reference/enterprise-control-matrix.json` | reference-only | 源 observed-control 行不是可移植的合规结果。目标通过 delegated evidence 与 policy 路线要求当前外部 receipt，不复制源 `not_verified` 状态。 |
+| `docs/reference/external-identity-boundary.md` | implemented-different-by-design | typed Rust authority/approval evidence、policy precedence、外部 evidence import、Contract 字段文档和企业页面保留身份等级，但不在本地认证个人。 |
+
+两个 `reference-only` 记录不会被提升为目标能力：源 context 元数据和源 adopter 控制观察
+不能转移为证据。这是语义/文档 parity，不是 JSON-wire parity。目标的对象工程边界仍然明确：
+一个共享 Runtime、按 repository 隔离的 `.ai/` 状态、外部 provider evidence，以及不声称
+组织级身份或合规能力。
+
+本批完成后的台账为 5,119 条：4,262 条 `generated-history`、239 条
+`implemented-different-by-design`、1 条 `implemented-equivalent`、3 条
+`not-applicable`、27 条 `reference-only` 与 587 条 `deferred-next-batch`；
+`migrate-gap` 仍为 0。587 条 deferred 仍是计划中的逐文件比较工作，不是 parity 声明。
