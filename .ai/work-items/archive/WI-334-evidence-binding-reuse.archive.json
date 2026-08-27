@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-27T16:21:22Z",
+  "files": {
+    "contractDigest": "sha256:e927cac0b4011050770de279eaf44fd84b2c74b15fefeeab8eced3a81b590d46",
+    "contractPath": ".ai/work-items/archive/WI-334-evidence-binding-reuse.contract.json",
+    "eventsDigest": "sha256:0be737bf24aca7cc9119db00c097014561890102113c449d46470eb7d2442024",
+    "eventsPath": ".ai/work-items/archive/WI-334-evidence-binding-reuse.events.jsonl",
+    "outcomeDigest": "sha256:9a09517f178af91dfffb8b51a1e2177c173a8273b8931fda8b7ffbb75218b1b6",
+    "outcomePath": ".ai/work-items/archive/WI-334-evidence-binding-reuse.outcome.json",
+    "summaryDigest": "sha256:d325d11f10fd2f679eb59faeca0a39f07e8241478b4c6ac063c01975919f0735",
+    "summaryPath": ".ai/work-items/archive/WI-334-evidence-binding-reuse.summary.json",
+    "taskReportDigest": "sha256:173d298d64d7f2ec83cae5f3085ddbd1fa7df698fd22979b8e03fab4cc91ffd3",
+    "taskReportMarkdownDigest": "sha256:e0f25d6dd10e11feb18864d844d0fb7e4443cdcf696e56eb7cf602410884bfd8",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-334-evidence-binding-reuse.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-334-evidence-binding-reuse.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-334-evidence-binding-reuse"
+}

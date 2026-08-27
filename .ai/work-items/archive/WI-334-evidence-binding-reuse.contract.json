@@ -1,0 +1,58 @@
+{
+  "acceptanceCriteria": [
+    "All 10 pinned source paths are read individually and each receives one classification with a non-empty Rust counterpart or explicit reference-only reason.",
+    "The four evidence-binding/reuse semantics are mapped to typed cockpit-evidence structures and tests without claiming source JSON or Python API compatibility.",
+    "The three-language comparison and parity documents agree on every path, classification, boundary, and evidence reference.",
+    "The inventory generator and regression test preserve exactly 5119 source paths and move exactly 10 paths from deferred-next-batch with no unreviewed count change.",
+    "No participant data, source Python implementation, or V1 artifact is copied into the target repository."
+  ],
+  "authority": "authorized",
+  "baseRevision": "922991cef9b33dccd3fb0d3ca3c2a7e2dfe4f085",
+  "createdAt": "2026-08-27T16:03:18Z",
+  "goal": "完成 10 个固定参考路径的逐文件语义判定、Rust counterpart 证据绑定、三语对比文档与 inventory 回归，发现缺口时在本 Contract 内修复或明确记录。",
+  "intent": "逐文件比对固定参考源 Evidence Binding/Reuse 基础语义，并将可迁移责任映射到 Rust Runtime，明确不复制源 Python/V1 wire。",
+  "mode": "code",
+  "outOfScope": [
+    "crates/",
+    "scripts/",
+    "source-participant-data",
+    "copied-v1-runtime",
+    "Makefile.ai"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:429c713fd820a008c3097d6ad5d9e6f33b48bbde2855ea6f335500ee5c7d03a1",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-334-evidence-binding-reuse",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/334",
+    "worktree": "/private/tmp/ai-cockpit-wi334-evidence-binding-reuse"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "tests/conformance/reference_file_inventory.json",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-334-evidence-binding-reuse.md",
+    "docs/work-items/WI-334-evidence-binding-reuse.zh-CN.md",
+    "docs/work-items/WI-334-evidence-binding-reuse.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-334-evidence-binding-reuse"
+}
