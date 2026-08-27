@@ -30,7 +30,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-317-post-close-reconciliation-quality-gate-fix",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/281",
     "worktree": "/private/tmp/ai-cockpit-wi317-post-close-reconciliation-quality-gate-fix"
   },
   "risk": "medium",

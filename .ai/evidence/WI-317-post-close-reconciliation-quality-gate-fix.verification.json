@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:9e919cbdd1e1c8a8443864f835efae95c66a04aecb486070cfe1160e1cdbf2bf",
-  "createdAt": "2026-08-27T03:45:06Z",
+  "contractDigest": "sha256:62555d2a27e4a7ee6c50184af9a8676d4109c1a9bee12599e18d878e3cd7e464",
+  "createdAt": "2026-08-27T03:54:51Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 295323,
-      "executionElapsedMs": 295066,
+      "elapsedMs": 267806,
+      "executionElapsedMs": 267571,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,8 +25,8 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 295323,
-    "executionElapsedMs": 295066,
+    "elapsedMs": 267806,
+    "executionElapsedMs": 267571,
     "filesHashed": 5,
     "filesRead": 5,
     "gitCalls": 8,
@@ -44,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 295066,
+      "executionElapsedMs": 267571,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -76,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:503c02f15f0eb5a9b5ca42f442b3fe2cd16e596007858755cc978cec94cc9e0d",
+        "outputDigest": "sha256:1f2c724e109e57d2481041c59e29e0aec835d1361789de7bba33ba9f5514a16b",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -92,7 +92,7 @@
     "runtimeVersion": "0.2.33",
     "workItemId": "WI-317-post-close-reconciliation-quality-gate-fix"
   },
-  "receiptDigest": "sha256:0dca6cf26a04475f4ff1848bb292341c250fee576d7ffd4924ac217783c0a750",
+  "receiptDigest": "sha256:be36a043c976fc93363dccea8feec7e1b9f1a858603fa00ed9fde3c6ff0985a9",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:2b87df99b4f89a6d18014f555b14eabf5017af7b857d7cfebd595c6a5ac980d8",
   "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
