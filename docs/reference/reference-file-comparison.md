@@ -123,11 +123,11 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=231 implemented-equivalent=1 not-applicable=3 reference-only=25 deferred-next-batch=597 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=232 implemented-equivalent=1 not-applicable=4 reference-only=28 deferred-next-batch=592 migrate-gap=0 -->
 
 At the pinned v0.2.33 comparison baseline, the ledger contains 5,119 records:
-4,262 `generated-history`, 231 `implemented-different-by-design`, one
-`implemented-equivalent`, three `not-applicable`, 25 `reference-only`, and 597
+4,262 `generated-history`, 232 `implemented-different-by-design`, one
+`implemented-equivalent`, four `not-applicable`, 28 `reference-only`, and 592
 `deferred-next-batch` records. Deferred records remain scheduled work, not
 parity claims. The capability/profile slice has no remaining `migrate-gap`
 records:
@@ -143,7 +143,7 @@ records:
 
 The governance entrypoints, getting-started routes, CI/release boundaries, and
 capability/profile projections have been reviewed at this baseline. The four
-records above are Rust-native, explicitly bounded counterparts; the 597
+records above are Rust-native, explicitly bounded counterparts; the 592
 deferred semantic comparisons remain scheduled work.
 
 WI-274 rebinds only the target checkout metadata and canonical comparison
@@ -626,3 +626,24 @@ be considered, and the caller still owns governance, coverage, security, and
 required-check gates. The inventory, tri-language ledgers, and WI-334 evidence
 bind this decision; no source participant, Python, Make, or V1 artifact is
 introduced.
+
+## WI-336 first five governance-documentation paths
+
+WI-336 reads the following five paths individually at the pinned reference
+commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf`. The results separate
+portable governance responsibility from source-specific reports, provider
+automation, and historical cleanup tooling.
+
+| Pinned source path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/cross-wi-integration.md` | reference-only | `docs/reference/reference-parity.md`, `docs/reference/outcome-report.md`, and per-Work-Item archive validation provide the target audit boundary. The source's advisory WI-04..WI-13 aggregate report and unobservable conversation receipt are not Runtime commands. |
+| `docs/reference/dependabot-intake.md` | not-applicable | Dependabot bot-branch intake is provider-specific. Generic delegated provider evidence and explicit Work Item source binding remain documented in `docs/reference/ci-release-evidence.md` and are not a Dependabot authorization path. |
+| `docs/reference/deprecated-assets-registry.json` | reference-only | `.ai/README.md`, `docs/reference/agent-workflow.md`, and exact resource finalization preserve explicit reviewed cleanup and immutable-history boundaries; no source registry or Make scan is shipped. |
+| `docs/reference/deprecated-assets.md` | reference-only | The explanatory obsolete-chain and registry hygiene guidance remains source documentation. Rust uses explicit `--repo`, Runtime lifecycle, immutable archives, and resource finalization rather than claiming `check-deprecated-assets`. |
+| `docs/reference/derived-artifacts.md` | implemented-different-by-design | `docs/reference/outcome-report.md`, `docs/reference/verification-semantics.md`, `.ai/README.md`, and typed Runtime projections keep Contract/evidence/archive facts separate from status/Outcome views; no source Python registry is required or read as authority. |
+
+This batch is semantic responsibility comparison, not source command or wire
+compatibility. Rust does not copy the reference Python scripts, Make targets,
+Dependabot workflow, deletion registry, or generated history. The per-Work-Item
+archive and human Outcome remain authoritative; derived views cannot authorize a
+later decision. The remaining ledger records stay explicitly deferred.

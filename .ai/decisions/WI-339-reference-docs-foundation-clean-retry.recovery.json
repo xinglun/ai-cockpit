@@ -1,0 +1,23 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-28T05:10:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-339-reference-docs-foundation-clean-retry.finalize-plan.json"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:2c11fe457fd25b43b79a8884bf662b06ade5ac3da653f94bf652b6c07e9b0ddf",
+  "predecessorSummaryDigest": "sha256:7883ed17393bb71e78a1b1312bada819a16f4c0236d25013a3e01be341e70d32",
+  "predecessorWorkItemId": "WI-339-reference-docs-foundation-clean-retry",
+  "reason": "Finalize-plan was bound after the initial checkpoint; retry the same Work Item with the current Contract and resource context.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight and checkpoint before verification.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-339-reference-docs-foundation-clean-retry"
+}

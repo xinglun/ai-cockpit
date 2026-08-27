@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-27T18:56:39Z",
+  "files": {
+    "contractDigest": "sha256:ed792d8ff67fd8cf84f8e2b4d1abd412990715c5198377b416f831e4e0fb630c",
+    "contractPath": ".ai/work-items/archive/WI-338-reference-docs-foundation-clean.contract.json",
+    "eventsDigest": "sha256:b75b092a869bf97fe4a1500fa7e33143b0e96f9fa3fa3d8792fe22690d7528aa",
+    "eventsPath": ".ai/work-items/archive/WI-338-reference-docs-foundation-clean.events.jsonl",
+    "outcomeDigest": "sha256:b5c7a685f37f40d9258eda4c03477a50590f31ccb2df6fc4178721b3a2accb5a",
+    "outcomePath": ".ai/work-items/archive/WI-338-reference-docs-foundation-clean.outcome.json",
+    "summaryDigest": "sha256:e4217af897d93645fdb38d197b3fd245c19a68d75fa0e8970fb7914e565317c0",
+    "summaryPath": ".ai/work-items/archive/WI-338-reference-docs-foundation-clean.summary.json",
+    "taskReportDigest": "sha256:e213df108525f941b8a18949a04fe47cd806039032892df32adf33b8684d10f3",
+    "taskReportMarkdownDigest": "sha256:d03cb59cb8dda3e354008909b23a9479b09334b1df6d99cf6164303188062526",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-338-reference-docs-foundation-clean.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-338-reference-docs-foundation-clean.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-338-reference-docs-foundation-clean"
+}

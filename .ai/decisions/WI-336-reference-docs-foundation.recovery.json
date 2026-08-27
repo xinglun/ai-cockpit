@@ -1,0 +1,24 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "current-main-work-item-revalidation",
+  "decidedAt": "2026-08-27T17:56:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-336-reference-docs-foundation.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:fef0711edfdbd74d185a1c366c1ad0172c11e718c54cb952b551001d3bd5e49c",
+  "predecessorSummaryDigest": "sha256:41cad2d1f58e361aa157a8a332a57184960792ea8e9e1112e1977ccd917bcdf0",
+  "predecessorWorkItemId": "WI-336-reference-docs-foundation",
+  "reason": "Retry verification after correcting the Contract base revision and serial workspace test invocation; preserve the earlier evidence bytes as immutable history.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification, then finish and archive the current Contract without rewriting prior evidence.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-336-reference-docs-foundation"
+}

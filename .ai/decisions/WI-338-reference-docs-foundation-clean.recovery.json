@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-28T05:00:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-338-reference-docs-foundation-clean.verification.json"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:141ef3592709cfcec834475e4af5db4f7f47fabd2319d4c8250b004ecd9f8e12",
+  "predecessorEventsDigest": "sha256:b75b092a869bf97fe4a1500fa7e33143b0e96f9fa3fa3d8792fe22690d7528aa",
+  "predecessorOutcomeDigest": "sha256:8643dd5984a1ad9953710cfb203a867cf8313f4d8568fcd5354e22087261f717",
+  "predecessorSummaryDigest": "sha256:e1566d88654b853d86284c576e7fc22ae781e5e59f207a87b6d5ab5aee4f8297",
+  "predecessorWorkItemId": "WI-338-reference-docs-foundation-clean",
+  "reason": "Hosted docs governance rejects same-commit prearchive registration; redeliver the unchanged comparison through a clean successor lifecycle.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete the clean successor lifecycle before continuing the next reference batch.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-339-reference-docs-foundation-clean-retry",
+  "workItemId": "WI-338-reference-docs-foundation-clean"
+}

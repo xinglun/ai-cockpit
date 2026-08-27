@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "current-main-work-item-recovery",
+  "decidedAt": "2026-08-27T19:00:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-336-reference-docs-foundation.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:2b7367ad07f457acb1787d1bfcbb41b14ba317c4a99656e731fc3660aec41563",
+  "predecessorEventsDigest": "sha256:4b96c05371bf01b4e36b0611d0e19c3d508c898d0b074c06a2ade720ba3f4bf5",
+  "predecessorOutcomeDigest": "sha256:85bf83bae808afc5e7b5d40c3477277ed6b2a588e86f14902c7897f26b7a15e4",
+  "predecessorSummaryDigest": "sha256:04c4846efdde75f3c10b3db01fba1ca36e4e3e38d07388927ea858bb4ad63a46",
+  "predecessorWorkItemId": "WI-336-reference-docs-foundation",
+  "reason": "The immutable WI-336 active lifecycle accumulated pre-verification Contract amendments that installed Runtime 0.2.33 cannot reconcile; redeliver the same documentation batch through a fresh successor while preserving every predecessor byte.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "WI-337 must use the final PR context before its first verification, complete finish/archive/finalize/close, then WI-336 is archived as an explicit superseded predecessor.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-337-reference-docs-foundation-retry",
+  "workItemId": "WI-336-reference-docs-foundation"
+}

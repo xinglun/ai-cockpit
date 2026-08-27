@@ -107,11 +107,11 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=231 implemented-equivalent=1 not-applicable=3 reference-only=25 deferred-next-batch=597 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=232 implemented-equivalent=1 not-applicable=4 reference-only=28 deferred-next-batch=592 migrate-gap=0 -->
 
 固定した v0.2.33 comparison baseline の ledger は 5,119 records です。内訳は
-4,262 `generated-history`、231 `implemented-different-by-design`、1
-`implemented-equivalent`、3 `not-applicable`、25 `reference-only`、597 `deferred-next-batch` です。
+4,262 `generated-history`、232 `implemented-different-by-design`、1
+`implemented-equivalent`、4 `not-applicable`、28 `reference-only`、592 `deferred-next-batch` です。
 Deferred record は予定された比較であり parity claim ではありません。
 capability/profile slice に `migrate-gap` は残っていません。
 
@@ -122,7 +122,7 @@ capability/profile slice に `migrate-gap` は残っていません。
 
 Governance entrypoint、getting-started route、CI/release boundary、capability/profile
 projection はこの baseline で review 済みです。上記 4 件は bounded な Rust-native counterpart として登録済みで、
-597 deferred semantic comparison は後続作業として残ります。
+592 deferred semantic comparison は後続作業として残ります。
 
 WI-274 は target checkout metadata と canonical comparison snapshot だけを、レビュー済み
 default branch commit に再バインドします。WI-273 は immutable な failed-delivery record として
@@ -545,3 +545,21 @@ command、toolchain、policy、profile、Runtime、stage、runner identity を s
 optimization/evidence observation で、exact な fresh binding だけを候補にします。governance、coverage、
 security、required-check gate の責任は caller に残ります。Inventory、三言語 ledger、WI-334 evidence がこの判断を束縛し、
 source participant、Python、Make、V1 artifact は導入しません。
+
+## WI-336 — 最初の 5 つの governance-documentation path
+
+WI-336 は pinned reference commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf` の次の 5 path を
+一つずつ読みました。portable な governance responsibility と、source 固有の report、provider
+automation、historical cleanup tooling を分離して判定しています。
+
+| Pinned source path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/cross-wi-integration.md` | reference-only | `docs/reference/reference-parity.md`、`docs/reference/outcome-report.md` と Work Item ごとの archive validation が target の audit boundary です。source の WI-04..WI-13 aggregate report と観測不能な conversation receipt は Runtime command ではありません。 |
+| `docs/reference/dependabot-intake.md` | not-applicable | Dependabot bot branch intake は provider 固有です。generic delegated provider evidence と明示的な Work Item source binding は `docs/reference/ci-release-evidence.md` にありますが、Dependabot authorization path ではありません。 |
+| `docs/reference/deprecated-assets-registry.json` | reference-only | `.ai/README.md`、`docs/reference/agent-workflow.md`、exact resource finalization が reviewed cleanup と immutable history boundary を保持します。source registry や Make scan は提供しません。 |
+| `docs/reference/deprecated-assets.md` | reference-only | obsolete chain と registry hygiene の説明は source documentation に限定されます。Rust は明示的な `--repo`、Runtime lifecycle、immutable archive、resource finalization を使い、`check-deprecated-assets` の存在は claim しません。 |
+| `docs/reference/derived-artifacts.md` | implemented-different-by-design | `docs/reference/outcome-report.md`、`docs/reference/verification-semantics.md`、`.ai/README.md`、typed Runtime projection が Contract/evidence/archive fact と status/Outcome view を分離します。source Python registry は authority として不要で、読み込みません。 |
+
+これは semantic responsibility comparison であり、source command や wire compatibility の主張ではありません。
+Rust は reference Python、Make target、Dependabot workflow、deletion registry、generated history を copy しません。
+Work Item archive と human Outcome が authority であり、derived view は後続の決定を authorize できません。残りの ledger record は明示的に deferred のままです。
