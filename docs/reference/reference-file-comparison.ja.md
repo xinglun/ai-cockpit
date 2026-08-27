@@ -107,11 +107,11 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=198 implemented-equivalent=1 not-applicable=3 reference-only=4 deferred-next-batch=651 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=206 implemented-equivalent=1 not-applicable=3 reference-only=5 deferred-next-batch=642 migrate-gap=0 -->
 
 固定した v0.2.33 comparison baseline の ledger は 5,119 records です。内訳は
-4,262 `generated-history`、198 `implemented-different-by-design`、1
-`implemented-equivalent`、3 `not-applicable`、4 `reference-only`、651 `deferred-next-batch` です。
+4,262 `generated-history`、206 `implemented-different-by-design`、1
+`implemented-equivalent`、3 `not-applicable`、5 `reference-only`、642 `deferred-next-batch` です。
 Deferred record は予定された比較であり parity claim ではありません。
 capability/profile slice に `migrate-gap` は残っていません。
 
@@ -122,7 +122,7 @@ capability/profile slice に `migrate-gap` は残っていません。
 
 Governance entrypoint、getting-started route、CI/release boundary、capability/profile
 projection はこの baseline で review 済みです。上記 4 件は bounded な Rust-native counterpart として登録済みで、
-651 deferred semantic comparison は後続作業として残ります。
+642 deferred semantic comparison は後続作業として残ります。
 
 WI-274 は target checkout metadata と canonical comparison snapshot だけを、レビュー済み
 default branch commit に再バインドします。WI-273 は immutable な failed-delivery record として
@@ -331,3 +331,28 @@ close-gap convenience command、optional controls scaffold は後続の product 
 Make/Python report generator、installer script、trust demo は copy しません。object/adopter
 boundary は全 adopter で同じです。shared external Runtime、repository-local `.ai/` state、
 explicit repository context、provider-owned conversation presentation を使います。
+
+## WI-326 quality gate、overview、design philosophy、closure plan の file-level batch
+
+WI-326 は pinned reference の次の 9 path を一つずつ比較します。8 path は
+implemented-different-by-design、closure hardening plan は internal historical plan であり
+current Runtime command contract ではないため reference-only とします。
+
+| Reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/non-make-adaptation.ja.md` | implemented-different-by-design | Installation と Agent workflow route が external Runtime と repository-local adapter boundary を示します。Adopter-owned stack command は Core の外であり、source `Makefile.ai` bridge は copy/require しません。 |
+| `docs/operations/quality-gates.ja.md` | implemented-different-by-design | Japanese CI quality-gate/manifest route が gate ownership、evidence、traceability、policy-selected `light`/`standard`/`strict` routing を保ちます。source Make target、Python checker registry、template-maintenance fixture は copy しません。 |
+| `docs/operations/quality-gates.md` | implemented-different-by-design | Versioned Rust-native gate manifest と CI route が source quality-gate semantics を保ち、hosted CI と adopter stack check の owner boundary を分けます。 |
+| `docs/operations/quality-gates.zh-CN.md` | implemented-different-by-design | Chinese quality-gate/manifest route は同じ evidence と dynamic-routing boundary を保ち、source Make/Python orchestration は target command ではありません。 |
+| `docs/overview.ja.md` | implemented-different-by-design | Rust architecture、capabilities、Agent workflow、command route が source five-layer overview を request-scoped/repository-bound governance として保ちます。source status/verification registry は copy しません。 |
+| `docs/philosophy/design-philosophy.ja.md` | implemented-different-by-design | Japanese product-boundary、capability、enterprise-governance docs が calibrated trust、evidence over self-declaration、proportional control、human responsibility を保ちます。 |
+| `docs/philosophy/design-philosophy.md` | implemented-different-by-design | English product-boundary、capability、enterprise-governance docs が同じ原則を保ちます。Core は Agent Runtime、sandbox、identity provider、compliance certificate ではありません。 |
+| `docs/philosophy/design-philosophy.zh-CN.md` | implemented-different-by-design | Chinese product-boundary、capability、enterprise-governance docs が同じ原則と明示的 non-goal を保ちます。 |
+| `docs/plans/harden-work-item-pr-closure.md` | reference-only | Source は Python `ai-finish`/`ai-close` の internal historical hardening plan です。Current Rust lifecycle と governance-integrity route は closure intent を保ちますが、obsolete step/command name は current capability ではありません。 |
+
+この batch に `migrate-gap` はありません。これは semantic boundary parity であり source wire/byte
+compatibility ではありません。Quality decision は versioned manifest と current Runtime が担当し、
+hosted provider check、adopter stack command、enterprise control は delegated のままです。
+Dynamic routing は policy が選び、execution speed から stricter tier を推測せず、tier を assurance
+level と同一視しません。Published Runtime を object engineering repository で使う場合も明示的な
+`--repo` binding が必要です。

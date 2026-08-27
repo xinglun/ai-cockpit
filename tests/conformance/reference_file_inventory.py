@@ -39,6 +39,7 @@ WI302_BATCH = "WI-302-reference-file-comparison-batch-01"
 WI304_BATCH = "WI-304-reference-file-comparison-batch-02"
 WI305_BATCH = "WI-305-reference-file-comparison-batch-03"
 WI325_BATCH = "WI-325-reference-file-comparison-batch-05"
+WI326_BATCH = "WI-326-reference-file-comparison-batch-06"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -526,6 +527,95 @@ WI325_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
     ),
 }
 
+WI326_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "docs/non-make-adaptation.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/getting-started/installation.ja.md",
+            "docs/reference/commands.ja.md",
+            "docs/reference/agent-workflow.ja.md",
+        ],
+        "The source Make bridge guide is preserved as an explicit Rust Runtime installation and Agent workflow boundary. This repository does not copy the source Makefile.ai contract or require a second Make governance layer; adopter-owned stack commands remain outside the Core.",
+    ),
+    "docs/operations/quality-gates.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/ci-quality-gates.ja.md",
+            "docs/reference/quality-gate-manifest.ja.md",
+            "tests/ci/repository_gate_manifest.json",
+            "tests/ci/run_repository_gates.py",
+        ],
+        "The source quality-gate ownership, evidence, traceability, and light/standard/strict routing semantics are represented by the versioned Rust-native gate manifest and documented CI route. Source Make targets, Python checker registries, and template-maintenance fixtures are not copied.",
+    ),
+    "docs/operations/quality-gates.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/ci-quality-gates.md",
+            "docs/reference/quality-gate-manifest.md",
+            "tests/ci/repository_gate_manifest.json",
+            "tests/ci/run_repository_gates.py",
+        ],
+        "The source quality-gate ownership, evidence, traceability, and light/standard/strict routing semantics are represented by the versioned Rust-native gate manifest and documented CI route. Source Make targets, Python checker registries, and template-maintenance fixtures are not copied.",
+    ),
+    "docs/operations/quality-gates.zh-CN.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/ci-quality-gates.zh-CN.md",
+            "docs/reference/quality-gate-manifest.zh-CN.md",
+            "tests/ci/repository_gate_manifest.json",
+            "tests/ci/run_repository_gates.py",
+        ],
+        "源文件关于质量门所有权、证据、追踪和 light/standard/strict 动态路由的语义，由版本化 Rust 原生门禁清单和 CI 路由文档保留。不复制源 Make 目标、Python checker 注册表或模板维护 fixture。",
+    ),
+    "docs/overview.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/architecture.ja.md",
+            "docs/capabilities.ja.md",
+            "docs/reference/agent-workflow.ja.md",
+            "docs/reference/commands.ja.md",
+        ],
+        "The source five-layer overview is preserved by the Rust product-boundary architecture, capabilities, Agent workflow, and command routes. Runtime governance is request-scoped and repository-bound; the source Python/Make status file and verification registry are not copied.",
+    ),
+    "docs/philosophy/design-philosophy.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/philosophy.ja.md",
+            "docs/capabilities.ja.md",
+            "docs/security/enterprise-governance.ja.md",
+        ],
+        "The source calibrated-trust, evidence-over-self-declaration, proportional-control, and human-responsibility principles are preserved across the Rust product-boundary and enterprise-governance routes. The target remains a Repository Governance Layer rather than an Agent Runtime, sandbox, identity provider, or compliance certificate.",
+    ),
+    "docs/philosophy/design-philosophy.md": (
+        "implemented-different-by-design",
+        [
+            "docs/philosophy.md",
+            "docs/capabilities.md",
+            "docs/security/enterprise-governance.md",
+        ],
+        "The source calibrated-trust, evidence-over-self-declaration, proportional-control, and human-responsibility principles are preserved across the Rust product-boundary and enterprise-governance routes. The target remains a Repository Governance Layer rather than an Agent Runtime, sandbox, identity provider, or compliance certificate.",
+    ),
+    "docs/philosophy/design-philosophy.zh-CN.md": (
+        "implemented-different-by-design",
+        [
+            "docs/philosophy.zh-CN.md",
+            "docs/capabilities.zh-CN.md",
+            "docs/security/enterprise-governance.zh-CN.md",
+        ],
+        "源文件关于校准后信任、证据优先于自我声明、与风险相称的控制和人的责任原则，由 Rust 产品边界与企业治理文档保留。目标仍是 Repository Governance Layer，而不是 Agent Runtime、安全沙箱、身份提供方或合规证书。",
+    ),
+    "docs/plans/harden-work-item-pr-closure.md": (
+        "reference-only",
+        [
+            "docs/reference/agent-workflow.md",
+            "docs/reference/commands.md",
+            "docs/reference/lifecycle-order.md",
+            "tests/ci/governance_integrity_gate.py",
+        ],
+        "The source file is an internal historical hardening plan for the Python ai-finish/ai-close workflow. Its closure intent is represented by current Rust lifecycle and governance-integrity routes, but the plan's historical implementation steps and obsolete command names are not current Runtime capability.",
+    ),
+}
+
 
 def wi270_counterpart(path: str) -> tuple[list[str], str] | None:
     if path in WI270_DOC_CONCEPTS:
@@ -916,6 +1006,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 }
             )
             continue
+        wi326 = WI326_REFERENCE_FILES.get(path)
+        if wi326 is not None:
+            classification, counterparts, reason = wi326
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI326_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
         wi302 = WI302_REFERENCE_FILES.get(path)
         if wi302 is not None:
             classification, counterparts, reason = wi302
@@ -1088,6 +1191,40 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for classification in wi325_classifications
         ):
             errors.append("WI-325 batch cannot leave deferred or migrate-gap records")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI326_BATCH
+        for record in records
+    ):
+        wi326_records = [
+            record
+            for record in records
+            if isinstance(record, dict) and record.get("batch") == WI326_BATCH
+        ]
+        expected_wi326_paths = set(WI326_REFERENCE_FILES)
+        actual_wi326_paths = {
+            record.get("referencePath")
+            for record in wi326_records
+            if isinstance(record.get("referencePath"), str)
+        }
+        if actual_wi326_paths != expected_wi326_paths:
+            errors.append(
+                "WI-326 batch paths do not match the pinned nine-file set: "
+                f"expected {sorted(expected_wi326_paths)!r}, got {sorted(actual_wi326_paths)!r}"
+            )
+        if len(wi326_records) != len(expected_wi326_paths):
+            errors.append(
+                f"WI-326 batch must contain {len(expected_wi326_paths)} records, found {len(wi326_records)}"
+            )
+        wi326_classifications = [record.get("classification") for record in wi326_records]
+        if wi326_classifications.count("implemented-different-by-design") != 8:
+            errors.append("WI-326 batch must contain eight implemented-different-by-design records")
+        if wi326_classifications.count("reference-only") != 1:
+            errors.append("WI-326 batch must contain one reference-only record")
+        if any(
+            classification in {"deferred-next-batch", "migrate-gap"}
+            for classification in wi326_classifications
+        ):
+            errors.append("WI-326 batch cannot leave deferred or migrate-gap records")
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(records):
         errors.append(f"referenceTrackedFileCount {expected_count!r} != record count {len(records)}")
