@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-27T07:27:48Z",
+  "files": {
+    "contractDigest": "sha256:9de10e6599a7655d76160feaa8556acb0bad3b9cf0532ab5c58b86a19f81b385",
+    "contractPath": ".ai/work-items/archive/WI-322-lifecycle-entry-safety.contract.json",
+    "eventsDigest": "sha256:2f73631cf4ebc263569c717e87ba6e26301c1d6e8fbd0d461d81f97def42b5bf",
+    "eventsPath": ".ai/work-items/archive/WI-322-lifecycle-entry-safety.events.jsonl",
+    "outcomeDigest": "sha256:f03d95515c4b93aa6756b0d9727fe325a361b650482f9a83e16a864255205030",
+    "outcomePath": ".ai/work-items/archive/WI-322-lifecycle-entry-safety.outcome.json",
+    "summaryDigest": "sha256:b7c0a01c91f131fe792b54206ce9eadbac7355ee30783335558df587a0e60d3f",
+    "summaryPath": ".ai/work-items/archive/WI-322-lifecycle-entry-safety.summary.json",
+    "taskReportDigest": "sha256:1bed0720ce8bc6513d8da696c3007b185e57833960251aaf1f52d2fa939c43c3",
+    "taskReportMarkdownDigest": "sha256:b67bd23afeb6edd1a25dbade0ee0ab7281175b22435dbbbffcd69ea48974b056",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-322-lifecycle-entry-safety.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-322-lifecycle-entry-safety.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-322-lifecycle-entry-safety"
+}

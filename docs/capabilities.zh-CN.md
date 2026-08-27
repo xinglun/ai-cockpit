@@ -172,6 +172,10 @@ ai-cockpit work-item new --repo /path/to/repository \
 `not_ready`，不会生成 `passed`、`approved`、`verified` 或 `completed`。CLI 会直接列出已知事实和仍需人类输入的字段。
 旧的 `start` 命令仍可用，但会复用同一底层 scaffold writer 并接受显式人类字段。
 
+两个命令在创建普通的下一个 Work Item 前，都会执行 repository-scoped 入口门禁。Contract 之前已经存在的非 `.ai` 变更、detached HEAD、当前 HEAD 与本地发现的远端默认 revision 不一致，或任何没有有效 close decision 的 archived Work Item，都会 fail closed；门禁不会改写 archived records。由 identity-bound recovery decision 创建的 successor 是 predecessor 的续接，不是绕过门禁的独立 Work Item。
+
+顶层 `status` 在 `readiness` 下输出相同的只读准备度投影。只有命名分支干净且 HEAD 与发现的默认 revision 一致、没有 active Work Item、也没有等待关闭的 archived Work Item 时，`readyOnBase` 才能为 `true`。远端元数据缺失或含糊时为 `state: unknown`，绝不输出 green；`blocked` 和 `unclosedArchivedWorkItems` 会指出准确的修复边界。
+
 骨架创建会按 repository 和 Work Item ID 使用 repository-local 的独占 reservation 串行化。
 如果两个 `work-item new` 同时竞争同一个 ID，只允许一个创建 Contract 与 summary，另一个必须
 fail closed；成功提交成对文件后 reservation 会被清理。不同 repository 的 reservation 相互独立，

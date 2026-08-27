@@ -1,0 +1,76 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-27T06:45:21Z",
+  "checkpointContractDigest": "sha256:953f0332441e22e628c6d5e46db69d2019bdacfa6289b8cb1141c04afedf3866",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:6caa1f16922361509bd41d0d7eb26be89f32917b4086f0c5d182eeaccf5cca64",
+  "createdAt": "2026-08-27T06:44:31Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/tests/lifecycle_entry.rs"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-27T07:26:41Z",
+  "preflightContractDigest": "sha256:953f0332441e22e628c6d5e46db69d2019bdacfa6289b8cb1141c04afedf3866",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:6caa1f16922361509bd41d0d7eb26be89f32917b4086f0c5d182eeaccf5cca64",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/lifecycle_entry.rs"
+      ],
+      "required": true,
+      "scenario": "archived work item without close blocks entry",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/lifecycle_entry.rs"
+      ],
+      "required": true,
+      "scenario": "dirty pre-start changes block entry",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/lifecycle_entry.rs"
+      ],
+      "required": true,
+      "scenario": "remote base drift blocks entry",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/lifecycle_entry.rs"
+      ],
+      "required": true,
+      "scenario": "unknown base metadata never claims ready",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/repository_context.rs"
+      ],
+      "required": true,
+      "scenario": "repository contexts remain isolated",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-27T07:27:42Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-322-lifecycle-entry-safety"
+}

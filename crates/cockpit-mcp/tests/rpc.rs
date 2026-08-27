@@ -714,6 +714,35 @@ fn repository_bound_verify_binds_evidence_after_command_side_effects() {
         .current_dir(&directory)
         .status()
         .expect("git init");
+    for (key, value) in [
+        ("user.email", "test@example.invalid"),
+        ("user.name", "Test"),
+    ] {
+        assert!(
+            Command::new("git")
+                .args(["config", key, value])
+                .current_dir(&directory)
+                .status()
+                .expect("git config")
+                .success()
+        );
+    }
+    assert!(
+        Command::new("git")
+            .args(["add", "."])
+            .current_dir(&directory)
+            .status()
+            .expect("git add")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args(["commit", "-qm", "baseline"])
+            .current_dir(&directory)
+            .status()
+            .expect("git commit")
+            .success()
+    );
     cockpit_repository::attach(&directory).expect("attach");
     cockpit_repository::start_work_item_with_options(
         &directory,

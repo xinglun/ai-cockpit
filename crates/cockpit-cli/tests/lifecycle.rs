@@ -29,6 +29,38 @@ fn repository() -> std::path::PathBuf {
     directory
 }
 
+fn commit_baseline(repo: &std::path::Path) {
+    for (key, value) in [
+        ("user.email", "test@example.invalid"),
+        ("user.name", "Test"),
+    ] {
+        assert!(
+            Command::new("git")
+                .args(["config", key, value])
+                .current_dir(repo)
+                .status()
+                .expect("git config")
+                .success()
+        );
+    }
+    assert!(
+        Command::new("git")
+            .args(["add", "."])
+            .current_dir(repo)
+            .status()
+            .expect("git add")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args(["commit", "-qm", "baseline"])
+            .current_dir(repo)
+            .status()
+            .expect("git commit")
+            .success()
+    );
+}
+
 fn run(binary: &str, args: &[&str], repo: &std::path::Path) -> serde_json::Value {
     let output = Command::new(binary)
         .args(args)
@@ -560,6 +592,7 @@ fn in_scope_changes_do_not_stale_contract_and_out_of_scope_changes_cannot_finish
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     fs::create_dir_all(repo.join("src")).expect("src");
     fs::write(repo.join("src/main.rs"), "fn main() {}\n").expect("source");
+    commit_baseline(&repo);
     assert!(run_output(binary, &["attach"], &repo).status.success());
     assert!(
         run_output(
@@ -629,6 +662,7 @@ fn in_scope_changes_do_not_stale_contract_and_out_of_scope_changes_cannot_finish
     let repo = repository();
     fs::create_dir_all(repo.join("src")).expect("src");
     fs::write(repo.join("src/main.rs"), "fn main() {}\n").expect("source");
+    commit_baseline(&repo);
     assert!(run_output(binary, &["attach"], &repo).status.success());
     assert!(
         run_output(
@@ -714,6 +748,7 @@ fn close_rechecks_governance_after_archive() {
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     fs::create_dir_all(repo.join("src")).expect("src");
     fs::write(repo.join("src/main.rs"), "fn main() {}\n").expect("source");
+    commit_baseline(&repo);
     assert!(run_output(binary, &["attach"], &repo).status.success());
     assert!(
         run_output(

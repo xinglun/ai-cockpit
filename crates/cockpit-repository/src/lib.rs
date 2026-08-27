@@ -458,6 +458,22 @@ struct ReceiptStoreIndex {
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+pub struct RepositoryReadiness {
+    pub state: String,
+    pub ready_on_base: bool,
+    pub blockers: Vec<String>,
+    pub unknowns: Vec<String>,
+    pub current_branch: Option<String>,
+    pub default_remote: Option<String>,
+    pub default_branch: Option<String>,
+    pub current_revision: Option<String>,
+    pub default_revision: Option<String>,
+    pub dirty_paths: Vec<String>,
+    pub unclosed_archived_work_items: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct RepositoryStatus {
     pub protocol_version: u32,
     pub repository_schema_version: u32,
@@ -466,6 +482,7 @@ pub struct RepositoryStatus {
     pub profile_version: u64,
     pub active_work_items: usize,
     pub archived_work_items: usize,
+    pub readiness: RepositoryReadiness,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -3251,6 +3268,7 @@ pub fn status(root: &Path) -> Result<RepositoryStatus, ObserverError> {
             message: "repository identity does not match protocol state".into(),
         });
     }
+    let readiness = repository_readiness(&root)?;
     Ok(RepositoryStatus {
         protocol_version: config.protocol_version,
         repository_schema_version: config.repository_schema_version,
@@ -3259,6 +3277,267 @@ pub fn status(root: &Path) -> Result<RepositoryStatus, ObserverError> {
         profile_version: profile.profile_version,
         active_work_items: count_suffix(&ai.join("work-items/active"), ".contract.json"),
         archived_work_items: count_suffix(&ai.join("work-items/archive"), ".archive.json"),
+        readiness,
+    })
+}
+
+/// Readiness is a deterministic, read-only projection used before entering a
+/// new Work Item.  It deliberately does not become a process-global
+/// scheduler: every invocation resolves one repository root and one fresh
+/// snapshot.  Missing remote metadata is represented as `unknown`, never as
+/// a green `ready_on_base` claim.
+fn repository_readiness(root: &Path) -> Result<RepositoryReadiness, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let git =
+        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
+    let current_branch = git_text(&root, &["symbolic-ref", "--quiet", "--short", "HEAD"])
+        .filter(|value| !value.is_empty());
+    let current_revision = snapshot.head.clone();
+    let default_base = discover_default_base(&root);
+    let dirty_paths = non_governance_changed_paths(&snapshot);
+    let unclosed_archived_work_items = unclosed_archived_work_items(&root)?;
+    let active_work_items = count_suffix(&root.join(".ai/work-items/active"), ".contract.json");
+
+    let mut blockers = Vec::new();
+    if active_work_items > 0 {
+        blockers.push("active_work_items_present".into());
+    }
+    if !unclosed_archived_work_items.is_empty() {
+        blockers.push("archived_work_items_pending_close".into());
+    }
+    if !dirty_paths.is_empty() {
+        blockers.push("working_tree_dirty_before_start".into());
+    }
+    if current_branch.is_none() {
+        blockers.push("detached_head".into());
+    }
+    if let (Some(current), Some(default)) = (&current_revision, &default_base)
+        && current != &default.revision
+    {
+        blockers.push("base_revision_not_synchronized".into());
+    }
+
+    let mut unknowns = Vec::new();
+    if default_base.is_none() {
+        unknowns.push("default_base_unknown".into());
+    }
+    if current_revision.is_none() {
+        unknowns.push("current_revision_unknown".into());
+    }
+    if blockers.is_empty() && current_branch.is_some() && default_base.is_some() {
+        unknowns.clear();
+    }
+    blockers.sort();
+    blockers.dedup();
+    unknowns.sort();
+    unknowns.dedup();
+    let ready_on_base = blockers.is_empty() && unknowns.is_empty();
+    let state = if !blockers.is_empty() {
+        "blocked"
+    } else if !unknowns.is_empty() {
+        "unknown"
+    } else {
+        "ready_on_base"
+    };
+    Ok(RepositoryReadiness {
+        state: state.into(),
+        ready_on_base,
+        blockers,
+        unknowns,
+        current_branch,
+        default_remote: default_base.as_ref().map(|base| base.remote.clone()),
+        default_branch: default_base.as_ref().map(|base| base.branch.clone()),
+        current_revision,
+        default_revision: default_base.map(|base| base.revision),
+        dirty_paths,
+        unclosed_archived_work_items,
+    })
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+struct DefaultBaseRef {
+    remote: String,
+    branch: String,
+    revision: String,
+}
+
+/// Resolve the locally known remote default branch without network access.
+/// A missing or ambiguous symbolic ref is intentionally unknown; guessing
+/// `main`/`master` would turn an unproven base into authorization.
+fn discover_default_base(root: &Path) -> Option<DefaultBaseRef> {
+    let remotes = git_text(root, &["remote"])?;
+    let mut candidates = Vec::new();
+    for remote in remotes
+        .lines()
+        .map(str::trim)
+        .filter(|value| !value.is_empty())
+    {
+        let symbolic_path = format!("refs/remotes/{remote}/HEAD");
+        let Some(symbolic) = git_text(root, &["symbolic-ref", "--quiet", &symbolic_path]) else {
+            continue;
+        };
+        let prefix = format!("refs/remotes/{remote}/");
+        let Some(branch) = symbolic.strip_prefix(&prefix).map(str::trim) else {
+            continue;
+        };
+        if branch.is_empty() {
+            continue;
+        }
+        let Some(revision) = git_text(root, &["rev-parse", "--verify", &symbolic]) else {
+            continue;
+        };
+        if revision.is_empty() {
+            continue;
+        }
+        candidates.push(DefaultBaseRef {
+            remote: remote.into(),
+            branch: branch.into(),
+            revision,
+        });
+    }
+    if candidates.len() == 1 {
+        candidates.pop()
+    } else {
+        None
+    }
+}
+
+fn non_governance_changed_paths(snapshot: &RepositorySnapshot) -> Vec<String> {
+    let mut paths = snapshot
+        .changed_paths
+        .iter()
+        .filter(|path| !path.starts_with(".ai/") && path.as_str() != ".ai")
+        .cloned()
+        .collect::<Vec<_>>();
+    paths.sort();
+    paths.dedup();
+    paths
+}
+
+fn unclosed_archived_work_items(root: &Path) -> Result<Vec<String>, ObserverError> {
+    let archive = root.join(".ai/work-items/archive");
+    let expected_repository_id = repository_id(root).to_string();
+    let entries = match fs::read_dir(&archive) {
+        Ok(entries) => entries,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(Vec::new()),
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: archive,
+                source,
+            });
+        }
+    };
+    let mut archived_ids = std::collections::BTreeSet::new();
+    for entry in entries {
+        let entry = entry.map_err(|source| ObserverError::Read {
+            path: archive.clone(),
+            source,
+        })?;
+        let name = entry.file_name().to_string_lossy().into_owned();
+        if let Some(work_item_id) = name.strip_suffix(".archive.json") {
+            archived_ids.insert(work_item_id.to_owned());
+        } else if let Some(work_item_id) = name.strip_suffix(".contract.json") {
+            // A partially written archive is still an unresolved lifecycle
+            // boundary; do not let a missing manifest hide it from entry.
+            archived_ids.insert(work_item_id.to_owned());
+        }
+    }
+    let mut pending = archived_ids
+        .into_iter()
+        .filter(|work_item_id| {
+            !close_decision_is_valid_for_status(root, work_item_id, &expected_repository_id)
+        })
+        .collect::<Vec<_>>();
+    pending.sort();
+    pending.dedup();
+    Ok(pending)
+}
+
+fn validate_start_entry(root: &Path, reject_unclosed_archives: bool) -> Result<(), ObserverError> {
+    let readiness = repository_readiness(root)?;
+    let mut failures = Vec::new();
+    if reject_unclosed_archives && !readiness.unclosed_archived_work_items.is_empty() {
+        failures.push(format!(
+            "archived Work Items pending close: {}",
+            readiness.unclosed_archived_work_items.join(", ")
+        ));
+    }
+    if !readiness.dirty_paths.is_empty() {
+        failures.push(format!(
+            "non-governance changes were present before start: {}",
+            readiness.dirty_paths.join(", ")
+        ));
+    }
+    if readiness.current_branch.is_none() {
+        failures.push("start requires a named branch; HEAD is detached".into());
+    }
+    if readiness
+        .blockers
+        .iter()
+        .any(|blocker| blocker == "base_revision_not_synchronized")
+    {
+        let default = readiness
+            .default_remote
+            .as_deref()
+            .zip(readiness.default_branch.as_deref())
+            .map(|(remote, branch)| format!("{remote}/{branch}"))
+            .unwrap_or_else(|| "the discovered remote default".into());
+        failures.push(format!(
+            "branch HEAD does not equal the discovered base {default}; create a fresh branch from that base before start"
+        ));
+    }
+    if failures.is_empty() {
+        return Ok(());
+    }
+    failures.sort();
+    Err(ObserverError::State {
+        path: PathBuf::from(root),
+        message: format!(
+            "lifecycle entry rejected before start: {}",
+            failures.join("; ")
+        ),
+    })
+}
+
+fn recovery_scaffold_exists(root: &Path, work_item_id: &str) -> bool {
+    let Some(root) = fs::canonicalize(root).ok() else {
+        return false;
+    };
+    let active = root.join(".ai/work-items/active");
+    let contract = read_json(&active.join(format!("{work_item_id}.contract.json"))).ok();
+    let summary = read_json(&active.join(format!("{work_item_id}.summary.json"))).ok();
+    contract
+        .as_ref()
+        .is_some_and(|value| value["state"] == serde_json::json!("not_ready"))
+        && summary
+            .as_ref()
+            .is_some_and(|value| value["state"] == serde_json::json!("not_ready"))
+        && contract
+            .as_ref()
+            .is_some_and(|value| value["predecessorWorkItemId"].is_string())
+}
+
+fn ensure_no_unclosed_archived_work_items(root: &Path) -> Result<(), ObserverError> {
+    let pending = unclosed_archived_work_items(root)?;
+    if pending.is_empty() {
+        return Ok(());
+    }
+    Err(ObserverError::State {
+        path: PathBuf::from(root).join(".ai/work-items/archive"),
+        message: format!(
+            "lifecycle entry rejected before start: archived Work Items pending close: {}",
+            pending.join(", ")
+        ),
     })
 }
 
@@ -3301,10 +3580,19 @@ pub fn start_work_item_with_options(
     scope: &[String],
     options: &WorkItemStartOptions,
 ) -> Result<LifecycleReceipt, ObserverError> {
+    // Recovery-generated `not_ready` scaffolds are an explicit continuation
+    // of an existing lifecycle and may be activated while their predecessor
+    // is still awaiting closure.  All ordinary starts must pass the same
+    // repository entry gate as `work-item new`.
+    let recovery_continuation = recovery_scaffold_exists(root, work_item_id);
+    validate_start_entry(root, !recovery_continuation)?;
     if let Some(receipt) =
         activate_not_ready_scaffold(root, work_item_id, intent, goal, scope, options)?
     {
         return Ok(receipt);
+    }
+    if !recovery_continuation {
+        ensure_no_unclosed_archived_work_items(root)?;
     }
     create_work_item_scaffold(
         root,
@@ -3442,6 +3730,28 @@ fn activate_not_ready_scaffold(
 /// only fields that are explicitly human-owned; the repository facts are read
 /// from one fresh snapshot and the attached profile.
 pub fn scaffold_work_item(
+    root: &Path,
+    work_item_id: &str,
+    mode: &str,
+) -> Result<WorkItemScaffoldReceipt, ObserverError> {
+    validate_start_entry(root, true)?;
+    ensure_no_unclosed_archived_work_items(root)?;
+    scaffold_work_item_internal(root, work_item_id, mode)
+}
+
+/// Create a recovery successor scaffold.  Recovery is not an independent
+/// next Work Item, so it may be created while its predecessor is archived and
+/// awaiting the explicit recovery/close decision.  It still uses the same
+/// atomic scaffold writer and repository-local identity facts.
+fn scaffold_work_item_for_recovery(
+    root: &Path,
+    work_item_id: &str,
+    mode: &str,
+) -> Result<WorkItemScaffoldReceipt, ObserverError> {
+    scaffold_work_item_internal(root, work_item_id, mode)
+}
+
+fn scaffold_work_item_internal(
     root: &Path,
     work_item_id: &str,
     mode: &str,
@@ -4893,7 +5203,7 @@ pub fn record_recovery_decision(
             .as_deref()
             .expect("validated successor decision");
         let mode = contract.mode.as_deref().unwrap_or("implementation");
-        scaffold_work_item(&root, successor_id, mode)?;
+        scaffold_work_item_for_recovery(&root, successor_id, mode)?;
         let successor_contract_path = root
             .join(".ai/work-items/active")
             .join(format!("{successor_id}.contract.json"));

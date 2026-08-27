@@ -191,6 +191,21 @@ and summary state is `not_ready`, never `passed`, `approved`, `verified`, or
 The older `start` command remains available and delegates to the same scaffold
 writer with explicit human fields.
 
+Before either command creates a normal next Work Item, the Runtime evaluates a
+repository-scoped entry gate. Non-`.ai` changes that predate the Contract, a
+detached HEAD, a known mismatch between HEAD and the locally discovered remote
+default revision, or any archived Work Item without a valid close decision is a
+fail-closed stop. Archived records are never rewritten. A recovery successor
+created from an identity-bound recovery decision is a continuation of the
+predecessor, not an independent bypass of this gate.
+
+Top-level `status` exposes the same read-only readiness projection under
+`readiness`. `readyOnBase` is true only for a clean named branch at the
+discovered default revision with no active Work Item and no pending archived
+closure. Missing or ambiguous remote metadata yields `state: unknown` and
+never a green claim; `blocked` and `unclosedArchivedWorkItems` identify the
+exact remediation boundary.
+
 Scaffold creation is serialized per repository and Work Item ID by a
 repository-local exclusive reservation. If two `work-item new` calls race for
 the same ID, exactly one creates the Contract and summary and the other fails

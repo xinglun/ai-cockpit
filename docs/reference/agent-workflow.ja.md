@@ -33,6 +33,7 @@ capabilityClaims:
 - Work Item ごとに一つの Contract、専用 branch/worktree、一つの PR を使います。
   scope、evidence ownership、repository context、serialized projection が分離し、
   Runtime が compatible と判定した独立 Work Item だけを並行できます。
+- `start` または `work-item new` の前に top-level `status.readiness` projection を確認します。close decision が有効でない archived Work Item、`.ai` 以外の既存変更、detached HEAD、または検出された remote default base と HEAD の不一致がある場合、通常の新しい Work Item は拒否されます。正の readiness claim は `readyOnBase` だけで、remote metadata が欠落または曖昧なら `unknown` とし、暗黙に green へ昇格しません。recovery successor は predecessor の明示的な継続です。
 - 変更前に `.ai/README.md` と `.ai/glossary.md` を読み、`inspect`、`status`、
   `doctor` を実行します。宣言した scope 外を変更せず、test と evidence を保持し、
   Summary を更新し、Contract の project checks を実行します。

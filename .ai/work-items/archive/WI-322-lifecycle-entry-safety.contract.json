@@ -1,0 +1,124 @@
+{
+  "acceptanceCriteria": [
+    "work-item new and start reject an archived Work Item that lacks a valid close decision, without rewriting the archived bytes",
+    "status exposes a deterministic readyOnBase/readiness projection and never claims ready when unresolved archived closure, active work, dirty changes, detached branch, or unknown base facts remain",
+    "start rejects non-governance changes already present before start and records the exact reason without rejecting repository-owned protocol writes",
+    "when a discoverable remote default ref exists, start rejects a branch HEAD that is ahead of or diverged from that declared base; when metadata is unavailable readiness is unknown and no green readiness claim is emitted",
+    "two isolated repositories can start independently and all lifecycle entry checks remain repository-scoped with no process-global current project",
+    "three-language documentation and CLI regressions describe the entry gate, readiness states, and recovery action"
+  ],
+  "authority": "authorized",
+  "baseRevision": "1e20d93411f8f85d612df2ac03eebfedb48f57b5",
+  "createdAt": "2026-08-27T06:44:31Z",
+  "goal": "Make close-before-next-start and clean-base entry fail closed without introducing global repository state or weakening repositories that lack discoverable remote metadata.",
+  "intent": "Prevent lifecycle entry from starting new governed work while the repository has unresolved archived Work Items or unreviewed pre-start changes, and expose an explicit readiness projection for the next Work Item.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/cockpit-mcp/src/**",
+    "crates/cockpit-protocol/**",
+    "tests/release/**",
+    ".github/**",
+    "Makefile.ai",
+    "global Agent/MCP configuration",
+    "provider-specific Cursor behavior"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9aef01e7bdc7b42de12f827823a2a4ae0936ade71520ff12da9259240200ad07",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-322-lifecycle-entry-safety",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/285",
+    "worktree": "/private/tmp/ai-cockpit-wi322-lifecycle-entry-safety"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/lifecycle_entry.rs"
+      ],
+      "expected": "work-item new and start stop before creating a new active record when an archived Work Item has no valid close decision",
+      "required": true,
+      "scenario": "archived work item without close blocks entry",
+      "status": "unverified",
+      "verificationPlan": "Run the lifecycle entry regression tests and inspect that archived bytes remain unchanged."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/lifecycle_entry.rs"
+      ],
+      "expected": "non-.ai changes already present before start are rejected without writing an active Contract",
+      "required": true,
+      "scenario": "dirty pre-start changes block entry",
+      "status": "unverified",
+      "verificationPlan": "Run the lifecycle entry regression tests with a user file present before start."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/lifecycle_entry.rs"
+      ],
+      "expected": "a branch ahead of or diverged from a discoverable remote default ref is rejected",
+      "required": true,
+      "scenario": "remote base drift blocks entry",
+      "status": "unverified",
+      "verificationPlan": "Run the isolated bare-remote fixture regression for ahead and diverged HEADs."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/lifecycle_entry.rs"
+      ],
+      "expected": "repositories without discoverable remote metadata expose unknown readiness rather than a green ready claim",
+      "required": true,
+      "scenario": "unknown base metadata never claims ready",
+      "status": "unverified",
+      "verificationPlan": "Run the local-only fixture regression and inspect the readiness projection."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/repository_context.rs"
+      ],
+      "expected": "entry checks for two repositories do not read or mutate each other's Work Item state",
+      "required": true,
+      "scenario": "repository contexts remain isolated",
+      "status": "unverified",
+      "verificationPlan": "Run repository context and lifecycle entry tests concurrently in separate repository roots."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-repository/tests/**",
+    "crates/cockpit-cli/tests/**",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/capabilities.md",
+    "docs/capabilities.zh-CN.md",
+    "docs/capabilities.ja.md"
+  ],
+  "sources": [
+    "Cursor adopter feedback: lifecycle entry, readiness, diagnostics, and verification invalidation",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/commands.md",
+    "docs/capabilities.md",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-git/src/lib.rs"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings"
+  ],
+  "workItemId": "WI-322-lifecycle-entry-safety"
+}

@@ -53,6 +53,7 @@ deleted transition，作为有限的历史 reconciliation。该 transition 必�
 - `work-item slot acquire|release|list` 管理 `.ai/parallel/leases/` 下的独占 lease。lease 绑定
   repository 与 Work Item；缺失、格式错误、含糊或过期状态都会 fail closed，不存在全局 current Work Item。
 - `start` 要求 `--id`、`--intent`、`--goal`；要得到 green governed flow 需要 `--authority authorized`。
+- `start` 或 `work-item new` 之前，Runtime 会执行 repository-scoped 入口门禁。非 `.ai` 的工作区变更、detached HEAD、已发现的远端默认 ref 与当前 HEAD 不一致，或存在没有有效 close decision 的 archived Work Item，都会 fail closed；门禁不会改写 archived bytes。`work-item recover` 创建的 successor 是显式的同一修复链续接，不是独立的下一个 Work Item。
 - `work-item new --repo <path> --id <id> --mode <mode>` 创建 `not_ready` 骨架，只填充 snapshot-derived facts，
   人类字段保持空值或 `unknown`；过渡期 `start` 复用同一 writer。repository-local 独占 reservation
   会让重复竞争 fail closed：同一 ID 只有一个请求成功，另一个失败；不同 repository 仍然相互独立。
@@ -66,6 +67,7 @@ deleted transition，作为有限的历史 reconciliation。该 transition 必�
   转成成功。CLI 无法强制宿主 Agent 或 UI 打开/展开对话面板；宿主必须展示 stderr
   handoff，或用 `work-item outcome` 确定性重放。
 - `work-item status --repo <path> --id <id>` 是只读命令，输出生命周期、治理状态、活动健康、事实计数、阻塞项、未知项、evidence 和 source digest；不会调度任务，也不会臆造百分比。
+- 顶层 `status` 还输出确定性的 `readiness` 对象。只有在命名分支干净、HEAD 与唯一发现的远端默认 revision 完全一致、没有 active Work Item 且没有等待 close 的 archived Work Item 时，`readyOnBase` 才能为 `true`。远端元数据缺失或含糊时为 `state: unknown`，绝不输出 green；`blocked` 会列出精确阻塞原因，`unclosedArchivedWorkItems` 会列出需要 close 或显式 recovery 的记录。
 - `work-item status --repo <path> --all --json` 按稳定 ID 顺序聚合 active 与 archived Work Item，输出固定的
   green/yellow/red/unknown 计数、成员 diagnostics/digest、当前 repository snapshot digest 与确定性的 index digest。
   格式错误或 foreign 的成员会成为显式 unknown entry，其他成员仍然可见。这个动态 counterpart 不会写入
