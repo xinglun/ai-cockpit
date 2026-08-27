@@ -123,11 +123,11 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=219 implemented-equivalent=1 not-applicable=3 reference-only=10 deferred-next-batch=624 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=221 implemented-equivalent=1 not-applicable=3 reference-only=10 deferred-next-batch=622 migrate-gap=0 -->
 
 At the pinned v0.2.33 comparison baseline, the ledger contains 5,119 records:
-4,262 `generated-history`, 214 `implemented-different-by-design`, one
-`implemented-equivalent`, three `not-applicable`, six `reference-only`, and 633
+4,262 `generated-history`, 221 `implemented-different-by-design`, one
+`implemented-equivalent`, three `not-applicable`, ten `reference-only`, and 622
 `deferred-next-batch` records. Deferred records remain scheduled work, not
 parity claims. The capability/profile slice has no remaining `migrate-gap`
 records:
@@ -143,7 +143,7 @@ records:
 
 The governance entrypoints, getting-started routes, CI/release boundaries, and
 capability/profile projections have been reviewed at this baseline. The four
-records above are Rust-native, explicitly bounded counterparts; the 633
+records above are Rust-native, explicitly bounded counterparts; the 622
 deferred semantic comparisons remain scheduled work.
 
 WI-274 rebinds only the target checkout metadata and canonical comparison
@@ -500,3 +500,23 @@ This is a product-boundary decision, not an untracked omission. If a future
 human-owned Work Item introduces claim binding or row freshness, it must define
 Rust-native schemas, evidence generation, stale handling, multilingual scope,
 and adopter acceptance before changing any classification.
+
+## WI-331 checks catalog and CI/release evidence
+
+WI-331 compares the next two pinned reference paths individually. Both are
+implemented differently by design: the Rust target preserves the source
+quality/release evidence responsibilities without copying the source Make,
+Python, or V1 runtime.
+
+| Pinned source path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/checks-catalog.md` | implemented-different-by-design | `docs/reference/checks-catalog.*`, the Contract-aware `gate` route, repository gate manifest, Rust workspace checks, conformance/docs checks, and release/adopter checks provide the same layered quality intent. Local checks remain distinct from provider or enterprise assurance; dynamic light/standard/strict profiles escalate on unknown or release-owned controls. |
+| `docs/reference/ci-release-evidence.md` | implemented-different-by-design | `docs/reference/ci-release-evidence.*`, `.github/workflows/ci.yml`, `.github/workflows/release.yml`, release distribution checks, and adopter acceptance harnesses bind provider jobs, commit/base/head, artifacts, checksums, SBOM, provenance, and isolation receipts. Skipped or failed jobs remain visible, and PR prose never becomes evidence. |
+
+The semantic boundary is explicit. The target Runtime owns repository-local
+Contract and gate decisions; hosted CI, signing, SBOM/provenance providers, and
+enterprise audit systems own their delegated evidence. Public release truth is
+bound to immutable tags and downloaded artifacts. `--repo` remains mandatory,
+and a source `Makefile`, Python runner, or copied V1 runtime is not a target
+requirement. The six language counterparts and inventory assertions are the
+anti-omission record for this batch.

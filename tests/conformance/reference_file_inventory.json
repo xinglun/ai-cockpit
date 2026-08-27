@@ -31019,17 +31019,34 @@
     },
     {
       "referencePath": "docs/reference/checks-catalog.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-331-reference-file-comparison-batch-09",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/checks-catalog.md",
+        "docs/reference/checks-catalog.zh-CN.md",
+        "docs/reference/checks-catalog.ja.md",
+        "docs/reference/ci-quality-gates.md",
+        "tests/ci/repository_gate_manifest.json",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "The source check catalog is represented by tri-language Rust-native documentation, the versioned gate manifest, and Runtime Contract/lifecycle validators. Target profiles remain policy-selected and distinguish verification coverage from Evidence Assurance; source Make/Python command ownership is not copied."
     },
     {
       "referencePath": "docs/reference/ci-release-evidence.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-331-reference-file-comparison-batch-09",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/ci-release-evidence.md",
+        "docs/reference/ci-release-evidence.zh-CN.md",
+        "docs/reference/ci-release-evidence.ja.md",
+        "tests/ci/repository_gate_manifest.json",
+        ".github/workflows/ci.yml",
+        ".github/workflows/release.yml",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "docs/release/distribution.md"
+      ],
+      "reason": "The source CI/Release evidence contract is represented by the provider-bound Rust Contract gate, versioned manifest, CI/release workflows, checksum/SBOM/provenance policy, and published-binary adopter harness. Local, provider, public Release, and enterprise evidence remain separate; PR prose and source fixtures are never treated as proof."
     },
     {
       "referencePath": "docs/reference/commands.md",

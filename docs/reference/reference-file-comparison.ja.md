@@ -107,11 +107,11 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=219 implemented-equivalent=1 not-applicable=3 reference-only=10 deferred-next-batch=624 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=221 implemented-equivalent=1 not-applicable=3 reference-only=10 deferred-next-batch=622 migrate-gap=0 -->
 
 固定した v0.2.33 comparison baseline の ledger は 5,119 records です。内訳は
-4,262 `generated-history`、214 `implemented-different-by-design`、1
-`implemented-equivalent`、3 `not-applicable`、6 `reference-only`、633 `deferred-next-batch` です。
+4,262 `generated-history`、221 `implemented-different-by-design`、1
+`implemented-equivalent`、3 `not-applicable`、10 `reference-only`、622 `deferred-next-batch` です。
 Deferred record は予定された比較であり parity claim ではありません。
 capability/profile slice に `migrate-gap` は残っていません。
 
@@ -122,7 +122,7 @@ capability/profile slice に `migrate-gap` は残っていません。
 
 Governance entrypoint、getting-started route、CI/release boundary、capability/profile
 projection はこの baseline で review 済みです。上記 4 件は bounded な Rust-native counterpart として登録済みで、
-633 deferred semantic comparison は後続作業として残ります。
+622 deferred semantic comparison は後続作業として残ります。
 
 WI-274 は target checkout metadata と canonical comparison snapshot だけを、レビュー済み
 default branch commit に再バインドします。WI-273 は immutable な failed-delivery record として
@@ -430,3 +430,22 @@ claim authorization と Capability Truth row expiry は current Runtime の外�
 これは product-boundary の決定であり、未追跡 omission ではありません。将来 claim binding または
 row freshness を追加する場合は、human-owned Work Item で Rust-native schema、evidence generation、
 stale handling、multilingual scope、adopter acceptance を先に定義してから classification を変更します。
+
+## WI-331 checks catalog と CI/release evidence
+
+WI-331 は pinned source の次の 2 path を一つずつ比較します。いずれも
+implemented-different-by-design です。Rust target は source の quality/release
+evidence の責任境界を保ちますが、source の Make、Python、V1 runtime はコピーしません。
+
+| Pinned source path | 分類 | Rust counterpart / 境界の決定 |
+| --- | --- | --- |
+| `docs/reference/checks-catalog.md` | implemented-different-by-design | `docs/reference/checks-catalog.*`、Contract-aware `gate` route、repository gate manifest、Rust workspace checks、conformance/docs checks、release/adopter checks が同じ段階的な quality intent を担います。local check は provider/enterprise assurance と分離し、unknown または release-owned control は dynamic light/standard/strict profile で escalation します。 |
+| `docs/reference/ci-release-evidence.md` | implemented-different-by-design | `docs/reference/ci-release-evidence.*`、`.github/workflows/ci.yml`、`.github/workflows/release.yml`、release distribution checks、adopter acceptance harness が provider job、commit/base/head、artifact、checksum、SBOM、provenance、isolation receipt を bind します。skip/failed job は隠さず、PR の prose は evidence になりません。 |
+
+責任境界は明示されています。target Runtime は repository-local Contract と
+gate decision を持ち、hosted CI、署名、SBOM/provenance provider、enterprise
+audit system は delegated evidence を持ちます。公開 Release truth は immutable
+tag と download artifact に bind します。全 command は明示的な `--repo` を要求し、
+source Makefile、Python runner、コピーした V1 runtime は target requirement
+ではありません。6 つの言語版と inventory assertion がこの batch の omission
+防止記録です。

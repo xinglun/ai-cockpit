@@ -1,0 +1,67 @@
+{
+  "acceptanceCriteria": [
+    "Both pinned source paths are read and classified exactly once with evidence-backed Rust-native counterparts.",
+    "English, Simplified Chinese, and Japanese target pages describe the same checks and CI/release evidence boundaries.",
+    "The target distinguishes local checks, provider-derived CI evidence, public Release evidence, and enterprise/external assurance.",
+    "The target does not require source Makefile.ai or copy Python/V1 executors and preserves explicit --repo and external Runtime boundaries.",
+    "Inventory and documentation regression gates pass with no migrate-gap introduced by this batch.",
+    "No Rust Core or generated lifecycle truth is hand-edited; all Work Item lifecycle and evidence remain Runtime-produced."
+  ],
+  "authority": "authorized",
+  "baseRevision": "a1cb839bad62cc590e30e771be8eff3efbf4e185",
+  "createdAt": "2026-08-27T14:16:41Z",
+  "goal": "记录两条 pinned 参考路径的完整对应、边界与可验证文档入口，不复制源项目运行时。",
+  "intent": "完成固定参考源 checks catalog 与 CI/release evidence 的逐文件语义对比，并让采用方能读取 Rust-native 质量与发布证据路线。",
+  "mode": "code",
+  "outOfScope": [
+    "crates/**",
+    ".github/**",
+    "tests/release/**",
+    "global Agent or MCP configuration",
+    "source Python/Make/V1 runtime copies",
+    "comprehension protocol or participant data",
+    "unrelated deferred batches"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7f2708f2682e3859e868849bc47c331d49f616e6f1cf4529189a21e329fb97a4",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-331-checks-release-evidence",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/295",
+    "worktree": "/private/tmp/ai-cockpit-wi331-checks-release-evidence"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/checks-catalog.md",
+    "docs/reference/checks-catalog.zh-CN.md",
+    "docs/reference/checks-catalog.ja.md",
+    "docs/reference/ci-release-evidence.md",
+    "docs/reference/ci-release-evidence.zh-CN.md",
+    "docs/reference/ci-release-evidence.ja.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-331-checks-release-evidence.md",
+    "docs/work-items/WI-331-checks-release-evidence.zh-CN.md",
+    "docs/work-items/WI-331-checks-release-evidence.ja.md",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-331-checks-release-evidence"
+}
