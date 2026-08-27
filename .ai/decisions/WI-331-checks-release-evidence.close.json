@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-331-checks-release-evidence.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b3139d1b8e640b754f9b0b43fc5fae6956ffdf90e1457c9e506dfbc4ce1e3e8c",
+      "workItemId": "WI-331-checks-release-evidence"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-331-checks-release-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-331-checks-release-evidence.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-331-checks-release-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-331-checks-release-evidence.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-331-checks-release-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-331-checks-release-evidence.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-331-checks-release-evidence.verification.json",
+            ".ai/decisions/WI-331-checks-release-evidence.finalize.json",
+            ".ai/decisions/WI-331-checks-release-evidence.finalize.36c6617937511f6d1d30511c3e83a25ba9717d7713f8d51a9e153b1cd7cb0281.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:repository-owner via explicit-user-authorization at 2026-08-27T14:30:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-331-checks-release-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-331-checks-release-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-331-checks-release-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-331-checks-release-evidence.contract.json"
+          ],
+          "inference": false,
+          "text": "记录两条 pinned 参考路径的完整对应、边界与可验证文档入口，不复制源项目运行时。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-331-checks-release-evidence.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-331-checks-release-evidence"
+  },
+  "finalReportDigest": "sha256:e9ff7046db1c91b5b1c8cb11cfd18f454ea36f25ebe2d0033f8b944845f452bb",
+  "humanDecision": "confirmed",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:96ac4680a3a77f34b01db01df085e6d12151dd6f68d1ead3d8579dd51a3fbbfc",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-331-checks-release-evidence.finalize.36c6617937511f6d1d30511c3e83a25ba9717d7713f8d51a9e153b1cd7cb0281.json",
+  "resourceFinalizationSequence": 1,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-27T14:30:00Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-331-checks-release-evidence.verification.json",
+      ".ai/decisions/WI-331-checks-release-evidence.finalize.json",
+      ".ai/decisions/WI-331-checks-release-evidence.finalize.36c6617937511f6d1d30511c3e83a25ba9717d7713f8d51a9e153b1cd7cb0281.json"
+    ],
+    "policyRefs": [],
+    "reason": "Reviewed hosted CI, merged PR, verified deleted cleanup, and terminal evidence for the pinned checks/CI-release semantic parity batch.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-27T14:27:43Z",
+  "workItemId": "WI-331-checks-release-evidence"
+}
