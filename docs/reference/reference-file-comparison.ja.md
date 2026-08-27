@@ -107,7 +107,7 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=214 implemented-equivalent=1 not-applicable=3 reference-only=6 deferred-next-batch=633 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=219 implemented-equivalent=1 not-applicable=3 reference-only=10 deferred-next-batch=624 migrate-gap=0 -->
 
 固定した v0.2.33 comparison baseline の ledger は 5,119 records です。内訳は
 4,262 `generated-history`、214 `implemented-different-by-design`、1
@@ -295,7 +295,7 @@ source の実装や binary asset は Rust repository に copy しません。
 | `docs/assets/ai-cockpit-demo.gif` | reference-only | GIF89a、800x435、587,945 bytes、SHA-256 `88838de7221dc859efde7e8e87913d0a23a21466195647ded60612adbad1f795` の固定 visual reference です。binary copy や Runtime contract は主張しません。 |
 | `docs/case-study-ai-rollback-corruption.md` | implemented-different-by-design | 三言語 adversarial-validation と typed Contract/scope check が unauthorized path、無関係な変更、controlled recovery を扱います。case は仮想であり、Runtime は auto-rollback、merge approval、business impact 推論を行いません。 |
 | `docs/concepts/evidence-governance.md` | implemented-different-by-design | `docs/security/enterprise-governance.*`、`docs/reference/outcome-report.md`、typed Protocol/Repository evidence が Evidence → Governance Decision → Human Control を投影します。provider evidence は delegated で、prose は proof ではありません。 |
-| `docs/concepts/trust-layer.md` | implemented-different-by-design | `docs/architecture/product-boundary.md`、`docs/philosophy.md`、enterprise-governance、capability truth matrix が calibrated trust、fail-closed unknown、human control、non-goals を定義します。 |
+| `docs/concepts/trust-layer.md` | implemented-different-by-design | `docs/architecture/product-boundary.md`、`docs/philosophy.md`、enterprise-governance、Runtime capability truth registry が calibrated trust、fail-closed unknown、human control、non-goals を定義します。Source public claim matrix は target gate ではありません。 |
 
 これは semantic responsibility parity であり source wire/byte compatibility ではありません。target
 の Contract/evidence schema と shared request-scoped Runtime は source の安全意図を保ちつつ、repository
@@ -382,3 +382,32 @@ repository-local adapter を明示的に install し、永続化された `work-
 Runtime は IDE chat panel を強制的に expand できないため、現在の output と lifecycle entry gate は
 automatic chat posting の主張ではありません。Diagnostic remediation、close-gap convenience command、
 automatic controls scaffold は別の product decision として扱います。
+
+## WI-328 calibration と capability-truth の file-level batch
+
+WI-328 は pinned reference の次の 9 path を一つずつ比較します。5 path は
+implemented-different-by-design、capability matrix/claim-authoring の 4 path は
+Rust target に source public claim checker/matrix がないため reference-only とします。
+
+| pinned reference path | Classification | Rust/adopter の対応と境界 |
+| --- | --- | --- |
+| docs/reference/calibration-session-model.md | implemented-different-by-design | Repository-bound profile proposal、confirmation、calibration facts が fact/evidence boundary を保ちます。汎用 persisted Session は導入しません。 |
+| docs/reference/calibration-session-model.zh-CN.md | implemented-different-by-design | Chinese calibration/profile route も proposal、confirmation、unknown、human authority を同じ境界で扱います。 |
+| docs/reference/calibration-session.ja.md | implemented-different-by-design | Source ten-stage Session は target の明示的 profile proposal/confirmation に意味だけを写し、Make/Python orchestration は copy しません。 |
+| docs/reference/calibration-session.md | implemented-different-by-design | Source の persisted wizard は source-specific orchestration です。Target calibration は read-only-first、repository-bound で、policy change に human confirmation を要求します。 |
+| docs/reference/canonical-terminology.md | implemented-different-by-design | .ai/glossary.md、configuration、Outcome reference が canonical terms を提供します。Governance light と Calibration lite は alias ではなく、release は profile ではなく operation です。 |
+| docs/reference/capability-claim-authoring.md | reference-only | Source lexical claim checker と matrix-binding front matter は target Runtime gate ではありません。将来の strict claim/evidence binding は候補 WI-329 の scope です。 |
+| docs/reference/capability-evidence-freshness.md | reference-only | Work Item verification freshness はありますが、Capability Truth row expiry/portable-environment matrix は実装していません。拡張は候補 WI-329 で定義します。 |
+| docs/reference/capability-truth-matrix.json | reference-only | Source 30-row public matrix は copy しません。capability_truth_registry は observed-capability projection であり public claim authorization や adopter/provider proof ではありません。 |
+| docs/reference/capability-truth-matrix.md | reference-only | Current capability/adoption page は observed fact、adopter、provider、enterprise の境界を示し、source matrix/checker を claim しません。 |
+
+4 つの reference-only は明示的な product boundary であり、未登録 omission では
+ありません。候補 WI-329 はこの batch では開始せず、Rust-native matrix、freshness
+policy、multilingual binding gate を人が所有する scope として定義してから着手します。
+
+Cursor adopter feedback は external validation input です。Current Runtime の stable
+lifecycle JSON、replay 可能な work-item outcome、close-before-next/readiness check、
+fail-closed start/verification binding はすでに確認済みです。Runtime は IDE chat panel を
+expand できないため adapter/host が durable handoff を表示・再生します。Diagnostic
+remediation、controls scaffold、close-gap convenience、Makefile integration は後続の
+product decision であり、この batch の parity として claim しません。

@@ -255,6 +255,8 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-326——参考源文件对比批次 06 | 已实现 | [Work Item](../work-items/WI-326-reference-file-comparison-batch-06.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-326-reference-file-comparison-batch-06.contract.json`; verification `.ai/evidence/WI-326-reference-file-comparison-batch-06.verification.json`; finalization `.ai/decisions/WI-326-reference-file-comparison-batch-06.finalize.json`; close `.ai/decisions/WI-326-reference-file-comparison-batch-06.close.json`. |
 | WI-327——参考源文件对比批次 07 | 已实现 | [Work Item](../work-items/WI-327-reference-file-comparison-batch-07.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-327-reference-file-comparison-batch-07.contract.json`; verification `.ai/evidence/WI-327-reference-file-comparison-batch-07.verification.json`; finalization `.ai/decisions/WI-327-reference-file-comparison-batch-07.finalize.json`; close `.ai/decisions/WI-327-reference-file-comparison-batch-07.close.json`. |
 
+| WI-328——参考源文件对比批次 08 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-328-reference-file-comparison-batch-08.zh-CN.md); archive `.ai/work-items/archive/WI-328-reference-file-comparison-batch-08.contract.json`; verification `.ai/evidence/WI-328-reference-file-comparison-batch-08.verification.json`; finalization `.ai/decisions/WI-328-reference-file-comparison-batch-08.finalize.json`; close `.ai/decisions/WI-328-reference-file-comparison-batch-08.close.json`. 五个校准/术语路径按有意不同实现登记；四个能力声明/矩阵路径明确保留 reference-only，候选 WI-329 负责后续边界。Cursor 反馈已对照，不宣称自动聊天发布、Makefile 集成、controls 脚手架或 close-gap 便利功能。 |
+
 ## 当前边界
 
 一份已安装 Runtime 可以治理多个相互独立 attach 的 repository。每个 repository 独立拥有

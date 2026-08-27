@@ -103,7 +103,7 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=214 implemented-equivalent=1 not-applicable=3 reference-only=6 deferred-next-batch=633 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=219 implemented-equivalent=1 not-applicable=3 reference-only=10 deferred-next-batch=624 migrate-gap=0 -->
 
 在固定的 v0.2.33 比较基线上，台账共有 5,119 条记录：4,262 条
 `generated-history`、214 条 `implemented-different-by-design`、1 条
@@ -280,7 +280,7 @@ WI-308 在固定参考提交 `e5acb677` 上逐个比对四个文件：一个演�
 | `docs/assets/ai-cockpit-demo.gif` | reference-only | 固定 GIF 为 GIF89a、800x435、587,945 字节，SHA-256 为 `88838de7221dc859efde7e8e87913d0a23a21466195647ded60612adbad1f795`。仅作为视觉参考，不复制二进制，也不宣称它是 Runtime 合同。 |
 | `docs/case-study-ai-rollback-corruption.md` | implemented-different-by-design | 三语 adversarial-validation 文档与 typed Contract/scope 校验覆盖越权路径、无关变更和受控恢复。案例仍是假设性的；Runtime 不自动回滚、不批准合并，也不推断业务影响。 |
 | `docs/concepts/evidence-governance.md` | implemented-different-by-design | `docs/security/enterprise-governance.*`、`docs/reference/outcome-report.md` 以及 typed Protocol/Repository evidence 投影 Evidence → Governance Decision → Human Control 链。Provider evidence 仍由外部负责，文字本身不是证明。 |
-| `docs/concepts/trust-layer.md` | implemented-different-by-design | `docs/architecture/product-boundary.md`、`docs/philosophy.md`、企业治理文档和 capability truth matrix 定义校准信任、fail-closed 未知、人类控制及明确非目标。 |
+| `docs/concepts/trust-layer.md` | implemented-different-by-design | `docs/architecture/product-boundary.md`、`docs/philosophy.md`、企业治理文档和 Runtime capability truth registry 定义校准信任、fail-closed 未知、人类控制及明确非目标；源 public claim matrix 不是目标 gate。 |
 
 这里是语义责任 parity，不是 source wire 或字节兼容。目标更严格的 Contract/evidence schema 与共享
 request-scoped Runtime 保留源安全意图，并增加 repository identity、snapshot、人类决定和 provider
@@ -360,3 +360,30 @@ WI-327 在固定参考源提交上逐个比较接下来的九个 deferred 路径
 `work-item outcome` handoff；Runtime 无法强制 IDE 展开聊天面板。因此，Runtime 当前的输出和
 生命周期入口门禁不等于自动向聊天发布。诊断 remediation、close-gap 便利命令和 controls
 自动脚手架仍是独立的产品决策。
+
+## WI-328：校准与能力事实文档切片
+
+WI-328 逐个比对固定参考提交中的九个路径。其中五个按有意不同的实现登记；四个
+能力矩阵/声明文档明确保留为 reference-only，因为 Rust 目标没有源项目的 public
+claim checker 或 matrix。
+
+| 参考源路径 | 分类 | Rust/adopter 对应与边界 |
+| --- | --- | --- |
+| docs/reference/calibration-session-model.md | implemented-different-by-design | repository-bound profile proposal、confirm 和 calibration facts 保留事实/证据边界，不引入通用持久化 Session。 |
+| docs/reference/calibration-session-model.zh-CN.md | implemented-different-by-design | 中文 calibration/profile 路线保留 proposal、confirm、unknown 与人工责任边界。 |
+| docs/reference/calibration-session.ja.md | implemented-different-by-design | 源十阶段 Session 只由目标显式 profile proposal/confirm 承接语义，不复制 Make/Python 编排。 |
+| docs/reference/calibration-session.md | implemented-different-by-design | 源持久化 wizard 属于源专属编排；目标校准 read-only-first、repository-bound，策略变更必须人工确认。 |
+| docs/reference/canonical-terminology.md | implemented-different-by-design | .ai/glossary.md、configuration 与 Outcome 参考页提供 canonical terms；治理 light 不等同于校准 lite，release 是 operation 而不是 profile。 |
+| docs/reference/capability-claim-authoring.md | reference-only | 源 lexical claim checker 与 matrix front matter 绑定不是目标 Runtime gate；目标 registry 只报告观察事实和 exclusions，候选 WI-329 负责未来严格绑定。 |
+| docs/reference/capability-evidence-freshness.md | reference-only | 目标已有 Work Item verification freshness，但没有独立 Capability Truth 行过期/portable-environment matrix；由候选 WI-329 定义边界。 |
+| docs/reference/capability-truth-matrix.json | reference-only | 不复制源三十行 public matrix；capability_truth_registry 是观察能力 projection，不是 public claim authorization 或 adopter/provider proof。 |
+| docs/reference/capability-truth-matrix.md | reference-only | 当前 capability/adoption 页面说明 observed fact、adopter、provider 与 enterprise 边界，不宣称源 matrix/checker。 |
+
+四个 reference-only 结果是明确的产品边界，不是未登记遗漏。候选 WI-329 不在本批启动；
+必须先有人工拥有的 scope，才能实现 Rust 原生 capability claim matrix、freshness policy
+和三语绑定 gate。
+
+Cursor 采用方反馈是外部验证输入。当前 Runtime 已有稳定 lifecycle JSON、可重放
+work-item outcome、close-before-next/readiness 检查及 fail-closed start/verification 绑定。
+Runtime 无法强制 IDE 展开聊天面板，adapter/host 必须展示或重放持久化 handoff。诊断
+remediation、controls 脚手架、close-gap 便利命令和 Makefile 集成仍是明确的后续/非目标。

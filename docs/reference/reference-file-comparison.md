@@ -123,7 +123,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=214 implemented-equivalent=1 not-applicable=3 reference-only=6 deferred-next-batch=633 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=219 implemented-equivalent=1 not-applicable=3 reference-only=10 deferred-next-batch=624 migrate-gap=0 -->
 
 At the pinned v0.2.33 comparison baseline, the ledger contains 5,119 records:
 4,262 `generated-history`, 214 `implemented-different-by-design`, one
@@ -347,7 +347,7 @@ source implementation and binary assets out of the Rust repository.
 | `docs/assets/ai-cockpit-demo.gif` | reference-only | The pinned GIF is GIF89a, 800x435, 587,945 bytes, SHA-256 `88838de7221dc859efde7e8e87913d0a23a21466195647ded60612adbad1f795`. It remains a source visual reference; no binary copy or Runtime contract is claimed. |
 | `docs/case-study-ai-rollback-corruption.md` | implemented-different-by-design | Tri-language adversarial-validation docs plus typed Contract/scope checks cover unauthorized paths, unrelated changes, and controlled recovery. The case remains hypothetical and the Runtime does not auto-rollback, approve a merge, or infer business impact. |
 | `docs/concepts/evidence-governance.md` | implemented-different-by-design | `docs/security/enterprise-governance.*`, `docs/reference/outcome-report.md`, and typed Protocol/Repository evidence project the Evidence → Governance Decision → Human Control chain. Provider evidence remains delegated and prose is never proof. |
-| `docs/concepts/trust-layer.md` | implemented-different-by-design | `docs/architecture/product-boundary.md`, `docs/philosophy.md`, enterprise-governance, and the capability truth matrix define calibrated trust, fail-closed unknowns, human control, and explicit non-goals. |
+| `docs/concepts/trust-layer.md` | implemented-different-by-design | `docs/architecture/product-boundary.md`, `docs/philosophy.md`, enterprise-governance, and the Runtime capability truth registry define calibrated trust, fail-closed unknowns, human control, and explicit non-goals. The source public claim matrix is not a target gate. |
 
 The migration is semantic responsibility parity, not source wire or byte
 compatibility. The target's richer Contract/evidence schemas and shared
@@ -448,3 +448,34 @@ must explicitly install its repository-local adapter and replay the durable
 expand. Current Runtime output and lifecycle entry gates are therefore not a
 claim of automatic chat posting. Diagnostic remediation, close-gap convenience
 commands, and automatic controls scaffolding remain separate product decisions.
+
+## WI-328 calibration and capability-truth slice
+
+WI-328 compares the next nine pinned reference paths individually. Five are
+implemented differently by design; four capability-matrix/claim-authoring
+documents remain explicit reference-only boundaries because the Rust target
+does not ship the source public claim checker or matrix.
+
+| Reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/calibration-session-model.md` | implemented-different-by-design | Repository-bound profile proposal, confirmation, and calibration facts preserve the source fact/evidence boundary; no generic persisted Session is introduced. |
+| `docs/reference/calibration-session-model.zh-CN.md` | implemented-different-by-design | Chinese calibration/profile routes preserve the same explicit proposal, confirmation, unknown, and human-authority boundary. |
+| `docs/reference/calibration-session.ja.md` | implemented-different-by-design | The source ten-stage Session is represented only by the target's explicit profile proposal/confirmation route; source Make/Python orchestration is not copied. |
+| `docs/reference/calibration-session.md` | implemented-different-by-design | The source persisted wizard is source-specific orchestration. Target calibration is read-only-first and repository-bound, with human confirmation for policy changes. |
+| `docs/reference/canonical-terminology.md` | implemented-different-by-design | .ai/glossary.md, configuration, and Outcome references provide canonical terms; governance light is not calibration lite, and release is an operation, not a profile. |
+| `docs/reference/capability-claim-authoring.md` | reference-only | The source lexical claim checker and matrix front matter are not a target Runtime gate. The target registry reports observed facts and exclusions; candidate WI-329 would own any strict claim/evidence binding. |
+| `docs/reference/capability-evidence-freshness.md` | reference-only | Work Item verification freshness exists, but no separate Capability Truth row expiry/portable-environment matrix is shipped; candidate WI-329 owns that scope. |
+| `docs/reference/capability-truth-matrix.json` | reference-only | The source 30-row public matrix is not copied. capability_truth_registry is an observed-capability projection, not public claim authorization or adopter/provider proof. |
+| `docs/reference/capability-truth-matrix.md` | reference-only | Current capability/adoption pages state observed-fact, adopter, provider, and enterprise boundaries; no source matrix or checker is claimed. |
+
+The reference-only results are explicit product boundaries, not hidden
+omissions. Candidate WI-329 is not started in this batch and must receive a
+separate human-owned scope before implementing a Rust-native capability claim
+matrix, freshness policy, or strict multilingual binding gate.
+
+Cursor adopter feedback is external validation input. Current Runtime lifecycle
+JSON, replayable work-item outcome, close-before-next/readiness checks, and
+fail-closed start/verification bindings are already documented and tested.
+Cursor/host adapters must surface the durable handoff because the Runtime
+cannot expand an IDE chat panel. Diagnostic remediation, controls scaffolding,
+close-gap convenience, and Makefile integration remain explicit non-goals here.

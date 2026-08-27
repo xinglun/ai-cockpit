@@ -41,6 +41,7 @@ WI305_BATCH = "WI-305-reference-file-comparison-batch-03"
 WI325_BATCH = "WI-325-reference-file-comparison-batch-05"
 WI326_BATCH = "WI-326-reference-file-comparison-batch-06"
 WI327_BATCH = "WI-327-reference-file-comparison-batch-07"
+WI328_BATCH = "WI-328-reference-file-comparison-batch-08"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -722,6 +723,95 @@ WI327_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
     ),
 }
 
+WI328_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "docs/reference/calibration-session-model.md": (
+        "implemented-different-by-design",
+        [
+            "docs/getting-started/calibration.md",
+            "docs/getting-started/first-calibration.md",
+            "docs/reference/configuration.md",
+            "crates/cockpit-repository/src/project_governance.rs",
+        ],
+        "The source maintainer/auditor Session model is represented by repository-bound profile proposal, human confirmation, and explicit calibration facts. The target does not introduce a generic persisted Session or treat a proposal as active policy; unknowns and human authority remain visible.",
+    ),
+    "docs/reference/calibration-session-model.zh-CN.md": (
+        "implemented-different-by-design",
+        [
+            "docs/getting-started/calibration.zh-CN.md",
+            "docs/getting-started/first-calibration.zh-CN.md",
+            "docs/reference/configuration.zh-CN.md",
+            "crates/cockpit-repository/src/project_governance.rs",
+        ],
+        "源文件关于可恢复 Session、证据、提议和人工确认的维护者/审计者语义，由 repository-bound profile proposal、confirm 和显式 calibration facts 保留。目标不引入通用持久化 Session，也不把 proposal 当作 active policy；unknown 和人工责任保持可见。",
+    ),
+    "docs/reference/calibration-session.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/getting-started/calibration.ja.md",
+            "docs/getting-started/first-calibration.ja.md",
+            "docs/reference/configuration.ja.md",
+            "crates/cockpit-repository/src/project_governance.rs",
+        ],
+        "Source の 10 段階 interactive Session は、repository-bound な profile proposal、human confirmation、calibration facts として意味だけを保持します。Rust target は汎用 Session、source Make/Python、または enterprise/security proof を暗黙に追加しません。",
+    ),
+    "docs/reference/calibration-session.md": (
+        "implemented-different-by-design",
+        [
+            "docs/getting-started/calibration.md",
+            "docs/getting-started/first-calibration.md",
+            "docs/reference/configuration.md",
+            "crates/cockpit-repository/src/project_governance.rs",
+        ],
+        "The source ten-stage persisted Calibration Session and wizard are a source-specific orchestration surface. The target keeps a read-only profile proposal and explicit human confirmation over repository facts; it does not claim the source Session schema, Make/Python commands, or wizard activation transaction.",
+    ),
+    "docs/reference/canonical-terminology.md": (
+        "implemented-different-by-design",
+        [
+            ".ai/glossary.md",
+            "docs/reference/configuration.md",
+            "docs/reference/outcome-report.md",
+        ],
+        "Canonical Runtime terms are maintained in the repository glossary and current reference pages. Governance `light`/`standard`/`strict` is deliberately distinct from any source Calibration `lite` domain; the target does not introduce a second profile vocabulary or treat `release` as a profile.",
+    ),
+    "docs/reference/capability-claim-authoring.md": (
+        "reference-only",
+        [
+            "docs/capabilities.md",
+            "docs/reference/reference-parity.md",
+            "crates/cockpit-repository/src/lib.rs",
+        ],
+        "The source lexical Capability Truth Matrix checker and claim-binding front matter are not a target Runtime gate. The target capability registry reports observed, repository-bound facts and explicit exclusions; it must not claim source matrix validation or silently promote prose to evidence. A bounded capability-claim/evidence WI-329 is required before adding such a gate.",
+    ),
+    "docs/reference/capability-evidence-freshness.md": (
+        "reference-only",
+        [
+            "crates/cockpit-repository/src/lib.rs",
+            "docs/reference/outcome-report.md",
+            "docs/reference/verification-evidence-reuse.md",
+        ],
+        "The target validates Work Item verification freshness and identity-bound receipts, but has no separate Capability Truth row expiry or portable-environment matrix. The source capability-row freshness policy remains reference-only and is an explicit WI-329 candidate rather than an implied capability.",
+    ),
+    "docs/reference/capability-truth-matrix.json": (
+        "reference-only",
+        [
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-protocol/src/lib.rs",
+            "docs/capabilities.md",
+            "docs/reference/reference-parity.md",
+        ],
+        "The source 30-row public Capability Truth Matrix is not copied. Rust `capability_truth_registry` is a request-scoped observed-capability projection with explicit adopter/external exclusions, not a public claim matrix; WI-329 owns any future strict row/evidence binding.",
+    ),
+    "docs/reference/capability-truth-matrix.md": (
+        "reference-only",
+        [
+            "crates/cockpit-repository/src/lib.rs",
+            "docs/capabilities.md",
+            "docs/reference/reference-parity.md",
+        ],
+        "The source matrix documentation is retained as a reference boundary only. Current target capability and adoption pages deliberately distinguish observed Runtime facts, repository evidence, adopter installation, provider evidence, and enterprise assurance; no source matrix or claim checker is advertised until WI-329.",
+    ),
+}
+
 
 def wi270_counterpart(path: str) -> tuple[list[str], str] | None:
     if path in WI270_DOC_CONCEPTS:
@@ -1138,6 +1228,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 }
             )
             continue
+        wi328 = WI328_REFERENCE_FILES.get(path)
+        if wi328 is not None:
+            classification, counterparts, reason = wi328
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI328_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
         wi302 = WI302_REFERENCE_FILES.get(path)
         if wi302 is not None:
             classification, counterparts, reason = wi302
@@ -1378,6 +1481,40 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for classification in wi327_classifications
         ):
             errors.append("WI-327 batch cannot leave deferred or migrate-gap records")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI328_BATCH
+        for record in records
+    ):
+        wi328_records = [
+            record
+            for record in records
+            if isinstance(record, dict) and record.get("batch") == WI328_BATCH
+        ]
+        expected_wi328_paths = set(WI328_REFERENCE_FILES)
+        actual_wi328_paths = {
+            record.get("referencePath")
+            for record in wi328_records
+            if isinstance(record.get("referencePath"), str)
+        }
+        if actual_wi328_paths != expected_wi328_paths:
+            errors.append(
+                "WI-328 batch paths do not match the pinned nine-file set: "
+                f"expected {sorted(expected_wi328_paths)!r}, got {sorted(actual_wi328_paths)!r}"
+            )
+        if len(wi328_records) != len(expected_wi328_paths):
+            errors.append(
+                f"WI-328 batch must contain {len(expected_wi328_paths)} records, found {len(wi328_records)}"
+            )
+        wi328_classifications = [record.get("classification") for record in wi328_records]
+        if wi328_classifications.count("implemented-different-by-design") != 5:
+            errors.append("WI-328 batch must contain five implemented-different-by-design records")
+        if wi328_classifications.count("reference-only") != 4:
+            errors.append("WI-328 batch must contain four reference-only records")
+        if any(
+            classification in {"deferred-next-batch", "migrate-gap"}
+            for classification in wi328_classifications
+        ):
+            errors.append("WI-328 batch cannot leave deferred or migrate-gap records")
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(records):
         errors.append(f"referenceTrackedFileCount {expected_count!r} != record count {len(records)}")
