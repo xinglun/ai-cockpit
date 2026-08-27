@@ -123,11 +123,11 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=206 implemented-equivalent=1 not-applicable=3 reference-only=5 deferred-next-batch=642 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=214 implemented-equivalent=1 not-applicable=3 reference-only=6 deferred-next-batch=633 migrate-gap=0 -->
 
 At the pinned v0.2.33 comparison baseline, the ledger contains 5,119 records:
-4,262 `generated-history`, 206 `implemented-different-by-design`, one
-`implemented-equivalent`, three `not-applicable`, five `reference-only`, and 642
+4,262 `generated-history`, 214 `implemented-different-by-design`, one
+`implemented-equivalent`, three `not-applicable`, six `reference-only`, and 633
 `deferred-next-batch` records. Deferred records remain scheduled work, not
 parity claims. The capability/profile slice has no remaining `migrate-gap`
 records:
@@ -143,7 +143,7 @@ records:
 
 The governance entrypoints, getting-started routes, CI/release boundaries, and
 capability/profile projections have been reviewed at this baseline. The four
-records above are Rust-native, explicitly bounded counterparts; the 642
+records above are Rust-native, explicitly bounded counterparts; the 633
 deferred semantic comparisons remain scheduled work.
 
 WI-274 rebinds only the target checkout metadata and canonical comparison
@@ -419,3 +419,32 @@ stack commands, and enterprise controls remain delegated. Dynamic routing is
 policy-selected; a stricter tier is not inferred merely from execution speed,
 and a tier is not an assurance level. The same boundary applies to an object
 engineering repository using the published Runtime with an explicit `--repo`.
+
+## WI-327 adopter, calibration, and long-cycle documentation slice
+
+WI-327 compares the next nine deferred reference paths individually at the
+pinned source commit. Eight are implemented differently by design; the
+scanner-specific Bandit audit remains reference-only because its findings and
+digest belong to the source Python toolchain.
+
+| Reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/adopter-long-cycle-validation.ja.md` | implemented-different-by-design | The published-binary adopter and upgrade acceptance harness, distribution route, and Japanese lifecycle/security docs preserve isolated install, lifecycle, rollback, and cleanup evidence. Source multi-stack fixtures and Make/Python orchestration are not copied. |
+| `docs/reference/adopter-long-cycle-validation.md` | implemented-different-by-design | The published-binary adopter and upgrade acceptance harness, distribution route, and lifecycle/security docs preserve isolated install, lifecycle, rollback, and cleanup evidence. Source multi-stack fixtures and Make/Python orchestration are not copied. |
+| `docs/reference/adoption-reality-report.md` | implemented-different-by-design | Runtime capability/profile/status projections and the immutable adopter acceptance receipt preserve the distinction between template capability, adopter execution, provider evidence, and enterprise assurance. No local file is promoted to external proof. |
+| `docs/reference/bandit-synchronization-security-audit.md` | reference-only | This is a source-specific historical Bandit finding inventory. The target has no Python/Bandit surface and does not claim the source count or digest; Rust-native quality and threat-model boundaries remain separately documented. |
+| `docs/reference/calibration-inventory.md` | implemented-different-by-design | Repository-bound profile proposal/confirmation, capability/status projections, and explicit unknowns preserve the fact/evidence boundary without copying the source ten-column Python inventory. |
+| `docs/reference/calibration-profiles.ja.md` | implemented-different-by-design | Japanese calibration guidance and strict JSON profile policy preserve cumulative Lite/Standard/Strict controls, human selection, monotonic upgrades, and explicit downgrade evidence; calibration remains separate from per-Work-Item quality routing. |
+| `docs/reference/calibration-profiles.md` | implemented-different-by-design | Calibration guidance and strict JSON profile policy preserve cumulative Lite/Standard/Strict controls, human selection, monotonic upgrades, and explicit downgrade evidence; calibration remains separate from per-Work-Item quality routing. |
+| `docs/reference/calibration-profiles.zh-CN.md` | implemented-different-by-design | Chinese calibration guidance and strict JSON profile policy preserve cumulative Lite/Standard/Strict controls, human selection, monotonic upgrades, and explicit downgrade evidence; calibration remains separate from per-Work-Item quality routing. |
+| `docs/reference/calibration-session-model.ja.md` | implemented-different-by-design | The target keeps calibration proposal, confirmation, and repository-bound facts explicit. It does not silently introduce a generic interactive Session or checklist authority; unknowns and human responsibility remain visible. |
+
+The comparison is semantic responsibility parity, not source wire or command
+parity. The target uses one shared external Runtime and repository-local `.ai/`
+state with explicit `--repo`; provider identity, hosted CI, signing, SBOM,
+provenance, and enterprise controls remain delegated evidence. A Cursor adopter
+must explicitly install its repository-local adapter and replay the durable
+`work-item outcome` handoff; the Runtime cannot force an IDE chat panel to
+expand. Current Runtime output and lifecycle entry gates are therefore not a
+claim of automatic chat posting. Diagnostic remediation, close-gap convenience
+commands, and automatic controls scaffolding remain separate product decisions.

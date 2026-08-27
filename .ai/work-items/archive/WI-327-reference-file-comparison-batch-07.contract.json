@@ -1,0 +1,88 @@
+{
+  "acceptanceCriteria": [
+    "All nine pinned reference paths are read and each has exactly one explicit classification with non-empty semantic reason.",
+    "The inventory records exactly these nine paths under WI-327 with no deferred-next-batch or migrate-gap classifications.",
+    "Reference comparison, parity, and Work Item documentation are synchronized in English, Simplified Chinese, and Japanese with reader-facing boundaries.",
+    "The target does not claim source-specific cross-stack fixtures, Bandit findings, internal progress, provider identity, or enterprise assurance without target evidence.",
+    "Installed Runtime inspect/status/doctor/agent doctor, focused conformance/documentation checks, lifecycle evidence, hosted CI, merge, close, and exact cleanup all pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "33e8156009670cd350ac5e418da67be260cb907d",
+  "createdAt": "2026-08-27T11:11:13Z",
+  "goal": "Compare the nine deferred reference documentation paths one by one, record their Rust-native semantic counterparts and explicit boundaries, synchronize the inventory and reader-facing documentation in English, Simplified Chinese, and Japanese, and preserve object-repository capability.",
+  "intent": "Continue the bounded pinned reference-source comparison so adopter-facing calibration and long-cycle governance semantics are classified without copying source-specific Python, Make, fixture, or scanner artifacts.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    ".github/**",
+    "tests/release/**",
+    "global-agent-or-mcp-configuration",
+    "source-python-make-fixture-scanner-copies",
+    "unrelated-reference-batches"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:121621749bd22dc49b26c6c0859a78f103d4cdda0833dfa00347c373833aa24d",
+  "requiredEvidenceClasses": [
+    "contract",
+    "summary",
+    "verification",
+    "outcome",
+    "archive",
+    "decision"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-327-reference-file-comparison-batch-07",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/290",
+    "worktree": "/private/tmp/ai-cockpit-wi327-reference-file-comparison-batch-07"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/reference/adopter-long-cycle-validation.ja.md",
+    "docs/reference/adopter-long-cycle-validation.md",
+    "docs/reference/adoption-reality-report.md",
+    "docs/reference/bandit-synchronization-security-audit.md",
+    "docs/reference/calibration-inventory.md",
+    "docs/reference/calibration-profiles.ja.md",
+    "docs/reference/calibration-profiles.md",
+    "docs/reference/calibration-profiles.zh-CN.md",
+    "docs/reference/calibration-session-model.ja.md",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-327-reference-file-comparison-batch-07.md",
+    "docs/work-items/WI-327-reference-file-comparison-batch-07.zh-CN.md",
+    "docs/work-items/WI-327-reference-file-comparison-batch-07.ja.md"
+  ],
+  "sources": [
+    "spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf: docs/reference/adopter-long-cycle-validation.ja.md",
+    "spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf: docs/reference/adopter-long-cycle-validation.md",
+    "spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf: docs/reference/adoption-reality-report.md",
+    "spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf: docs/reference/bandit-synchronization-security-audit.md",
+    "spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf: docs/reference/calibration-inventory.md",
+    "spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf: docs/reference/calibration-profiles.ja.md",
+    "spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf: docs/reference/calibration-profiles.md",
+    "spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf: docs/reference/calibration-profiles.zh-CN.md",
+    "spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf: docs/reference/calibration-session-model.ja.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/conformance/reference_file_inventory.py --manifest tests/conformance/reference_file_inventory.json --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf --target-commit a533d49dfa848d95742833f8cd1b5f7e1bb897d5 --check",
+    "bash tests/conformance/reference_file_inventory_test.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report target/wi327-governance-integrity.json",
+    "git diff --check"
+  ],
+  "workItemId": "WI-327-reference-file-comparison-batch-07"
+}
