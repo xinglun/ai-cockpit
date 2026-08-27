@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-successor-after-hosted-gate-failure",
+  "decidedAt": "2026-08-27T02:45:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-315-post-close-reconciliation-promotion-recovery.archive.json",
+    "https://github.com/xinglun/ai-cockpit/pull/279",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/33033591839"
+  ],
+  "policyRefs": [
+    "AGENTS.md:latest-remote-default-base",
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:fix-in-current-work-item-or-record-successor"
+  ],
+  "predecessorContractDigest": "sha256:57ab71d6ae84d3e3b52e116d30860d50d81bcc42a4d13320ed232cfb5934b3e1",
+  "predecessorEventsDigest": "sha256:8c2d32e6488621a79f7c9233cb7c5ee64d7319735d3820a99763db6ef58a7e51",
+  "predecessorOutcomeDigest": "sha256:19ca3d090306d2e8208d6672dc6e1031e4fb1b204f785832db8a0ef82147ee1c",
+  "predecessorSummaryDigest": "sha256:9b37052f6e3ba472dc5d543e98298e8be3dec120f248ca1592d22abedf839d12",
+  "predecessorWorkItemId": "WI-315-post-close-reconciliation-promotion-recovery",
+  "reason": "W315 hosted CI rejected its immutable Contract because baseRevision retained an older predecessor base instead of the current origin/main revision. Create a bounded successor from the latest default branch, preserve W315 history, and rebind the Contract baseRevision to the actual CI base.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Start W316 from the latest origin/main, bind baseRevision 01c4a9f, rerun focused and full verification, pass hosted CI, merge, finalize, close, and clean W315/W316 resources exactly.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-316-post-close-reconciliation-promotion-base-fix",
+  "workItemId": "WI-315-post-close-reconciliation-promotion-recovery"
+}
