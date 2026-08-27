@@ -159,7 +159,11 @@ fn default_lifecycle_commands_emit_localized_handoffs_without_changing_stdout_js
             "ja" => "Outcome: 🟡 要確認",
             _ => unreachable!(),
         };
-        assert_handoff(&archive.stderr, archive_prefix, &[unknowns, decisions, next]);
+        assert_handoff(
+            &archive.stderr,
+            archive_prefix,
+            &[unknowns, decisions, next],
+        );
 
         common::record_deleted(binary, repo.path(), id);
         let close = Command::new(binary)
