@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-27T13:27:25Z",
+  "files": {
+    "contractDigest": "sha256:dc9c8f29dbb40ebea5ba8522560a3dd8d4eae96c1551dba8b8e8dde21eb7262f",
+    "contractPath": ".ai/work-items/archive/WI-330-capability-truth-boundary.contract.json",
+    "eventsDigest": "sha256:5bd3df8fc82eabf23d469c6c163364e29a16e1b594ed306b085823ef57c25545",
+    "eventsPath": ".ai/work-items/archive/WI-330-capability-truth-boundary.events.jsonl",
+    "outcomeDigest": "sha256:add7b183b801cd4ff81adc52fb9bfb3df9643e74ed8686f87217c99fcdb3ff8c",
+    "outcomePath": ".ai/work-items/archive/WI-330-capability-truth-boundary.outcome.json",
+    "summaryDigest": "sha256:0834188bdeb74c719b79574ae32cec54181d0ab98e495b629241876912dec232",
+    "summaryPath": ".ai/work-items/archive/WI-330-capability-truth-boundary.summary.json",
+    "taskReportDigest": "sha256:400c9b29424158ea39e93eccf4eb2bd05edf433fe550c9d1b89ab17375bc45ce",
+    "taskReportMarkdownDigest": "sha256:0890dcd7b7f81373ab4095121c9256b4570b05f7ae5ce7463fe611ea40f3fff2",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-330-capability-truth-boundary.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-330-capability-truth-boundary.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-330-capability-truth-boundary"
+}
