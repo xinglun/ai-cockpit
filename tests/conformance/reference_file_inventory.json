@@ -31098,87 +31098,139 @@
     },
     {
       "referencePath": "docs/reference/comprehension-validation-protocol.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-333-reference-file-comparison-batch-11",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/README.ja.md",
+        "docs/reference/agent-workflow.ja.md",
+        "docs/reference/reference-file-comparison.ja.md",
+        "docs/features/human-benefit-report.ja.md"
+      ],
+      "reason": "The source Japanese protocol is a reference-repository human-study procedure. The target keeps the localized reader route and privacy/evidence boundary, but has no target participant study and does not transfer source study authority."
     },
     {
       "referencePath": "docs/reference/comprehension-validation-protocol.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-333-reference-file-comparison-batch-11",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/README.md",
+        "docs/reference/agent-workflow.md",
+        "docs/reference/reference-file-comparison.md",
+        "docs/features/human-benefit-report.md"
+      ],
+      "reason": "The source protocol is an external human-reader study procedure, not Runtime authority or a participant-recruitment service. The target preserves a reader-first route and evidence/benefit boundary but does not claim to run the source study or collect participants."
     },
     {
       "referencePath": "docs/reference/comprehension-validation-protocol.zh-CN.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-333-reference-file-comparison-batch-11",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/README.zh-CN.md",
+        "docs/reference/agent-workflow.zh-CN.md",
+        "docs/reference/reference-file-comparison.zh-CN.md",
+        "docs/features/human-benefit-report.zh-CN.md"
+      ],
+      "reason": "The source Chinese protocol is a reference-repository human-study procedure. The target keeps the localized reader route and privacy/evidence boundary, but has no target participant study and does not transfer source study authority."
     },
     {
       "referencePath": "docs/reference/comprehension-validation-response.schema.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-333-reference-file-comparison-batch-11",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        ".ai/README.md",
+        "docs/reference/outcome-report.md",
+        "docs/reference/reference-file-comparison.md"
+      ],
+      "reason": "This schema governs raw participant answers for the source study. The target intentionally stores no participant-identifying or study-response records; repository Outcome/evidence schemas are a different governance surface and cannot substitute for participant evidence."
     },
     {
       "referencePath": "docs/reference/comprehension-validation-responses/peter_01.en.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-333-reference-file-comparison-batch-11",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/README.md",
+        "docs/features/human-benefit-report.md",
+        "docs/reference/reference-file-comparison.md"
+      ],
+      "reason": "Historical anonymized English participant evidence is bound to the source revision and study protocol. It cannot be copied or presented as evidence that the target documentation was understood."
     },
     {
       "referencePath": "docs/reference/comprehension-validation-responses/peter_02.en.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-333-reference-file-comparison-batch-11",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/README.md",
+        "docs/features/human-benefit-report.md",
+        "docs/reference/reference-file-comparison.md"
+      ],
+      "reason": "Historical current-revision English participant evidence belongs to the source repository. The target does not claim an equivalent participant receipt or copy the raw answer."
     },
     {
       "referencePath": "docs/reference/comprehension-validation-responses/tanaka_01.ja.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-333-reference-file-comparison-batch-11",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/README.ja.md",
+        "docs/features/human-benefit-report.ja.md",
+        "docs/reference/reference-file-comparison.ja.md"
+      ],
+      "reason": "Historical anonymized Japanese participant evidence is source-bound and non-transferable. The target preserves the Japanese reader route without inventing a native participant result."
     },
     {
       "referencePath": "docs/reference/comprehension-validation-responses/tanaka_02.ja.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-333-reference-file-comparison-batch-11",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/README.ja.md",
+        "docs/features/human-benefit-report.ja.md",
+        "docs/reference/reference-file-comparison.ja.md"
+      ],
+      "reason": "Historical current-revision Japanese participant evidence belongs to the source repository. The target does not claim an equivalent participant receipt or copy the raw answer."
     },
     {
       "referencePath": "docs/reference/comprehension-validation-responses/xiaoli_01.zh-CN.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-333-reference-file-comparison-batch-11",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/README.zh-CN.md",
+        "docs/features/human-benefit-report.zh-CN.md",
+        "docs/reference/reference-file-comparison.zh-CN.md"
+      ],
+      "reason": "Historical anonymized Simplified Chinese participant evidence is source-bound and non-transferable. The target preserves the Chinese reader route without inventing a native participant result."
     },
     {
       "referencePath": "docs/reference/comprehension-validation-responses/xiaoli_02.zh-CN.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-333-reference-file-comparison-batch-11",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/README.zh-CN.md",
+        "docs/features/human-benefit-report.zh-CN.md",
+        "docs/reference/reference-file-comparison.zh-CN.md"
+      ],
+      "reason": "Historical current-revision Simplified Chinese participant evidence belongs to the source repository. The target does not claim an equivalent participant receipt or copy the raw answer."
     },
     {
       "referencePath": "docs/reference/comprehension-validation-results.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-333-reference-file-comparison-batch-11",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/features/human-benefit-report.md",
+        "docs/features/human-benefit-report.zh-CN.md",
+        "docs/features/human-benefit-report.ja.md",
+        "docs/reference/reference-file-comparison.md"
+      ],
+      "reason": "The source result is a revision-bound participant-study claim with source commits and sample receipts. Target human-benefit and Outcome projections do not authorize a comprehension result, release, or enterprise claim."
     },
     {
       "referencePath": "docs/reference/comprehension-validation-results.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-333-reference-file-comparison-batch-11",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/features/human-benefit-report.md",
+        "docs/reference/outcome-report.md",
+        "docs/reference/reference-file-comparison.md"
+      ],
+      "reason": "The source result report is an immutable historical study claim. The target documents the limitation that Runtime evidence, Agent self-review, and link checks are not participant evidence; no result is copied or generalized."
     },
     {
       "referencePath": "docs/reference/content-bound-evidence-reuse.md",

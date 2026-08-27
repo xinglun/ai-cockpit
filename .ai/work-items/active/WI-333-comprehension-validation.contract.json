@@ -1,0 +1,68 @@
+{
+  "acceptanceCriteria": [
+    "Every pinned source path is classified with an evidence-backed Rust or documentation counterpart and no deferred record remains in this batch.",
+    "Protocol semantics and participant-evidence/privacy boundary are documented consistently in English, Simplified Chinese, and Japanese.",
+    "Historical source responses/results are not copied or presented as target participant evidence; no comprehension result is invented.",
+    "Reference inventory, comparison ledger, parity matrix, and three Work Item language files remain internally consistent and pass their executable checks.",
+    "Installed Runtime lifecycle produces verification, archive, reviewed PR, merge, close, promotion, and exact branch/worktree cleanup evidence."
+  ],
+  "authority": "authorized",
+  "baseRevision": "176f33378ced458e0c283e23e84752ef61d8d5f7",
+  "createdAt": "2026-08-27T15:19:57Z",
+  "goal": "为 12 个 comprehension-validation 源路径建立可审计的分类、Rust/文档对应物和不可移植边界，不捏造本工程读者研究结果。",
+  "intent": "逐文件比对 pinned reference comprehension-validation protocol、response schema、匿名回答与 results，明确哪些读者理解验证语义可由 Rust 工程继承，哪些参与者证据只能保留为 reference-only。",
+  "mode": "code",
+  "outOfScope": [
+    "Rust Runtime protocol/schema changes",
+    "participant recruitment",
+    " raw answer collection",
+    " or new comprehension study",
+    "source Python/Make/V1 implementation and copying source response bytes",
+    "Cursor chat automation",
+    " Makefile.ai",
+    " MCP/global Agent configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ddab59880010d5a982f2fd076ff435962eb3654a2548042f1f13741733c6ee1a",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-333-comprehension-validation",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi333-comprehension-validation"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/comprehension-validation-protocol.md",
+    "docs/reference/comprehension-validation-protocol.zh-CN.md",
+    "docs/reference/comprehension-validation-protocol.ja.md",
+    "docs/reference/comprehension-validation-response.schema.json",
+    "docs/reference/comprehension-validation-responses/**",
+    "docs/reference/comprehension-validation-results.json",
+    "docs/reference/comprehension-validation-results.md",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-333-comprehension-validation.md",
+    "docs/work-items/WI-333-comprehension-validation.zh-CN.md",
+    "docs/work-items/WI-333-comprehension-validation.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-333-comprehension-validation"
+}

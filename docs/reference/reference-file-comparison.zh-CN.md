@@ -103,7 +103,7 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=221 implemented-equivalent=1 not-applicable=3 reference-only=13 deferred-next-batch=619 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=221 implemented-equivalent=1 not-applicable=3 reference-only=25 deferred-next-batch=607 migrate-gap=0 -->
 
 在固定的 v0.2.33 比较基线上，台账共有 5,119 条记录：4,262 条
 `generated-history`、221 条 `implemented-different-by-design`、1 条
@@ -453,3 +453,30 @@ parity。
 
 任何未来 Runtime 变更都必须使用人拥有的有边界 Contract、测试、三语文档和发布版本验收；
 采用方反馈不会变成未登记的承诺。
+
+## WI-333：理解验证协议与参与者记录
+
+WI-333 逐一读取固定参考源中的理解验证协议、严格响应 schema、六份匿名响应记录和结果文件。
+12 个路径全部登记为 `reference-only`。这些文件描述的是参考源拥有的外部读者研究；参与者响应、
+版本和样本结论不能移植为本工程证据。目标保留面向读者的文档路线，并将 Runtime evidence
+校验与参与者研究分离。不复制任何响应字节或源结果，也不据此声称本工程已通过理解、发布、安全、
+安保或企业研究。
+
+| 固定源路径 | 分类 | 目标对应物 / 有界决定 |
+| --- | --- | --- |
+| `docs/reference/comprehension-validation-protocol.md` | reference-only | `docs/README.md`、`docs/reference/agent-workflow.md`、`docs/reference/outcome-report.md`；源资格、同意、访谈和审查协议仍属于外部研究。 |
+| `docs/reference/comprehension-validation-protocol.zh-CN.md` | reference-only | `docs/README.zh-CN.md`、`docs/reference/agent-workflow.zh-CN.md`、`docs/reference/outcome-report.zh-CN.md`；不暗示目标已有参与者研究。 |
+| `docs/reference/comprehension-validation-protocol.ja.md` | reference-only | `docs/README.ja.md`、`docs/reference/agent-workflow.ja.md`、`docs/reference/outcome-report.ja.md`；源伦理与资格不是 Runtime policy。 |
+| `docs/reference/comprehension-validation-response.schema.json` | reference-only | `.ai/README.md`、`docs/reference/outcome-report.md`；参与者响应 schema 不是 Runtime Contract 或 verification-evidence schema。 |
+| `docs/reference/comprehension-validation-responses/peter_01.en.json` | reference-only | `docs/README.md`、`docs/features/human-benefit-report.md`；历史响应、版本和 pseudonym 只绑定参考源。 |
+| `docs/reference/comprehension-validation-responses/peter_02.en.json` | reference-only | `docs/README.md`、`docs/features/human-benefit-report.md`；不将参与者数据导入 `.ai/`。 |
+| `docs/reference/comprehension-validation-responses/tanaka_01.ja.json` | reference-only | `docs/README.ja.md`、`docs/features/human-benefit-report.ja.md`；源响应不是 adopter 或 Runtime evidence。 |
+| `docs/reference/comprehension-validation-responses/tanaka_02.ja.json` | reference-only | `docs/README.ja.md`、`docs/features/human-benefit-report.ja.md`；源版本绑定事实保持外部不可移植。 |
+| `docs/reference/comprehension-validation-responses/xiaoli_01.zh-CN.json` | reference-only | `docs/README.zh-CN.md`、`docs/features/human-benefit-report.zh-CN.md`；不为目标声称母语评分。 |
+| `docs/reference/comprehension-validation-responses/xiaoli_02.zh-CN.json` | reference-only | `docs/README.zh-CN.md`、`docs/features/human-benefit-report.zh-CN.md`；不复制原始参与者文本。 |
+| `docs/reference/comprehension-validation-results.json` | reference-only | `docs/features/human-benefit-report.*`、`docs/reference/reference-file-comparison.*`；样本计数和有界结果仍绑定源版本。 |
+| `docs/reference/comprehension-validation-results.md` | reference-only | `docs/features/human-benefit-report.md`、`docs/reference/outcome-report.md`；源限制不是目标 verification 或发布证据。 |
+
+这个边界是有意设计的：adopter repository 可以继承目标的文档路线、Contract、evidence 和
+Agent workflow，但不能继承另一仓库的人体参与者证据。未来若要开展研究，必须先建立独立的
+同意、保留、隐私和 evidence Contract。

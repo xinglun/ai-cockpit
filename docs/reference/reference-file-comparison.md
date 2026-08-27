@@ -123,7 +123,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=221 implemented-equivalent=1 not-applicable=3 reference-only=13 deferred-next-batch=619 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=221 implemented-equivalent=1 not-applicable=3 reference-only=25 deferred-next-batch=607 migrate-gap=0 -->
 
 At the pinned v0.2.33 comparison baseline, the ledger contains 5,119 records:
 4,262 `generated-history`, 221 `implemented-different-by-design`, one
@@ -565,3 +565,35 @@ gates, and verification invalidation are already covered elsewhere. Automatic
 Cursor chat posting, `Makefile.ai`, close-gap convenience commands, and
 controls templates are not silently promoted to current parity by this evidence
 batch.
+
+## WI-333 comprehension-validation protocol and participant records
+
+WI-333 reads the pinned comprehension-validation protocol, strict response schema,
+six anonymized response records, and the bounded result files individually. All
+twelve paths are `reference-only`. They describe an external human-reader study
+owned by the reference repository; participant responses and source revision
+claims are not portable evidence for this target. The target keeps its reader
+documentation route and Runtime evidence checks separate from participant
+research. No response bytes or source result is copied, and this repository makes
+no comprehension, release, safety, security, or enterprise claim from the source
+study.
+
+| Pinned source path | Classification | Target counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/comprehension-validation-protocol.md` | reference-only | `docs/README.md`, `docs/reference/agent-workflow.md`, `docs/reference/outcome-report.md`; source eligibility, consent, interview and reviewer protocol remain external. |
+| `docs/reference/comprehension-validation-protocol.zh-CN.md` | reference-only | `docs/README.zh-CN.md`, `docs/reference/agent-workflow.zh-CN.md`, `docs/reference/outcome-report.zh-CN.md`; no target participant study is implied. |
+| `docs/reference/comprehension-validation-protocol.ja.md` | reference-only | `docs/README.ja.md`, `docs/reference/agent-workflow.ja.md`, `docs/reference/outcome-report.ja.md`; source ethics and eligibility are not Runtime policy. |
+| `docs/reference/comprehension-validation-response.schema.json` | reference-only | `.ai/README.md`, `docs/reference/outcome-report.md`; the participant-response schema is not the Runtime Contract or verification-evidence schema. |
+| `docs/reference/comprehension-validation-responses/peter_01.en.json` | reference-only | `docs/README.md`, `docs/features/human-benefit-report.md`; historical source response, revision and pseudonym stay source-bound. |
+| `docs/reference/comprehension-validation-responses/peter_02.en.json` | reference-only | `docs/README.md`, `docs/features/human-benefit-report.md`; no participant data is imported into `.ai/`. |
+| `docs/reference/comprehension-validation-responses/tanaka_01.ja.json` | reference-only | `docs/README.ja.md`, `docs/features/human-benefit-report.ja.md`; source response is not adopter or Runtime evidence. |
+| `docs/reference/comprehension-validation-responses/tanaka_02.ja.json` | reference-only | `docs/README.ja.md`, `docs/features/human-benefit-report.ja.md`; source revision-bound facts remain external. |
+| `docs/reference/comprehension-validation-responses/xiaoli_01.zh-CN.json` | reference-only | `docs/README.zh-CN.md`, `docs/features/human-benefit-report.zh-CN.md`; no native-language score is claimed for this target. |
+| `docs/reference/comprehension-validation-responses/xiaoli_02.zh-CN.json` | reference-only | `docs/README.zh-CN.md`, `docs/features/human-benefit-report.zh-CN.md`; raw participant text is not copied. |
+| `docs/reference/comprehension-validation-results.json` | reference-only | `docs/features/human-benefit-report.*`, `docs/reference/reference-file-comparison.*`; source sample counts and bounded result remain tied to the source revision. |
+| `docs/reference/comprehension-validation-results.md` | reference-only | `docs/features/human-benefit-report.md`, `docs/reference/outcome-report.md`; source limitations are not target verification or release evidence. |
+
+This boundary is intentional: an adopter repository can inherit the target's
+documentation route, Contract, evidence and Agent workflow, but must not inherit
+another repository's human-subject evidence. A future human-owned study needs
+its own consent, retention, privacy and evidence Contract before any claim.
