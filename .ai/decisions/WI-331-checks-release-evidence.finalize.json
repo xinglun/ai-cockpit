@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "415dff4",
+    "name": "codex/wi-331-checks-release-evidence",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:8185dfc9b0076a1c3620f19de0f00993e9ec9f3bfa77b454b9856e640d4506b9",
+  "operationId": "github-pr-295-merge-cleanup-20260827",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "a1cb839bad62cc590e30e771be8eff3efbf4e185",
+    "headRevision": "415dff4",
+    "mergeCommit": "2419ad475f6fde174e3b0209dc3c113287ffb00e",
+    "number": 295,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/295"
+  },
+  "reason": "PR #295 merged with all hosted checks passed; retain the exact branch and worktree only until the deleted cleanup receipt is verified.",
+  "receiptId": "github-pr-295-finalization-retained-20260827",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-331-checks-release-evidence",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/295",
+    "worktree": "/private/tmp/ai-cockpit-wi331-checks-release-evidence"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-27T14:25:30Z",
+  "workItemId": "WI-331-checks-release-evidence",
+  "worktree": {
+    "branch": "codex/wi-331-checks-release-evidence",
+    "headRevision": "415dff4",
+    "path": "/private/tmp/ai-cockpit-wi331-checks-release-evidence",
+    "worktreeId": "WI-331-checks-release-evidence"
+  }
+}
