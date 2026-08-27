@@ -1,0 +1,56 @@
+{
+  "acceptanceCriteria": [
+    "All four source paths are inspected at pinned commit e5acb677 and each has an explicit classification, counterpart, and non-overclaiming reason.",
+    "English, Simplified Chinese, and Japanese comparison/parity records agree and the inventory gate has regression coverage for the four classifications.",
+    "The target does not copy source Python scripts, source matrix JSON, or V1 runtime state; the Rust capability registry boundary and limitations are stated in the comparison and Work Item documentation.",
+    "The verification command passes with only declared comparison and documentation paths changed."
+  ],
+  "authority": "authorized",
+  "baseRevision": "98dfb3dc2adca6321ae7ea77dc47be0c2850854e",
+  "createdAt": "2026-08-27T13:21:50Z",
+  "goal": "Record an evidence-backed file-level decision for each source path, update the tri-language comparison/parity records, and make the Rust capability registry boundary explicit for adopters.",
+  "intent": "Compare the four pinned reference capability-claim, capability-freshness, and Capability Truth Matrix files against the Rust repository and close their parity boundaries without copying Python/V1 runtime assets or making unsupported claims.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    ".github/**",
+    "tests/release/**",
+    "global-agent-or-mcp-configuration",
+    "source-python-make-fixture-copies",
+    "unrelated-reference-batches"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e4eaf1fa4f218a3d0cf444a2e69ae4d3eb10788c692a2f0ed968025ad720e122",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-330-capability-truth-boundary-final",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi330-capability-truth-boundary-final"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/work-items/WI-330-capability-truth-boundary.md",
+    "docs/work-items/WI-330-capability-truth-boundary.zh-CN.md",
+    "docs/work-items/WI-330-capability-truth-boundary.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-330-capability-truth-boundary"
+}

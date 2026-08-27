@@ -1,0 +1,40 @@
+{
+  "changedPaths": [
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-330-capability-truth-boundary.ja.md",
+    "docs/work-items/WI-330-capability-truth-boundary.md",
+    "docs/work-items/WI-330-capability-truth-boundary.zh-CN.md",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory.py"
+  ],
+  "checkpointAt": "2026-08-27T13:22:00Z",
+  "checkpointContractDigest": "sha256:f11d90059da3c6a9eef4f4b072eb0519351d86d3ce1fd23eaa5161fe35c1f097",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:e4eaf1fa4f218a3d0cf444a2e69ae4d3eb10788c692a2f0ed968025ad720e122",
+  "createdAt": "2026-08-27T13:21:50Z",
+  "failedGate": "finish.governance",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-27T13:22:12Z",
+  "preflightContractDigest": "sha256:f11d90059da3c6a9eef4f4b072eb0519351d86d3ce1fd23eaa5161fe35c1f097",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:e4eaf1fa4f218a3d0cf444a2e69ae4d3eb10788c692a2f0ed968025ad720e122",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-27T13:22:15Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-330-capability-truth-boundary"
+}

@@ -1,0 +1,204 @@
+{
+  "acceptanceResults": [
+    "All four source paths are inspected at pinned commit e5acb677 and each has an explicit classification, counterpart, and non-overclaiming reason.",
+    "English, Simplified Chinese, and Japanese comparison/parity records agree and the inventory gate has regression coverage for the four classifications.",
+    "The target does not copy source Python scripts, source matrix JSON, or V1 runtime state; the Rust capability registry boundary and limitations are stated in the comparison and Work Item documentation.",
+    "The verification command passes with only declared comparison and documentation paths changed."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-330-capability-truth-boundary.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-330-capability-truth-boundary.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e4eaf1fa4f218a3d0cf444a2e69ae4d3eb10788c692a2f0ed968025ad720e122",
+      "workItemId": "WI-330-capability-truth-boundary"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-330-capability-truth-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-file-comparison.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-330-capability-truth-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-file-comparison.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-330-capability-truth-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-file-comparison.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-330-capability-truth-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-330-capability-truth-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-330-capability-truth-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-330-capability-truth-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-330-capability-truth-boundary.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-330-capability-truth-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-330-capability-truth-boundary.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-330-capability-truth-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-330-capability-truth-boundary.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-330-capability-truth-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/conformance/reference_file_inventory.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-330-capability-truth-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/conformance/reference_file_inventory.py"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-330-capability-truth-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-330-capability-truth-boundary.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-330-capability-truth-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-330-capability-truth-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-330-capability-truth-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-330-capability-truth-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "Record an evidence-backed file-level decision for each source path, update the tri-language comparison/parity records, and make the Rust capability registry boundary explicit for adopters."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-330-capability-truth-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-330-capability-truth-boundary"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-330-capability-truth-boundary.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-330-capability-truth-boundary"
+}

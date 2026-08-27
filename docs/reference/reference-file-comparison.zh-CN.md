@@ -379,11 +379,29 @@ claim checker 或 matrix。
 | docs/reference/capability-truth-matrix.json | reference-only | 不复制源三十行 public matrix；capability_truth_registry 是观察能力 projection，不是 public claim authorization 或 adopter/provider proof。 |
 | docs/reference/capability-truth-matrix.md | reference-only | 当前 capability/adoption 页面说明 observed fact、adopter、provider 与 enterprise 边界，不宣称源 matrix/checker。 |
 
-四个 reference-only 结果是明确的产品边界，不是未登记遗漏。候选 WI-330 不在本批启动；
-必须先有人工拥有的 scope，才能实现 Rust 原生 capability claim matrix、freshness policy
-和三语绑定 gate。
+四个 reference-only 结果是明确的产品边界，不是未登记遗漏。WI-330 已通过逐文件复核
+闭合本批比较：源 claim checker、行级 freshness matrix 和 public matrix 都不是当前 Runtime
+功能。未来 Rust 原生 claim/evidence gate 仍是可选产品决策，必须有单独的人工拥有 scope；不会
+静默提升源 Python/V1 资产。
 
 Cursor 采用方反馈是外部验证输入。当前 Runtime 已有稳定 lifecycle JSON、可重放
 work-item outcome、close-before-next/readiness 检查及 fail-closed start/verification 绑定。
 Runtime 无法强制 IDE 展开聊天面板，adapter/host 必须展示或重放持久化 handoff。诊断
 remediation、controls 脚手架、close-gap 便利命令和 Makefile 集成仍是明确的后续/非目标。
+
+## WI-330 能力真相边界决定
+
+WI-330 再次逐一读取固定源版本的四个文件，并记录最终决定。目标的
+`capability show` 仍然是 repository 与 snapshot 绑定的 projection；public claim 授权和
+Capability Truth 行过期策略明确不属于当前 Runtime。
+
+| 固定源路径 | 最终分类 | 决定与目标对应 |
+| --- | --- | --- |
+| docs/reference/capability-claim-authoring.md | reference-only | 不复制源 lexical trigger/claim-binding checker。文档 metadata 不授予证据；公开表述必须依赖当前的有界 evidence 并保留限制。对应：docs/capabilities.md、crates/cockpit-repository/src/lib.rs。 |
+| docs/reference/capability-evidence-freshness.md | reference-only | Work Item receipt freshness 已存在，但源 Capability Truth 行过期和 portable-environment 策略不存在。对应：Runtime evidence validation、docs/reference/outcome-report.md。 |
+| docs/reference/capability-truth-matrix.json | reference-only | 不把源三十行 matrix 当作 Rust wire format 或授权源。capability_truth_registry 只报告观察事实、adopter 状态和外部排除。对应：crates/cockpit-protocol/src/lib.rs、crates/cockpit-repository/src/lib.rs。 |
+| docs/reference/capability-truth-matrix.md | reference-only | 目标 capability/adoption 页面说明 observed/evidence/provider/enterprise 边界，不宣传源 matrix 或 checker。对应：docs/capabilities.md。 |
+
+这是产品边界决定，不是未登记遗漏。未来若人工拥有的 Work Item 引入 claim binding 或行级
+freshness，必须先定义 Rust-native schema、evidence 生成、过期处理、三语 scope 和 adopter
+验收，才能改变分类。
