@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:1f56be2b7a07e5c40c545e9920b0ddecd17ce703f0d19004cc70da011861febb",
-  "createdAt": "2026-08-27T02:30:46Z",
+  "contractDigest": "sha256:57ab71d6ae84d3e3b52e116d30860d50d81bcc42a4d13320ed232cfb5934b3e1",
+  "createdAt": "2026-08-27T02:39:56Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 224623,
-      "executionElapsedMs": 224317,
+      "elapsedMs": 164973,
+      "executionElapsedMs": 164746,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 224623,
-    "executionElapsedMs": 224317,
-    "filesHashed": 21,
-    "filesRead": 21,
+    "elapsedMs": 164973,
+    "executionElapsedMs": 164746,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,16 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/reference/reference-parity.ja.md",
-        "docs/reference/reference-parity.md",
-        "docs/reference/reference-parity.zh-CN.md",
-        "docs/work-items/WI-315-post-close-reconciliation-promotion-recovery.ja.md",
-        "docs/work-items/WI-315-post-close-reconciliation-promotion-recovery.md",
-        "docs/work-items/WI-315-post-close-reconciliation-promotion-recovery.zh-CN.md",
-        "tests/docs/promote_closed_work_item.py",
-        "tests/docs/promote_closed_work_item_test.sh"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "1f7fe4bab160d8da97575e5c1f59b37542baa232",
       "dependencyConfidence": "unknown",
@@ -53,13 +44,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 224317,
+      "executionElapsedMs": 164746,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:15ab7981fe6cdd3ef018ad4361d85c548d4c325972c91d052db234035adaa7bb",
+      "repositorySnapshotDigest": "sha256:e04aee2567af4fa208b52ade943b32deb56d6b7f9b1357f17a66d9d452f69f7d",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -85,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:e2d3038ba25204e1ef93ea02972b53db71a83a5901a97b4e3829e7967f6c1335",
+        "outputDigest": "sha256:4c75def96e38f56a79c3520985e42b7494bb1a3fa5a987fbcb6ac9d9a2533c7e",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -101,9 +92,9 @@
     "runtimeVersion": "0.2.33",
     "workItemId": "WI-315-post-close-reconciliation-promotion-recovery"
   },
-  "receiptDigest": "sha256:827da652f48e1d63aec6e5fd9563e5e9b5457126e0067ed016579288d67bc343",
+  "receiptDigest": "sha256:b56c586cfa85df4f10b03c724e26125cc19f930f2061a93aedf7acf031751694",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:15ab7981fe6cdd3ef018ad4361d85c548d4c325972c91d052db234035adaa7bb",
+  "repositorySnapshotDigest": "sha256:e04aee2567af4fa208b52ade943b32deb56d6b7f9b1357f17a66d9d452f69f7d",
   "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
   "runtimeVersion": "0.2.33",
   "workItemId": "WI-315-post-close-reconciliation-promotion-recovery"

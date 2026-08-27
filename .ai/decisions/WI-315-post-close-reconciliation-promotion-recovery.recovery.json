@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-27T02:35:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-315-post-close-reconciliation-promotion-recovery.verification.json",
+    ".ai/work-items/active/WI-315-post-close-reconciliation-promotion-recovery.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:premerge-finalization-before-close"
+  ],
+  "predecessorContractDigest": "sha256:57ab71d6ae84d3e3b52e116d30860d50d81bcc42a4d13320ed232cfb5934b3e1",
+  "predecessorEventsDigest": "sha256:8e988701ee08378685f20bfe4b6fdbac241d946af959cdd9a55c5eb5a1d565b2",
+  "predecessorOutcomeDigest": "sha256:315a106ceb5978021044a34fe5c44c90d82977ec834f866dcaa2d337e9bf3d89",
+  "predecessorSummaryDigest": "sha256:2ed2dc78fe6d009e39007ae7482a1269b1a0476a07d9235966fade7ae3a2c424",
+  "predecessorWorkItemId": "WI-315-post-close-reconciliation-promotion-recovery",
+  "reason": "The first finish attempt correctly stopped after finalize-plan changed the repository snapshot and recorded a blocked lifecycle Outcome. Retry after the fresh preflight and verification evidence are rebound to that immutable failure context.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification against the finalized Contract, then retry finish and archive with the reviewed PR context bound.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-315-post-close-reconciliation-promotion-recovery"
+}
