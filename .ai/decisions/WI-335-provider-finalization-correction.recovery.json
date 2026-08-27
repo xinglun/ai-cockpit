@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "lifecycle-retry-policy",
+  "decidedAt": "2026-08-27T16:57:41Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-335-provider-finalization-correction.outcome.json",
+    ".ai/evidence/WI-335-provider-finalization-correction.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:fail-closed-lifecycle"
+  ],
+  "predecessorContractDigest": "sha256:1ccc473a878ea75869952806ab48c5180ceca2b01c84cab24f1fa65a55cd7621",
+  "predecessorEventsDigest": "sha256:cc05eb4316854764285b4cc42658b19d9ed38b3291b8ed65851a10bc20676969",
+  "predecessorOutcomeDigest": "sha256:494a95233335a695519f1d9a4099f07a2c1bacb220c0a5c5a7de6f47653c3b8a",
+  "predecessorSummaryDigest": "sha256:6c657ec0c5caff6fdfc0e077825b7fb3996cad7aff93dbab98d2d017afdd0f3d",
+  "predecessorWorkItemId": "WI-335-provider-finalization-correction",
+  "reason": "Finish correctly stopped after the temporary checkpointPolicy amendment made the immutable before_edit snapshot stale; retry the same bounded provider-context correction without changing the predecessor or scope.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification for the current Contract and snapshot, then finish, archive, finalize, verify, close, and clean the exact resources.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-335-provider-finalization-correction"
+}

@@ -1,0 +1,81 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-27T16:49:10Z",
+  "checkpointContractDigest": "sha256:1ccc473a878ea75869952806ab48c5180ceca2b01c84cab24f1fa65a55cd7621",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:8717e9d4642738aeac5d2580f59722214cd90ce646ae1fc3e62e2f9d0715550b",
+      "recorded": true,
+      "recordedAt": "2026-08-27T16:49:10Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:acce51d0fe45b7603b40abb13b45642079d443c0ed11d9ee9b0d982ee758a36b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-335-provider-finalization-correction"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:7ea4f76b8b0ecf0a48be7dcdd42757a64e08830d52f7ecffc43c1d1fa4165800",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:8717e9d4642738aeac5d2580f59722214cd90ce646ae1fc3e62e2f9d0715550b",
+      "previousContractHash": "sha256:8717e9d4642738aeac5d2580f59722214cd90ce646ae1fc3e62e2f9d0715550b",
+      "reason": "Bind actual reviewed PR #299 before verification; preserve the immutable WI-334 predecessor and invalidate the pre-finalization checkpoint binding.",
+      "recorded": true,
+      "recordedAt": "2026-08-27T16:52:04Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9d0beb121925e47b252670a316b55aa7461b881e776a4f2f61974952e487872c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-335-provider-finalization-correction"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:7ea4f76b8b0ecf0a48be7dcdd42757a64e08830d52f7ecffc43c1d1fa4165800",
+      "recorded": true,
+      "recordedAt": "2026-08-27T16:55:58Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9d0beb121925e47b252670a316b55aa7461b881e776a4f2f61974952e487872c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_finish",
+      "unknownCount": 0,
+      "workItemId": "WI-335-provider-finalization-correction"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:9d0beb121925e47b252670a316b55aa7461b881e776a4f2f61974952e487872c",
+  "createdAt": "2026-08-27T16:45:01Z",
+  "failedGate": "finish.lifecycle",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:8eeac4531a4d2ab5771967c1c8c71b060d9a3ebe804c621809d263b646104913",
+  "predecessorWorkItemId": "WI-334-evidence-binding-reuse",
+  "preflightAt": "2026-08-27T16:59:57Z",
+  "preflightContractDigest": "sha256:1ccc473a878ea75869952806ab48c5180ceca2b01c84cab24f1fa65a55cd7621",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:9d0beb121925e47b252670a316b55aa7461b881e776a4f2f61974952e487872c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+  "recoveryDecisionPath": ".ai/decisions/WI-334-evidence-binding-reuse.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-27T17:00:00Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-335-provider-finalization-correction"
+}

@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "provider-finalization-correction-policy",
+  "decidedAt": "2026-08-27T16:43:19Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-334-evidence-binding-reuse.archive.json",
+    "https://github.com/xinglun/ai-cockpit/pull/298"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:premerge-finalization-before-close"
+  ],
+  "predecessorContractDigest": "sha256:8eeac4531a4d2ab5771967c1c8c71b060d9a3ebe804c621809d263b646104913",
+  "predecessorEventsDigest": "sha256:0be737bf24aca7cc9119db00c097014561890102113c449d46470eb7d2442024",
+  "predecessorOutcomeDigest": "sha256:ab72eb5161ea465b8052a30336f29803ac08125db84a059f07fce7ee5279fec5",
+  "predecessorSummaryDigest": "sha256:fb95646028bbfdc0c477958e108ba2817a9d665e3d2f513010887f5bc6341abb",
+  "predecessorWorkItemId": "WI-334-evidence-binding-reuse",
+  "reason": "WI-334 archived its immutable Contract with a placeholder PR URL before the actual PR identity was known; preserve predecessor truth and re-deliver the same bounded evidence-parity scope with the actual reviewed PR identity bound before verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Start WI-335 from the latest origin/main, bind the actual provider PR before verification, re-deliver the bounded evidence-parity scope without changing predecessor bytes, then pass hosted checks, finalize, verify, close, and clean the exact resources.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-335-provider-finalization-correction",
+  "workItemId": "WI-334-evidence-binding-reuse"
+}
