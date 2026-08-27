@@ -7,7 +7,7 @@ audience:
   - adopter
   - maintainer
   - reviewer
-status: current
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-334-evidence-binding-reuse
 capabilityClaims:

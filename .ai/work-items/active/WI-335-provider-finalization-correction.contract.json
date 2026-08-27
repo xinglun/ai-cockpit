@@ -1,12 +1,31 @@
 {
-  "acceptanceCriteria": [],
-  "authority": "unknown",
-  "baseRevision": "499d41f4472c7c20942ad4d99933937a10dbe1e3",
+  "acceptanceCriteria": [
+    "The immutable WI-334 archive, recovery decision, and evidence bytes remain unchanged.",
+    "The tri-language parity ledger records WI-335 as the provider-finalization correction and does not contain a guessed provider URL.",
+    "The active Contract resourceContext is bound to the actual reviewed PR before verification, and the installed Runtime accepts the finalization receipt only with matching identity.",
+    "Hosted checks, finish, archive, finalize, finalize-verify, close, and exact branch/worktree cleanup produce auditable evidence."
+  ],
+  "authority": "authorized",
+  "baseRevision": "50b0b89e2d38b0ed35666a34e58ce293c348bb3e",
+  "checkpointPolicy": {
+    "profile": "standard",
+    "requiredBeforeFinish": true,
+    "requiredChecks": [],
+    "requiredStages": ["before_edit", "before_finish"],
+    "schemaVersion": 1
+  },
   "createdAt": "2026-08-27T16:45:01Z",
-  "goal": "",
-  "intent": "",
+  "goal": "Re-deliver the bounded evidence-binding parity documentation with the actual reviewed PR identity bound before verification and complete the auditable lifecycle.",
+  "intent": "Correct WI-334 provider finalization metadata without changing immutable predecessor truth.",
   "mode": "code",
-  "outOfScope": [],
+  "outOfScope": [
+    "crates/",
+    "scripts/",
+    "source-participant-data",
+    "copied-v1-runtime",
+    "Makefile.ai",
+    ".ai/work-items/archive/WI-334-evidence-binding-reuse.*"
+  ],
   "predecessorContractDigest": "sha256:8eeac4531a4d2ab5771967c1c8c71b060d9a3ebe804c621809d263b646104913",
   "predecessorWorkItemId": "WI-334-evidence-binding-reuse",
   "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
@@ -14,19 +33,33 @@
   "recoveryDecisionPath": ".ai/decisions/WI-334-evidence-binding-reuse.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:8e3162db52ca87a21171a0da348d6d0f90ae79c1b88c7caeea0b27ca612171c5",
-  "requiredEvidenceClasses": [],
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
   "resourceContext": {
     "baseBranch": "unknown",
     "baseRemote": "unknown",
-    "branch": "main",
+    "branch": "codex/wi-335-provider-finalization-correction",
     "provider": "unknown",
     "pullRequest": "unknown",
-    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+    "worktree": "/private/tmp/ai-cockpit-wi335-provider-finalization-correction"
   },
-  "risk": "unknown",
-  "scope": [],
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-335-provider-finalization-correction.md",
+    "docs/work-items/WI-335-provider-finalization-correction.zh-CN.md",
+    "docs/work-items/WI-335-provider-finalization-correction.ja.md",
+    "docs/work-items/WI-334-evidence-binding-reuse.md",
+    "docs/work-items/WI-334-evidence-binding-reuse.zh-CN.md",
+    "docs/work-items/WI-334-evidence-binding-reuse.ja.md"
+  ],
   "sources": [],
-  "state": "not_ready",
-  "verification": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
   "workItemId": "WI-335-provider-finalization-correction"
 }
