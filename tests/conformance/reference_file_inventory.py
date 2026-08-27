@@ -45,6 +45,7 @@ WI328_BATCH = "WI-328-reference-file-comparison-batch-08"
 WI331_BATCH = "WI-331-reference-file-comparison-batch-09"
 WI332_BATCH = "WI-332-reference-file-comparison-batch-10"
 WI333_BATCH = "WI-333-reference-file-comparison-batch-11"
+WI334_BATCH = "WI-334-reference-file-comparison-batch-12"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -996,6 +997,98 @@ WI333_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
     ),
 }
 
+WI334_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "docs/reference/content-bound-evidence-reuse.md": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-evidence/src/lib.rs",
+            "crates/cockpit-evidence/tests/reuse.rs",
+            "docs/reference/configuration.md",
+            "docs/reference/cross-work-item-dedup.md",
+        ],
+        "The target keeps exact content identity as one component of a composite EvidenceContext and never reuses a receipt unless every bound identity matches. The Rust API intentionally replaces the source Python content policy and does not claim source wire compatibility.",
+    ),
+    "docs/reference/diff-bound-evidence-reuse.md": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-evidence/src/lib.rs",
+            "crates/cockpit-evidence/tests/reuse.rs",
+            "crates/cockpit-git/src/lib.rs",
+            "docs/reference/configuration.md",
+        ],
+        "The target binds base/head revisions and changed-path identity in typed DiffIdentity, validates canonical SHA-256 bindings, and reruns on mismatch. The source Python helper and command surface are not copied.",
+    ),
+    "docs/reference/environment-bound-reuse.md": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-evidence/src/lib.rs",
+            "crates/cockpit-evidence/tests/reuse.rs",
+            "crates/cockpit-verification/src/lib.rs",
+            "docs/reference/configuration.md",
+        ],
+        "The target records environment, toolchain, Runtime, profile, policy, command, and stage identity in a strict composite EvidenceContext. Unknown, expired, failed, protected, or mismatched receipts execute again; no process environment is serialized wholesale.",
+    ),
+    "docs/reference/evidence-binding-foundation.md": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-evidence/src/lib.rs",
+            "crates/cockpit-evidence/tests/reuse.rs",
+            "crates/cockpit-repository/src/lib.rs",
+        ],
+        "The versioned Rust ReusableReceipt and EvidenceContext provide a stricter composite identity and repository-local receipt store. Validation is fail-closed and advisory: it can select reuse but never bypass governance, protected nodes, or required checks.",
+    ),
+    "scripts/ai_evidence_binding.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-evidence/src/lib.rs",
+            "crates/cockpit-evidence/tests/reuse.rs",
+        ],
+        "The source binding builder/validator is represented by typed Rust structs, content-addressed receipt IDs, deny-unknown-fields parsing, and deterministic Unknown/Stale-to-execute decisions. Source Python APIs are not shipped.",
+    ),
+    "scripts/ai_diff_bound_reuse.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-evidence/src/lib.rs",
+            "crates/cockpit-evidence/tests/reuse.rs",
+            "crates/cockpit-git/src/lib.rs",
+        ],
+        "Typed DiffIdentity and repository snapshot facts replace the source diff helper. Base/head, changed-path, scope, governance, and expiry mismatches remain rerun conditions.",
+    ),
+    "scripts/ai_environment_reuse.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-evidence/src/lib.rs",
+            "crates/cockpit-evidence/tests/reuse.rs",
+            "crates/cockpit-verification/src/lib.rs",
+        ],
+        "The source environment adapter is represented by explicit Runtime/toolchain/environment digests in EvidenceContext. The Rust executor accepts bounded environment inputs and does not expose a wholesale environment snapshot API.",
+    ),
+    "tests/test_ai_evidence_binding.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-evidence/tests/reuse.rs",
+            "crates/cockpit-repository/tests/receipt_store.rs",
+        ],
+        "Rust tests cover strict receipt schema, content/diff/environment identity mismatch, expiry, failed/protected nodes, tampering, and deterministic fail-closed execution; the source pytest corpus is not copied.",
+    ),
+    "tests/test_ai_diff_bound_reuse.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-evidence/tests/reuse.rs",
+            "crates/cockpit-git/tests/repository.rs",
+        ],
+        "Rust tests cover exact composite diff identity, clean and changed path sets, canonical ordering, malformed/traversal inputs, policy mismatch, expiry, and input immutability without source test-wire parity.",
+    ),
+    "tests/test_ai_environment_reuse.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-evidence/tests/reuse.rs",
+            "crates/cockpit-verification/tests/execution.rs",
+        ],
+        "Rust tests cover environment/toolchain identity, Runtime and profile binding, stale/unknown/failed receipts, protected execution, and strict digest validation. Secret filtering remains an explicit external-input boundary rather than a copied Python module.",
+    ),
+}
+
 
 def wi270_counterpart(path: str) -> tuple[list[str], str] | None:
     if path in WI270_DOC_CONCEPTS:
@@ -1464,6 +1557,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 }
             )
             continue
+        wi334 = WI334_REFERENCE_FILES.get(path)
+        if wi334 is not None:
+            classification, counterparts, reason = wi334
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI334_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
         wi302 = WI302_REFERENCE_FILES.get(path)
         if wi302 is not None:
             classification, counterparts, reason = wi302
@@ -1802,6 +1908,38 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for classification in wi332_classifications
         ):
             errors.append("WI-332 batch cannot leave deferred or migrate-gap records")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI334_BATCH
+        for record in records
+    ):
+        wi334_records = [
+            record
+            for record in records
+            if isinstance(record, dict) and record.get("batch") == WI334_BATCH
+        ]
+        expected_wi334_paths = set(WI334_REFERENCE_FILES)
+        actual_wi334_paths = {
+            record.get("referencePath")
+            for record in wi334_records
+            if isinstance(record.get("referencePath"), str)
+        }
+        if actual_wi334_paths != expected_wi334_paths:
+            errors.append(
+                "WI-334 batch paths do not match the pinned ten-file set: "
+                f"expected {sorted(expected_wi334_paths)!r}, got {sorted(actual_wi334_paths)!r}"
+            )
+        if len(wi334_records) != len(expected_wi334_paths):
+            errors.append(
+                f"WI-334 batch must contain {len(expected_wi334_paths)} records, found {len(wi334_records)}"
+            )
+        wi334_classifications = [record.get("classification") for record in wi334_records]
+        if wi334_classifications.count("implemented-different-by-design") != len(expected_wi334_paths):
+            errors.append("WI-334 batch must contain ten implemented-different-by-design records")
+        if any(
+            classification in {"deferred-next-batch", "migrate-gap"}
+            for classification in wi334_classifications
+        ):
+            errors.append("WI-334 batch cannot leave deferred or migrate-gap records")
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(records):
         errors.append(f"referenceTrackedFileCount {expected_count!r} != record count {len(records)}")

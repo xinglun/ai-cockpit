@@ -103,11 +103,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=221 implemented-equivalent=1 not-applicable=3 reference-only=25 deferred-next-batch=607 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=231 implemented-equivalent=1 not-applicable=3 reference-only=25 deferred-next-batch=597 migrate-gap=0 -->
 
 在固定的 v0.2.33 比较基线上，台账共有 5,119 条记录：4,262 条
-`generated-history`、221 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、3 条 `not-applicable`、10 条 `reference-only` 与 622 条
+`generated-history`、231 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、3 条 `not-applicable`、25 条 `reference-only` 与 597 条
 `deferred-next-batch`。deferred 记录仍是待比较工作，不是 parity 声明。
 capability/profile slice 已没有 `migrate-gap`：
 
@@ -118,7 +118,7 @@ capability/profile slice 已没有 `migrate-gap`：
 4. `.ai/project_profile.yaml` 由 `.ai/project.json` 与严格 JSON `profile-policy.json` projection 表达。
 
 治理入口、getting-started 路线、CI/release 边界与 capability/profile projection 已按该基线审阅；
-以上四条是有界的 Rust-native counterpart，622 条 deferred 语义比较仍是后续工作。
+以上四条是有界的 Rust-native counterpart，597 条 deferred 语义比较仍是后续工作。
 
 WI-274 只将目标 checkout metadata 和 canonical comparison snapshot 重新绑定到已审阅的
 默认分支提交。WI-273 保持为不可变的失败交付记录：其首次提交无法证明 parity 登记先于
@@ -480,3 +480,27 @@ WI-333 逐一读取固定参考源中的理解验证协议、严格响应 schema
 这个边界是有意设计的：adopter repository 可以继承目标的文档路线、Contract、evidence 和
 Agent workflow，但不能继承另一仓库的人体参与者证据。未来若要开展研究，必须先建立独立的
 同意、保留、隐私和 evidence Contract。
+
+## WI-334：Evidence Binding 与 reuse 基础
+
+WI-334 逐一读取固定参考源 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 中的 10 个路径。
+10 个路径全部判定为 `implemented-different-by-design`。Rust 目标把 content、diff、environment、
+command、toolchain、policy、profile、Runtime、stage 和 runner identity 组合为严格的
+`EvidenceContext`；不复制源 Python 模块，也不声称源 JSON/API 兼容。
+
+| 固定源路径 | 分类 | Rust 对应物 / 有界决定 |
+| --- | --- | --- |
+| `docs/reference/content-bound-evidence-reuse.md` | implemented-different-by-design | `cockpit-evidence` 将 content identity 作为组合 context 的一部分；只有精确绑定才可进行 advisory reuse。 |
+| `docs/reference/diff-bound-evidence-reuse.md` | implemented-different-by-design | `DiffIdentity`、repository snapshot facts 和 reuse 测试绑定 base/head 与 changed-path；不匹配必须 rerun。 |
+| `docs/reference/environment-bound-reuse.md` | implemented-different-by-design | 显式绑定 Runtime/toolchain/environment/profile/policy/command/stage，不整体序列化进程环境。 |
+| `docs/reference/evidence-binding-foundation.md` | implemented-different-by-design | 版本化 `ReusableReceipt` 校验 content-addressed identity、expiry、node 和 passed；不能绕过 protected 或 required checks。 |
+| `scripts/ai_evidence_binding.py` | implemented-different-by-design | typed Rust structs、deny-unknown-fields 和确定性的 fail-closed 决定替代 Python builder/validator。 |
+| `scripts/ai_diff_bound_reuse.py` | implemented-different-by-design | typed `DiffIdentity` 与 Git snapshot facts 替代源 helper，并保留 canonical path/revision mismatch 语义。 |
+| `scripts/ai_environment_reuse.py` | implemented-different-by-design | 显式、有界的 environment 输入和 digest 字段替代源 adapter；不读取或持久化凭据。 |
+| `tests/test_ai_evidence_binding.py` | implemented-different-by-design | Rust evidence/repository 测试覆盖 strict schema、篡改、mismatch、expiry、failed/protected node 与 rerun 决定。 |
+| `tests/test_ai_diff_bound_reuse.py` | implemented-different-by-design | Rust evidence/Git 测试覆盖 clean/changed paths、canonical ordering、非法路径、policy mismatch、expiry 和不可变输入。 |
+| `tests/test_ai_environment_reuse.py` | implemented-different-by-design | Rust evidence/executor 测试覆盖 environment/toolchain identity、stale/unknown receipt、protected execution 和 digest 校验。 |
+
+本批建立的是语义责任对齐，不是源 wire 对齐。Reuse 只是优化/证据观察：只有精确 fresh binding
+可以被考虑，治理、coverage、安全和 required-check gate 仍由调用方负责。Inventory、三语 ledger
+和 WI-334 evidence 绑定这一决定；不引入源 participant、Python、Make 或 V1 artifact。

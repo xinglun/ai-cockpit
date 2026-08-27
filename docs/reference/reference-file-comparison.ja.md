@@ -107,11 +107,11 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=221 implemented-equivalent=1 not-applicable=3 reference-only=25 deferred-next-batch=607 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=231 implemented-equivalent=1 not-applicable=3 reference-only=25 deferred-next-batch=597 migrate-gap=0 -->
 
 固定した v0.2.33 comparison baseline の ledger は 5,119 records です。内訳は
-4,262 `generated-history`、221 `implemented-different-by-design`、1
-`implemented-equivalent`、3 `not-applicable`、10 `reference-only`、622 `deferred-next-batch` です。
+4,262 `generated-history`、231 `implemented-different-by-design`、1
+`implemented-equivalent`、3 `not-applicable`、25 `reference-only`、597 `deferred-next-batch` です。
 Deferred record は予定された比較であり parity claim ではありません。
 capability/profile slice に `migrate-gap` は残っていません。
 
@@ -122,7 +122,7 @@ capability/profile slice に `migrate-gap` は残っていません。
 
 Governance entrypoint、getting-started route、CI/release boundary、capability/profile
 projection はこの baseline で review 済みです。上記 4 件は bounded な Rust-native counterpart として登録済みで、
-622 deferred semantic comparison は後続作業として残ります。
+597 deferred semantic comparison は後続作業として残ります。
 
 WI-274 は target checkout metadata と canonical comparison snapshot だけを、レビュー済み
 default branch commit に再バインドします。WI-273 は immutable な failed-delivery record として
@@ -520,3 +520,28 @@ comprehension、release、safety、security、enterprise claim を source study 
 この境界は意図的です。adopter repository は target の documentation route、Contract、evidence、
 Agent workflow を継承できますが、他 repository の human-subject evidence は継承しません。
 将来 study を行う場合は、独立した consent、retention、privacy、evidence Contract が必要です。
+
+## WI-334 — Evidence Binding と reuse の基礎
+
+WI-334 は pinned source `e5acb677da6621004d96f0ef353c58fe8d3acfbf` の 10 path を一つずつ確認しました。
+10 path はすべて `implemented-different-by-design` です。Rust target は content、diff、environment、
+command、toolchain、policy、profile、Runtime、stage、runner identity を strict な複合
+`EvidenceContext` として束縛します。source の Python module は copy せず、source JSON/API 互換も claim しません。
+
+| Pinned source path | 分類 | Rust counterpart / 境界の決定 |
+| --- | --- | --- |
+| `docs/reference/content-bound-evidence-reuse.md` | implemented-different-by-design | `cockpit-evidence` は content identity を複合 context の一部として扱い、exact binding の場合だけ advisory reuse を検討します。 |
+| `docs/reference/diff-bound-evidence-reuse.md` | implemented-different-by-design | `DiffIdentity`、repository snapshot facts、reuse test が base/head と changed-path identity を束縛し、mismatch は rerun です。 |
+| `docs/reference/environment-bound-reuse.md` | implemented-different-by-design | Runtime/toolchain/environment/profile/policy/command/stage を明示的に束縛し、process environment 全体は serialize しません。 |
+| `docs/reference/evidence-binding-foundation.md` | implemented-different-by-design | versioned `ReusableReceipt` が content-addressed identity、expiry、node、passed を検証し、protected/required check を bypass しません。 |
+| `scripts/ai_evidence_binding.py` | implemented-different-by-design | typed Rust struct、deny-unknown-fields、deterministic fail-closed decision が Python builder/validator を置き換えます。 |
+| `scripts/ai_diff_bound_reuse.py` | implemented-different-by-design | typed `DiffIdentity` と Git snapshot facts が source helper を置き換え、canonical path/revision mismatch semantics を保ちます。 |
+| `scripts/ai_environment_reuse.py` | implemented-different-by-design | 明示的で bounded な environment input と digest field を使い、credential を read/persist しません。 |
+| `tests/test_ai_evidence_binding.py` | implemented-different-by-design | Rust evidence/repository test が strict schema、tamper、mismatch、expiry、failed/protected node、rerun decision を検証します。 |
+| `tests/test_ai_diff_bound_reuse.py` | implemented-different-by-design | Rust evidence/Git test が clean/changed path、canonical ordering、malformed path、policy mismatch、expiry、immutability を検証します。 |
+| `tests/test_ai_environment_reuse.py` | implemented-different-by-design | Rust evidence/executor test が environment/toolchain identity、stale/unknown receipt、protected execution、digest validation を検証します。 |
+
+この batch は semantic responsibility parity であり、source wire parity ではありません。Reuse は
+optimization/evidence observation で、exact な fresh binding だけを候補にします。governance、coverage、
+security、required-check gate の責任は caller に残ります。Inventory、三言語 ledger、WI-334 evidence がこの判断を束縛し、
+source participant、Python、Make、V1 artifact は導入しません。

@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "All 10 pinned source paths are read individually and each receives one classification with a non-empty Rust counterpart or explicit reference-only reason.",
+    "The four evidence-binding/reuse semantics are mapped to typed cockpit-evidence structures and tests without claiming source JSON or Python API compatibility.",
+    "The three-language comparison and parity documents agree on every path, classification, boundary, and evidence reference.",
+    "The inventory generator and regression test preserve exactly 5119 source paths and move exactly 10 paths from deferred-next-batch with no unreviewed count change.",
+    "No participant data, source Python implementation, or V1 artifact is copied into the target repository."
+  ],
+  "createdAt": "2026-08-27T16:21:14Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:cf2d4004cf77e0bb79004e87f0e9a063d91b3a253eb917e3aa0cd0184173b6e6",
+  "evidenceRefs": [
+    ".ai/evidence/WI-334-evidence-binding-reuse.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-334-evidence-binding-reuse.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-334-evidence-binding-reuse.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:170521dff1b3fe039c123c18d64c787fb11ff27f64f4906dc17576b370314352",
+      "workItemId": "WI-334-evidence-binding-reuse"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-334-evidence-binding-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-334-evidence-binding-reuse.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-334-evidence-binding-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-334-evidence-binding-reuse.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-334-evidence-binding-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-334-evidence-binding-reuse.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-334-evidence-binding-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-334-evidence-binding-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-334-evidence-binding-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-334-evidence-binding-reuse.contract.json"
+          ],
+          "inference": false,
+          "text": "完成 10 个固定参考路径的逐文件语义判定、Rust counterpart 证据绑定、三语对比文档与 inventory 回归，发现缺口时在本 Contract 内修复或明确记录。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-334-evidence-binding-reuse.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-334-evidence-binding-reuse"
+  },
+  "taskReportDigest": "sha256:173d298d64d7f2ec83cae5f3085ddbd1fa7df698fd22979b8e03fab4cc91ffd3",
+  "taskReportMarkdownDigest": "sha256:e0f25d6dd10e11feb18864d844d0fb7e4443cdcf696e56eb7cf602410884bfd8",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-334-evidence-binding-reuse.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-334-evidence-binding-reuse"
+}
