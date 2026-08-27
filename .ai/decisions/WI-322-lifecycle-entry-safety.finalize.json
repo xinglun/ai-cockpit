@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "74ef725a9a1693480d08f850c44c7684f32c82a3",
+    "name": "codex/wi-322-lifecycle-entry-safety",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:9de10e6599a7655d76160feaa8556acb0bad3b9cf0532ab5c58b86a19f81b385",
+  "operationId": "github-pr-285-merge-cleanup-20260827",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "1e20d93411f8f85d612df2ac03eebfedb48f57b5",
+    "headRevision": "74ef725a9a1693480d08f850c44c7684f32c82a3",
+    "mergeCommit": "e7b74d6d0984a466a59d313433fd5ca80eda8693",
+    "number": 285,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/285"
+  },
+  "reason": "PR #285 passed all hosted checks and was merged; the exact feature branch and worktree will be removed and verified.",
+  "receiptId": "github-pr-285-finalization-20260827",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-322-lifecycle-entry-safety",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/285",
+    "worktree": "/private/tmp/ai-cockpit-wi322-lifecycle-entry-safety"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-27T07:46:00Z",
+  "workItemId": "WI-322-lifecycle-entry-safety",
+  "worktree": {
+    "branch": "codex/wi-322-lifecycle-entry-safety",
+    "headRevision": "74ef725a9a1693480d08f850c44c7684f32c82a3",
+    "path": "/private/tmp/ai-cockpit-wi322-lifecycle-entry-safety",
+    "worktreeId": "WI-322-lifecycle-entry-safety"
+  }
+}
