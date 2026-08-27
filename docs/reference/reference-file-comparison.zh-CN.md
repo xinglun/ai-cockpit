@@ -103,11 +103,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=182 implemented-equivalent=1 not-applicable=3 reference-only=2 deferred-next-batch=669 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=190 implemented-equivalent=1 not-applicable=3 reference-only=3 deferred-next-batch=660 migrate-gap=0 -->
 
 在固定的 v0.2.33 比较基线上，台账共有 5,119 条记录：4,262 条
-`generated-history`、182 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、3 条 `not-applicable` 与 669 条
+`generated-history`、190 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、3 条 `not-applicable`、3 条 `reference-only` 与 660 条
 `deferred-next-batch`。deferred 记录仍是待比较工作，不是 parity 声明。
 capability/profile slice 已没有 `migrate-gap`：
 
@@ -118,7 +118,7 @@ capability/profile slice 已没有 `migrate-gap`：
 4. `.ai/project_profile.yaml` 由 `.ai/project.json` 与严格 JSON `profile-policy.json` projection 表达。
 
 治理入口、getting-started 路线、CI/release 边界与 capability/profile projection 已按该基线审阅；
-以上四条是有界的 Rust-native counterpart，669 条 deferred 语义比较仍是后续工作。
+以上四条是有界的 Rust-native counterpart，660 条 deferred 语义比较仍是后续工作。
 
 WI-274 只将目标 checkout metadata 和 canonical comparison snapshot 重新绑定到已审阅的
 默认分支提交。WI-273 保持为不可变的失败交付记录：其首次提交无法证明 parity 登记先于
@@ -199,8 +199,8 @@ workflow，并记录 Rust-native 拆分与对象工程/外部 adopter 边界。
 | `Makefile` | 有意采用不同实现 | Rust CLI、Cargo 和显式 CI/release 脚本替代 Python Make 编排，并保持 request-scoped `--repo`。 |
 
 WI-302/WI-304 批次没有发现 `migrate-gap`。台账现在为：4,262 条
-`generated-history`、182 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、3 条 `not-applicable`、669 条 `deferred-next-batch`。
+`generated-history`、190 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、3 条 `not-applicable`、3 条 `reference-only`、660 条 `deferred-next-batch`。
 两个 workflow 已作为 Rust-native 的有意差异边界关闭；这不表示参考源 Python installer
 或多技术栈矩阵会在 Rust Runtime 内运行。
 
@@ -286,3 +286,31 @@ WI-308 在固定参考提交 `e5acb677` 上逐个比对四个文件：一个演�
 request-scoped Runtime 保留源安全意图，并增加 repository identity、snapshot、人类决定和 provider
 边界。GIF 明确为 reference-only；不复制 Python、Make、installer 或二进制，也不把本地 evidence
 提升为 provider/enterprise assurance。日文文档提供同样结论和阅读路径。
+
+## WI-323 参考文档基础
+
+WI-323 在固定参考源提交上逐个比对接下来的九个 deferred 文档路径。本批只关闭文档责任，
+不复制源工具，也不改变 Runtime authority。
+
+| 参考源路径 | 分类 | Rust 对应/有界结论 |
+| --- | --- | --- |
+| `docs/contributing/installation-document-maintenance.md` | implemented-different-by-design | 三语参考路线与文档 acceptance 脚本保留精简首页、链接/元数据、版本中立、no-guess/no-overwrite/no-fallback 和单独批准边界。 |
+| `docs/current/README.md` | implemented-different-by-design | `docs/current/README.*`、`.ai/README.md`、`.ai/glossary.md`、`AGENTS.md` 与 `docs/reference/README.*` 构成当前 Agent 读取路线。源 `make ai-documentation-read-set` 不是目标命令。 |
+| `docs/design/harden-work-item-pr-closure.md` | implemented-different-by-design | `docs/reference/agent-workflow.*`、`docs/reference/commands.md` 与 Rust lifecycle 强制最新 base、专用分支、reviewed PR、先合并后关闭、同步和精确清理；provider PR 操作仍属外部。 |
+| `docs/distribution.md` | implemented-different-by-design | 目标当前路线与 `docs/release/distribution.*` 提供兼容入口、不可变 artifact 安装和发布后 adopter 边界。 |
+| `docs/enterprise-security-boundary.md` | implemented-different-by-design | `docs/security/enterprise-deployment-boundary.*`、`enterprise-governance.*` 与 `SECURITY.md` 将 repository evidence 与 delegated identity、sandbox、audit、认证控制分开。 |
+| `docs/examples/trust-layer-demo.sh` | reference-only | 离线 stop/continue 示例保留为参考说明；目标证据是 typed Runtime preflight、capability、intent 和 adversarial 测试，不复制 shell authority。 |
+| `docs/features/human-benefit-report.md` | implemented-different-by-design | Rust `OutcomeV2`、`work-item outcome`、MCP `work_item_outcome` 与三语 handoff 测试保留面向人的报告顺序及 evidence 边界。 |
+| `docs/features/human-benefit-report.zh-CN.md` | implemented-different-by-design | 中文展示沿用同一 Rust Outcome/MCP 路由；Contract 验收原文保持 authored value，不自动翻译。 |
+| `docs/features/human-benefit-report.ja.md` | implemented-different-by-design | 日文展示沿用同一 Rust Outcome/MCP 路由；Contract 验收原文保持 authored value，不自动翻译。 |
+
+对 Cursor adopter 反馈按版本归一化后，当前 Runtime 已提供稳定 stdout JSON 和人类 handoff，
+`work-item new`/`start` 会阻断未关闭 archive 与事前已有变更，readiness 也有显式结果。
+CLI 无法强制 Cursor 展开聊天面板；provider/Agent adapter 必须展示或重放 human handoff。
+诊断修复、close-gap 便利命令和可选 controls 脚手架属于后续产品决策，本批不把它们静默
+宣称为参考源 parity。目标也不要求 `Makefile.ai`；显式 `--repo` 的 CLI/MCP 是 repository
+中立的 adopter 接口。
+
+本批是语义责任 parity，不是 source wire 或字节 parity。源 Make/Python 报告生成器、installer
+脚本和 trust demo 不复制。对象工程边界与所有 adopter 一致：一份共享外部 Runtime、每个
+repository 独立的 `.ai/` 状态、显式 repository context，以及由 provider 负责对话展示。

@@ -123,11 +123,11 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=182 implemented-equivalent=1 not-applicable=3 reference-only=2 deferred-next-batch=669 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=190 implemented-equivalent=1 not-applicable=3 reference-only=3 deferred-next-batch=660 migrate-gap=0 -->
 
 At the pinned v0.2.33 comparison baseline, the ledger contains 5,119 records:
-4,262 `generated-history`, 182 `implemented-different-by-design`, one
-`implemented-equivalent`, three `not-applicable`, and 669
+4,262 `generated-history`, 190 `implemented-different-by-design`, one
+`implemented-equivalent`, three `not-applicable`, three `reference-only`, and 660
 `deferred-next-batch` records. Deferred records remain scheduled work, not
 parity claims. The capability/profile slice has no remaining `migrate-gap`
 records:
@@ -143,7 +143,7 @@ records:
 
 The governance entrypoints, getting-started routes, CI/release boundaries, and
 capability/profile projections have been reviewed at this baseline. The four
-records above are Rust-native, explicitly bounded counterparts; the 669
+records above are Rust-native, explicitly bounded counterparts; the 660
 deferred semantic comparisons remain scheduled work.
 
 WI-274 rebinds only the target checkout metadata and canonical comparison
@@ -241,8 +241,8 @@ adopter boundary.
 | `Makefile` | implemented-different-by-design | Rust CLI, Cargo, and explicit CI/release scripts replace source Python Make orchestration with request-scoped `--repo`. |
 
 The WI-302/WI-304 batches found no `migrate-gap`. The inventory is now 4,262
-`generated-history`, 182 `implemented-different-by-design`, one
-`implemented-equivalent`, three `not-applicable`, and 669
+`generated-history`, 190 `implemented-different-by-design`, one
+`implemented-equivalent`, three `not-applicable`, three `reference-only`, and 660
 `deferred-next-batch` records. The two workflow records are closed as
 Rust-native, different-by-design boundaries; this does not claim that the
 source's Python installer or multi-stack matrix runs inside the Rust Runtime.
@@ -357,3 +357,38 @@ GIF is deliberately reference-only. No source Python, Make, installer, or
 binary is copied, and no local evidence is promoted to provider or enterprise
 assurance. The same conclusions and reader route are available in Chinese and
 Japanese.
+
+## WI-323 reference documentation foundation
+
+WI-323 compares the next nine deferred documentation paths individually at the
+pinned source commit. The batch closes documentation responsibilities without
+copying source tooling or changing Runtime authority.
+
+| Reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/contributing/installation-document-maintenance.md` | implemented-different-by-design | Tri-language reference routes and documentation acceptance scripts preserve the thin-home, link/metadata, version-neutral, no-guess/no-overwrite/no-fallback, and separate-approval boundaries. |
+| `docs/current/README.md` | implemented-different-by-design | `docs/current/README.*`, `.ai/README.md`, `.ai/glossary.md`, `AGENTS.md`, and `docs/reference/README.*` form the current Agent read route. The source `make ai-documentation-read-set` is not a target command. |
+| `docs/design/harden-work-item-pr-closure.md` | implemented-different-by-design | `docs/reference/agent-workflow.*`, `docs/reference/commands.md`, and the Rust lifecycle enforce latest-base, dedicated branch, reviewed PR, merge-before-close, synchronization, and exact cleanup; provider PR operations stay external. |
+| `docs/distribution.md` | implemented-different-by-design | The target's current route and `docs/release/distribution.*` provide the compatibility entry, immutable artifact installation, and post-release adopter boundary. |
+| `docs/enterprise-security-boundary.md` | implemented-different-by-design | `docs/security/enterprise-deployment-boundary.*`, `enterprise-governance.*`, and `SECURITY.md` separate repository evidence from delegated identity, sandbox, audit, and certification controls. |
+| `docs/examples/trust-layer-demo.sh` | reference-only | The offline stop/continue examples remain explanatory source material; typed Runtime preflight, capability, intent, and adversarial tests are the target evidence, not a copied shell authority. |
+| `docs/features/human-benefit-report.md` | implemented-different-by-design | Rust `OutcomeV2`, `work-item outcome`, MCP `work_item_outcome`, and tri-language handoff tests preserve the human report order and evidence boundaries. |
+| `docs/features/human-benefit-report.zh-CN.md` | implemented-different-by-design | Chinese presentation follows the same Rust Outcome/MCP route; Contract acceptance text remains authored and is not machine-translated. |
+| `docs/features/human-benefit-report.ja.md` | implemented-different-by-design | Japanese presentation follows the same Rust Outcome/MCP route; Contract acceptance text remains authored and is not machine-translated. |
+
+The Cursor adopter feedback is consistent with this boundary after version
+normalization: current Runtime lifecycle commands already emit stable stdout
+JSON and human handoff, `work-item new`/`start` reject unclosed archives and
+pre-existing changes, and readiness is explicit. A CLI cannot force Cursor to
+expand a chat panel; the provider/Agent adapter must surface or replay the
+human handoff. Diagnostic remediation, close-gap convenience commands, and
+optional controls scaffolding are follow-up product decisions, not silently
+claimed parity in this documentation batch. The target also deliberately has
+no `Makefile.ai` requirement: explicit `--repo` CLI/MCP commands are the
+repository-neutral adopter interface.
+
+This batch is semantic responsibility parity, not source wire or byte parity.
+Source Make/Python report generators, installer scripts, and the trust demo
+are not copied. The object-engineering boundary is the same as for every
+adopter: one shared external Runtime, repository-local `.ai/` state, explicit
+repository context, and provider-owned conversation presentation.

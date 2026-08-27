@@ -1,0 +1,74 @@
+{
+  "acceptanceCriteria": [
+    "All three reference-parity ledgers register WI-323 predecessor and WI-324 recovery with consistent status and scope.",
+    "Documentation and conformance checks pass locally from a clean base.",
+    "Hosted quality docs_governance_integrity passes without modifying predecessor archive truth.",
+    "Recovery and current Contract bindings remain explicit and valid."
+  ],
+  "authority": "human:owner",
+  "baseRevision": "290b5982dec60d0e5603b982d2407f4b6656bbf4",
+  "createdAt": "2026-08-27T08:50:34Z",
+  "goal": "Make the hosted docs governance gate recognize every predecessor and current Work Item without changing predecessor archive truth.",
+  "intent": "Register the recovered reference documentation batch in all required tri-language parity ledgers and add the missing pre-archive governance check.",
+  "mode": "code",
+  "outOfScope": [
+    "Changing predecessor archive or recovery receipt bytes",
+    "Adding new Runtime governance semantics or source-template code",
+    "Changing CI policy beyond the missing docs-governance registration/check"
+  ],
+  "predecessorContractDigest": "sha256:403592af8988eca088f0a73c86ad521fa443fb0df3c59273394cd850b4509329",
+  "predecessorWorkItemId": "WI-323-reference-documentation-foundation",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-323-reference-documentation-foundation.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:553a884771c0bc432c571a9c8f32ed8a65581c74bdf0421f3abfa3c85ac791b1",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-324-reference-parity-registration",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/287",
+    "worktree": "/private/tmp/ai-cockpit-wi324-reference-parity-registration"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/features/human-benefit-report.md",
+    "docs/features/human-benefit-report.zh-CN.md",
+    "docs/features/human-benefit-report.ja.md",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/work-items/WI-323-reference-documentation-foundation.md",
+    "docs/work-items/WI-323-reference-documentation-foundation.zh-CN.md",
+    "docs/work-items/WI-323-reference-documentation-foundation.ja.md",
+    "docs/work-items/WI-324-reference-parity-registration.md",
+    "docs/work-items/WI-324-reference-parity-registration.zh-CN.md",
+    "docs/work-items/WI-324-reference-parity-registration.ja.md",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/docs/getting_started_semantic.sh",
+    "tests/conformance/reference_file_inventory_test.sh"
+  ],
+  "sources": [
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/tree/e5acb677da6621004d96f0ef353c58fe8d3acfbf",
+    "https://github.com/xinglun/ai-cockpit/pull/286",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/33054874497"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/conformance/reference_file_inventory_test.sh",
+    "git diff --check"
+  ],
+  "workItemId": "WI-324-reference-parity-registration"
+}

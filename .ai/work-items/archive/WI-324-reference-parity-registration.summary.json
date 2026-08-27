@@ -1,0 +1,39 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-323-reference-documentation-foundation.recovery.json",
+    ".ai/work-items/archive/WI-324-reference-parity-registration.contract.json",
+    ".ai/work-items/archive/WI-324-reference-parity-registration.summary.json",
+    ".ai/work-items/archive/WI-323-reference-documentation-foundation.archive.json",
+    ".ai/work-items/archive/WI-323-reference-documentation-foundation.contract.json",
+    ".ai/work-items/archive/WI-323-reference-documentation-foundation.events.jsonl",
+    ".ai/work-items/archive/WI-323-reference-documentation-foundation.outcome.json",
+    ".ai/work-items/archive/WI-323-reference-documentation-foundation.summary.json",
+    ".ai/work-items/archive/WI-323-reference-documentation-foundation.task-report.json",
+    ".ai/work-items/archive/WI-323-reference-documentation-foundation.task-report.md"
+  ],
+  "checkpointAt": "2026-08-27T08:54:18Z",
+  "checkpointContractDigest": "sha256:a275a91f194f299cefc25cb94e61910591929a34c86c7135f738d1198dc5b8e1",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:9121e8f161ab0b4de77f43e01ee4373ff953b77cf5c6b8212d692579ac96b990",
+  "createdAt": "2026-08-27T08:50:34Z",
+  "mode": "code",
+  "predecessorContractDigest": "sha256:403592af8988eca088f0a73c86ad521fa443fb0df3c59273394cd850b4509329",
+  "predecessorWorkItemId": "WI-323-reference-documentation-foundation",
+  "preflightAt": "2026-08-27T09:05:38Z",
+  "preflightContractDigest": "sha256:a275a91f194f299cefc25cb94e61910591929a34c86c7135f738d1198dc5b8e1",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:9121e8f161ab0b4de77f43e01ee4373ff953b77cf5c6b8212d692579ac96b990",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-323-reference-documentation-foundation.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-27T09:05:42Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-324-reference-parity-registration"
+}
