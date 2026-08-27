@@ -1,0 +1,145 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-321-explicit-failed-delivery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5a9deb75f1e2292a03261ead8b951a6bbc519fd0b7d4dbc4881456dc8ac3ea8f",
+      "workItemId": "WI-321-explicit-failed-delivery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-321-explicit-failed-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-313-post-close-finalization-reconciliation.recovery.89f886c2520e7078035e984d67a3f4f42100b74cdaac4993f405e7dc213bf7b1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-321-explicit-failed-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-321-explicit-failed-delivery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-321-explicit-failed-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-321-explicit-failed-delivery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-321-explicit-failed-delivery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-321-explicit-failed-delivery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-321-explicit-failed-delivery.verification.json",
+            ".ai/decisions/WI-321-explicit-failed-delivery.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-27T06:36:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-321-explicit-failed-delivery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-321-explicit-failed-delivery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-321-explicit-failed-delivery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-321-explicit-failed-delivery.contract.json"
+          ],
+          "inference": false,
+          "text": "Record an explicit successor-owned boundary for the immutable WI-313 failed delivery so the governance gate cannot leave an orphaned retry history or silently treat it as completed."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-321-explicit-failed-delivery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-321-explicit-failed-delivery"
+  },
+  "finalReportDigest": "sha256:443c2fe4955de5015eb8f1e36c4abcd9461e65d80187f31b95a307200df0c905",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:3c800320efd07715d2e7bad4d99c991f34e9a4e81e2bf88b5aff9a62a67519ba",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-321-explicit-failed-delivery.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-27T06:36:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-321-explicit-failed-delivery.verification.json",
+      ".ai/decisions/WI-321-explicit-failed-delivery.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md:reviewed-merge-and-exact-cleanup"
+    ],
+    "reason": "PR #284 passed hosted checks, was merged, and exact branch/worktree cleanup was verified; WI-313 immutable failure history is explicitly recovered.",
+    "resumeCondition": "No resume required; if a future related correction is needed, create a new explicitly linked Work Item."
+  },
+  "timestamp": "2026-08-27T06:33:31Z",
+  "workItemId": "WI-321-explicit-failed-delivery"
+}

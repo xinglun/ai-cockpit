@@ -6,9 +6,13 @@ description: "在不改写不可变失败交付历史的前提下，记录由 Ru
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-321-explicit-failed-delivery
+terminalArchive: .ai/work-items/archive/WI-321-explicit-failed-delivery.contract.json
+terminalVerification: .ai/evidence/WI-321-explicit-failed-delivery.verification.json
+terminalFinalization: .ai/decisions/WI-321-explicit-failed-delivery.finalize.json
+terminalDecision: .ai/decisions/WI-321-explicit-failed-delivery.close.json
 ---
 
 # WI-321——显式失败交付恢复边界

@@ -6,9 +6,13 @@ description: "immutable な failed-delivery history を書き換えず、Runtime
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-321-explicit-failed-delivery
+terminalArchive: .ai/work-items/archive/WI-321-explicit-failed-delivery.contract.json
+terminalVerification: .ai/evidence/WI-321-explicit-failed-delivery.verification.json
+terminalFinalization: .ai/decisions/WI-321-explicit-failed-delivery.finalize.json
+terminalDecision: .ai/decisions/WI-321-explicit-failed-delivery.close.json
 ---
 
 # WI-321 — 明示的 failed-delivery recovery boundary

@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "72c52e42dcb7914babe11ee97f07b5c7b86092fe",
+    "name": "codex/wi-321-explicit-failed-delivery",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:25039749c7242738673a1b7fbb0d41e9aea62ca97a48f40988b147f3a70206c5",
+  "operationId": "github-pr-284-merge-cleanup-20260827",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "881c71ad8cbfa5e9630f26d75d45738648f84bf0",
+    "headRevision": "72c52e42dcb7914babe11ee97f07b5c7b86092fe",
+    "mergeCommit": "9db7d39a143ab3e109bf075ff2f422c5319b5a6e",
+    "number": 284,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/284"
+  },
+  "reason": "PR #284 passed all hosted checks and was merged; the exact feature branch and worktree were removed and verified.",
+  "receiptId": "github-pr-284-finalization-20260827",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-321-explicit-failed-delivery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/284",
+    "worktree": "/private/tmp/ai-cockpit-wi321-explicit-failed-delivery"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-27T06:35:00Z",
+  "workItemId": "WI-321-explicit-failed-delivery",
+  "worktree": {
+    "branch": "codex/wi-321-explicit-failed-delivery",
+    "headRevision": "72c52e42dcb7914babe11ee97f07b5c7b86092fe",
+    "path": "/private/tmp/ai-cockpit-wi321-explicit-failed-delivery",
+    "worktreeId": "WI-321-explicit-failed-delivery"
+  }
+}
