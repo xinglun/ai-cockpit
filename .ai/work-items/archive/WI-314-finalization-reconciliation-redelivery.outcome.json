@@ -1,0 +1,151 @@
+{
+  "acceptanceResults": [
+    "The immutable W312 delivery is explicitly recovered through a Runtime-generated, repository-bound successor decision; its Contract, Summary, Outcome, Events, archive, verification, finalization, and close bytes remain unchanged.",
+    "The W313 Runtime correction is redelivered from the synchronized default branch: new close operations reject retained, blocked, or unknown finalization, and valid post-close reconciliation is append-only, identity-bound, and fail closed on tampered or foreign receipts.",
+    "The closed-Work-Item promotion and status-consistency gates accept the recovered W312 projection and a valid reconciliation exception while continuing to reject conditional terminal rows without a valid recovery or cleanup binding.",
+    "Tri-language parity and workflow documentation record W312 as recovered, register W314 before its verification evidence, and explain why W313 PR #277 remains immutable failed delivery; no undocumented terminal or green claim is introduced.",
+    "Focused regressions, cargo fmt, clippy with warnings denied, the full locked workspace test suite, documentation gates, and hosted CI all pass from this Work Item's exact branch and base."
+  ],
+  "createdAt": "2026-08-27T02:10:43Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:d21e095f91e9f3148563fd07c0fd609de8357b53a6eebfedb10e368014bc709a",
+  "evidenceRefs": [
+    ".ai/evidence/WI-314-finalization-reconciliation-redelivery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-314-finalization-reconciliation-redelivery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-314-finalization-reconciliation-redelivery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f7b6de31d65b70a9204ead723029c7aa70620cec2f828c07b76b7846cc5ad7c4",
+      "workItemId": "WI-314-finalization-reconciliation-redelivery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-314-finalization-reconciliation-redelivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-314-finalization-reconciliation-redelivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-314-finalization-reconciliation-redelivery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-314-finalization-reconciliation-redelivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-314-finalization-reconciliation-redelivery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-314-finalization-reconciliation-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-314-finalization-reconciliation-redelivery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-314-finalization-reconciliation-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-314-finalization-reconciliation-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-314-finalization-reconciliation-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-314-finalization-reconciliation-redelivery.contract.json"
+          ],
+          "inference": false,
+          "text": "Redeliver cleanup-before-close and append-only finalization reconciliation with explicit W312 recovery."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-314-finalization-reconciliation-redelivery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-314-finalization-reconciliation-redelivery"
+  },
+  "taskReportDigest": "sha256:fcc593e4e77070fdf6f534ddf27d7dfbb48c44fd2500bbe2c25818e50fc382cd",
+  "taskReportMarkdownDigest": "sha256:6377411ca87809893f2fe27c9ab2929ffae85eb3edb25ab52a9950d6d02d3c2a",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-314-finalization-reconciliation-redelivery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-314-finalization-reconciliation-redelivery"
+}

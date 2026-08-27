@@ -1,0 +1,23 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-27T03:49:33Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-317-post-close-reconciliation-quality-gate-fix.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:62555d2a27e4a7ee6c50184af9a8676d4109c1a9bee12599e18d878e3cd7e464",
+  "predecessorEventsDigest": "sha256:df01fc40751e5b32ab1465350c2daf8d1174239d4292f8d299c5a99f2c73a0cb",
+  "predecessorOutcomeDigest": "sha256:3e90ca56b789139a7a12676e7f8f8ae3dafabcce7e11687aba4af4b5d588838c",
+  "predecessorSummaryDigest": "sha256:15b1c4a78390256dda50ff5a5e20d793569382ab1af4d8acd92da0340b535c48",
+  "predecessorWorkItemId": "WI-317-post-close-reconciliation-quality-gate-fix",
+  "reason": "Retry W317 after the failed finish was reconciled by binding the reviewed PR and resource finalization context.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Fresh preflight, verification, finish, archive, and hosted CI evidence bound to PR #281.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-317-post-close-reconciliation-quality-gate-fix"
+}

@@ -1,0 +1,207 @@
+{
+  "acceptanceResults": [
+    "The immutable W314 delivery remains unchanged: its Contract, Summary, Outcome, Events, archive, verification, recovery, finalization, and close bytes are not rewritten or regenerated.",
+    "The closed-Work-Item promotion gate skips a predecessor only when a valid successor or supersede recovery decision is repository-bound, even when that predecessor also has a confirmed approved close; retry recovery remains a normal terminal candidate.",
+    "A regression fixture covers a confirmed approved close plus a valid successor recovery, and invalid, foreign, malformed, or retry recovery decisions are not treated as promotion exceptions.",
+    "Tri-language Work Item and reference-parity documentation register W315 before verification, describe the W314 immutable predecessor and hosted failure, and make no undocumented green or terminal claim.",
+    "Focused documentation regressions, cargo fmt, clippy with warnings denied, the full locked workspace test suite, and hosted CI pass from this exact branch and base."
+  ],
+  "createdAt": "2026-08-27T02:40:10Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:4a931fe1c170d0214bd83f706257c9ecc888b750f8f0aa65d95c660e5340178e",
+  "evidenceRefs": [
+    ".ai/evidence/WI-315-post-close-reconciliation-promotion-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-315-post-close-reconciliation-promotion-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-315-post-close-reconciliation-promotion-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e04aee2567af4fa208b52ade943b32deb56d6b7f9b1357f17a66d9d452f69f7d",
+      "workItemId": "WI-315-post-close-reconciliation-promotion-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-315-post-close-reconciliation-promotion-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-314-finalization-reconciliation-redelivery.recovery.a6467e390ab70fa6246d41e0b77f073a2d597472c837b81b5806bdbf48706677.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-315-post-close-reconciliation-promotion-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-315-post-close-reconciliation-promotion-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-315-post-close-reconciliation-promotion-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-315-post-close-reconciliation-promotion-recovery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-315-post-close-reconciliation-promotion-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-315-post-close-reconciliation-promotion-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-315-post-close-reconciliation-promotion-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-315-post-close-reconciliation-promotion-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-315-post-close-reconciliation-promotion-recovery.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-315-post-close-reconciliation-promotion-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-315-post-close-reconciliation-promotion-recovery.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-315-post-close-reconciliation-promotion-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-315-post-close-reconciliation-promotion-recovery.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-315-post-close-reconciliation-promotion-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/docs/promote_closed_work_item.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-315-post-close-reconciliation-promotion-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/docs/promote_closed_work_item_test.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-315-post-close-reconciliation-promotion-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-315-post-close-reconciliation-promotion-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-315-post-close-reconciliation-promotion-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-315-post-close-reconciliation-promotion-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-315-post-close-reconciliation-promotion-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-315-post-close-reconciliation-promotion-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Correct recovered-predecessor promotion semantics without rewriting immutable W314 history."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-315-post-close-reconciliation-promotion-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-315-post-close-reconciliation-promotion-recovery"
+  },
+  "taskReportDigest": "sha256:6bcca607bcba51a6e4049203e6cde29dc22fc13e7eb0bbfb376fa45915a70588",
+  "taskReportMarkdownDigest": "sha256:9958179ed8b25eb2f6248732f2712a2acf486192b59248c33d622eef8a3a9dd7",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-315-post-close-reconciliation-promotion-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-315-post-close-reconciliation-promotion-recovery"
+}

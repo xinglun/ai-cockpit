@@ -1,0 +1,151 @@
+{
+  "acceptanceResults": [
+    "W315 Contract, Summary, Outcome, Events, archive, verification, recovery, finalization, and PR #279 bytes remain unchanged.",
+    "The W316 Contract baseRevision equals the latest origin/main revision used by hosted CI, and the recovered W314/W315 correction is evaluated from that exact base.",
+    "Valid successor recovery suppresses predecessor promotion even when the predecessor close is confirmed approved; retry, malformed, foreign, and non-canonical recovery remain fail-closed.",
+    "Tri-language Work Item and reference-parity documentation register W316 before verification and preserve immutable W315 failure history.",
+    "Focused promotion/documentation regressions, cargo fmt, clippy with warnings denied, locked workspace tests, and hosted CI pass on the exact reviewed branch."
+  ],
+  "createdAt": "2026-08-27T02:57:54Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:32e84fd145c57e49cb2889cf4b3b038797bdf43b58892c15330927d608ad7a99",
+  "evidenceRefs": [
+    ".ai/evidence/WI-316-post-close-reconciliation-promotion-base-fix.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-316-post-close-reconciliation-promotion-base-fix.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-316-post-close-reconciliation-promotion-base-fix.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:508900f541921eda92bf6356e474d559d42acef84ad96b64202cae865aeae28e",
+      "workItemId": "WI-316-post-close-reconciliation-promotion-base-fix"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-316-post-close-reconciliation-promotion-base-fix.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-315-post-close-reconciliation-promotion-recovery.recovery.3d6e6dabe5791481de8e15caaf79a5034375d796e32c872ef0026c1899619bbb.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-316-post-close-reconciliation-promotion-base-fix.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-316-post-close-reconciliation-promotion-base-fix.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-316-post-close-reconciliation-promotion-base-fix.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-316-post-close-reconciliation-promotion-base-fix.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-316-post-close-reconciliation-promotion-base-fix.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-316-post-close-reconciliation-promotion-base-fix.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-316-post-close-reconciliation-promotion-base-fix.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-316-post-close-reconciliation-promotion-base-fix.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-316-post-close-reconciliation-promotion-base-fix.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-316-post-close-reconciliation-promotion-base-fix.contract.json"
+          ],
+          "inference": false,
+          "text": "Redeliver the W314/W315 corrections with an exact current CI base and immutable predecessor history."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-316-post-close-reconciliation-promotion-base-fix.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-316-post-close-reconciliation-promotion-base-fix"
+  },
+  "taskReportDigest": "sha256:3088158ed3c2ac83942d1ba9d3540984dc8dffea9ad88255d2d74ebef39a62cf",
+  "taskReportMarkdownDigest": "sha256:95e1d3a803e66c5a94a7a405e1e3124df2199c07318f470689cd849fd2de710e",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-316-post-close-reconciliation-promotion-base-fix.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-316-post-close-reconciliation-promotion-base-fix"
+}

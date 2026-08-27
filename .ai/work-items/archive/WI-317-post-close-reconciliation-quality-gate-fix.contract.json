@@ -1,0 +1,54 @@
+{
+  "acceptanceCriteria": [
+    "W316 Contract, Summary, Outcome, Events, archive, verification, recovery, and PR #280 history remain immutable.",
+    "The tri-language parity ledger reflects W312 as Implemented and W314/W315 as Recovered with exact recovery evidence paths.",
+    "The tri-language resource-finalization documentation includes the explicit finalize-verify-before-close rule.",
+    "The promotion regression assertion matches the current helper error and focused plus full repository gates pass.",
+    "The W317 delivery starts from latest origin/main, passes hosted CI, is merged only after review, and is finalized, closed, and cleaned exactly."
+  ],
+  "authority": "authorized",
+  "baseRevision": "01c4a9ff10f7ab62f1ba9c6129129a3f9c127f82",
+  "createdAt": "2026-08-27T03:11:04Z",
+  "goal": "Make the recovery/parity/resource-finalization quality gate pass from the latest remote default base.",
+  "intent": "Redeliver the bounded W316 correction with all hosted quality findings resolved and preserve immutable predecessor history.",
+  "mode": "code",
+  "outOfScope": [
+    "W316 immutable archive and failure history; unrelated runtime features; release/adopter acceptance; scheduler/parallelism/performance; global Agent/MCP configuration; V1 copying"
+  ],
+  "predecessorContractDigest": "sha256:f7e20d4da75695646a2141f08835540af24983425b375dc749f852ef69764917",
+  "predecessorWorkItemId": "WI-316-post-close-reconciliation-promotion-base-fix",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-316-post-close-reconciliation-promotion-base-fix.recovery.732a549fc74bb49d5cb487892bc40d584f16e80071bfc5c9f3789185c178efa2.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0759eac89d5532bfa48d3ea98968e52ff9c9f96291466642b710bc421524f9d2",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-317-post-close-reconciliation-quality-gate-fix",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/281",
+    "worktree": "/private/tmp/ai-cockpit-wi317-post-close-reconciliation-quality-gate-fix"
+  },
+  "risk": "medium",
+  "scope": [
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh",
+    "docs/**",
+    ".ai/**"
+  ],
+  "sources": [
+    "origin/main@01c4a9ff10f7ab62f1ba9c6129129a3f9c127f82",
+    "https://github.com/xinglun/ai-cockpit/pull/280",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/33034923064",
+    "spirex-ds-dev/ai-cockpit-template: immutable history and dynamic quality gates"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-317-post-close-reconciliation-quality-gate-fix"
+}

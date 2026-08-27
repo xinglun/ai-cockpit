@@ -1,0 +1,113 @@
+{
+  "acceptanceCriteria": [
+    "The immutable W314 delivery remains unchanged: its Contract, Summary, Outcome, Events, archive, verification, recovery, finalization, and close bytes are not rewritten or regenerated.",
+    "The closed-Work-Item promotion gate skips a predecessor only when a valid successor or supersede recovery decision is repository-bound, even when that predecessor also has a confirmed approved close; retry recovery remains a normal terminal candidate.",
+    "A regression fixture covers a confirmed approved close plus a valid successor recovery, and invalid, foreign, malformed, or retry recovery decisions are not treated as promotion exceptions.",
+    "Tri-language Work Item and reference-parity documentation register W315 before verification, describe the W314 immutable predecessor and hosted failure, and make no undocumented green or terminal claim.",
+    "Focused documentation regressions, cargo fmt, clippy with warnings denied, the full locked workspace test suite, and hosted CI pass from this exact branch and base."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1f7fe4bab160d8da97575e5c1f59b37542baa232",
+  "createdAt": "2026-08-27T02:20:02Z",
+  "goal": "Correct recovered-predecessor promotion semantics without rewriting immutable W314 history.",
+  "intent": "Resolve the W314 hosted documentation-gate failure at its source by recognizing valid successor recovery independently of the predecessor close projection.",
+  "mode": "code",
+  "outOfScope": [
+    "W314 Contract",
+    " Summary",
+    " Outcome",
+    " Events",
+    " archive",
+    " verification",
+    " recovery",
+    " finalization",
+    " close",
+    " and PR #278 bytes; they remain immutable historical failed-delivery evidence.",
+    "New Runtime lifecycle semantics",
+    " release/adopter acceptance",
+    " reference-source implementation copying",
+    " the next file-comparison batch",
+    " scheduler/parallelism/performance",
+    " global Agent/MCP configuration",
+    " and V1 runtime or template copying.",
+    "Broad promotion-gate weakening: only validated successor or supersede recovery may suppress predecessor promotion",
+    " while retry and invalid/foreign recovery remain fail-closed."
+  ],
+  "predecessorContractDigest": "sha256:a6b9115ffe44baf682a2cfb945fe2e8d64d46206944d9d588055dd3ab5c1b3ca",
+  "predecessorWorkItemId": "WI-314-finalization-reconciliation-redelivery",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-314-finalization-reconciliation-redelivery.recovery.a6467e390ab70fa6246d41e0b77f073a2d597472c837b81b5806bdbf48706677.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:15ab7981fe6cdd3ef018ad4361d85c548d4c325972c91d052db234035adaa7bb",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-315-post-close-reconciliation-promotion-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/279",
+    "worktree": "/private/tmp/ai-cockpit-wi315-post-close-reconciliation-promotion-recovery"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/docs/promote_closed_work_item_test.sh"
+      ],
+      "expected": "A repository-bound successor recovery suppresses predecessor promotion even when the predecessor close is confirmed approved.",
+      "required": true,
+      "scenario": "confirmed close with valid successor recovery",
+      "status": "unverified",
+      "verificationPlan": "Run the focused promotion regression and documentation acceptance gates."
+    },
+    {
+      "evidence": [
+        "tests/docs/promote_closed_work_item_test.sh",
+        "tests/docs/promote_closed_work_item.py"
+      ],
+      "expected": "Retry, malformed, foreign, non-canonical, or missing recovery receipts do not suppress normal promotion validation.",
+      "required": true,
+      "scenario": "invalid recovery remains fail closed",
+      "status": "unverified",
+      "verificationPlan": "Run the invalid-recovery, retry, and foreign-identity promotion regressions."
+    },
+    {
+      "evidence": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md"
+      ],
+      "expected": "W314 bytes remain unchanged and W315 is registered consistently in English, Simplified Chinese, and Japanese documentation before verification.",
+      "required": true,
+      "scenario": "immutable predecessor history and tri-language parity",
+      "status": "unverified",
+      "verificationPlan": "Run documentation acceptance and compare immutable W314 digests before and after the Work Item."
+    }
+  ],
+  "scope": [
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh",
+    "tests/docs/documentation_acceptance.sh",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-315-post-close-reconciliation-promotion-recovery.md",
+    "docs/work-items/WI-315-post-close-reconciliation-promotion-recovery.zh-CN.md",
+    "docs/work-items/WI-315-post-close-reconciliation-promotion-recovery.ja.md",
+    ".ai/decisions/WI-314-finalization-reconciliation-redelivery.recovery.*",
+    ".ai/work-items/active/WI-315-post-close-reconciliation-promotion-recovery.*",
+    ".ai/evidence/WI-315-post-close-reconciliation-promotion-recovery.verification.json"
+  ],
+  "sources": [
+    "origin/main@01c4a9ff10f7ab62f1ba9c6129129a3f9c127f82",
+    "https://github.com/xinglun/ai-cockpit/pull/278",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/33032508469",
+    "spirex-ds-dev/ai-cockpit-template: recovered predecessor and closed Work Item promotion rules"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-315-post-close-reconciliation-promotion-recovery"
+}

@@ -1,0 +1,146 @@
+{
+  "acceptanceResults": [
+    "A new close operation must fail closed when the bound resource-finalization receipt is retained, blocked, or unknown; only an identity-bound deleted finalization may satisfy the close boundary.",
+    "A post-close reconciliation path may be recorded only for an already closed Work Item whose immutable close and retained finalization receipts are valid, and it must prove the exact merged-PR, branch-deleted, and worktree-removed state.",
+    "Reconciliation must be append-only and must not rewrite, replace, or delete the historical Contract, archive, verification, close, or original finalization bytes.",
+    "Reconciliation receipts must be strict, repository- and Work-Item-bound, bind the archived Contract/close/finalization digests and Runtime identity, reject malformed, foreign, stale, symlink, replay, and incomplete cleanup inputs, and be verifiable independently.",
+    "The closed-Work-Item promotion gate must accept only a valid reconciliation exception with the same bindings and exact cleanup proof; retained finalization without reconciliation remains a failure.",
+    "CLI and Runtime lifecycle tests must cover retained-close rejection, valid post-close reconciliation, tampered or foreign receipts, and exact branch/worktree cleanup; all governance decisions remain in Rust.",
+    "Tri-language workflow and command documentation must describe cleanup-before-close as the normal order and post-close reconciliation as a bounded legacy recovery path without weakening the policy."
+  ],
+  "createdAt": "2026-08-27T01:22:13Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:ab8283361317f9f303046861a87810b28998a6c0eff737a0b93c1a6bb794ecb1",
+  "evidenceRefs": [
+    ".ai/evidence/WI-313-post-close-finalization-reconciliation.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-313-post-close-finalization-reconciliation.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-313-post-close-finalization-reconciliation.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3798dd96c48444de2e15776b464243e74a7697a1bb6d5173827451ef0db7b157",
+      "workItemId": "WI-313-post-close-finalization-reconciliation"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-313-post-close-finalization-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-313-post-close-finalization-reconciliation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-313-post-close-finalization-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-313-post-close-finalization-reconciliation.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-313-post-close-finalization-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-313-post-close-finalization-reconciliation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-313-post-close-finalization-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-313-post-close-finalization-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-313-post-close-finalization-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-313-post-close-finalization-reconciliation.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the canonical delivery order enforceable: new Work Items cannot close before provider branch/worktree cleanup is identity-bound and deleted, while the already-closed W312 record can be reconciled through a separately bound append-only receipt so CI promotion can prove cleanup without rewriting immutable history."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-313-post-close-finalization-reconciliation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-313-post-close-finalization-reconciliation"
+  },
+  "taskReportDigest": "sha256:9daab8835c8f22274b5fbb635e87a25110ab36626910670e27408d9f8505d284",
+  "taskReportMarkdownDigest": "sha256:fea5a93749834d9d90c633b025ee31443c1bf0b03a1fa2b3e906252d5eb9d082",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-313-post-close-finalization-reconciliation.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-313-post-close-finalization-reconciliation"
+}

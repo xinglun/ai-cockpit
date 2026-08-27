@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-27T03:55:44Z",
+  "files": {
+    "contractDigest": "sha256:98252ee57d26cd1c544f12e69f06067174de5ccee1c86792458d7ac49669740e",
+    "contractPath": ".ai/work-items/archive/WI-317-post-close-reconciliation-quality-gate-fix.contract.json",
+    "eventsDigest": "sha256:ef8258b2e99f312b17d5211fec65bb77023ff2f9dee76abdc6a61a85d8cf1bb8",
+    "eventsPath": ".ai/work-items/archive/WI-317-post-close-reconciliation-quality-gate-fix.events.jsonl",
+    "outcomeDigest": "sha256:5edf8a98814ebc6ef078486c9497602693fa489306cb485742f86f2f58992158",
+    "outcomePath": ".ai/work-items/archive/WI-317-post-close-reconciliation-quality-gate-fix.outcome.json",
+    "summaryDigest": "sha256:6eb8c66689d2e9e77f0c22f143ba4696b4dc301f2597072c65f9422880478f8d",
+    "summaryPath": ".ai/work-items/archive/WI-317-post-close-reconciliation-quality-gate-fix.summary.json",
+    "taskReportDigest": "sha256:ef3e948f72cf2df27fa50eae3e4ca21f362d2befeb6c71a9afd49e77b5d8b29f",
+    "taskReportMarkdownDigest": "sha256:45904a512c5226c343611a7042096a2d5c99449f1c01598dfe0ed55fca248fdb",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-317-post-close-reconciliation-quality-gate-fix.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-317-post-close-reconciliation-quality-gate-fix.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-317-post-close-reconciliation-quality-gate-fix"
+}

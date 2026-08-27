@@ -1,0 +1,80 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-315-post-close-reconciliation-promotion-recovery.recovery.3d6e6dabe5791481de8e15caaf79a5034375d796e32c872ef0026c1899619bbb.json",
+    ".ai/work-items/archive/WI-316-post-close-reconciliation-promotion-base-fix.contract.json",
+    ".ai/work-items/archive/WI-316-post-close-reconciliation-promotion-base-fix.summary.json"
+  ],
+  "checkpointAt": "2026-08-27T02:47:55Z",
+  "checkpointContractDigest": "sha256:f7e20d4da75695646a2141f08835540af24983425b375dc749f852ef69764917",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:508900f541921eda92bf6356e474d559d42acef84ad96b64202cae865aeae28e",
+  "createdAt": "2026-08-27T02:43:13Z",
+  "failedGate": "finish.verification",
+  "intentAlignment": {
+    "evidence": [
+      "https://github.com/xinglun/ai-cockpit/actions/runs/33033591839",
+      ".ai/work-items/archive/WI-315-post-close-reconciliation-promotion-recovery.archive.json"
+    ],
+    "reason": "Hosted CI directly rejected W315 because its baseRevision did not match the current pull-request base; W316 binds the current default revision while preserving W315 immutable evidence.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:57ab71d6ae84d3e3b52e116d30860d50d81bcc42a4d13320ed232cfb5934b3e1",
+  "predecessorWorkItemId": "WI-315-post-close-reconciliation-promotion-recovery",
+  "preflightAt": "2026-08-27T02:57:49Z",
+  "preflightContractDigest": "sha256:f7e20d4da75695646a2141f08835540af24983425b375dc749f852ef69764917",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:508900f541921eda92bf6356e474d559d42acef84ad96b64202cae865aeae28e",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "recoveryDecisionPath": ".ai/decisions/WI-315-post-close-reconciliation-promotion-recovery.recovery.3d6e6dabe5791481de8e15caaf79a5034375d796e32c872ef0026c1899619bbb.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/work-items/active/WI-316-post-close-reconciliation-promotion-base-fix.contract.json",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "expected": "The active Contract baseRevision equals the latest origin/main revision used by hosted pull-request CI.",
+      "required": true,
+      "scenario": "current CI base binding",
+      "status": "verified",
+      "verificationPlan": "Run the hosted Contract-aware gate and confirm it accepts the exact CI base revision."
+    },
+    {
+      "evidence": [
+        "tests/docs/promote_closed_work_item.py",
+        "tests/docs/promote_closed_work_item_test.sh"
+      ],
+      "expected": "Valid successor recovery suppresses predecessor promotion even when predecessor close is confirmed; invalid and retry recovery remain fail-closed.",
+      "required": true,
+      "scenario": "recovered promotion projection",
+      "status": "verified",
+      "verificationPlan": "Run focused promotion and documentation regressions."
+    },
+    {
+      "evidence": [
+        ".ai/work-items/archive/WI-315-post-close-reconciliation-promotion-recovery.archive.json",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md"
+      ],
+      "expected": "W315 archive bytes remain unchanged and W316 is registered consistently in English, Simplified Chinese, and Japanese documentation.",
+      "required": true,
+      "scenario": "immutable W315 history and tri-language parity",
+      "status": "verified",
+      "verificationPlan": "Run documentation acceptance and compare W315 archive manifest digests before and after."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-27T02:57:54Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-316-post-close-reconciliation-promotion-base-fix"
+}

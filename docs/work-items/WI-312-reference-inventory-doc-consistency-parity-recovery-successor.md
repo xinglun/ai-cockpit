@@ -6,7 +6,7 @@ description: "Re-deliver the manifest-derived inventory counts with prearchive t
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-312-reference-inventory-doc-consistency-parity-recovery-successor
 ---
@@ -15,10 +15,11 @@ lastVerifiedBy: WI-312-reference-inventory-doc-consistency-parity-recovery-succe
 
 ## Intent and boundary
 
-This successor re-delivers the bounded inventory documentation correction from
-the latest `origin/main`. WI-311 remains immutable historical evidence after
-the installed Runtime rejected a second completion event during recovery. This
-Work Item does not change inventory classifications or Runtime behavior.
+This immutable delivery remains historical evidence after its retained provider
+finalization could not satisfy the later cleanup gate. Its Contract, Summary,
+Outcome, Events, archive, verification, finalization, and close bytes are not
+rewritten. WI-314 is the explicit successor that redelivers the bounded
+correction and reconciliation boundary from the synchronized default branch.
 
 ## Scope and acceptance
 
@@ -33,4 +34,3 @@ the same bounded scope and `lastVerifiedBy` metadata.
 Verification uses the installed Runtime and the repository documentation and
 inventory gates. The source project remains a semantic reference, not a wire
 format or runtime dependency.
-

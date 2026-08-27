@@ -454,7 +454,7 @@ fn cli_status_changes_from_archived_to_closed_only_after_valid_close() {
         String::from_utf8_lossy(&finish.stderr)
     );
     assert!(run(&["archive", "--id", id]).status.success());
-    common::record_retained(binary, directory.path(), id);
+    common::record_deleted(binary, directory.path(), id);
     let archived_outcome = run(&["work-item", "outcome", "--id", id, "--json"]);
     assert!(archived_outcome.status.success());
     let archived_outcome_json: serde_json::Value =

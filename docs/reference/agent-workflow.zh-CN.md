@@ -114,6 +114,15 @@ history 与 checkpoint 时间绑定，旧 predecessor evidence 不能授权当�
 
 ## 资源收尾边界
 
+新的 Work Item 必须在 `close` 前完成 provider 侧 branch 与 worktree 清理；
+`retained`、`blocked` 或 `unknown` 的 finalization 结果都不是终态成功。Runtime
+在 legacy library entry point 和 Runtime-bound CLI 路径都会拒绝这种顺序。对于
+旧 Runtime 已经写入的不可变历史记录，`work-item finalize` 可以在 close 后追加一条
+绑定 identity 的 deleted transition。这只是一条有界 reconciliation：必须绑定已关闭
+root 的 digest，保留原始 close 字节，并证明 PR 已合并、branch 已删除、worktree 已
+移除。它不能授权新的 Work Item，也不会削弱正常的“清理后 close”规则。
+在资源收尾完成并通过 `finalize-verify` 之前不得 `close`。
+
 资源收尾 evidence 使用 append-only 链。canonical `<id>.finalize.json` 是不可变链根；后续 provider 观察写入 `<id>.finalize.<digest>.json`，并绑定 predecessor digest 与 sequence。归档 Contract 会冻结 `baseRevision`；任何 canonical 或 transition receipt 的 `pullRequest.baseRevision` 在记录和 `finalize-verify` 时都必须与其完全一致。归档前 rebase 必须刷新 active Contract 绑定并重新评审；归档后禁止 rebase，只能 fail closed 并走 recovery，不得改写任一记录。`finalize-verify` 和 `close` 要求唯一线性 head；stale predecessor、fork、malformed record、symlink、base 不一致或 identity drift 都会 fail closed。pre-merge blocked 链根通过连续的 merge observation（`retained`）与 cleanup（`deleted`）transition 推进。如果提交 canonical 治理 receipt 导致 PR head 前移，只有第一次 unmerged-to-merged observation 可以声明 `governanceAppendRevision`：PR、branch 与 worktree 的 head 必须同步变化，Git 必须证明旧 head 是新 head 的祖先。该追加区间可以新增同一 Work Item 的普通 finalization receipt，以及完整的 Runtime 生成 post-finalize evidence bundle；后者仅允许精确路径 `.ai/evidence/<id>/quality-route-post-finalize.json` 与 `.ai/evidence/<id>/repository-gates-post-finalize.json`。每个被接受的路径都必须是 Git `A`-only 变更，tree entry 必须是 `100644` regular blob。两个 evidence 文件必须符合固定 schema，并绑定归档 Contract、PR base、有界 head、route receipt digest、manifest digest、selected profile 和全部通过的 required gates。它们只是绑定后的观察结果，本身不授予 authority；该区间仍必须包含 finalization receipt 新增。缺少任一 bundle 文件、其他 Work Item 或文件名、malformed/duplicate-key JSON、绑定不一致、删除、修改、重命名、symlink、无关变更、非 merge 或后续 head 漂移都会被拒绝。归档 bytes 绝不重写；cleanup 必须保持已接受的 head。
 
 ## Pending parity 登记
@@ -179,9 +188,11 @@ finalize-plan → finalize → finalize-verify → close
 
 这些就是 Runtime 提供的命令。每次调用都必须显式带 `--repo`，并提交带身份绑定的
 context/receipt；Runtime 不会隐式删除资源。Work Item 只有在 verification 后才能 archive，
-只有 `finalize-verify` 接受 `Deleted` 或经明确授权的 `Retained` receipt 后才能 close。
-Archived verification evidence 保持为不可变的历史事实；Runtime 升级后不把它重新标记为当前
-结果，而是显示为历史 evidence。新的 finalization receipt 始终绑定执行 close 的 Runtime。
+且只有 `finalize-verify` 接受身份绑定的 `Deleted` receipt 后才能 close。`Retained`
+只能表示中间 merge observation 或旧记录的历史事实，不能授权新的 close；旧的已关闭记录
+只能按上文追加有限的 deleted reconciliation。Archived verification evidence 保持为不可变的
+历史事实；Runtime 升级后不把它重新标记为当前结果，而是显示为历史 evidence。新的
+finalization receipt 始终绑定执行 close 的 Runtime。
 
 结构化 close 后还必须完成受控文档 projection 与 default-branch terminal check：
 
@@ -214,9 +225,10 @@ Work Item，也不会豁免清理。发布后的 binary 必须继续执行 `fina
   branch 已删除。provider 错误、identity 不匹配或观察不完整都必须是 `unknown`，保持
   Work Item 打开以便恢复，不能作为继续执行的许可。
 - `retain` 必须是明确的人类决定，包含 owner、理由、范围和过期/复核条件。保留资源不能
-  静默变成清理成功；除非组织 policy 明确允许有界 retain 路径，否则 `close` 必须保持阻断。
-- 在 `finalize-verify` 成功（或单独授权且可审计的 retain 路径被接受）之前不得 `close`。
-  任意失败都保留 retry identity，并交付可见的 yellow/red Outcome。
+  静默变成清理成功，也不能授权新的 `close`；旧的已关闭记录只能按上文追加有限的
+  deleted reconciliation。
+- 只有 `finalize-verify` 以 `Deleted` 成功后才能 `close`。任意失败都保留 retry identity，
+  并交付可见的 yellow/red Outcome。
 
 ## Agent provider 表面
 

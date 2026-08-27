@@ -1,0 +1,81 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.recovery.json",
+    ".ai/work-items/archive/WI-314-finalization-reconciliation-redelivery.contract.json",
+    ".ai/work-items/archive/WI-314-finalization-reconciliation-redelivery.summary.json"
+  ],
+  "checkpointAt": "2026-08-27T01:45:47Z",
+  "checkpointContractDigest": "sha256:a6b9115ffe44baf682a2cfb945fe2e8d64d46206944d9d588055dd3ab5c1b3ca",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:f7b6de31d65b70a9204ead723029c7aa70620cec2f828c07b76b7846cc5ad7c4",
+  "createdAt": "2026-08-27T01:38:59Z",
+  "failedGate": "finish.governance",
+  "mode": "docs",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:acce06993ac89f421ea2cd867ecb48869bb5cb8c9051139322c29ca70c428031",
+  "predecessorWorkItemId": "WI-312-reference-inventory-doc-consistency-parity-recovery-successor",
+  "preflightAt": "2026-08-27T02:10:37Z",
+  "preflightContractDigest": "sha256:a6b9115ffe44baf682a2cfb945fe2e8d64d46206944d9d588055dd3ab5c1b3ca",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:f7b6de31d65b70a9204ead723029c7aa70620cec2f828c07b76b7846cc5ad7c4",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryDecisionPath": ".ai/decisions/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/decisions/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.recovery.json",
+        "tests/docs/work_item_status_consistency_test.sh"
+      ],
+      "expected": "W312 is recovered only through an identity-bound successor decision and no historical bytes are rewritten",
+      "required": true,
+      "scenario": "immutable W312 recovery and tri-language status projection",
+      "status": "verified",
+      "verificationPlan": "Run the Runtime recovery and tri-language status gates."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs::close_rejects_retained_finalization_before_writing_decision"
+      ],
+      "expected": "close fails closed and does not write a close decision when finalization is retained",
+      "required": true,
+      "scenario": "retained finalization rejected before close",
+      "status": "verified",
+      "verificationPlan": "Run the retained-finalization lifecycle regression."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs::post_close_reconciliation_appends_deleted_head_without_rewriting_close",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs::post_close_reconciliation_rejects_foreign_transition_runtime_identity"
+      ],
+      "expected": "a valid reconciliation binds immutable close/finalization records and malformed or foreign transitions fail closed",
+      "required": true,
+      "scenario": "append-only post-close deleted transition and tamper rejection",
+      "status": "verified",
+      "verificationPlan": "Run the finalization transition regression suite."
+    },
+    {
+      "evidence": [
+        "tests/docs/promote_closed_work_item.py",
+        "tests/docs/promote_closed_work_item_test.sh",
+        "tests/docs/work_item_status_consistency.py"
+      ],
+      "expected": "promotion/status gates accept recovered or valid reconciliation projections and reject unbound conditional rows",
+      "required": true,
+      "scenario": "promotion/status gates reject unbound conditional terminal history",
+      "status": "verified",
+      "verificationPlan": "Run the docs promotion and status consistency gates."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-27T02:10:43Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-314-finalization-reconciliation-redelivery"
+}

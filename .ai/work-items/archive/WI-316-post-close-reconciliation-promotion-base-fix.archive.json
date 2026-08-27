@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-27T02:57:59Z",
+  "files": {
+    "contractDigest": "sha256:6a3f055071621b19596d44f9f5072071897760c812d7065f9858b45d8fa6c836",
+    "contractPath": ".ai/work-items/archive/WI-316-post-close-reconciliation-promotion-base-fix.contract.json",
+    "eventsDigest": "sha256:4fa18cfe8ea891aa55a9b9713075af5212cf56abf38574bdffc23294a9364f27",
+    "eventsPath": ".ai/work-items/archive/WI-316-post-close-reconciliation-promotion-base-fix.events.jsonl",
+    "outcomeDigest": "sha256:417c116d142485ee907977b757b6679765632f1ae9c01f7a43eadf2f142775b1",
+    "outcomePath": ".ai/work-items/archive/WI-316-post-close-reconciliation-promotion-base-fix.outcome.json",
+    "summaryDigest": "sha256:a64f0daabfea3a191374ad33fa97fc93603ad8e6681525d0ddf22175c49ef0fa",
+    "summaryPath": ".ai/work-items/archive/WI-316-post-close-reconciliation-promotion-base-fix.summary.json",
+    "taskReportDigest": "sha256:3088158ed3c2ac83942d1ba9d3540984dc8dffea9ad88255d2d74ebef39a62cf",
+    "taskReportMarkdownDigest": "sha256:95e1d3a803e66c5a94a7a405e1e3124df2199c07318f470689cd849fd2de710e",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-316-post-close-reconciliation-promotion-base-fix.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-316-post-close-reconciliation-promotion-base-fix.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-316-post-close-reconciliation-promotion-base-fix"
+}
