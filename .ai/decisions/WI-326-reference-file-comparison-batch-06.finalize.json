@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "1d4401ee8976867321ad6806cf1340ad4ad2a773",
+    "name": "codex/wi-326-reference-file-comparison-batch-06",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:c373f991c77a48c6e970f10f12adc03435c79f92b7c9a68fbe064d2e5da7fc29",
+  "operationId": "github-pr-289-merge-cleanup-20260827",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "d0594aad8ae136246eb02ba366e383b0626bcf52",
+    "headRevision": "1d4401ee8976867321ad6806cf1340ad4ad2a773",
+    "mergeCommit": "a7b5a186fc767fb67122b4cae1f0fe187904bc61",
+    "number": 289,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/289"
+  },
+  "reason": "PR #289 passed all hosted checks and was merged; the exact feature branch and worktree were removed after verification.",
+  "receiptId": "github-pr-289-finalization-20260827",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-326-reference-file-comparison-batch-06",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/289",
+    "worktree": "/private/tmp/ai-cockpit-wi326-reference-file-comparison-batch-06"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-27T11:01:00Z",
+  "workItemId": "WI-326-reference-file-comparison-batch-06",
+  "worktree": {
+    "branch": "codex/wi-326-reference-file-comparison-batch-06",
+    "headRevision": "1d4401ee8976867321ad6806cf1340ad4ad2a773",
+    "path": "/private/tmp/ai-cockpit-wi326-reference-file-comparison-batch-06",
+    "worktreeId": "WI-326-reference-file-comparison-batch-06"
+  }
+}
