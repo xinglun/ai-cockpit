@@ -1,0 +1,85 @@
+{
+  "acceptanceCriteria": [
+    "Every listed reference path is read and receives exactly one evidence-backed inventory classification.",
+    "For each listed path the target counterpart or an explicit different-design or reference-only or not-applicable reason is recorded without claiming unverified equivalence.",
+    "User-facing documentation remains synchronized in English Simplified Chinese and Japanese with source-language and non-wire boundaries preserved.",
+    "Inventory and documentation count checks remain deterministic and no generated history or immutable evidence is rewritten.",
+    "The Work Item is verifiable by the declared repository gates and can remain deferred when evidence is insufficient."
+  ],
+  "authority": "authorized",
+  "baseRevision": "a90c76c13af557f017c439c8009be78b934f1c98",
+  "createdAt": "2026-08-27T23:02:58Z",
+  "goal": "完成 distribution、documentation architecture、documentation authority/context、enterprise control、external identity 这一批 10 个参考源文件的逐文件语义比对，并将有证据的结论写入 inventory 与三语 parity 文档。",
+  "intent": "逐个比对参考源中下一批文档路径，保留其治理语义并明确 Rust 工程中的对应实现、不同设计、reference-only 或 not-applicable 边界，防止对象工程能力遗漏。",
+  "mode": "implementation",
+  "outOfScope": [
+    "Rust runtime behavior outside the documentation parity gaps",
+    "Copying reference implementation code",
+    "Global Agent or MCP configuration",
+    "Later reference files not listed in this Contract",
+    "Release adopter architecture or performance changes unrelated to this batch"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:57e5571849b8b632822f95c2be8c36bfe645a44911b6a7e32fa383b4006fbf81",
+  "requiredEvidenceClasses": [
+    "verification",
+    "tests"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-342-reference-documentation-batch-13",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/306",
+    "worktree": "/private/tmp/ai-cockpit-wi342-reference-documentation-batch-13"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/**",
+    "docs/reference/distribution.ja.md",
+    "docs/reference/distribution.md",
+    "docs/reference/documentation-architecture.ja.md",
+    "docs/reference/documentation-architecture.md",
+    "docs/reference/documentation-authority-boundary.md",
+    "docs/reference/documentation-authority-registry.json",
+    "docs/reference/documentation-context-registry.json",
+    "docs/reference/enterprise-control-checklist.md",
+    "docs/reference/enterprise-control-matrix.json",
+    "docs/reference/external-identity-boundary.md",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory.py",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-342-reference-documentation-batch-13.md",
+    "docs/work-items/WI-342-reference-documentation-batch-13.zh-CN.md",
+    "docs/work-items/WI-342-reference-documentation-batch-13.ja.md"
+  ],
+  "sources": [
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/distribution.md",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/distribution.ja.md",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/documentation-architecture.md",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/documentation-architecture.ja.md",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/documentation-authority-boundary.md",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/documentation-authority-registry.json",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/documentation-context-registry.json",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/enterprise-control-checklist.md",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/enterprise-control-matrix.json",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/external-identity-boundary.md",
+    "/private/tmp/ai-cockpit-reference-e5acb677-next",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-parity.md",
+    ".ai/README.md",
+    ".ai/glossary.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-342-reference-documentation-batch-13"
+}
