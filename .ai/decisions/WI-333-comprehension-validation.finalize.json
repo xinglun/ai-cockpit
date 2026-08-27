@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "0135c3558e8533c48753f755122cd481a83e61de",
+    "name": "codex/wi-333-comprehension-validation",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:b589b8fae2fdf9ca57c00f0be71d5bf6c0afc649acd0c2522b70e949a346362a",
+  "operationId": "github-pr-297-merge-cleanup-20260828",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "176f33378ced458e0c283e23e84752ef61d8d5f7",
+    "headRevision": "0135c3558e8533c48753f755122cd481a83e61de",
+    "mergeCommit": "8ee6afd5f2795f2b489fe2421f8789743e9c7c4d",
+    "number": 297,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/297"
+  },
+  "reason": "PR #297 merged with all hosted checks passed; retain the exact branch and worktree until the deleted cleanup receipt is verified.",
+  "receiptId": "github-pr-297-finalization-retained-20260828",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-333-comprehension-validation",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/297",
+    "worktree": "/private/tmp/ai-cockpit-wi333-comprehension-validation"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-28T00:50:00+09:00",
+  "workItemId": "WI-333-comprehension-validation",
+  "worktree": {
+    "branch": "codex/wi-333-comprehension-validation",
+    "headRevision": "0135c3558e8533c48753f755122cd481a83e61de",
+    "path": "/private/tmp/ai-cockpit-wi333-comprehension-validation",
+    "worktreeId": "WI-333-comprehension-validation"
+  }
+}
