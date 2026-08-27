@@ -82,6 +82,11 @@ predecessor に明示的な `supersede` recovery decision がある場合、Outc
 これは元の evidence を保持し、現在の結果として再検証していないことを示します。
 赤い失敗でも緑の認可でもありません。
 
+resource context を持つ通常の archived Work Item で provider finalization
+receipt が欠落または無効な場合、Outcome は stable unknown
+`resource_finalization_pending` を追加し、green/verified にはなりません。
+この receipt は repository verification とは別の provider-side 境界です。
+
 CLI の直接出力は `AI_COCKPIT_LANGUAGE`、次にプロセス locale を使用します。Agent
 の会話では利用者の言語で同じ handoff を表示します。JSON のフィールド名と enum
 値は言語に依存せず安定しています。

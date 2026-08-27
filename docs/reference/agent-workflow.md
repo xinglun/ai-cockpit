@@ -142,6 +142,9 @@ appends Contract-amendment evidence without replacing `before_edit`. After
 verification it invalidates prior required checks and requires fresh preflight
 and verification. Resume history is checked against checkpoint timestamps, so
 stale predecessor evidence cannot authorize a current Work Item.
+For repositories created before typed checkpoint evidence, an amendment may
+deterministically upgrade the stored legacy checkpoint identity fields into a
+typed `before_edit` entry; it does not infer intent, authority, or verification.
 
 Checkpoint snapshots are intentionally temporal. A valid `before_edit` or
 amendment entry records the repository state at that authorization boundary and
@@ -228,6 +231,15 @@ ambiguous candidate produces the stable `recovery_decision_invalid` boundary
 and cannot move active artifacts. Historical archived records keep their
 immutable bytes and historical projection; this current-read rule does not
 retroactively rewrite or reclassify them.
+
+An archived Work Item whose manifest is still `archived` may receive a valid,
+append-only `supersede` recovery decision after the original archive (for
+example when the provider's PR base cannot be reconciled with the frozen
+Contract base). The Runtime may then close that predecessor through the
+explicit recovery path without rewriting the archive manifest or its artifact
+bytes. A normal archived Work Item with a bound resource context but no valid
+provider finalization receipt remains yellow/not-ready; an invalid recovery
+candidate is never allowed to bypass that finalization gate.
 
 Recovery receipts are an append-only chain. When the canonical
 `<id>.recovery.json` is an earlier retry, CI resolves valid digest-suffixed

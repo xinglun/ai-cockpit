@@ -55,6 +55,7 @@ Rust Runtime 与本仓库的 Protocol 词汇。
   verification 或 release 已完成。缺失、过期、foreign、格式错误或符号链接 receipt 都必须保持停止。
 - review receipt 采用 append-only 方式。Contract 或 repository snapshot 变化后，新的 receipt 写入带 digest 后缀的 decision path；旧 receipt 保留为历史 evidence，绝不覆盖。`work-item recover` 记录独立且严格的 `retry`、`successor` 或 `supersede` decision，并绑定 predecessor 的 Contract/Summary/Outcome/event digest 与当前 Runtime。`supersede` 要求已绑定 successor，并将 predecessor 归档为明确的历史终态，保持原始 bytes 不变；它不会让 verification 自动变绿，也不会重写 predecessor。被替代项既不是当前成功也不是当前失败，后续由 successor 负责。
 - Recovery receipt 是 append-only 链。当 canonical `<id>.recovery.json` 只是较早的 retry 时，CI 会解析有效的 digest-suffixed `<id>.recovery.<digest>.json` successor/supersession receipt，并在每个 parity 投影中绑定选中的路径。候选无效或有歧义时保持 fail-closed；gate 不会把 retry 当作 terminal successor。当 retry 的 predecessor Contract、Summary、Outcome 或 Events digest 在新鲜验证后不再匹配归档记录时，CI 会将其视为已消费的历史证据，并继续检查真正的 finalization decision。绑定仍然匹配且 Summary 明确为 blocked 的 retry 仍是当前 recovery 边界。
+- 归档 manifest 仍为 `archived` 的 Work Item，也可以在原始 archive 之后追加一个有效的 `supersede` recovery decision（例如 provider PR base 无法与冻结的 Contract base 对齐）。Runtime 随后可以通过显式 recovery 路径关闭 predecessor，但不得改写 archive manifest 或任何归档 artifact bytes。普通 archived Work Item 如果绑定了 resource context 却没有有效的 provider finalization receipt，Outcome 必须保持 yellow/not-ready；无效 recovery candidate 绝不能绕过这个 finalization gate。
 - 只能在实现后才能执行的高风险必需 scenario，可以在 Contract `scenarioCoverage` 中保持 `unverified`，
   但必须同时提供非空 `expected`（或 `expectedResult`）和具体 `verificationPlan`。这只是实现计划证据，
   不是完成证据；Summary scenario guard 与 `finish` 仍然要求真实执行 evidence。
@@ -107,6 +108,8 @@ required verification 声明会在 preflight、verify、finish、archive、close
 Contract amendment evidence，不替换 `before_edit`；verification 开始后会使旧
 required checks 失效，并要求新的 preflight 与 verification。Runtime 会将 resume
 history 与 checkpoint 时间绑定，旧 predecessor evidence 不能授权当前 Work Item。
+对于 typed checkpoint evidence 引入前创建的 repository，amendment 可以依据已保存的旧 checkpoint
+身份字段确定性升级出 typed `before_edit` entry；这不会推断 intent、authority 或 verification。
 
 Checkpoint 快照具有明确的时间语义。有效的 `before_edit` 或 amendment 记录
 的是授权边界当时的仓库状态；完成授权编辑并重新 preflight 后，它可以早于当前
