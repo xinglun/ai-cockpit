@@ -1,0 +1,149 @@
+{
+  "acceptanceResults": [
+    "W316 Contract, Summary, Outcome, Events, archive, verification, recovery, and PR #280 history remain immutable.",
+    "The tri-language parity ledger reflects W312 as Implemented and W314/W315 as Recovered with exact recovery evidence paths.",
+    "The tri-language resource-finalization documentation includes the explicit finalize-verify-before-close rule.",
+    "The promotion regression assertion matches the current helper error and focused plus full repository gates pass.",
+    "The W317 delivery starts from latest origin/main, passes hosted CI, is merged only after review, and is finalized, closed, and cleaned exactly."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-317-post-close-reconciliation-quality-gate-fix.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-317-post-close-reconciliation-quality-gate-fix.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2b87df99b4f89a6d18014f555b14eabf5017af7b857d7cfebd595c6a5ac980d8",
+      "workItemId": "WI-317-post-close-reconciliation-quality-gate-fix"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-317-post-close-reconciliation-quality-gate-fix.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-316-post-close-reconciliation-promotion-base-fix.recovery.732a549fc74bb49d5cb487892bc40d584f16e80071bfc5c9f3789185c178efa2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-317-post-close-reconciliation-quality-gate-fix.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-317-post-close-reconciliation-quality-gate-fix.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-317-post-close-reconciliation-quality-gate-fix.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-317-post-close-reconciliation-quality-gate-fix.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-317-post-close-reconciliation-quality-gate-fix.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-317-post-close-reconciliation-quality-gate-fix.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-317-post-close-reconciliation-quality-gate-fix.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-317-post-close-reconciliation-quality-gate-fix.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-317-post-close-reconciliation-quality-gate-fix.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-317-post-close-reconciliation-quality-gate-fix.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the recovery/parity/resource-finalization quality gate pass from the latest remote default base."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-317-post-close-reconciliation-quality-gate-fix.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-317-post-close-reconciliation-quality-gate-fix"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-317-post-close-reconciliation-quality-gate-fix.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-317-post-close-reconciliation-quality-gate-fix"
+}

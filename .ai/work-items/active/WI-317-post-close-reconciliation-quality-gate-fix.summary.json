@@ -9,7 +9,9 @@
   "checkpointCount": 1,
   "checkpointRepositorySnapshotDigest": "sha256:2b87df99b4f89a6d18014f555b14eabf5017af7b857d7cfebd595c6a5ac980d8",
   "createdAt": "2026-08-27T03:11:04Z",
+  "failedGate": "finish.governance",
   "mode": "code",
+  "outcomeState": "blocked",
   "predecessorContractDigest": "sha256:f7e20d4da75695646a2141f08835540af24983425b375dc749f852ef69764917",
   "predecessorWorkItemId": "WI-316-post-close-reconciliation-promotion-base-fix",
   "preflightAt": "2026-08-27T03:45:06Z",
@@ -18,10 +20,11 @@
   "preflightRepositorySnapshotDigest": "sha256:2b87df99b4f89a6d18014f555b14eabf5017af7b857d7cfebd595c6a5ac980d8",
   "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "recoveryDecisionPath": ".ai/decisions/WI-316-post-close-reconciliation-promotion-base-fix.recovery.732a549fc74bb49d5cb487892bc40d584f16e80071bfc5c9f3789185c178efa2.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
-  "updatedAt": "2026-08-27T03:29:42Z",
+  "updatedAt": "2026-08-27T03:45:26Z",
   "verification": [
     {
       "check": "project-command-0",
