@@ -6,9 +6,13 @@ description: "在验证前绑定真实 reviewed provider 身份，重新交付 W
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-335-provider-finalization-correction
+terminalArchive: .ai/work-items/archive/WI-335-provider-finalization-correction.contract.json
+terminalVerification: .ai/evidence/WI-335-provider-finalization-correction.verification.json
+terminalFinalization: .ai/decisions/WI-335-provider-finalization-correction.finalize.ba4e6148c90ef176ea251397fe70c446779d1a7612d9442fd87db79dc4dee90e.json
+terminalDecision: .ai/decisions/WI-335-provider-finalization-correction.close.json
 ---
 
 # WI-335——Provider finalization 修正
