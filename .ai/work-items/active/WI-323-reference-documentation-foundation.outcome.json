@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "Read and semantically compare each of the nine pinned reference documentation paths in this batch; record an explicit Rust counterpart or a bounded reference-only decision for every path.",
+    "Update the inventory generator and generated ledger so exactly these nine paths leave deferred-next-batch with a non-empty, evidence-backed classification and no migrate-gap is hidden.",
+    "Synchronize the English, Simplified Chinese, and Japanese comparison documentation, including the source-only Make/Python/demo boundaries, shared Runtime versus repository-local state, explicit --repo usage, and the adopter-facing reading route.",
+    "Expand the tri-language Human Benefit Report feature pages with the Rust CLI/MCP handoff route, stable machine versus human output boundary, ordered human sections, evidence-count semantics, stale or malformed evidence stop behavior, and the contract-language preservation rule.",
+    "Add a tri-language, reader-facing WI-323 Work Item record that states the compared files, decisions, sources, scope, verification, and object/adopter boundary.",
+    "Record the user-provided Cursor adopter feedback as an external observation: current stdout JSON, repository entry gates, and start-before-edit checks are implemented; agent-host conversation display, recovery guidance, and diagnostic ergonomics remain presentation or bounded follow-up concerns and are not overclaimed as source parity.",
+    "Do not copy source Python, Make targets, installers, YAML/JSON wire formats, or the offline shell demo into the Rust Runtime; document semantic/non-wire parity and the object/adopter boundary instead."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-323-reference-documentation-foundation.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-323-reference-documentation-foundation.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1c6ade73846437441aa9e2accf41b86328b7a724b1cc1f8dc020f66bac1a7ce4",
+      "workItemId": "WI-323-reference-documentation-foundation"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-323-reference-documentation-foundation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-323-reference-documentation-foundation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-323-reference-documentation-foundation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-323-reference-documentation-foundation.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-323-reference-documentation-foundation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-323-reference-documentation-foundation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-323-reference-documentation-foundation.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-323-reference-documentation-foundation.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-323-reference-documentation-foundation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-323-reference-documentation-foundation.contract.json"
+          ],
+          "inference": false,
+          "text": "Close the next nine pinned reference documentation comparisons and make their Rust-native adopter and Agent boundaries explicit."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-323-reference-documentation-foundation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-323-reference-documentation-foundation"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-323-reference-documentation-foundation.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-323-reference-documentation-foundation"
+}

@@ -1,0 +1,83 @@
+{
+  "acceptanceCriteria": [
+    "Read and semantically compare each of the nine pinned reference documentation paths in this batch; record an explicit Rust counterpart or a bounded reference-only decision for every path.",
+    "Update the inventory generator and generated ledger so exactly these nine paths leave deferred-next-batch with a non-empty, evidence-backed classification and no migrate-gap is hidden.",
+    "Synchronize the English, Simplified Chinese, and Japanese comparison documentation, including the source-only Make/Python/demo boundaries, shared Runtime versus repository-local state, explicit --repo usage, and the adopter-facing reading route.",
+    "Expand the tri-language Human Benefit Report feature pages with the Rust CLI/MCP handoff route, stable machine versus human output boundary, ordered human sections, evidence-count semantics, stale or malformed evidence stop behavior, and the contract-language preservation rule.",
+    "Add a tri-language, reader-facing WI-323 Work Item record that states the compared files, decisions, sources, scope, verification, and object/adopter boundary.",
+    "Record the user-provided Cursor adopter feedback as an external observation: current stdout JSON, repository entry gates, and start-before-edit checks are implemented; agent-host conversation display, recovery guidance, and diagnostic ergonomics remain presentation or bounded follow-up concerns and are not overclaimed as source parity.",
+    "Do not copy source Python, Make targets, installers, YAML/JSON wire formats, or the offline shell demo into the Rust Runtime; document semantic/non-wire parity and the object/adopter boundary instead."
+  ],
+  "authority": "authorized",
+  "baseRevision": "290b5982dec60d0e5603b982d2407f4b6656bbf4",
+  "createdAt": "2026-08-27T08:18:41Z",
+  "goal": "Close the next nine pinned reference documentation comparisons and make their Rust-native adopter and Agent boundaries explicit.",
+  "intent": "Compare the next bounded set of reference documentation files one by one, preserve the useful governance semantics for both this repository and future adopter repositories, and use the Cursor adopter feedback to distinguish implemented Runtime behavior from host-presentation follow-up without expanding scope.",
+  "mode": "code",
+  "outOfScope": [
+    "New Runtime lifecycle",
+    " Outcome",
+    " MCP",
+    " controls",
+    " close-gap",
+    " or diagnostic commands; functional gaps from the Cursor feedback remain separately bounded unless documentation alone resolves the ambiguity.",
+    "Copying or executing reference Python",
+    " Makefile",
+    " installer",
+    " YAML/JSON wire files",
+    " or the trust-layer demo script.",
+    "Release",
+    " CI workflow convergence",
+    " second-technology adopter acceptance",
+    " global Agent/MCP configuration",
+    " and architecture splitting.",
+    "Rewriting historical Work Item",
+    " evidence",
+    " archive",
+    " or decision bytes."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:553a884771c0bc432c571a9c8f32ed8a65581c74bdf0421f3abfa3c85ac791b1",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-323-reference-documentation-foundation",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi323-reference-documentation-foundation"
+  },
+  "risk": "low",
+  "scope": [
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/features/human-benefit-report.md",
+    "docs/features/human-benefit-report.zh-CN.md",
+    "docs/features/human-benefit-report.ja.md",
+    "docs/work-items/WI-323-reference-documentation-foundation.md",
+    "docs/work-items/WI-323-reference-documentation-foundation.zh-CN.md",
+    "docs/work-items/WI-323-reference-documentation-foundation.ja.md"
+  ],
+  "sources": [
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf",
+    "https://github.com/xinglun/ai-cockpit@290b5982dec60d0e5603b982d2407f4b6656bbf4",
+    "user-provided Cursor adopter feedback (2026-08-27)"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/conformance/reference_file_inventory.py --check",
+    "bash tests/conformance/reference_file_inventory_test.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/getting_started_semantic.sh",
+    "git diff --check"
+  ],
+  "workItemId": "WI-323-reference-documentation-foundation"
+}
