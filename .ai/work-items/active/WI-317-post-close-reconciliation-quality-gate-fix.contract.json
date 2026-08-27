@@ -33,7 +33,7 @@
     "pullRequest": "unknown",
     "worktree": "/private/tmp/ai-cockpit-wi317-post-close-reconciliation-quality-gate-fix"
   },
-  "risk": "high",
+  "risk": "medium",
   "scope": [
     "tests/docs/promote_closed_work_item.py",
     "tests/docs/promote_closed_work_item_test.sh",
