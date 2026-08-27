@@ -4,9 +4,13 @@ title: "WI-342——参考文档、分发与企业边界"
 workItemId: WI-342-reference-documentation-batch-13
 description: "逐一比对固定参考源的下一批十个路径，记录有证据的 Rust 对应物，不复制源历史或 wire 格式。"
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-342-reference-documentation-batch-13
+terminalArchive: .ai/work-items/archive/WI-342-reference-documentation-batch-13.contract.json
+terminalVerification: .ai/evidence/WI-342-reference-documentation-batch-13.verification.json
+terminalFinalization: .ai/decisions/WI-342-reference-documentation-batch-13.finalize.json
+terminalDecision: .ai/decisions/WI-342-reference-documentation-batch-13.close.json
 capabilityClaims:
   - reference_parity
 ---

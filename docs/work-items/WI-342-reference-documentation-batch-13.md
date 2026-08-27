@@ -4,9 +4,13 @@ title: "WI-342 — reference documentation, distribution, and enterprise boundar
 workItemId: WI-342-reference-documentation-batch-13
 description: "Compare the next ten pinned reference paths one by one and record evidence-backed Rust counterparts without copying source history or wire formats."
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-342-reference-documentation-batch-13
+terminalArchive: .ai/work-items/archive/WI-342-reference-documentation-batch-13.contract.json
+terminalVerification: .ai/evidence/WI-342-reference-documentation-batch-13.verification.json
+terminalFinalization: .ai/decisions/WI-342-reference-documentation-batch-13.finalize.json
+terminalDecision: .ai/decisions/WI-342-reference-documentation-batch-13.close.json
 capabilityClaims:
   - reference_parity
 ---
