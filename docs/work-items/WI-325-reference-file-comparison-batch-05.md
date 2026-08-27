@@ -6,9 +6,13 @@ description: "Compare the next nine pinned reference documentation paths and reg
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-325-reference-file-comparison-batch-05
+terminalArchive: .ai/work-items/archive/WI-325-reference-file-comparison-batch-05.contract.json
+terminalVerification: .ai/evidence/WI-325-reference-file-comparison-batch-05.verification.json
+terminalFinalization: .ai/decisions/WI-325-reference-file-comparison-batch-05.finalize.json
+terminalDecision: .ai/decisions/WI-325-reference-file-comparison-batch-05.close.json
 ---
 
 # WI-325 — reference file comparison batch 05

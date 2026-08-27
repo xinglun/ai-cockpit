@@ -6,9 +6,13 @@ description: "逐个对比 pinned 参考源的九个文档路径，并登记 Rus
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-325-reference-file-comparison-batch-05
+terminalArchive: .ai/work-items/archive/WI-325-reference-file-comparison-batch-05.contract.json
+terminalVerification: .ai/evidence/WI-325-reference-file-comparison-batch-05.verification.json
+terminalFinalization: .ai/decisions/WI-325-reference-file-comparison-batch-05.finalize.json
+terminalDecision: .ai/decisions/WI-325-reference-file-comparison-batch-05.close.json
 ---
 
 # WI-325——参考源文件对比批次 05
