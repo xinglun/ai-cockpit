@@ -31247,58 +31247,37 @@
     {
       "referencePath": "docs/reference/cross-wi-integration.md",
       "batch": "later-batch",
-      "classification": "reference-only",
-      "rustCounterparts": [
-        "docs/reference/reference-parity.md",
-        "docs/reference/outcome-report.md",
-        "crates/cockpit-repository/src/lib.rs"
-      ],
-      "reason": "The source is an advisory aggregate report over that repository's historical WI-04..WI-13 bundles and its conversation UI receipt is not observable. Rust keeps each Work Item's immutable archive and human Outcome authoritative; no source-specific cross-WI report command is shipped or claimed."
+      "classification": "deferred-next-batch",
+      "rustCounterparts": [],
+      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
       "referencePath": "docs/reference/dependabot-intake.md",
       "batch": "later-batch",
-      "classification": "not-applicable",
-      "rustCounterparts": [
-        "docs/reference/ci-release-evidence.md",
-        "docs/security/enterprise-governance.md",
-        "crates/cockpit-repository/src/lib.rs"
-      ],
-      "reason": "Dependabot bot-branch intake is provider-specific automation outside the Runtime product boundary. Rust accepts explicitly bound external provider evidence and fresh Work Item source context, but does not own or authorize a Dependabot branch."
+      "classification": "deferred-next-batch",
+      "rustCounterparts": [],
+      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
       "referencePath": "docs/reference/deprecated-assets-registry.json",
       "batch": "later-batch",
-      "classification": "reference-only",
-      "rustCounterparts": [
-        ".ai/README.md",
-        "docs/reference/agent-workflow.md",
-        "docs/reference/reference-file-comparison.md"
-      ],
-      "reason": "The registry is a source-specific current-facing command-chain scan and deletion-candidate list. Rust preserves immutable history and requires an explicit reviewed Work Item for cleanup, but has no equivalent registry or source Make command."
+      "classification": "deferred-next-batch",
+      "rustCounterparts": [],
+      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
       "referencePath": "docs/reference/deprecated-assets.md",
       "batch": "later-batch",
-      "classification": "reference-only",
-      "rustCounterparts": [
-        ".ai/README.md",
-        "docs/reference/agent-workflow.md",
-        "docs/reference/verification-semantics.md"
-      ],
-      "reason": "The explanatory registry hygiene and obsolete Make-chain guard remain reference guidance. Rust's explicit --repo lifecycle, immutable archive boundary, and exact resource finalization provide the adopted safety rule without claiming the source scan or deletion command."
+      "classification": "deferred-next-batch",
+      "rustCounterparts": [],
+      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
       "referencePath": "docs/reference/derived-artifacts.md",
       "batch": "later-batch",
-      "classification": "implemented-different-by-design",
-      "rustCounterparts": [
-        "docs/reference/outcome-report.md",
-        "docs/reference/verification-semantics.md",
-        ".ai/README.md",
-        "crates/cockpit-repository/src/lib.rs"
-      ],
-      "reason": "The fact-versus-view authority boundary is enforced by typed Runtime Contract, evidence, archive, status, and Outcome projections. Rust deliberately has no source registry file or Python generator; derived views are never read back as governance facts."
+      "classification": "deferred-next-batch",
+      "rustCounterparts": [],
+      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
     },
     {
       "referencePath": "docs/reference/diff-bound-evidence-reuse.md",
@@ -31314,66 +31293,122 @@
     },
     {
       "referencePath": "docs/reference/distribution.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-342-reference-documentation-batch-13",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/release/distribution.ja.md",
+        "docs/release/distribution.zh-CN.md",
+        "docs/release/distribution.md",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh"
+      ],
+      "reason": "The Japanese source distribution route is preserved in the target's tri-language release/distribution pages and public/N-1 acceptance harness. Target-specific Rust Runtime and repository binding semantics replace source Make/Python installer details without claiming byte or wire parity."
     },
     {
       "referencePath": "docs/reference/distribution.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-342-reference-documentation-batch-13",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/release/distribution.md",
+        "docs/release/distribution.zh-CN.md",
+        "docs/release/distribution.ja.md",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh"
+      ],
+      "reason": "The source distribution reference is represented by the target's release/distribution route and immutable public/N-1 adopter acceptance harness. Rust documents explicit shared-Runtime installation, repository binding, checksum/SBOM/provenance and cleanup boundaries; source Make/Python commands and source release bytes are not copied."
     },
     {
       "referencePath": "docs/reference/documentation-architecture.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-342-reference-documentation-batch-13",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/current/README.ja.md",
+        "docs/getting-started/README.ja.md",
+        "docs/reference/README.ja.md",
+        "docs/reference/reference-file-comparison.ja.md",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "reason": "The Japanese source reader map and layer ownership are represented by the target Japanese current/getting-started/reference routes and shared tri-language acceptance checks. The source navigation prose is not a Runtime authority file; repository-local .ai instructions and explicit Rust pages remain the boundary."
     },
     {
       "referencePath": "docs/reference/documentation-architecture.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-342-reference-documentation-batch-13",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/current/README.md",
+        "docs/getting-started/README.md",
+        "docs/reference/README.md",
+        "docs/reference/reference-file-comparison.md",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "reason": "The source documentation layers, reader-criticality, canonical ownership, multilingual map, and split rules are represented by the target current/getting-started/reference routes, tri-language acceptance checks, and explicit parity ledger. The target keeps the installed Runtime and repository-local .ai read set as authority; source make/Python documentation tooling is not copied."
     },
     {
       "referencePath": "docs/reference/documentation-authority-boundary.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-342-reference-documentation-batch-13",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/current/README.md",
+        "docs/current/README.zh-CN.md",
+        "docs/current/README.ja.md",
+        ".ai/README.md",
+        "AGENTS.md",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "reason": "The target preserves the source separation between current instructions, supporting reference pages, and historical records through the repository-owned .ai read set, AGENTS.md, current/reference routes, frontmatter, and documentation acceptance. It intentionally has no second generic authority router or source-specific Python command."
     },
     {
       "referencePath": "docs/reference/documentation-authority-registry.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-342-reference-documentation-batch-13",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/current/README.md",
+        "docs/current/README.zh-CN.md",
+        "docs/current/README.ja.md",
+        "docs/reference/README.md",
+        "docs/reference/README.zh-CN.md",
+        "docs/reference/README.ja.md",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "reason": "The source machine-readable authority/topic registry is replaced by explicit target current/reference navigation, frontmatter authority/status metadata, tri-language route checks, and the .ai/AGENTS read boundary. No source topic inventory is treated as Runtime capability or copied as a global Agent configuration."
     },
     {
       "referencePath": "docs/reference/documentation-context-registry.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-342-reference-documentation-batch-13",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/current/README.md",
+        "docs/reference/README.md",
+        ".ai/README.md",
+        ".ai/glossary.md",
+        "docs/reference/reference-file-comparison.md"
+      ],
+      "reason": "The source registry classifies source-specific plans and historical records. Those context labels are not portable adopter evidence or Runtime authority. The target explicitly keeps current instructions in .ai/README.md and AGENTS.md, reference pages opt-in, and Work Item/archive records immutable; no source plan registry is copied."
     },
     {
       "referencePath": "docs/reference/enterprise-control-checklist.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-342-reference-documentation-batch-13",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/security/enterprise-governance.md",
+        "docs/security/enterprise-governance.zh-CN.md",
+        "docs/security/enterprise-governance.ja.md",
+        "docs/security/enterprise-deployment-boundary.md",
+        "docs/getting-started/adopter-configuration.md"
+      ],
+      "reason": "The source adopter checklist is represented by the target enterprise-governance, deployment-boundary, and adopter-configuration routes. Rust distinguishes repository facts, delegated provider evidence, retention/audit responsibilities, and non-certification claims; a checklist row never becomes enterprise approval by presence alone."
     },
     {
       "referencePath": "docs/reference/enterprise-control-matrix.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-342-reference-documentation-batch-13",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/security/enterprise-governance.md",
+        "docs/security/enterprise-deployment-boundary.md",
+        "docs/getting-started/adopter-configuration.md",
+        "docs/reference/reference-file-comparison.md"
+      ],
+      "reason": "The source JSON is an observed-control inventory owned by the reference adopter context, not a portable compliance result. The target documents the same external-control boundary and imports typed delegated evidence when supplied, but does not copy source not_verified rows or infer organization state."
     },
     {
       "referencePath": "docs/reference/environment-bound-reuse.md",
@@ -31400,10 +31435,17 @@
     },
     {
       "referencePath": "docs/reference/external-identity-boundary.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-342-reference-documentation-batch-13",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/security/enterprise-governance.md",
+        "docs/security/enterprise-governance.zh-CN.md",
+        "docs/security/enterprise-governance.ja.md",
+        "docs/reference/contract-fields.md",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/tests/contract_v2.rs"
+      ],
+      "reason": "The source identity levels and approval boundary are implemented through typed Rust authority/approval evidence, policy precedence, external delegated evidence, and tri-language enterprise documentation. Repository declarations never authenticate a person; provider and enterprise assurance remain external and must be bound explicitly."
     },
     {
       "referencePath": "docs/reference/failure-recovery-usability.md",
