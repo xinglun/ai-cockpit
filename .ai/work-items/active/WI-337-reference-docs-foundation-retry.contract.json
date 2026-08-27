@@ -1,0 +1,87 @@
+{
+  "acceptanceCriteria": [
+    "Each pinned reference file is compared and recorded with explicit classification Rust counterparts and reason.",
+    "Tri-language comparison and parity documents state the semantic boundary without unsupported commands or capabilities.",
+    "Derived-artifact authority is documented without adding a second runtime authority or copying source implementation.",
+    "Provider and history-only behavior is explicitly classified and no unsupported parity is claimed.",
+    "Inventory documentation parity and workspace verification commands pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "b9efcd6847560eac9056c96f0229617a253ddab9",
+  "checkpointPolicy": {
+    "profile": "standard",
+    "requiredBeforeFinish": true,
+    "requiredChecks": [],
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "schemaVersion": 1
+  },
+  "createdAt": "2026-08-27T18:34:47Z",
+  "goal": "Complete the first bounded file-by-file semantic comparison batch for reference governance documentation without copying V1 runtime implementation.",
+  "intent": "Establish an auditable Rust-native mapping for the first five deferred reference documentation files so the remaining comparison ledger converges without claiming unsupported parity.",
+  "mode": "code",
+  "outOfScope": [
+    "Reference Python scripts",
+    "Make targets",
+    "V1 runtime modules",
+    "Source archive and history records",
+    "New cross-WI report engine",
+    "Dependabot provider integration",
+    "Deprecated-assets deletion workflow",
+    "Generic derived-artifact registry",
+    "Rust Core architecture",
+    "CI release adopter workflows",
+    "Scheduler and performance behavior",
+    "Global Agent and MCP configuration",
+    "Rewriting immutable historical records"
+  ],
+  "predecessorContractDigest": "sha256:2b7367ad07f457acb1787d1bfcbb41b14ba317c4a99656e731fc3660aec41563",
+  "predecessorWorkItemId": "WI-336-reference-docs-foundation",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-336-reference-docs-foundation.recovery.e7ccd6381b1492fd0ba72be8c7305217748f03d9c7509a7c58db693e8ba13261.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:aa0f32dd4f02846629dca98b9ee335d1ecedebf899ebbc9ab97ce1c326553682",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-336-reference-docs-foundation",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/300",
+    "worktree": "/private/tmp/ai-cockpit-wi336-reference-docs-foundation"
+  },
+  "risk": "low",
+  "scope": [
+    "tests/conformance/reference_file_inventory.json",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-337-reference-docs-foundation-retry.md",
+    "docs/work-items/WI-337-reference-docs-foundation-retry.zh-CN.md",
+    "docs/work-items/WI-337-reference-docs-foundation-retry.ja.md"
+  ],
+  "sources": [
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/blob/e5acb677da6621004d96f0ef353c58fe8d3acfbf/docs/reference/cross-wi-integration.md",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/blob/e5acb677da6621004d96f0ef353c58fe8d3acfbf/docs/reference/dependabot-intake.md",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/blob/e5acb677da6621004d96f0ef353c58fe8d3acfbf/docs/reference/deprecated-assets-registry.json",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/blob/e5acb677da6621004d96f0ef353c58fe8d3acfbf/docs/reference/deprecated-assets.md",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/blob/e5acb677da6621004d96f0ef353c58fe8d3acfbf/docs/reference/derived-artifacts.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-parity.md",
+    ".ai/README.md",
+    ".ai/glossary.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-337-reference-docs-foundation-retry"
+}

@@ -60,11 +60,25 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-336-reference-docs-foundation"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:2b7367ad07f457acb1787d1bfcbb41b14ba317c4a99656e731fc3660aec41563",
+      "recorded": true,
+      "recordedAt": "2026-08-27T18:31:01Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:aa0f32dd4f02846629dca98b9ee335d1ecedebf899ebbc9ab97ce1c326553682",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_finish",
+      "unknownCount": 0,
+      "workItemId": "WI-336-reference-docs-foundation"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:aa0f32dd4f02846629dca98b9ee335d1ecedebf899ebbc9ab97ce1c326553682",
   "createdAt": "2026-08-27T17:29:33Z",
-  "failedGate": "finish.governance",
+  "failedGate": "finish.verification",
   "mode": "code",
   "outcomeState": "blocked",
   "preflightAt": "2026-08-27T18:30:47Z",
@@ -73,11 +87,11 @@
   "preflightRepositorySnapshotDigest": "sha256:aa0f32dd4f02846629dca98b9ee335d1ecedebf899ebbc9ab97ce1c326553682",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
   "recoveryRetryPending": true,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
-  "updatedAt": "2026-08-27T18:23:34Z",
+  "updatedAt": "2026-08-27T18:31:01Z",
   "verification": [
     {
       "check": "project-command-0",

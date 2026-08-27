@@ -10,7 +10,7 @@
   "evidenceRefs": [
     ".ai/evidence/WI-336-reference-docs-foundation.verification.json"
   ],
-  "failedGate": "finish.governance",
+  "failedGate": "finish.verification",
   "humanBenefitReport": {
     "affectedUsers": [],
     "evidenceRefs": [],
@@ -21,7 +21,7 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
   "state": "blocked",
@@ -35,10 +35,10 @@
       "repositorySnapshotDigest": "sha256:aa0f32dd4f02846629dca98b9ee335d1ecedebf899ebbc9ab97ce1c326553682",
       "workItemId": "WI-336-reference-docs-foundation"
     },
-    "failedGate": "finish.governance",
+    "failedGate": "finish.verification",
     "format": "ai-cockpit.task-outcome",
     "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
