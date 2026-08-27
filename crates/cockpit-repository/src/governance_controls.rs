@@ -97,7 +97,16 @@ pub fn validate_checkpoint_evidence_bindings(
                 if entry.work_item_id != contract.work_item_id {
                     errors.push("checkpoint_evidence_work_item_identity_mismatch".into());
                 }
-                if entry.repository_snapshot_digest.to_string() != expected_snapshot_digest {
+                // `before_edit` and amendment records are historical points
+                // in the append-only lifecycle.  An authorized edit (or
+                // amendment) necessarily changes the repository snapshot, so
+                // requiring those entries to equal the terminal snapshot
+                // would reject the normal edit -> re-preflight -> verify
+                // path.  Only `before_finish` is a terminal authorization and
+                // must bind the snapshot supplied by the caller.
+                if entry.stage == "before_finish"
+                    && entry.repository_snapshot_digest.to_string() != expected_snapshot_digest
+                {
                     errors.push("checkpoint_evidence_snapshot_stale".into());
                 }
                 entries.push(entry);

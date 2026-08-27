@@ -117,6 +117,13 @@ verification 開始後は既存 required check を無効化し、fresh preflight
 verification を要求します。resume history と checkpoint timestamp も bind され、
 stale predecessor evidence は current Work Item を authorize できません。
 
+Checkpoint snapshot には時間的な意味があります。有効な `before_edit` または
+amendment entry はその認可境界の repository state を記録するため、認可された
+編集と fresh preflight の後は現在の snapshot より古くなり得ます。終端 evidence
+である `before_finish` だけは現在の Contract、repository identity、snapshot に
+一致しなければならず、stale、foreign、malformed、duplicate、symlink entry は
+fail closed します。
+
 最終化も snapshot に依存します。最後の verification 後は、Runtime が生成した
 finish/outcome/archive record を commit する前に `finish` と `archive` を実行します。
 `.ai/` だけの commit でも snapshot identity は変わるため、verification と archive の間に

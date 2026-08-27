@@ -163,6 +163,63 @@ fn checkpoint_identity_and_unknown_fields_fail_closed() {
 }
 
 #[test]
+fn historical_before_edit_snapshot_is_allowed_but_before_finish_must_be_current() {
+    let contract = contract();
+    let mut summary = summary();
+    summary["checkpointEvidence"][0]["repositorySnapshotDigest"] = json!(
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    );
+    validate_checkpoint_evidence_bindings(
+        &contract,
+        &summary,
+        "sha256:repo",
+        "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "contract-hash",
+    )
+    .expect("historical before_edit checkpoint remains valid");
+
+    summary["checkpointEvidence"][1]["repositorySnapshotDigest"] = json!(
+        "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    );
+    let errors = validate_checkpoint_evidence_bindings(
+        &contract,
+        &summary,
+        "sha256:repo",
+        "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "contract-hash",
+    )
+    .expect_err("stale before_finish checkpoint must fail closed");
+    assert!(
+        errors
+            .iter()
+            .any(|error| error == "checkpoint_evidence_snapshot_stale"),
+        "{errors:?}"
+    );
+}
+
+#[test]
+fn undeclared_checkpoint_check_cannot_become_a_phantom_pass() {
+    let mut contract = contract();
+    contract.checkpoint_policy.as_mut().unwrap().required_checks = vec![
+        "phantom-check".into(),
+    ];
+    let errors = validate_checkpoint_evidence_bindings(
+        &contract,
+        &summary(),
+        "sha256:repo",
+        "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "contract-hash",
+    )
+    .expect_err("a required check without a verification result must fail closed");
+    assert!(
+        errors
+            .iter()
+            .any(|error| error == "required_verification_gate_count:phantom-check"),
+        "{errors:?}"
+    );
+}
+
+#[test]
 fn checkpoint_invalid_timestamp_fails_closed() {
     let contract = contract();
     let mut summary = summary();
