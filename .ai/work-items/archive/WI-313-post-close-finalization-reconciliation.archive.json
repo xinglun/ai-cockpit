@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-27T01:22:18Z",
+  "files": {
+    "approachDigest": "sha256:c21339783f3a68ea57e4364679fe53304b0ecc7ab629b729041bd4ea63b47c27",
+    "approachPath": ".ai/work-items/archive/WI-313-post-close-finalization-reconciliation.approach.json",
+    "contractDigest": "sha256:15b037e4b4a6401a3df26324919e70a39861d6188c0dc7d3e15711ba071fc19c",
+    "contractPath": ".ai/work-items/archive/WI-313-post-close-finalization-reconciliation.contract.json",
+    "eventsDigest": "sha256:fb3e12f27dab6d0419ecf09d661c64864e33dee4d18b1b256bf48ac0d680c3d1",
+    "eventsPath": ".ai/work-items/archive/WI-313-post-close-finalization-reconciliation.events.jsonl",
+    "outcomeDigest": "sha256:02ce113fb8b48eca01826f5c65daa446adeb5fc81a1dbf8f288b12b807247d23",
+    "outcomePath": ".ai/work-items/archive/WI-313-post-close-finalization-reconciliation.outcome.json",
+    "summaryDigest": "sha256:0f1e71eea079ec4c230403b23b19e920bcac621db0f1df5821d5a40836362d05",
+    "summaryPath": ".ai/work-items/archive/WI-313-post-close-finalization-reconciliation.summary.json",
+    "taskReportDigest": "sha256:9daab8835c8f22274b5fbb635e87a25110ab36626910670e27408d9f8505d284",
+    "taskReportMarkdownDigest": "sha256:fea5a93749834d9d90c633b025ee31443c1bf0b03a1fa2b3e906252d5eb9d082",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-313-post-close-finalization-reconciliation.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-313-post-close-finalization-reconciliation.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-313-post-close-finalization-reconciliation"
+}

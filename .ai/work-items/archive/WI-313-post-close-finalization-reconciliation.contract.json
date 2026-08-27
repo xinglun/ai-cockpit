@@ -1,0 +1,118 @@
+{
+  "acceptanceCriteria": [
+    "A new close operation must fail closed when the bound resource-finalization receipt is retained, blocked, or unknown; only an identity-bound deleted finalization may satisfy the close boundary.",
+    "A post-close reconciliation path may be recorded only for an already closed Work Item whose immutable close and retained finalization receipts are valid, and it must prove the exact merged-PR, branch-deleted, and worktree-removed state.",
+    "Reconciliation must be append-only and must not rewrite, replace, or delete the historical Contract, archive, verification, close, or original finalization bytes.",
+    "Reconciliation receipts must be strict, repository- and Work-Item-bound, bind the archived Contract/close/finalization digests and Runtime identity, reject malformed, foreign, stale, symlink, replay, and incomplete cleanup inputs, and be verifiable independently.",
+    "The closed-Work-Item promotion gate must accept only a valid reconciliation exception with the same bindings and exact cleanup proof; retained finalization without reconciliation remains a failure.",
+    "CLI and Runtime lifecycle tests must cover retained-close rejection, valid post-close reconciliation, tampered or foreign receipts, and exact branch/worktree cleanup; all governance decisions remain in Rust.",
+    "Tri-language workflow and command documentation must describe cleanup-before-close as the normal order and post-close reconciliation as a bounded legacy recovery path without weakening the policy."
+  ],
+  "authority": "authorized",
+  "baseRevision": "01c4a9ff10f7ab62f1ba9c6129129a3f9c127f82",
+  "createdAt": "2026-08-27T00:18:49Z",
+  "goal": "Make the canonical delivery order enforceable: new Work Items cannot close before provider branch/worktree cleanup is identity-bound and deleted, while the already-closed W312 record can be reconciled through a separately bound append-only receipt so CI promotion can prove cleanup without rewriting immutable history.",
+  "intent": "根治 close 与资源清理顺序缺口；为已关闭但 retained 的 W312 提供不改历史 bytes 的 reconciliation。",
+  "mode": "code",
+  "outOfScope": [
+    "Reference-source inventory classification or the next file-comparison batch.",
+    "W311/W312 historical Contract",
+    " archive",
+    " evidence",
+    " close",
+    " or original finalization bytes; they must remain immutable.",
+    "Release/adopter acceptance",
+    " CI provider policy unrelated to closed-Work-Item promotion",
+    " scheduler/parallelism/performance",
+    " Agent/MCP global configuration",
+    " and V1 source/runtime copying.",
+    "Unrelated lifecycle state machines or resource deletion automation."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:92e3286cd66f389d82778854c2fa960eadf8bbc401bd0404cad5561d21127799",
+  "requiredEvidenceClasses": [
+    "verification",
+    "archive",
+    "human_decision",
+    "resource_finalization",
+    "reconciliation",
+    "hosted_ci"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-313-post-close-finalization-reconciliation",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/277",
+    "worktree": "/private/tmp/ai-cockpit-wi313-post-close-finalization-reconciliation"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "close fails closed and does not write a close decision when the finalization disposition is retained",
+      "required": true,
+      "scenario": "new close rejects retained finalization",
+      "status": "unverified",
+      "verificationPlan": "Run a lifecycle regression with a retained finalization receipt and assert no close receipt is created."
+    },
+    {
+      "evidence": [],
+      "expected": "a valid reconciliation receipt binds immutable close/finalization records and proves merged PR, deleted branch, and removed worktree",
+      "required": true,
+      "scenario": "valid post-close reconciliation proves cleanup",
+      "status": "unverified",
+      "verificationPlan": "Exercise the reconciliation command after exact provider cleanup and verify the append-only receipt and promotion gate."
+    },
+    {
+      "evidence": [],
+      "expected": "malformed, foreign, stale, symlink, replay, and incomplete cleanup inputs fail closed without mutating historical bytes",
+      "required": true,
+      "scenario": "reconciliation tamper and identity failures",
+      "status": "unverified",
+      "verificationPlan": "Run protocol and repository regression tests that mutate each binding and cleanup state."
+    },
+    {
+      "evidence": [],
+      "expected": "the documentation promotion gate rejects retained finalization without reconciliation and accepts only a valid bound reconciliation",
+      "required": true,
+      "scenario": "closed Work Item promotion requires reconciliation",
+      "status": "unverified",
+      "verificationPlan": "Run the docs promotion and governance integrity tests against W312 history and a valid reconciliation fixture."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-repository/tests/**",
+    "crates/cockpit-cli/tests/**",
+    "tests/docs/**",
+    "docs/reference/**",
+    "docs/work-items/WI-313-post-close-finalization-reconciliation.md",
+    "docs/work-items/WI-313-post-close-finalization-reconciliation.zh-CN.md",
+    "docs/work-items/WI-313-post-close-finalization-reconciliation.ja.md",
+    ".ai/work-items/active/WI-313-post-close-finalization-reconciliation.contract.json",
+    ".ai/work-items/active/WI-313-post-close-finalization-reconciliation.summary.json",
+    ".ai/work-items/active/WI-313-post-close-finalization-reconciliation.approach.json",
+    ".ai/evidence/WI-313-post-close-finalization-reconciliation.verification.json"
+  ],
+  "sources": [
+    "AGENTS.md:canonical-delivery-order",
+    ".ai/README.md:canonical-delivery-order",
+    "crates/cockpit-repository/src/lib.rs:close_work_item_with_structured_decision_internal",
+    "crates/cockpit-repository/src/lib.rs:record_resource_finalization",
+    "crates/cockpit-repository/src/lib.rs:verify_resource_finalization",
+    "crates/cockpit-protocol/src/lib.rs:ResourceFinalizationReceipt",
+    "tests/docs/promote_closed_work_item.py:validate_terminal_evidence",
+    "W312 archive, finalization, and close receipts on origin/main",
+    "Installed ai-cockpit Runtime v0.2.33 and hosted run 33026041360 failure evidence"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-313-post-close-finalization-reconciliation"
+}

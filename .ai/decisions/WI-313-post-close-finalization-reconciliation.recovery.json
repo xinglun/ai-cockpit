@@ -1,0 +1,23 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-27T01:10:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-313-post-close-finalization-reconciliation.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:current-work-item-recovery"
+  ],
+  "predecessorContractDigest": "sha256:5b311bdca908f580b9f8c29e6a7ad78c1fb96884dd2b8c9b3e9490e1195dd7cf",
+  "predecessorSummaryDigest": "sha256:bb024f2c464cbc0824f8d0f23ea1d27cba63805c8bdee10cdd98c3c05d63907d",
+  "predecessorWorkItemId": "WI-313-post-close-finalization-reconciliation",
+  "reason": "Retry verification after an explicit Contract scope amendment; prior evidence is stale and cannot be reused.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification against the amended Contract before finish.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-313-post-close-finalization-reconciliation"
+}

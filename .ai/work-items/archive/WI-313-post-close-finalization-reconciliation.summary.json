@@ -1,0 +1,70 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-313-post-close-finalization-reconciliation.contract.json",
+    ".ai/work-items/archive/WI-313-post-close-finalization-reconciliation.summary.json"
+  ],
+  "checkpointAt": "2026-08-27T00:24:37Z",
+  "checkpointContractDigest": "sha256:e780807535f2736885aab99243cef936fd60346a2aa35f4ce6eb189945f841f7",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:3798dd96c48444de2e15776b464243e74a7697a1bb6d5173827451ef0db7b157",
+  "createdAt": "2026-08-27T00:18:49Z",
+  "mode": "code",
+  "preflightAt": "2026-08-27T01:22:02Z",
+  "preflightContractDigest": "sha256:e780807535f2736885aab99243cef936fd60346a2aa35f4ce6eb189945f841f7",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:3798dd96c48444de2e15776b464243e74a7697a1bb6d5173827451ef0db7b157",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/lifecycle.rs"
+      ],
+      "expected": "close fails closed and does not write a close decision when the finalization disposition is retained",
+      "required": true,
+      "scenario": "new close rejects retained finalization",
+      "status": "verified",
+      "verificationPlan": "Run a lifecycle regression with a retained finalization receipt and assert no close receipt is created."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+      ],
+      "expected": "a valid reconciliation receipt binds immutable close/finalization records and proves merged PR, deleted branch, and removed worktree",
+      "required": true,
+      "scenario": "valid post-close reconciliation proves cleanup",
+      "status": "verified",
+      "verificationPlan": "Exercise the reconciliation command after exact provider cleanup and verify the append-only receipt and promotion gate."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+      ],
+      "expected": "malformed, foreign, stale, symlink, replay, and incomplete cleanup inputs fail closed without mutating historical bytes",
+      "required": true,
+      "scenario": "reconciliation tamper and identity failures",
+      "status": "verified",
+      "verificationPlan": "Run protocol and repository regression tests that mutate each binding and cleanup state."
+    },
+    {
+      "evidence": [
+        "tests/docs/promote_closed_work_item_test.sh"
+      ],
+      "expected": "the documentation promotion gate rejects retained finalization without reconciliation and accepts only a valid bound reconciliation",
+      "required": true,
+      "scenario": "closed Work Item promotion requires reconciliation",
+      "status": "verified",
+      "verificationPlan": "Run the docs promotion and governance integrity tests against W312 history and a valid reconciliation fixture."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-27T01:22:13Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-313-post-close-finalization-reconciliation"
+}
