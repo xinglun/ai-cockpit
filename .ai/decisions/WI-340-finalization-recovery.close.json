@@ -1,0 +1,215 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-340-finalization-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:862a21d6806fcb24a63ee4fe13e7d0ae3b20d34f5b0858319093c5dd0e2a4d81",
+      "workItemId": "WI-340-finalization-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-340-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-339-reference-docs-foundation-clean-retry.recovery.2e08ecabe021efd7fd639a0e0c0b69a36a4f20ee74d1435f8c8a9648b0eb5754.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-340-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-339-reference-docs-foundation-clean-retry.recovery.797fb2b7a35fe9b71944193fe555517a9b35f229295ecae64a3179175b9f8f3f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-340-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-340-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/recovery_decision.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-340-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-workflow.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-340-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-workflow.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-340-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-workflow.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-340-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/outcome-report.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-340-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/outcome-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-340-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/outcome-report.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-340-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-340-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-340-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-340-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-340-finalization-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-340-finalization-recovery.verification.json",
+            ".ai/decisions/WI-340-finalization-recovery.finalize.db551e5edf1e88fde01c18898a6a81b58692f425d427d71aeee3442b4e90d613.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-27T21:52:20Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-340-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-340-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-340-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-340-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "在不改写既有归档字节的前提下，允许绑定有效 supersede recovery decision 的前驱 Work Item 完成可审计关闭，并让 pending finalization 明确呈现为非绿色状态"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-340-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-340-finalization-recovery"
+  },
+  "finalReportDigest": "sha256:5849dfde2708cb291d0345050703c0b0af6f686ce1267d83c2a8659dfe99e7b8",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:c6477c4347dbe722e91565611d119e67a250d68c281f2190f1755af64683ae92",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-340-finalization-recovery.finalize.db551e5edf1e88fde01c18898a6a81b58692f425d427d71aeee3442b4e90d613.json",
+  "resourceFinalizationSequence": 1,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-27T21:52:20Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-340-finalization-recovery.verification.json",
+      ".ai/decisions/WI-340-finalization-recovery.finalize.db551e5edf1e88fde01c18898a6a81b58692f425d427d71aeee3442b4e90d613.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md:work-item-change-discipline"
+    ],
+    "reason": "PR #301 已通过全部 hosted checks 并合并；安装 Runtime 已验证 evidence、finalization 与精确分支/工作树清理，现关闭 WI-340。",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-27T21:52:20Z",
+  "workItemId": "WI-340-finalization-recovery"
+}

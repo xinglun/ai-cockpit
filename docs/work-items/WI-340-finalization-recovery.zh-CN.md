@@ -6,11 +6,13 @@ description: "为 provider finalization 尚未完成的 archived Work Item 提�
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-340-finalization-recovery
 terminalArchive: .ai/work-items/archive/WI-340-finalization-recovery.contract.json
 terminalVerification: .ai/evidence/WI-340-finalization-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-340-finalization-recovery.finalize.db551e5edf1e88fde01c18898a6a81b58692f425d427d71aeee3442b4e90d613.json
+terminalDecision: .ai/decisions/WI-340-finalization-recovery.close.json
 ---
 
 # WI-340——归档 finalization 恢复
