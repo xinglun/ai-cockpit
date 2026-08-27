@@ -1,0 +1,143 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-317-post-close-reconciliation-quality-gate-fix.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2b87df99b4f89a6d18014f555b14eabf5017af7b857d7cfebd595c6a5ac980d8",
+      "workItemId": "WI-317-post-close-reconciliation-quality-gate-fix"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-317-post-close-reconciliation-quality-gate-fix.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-316-post-close-reconciliation-promotion-base-fix.recovery.732a549fc74bb49d5cb487892bc40d584f16e80071bfc5c9f3789185c178efa2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-317-post-close-reconciliation-quality-gate-fix.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-317-post-close-reconciliation-quality-gate-fix.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-317-post-close-reconciliation-quality-gate-fix.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-317-post-close-reconciliation-quality-gate-fix.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-317-post-close-reconciliation-quality-gate-fix.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-317-post-close-reconciliation-quality-gate-fix.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-317-post-close-reconciliation-quality-gate-fix.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:repository-owner via reviewed-PR-281-and-post-merge-cleanup at 2026-08-27T04:08:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-317-post-close-reconciliation-quality-gate-fix.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-317-post-close-reconciliation-quality-gate-fix.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-317-post-close-reconciliation-quality-gate-fix.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-317-post-close-reconciliation-quality-gate-fix.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the recovery/parity/resource-finalization quality gate pass from the latest remote default base."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-317-post-close-reconciliation-quality-gate-fix.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-317-post-close-reconciliation-quality-gate-fix"
+  },
+  "finalReportDigest": "sha256:6202e1f15af1022092a291236131e44909a2fdc181fa02c0483185016cc852cb",
+  "humanDecision": "confirmed",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:1aad894a26eb1c31966a14c32195b5bf7e3866893b4b4f3d8a1e0d4de027d2f9",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-317-post-close-reconciliation-quality-gate-fix.finalize.ef51268d4b7db25d8f189d4bbd6b87faa306e48150888b884c32006a428f4f1d.json",
+  "resourceFinalizationSequence": 1,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "reviewed-PR-281-and-post-merge-cleanup",
+    "decidedAt": "2026-08-27T04:08:00Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-317-post-close-reconciliation-quality-gate-fix.verification.json"
+    ],
+    "policyRefs": [
+      "repository-review-policy"
+    ],
+    "reason": "PR #281 review and hosted checks passed; merged head, exact branch/worktree cleanup, finalization chain, and verification are complete.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-27T04:06:20Z",
+  "workItemId": "WI-317-post-close-reconciliation-quality-gate-fix"
+}
