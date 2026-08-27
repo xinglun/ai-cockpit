@@ -228,7 +228,7 @@ fn work_item_lifecycle_is_atomic_and_archive_is_content_bound() {
     let archived = run(binary, &["archive", "--id", "WI-TEST"], &repo);
     assert_eq!(archived["outcome"]["workItemId"], "WI-TEST");
     assert_eq!(archived["outcome"]["verification"]["status"], "verified");
-    common::record_retained(binary, &repo, "WI-TEST");
+    common::record_deleted(binary, &repo, "WI-TEST");
     assert!(
         !repo
             .join(".ai/work-items/active/WI-TEST.contract.json")

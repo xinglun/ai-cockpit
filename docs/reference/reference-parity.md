@@ -248,6 +248,8 @@ record for each boundary.
 | WI-163 — Historical Outcome projection | Implemented | `.ai/evidence/WI-163-historical-outcome-projection.verification.json`; historical evidence is not presented as a current verification failure. |
 | WI-164 — Historical Outcome human rendering | Implemented | `.ai/evidence/WI-164-historical-outcome-render.verification.json`; tri-language handoff suppresses missing-evidence recovery wording for historical evidence. |
 
+| WI-313 — post-close finalization reconciliation | In progress | [Work Item](../work-items/WI-313-post-close-finalization-reconciliation.md); enforces cleanup-before-close and adds a narrowly bound append-only recovery transition for immutable legacy close records. |
+
 ## Current boundary
 
 One installed Runtime can govern many independently attached repositories. Each

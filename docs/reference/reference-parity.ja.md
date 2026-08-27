@@ -245,6 +245,8 @@ verification record です。
 | WI-163 — Historical Outcome projection | Implemented | `.ai/evidence/WI-163-historical-outcome-projection.verification.json`; historical evidence を current verification failure として表示しません。 |
 | WI-164 — Historical Outcome human rendering | Implemented | `.ai/evidence/WI-164-historical-outcome-render.verification.json`; tri-language handoff は historical evidence の missing-evidence recovery wording を抑止します。 |
 
+| WI-313 — post-close finalization reconciliation | In progress | [Work Item](../work-items/WI-313-post-close-finalization-reconciliation.ja.md); cleanup-before-close を強制し、immutable な legacy close record に限定された append-only recovery transition を追加します。 |
+
 ## 現在の境界
 
 1 つの installed Runtime は複数の独立した repository を治理できます。Protocol、Work Item、evidence、
