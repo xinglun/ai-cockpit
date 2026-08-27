@@ -241,6 +241,8 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-163——历史 Outcome 投影 | 已实现 | `.ai/evidence/WI-163-historical-outcome-projection.verification.json`；历史 evidence 不会显示为当前 verification 失败。 |
 | WI-164——历史 Outcome 人类渲染 | 已实现 | `.ai/evidence/WI-164-historical-outcome-render.verification.json`；三语 handoff 对历史 evidence 隐藏缺少 evidence 的恢复提示。 |
 
+| WI-313——close 后 finalization reconciliation | 进行中 | [Work Item](../work-items/WI-313-post-close-finalization-reconciliation.zh-CN.md)；强制先清理再 close，并为不可变历史 close 记录提供严格绑定、append-only 的恢复 transition。 |
+
 ## 当前边界
 
 一份已安装 Runtime 可以治理多个相互独立 attach 的 repository。每个 repository 独立拥有

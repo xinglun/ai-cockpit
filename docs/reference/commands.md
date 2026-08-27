@@ -14,6 +14,14 @@ capabilityClaims:
 
 # Command reference
 
+`close` now requires the current finalization head to have disposition
+`deleted`; a retained, blocked, or unknown head stops the operation before a
+close decision is written. For immutable records produced by an older Runtime,
+`work-item finalize` accepts one strictly bound deleted transition after close
+as a legacy reconciliation. The transition must bind the closed root path and
+digest and is verified as an append-only cleanup observation; it never rewrites
+the close receipt or authorizes a retained close for new Work Items.
+
 `work-item finalize` stores the first receipt at `.ai/decisions/<id>.finalize.json`. Its PR base must equal the archived Contract's immutable `baseRevision`; both recording and `finalize-verify` reject a mismatch, including sequence 0, rather than reporting a verified chain. Rebase before archive requires a renewed active Contract binding; rebase after archive requires recovery and never permits receipt or archive rewriting. If that immutable root exists, a typed transition envelope must bind the unique head's predecessor digest and next sequence; Runtime appends `.finalize.<digest>.json`. `finalize-verify` reports `headPath`, `headDigest`, and `sequence`, which `close` binds. A sequence-1 merge observation may additionally bind `governanceAppendRevision` when the receipt commit advanced all aligned heads. Runtime requires an ancestor range of additions only. Besides regular same-Work-Item finalization receipts, the only permitted evidence additions are the complete fixed-schema pair `.ai/evidence/<id>/quality-route-post-finalize.json` and `.ai/evidence/<id>/repository-gates-post-finalize.json`; every path must be an `A`-only `100644` regular blob, and their archived Contract, PR revision, route digest, manifest, profile, and passing gate bindings must agree. The pair is evidence, not authority, and does not replace the required finalization receipt addition. This does not permit arbitrary evidence paths or archive mutation.
 
 All repository commands accept an explicit `--repo <path>`. Commands that
@@ -224,9 +232,9 @@ binary, and a failed acceptance never changes the published Release truth.
 
 The lifecycle portion is intentionally complete: `finalize-plan` precedes
 verification, and archived Work Items must pass `finalize` and
-`finalize-verify` before structured `close`. The fixture uses an explicit
-retained resource receipt so the Runtime's fail-closed resource boundary is
-visible in post-release evidence.
+`finalize-verify` with a deleted head before structured `close`. The fixture may
+use an explicit retained receipt as an intermediate merge observation, followed
+by a deleted cleanup receipt; retained never authorizes a new close.
 
 The acceptance receipt also records typed before/after manifests for every
 isolated root. `HOME` and `XDG_CONFIG_HOME` have empty `allowedPrefixes` and

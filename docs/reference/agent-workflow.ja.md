@@ -126,6 +126,16 @@ commit すると receipt は stale になります。現在の Work Item で再�
 
 ## Resource finalization の境界
 
+新しい Work Item は `close` の前に provider 側の branch と worktree の cleanup を
+完了しなければなりません。`retained`、`blocked`、`unknown` の finalization result は
+terminal success ではありません。Runtime は legacy library entry point と Runtime-bound
+CLI の両方でこの順序を拒否します。旧 Runtime が作った immutable な履歴については、
+`work-item finalize` が close 後に identity-bound な deleted transition を 1 件だけ
+append できます。これは限定された reconciliation であり、closed root digest を束縛し、
+元の close bytes を保持し、PR の merge、branch の削除、worktree の除去を証明しなければ
+なりません。新しい Work Item を認可したり、通常の cleanup-before-close ルールを弱めたり
+するものではありません。
+
 Finalization evidence は append-only chain です。canonical `<id>.finalize.json` は不変の chain root であり、後続の provider observation は predecessor digest と sequence を束縛した `<id>.finalize.<digest>.json` に保存されます。archived Contract は `baseRevision` を凍結し、canonical/transition receipt の `pullRequest.baseRevision` は record 時と `finalize-verify` 時の両方で完全一致しなければなりません。archive 前の rebase では active Contract の binding と review を更新し、archive 後の rebase は禁止して record を書き換えず fail-closed recovery を行います。`finalize-verify` と `close` は一意な線形 head を要求し、stale predecessor、fork、malformed record、symlink、base mismatch、identity drift は fail closed になります。pre-merge blocked root は連続する merge observation（`retained`）と cleanup（`deleted`）transition で進みます。canonical governance receipt の commit により PR head が進む場合、最初の unmerged-to-merged observation だけが `governanceAppendRevision` を宣言できます。PR、branch、worktree の各 head は同時に変わり、Git は旧 head が新 head の ancestor であることを証明します。この append 区間には、同一 Work Item の通常 finalization receipt と、Runtime が生成した完全な post-finalize evidence bundle だけを追加できます。bundle の path は `.ai/evidence/<id>/quality-route-post-finalize.json` と `.ai/evidence/<id>/repository-gates-post-finalize.json` に限定されます。受理される各 path は Git の `A`-only change で、tree entry は `100644` regular blob でなければなりません。両 evidence file は固定 schema に従い、archived Contract、PR base、bounded head、route receipt digest、manifest digest、selected profile、および passed required gates を束縛しなければなりません。これらは束縛済み observation であって、それ自体が authority ではなく、区間には引き続き finalization receipt の追加が必要です。bundle の欠落、別 Work Item または filename、malformed/duplicate-key JSON、binding mismatch、削除、変更、rename、symlink、無関係な変更、非 merge または後続の head drift は拒否されます。archive bytes は書き換えません。cleanup は受理済み head を保持します。
 
 ## Pending parity 登録
@@ -199,11 +209,12 @@ finalize-plan → finalize → finalize-verify → close
 
 これは Runtime が提供する command です。すべて `--repo` を明示し、型付きで
 identity-bound な context/receipt を要求します。暗黙の削除は行いません。Work Item は
-verification 後にだけ archive でき、`finalize-verify` が `Deleted` または明示的に認可された
-`Retained` receipt を受理した後にだけ close できます。Archived verification evidence は
-不変の historical truth として保持され、Runtime upgrade 後に current result として再検証
-されません。一方、新しい finalization receipt は close を実行する Runtime に必ず bind
-されます。
+verification 後にだけ archive でき、`finalize-verify` が identity-bound な `Deleted`
+receipt を受理した後にだけ close できます。`Retained` は中間の merge observation または
+旧 record の legacy fact に限られ、新しい close を認可しません。旧い close 済み record
+だけは上記の限定的な deleted reconciliation を append できます。Archived verification
+evidence は不変の historical truth として保持され、Runtime upgrade 後に current result として
+再検証されません。新しい finalization receipt は close を実行する Runtime に必ず bind されます。
 
 structured close の後には、controlled documentation projection と default-branch
 terminal check が必要です。
@@ -242,10 +253,11 @@ human `close` を続けて実行します。通常 branch、証明できない t
   観測不完全は `unknown` として Work Item を recovery のため open に保ち、続行の
   許可にはしません。
 - `retain` は owner、理由、scope、期限または review 条件を持つ明示的な Human
-  Decision です。保持した resource を cleanup 成功に黙って変換しません。組織 policy
-  が限定的な retain path を明示的に許可しない限り、`close` は block されます。
-- `finalize-verify` の成功（または別途認可され監査可能な retain path の受理）より前に
-  `close` してはいけません。失敗時は retry identity と可視の yellow/red Outcome を保持します。
+  Decision です。保持した resource を cleanup 成功に黙って変換せず、新しい `close` を
+  認可しません。旧い close 済み record だけが上記の限定的な deleted reconciliation を
+  受けられます。
+- `finalize-verify` が `Deleted` で成功する前に `close` してはいけません。失敗時は retry
+  identity と可視の yellow/red Outcome を保持します。
 
 ## Agent provider surface
 

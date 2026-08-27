@@ -37,7 +37,17 @@ pub fn plan(binary: &str, repo: &Path, work_item_id: &str) {
     );
 }
 
+#[allow(dead_code)]
 pub fn record_retained(binary: &str, repo: &Path, work_item_id: &str) {
+    record_finalization(binary, repo, work_item_id, "retained");
+}
+
+#[allow(dead_code)]
+pub fn record_deleted(binary: &str, repo: &Path, work_item_id: &str) {
+    record_finalization(binary, repo, work_item_id, "deleted");
+}
+
+fn record_finalization(binary: &str, repo: &Path, work_item_id: &str, disposition: &str) {
     let status = Command::new(binary)
         .args(["status", "--repo"])
         .arg(repo)
@@ -100,11 +110,11 @@ pub fn record_retained(binary: &str, repo: &Path, work_item_id: &str) {
         },
         "after": {
             "pullRequest": "merged",
-            "branch": "present",
-            "worktree": "clean"
+            "branch": if disposition == "deleted" { "deleted" } else { "present" },
+            "worktree": if disposition == "deleted" { "removed" } else { "clean" }
         },
         "result": {
-            "disposition": "retained",
+            "disposition": disposition,
             "failureCodes": [],
             "unknownCodes": []
         },
