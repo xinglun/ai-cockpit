@@ -1,0 +1,25 @@
+{
+  "actor": "human:repository-maintainer",
+  "authoritySource": "WI-326 authorized recovery after stale verification caused by finalization binding",
+  "decidedAt": "2026-08-27T10:53:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-326-reference-file-comparison-batch-06.verification.json"
+  ],
+  "policyRefs": [
+    "docs/reference/commands.md#resource-finalization"
+  ],
+  "predecessorContractDigest": "sha256:bf28d6c5e9637db2938f28bf390b5ea507d0b474e128f45629f9b34f1e025e67",
+  "predecessorEventsDigest": "sha256:ca30117d88ed489cde17710513a5b990ab6eec9b1922c9a967c40dedd47a5f53",
+  "predecessorOutcomeDigest": "sha256:61df246de9d411b44289463a30bd6ceb3a7b4a8354f58e0e00c8f985fb6e9c5b",
+  "predecessorSummaryDigest": "sha256:a78e03da1b8b432d5ee5c9418b8ca86dc5f4118861ef5521e6b9425f700d2851",
+  "predecessorWorkItemId": "WI-326-reference-file-comparison-batch-06",
+  "reason": "Re-run verification after finalize-plan changed the request-scoped resource binding; preserve the prior stopped Outcome as immutable history.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run preflight with the planned PR context, record fresh verification evidence, then retry finish.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-326-reference-file-comparison-batch-06"
+}
