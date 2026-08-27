@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-successor-for-runtime-checkpoint-lifecycle-defect",
+  "decidedAt": "2026-08-27T04:47:42Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-319-close-decision-and-promotion-compatibility.verification.json",
+    ".ai/work-items/active/WI-319-close-decision-and-promotion-compatibility.outcome.json",
+    "https://github.com/xinglun/ai-cockpit/pull/282"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:842fc7e95ca242a67f390fe63a49123bce7023c97956c711676b2da7775504f5",
+  "predecessorEventsDigest": "sha256:85487c9d193fc672119ef371cab04ef841a83922dcf6f2ddf7a0d4585d2efa0c",
+  "predecessorOutcomeDigest": "sha256:d04d7b95c35ad00a928ed0d357fc1c00844640dbc19aaab77bca1743ff651f30",
+  "predecessorSummaryDigest": "sha256:c9bbd3ab3b8b23f34b84299fa7d3721970d5b48db1c1603ec6f68d372cbd117d",
+  "predecessorWorkItemId": "WI-319-close-decision-and-promotion-compatibility",
+  "reason": "W319 exposed a Runtime defect: strict checkpoint evidence treats historical before_edit/amendment snapshots as current and blocks the normal commit, PR, verify, and finish sequence. Preserve W319 immutable blocked evidence and redeliver the static compatibility plus the bounded checkpoint-lifecycle correction from a fresh base.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Start the successor from synchronized origin/main, implement the checkpoint snapshot lifecycle fix with regression coverage, reapply the static compatibility correction, pass installed Runtime and hosted checks, then finalize, close, and clean both Work Items exactly.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-320-checkpoint-evidence-snapshot-lifecycle",
+  "workItemId": "WI-319-close-decision-and-promotion-compatibility"
+}

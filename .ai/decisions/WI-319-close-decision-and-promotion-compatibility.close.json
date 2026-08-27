@@ -1,45 +1,18 @@
 {
-  "acceptanceResults": [
-    "当前 Runtime：root retained + sequence-1 deleted + close 绑定 sequence-1 时，promotion、status、governance gates 必须通过。",
-    "历史 Runtime：root retained + sequence-1 deleted + close 仍绑定 root 时，既有 reconciliation 规则继续通过。",
-    "sequence-1 predecessor/before/after/result/identity/digest 任一不一致继续 fail closed。",
-    "confirmed 与 approved 均为显式结构化 human decision 时可验证；rejected 不得晋级为已实现。",
-    "三语文档明确当前与历史绑定差异，不改写 W317 或其他 immutable history。",
-    "W317 已关闭投影在三语 Work Item 文档与 parity ledger 中晋级为 Implemented，并绑定 immutable archive/verification/finalization/close evidence。"
-  ],
-  "decisionState": "red",
-  "evidenceRefs": [
-    ".ai/evidence/WI-319-close-decision-and-promotion-compatibility.verification.json"
-  ],
-  "failedGate": "finish.governance",
-  "humanBenefitReport": {
-    "affectedUsers": [],
-    "evidenceRefs": [],
-    "state": "unknown",
-    "unknowns": [
-      "user_visible_benefit_not_declared"
-    ],
-    "userVisibleChanges": []
-  },
-  "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
-  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
-  "taskOutcomeReport": {
+  "decisionState": "confirmed",
+  "finalReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-319-close-decision-and-promotion-compatibility.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:0e3d9a4c45265fcc0342e5fa5a7a6b19676e0e4305af7c5fe97e7157f662755c",
+      "repositorySnapshotDigest": "sha256:ba4f3b4895ef0d61afc5999af2f9a35e5827475101c52591da241a05d0530113",
       "workItemId": "WI-319-close-decision-and-promotion-compatibility"
     },
-    "failedGate": "finish.governance",
+    "failedGate": "finish.verification",
     "format": "ai-cockpit.task-outcome",
     "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
@@ -84,7 +57,15 @@
           "text": "A required evidence or identity control failed; remain stopped."
         }
       ],
-      "humanDecisions": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-319-close-decision-and-promotion-compatibility.recovery.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'superseded' by human:repository-owner via explicit-successor-for-runtime-checkpoint-lifecycle-defect at 2026-08-27T04:49:10Z."
+        }
+      ],
       "interventions": [],
       "limitations": [],
       "nonRiskExplanations": [],
@@ -131,13 +112,24 @@
     "status": "unknown",
     "workItemId": "WI-319-close-decision-and-promotion-compatibility"
   },
-  "unknowns": [
-    "lifecycle_gate_failed"
-  ],
-  "verification": {
-    "evidencePath": ".ai/evidence/WI-319-close-decision-and-promotion-compatibility.verification.json",
-    "required": true,
-    "status": "blocked"
+  "finalReportDigest": "sha256:5236a7c290952b8d5d3212ae75cb9cdd2f4cc456a39a837357802cdf195d2ec1",
+  "humanDecision": "superseded",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-successor-for-runtime-checkpoint-lifecycle-defect",
+    "decidedAt": "2026-08-27T04:49:10Z",
+    "decision": "superseded",
+    "evidenceRefs": [
+      ".ai/decisions/WI-319-close-decision-and-promotion-compatibility.recovery.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md"
+    ],
+    "reason": "Close the immutable predecessor after explicit successor W320 was created for the Runtime checkpoint lifecycle defect.",
+    "resumeCondition": "Continue through WI-320-checkpoint-evidence-snapshot-lifecycle."
   },
+  "timestamp": "2026-08-27T04:48:59Z",
   "workItemId": "WI-319-close-decision-and-promotion-compatibility"
 }

@@ -6,7 +6,7 @@ description: "让静态晋级和治理消费者与已安装 Runtime 的 close/fi
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-319-close-decision-and-promotion-compatibility
 ---
@@ -34,6 +34,13 @@ reconciliation 路径。本 Work Item 只修改这些消费者及其三语文档
   与 governance gate 继续保持严格。
 - 本 Work Item 使用已安装 Runtime 的生命周期；只有 hosted checks 通过后才执行
   finalize、评审、合并、close 和精确清理。
+
+## 终态历史
+
+Runtime 的 checkpoint 生命周期在本 Work Item 完成前暴露了真实的快照绑定
+缺陷。因此不可变的 W319 记录作为已被后继项取代的历史项关闭；有界的
+checkpoint 修正由 W320 负责。前置 Contract、evidence、阻断 Outcome、恢复
+回执和 close 决定均保持不变。
 
 ## 验证
 

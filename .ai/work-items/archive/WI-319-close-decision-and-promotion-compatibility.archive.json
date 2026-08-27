@@ -1,0 +1,19 @@
+{
+  "createdAt": "2026-08-27T04:48:46Z",
+  "files": {
+    "contractDigest": "sha256:e09257c6955408afbc44621cf07fa8bd0ace8f01f0b51aaa14a3d5093703b025",
+    "contractPath": ".ai/work-items/archive/WI-319-close-decision-and-promotion-compatibility.contract.json",
+    "eventsDigest": "sha256:85487c9d193fc672119ef371cab04ef841a83922dcf6f2ddf7a0d4585d2efa0c",
+    "eventsPath": ".ai/work-items/archive/WI-319-close-decision-and-promotion-compatibility.events.jsonl",
+    "outcomeDigest": "sha256:643c4d4ebe154ba1445c83f8a7a20455e390316dea62702630129a91251e1689",
+    "outcomePath": ".ai/work-items/archive/WI-319-close-decision-and-promotion-compatibility.outcome.json",
+    "summaryDigest": "sha256:a87424727a7e38beec8f083863ce70600b3777c5cd31df8b9ecf3243a8c512a8",
+    "summaryPath": ".ai/work-items/archive/WI-319-close-decision-and-promotion-compatibility.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "state": "superseded",
+  "supersededBy": "WI-320-checkpoint-evidence-snapshot-lifecycle",
+  "supersessionDecisionPath": ".ai/decisions/WI-319-close-decision-and-promotion-compatibility.recovery.094ff8a2454b5f86338f4fd4574133b9fb27ce76a7f9a637c2fa7b7bd64c0af7.json",
+  "workItemId": "WI-319-close-decision-and-promotion-compatibility"
+}

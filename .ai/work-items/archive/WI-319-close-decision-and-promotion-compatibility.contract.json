@@ -10,11 +10,16 @@
   "authority": "authorized",
   "baseRevision": "bdecd9af8ea671196b849e34aeda2dbf4a03348b",
   "checkpointPolicy": {
-    "schemaVersion": 1,
     "profile": "standard",
     "requiredBeforeFinish": true,
-    "requiredStages": ["before_edit", "before_finish"],
-    "requiredChecks": ["verification"]
+    "requiredChecks": [
+      "verification"
+    ],
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "schemaVersion": 1
   },
   "createdAt": "2026-08-27T04:21:45Z",
   "goal": "使静态晋级和治理检查忠实消费 Runtime 的有效 close/finalization 绑定，保留历史兼容边界并用回归测试锁定。",
@@ -34,11 +39,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-319-close-decision-and-promotion-compatibility",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/282",
     "worktree": "/private/tmp/ai-cockpit-wi319-close-decision-and-promotion-compatibility"
   },
   "risk": "normal",

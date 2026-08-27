@@ -6,7 +6,7 @@ description: "Keep static promotion and governance consumers aligned with the in
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-319-close-decision-and-promotion-compatibility
 ---
@@ -36,6 +36,14 @@ documentation; immutable Runtime records are never rewritten.
   decision token; documentation acceptance and governance gates remain strict.
 - The Work Item follows the installed Runtime lifecycle and will be finalized,
   reviewed, merged, closed, and exactly cleaned only after hosted checks pass.
+
+## Terminal history
+
+The Runtime checkpoint lifecycle exposed a real snapshot-binding defect before
+this Work Item could finish. The immutable W319 records are therefore closed
+as a superseded historical item; W320 owns the bounded checkpoint correction.
+The predecessor Contract, evidence, blocked Outcome, recovery receipts, and
+close decision remain unchanged.
 
 ## Verification
 

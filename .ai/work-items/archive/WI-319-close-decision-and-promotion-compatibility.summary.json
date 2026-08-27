@@ -4,7 +4,7 @@
     ".ai/work-items/active/WI-319-close-decision-and-promotion-compatibility.summary.json"
   ],
   "checkpointAt": "2026-08-27T04:22:03Z",
-  "checkpointContractDigest": "sha256:b6978ecc4e7120e88052f7e2339336c587b0e3a231efcdb9af157fe7ae0052ec",
+  "checkpointContractDigest": "sha256:842fc7e95ca242a67f390fe63a49123bce7023c97956c711676b2da7775504f5",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -60,23 +60,60 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-319-close-decision-and-promotion-compatibility"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:842fc7e95ca242a67f390fe63a49123bce7023c97956c711676b2da7775504f5",
+      "invalidatedRequiredChecks": [
+        "verification"
+      ],
+      "originalBeforeEditContractHash": "sha256:8a6bcab224d36c76f8981664344c9bd88165a8b30a6bbfee9f5e0dd2ee0db829",
+      "previousContractHash": "sha256:b6978ecc4e7120e88052f7e2339336c587b0e3a231efcdb9af157fe7ae0052ec",
+      "reason": "Bind the reviewed GitHub PR #282 resource context required by the Runtime before the final verification/finish boundary.",
+      "recorded": true,
+      "recordedAt": "2026-08-27T04:40:09Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ba4f3b4895ef0d61afc5999af2f9a35e5827475101c52591da241a05d0530113",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-319-close-decision-and-promotion-compatibility"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:842fc7e95ca242a67f390fe63a49123bce7023c97956c711676b2da7775504f5",
+      "recorded": true,
+      "recordedAt": "2026-08-27T04:44:11Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ba4f3b4895ef0d61afc5999af2f9a35e5827475101c52591da241a05d0530113",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_finish",
+      "unknownCount": 0,
+      "workItemId": "WI-319-close-decision-and-promotion-compatibility"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:0e3d9a4c45265fcc0342e5fa5a7a6b19676e0e4305af7c5fe97e7157f662755c",
+  "checkpointRepositorySnapshotDigest": "sha256:ba4f3b4895ef0d61afc5999af2f9a35e5827475101c52591da241a05d0530113",
   "createdAt": "2026-08-27T04:21:45Z",
-  "failedGate": "finish.governance",
+  "failedGate": "finish.verification",
   "mode": "docs",
   "outcomeState": "blocked",
-  "preflightAt": "2026-08-27T04:38:17Z",
-  "preflightContractDigest": "sha256:b6978ecc4e7120e88052f7e2339336c587b0e3a231efcdb9af157fe7ae0052ec",
+  "preflightAt": "2026-08-27T04:44:06Z",
+  "preflightContractDigest": "sha256:842fc7e95ca242a67f390fe63a49123bce7023c97956c711676b2da7775504f5",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:0e3d9a4c45265fcc0342e5fa5a7a6b19676e0e4305af7c5fe97e7157f662755c",
+  "preflightRepositorySnapshotDigest": "sha256:ba4f3b4895ef0d61afc5999af2f9a35e5827475101c52591da241a05d0530113",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "recoveryRetryPending": true,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
-  "updatedAt": "2026-08-27T04:38:21Z",
+  "updatedAt": "2026-08-27T04:44:11Z",
   "verification": [
     {
       "check": "project-command-0",

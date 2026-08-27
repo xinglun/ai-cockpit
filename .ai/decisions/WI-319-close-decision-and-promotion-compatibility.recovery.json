@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-retry-after-finalization-plan-contract-refresh",
+  "decidedAt": "2026-08-27T04:41:18Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-319-close-decision-and-promotion-compatibility.verification.json",
+    ".ai/work-items/active/WI-319-close-decision-and-promotion-compatibility.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:842fc7e95ca242a67f390fe63a49123bce7023c97956c711676b2da7775504f5",
+  "predecessorEventsDigest": "sha256:48e9e8df27197e13893872f80783461a1d1b9eb0c77c998e0ac82b9a411216b8",
+  "predecessorOutcomeDigest": "sha256:9ee15f1e280605b29b242693cbf7d008af8e59721197e8696065c4865179ee0c",
+  "predecessorSummaryDigest": "sha256:da3b4583903a40a9ac4a4cba9513e5aa8f1d50547f766493ab596bb7ac8e65b8",
+  "predecessorWorkItemId": "WI-319-close-decision-and-promotion-compatibility",
+  "reason": "The reviewed PR resource binding refreshed the active Contract after the first verification. Preserve the blocked Outcome and retry the same Work Item with a fresh preflight and verification under the bound PR context.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Record a fresh repository-bound preflight, rerun verification, finish and archive, then complete hosted review and exact finalization before close.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-319-close-decision-and-promotion-compatibility"
+}

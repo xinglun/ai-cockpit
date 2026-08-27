@@ -6,7 +6,7 @@ description: "静的な promotion と governance consumer を、installed Runtim
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-319-close-decision-and-promotion-compatibility
 ---
@@ -35,6 +35,14 @@ record は書き換えません。
   documentation acceptance と governance gate の厳格さを維持します。
 - installed Runtime の lifecycle に従い、hosted checks 成功後にのみ finalize、review、merge、
   close、exact cleanup を行います。
+
+## 終端履歴
+
+Runtime の checkpoint lifecycle は、この Work Item を完了する前に実際の
+snapshot binding 欠陥を検出しました。そのため不変な W319 の記録は後継項目
+に置き換えられた履歴として close し、限定的な checkpoint 修正は W320 が
+担当します。先行 Contract、evidence、blocked Outcome、recovery receipt、
+close decision は変更しません。
 
 ## Verification
 

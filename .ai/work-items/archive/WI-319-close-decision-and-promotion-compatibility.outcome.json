@@ -1,0 +1,143 @@
+{
+  "acceptanceResults": [
+    "当前 Runtime：root retained + sequence-1 deleted + close 绑定 sequence-1 时，promotion、status、governance gates 必须通过。",
+    "历史 Runtime：root retained + sequence-1 deleted + close 仍绑定 root 时，既有 reconciliation 规则继续通过。",
+    "sequence-1 predecessor/before/after/result/identity/digest 任一不一致继续 fail closed。",
+    "confirmed 与 approved 均为显式结构化 human decision 时可验证；rejected 不得晋级为已实现。",
+    "三语文档明确当前与历史绑定差异，不改写 W317 或其他 immutable history。",
+    "W317 已关闭投影在三语 Work Item 文档与 parity ledger 中晋级为 Implemented，并绑定 immutable archive/verification/finalization/close evidence。"
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-319-close-decision-and-promotion-compatibility.verification.json"
+  ],
+  "failedGate": "finish.verification",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-319-close-decision-and-promotion-compatibility.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ba4f3b4895ef0d61afc5999af2f9a35e5827475101c52591da241a05d0530113",
+      "workItemId": "WI-319-close-decision-and-promotion-compatibility"
+    },
+    "failedGate": "finish.verification",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-319-close-decision-and-promotion-compatibility.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-319-close-decision-and-promotion-compatibility.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-319-close-decision-and-promotion-compatibility.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-319-close-decision-and-promotion-compatibility.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-319-close-decision-and-promotion-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-319-close-decision-and-promotion-compatibility.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-319-close-decision-and-promotion-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-319-close-decision-and-promotion-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-319-close-decision-and-promotion-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-319-close-decision-and-promotion-compatibility.contract.json"
+          ],
+          "inference": false,
+          "text": "使静态晋级和治理检查忠实消费 Runtime 的有效 close/finalization 绑定，保留历史兼容边界并用回归测试锁定。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-319-close-decision-and-promotion-compatibility.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-319-close-decision-and-promotion-compatibility"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-319-close-decision-and-promotion-compatibility.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-319-close-decision-and-promotion-compatibility"
+}
