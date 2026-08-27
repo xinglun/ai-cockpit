@@ -6,7 +6,7 @@ description: "WI-311 の immutable retry boundary 後に、manifest 派生 inven
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-312-reference-inventory-doc-consistency-parity-recovery-successor
 ---
@@ -15,10 +15,10 @@ lastVerifiedBy: WI-312-reference-inventory-doc-consistency-parity-recovery-succe
 
 ## Intent と boundary
 
-この successor は最新の `origin/main` から bounded な inventory 文書修正を再配信します。
-WI-311 は、installed Runtime が recovery 中の二重 completion event を拒否したため、
-immutable な履歴として保持します。本 Work Item は inventory の分類も Runtime の動作も
-変更しません。
+この immutable delivery は retained provider finalization が後続の cleanup gate を満たせなかったため、
+historical evidence として保持します。Contract、Summary、Outcome、Events、archive、verification、
+finalization、close の bytes は書き換えません。WI-314 が同期済み default branch から bounded correction と
+reconciliation boundary を再配信する明示的 successor です。
 
 ## Scope と acceptance
 
@@ -31,4 +31,3 @@ conformance test は stale、malformed、missing、または言語間で異な�
 
 検証は installed Runtime と repository の documentation/inventory gate を使用します。
 source project は semantic reference であり、wire format や Runtime dependency ではありません。
-
