@@ -1,0 +1,199 @@
+{
+  "acceptanceResults": [
+    "All three reference-parity ledgers register WI-323 predecessor and WI-324 recovery with consistent status and scope.",
+    "Documentation and conformance checks pass locally from a clean base.",
+    "Hosted quality docs_governance_integrity passes without modifying predecessor archive truth.",
+    "Recovery and current Contract bindings remain explicit and valid."
+  ],
+  "createdAt": "2026-08-27T09:05:42Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:edcb1b836438ab9dc6b00b9f5fc71b066f8de0269430902a99970defa4565625",
+  "evidenceRefs": [
+    ".ai/evidence/WI-324-reference-parity-registration.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-324-reference-parity-registration.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-324-reference-parity-registration.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9121e8f161ab0b4de77f43e01ee4373ff953b77cf5c6b8212d692579ac96b990",
+      "workItemId": "WI-324-reference-parity-registration"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-324-reference-parity-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-323-reference-documentation-foundation.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-324-reference-parity-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-324-reference-parity-registration.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-324-reference-parity-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-324-reference-parity-registration.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-324-reference-parity-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-323-reference-documentation-foundation.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-324-reference-parity-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-323-reference-documentation-foundation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-324-reference-parity-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-323-reference-documentation-foundation.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-324-reference-parity-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-323-reference-documentation-foundation.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-324-reference-parity-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-323-reference-documentation-foundation.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-324-reference-parity-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-323-reference-documentation-foundation.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-324-reference-parity-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-323-reference-documentation-foundation.task-report.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-324-reference-parity-registration.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-324-reference-parity-registration.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-324-reference-parity-registration.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-324-reference-parity-registration.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-324-reference-parity-registration.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-324-reference-parity-registration.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the hosted docs governance gate recognize every predecessor and current Work Item without changing predecessor archive truth."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-324-reference-parity-registration.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-324-reference-parity-registration"
+  },
+  "taskReportDigest": "sha256:1dc557f4bbb13bbc5bbfe759c6cab3afce0f1410be5fe5a98b6aae568e8fa521",
+  "taskReportMarkdownDigest": "sha256:a598c54bcd2f88532185e27bb3ed4b5852a6334fe39496120fb2c209289e46dc",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-324-reference-parity-registration.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-324-reference-parity-registration"
+}

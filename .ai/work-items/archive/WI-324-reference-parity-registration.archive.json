@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-27T09:05:46Z",
+  "files": {
+    "contractDigest": "sha256:ecdfe079e4cd5b5601fe1edf046cbd2ceafad5a8add600f19e4d90cadee563b5",
+    "contractPath": ".ai/work-items/archive/WI-324-reference-parity-registration.contract.json",
+    "eventsDigest": "sha256:fd0de5e3e82ed886f2635d2fee5b943aa9daba97fe17dfc48409794d86afe2e2",
+    "eventsPath": ".ai/work-items/archive/WI-324-reference-parity-registration.events.jsonl",
+    "outcomeDigest": "sha256:242ba9c941fd0de1cf7fed6b76cee82499f3d55eb040207d8292c741e19e7766",
+    "outcomePath": ".ai/work-items/archive/WI-324-reference-parity-registration.outcome.json",
+    "summaryDigest": "sha256:e5d184441eae3db8906b4d78927ec150cdcb7c5d9b0a4ee9ba8ec2c34a7f366f",
+    "summaryPath": ".ai/work-items/archive/WI-324-reference-parity-registration.summary.json",
+    "taskReportDigest": "sha256:1dc557f4bbb13bbc5bbfe759c6cab3afce0f1410be5fe5a98b6aae568e8fa521",
+    "taskReportMarkdownDigest": "sha256:a598c54bcd2f88532185e27bb3ed4b5852a6334fe39496120fb2c209289e46dc",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-324-reference-parity-registration.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-324-reference-parity-registration.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-324-reference-parity-registration"
+}
