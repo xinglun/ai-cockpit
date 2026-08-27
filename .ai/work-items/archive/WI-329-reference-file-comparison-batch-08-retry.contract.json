@@ -1,0 +1,62 @@
+{
+  "acceptanceCriteria": [
+    "The reference inventory conformance script passes on the pinned source and target baseline and the WI-329 successor assertion is covered by the gate.",
+    "The nine WI-328 reference records remain explicit, with five implemented-different-by-design and four reference-only, and no deferred-next-batch or migrate-gap classification.",
+    "Comparison, parity, and Work Item documentation remain synchronized in English, Simplified Chinese, and Japanese and state the predecessor/successor boundary without overclaiming capability claim enforcement.",
+    "The repair does not rewrite or silently remove immutable predecessor evidence and does not introduce source Python/Make execution or global Agent/MCP configuration.",
+    "Installed Runtime checks, focused conformance/documentation checks, full workspace checks, hosted CI, merge, close, and exact branch/worktree cleanup all pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "75719f79d1f60b05609f72d9f30e10ee0f717993",
+  "createdAt": "2026-08-27T12:13:55Z",
+  "goal": "Reproduce and repair the reference inventory gate assertion, preserve explicit WI-328 classifications and tri-language comparison boundaries, and complete a fresh verified successor delivery without rewriting failed predecessor evidence.",
+  "intent": "Repair the hosted conformance gate regression discovered after immutable WI-328 archive while replaying the same nine-file comparison on a clean default-branch base.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    ".github/**",
+    "tests/release/**",
+    "global-agent-or-mcp-configuration",
+    "source-python-make-fixture-copies",
+    "unrelated-reference-batches"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f1a53e8fd84f70a9d191a4a39fefe922795510de9cac621beffae2aa1e99efb6",
+  "requiredEvidenceClasses": [
+    "contract",
+    "summary",
+    "verification",
+    "outcome",
+    "archive",
+    "decision"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-329-reference-file-comparison-batch-08-retry",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/292",
+    "worktree": "/private/tmp/ai-cockpit-wi329-reference-file-comparison-batch-08-retry"
+  },
+  "risk": "low",
+  "scope": [
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-329-reference-file-comparison-batch-08-retry.md",
+    "docs/work-items/WI-329-reference-file-comparison-batch-08-retry.zh-CN.md",
+    "docs/work-items/WI-329-reference-file-comparison-batch-08-retry.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-329-reference-file-comparison-batch-08-retry"
+}
