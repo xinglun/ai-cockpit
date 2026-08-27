@@ -26,44 +26,44 @@
   "repositorySnapshotDigest": "sha256:92e3286cd66f389d82778854c2fa960eadf8bbc401bd0404cad5561d21127799",
   "requiredEvidenceClasses": [],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-314-finalization-reconciliation-redelivery",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/278",
     "worktree": "/private/tmp/ai-cockpit-wi314-finalization-reconciliation-redelivery"
   },
   "risk": "high",
   "scenarioCoverage": [
     {
+      "evidence": [],
       "expected": "W312 is recovered only through an identity-bound successor decision and no historical bytes are rewritten",
       "required": true,
       "scenario": "immutable W312 recovery and tri-language status projection",
-      "evidence": [],
       "status": "unverified",
       "verificationPlan": "Run the installed Runtime recovery path, update the three projection documents, and execute status/governance gates."
     },
     {
+      "evidence": [],
       "expected": "close fails closed and does not write a close decision when the finalization disposition is retained",
       "required": true,
       "scenario": "retained finalization rejected before close",
-      "evidence": [],
       "status": "unverified",
       "verificationPlan": "Run the Rust lifecycle regression with a retained finalization receipt and assert no close receipt is created."
     },
     {
+      "evidence": [],
       "expected": "a valid reconciliation binds immutable close/finalization records and malformed or foreign transitions fail closed",
       "required": true,
       "scenario": "append-only post-close deleted transition and tamper rejection",
-      "evidence": [],
       "status": "unverified",
       "verificationPlan": "Run the finalization transition regression suite and verify predecessor bytes remain unchanged."
     },
     {
+      "evidence": [],
       "expected": "closed Work Item promotion accepts only recovered or valid reconciliation projections and rejects conditional rows without bindings",
       "required": true,
       "scenario": "promotion/status gates reject unbound conditional terminal history",
-      "evidence": [],
       "status": "unverified",
       "verificationPlan": "Run the docs promotion, status consistency, and governance-integrity regression suites."
     }
