@@ -477,6 +477,35 @@ fn verification_evidence_uses_snapshot_after_command_side_effects() {
         .current_dir(&directory)
         .status()
         .expect("git init");
+    for (key, value) in [
+        ("user.email", "test@example.invalid"),
+        ("user.name", "Test"),
+    ] {
+        assert!(
+            Command::new("git")
+                .args(["config", key, value])
+                .current_dir(&directory)
+                .status()
+                .expect("git config")
+                .success()
+        );
+    }
+    assert!(
+        Command::new("git")
+            .args(["add", "."])
+            .current_dir(&directory)
+            .status()
+            .expect("git add")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args(["commit", "-qm", "baseline"])
+            .current_dir(&directory)
+            .status()
+            .expect("git commit")
+            .success()
+    );
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     assert!(
         Command::new(binary)

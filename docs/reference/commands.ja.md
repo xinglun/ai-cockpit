@@ -56,6 +56,7 @@ handoff だけを抑止します。`work-item outcome` は既定で stdout に�
   lease は repository と Work Item に bind され、欠落・壊れた boundary、曖昧な path、stale state は fail closed
   になります。global な current Work Item は作りません。
 - `start` は `--id`、`--intent`、`--goal` が必須です。green governed flow には `--authority authorized` が必要です。
+- `start` または `work-item new` の前に Runtime は repository-scoped entry gate を評価します。`.ai` 以外の作業ツリー変更、detached HEAD、検出された remote default ref と現在の HEAD の不一致、または有効な close decision のない archived Work Item があれば fail closed になります。gate は archived bytes を書き換えません。`work-item recover` の successor は明示的な同じ recovery chain の継続であり、独立した次の Work Item ではありません。
 - `work-item new --repo <path> --id <id> --mode <mode>` は `not_ready` skeleton を作ります。snapshot-derived facts だけを埋め、
   human field は空または `unknown` のままです。移行期の `start` も同じ writer を使います。repository-local の
   exclusive reservation により重複競合は fail closed になり、同じ ID では 1 件だけが成功し、異なる repository は独立して動作します。
@@ -70,6 +71,7 @@ handoff だけを抑止します。`work-item outcome` は既定で stdout に�
   CLI は埋め込み先の Agent/UI に会話 panel の表示や展開を強制できません。host は
   stderr handoff を表示するか、`work-item outcome` で決定的に再生する必要があります。
 - `work-item status --repo <path> --id <id>` は read-only で lifecycle、governance、activity health、fact count、blocker、unknown、evidence、source digest を返します。scheduler を動かさず、割合を発明しません。
+- top-level `status` には deterministic な `readiness` object も含まれます。名前付きで clean な branch が唯一検出された remote default revision と一致し、active Work Item がなく、close 待ちの archived Work Item もない場合だけ `readyOnBase: true` になります。remote metadata が欠落または曖昧な場合は `state: unknown` であり、green にはなりません。`blocked` は entry blocker を、`unclosedArchivedWorkItems` は close または明示的 recovery が必要な記録を示します。
 - `work-item status --repo <path> --all --json` は active/archived Work Item を stable な ID 順で集約し、
   固定の green/yellow/red/unknown count、member diagnostic/digest、current repository snapshot digest、
   deterministic な index digest を返します。malformed または foreign な member は explicit unknown entry

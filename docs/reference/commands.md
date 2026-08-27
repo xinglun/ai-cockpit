@@ -62,6 +62,12 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
   there is no implicit expiry or global current Work Item.
 - `start` requires `--id`, `--intent`, and `--goal`; `--authority authorized`
   is needed for a green governed flow.
+- Before `start` or `work-item new`, the Runtime applies a repository-scoped
+  entry gate. A non-`.ai` working-tree change, detached HEAD, a known HEAD
+  mismatch with the locally discovered remote default ref, or an archived Work
+  Item without a valid close decision fails closed. The gate never rewrites
+  archived bytes. A recovery successor is an explicit continuation and may be
+  scaffolded through `work-item recover`; it is not an independent next item.
 - `work-item new --repo <path> --id <id> --mode <mode>` creates a `not_ready`
   skeleton. It fills only snapshot-derived facts and leaves human-owned fields
   empty or `unknown`; `start` remains a compatibility path over the same writer.
@@ -86,6 +92,13 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
 - `work-item status --repo <path> --id <id>` is read-only and reports lifecycle,
   governance, activity health, fact counts, blockers, unknowns, evidence, and
   source digests. It never schedules work or invents a percentage.
+- Top-level `status` includes a deterministic `readiness` object. Its
+  `readyOnBase: true` claim is limited to a clean named branch at the single
+  locally discovered remote default revision, with no active Work Item and no
+  archived item awaiting close. Missing or ambiguous remote metadata is
+  `state: unknown`, never green; `blocked` lists the exact entry blockers and
+  `unclosedArchivedWorkItems` lists the records that must be closed or
+  explicitly recovered.
 - `work-item status --repo <path> --all --json` aggregates active and archived
   items in stable ID order. It reports fixed green/yellow/red/unknown counts,
   member diagnostics and digests, the current repository snapshot digest, and

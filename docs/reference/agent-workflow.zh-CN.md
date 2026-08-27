@@ -31,6 +31,8 @@ Rust Runtime 与本仓库的 Protocol 词汇。
 - 每个 Work Item 使用一个 Contract、一个专用 branch/worktree 和一个 PR。
   只有 scope、evidence ownership、repository context 与串行投影均隔离且
   Runtime 判定兼容时，独立 Work Item 才能并行。
+- 在 `start` 或 `work-item new` 前先读取顶层 `status.readiness` 投影。若 archived
+  Work Item 没有有效 close decision、工作区已有非 `.ai` 变更、HEAD 是 detached，或已发现的远端默认 base 与 HEAD 不一致，普通的新 Work Item 会被拒绝。只有 `readyOnBase` 才是正向准备度声明；远端元数据缺失或含糊时为 `unknown`，不能隐式视为 green。Recovery successor 仍然必须是 predecessor 的显式续接。
 - 修改前阅读 `.ai/README.md` 与 `.ai/glossary.md`，查询 `inspect`、`status`、
   `doctor`；修改不得超出声明 scope；保留测试和证据；更新 Summary；执行
   Contract 声明的工程检查。

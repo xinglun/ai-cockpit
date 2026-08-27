@@ -142,6 +142,53 @@ fn new_work_item_reports_facts_and_keeps_human_decisions_empty() {
     assert!(preflight.status.success());
     let decision: serde_json::Value = serde_json::from_slice(&preflight.stdout).expect("decision");
     assert_ne!(decision["state"], "Green");
+    let status = Command::new(binary)
+        .args(["status", "--repo"])
+        .arg(&root)
+        .output()
+        .expect("status");
+    assert!(status.status.success());
+    let status: serde_json::Value = serde_json::from_slice(&status.stdout).expect("status JSON");
+    assert_eq!(status["readiness"]["readyOnBase"], false);
+    assert!(
+        status["readiness"]["blockers"]
+            .as_array()
+            .expect("readiness blockers")
+            .iter()
+            .any(|item| item == "active_work_items_present")
+    );
+    fs::remove_dir_all(root).expect("cleanup");
+}
+
+#[test]
+fn new_work_item_fails_closed_when_an_archived_item_is_not_closed() {
+    let root = repository();
+    let archive = root.join(".ai/work-items/archive");
+    fs::create_dir_all(&archive).expect("archive directory");
+    fs::write(
+        archive.join("WI-ARCHIVED-PENDING.archive.json"),
+        br#"{"schemaVersion":1,"workItemId":"WI-ARCHIVED-PENDING","state":"archived"}"#,
+    )
+    .expect("archive marker");
+
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let output = Command::new(binary)
+        .args(["work-item", "new", "--repo"])
+        .arg(&root)
+        .args(["--id", "WI-NEW-BLOCKED", "--mode", "code"])
+        .output()
+        .expect("work item scaffold");
+    assert!(!output.status.success());
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(
+        stderr.contains("archived Work Items pending close"),
+        "{stderr}"
+    );
+    assert!(
+        !root
+            .join(".ai/work-items/active/WI-NEW-BLOCKED.contract.json")
+            .exists()
+    );
     fs::remove_dir_all(root).expect("cleanup");
 }
 

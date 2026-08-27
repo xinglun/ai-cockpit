@@ -1,8 +1,9 @@
 use cockpit_core::Digest;
 use cockpit_protocol::ResourceFinalizationContext;
 use cockpit_repository::{
-    archive_work_item, attach, checkpoint_work_item, finish_work_item, generate_knowledge,
-    plan_resource_finalization, preflight_work_item, record_verification, start_work_item,
+    archive_work_item, attach, checkpoint_work_item, close_work_item_with_decision,
+    finish_work_item, generate_knowledge, plan_resource_finalization, preflight_work_item,
+    record_verification, start_work_item,
 };
 use std::{
     fs,
@@ -63,6 +64,7 @@ fn archive_one(path: &std::path::Path, id: &str) {
     .expect("verification");
     finish_work_item(path, id).expect("finish");
     archive_work_item(path, id).expect("archive");
+    close_work_item_with_decision(path, id, "approved").expect("close");
 }
 
 #[test]

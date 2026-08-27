@@ -34,6 +34,13 @@ the installed Rust Runtime and this repository's Protocol vocabulary.
 - Use one Contract, one dedicated branch/worktree, and one PR per Work Item.
   Compatible independent Work Items may run concurrently when scope, evidence
   ownership, repository context, and serialized projections are isolated.
+- Before `start` or `work-item new`, read the top-level `status.readiness`
+  projection. A normal next Work Item is rejected when an archived item lacks
+  a valid close decision, the worktree already contains non-`.ai` changes, the
+  HEAD is detached, or a discovered remote default base does not equal HEAD.
+  `readyOnBase` is the only positive readiness claim; missing or ambiguous
+  remote metadata is `unknown`, never an implicit green. Recovery successors
+  remain an explicit continuation of their predecessor.
 - Before editing, read `.ai/README.md` and `.ai/glossary.md`; query `inspect`,
   `status`, and `doctor`; keep edits inside the declared scope; preserve tests
   and evidence; update the Summary; and run the Contract's project checks.

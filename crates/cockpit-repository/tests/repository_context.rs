@@ -35,17 +35,17 @@ fn repository(name: &str) -> std::path::PathBuf {
 fn parallel_repository_contexts_do_not_share_scaffold_state() {
     let left = repository("left");
     let right = repository("right");
-    fs::write(left.join("left.txt"), "left\n").expect("left fact");
-    fs::write(right.join("right.txt"), "right\n").expect("right fact");
     std::thread::scope(|scope| {
         let left_handle = scope.spawn(|| {
             let profile = attach(&left).expect("attach left");
             let scaffold = scaffold_work_item(&left, "WI-LEFT", "code").expect("scaffold left");
+            fs::write(left.join("left.txt"), "left\n").expect("left fact");
             (profile, scaffold)
         });
         let right_handle = scope.spawn(|| {
             let profile = attach(&right).expect("attach right");
             let scaffold = scaffold_work_item(&right, "WI-RIGHT", "docs").expect("scaffold right");
+            fs::write(right.join("right.txt"), "right\n").expect("right fact");
             (profile, scaffold)
         });
         let (left_profile, left_scaffold) = left_handle.join().expect("left thread");

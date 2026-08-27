@@ -173,6 +173,10 @@ ai-cockpit work-item new --repo /path/to/repository \
 `not_ready` になり、`passed`、`approved`、`verified`、`completed` は生成しません。CLI は既知の fact と不足している
 人間入力を表示します。移行期の `start` は同じ scaffold writer を明示的な human field とともに使います。
 
+いずれのコマンドも通常の次の Work Item を作る前に repository-scoped entry gate を評価します。Contract より前に存在する `.ai` 以外の変更、detached HEAD、現在の HEAD とローカルで検出された remote default revision の不一致、または有効な close decision のない archived Work Item は fail closed になります。gate は archived records を書き換えません。identity-bound recovery decision から作られた successor は predecessor の継続であり、gate を迂回する独立 Work Item ではありません。
+
+top-level `status` の `readiness` に同じ read-only readiness projection が含まれます。名前付きの clean branch が検出された default revision に一致し、active Work Item と close 待ち archived Work Item がない場合だけ `readyOnBase` は `true` です。remote metadata が欠落または曖昧なら `state: unknown` であり、green にはなりません。`blocked` と `unclosedArchivedWorkItems` が正確な修復境界を示します。
+
 skeleton の作成は repository と Work Item ID ごとに repository-local の exclusive reservation で
 直列化されます。同じ ID に対する `work-item new` が競合した場合、Contract と summary を作成できるのは
 正確に 1 件だけで、もう 1 件は fail closed になります。ペアのファイルが commit された後に reservation
