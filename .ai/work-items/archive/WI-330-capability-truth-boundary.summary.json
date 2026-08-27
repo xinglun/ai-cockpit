@@ -13,19 +13,25 @@
     "tests/conformance/reference_file_inventory.py"
   ],
   "checkpointAt": "2026-08-27T13:26:14Z",
-  "checkpointContractDigest": "sha256:76ffc7f11cd7b73f8621e0169ffa7f32b44ecff88235da2c35ac81457f13a487",
+  "checkpointContractDigest": "sha256:9827c31f715c892338cef0da0755869914651f70bb38f0ce198846ecdef87c30",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:59ed777dc5c30818d341f103f3241bafb79c44e3566f527702c6014e251e490e",
+  "checkpointRepositorySnapshotDigest": "sha256:89511928b6667b7246c6f78246f9c6a900d2b330240fde65d4cdf363630a1c21",
   "createdAt": "2026-08-27T13:26:10Z",
   "mode": "implementation",
-  "preflightAt": "2026-08-27T13:26:14Z",
-  "preflightContractDigest": "sha256:76ffc7f11cd7b73f8621e0169ffa7f32b44ecff88235da2c35ac81457f13a487",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:59ed777dc5c30818d341f103f3241bafb79c44e3566f527702c6014e251e490e",
-  "preflightState": "yellow",
+  "preflightAt": "2026-08-27T13:27:20Z",
+  "preflightContractDigest": "sha256:9827c31f715c892338cef0da0755869914651f70bb38f0ce198846ecdef87c30",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:89511928b6667b7246c6f78246f9c6a900d2b330240fde65d4cdf363630a1c21",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-08-27T13:26:14Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-27T13:27:20Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-330-capability-truth-boundary"
 }
