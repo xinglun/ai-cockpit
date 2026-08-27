@@ -780,7 +780,7 @@ WI328_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
             "docs/reference/reference-parity.md",
             "crates/cockpit-repository/src/lib.rs",
         ],
-        "The source lexical Capability Truth Matrix checker and claim-binding front matter are not a target Runtime gate. The target capability registry reports observed, repository-bound facts and explicit exclusions; it must not claim source matrix validation or silently promote prose to evidence. A bounded capability-claim/evidence follow-up is required before adding such a gate.",
+        "WI-330 formally closes this source boundary: the lexical Capability Truth Matrix checker and claim-binding front matter remain reference-only, not a target Runtime gate. The target capability registry reports observed, repository-bound facts and explicit exclusions; it must not claim source matrix validation or silently promote prose to evidence. Any future bounded capability-claim/evidence gate requires a separately human-owned Work Item; no Python/V1 checker is copied.",
     ),
     "docs/reference/capability-evidence-freshness.md": (
         "reference-only",
@@ -789,7 +789,7 @@ WI328_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
             "docs/reference/outcome-report.md",
             "docs/reference/verification-evidence-reuse.md",
         ],
-        "The target validates Work Item verification freshness and identity-bound receipts, but has no separate Capability Truth row expiry or portable-environment matrix. The source capability-row freshness policy remains reference-only and is an explicit future candidate rather than an implied capability.",
+        "WI-330 records that the target validates Work Item verification freshness and identity-bound receipts, but intentionally has no separate Capability Truth row expiry or portable-environment matrix. The source capability-row freshness policy remains reference-only; no current capability claim may infer it, and any future extension needs a separate human-owned Work Item.",
     ),
     "docs/reference/capability-truth-matrix.json": (
         "reference-only",
@@ -799,7 +799,7 @@ WI328_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
             "docs/capabilities.md",
             "docs/reference/reference-parity.md",
         ],
-        "The source 30-row public Capability Truth Matrix is not copied. Rust `capability_truth_registry` is a request-scoped observed-capability projection with explicit adopter/external exclusions, not a public claim matrix; a future bounded Work Item owns any strict row/evidence binding.",
+        "WI-330 confirms that the source 30-row public Capability Truth Matrix is not copied. Rust `capability_truth_registry` is a request-scoped observed-capability projection with explicit adopter/external exclusions, not a public claim matrix or authorization; strict row/evidence binding remains an optional future product decision requiring explicit human scope.",
     ),
     "docs/reference/capability-truth-matrix.md": (
         "reference-only",
@@ -808,7 +808,7 @@ WI328_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
             "docs/capabilities.md",
             "docs/reference/reference-parity.md",
         ],
-        "The source matrix documentation is retained as a reference boundary only. Current target capability and adoption pages deliberately distinguish observed Runtime facts, repository evidence, adopter installation, provider evidence, and enterprise assurance; no source matrix or claim checker is advertised until a dedicated Work Item proves it.",
+        "WI-330 closes the comparison without copying the source matrix documentation. Current target capability and adoption pages deliberately distinguish observed Runtime facts, repository evidence, adopter installation, provider evidence, and enterprise assurance; they do not advertise a source matrix or claim checker. A future implementation would require a dedicated human-owned Work Item and new Rust-native evidence semantics.",
     ),
 }
 

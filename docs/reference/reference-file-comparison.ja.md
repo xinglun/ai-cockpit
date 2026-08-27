@@ -402,8 +402,10 @@ Rust target に source public claim checker/matrix がないため reference-onl
 | docs/reference/capability-truth-matrix.md | reference-only | Current capability/adoption page は observed fact、adopter、provider、enterprise の境界を示し、source matrix/checker を claim しません。 |
 
 4 つの reference-only は明示的な product boundary であり、未登録 omission では
-ありません。候補 WI-330 はこの batch では開始せず、Rust-native matrix、freshness
-policy、multilingual binding gate を人が所有する scope として定義してから着手します。
+ありません。WI-330 は file ごとの比較を閉じ、source claim checker、row freshness matrix、
+public matrix が current Runtime の機能ではないことを記録します。将来 Rust-native
+claim/evidence gate を導入するかは任意の product decision であり、別の human-owned scope
+なしに Python/V1 asset を昇格させません。
 
 Cursor adopter feedback は external validation input です。Current Runtime の stable
 lifecycle JSON、replay 可能な work-item outcome、close-before-next/readiness check、
@@ -411,3 +413,20 @@ fail-closed start/verification binding はすでに確認済みです。Runtime 
 expand できないため adapter/host が durable handoff を表示・再生します。Diagnostic
 remediation、controls scaffold、close-gap convenience、Makefile integration は後続の
 product decision であり、この batch の parity として claim しません。
+
+## WI-330 capability-truth boundary の決定
+
+WI-330 は pinned source の 4 file を一つずつ再確認し、最終決定を記録します。Target の
+`capability show` は repository と snapshot に bind された projection のままです。Public
+claim authorization と Capability Truth row expiry は current Runtime の外側です。
+
+| Pinned source path | Final classification | 決定と target counterpart |
+| --- | --- | --- |
+| docs/reference/capability-claim-authoring.md | reference-only | Source lexical trigger/claim-binding checker は copy しません。文書 metadata は evidence ではなく、public wording は current bounded evidence と limitation に依存します。Counterpart: docs/capabilities.ja.md, crates/cockpit-repository/src/lib.rs。 |
+| docs/reference/capability-evidence-freshness.md | reference-only | Work Item receipt freshness はありますが、source Capability Truth row expiry と portable-environment policy はありません。Counterpart: Runtime evidence validation、docs/reference/outcome-report.ja.md。 |
+| docs/reference/capability-truth-matrix.json | reference-only | Source 30-row matrix を Rust wire format や authorization source として copy しません。capability_truth_registry は observed fact、adopter state、external exclusion だけを報告します。Counterpart: crates/cockpit-protocol/src/lib.rs, crates/cockpit-repository/src/lib.rs。 |
+| docs/reference/capability-truth-matrix.md | reference-only | Target capability/adoption page は observed/evidence/provider/enterprise boundary を説明し、source matrix/checker を宣伝しません。Counterpart: docs/capabilities.ja.md。 |
+
+これは product-boundary の決定であり、未追跡 omission ではありません。将来 claim binding または
+row freshness を追加する場合は、human-owned Work Item で Rust-native schema、evidence generation、
+stale handling、multilingual scope、adopter acceptance を先に定義してから classification を変更します。

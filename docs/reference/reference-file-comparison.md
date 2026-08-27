@@ -469,9 +469,11 @@ does not ship the source public claim checker or matrix.
 | `docs/reference/capability-truth-matrix.md` | reference-only | Current capability/adoption pages state observed-fact, adopter, provider, and enterprise boundaries; no source matrix or checker is claimed. |
 
 The reference-only results are explicit product boundaries, not hidden
-omissions. Candidate WI-330 is not started in this batch and must receive a
-separate human-owned scope before implementing a Rust-native capability claim
-matrix, freshness policy, or strict multilingual binding gate.
+omissions. WI-330 closes this comparison by documenting that the source claim
+checker, row-freshness matrix, and public matrix are not target Runtime
+features. A future Rust-native claim/evidence gate remains optional and would
+require a separately human-owned scope; no source Python/V1 asset is silently
+promoted.
 
 Cursor adopter feedback is external validation input. Current Runtime lifecycle
 JSON, replayable work-item outcome, close-before-next/readiness checks, and
@@ -479,3 +481,22 @@ fail-closed start/verification bindings are already documented and tested.
 Cursor/host adapters must surface the durable handoff because the Runtime
 cannot expand an IDE chat panel. Diagnostic remediation, controls scaffolding,
 close-gap convenience, and Makefile integration remain explicit non-goals here.
+
+## WI-330 capability-truth boundary decision
+
+WI-330 re-reads the four pinned source files individually and records the
+following final decision. The target's `capability show` projection remains
+repository- and snapshot-bound, while public claim authorization and
+Capability Truth row expiry are intentionally outside the current Runtime.
+
+| Pinned source path | Final classification | Decision and target counterpart |
+| --- | --- | --- |
+| `docs/reference/capability-claim-authoring.md` | reference-only | The source lexical trigger/claim-binding checker is not copied. Documentation metadata does not grant evidence; public wording must rely on current bounded evidence and limitations. Counterparts: `docs/capabilities.md`, `crates/cockpit-repository/src/lib.rs`. |
+| `docs/reference/capability-evidence-freshness.md` | reference-only | Work Item receipt freshness exists, but source Capability Truth row expiry and portable-environment policy do not. Counterparts: Runtime evidence validation and `docs/reference/outcome-report.md`. |
+| `docs/reference/capability-truth-matrix.json` | reference-only | The source 30-row matrix is not a Rust wire format or authorization source. `capability_truth_registry` reports observed facts, adopter state, and external exclusions only. Counterparts: `crates/cockpit-protocol/src/lib.rs`, `crates/cockpit-repository/src/lib.rs`. |
+| `docs/reference/capability-truth-matrix.md` | reference-only | The target capability/adoption pages state the observed/evidence/provider/enterprise boundary without advertising the source matrix or checker. Counterpart: `docs/capabilities.md`. |
+
+This is a product-boundary decision, not an untracked omission. If a future
+human-owned Work Item introduces claim binding or row freshness, it must define
+Rust-native schemas, evidence generation, stale handling, multilingual scope,
+and adopter acceptance before changing any classification.
