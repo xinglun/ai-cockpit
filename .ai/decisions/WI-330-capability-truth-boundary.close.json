@@ -1,0 +1,204 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-330-capability-truth-boundary.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:89511928b6667b7246c6f78246f9c6a900d2b330240fde65d4cdf363630a1c21",
+      "workItemId": "WI-330-capability-truth-boundary"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-330-capability-truth-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-file-comparison.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-330-capability-truth-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-file-comparison.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-330-capability-truth-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-file-comparison.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-330-capability-truth-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-330-capability-truth-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-330-capability-truth-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-330-capability-truth-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-330-capability-truth-boundary.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-330-capability-truth-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-330-capability-truth-boundary.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-330-capability-truth-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-330-capability-truth-boundary.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-330-capability-truth-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/conformance/reference_file_inventory.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-330-capability-truth-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/conformance/reference_file_inventory.py"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-330-capability-truth-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-330-capability-truth-boundary.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-330-capability-truth-boundary.verification.json",
+            ".ai/decisions/WI-330-capability-truth-boundary.finalize.json",
+            ".ai/decisions/WI-330-capability-truth-boundary.finalize.0c1ecf840859c3ce2fda21da34d25e8e742386d4d8de7674ade851d217dcdcdc.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-27T13:38:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-330-capability-truth-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-330-capability-truth-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-330-capability-truth-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-330-capability-truth-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "Record an evidence-backed file-level decision for each source path, update the tri-language comparison/parity records, and make the Rust capability registry boundary explicit for adopters."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-330-capability-truth-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-330-capability-truth-boundary"
+  },
+  "finalReportDigest": "sha256:8d57c33f504c8c837e94425464f937478575ab04ed4d7b7ecf2af557c496f455",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:003f528320a1c174c6a7eb72a70523793ec542d596d2bac07bcc768e4a175a18",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-330-capability-truth-boundary.finalize.0c1ecf840859c3ce2fda21da34d25e8e742386d4d8de7674ade851d217dcdcdc.json",
+  "resourceFinalizationSequence": 1,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-27T13:38:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-330-capability-truth-boundary.verification.json",
+      ".ai/decisions/WI-330-capability-truth-boundary.finalize.json",
+      ".ai/decisions/WI-330-capability-truth-boundary.finalize.0c1ecf840859c3ce2fda21da34d25e8e742386d4d8de7674ade851d217dcdcdc.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md:reviewed-pr-and-cleanup",
+      "docs/reference/reference-file-comparison.md"
+    ],
+    "reason": "PR #294 已通过全部托管检查并合并；finalize-verify 已确认精确分支与 worktree 清理，四个固定源文件的边界决定已记录。",
+    "resumeCondition": "仅从同步后的 origin/main 和干净工作树开始下一 Work Item。"
+  },
+  "timestamp": "2026-08-27T13:37:25Z",
+  "workItemId": "WI-330-capability-truth-boundary"
+}
