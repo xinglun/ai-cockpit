@@ -6,9 +6,13 @@ description: "允许事前编辑检查点保留历史快照，同时要求终态
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-320-checkpoint-evidence-snapshot-lifecycle
+terminalArchive: .ai/work-items/archive/WI-320-checkpoint-evidence-snapshot-lifecycle.contract.json
+terminalVerification: .ai/evidence/WI-320-checkpoint-evidence-snapshot-lifecycle.verification.json
+terminalFinalization: .ai/decisions/WI-320-checkpoint-evidence-snapshot-lifecycle.finalize.json
+terminalDecision: .ai/decisions/WI-320-checkpoint-evidence-snapshot-lifecycle.close.json
 ---
 
 # WI-320——checkpoint evidence 快照生命周期

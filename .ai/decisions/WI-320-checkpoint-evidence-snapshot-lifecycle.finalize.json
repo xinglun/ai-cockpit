@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "16c141d9d40b41c983f1149e48b656ee63255acf",
+    "name": "codex/wi-320-checkpoint-evidence-snapshot-lifecycle",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:976ec81aa8ca610f4934f17f818765c7e49b107ae1a9bea6e669165a559fe7e8",
+  "operationId": "github-pr-283-merge-cleanup-20260827",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "bdecd9af8ea671196b849e34aeda2dbf4a03348b",
+    "headRevision": "16c141d9d40b41c983f1149e48b656ee63255acf",
+    "mergeCommit": "2e23016b2c7e5792581e683b9cc4e2835b5b54ab",
+    "number": 283,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/283"
+  },
+  "reason": "PR #283 passed all hosted checks and was merged; the exact feature branch and worktree were removed and verified.",
+  "receiptId": "github-pr-283-finalization-20260827",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-320-checkpoint-evidence-snapshot-lifecycle",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/283",
+    "worktree": "/private/tmp/ai-cockpit-wi320-checkpoint-evidence-snapshot-lifecycle"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:5c0bd020528a7547a5771f9ef74fadb03af22ff83b3c87b40bedc5d612834b4f",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-27T06:00:00Z",
+  "workItemId": "WI-320-checkpoint-evidence-snapshot-lifecycle",
+  "worktree": {
+    "branch": "codex/wi-320-checkpoint-evidence-snapshot-lifecycle",
+    "headRevision": "16c141d9d40b41c983f1149e48b656ee63255acf",
+    "path": "/private/tmp/ai-cockpit-wi320-checkpoint-evidence-snapshot-lifecycle",
+    "worktreeId": "WI-320-checkpoint-evidence-snapshot-lifecycle"
+  }
+}
