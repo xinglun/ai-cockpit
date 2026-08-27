@@ -6,7 +6,7 @@ description: "在保留 WI-336 历史的前提下，通过干净 successor lifec
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-337-reference-docs-foundation-retry
 ---

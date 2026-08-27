@@ -6,7 +6,7 @@ description: "WI-336 の history を保持し、最初の 5 つの pinned refere
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-337-reference-docs-foundation-retry
 ---

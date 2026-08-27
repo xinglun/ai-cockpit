@@ -6,7 +6,7 @@ description: "Redeliver the first five pinned reference governance-documentation
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-337-reference-docs-foundation-retry
 ---

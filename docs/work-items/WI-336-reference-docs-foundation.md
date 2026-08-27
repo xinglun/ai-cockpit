@@ -6,7 +6,7 @@ description: "Compare the first five deferred reference governance documents and
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-336-reference-docs-foundation
 ---

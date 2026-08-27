@@ -6,7 +6,7 @@ description: "逐个比较前五个延期的参考源治理文档，记录 Rust-
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-336-reference-docs-foundation
 ---
