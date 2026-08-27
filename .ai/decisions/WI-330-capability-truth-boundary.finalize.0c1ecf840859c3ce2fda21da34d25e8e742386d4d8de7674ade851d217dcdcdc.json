@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:19d0bead17ee924b5bfefe542e8b0a09eda099fae97dfd82994b7de7118b1150",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "explicit-user-authorization",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "d84bcfea3ab3718ae380d27cb9f83bacac4ec614",
+      "name": "codex/wi-330-capability-truth-boundary-clean",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:dc9c8f29dbb40ebea5ba8522560a3dd8d4eae96c1551dba8b8e8dde21eb7262f",
+    "operationId": "github-pr-294-merge-cleanup-20260827",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "98dfb3dc2adca6321ae7ea77dc47be0c2850854e",
+      "headRevision": "d84bcfea3ab3718ae380d27cb9f83bacac4ec614",
+      "mergeCommit": "dc7a05f920bd13633b9e087964774c8fa955869a",
+      "number": 294,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/294"
+    },
+    "reason": "The merged WI-330 feature branch and exact worktree were removed after synchronization; the deleted cleanup receipt is appended to the retained merge observation.",
+    "receiptId": "github-pr-294-finalization-deleted-20260827",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-330-capability-truth-boundary-clean",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/294",
+      "worktree": "/private/tmp/ai-cockpit-wi330-capability-truth-boundary-clean"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+    "runtimeVersion": "0.2.33",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-27T13:36:00Z",
+    "workItemId": "WI-330-capability-truth-boundary",
+    "worktree": {
+      "branch": "codex/wi-330-capability-truth-boundary-clean",
+      "headRevision": "d84bcfea3ab3718ae380d27cb9f83bacac4ec614",
+      "path": "/private/tmp/ai-cockpit-wi330-capability-truth-boundary-clean",
+      "worktreeId": "WI-330-capability-truth-boundary"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-330-capability-truth-boundary-cleanup-deleted"
+}
