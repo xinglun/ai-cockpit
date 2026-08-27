@@ -142,8 +142,10 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
 - `work-item new` creates a `not_ready` skeleton. Running `preflight` on it is
   intentionally yellow with `reviewState: needs_human_confirmation`; fill the
   human fields and rerun preflight before checkpoint.
-- `close --human-decision approved|rejected` is a human decision record, not
-  verification evidence.
+- `close --human-decision approved|confirmed|rejected` is a human decision
+  record, not verification evidence. `approved` and an explicit `confirmed`
+  decision are positive terminal choices; `rejected` never promotes a Work
+  Item to Implemented.
 - `evidence import --repo <path> --work-item <id> --metadata <metadata.json>
   --raw <provider-output>` verifies the strict `DelegatedEvidence` metadata
   against the exact raw-byte digest and writes a repository/Work Item-bound

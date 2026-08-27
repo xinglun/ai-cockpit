@@ -129,7 +129,7 @@ fi
 
 perl -0pi -e 's/status: implemented/status: recovered/' \
   "$fixture/docs/work-items/$work_item.zh-CN.md"
-printf '{"workItemId":"%s","repositoryId":"%s","state":"closed","decisionState":"confirmed","humanDecision":"approved"}\n' \
+printf '{"workItemId":"%s","repositoryId":"%s","state":"closed","decisionState":"confirmed","humanDecision":"confirmed"}\n' \
   "$work_item" "$repository_id" \
   > "$fixture/.ai/decisions/$work_item.close.json"
 for parity_document in \

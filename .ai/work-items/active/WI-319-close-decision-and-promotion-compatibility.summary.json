@@ -1,0 +1,87 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-319-close-decision-and-promotion-compatibility.contract.json",
+    ".ai/work-items/active/WI-319-close-decision-and-promotion-compatibility.summary.json"
+  ],
+  "checkpointAt": "2026-08-27T04:22:03Z",
+  "checkpointContractDigest": "sha256:b6978ecc4e7120e88052f7e2339336c587b0e3a231efcdb9af157fe7ae0052ec",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:8a6bcab224d36c76f8981664344c9bd88165a8b30a6bbfee9f5e0dd2ee0db829",
+      "recorded": true,
+      "recordedAt": "2026-08-27T04:22:03Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2b87df99b4f89a6d18014f555b14eabf5017af7b857d7cfebd595c6a5ac980d8",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-319-close-decision-and-promotion-compatibility"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:c4525596a4dec1a469a74d8088a119219b9950d8547f0b8e58e53547d5726e5d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:8a6bcab224d36c76f8981664344c9bd88165a8b30a6bbfee9f5e0dd2ee0db829",
+      "previousContractHash": "sha256:8a6bcab224d36c76f8981664344c9bd88165a8b30a6bbfee9f5e0dd2ee0db829",
+      "reason": "The post-close acceptance pass identified W317's required terminal documentation promotion as part of the same static-consumer consistency boundary. Include its exact three-language Work Item/parity projection paths; immutable archive and close bytes remain out of scope.",
+      "recorded": true,
+      "recordedAt": "2026-08-27T04:24:52Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8bd0d4cd62a4082cc4fc9f2a6a39d1c5e513337cc750e7c20c3db0151546bb76",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-319-close-decision-and-promotion-compatibility"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:b6978ecc4e7120e88052f7e2339336c587b0e3a231efcdb9af157fe7ae0052ec",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:8a6bcab224d36c76f8981664344c9bd88165a8b30a6bbfee9f5e0dd2ee0db829",
+      "previousContractHash": "sha256:c4525596a4dec1a469a74d8088a119219b9950d8547f0b8e58e53547d5726e5d",
+      "reason": "Align the machine-readable authority token with the Runtime contract schema and include the three new W319 documentation projections in the declared scope; human ownership remains recorded in the Work Item narrative.",
+      "recorded": true,
+      "recordedAt": "2026-08-27T04:32:17Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0e3d9a4c45265fcc0342e5fa5a7a6b19676e0e4305af7c5fe97e7157f662755c",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-319-close-decision-and-promotion-compatibility"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:0e3d9a4c45265fcc0342e5fa5a7a6b19676e0e4305af7c5fe97e7157f662755c",
+  "createdAt": "2026-08-27T04:21:45Z",
+  "failedGate": "finish.governance",
+  "mode": "docs",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-27T04:38:17Z",
+  "preflightContractDigest": "sha256:b6978ecc4e7120e88052f7e2339336c587b0e3a231efcdb9af157fe7ae0052ec",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:0e3d9a4c45265fcc0342e5fa5a7a6b19676e0e4305af7c5fe97e7157f662755c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-27T04:38:21Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-319-close-decision-and-promotion-compatibility"
+}

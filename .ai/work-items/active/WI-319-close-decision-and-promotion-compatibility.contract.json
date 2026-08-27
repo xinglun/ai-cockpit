@@ -1,0 +1,74 @@
+{
+  "acceptanceCriteria": [
+    "当前 Runtime：root retained + sequence-1 deleted + close 绑定 sequence-1 时，promotion、status、governance gates 必须通过。",
+    "历史 Runtime：root retained + sequence-1 deleted + close 仍绑定 root 时，既有 reconciliation 规则继续通过。",
+    "sequence-1 predecessor/before/after/result/identity/digest 任一不一致继续 fail closed。",
+    "confirmed 与 approved 均为显式结构化 human decision 时可验证；rejected 不得晋级为已实现。",
+    "三语文档明确当前与历史绑定差异，不改写 W317 或其他 immutable history。",
+    "W317 已关闭投影在三语 Work Item 文档与 parity ledger 中晋级为 Implemented，并绑定 immutable archive/verification/finalization/close evidence。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "bdecd9af8ea671196b849e34aeda2dbf4a03348b",
+  "checkpointPolicy": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "requiredBeforeFinish": true,
+    "requiredStages": ["before_edit", "before_finish"],
+    "requiredChecks": ["verification"]
+  },
+  "createdAt": "2026-08-27T04:21:45Z",
+  "goal": "使静态晋级和治理检查忠实消费 Runtime 的有效 close/finalization 绑定，保留历史兼容边界并用回归测试锁定。",
+  "intent": "统一 Runtime 允许的结构化 human decision 与静态 promotion/status/governance gate，并区分当前 sequence-1 cleanup-before-close 与历史 post-close reconciliation，避免有效已关闭 Work Item 被错误阻断。",
+  "mode": "docs",
+  "outOfScope": [
+    "crates/**",
+    "tests/release/**",
+    ".ai/work-items/archive/**",
+    ".ai/decisions/WI-317-*"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2b87df99b4f89a6d18014f555b14eabf5017af7b857d7cfebd595c6a5ac980d8",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-319-close-decision-and-promotion-compatibility",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi319-close-decision-and-promotion-compatibility"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "tests/docs/work_item_status_consistency.py",
+    "tests/docs/work_item_status_consistency_test.sh",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/work-items/WI-317-post-close-reconciliation-quality-gate-fix.md",
+    "docs/work-items/WI-317-post-close-reconciliation-quality-gate-fix.zh-CN.md",
+    "docs/work-items/WI-317-post-close-reconciliation-quality-gate-fix.ja.md",
+    "docs/work-items/WI-319-close-decision-and-promotion-compatibility.md",
+    "docs/work-items/WI-319-close-decision-and-promotion-compatibility.zh-CN.md",
+    "docs/work-items/WI-319-close-decision-and-promotion-compatibility.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-319-close-decision-and-promotion-compatibility"
+}
