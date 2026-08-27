@@ -1,14 +1,15 @@
 {
   "changedPaths": [
     ".ai/decisions/WI-315-post-close-reconciliation-promotion-recovery.recovery.3d6e6dabe5791481de8e15caaf79a5034375d796e32c872ef0026c1899619bbb.json",
-    ".ai/work-items/active/WI-316-post-close-reconciliation-promotion-base-fix.contract.json",
-    ".ai/work-items/active/WI-316-post-close-reconciliation-promotion-base-fix.summary.json"
+    ".ai/work-items/archive/WI-316-post-close-reconciliation-promotion-base-fix.contract.json",
+    ".ai/work-items/archive/WI-316-post-close-reconciliation-promotion-base-fix.summary.json"
   ],
   "checkpointAt": "2026-08-27T02:47:55Z",
-  "checkpointContractDigest": "sha256:be08773da790e213bef596732198133ab081d5d0b0952d8584ee0e62582c9e39",
+  "checkpointContractDigest": "sha256:f7e20d4da75695646a2141f08835540af24983425b375dc749f852ef69764917",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:076cacce809733c9b07618661828a510abcbccfd0a5925b54aac96029464e0ca",
+  "checkpointRepositorySnapshotDigest": "sha256:508900f541921eda92bf6356e474d559d42acef84ad96b64202cae865aeae28e",
   "createdAt": "2026-08-27T02:43:13Z",
+  "failedGate": "finish.verification",
   "intentAlignment": {
     "evidence": [
       "https://github.com/xinglun/ai-cockpit/actions/runs/33033591839",
@@ -18,14 +19,16 @@
     "state": "resolved"
   },
   "mode": "code",
+  "outcomeState": "blocked",
   "predecessorContractDigest": "sha256:57ab71d6ae84d3e3b52e116d30860d50d81bcc42a4d13320ed232cfb5934b3e1",
   "predecessorWorkItemId": "WI-315-post-close-reconciliation-promotion-recovery",
-  "preflightAt": "2026-08-27T02:52:14Z",
-  "preflightContractDigest": "sha256:be08773da790e213bef596732198133ab081d5d0b0952d8584ee0e62582c9e39",
+  "preflightAt": "2026-08-27T02:57:49Z",
+  "preflightContractDigest": "sha256:f7e20d4da75695646a2141f08835540af24983425b375dc749f852ef69764917",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:076cacce809733c9b07618661828a510abcbccfd0a5925b54aac96029464e0ca",
+  "preflightRepositorySnapshotDigest": "sha256:508900f541921eda92bf6356e474d559d42acef84ad96b64202cae865aeae28e",
   "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
   "recoveryDecisionPath": ".ai/decisions/WI-315-post-close-reconciliation-promotion-recovery.recovery.3d6e6dabe5791481de8e15caaf79a5034375d796e32c872ef0026c1899619bbb.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -65,8 +68,8 @@
       "verificationPlan": "Run documentation acceptance and compare W315 archive manifest digests before and after."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-08-27T02:47:55Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-27T02:57:54Z",
   "verification": [
     {
       "check": "project-command-0",
