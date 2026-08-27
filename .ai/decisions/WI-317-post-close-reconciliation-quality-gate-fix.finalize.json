@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "reviewed-PR-281-merge",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "e626928c3c4bb2ec058bda3597d366b57f91b58d",
+    "name": "codex/wi-317-post-close-reconciliation-quality-gate-fix",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:98252ee57d26cd1c544f12e69f06067174de5ccee1c86792458d7ac49669740e",
+  "operationId": "operation-WI-317-post-close-reconciliation-quality-gate-fix-merge-observed",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "01c4a9ff10f7ab62f1ba9c6129129a3f9c127f82",
+    "headRevision": "e626928c3c4bb2ec058bda3597d366b57f91b58d",
+    "mergeCommit": "2b189cb1ae24ddcabf583b115b62253f620d7d97",
+    "number": 281,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/281"
+  },
+  "reason": "Observed reviewed PR #281 merged at exact reviewed head e626928 with merge commit 2b189cb; retain the exact branch and clean worktree until cleanup is verified.",
+  "receiptId": "ai-cockpit-WI-317-post-close-reconciliation-quality-gate-fix-merge-observed",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-317-post-close-reconciliation-quality-gate-fix",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/281",
+    "worktree": "/private/tmp/ai-cockpit-wi317-post-close-reconciliation-quality-gate-fix"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-27T04:01:50Z",
+  "workItemId": "WI-317-post-close-reconciliation-quality-gate-fix",
+  "worktree": {
+    "branch": "codex/wi-317-post-close-reconciliation-quality-gate-fix",
+    "headRevision": "e626928c3c4bb2ec058bda3597d366b57f91b58d",
+    "path": "/private/tmp/ai-cockpit-wi317-post-close-reconciliation-quality-gate-fix",
+    "worktreeId": "WI-317-post-close-reconciliation-quality-gate-fix"
+  }
+}
