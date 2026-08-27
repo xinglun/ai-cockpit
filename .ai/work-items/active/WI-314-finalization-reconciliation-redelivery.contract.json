@@ -1,0 +1,104 @@
+{
+  "acceptanceCriteria": [
+    "The immutable W312 delivery is explicitly recovered through a Runtime-generated, repository-bound successor decision; its Contract, Summary, Outcome, Events, archive, verification, finalization, and close bytes remain unchanged.",
+    "The W313 Runtime correction is redelivered from the synchronized default branch: new close operations reject retained, blocked, or unknown finalization, and valid post-close reconciliation is append-only, identity-bound, and fail closed on tampered or foreign receipts.",
+    "The closed-Work-Item promotion and status-consistency gates accept the recovered W312 projection and a valid reconciliation exception while continuing to reject conditional terminal rows without a valid recovery or cleanup binding.",
+    "Tri-language parity and workflow documentation record W312 as recovered, register W314 before its verification evidence, and explain why W313 PR #277 remains immutable failed delivery; no undocumented terminal or green claim is introduced.",
+    "Focused regressions, cargo fmt, clippy with warnings denied, the full locked workspace test suite, documentation gates, and hosted CI all pass from this Work Item's exact branch and base."
+  ],
+  "authority": "authorized",
+  "baseRevision": "01c4a9ff10f7ab62f1ba9c6129129a3f9c127f82",
+  "createdAt": "2026-08-27T01:38:59Z",
+  "goal": "Redeliver cleanup-before-close and append-only finalization reconciliation with explicit W312 recovery.",
+  "intent": "Resolve W313 CI failure at its source while preserving immutable predecessor truth.",
+  "mode": "code",
+  "outOfScope": [
+    "W312 Contract, Summary, Outcome, Events, archive, verification, original finalization, and close bytes; W313 branch/archive bytes and PR #277 remain external immutable failed-delivery history.",
+    "Reference-source implementation copying, the next file-comparison batch, release/adopter acceptance, CI provider policy unrelated to closed-Work-Item promotion, scheduler/parallelism/performance, global Agent/MCP configuration, and V1 runtime or template copying.",
+    "Unrelated lifecycle state machines, automatic provider deletion, or broad status-gate weakening; conditional terminal rows without an explicit valid recovery remain failures."
+  ],
+  "predecessorContractDigest": "sha256:acce06993ac89f421ea2cd867ecb48869bb5cb8c9051139322c29ca70c428031",
+  "predecessorWorkItemId": "WI-312-reference-inventory-doc-consistency-parity-recovery-successor",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:92e3286cd66f389d82778854c2fa960eadf8bbc401bd0404cad5561d21127799",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-314-finalization-reconciliation-redelivery",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi314-finalization-reconciliation-redelivery"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "expected": "W312 is recovered only through an identity-bound successor decision and no historical bytes are rewritten",
+      "required": true,
+      "scenario": "immutable W312 recovery and tri-language status projection",
+      "evidence": [],
+      "status": "unverified",
+      "verificationPlan": "Run the installed Runtime recovery path, update the three projection documents, and execute status/governance gates."
+    },
+    {
+      "expected": "close fails closed and does not write a close decision when the finalization disposition is retained",
+      "required": true,
+      "scenario": "retained finalization rejected before close",
+      "evidence": [],
+      "status": "unverified",
+      "verificationPlan": "Run the Rust lifecycle regression with a retained finalization receipt and assert no close receipt is created."
+    },
+    {
+      "expected": "a valid reconciliation binds immutable close/finalization records and malformed or foreign transitions fail closed",
+      "required": true,
+      "scenario": "append-only post-close deleted transition and tamper rejection",
+      "evidence": [],
+      "status": "unverified",
+      "verificationPlan": "Run the finalization transition regression suite and verify predecessor bytes remain unchanged."
+    },
+    {
+      "expected": "closed Work Item promotion accepts only recovered or valid reconciliation projections and rejects conditional rows without bindings",
+      "required": true,
+      "scenario": "promotion/status gates reject unbound conditional terminal history",
+      "evidence": [],
+      "status": "unverified",
+      "verificationPlan": "Run the docs promotion, status consistency, and governance-integrity regression suites."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+    "crates/cockpit-cli/tests/common/mod.rs",
+    "crates/cockpit-cli/tests/intelligence.rs",
+    "crates/cockpit-cli/tests/lifecycle.rs",
+    "crates/cockpit-cli/tests/outcome_handoff.rs",
+    "crates/cockpit-cli/tests/outcome_human_decision.rs",
+    "tests/docs/**",
+    "docs/reference/**",
+    "docs/work-items/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.md",
+    "docs/work-items/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.zh-CN.md",
+    "docs/work-items/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.ja.md",
+    "docs/work-items/WI-314-finalization-reconciliation-redelivery.md",
+    "docs/work-items/WI-314-finalization-reconciliation-redelivery.zh-CN.md",
+    "docs/work-items/WI-314-finalization-reconciliation-redelivery.ja.md",
+    ".ai/decisions/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.recovery.json",
+    ".ai/work-items/active/WI-314-finalization-reconciliation-redelivery.contract.json",
+    ".ai/work-items/active/WI-314-finalization-reconciliation-redelivery.summary.json",
+    ".ai/work-items/active/WI-314-finalization-reconciliation-redelivery.approach.json",
+    ".ai/evidence/WI-314-finalization-reconciliation-redelivery.verification.json"
+  ],
+  "sources": [
+    "origin/main@01c4a9ff10f7ab62f1ba9c6129129a3f9c127f82",
+    "https://github.com/xinglun/ai-cockpit/pull/277",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/33029904496",
+    "spirex-ds-dev/ai-cockpit-template: closed Work Item and finalization ordering rules"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-314-finalization-reconciliation-redelivery"
+}
