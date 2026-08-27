@@ -4,7 +4,7 @@ title: "WI-338 — reference documentation foundation clean delivery"
 workItemId: WI-338-reference-docs-foundation-clean
 description: "Clean successor delivery of the first five pinned reference governance-documentation comparisons."
 audience: [maintainer, reviewer]
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-338-reference-docs-foundation-clean
 ---

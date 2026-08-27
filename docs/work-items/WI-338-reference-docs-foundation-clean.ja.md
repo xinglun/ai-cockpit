@@ -4,7 +4,7 @@ title: "WI-338 — reference documentation foundation clean delivery"
 workItemId: WI-338-reference-docs-foundation-clean
 description: "WI-336/WI-337 の immutable history を保持し、最初の 5 pinned reference governance-documentation 比較を再配信する。"
 audience: [maintainer, reviewer]
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-338-reference-docs-foundation-clean
 ---
