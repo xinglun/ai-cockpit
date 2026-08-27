@@ -27,11 +27,11 @@
   "repositorySnapshotDigest": "sha256:b506dfb164dbed029de6c46ad48a16c37320c84fd18d7ec31dbc979b9d92e7c2",
   "requiredEvidenceClasses": [],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-321-explicit-failed-delivery",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/284",
     "worktree": "/private/tmp/ai-cockpit-wi321-explicit-failed-delivery"
   },
   "risk": "low",
