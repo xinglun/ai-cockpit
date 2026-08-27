@@ -146,6 +146,17 @@ checks.
 
 ## Resource finalization boundary
 
+New Work Items must complete provider-side branch and worktree cleanup before
+`close`: a `retained`, `blocked`, or `unknown` finalization result is not a
+terminal success. The Runtime rejects that ordering in both the legacy library
+entry point and the Runtime-bound CLI path. For immutable historical records
+created by an older Runtime, `work-item finalize` may append one identity-bound
+deleted transition after close. This is a bounded reconciliation only: it
+must bind the closed root digest, preserve the original close bytes, and prove
+the exact merged-PR, deleted-branch, and removed-worktree postconditions. It
+does not authorize a new Work Item or weaken the normal cleanup-before-close
+rule.
+
 Finalization evidence is append-only. The canonical `<id>.finalize.json` is the immutable chain root; later provider observations use `<id>.finalize.<digest>.json` and bind the predecessor digest and sequence. The archived Contract freezes `baseRevision`: every canonical or transition receipt's `pullRequest.baseRevision` must equal that exact value during both recording and `finalize-verify`. Rebase before archive requires a fresh active Contract binding and review; rebase after archive is prohibited and requires fail-closed recovery instead of rewriting either record. `finalize-verify` and `close` require one unique linear head. Stale predecessors, forks, malformed records, symlinks, base mismatch, and identity drift fail closed. A pre-merge blocked root advances through continuous merge-observation (`retained`) and cleanup (`deleted`) transitions. If committing the canonical governance receipt advances the PR head, only the first unmerged-to-merged observation may declare `governanceAppendRevision`: all PR, branch, and worktree heads must move together, and Git must prove the old head is its ancestor. That append range may add regular same-Work-Item finalization receipts and the complete Runtime-generated post-finalize evidence bundle at exactly `.ai/evidence/<id>/quality-route-post-finalize.json` and `.ai/evidence/<id>/repository-gates-post-finalize.json`. Every accepted path is an `A`-only Git change whose tree entry is a `100644` regular blob. The evidence files must have their fixed schemas and bind the archived Contract, PR base and bounded head, route receipt digest, manifest digest, selected profile, and passing required gates. They are bound observations, not authority by themselves, and the range must still contain a finalization receipt addition. Missing bundle members, another Work Item or filename, malformed or duplicate-key JSON, mismatched bindings, deletion, modification, rename, symlink, unrelated change, non-merge drift, or later head drift is rejected. Archive bytes are never rewritten. Cleanup retains the accepted head.
 
 ## Pending parity registration
@@ -241,11 +252,12 @@ finalize-plan → finalize → finalize-verify → close
 These are Runtime commands. They require an explicit `--repo` and a typed,
 identity-bound context/receipt; they do not delete resources implicitly. A
 Work Item may be archived only after verification, and it may be closed only
-after `finalize-verify` accepts `Deleted` or an explicitly authorized
-`Retained` receipt. Archived verification evidence remains immutable historical
-truth: after a Runtime upgrade it is projected as historical rather than
-revalidated as a current result, while the new finalization receipt is always
-bound to the Runtime executing the close request.
+after `finalize-verify` accepts an identity-bound `Deleted` receipt. A
+`Retained` receipt is an intermediate merge observation or an explicit legacy
+recovery fact; it never authorizes a new close. Archived verification evidence
+remains immutable historical truth: after a Runtime upgrade it is projected as
+historical rather than revalidated as a current result, while a new
+finalization receipt is bound to the Runtime executing the close request.
 
 Structural close is followed by a controlled documentation projection and the
 terminal default-branch check:
@@ -287,11 +299,10 @@ ordinary branches, unproven tags, and malformed receipts remain fail-closed.
   open for recovery; it is not permission to continue.
 - `retain` is an explicit human decision, with owner, reason, scope, and an
   expiry/review condition. Retained resources never silently become cleanup
-  success; unless an organization policy explicitly permits a bounded retain
-  path, `close` remains blocked.
-- `close` must not occur before `finalize-verify` succeeds (or a separately
-  authorized, auditable retain path is accepted). Every failure preserves the
-  retry identity and a visible yellow/red Outcome.
+  success and cannot authorize a new `close`; an older closed record may only
+  receive the bounded deleted reconciliation described above.
+- `close` must not occur before `finalize-verify` succeeds with `Deleted`.
+  Every failure preserves the retry identity and a visible yellow/red Outcome.
 
 ## Agent provider surfaces
 

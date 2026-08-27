@@ -151,7 +151,7 @@ fn default_lifecycle_commands_emit_localized_handoffs_without_changing_stdout_js
         assert_eq!(archive_json["workItemId"], id);
         assert_handoff(&archive.stderr, success, &[unknowns, decisions, next]);
 
-        common::record_retained(binary, repo.path(), id);
+        common::record_deleted(binary, repo.path(), id);
         let close = Command::new(binary)
             .args(["close", "--repo"])
             .arg(repo.path())
@@ -213,7 +213,7 @@ fn explicit_json_mode_suppresses_handoff_and_keeps_machine_stdout() {
         assert!(!String::from_utf8_lossy(&output.stderr).contains("Outcome:"));
     }
 
-    common::record_retained(binary, repo.path(), id);
+    common::record_deleted(binary, repo.path(), id);
     let close = run(
         binary,
         repo.path(),

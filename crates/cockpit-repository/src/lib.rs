@@ -9378,12 +9378,7 @@ pub fn record_resource_finalization(
     let close_path = root
         .join(".ai/decisions")
         .join(format!("{work_item_id}.close.json"));
-    if close_path.exists() {
-        return Err(ObserverError::State {
-            path: close_path,
-            message: "resource finalization cannot be appended after close".into(),
-        });
-    }
+    let close_present = fs::symlink_metadata(&close_path).is_ok();
     let manifest_path = root
         .join(".ai/work-items/archive")
         .join(format!("{work_item_id}.archive.json"));
@@ -9400,6 +9395,12 @@ pub fn record_resource_finalization(
     } else {
         read_resource_finalization_receipt(receipt_path)?
     };
+    if close_present && transition.is_none() {
+        return Err(ObserverError::State {
+            path: close_path.clone(),
+            message: "resource finalization reconciliation after close requires an append-only transition".into(),
+        });
+    }
     if transition.is_none() {
         validate_resource_finalization_receipt_for(
             &receipt,
@@ -9425,7 +9426,14 @@ pub fn record_resource_finalization(
             message: "resource finalization requires an identified external provider".into(),
         });
     }
-    ensure_resource_runtime_identity(&receipt, runtime, receipt_path)?;
+    // A post-close transition repairs an immutable receipt emitted by an older
+    // Runtime.  Bind it to the predecessor's Runtime identity below instead
+    // of rejecting a valid historical chain merely because the validator was
+    // upgraded.  New canonical receipts and pre-close transitions still must
+    // match the executing Runtime.
+    if !(close_present && transition.is_some()) {
+        ensure_resource_runtime_identity(&receipt, runtime, receipt_path)?;
+    }
     if matches!(
         receipt.result.disposition,
         ResourceFinalizationDisposition::Deleted
@@ -9443,6 +9451,17 @@ pub fn record_resource_finalization(
         let (existing, head_path, _head_digest, sequence) =
             resolve_resource_finalization_head(&root, work_item_id)?;
         if let Some(transition) = transition {
+            if close_present {
+                validate_post_close_finalization_reconciliation(
+                    &root,
+                    work_item_id,
+                    &close_path,
+                    &existing,
+                    &head_path,
+                    sequence,
+                    &transition,
+                )?;
+            }
             validate_resource_finalization_transition(&existing, &transition, sequence + 1)
                 .map_err(|error| ObserverError::State {
                     path: receipt_path.into(),
@@ -9524,6 +9543,84 @@ pub fn record_resource_finalization(
     }))
 }
 
+/// A close receipt is immutable, but an older Runtime could record close
+/// while the provider-side finalization receipt was still retained.  Permit
+/// exactly one append-only cleanup transition for that legacy case: the
+/// close must bind the current finalization head, and the new transition must
+/// be the next sequence with a fully deleted result.  New closes are blocked
+/// before this path by `require_resource_finalization_for_close`.
+fn validate_post_close_finalization_reconciliation(
+    root: &Path,
+    work_item_id: &str,
+    close_path: &Path,
+    previous: &ResourceFinalizationReceipt,
+    previous_path: &Path,
+    previous_sequence: u64,
+    transition: &ResourceFinalizationTransitionReceipt,
+) -> Result<(), ObserverError> {
+    let close_metadata =
+        fs::symlink_metadata(close_path).map_err(|source| ObserverError::Read {
+            path: close_path.into(),
+            source,
+        })?;
+    if !close_metadata.is_file() || close_metadata.file_type().is_symlink() {
+        return Err(ObserverError::State {
+            path: close_path.into(),
+            message: "post-close finalization reconciliation requires a regular close receipt"
+                .into(),
+        });
+    }
+    let close = read_json(close_path)?;
+    if close["state"] != serde_json::json!("closed")
+        || close["workItemId"] != serde_json::json!(work_item_id)
+        || close["repositoryId"] != serde_json::json!(repository_id(root).to_string())
+        || close["decisionState"] != serde_json::json!("confirmed")
+        || close["humanDecision"] != serde_json::json!("approved")
+        || close["resourceFinalizationSequence"] != serde_json::json!(previous_sequence)
+        || close["resourceFinalizationHeadPath"]
+            != serde_json::json!(repository_relative_path(root, previous_path))
+    {
+        return Err(ObserverError::State {
+            path: close_path.into(),
+            message: "post-close finalization reconciliation is not bound to the closed head"
+                .into(),
+        });
+    }
+    let previous_value = serde_json::to_value(previous).map_err(|error| ObserverError::State {
+        path: previous_path.into(),
+        message: error.to_string(),
+    })?;
+    let previous_digest =
+        cockpit_protocol::digest_json(&previous_value).map_err(|error| ObserverError::State {
+            path: previous_path.into(),
+            message: error.to_string(),
+        })?;
+    if transition.receipt.runtime_version != previous.runtime_version
+        || transition.receipt.runtime_digest != previous.runtime_digest
+    {
+        return Err(ObserverError::State {
+            path: close_path.into(),
+            message:
+                "post-close reconciliation Runtime identity must match the historical predecessor"
+                    .into(),
+        });
+    }
+    if close["resourceFinalizationHeadDigest"] != serde_json::json!(previous_digest.to_string())
+        || transition.sequence != previous_sequence + 1
+        || !matches!(
+            transition.receipt.result.disposition,
+            ResourceFinalizationDisposition::Deleted
+        )
+    {
+        return Err(ObserverError::State {
+            path: close_path.into(),
+            message: "post-close reconciliation must append the next deleted finalization head"
+                .into(),
+        });
+    }
+    Ok(())
+}
+
 fn local_resources_deleted(
     root: &Path,
     receipt: &ResourceFinalizationReceipt,
@@ -9560,6 +9657,14 @@ pub fn verify_resource_finalization(
     root: &Path,
     work_item_id: &str,
     runtime: &RuntimeContext,
+) -> Result<serde_json::Value, ObserverError> {
+    verify_resource_finalization_internal(root, work_item_id, Some(runtime))
+}
+
+fn verify_resource_finalization_internal(
+    root: &Path,
+    work_item_id: &str,
+    runtime: Option<&RuntimeContext>,
 ) -> Result<serde_json::Value, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
@@ -9604,7 +9709,9 @@ pub fn verify_resource_finalization(
         message: error.to_string(),
     })?;
     ensure_resource_finalization_base_binding(&receipt, &contract, &path)?;
-    ensure_resource_runtime_identity(&receipt, runtime, &path)?;
+    if let Some(runtime) = runtime {
+        ensure_resource_runtime_identity(&receipt, runtime, &path)?;
+    }
     if matches!(
         receipt.result.disposition,
         ResourceFinalizationDisposition::Deleted
@@ -9831,13 +9938,14 @@ fn close_work_item_with_structured_decision_internal(
             "close",
             current_runtime,
         )?;
-        if let Some(runtime) = current_runtime
-            && contract.resource_context.is_some()
+        let finalization_path = resource_finalization_decision_path(&root, work_item_id);
+        if contract.resource_context.is_some()
+            && (current_runtime.is_some() || fs::symlink_metadata(&finalization_path).is_ok())
         {
             finalization_binding = Some(require_resource_finalization_for_close(
                 &root,
                 work_item_id,
-                runtime,
+                current_runtime,
             )?);
         }
     }
@@ -9923,15 +10031,15 @@ fn close_work_item_with_structured_decision_internal(
 fn require_resource_finalization_for_close(
     root: &Path,
     work_item_id: &str,
-    runtime: &RuntimeContext,
+    runtime: Option<&RuntimeContext>,
 ) -> Result<serde_json::Value, ObserverError> {
-    let result = verify_resource_finalization(root, work_item_id, runtime)?;
+    let result = verify_resource_finalization_internal(root, work_item_id, runtime)?;
     let disposition = result["disposition"].as_str().unwrap_or_default();
-    if !matches!(disposition, "deleted" | "retained") {
+    if disposition != "deleted" {
         return Err(ObserverError::State {
             path: resource_finalization_decision_path(root, work_item_id),
             message: format!(
-                "close requires resource finalization disposition deleted or retained, got {disposition}"
+                "close requires resource finalization disposition deleted; retained resources require cleanup before close, got {disposition}"
             ),
         });
     }
