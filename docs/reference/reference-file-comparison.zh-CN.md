@@ -103,11 +103,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=190 implemented-equivalent=1 not-applicable=3 reference-only=3 deferred-next-batch=660 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=198 implemented-equivalent=1 not-applicable=3 reference-only=4 deferred-next-batch=651 migrate-gap=0 -->
 
 在固定的 v0.2.33 比较基线上，台账共有 5,119 条记录：4,262 条
-`generated-history`、190 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、3 条 `not-applicable`、3 条 `reference-only` 与 660 条
+`generated-history`、198 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、3 条 `not-applicable`、4 条 `reference-only` 与 651 条
 `deferred-next-batch`。deferred 记录仍是待比较工作，不是 parity 声明。
 capability/profile slice 已没有 `migrate-gap`：
 
@@ -118,7 +118,7 @@ capability/profile slice 已没有 `migrate-gap`：
 4. `.ai/project_profile.yaml` 由 `.ai/project.json` 与严格 JSON `profile-policy.json` projection 表达。
 
 治理入口、getting-started 路线、CI/release 边界与 capability/profile projection 已按该基线审阅；
-以上四条是有界的 Rust-native counterpart，660 条 deferred 语义比较仍是后续工作。
+以上四条是有界的 Rust-native counterpart，651 条 deferred 语义比较仍是后续工作。
 
 WI-274 只将目标 checkout metadata 和 canonical comparison snapshot 重新绑定到已审阅的
 默认分支提交。WI-273 保持为不可变的失败交付记录：其首次提交无法证明 parity 登记先于

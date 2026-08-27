@@ -38,6 +38,7 @@ WI287_BATCH = "WI-287-reference-checkpoint-conformance"
 WI302_BATCH = "WI-302-reference-file-comparison-batch-01"
 WI304_BATCH = "WI-304-reference-file-comparison-batch-02"
 WI305_BATCH = "WI-305-reference-file-comparison-batch-03"
+WI325_BATCH = "WI-325-reference-file-comparison-batch-05"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -428,6 +429,103 @@ WI323_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
     ),
 }
 
+WI325_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "docs/features/task-outcome-report-self-check.md": (
+        "reference-only",
+        [
+            "docs/features/task-outcome-report.md",
+            "docs/reference/outcome-report.md",
+            "docs/reference/task-outcome-events.md",
+            ".ai/README.md",
+        ],
+        "The source self-check is an internal, historical WI22 handoff with obsolete publication claims. Current Outcome, event, and agent-route boundaries are documented and Runtime-validated elsewhere; the internal progress narrative is not copied as current capability.",
+    ),
+    "docs/fixtures/real-fixture-evidence.ja.md": (
+        "implemented-different-by-design",
+        [
+            "tests/fixtures/README.ja.md",
+            "tests/release/adopter_acceptance.sh",
+            "tests/release/adopter_upgrade_acceptance.sh",
+            "docs/release/distribution.ja.md",
+            "docs/security/adversarial-validation.ja.md",
+        ],
+        "The source fixture report's local multi-stack matrix is represented by Rust conformance fixtures and the immutable Release adopter/upgrade acceptance harness. Local evidence, provider evidence, and enterprise assurance remain separate; the source make/Python fixture lifecycle is not copied.",
+    ),
+    "docs/fixtures/real-fixture-evidence.md": (
+        "implemented-different-by-design",
+        [
+            "tests/fixtures/README.md",
+            "tests/release/adopter_acceptance.sh",
+            "tests/release/adopter_upgrade_acceptance.sh",
+            "docs/release/distribution.md",
+            "docs/security/adversarial-validation.md",
+        ],
+        "The source fixture report's local multi-stack matrix is represented by Rust conformance fixtures and the immutable Release adopter/upgrade acceptance harness. Local evidence, provider evidence, and enterprise assurance remain separate; the source make/Python fixture lifecycle is not copied.",
+    ),
+    "docs/guides/lightweight-verification.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/verification-route.ja.md",
+            "docs/reference/verification-semantics.ja.md",
+            "docs/reference/ci-quality-gates.ja.md",
+            "docs/reference/verification-cost.ja.md",
+        ],
+        "The source Task/PR/Release signal guidance is preserved through stage-aware Rust verification, dynamic light/standard/strict CI routing, and bounded cost observation. Warnings remain non-authorizing and critical failures stop; source checker scripts are not copied.",
+    ),
+    "docs/guides/lightweight-verification.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/verification-route.md",
+            "docs/reference/verification-semantics.md",
+            "docs/reference/ci-quality-gates.md",
+            "docs/reference/verification-cost.md",
+        ],
+        "The source Task/PR/Release signal guidance is preserved through stage-aware Rust verification, dynamic light/standard/strict CI routing, and bounded cost observation. Warnings remain non-authorizing and critical failures stop; source checker scripts are not copied.",
+    ),
+    "docs/guides/lightweight-verification.zh-CN.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/verification-route.zh-CN.md",
+            "docs/reference/verification-semantics.zh-CN.md",
+            "docs/reference/ci-quality-gates.zh-CN.md",
+            "docs/reference/verification-cost.zh-CN.md",
+        ],
+        "源文件关于 Task/PR/Release 信号的语义由 Rust 的阶段验证、动态 light/standard/strict CI 路由和有界成本观测保留。警告不能授权，关键失败会停止；不复制源 Python checker 脚本。",
+    ),
+    "docs/installation.md": (
+        "implemented-different-by-design",
+        [
+            "docs/getting-started/installation.md",
+            "docs/getting-started/installation-security.md",
+            "docs/release/distribution.md",
+            ".ai/README.md",
+        ],
+        "The source compatibility page is represented by the Rust reader-first installation and Release distribution route. A shared binary is installed independently, repository attachment and Agent discovery are explicit, and calibration/profile decisions are not implied by installation; source ten-stage wizard and Make commands are not copied.",
+    ),
+    "docs/maintainers/adding-or-classifying-a-check.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/ci-quality-gates.md",
+            "tests/ci/repository_gate_manifest.json",
+            "tests/ci/quality_route.py",
+            "tests/ci/run_repository_gates.py",
+            "tests/ci/repository_gate_manifest_test.sh",
+        ],
+        "The source checker-registration guidance is represented by the versioned gate manifest, dynamic route, and gate-runner receipts. Required profiles, dependencies, skipped boundaries, and fail-closed results remain explicit; a source-specific checker registry and Python authority module are not copied.",
+    ),
+    "docs/maintainers/task-outcome-events.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/task-outcome-events.md",
+            "docs/features/task-outcome-report.md",
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-repository/tests/task_outcome_events.rs",
+            "crates/cockpit-cli/tests/outcome_handoff.rs",
+        ],
+        "The source append-only event, correction, deduplication, validation, privacy, and handoff boundaries are implemented by typed Rust Task Outcome events and archive binding. Generated projections never replace Contract authority and historical lines are not rewritten.",
+    ),
+}
+
 
 def wi270_counterpart(path: str) -> tuple[list[str], str] | None:
     if path in WI270_DOC_CONCEPTS:
@@ -805,6 +903,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 }
             )
             continue
+        wi325 = WI325_REFERENCE_FILES.get(path)
+        if wi325 is not None:
+            classification, counterparts, reason = wi325
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI325_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
         wi302 = WI302_REFERENCE_FILES.get(path)
         if wi302 is not None:
             classification, counterparts, reason = wi302
@@ -943,6 +1054,40 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             errors.append(f"{path}: capability/status classification must be non-deferred")
         if not record.get("rustCounterparts") and "no exact Rust counterpart" not in record.get("reason", ""):
             errors.append(f"{path}: capability/status result needs counterparts or an explicit no-counterpart reason")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI325_BATCH
+        for record in records
+    ):
+        wi325_records = [
+            record
+            for record in records
+            if isinstance(record, dict) and record.get("batch") == WI325_BATCH
+        ]
+        expected_wi325_paths = set(WI325_REFERENCE_FILES)
+        actual_wi325_paths = {
+            record.get("referencePath")
+            for record in wi325_records
+            if isinstance(record.get("referencePath"), str)
+        }
+        if actual_wi325_paths != expected_wi325_paths:
+            errors.append(
+                "WI-325 batch paths do not match the pinned nine-file set: "
+                f"expected {sorted(expected_wi325_paths)!r}, got {sorted(actual_wi325_paths)!r}"
+            )
+        if len(wi325_records) != len(expected_wi325_paths):
+            errors.append(
+                f"WI-325 batch must contain {len(expected_wi325_paths)} records, found {len(wi325_records)}"
+            )
+        wi325_classifications = [record.get("classification") for record in wi325_records]
+        if wi325_classifications.count("implemented-different-by-design") != 8:
+            errors.append("WI-325 batch must contain eight implemented-different-by-design records")
+        if wi325_classifications.count("reference-only") != 1:
+            errors.append("WI-325 batch must contain one reference-only record")
+        if any(
+            classification in {"deferred-next-batch", "migrate-gap"}
+            for classification in wi325_classifications
+        ):
+            errors.append("WI-325 batch cannot leave deferred or migrate-gap records")
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(records):
         errors.append(f"referenceTrackedFileCount {expected_count!r} != record count {len(records)}")
