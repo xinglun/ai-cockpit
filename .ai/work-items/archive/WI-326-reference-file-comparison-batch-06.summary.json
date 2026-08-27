@@ -1,0 +1,28 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-27T10:49:58Z",
+  "checkpointContractDigest": "sha256:bf28d6c5e9637db2938f28bf390b5ea507d0b474e128f45629f9b34f1e025e67",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:be379e59fecca1167e37720cbe31fc99b408f81ec061210cf0b2b02cdeba12a3",
+  "createdAt": "2026-08-27T10:40:49Z",
+  "failedGate": "finish.verification",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-27T10:53:24Z",
+  "preflightContractDigest": "sha256:bf28d6c5e9637db2938f28bf390b5ea507d0b474e128f45629f9b34f1e025e67",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:be379e59fecca1167e37720cbe31fc99b408f81ec061210cf0b2b02cdeba12a3",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-27T10:53:34Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-326-reference-file-comparison-batch-06"
+}

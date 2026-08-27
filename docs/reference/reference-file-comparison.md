@@ -123,11 +123,11 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=198 implemented-equivalent=1 not-applicable=3 reference-only=4 deferred-next-batch=651 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=206 implemented-equivalent=1 not-applicable=3 reference-only=5 deferred-next-batch=642 migrate-gap=0 -->
 
 At the pinned v0.2.33 comparison baseline, the ledger contains 5,119 records:
-4,262 `generated-history`, 198 `implemented-different-by-design`, one
-`implemented-equivalent`, three `not-applicable`, four `reference-only`, and 651
+4,262 `generated-history`, 206 `implemented-different-by-design`, one
+`implemented-equivalent`, three `not-applicable`, five `reference-only`, and 642
 `deferred-next-batch` records. Deferred records remain scheduled work, not
 parity claims. The capability/profile slice has no remaining `migrate-gap`
 records:
@@ -143,7 +143,7 @@ records:
 
 The governance entrypoints, getting-started routes, CI/release boundaries, and
 capability/profile projections have been reviewed at this baseline. The four
-records above are Rust-native, explicitly bounded counterparts; the 651
+records above are Rust-native, explicitly bounded counterparts; the 642
 deferred semantic comparisons remain scheduled work.
 
 WI-274 rebinds only the target checkout metadata and canonical comparison
@@ -392,3 +392,30 @@ Source Make/Python report generators, installer scripts, and the trust demo
 are not copied. The object-engineering boundary is the same as for every
 adopter: one shared external Runtime, repository-local `.ai/` state, explicit
 repository context, and provider-owned conversation presentation.
+
+## WI-326 reference quality, overview, philosophy, and closure-plan slice
+
+WI-326 compares the following nine pinned reference paths individually. Eight
+are implemented differently by design; the closure hardening plan is retained
+as reference-only because it is an internal historical plan, not a current
+Runtime command contract.
+
+| Reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/non-make-adaptation.ja.md` | implemented-different-by-design | The installation and Agent workflow routes provide the external Runtime and repository-local adapter boundary. Adopter-owned stack commands remain outside Core; the source `Makefile.ai` bridge is not copied or required. |
+| `docs/operations/quality-gates.ja.md` | implemented-different-by-design | The Japanese CI quality-gate and manifest routes preserve gate ownership, evidence, traceability, and policy-selected `light`/`standard`/`strict` routing. Source Make targets, Python checker registries, and template-maintenance fixtures are not copied. |
+| `docs/operations/quality-gates.md` | implemented-different-by-design | The versioned Rust-native gate manifest and CI route preserve the source quality-gate semantics while keeping hosted CI and adopter stack checks at their owner boundary. |
+| `docs/operations/quality-gates.zh-CN.md` | implemented-different-by-design | The Chinese quality-gate and manifest routes preserve the same evidence and dynamic-routing boundary; source Make/Python orchestration is not a target command. |
+| `docs/overview.ja.md` | implemented-different-by-design | Rust architecture, capabilities, Agent workflow, and command routes preserve the source five-layer overview with request-scoped, repository-bound governance; source status/verification registries are not copied. |
+| `docs/philosophy/design-philosophy.ja.md` | implemented-different-by-design | Japanese product-boundary, capability, and enterprise-governance docs preserve calibrated trust, evidence over self-declaration, proportional control, and human responsibility. |
+| `docs/philosophy/design-philosophy.md` | implemented-different-by-design | English product-boundary, capability, and enterprise-governance docs preserve the same principles; Core is not an Agent Runtime, sandbox, identity provider, or compliance certificate. |
+| `docs/philosophy/design-philosophy.zh-CN.md` | implemented-different-by-design | Chinese product-boundary, capability, and enterprise-governance docs preserve the same principles and explicit non-goals. |
+| `docs/plans/harden-work-item-pr-closure.md` | reference-only | The source file is an internal historical Python `ai-finish`/`ai-close` hardening plan. Current Rust lifecycle and governance-integrity routes preserve its closure intent, but obsolete implementation steps and command names are not current capability. |
+
+This batch found no `migrate-gap` record. The semantic boundary is preserved
+without source wire or byte compatibility: quality decisions are made by the
+versioned manifest and current Runtime, while provider-hosted checks, adopter
+stack commands, and enterprise controls remain delegated. Dynamic routing is
+policy-selected; a stricter tier is not inferred merely from execution speed,
+and a tier is not an assurance level. The same boundary applies to an object
+engineering repository using the published Runtime with an explicit `--repo`.

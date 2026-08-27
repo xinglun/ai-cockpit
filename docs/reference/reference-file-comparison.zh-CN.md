@@ -103,11 +103,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=198 implemented-equivalent=1 not-applicable=3 reference-only=4 deferred-next-batch=651 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=206 implemented-equivalent=1 not-applicable=3 reference-only=5 deferred-next-batch=642 migrate-gap=0 -->
 
 在固定的 v0.2.33 比较基线上，台账共有 5,119 条记录：4,262 条
-`generated-history`、198 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、3 条 `not-applicable`、4 条 `reference-only` 与 651 条
+`generated-history`、206 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、3 条 `not-applicable`、5 条 `reference-only` 与 642 条
 `deferred-next-batch`。deferred 记录仍是待比较工作，不是 parity 声明。
 capability/profile slice 已没有 `migrate-gap`：
 
@@ -118,7 +118,7 @@ capability/profile slice 已没有 `migrate-gap`：
 4. `.ai/project_profile.yaml` 由 `.ai/project.json` 与严格 JSON `profile-policy.json` projection 表达。
 
 治理入口、getting-started 路线、CI/release 边界与 capability/profile projection 已按该基线审阅；
-以上四条是有界的 Rust-native counterpart，651 条 deferred 语义比较仍是后续工作。
+以上四条是有界的 Rust-native counterpart，642 条 deferred 语义比较仍是后续工作。
 
 WI-274 只将目标 checkout metadata 和 canonical comparison snapshot 重新绑定到已审阅的
 默认分支提交。WI-273 保持为不可变的失败交付记录：其首次提交无法证明 parity 登记先于
@@ -314,3 +314,25 @@ CLI 无法强制 Cursor 展开聊天面板；provider/Agent adapter 必须展示
 本批是语义责任 parity，不是 source wire 或字节 parity。源 Make/Python 报告生成器、installer
 脚本和 trust demo 不复制。对象工程边界与所有 adopter 一致：一份共享外部 Runtime、每个
 repository 独立的 `.ai/` 状态、显式 repository context，以及由 provider 负责对话展示。
+
+## WI-326：质量门、总览、设计思想与关闭计划文件级批次
+
+WI-326 逐一比对固定参考源中的以下 9 个路径。其中 8 个按有意不同的实现登记；关闭强化计划
+保留为 reference-only，因为它是内部历史计划，不是当前 Runtime 命令契约。
+
+| 参考源路径 | 分类 | Rust 对应/有界结论 |
+| --- | --- | --- |
+| `docs/non-make-adaptation.ja.md` | implemented-different-by-design | 安装与 Agent workflow 路线表达外部 Runtime 和仓库本地 adapter 边界。对象工程自有的技术栈命令仍在 Core 之外；不复制也不要求源 `Makefile.ai` 桥接层。 |
+| `docs/operations/quality-gates.ja.md` | implemented-different-by-design | 日文 CI 质量门与 manifest 路线保留门禁所有权、证据、追踪以及按策略选择 `light`/`standard`/`strict` 的动态路由。不复制源 Make 目标、Python checker 注册表或模板维护 fixture。 |
+| `docs/operations/quality-gates.md` | implemented-different-by-design | 版本化 Rust 原生门禁清单与 CI 路由保留源质量门语义，同时让托管 CI 与对象工程技术栈检查各归其责任边界。 |
+| `docs/operations/quality-gates.zh-CN.md` | implemented-different-by-design | 中文质量门与 manifest 路线保留同样的证据和动态路由边界；源 Make/Python 编排不是目标命令。 |
+| `docs/overview.ja.md` | implemented-different-by-design | Rust architecture、capabilities、Agent workflow 与 command 路线保留源五层总览，并以 request-scoped、repository-bound 方式治理；不复制源 status/verification registry。 |
+| `docs/philosophy/design-philosophy.ja.md` | implemented-different-by-design | 日文产品边界、能力和企业治理文档保留校准信任、证据优先于自我声明、与风险相称的控制以及人的责任。 |
+| `docs/philosophy/design-philosophy.md` | implemented-different-by-design | 英文产品边界、能力和企业治理文档保留同样原则；Core 不是 Agent Runtime、安全沙箱、身份提供方或合规证书。 |
+| `docs/philosophy/design-philosophy.zh-CN.md` | implemented-different-by-design | 中文产品边界、能力和企业治理文档保留同样原则与明确非目标。 |
+| `docs/plans/harden-work-item-pr-closure.md` | reference-only | 源文件是 Python `ai-finish`/`ai-close` 的内部历史强化计划。当前 Rust lifecycle 与 governance-integrity 路线保留关闭意图，但过时的实现步骤和命令名不是当前能力。 |
+
+本批没有 `migrate-gap`。这里是语义边界对应，不是 source wire 或字节兼容：质量决定由版本化
+manifest 与当前 Runtime 负责，托管 provider 检查、对象工程技术栈命令和企业控制仍由各自责任方
+提供。动态路由由策略选择；不会只因执行速度就推断更严格 tier，也不会把 tier 当作 assurance。
+对象工程使用发布版 Runtime 时同样必须显式携带 `--repo`。
