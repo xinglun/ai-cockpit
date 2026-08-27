@@ -1,0 +1,132 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-329-reference-file-comparison-batch-08-retry.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:cd73893e8dd0df2553a3d1ca6a4e6ef71c737772f6d553636a9d98e66bd58e35",
+      "workItemId": "WI-329-reference-file-comparison-batch-08-retry"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-329-reference-file-comparison-batch-08-retry.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-329-reference-file-comparison-batch-08-retry.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-329-reference-file-comparison-batch-08-retry.verification.json",
+            ".ai/decisions/WI-329-reference-file-comparison-batch-08-retry.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-27T12:47:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-329-reference-file-comparison-batch-08-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-329-reference-file-comparison-batch-08-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-329-reference-file-comparison-batch-08-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-329-reference-file-comparison-batch-08-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-329-reference-file-comparison-batch-08-retry.contract.json"
+          ],
+          "inference": false,
+          "text": "Reproduce and repair the reference inventory gate assertion, preserve explicit WI-328 classifications and tri-language comparison boundaries, and complete a fresh verified successor delivery without rewriting failed predecessor evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-329-reference-file-comparison-batch-08-retry.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-329-reference-file-comparison-batch-08-retry"
+  },
+  "finalReportDigest": "sha256:b506767b0a38333fcaa5399bbf57518d7f632c777a0a950b5378979bfd1a0df0",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:fb1fb3953dfeba65eec47f46c978bfdff6451189620ee157f67a7a958a8ce1b7",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-329-reference-file-comparison-batch-08-retry.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-27T12:47:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-329-reference-file-comparison-batch-08-retry.verification.json",
+      ".ai/decisions/WI-329-reference-file-comparison-batch-08-retry.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md:reviewed-pr-and-cleanup",
+      "docs/reference/reference-file-comparison.md"
+    ],
+    "reason": "PR #292 已通过全部托管检查并合并，finalize-verify 已确认精确分支与工作树清理；WI-328 失败交付历史保持不可变，CI 孤儿 parity 注册已修复。",
+    "resumeCondition": "仅从同步后的 origin/main 和干净工作树开始下一 Work Item。"
+  },
+  "timestamp": "2026-08-27T12:40:05Z",
+  "workItemId": "WI-329-reference-file-comparison-batch-08-retry"
+}
