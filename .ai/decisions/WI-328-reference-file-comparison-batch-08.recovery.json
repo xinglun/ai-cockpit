@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-27T12:01:04Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-328-reference-file-comparison-batch-08.verification.json",
+    ".ai/work-items/active/WI-328-reference-file-comparison-batch-08.outcome.json",
+    "https://github.com/xinglun/ai-cockpit/pull/291"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery-retry-boundary",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:038fc072e72bc228da6c1d86ff11ed025bb2a0c319c8d92c5cfba3930b56c9d2",
+  "predecessorEventsDigest": "sha256:eec63faa501244ad07a3fbfa93a917fd27d931566bc13e93639d387f6f0c6950",
+  "predecessorOutcomeDigest": "sha256:efcd0b73a9c95e318701233acb34a840b5e0a72af296957ee834e25faaa39560",
+  "predecessorSummaryDigest": "sha256:ab880841adb692ebf47efef85670c48b891de7957e905da9ff38ffc961a326a5",
+  "predecessorWorkItemId": "WI-328-reference-file-comparison-batch-08",
+  "reason": "Retry after the explicit PR resource finalization plan changed the Contract binding and the prior verification became stale; preserve the blocked attempt and record fresh verification evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh non-red preflight and verification with the bound PR context, then complete finish, archive, hosted CI, merge, finalization, close, and cleanup.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-328-reference-file-comparison-batch-08"
+}
