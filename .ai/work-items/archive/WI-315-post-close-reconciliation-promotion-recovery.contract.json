@@ -42,11 +42,11 @@
   "repositorySnapshotDigest": "sha256:15ab7981fe6cdd3ef018ad4361d85c548d4c325972c91d052db234035adaa7bb",
   "requiredEvidenceClasses": [],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-315-post-close-reconciliation-promotion-recovery",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/279",
     "worktree": "/private/tmp/ai-cockpit-wi315-post-close-reconciliation-promotion-recovery"
   },
   "risk": "high",
