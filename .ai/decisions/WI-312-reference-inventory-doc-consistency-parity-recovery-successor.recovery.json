@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-recovery-of-immutable-delivery",
+  "decidedAt": "2026-08-27T02:30:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.archive.json",
+    ".ai/decisions/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.finalize.json",
+    "https://github.com/xinglun/ai-cockpit/pull/275",
+    "https://github.com/xinglun/ai-cockpit/pull/277"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:fix-in-current-work-item-or-record-successor"
+  ],
+  "predecessorContractDigest": "sha256:acce06993ac89f421ea2cd867ecb48869bb5cb8c9051139322c29ca70c428031",
+  "predecessorEventsDigest": "sha256:43cd494aae3c2ab29774be1d36cc7d43da876308c7ede662d48c24f5e1ae9031",
+  "predecessorOutcomeDigest": "sha256:b1bcee9f514af7bcc3c7cc73bf6ba3aa3dfef8620fef9d9f35b71b9efe504dc0",
+  "predecessorSummaryDigest": "sha256:3afb4f6d1df264d18248ae17185b433efe2be07bc6c00605ea5e1293e773dd54",
+  "predecessorWorkItemId": "WI-312-reference-inventory-doc-consistency-parity-recovery-successor",
+  "reason": "W312 is an immutable merged delivery whose retained finalization and conditional parity projection cannot be rewritten. W313 independently implemented the needed Runtime boundary, but its hosted PR failed because the historical W312 reconciliation remained unresolved. Redeliver the bounded Runtime correction and reconcile W312 from the current default branch without rewriting either predecessor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-314 from the synchronized default branch, redeliver the W313 Runtime correction with hosted review, then reconcile W312's retained historical state or record an explicit bounded legacy projection; finish exact merge, cleanup, and close without rewriting predecessor bytes.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-314-finalization-reconciliation-redelivery",
+  "workItemId": "WI-312-reference-inventory-doc-consistency-parity-recovery-successor"
+}

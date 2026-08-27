@@ -6,7 +6,7 @@ description: "在 WI-311 不可变重试边界后，重新交付 manifest 派生
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-312-reference-inventory-doc-consistency-parity-recovery-successor
 ---
@@ -15,9 +15,9 @@ lastVerifiedBy: WI-312-reference-inventory-doc-consistency-parity-recovery-succe
 
 ## 意图与边界
 
-本 successor 从最新 `origin/main` 重新交付有界的 inventory 文档修正。WI-311
-因已安装 Runtime 拒绝第二个 completion event 而作为不可变历史保留。本 Work Item
-不改变 inventory 分类，也不修改 Runtime 行为。
+本不可变交付因 retained provider finalization 无法满足后续 cleanup gate 而保留为历史事实。
+其 Contract、Summary、Outcome、Events、archive、verification、finalization 与 close
+字节不会被改写。WI-314 是从同步后的默认分支重新交付有界修正和 reconciliation 边界的显式 successor。
 
 ## 范围与验收
 
@@ -30,4 +30,3 @@ conformance test 必须拒绝过期、错误、缺失或三语不一致的 marke
 
 验证使用已安装 Runtime 以及 repository 文档和 inventory gates。源工程是语义参考，
 不是 wire 格式或 Runtime 依赖。
-

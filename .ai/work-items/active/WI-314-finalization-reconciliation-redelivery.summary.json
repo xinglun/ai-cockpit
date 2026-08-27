@@ -1,0 +1,23 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.recovery.json",
+    ".ai/work-items/active/WI-314-finalization-reconciliation-redelivery.contract.json",
+    ".ai/work-items/active/WI-314-finalization-reconciliation-redelivery.summary.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-08-27T01:38:59Z",
+  "mode": "docs",
+  "predecessorContractDigest": "sha256:acce06993ac89f421ea2cd867ecb48869bb5cb8c9051139322c29ca70c428031",
+  "predecessorWorkItemId": "WI-312-reference-inventory-doc-consistency-parity-recovery-successor",
+  "preflightAt": "2026-08-27T01:43:41Z",
+  "preflightContractDigest": "sha256:ae59a0f23af8eee76368682001fac5960dced73b12e0e912b7b9c6d02c09d26d",
+  "preflightDecisionDigest": "sha256:f3cdfd0bf31df6184927947cb8a794c1eccb61740bf3871a038e0184666f202e",
+  "preflightRepositorySnapshotDigest": "sha256:191dc3de4e1b11d7c20882b9338d0fa23e7dc73b849e4c6e73711fbd4fd97c33",
+  "preflightState": "red",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "updatedAt": "2026-08-27T01:40:44Z",
+  "workItemId": "WI-314-finalization-reconciliation-redelivery"
+}
