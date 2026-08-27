@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-retry-after-finalization-plan",
+  "decidedAt": "2026-08-27T02:15:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-314-finalization-reconciliation-redelivery.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/278"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:fix-in-current-work-item-or-record-successor"
+  ],
+  "predecessorContractDigest": "sha256:a6b9115ffe44baf682a2cfb945fe2e8d64d46206944d9d588055dd3ab5c1b3ca",
+  "predecessorEventsDigest": "sha256:7ba955de47cd2306d3ed8532d31ccda279b758992be93580c3b9abe0fe4dce70",
+  "predecessorOutcomeDigest": "sha256:a4d1506c5703558258b8724c140132b862f93cae39b5a6f3f49d80a7a7780313",
+  "predecessorSummaryDigest": "sha256:e22bb93c256747de1915c36738d5495ac23337065a4ba5a6ca89858245e74df8",
+  "predecessorWorkItemId": "WI-314-finalization-reconciliation-redelivery",
+  "reason": "The previous verification became stale when the real PR finalization context was bound. Retry the same W314 after a fresh preflight and verification without changing its scope or historical predecessor bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run a fresh non-red preflight and installed Runtime verification, then retry finish without rewriting prior failed evidence.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-314-finalization-reconciliation-redelivery"
+}
