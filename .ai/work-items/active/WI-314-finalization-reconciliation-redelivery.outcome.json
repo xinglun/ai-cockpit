@@ -1,0 +1,149 @@
+{
+  "acceptanceResults": [
+    "The immutable W312 delivery is explicitly recovered through a Runtime-generated, repository-bound successor decision; its Contract, Summary, Outcome, Events, archive, verification, finalization, and close bytes remain unchanged.",
+    "The W313 Runtime correction is redelivered from the synchronized default branch: new close operations reject retained, blocked, or unknown finalization, and valid post-close reconciliation is append-only, identity-bound, and fail closed on tampered or foreign receipts.",
+    "The closed-Work-Item promotion and status-consistency gates accept the recovered W312 projection and a valid reconciliation exception while continuing to reject conditional terminal rows without a valid recovery or cleanup binding.",
+    "Tri-language parity and workflow documentation record W312 as recovered, register W314 before its verification evidence, and explain why W313 PR #277 remains immutable failed delivery; no undocumented terminal or green claim is introduced.",
+    "Focused regressions, cargo fmt, clippy with warnings denied, the full locked workspace test suite, documentation gates, and hosted CI all pass from this Work Item's exact branch and base."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-314-finalization-reconciliation-redelivery.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-314-finalization-reconciliation-redelivery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f7b6de31d65b70a9204ead723029c7aa70620cec2f828c07b76b7846cc5ad7c4",
+      "workItemId": "WI-314-finalization-reconciliation-redelivery"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-314-finalization-reconciliation-redelivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-312-reference-inventory-doc-consistency-parity-recovery-successor.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-314-finalization-reconciliation-redelivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-314-finalization-reconciliation-redelivery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-314-finalization-reconciliation-redelivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-314-finalization-reconciliation-redelivery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-314-finalization-reconciliation-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-314-finalization-reconciliation-redelivery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-314-finalization-reconciliation-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-314-finalization-reconciliation-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-314-finalization-reconciliation-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-314-finalization-reconciliation-redelivery.contract.json"
+          ],
+          "inference": false,
+          "text": "Redeliver cleanup-before-close and append-only finalization reconciliation with explicit W312 recovery."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-314-finalization-reconciliation-redelivery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-314-finalization-reconciliation-redelivery"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-314-finalization-reconciliation-redelivery.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-314-finalization-reconciliation-redelivery"
+}
