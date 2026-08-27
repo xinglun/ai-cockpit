@@ -103,7 +103,7 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=221 implemented-equivalent=1 not-applicable=3 reference-only=10 deferred-next-batch=622 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=221 implemented-equivalent=1 not-applicable=3 reference-only=13 deferred-next-batch=619 migrate-gap=0 -->
 
 在固定的 v0.2.33 比较基线上，台账共有 5,119 条记录：4,262 条
 `generated-history`、221 条 `implemented-different-by-design`、1 条
@@ -416,3 +416,22 @@ WI-331 逐一对比固定源版本中的以下两个路径。两者均按“有�
 | `docs/reference/ci-release-evidence.md` | implemented-different-by-design | `docs/reference/ci-release-evidence.*`、`.github/workflows/ci.yml`、`.github/workflows/release.yml`、发布分发检查和 adopter acceptance harness 绑定 provider job、commit/base/head、artifact、checksum、SBOM、provenance 与隔离 receipt。跳过或失败的 job 保持可见，PR 文本不会成为证据。 |
 
 边界明确如下：目标 Runtime 负责 repository-local Contract 与 gate 决定；托管 CI、签名、SBOM/provenance provider 和企业审计系统负责其 delegated evidence。公开发布事实绑定不可变 tag 与下载 artifact。所有命令仍必须显式 `--repo`；源项目 Makefile、Python runner 或复制的 V1 runtime 不是目标要求。六份语言对应文档与 inventory 断言共同构成此批次的防遗漏记录。
+
+## WI-332：P0 理解审查证据
+
+WI-332 逐一读取固定参考源中的三个理解审查证据文件。三者均登记为
+`reference-only`：它们是参考源仓库的历史桌面审查记录，审查者、日期、得分和语言结论
+不能转移为本工程的证据。目标通过本地化首页、设计思想、架构、Agent workflow 和
+文档 acceptance 检查保留六问读者路线，但不虚构独立的母语编辑审查，也不复制源证据
+字节。这是语义读者路线对齐，不是宣称目标通过了源项目的审查。
+
+| 固定源路径 | 分类 | Rust 对应物 / 有界决定 |
+| --- | --- | --- |
+| `docs/reference/comprehension-review-2026-08-14.md` | reference-only | `docs/README.md`、`docs/philosophy.md`、`docs/architecture.md`、`docs/reference/agent-workflow.md` 与 `tests/docs/documentation_acceptance.sh` 提供英文读者路线和结构检查；源审查结果不可移植。 |
+| `docs/reference/comprehension-review-2026-08-14.zh-CN.md` | reference-only | `docs/README.zh-CN.md`、`docs/philosophy.zh-CN.md`、`docs/architecture.zh-CN.md`、`docs/reference/agent-workflow.zh-CN.md` 与文档 acceptance 检查提供中文路线；不宣称母语审查得分。 |
+| `docs/reference/comprehension-review-2026-08-14.ja.md` | reference-only | `docs/README.ja.md`、`docs/philosophy.ja.md`、`docs/architecture.ja.md`、`docs/reference/agent-workflow.ja.md` 与文档 acceptance 检查提供日文路线；不宣称母语审查得分。 |
+
+外部 Cursor 采用方反馈仍是独立的验证输入。Runtime 的稳定 lifecycle JSON、可重放的
+human Outcome、readiness/start 门禁以及 verification 失效机制已在其他批次覆盖。本批不把
+自动向 Cursor 聊天发布、`Makefile.ai`、close-gap 便利命令或 controls 模板静默提升为当前
+parity。

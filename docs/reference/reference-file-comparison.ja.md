@@ -107,7 +107,7 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=221 implemented-equivalent=1 not-applicable=3 reference-only=10 deferred-next-batch=622 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=221 implemented-equivalent=1 not-applicable=3 reference-only=13 deferred-next-batch=619 migrate-gap=0 -->
 
 固定した v0.2.33 comparison baseline の ledger は 5,119 records です。内訳は
 4,262 `generated-history`、221 `implemented-different-by-design`、1
@@ -449,3 +449,25 @@ tag と download artifact に bind します。全 command は明示的な `--re
 source Makefile、Python runner、コピーした V1 runtime は target requirement
 ではありません。6 つの言語版と inventory assertion がこの batch の omission
 防止記録です。
+
+## WI-332 — P0 comprehension-review evidence
+
+WI-332 は pinned source の comprehension-review evidence 3 file を一つずつ読みます。
+3 file はすべて `reference-only` です。これは reference repository 固有の過去の desk
+review record であり、reviewer、日付、score、言語別の結論を target の evidence に移す
+ことはできません。Target は localized home、philosophy、architecture、Agent workflow
+と documentation acceptance check で 6 問の reader route を保ちますが、独立した母語
+editorial review を捏造したり source evidence bytes を copy したりしません。これは
+semantic reader alignment であり、source study の合格を宣言するものではありません。
+
+| Pinned source path | 分類 | Rust counterpart / 境界の決定 |
+| --- | --- | --- |
+| `docs/reference/comprehension-review-2026-08-14.md` | reference-only | `docs/README.md`、`docs/philosophy.md`、`docs/architecture.md`、`docs/reference/agent-workflow.md`、`tests/docs/documentation_acceptance.sh` が English reader route と構造 check を担います。source reviewer result は移植しません。 |
+| `docs/reference/comprehension-review-2026-08-14.zh-CN.md` | reference-only | `docs/README.zh-CN.md`、`docs/philosophy.zh-CN.md`、`docs/architecture.zh-CN.md`、`docs/reference/agent-workflow.zh-CN.md` と documentation acceptance check が Chinese route を担います。母語 reviewer score は claim しません。 |
+| `docs/reference/comprehension-review-2026-08-14.ja.md` | reference-only | `docs/README.ja.md`、`docs/philosophy.ja.md`、`docs/architecture.ja.md`、`docs/reference/agent-workflow.ja.md` と documentation acceptance check が Japanese route を担います。母語 reviewer score は claim しません。 |
+
+外部 Cursor adopter feedback は別の validation input として扱います。Runtime の stable
+lifecycle JSON、replay 可能な human Outcome、readiness/start gate、verification
+invalidation は別 batch で確認済みです。この batch は automatic Cursor chat posting、
+`Makefile.ai`、close-gap convenience、controls template を current parity として
+黙って追加しません。

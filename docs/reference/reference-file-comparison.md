@@ -123,7 +123,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=221 implemented-equivalent=1 not-applicable=3 reference-only=10 deferred-next-batch=622 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=221 implemented-equivalent=1 not-applicable=3 reference-only=13 deferred-next-batch=619 migrate-gap=0 -->
 
 At the pinned v0.2.33 comparison baseline, the ledger contains 5,119 records:
 4,262 `generated-history`, 221 `implemented-different-by-design`, one
@@ -520,3 +520,28 @@ bound to immutable tags and downloaded artifacts. `--repo` remains mandatory,
 and a source `Makefile`, Python runner, or copied V1 runtime is not a target
 requirement. The six language counterparts and inventory assertions are the
 anti-omission record for this batch.
+
+## WI-332 P0 comprehension-review evidence
+
+WI-332 reads the three pinned comprehension-review evidence files individually.
+All three remain `reference-only`: they are historical desk-review records
+whose reviewer, date, score, and language claims belong to the reference
+repository and cannot be transferred as evidence for this target. The target
+does preserve the six-question reader route through its localized home,
+philosophy, architecture, and Agent-workflow pages, with link and metadata
+checks. It does not invent an independent native-language editorial review or
+copy source evidence bytes. This is semantic reader alignment, not a claim that
+the target has passed the source study.
+
+| Pinned source path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/comprehension-review-2026-08-14.md` | reference-only | `docs/README.md`, `docs/philosophy.md`, `docs/architecture.md`, `docs/reference/agent-workflow.md`, and `tests/docs/documentation_acceptance.sh` provide the English reader route and structural checks; the source reviewer result is not portable evidence. |
+| `docs/reference/comprehension-review-2026-08-14.zh-CN.md` | reference-only | `docs/README.zh-CN.md`, `docs/philosophy.zh-CN.md`, `docs/architecture.zh-CN.md`, `docs/reference/agent-workflow.zh-CN.md`, and the documentation acceptance checks provide the Chinese route; no native reviewer score is claimed. |
+| `docs/reference/comprehension-review-2026-08-14.ja.md` | reference-only | `docs/README.ja.md`, `docs/philosophy.ja.md`, `docs/architecture.ja.md`, `docs/reference/agent-workflow.ja.md`, and the documentation acceptance checks provide the Japanese route; no native reviewer score is claimed. |
+
+The external Cursor adopter feedback remains a separate validation input. The
+Runtime's stable lifecycle JSON, replayable human Outcome, readiness/start
+gates, and verification invalidation are already covered elsewhere. Automatic
+Cursor chat posting, `Makefile.ai`, close-gap convenience commands, and
+controls templates are not silently promoted to current parity by this evidence
+batch.
