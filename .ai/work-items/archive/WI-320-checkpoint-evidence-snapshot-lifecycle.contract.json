@@ -1,0 +1,87 @@
+{
+  "acceptanceCriteria": [
+    "A1: historical before_edit checkpoint evidence remains valid after a later repository edit and fresh preflight, while before_finish binds the current snapshot",
+    "A2: before_finish checkpoint evidence with stale snapshot, wrong repository identity, malformed shape, duplicate stage, or symlink-backed summary fails closed",
+    "A3: checkpoint required-check counts are derived from declared verification checks without inventing a check name that the verification receipt cannot provide",
+    "A4: amendment and resume chain validation remains fail-closed, and existing lifecycle regressions continue to pass",
+    "A5: tri-language documentation describes checkpoint snapshot history and the exact verification boundary",
+    "A6: static promotion, status, and governance gates accept the installed Runtime's confirmed close decision and sequence-1 finalization without accepting rejected or mismatched records"
+  ],
+  "authority": "authorized",
+  "baseRevision": "bdecd9af8ea671196b849e34aeda2dbf4a03348b",
+  "checkpointPolicy": {
+    "profile": "standard",
+    "requiredBeforeFinish": true,
+    "requiredChecks": [],
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "schemaVersion": 1
+  },
+  "createdAt": "2026-08-27T04:55:08Z",
+  "goal": "Allow historical edit checkpoints while keeping terminal checkpoint evidence current and bound.",
+  "intent": "Keep checkpoint evidence trustworthy across authorized edits.",
+  "mode": "code",
+  "outOfScope": [
+    "crates/cockpit-cli/**",
+    "crates/cockpit-mcp/**",
+    "tests/release/**",
+    "scripts/**",
+    "global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:cd433aa2fe0060c07ee857f351995b8035222bd78cf8db2721a6629a974c66a7",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-320-checkpoint-evidence-snapshot-lifecycle",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/283",
+    "worktree": "/private/tmp/ai-cockpit-wi320-checkpoint-evidence-snapshot-lifecycle"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/governance_controls.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
+    "crates/cockpit-repository/tests/lifecycle_order.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh",
+    "tests/docs/work_item_status_consistency.py",
+    "tests/docs/work_item_status_consistency_test.sh",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/work-items/WI-320-checkpoint-evidence-snapshot-lifecycle.md",
+    "docs/work-items/WI-320-checkpoint-evidence-snapshot-lifecycle.zh-CN.md",
+    "docs/work-items/WI-320-checkpoint-evidence-snapshot-lifecycle.ja.md",
+    "docs/work-items/WI-317-post-close-reconciliation-quality-gate-fix.md",
+    "docs/work-items/WI-317-post-close-reconciliation-quality-gate-fix.zh-CN.md",
+    "docs/work-items/WI-317-post-close-reconciliation-quality-gate-fix.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "spirex-ds-dev/ai-cockpit-template:.ai/guards/agent_risk_policy.yaml",
+    "spirex-ds-dev/ai-cockpit-template:tests/test_ai_check_agent_risk.py",
+    "crates/cockpit-repository/src/governance_controls.rs:validate_checkpoint_evidence_bindings"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-320-checkpoint-evidence-snapshot-lifecycle"
+}

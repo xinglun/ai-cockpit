@@ -515,6 +515,9 @@ fn retry_recovery_restores_checkpointed_state_after_failed_finish() {
         .join(".ai/work-items/active/WI-BLOCKED.summary.json");
     let mut summary: serde_json::Value =
         serde_json::from_slice(&fs::read(&summary_path).unwrap()).unwrap();
+    summary["checkpointEvidence"] = json!([
+        {"stage": "before_finish", "recorded": true}
+    ]);
     summary["state"] = json!("finish_ready");
     summary["failedGate"] = json!("finish.governance");
     summary["recoveryCondition"] = json!("retry after repairing the lifecycle gate");
@@ -534,6 +537,16 @@ fn retry_recovery_restores_checkpointed_state_after_failed_finish() {
     assert_eq!(recovered["state"], "checkpointed");
     assert_eq!(recovered["checkpointCount"], 1);
     assert_eq!(recovered["preflightState"], "green");
+    assert_eq!(
+        recovered["checkpointEvidence"]
+            .as_array()
+            .expect("checkpoint evidence")
+            .iter()
+            .filter(|entry| entry.get("stage") == Some(&json!("before_finish")))
+            .count(),
+        0,
+        "retry must refresh a stale terminal checkpoint candidate"
+    );
     assert!(recovered.get("failedGate").is_none());
     assert!(recovered.get("recoveryCondition").is_none());
     let outcome: serde_json::Value = serde_json::from_slice(

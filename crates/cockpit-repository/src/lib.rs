@@ -3983,7 +3983,11 @@ pub fn revalidate_contract_amendment(
                     Some("passed" | "failed" | "warning" | "blocked")
                 )
             })
-        });
+        })
+        // A legacy command-only Contract has no typed required gates to
+        // invalidate. Keep the amendment's historical fact, but do not mark
+        // it as a gate invalidation that must contain a non-empty list.
+        && !required_checks.is_empty();
     let record = serde_json::json!({
         "schemaVersion": 1,
         "repositoryId": repository_id(&root),
@@ -4928,6 +4932,20 @@ fn prepare_retryable_lifecycle(
     let state = summary["state"].as_str().unwrap_or_default();
     if state == "checkpointed" {
         let original = summary.clone();
+        // A failed finish may already have appended a before_finish record
+        // against the snapshot that was current at that attempt. A retry is
+        // the explicit recovery boundary for a fresh verification cycle, so
+        // discard that stale terminal candidate and let finish append a new
+        // current before_finish record. The predecessor Summary digest in the
+        // recovery receipt preserves the old attempt immutably.
+        if let Some(entries) = summary
+            .get_mut("checkpointEvidence")
+            .and_then(serde_json::Value::as_array_mut)
+        {
+            entries.retain(|entry| {
+                entry.get("stage").and_then(serde_json::Value::as_str) != Some("before_finish")
+            });
+        }
         summary["recoveryRetryPending"] = serde_json::json!(true);
         atomic_json(&summary_path, &summary)?;
         return Ok((summary_path, original));
@@ -4952,6 +4970,14 @@ fn prepare_retryable_lifecycle(
         });
     }
     let original = summary.clone();
+    if let Some(entries) = summary
+        .get_mut("checkpointEvidence")
+        .and_then(serde_json::Value::as_array_mut)
+    {
+        entries.retain(|entry| {
+            entry.get("stage").and_then(serde_json::Value::as_str) != Some("before_finish")
+        });
+    }
     summary["state"] = serde_json::json!("checkpointed");
     summary["updatedAt"] = serde_json::json!(now());
     if let Some(object) = summary.as_object_mut() {

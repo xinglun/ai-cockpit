@@ -166,9 +166,8 @@ fn checkpoint_identity_and_unknown_fields_fail_closed() {
 fn historical_before_edit_snapshot_is_allowed_but_before_finish_must_be_current() {
     let contract = contract();
     let mut summary = summary();
-    summary["checkpointEvidence"][0]["repositorySnapshotDigest"] = json!(
-        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-    );
+    summary["checkpointEvidence"][0]["repositorySnapshotDigest"] =
+        json!("sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
     validate_checkpoint_evidence_bindings(
         &contract,
         &summary,
@@ -178,9 +177,8 @@ fn historical_before_edit_snapshot_is_allowed_but_before_finish_must_be_current(
     )
     .expect("historical before_edit checkpoint remains valid");
 
-    summary["checkpointEvidence"][1]["repositorySnapshotDigest"] = json!(
-        "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
-    );
+    summary["checkpointEvidence"][1]["repositorySnapshotDigest"] =
+        json!("sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
     let errors = validate_checkpoint_evidence_bindings(
         &contract,
         &summary,
@@ -200,9 +198,7 @@ fn historical_before_edit_snapshot_is_allowed_but_before_finish_must_be_current(
 #[test]
 fn undeclared_checkpoint_check_cannot_become_a_phantom_pass() {
     let mut contract = contract();
-    contract.checkpoint_policy.as_mut().unwrap().required_checks = vec![
-        "phantom-check".into(),
-    ];
+    contract.checkpoint_policy.as_mut().unwrap().required_checks = vec!["phantom-check".into()];
     let errors = validate_checkpoint_evidence_bindings(
         &contract,
         &summary(),
@@ -298,7 +294,9 @@ fn contract_amendment_chain_invalidates_stale_before_edit_evidence() {
             "recorded": true,
             "contractHash": "new-contract",
             "repositorySnapshotDigest": "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
-            "acceptanceCount": 1,
+            // The amendment is a historical Contract snapshot; its
+            // acceptance count need not match the later Contract.
+            "acceptanceCount": 0,
             "unknownCount": 0,
             "requiredChecks": 6,
             "requiredChecksPassed": 0,

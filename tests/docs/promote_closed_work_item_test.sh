@@ -320,6 +320,51 @@ grep -Fq 'promotion required' "$tmp/post-close-reconciliation.err"
 python3 "$helper" --repo "$tmp/post-close-reconciliation" --work-item WI-999-closed-docs-fixture
 python3 "$helper" --repo "$tmp/post-close-reconciliation" --work-item WI-999-closed-docs-fixture --check
 
+# Current Runtime cleanup-before-close path: close binds the deleted
+# sequence-1 transition head while retaining the immutable root.
+cp -R "$tmp/post-close-reconciliation" "$tmp/pre-close-cleanup"
+python3 - "$tmp/pre-close-cleanup" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = "WI-999-closed-docs-fixture"
+decision_dir = root / ".ai/decisions"
+
+def canonical_digest(value: object) -> str:
+    encoded = json.dumps(value, ensure_ascii=False, separators=(",", ":"), sort_keys=True).encode()
+    return "sha256:" + hashlib.sha256(encoded).hexdigest()
+
+def write_json(path: Path, value: object) -> None:
+    path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+transition_paths = sorted(decision_dir.glob(f"{work_item}.finalize.*.json"))
+assert len(transition_paths) == 1
+transition_path = transition_paths[0]
+transition = json.loads(transition_path.read_text(encoding="utf-8"))
+close_path = decision_dir / f"{work_item}.close.json"
+close = json.loads(close_path.read_text(encoding="utf-8"))
+close["resourceFinalizationSequence"] = 1
+close["resourceFinalizationHeadPath"] = f".ai/decisions/{transition_path.name}"
+close["resourceFinalizationHeadDigest"] = canonical_digest(transition["receipt"])
+close["humanDecision"] = "confirmed"
+close["structuredDecision"]["decision"] = "confirmed"
+close["structuredDecision"]["evidenceRefs"] = [
+    f".ai/evidence/{work_item}.verification.json",
+]
+write_json(close_path, close)
+PY
+if python3 "$helper" --repo "$tmp/pre-close-cleanup" --work-item WI-999-closed-docs-fixture --check \
+  >"$tmp/pre-close-cleanup.out" 2>"$tmp/pre-close-cleanup.err"; then
+  echo 'promotion check accepted stale current pre-close-cleanup documentation' >&2
+  exit 1
+fi
+grep -Fq 'promotion required' "$tmp/pre-close-cleanup.err"
+python3 "$helper" --repo "$tmp/pre-close-cleanup" --work-item WI-999-closed-docs-fixture
+python3 "$helper" --repo "$tmp/pre-close-cleanup" --work-item WI-999-closed-docs-fixture --check
+
 # A valid recovery receipt makes an immutable predecessor historical rather
 # than normally promotable.  An invalid/non-canonical close may remain for
 # audit purposes, but check-all must skip that predecessor and never demand an

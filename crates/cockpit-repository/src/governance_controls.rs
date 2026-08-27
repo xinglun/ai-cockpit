@@ -86,7 +86,16 @@ pub fn validate_checkpoint_evidence_bindings(
         match serde_json::from_value::<CheckpointEvidence>(value.clone()) {
             Ok(entry) => {
                 if let Err(entry_errors) = entry.validate_shape() {
-                    errors.extend(entry_errors);
+                    // Older Runtime versions marked a command-only Contract
+                    // amendment as verificationStarted even though there
+                    // were zero required gates to invalidate. Preserve that
+                    // historical evidence while keeping the strict rule for
+                    // amendments that actually declare required checks.
+                    errors.extend(entry_errors.into_iter().filter(|error| {
+                        !(error == "post-verification amendment must invalidate required checks"
+                            && entry.stage == "contract_amendment_revalidation"
+                            && entry.required_checks == 0)
+                    }));
                 }
                 if DateTime::parse_from_rfc3339(&entry.recorded_at).is_err() {
                     errors.push("checkpoint_evidence_recorded_at_invalid".into());
@@ -215,15 +224,20 @@ pub fn validate_checkpoint_evidence_bindings(
         if entry.stage == "before_finish" && entry.contract_hash != expected_contract_hash {
             errors.push("checkpoint_evidence_contract_stale_before_finish".into());
         }
-        let historical_before_edit =
-            entry.stage == "before_edit" && before_edit_is_stale && amendment_chain_valid;
-        if entry.acceptance_count != expected_acceptance && !historical_before_edit {
+        // Contract amendments are historical authorization points just like
+        // before_edit. Their counts describe the Contract that was reviewed
+        // at that point; only before_finish must match the current Contract.
+        let historical_checkpoint = matches!(
+            entry.stage.as_str(),
+            "before_edit" | "contract_amendment_revalidation"
+        ) && (before_edit_is_stale && amendment_chain_valid);
+        if entry.acceptance_count != expected_acceptance && !historical_checkpoint {
             errors.push("checkpoint_evidence_acceptance_count_stale".into());
         }
-        if entry.unknown_count != expected_unknowns && !historical_before_edit {
+        if entry.unknown_count != expected_unknowns && !historical_checkpoint {
             errors.push("checkpoint_evidence_unknown_count_stale".into());
         }
-        if entry.required_checks != expected_required_checks.len() as u64 && !historical_before_edit
+        if entry.required_checks != expected_required_checks.len() as u64 && !historical_checkpoint
         {
             errors.push("checkpoint_evidence_required_checks_count_stale".into());
         }

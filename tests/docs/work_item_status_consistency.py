@@ -101,7 +101,7 @@ def valid_close(path: Path, work_item_id: str, repository_id: str) -> bool:
         and value.get("repositoryId") == repository_id
         and value.get("state") == "closed"
         and value.get("decisionState") == "confirmed"
-        and value.get("humanDecision") in {"approved", "superseded"}
+        and value.get("humanDecision") in {"approved", "confirmed", "superseded"}
     )
 
 

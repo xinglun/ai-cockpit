@@ -93,7 +93,8 @@ handoff だけを抑止します。`work-item outcome` は既定で stdout に�
 - `preflight --contract` は通常 `start` が作る `.ai/work-items/active/<id>.contract.json` を指します。
 - `work-item new` は `not_ready` の skeleton を作ります。これを `preflight` すると意図的に
   `yellow` と `reviewState: needs_human_confirmation` になり、人の項目を埋めてから再度 preflight して checkpoint します。
-- `close --human-decision approved|rejected` は human decision record であり verification evidence ではありません。
+- `close --human-decision approved|confirmed|rejected` は human decision record であり verification evidence ではありません。
+  `approved` と明示的な `confirmed` は正の terminal choice ですが、`rejected` は Work Item を Implemented に昇格させません。
 - `evidence import --repo <path> --work-item <id> --metadata <metadata.json>
   --raw <provider-output>` は strict な `DelegatedEvidence` metadata を exact raw-byte
   digest と照合し、`.ai/evidence/external/` に repository/Work Item-bound receipt を書きます。
