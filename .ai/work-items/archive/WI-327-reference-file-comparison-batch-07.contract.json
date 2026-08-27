@@ -33,11 +33,11 @@
     "decision"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-327-reference-file-comparison-batch-07",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/290",
     "worktree": "/private/tmp/ai-cockpit-wi327-reference-file-comparison-batch-07"
   },
   "risk": "low",
