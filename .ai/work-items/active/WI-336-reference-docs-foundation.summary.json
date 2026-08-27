@@ -1,0 +1,85 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-336-reference-docs-foundation.contract.json",
+    ".ai/work-items/active/WI-336-reference-docs-foundation.summary.json"
+  ],
+  "checkpointAt": "2026-08-27T17:30:12Z",
+  "checkpointContractDigest": "sha256:fef0711edfdbd74d185a1c366c1ad0172c11e718c54cb952b551001d3bd5e49c",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:536c7e6e512529a3173a8073beaf8055a8639f22168578108e6e57ec40222e7d",
+      "recorded": true,
+      "recordedAt": "2026-08-27T17:30:12Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:477757abfc0671c266b6b78aa311f478021c724f76a8ef622d3256e66fa7399a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-336-reference-docs-foundation"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:bc4fc2744987b55dcca272516cbfe93e36fce3a1d3ba564bc0e8658e150c8dd9",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:536c7e6e512529a3173a8073beaf8055a8639f22168578108e6e57ec40222e7d",
+      "previousContractHash": "sha256:536c7e6e512529a3173a8073beaf8055a8639f22168578108e6e57ec40222e7d",
+      "reason": "Correct Contract baseRevision to latest remote default b9efcd6; documentation preparation commit remains feature diff, not governance base.",
+      "recorded": true,
+      "recordedAt": "2026-08-27T17:47:48Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b62dc107918a517f8dd7d0cc9770e8f29f55efa93188332f715ad82ec14384c7",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-336-reference-docs-foundation"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:fef0711edfdbd74d185a1c366c1ad0172c11e718c54cb952b551001d3bd5e49c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:536c7e6e512529a3173a8073beaf8055a8639f22168578108e6e57ec40222e7d",
+      "previousContractHash": "sha256:bc4fc2744987b55dcca272516cbfe93e36fce3a1d3ba564bc0e8658e150c8dd9",
+      "reason": "Use serialized workspace test invocation to avoid cross-package temporary-fixture contention; this only makes verification deterministic and changes no governance behavior.",
+      "recorded": true,
+      "recordedAt": "2026-08-27T17:53:48Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b62dc107918a517f8dd7d0cc9770e8f29f55efa93188332f715ad82ec14384c7",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-336-reference-docs-foundation"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:b62dc107918a517f8dd7d0cc9770e8f29f55efa93188332f715ad82ec14384c7",
+  "createdAt": "2026-08-27T17:29:33Z",
+  "mode": "code",
+  "preflightAt": "2026-08-27T18:23:12Z",
+  "preflightContractDigest": "sha256:fef0711edfdbd74d185a1c366c1ad0172c11e718c54cb952b551001d3bd5e49c",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:b62dc107918a517f8dd7d0cc9770e8f29f55efa93188332f715ad82ec14384c7",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryRetryPending": true,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-27T17:30:12Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-336-reference-docs-foundation"
+}
