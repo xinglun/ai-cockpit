@@ -1,0 +1,19 @@
+{
+  "createdAt": "2026-08-27T19:00:02Z",
+  "files": {
+    "contractDigest": "sha256:b017930c1d8cc744086359b293fde364a2457996edfe6e957e6d279eb4ddea23",
+    "contractPath": ".ai/work-items/archive/WI-337-reference-docs-foundation-retry.contract.json",
+    "eventsDigest": "sha256:dd0f9dc91ff57a13b93abbfb07dbe44c62399abb6f898ddcceff68dce3e3234b",
+    "eventsPath": ".ai/work-items/archive/WI-337-reference-docs-foundation-retry.events.jsonl",
+    "outcomeDigest": "sha256:8476e74908d4dcf19c3594832387f729e1ac057fc5d2d4cf267e8ce0c506264f",
+    "outcomePath": ".ai/work-items/archive/WI-337-reference-docs-foundation-retry.outcome.json",
+    "summaryDigest": "sha256:6f8b66a0b642da8c00283cb8612c1f76feb70000979cd24fa1b4f93517be79b4",
+    "summaryPath": ".ai/work-items/archive/WI-337-reference-docs-foundation-retry.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "state": "superseded",
+  "supersededBy": "WI-338-reference-docs-foundation-clean",
+  "supersessionDecisionPath": ".ai/decisions/WI-337-reference-docs-foundation-retry.recovery.fe16dcb133b6b0d0fd9e6ec64f86b08d152c0572a64af429b36e62c0f5757101.json",
+  "workItemId": "WI-337-reference-docs-foundation-retry"
+}

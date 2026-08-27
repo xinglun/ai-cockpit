@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "current-main-work-item-recovery",
+  "decidedAt": "2026-08-27T20:20:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-337-reference-docs-foundation-retry.verification.json",
+    ".ai/work-items/archive/WI-338-reference-docs-foundation-clean.archive.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:53904beeb15a22988300349e93d01b464f5741f683ac43d2880048bbaac648df",
+  "predecessorEventsDigest": "sha256:dd0f9dc91ff57a13b93abbfb07dbe44c62399abb6f898ddcceff68dce3e3234b",
+  "predecessorOutcomeDigest": "sha256:e3943ad8f788a2ce48d46a244e396460ed6d73a52b352b9b5f257c7af21b527a",
+  "predecessorSummaryDigest": "sha256:6075c0db0c4159a9253fe5e122dcc5ffff496b656da40f300720a08ef004c481",
+  "predecessorWorkItemId": "WI-337-reference-docs-foundation-retry",
+  "reason": "WI-338 is the clean successor that completed the same bounded documentation batch; mark WI-337's failed retry as immutable superseded history without rewriting it.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "WI-338 remains the only active delivery; retain WI-337 bytes as historical superseded evidence.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-338-reference-docs-foundation-clean",
+  "workItemId": "WI-337-reference-docs-foundation-retry"
+}

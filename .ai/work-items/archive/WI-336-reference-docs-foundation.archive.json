@@ -1,0 +1,19 @@
+{
+  "createdAt": "2026-08-27T19:00:47Z",
+  "files": {
+    "contractDigest": "sha256:431e6ac1f2e1bbe267c793bda4e5237056697422ae119def2027776e41741b44",
+    "contractPath": ".ai/work-items/archive/WI-336-reference-docs-foundation.contract.json",
+    "eventsDigest": "sha256:4b96c05371bf01b4e36b0611d0e19c3d508c898d0b074c06a2ade720ba3f4bf5",
+    "eventsPath": ".ai/work-items/archive/WI-336-reference-docs-foundation.events.jsonl",
+    "outcomeDigest": "sha256:bc2144bbc958c1e9e767b5d32af95f2c35ed090cd47a353c7eca79e7178d604a",
+    "outcomePath": ".ai/work-items/archive/WI-336-reference-docs-foundation.outcome.json",
+    "summaryDigest": "sha256:e058b2bab31fee5ab268e7b6d30651bb3f19f6044048f60756456971bf29f631",
+    "summaryPath": ".ai/work-items/archive/WI-336-reference-docs-foundation.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "state": "superseded",
+  "supersededBy": "WI-337-reference-docs-foundation-retry",
+  "supersessionDecisionPath": ".ai/decisions/WI-336-reference-docs-foundation.recovery.4f2fb978956e2258ed023c70b72be0aedfdd504fe39120d4e04f40d919872a99.json",
+  "workItemId": "WI-336-reference-docs-foundation"
+}
