@@ -242,6 +242,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-164——历史 Outcome 人类渲染 | 已实现 | `.ai/evidence/WI-164-historical-outcome-render.verification.json`；三语 handoff 对历史 evidence 隐藏缺少 evidence 的恢复提示。 |
 
 | WI-314——finalization reconciliation redelivery | 进行中 | [Work Item](../work-items/WI-314-finalization-reconciliation-redelivery.zh-CN.md)；重新交付 cleanup-before-close 与 append-only reconciliation 修正，计划 verification evidence 为 `.ai/evidence/WI-314-finalization-reconciliation-redelivery.verification.json`。 |
+| WI-315——post-close reconciliation promotion recovery | 进行中 | [Work Item](../work-items/WI-315-post-close-reconciliation-promotion-recovery.zh-CN.md)；修正 predecessor 已有 confirmed close 时有效 successor recovery 的 promotion 投影，计划 verification evidence 为 `.ai/evidence/WI-315-post-close-reconciliation-promotion-recovery.verification.json`。 |
 
 ## 当前边界
 

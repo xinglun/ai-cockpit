@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-successor-after-hosted-failure",
+  "decidedAt": "2026-08-27T02:25:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-314-finalization-reconciliation-redelivery.archive.json",
+    "https://github.com/xinglun/ai-cockpit/pull/278",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/33032508469"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:fix-in-current-work-item-or-record-successor"
+  ],
+  "predecessorContractDigest": "sha256:a6b9115ffe44baf682a2cfb945fe2e8d64d46206944d9d588055dd3ab5c1b3ca",
+  "predecessorEventsDigest": "sha256:548a60b044cb3e73a2528f5a6f9c7ede13259e7bafc7e44d9f901a0ffc4b93ef",
+  "predecessorOutcomeDigest": "sha256:4f45232188b64d0f4dbedffbe60d73121adca70c96ca49468c851ac4aee82c66",
+  "predecessorSummaryDigest": "sha256:8cb93c583ef24dcf45a47bfb068f73ffcdd2b14765b1154ab6011fc101b2d893",
+  "predecessorWorkItemId": "WI-314-finalization-reconciliation-redelivery",
+  "reason": "W314 is an immutable archived delivery whose hosted quality gate exposed a promotion projection defect: a confirmed close with a valid successor recovery was still treated as a normal terminal item. Create a bounded successor to repair that gate and preserve W314 history unchanged.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Implement the bounded promotion-gate correction from the latest default branch, preserve W314 archive/PR failure bytes, pass focused and hosted checks, then merge and close W315 with exact cleanup.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-315-post-close-reconciliation-promotion-recovery",
+  "workItemId": "WI-314-finalization-reconciliation-redelivery"
+}

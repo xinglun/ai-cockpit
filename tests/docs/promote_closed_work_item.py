@@ -128,24 +128,6 @@ def valid_recovery_decision(repository: Path, work_item_id: str) -> bool:
     return False
 
 
-def confirmed_approved_close(repository: Path, work_item_id: str) -> bool:
-    close_path = repository / ".ai/decisions" / f"{work_item_id}.close.json"
-    if not close_path.exists() and not close_path.is_symlink():
-        return False
-    try:
-        close = read_json(close_path)
-    except PromotionError:
-        return False
-    structured = close.get("structuredDecision")
-    return (
-        close.get("state") == "closed"
-        and close.get("decisionState") == "confirmed"
-        and close.get("humanDecision") == "approved"
-        and isinstance(structured, dict)
-        and structured.get("decision") == "approved"
-    )
-
-
 @dataclass(frozen=True)
 class TerminalEvidence:
     work_item_id: str
@@ -608,9 +590,13 @@ def closed_work_items(repository: Path) -> list[str]:
             # Recovery is a separate terminal projection for an immutable
             # predecessor.  Do not ask the normal promotion path to invent an
             # approved close for it; the successor owns the future promotion.
-            if valid_recovery_decision(repository, work_item_id) and not confirmed_approved_close(
-                repository, work_item_id
-            ):
+            # A valid successor/supersede receipt makes the predecessor an
+            # immutable historical projection, regardless of whether an
+            # earlier Runtime already recorded a confirmed close.  The
+            # recovery binding, not the shape of the predecessor close, owns
+            # this exception.  Retry and invalid/foreign receipts continue
+            # through normal promotion validation.
+            if valid_recovery_decision(repository, work_item_id):
                 continue
             result.append(work_item_id)
     return result

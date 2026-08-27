@@ -1,0 +1,83 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-314-finalization-reconciliation-redelivery.recovery.a6467e390ab70fa6246d41e0b77f073a2d597472c837b81b5806bdbf48706677.json",
+    ".ai/work-items/active/WI-315-post-close-reconciliation-promotion-recovery.contract.json",
+    ".ai/work-items/active/WI-315-post-close-reconciliation-promotion-recovery.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-315-post-close-reconciliation-promotion-recovery.ja.md",
+    "docs/work-items/WI-315-post-close-reconciliation-promotion-recovery.md",
+    "docs/work-items/WI-315-post-close-reconciliation-promotion-recovery.zh-CN.md",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh"
+  ],
+  "checkpointAt": "2026-08-27T02:26:36Z",
+  "checkpointContractDigest": "sha256:1f56be2b7a07e5c40c545e9920b0ddecd17ce703f0d19004cc70da011861febb",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:15ab7981fe6cdd3ef018ad4361d85c548d4c325972c91d052db234035adaa7bb",
+  "createdAt": "2026-08-27T02:20:02Z",
+  "intentAlignment": {
+    "evidence": [
+      "https://github.com/xinglun/ai-cockpit/actions/runs/33032508469",
+      "tests/docs/promote_closed_work_item.py"
+    ],
+    "reason": "The scoped gate condition is the direct cause of W314 hosted documentation-gate failure; the successor preserves W314 bytes and adds only a valid-recovery projection regression.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "predecessorContractDigest": "sha256:a6b9115ffe44baf682a2cfb945fe2e8d64d46206944d9d588055dd3ab5c1b3ca",
+  "predecessorWorkItemId": "WI-314-finalization-reconciliation-redelivery",
+  "preflightAt": "2026-08-27T02:30:46Z",
+  "preflightContractDigest": "sha256:1f56be2b7a07e5c40c545e9920b0ddecd17ce703f0d19004cc70da011861febb",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:15ab7981fe6cdd3ef018ad4361d85c548d4c325972c91d052db234035adaa7bb",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-314-finalization-reconciliation-redelivery.recovery.a6467e390ab70fa6246d41e0b77f073a2d597472c837b81b5806bdbf48706677.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/docs/promote_closed_work_item_test.sh"
+      ],
+      "expected": "A repository-bound successor recovery suppresses predecessor promotion even when the predecessor close is confirmed approved.",
+      "required": true,
+      "scenario": "confirmed close with valid successor recovery",
+      "status": "verified",
+      "verificationPlan": "Run the focused promotion regression and documentation acceptance gates."
+    },
+    {
+      "evidence": [
+        "tests/docs/promote_closed_work_item_test.sh",
+        "tests/docs/promote_closed_work_item.py"
+      ],
+      "expected": "Retry, malformed, foreign, non-canonical, or missing recovery receipts do not suppress normal promotion validation.",
+      "required": true,
+      "scenario": "invalid recovery remains fail closed",
+      "status": "verified",
+      "verificationPlan": "Run the invalid-recovery, retry, and foreign-identity promotion regressions."
+    },
+    {
+      "evidence": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md"
+      ],
+      "expected": "W314 bytes remain unchanged and W315 is registered consistently in English, Simplified Chinese, and Japanese documentation before verification.",
+      "required": true,
+      "scenario": "immutable predecessor history and tri-language parity",
+      "status": "verified",
+      "verificationPlan": "Run documentation acceptance and compare immutable W314 digests before and after the Work Item."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-08-27T02:26:36Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-315-post-close-reconciliation-promotion-recovery"
+}

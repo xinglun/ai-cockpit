@@ -249,6 +249,7 @@ record for each boundary.
 | WI-164 — Historical Outcome human rendering | Implemented | `.ai/evidence/WI-164-historical-outcome-render.verification.json`; tri-language handoff suppresses missing-evidence recovery wording for historical evidence. |
 
 | WI-314 — finalization reconciliation redelivery | In progress | [Work Item](../work-items/WI-314-finalization-reconciliation-redelivery.md); redelivers the cleanup-before-close and append-only reconciliation correction, with planned verification evidence `.ai/evidence/WI-314-finalization-reconciliation-redelivery.verification.json`. |
+| WI-315 — post-close reconciliation promotion recovery | In progress | [Work Item](../work-items/WI-315-post-close-reconciliation-promotion-recovery.md); corrects valid successor recovery projection when a predecessor also has a confirmed close, with planned verification evidence `.ai/evidence/WI-315-post-close-reconciliation-promotion-recovery.verification.json`. |
 
 ## Current boundary
 
