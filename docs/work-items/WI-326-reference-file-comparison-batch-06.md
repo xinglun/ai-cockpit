@@ -6,9 +6,13 @@ description: "Compare nine pinned reference quality, overview, philosophy, and c
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-326-reference-file-comparison-batch-06
+terminalArchive: .ai/work-items/archive/WI-326-reference-file-comparison-batch-06.contract.json
+terminalVerification: .ai/evidence/WI-326-reference-file-comparison-batch-06.verification.json
+terminalFinalization: .ai/decisions/WI-326-reference-file-comparison-batch-06.finalize.json
+terminalDecision: .ai/decisions/WI-326-reference-file-comparison-batch-06.close.json
 ---
 
 # WI-326 — reference file comparison batch 06
