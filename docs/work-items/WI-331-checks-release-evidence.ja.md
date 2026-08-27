@@ -7,9 +7,13 @@ audience:
   - adopter
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-331-checks-release-evidence
+terminalArchive: .ai/work-items/archive/WI-331-checks-release-evidence.contract.json
+terminalVerification: .ai/evidence/WI-331-checks-release-evidence.verification.json
+terminalFinalization: .ai/decisions/WI-331-checks-release-evidence.finalize.36c6617937511f6d1d30511c3e83a25ba9717d7713f8d51a9e153b1cd7cb0281.json
+terminalDecision: .ai/decisions/WI-331-checks-release-evidence.close.json
 capabilityClaims:
   - reference_parity
 ---
