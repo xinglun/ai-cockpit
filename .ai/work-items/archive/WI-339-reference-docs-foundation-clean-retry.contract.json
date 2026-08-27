@@ -1,0 +1,58 @@
+{
+  "acceptanceCriteria": [
+    "WI-338 remains explicit recovered history with a bound successor decision",
+    "WI-339 parity rows are registered in all three languages before evidence generation",
+    "The five pinned source classifications remain unchanged and inventory counts stay deterministic",
+    "Documentation, parity, and locked workspace checks pass"
+  ],
+  "authority": "authorized",
+  "baseRevision": "a3872ed186454a8389ffefe0620ddef4c0ccfed3",
+  "createdAt": "2026-08-27T19:19:00Z",
+  "goal": "Make hosted governance able to verify the prearchive parity order without rewriting predecessor history.",
+  "intent": "Re-deliver the unchanged five-file reference comparison with parity registration proven before verification.",
+  "mode": "code",
+  "outOfScope": [],
+  "predecessorContractDigest": "sha256:141ef3592709cfcec834475e4af5db4f7f47fabd2319d4c8250b004ecd9f8e12",
+  "predecessorWorkItemId": "WI-338-reference-docs-foundation-clean",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-338-reference-docs-foundation-clean.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:489eed3e5f8d65ab729ebe18e9f29db9c9806a6bf1f6f8971dbc68f987eb8367",
+  "requiredEvidenceClasses": [
+    "verification",
+    "archive"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-336-reference-docs-foundation",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/300",
+    "worktree": "/private/tmp/ai-cockpit-wi336-reference-docs-foundation"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-336-reference-docs-foundation.md",
+    "docs/work-items/WI-336-reference-docs-foundation.zh-CN.md",
+    "docs/work-items/WI-336-reference-docs-foundation.ja.md",
+    "docs/work-items/WI-337-reference-docs-foundation-retry.md",
+    "docs/work-items/WI-337-reference-docs-foundation-retry.zh-CN.md",
+    "docs/work-items/WI-337-reference-docs-foundation-retry.ja.md",
+    "docs/work-items/WI-338-reference-docs-foundation-clean.md",
+    "docs/work-items/WI-338-reference-docs-foundation-clean.zh-CN.md",
+    "docs/work-items/WI-338-reference-docs-foundation-clean.ja.md",
+    "docs/work-items/WI-339-reference-docs-foundation-clean-retry.md",
+    "docs/work-items/WI-339-reference-docs-foundation-clean-retry.zh-CN.md",
+    "docs/work-items/WI-339-reference-docs-foundation-clean-retry.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-339-reference-docs-foundation-clean-retry"
+}

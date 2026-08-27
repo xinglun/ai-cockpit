@@ -1,0 +1,32 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-338-reference-docs-foundation-clean.recovery.json",
+    ".ai/work-items/archive/WI-339-reference-docs-foundation-clean-retry.contract.json",
+    ".ai/work-items/archive/WI-339-reference-docs-foundation-clean-retry.summary.json"
+  ],
+  "checkpointAt": "2026-08-27T19:23:55Z",
+  "checkpointContractDigest": "sha256:2c11fe457fd25b43b79a8884bf662b06ade5ac3da653f94bf652b6c07e9b0ddf",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:aa0360e357c590df9bdaf9817348021db2a6870e40783016053b55fa70983e4d",
+  "createdAt": "2026-08-27T19:19:00Z",
+  "mode": "code",
+  "predecessorContractDigest": "sha256:141ef3592709cfcec834475e4af5db4f7f47fabd2319d4c8250b004ecd9f8e12",
+  "predecessorWorkItemId": "WI-338-reference-docs-foundation-clean",
+  "preflightAt": "2026-08-27T19:34:03Z",
+  "preflightContractDigest": "sha256:2c11fe457fd25b43b79a8884bf662b06ade5ac3da653f94bf652b6c07e9b0ddf",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:aa0360e357c590df9bdaf9817348021db2a6870e40783016053b55fa70983e4d",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-338-reference-docs-foundation-clean.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-27T19:34:07Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-339-reference-docs-foundation-clean-retry"
+}

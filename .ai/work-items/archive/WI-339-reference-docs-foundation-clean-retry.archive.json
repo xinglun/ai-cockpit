@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-27T19:34:44Z",
+  "files": {
+    "contractDigest": "sha256:f9e14c850afea66851ba2ef8c5af7e9d1d4359de969cc9bd109d243f09b2a76d",
+    "contractPath": ".ai/work-items/archive/WI-339-reference-docs-foundation-clean-retry.contract.json",
+    "eventsDigest": "sha256:8d4d481db7e603df8ae2e0cdc364711fe5af859fc03e377c1be51bad22497be7",
+    "eventsPath": ".ai/work-items/archive/WI-339-reference-docs-foundation-clean-retry.events.jsonl",
+    "outcomeDigest": "sha256:46386b54787c389c2bb692caceb03bcca91f5e3dc594fe755be533dd4a3aaf68",
+    "outcomePath": ".ai/work-items/archive/WI-339-reference-docs-foundation-clean-retry.outcome.json",
+    "summaryDigest": "sha256:eb52c17c16171d8838c1aa5d57f7646733f7d5d207e944c496c0a23b1056360c",
+    "summaryPath": ".ai/work-items/archive/WI-339-reference-docs-foundation-clean-retry.summary.json",
+    "taskReportDigest": "sha256:b6b3b34a82bcf01335e539f971b02e3cf8b8d485e21aad15289bb90a6fdee21e",
+    "taskReportMarkdownDigest": "sha256:f98b20f13775b634a9abc1452e6d77eae4e9781e6c81d2fbae2e6c987f366831",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-339-reference-docs-foundation-clean-retry.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-339-reference-docs-foundation-clean-retry.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-339-reference-docs-foundation-clean-retry"
+}
