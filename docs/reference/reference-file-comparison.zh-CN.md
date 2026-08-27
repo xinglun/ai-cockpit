@@ -435,3 +435,21 @@ WI-332 逐一读取固定参考源中的三个理解审查证据文件。三者�
 human Outcome、readiness/start 门禁以及 verification 失效机制已在其他批次覆盖。本批不把
 自动向 Cursor 聊天发布、`Makefile.ai`、close-gap 便利命令或 controls 模板静默提升为当前
 parity。
+
+### Cursor 采用方反馈评估（v0.2.33）
+
+下面的采用方矩阵记录当前保证和明确边界，不是源工程 wire 兼容性声明。
+
+| 反馈 | 当前边界 | 决定 |
+| --- | --- | --- |
+| 面向 Agent 的 Outcome 输出 | `finish`、`archive`、`close` 在 stdout 输出稳定 lifecycle JSON；`work-item outcome --json` 和带 repository context 的 MCP `work_item_outcome` 是可重放机器入口。 | Runtime 已实现。Cursor 必须在对话中展示 handoff；CLI 无法展开 IDE 面板。 |
+| 下一个 Work Item 之前必须 close | readiness/lifecycle entry 拒绝 active Work Item、未关闭 archive、脏源文件、detached HEAD 以及未同步默认基线。 | 已实现且 fail-closed；`ready_on_base` 是显式状态。 |
+| start 时机和 base 绑定 | start 拒绝开始前已有的非治理变更，并在实现前绑定显式 branch/worktree/base context。 | 已实现且 fail-closed。 |
+| finalize/close 诊断 | 错误包含失败边界和恢复条件，但没有专用 `close-gap` 修复命令。 | 部分实现；更丰富的诊断属于未来有边界的产品决策。 |
+| controls 脚手架 | 校验已声明的 controls/evidence，不发明 acceptance 决定，也不生成完整 controls 模板。 | 有意保持不生成治理决定。 |
+| merge 后 close 恢复 | 显式 `finalize`、`finalize-verify`、`close` 以及 readiness/status 投影覆盖 lifecycle。 | 当前 lifecycle 是权威；`close-gap` 别名属于可选宿主 UX。 |
+| Make 集成 | 目标使用显式 `--repo` CLI/MCP 和 provider adapter；源 `Makefile.ai` 编排不是协议要求。 | 不是 parity 遗漏；不复制源 Make/Python 编排。 |
+| verification 失效 | lifecycle 边界校验 source snapshot、Contract、repository identity 和 evidence binding；源变更后必须重新 verification。 | 已实现且 fail-closed；归档 bytes 保持不可变历史事实。 |
+
+任何未来 Runtime 变更都必须使用人拥有的有边界 Contract、测试、三语文档和发布版本验收；
+采用方反馈不会变成未登记的承诺。

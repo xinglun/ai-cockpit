@@ -471,3 +471,23 @@ lifecycle JSON、replay 可能な human Outcome、readiness/start gate、verific
 invalidation は別 batch で確認済みです。この batch は automatic Cursor chat posting、
 `Makefile.ai`、close-gap convenience、controls template を current parity として
 黙って追加しません。
+
+### Cursor adopter feedback の評価（v0.2.33）
+
+以下の adopter matrix は現在の保証と明示的な境界を記録するもので、source の wire
+互換性を宣言するものではありません。
+
+| Feedback | Current boundary | Decision |
+| --- | --- | --- |
+| Agent 向け Outcome output | `finish`、`archive`、`close` は stdout に stable lifecycle JSON を出力します。`work-item outcome --json` と repository context 付き MCP `work_item_outcome` は replayable な machine entrypoint です。 | Runtime 実装済み。Cursor chat への handoff 表示は Cursor 側であり、CLI は IDE panel を開けません。 |
+| 次の Work Item 前の close | readiness/lifecycle entry は active Work Item、未 close の archive、dirty source path、detached HEAD、未同期 default base を拒否します。 | fail-closed で実装済み。`ready_on_base` は明示状態です。 |
+| start timing と base binding | start 前の non-governance change を拒否し、実装前に明示 branch/worktree/base context を bind します。 | fail-closed で実装済み。 |
+| finalize/close diagnostics | error は failure boundary と recovery condition を示しますが、専用 `close-gap` remediation command はありません。 | Partial。詳細な診断は将来の bounded product decision です。 |
+| controls scaffolding | 宣言済み controls/evidence を検証し、acceptance decision を発明せず完全な controls template も生成しません。 | 意図した decision-free boundary です。 |
+| merge 後の close recovery | 明示的な `finalize`、`finalize-verify`、`close` と readiness/status projection が lifecycle をカバーします。 | Current lifecycle が authoritative。`close-gap` alias は任意の host UX です。 |
+| Make integration | target は明示的な `--repo` CLI/MCP と provider adapter を使用します。source `Makefile.ai` orchestration は protocol requirement ではありません。 | parity omission ではなく、source Make/Python orchestration はコピーしません。 |
+| verification invalidation | lifecycle boundary で source snapshot、Contract、repository identity、evidence binding を検証し、source change 後は fresh verification が必要です。 | fail-closed で実装済み。archive bytes は immutable historical truth です。 |
+
+今後の Runtime 変更は human-owned な bounded Contract、test、三言語 documentation、
+published-Runtime acceptance を持つ Work Item で行います。adopter feedback を未追跡の
+promise にしません。

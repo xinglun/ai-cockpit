@@ -482,6 +482,26 @@ Cursor/host adapters must surface the durable handoff because the Runtime
 cannot expand an IDE chat panel. Diagnostic remediation, controls scaffolding,
 close-gap convenience, and Makefile integration remain explicit non-goals here.
 
+### Cursor adopter feedback assessment (v0.2.33)
+
+This adopter matrix records current guarantees and explicit boundaries; it is
+not a source wire-compatibility claim.
+
+| Feedback | Current boundary | Decision |
+| --- | --- | --- |
+| Agent-facing Outcome output | `finish`, `archive`, and `close` emit stable lifecycle JSON on stdout; `work-item outcome --json` and repository-bound MCP `work_item_outcome` are replayable machine entrypoints. | Implemented in Runtime. Cursor must surface the handoff in chat; the CLI cannot expand an IDE panel. |
+| Close before the next Work Item | Readiness/lifecycle entry rejects active Work Items, unclosed archives, dirty source paths, detached heads, and unsynchronized default bases. | Implemented fail-closed; `ready_on_base` is explicit. |
+| Start timing and base binding | Start rejects pre-existing non-governance changes and binds explicit branch/worktree/base context before implementation. | Implemented fail-closed. |
+| Finalize/close diagnostics | Errors include the failing boundary and recovery condition; there is no dedicated `close-gap` remediation command. | Partial; richer diagnostics are a future bounded product decision. |
+| Controls scaffolding | Declared controls/evidence are validated; acceptance decisions are never invented and a complete controls template is not generated. | Deliberately decision-free. |
+| Post-merge close recovery | Explicit `finalize`, `finalize-verify`, `close`, and readiness/status projections cover the lifecycle. | Current lifecycle is authoritative; a `close-gap` alias is optional host UX. |
+| Make integration | The target uses explicit `--repo` CLI/MCP and provider adapters; source `Makefile.ai` orchestration is not a protocol requirement. | Not a parity omission; source Make/Python orchestration is not copied. |
+| Verification invalidation | Source snapshot, Contract, repository identity, and evidence bindings are checked at lifecycle boundaries; source changes require fresh verification. | Implemented fail-closed; archived bytes remain immutable historical truth. |
+
+Any future Runtime change must use a human-owned bounded Contract, tests,
+tri-language documentation, and published-Runtime acceptance; adopter feedback
+does not become an untracked promise.
+
 ## WI-330 capability-truth boundary decision
 
 WI-330 re-reads the four pinned source files individually and records the
