@@ -369,6 +369,38 @@ repository_id = json.loads((root / ".ai/project.json").read_text())[
 PY
 python3 "$helper" --repo "$tmp/recovered-predecessor" --check-all
 
+# A predecessor may also have a fully confirmed approved close when a
+# successor recovery is recorded.  The valid recovery binding still makes it
+# historical; promotion must not require rewriting or re-promoting it.
+cp -R "$tmp/unpromoted" "$tmp/confirmed-recovered-predecessor"
+python3 - "$tmp/confirmed-recovered-predecessor" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = "WI-999-closed-docs-fixture"
+repository_id = json.loads((root / ".ai/project.json").read_text())["repositoryId"]
+(root / ".ai/decisions" / f"{work_item}.recovery.json").write_text(
+    json.dumps(
+        {
+            "schemaVersion": 1,
+            "workItemId": work_item,
+            "predecessorWorkItemId": work_item,
+            "successorWorkItemId": "WI-1001-successor",
+            "decision": "successor",
+            "repositoryId": repository_id,
+            "reason": "The confirmed predecessor close remains immutable history.",
+            "evidenceRefs": [f".ai/evidence/{work_item}.verification.json"],
+        },
+        indent=2,
+    )
+    + "\n",
+    encoding="utf-8",
+)
+PY
+python3 "$helper" --repo "$tmp/confirmed-recovered-predecessor" --check-all
+
 # A retry receipt may remain the canonical recovery record while a later,
 # digest-addressed supersede receipt records the immutable predecessor
 # boundary.  Promotion must discover the valid hashed receipt rather than

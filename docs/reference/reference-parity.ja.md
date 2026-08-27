@@ -246,6 +246,7 @@ verification record です。
 | WI-164 — Historical Outcome human rendering | Implemented | `.ai/evidence/WI-164-historical-outcome-render.verification.json`; tri-language handoff は historical evidence の missing-evidence recovery wording を抑止します。 |
 
 | WI-314 — finalization reconciliation redelivery | In progress | [Work Item](../work-items/WI-314-finalization-reconciliation-redelivery.ja.md); cleanup-before-close と append-only reconciliation correction を再配信し、planned verification evidence は `.ai/evidence/WI-314-finalization-reconciliation-redelivery.verification.json` です。 |
+| WI-315 — post-close reconciliation promotion recovery | In progress | [Work Item](../work-items/WI-315-post-close-reconciliation-promotion-recovery.ja.md); predecessor に confirmed close がある場合も有効な successor recovery を歴史投影として扱う修正で、planned verification evidence は `.ai/evidence/WI-315-post-close-reconciliation-promotion-recovery.verification.json` です。 |
 
 ## 現在の境界
 
