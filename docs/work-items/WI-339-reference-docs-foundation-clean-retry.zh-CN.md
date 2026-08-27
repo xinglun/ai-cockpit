@@ -4,9 +4,13 @@ title: "WI-339——治理文档基础干净重试"
 workItemId: WI-339-reference-docs-foundation-clean-retry
 description: "在验证前证明 parity 注册，重新交付不变的前五个固定参考源治理文档比较。"
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-339-reference-docs-foundation-clean-retry
+terminalArchive: .ai/work-items/archive/WI-339-reference-docs-foundation-clean-retry.contract.json
+terminalVerification: .ai/evidence/WI-339-reference-docs-foundation-clean-retry.verification.json
+terminalFinalization: .ai/decisions/WI-339-reference-docs-foundation-clean-retry.finalize.24296bbdabfb6831e7015a8ba5672dae9af0a2df197b4fd64fa75ae5b5ba3425.json
+terminalDecision: .ai/decisions/WI-339-reference-docs-foundation-clean-retry.close.json
 ---
 
 # WI-339——治理文档基础干净重试

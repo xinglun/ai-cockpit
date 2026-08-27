@@ -20,6 +20,12 @@ Git base/head、changed paths、Contract 路径与 digest、manifest byte digest
 有序 gate ID。`run_repository_gates.py` 会从当前仓库事实重算 receipt，并且只执行规范
 manifest 中的命令；不存在任意命令 override。
 
+Runtime shadow 与 Contract 绑定：`standard` 或 `strict` 的 pull request 只有在初始路由
+解析出一个 active Contract 时才执行并上传 shadow。已经 finish/archive、没有 active
+Contract 的 PR 仍执行普通仓库 gates，但会跳过这个仅用于执行身份的 shadow，因为不可变
+Runtime 没有当前 Contract 就不能产生 Work Item verification evidence。这是明确的跳过，
+不会削弱所选仓库 gates，也不会把缺失证据当作通过。
+
 profile 为累加关系。`light` 执行文档与治理策略回归；`standard` 再加入 Cargo fmt、
 Clippy、package gates、不可变 Runtime shadow 与源码 conformance；`strict` 继续加入
 release、workflow、performance、adopter 与 source-archive gates。Pull request 使用

@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-pre-merge-finalization-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "24890d7b150fcc57e5ecb9710289e4e9a256c12a",
+    "name": "codex/wi-341-runtime-shadow-archived-state",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:533f34c984a98c4b053cd6249155e0fa847289c239e9d8d9f4625b7bb322d8cf",
+  "operationId": "operation-WI-341-runtime-shadow-archived-state-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "823b2646a4e179ac49689e80ab0edfe313ee3e48",
+    "headRevision": "24890d7b150fcc57e5ecb9710289e4e9a256c12a",
+    "number": 302,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/302"
+  },
+  "reason": "PR #302 is reviewed with all hosted checks passed; retain the exact branch and clean worktree until merge and close are verified.",
+  "receiptId": "ai-cockpit-WI-341-runtime-shadow-archived-state-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-341-runtime-shadow-archived-state",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/302",
+    "worktree": "/private/tmp/ai-cockpit-wi341-runtime-shadow-archived-state"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-28T00:00:00Z",
+  "workItemId": "WI-341-runtime-shadow-archived-state",
+  "worktree": {
+    "branch": "codex/wi-341-runtime-shadow-archived-state",
+    "headRevision": "24890d7b150fcc57e5ecb9710289e4e9a256c12a",
+    "path": "/private/tmp/ai-cockpit-wi341-runtime-shadow-archived-state",
+    "worktreeId": "WI-341-runtime-shadow-archived-state"
+  }
+}

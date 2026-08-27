@@ -4,9 +4,13 @@ title: "WI-339 — reference documentation foundation clean retry"
 workItemId: WI-339-reference-docs-foundation-clean-retry
 description: "verification 前の parity 登録を証明し、変更のない最初の 5 pinned reference governance-documentation 比較を再配信する。"
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-339-reference-docs-foundation-clean-retry
+terminalArchive: .ai/work-items/archive/WI-339-reference-docs-foundation-clean-retry.contract.json
+terminalVerification: .ai/evidence/WI-339-reference-docs-foundation-clean-retry.verification.json
+terminalFinalization: .ai/decisions/WI-339-reference-docs-foundation-clean-retry.finalize.24296bbdabfb6831e7015a8ba5672dae9af0a2df197b4fd64fa75ae5b5ba3425.json
+terminalDecision: .ai/decisions/WI-339-reference-docs-foundation-clean-retry.close.json
 ---
 
 # WI-339 — reference documentation foundation clean retry

@@ -1,0 +1,143 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-339-reference-docs-foundation-clean-retry.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:aa0360e357c590df9bdaf9817348021db2a6870e40783016053b55fa70983e4d",
+      "workItemId": "WI-339-reference-docs-foundation-clean-retry"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-339-reference-docs-foundation-clean-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-338-reference-docs-foundation-clean.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-339-reference-docs-foundation-clean-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-339-reference-docs-foundation-clean-retry.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-339-reference-docs-foundation-clean-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-339-reference-docs-foundation-clean-retry.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-339-reference-docs-foundation-clean-retry.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-339-reference-docs-foundation-clean-retry.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-339-reference-docs-foundation-clean-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-28T00:50:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-339-reference-docs-foundation-clean-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-339-reference-docs-foundation-clean-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-339-reference-docs-foundation-clean-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-339-reference-docs-foundation-clean-retry.contract.json"
+          ],
+          "inference": false,
+          "text": "Make hosted governance able to verify the prearchive parity order without rewriting predecessor history."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-339-reference-docs-foundation-clean-retry.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-339-reference-docs-foundation-clean-retry"
+  },
+  "finalReportDigest": "sha256:d72a418e095ec281ee129f56842a28810bf5c0b6063c037e90d5bdcdf1f6695b",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:fd38375fb36fa105ca248e57a5df9b5f0be3ce35a1a44730c2f999273ce1f5b7",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-339-reference-docs-foundation-clean-retry.finalize.24296bbdabfb6831e7015a8ba5672dae9af0a2df197b4fd64fa75ae5b5ba3425.json",
+  "resourceFinalizationSequence": 1,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-28T00:50:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-339-reference-docs-foundation-clean-retry.verification.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md:work-item-change-discipline"
+    ],
+    "reason": "Reviewed PR #300 passed hosted checks, merged at 823b2646, and exact branch/worktree cleanup was verified.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-08-27T21:08:14Z",
+  "workItemId": "WI-339-reference-docs-foundation-clean-retry"
+}
