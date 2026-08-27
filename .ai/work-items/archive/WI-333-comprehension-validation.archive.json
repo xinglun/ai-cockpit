@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-27T15:42:20Z",
+  "files": {
+    "approachDigest": "sha256:d119dc8745ad2802611690f9a96433eb670aef706e507da67c15b89b962cb517",
+    "approachPath": ".ai/work-items/archive/WI-333-comprehension-validation.approach.json",
+    "contractDigest": "sha256:b589b8fae2fdf9ca57c00f0be71d5bf6c0afc649acd0c2522b70e949a346362a",
+    "contractPath": ".ai/work-items/archive/WI-333-comprehension-validation.contract.json",
+    "eventsDigest": "sha256:6fb02d208f51eceb0089d42d8971f31440b8ef8513db5df4f527b25f834b1149",
+    "eventsPath": ".ai/work-items/archive/WI-333-comprehension-validation.events.jsonl",
+    "outcomeDigest": "sha256:5c24856f9d5f26b50f524909bf1d9ed6a3efd8639003b085572b5f4a87ddab0d",
+    "outcomePath": ".ai/work-items/archive/WI-333-comprehension-validation.outcome.json",
+    "summaryDigest": "sha256:4fd18c9e0f4ac12bca8b7547e720bd2169138b3f363632d20217d8218b072507",
+    "summaryPath": ".ai/work-items/archive/WI-333-comprehension-validation.summary.json",
+    "taskReportDigest": "sha256:5b76e0da69b95e796dcbc3d428ea016cd4e4bd043a30fedeff03003f08daa102",
+    "taskReportMarkdownDigest": "sha256:800f16a99e9e7b33f1fdb2fe3e8e8a5de07f384482f1c41322b820ea93e85c99",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-333-comprehension-validation.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-333-comprehension-validation.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-333-comprehension-validation"
+}

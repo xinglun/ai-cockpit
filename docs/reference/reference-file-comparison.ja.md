@@ -107,7 +107,7 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=221 implemented-equivalent=1 not-applicable=3 reference-only=13 deferred-next-batch=619 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=221 implemented-equivalent=1 not-applicable=3 reference-only=25 deferred-next-batch=607 migrate-gap=0 -->
 
 固定した v0.2.33 comparison baseline の ledger は 5,119 records です。内訳は
 4,262 `generated-history`、221 `implemented-different-by-design`、1
@@ -491,3 +491,32 @@ invalidation は別 batch で確認済みです。この batch は automatic Cur
 今後の Runtime 変更は human-owned な bounded Contract、test、三言語 documentation、
 published-Runtime acceptance を持つ Work Item で行います。adopter feedback を未追跡の
 promise にしません。
+
+## WI-333 — comprehension-validation protocol と participant record
+
+WI-333 は pinned source の comprehension-validation protocol、strict response schema、
+匿名化された 6 件の response、bounded result を一つずつ確認しました。12 path はすべて
+`reference-only` です。これらは reference repository が所有する外部の reader study であり、
+participant response、revision、sample の結論を target の evidence に移すことはできません。
+Target は reader-facing documentation route と Runtime evidence validation を participant
+research から分離します。response bytes や source result を copy せず、この repository の
+comprehension、release、safety、security、enterprise claim を source study から導きません。
+
+| Pinned source path | 分類 | Target counterpart / 境界の決定 |
+| --- | --- | --- |
+| `docs/reference/comprehension-validation-protocol.md` | reference-only | `docs/README.md`、`docs/reference/agent-workflow.md`、`docs/reference/outcome-report.md`。source の eligibility、consent、interview、review protocol は外部です。 |
+| `docs/reference/comprehension-validation-protocol.zh-CN.md` | reference-only | `docs/README.zh-CN.md`、`docs/reference/agent-workflow.zh-CN.md`、`docs/reference/outcome-report.zh-CN.md`。target の participant study を意味しません。 |
+| `docs/reference/comprehension-validation-protocol.ja.md` | reference-only | `docs/README.ja.md`、`docs/reference/agent-workflow.ja.md`、`docs/reference/outcome-report.ja.md`。source ethics/eligibility は Runtime policy ではありません。 |
+| `docs/reference/comprehension-validation-response.schema.json` | reference-only | `.ai/README.md`、`docs/reference/outcome-report.md`。participant-response schema は Runtime Contract/evidence schema ではありません。 |
+| `docs/reference/comprehension-validation-responses/peter_01.en.json` | reference-only | `docs/README.md`、`docs/features/human-benefit-report.md`。歴史的 response、revision、pseudonym は source に bind されます。 |
+| `docs/reference/comprehension-validation-responses/peter_02.en.json` | reference-only | `docs/README.md`、`docs/features/human-benefit-report.md`。participant data を `.ai/` に import しません。 |
+| `docs/reference/comprehension-validation-responses/tanaka_01.ja.json` | reference-only | `docs/README.ja.md`、`docs/features/human-benefit-report.ja.md`。source response は adopter/Runtime evidence ではありません。 |
+| `docs/reference/comprehension-validation-responses/tanaka_02.ja.json` | reference-only | `docs/README.ja.md`、`docs/features/human-benefit-report.ja.md`。source revision-bound fact は外部に保持します。 |
+| `docs/reference/comprehension-validation-responses/xiaoli_01.zh-CN.json` | reference-only | `docs/README.zh-CN.md`、`docs/features/human-benefit-report.zh-CN.md`。target の native-language score を claim しません。 |
+| `docs/reference/comprehension-validation-responses/xiaoli_02.zh-CN.json` | reference-only | `docs/README.zh-CN.md`、`docs/features/human-benefit-report.zh-CN.md`。raw participant text を copy しません。 |
+| `docs/reference/comprehension-validation-results.json` | reference-only | `docs/features/human-benefit-report.*`、`docs/reference/reference-file-comparison.*`。sample count/result は source revision に bind されます。 |
+| `docs/reference/comprehension-validation-results.md` | reference-only | `docs/features/human-benefit-report.md`、`docs/reference/outcome-report.md`。source limitation は target verification/release evidence ではありません。 |
+
+この境界は意図的です。adopter repository は target の documentation route、Contract、evidence、
+Agent workflow を継承できますが、他 repository の human-subject evidence は継承しません。
+将来 study を行う場合は、独立した consent、retention、privacy、evidence Contract が必要です。

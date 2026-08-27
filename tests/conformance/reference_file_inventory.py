@@ -44,6 +44,7 @@ WI327_BATCH = "WI-327-reference-file-comparison-batch-07"
 WI328_BATCH = "WI-328-reference-file-comparison-batch-08"
 WI331_BATCH = "WI-331-reference-file-comparison-batch-09"
 WI332_BATCH = "WI-332-reference-file-comparison-batch-10"
+WI333_BATCH = "WI-333-reference-file-comparison-batch-11"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -880,6 +881,121 @@ WI332_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
     ),
 }
 
+WI333_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "docs/reference/comprehension-validation-protocol.md": (
+        "reference-only",
+        [
+            "docs/README.md",
+            "docs/reference/agent-workflow.md",
+            "docs/reference/reference-file-comparison.md",
+            "docs/features/human-benefit-report.md",
+        ],
+        "The source protocol is an external human-reader study procedure, not Runtime authority or a participant-recruitment service. The target preserves a reader-first route and evidence/benefit boundary but does not claim to run the source study or collect participants.",
+    ),
+    "docs/reference/comprehension-validation-protocol.zh-CN.md": (
+        "reference-only",
+        [
+            "docs/README.zh-CN.md",
+            "docs/reference/agent-workflow.zh-CN.md",
+            "docs/reference/reference-file-comparison.zh-CN.md",
+            "docs/features/human-benefit-report.zh-CN.md",
+        ],
+        "The source Chinese protocol is a reference-repository human-study procedure. The target keeps the localized reader route and privacy/evidence boundary, but has no target participant study and does not transfer source study authority.",
+    ),
+    "docs/reference/comprehension-validation-protocol.ja.md": (
+        "reference-only",
+        [
+            "docs/README.ja.md",
+            "docs/reference/agent-workflow.ja.md",
+            "docs/reference/reference-file-comparison.ja.md",
+            "docs/features/human-benefit-report.ja.md",
+        ],
+        "The source Japanese protocol is a reference-repository human-study procedure. The target keeps the localized reader route and privacy/evidence boundary, but has no target participant study and does not transfer source study authority.",
+    ),
+    "docs/reference/comprehension-validation-response.schema.json": (
+        "reference-only",
+        [
+            ".ai/README.md",
+            "docs/reference/outcome-report.md",
+            "docs/reference/reference-file-comparison.md",
+        ],
+        "This schema governs raw participant answers for the source study. The target intentionally stores no participant-identifying or study-response records; repository Outcome/evidence schemas are a different governance surface and cannot substitute for participant evidence.",
+    ),
+    "docs/reference/comprehension-validation-responses/peter_01.en.json": (
+        "reference-only",
+        [
+            "docs/README.md",
+            "docs/features/human-benefit-report.md",
+            "docs/reference/reference-file-comparison.md",
+        ],
+        "Historical anonymized English participant evidence is bound to the source revision and study protocol. It cannot be copied or presented as evidence that the target documentation was understood.",
+    ),
+    "docs/reference/comprehension-validation-responses/peter_02.en.json": (
+        "reference-only",
+        [
+            "docs/README.md",
+            "docs/features/human-benefit-report.md",
+            "docs/reference/reference-file-comparison.md",
+        ],
+        "Historical current-revision English participant evidence belongs to the source repository. The target does not claim an equivalent participant receipt or copy the raw answer.",
+    ),
+    "docs/reference/comprehension-validation-responses/tanaka_01.ja.json": (
+        "reference-only",
+        [
+            "docs/README.ja.md",
+            "docs/features/human-benefit-report.ja.md",
+            "docs/reference/reference-file-comparison.ja.md",
+        ],
+        "Historical anonymized Japanese participant evidence is source-bound and non-transferable. The target preserves the Japanese reader route without inventing a native participant result.",
+    ),
+    "docs/reference/comprehension-validation-responses/tanaka_02.ja.json": (
+        "reference-only",
+        [
+            "docs/README.ja.md",
+            "docs/features/human-benefit-report.ja.md",
+            "docs/reference/reference-file-comparison.ja.md",
+        ],
+        "Historical current-revision Japanese participant evidence belongs to the source repository. The target does not claim an equivalent participant receipt or copy the raw answer.",
+    ),
+    "docs/reference/comprehension-validation-responses/xiaoli_01.zh-CN.json": (
+        "reference-only",
+        [
+            "docs/README.zh-CN.md",
+            "docs/features/human-benefit-report.zh-CN.md",
+            "docs/reference/reference-file-comparison.zh-CN.md",
+        ],
+        "Historical anonymized Simplified Chinese participant evidence is source-bound and non-transferable. The target preserves the Chinese reader route without inventing a native participant result.",
+    ),
+    "docs/reference/comprehension-validation-responses/xiaoli_02.zh-CN.json": (
+        "reference-only",
+        [
+            "docs/README.zh-CN.md",
+            "docs/features/human-benefit-report.zh-CN.md",
+            "docs/reference/reference-file-comparison.zh-CN.md",
+        ],
+        "Historical current-revision Simplified Chinese participant evidence belongs to the source repository. The target does not claim an equivalent participant receipt or copy the raw answer.",
+    ),
+    "docs/reference/comprehension-validation-results.json": (
+        "reference-only",
+        [
+            "docs/features/human-benefit-report.md",
+            "docs/features/human-benefit-report.zh-CN.md",
+            "docs/features/human-benefit-report.ja.md",
+            "docs/reference/reference-file-comparison.md",
+        ],
+        "The source result is a revision-bound participant-study claim with source commits and sample receipts. Target human-benefit and Outcome projections do not authorize a comprehension result, release, or enterprise claim.",
+    ),
+    "docs/reference/comprehension-validation-results.md": (
+        "reference-only",
+        [
+            "docs/features/human-benefit-report.md",
+            "docs/reference/outcome-report.md",
+            "docs/reference/reference-file-comparison.md",
+        ],
+        "The source result report is an immutable historical study claim. The target documents the limitation that Runtime evidence, Agent self-review, and link checks are not participant evidence; no result is copied or generalized.",
+    ),
+}
+
 
 def wi270_counterpart(path: str) -> tuple[list[str], str] | None:
     if path in WI270_DOC_CONCEPTS:
@@ -1329,6 +1445,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 {
                     "referencePath": path,
                     "batch": WI332_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
+        wi333 = WI333_REFERENCE_FILES.get(path)
+        if wi333 is not None:
+            classification, counterparts, reason = wi333
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI333_BATCH,
                     "classification": classification,
                     "rustCounterparts": counterparts,
                     "reason": reason,
