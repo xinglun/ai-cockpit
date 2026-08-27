@@ -7,9 +7,13 @@ audience:
   - adopter
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-327-reference-file-comparison-batch-07
+terminalArchive: .ai/work-items/archive/WI-327-reference-file-comparison-batch-07.contract.json
+terminalVerification: .ai/evidence/WI-327-reference-file-comparison-batch-07.verification.json
+terminalFinalization: .ai/decisions/WI-327-reference-file-comparison-batch-07.finalize.json
+terminalDecision: .ai/decisions/WI-327-reference-file-comparison-batch-07.close.json
 ---
 
 # WI-327 — reference file comparison batch 07
