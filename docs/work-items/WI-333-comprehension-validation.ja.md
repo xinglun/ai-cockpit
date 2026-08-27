@@ -7,9 +7,13 @@ audience:
   - adopter
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-333-comprehension-validation
+terminalArchive: .ai/work-items/archive/WI-333-comprehension-validation.contract.json
+terminalVerification: .ai/evidence/WI-333-comprehension-validation.verification.json
+terminalFinalization: .ai/decisions/WI-333-comprehension-validation.finalize.c6e13e0df12bdce915174643c5ca06ca89b004152f1ca4632cbdd580713b0fa5.json
+terminalDecision: .ai/decisions/WI-333-comprehension-validation.close.json
 capabilityClaims:
   - reference_parity
 ---
