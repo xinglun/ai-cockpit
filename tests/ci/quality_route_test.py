@@ -237,6 +237,14 @@ assert "if [[ -d .ai/work-items/active ]]; then" in release_workflow
 assert "manual to_tag does not match staged candidate identity" in release_workflow
 assert "name: workspace-package-coverage" in ci_workflow
 assert "if: steps.initial_quality_route.outputs.profile != 'light'" in ci_workflow
+assert (
+    "if: steps.initial_quality_route.outputs.profile != 'light' && "
+    "steps.initial_quality_route.outputs.contract_path != ''"
+) in ci_workflow
+assert ci_workflow.count(
+    "steps.initial_quality_route.outputs.profile != 'light' && "
+    "steps.initial_quality_route.outputs.contract_path != ''"
+) == 2
 assert "name: Finalize the typed repository quality route" in ci_workflow
 assert "name: verify workspace package coverage receipt" in ci_workflow
 assert (

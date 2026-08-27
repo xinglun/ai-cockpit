@@ -1,0 +1,53 @@
+{
+  "acceptanceCriteria": [
+    "无 active Contract 的 standard/strict PR 不执行 Runtime shadow 且不要求 shadow artifact，不再产生 false failure",
+    "有 active Contract 的 standard/strict PR 仍执行不可变 public Runtime shadow，light 路由仍跳过",
+    "CI 回归测试锁定 shadow 与 artifact 的 Contract-aware 条件，并覆盖 archived/no-contract 路径",
+    "英文、简体中文、日文文档同步说明该边界，不扩大 Runtime/CI assurance 声明",
+    "保持拒绝源码 fallback、workspace binary、任意 --command 和未固定 Release artifact 的既有策略"
+  ],
+  "authority": "authorized",
+  "baseRevision": "823b2646a4e179ac49689e80ab0edfe313ee3e48",
+  "createdAt": "2026-08-27T20:29:22Z",
+  "goal": "让动态质量路由根据 Contract 是否存在安全决定 shadow 执行与制品上传，保持有 active Contract 的 standard/strict 路由不变",
+  "intent": "修复无 active Contract 的归档 PR 在 CI Runtime shadow 中被误判失败的问题",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime Core",
+    "release workflow",
+    "adopter harness",
+    "public Runtime artifact",
+    "global Agent/MCP configuration",
+    "reference source implementation"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e49e570e9f11aa17b7f7023c86b835b216a953da405e64bf8898c7cea6613755",
+  "requiredEvidenceClasses": [
+    "verification",
+    "tests"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-341-runtime-shadow-archived-state",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/302",
+    "worktree": "/private/tmp/ai-cockpit-wi341-runtime-shadow-archived-state"
+  },
+  "risk": "normal",
+  "scope": [
+    ".github/workflows/ci.yml",
+    "tests/ci/quality_route_test.py",
+    "docs/reference/ci-runtime-shadow.md",
+    "docs/reference/ci-runtime-shadow.zh-CN.md",
+    "docs/reference/ci-runtime-shadow.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-341-runtime-shadow-archived-state"
+}

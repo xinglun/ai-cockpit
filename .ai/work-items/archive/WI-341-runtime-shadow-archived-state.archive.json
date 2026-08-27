@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-27T20:41:23Z",
+  "files": {
+    "contractDigest": "sha256:533f34c984a98c4b053cd6249155e0fa847289c239e9d8d9f4625b7bb322d8cf",
+    "contractPath": ".ai/work-items/archive/WI-341-runtime-shadow-archived-state.contract.json",
+    "eventsDigest": "sha256:8e8ee9b322b7864821b056f6e0260461c0666dd29f2210b1ec4c9769ca18d910",
+    "eventsPath": ".ai/work-items/archive/WI-341-runtime-shadow-archived-state.events.jsonl",
+    "outcomeDigest": "sha256:2486717c32e8f516bb8a9f3f44b8eb8f17a71d038901149db0c9ff08d8b1d878",
+    "outcomePath": ".ai/work-items/archive/WI-341-runtime-shadow-archived-state.outcome.json",
+    "summaryDigest": "sha256:975bcf951ca4885c83c11ddc5d10a9d88b2cd1f2123ada5f77ece6e607720568",
+    "summaryPath": ".ai/work-items/archive/WI-341-runtime-shadow-archived-state.summary.json",
+    "taskReportDigest": "sha256:d94d660f772eb917f08313dee2f95c4fa6a3355e2e364d9e8ad4d81224ae8a48",
+    "taskReportMarkdownDigest": "sha256:c96e96588885b7dd3e759507e071504df514169b0bbb8c15bc4dcc0424e28518",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-341-runtime-shadow-archived-state.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-341-runtime-shadow-archived-state.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-341-runtime-shadow-archived-state"
+}
