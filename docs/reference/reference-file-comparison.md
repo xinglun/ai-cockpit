@@ -123,11 +123,11 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=221 implemented-equivalent=1 not-applicable=3 reference-only=25 deferred-next-batch=607 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=231 implemented-equivalent=1 not-applicable=3 reference-only=25 deferred-next-batch=597 migrate-gap=0 -->
 
 At the pinned v0.2.33 comparison baseline, the ledger contains 5,119 records:
-4,262 `generated-history`, 221 `implemented-different-by-design`, one
-`implemented-equivalent`, three `not-applicable`, ten `reference-only`, and 622
+4,262 `generated-history`, 231 `implemented-different-by-design`, one
+`implemented-equivalent`, three `not-applicable`, 25 `reference-only`, and 597
 `deferred-next-batch` records. Deferred records remain scheduled work, not
 parity claims. The capability/profile slice has no remaining `migrate-gap`
 records:
@@ -143,7 +143,7 @@ records:
 
 The governance entrypoints, getting-started routes, CI/release boundaries, and
 capability/profile projections have been reviewed at this baseline. The four
-records above are Rust-native, explicitly bounded counterparts; the 622
+records above are Rust-native, explicitly bounded counterparts; the 597
 deferred semantic comparisons remain scheduled work.
 
 WI-274 rebinds only the target checkout metadata and canonical comparison
@@ -597,3 +597,32 @@ This boundary is intentional: an adopter repository can inherit the target's
 documentation route, Contract, evidence and Agent workflow, but must not inherit
 another repository's human-subject evidence. A future human-owned study needs
 its own consent, retention, privacy and evidence Contract before any claim.
+
+## WI-334 evidence-binding and reuse primitives
+
+WI-334 reads ten pinned source paths individually at
+`e5acb677da6621004d96f0ef353c58fe8d3acfbf`. All ten are implemented differently
+by design. The Rust target represents content, diff, environment, command,
+toolchain, policy, profile, Runtime, stage, and runner identity as one strict
+composite `EvidenceContext`; it does not copy the source Python modules or
+claim source JSON/API compatibility.
+
+| Pinned source path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/content-bound-evidence-reuse.md` | implemented-different-by-design | `cockpit-evidence` content identity is one component of the composite context; exact bindings only permit advisory reuse. |
+| `docs/reference/diff-bound-evidence-reuse.md` | implemented-different-by-design | `DiffIdentity`, repository snapshot facts, and reuse tests bind base/head and changed-path identity; mismatches rerun. |
+| `docs/reference/environment-bound-reuse.md` | implemented-different-by-design | Explicit Runtime/toolchain/environment/profile/policy/command/stage fields are bound without serializing the process environment wholesale. |
+| `docs/reference/evidence-binding-foundation.md` | implemented-different-by-design | Versioned `ReusableReceipt` validates content-addressed identity, expiry, node, and passed status; it never bypasses protected or required checks. |
+| `scripts/ai_evidence_binding.py` | implemented-different-by-design | Typed Rust structs, deny-unknown-fields parsing, and deterministic fail-closed decisions replace the Python builder/validator. |
+| `scripts/ai_diff_bound_reuse.py` | implemented-different-by-design | Typed `DiffIdentity` and Git snapshot facts replace the source helper while retaining canonical path/revision mismatch semantics. |
+| `scripts/ai_environment_reuse.py` | implemented-different-by-design | Explicit bounded environment inputs and digest fields replace the source adapter; credentials are not read or persisted. |
+| `tests/test_ai_evidence_binding.py` | implemented-different-by-design | Rust evidence/repository tests cover strict schema, tampering, mismatch, expiry, failed/protected nodes, and rerun decisions. |
+| `tests/test_ai_diff_bound_reuse.py` | implemented-different-by-design | Rust evidence/Git tests cover clean and changed path sets, canonical ordering, malformed paths, policy mismatch, expiry, and immutability. |
+| `tests/test_ai_environment_reuse.py` | implemented-different-by-design | Rust evidence/executor tests cover environment and toolchain identity, stale/unknown receipts, protected execution, and digest validation. |
+
+This batch establishes semantic responsibility parity, not source wire parity.
+Reuse is an optimization/evidence observation: only an exact fresh binding may
+be considered, and the caller still owns governance, coverage, security, and
+required-check gates. The inventory, tri-language ledgers, and WI-334 evidence
+bind this decision; no source participant, Python, Make, or V1 artifact is
+introduced.

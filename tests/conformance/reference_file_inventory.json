@@ -31234,10 +31234,15 @@
     },
     {
       "referencePath": "docs/reference/content-bound-evidence-reuse.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-334-reference-file-comparison-batch-12",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-evidence/src/lib.rs",
+        "crates/cockpit-evidence/tests/reuse.rs",
+        "docs/reference/configuration.md",
+        "docs/reference/cross-work-item-dedup.md"
+      ],
+      "reason": "The target keeps exact content identity as one component of a composite EvidenceContext and never reuses a receipt unless every bound identity matches. The Rust API intentionally replaces the source Python content policy and does not claim source wire compatibility."
     },
     {
       "referencePath": "docs/reference/cross-wi-integration.md",
@@ -31276,10 +31281,15 @@
     },
     {
       "referencePath": "docs/reference/diff-bound-evidence-reuse.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-334-reference-file-comparison-batch-12",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-evidence/src/lib.rs",
+        "crates/cockpit-evidence/tests/reuse.rs",
+        "crates/cockpit-git/src/lib.rs",
+        "docs/reference/configuration.md"
+      ],
+      "reason": "The target binds base/head revisions and changed-path identity in typed DiffIdentity, validates canonical SHA-256 bindings, and reruns on mismatch. The source Python helper and command surface are not copied."
     },
     {
       "referencePath": "docs/reference/distribution.ja.md",
@@ -31346,17 +31356,26 @@
     },
     {
       "referencePath": "docs/reference/environment-bound-reuse.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-334-reference-file-comparison-batch-12",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-evidence/src/lib.rs",
+        "crates/cockpit-evidence/tests/reuse.rs",
+        "crates/cockpit-verification/src/lib.rs",
+        "docs/reference/configuration.md"
+      ],
+      "reason": "The target records environment, toolchain, Runtime, profile, policy, command, and stage identity in a strict composite EvidenceContext. Unknown, expired, failed, protected, or mismatched receipts execute again; no process environment is serialized wholesale."
     },
     {
       "referencePath": "docs/reference/evidence-binding-foundation.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-334-reference-file-comparison-batch-12",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-evidence/src/lib.rs",
+        "crates/cockpit-evidence/tests/reuse.rs",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "The versioned Rust ReusableReceipt and EvidenceContext provide a stricter composite identity and repository-local receipt store. Validation is fail-closed and advisory: it can select reuse but never bypass governance, protected nodes, or required checks."
     },
     {
       "referencePath": "docs/reference/external-identity-boundary.md",
@@ -33836,10 +33855,14 @@
     },
     {
       "referencePath": "scripts/ai_diff_bound_reuse.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-334-reference-file-comparison-batch-12",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-evidence/src/lib.rs",
+        "crates/cockpit-evidence/tests/reuse.rs",
+        "crates/cockpit-git/src/lib.rs"
+      ],
+      "reason": "Typed DiffIdentity and repository snapshot facts replace the source diff helper. Base/head, changed-path, scope, governance, and expiry mismatches remain rerun conditions."
     },
     {
       "referencePath": "scripts/ai_disable_enable.py",
@@ -33885,17 +33908,24 @@
     },
     {
       "referencePath": "scripts/ai_environment_reuse.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-334-reference-file-comparison-batch-12",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-evidence/src/lib.rs",
+        "crates/cockpit-evidence/tests/reuse.rs",
+        "crates/cockpit-verification/src/lib.rs"
+      ],
+      "reason": "The source environment adapter is represented by explicit Runtime/toolchain/environment digests in EvidenceContext. The Rust executor accepts bounded environment inputs and does not expose a wholesale environment snapshot API."
     },
     {
       "referencePath": "scripts/ai_evidence_binding.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-334-reference-file-comparison-batch-12",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-evidence/src/lib.rs",
+        "crates/cockpit-evidence/tests/reuse.rs"
+      ],
+      "reason": "The source binding builder/validator is represented by typed Rust structs, content-addressed receipt IDs, deny-unknown-fields parsing, and deterministic Unknown/Stale-to-execute decisions. Source Python APIs are not shipped."
     },
     {
       "referencePath": "scripts/ai_evidence_dependencies.py",
@@ -35330,24 +35360,33 @@
     },
     {
       "referencePath": "tests/test_ai_diff_bound_reuse.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-334-reference-file-comparison-batch-12",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-evidence/tests/reuse.rs",
+        "crates/cockpit-git/tests/repository.rs"
+      ],
+      "reason": "Rust tests cover exact composite diff identity, clean and changed path sets, canonical ordering, malformed/traversal inputs, policy mismatch, expiry, and input immutability without source test-wire parity."
     },
     {
       "referencePath": "tests/test_ai_environment_reuse.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-334-reference-file-comparison-batch-12",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-evidence/tests/reuse.rs",
+        "crates/cockpit-verification/tests/execution.rs"
+      ],
+      "reason": "Rust tests cover environment/toolchain identity, Runtime and profile binding, stale/unknown/failed receipts, protected execution, and strict digest validation. Secret filtering remains an explicit external-input boundary rather than a copied Python module."
     },
     {
       "referencePath": "tests/test_ai_evidence_binding.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-334-reference-file-comparison-batch-12",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-evidence/tests/reuse.rs",
+        "crates/cockpit-repository/tests/receipt_store.rs"
+      ],
+      "reason": "Rust tests cover strict receipt schema, content/diff/environment identity mismatch, expiry, failed/protected nodes, tampering, and deterministic fail-closed execution; the source pytest corpus is not copied."
     },
     {
       "referencePath": "tests/test_ai_external_handoff.py",
