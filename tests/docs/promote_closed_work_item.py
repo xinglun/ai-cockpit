@@ -262,6 +262,7 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
         )
         transitions[sequence] = (path, envelope, receipt)
 
+    reconciled_after_close = False
     if not transitions:
         # A provider may observe the merge and exact resource cleanup in one
         # atomic receipt.  Accept that terminal root only when its complete
@@ -298,35 +299,97 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
         finalization_path = root_path.relative_to(repository).as_posix()
         finalization_digest = canonical_digest(root_receipt)
     else:
-        require(sorted(transitions) == [1, 2], "finalization chain must have unique sequences 1 and 2")
-        previous_digest = canonical_digest(root_receipt)
-        merge_commit: str | None = None
-        for sequence in (1, 2):
-            _, envelope, receipt = transitions[sequence]
-            require(
-                envelope.get("predecessorReceiptDigest") == previous_digest,
-                "finalization predecessor digest mismatch",
-            )
-            pull_request = receipt["pullRequest"]
-            current_merge_commit = pull_request.get("mergeCommit")
-            require(
-                isinstance(current_merge_commit, str) and current_merge_commit,
-                "finalization merge commit is missing",
-            )
-            if merge_commit is None:
-                merge_commit = current_merge_commit
-            require(current_merge_commit == merge_commit, "finalization merge identity mismatch")
-            previous_digest = canonical_digest(receipt)
-
-        head_path, _, head_receipt = transitions[2]
-        result = head_receipt.get("result")
-        require(
-            isinstance(result, dict) and result.get("disposition") == "deleted",
-            "sequence-2 finalization is not deleted",
+        root_result = root_receipt.get("result")
+        root_before = root_receipt.get("before")
+        root_after = root_receipt.get("after")
+        root_was_retained = (
+            isinstance(root_result, dict)
+            and root_result.get("disposition") == "retained"
+            and isinstance(root_before, dict)
+            and root_before.get("pullRequest") == "merged"
+            and isinstance(root_after, dict)
+            and root_after.get("pullRequest") == "merged"
         )
-        finalization_sequence = 2
-        finalization_path = head_path.relative_to(repository).as_posix()
-        finalization_digest = canonical_digest(head_receipt)
+        if sorted(transitions) == [1] and root_was_retained:
+            # A pre-v0.2.34 Runtime could close after recording a retained
+            # root.  The Rust Runtime now rejects that order, but it must
+            # provide a narrow, append-only cleanup reconciliation for such
+            # immutable historical records.  The close remains bound to the
+            # retained root; this transition proves the later exact cleanup.
+            _, envelope, receipt = transitions[1]
+            require(
+                envelope.get("predecessorReceiptDigest") == canonical_digest(root_receipt),
+                "post-close reconciliation predecessor digest mismatch",
+            )
+            require(
+                receipt.get("before") == root_after,
+                "post-close reconciliation before-state mismatch",
+            )
+            result = receipt.get("result")
+            after = receipt.get("after")
+            require(
+                isinstance(result, dict) and result.get("disposition") == "deleted",
+                "post-close reconciliation must be deleted",
+            )
+            require(
+                isinstance(after, dict)
+                and after.get("pullRequest") == "merged"
+                and after.get("branch") == "deleted"
+                and after.get("worktree") == "removed",
+                "post-close reconciliation cleanup state is incomplete",
+            )
+            finalization_sequence = 1
+            finalization_path = transitions[1][0].relative_to(repository).as_posix()
+            finalization_digest = canonical_digest(receipt)
+            reconciled_after_close = True
+        else:
+            require(sorted(transitions) == [1, 2], "finalization chain must have unique sequences 1 and 2")
+            reconciled_after_close = False
+            previous_digest = canonical_digest(root_receipt)
+            merge_commit: str | None = None
+            for sequence in (1, 2):
+                _, envelope, receipt = transitions[sequence]
+                require(
+                    envelope.get("predecessorReceiptDigest") == previous_digest,
+                    "finalization predecessor digest mismatch",
+                )
+                pull_request = receipt["pullRequest"]
+                current_merge_commit = pull_request.get("mergeCommit")
+                require(
+                    isinstance(current_merge_commit, str) and current_merge_commit,
+                    "finalization merge commit is missing",
+                )
+                if merge_commit is None:
+                    merge_commit = current_merge_commit
+                require(current_merge_commit == merge_commit, "finalization merge identity mismatch")
+                previous_digest = canonical_digest(receipt)
+
+            head_path, _, head_receipt = transitions[2]
+            result = head_receipt.get("result")
+            require(
+                isinstance(result, dict) and result.get("disposition") == "deleted",
+                "sequence-2 finalization is not deleted",
+            )
+            finalization_sequence = 2
+            finalization_path = head_path.relative_to(repository).as_posix()
+            finalization_digest = canonical_digest(head_receipt)
+    close_finalization_sequence = close.get("resourceFinalizationSequence")
+    close_finalization_path = close.get("resourceFinalizationHeadPath")
+    close_finalization_digest = close.get("resourceFinalizationHeadDigest")
+    if reconciled_after_close:
+        require(
+            close_finalization_sequence == 0
+            and close_finalization_path == root_path.relative_to(repository).as_posix()
+            and close_finalization_digest == canonical_digest(root_receipt),
+            "close must remain bound to the retained root during reconciliation",
+        )
+    else:
+        require(
+            close_finalization_sequence == finalization_sequence
+            and close_finalization_path == finalization_path
+            and close_finalization_digest == finalization_digest,
+            "close finalization head binding mismatch",
+        )
     require(
         close.get("workItemId") == work_item_id
         and close.get("repositoryId") == repository_id,
@@ -338,18 +401,6 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
         and close.get("humanDecision") == "approved",
         "close is not a confirmed approved decision",
     )
-    require(
-        close.get("resourceFinalizationSequence") == finalization_sequence,
-        "close finalization sequence mismatch",
-    )
-    require(
-        close.get("resourceFinalizationHeadPath") == finalization_path,
-        "close finalization head path mismatch",
-    )
-    require(
-        close.get("resourceFinalizationHeadDigest") == finalization_digest,
-        "close finalization head digest mismatch",
-    )
     structured = close.get("structuredDecision")
     require(
         isinstance(structured, dict) and structured.get("decision") == "approved",
@@ -359,7 +410,11 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
     require(
         isinstance(structured_refs, list)
         and evidence_path in structured_refs
-        and (finalization_path in structured_refs or finalization_sequence == 0),
+        and (
+            finalization_path in structured_refs
+            or (reconciled_after_close and root_path.relative_to(repository).as_posix() in structured_refs)
+            or finalization_sequence == 0
+        ),
         "structured close evidence bindings are incomplete",
     )
     final_report = close.get("finalReport")
