@@ -123,11 +123,11 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=190 implemented-equivalent=1 not-applicable=3 reference-only=3 deferred-next-batch=660 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=198 implemented-equivalent=1 not-applicable=3 reference-only=4 deferred-next-batch=651 migrate-gap=0 -->
 
 At the pinned v0.2.33 comparison baseline, the ledger contains 5,119 records:
-4,262 `generated-history`, 190 `implemented-different-by-design`, one
-`implemented-equivalent`, three `not-applicable`, three `reference-only`, and 660
+4,262 `generated-history`, 198 `implemented-different-by-design`, one
+`implemented-equivalent`, three `not-applicable`, four `reference-only`, and 651
 `deferred-next-batch` records. Deferred records remain scheduled work, not
 parity claims. The capability/profile slice has no remaining `migrate-gap`
 records:
@@ -143,7 +143,7 @@ records:
 
 The governance entrypoints, getting-started routes, CI/release boundaries, and
 capability/profile projections have been reviewed at this baseline. The four
-records above are Rust-native, explicitly bounded counterparts; the 660
+records above are Rust-native, explicitly bounded counterparts; the 651
 deferred semantic comparisons remain scheduled work.
 
 WI-274 rebinds only the target checkout metadata and canonical comparison

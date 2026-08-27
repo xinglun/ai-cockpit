@@ -30091,10 +30091,15 @@
     },
     {
       "referencePath": "docs/features/task-outcome-report-self-check.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-325-reference-file-comparison-batch-05",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/features/task-outcome-report.md",
+        "docs/reference/outcome-report.md",
+        "docs/reference/task-outcome-events.md",
+        ".ai/README.md"
+      ],
+      "reason": "The source self-check is an internal, historical WI22 handoff with obsolete publication claims. Current Outcome, event, and agent-route boundaries are documented and Runtime-validated elsewhere; the internal progress narrative is not copied as current capability."
     },
     {
       "referencePath": "docs/features/task-outcome-report.ja.md",
@@ -30161,17 +30166,29 @@
     },
     {
       "referencePath": "docs/fixtures/real-fixture-evidence.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-325-reference-file-comparison-batch-05",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/fixtures/README.ja.md",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "docs/release/distribution.ja.md",
+        "docs/security/adversarial-validation.ja.md"
+      ],
+      "reason": "The source fixture report's local multi-stack matrix is represented by Rust conformance fixtures and the immutable Release adopter/upgrade acceptance harness. Local evidence, provider evidence, and enterprise assurance remain separate; the source make/Python fixture lifecycle is not copied."
     },
     {
       "referencePath": "docs/fixtures/real-fixture-evidence.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-325-reference-file-comparison-batch-05",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/fixtures/README.md",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "docs/release/distribution.md",
+        "docs/security/adversarial-validation.md"
+      ],
+      "reason": "The source fixture report's local multi-stack matrix is represented by Rust conformance fixtures and the immutable Release adopter/upgrade acceptance harness. Local evidence, provider evidence, and enterprise assurance remain separate; the source make/Python fixture lifecycle is not copied."
     },
     {
       "referencePath": "docs/getting-started/30-second-start.ja.md",
@@ -30490,45 +30507,77 @@
     },
     {
       "referencePath": "docs/guides/lightweight-verification.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-325-reference-file-comparison-batch-05",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/verification-route.ja.md",
+        "docs/reference/verification-semantics.ja.md",
+        "docs/reference/ci-quality-gates.ja.md",
+        "docs/reference/verification-cost.ja.md"
+      ],
+      "reason": "The source Task/PR/Release signal guidance is preserved through stage-aware Rust verification, dynamic light/standard/strict CI routing, and bounded cost observation. Warnings remain non-authorizing and critical failures stop; source checker scripts are not copied."
     },
     {
       "referencePath": "docs/guides/lightweight-verification.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-325-reference-file-comparison-batch-05",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/verification-route.md",
+        "docs/reference/verification-semantics.md",
+        "docs/reference/ci-quality-gates.md",
+        "docs/reference/verification-cost.md"
+      ],
+      "reason": "The source Task/PR/Release signal guidance is preserved through stage-aware Rust verification, dynamic light/standard/strict CI routing, and bounded cost observation. Warnings remain non-authorizing and critical failures stop; source checker scripts are not copied."
     },
     {
       "referencePath": "docs/guides/lightweight-verification.zh-CN.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-325-reference-file-comparison-batch-05",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/verification-route.zh-CN.md",
+        "docs/reference/verification-semantics.zh-CN.md",
+        "docs/reference/ci-quality-gates.zh-CN.md",
+        "docs/reference/verification-cost.zh-CN.md"
+      ],
+      "reason": "源文件关于 Task/PR/Release 信号的语义由 Rust 的阶段验证、动态 light/standard/strict CI 路由和有界成本观测保留。警告不能授权，关键失败会停止；不复制源 Python checker 脚本。"
     },
     {
       "referencePath": "docs/installation.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-325-reference-file-comparison-batch-05",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/installation.md",
+        "docs/getting-started/installation-security.md",
+        "docs/release/distribution.md",
+        ".ai/README.md"
+      ],
+      "reason": "The source compatibility page is represented by the Rust reader-first installation and Release distribution route. A shared binary is installed independently, repository attachment and Agent discovery are explicit, and calibration/profile decisions are not implied by installation; source ten-stage wizard and Make commands are not copied."
     },
     {
       "referencePath": "docs/maintainers/adding-or-classifying-a-check.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-325-reference-file-comparison-batch-05",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/ci-quality-gates.md",
+        "tests/ci/repository_gate_manifest.json",
+        "tests/ci/quality_route.py",
+        "tests/ci/run_repository_gates.py",
+        "tests/ci/repository_gate_manifest_test.sh"
+      ],
+      "reason": "The source checker-registration guidance is represented by the versioned gate manifest, dynamic route, and gate-runner receipts. Required profiles, dependencies, skipped boundaries, and fail-closed results remain explicit; a source-specific checker registry and Python authority module are not copied."
     },
     {
       "referencePath": "docs/maintainers/task-outcome-events.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-325-reference-file-comparison-batch-05",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/task-outcome-events.md",
+        "docs/features/task-outcome-report.md",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/task_outcome_events.rs",
+        "crates/cockpit-cli/tests/outcome_handoff.rs"
+      ],
+      "reason": "The source append-only event, correction, deduplication, validation, privacy, and handoff boundaries are implemented by typed Rust Task Outcome events and archive binding. Generated projections never replace Contract authority and historical lines are not rewritten."
     },
     {
       "referencePath": "docs/non-make-adaptation.ja.md",
