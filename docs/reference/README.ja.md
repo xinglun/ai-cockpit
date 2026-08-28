@@ -30,6 +30,11 @@ route index は一般利用者の journey と正確な machine-facing detail を
 - [Cockpit Status の読み方](how-to-read-cockpit-status.ja.md) — 人向けの色、証拠、次の action の読み順。
 - [Agent ワークフローとレビュー境界](agent-workflow.ja.md) — Work Item、Outcome、release、安全規則の本 project 向け適用。
 - [Verification route](verification-route.ja.md) — 型付き stage、直交する tier/assurance、計画、レシート、CI 境界。
+- [実装 Knowledge](implementation-knowledge.ja.md) — 決定的で evidence-bound な record と query の境界。
+- [Input trust data flow](input-trust-dataflow.ja.md) — provenance 分類と fail-closed な input 処理。
+- [Installed Runtime lifecycle](installed-lifecycle.ja.md) — shared Runtime の install、attach、upgrade、rollback 境界。
+- [Instruction traceability](instruction-traceability.ja.md) — source path、Work Item、evidence、close の関係。
+- [Japanese capability assessment boundary](japanese-capability-assessment.ja.md) — 一般的な fluency を主張しない evidence-bound な多言語 coverage。
 - [最終置換 acceptance](final-replacement-acceptance.ja.md) — 再現可能な conformance とコピーなしの境界。
 - [Repository Protocol v1](../protocol/v1/specification.ja.md) — normative storage と receipt contract。
 

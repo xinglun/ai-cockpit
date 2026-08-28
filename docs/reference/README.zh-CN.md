@@ -30,6 +30,11 @@ capabilityClaims:
 - [如何阅读 Cockpit 状态](how-to-read-cockpit-status.zh-CN.md)——面向人的颜色、证据和下一步阅读顺序。
 - [Agent 工作流与评审边界](agent-workflow.zh-CN.md)——Work Item、Outcome、发布与安全规则的本工程适配。
 - [Verification 路线](verification-route.zh-CN.md)——类型化阶段、正交 tier/assurance、计划、回执和 CI 边界。
+- [实现知识](implementation-knowledge.zh-CN.md)——确定性、证据绑定的记录和查询边界。
+- [输入信任数据流](input-trust-dataflow.zh-CN.md)——来源分类和 fail-closed 输入处理。
+- [已安装 Runtime 生命周期](installed-lifecycle.zh-CN.md)——共享 Runtime 的安装、attach、升级和回滚边界。
+- [指令可追溯性](instruction-traceability.zh-CN.md)——source path、Work Item、证据和关闭之间的关系。
+- [日语能力评估边界](japanese-capability-assessment.zh-CN.md)——有证据边界的多语言覆盖，不宣称一般流畅度。
 - [最终替代验收](final-replacement-acceptance.zh-CN.md)——可重复的 conformance 和无复制边界。
 - [Repository Protocol v1](../protocol/v1/specification.zh-CN.md)——规范存储和 receipt contract。
 

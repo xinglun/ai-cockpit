@@ -107,11 +107,11 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=252 implemented-equivalent=1 not-applicable=4 reference-only=34 deferred-next-batch=566 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=262 implemented-equivalent=1 not-applicable=4 reference-only=34 deferred-next-batch=556 migrate-gap=0 -->
 
 固定した v0.2.33 comparison baseline の ledger は 5,119 records です。内訳は
-4,262 `generated-history`、252 `implemented-different-by-design`、1
-`implemented-equivalent`、4 `not-applicable`、34 `reference-only`、566 `deferred-next-batch` です。
+4,262 `generated-history`、262 `implemented-different-by-design`、1
+`implemented-equivalent`、4 `not-applicable`、34 `reference-only`、556 `deferred-next-batch` です。
 Deferred record は予定された比較であり parity claim ではありません。
 capability/profile slice に `migrate-gap` は残っていません。
 
@@ -122,7 +122,7 @@ capability/profile slice に `migrate-gap` は残っていません。
 
 Governance entrypoint、getting-started route、CI/release boundary、capability/profile
 projection はこの baseline で review 済みです。上記 4 件は bounded な Rust-native counterpart として登録済みで、
-566 deferred semantic comparison は後続作業として残ります。
+556 deferred semantic comparison は後続作業として残ります。
 
 WI-274 は target checkout metadata と canonical comparison snapshot だけを、レビュー済み
 default branch commit に再バインドします。WI-273 は immutable な failed-delivery record として
@@ -675,3 +675,26 @@ Rust Runtime、repository context、CI boundary は source の Make/Python orche
 これは semantic/documentation parity であり、source command や JSON-wire parity ではありません。WI-346 後の現在 ledger は
 5,119 record、4,262 `generated-history`、252 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、
 34 `reference-only`、566 `deferred-next-batch`、`migrate-gap` は 0 です。566 deferred は予定比較であり parity claim ではありません。
+
+## WI-347 — Knowledge、input trust、installed lifecycle、capability assessment
+
+WI-347 は pinned reference commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf` の次の 10 path を一つずつ比較しました。
+10 件すべてを `implemented-different-by-design` とします。target は Rust-native の reader mapping と明示的な制限を追加しましたが、
+source の Python/Make orchestration、generated assessment bytes、provider-global behavior は Runtime の外部です。
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/human-report-semantic-quality.md` | implemented-different-by-design | `docs/features/human-benefit-report.md`、`docs/features/task-outcome-report.md`、`docs/reference/outcome-report.md` が decision view の順序と forbidden-claim boundary を保持します。 |
+| `docs/reference/implementation-knowledge.ja.md` | implemented-different-by-design | 日本語 Knowledge page と typed Knowledge record が read-only projection を提供し、source filter/record はコピーしません。 |
+| `docs/reference/implementation-knowledge.md` | implemented-different-by-design | Rust Knowledge CLI/MCP は決定的な repository filter と `KnowledgeV2Record` を公開します。date/commit/supersession の広い query surface は明示的な non-claim です。 |
+| `docs/reference/implementation-knowledge.zh-CN.md` | implemented-different-by-design | 中国語 Knowledge route が current filter、evidence binding、source query との差分を説明します。 |
+| `docs/reference/input-trust-dataflow.ja.md` | implemented-different-by-design | 日本語 provenance guidance は typed `FactOrigin`、traceable derivation、fail-closed observation に対応します。 |
+| `docs/reference/input-trust-dataflow.md` | implemented-different-by-design | Typed Rust fact、snapshot observation、input-trust test が source の分類と injection boundary を保持し、source JSON wire parity は主張しません。 |
+| `docs/reference/input-trust-dataflow.zh-CN.md` | implemented-different-by-design | 中国語 route が provenance、cross-step、明示的 repository boundary を説明します。 |
+| `docs/reference/installed-lifecycle.md` | implemented-different-by-design | Shared Runtime install、explicit attach、immutable Release acceptance、migration/rollback boundary を記載し、source installer Python/Make は reference material に留めます。 |
+| `docs/reference/instruction-traceability.md` | implemented-different-by-design | Inventory、comparison/parity page、Work Item evidence、close receipt が structural forward/reverse traceability を提供し、source checker はコピーしません。 |
+| `docs/reference/japanese-capability-assessment.json` | implemented-different-by-design | 三言語 capability page と executable presentation/adversarial check が bounded coverage を提供します。source assessment/corpus bytes と general fluency claim は reference-bound です。 |
+
+これは semantic/documentation parity であり、source command や JSON-wire parity ではありません。Object/adopter boundary は shared Runtime、明示的な `--repo`、isolated repository fact/evidence、外部 provider/enterprise assurance のままです。Knowledge、provenance、installation、traceability、language projection は authority、benefit、approval、release evidence を作りません。
+
+WI-347 後の ledger は 5,119 record、4,262 `generated-history`、262 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、34 `reference-only`、556 `deferred-next-batch`、`migrate-gap` は 0 です。556 deferred は予定された比較であり parity claim ではありません。

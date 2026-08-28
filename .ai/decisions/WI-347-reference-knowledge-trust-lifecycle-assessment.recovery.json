@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-28T03:15:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-347-reference-knowledge-trust-lifecycle-assessment.verification.json",
+    ".ai/work-items/active/WI-347-reference-knowledge-trust-lifecycle-assessment.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery-retry-boundary",
+    "AGENTS.md:explicit-repository-scope"
+  ],
+  "predecessorContractDigest": "sha256:d78f44080cba27336dda11f0c0e3f3b5629fb995b6565ec02f1cf6bce2c0762d",
+  "predecessorEventsDigest": "sha256:73ab26d01eb62e7ac06ef6d616dca6b601bf481536b2977e9eb5cd825169d9d4",
+  "predecessorOutcomeDigest": "sha256:11c3cb874bcbea17a59f783cacaac0da76a90ac032326a432e7ab326525102b0",
+  "predecessorSummaryDigest": "sha256:a2b29d0c925bf5068e721cc1788da148c713a61acaf27bfacf8b3475ccfe7323",
+  "predecessorWorkItemId": "WI-347-reference-knowledge-trust-lifecycle-assessment",
+  "reason": "Retry after the Runtime correctly rejected the initial malformed scope; preserve the blocked lifecycle evidence and continue with the explicit bounded scope.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification with the explicit ten-path mapping scope, then complete finish and the reviewed PR lifecycle.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-347-reference-knowledge-trust-lifecycle-assessment"
+}

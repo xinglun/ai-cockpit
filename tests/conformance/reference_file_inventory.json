@@ -31559,7 +31559,7 @@
         "crates/cockpit-repository/src/lib.rs",
         "crates/cockpit-verification/src/lib.rs"
       ],
-      "reason": "Rust exposes repository-bound `diagnose` plus typed VerificationCostEstimate/Observation and receipt telemetry. It deliberately does not copy the source JSONL lifecycle event parser, phase/wait taxonomy, or source report wire shape; all cost output remains advisory and identity-bound."
+      "reason": "Rust exposes repository-bound diagnose plus typed VerificationCostEstimate/Observation and receipt telemetry. It does not copy the source JSONL lifecycle event parser, phase/wait taxonomy, or source report wire shape; cost output remains advisory and identity-bound."
     },
     {
       "referencePath": "docs/reference/governance-performance-budget.md",
@@ -31571,7 +31571,7 @@
         "crates/cockpit-verification/src/lib.rs",
         "tests/performance/regression_gate.sh"
       ],
-      "reason": "Rust uses identity-bound PerformanceBaseline samples and explicit regression budgets, while the source P95/profile report is not a Runtime authority. Budget overrun never removes required verification, and no automatic P95 or governance profile is inferred."
+      "reason": "Rust uses identity-bound PerformanceBaseline samples and explicit regression budgets, while the source P95/profile report is not Runtime authority. Budget overrun never removes required verification, and no automatic P95 or governance profile is inferred."
     },
     {
       "referencePath": "docs/reference/governance-profile-cost-separation.md",
@@ -31662,73 +31662,117 @@
     },
     {
       "referencePath": "docs/reference/human-report-semantic-quality.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-347-reference-knowledge-trust-lifecycle-assessment",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/features/human-benefit-report.md",
+        "docs/features/task-outcome-report.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "The reference human-benefit ordering and forbidden-claim boundary are represented by the Rust Outcome and task-report projections. Source report prose is not an independent authority and is not copied."
     },
     {
       "referencePath": "docs/reference/implementation-knowledge.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-347-reference-knowledge-trust-lifecycle-assessment",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/implementation-knowledge.ja.md",
+        "crates/cockpit-knowledge/src/lib.rs"
+      ],
+      "reason": "Japanese implementation-knowledge semantics are documented on the Rust read-only projection; source filters and generated records are not copied."
     },
     {
       "referencePath": "docs/reference/implementation-knowledge.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-347-reference-knowledge-trust-lifecycle-assessment",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/implementation-knowledge.md",
+        "crates/cockpit-knowledge/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs"
+      ],
+      "reason": "The target exposes deterministic repository-bound Knowledge records and four conjunctive CLI/MCP filters. The reference's wider date/commit/supersession query surface remains an explicit non-claim."
     },
     {
       "referencePath": "docs/reference/implementation-knowledge.zh-CN.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-347-reference-knowledge-trust-lifecycle-assessment",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/implementation-knowledge.zh-CN.md",
+        "crates/cockpit-knowledge/src/lib.rs"
+      ],
+      "reason": "中文实现知识页面映射 Rust 只读投影，明确当前过滤器和未实现的更宽查询维度；不复制源生成记录。"
     },
     {
       "referencePath": "docs/reference/input-trust-dataflow.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-347-reference-knowledge-trust-lifecycle-assessment",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/input-trust-dataflow.ja.md",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "Japanese provenance guidance maps to typed FactOrigin/TraceableFact/TraceableDerivation and fail-closed repository observation; source Python trust code is not copied."
     },
     {
       "referencePath": "docs/reference/input-trust-dataflow.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-347-reference-knowledge-trust-lifecycle-assessment",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/input-trust-dataflow.md",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/input_trust.rs"
+      ],
+      "reason": "The target preserves provenance classification, cross-step traceability, and prompt-injection boundaries through typed Rust facts and repository tests; it does not claim source JSON wire or external authentication parity."
     },
     {
       "referencePath": "docs/reference/input-trust-dataflow.zh-CN.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-347-reference-knowledge-trust-lifecycle-assessment",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/input-trust-dataflow.zh-CN.md",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/tests/input_trust.rs"
+      ],
+      "reason": "中文输入信任数据流由类型化来源、追溯派生和 fail-closed 测试承担；不复制源 Python 模块或宣称 provider 身份认证。"
     },
     {
       "referencePath": "docs/reference/installed-lifecycle.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-347-reference-knowledge-trust-lifecycle-assessment",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/installed-lifecycle.md",
+        "docs/release/distribution.md",
+        "docs/getting-started/installation.md",
+        "docs/architecture/versioning.md"
+      ],
+      "reason": "The shared Rust Runtime, explicit attach, immutable Release acceptance, and separate migration boundary represent the source lifecycle responsibility. Source Python installer/Make orchestration is external reference material."
     },
     {
       "referencePath": "docs/reference/instruction-traceability.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-347-reference-knowledge-trust-lifecycle-assessment",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/instruction-traceability.md",
+        "tests/conformance/reference_file_inventory.json",
+        "docs/reference/reference-file-comparison.md",
+        "docs/reference/reference-parity.md"
+      ],
+      "reason": "The target inventory, comparison/parity records, Work Item evidence, and closure receipts provide structural forward/reverse traceability. The source remediation manifest and checker are not copied as Runtime authority."
     },
     {
       "referencePath": "docs/reference/japanese-capability-assessment.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-347-reference-knowledge-trust-lifecycle-assessment",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/japanese-capability-assessment.md",
+        "docs/reference/japanese-capability-assessment.zh-CN.md",
+        "docs/reference/japanese-capability-assessment.ja.md",
+        "tests/docs/documentation_acceptance.sh",
+        "tests/cli/intelligence.rs"
+      ],
+      "reason": "The source release assessment is projected to Rust tri-language docs and executable presentation/adversarial tests. Source assessment bytes, Python calibration, and participant evidence remain reference-bound; no general fluency claim is made."
     },
     {
       "referencePath": "docs/reference/japanese-capability-assessment.md",
