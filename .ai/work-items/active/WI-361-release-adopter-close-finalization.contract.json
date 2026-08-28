@@ -1,0 +1,32 @@
+{
+  "acceptanceCriteria": [],
+  "authority": "unknown",
+  "baseRevision": "f68350b41649b7fa586033c0683a7e6a6be62d36",
+  "createdAt": "2026-08-28T12:49:45Z",
+  "goal": "",
+  "intent": "",
+  "mode": "implementation",
+  "outOfScope": [],
+  "predecessorContractDigest": "sha256:8945c398bf1469b86826a1c6c570432b5791b4dfc1cc9ec53a7c0c1c268aef73",
+  "predecessorWorkItemId": "WI-360-release-adopter-close-cleanup",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-360-release-adopter-close-cleanup.recovery.702ae48a645551c1a7acf8fe232519af2633d97a7caf2983c43ca3644b94a14b.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0ee6e900998ca76ddc902d7b77a6f26e1d5b5abc304372876012c45e8c570c3f",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-360-release-adopter-close-cleanup",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/ai-cockpit-wi-360-release-adopter-close-cleanup"
+  },
+  "risk": "unknown",
+  "scope": [],
+  "sources": [],
+  "state": "not_ready",
+  "verification": [],
+  "workItemId": "WI-361-release-adopter-close-finalization"
+}

@@ -1,0 +1,34 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-28T13:00:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-360-release-adopter-close-cleanup.contract.json",
+    ".ai/work-items/archive/WI-360-release-adopter-close-cleanup.summary.json",
+    ".ai/work-items/archive/WI-360-release-adopter-close-cleanup.outcome.json",
+    ".ai/work-items/archive/WI-360-release-adopter-close-cleanup.events.jsonl",
+    ".ai/work-items/archive/WI-360-release-adopter-close-cleanup.archive.json",
+    ".ai/evidence/WI-360-release-adopter-close-cleanup.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/325"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:premerge-finalization-before-close",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:8945c398bf1469b86826a1c6c570432b5791b4dfc1cc9ec53a7c0c1c268aef73",
+  "predecessorEventsDigest": "sha256:033a9369d7b673586902c51759e73b966b3bed11df5eff180e28c057edf9d140",
+  "predecessorOutcomeDigest": "sha256:e7c89f083d3b06aa3b1341c2a81aeecdab872c7f014eef2edbff7448a599c8ad",
+  "predecessorSummaryDigest": "sha256:acc565fe15aad76b091aaf16b34ae6a81e0e3949908103c91f37c2afbf255654",
+  "predecessorWorkItemId": "WI-360-release-adopter-close-cleanup",
+  "reason": "WI-360 was archived with a placeholder provider PR URL before GitHub allocated the actual PR number. The implementation and its immutable evidence remain preserved; a successor must bind the actual PR #325 before provider finalization and close.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Create WI-361 from the merged default branch, bind PR #325 and the exact merged head before archive, then complete finalization, close, and exact cleanup without rewriting WI-360.",
+  "runtimeDigest": "sha256:39a1e27deb5d47946c723d6129ead21a6fcb6bd5dbb7c1346a97e83ec61543c4",
+  "runtimeVersion": "0.2.34",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-361-release-adopter-close-finalization",
+  "workItemId": "WI-360-release-adopter-close-cleanup"
+}

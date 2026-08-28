@@ -1,0 +1,18 @@
+{
+  "changedPaths": [
+    ".ai/WI-360-recovery-input.json",
+    ".ai/decisions/WI-360-release-adopter-close-cleanup.recovery.702ae48a645551c1a7acf8fe232519af2633d97a7caf2983c43ca3644b94a14b.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-08-28T12:49:45Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:8945c398bf1469b86826a1c6c570432b5791b4dfc1cc9ec53a7c0c1c268aef73",
+  "predecessorWorkItemId": "WI-360-release-adopter-close-cleanup",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-360-release-adopter-close-cleanup.recovery.702ae48a645551c1a7acf8fe232519af2633d97a7caf2983c43ca3644b94a14b.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "not_ready",
+  "updatedAt": "2026-08-28T12:49:45Z",
+  "workItemId": "WI-361-release-adopter-close-finalization"
+}
