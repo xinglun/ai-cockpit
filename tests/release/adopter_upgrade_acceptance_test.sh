@@ -53,6 +53,17 @@ grep -q -- 'decisionState == "confirmed"' "$script"
 grep -q -- 'structuredDecision.evidenceRefs' "$script"
 grep -q -- 'structuredDecision.policyRefs' "$script"
 grep -q -- 'result:{disposition:"deleted"' "$script"
+grep -q -- 'configure_git_identity()' "$script"
+grep -q -- 'config --local user.name' "$script"
+grep -q -- 'config --local user.email' "$script"
+initial_clone_line=$(grep -n -- 'git clone -q "\$adopter" "\$old_control_root"' "$script" | head -1 | cut -d: -f1)
+initial_identity_line=$(grep -n -- 'configure_git_identity "\$old_control_root"' "$script" | head -1 | cut -d: -f1)
+new_clone_line=$(grep -n -- 'git clone -q "\$adopter" "\$new_control_root"' "$script" | head -1 | cut -d: -f1)
+new_identity_line=$(grep -n -- 'configure_git_identity "\$new_control_root"' "$script" | head -1 | cut -d: -f1)
+[[ -n "$initial_clone_line" && -n "$initial_identity_line" && "$initial_clone_line" -lt "$initial_identity_line" && -n "$new_clone_line" && -n "$new_identity_line" && "$new_clone_line" -lt "$new_identity_line" ]] || {
+  printf 'every cloned acceptance repository must receive a local Git identity before use\n' >&2
+  exit 1
+}
 grep -q -- 'rm -rf -- "$old_worktree"' "$script"
 grep -q -- 'rm -rf -- "$new_worktree"' "$script"
 grep -q -- 'worktree prune' "$script"
@@ -130,6 +141,28 @@ test_parent="${TMPDIR:-/tmp}"
 regression_root="$(mktemp -d "$test_parent/ai-cockpit-n-minus-one-regression.XXXXXX")"
 cleanup_regression_root() { find "$regression_root" -depth -mindepth 0 -delete; }
 trap cleanup_regression_root EXIT
+
+# Regression: a clean CI-like environment must be able to commit both the
+# initial repository and a freshly cloned control repository without global
+# Git configuration.  This mirrors the exact failure seen in the staged N-1
+# release acceptance path.
+git_identity_root="$regression_root/git-identity"
+git_identity_home="$git_identity_root/home"
+git_identity_origin="$git_identity_root/origin"
+git_identity_clone="$git_identity_root/clone"
+mkdir -p "$git_identity_home"
+env -i HOME="$git_identity_home" XDG_CONFIG_HOME="$git_identity_root/xdg" GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null PATH="$PATH" git init -q "$git_identity_origin"
+env -i HOME="$git_identity_home" XDG_CONFIG_HOME="$git_identity_root/xdg" GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null PATH="$PATH" git -C "$git_identity_origin" config --local user.name 'AI Cockpit N-1 Acceptance'
+env -i HOME="$git_identity_home" XDG_CONFIG_HOME="$git_identity_root/xdg" GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null PATH="$PATH" git -C "$git_identity_origin" config --local user.email 'ai-cockpit-n-minus-one@example.invalid'
+touch "$git_identity_origin/initial"
+env -i HOME="$git_identity_home" XDG_CONFIG_HOME="$git_identity_root/xdg" GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null PATH="$PATH" git -C "$git_identity_origin" add .
+env -i HOME="$git_identity_home" XDG_CONFIG_HOME="$git_identity_root/xdg" GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null PATH="$PATH" git -C "$git_identity_origin" commit -qm initial
+env -i HOME="$git_identity_home" XDG_CONFIG_HOME="$git_identity_root/xdg" GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null PATH="$PATH" git clone -q "$git_identity_origin" "$git_identity_clone"
+env -i HOME="$git_identity_home" XDG_CONFIG_HOME="$git_identity_root/xdg" GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null PATH="$PATH" git -C "$git_identity_clone" config --local user.name 'AI Cockpit N-1 Acceptance'
+env -i HOME="$git_identity_home" XDG_CONFIG_HOME="$git_identity_root/xdg" GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null PATH="$PATH" git -C "$git_identity_clone" config --local user.email 'ai-cockpit-n-minus-one@example.invalid'
+touch "$git_identity_clone/cloned"
+env -i HOME="$git_identity_home" XDG_CONFIG_HOME="$git_identity_root/xdg" GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null PATH="$PATH" git -C "$git_identity_clone" add .
+env -i HOME="$git_identity_home" XDG_CONFIG_HOME="$git_identity_root/xdg" GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null PATH="$PATH" git -C "$git_identity_clone" commit -qm cloned
 same_output="$regression_root/same-output"
 mkdir -p "$same_output"
 if "$script" --repository xinglun/ai-cockpit --from-tag v0.1.1 --to-tag v0.1.1 --target aarch64-apple-darwin --output "$same_output" --source-repo "$(git rev-parse --show-toplevel)" >/dev/null 2>&1; then

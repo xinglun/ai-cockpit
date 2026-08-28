@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:3d2e69e731507d246c148ba82cfa5095ac7ea1053c5129c89c242cd75d618c02",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:5f2a870cda4cb49d2dfc7ef56922caa40970159266c40c0a97bd5086a3488794",
+  "reason": "Human owner authorized root-fix of the failed v0.2.37 release N-1 acceptance and its isolated CI commit path.",
+  "recordedAt": "2026-08-28T16:29:41Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c2ca5711e45dffe6ac9dee3f71145646848efb5369b06315340760a03bb158dd",
+  "schemaVersion": 1,
+  "workItemId": "WI-365-release-upgrade-git-identity"
+}

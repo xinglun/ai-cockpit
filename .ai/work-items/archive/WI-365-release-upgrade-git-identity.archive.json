@@ -1,0 +1,23 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-28T16:40:26Z",
+  "files": {
+    "approachDigest": "sha256:0e0bbaa0585025085ff72b057b8383a81f5e2e00d7df86e61908aa4d567170fd",
+    "approachPath": ".ai/work-items/archive/WI-365-release-upgrade-git-identity.approach.json",
+    "contractDigest": "sha256:6243da158ee84221a52ccfa07768ad0ea3848cbed4674f2be178e4011b40601f",
+    "contractPath": ".ai/work-items/archive/WI-365-release-upgrade-git-identity.contract.json",
+    "eventsDigest": "sha256:8bb5d84cff0b4f0abf5023c252eb5d9e27ca8e6bc5a2464472318b4d36cacd21",
+    "eventsPath": ".ai/work-items/archive/WI-365-release-upgrade-git-identity.events.jsonl",
+    "outcomeDigest": "sha256:39cc2ac6322ee7dc120f7c72387ac8b32f32eca0a49b4a4841239517c1acfedc",
+    "outcomePath": ".ai/work-items/archive/WI-365-release-upgrade-git-identity.outcome.json",
+    "summaryDigest": "sha256:69c8ffebf4f297ca37778aa2104e00095acdd41ca14996ce9f478d8811b98606",
+    "summaryPath": ".ai/work-items/archive/WI-365-release-upgrade-git-identity.summary.json",
+    "taskReportDigest": "sha256:6042350df418b524f76bdeceec303cf3a77fb67c9fde231d773a6710993a75e0",
+    "taskReportMarkdownDigest": "sha256:af2e6bdeec66e5131967935e9ca61bcb44447a376595c8c66fa4555008b82855",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-365-release-upgrade-git-identity.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-365-release-upgrade-git-identity.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-365-release-upgrade-git-identity"
+}

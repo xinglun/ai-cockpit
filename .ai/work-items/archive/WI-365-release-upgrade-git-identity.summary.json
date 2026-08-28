@@ -1,0 +1,109 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-28T16:10:45Z",
+  "checkpointContractDigest": "sha256:0c6e1e1cb770155db5634ce331ead0b8f11dfcc2962413d2c8942f011460147b",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:3d2e69e731507d246c148ba82cfa5095ac7ea1053c5129c89c242cd75d618c02",
+      "recorded": true,
+      "recordedAt": "2026-08-28T16:10:45Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c2ca5711e45dffe6ac9dee3f71145646848efb5369b06315340760a03bb158dd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-365-release-upgrade-git-identity"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:810b2b77532860a52872e94ba5327460e15376306a9143d4e0d398ae2cd6971a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3d2e69e731507d246c148ba82cfa5095ac7ea1053c5129c89c242cd75d618c02",
+      "previousContractHash": "sha256:3d2e69e731507d246c148ba82cfa5095ac7ea1053c5129c89c242cd75d618c02",
+      "reason": "Updated the Contract scenarioCoverage from unverified to verified after the isolated Git identity and cleanup regressions passed.",
+      "recorded": true,
+      "recordedAt": "2026-08-28T16:30:11Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c2ca5711e45dffe6ac9dee3f71145646848efb5369b06315340760a03bb158dd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-365-release-upgrade-git-identity"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:c2ca5711e45dffe6ac9dee3f71145646848efb5369b06315340760a03bb158dd",
+  "createdAt": "2026-08-28T16:04:53Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:0c6e1e1cb770155db5634ce331ead0b8f11dfcc2962413d2c8942f011460147b",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Human owner authorized root-fix of the failed v0.2.37 release N-1 acceptance and its isolated CI commit path; the Contract evidence references were revalidated after the amendment.",
+    "recordedAt": "2026-08-29T01:45:00Z",
+    "recordedBy": "human:owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:c2ca5711e45dffe6ac9dee3f71145646848efb5369b06315340760a03bb158dd",
+    "schemaVersion": 1,
+    "workItemId": "WI-365-release-upgrade-git-identity"
+  },
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "tests/release/adopter_upgrade_acceptance.sh",
+      "tests/release/adopter_upgrade_acceptance_test.sh"
+    ],
+    "reason": "The scoped script fix directly addresses the observed N-1 release failure without changing Runtime semantics or global configuration.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-28T16:40:19Z",
+  "preflightContractDigest": "sha256:0c6e1e1cb770155db5634ce331ead0b8f11dfcc2962413d2c8942f011460147b",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:c2ca5711e45dffe6ac9dee3f71145646848efb5369b06315340760a03bb158dd",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/adopter_upgrade_acceptance_test.sh",
+        ".ai/evidence/WI-365-release-upgrade-git-identity.verification.json"
+      ],
+      "expected": "The upgrade harness can commit after cloning a control repository with global Git configuration disabled.",
+      "required": true,
+      "scenario": "clean CI cloned-control commit",
+      "status": "verified",
+      "verificationPlan": "Run adopter_upgrade_acceptance_test.sh and the clean isolated Git regression."
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_upgrade_acceptance_test.sh",
+        ".ai/evidence/WI-365-release-upgrade-git-identity.verification.json"
+      ],
+      "expected": "Acceptance truth, cleanup.json, and SHA256SUMS remain consistent on success and failure.",
+      "required": true,
+      "scenario": "release upgrade cleanup preserved",
+      "status": "verified",
+      "verificationPlan": "Run adopter_upgrade_acceptance_test.sh cleanup regressions."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-28T16:40:22Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-365-release-upgrade-git-identity"
+}
