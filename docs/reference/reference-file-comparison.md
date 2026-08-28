@@ -21,7 +21,7 @@ behavior corpus; it is not a directory to copy into the Rust Runtime.
 ## Pinned baseline
 
 - Reference: [`spirex-ds-dev/ai-cockpit-template`](https://github.com/spirex-ds-dev/ai-cockpit-template) at `e5acb677da6621004d96f0ef353c58fe8d3acfbf`.
-- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `a533d49dfa848d95742833f8cd1b5f7e1bb897d5`.
+- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b`.
 - Runtime used for the comparison work: `ai-cockpit 0.2.33`, binary SHA256 `eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4`.
 
 This page reports only the current pinned comparison baseline. Historical
@@ -123,11 +123,11 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=262 implemented-equivalent=1 not-applicable=4 reference-only=34 deferred-next-batch=556 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=269 implemented-equivalent=1 not-applicable=4 reference-only=37 deferred-next-batch=546 migrate-gap=0 -->
 
 At the pinned v0.2.33 comparison baseline, the ledger contains 5,119 records:
-4,262 `generated-history`, 262 `implemented-different-by-design`, one
-`implemented-equivalent`, four `not-applicable`, 34 `reference-only`, and 556
+4,262 `generated-history`, 269 `implemented-different-by-design`, one
+`implemented-equivalent`, four `not-applicable`, 37 `reference-only`, and 546
 `deferred-next-batch` records. Deferred records remain scheduled work, not
 parity claims. The capability/profile slice has no remaining `migrate-gap`
 records:
@@ -824,3 +824,32 @@ The ledger after WI-347 is 5,119 records: 4,262 `generated-history`, 262
 `not-applicable`, 34 `reference-only`, and 556 `deferred-next-batch` records;
 `migrate-gap` remains zero. The 556 deferred records are still scheduled
 comparisons, not parity claims.
+
+## WI-348 verification, operation-time policy, and provider-bound batch
+
+WI-348 individually compares the next ten pinned reference paths at
+`e5acb677da6621004d96f0ef353c58fe8d3acfbf`. Seven responsibilities are
+implemented differently in Rust and three historical provider/pre-release
+records are reference-only. The Rust Core adds a strict operation-time
+evaluator; it is a policy input and never an executor or provider authority.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/japanese-capability-assessment.md` | implemented-different-by-design | Tri-language Japanese assessment boundary plus localized Outcome, adversarial, installation, and documentation checks; no general fluency claim. |
+| `docs/reference/lightweight-verification-and-soft-gates.md` | implemented-different-by-design | Proportional route, content-bound reuse, deterministic partial dependencies, monotonic escalation, and visible advisory boundaries in verification/evidence services. |
+| `docs/reference/multilingual-semantic-parity.md` | implemented-different-by-design | Three-language Runtime-owned labels, markers, safety, unknown, decision, limitation, and next-action projections; Contract values remain authoring-language text. |
+| `docs/reference/open-pr-issue-reconciliation-662.json` | reference-only | Historical provider inventory; target/provider state requires fresh external observation and cannot authorize a release or merge. |
+| `docs/reference/open-pr-issue-reconciliation-662.md` | reference-only | Historical reconciliation narrative; not copied into current status or `.ai/`. |
+| `docs/reference/operation-time-policy-reevaluation.ja.md` | implemented-different-by-design | Rust `OperationTimeRequest`/decision evaluator and strict regression tests; source Python trust modules and provider execution are not copied. |
+| `docs/reference/operation-time-policy-reevaluation.md` | implemented-different-by-design | Same operation-time boundary with explicit operation, target, scope, authority, freshness, trust, and impact facts. |
+| `docs/reference/operation-time-policy-reevaluation.zh-CN.md` | implemented-different-by-design | Chinese reader route for the same fail-closed operation-time evaluator. |
+| `docs/reference/performance-diagnosis.md` | implemented-different-by-design | Request-scoped `diagnose` and cost observations report measured execution/reuse facts without inventing provider wait, P95, or assurance. |
+| `docs/reference/pre-release-documentation-alignment.json` | reference-only | Historical generated alignment receipt; target documentation uses its own repository-local checks and is never promoted from this source artifact. |
+
+This is semantic parity, not source Python, Make, JSON-wire, or provider-state
+parity. The updated ledger contains 5,119 records: 4,262
+`generated-history`, 269 `implemented-different-by-design`, one
+`implemented-equivalent`, four `not-applicable`, 37 `reference-only`, and 546
+`deferred-next-batch`; `migrate-gap` remains zero. The same shared Runtime,
+explicit `--repo`, repository-local evidence, and object/adopter isolation apply
+to every target project.

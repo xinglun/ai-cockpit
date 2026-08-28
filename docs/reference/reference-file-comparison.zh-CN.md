@@ -20,7 +20,7 @@ capabilityClaims:
 ## 固定基线
 
 - 参考源：[spirex-ds-dev/ai-cockpit-template](https://github.com/spirex-ds-dev/ai-cockpit-template)，提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf`。
-- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `a533d49dfa848d95742833f8cd1b5f7e1bb897d5`。
+- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b`。
 - 比较时使用的 Runtime：`ai-cockpit 0.2.33`，binary SHA256 为 `eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4`。
 
 本页只报告当前固定的比较基线。历史交付细节保存在 Work Item 归档证据中，不放在面向读者的入口。
@@ -103,7 +103,7 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=262 implemented-equivalent=1 not-applicable=4 reference-only=34 deferred-next-batch=556 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=269 implemented-equivalent=1 not-applicable=4 reference-only=37 deferred-next-batch=546 migrate-gap=0 -->
 
 在固定的 v0.2.33 比较基线上，台账共有 5,119 条记录：4,262 条
 `generated-history`、262 条 `implemented-different-by-design`、1 条
@@ -654,3 +654,29 @@ WI-347 在固定参考提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 上逐�
 这是语义/文档 parity，不是源命令或 JSON-wire parity。对象工程边界保持一致：一个已安装 Runtime、显式 `--repo`、隔离的仓库事实/证据，以及外部 provider/enterprise assurance。Knowledge、provenance、安装、追溯和语言投影不能生成 authority、收益、批准或发布证据。
 
 WI-347 后台账为 5,119 条：4,262 条 `generated-history`、262 条 `implemented-different-by-design`、1 条 `implemented-equivalent`、4 条 `not-applicable`、34 条 `reference-only`、556 条 `deferred-next-batch`；`migrate-gap` 仍为 0。556 条 deferred 仍是计划中的比较，不是 parity 声明。
+
+## WI-348：验证、操作时策略与 provider 边界批次
+
+WI-348 逐一比较固定提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 的后续十个路径。
+其中七项责任在 Rust 中以不同方式实现，三项历史 provider/pre-release 记录保持
+`reference-only`。Rust Core 增加严格的操作时评估器；它只是策略输入，不是执行器，
+也不是 provider 权限。
+
+| 固定参考路径 | 分类 | Rust 对应/边界决定 |
+| --- | --- | --- |
+| `docs/reference/japanese-capability-assessment.md` | implemented-different-by-design | 三语日语评估边界、Outcome、荒诞测试、安装和文档检查；不宣称一般流畅度。 |
+| `docs/reference/lightweight-verification-and-soft-gates.md` | implemented-different-by-design | 验证/证据服务提供按比例路线、内容绑定复用、确定性的 partial 依赖、单调升级和可见 advisory 边界。 |
+| `docs/reference/multilingual-semantic-parity.md` | implemented-different-by-design | 三语 Runtime 标签、marker、安全、unknown、决定、限制和下一步投影；Contract 值保留编写语言。 |
+| `docs/reference/open-pr-issue-reconciliation-662.json` | reference-only | 历史 provider 清单；当前状态必须重新获取，不能授权发布或 merge。 |
+| `docs/reference/open-pr-issue-reconciliation-662.md` | reference-only | 历史对账叙述；不复制到当前 status 或 `.ai/`。 |
+| `docs/reference/operation-time-policy-reevaluation.ja.md` | implemented-different-by-design | Rust `OperationTimeRequest`/decision 评估器和严格回归测试；不复制源 Python trust 或 provider 执行。 |
+| `docs/reference/operation-time-policy-reevaluation.md` | implemented-different-by-design | 同一操作时边界，显式绑定操作、目标、范围、权限、新鲜度、信任和影响。 |
+| `docs/reference/operation-time-policy-reevaluation.zh-CN.md` | implemented-different-by-design | 同一 fail-closed 操作时评估器的中文读者页面。 |
+| `docs/reference/performance-diagnosis.md` | implemented-different-by-design | request-scoped `diagnose` 和 cost observation 报告执行/复用事实，不臆造 provider 等待、P95 或 assurance。 |
+| `docs/reference/pre-release-documentation-alignment.json` | reference-only | 历史生成对齐收据；目标文档使用自己的仓库本地检查，不从源产物提升。 |
+
+这是语义对齐，不是源 Python、Make、JSON wire 或 provider 状态对齐。更新后的台账
+共 5,119 条：4,262 条 `generated-history`、269 条
+`implemented-different-by-design`、1 条 `implemented-equivalent`、4 条
+`not-applicable`、37 条 `reference-only`、546 条 `deferred-next-batch`；
+`migrate-gap` 仍为 0。每个目标工程继续使用同一共享 Runtime、显式 `--repo`、仓库本地证据和对象/adopter 隔离。

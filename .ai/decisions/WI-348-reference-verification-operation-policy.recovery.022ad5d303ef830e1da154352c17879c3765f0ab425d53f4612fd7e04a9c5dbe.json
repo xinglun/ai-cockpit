@@ -1,0 +1,27 @@
+{
+  "actor": "human:maintainer",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-28T04:40:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-348-reference-verification-operation-policy.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/315"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md",
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:dc3caab2d4503c8251fc372a31ffa5750f390b961ad972dabbf336abecb8d19b",
+  "predecessorEventsDigest": "sha256:a431e31dcd1c0399f5420241baa0ab5187fd0008213196e92235a7b4476ce3cd",
+  "predecessorOutcomeDigest": "sha256:32124770f894423ac83d378761bfa2ffd7071179eb989542cee15e4db02b4053",
+  "predecessorSummaryDigest": "sha256:8c531a39329ee2445f7f58b118f5c53b0f08e1e88dc72215e960bc403d6eda1c",
+  "predecessorWorkItemId": "WI-348-reference-verification-operation-policy",
+  "reason": "Retry verification after the hosted repository gate exposed a prearchive parity registration defect; the current Work Item scope covers the tri-language registration, so preserve the failed attempt and revalidate the current snapshot.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run a fresh non-red preflight and installed-Runtime verification against the corrected parity registration and current PR context before finish.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-348-reference-verification-operation-policy"
+}

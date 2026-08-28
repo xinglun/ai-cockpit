@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-28T04:51:16Z",
+  "files": {
+    "approachDigest": "sha256:6bd1210d54df9c1b92a20a9c8927713bd13bf506349b91dfd672264572c18f13",
+    "approachPath": ".ai/work-items/archive/WI-348-reference-verification-operation-policy.approach.json",
+    "contractDigest": "sha256:1f6d6a39030bec68f14c5a8a13dea9964aaa260dcce6c2e5d95f8179bc34f4f9",
+    "contractPath": ".ai/work-items/archive/WI-348-reference-verification-operation-policy.contract.json",
+    "eventsDigest": "sha256:aac615ab14d7d55e3bc8051f6ca8245ea6ab55d690f122a74d88cb47662f40b8",
+    "eventsPath": ".ai/work-items/archive/WI-348-reference-verification-operation-policy.events.jsonl",
+    "outcomeDigest": "sha256:dd078f817f01d7b0d3b12233b2a12b27d08c99889a2ac1193992b32483e9571f",
+    "outcomePath": ".ai/work-items/archive/WI-348-reference-verification-operation-policy.outcome.json",
+    "summaryDigest": "sha256:52db28d37fd8506c71a408599f3f923f0bdf8ecdaf16ff43254a534e44ed1cd6",
+    "summaryPath": ".ai/work-items/archive/WI-348-reference-verification-operation-policy.summary.json",
+    "taskReportDigest": "sha256:f65b132fb0875eae742e1844ffa65d8bfe991239c56f8c063dcfb7a65f29fa8e",
+    "taskReportMarkdownDigest": "sha256:e7a6e057c6f0ce2199781cbcc3cdf5298f33a68746a9289e911d9f6ad04e69cb",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-348-reference-verification-operation-policy.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-348-reference-verification-operation-policy.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-348-reference-verification-operation-policy"
+}
