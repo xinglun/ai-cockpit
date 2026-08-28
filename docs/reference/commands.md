@@ -68,6 +68,12 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
   Item without a valid close decision fails closed. The gate never rewrites
   archived bytes. A recovery successor is an explicit continuation and may be
   scaffolded through `work-item recover`; it is not an independent next item.
+- The same entry gate rejects the repository primary worktree and the known
+  default branch for ordinary Work Items. Use a dedicated linked worktree on a
+  feature branch. A linked worktree without an unambiguous discovered remote
+  default base is rejected rather than treated as ready; local calibration
+  repositories with no linked worktree remain `status: unknown` until a base is
+  configured.
 - `work-item new --repo <path> --id <id> --mode <mode>` creates a `not_ready`
   skeleton. It fills only snapshot-derived facts and leaves human-owned fields
   empty or `unknown`; `start` remains a compatibility path over the same writer.

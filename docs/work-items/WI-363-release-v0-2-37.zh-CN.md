@@ -4,7 +4,7 @@ title: "WI-363——发布 v0.2.37 并验收已安装 binary"
 workItemId: WI-363-release-v0-2-37
 description: "在发布后清理修复合并后发布下一版不可变 Release，并在隔离 adopter 流程中验证公开 binary。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-363-release-v0-2-37
 capabilityClaims: [release_distribution, adopter_acceptance]

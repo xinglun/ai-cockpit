@@ -3412,6 +3412,44 @@ fn discover_default_base(root: &Path) -> Option<DefaultBaseRef> {
     }
 }
 
+#[derive(Clone, Debug, PartialEq, Eq)]
+struct WorktreeLayout {
+    primary: PathBuf,
+    paths: Vec<PathBuf>,
+}
+
+/// Read Git's worktree topology without relying on the process cwd.  The
+/// first entry is Git's primary worktree; linked worktrees are explicit
+/// execution resources and must not be confused with that repository root.
+fn discover_worktree_layout(root: &Path) -> Result<WorktreeLayout, ObserverError> {
+    let raw = git_text(root, &["worktree", "list", "--porcelain"]).ok_or_else(|| {
+        ObserverError::State {
+            path: root.to_path_buf(),
+            message: "cannot determine Git worktree topology".into(),
+        }
+    })?;
+    let mut paths = Vec::new();
+    for line in raw.lines() {
+        let Some(path) = line.strip_prefix("worktree ") else {
+            continue;
+        };
+        let path = fs::canonicalize(path).map_err(|source| ObserverError::Read {
+            path: PathBuf::from(path),
+            source,
+        })?;
+        if !paths.contains(&path) {
+            paths.push(path);
+        }
+    }
+    let Some(primary) = paths.first().cloned() else {
+        return Err(ObserverError::State {
+            path: root.to_path_buf(),
+            message: "Git returned no primary worktree".into(),
+        });
+    };
+    Ok(WorktreeLayout { primary, paths })
+}
+
 fn non_governance_changed_paths(snapshot: &RepositorySnapshot) -> Vec<String> {
     let mut paths = snapshot
         .changed_paths
@@ -3484,6 +3522,10 @@ fn archive_requires_close(root: &Path, work_item_id: &str) -> bool {
 
 fn validate_start_entry(root: &Path, reject_unclosed_archives: bool) -> Result<(), ObserverError> {
     let readiness = repository_readiness(root)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
     let mut failures = Vec::new();
     if reject_unclosed_archives && !readiness.unclosed_archived_work_items.is_empty() {
         failures.push(format!(
@@ -3515,12 +3557,42 @@ fn validate_start_entry(root: &Path, reject_unclosed_archives: bool) -> Result<(
             "branch HEAD does not equal the discovered base {default}; create a fresh branch from that base before start"
         ));
     }
+
+    // A Work Item must never bind the repository's primary checkout or its
+    // default branch.  The primary checkout is where the synchronized base
+    // lives; using it for implementation makes finalization unable to prove
+    // that the Work Item worktree was removed.  Requiring a discovered
+    // default base for linked worktrees also prevents an ambiguous topology
+    // from being treated as a green dedicated checkout.  Repositories used
+    // only for local calibration (no remote and no linked worktree) retain the
+    // existing `status=unknown` behavior until they are attached to a known
+    // provider base.
+    let layout = discover_worktree_layout(&root)?;
+    let is_primary = layout.primary == root;
+    if is_primary
+        && (layout.paths.len() > 1
+            || readiness.current_branch.as_deref() == readiness.default_branch.as_deref())
+    {
+        failures.push(format!(
+            "work item must use a dedicated linked worktree; primary repository worktree is reserved for the synchronized default branch ({})",
+            layout.primary.display()
+        ));
+    } else if !is_primary
+        && (readiness.default_remote.is_none()
+            || readiness.default_branch.is_none()
+            || readiness.default_revision.is_none())
+    {
+        failures.push(
+            "cannot authorize a linked worktree without an unambiguous discovered remote default base"
+                .into(),
+        );
+    }
     if failures.is_empty() {
         return Ok(());
     }
     failures.sort();
     Err(ObserverError::State {
-        path: PathBuf::from(root),
+        path: root.clone(),
         message: format!(
             "lifecycle entry rejected before start: {}",
             failures.join("; ")

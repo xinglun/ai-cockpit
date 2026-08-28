@@ -1,0 +1,32 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-28T15:05:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-363-release-v0-2-37.contract.json",
+    ".ai/work-items/archive/WI-363-release-v0-2-37.summary.json",
+    ".ai/work-items/archive/WI-363-release-v0-2-37.outcome.json",
+    ".ai/work-items/archive/WI-363-release-v0-2-37.events.jsonl",
+    ".ai/evidence/WI-363-release-v0-2-37.verification.json",
+    ".ai/decisions/WI-363-release-v0-2-37.recovery.62914d1335f3518332fe58fa546be404168f859b67c92b214b7daa3d5bd3f7af.json",
+    "https://github.com/xinglun/ai-cockpit/pull/326"
+  ],
+  "policyRefs": [
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:e74bfd644910cd7bf4e2494647dce51fd8ecc98eb2e9d7d5d0ae9d055ecccc8b",
+  "predecessorEventsDigest": "sha256:c86b5cdf0a8906424fd70c3ba70b45582a88e44e5bc4d27ef8af6d5376932db3",
+  "predecessorOutcomeDigest": "sha256:8ce6ad67f9da8f947fa9d1421478a632829e5c3be3abd5f6df71ecfb175bea0f",
+  "predecessorSummaryDigest": "sha256:8a161b59c6e644baeb221e2da4a13ce4de99eabdfd898afb61bd4b9505cb54fd",
+  "predecessorWorkItemId": "WI-363-release-v0-2-37",
+  "reason": "WI-363 exposed a delivery boundary error: the release Work Item was started in the repository primary worktree, so strict finalization cannot truthfully remove that shared root. Redeliver the same release acceptance from a dedicated worktree and add a Runtime entry guard to prevent ordinary Work Items from binding the primary worktree or default branch.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "在独立 dedicated worktree 上启动 successor，完成 Runtime entry guard、三语文档/测试、发布 v0.2.37、adopter acceptance、finalization 与 close。",
+  "runtimeDigest": "sha256:39a1e27deb5d47946c723d6129ead21a6fcb6bd5dbb7c1346a97e83ec61543c4",
+  "runtimeVersion": "0.2.34",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-364-primary-worktree-release",
+  "workItemId": "WI-363-release-v0-2-37"
+}

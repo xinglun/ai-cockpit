@@ -1,0 +1,152 @@
+{
+  "acceptanceResults": [
+    "Ordinary start and work-item new fail closed on the repository primary worktree and default branch, while a dedicated linked worktree is accepted.",
+    "The guard has focused regression tests covering primary root, default branch, dedicated worktree, and missing/ambiguous remote metadata without false green.",
+    "Tri-language workflow documentation states the dedicated worktree requirement and predecessor WI-363 recovery boundary.",
+    "Published v0.2.37 artifacts are downloaded and checksum-bound with no source or workspace fallback.",
+    "Adopter and N-1 acceptance receipts prove runtime/repository identity, isolation, and temporary-root cleanup.",
+    "PR review/CI, archive, finalization, close, and exact branch/worktree cleanup leave synchronized main ready_on_base."
+  ],
+  "createdAt": "2026-08-28T15:34:53Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:959dc90ea4375e50884d5ae9f8a7be1a7b828fc93c57518a570c45756d813276",
+  "evidenceRefs": [
+    ".ai/evidence/WI-364-primary-worktree-release.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-364-primary-worktree-release.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-364-primary-worktree-release.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ceb81f3b7c946991bfeb26307d70741067bb4cca7cb788b4775fcab94fa4c75c",
+      "workItemId": "WI-364-primary-worktree-release"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-364-primary-worktree-release.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-363-release-v0-2-37.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-364-primary-worktree-release.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-364-primary-worktree-release.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-364-primary-worktree-release.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-364-primary-worktree-release.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-364-primary-worktree-release.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-364-primary-worktree-release.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-364-primary-worktree-release.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-364-primary-worktree-release.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-364-primary-worktree-release.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-364-primary-worktree-release.contract.json"
+          ],
+          "inference": false,
+          "text": "Prevent ordinary Work Items from binding the repository primary worktree or default branch, then publish and verify v0.2.37 with complete finalization and close evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-364-primary-worktree-release.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-364-primary-worktree-release"
+  },
+  "taskReportDigest": "sha256:85409ce23a3b3bace7aa30ea8a90d0742729ea0284359384ee603884a0bd8827",
+  "taskReportMarkdownDigest": "sha256:a3ef1ddc5ab25c63159d7fe2aa1813a98ee4b3378ca2346f61063ba9e7857541",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-364-primary-worktree-release.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-364-primary-worktree-release"
+}

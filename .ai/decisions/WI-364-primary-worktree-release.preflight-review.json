@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:afd39b60cdfbceb441460af861a0675cfa8264c4ca6eac878b4ee9605fe9a7ba",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
+  "reason": "Explicitly authorize the bounded release recovery and dedicated-worktree root fix; unresolved implementation evidence remains to be collected by the declared verification plan.",
+  "recordedAt": "2026-08-29T00:00:00Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7352e674b44d59a6afa2fc329eaa358669bbbccfa7b8cca8a5d43d4bf7577fd9",
+  "schemaVersion": 1,
+  "workItemId": "WI-364-primary-worktree-release"
+}

@@ -4,7 +4,7 @@ title: "WI-363 — v0.2.37 release and installed-binary acceptance"
 workItemId: WI-363-release-v0-2-37
 description: "Publish the next immutable release after release-adopter cleanup and verify the public binary in an isolated adopter flow."
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-363-release-v0-2-37
 capabilityClaims: [release_distribution, adopter_acceptance]
