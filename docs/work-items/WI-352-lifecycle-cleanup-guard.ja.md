@@ -4,12 +4,14 @@ title: "WI-352 — lifecycle cleanup guard"
 workItemId: WI-352-lifecycle-cleanup-guard
 description: "未完了の lifecycle cleanup を可視化し、repository と release-adopter 実行を fail-closed にする。"
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: translation
 canonical: docs/work-items/WI-352-lifecycle-cleanup-guard.md
 lastVerifiedBy: WI-352-lifecycle-cleanup-guard
 terminalArchive: .ai/work-items/archive/WI-352-lifecycle-cleanup-guard.contract.json
 terminalVerification: .ai/evidence/WI-352-lifecycle-cleanup-guard.verification.json
+terminalFinalization: .ai/decisions/WI-352-lifecycle-cleanup-guard.finalize.json
+terminalDecision: .ai/decisions/WI-352-lifecycle-cleanup-guard.close.json
 capabilityClaims: [lifecycle_governance, cleanup_handoff]
 ---
 

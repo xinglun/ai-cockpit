@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "2ac5e404f3f7ad82d222ca51c9dc1d47ae25cebd",
+    "name": "codex/wi-352-lifecycle-cleanup-guard",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:5fb33b9dc320d320654f7394c60dae9f47add378105867069af3e1a4fa76a060",
+  "operationId": "github-pr-317-merge-cleanup-20260828",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "11051dec7b12f8e7d15a272e1928d45d3f2f972f",
+    "headRevision": "2ac5e404f3f7ad82d222ca51c9dc1d47ae25cebd",
+    "mergeCommit": "69e5540b93729ff44b8d26c37f2889f7c7313b21",
+    "number": 317,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/317"
+  },
+  "reason": "Reviewed PR #317 passed all hosted checks and merged at the exact head; the exact remote/local feature branch was deleted and the shared main worktree was synchronized and clean.",
+  "receiptId": "github-pr-317-finalization-20260828",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-352-lifecycle-cleanup-guard",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/317",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-28T06:17:21Z",
+  "workItemId": "WI-352-lifecycle-cleanup-guard",
+  "worktree": {
+    "branch": "codex/wi-352-lifecycle-cleanup-guard",
+    "headRevision": "2ac5e404f3f7ad82d222ca51c9dc1d47ae25cebd",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit",
+    "worktreeId": "WI-352-lifecycle-cleanup-guard"
+  }
+}
