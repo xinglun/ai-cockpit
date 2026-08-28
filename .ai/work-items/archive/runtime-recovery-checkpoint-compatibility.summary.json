@@ -1,10 +1,10 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/runtime-recovery-checkpoint-compatibility.contract.json",
-    ".ai/work-items/active/runtime-recovery-checkpoint-compatibility.summary.json"
+    ".ai/work-items/archive/runtime-recovery-checkpoint-compatibility.contract.json",
+    ".ai/work-items/archive/runtime-recovery-checkpoint-compatibility.summary.json"
   ],
   "checkpointAt": "2026-08-28T00:27:31Z",
-  "checkpointContractDigest": "sha256:96da9c8a61fc2fb6bd57aec80e87807059c9db03f3b94907c7a34ccd9e98dddb",
+  "checkpointContractDigest": "sha256:35c096bd20977444a5cf7b29bff7bff0b7716dee5e27b9485b51560490c61edd",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -60,6 +60,26 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "runtime-recovery-checkpoint-compatibility"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:ee08dbc34e3c0b4db891d9c7e4af8892ce975c3f33f9a4967c21a8154000d5a9",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:be98d86816bc519c72d9a0a17b553aef2c9b0b8bb52699699c35743b77c579f1",
+      "previousContractHash": "sha256:96da9c8a61fc2fb6bd57aec80e87807059c9db03f3b94907c7a34ccd9e98dddb",
+      "reason": "既存の部分 provisional resourceContext を Runtime が生成する全 provisional 形へ戻し、finalize-plan による実 PR バインディングを許可する。",
+      "recorded": true,
+      "recordedAt": "2026-08-28T01:11:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4ee3d47be34f48a9425ef1328aa87617f146c9b7a635d8a9ba088e34769cbce8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "runtime-recovery-checkpoint-compatibility"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:4ee3d47be34f48a9425ef1328aa87617f146c9b7a635d8a9ba088e34769cbce8",
@@ -76,14 +96,13 @@
   },
   "mode": "code",
   "outcomeState": "blocked",
-  "preflightAt": "2026-08-28T01:08:25Z",
-  "preflightContractDigest": "sha256:96da9c8a61fc2fb6bd57aec80e87807059c9db03f3b94907c7a34ccd9e98dddb",
+  "preflightAt": "2026-08-28T01:15:58Z",
+  "preflightContractDigest": "sha256:35c096bd20977444a5cf7b29bff7bff0b7716dee5e27b9485b51560490c61edd",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:4ee3d47be34f48a9425ef1328aa87617f146c9b7a635d8a9ba088e34769cbce8",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
-  "recoveryRetryPending": true,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -128,8 +147,8 @@
       "status": "verified"
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-08-28T00:39:55Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-28T01:16:05Z",
   "verification": [
     {
       "check": "project-command-0",

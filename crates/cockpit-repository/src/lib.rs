@@ -12719,7 +12719,7 @@ fn load_recovery_decision(
     let archived = contract_path
         .parent()
         .is_some_and(|parent| parent.ends_with("archive"));
-    let (paths, strict) = recovery_decision_candidate_paths(root, work_item_id, archived)?;
+    let (paths, _strict) = recovery_decision_candidate_paths(root, work_item_id, archived)?;
     let mut candidates = Vec::new();
     let mut stale_candidates = Vec::new();
     for path in paths {
@@ -12732,24 +12732,14 @@ fn load_recovery_decision(
             &summary_path,
         ) {
             Ok(receipt) => receipt,
-            Err(error) if !strict => {
-                // Archived recovery records are historical inputs, but they
-                // are still repository-local evidence.  Do not silently
-                // ignore malformed, foreign, or tampered candidates: a
-                // caller must see the stable invalid-recovery boundary rather
-                // than falling through to a weaker finalization path.
-                if archived {
-                    return Err(error);
-                }
-                continue;
-            }
             Err(error) => {
                 // An append-only recovery chain may contain an older retry
                 // receipt whose predecessor bindings became stale after a
                 // Contract amendment or Runtime upgrade.  Preserve that
-                // historical byte, but allow a newer valid receipt to become
-                // the current projection.  Malformed, misnamed, foreign, or
-                // otherwise untrusted candidates still fail closed.
+                // historical byte, including after archive, but allow a
+                // newer valid receipt to become the current projection.
+                // Malformed, misnamed, foreign, or otherwise untrusted
+                // candidates still fail closed.
                 let stale_binding = [
                     "predecessor_contract_mismatch",
                     "predecessor_summary_mismatch",

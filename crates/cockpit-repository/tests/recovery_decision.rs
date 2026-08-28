@@ -1029,6 +1029,39 @@ fn archived_pending_finalization_requires_explicit_supersede_recovery_before_clo
 }
 
 #[test]
+fn archived_stale_retry_history_does_not_block_outcome_projection() {
+    let directory = ready_archived_repository();
+    let id = "WI-ARCHIVED-RECOVERY";
+    let runtime = RuntimeContext {
+        runtime_version: "0.2.33".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"archived-recovery-runtime"),
+    };
+    let mut stale = archived_recovery_receipt(&directory, "retry", None, &runtime);
+    stale["predecessorContractDigest"] = json!(Digest::sha256_bytes(b"stale-contract"));
+    fs::write(
+        directory
+            .path()
+            .join(format!(".ai/decisions/{id}.recovery.json")),
+        serde_json::to_vec_pretty(&stale).unwrap(),
+    )
+    .unwrap();
+
+    let outcome = outcome_v2_with_runtime(directory.path(), id, &runtime)
+        .expect("stale retry history should remain readable");
+    assert!(
+        !outcome
+            .unknowns
+            .contains(&"recovery_decision_invalid".into())
+    );
+    assert!(
+        outcome
+            .unknowns
+            .contains(&"resource_finalization_pending".into())
+    );
+}
+
+#[test]
 fn invalid_archived_recovery_cannot_bypass_finalization_gate() {
     let directory = ready_archived_repository();
     let id = "WI-ARCHIVED-RECOVERY";

@@ -32,42 +32,42 @@
     "baseRemote": "origin",
     "branch": "codex/runtime-recovery-checkpoint-compatibility",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/309",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/ai-cockpit-runtime-recovery"
   },
   "risk": "high",
   "scenarioCoverage": [
     {
-      "scenario": "current checkpoint binding after historical edit",
-      "required": true,
       "evidence": [],
       "expected": "Historical before_edit and amendment checkpoint evidence remains immutable, while a current before_finish binding is the only snapshot authorization checked against the current repository.",
-      "verificationPlan": "Run lifecycle_order regression coverage with an amended Contract and fresh before_finish checkpoint evidence, then assert finish succeeds without rewriting historical entries.",
-      "status": "unverified"
+      "required": true,
+      "scenario": "current checkpoint binding after historical edit",
+      "status": "unverified",
+      "verificationPlan": "Run lifecycle_order regression coverage with an amended Contract and fresh before_finish checkpoint evidence, then assert finish succeeds without rewriting historical entries."
     },
     {
-      "scenario": "stale predecessor presence after valid retry",
-      "required": true,
       "evidence": [],
       "expected": "An older successor receipt with outcome/events presence mismatch is treated as stale only when a newer valid retry receipt is present.",
-      "verificationPlan": "Run recovery_decision regression coverage with the exact old successor plus newer retry candidate shape and assert the latest retry is selected.",
-      "status": "unverified"
+      "required": true,
+      "scenario": "stale predecessor presence after valid retry",
+      "status": "unverified",
+      "verificationPlan": "Run recovery_decision regression coverage with the exact old successor plus newer retry candidate shape and assert the latest retry is selected."
     },
     {
-      "scenario": "newest recovery candidate remains fail-closed",
-      "required": true,
       "evidence": [],
       "expected": "Malformed, foreign, digest-mismatched, or otherwise invalid newest recovery candidates still return recovery_decision_invalid and cannot be bypassed by an older valid candidate.",
-      "verificationPlan": "Run the existing and new recovery_decision negative fixtures for invalid newest candidates and assert stable fail-closed diagnostics.",
-      "status": "unverified"
+      "required": true,
+      "scenario": "newest recovery candidate remains fail-closed",
+      "status": "unverified",
+      "verificationPlan": "Run the existing and new recovery_decision negative fixtures for invalid newest candidates and assert stable fail-closed diagnostics."
     },
     {
-      "scenario": "append-only history preservation",
-      "required": true,
       "evidence": [],
       "expected": "Historical checkpoint and recovery receipt bytes remain unchanged while the current read-side projection selects the valid lifecycle head.",
-      "verificationPlan": "Run lifecycle and recovery tests with byte snapshots of historical evidence before and after read-side selection.",
-      "status": "unverified"
+      "required": true,
+      "scenario": "append-only history preservation",
+      "status": "unverified",
+      "verificationPlan": "Run lifecycle and recovery tests with byte snapshots of historical evidence before and after read-side selection."
     }
   ],
   "scope": [

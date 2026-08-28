@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-28T01:16:10Z",
+  "files": {
+    "contractDigest": "sha256:1a19f30d24372da754272ff6018fdccd90ad825db9bbe3dd6b4e3f826b8c33d3",
+    "contractPath": ".ai/work-items/archive/runtime-recovery-checkpoint-compatibility.contract.json",
+    "eventsDigest": "sha256:c55d2a5e43ef3be197cedd935d718ed0a5917c74309f5706593b8e3372738d84",
+    "eventsPath": ".ai/work-items/archive/runtime-recovery-checkpoint-compatibility.events.jsonl",
+    "outcomeDigest": "sha256:4d6ff818b588e017eb62a69b44ac2d5e0342c41ebc0aae721ec9c2336770689a",
+    "outcomePath": ".ai/work-items/archive/runtime-recovery-checkpoint-compatibility.outcome.json",
+    "summaryDigest": "sha256:77d3cc60936f20d51f4fa26c48bd107814a008902ab80574a5b6c97d1b01fc2c",
+    "summaryPath": ".ai/work-items/archive/runtime-recovery-checkpoint-compatibility.summary.json",
+    "taskReportDigest": "sha256:60f77c108d09815c9da063203bd2756fab37a181dded4d06e868372a294d9c33",
+    "taskReportMarkdownDigest": "sha256:ed58a2130ffdd71dffce23e8031375a142d1f3523f75dedd73defaa1242be14e",
+    "taskReportMarkdownPath": ".ai/work-items/archive/runtime-recovery-checkpoint-compatibility.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/runtime-recovery-checkpoint-compatibility.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "runtime-recovery-checkpoint-compatibility"
+}
