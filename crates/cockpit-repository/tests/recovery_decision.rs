@@ -839,6 +839,108 @@ fn retry_verify_preflight_finish_keeps_recovery_receipt_bound_to_the_attempt() {
 }
 
 #[test]
+fn contract_amendment_allows_fresh_verification_to_reconcile_stale_evidence() {
+    let directory = repository();
+    let id = "WI-BLOCKED";
+    let runtime = current_runtime();
+    let contract_path = directory
+        .path()
+        .join(format!(".ai/work-items/active/{id}.contract.json"));
+
+    let initial_snapshot = cockpit_git::GitRepository::discover(directory.path())
+        .expect("git repository")
+        .snapshot()
+        .expect("initial snapshot");
+    let initial_run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "contract-amendment-initial-check".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src/**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("initial verification run");
+    record_verification_with_runtime(
+        directory.path(),
+        id,
+        &serde_json::to_value(&initial_run.receipt).expect("initial receipt JSON"),
+        &runtime,
+        &initial_snapshot,
+    )
+    .expect("initial verification");
+
+    plan_resource_finalization(
+        directory.path(),
+        id,
+        &ResourceFinalizationContext {
+            branch: "feature/contract-amendment-recovery".into(),
+            worktree: directory.path().display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: "https://github.com/example/ai-cockpit/pull/355".into(),
+        },
+    )
+    .expect("finalization plan");
+    revalidate_contract_amendment(
+        directory.path(),
+        id,
+        "bind the reviewed resource context after the initial verification",
+    )
+    .expect("contract amendment");
+
+    let stale_preflight =
+        preflight_work_item_with_runtime(directory.path(), &contract_path, &runtime)
+            .expect("stale evidence should produce an explicit blocked decision");
+    assert_eq!(stale_preflight.state, cockpit_core::DecisionState::Red);
+    assert!(
+        stale_preflight
+            .blockers
+            .contains(&"evidence_contradictory".into())
+    );
+
+    let refreshed_snapshot = cockpit_git::GitRepository::discover(directory.path())
+        .expect("git repository")
+        .snapshot()
+        .expect("refreshed snapshot");
+    let refreshed_run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "contract-amendment-fresh-check".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src/**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("fresh verification run");
+    record_verification_with_runtime(
+        directory.path(),
+        id,
+        &serde_json::to_value(&refreshed_run.receipt).expect("fresh receipt JSON"),
+        &runtime,
+        &refreshed_snapshot,
+    )
+    .expect("fresh verification should reconcile the amendment");
+
+    let decision = preflight_work_item_with_runtime(directory.path(), &contract_path, &runtime)
+        .expect("fresh verification should restore green preflight");
+    assert_eq!(decision.state, cockpit_core::DecisionState::Green);
+}
+
+#[test]
 fn pending_retry_requires_a_matching_receipt_at_each_lifecycle_boundary() {
     for case in ["missing", "misnamed", "tampered"] {
         let directory = repository();
@@ -1221,6 +1323,37 @@ fn archived_pending_finalization_requires_explicit_supersede_recovery_before_clo
         predecessor_contract,
         "recovery must not rewrite predecessor archive bytes"
     );
+}
+
+#[test]
+fn archived_consumes_a_stale_retry_receipt_as_historical_evidence() {
+    let directory = ready_archived_repository();
+    let id = "WI-ARCHIVED-RECOVERY";
+    let runtime = RuntimeContext {
+        runtime_version: "0.2.33".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"archived-recovery-runtime"),
+    };
+    let mut retry = archived_recovery_receipt(&directory, "retry", None, &runtime);
+    retry["predecessorSummaryDigest"] = json!(Digest::sha256_bytes(b"previous-summary"));
+    fs::write(
+        directory
+            .path()
+            .join(format!(".ai/decisions/{id}.recovery.json")),
+        serde_json::to_vec_pretty(&retry).unwrap(),
+    )
+    .unwrap();
+
+    let outcome = outcome_v2_with_runtime(directory.path(), id, &runtime)
+        .expect("stale archived retry should remain a renderable historical outcome");
+    assert!(
+        !outcome
+            .unknowns
+            .contains(&"recovery_decision_invalid".into()),
+        "{outcome:?}"
+    );
+    assert!(outcome.recovery_decision.is_none());
+    assert_ne!(outcome.historical_status.as_deref(), Some("superseded"));
 }
 
 #[test]
