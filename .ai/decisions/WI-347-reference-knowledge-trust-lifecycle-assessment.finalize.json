@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "7a97765f197ad098891e4ebe11cb58333e267b47",
+    "name": "codex/wi-347-reference-knowledge-trust-lifecycle-assessment",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:35d0d52af6eab852240bbbf3a2d15e43bc67d076e3760c7c067419c301b2b543",
+  "operationId": "github-pr-312-merge-cleanup-20260828",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "6ddd41d85b972a663fee85562592fc247749bf49",
+    "headRevision": "7a97765f197ad098891e4ebe11cb58333e267b47",
+    "mergeCommit": "5eddd5e2d22f82ad963d738975ffeb80aa5bfa41",
+    "number": 312,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/312"
+  },
+  "reason": "PR #312 passed all hosted checks and was merged; the exact feature branch and worktree were removed after synchronization and cleanup verification.",
+  "receiptId": "github-pr-312-finalization-20260828",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-347-reference-knowledge-trust-lifecycle-assessment",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/312",
+    "worktree": "/private/tmp/ai-cockpit-wi347-reference-knowledge-trust-lifecycle-assessment"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-28T03:14:00Z",
+  "workItemId": "WI-347-reference-knowledge-trust-lifecycle-assessment",
+  "worktree": {
+    "branch": "codex/wi-347-reference-knowledge-trust-lifecycle-assessment",
+    "headRevision": "7a97765f197ad098891e4ebe11cb58333e267b47",
+    "path": "/private/tmp/ai-cockpit-wi347-reference-knowledge-trust-lifecycle-assessment",
+    "worktreeId": "WI-347-reference-knowledge-trust-lifecycle-assessment"
+  }
+}
