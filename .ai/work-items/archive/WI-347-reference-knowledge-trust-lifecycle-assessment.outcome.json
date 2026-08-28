@@ -1,0 +1,138 @@
+{
+  "acceptanceResults": [
+    "All ten pinned source paths are read and individually mapped to an explicit Rust target counterpart or bounded external/reference-only decision.",
+    "No source Python, Make, V1 runtime, or provider-global file is copied; Rust-native commands and ownership boundaries are stated.",
+    "Knowledge, input-trust, installed-lifecycle, instruction-traceability, human-report, and Japanese capability semantics are documented without overclaiming unsupported target features.",
+    "Reference inventory and tri-language comparison/parity documents are updated consistently and the inventory check passes.",
+    "The mapping is checked for object/adopter inheritance, explicit repository context, visible Outcome, and no global project state.",
+    "All declared documentation/conformance verification passes, and the Work Item completes the installed Runtime lifecycle with a visible human Outcome."
+  ],
+  "createdAt": "2026-08-28T03:08:43Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:e003fb573a55e938115eb12183ab869ba88718f5c26df211426420d63cd3ec40",
+  "evidenceRefs": [
+    ".ai/evidence/WI-347-reference-knowledge-trust-lifecycle-assessment.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-347-reference-knowledge-trust-lifecycle-assessment.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-347-reference-knowledge-trust-lifecycle-assessment.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9587a2ba7c21ee7725ddb3b8033d571d9d9326de948f944def89d1ae741709da",
+      "workItemId": "WI-347-reference-knowledge-trust-lifecycle-assessment"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-347-reference-knowledge-trust-lifecycle-assessment.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-347-reference-knowledge-trust-lifecycle-assessment.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-347-reference-knowledge-trust-lifecycle-assessment.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-347-reference-knowledge-trust-lifecycle-assessment.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-347-reference-knowledge-trust-lifecycle-assessment.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-347-reference-knowledge-trust-lifecycle-assessment.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-347-reference-knowledge-trust-lifecycle-assessment.contract.json"
+          ],
+          "inference": false,
+          "text": "Establish evidence-backed Rust-native mappings for Knowledge, input trust, installed lifecycle, instruction traceability, and Japanese capability assessment, with explicit limits for object/adopter inheritance."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-347-reference-knowledge-trust-lifecycle-assessment.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-347-reference-knowledge-trust-lifecycle-assessment"
+  },
+  "taskReportDigest": "sha256:13c13d2bf053918e6190bb719e235c8e2edba6a8bc9c67cbc83454b3c425532a",
+  "taskReportMarkdownDigest": "sha256:d5525d186ee1d90512e1f050326f06e1810d4a21512fb22645ac9e3fe10de936",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-347-reference-knowledge-trust-lifecycle-assessment.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-347-reference-knowledge-trust-lifecycle-assessment"
+}

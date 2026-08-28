@@ -50,6 +50,7 @@ WI342_BATCH = "WI-342-reference-documentation-batch-13"
 WI343_BATCH = "WI-343-reference-inventory-foundation-reconciliation"
 WI344_BATCH = "WI-344-reference-documentation-batch-14"
 WI346_BATCH = "WI-346-reference-governance-profiles-status"
+WI347_BATCH = "WI-347-reference-knowledge-trust-lifecycle-assessment"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -1375,6 +1376,91 @@ WI346_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
     ),
 }
 
+WI347_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "docs/reference/human-report-semantic-quality.md": (
+        "implemented-different-by-design",
+        [
+            "docs/features/human-benefit-report.md",
+            "docs/features/task-outcome-report.md",
+            "docs/reference/outcome-report.md",
+        ],
+        "The reference human-benefit ordering and forbidden-claim boundary are represented by the Rust Outcome and task-report projections. Source report prose is not an independent authority and is not copied.",
+    ),
+    "docs/reference/implementation-knowledge.ja.md": (
+        "implemented-different-by-design",
+        ["docs/reference/implementation-knowledge.ja.md", "crates/cockpit-knowledge/src/lib.rs"],
+        "Japanese implementation-knowledge semantics are documented on the Rust read-only projection; source filters and generated records are not copied.",
+    ),
+    "docs/reference/implementation-knowledge.md": (
+        "implemented-different-by-design",
+        ["docs/reference/implementation-knowledge.md", "crates/cockpit-knowledge/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "crates/cockpit-cli/src/main.rs"],
+        "The target exposes deterministic repository-bound Knowledge records and four conjunctive CLI/MCP filters. The reference's wider date/commit/supersession query surface remains an explicit non-claim.",
+    ),
+    "docs/reference/implementation-knowledge.zh-CN.md": (
+        "implemented-different-by-design",
+        ["docs/reference/implementation-knowledge.zh-CN.md", "crates/cockpit-knowledge/src/lib.rs"],
+        "中文实现知识页面映射 Rust 只读投影，明确当前过滤器和未实现的更宽查询维度；不复制源生成记录。",
+    ),
+    "docs/reference/input-trust-dataflow.ja.md": (
+        "implemented-different-by-design",
+        ["docs/reference/input-trust-dataflow.ja.md", "crates/cockpit-protocol/src/lib.rs", "crates/cockpit-repository/src/lib.rs"],
+        "Japanese provenance guidance maps to typed FactOrigin/TraceableFact/TraceableDerivation and fail-closed repository observation; source Python trust code is not copied.",
+    ),
+    "docs/reference/input-trust-dataflow.md": (
+        "implemented-different-by-design",
+        ["docs/reference/input-trust-dataflow.md", "crates/cockpit-protocol/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "crates/cockpit-repository/tests/input_trust.rs"],
+        "The target preserves provenance classification, cross-step traceability, and prompt-injection boundaries through typed Rust facts and repository tests; it does not claim source JSON wire or external authentication parity.",
+    ),
+    "docs/reference/input-trust-dataflow.zh-CN.md": (
+        "implemented-different-by-design",
+        ["docs/reference/input-trust-dataflow.zh-CN.md", "crates/cockpit-protocol/src/lib.rs", "crates/cockpit-repository/tests/input_trust.rs"],
+        "中文输入信任数据流由类型化来源、追溯派生和 fail-closed 测试承担；不复制源 Python 模块或宣称 provider 身份认证。",
+    ),
+    "docs/reference/installed-lifecycle.md": (
+        "implemented-different-by-design",
+        ["docs/reference/installed-lifecycle.md", "docs/release/distribution.md", "docs/getting-started/installation.md", "docs/architecture/versioning.md"],
+        "The shared Rust Runtime, explicit attach, immutable Release acceptance, and separate migration boundary represent the source lifecycle responsibility. Source Python installer/Make orchestration is external reference material.",
+    ),
+    "docs/reference/instruction-traceability.md": (
+        "implemented-different-by-design",
+        ["docs/reference/instruction-traceability.md", "tests/conformance/reference_file_inventory.json", "docs/reference/reference-file-comparison.md", "docs/reference/reference-parity.md"],
+        "The target inventory, comparison/parity records, Work Item evidence, and closure receipts provide structural forward/reverse traceability. The source remediation manifest and checker are not copied as Runtime authority.",
+    ),
+    "docs/reference/japanese-capability-assessment.json": (
+        "implemented-different-by-design",
+        ["docs/reference/japanese-capability-assessment.md", "docs/reference/japanese-capability-assessment.zh-CN.md", "docs/reference/japanese-capability-assessment.ja.md", "tests/docs/documentation_acceptance.sh", "tests/cli/intelligence.rs"],
+        "The source release assessment is projected to Rust tri-language docs and executable presentation/adversarial tests. Source assessment bytes, Python calibration, and participant evidence remain reference-bound; no general fluency claim is made.",
+    ),
+}
+
+WI345_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "docs/reference/governance-complexity.ja.md": (
+        "reference-only",
+        ["docs/reference/governance-complexity.ja.md", "docs/reference/reference-parity.ja.md", "docs/reference/governance-integrity-gate.ja.md"],
+        "The source document explains its Python/Make complexity scanner and source archive-maintenance policy. The target keeps immutable archive and repository-integrity boundaries, but does not ship that source-specific scanner or claim equivalent complexity metrics; this target page records the non-portable boundary.",
+    ),
+    "docs/reference/governance-complexity.md": (
+        "reference-only",
+        ["docs/reference/governance-complexity.md", "docs/reference/reference-parity.md", "docs/reference/governance-integrity-gate.md"],
+        "The source document explains its Python/Make complexity scanner and source archive-maintenance policy. The target keeps immutable archive and repository-integrity boundaries, but does not ship that source-specific scanner or claim equivalent complexity metrics; this target page records the non-portable boundary.",
+    ),
+    "docs/reference/governance-cost-metrics.md": (
+        "implemented-different-by-design",
+        ["docs/reference/governance-cost-metrics.md", "docs/reference/verification-cost.md", "crates/cockpit-cli/src/main.rs", "crates/cockpit-repository/src/lib.rs", "crates/cockpit-verification/src/lib.rs"],
+        "Rust exposes repository-bound diagnose plus typed VerificationCostEstimate/Observation and receipt telemetry. It does not copy the source JSONL lifecycle event parser, phase/wait taxonomy, or source report wire shape; cost output remains advisory and identity-bound.",
+    ),
+    "docs/reference/governance-performance-budget.md": (
+        "implemented-different-by-design",
+        ["docs/reference/governance-performance-budget.md", "tests/performance/README.md", "crates/cockpit-verification/src/lib.rs", "tests/performance/regression_gate.sh"],
+        "Rust uses identity-bound PerformanceBaseline samples and explicit regression budgets, while the source P95/profile report is not Runtime authority. Budget overrun never removes required verification, and no automatic P95 or governance profile is inferred.",
+    ),
+    "docs/reference/governance-profile-cost-separation.md": (
+        "implemented-different-by-design",
+        ["docs/reference/governance-profile-cost-separation.md", "docs/reference/ci-quality-gates.md", "docs/reference/verification-route.md", "crates/cockpit-verification/src/lib.rs"],
+        "Rust keeps light/standard/strict routing and separates VerificationTier from EvidenceAssurance. Operation/stage policy and protected gates drive escalation; cost observations cannot lower requirements, and no source profile name or hidden automatic decision is imported.",
+    ),
+}
+
 
 def wi270_counterpart(path: str) -> tuple[list[str], str] | None:
     if path in WI270_DOC_CONCEPTS:
@@ -1889,6 +1975,32 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 {
                     "referencePath": path,
                     "batch": WI346_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
+        wi347 = WI347_REFERENCE_FILES.get(path)
+        if wi347 is not None:
+            classification, counterparts, reason = wi347
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI347_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
+        wi345 = WI345_REFERENCE_FILES.get(path)
+        if wi345 is not None:
+            classification, counterparts, reason = wi345
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": "WI-345-reference-governance-cost-batch-15",
                     "classification": classification,
                     "rustCounterparts": counterparts,
                     "reason": reason,
@@ -2414,6 +2526,73 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for classification in wi346_classifications
         ):
             errors.append("WI-346 batch cannot leave deferred or migrate-gap records")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI347_BATCH
+        for record in records
+    ):
+        wi347_records = [
+            record
+            for record in records
+            if isinstance(record, dict) and record.get("batch") == WI347_BATCH
+        ]
+        expected_wi347_paths = set(WI347_REFERENCE_FILES)
+        actual_wi347_paths = {
+            record.get("referencePath")
+            for record in wi347_records
+            if isinstance(record.get("referencePath"), str)
+        }
+        if actual_wi347_paths != expected_wi347_paths:
+            errors.append(
+                "WI-347 batch paths do not match the pinned ten-file set: "
+                f"expected {sorted(expected_wi347_paths)!r}, got {sorted(actual_wi347_paths)!r}"
+            )
+        if len(wi347_records) != len(expected_wi347_paths):
+            errors.append(
+                f"WI-347 batch must contain {len(expected_wi347_paths)} records, found {len(wi347_records)}"
+            )
+        wi347_classifications = [record.get("classification") for record in wi347_records]
+        if wi347_classifications.count("implemented-different-by-design") != len(expected_wi347_paths):
+            errors.append("WI-347 batch must contain ten implemented-different-by-design records")
+        if any(
+            classification in {"deferred-next-batch", "migrate-gap"}
+            for classification in wi347_classifications
+        ):
+            errors.append("WI-347 batch cannot leave deferred or migrate-gap records")
+    if any(
+        isinstance(record, dict) and record.get("batch") == "WI-345-reference-governance-cost-batch-15"
+        for record in records
+    ):
+        wi345_records = [
+            record
+            for record in records
+            if isinstance(record, dict)
+            and record.get("batch") == "WI-345-reference-governance-cost-batch-15"
+        ]
+        expected_wi345_paths = set(WI345_REFERENCE_FILES)
+        actual_wi345_paths = {
+            record.get("referencePath")
+            for record in wi345_records
+            if isinstance(record.get("referencePath"), str)
+        }
+        if actual_wi345_paths != expected_wi345_paths:
+            errors.append(
+                "WI-345 batch paths do not match the pinned five-file set: "
+                f"expected {sorted(expected_wi345_paths)!r}, got {sorted(actual_wi345_paths)!r}"
+            )
+        if len(wi345_records) != len(expected_wi345_paths):
+            errors.append(
+                f"WI-345 batch must contain {len(expected_wi345_paths)} records, found {len(wi345_records)}"
+            )
+        wi345_classifications = [record.get("classification") for record in wi345_records]
+        if wi345_classifications.count("implemented-different-by-design") != 3:
+            errors.append("WI-345 batch must contain three implemented-different-by-design records")
+        if wi345_classifications.count("reference-only") != 2:
+            errors.append("WI-345 batch must contain two reference-only records")
+        if any(
+            classification in {"deferred-next-batch", "migrate-gap"}
+            for classification in wi345_classifications
+        ):
+            errors.append("WI-345 batch cannot leave deferred or migrate-gap records")
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(records):
         errors.append(f"referenceTrackedFileCount {expected_count!r} != record count {len(records)}")

@@ -63,6 +63,23 @@ test "$(jq '[.records[] | select(.batch == "WI-333-reference-file-comparison-bat
 test "$(jq '[.records[] | select(.batch == "WI-334-reference-file-comparison-batch-12")] | length' "$manifest")" -eq 10
 test "$(jq '[.records[] | select(.batch == "WI-334-reference-file-comparison-batch-12" and .classification == "implemented-different-by-design" and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$manifest")" -eq 10
 test "$(jq '[.records[] | select(.batch == "WI-334-reference-file-comparison-batch-12" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$manifest")" -eq 0
+wi347_paths=(
+  docs/reference/human-report-semantic-quality.md
+  docs/reference/implementation-knowledge.ja.md
+  docs/reference/implementation-knowledge.md
+  docs/reference/implementation-knowledge.zh-CN.md
+  docs/reference/input-trust-dataflow.ja.md
+  docs/reference/input-trust-dataflow.md
+  docs/reference/input-trust-dataflow.zh-CN.md
+  docs/reference/installed-lifecycle.md
+  docs/reference/instruction-traceability.md
+  docs/reference/japanese-capability-assessment.json
+)
+for wi347_path in "${wi347_paths[@]}"; do
+  test "$(jq --arg path "$wi347_path" '[.records[] | select(.referencePath == $path and .batch == "WI-347-reference-knowledge-trust-lifecycle-assessment" and .classification == "implemented-different-by-design" and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$manifest")" -eq 1
+done
+test "$(jq '[.records[] | select(.batch == "WI-347-reference-knowledge-trust-lifecycle-assessment")] | length' "$manifest")" -eq 10
+test "$(jq '[.records[] | select(.batch == "WI-347-reference-knowledge-trust-lifecycle-assessment" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$manifest")" -eq 0
 test "$(jq -r '.records[] | select(.batch == "governance-entrypoints" and .classification == "deferred-next-batch") | .referencePath' "$manifest" | wc -l | tr -d ' ')" -eq 0
 test "$(jq '[.records[] | select(.batch == "capability-status-projection")] | length' "$manifest")" -eq 6
 test "$(jq '[.records[] | select(.batch == "capability-status-projection" and (.classification == "deferred-next-batch" or .classification == ""))] | length' "$manifest")" -eq 0

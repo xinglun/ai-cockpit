@@ -1,0 +1,28 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-28T02:46:29Z",
+  "checkpointContractDigest": "sha256:f1ecf93a30b473b62c5c9a946e8ad444ab6661d7f12c3e0c3ccb9f34be454863",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:9587a2ba7c21ee7725ddb3b8033d571d9d9326de948f944def89d1ae741709da",
+  "createdAt": "2026-08-28T02:45:34Z",
+  "failedGate": "finish.governance",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-28T03:08:11Z",
+  "preflightContractDigest": "sha256:f1ecf93a30b473b62c5c9a946e8ad444ab6661d7f12c3e0c3ccb9f34be454863",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:9587a2ba7c21ee7725ddb3b8033d571d9d9326de948f944def89d1ae741709da",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-28T03:08:43Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-347-reference-knowledge-trust-lifecycle-assessment"
+}

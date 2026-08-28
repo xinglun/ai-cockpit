@@ -103,11 +103,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=252 implemented-equivalent=1 not-applicable=4 reference-only=34 deferred-next-batch=566 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=262 implemented-equivalent=1 not-applicable=4 reference-only=34 deferred-next-batch=556 migrate-gap=0 -->
 
 在固定的 v0.2.33 比较基线上，台账共有 5,119 条记录：4,262 条
-`generated-history`、252 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、4 条 `not-applicable`、34 条 `reference-only` 与 566 条
+`generated-history`、262 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、4 条 `not-applicable`、34 条 `reference-only` 与 556 条
 `deferred-next-batch`。deferred 记录仍是待比较工作，不是 parity 声明。
 capability/profile slice 已没有 `migrate-gap`：
 
@@ -118,7 +118,7 @@ capability/profile slice 已没有 `migrate-gap`：
 4. `.ai/project_profile.yaml` 由 `.ai/project.json` 与严格 JSON `profile-policy.json` projection 表达。
 
 治理入口、getting-started 路线、CI/release 边界与 capability/profile projection 已按该基线审阅；
-以上四条是有界的 Rust-native counterpart，566 条 deferred 语义比较仍是后续工作。
+以上四条是有界的 Rust-native counterpart，556 条 deferred 语义比较仍是后续工作。
 
 WI-274 只将目标 checkout metadata 和 canonical comparison snapshot 重新绑定到已审阅的
 默认分支提交。WI-273 保持为不可变的失败交付记录：其首次提交无法证明 parity 登记先于
@@ -631,3 +631,26 @@ repository context 和 CI 边界与源 Make/Python 编排不同。
 `generated-history`、252 条 `implemented-different-by-design`、1 条 `implemented-equivalent`、4 条
 `not-applicable`、34 条 `reference-only`、566 条 `deferred-next-batch`；`migrate-gap` 仍为 0。
 566 条 deferred 仍是计划中的比较，不是 parity 声明。
+
+## WI-347：Knowledge、输入信任、已安装生命周期与能力评估
+
+WI-347 在固定参考提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 上逐一比较接下来的十个参考路径。
+十个文件均为 `implemented-different-by-design`：目标增加了 Rust 原生的面向读者映射和明确限制，
+而参考源的 Python/Make 编排、生成评估字节和 provider-global 行为仍在 Runtime 边界之外。
+
+| 固定参考路径 | 分类 | Rust 对应物 / 有界决定 |
+| --- | --- | --- |
+| `docs/reference/human-report-semantic-quality.md` | implemented-different-by-design | `docs/features/human-benefit-report.md`、`docs/features/task-outcome-report.md` 与 `docs/reference/outcome-report.md` 保留决策视图顺序和禁止过度声明边界。 |
+| `docs/reference/implementation-knowledge.ja.md` | implemented-different-by-design | 日语实现知识页和类型化 Knowledge 记录提供只读投影；不复制源过滤器和生成记录。 |
+| `docs/reference/implementation-knowledge.md` | implemented-different-by-design | Rust Knowledge CLI/MCP 提供确定性仓库过滤器与 `KnowledgeV2Record`；更宽的日期/提交/supersession 查询明确不在本版本能力内。 |
+| `docs/reference/implementation-knowledge.zh-CN.md` | implemented-different-by-design | 中文 Knowledge 页面说明当前过滤器、证据绑定和与源查询面的有界差异。 |
+| `docs/reference/input-trust-dataflow.ja.md` | implemented-different-by-design | 日语来源说明映射到类型化 `FactOrigin`、可追溯派生和 fail-closed 观察。 |
+| `docs/reference/input-trust-dataflow.md` | implemented-different-by-design | Rust 类型化事实、仓库快照观察和输入信任测试保留来源分类与注入边界，不宣称源 JSON wire 兼容。 |
+| `docs/reference/input-trust-dataflow.zh-CN.md` | implemented-different-by-design | 中文页面说明来源、跨步骤和显式仓库边界。 |
+| `docs/reference/installed-lifecycle.md` | implemented-different-by-design | 文档说明共享 Runtime 安装、显式 attach、不可变 Release 验收和独立迁移/回滚边界；源 installer Python/Make 仅作参考资料。 |
+| `docs/reference/instruction-traceability.md` | implemented-different-by-design | inventory、comparison/parity 页面、Work Item 证据和关闭回执提供结构化正反向追溯；不复制源 remediation checker。 |
+| `docs/reference/japanese-capability-assessment.json` | implemented-different-by-design | 三语能力页与可执行展示/对抗测试提供有界覆盖；源评估/语料字节和一般流畅度声明仍绑定参考源。 |
+
+这是语义/文档 parity，不是源命令或 JSON-wire parity。对象工程边界保持一致：一个已安装 Runtime、显式 `--repo`、隔离的仓库事实/证据，以及外部 provider/enterprise assurance。Knowledge、provenance、安装、追溯和语言投影不能生成 authority、收益、批准或发布证据。
+
+WI-347 后台账为 5,119 条：4,262 条 `generated-history`、262 条 `implemented-different-by-design`、1 条 `implemented-equivalent`、4 条 `not-applicable`、34 条 `reference-only`、556 条 `deferred-next-batch`；`migrate-gap` 仍为 0。556 条 deferred 仍是计划中的比较，不是 parity 声明。

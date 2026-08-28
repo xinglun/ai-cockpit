@@ -123,11 +123,11 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=252 implemented-equivalent=1 not-applicable=4 reference-only=34 deferred-next-batch=566 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=262 implemented-equivalent=1 not-applicable=4 reference-only=34 deferred-next-batch=556 migrate-gap=0 -->
 
 At the pinned v0.2.33 comparison baseline, the ledger contains 5,119 records:
-4,262 `generated-history`, 252 `implemented-different-by-design`, one
-`implemented-equivalent`, four `not-applicable`, 34 `reference-only`, and 566
+4,262 `generated-history`, 262 `implemented-different-by-design`, one
+`implemented-equivalent`, four `not-applicable`, 34 `reference-only`, and 556
 `deferred-next-batch` records. Deferred records remain scheduled work, not
 parity claims. The capability/profile slice has no remaining `migrate-gap`
 records:
@@ -143,7 +143,7 @@ records:
 
 The governance entrypoints, getting-started routes, CI/release boundaries, and
 capability/profile projections have been reviewed at this baseline. The four
-records above are Rust-native, explicitly bounded counterparts; the 566
+records above are Rust-native, explicitly bounded counterparts; the 556
 deferred semantic comparisons remain scheduled work.
 
 WI-274 rebinds only the target checkout metadata and canonical comparison
@@ -789,3 +789,38 @@ The current ledger after WI-346 is 5,119 records: 4,262
 `implemented-equivalent`, four `not-applicable`, 34 `reference-only`, and 566
 `deferred-next-batch`; `migrate-gap` remains zero. The 566 deferred records are
 still scheduled comparisons, not parity claims.
+
+## WI-347 Knowledge, input trust, installed lifecycle, and capability assessment
+
+WI-347 individually compares the next ten pinned reference paths at
+`e5acb677da6621004d96f0ef353c58fe8d3acfbf`. All ten are
+`implemented-different-by-design`: the target now publishes reader-facing
+Rust-native mappings and explicit limits, while source Python/Make orchestration,
+generated assessment bytes, and provider-global behavior remain outside the
+Runtime.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/human-report-semantic-quality.md` | implemented-different-by-design | `docs/features/human-benefit-report.md`, `docs/features/task-outcome-report.md`, and `docs/reference/outcome-report.md` preserve the decision-view ordering and forbidden-claim boundary. |
+| `docs/reference/implementation-knowledge.ja.md` | implemented-different-by-design | `docs/reference/implementation-knowledge.ja.md` and typed Knowledge records provide the Japanese read-only projection; source filters and generated records are not copied. |
+| `docs/reference/implementation-knowledge.md` | implemented-different-by-design | The Rust Knowledge CLI/MCP exposes deterministic repository-bound filters and `KnowledgeV2Record`; broader date/commit/supersession filters remain an explicit non-claim. |
+| `docs/reference/implementation-knowledge.zh-CN.md` | implemented-different-by-design | The Chinese Knowledge route documents current filters, evidence binding, and the bounded difference from the source query surface. |
+| `docs/reference/input-trust-dataflow.ja.md` | implemented-different-by-design | Japanese provenance guidance maps to typed `FactOrigin`/traceable derivations and fail-closed observation. |
+| `docs/reference/input-trust-dataflow.md` | implemented-different-by-design | Typed Rust facts, repository snapshot observation, and input-trust tests preserve source classification and injection boundaries without source JSON wire parity. |
+| `docs/reference/input-trust-dataflow.zh-CN.md` | implemented-different-by-design | The Chinese route explains the same provenance, cross-step, and explicit-repository boundary. |
+| `docs/reference/installed-lifecycle.md` | implemented-different-by-design | Shared Runtime installation, explicit attach, immutable Release acceptance, and separate migration/rollback boundaries are documented; source installer Python/Make remains reference material. |
+| `docs/reference/instruction-traceability.md` | implemented-different-by-design | The inventory, comparison/parity pages, Work Item evidence, and closure receipts provide structural forward/reverse traceability; the source remediation checker is not copied. |
+| `docs/reference/japanese-capability-assessment.json` | implemented-different-by-design | Tri-language capability pages and executable presentation/adversarial checks provide bounded coverage; source assessment/corpus bytes and general fluency claims remain reference-bound. |
+
+This is semantic/documentation parity, not source command or JSON-wire parity.
+The object/adopter boundary is inherited unchanged: one installed Runtime,
+explicit `--repo`, isolated repository facts/evidence, and external provider or
+enterprise assurance. Knowledge, provenance, installation, traceability, and
+language projections cannot invent authority, benefit, approval, or release
+evidence.
+
+The ledger after WI-347 is 5,119 records: 4,262 `generated-history`, 262
+`implemented-different-by-design`, one `implemented-equivalent`, four
+`not-applicable`, 34 `reference-only`, and 556 `deferred-next-batch` records;
+`migrate-gap` remains zero. The 556 deferred records are still scheduled
+comparisons, not parity claims.

@@ -31,6 +31,11 @@ separate from exact machine-facing details:
 - [How to read Cockpit status](how-to-read-cockpit-status.md) — a person-facing reading order for colors, evidence, and next actions.
 - [Agent workflow and review boundaries](agent-workflow.md) — inherited Work Item, Outcome, release, and safety rules.
 - [Verification route](verification-route.md) — typed stages, orthogonal tier/assurance, planning, receipts, and CI boundary.
+- [Implementation knowledge](implementation-knowledge.md) — deterministic, evidence-bound records and query limits.
+- [Input trust data flow](input-trust-dataflow.md) — provenance classification and fail-closed input handling.
+- [Installed Runtime lifecycle](installed-lifecycle.md) — shared Runtime installation, attachment, upgrade, and rollback boundaries.
+- [Instruction traceability](instruction-traceability.md) — source-path, Work Item, evidence, and closure links.
+- [Japanese capability assessment boundary](japanese-capability-assessment.md) — evidence-bound multilingual coverage without a general fluency claim.
 - [Final replacement acceptance](final-replacement-acceptance.md) — the reproducible conformance and no-copy boundary.
 - [Repository Protocol v1](../protocol/v1/specification.md) — normative storage and receipt contract.
 
