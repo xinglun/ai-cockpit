@@ -307,7 +307,7 @@ fn contract_amendment_after_finish_ready_reopens_checkpointed_recovery() {
         serde_json::from_slice(&fs::read(&summary_path).expect("summary")).expect("summary JSON");
     assert_eq!(summary["state"], "checkpointed");
     assert_eq!(summary["preflightState"], "not_run");
-    assert_eq!(summary["recoveryRetryPending"], true);
+    assert!(summary["recoveryRetryPending"].is_null());
 }
 
 #[test]

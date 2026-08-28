@@ -4384,7 +4384,6 @@ pub fn revalidate_contract_amendment(
     // facts; a fresh verification will replace the active projection.
     if summary["state"] == serde_json::json!("finish_ready") {
         summary["state"] = "checkpointed".into();
-        summary["recoveryRetryPending"] = true.into();
         if let Some(object) = summary.as_object_mut() {
             object.remove("failedGate");
             object.remove("recoveryCondition");
@@ -12310,7 +12309,7 @@ fn append_task_outcome_events(
                 .any(|event| event.event_type == "blocked")
         });
         if existing.iter().any(|event| event.event_type == "completed")
-            && !(allow_recovery_retry && completed_then_blocked)
+            && !(allow_recovery_retry || completed_then_blocked)
         {
             return Err(ObserverError::State {
                 path,

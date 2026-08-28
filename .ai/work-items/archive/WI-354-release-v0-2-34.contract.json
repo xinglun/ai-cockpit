@@ -8,7 +8,7 @@
     "A Contract amendment after finish_ready reopens checkpointed recovery through Runtime commands without hand-editing generated Summary state, with a lifecycle regression test."
   ],
   "authority": "authorized",
-  "baseRevision": "846dfdafa64a4075735f7ebfd2ddceb115f6e872",
+  "baseRevision": "242524a3164c21c499937f77eb10eb11a28f2082",
   "createdAt": "2026-08-28T06:47:20Z",
   "goal": "Release v0.2.34 through the reviewed hosted release route and preserve an auditable successor boundary for public binary installation.",
   "intent": "Prepare and publish v0.2.34 from the reviewed default branch after WI-352 closed-lifecycle cleanup guard, then hand off immutable public-artifact installation and current-repository acceptance.",
