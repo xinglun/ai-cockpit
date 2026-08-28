@@ -5591,9 +5591,13 @@ fn record_verification_internal(
         });
     }
     let recovery_retry_pending = summary["recoveryRetryPending"] == serde_json::json!(true);
+    let contract_amendment_pending = summary
+        .get("verificationInvalidatedByContractAmendment")
+        .is_some();
     require_current_retry_recovery_binding(&root, work_item_id, &summary, current_runtime)?;
     if !matches!(summary["preflightState"].as_str(), Some("green" | "yellow"))
         && !recovery_retry_pending
+        && !contract_amendment_pending
     {
         return Err(ObserverError::State {
             path: summary_path,
@@ -12911,6 +12915,18 @@ fn read_and_validate_recovery_decision(
     Ok(receipt)
 }
 
+fn is_stale_recovery_binding_error(error: &ObserverError) -> bool {
+    [
+        "predecessor_contract_mismatch",
+        "predecessor_summary_mismatch",
+        "predecessor_outcome_mismatch",
+        "predecessor_events_mismatch",
+        "runtime_mismatch",
+    ]
+    .iter()
+    .any(|code| error.to_string().contains(code))
+}
+
 fn load_recovery_decision(
     root: &Path,
     work_item_id: &str,
@@ -12941,7 +12957,20 @@ fn load_recovery_decision(
                 // caller must see the stable invalid-recovery boundary rather
                 // than falling through to a weaker finalization path.
                 if archived {
-                    return Err(error);
+                    if !is_stale_recovery_binding_error(&error) {
+                        return Err(error);
+                    }
+                    let retry = read_json(&path).ok().and_then(|value| {
+                        serde_json::from_value::<RecoveryDecisionReceipt>(value).ok()
+                    });
+                    let Some(retry) = retry.filter(|receipt| receipt.decision == "retry") else {
+                        return Err(error);
+                    };
+                    let decided_at = DateTime::parse_from_rfc3339(&retry.decided_at)
+                        .expect("recovery validator accepted RFC3339")
+                        .timestamp_millis();
+                    stale_candidates.push((Some(decided_at), Some(retry.decision), error));
+                    continue;
                 }
                 continue;
             }
@@ -12952,16 +12981,7 @@ fn load_recovery_decision(
                 // historical byte, but allow a newer valid receipt to become
                 // the current projection.  Malformed, misnamed, foreign, or
                 // otherwise untrusted candidates still fail closed.
-                let stale_binding = [
-                    "predecessor_contract_mismatch",
-                    "predecessor_summary_mismatch",
-                    "predecessor_outcome_mismatch",
-                    "predecessor_events_mismatch",
-                    "runtime_mismatch",
-                ]
-                .iter()
-                .any(|code| error.to_string().contains(code));
-                if !stale_binding {
+                if !is_stale_recovery_binding_error(&error) {
                     return Err(error);
                 }
                 let parsed = read_json(&path).ok().map(|value| {

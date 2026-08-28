@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization-in-thread",
+  "decidedAt": "2026-08-28T07:10:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-353-runtime-recovery-delivery-binding.archive.json",
+    ".ai/work-items/archive/WI-353-runtime-recovery-delivery-binding.outcome.json",
+    "https://github.com/xinglun/ai-cockpit/pull/318"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:f6e4df352956c67c31e67ea73b6fe6d1868989f2e820738e1ee409d5714989f9",
+  "predecessorEventsDigest": "sha256:90b0410885fe3db30fbd7d6b8419a3865a818ffa02e611fb903981321ad809d7",
+  "predecessorOutcomeDigest": "sha256:bcce7808a608bce01ecb32e20ed04738b69fa95a12f1ec4eebc50cb5e0f4af0c",
+  "predecessorSummaryDigest": "sha256:4e14323c947278a0ba9ef6c3abda56866b3aa4a28d4980cbdf6f1005edc8dbfe",
+  "predecessorWorkItemId": "WI-353-runtime-recovery-delivery-binding",
+  "reason": "The archived delivery Work Item exposed a distinct Runtime defect: a legitimate stale retry receipt from a completed retry must be treated as consumed historical evidence during archive and close, while malformed or foreign recovery candidates must remain fail-closed. Preserve WI-353 bytes and deliver this archive-specific correction through an explicit successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-355 on the current PR #318 delivery branch with fresh archive retry regression evidence; after reviewed merge, record and verify provider finalization, then close the successor and predecessor without rewriting WI-353 bytes.",
+  "runtimeDigest": "sha256:9943a3a6c57afecfcff30adccbf55c0f674ace2ab67772dbae5d68467c5305da",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-355-runtime-archive-recovery-binding",
+  "workItemId": "WI-353-runtime-recovery-delivery-binding"
+}

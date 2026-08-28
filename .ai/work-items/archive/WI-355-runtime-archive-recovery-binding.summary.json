@@ -1,0 +1,149 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-353-runtime-recovery-delivery-binding.recovery.json",
+    ".ai/work-items/archive/WI-355-runtime-archive-recovery-binding.contract.json",
+    ".ai/work-items/archive/WI-355-runtime-archive-recovery-binding.summary.json"
+  ],
+  "checkpointAt": "2026-08-28T07:31:35Z",
+  "checkpointContractDigest": "sha256:1ef031e1f64c0a86bcc9947c1b4052ab6c29adaf5fcf7fc12e539422c0dc3121",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:2004be13182abe8b99fd123917b60f03176e9619eeb9147df0f200c211c06af2",
+      "recorded": true,
+      "recordedAt": "2026-08-28T07:31:35Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6c86a20ded20fc6cd271eb1d5131a1dd556a3dbd29a842883507a728a9092a2e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-355-runtime-archive-recovery-binding"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:fe87feb1d6a9f4eb5d171830787f4fadfa008a0c6cca1b0acae23201f5f73c28",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:2004be13182abe8b99fd123917b60f03176e9619eeb9147df0f200c211c06af2",
+      "previousContractHash": "sha256:2004be13182abe8b99fd123917b60f03176e9619eeb9147df0f200c211c06af2",
+      "reason": "bind the actual GitHub pull request context after the resource finalization plan was recorded",
+      "recorded": true,
+      "recordedAt": "2026-08-28T07:50:09Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9716ecc5727e6cafa735eef2a201ec148585895a3cf669e447e94492d7be73b9",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-355-runtime-archive-recovery-binding"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:1ef031e1f64c0a86bcc9947c1b4052ab6c29adaf5fcf7fc12e539422c0dc3121",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:2004be13182abe8b99fd123917b60f03176e9619eeb9147df0f200c211c06af2",
+      "previousContractHash": "sha256:fe87feb1d6a9f4eb5d171830787f4fadfa008a0c6cca1b0acae23201f5f73c28",
+      "reason": "synchronize the recovered predecessor Work Item documentation required by the documentation acceptance gate",
+      "recorded": true,
+      "recordedAt": "2026-08-28T07:56:52Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:22f3cc20d7dcc4c05145bd72d3785c42395d50a3b9057b4b9b7aab71f4697388",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-355-runtime-archive-recovery-binding"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:22f3cc20d7dcc4c05145bd72d3785c42395d50a3b9057b4b9b7aab71f4697388",
+  "createdAt": "2026-08-28T07:25:18Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lib.rs",
+      "crates/cockpit-repository/tests/recovery_decision.rs"
+    ],
+    "reason": "The successor is limited to the archived retry-receipt read-path defect described by the recovery decision.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:f6e4df352956c67c31e67ea73b6fe6d1868989f2e820738e1ee409d5714989f9",
+  "predecessorWorkItemId": "WI-353-runtime-recovery-delivery-binding",
+  "preflightAt": "2026-08-28T08:36:24Z",
+  "preflightContractDigest": "sha256:1ef031e1f64c0a86bcc9947c1b4052ab6c29adaf5fcf7fc12e539422c0dc3121",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:22f3cc20d7dcc4c05145bd72d3785c42395d50a3b9057b4b9b7aab71f4697388",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryDecisionPath": ".ai/decisions/WI-353-runtime-recovery-delivery-binding.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        ".ai/evidence/WI-355-runtime-archive-recovery-binding.verification.json"
+      ],
+      "expected": "A valid retry receipt whose predecessor binding is stale after fresh archived projections is consumed as historical evidence without recovery_decision_invalid.",
+      "required": true,
+      "scenario": "archived completed Work Item with a stale retry receipt",
+      "status": "verified",
+      "verificationPlan": "Archived stale-retry regression executed by the Runtime-bound workspace test command."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        ".ai/evidence/WI-355-runtime-archive-recovery-binding.verification.json"
+      ],
+      "expected": "Untrusted recovery candidates remain fail-closed and cannot fall through to a weaker archive or finalization path.",
+      "required": true,
+      "scenario": "malformed, foreign, misnamed, or ambiguous recovery candidate",
+      "status": "verified",
+      "verificationPlan": "Existing archived and current recovery negative tests executed by the Runtime-bound workspace test command."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        ".ai/evidence/WI-355-runtime-archive-recovery-binding.verification.json"
+      ],
+      "expected": "A pending retry marker still requires a matching current recovery receipt and is never treated as consumed history.",
+      "required": true,
+      "scenario": "pending retry marker without a current retry receipt",
+      "status": "verified",
+      "verificationPlan": "Existing pending-marker negative regression executed by the Runtime-bound workspace test command; the archived branch retains the same current-binding guard."
+    },
+    {
+      "evidence": [
+        ".ai/work-items/archive/WI-353-runtime-recovery-delivery-binding.archive.json",
+        ".ai/work-items/archive/WI-353-runtime-recovery-delivery-binding.contract.json",
+        ".ai/evidence/WI-355-runtime-archive-recovery-binding.verification.json"
+      ],
+      "expected": "The correction changes only Runtime source/tests and does not rewrite WI-353 archived bytes.",
+      "required": true,
+      "scenario": "immutable predecessor archive",
+      "status": "verified",
+      "verificationPlan": "Pre-verification and post-verification predecessor archive SHA-1 values compared; final diff inspected."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-28T08:36:39Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-355-runtime-archive-recovery-binding"
+}
