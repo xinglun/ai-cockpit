@@ -6,7 +6,7 @@ description: "Correct the three-language documentation projection for the closed
 audience:
   - maintainer
   - reviewer
-status: implemented
+status: recovered
 authority: human-authorized
 lastVerifiedBy: WI-371-wi369-doc-status
 capabilityClaims:

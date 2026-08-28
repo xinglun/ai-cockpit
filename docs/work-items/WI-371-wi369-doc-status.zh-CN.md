@@ -6,7 +6,7 @@ description: "修正已关闭 WI-369 记录的三语文档投影。"
 audience:
   - maintainer
   - reviewer
-status: implemented
+status: recovered
 authority: human-authorized
 lastVerifiedBy: WI-371-wi369-doc-status
 capabilityClaims:
