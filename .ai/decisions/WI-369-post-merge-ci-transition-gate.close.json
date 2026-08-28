@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-369-post-merge-ci-transition-gate.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:df69f210dd15c41ec88c597ddf1e57710b278d1ae758f87e66cd5cb1aef08608",
+      "workItemId": "WI-369-post-merge-ci-transition-gate"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-369-post-merge-ci-transition-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-369-post-merge-ci-transition-gate.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-369-post-merge-ci-transition-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-369-post-merge-ci-transition-gate.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-369-post-merge-ci-transition-gate.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-369-post-merge-ci-transition-gate.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-369-post-merge-ci-transition-gate.verification.json",
+            ".ai/decisions/WI-369-post-merge-ci-transition-gate.finalize.d6e6c0bc91cdbdd880b1a8e9599e087d8003643969967bc0eef1156671d7ffa5.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-28T21:02:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-369-post-merge-ci-transition-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-369-post-merge-ci-transition-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-369-post-merge-ci-transition-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-369-post-merge-ci-transition-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "Make default-branch CI distinguish a reviewed merge commit that newly introduces an archived Work Item awaiting post-merge finalization from a stale historical missing-close condition, and prove the distinction with deterministic tests and documentation."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-369-post-merge-ci-transition-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-369-post-merge-ci-transition-gate"
+  },
+  "finalReportDigest": "sha256:b27bb849e1e3501a1a5975253c90a532a0eadd6fdc2204a3fa0cb49e9b8a5792",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:d9eb5f091524b04b25e1f45f920f60eae493eed5a0ed52a199bc26d4b267107b",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-369-post-merge-ci-transition-gate.finalize.d6e6c0bc91cdbdd880b1a8e9599e087d8003643969967bc0eef1156671d7ffa5.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-28T21:02:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-369-post-merge-ci-transition-gate.verification.json",
+      ".ai/decisions/WI-369-post-merge-ci-transition-gate.finalize.d6e6c0bc91cdbdd880b1a8e9599e087d8003643969967bc0eef1156671d7ffa5.json"
+    ],
+    "policyRefs": [
+      ".ai/work-items/archive/WI-369-post-merge-ci-transition-gate.contract.json"
+    ],
+    "reason": "Reviewed PR #332 hosted checks and verified the merged default branch plus exact branch/worktree cleanup.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-28T21:03:02Z",
+  "workItemId": "WI-369-post-merge-ci-transition-gate"
+}
