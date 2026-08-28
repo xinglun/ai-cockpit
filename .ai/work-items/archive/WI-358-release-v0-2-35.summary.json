@@ -1,0 +1,84 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-358-release-v0-2-35.contract.json",
+    ".ai/work-items/archive/WI-358-release-v0-2-35.summary.json"
+  ],
+  "checkpointAt": "2026-08-28T09:46:33Z",
+  "checkpointContractDigest": "sha256:aebda88bd1d01d6b62f7157d282398d5e124296c90be2464dc41070145d7baf9",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:58d15b0da67ca49de0d446265f5e5b2f6fc552af8856cb9550adf30788acc192",
+      "recorded": true,
+      "recordedAt": "2026-08-28T09:46:33Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e89d61deb1a3be2a63423ae28d0eaf2d0484de2ea67295518aba0a1eec82edfc",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-358-release-v0-2-35"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:fc24041e3956a625111a8b69037ec2336281cf8c08d6cbe04852c3e7d088054b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:58d15b0da67ca49de0d446265f5e5b2f6fc552af8856cb9550adf30788acc192",
+      "previousContractHash": "sha256:58d15b0da67ca49de0d446265f5e5b2f6fc552af8856cb9550adf30788acc192",
+      "reason": "Include the existing CLI scaffold regression fixture so current marked archives remain fail-closed while legacy archives remain historical.",
+      "recorded": true,
+      "recordedAt": "2026-08-28T09:53:33Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c2eeeebcbd6ebabbf96182708e3f41da0ec7e7ff773541ed66313489687e9975",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-358-release-v0-2-35"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:aebda88bd1d01d6b62f7157d282398d5e124296c90be2464dc41070145d7baf9",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:58d15b0da67ca49de0d446265f5e5b2f6fc552af8856cb9550adf30788acc192",
+      "previousContractHash": "sha256:fc24041e3956a625111a8b69037ec2336281cf8c08d6cbe04852c3e7d088054b",
+      "reason": "Include the lifecycle-entry regression fixture so current marked archives remain fail-closed while legacy archives remain historical.",
+      "recorded": true,
+      "recordedAt": "2026-08-28T10:00:45Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e91c78d389a137bec3644d27a5f872b2eb5173ce0b6bcbdfdd70f2f06348921d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-358-release-v0-2-35"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:51f17c500bc708cd7e9ab6490475e95710f6f992f320106ac6eed520b5613c9f",
+  "createdAt": "2026-08-28T09:31:01Z",
+  "mode": "code",
+  "preflightAt": "2026-08-28T10:03:58Z",
+  "preflightContractDigest": "sha256:aebda88bd1d01d6b62f7157d282398d5e124296c90be2464dc41070145d7baf9",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:51f17c500bc708cd7e9ab6490475e95710f6f992f320106ac6eed520b5613c9f",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-28T10:04:06Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-358-release-v0-2-35"
+}

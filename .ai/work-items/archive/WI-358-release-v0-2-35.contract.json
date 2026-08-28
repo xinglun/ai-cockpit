@@ -1,0 +1,65 @@
+{
+  "acceptanceCriteria": [
+    "All workspace packages and Cargo.lock resolve to 0.2.35 and the release tag is v0.2.35.",
+    "Current tri-language release, distribution-architecture, and versioning documents name v0.2.35 while preserving v0.2.34 failed-publication history.",
+    "Historical close records predating the closeRequired archive marker do not block a new Work Item, while every new archive is marked closeRequired and remains fail-closed until a valid close decision exists.",
+    "Source documentation, version-consistency, release-policy, and complete workspace verification pass before tagging.",
+    "The reviewed hosted workflow publishes only the immutable v0.2.35 tag and produces manifest, SHA256SUMS, SBOM, provenance, and staged adopter evidence.",
+    "The exact public v0.2.35 binary is downloaded, checksum-verified, installed, and passes current-repository checks plus post-release adopter acceptance; failed truth is preserved if any post-release gate fails."
+  ],
+  "authority": "authorized",
+  "baseRevision": "8474b7b396a21f3539d6d25fcfbf91d31adb46de",
+  "createdAt": "2026-08-28T09:31:01Z",
+  "goal": "Bump the reviewed workspace to v0.2.35, align release documentation and checks, publish only through the hosted release workflow, and install and verify the exact public artifact.",
+  "intent": "Publish a truthful v0.2.35 release containing the merged adopter cleanup-order fix and a compatibility correction for historical close records.",
+  "mode": "code",
+  "outOfScope": [
+    "Post-release adopter acceptance receipt contents beyond the hosted workflow",
+    "Homebrew tap mutation or global Agent/MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:66aceacadec6ee813980a2dd7990ea77ed2b5389eaff287c1f3b75ed17b3ccb8",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-358-release-v0-2-35",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/323",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/ai-cockpit-release-v0-2-35"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "crates/cockpit-cli/tests/work_item_scaffold.rs",
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-358-release-v0-2-35.md",
+    "docs/work-items/WI-358-release-v0-2-35.zh-CN.md",
+    "docs/work-items/WI-358-release-v0-2-35.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-358-release-v0-2-35"
+}
