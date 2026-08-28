@@ -23,11 +23,11 @@
   "repositorySnapshotDigest": "sha256:248cea49a34ee09360cf76de491cb20e31cf2fbc0e06e00e86a047d10ab68de9",
   "requiredEvidenceClasses": [],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-359-release-v0-2-36",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/324",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/ai-cockpit-release-v0-2-36"
   },
   "risk": "normal",

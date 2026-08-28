@@ -5,16 +5,20 @@
     "Public release workflow passes source quality, all target builds, artifact/SBOM/checksum binding, and adopter acceptance including cleanup proof.",
     "Downloaded macOS arm64 artifact checksum and binary digest match the public release manifest; installed binary reports 0.2.36.",
     "Installed v0.2.36 inspect/status/doctor/agent doctor pass with explicit repository context and no active Work Items.",
+    "Before the v0.2.36 tag is created, every merged delivery branch and worktree is synchronized and exactly cleaned; no stale merged branch or checkout remains.",
     "v0.2.35 failed publication remains preserved and is not relabeled as published."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-08-28T10:51:30Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:b8c9cb27f19df5193d6a7d4dc33f594fb827e14765b9d34402a36bd6e37b01aa",
   "evidenceRefs": [
     ".ai/evidence/WI-359-release-v0-2-36.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-359-release-v0-2-36.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -22,41 +26,38 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-359-release-v0-2-36.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:41b145a2f5c74f91fe40668fa8819c9e8751115ba5ea3f2fad64ab408b665c28",
+      "repositorySnapshotDigest": "sha256:7299a09aac392744ee3d81e3ba294d3fe94bb779e7120b05caaa626ab244a58c",
       "workItemId": "WI-359-release-v0-2-36"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-359-release-v0-2-36.summary.json"
+            ".ai/work-items/archive/WI-359-release-v0-2-36.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-359-release-v0-2-36.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-359-release-v0-2-36.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-359-release-v0-2-36.summary.json"
+            ".ai/work-items/archive/WI-359-release-v0-2-36.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-359-release-v0-2-36.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-359-release-v0-2-36.summary.json"
         }
       ],
       "evidence": [
@@ -75,15 +76,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-359-release-v0-2-36.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -94,7 +87,7 @@
             ".ai/evidence/WI-359-release-v0-2-36.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -104,15 +97,23 @@
             ".ai/evidence/WI-359-release-v0-2-36.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-359-release-v0-2-36.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-359-release-v0-2-36.contract.json"
+            ".ai/work-items/archive/WI-359-release-v0-2-36.contract.json"
           ],
           "inference": false,
           "text": "Release v0.2.36 from the reviewed synchronized default branch, install the exact public artifact, and prove object-project cleanup and isolation acceptance."
@@ -121,23 +122,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-359-release-v0-2-36.contract.json"
+            ".ai/work-items/archive/WI-359-release-v0-2-36.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-359-release-v0-2-36"
   },
+  "taskReportDigest": "sha256:be6d0efb4e3bba191ffc02bea07a2caca8cca9a4183ddf3ca295a381b8c93fda",
+  "taskReportMarkdownDigest": "sha256:2797c5129d065f9970aa83c5b49d8bad03d1148647c9eaf1d1b2fb1d10b976e9",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-359-release-v0-2-36.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-359-release-v0-2-36"
 }
