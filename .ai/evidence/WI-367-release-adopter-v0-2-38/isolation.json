@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 2,
+  "sourceRepository": "/private/tmp/ai-cockpit-wi367-release-adopter-v0-2-38",
+  "sourceAiState": "present",
+  "sourceBeforeStatus": " M tests/release/isolation_manifest.sh\n?? .ai/evidence/WI-367-release-adopter-v0-2-38/\n?? .ai/work-items/active/",
+  "sourceAfterStatus": " M tests/release/isolation_manifest.sh\n?? .ai/evidence/WI-367-release-adopter-v0-2-38/\n?? .ai/work-items/active/",
+  "sourceManifest": {
+    "format": "typed-jsonl",
+    "beforeDigest": "sha256:430e9063ab9d06ff7b1957529f261bdb32d19e9e8e1b4f7c1ccc841f8d966d7f",
+    "afterDigest": "sha256:430e9063ab9d06ff7b1957529f261bdb32d19e9e8e1b4f7c1ccc841f8d966d7f"
+  },
+  "sourceUnchanged": true,
+  "adopterRepository": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-adopter-acceptance.Np6lFI/adopter-control",
+  "repositoryIsolation": true,
+  "roots": {
+    "HOME": {
+      "classification": "global-config",
+      "allowedWrites": false,
+      "allowedPrefixes": [],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "unchanged": true
+    },
+    "XDG_CONFIG_HOME": {
+      "classification": "global-config",
+      "allowedWrites": false,
+      "allowedPrefixes": [],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "unchanged": true
+    },
+    "TMPDIR": {
+      "classification": "runtime-temporary",
+      "allowedWrites": true,
+      "allowedPrefixes": [
+        "<TMPDIR>/**"
+      ],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "symlinkTargetsContained": true
+    },
+    "CARGO_HOME": {
+      "classification": "dependency-cache",
+      "allowedWrites": true,
+      "allowedPrefixes": [
+        "<CARGO_HOME>/**"
+      ],
+      "beforeDigest": "sha256:c715d2230a44ff47cf675f79d409f0a68f6f5dff3594ded2d9f48efad64964fc",
+      "afterDigest": "sha256:a44e02177298082048ecd1ae18666f5367d3105341a5e5361cb81f03998a49af",
+      "symlinkTargetsContained": true
+    }
+  }
+}

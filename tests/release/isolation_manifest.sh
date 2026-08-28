@@ -100,6 +100,34 @@ manifest_source_checkout() {
     "$root_real"/*) output_relative="${output_real#"$root_real"/}" ;;
   esac
   : > "$manifest"
+  # Do not feed a nested pipeline/process-substitution into the NUL reader.
+  # macOS's system Bash 3.2 can inherit the producer pipe into the consumer
+  # shell, so `sort -z` never observes EOF and the public adopter check hangs.
+  # Materialize the bounded path list beside the run-root manifest, sort it as
+  # a regular file, then consume it with a plain redirection.  The harness
+  # removes the enclosing run root on every exit path, including interruption.
+  local path_list sorted_path
+  path_list="$(mktemp "${manifest}.paths.XXXXXX")" || return 1
+  sorted_path="$(mktemp "${manifest}.sorted.XXXXXX")" || {
+    rm -f -- "$path_list"
+    return 1
+  }
+  {
+    git -C "$root_real" ls-files -z --cached --others --exclude-standard
+    if [[ -d "$root_real/.ai" ]]; then
+      printf '.ai\0'
+      find "$root_real/.ai" -mindepth 1 -print0 | while IFS= read -r -d '' path; do
+        printf '%s\0' "${path#"$root_real"/}"
+      done
+    fi
+  } > "$path_list" || {
+    rm -f -- "$path_list" "$sorted_path"
+    return 1
+  }
+  LC_ALL=C sort -zu "$path_list" > "$sorted_path" || {
+    rm -f -- "$path_list" "$sorted_path"
+    return 1
+  }
   while IFS= read -r -d '' relative; do
     if [[ -n "$output_relative" ]]; then
       case "$relative" in "$output_relative"|"$output_relative"/*) continue ;; esac
@@ -109,17 +137,8 @@ manifest_source_checkout() {
       record="$(printf '%s\n' "$record" | jq -c '.size = null | .mtime = null')"
     fi
     printf '%s\n' "$record"
-  done < <(
-    {
-      git -C "$root_real" ls-files -z --cached --others --exclude-standard
-      if [[ -d "$root_real/.ai" ]]; then
-        printf '.ai\0'
-        find "$root_real/.ai" -mindepth 1 -print0 | while IFS= read -r -d '' path; do
-          printf '%s\0' "${path#"$root_real"/}"
-        done
-      fi
-    } | LC_ALL=C sort -zu
-  ) > "$manifest"
+  done < "$sorted_path" > "$manifest"
+  rm -f -- "$path_list" "$sorted_path"
 }
 
 validate_manifest_symlink_containment() {
