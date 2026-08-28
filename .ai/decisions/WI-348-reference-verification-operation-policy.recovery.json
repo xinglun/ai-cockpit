@@ -1,0 +1,25 @@
+{
+  "actor": "human:maintainer",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-28T04:16:37Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-348-reference-verification-operation-policy.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/315"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md",
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:dc3caab2d4503c8251fc372a31ffa5750f390b961ad972dabbf336abecb8d19b",
+  "predecessorSummaryDigest": "sha256:4c601e0621a4ac8ba2b0a4a53bd71385043c752b50875f2a0b3d10209899b255",
+  "predecessorWorkItemId": "WI-348-reference-verification-operation-policy",
+  "reason": "Retry verification after finalize-plan changed the repository-bound resource context and invalidated the earlier evidence; preserve the failed attempt and revalidate against the current PR context.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run a fresh non-red preflight and installed-Runtime verification against the current Contract and PR context before finish.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-348-reference-verification-operation-policy"
+}

@@ -1,0 +1,138 @@
+{
+  "acceptanceResults": [
+    "All ten pinned paths are classified once with a non-empty counterpart and no deferred or migrate-gap row.",
+    "Operation-time governance facts are represented by a strict Rust-native typed evaluator that never executes commands or grants provider permission and fails closed on operation, target, scope, authority, freshness, trust, and impact mismatch.",
+    "Historical provider reconciliation and generated pre-release alignment records remain reference-only and are not presented as current target/provider truth.",
+    "Verification, cost, and multilingual docs state the implemented-different-by-design and contract-language boundaries and are available in English, Simplified Chinese, and Japanese where applicable.",
+    "Object/adopter inheritance remains explicit --repo with shared Runtime and repository-local evidence; no global current project or source runtime copy is introduced.",
+    "Inventory, docs, strict Rust tests, formatting, lint, and locked workspace verification pass; installed Runtime lifecycle reaches visible green Outcome before reviewed merge."
+  ],
+  "createdAt": "2026-08-28T04:31:20Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:f1577115f2249015d26d880f09c5501204eb2793e2a2f98d48c28f9902f8a715",
+  "evidenceRefs": [
+    ".ai/evidence/WI-348-reference-verification-operation-policy.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-348-reference-verification-operation-policy.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-348-reference-verification-operation-policy.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:451978963afaaaaedb80b1a47625d577d386e1c1990c144fb98ba2471080f5fc",
+      "workItemId": "WI-348-reference-verification-operation-policy"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-348-reference-verification-operation-policy.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-348-reference-verification-operation-policy.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-348-reference-verification-operation-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-348-reference-verification-operation-policy.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-348-reference-verification-operation-policy.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-348-reference-verification-operation-policy.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-348-reference-verification-operation-policy.contract.json"
+          ],
+          "inference": false,
+          "text": "Publish an evidence-backed Rust-native mapping for this batch and add a typed operation-time governance evaluator where the reference responsibility is otherwise absent."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-348-reference-verification-operation-policy.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-348-reference-verification-operation-policy"
+  },
+  "taskReportDigest": "sha256:0da39cb0b1326cfea9ba84f75ffb03a8a1f7d38a839dc3855d42c073535699df",
+  "taskReportMarkdownDigest": "sha256:e7a6e057c6f0ce2199781cbcc3cdf5298f33a68746a9289e911d9f6ad04e69cb",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-348-reference-verification-operation-policy.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-348-reference-verification-operation-policy"
+}
