@@ -4,9 +4,13 @@ title: "WI-373——WI-371 provider finalization 恢复"
 description: "绑定已审查的 PR 身份，在不重写不可变前置字节的前提下关闭文档 Work Item。"
 workItemId: WI-373-wi371-finalization-recovery
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-373-wi371-finalization-recovery
+terminalArchive: .ai/work-items/archive/WI-373-wi371-finalization-recovery.contract.json
+terminalVerification: .ai/evidence/WI-373-wi371-finalization-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-373-wi371-finalization-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-373-wi371-finalization-recovery.close.json
 capabilityClaims: [governance_integrity, resource_finalization]
 ---
 
