@@ -1,0 +1,115 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-351-runtime-recovery-binding.contract.json",
+    ".ai/work-items/archive/WI-351-runtime-recovery-binding.summary.json"
+  ],
+  "checkpointAt": "2026-08-28T05:13:16Z",
+  "checkpointContractDigest": "sha256:a51e317089eda4e87e3fe2f8e4fd70f5752d9e028f0a7ca7d7767f11d994286b",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:9a9df3af11f8613c2c12a8c1e6a9f1605fa8aa517ec518fe8dcce649c35e4e8f",
+      "recorded": true,
+      "recordedAt": "2026-08-28T05:13:16Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:09b2d9e055b23e894432ed780541a5689f3ae77a5c8c6ef2016ed09f8e91fe91",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-351-runtime-recovery-binding"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:195710b7b4efd6addd9359d8fdb5836c8eaac213733b05366a1dcbae2452d6ef",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:9a9df3af11f8613c2c12a8c1e6a9f1605fa8aa517ec518fe8dcce649c35e4e8f",
+      "previousContractHash": "sha256:9a9df3af11f8613c2c12a8c1e6a9f1605fa8aa517ec518fe8dcce649c35e4e8f",
+      "reason": "按 AI Cockpit 仓库实际可执行入口修正 verification 声明：本仓库没有 Makefile，改用 cargo fmt、cargo test、cargo clippy 与既有 CI 质量门禁；不改变 Runtime 修复范围或安全边界。",
+      "recorded": true,
+      "recordedAt": "2026-08-28T05:18:59Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4a0226f4d7ba7d2d40ab560828e97143bd25a7c27fa106fedd3f492bcdc9626f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-351-runtime-recovery-binding"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:f475dee1935dd5a9281fae3251bbf1027cf5deb17aea731125d69d0f08532ebe",
+  "createdAt": "2026-08-28T05:12:13Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lib.rs",
+      "crates/cockpit-repository/tests/recovery_decision.rs"
+    ],
+    "reason": "Runtime が自ら生成する retry 後の状態投影を receipt binding に明示的に結び付け、外部の不正 evidence は引き続き fail closed とした。",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-08-28T05:43:52Z",
+  "preflightContractDigest": "sha256:a51e317089eda4e87e3fe2f8e4fd70f5752d9e028f0a7ca7d7767f11d994286b",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:f475dee1935dd5a9281fae3251bbf1027cf5deb17aea731125d69d0f08532ebe",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "回帰テストで Runtime 自身の Summary、Outcome、Events 投影後も retry receipt の recovery_decision が保持され、finish が成功することを確認した。",
+      "required": true,
+      "scenario": "合法な retry recovery の状態投影",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        "crates/cockpit-repository/tests/recovery_events.rs",
+        "crates/cockpit-repository/tests/lifecycle_order.rs"
+      ],
+      "reason": "foreign、stale、contradictory evidence の既存 negative path と lifecycle regression が継続して通過した。",
+      "required": true,
+      "scenario": "不正な recovery evidence の fail-closed",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/work-items/archive",
+        ".ai/evidence"
+      ],
+      "reason": "実装差分は Runtime source と regression test に限定され、既存 archive と過去 evidence に変更がない。",
+      "required": true,
+      "scenario": "歴史的 archive の不変性",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/lib.rs",
+        ".github/workflows/ci.yml"
+      ],
+      "reason": "正式 verification、green preflight、checkpoint と finish のライフサイクルを通過し、gate の緩和や外部実行経路の変更はない。",
+      "required": true,
+      "scenario": "治理门槛不可绕过",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-28T05:44:55Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-351-runtime-recovery-binding"
+}

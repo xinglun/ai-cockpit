@@ -1,0 +1,36 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization-in-thread",
+  "decidedAt": "2026-08-28T06:17:56Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-351-runtime-recovery-binding.archive.json",
+    ".ai/work-items/archive/WI-351-runtime-recovery-binding.contract.json",
+    ".ai/work-items/archive/WI-351-runtime-recovery-binding.summary.json",
+    ".ai/work-items/archive/WI-351-runtime-recovery-binding.outcome.json",
+    ".ai/work-items/archive/WI-351-runtime-recovery-binding.events.jsonl",
+    ".ai/evidence/WI-351-runtime-recovery-binding.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/318"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/agent-workflow.zh-CN.md"
+  ],
+  "predecessorContractDigest": "sha256:a51e317089eda4e87e3fe2f8e4fd70f5752d9e028f0a7ca7d7767f11d994286b",
+  "predecessorEventsDigest": "sha256:1ad9149fc242b0eff10a8c54e789b8e85088d8ad6bd7e149771fe0b1dc49416f",
+  "predecessorOutcomeDigest": "sha256:1b4db1e3086d8acdf73eeb0bd2688387db2c096bc8afa0186ac190a64cd962b5",
+  "predecessorSummaryDigest": "sha256:0adecb73947f1a2d0ecad9fd5a06d3a86cfb895d7b0352e32ac030183248e0a8",
+  "predecessorWorkItemId": "WI-351-runtime-recovery-binding",
+  "reason": "WI-351 was archived with an immutable provisional resource context whose pullRequest is not-requested. The reviewed GitHub PR #318 is now the actual delivery resource; preserve every WI-351 archive and verification byte, and continue the same bounded Runtime fix through an explicit successor that binds PR #318 before verification and provider finalization.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-353 from the current PR #318 delivery branch with resourceContext bound to https://github.com/xinglun/ai-cockpit/pull/318; after reviewed merge, record and verify provider finalization, then close the successor and the predecessor through the explicit recovery chain without rewriting WI-351 bytes.",
+  "runtimeDigest": "sha256:ab2bf905ea4227b338baff13dc67607186f128c1b7c96b8407b150a3f18535de",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-353-runtime-recovery-delivery-binding",
+  "workItemId": "WI-351-runtime-recovery-binding"
+}
