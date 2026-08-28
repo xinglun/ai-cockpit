@@ -4,9 +4,13 @@ title: "WI-345 — governance cost and performance documentation batch 15"
 workItemId: WI-345-reference-governance-cost-batch-15
 description: "Compare five pinned governance cost/complexity/performance documents and record bounded Rust counterparts without inventing source tooling."
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-345-reference-governance-cost-batch-15
+terminalArchive: .ai/work-items/archive/WI-345-reference-governance-cost-batch-15.contract.json
+terminalVerification: .ai/evidence/WI-345-reference-governance-cost-batch-15.verification.json
+terminalFinalization: .ai/decisions/WI-345-reference-governance-cost-batch-15.finalize.json
+terminalDecision: .ai/decisions/WI-345-reference-governance-cost-batch-15.close.json
 capabilityClaims:
   - reference_parity
 ---

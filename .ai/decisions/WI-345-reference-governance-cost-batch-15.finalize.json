@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "post-merge-exact-resource-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "394e6ddd67e0b95244b57ceae553df1a27ee4450",
+    "name": "codex/wi-345-reference-governance-cost-batch-15",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:31fb9e0e81de53ccab7d7073b548338df6b963a7e44e50bfedb8e815056eec91",
+  "operationId": "github-pr-310-merge-cleanup-20260828",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "747cf3d9f846aac52b2a592ec61a874511c18b81",
+    "headRevision": "394e6ddd67e0b95244b57ceae553df1a27ee4450",
+    "mergeCommit": "e498b855240cf74ce523e679bd3ba15c0ee753ce",
+    "number": 310,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/310"
+  },
+  "reason": "PR #310 passed all hosted checks and was merged; the exact feature branch and worktree were removed after verification.",
+  "receiptId": "github-pr-310-finalization-20260828",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-345-reference-governance-cost-batch-15",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/310",
+    "worktree": "/private/tmp/ai-cockpit-wi345-reference-governance-cost-batch-15"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-28T01:57:03Z",
+  "workItemId": "WI-345-reference-governance-cost-batch-15",
+  "worktree": {
+    "branch": "codex/wi-345-reference-governance-cost-batch-15",
+    "headRevision": "394e6ddd67e0b95244b57ceae553df1a27ee4450",
+    "path": "/private/tmp/ai-cockpit-wi345-reference-governance-cost-batch-15",
+    "worktreeId": "WI-345-reference-governance-cost-batch-15"
+  }
+}

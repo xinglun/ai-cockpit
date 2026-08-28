@@ -4,9 +4,13 @@ title: "WI-345——治理成本与性能文档第 15 批"
 workItemId: WI-345-reference-governance-cost-batch-15
 description: "逐一比较五个固定治理成本/复杂度/性能文档，记录有界的 Rust 对应物，不虚构源工具。"
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-345-reference-governance-cost-batch-15
+terminalArchive: .ai/work-items/archive/WI-345-reference-governance-cost-batch-15.contract.json
+terminalVerification: .ai/evidence/WI-345-reference-governance-cost-batch-15.verification.json
+terminalFinalization: .ai/decisions/WI-345-reference-governance-cost-batch-15.finalize.json
+terminalDecision: .ai/decisions/WI-345-reference-governance-cost-batch-15.close.json
 capabilityClaims:
   - reference_parity
 ---
