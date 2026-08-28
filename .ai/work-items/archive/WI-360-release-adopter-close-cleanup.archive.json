@@ -1,0 +1,23 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-28T12:26:06Z",
+  "files": {
+    "approachDigest": "sha256:761393b9f87db0dc9f3c556346f5dea575fd718f3740eb8ba2980e899cfa3620",
+    "approachPath": ".ai/work-items/archive/WI-360-release-adopter-close-cleanup.approach.json",
+    "contractDigest": "sha256:4cfe8b41fead648c2badfff1e714dd5bcddd5a143cc9c0a66d348a01c8ddd264",
+    "contractPath": ".ai/work-items/archive/WI-360-release-adopter-close-cleanup.contract.json",
+    "eventsDigest": "sha256:033a9369d7b673586902c51759e73b966b3bed11df5eff180e28c057edf9d140",
+    "eventsPath": ".ai/work-items/archive/WI-360-release-adopter-close-cleanup.events.jsonl",
+    "outcomeDigest": "sha256:af69956f163bed9a4e575cae12f1533650c4199f682ba6107d6921a34e4805bd",
+    "outcomePath": ".ai/work-items/archive/WI-360-release-adopter-close-cleanup.outcome.json",
+    "summaryDigest": "sha256:dbf0c6b6fa407af6e3775eee5829063ccb846637f755cbb7cc6838365f74b2b1",
+    "summaryPath": ".ai/work-items/archive/WI-360-release-adopter-close-cleanup.summary.json",
+    "taskReportDigest": "sha256:070f5f3908268f20d5ae6b1d387ba272d69b294ac0e7a4bb5d28635f541c4c55",
+    "taskReportMarkdownDigest": "sha256:00ac3fbf2a9b1956debdfd9b734764d6d5451593da435381204467de8aa6032f",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-360-release-adopter-close-cleanup.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-360-release-adopter-close-cleanup.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-360-release-adopter-close-cleanup"
+}

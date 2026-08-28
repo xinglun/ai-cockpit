@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-28T21:45:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-360-release-adopter-close-cleanup.summary.json",
+    ".ai/work-items/active/WI-360-release-adopter-close-cleanup.outcome.json",
+    ".ai/work-items/active/WI-360-release-adopter-close-cleanup.events.jsonl"
+  ],
+  "policyRefs": [
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:40f7ea9c06387c59c82ff2473a1391d02ccecfb7569c6fb25613ae1a252dfa1c",
+  "predecessorEventsDigest": "sha256:e6d03ea796bb24ce27a4866e48bc3fd3ad19ebea1c1ad1bfe49b566f816d32ce",
+  "predecessorOutcomeDigest": "sha256:3f8cbdc13d39515fee86ae416a6e8a0ec1957b4582a35f8506f7518216f90f77",
+  "predecessorSummaryDigest": "sha256:c476616efe9d9c8dba6db99d7e4ebaab800c3f5ff53df0cd6846026f2cf75a0a",
+  "predecessorWorkItemId": "WI-360-release-adopter-close-cleanup",
+  "reason": "绑定 Contract scenarioCoverage amendment 后的当前 Summary/Outcome/Events，恢复合法 retry 并重新执行验证。",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "重新执行当前 Contract 的 preflight、verify、finish 与后续生命周期。",
+  "runtimeDigest": "sha256:39a1e27deb5d47946c723d6129ead21a6fcb6bd5dbb7c1346a97e83ec61543c4",
+  "runtimeVersion": "0.2.34",
+  "schemaVersion": 1,
+  "workItemId": "WI-360-release-adopter-close-cleanup"
+}

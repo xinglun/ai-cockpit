@@ -1,0 +1,23 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-28T21:04:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-360-release-adopter-close-cleanup.summary.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:2e270646fab05c87ac22009373969efe9cc6547569bd51683cbf2e501331fbcb",
+  "predecessorSummaryDigest": "sha256:710568c45838f2c1ff840b8688613341846474860c14fa750032c633642a459f",
+  "predecessorWorkItemId": "WI-360-release-adopter-close-cleanup",
+  "reason": "恢复当前 Work Item 的 checkpoint 绑定，使其在当前 Contract 与最新快照上重新验证。",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "重新执行当前 Contract 的 preflight、verify、finish 与后续生命周期。",
+  "runtimeDigest": "sha256:39a1e27deb5d47946c723d6129ead21a6fcb6bd5dbb7c1346a97e83ec61543c4",
+  "runtimeVersion": "0.2.34",
+  "schemaVersion": 1,
+  "workItemId": "WI-360-release-adopter-close-cleanup"
+}

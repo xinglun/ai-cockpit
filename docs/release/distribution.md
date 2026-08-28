@@ -164,17 +164,19 @@ that staged target. Publication depends on both. Their receipts say
 `stagedCandidate: true` and `releasePublished: false`; they do not rewrite
 provider Release truth.
 
-Maintainers can repeat the public-binary acceptance baseline after a Release:
+Maintainers can repeat the public-binary acceptance baseline after a Release.
+The immutable `v0.2.36` tag currently records a failed staged acceptance and
+has no public Release or adopter baseline. The repository-retained WI-239
+receipt remains the historical v0.2.31 baseline. A successful future Release
+must persist its own public-binary receipt before it is described as an
+adopter baseline; hosted job artifacts alone are not a repository-persisted
+baseline.
 
-**Adopter acceptance baseline for v0.2.36: `aarch64-apple-darwin`.**
-The post-release acceptance successor persists the v0.2.36 public-binary receipt after publication; the
-repository-retained WI-239 receipt remains the historical v0.2.31 baseline.
-GitHub Actions run `32696048024` also completed the full staged,
-public, and N-1 adopter paths on `x86_64-unknown-linux-gnu`, but those hosted
-Linux artifacts are external, provider-retained, short-lived evidence rather
-than a repository-persisted baseline. The other published targets have build
-and smoke evidence only; they are not claimed to have completed the full
-adopter lifecycle unless a separate acceptance receipt is persisted.
+Persisted adopter acceptance baseline: `aarch64-apple-darwin` (WI-239,
+public `v0.2.31`; provider metadata records `immutable: false`).
+GitHub Actions run `32696048024` is retained only as hosted Linux acceptance
+evidence on `x86_64-unknown-linux-gnu`, not as the persisted single-target
+baseline.
 
 ```bash
 tests/release/adopter_acceptance.sh \
@@ -204,10 +206,12 @@ published Release back into an unpublished one.
 
 Before either the old or new Work Item is closed, the harness exercises the
 Runtime's resource-finalization boundary: `finalize-plan` binds the fixture's
-branch/worktree context before verification, and the post-archive `finalize`
-plus `finalize-verify` receipt records the intentionally retained fixture
-resources. This is a real lifecycle requirement, not a cosmetic step; omitting
-it must make `close` fail closed.
+branch/worktree context before verification. After archive, the harness
+commits the archive on the fixture branch, fast-forwards the surviving control
+worktree, removes the exact fixture branch and worktree, and only then records
+`finalize` plus `finalize-verify` with `disposition: deleted`. This is a real
+lifecycle requirement, not a cosmetic step; a retained resource must make
+`close` fail closed.
 
 After the receipt outputs are finalized, every success, failure, or interruption
 path removes only its validated temporary `run_root`. `cleanup.json` and the

@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-28T22:15:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-360-release-adopter-close-cleanup.contract.json",
+    ".ai/work-items/active/WI-360-release-adopter-close-cleanup.summary.json",
+    ".ai/work-items/active/WI-360-release-adopter-close-cleanup.outcome.json",
+    ".ai/work-items/active/WI-360-release-adopter-close-cleanup.events.jsonl"
+  ],
+  "policyRefs": [
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:8945c398bf1469b86826a1c6c570432b5791b4dfc1cc9ec53a7c0c1c268aef73",
+  "predecessorEventsDigest": "sha256:9fb0c92c14d30dbcc18b108a38782a9189529f230c04a722bde720b3618fac2c",
+  "predecessorOutcomeDigest": "sha256:54a61af1a36d407f1e6e44d01cc2977dae56e0c44205fd68ea903213c9f7aaee",
+  "predecessorSummaryDigest": "sha256:10b6ee2e0edd3a356db7de5045d81016f497fc8bb8006bbb60e1038ef10265e8",
+  "predecessorWorkItemId": "WI-360-release-adopter-close-cleanup",
+  "reason": "绑定 finalize-plan 后的当前 Contract 与最新 Summary/Outcome/Events，恢复合法 retry 并重新验证。",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "重新执行当前 Contract 的 preflight、verify、finish 与后续生命周期。",
+  "runtimeDigest": "sha256:39a1e27deb5d47946c723d6129ead21a6fcb6bd5dbb7c1346a97e83ec61543c4",
+  "runtimeVersion": "0.2.34",
+  "schemaVersion": 1,
+  "workItemId": "WI-360-release-adopter-close-cleanup"
+}

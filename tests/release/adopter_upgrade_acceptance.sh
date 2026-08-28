@@ -419,11 +419,15 @@ git -C "$adopter" add .
 git -C "$adopter" commit -qm 'attach adopter governance state'
 pass old-schema-assertion "old Runtime repository schema $old_schema"
 work_item=n-minus-one-lifecycle
+old_control_root="$adopter"
+old_control_branch="$(git -C "$old_control_root" branch --show-current)"
+old_branch=release-adopter-n-minus-one
+old_worktree="$adopter"
+git -C "$adopter" switch -q -c "$old_branch"
 run "$from_bin" old-start.json start --repo "$adopter" --id "$work_item" --intent 'Validate upgrade without losing governed history.' --goal 'Prove N-1 compatibility and explicit migration.' --scope '**' --out-of-scope target --risk normal --authority authorized --acceptance 'cargo test passes' --required-evidence verification
 old_contract="$adopter/.ai/work-items/active/$work_item.contract.json"
 [[ -f "$old_contract" && ! -L "$old_contract" ]] || die 'old Work Item Contract was not created as a regular file'
 old_base_revision="$(jq -er '.baseRevision | select(type == "string" and test("^[0-9a-f]{40}$"))' "$old_contract")" || die 'old Contract base revision is missing or malformed'
-old_branch="$(git -C "$adopter" branch --show-current)"
 old_pr="acceptance://$from_tag/$work_item"
 old_context="$run_root/$work_item.finalize-context.json"
 jq -n \
@@ -461,6 +465,17 @@ run "$from_bin" old-archive.json archive --repo "$adopter" --id "$work_item"
 old_archived_contract="$adopter/.ai/work-items/archive/$work_item.contract.json"
 old_archived_contract_digest="sha256:$(sha256_file "$old_archived_contract")"
 old_head="$(git -C "$adopter" rev-parse HEAD)"
+git -C "$adopter" add .
+git -C "$adopter" commit -qm 'commit N-1 adopter lifecycle archive'
+old_head="$(git -C "$adopter" rev-parse HEAD)"
+old_control_root="$run_root/old-control"
+git clone -q "$adopter" "$old_control_root"
+git -C "$old_control_root" switch -q -c release-adopter-old-control
+rm -rf -- "$old_worktree"
+git -C "$old_control_root" worktree prune
+git -C "$old_control_root" branch -D "$old_branch" >/dev/null
+[[ ! -e "$old_worktree" && ! -L "$old_worktree" ]] || die 'old lifecycle worktree was not removed before close'
+adopter="$old_control_root"
 old_receipt="$run_root/$work_item.finalize-receipt.json"
 jq -n \
   --arg workItemId "$work_item" \
@@ -470,7 +485,7 @@ jq -n \
   --arg provider release-adopter-upgrade-harness \
   --arg pullRequest "$old_pr" \
   --arg branch "$old_branch" \
-  --arg worktree "$adopter" \
+  --arg worktree "$old_worktree" \
   --arg oldBaseRevision "$old_base_revision" \
   --arg headRevision "$old_head" \
   --arg contractDigest "$old_archived_contract_digest" \
@@ -478,7 +493,7 @@ jq -n \
   '{
     schemaVersion:1,
     receiptId:("release-adopter-upgrade-" + $workItemId),
-    operationId:("retain-" + $workItemId),
+    operationId:("delete-" + $workItemId),
     repositoryId:$repositoryId,
     workItemId:$workItemId,
     runtimeVersion:$runtimeVersion,
@@ -488,20 +503,20 @@ jq -n \
     branch:{name:$branch,remote:"local",headRevision:$headRevision},
     worktree:{worktreeId:$workItemId,path:$worktree,branch:$branch,headRevision:$headRevision},
     before:{pullRequest:"merged",branch:"present",worktree:"clean"},
-    after:{pullRequest:"merged",branch:"present",worktree:"clean"},
-    result:{disposition:"retained",failureCodes:[],unknownCodes:[]},
+    after:{pullRequest:"merged",branch:"deleted",worktree:"removed"},
+    result:{disposition:"deleted",failureCodes:[],unknownCodes:[]},
     actor:"harness:release-adopter-upgrade",
     authoritySource:"release-adopter-upgrade-acceptance",
-    reason:"The isolated N-1 adopter fixture is intentionally retained after upgrade verification.",
+    reason:"The isolated N-1 lifecycle branch and worktree were removed before close.",
     timestamp:$timestamp,
     contractDigest:$contractDigest,
     resourceContext:{branch:$branch,worktree:$worktree,baseBranch:$branch,baseRemote:"local",provider:$provider,pullRequest:$pullRequest}
   }' > "$old_receipt"
 cp "$old_receipt" "$output/work-items/$work_item.finalize-receipt.json"
 run "$from_bin" old-finalize.json work-item finalize --repo "$adopter" --id "$work_item" --input "$old_receipt"
-jq -e '.state=="recorded" and .disposition=="retained"' "$output/old-finalize.json" >/dev/null || die 'old finalize receipt was not recorded as retained'
+jq -e '.state=="recorded" and .disposition=="deleted"' "$output/old-finalize.json" >/dev/null || die 'old finalize receipt was not recorded as deleted'
 run "$from_bin" old-finalize-verify.json work-item finalize-verify --repo "$adopter" --id "$work_item"
-jq -e '.state=="verified" and .disposition=="retained"' "$output/old-finalize-verify.json" >/dev/null || die 'old finalize verification did not pass'
+jq -e '.state=="verified" and .disposition=="deleted"' "$output/old-finalize-verify.json" >/dev/null || die 'old finalize verification did not pass'
 run "$from_bin" old-close.json close --repo "$adopter" --id "$work_item" \
   --human-decision approved \
   --actor human:release-acceptance \
@@ -542,14 +557,28 @@ cmp -s "$run_root/evidence-before" "$run_root/evidence-after" || die 'historical
 jq -n --arg before "sha256:$(sha256_file "$run_root/evidence-before")" --arg after "sha256:$(sha256_file "$run_root/evidence-after")" '{schemaVersion:1,oldEvidenceDigest:$before,newEvidenceDigest:$after,result:"byte-identical"}' > "$output/history-digest.json"
 pass historical-evidence-preserved
 
+git -C "$adopter" add .
+git -C "$adopter" commit -qm 'record approved adopter migration'
+
 run "$to_bin" new-compatibility-after.json compatibility --repo "$adopter"
 jq -e '.state=="COMPATIBLE" and .repositorySchemaVersion==2' "$output/new-compatibility-after.json" >/dev/null || die 'migrated adopter is not compatible'
 new_work_item=n-minus-one-post-migration
+new_control_root="$adopter"
+new_control_branch="$(git -C "$new_control_root" branch --show-current)"
+new_branch=release-adopter-post-migration
+new_worktree="$adopter"
+# The Runtime binds `start` to the discovered remote default base.  The
+# isolated fixture has no hosted provider to advance that ref, so mirror the
+# migration commit into the fixture's local default branch and its tracking
+# ref before creating the post-migration Work Item.  This models the reviewed
+# default-branch synchronization required by the real release workflow.
+git -C "$adopter" branch -f release-adopter-n-minus-one HEAD
+git -C "$adopter" update-ref refs/remotes/origin/release-adopter-n-minus-one HEAD
+git -C "$adopter" switch -q -c "$new_branch" release-adopter-n-minus-one
 run "$to_bin" new-start.json start --repo "$adopter" --id "$new_work_item" --intent 'Validate operation after an approved repository migration.' --goal 'Prove the new Runtime can govern a fresh Work Item after N-1 migration.' --scope '**' --out-of-scope target --risk normal --authority authorized --acceptance 'cargo test passes' --required-evidence verification
 new_contract="$adopter/.ai/work-items/active/$new_work_item.contract.json"
 [[ -f "$new_contract" && ! -L "$new_contract" ]] || die 'new Work Item Contract was not created as a regular file'
 new_base_revision="$(jq -er '.baseRevision | select(type == "string" and test("^[0-9a-f]{40}$"))' "$new_contract")" || die 'new Contract base revision is missing or malformed'
-new_branch="$(git -C "$adopter" branch --show-current)"
 new_pr="acceptance://$to_tag/$new_work_item"
 new_context="$run_root/$new_work_item.finalize-context.json"
 jq -n \
@@ -577,6 +606,17 @@ run "$to_bin" new-archive.json archive --repo "$adopter" --id "$new_work_item"
 new_archived_contract="$adopter/.ai/work-items/archive/$new_work_item.contract.json"
 new_archived_contract_digest="sha256:$(sha256_file "$new_archived_contract")"
 new_head="$(git -C "$adopter" rev-parse HEAD)"
+git -C "$adopter" add .
+git -C "$adopter" commit -qm 'commit post-migration adopter lifecycle archive'
+new_head="$(git -C "$adopter" rev-parse HEAD)"
+new_control_root="$run_root/new-control"
+git clone -q "$adopter" "$new_control_root"
+git -C "$new_control_root" switch -q -c release-adopter-new-control
+rm -rf -- "$new_worktree"
+git -C "$new_control_root" worktree prune
+git -C "$new_control_root" branch -D "$new_branch" >/dev/null
+[[ ! -e "$new_worktree" && ! -L "$new_worktree" ]] || die 'new lifecycle worktree was not removed before close'
+adopter="$new_control_root"
 new_receipt="$run_root/$new_work_item.finalize-receipt.json"
 jq -n \
   --arg workItemId "$new_work_item" \
@@ -586,7 +626,7 @@ jq -n \
   --arg provider release-adopter-upgrade-harness \
   --arg pullRequest "$new_pr" \
   --arg branch "$new_branch" \
-  --arg worktree "$adopter" \
+  --arg worktree "$new_worktree" \
   --arg newBaseRevision "$new_base_revision" \
   --arg headRevision "$new_head" \
   --arg contractDigest "$new_archived_contract_digest" \
@@ -594,7 +634,7 @@ jq -n \
   '{
     schemaVersion:1,
     receiptId:("release-adopter-upgrade-" + $workItemId),
-    operationId:("retain-" + $workItemId),
+    operationId:("delete-" + $workItemId),
     repositoryId:$repositoryId,
     workItemId:$workItemId,
     runtimeVersion:$runtimeVersion,
@@ -604,20 +644,20 @@ jq -n \
     branch:{name:$branch,remote:"local",headRevision:$headRevision},
     worktree:{worktreeId:$workItemId,path:$worktree,branch:$branch,headRevision:$headRevision},
     before:{pullRequest:"merged",branch:"present",worktree:"clean"},
-    after:{pullRequest:"merged",branch:"present",worktree:"clean"},
-    result:{disposition:"retained",failureCodes:[],unknownCodes:[]},
+    after:{pullRequest:"merged",branch:"deleted",worktree:"removed"},
+    result:{disposition:"deleted",failureCodes:[],unknownCodes:[]},
     actor:"harness:release-adopter-upgrade",
     authoritySource:"release-adopter-upgrade-acceptance",
-    reason:"The isolated N-1 adopter fixture is intentionally retained after migration verification.",
+    reason:"The post-migration lifecycle branch and worktree were removed before close.",
     timestamp:$timestamp,
     contractDigest:$contractDigest,
     resourceContext:{branch:$branch,worktree:$worktree,baseBranch:$branch,baseRemote:"local",provider:$provider,pullRequest:$pullRequest}
   }' > "$new_receipt"
 cp "$new_receipt" "$output/work-items/$new_work_item.finalize-receipt.json"
 run "$to_bin" new-finalize.json work-item finalize --repo "$adopter" --id "$new_work_item" --input "$new_receipt"
-jq -e '.state=="recorded" and .disposition=="retained"' "$output/new-finalize.json" >/dev/null || die 'new finalize receipt was not recorded as retained'
+jq -e '.state=="recorded" and .disposition=="deleted"' "$output/new-finalize.json" >/dev/null || die 'new finalize receipt was not recorded as deleted'
 run "$to_bin" new-finalize-verify.json work-item finalize-verify --repo "$adopter" --id "$new_work_item"
-jq -e '.state=="verified" and .disposition=="retained"' "$output/new-finalize-verify.json" >/dev/null || die 'new finalize verification did not pass'
+jq -e '.state=="verified" and .disposition=="deleted"' "$output/new-finalize-verify.json" >/dev/null || die 'new finalize verification did not pass'
 run "$to_bin" new-close.json close --repo "$adopter" --id "$new_work_item" \
   --human-decision approved \
   --actor human:release-acceptance \
