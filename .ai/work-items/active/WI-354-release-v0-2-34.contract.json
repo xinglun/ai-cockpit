@@ -4,7 +4,8 @@
     "All three release, distribution-architecture, and versioning documents identify v0.2.34 as the current installation baseline while preserving prior failed-release history.",
     "The reviewed release route passes documentation, version-consistency, governance-integrity, release-policy, and complete workspace verification before tagging.",
     "The hosted workflow publishes only the immutable v0.2.34 tag commit with manifest, SHA256SUMS, target SBOMs, provenance, archive smoke, and staged adopter gates.",
-    "The release Work Item records a mandatory post-release successor for installation and current-repository acceptance without claiming public bytes before publication."
+    "The release Work Item records a mandatory post-release successor for installation and current-repository acceptance without claiming public bytes before publication.",
+    "A Contract amendment after finish_ready reopens checkpointed recovery through Runtime commands without hand-editing generated Summary state, with a lifecycle regression test."
   ],
   "authority": "authorized",
   "baseRevision": "846dfdafa64a4075735f7ebfd2ddceb115f6e872",
@@ -15,7 +16,7 @@
   "outOfScope": [
     "Historical release bytes and receipts",
     "WI-351/353 recovery branch and PR",
-    "New runtime governance behavior",
+    "Unrelated runtime governance behavior outside the amendment recovery path",
     "External Homebrew tap publication",
     "Global Agent or MCP configuration",
     "Second technology-stack adopter acceptance",
@@ -33,7 +34,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-354-release-v0-2-34",
     "provider": "github",
-    "pullRequest": "pending",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/319",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/ai-cockpit-release-v0-2-34"
   },
   "risk": "high",
@@ -69,6 +70,8 @@
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.zh-CN.md",
     "docs/reference/reference-parity.ja.md",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/lifecycle_order.rs",
     "docs/work-items/WI-354-release-v0-2-34.md",
     "docs/work-items/WI-354-release-v0-2-34.zh-CN.md",
     "docs/work-items/WI-354-release-v0-2-34.ja.md"

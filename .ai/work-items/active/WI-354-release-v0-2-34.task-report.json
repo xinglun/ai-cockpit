@@ -4,7 +4,7 @@
       ".ai/evidence/WI-354-release-v0-2-34.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:4c579f35b9e847495e097253b470db0cf0b30eb3af5ecf1fc3984a1e811ae8e5",
+    "repositorySnapshotDigest": "sha256:13880a14d2c7ff3f076715aec203c47e74cef76152776e6675d9f99999f51445",
     "workItemId": "WI-354-release-v0-2-34"
   },
   "format": "ai-cockpit.task-outcome",

@@ -4,11 +4,12 @@
     "All three release, distribution-architecture, and versioning documents identify v0.2.34 as the current installation baseline while preserving prior failed-release history.",
     "The reviewed release route passes documentation, version-consistency, governance-integrity, release-policy, and complete workspace verification before tagging.",
     "The hosted workflow publishes only the immutable v0.2.34 tag commit with manifest, SHA256SUMS, target SBOMs, provenance, archive smoke, and staged adopter gates.",
-    "The release Work Item records a mandatory post-release successor for installation and current-repository acceptance without claiming public bytes before publication."
+    "The release Work Item records a mandatory post-release successor for installation and current-repository acceptance without claiming public bytes before publication.",
+    "A Contract amendment after finish_ready reopens checkpointed recovery through Runtime commands without hand-editing generated Summary state, with a lifecycle regression test."
   ],
-  "createdAt": "2026-08-28T07:21:37Z",
+  "createdAt": "2026-08-28T07:34:27Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:0b83766d248996bbb4841c19a8725a1f467597cb49a24419be58617d17b3239f",
+  "evidenceDigest": "sha256:21ac1b1a1cea7091eff34e94bd5184cf931d7ea9ce96e034550996339bb73c2b",
   "evidenceRefs": [
     ".ai/evidence/WI-354-release-v0-2-34.verification.json"
   ],
@@ -34,7 +35,7 @@
         ".ai/evidence/WI-354-release-v0-2-34.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:4c579f35b9e847495e097253b470db0cf0b30eb3af5ecf1fc3984a1e811ae8e5",
+      "repositorySnapshotDigest": "sha256:13880a14d2c7ff3f076715aec203c47e74cef76152776e6675d9f99999f51445",
       "workItemId": "WI-354-release-v0-2-34"
     },
     "format": "ai-cockpit.task-outcome",
@@ -130,7 +131,7 @@
     "status": "verified",
     "workItemId": "WI-354-release-v0-2-34"
   },
-  "taskReportDigest": "sha256:cbccfb600fede1a10869e951ef057e6d0a1402617441f1958edfdf90859ad5dc",
+  "taskReportDigest": "sha256:f8a58284995daae5dda8f09a72f06220edf4cd20c66bf28d898e1ecfd2ab5e88",
   "taskReportMarkdownDigest": "sha256:90f80d507dc115e579ce5899e1541622a85b705ea19b8e41bd5e45501a8a015e",
   "unknowns": [
     "user_visible_benefit_not_declared"

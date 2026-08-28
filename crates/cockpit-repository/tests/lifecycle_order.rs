@@ -253,6 +253,64 @@ fn verification_retry_refreshes_finish_ready_bindings_after_source_change() {
 }
 
 #[test]
+fn contract_amendment_after_finish_ready_reopens_checkpointed_recovery() {
+    let directory = repository();
+    let id = "WI-ORDER-AMEND-FINISH-READY";
+    start(directory.path(), id, &[]);
+    let contract_path = contract(directory.path(), id);
+    plan_resource_finalization(
+        directory.path(),
+        id,
+        &ResourceFinalizationContext {
+            branch: format!("feature/{id}"),
+            worktree: directory.path().display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: format!("https://github.com/example/ai-cockpit/pull/{id}"),
+        },
+    )
+    .expect("finalization plan");
+    preflight_work_item(directory.path(), &contract_path).expect("preflight");
+    checkpoint_work_item(directory.path(), id).expect("checkpoint");
+    record_verification(
+        directory.path(),
+        id,
+        &serde_json::json!({"passed": true}),
+        "0.2.33",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+    finish_work_item(directory.path(), id).expect("finish");
+
+    let mut contract_value: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract"))
+            .expect("contract JSON");
+    contract_value["title"] = serde_json::json!("amended after finish-ready");
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&contract_value).expect("serialize contract"),
+    )
+    .expect("contract amendment");
+    revalidate_contract_amendment(
+        directory.path(),
+        id,
+        "record a post-finish amendment and reopen the verification cycle",
+    )
+    .expect("amendment revalidation");
+
+    let summary_path = directory
+        .path()
+        .join(".ai/work-items/active")
+        .join(format!("{id}.summary.json"));
+    let summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("summary")).expect("summary JSON");
+    assert_eq!(summary["state"], "checkpointed");
+    assert_eq!(summary["preflightState"], "not_run");
+    assert_eq!(summary["recoveryRetryPending"], true);
+}
+
+#[test]
 fn before_edit_checkpoint_survives_authorized_edit_and_fresh_preflight() {
     let directory = repository();
     let id = "WI-ORDER-SNAPSHOT-HISTORY";
