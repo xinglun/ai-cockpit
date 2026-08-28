@@ -1,0 +1,151 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-364-primary-worktree-release.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ceb81f3b7c946991bfeb26307d70741067bb4cca7cb788b4775fcab94fa4c75c",
+      "workItemId": "WI-364-primary-worktree-release"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-364-primary-worktree-release.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-363-release-v0-2-37.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-364-primary-worktree-release.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-364-primary-worktree-release.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-364-primary-worktree-release.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-364-primary-worktree-release.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-364-primary-worktree-release.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-364-primary-worktree-release.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-364-primary-worktree-release.archive.json",
+            ".ai/evidence/WI-364-primary-worktree-release.verification.json",
+            ".ai/decisions/WI-364-primary-worktree-release.finalize.json",
+            "https://github.com/xinglun/ai-cockpit/pull/327"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:owner via post-merge-exact-resource-cleanup at 2026-08-28T15:44:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-364-primary-worktree-release.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-364-primary-worktree-release.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-364-primary-worktree-release.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-364-primary-worktree-release.contract.json"
+          ],
+          "inference": false,
+          "text": "Prevent ordinary Work Items from binding the repository primary worktree or default branch, then publish and verify v0.2.37 with complete finalization and close evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-364-primary-worktree-release.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-364-primary-worktree-release"
+  },
+  "finalReportDigest": "sha256:902c439056496ce9fcf90e90d7ad29d63395a5bfb403201e67ffd5b1dc7b25fe",
+  "humanDecision": "confirmed",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:a03c8f23db144719856626fa73fa59f5a0b709eef97a4592060be012ef3dec90",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-364-primary-worktree-release.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:owner",
+    "authoritySource": "post-merge-exact-resource-cleanup",
+    "decidedAt": "2026-08-28T15:44:00Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/work-items/archive/WI-364-primary-worktree-release.archive.json",
+      ".ai/evidence/WI-364-primary-worktree-release.verification.json",
+      ".ai/decisions/WI-364-primary-worktree-release.finalize.json",
+      "https://github.com/xinglun/ai-cockpit/pull/327"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md",
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "Confirm WI-364 after reviewed PR #327 merge, deleted finalization, synchronized main, and exact branch/worktree cleanup.",
+    "resumeCondition": "No further action for WI-364; next Work Item must start from synchronized main with a dedicated worktree."
+  },
+  "timestamp": "2026-08-28T15:42:41Z",
+  "workItemId": "WI-364-primary-worktree-release"
+}

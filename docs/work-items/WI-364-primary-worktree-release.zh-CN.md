@@ -4,9 +4,13 @@ title: "WI-364——主工作树发布恢复"
 workItemId: WI-364-primary-worktree-release
 description: "防止普通 Work Item 绑定仓库主工作树，并从专用检出重新交付 v0.2.37。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-364-primary-worktree-release
+terminalArchive: .ai/work-items/archive/WI-364-primary-worktree-release.contract.json
+terminalVerification: .ai/evidence/WI-364-primary-worktree-release.verification.json
+terminalFinalization: .ai/decisions/WI-364-primary-worktree-release.finalize.json
+terminalDecision: .ai/decisions/WI-364-primary-worktree-release.close.json
 capabilityClaims: [lifecycle_entry, release_distribution]
 ---
 

@@ -1,0 +1,58 @@
+{
+  "actor": "human:owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "post-merge-exact-resource-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "0d8e6983781cf18444c67184f3abc71c2b69b0e4",
+    "name": "codex/wi-364-primary-worktree-release",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:906773831ac8c91b37b095bae8c1d35cef64e5adea5bc73303d826314fdd4bcb",
+  "operationId": "operation-WI-364-primary-worktree-release-cleanup",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "9ecb6c726f1a17ad0161360dab2853f5f08d44c6",
+    "headRevision": "0d8e6983781cf18444c67184f3abc71c2b69b0e4",
+    "mergeCommit": "d14a69097294ac474cf90c1d9907b0d7b6e4291f",
+    "number": 327,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/327"
+  },
+  "reason": "PR #327 merged as d14a690; the exact WI-364 branch, remote branch, and dedicated worktree were removed after clean-state verification.",
+  "receiptId": "ai-cockpit-WI-364-primary-worktree-release-cleanup-deleted",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-364-primary-worktree-release",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/327",
+    "worktree": "/private/tmp/ai-cockpit-wi364-primary-worktree"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:39a1e27deb5d47946c723d6129ead21a6fcb6bd5dbb7c1346a97e83ec61543c4",
+  "runtimeVersion": "0.2.34",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-28T15:42:00Z",
+  "workItemId": "WI-364-primary-worktree-release",
+  "worktree": {
+    "branch": "codex/wi-364-primary-worktree-release",
+    "headRevision": "0d8e6983781cf18444c67184f3abc71c2b69b0e4",
+    "path": "/private/tmp/ai-cockpit-wi364-primary-worktree",
+    "worktreeId": "WI-364-primary-worktree-release"
+  }
+}

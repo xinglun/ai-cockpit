@@ -4,9 +4,13 @@ title: "WI-364 — primary worktree release recovery"
 workItemId: WI-364-primary-worktree-release
 description: "Prevent ordinary Work Items from binding the repository primary worktree and redeliver v0.2.37 from a dedicated checkout."
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-364-primary-worktree-release
+terminalArchive: .ai/work-items/archive/WI-364-primary-worktree-release.contract.json
+terminalVerification: .ai/evidence/WI-364-primary-worktree-release.verification.json
+terminalFinalization: .ai/decisions/WI-364-primary-worktree-release.finalize.json
+terminalDecision: .ai/decisions/WI-364-primary-worktree-release.close.json
 capabilityClaims: [lifecycle_entry, release_distribution]
 ---
 
