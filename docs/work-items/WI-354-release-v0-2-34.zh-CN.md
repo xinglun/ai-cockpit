@@ -4,9 +4,13 @@ title: "WI-354——v0.2.34 发布准备"
 workItemId: WI-354-release-v0-2-34
 description: "在生命周期清理门修复后准备 v0.2.34，并把公开制品验收交给发布后 successor。"
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-354-release-v0-2-34
+terminalArchive: .ai/work-items/archive/WI-354-release-v0-2-34.contract.json
+terminalVerification: .ai/evidence/WI-354-release-v0-2-34.verification.json
+terminalFinalization: .ai/decisions/WI-354-release-v0-2-34.finalize.d571d77922d342af1d3f2e43819cf77b73ba1affb0c0b15d1ac6d96d61d46577.json
+terminalDecision: .ai/decisions/WI-354-release-v0-2-34.close.json
 capabilityClaims: [release_distribution]
 ---
 
