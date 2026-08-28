@@ -1,0 +1,90 @@
+{
+  "acceptanceCriteria": [
+    "Individually compare the five pinned reference documentation files and record an evidence-backed Rust boundary for each; do not claim source-specific Python or Make surfaces are present.",
+    "Classify every in-scope inventory record as implemented-different-by-design or reference-only with a deterministic reason and explicit Rust counterpart or boundary.",
+    "Document the Rust-native cost, performance-budget, profile-separation, and archive-complexity boundaries in English, Simplified Chinese, and Japanese without inventing CLI commands or governance decisions.",
+    "Keep VerificationTier and EvidenceAssurance orthogonal; keep cost/performance observations advisory and fail closed on unknown identity or budget evidence.",
+    "Update the three comparison/parity documents and inventory counts, preserve the reference source language and non-wire-compatibility boundary, and prove object/adopter repositories inherit the same request-scoped Runtime rules.",
+    "Run the declared documentation, inventory, governance, formatting, lint, and workspace tests; no Runtime behavior or global Agent/MCP configuration changes are in scope."
+  ],
+  "authority": "authorized",
+  "baseRevision": "747cf3d9f846aac52b2a592ec61a874511c18b81",
+  "createdAt": "2026-08-28T01:24:36Z",
+  "goal": "Close the next five pinned reference documentation paths without hiding source-specific capabilities or inventing Rust behavior.",
+  "intent": "逐文件比对 pinned source 中治理复杂度、成本指标、性能预算和 profile/cost 分离文档，补齐 Rust 对象工程可继承的事实边界，并明确未迁移的 source-specific maintenance surface。",
+  "mode": "implementation",
+  "outOfScope": [
+    "Rust Runtime behavior changes or new governance authority",
+    "Source Python modules, Make targets, YAML/JSON guard files, or V1 wire compatibility",
+    "Global Agent/MCP configuration and provider-owned CI or hosted evidence",
+    "Historical reference archive/evidence bytes and unrelated inventory records",
+    "Hard performance targets, automatic profile decisions, or governance-budget enforcement not already present"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:74e509c4975e16041d2363dc7a5d122922c5994f1099768536c61523dc827e5b",
+  "requiredEvidenceClasses": [
+    "verification",
+    "tests"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-345-reference-governance-cost-batch-15",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi345-reference-governance-cost-batch-15"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/governance-complexity.md",
+    "docs/reference/governance-complexity.zh-CN.md",
+    "docs/reference/governance-complexity.ja.md",
+    "docs/reference/governance-cost-metrics.md",
+    "docs/reference/governance-cost-metrics.zh-CN.md",
+    "docs/reference/governance-cost-metrics.ja.md",
+    "docs/reference/governance-performance-budget.md",
+    "docs/reference/governance-performance-budget.zh-CN.md",
+    "docs/reference/governance-performance-budget.ja.md",
+    "docs/reference/governance-profile-cost-separation.md",
+    "docs/reference/governance-profile-cost-separation.zh-CN.md",
+    "docs/reference/governance-profile-cost-separation.ja.md",
+    "docs/work-items/WI-345-reference-governance-cost-batch-15.md",
+    "docs/work-items/WI-345-reference-governance-cost-batch-15.zh-CN.md",
+    "docs/work-items/WI-345-reference-governance-cost-batch-15.ja.md"
+  ],
+  "sources": [
+    "reference:e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/governance-complexity.ja.md",
+    "reference:e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/governance-complexity.md",
+    "reference:e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/governance-cost-metrics.md",
+    "reference:e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/governance-performance-budget.md",
+    "reference:e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/governance-profile-cost-separation.md",
+    "target:747cf3d9f846aac52b2a592ec61a874511c18b81:docs/reference/verification-cost.md",
+    "target:747cf3d9f846aac52b2a592ec61a874511c18b81:docs/reference/verification-route.md",
+    "target:747cf3d9f846aac52b2a592ec61a874511c18b81:docs/reference/ci-quality-gates.md",
+    "target:747cf3d9f846aac52b2a592ec61a874511c18b81:tests/performance/README.md",
+    "target:747cf3d9f846aac52b2a592ec61a874511c18b81:crates/cockpit-cli/src/main.rs",
+    "target:747cf3d9f846aac52b2a592ec61a874511c18b81:crates/cockpit-repository/src/lib.rs",
+    "target:747cf3d9f846aac52b2a592ec61a874511c18b81:crates/cockpit-verification/src/lib.rs"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/conformance/reference_file_inventory.py --manifest tests/conformance/reference_file_inventory.json --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf --target-commit a533d49dfa848d95742833f8cd1b5f7e1bb897d5 --check",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/getting_started_semantic.sh",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report target/wi345-governance-integrity.json",
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-345-reference-governance-cost-batch-15"
+}

@@ -107,7 +107,7 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=243 implemented-equivalent=1 not-applicable=4 reference-only=32 deferred-next-batch=577 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=246 implemented-equivalent=1 not-applicable=4 reference-only=34 deferred-next-batch=572 migrate-gap=0 -->
 
 固定した v0.2.33 comparison baseline の ledger は 5,119 records です。内訳は
 4,262 `generated-history`、243 `implemented-different-by-design`、1
@@ -634,3 +634,21 @@ boundary は shared Runtime、repository state isolation、独立した evidence
 現在の ledger は 5,119 record です。4,262 `generated-history`、243
 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、32
 `reference-only`、577 `deferred-next-batch`、`migrate-gap` は 0 です。deferred は予定作業であり、parity claim ではありません。
+
+## WI-345 — governance cost / performance documentation batch 15
+
+WI-345 は pinned reference commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf` の次の 5 document を一つずつ比較しました。2 つの complexity document は Python/Make scanner と source threshold が Rust Runtime behavior ではないため `reference-only` のままです。Cost、performance budget、profile/cost separation は Rust-native な repository-bound projection で表現しますが、advisory boundary を明示します。
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/governance-complexity.ja.md` | reference-only | `docs/reference/governance-complexity.ja.md`、`docs/reference/governance-integrity-gate.ja.md`、immutable archive rule が境界を記録します。source complexity scanner、Make target、threshold はコピーしません。 |
+| `docs/reference/governance-complexity.md` | reference-only | `docs/reference/governance-complexity.md`、`docs/reference/governance-integrity-gate.md`、`inspect/status/doctor` が repository fact と archive integrity を保持しますが、source metric equivalence は主張しません。 |
+| `docs/reference/governance-cost-metrics.md` | implemented-different-by-design | `ai-cockpit diagnose --repo <repo> [--work-item <id>]`、typed `VerificationCostEstimate`/`VerificationCostObservation`、`docs/reference/verification-cost.md` が identity-bound advisory fact を提供します。source JSONL phase/wait parser と wire shape は Runtime requirement ではありません。 |
+| `docs/reference/governance-performance-budget.md` | implemented-different-by-design | typed `PerformanceBaseline`/`PerformanceAssessment`、`tests/performance/regression_gate.sh`、`tests/performance/README.md` が明示的 local budget を扱います。P95 を推測せず、必須 verification を弱めません。 |
+| `docs/reference/governance-profile-cost-separation.md` | implemented-different-by-design | `docs/reference/governance-profile-cost-separation.md`、`ci-quality-gates.md`、`verification-route.md` が light/standard/strict、operation/stage escalation、VerificationTier、EvidenceAssurance、cost を分離します。 |
+
+これは semantic/documentation parity であり、source command や JSON-wire compatibility ではありません。Object/adopter boundary は shared Runtime、明示的な `--repo`、repository-local evidence、policy-owned route requirement、弱い governance result を認可できない advisory cost/performance fact です。
+
+WI-345 後の ledger は 5,119 record です。4,262 `generated-history`、246
+`implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、34
+`reference-only`、572 `deferred-next-batch`、`migrate-gap` は 0 です。572 deferred は予定された比較であり、parity claim ではありません。

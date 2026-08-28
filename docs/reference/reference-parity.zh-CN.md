@@ -61,6 +61,10 @@ capabilityClaims:
 | 多语言语义 parity gate | 部分实现 | CLI 面向人的输出已本地化；所有报告逐字段语义一致尚未成为 CI gate。 |
 | 历史 evidence 边界 | 已实现 | 历史 evidence 只作为历史输入，永远不能提升为新的 green verification。 |
 | Contract 原文语言 | 已实现 | Contract 的 intent、scope、acceptance、authority 保持原文；翻译不重写 Contract bytes。 |
+| 治理复杂度维护报告 | 仅参考 | 源 Python/Make 复杂度 scanner 与阈值是源项目维护材料。Rust 保留不可变 archive 与 integrity 边界，不宣称等价指标；见 `governance-complexity.zh-CN.md`。 |
+| 治理成本指标 | 以不同方式实现 | `diagnose`、typed 成本 estimate/observation 和 verification receipt 提供 repository-bound advisory facts；源 JSONL 阶段/等待聚合不是 Rust wire 要求。 |
+| 治理性能预算 | 以不同方式实现 | 本地提供 identity-bound `PerformanceBaseline` sample 与明确 regression budget；耗时不会削弱必需验证或建立 provider assurance。 |
+| 治理 profile/成本分离 | 以不同方式实现 | light/standard/strict 路线、operation/stage escalation、`VerificationTier`、`EvidenceAssurance` 与 advisory cost 保持独立。 |
 | 安装和 provider 配置 | 外部边界 | binary delivery 与 provider/global configuration 和 repository governance state 分离。 |
 
 矩阵刻意区分已工作的核心和完整参考源表面 parity。某一行的 green 只证明该行边界，
@@ -273,6 +277,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-342——文档、分发与企业边界逐文件比较 | 已实现 | [Work Item](../work-items/WI-342-reference-documentation-batch-13.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-342-reference-documentation-batch-13.contract.json`; verification `.ai/evidence/WI-342-reference-documentation-batch-13.verification.json`; finalization `.ai/decisions/WI-342-reference-documentation-batch-13.finalize.json`; close `.ai/decisions/WI-342-reference-documentation-batch-13.close.json`. |
 | WI-343——参考 inventory 基础对账 | 已实现 | [Work Item](../work-items/WI-343-reference-inventory-foundation-reconciliation.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-343-reference-inventory-foundation-reconciliation.contract.json`; verification `.ai/evidence/WI-343-reference-inventory-foundation-reconciliation.verification.json`; finalization `.ai/decisions/WI-343-reference-inventory-foundation-reconciliation.finalize.json`; close `.ai/decisions/WI-343-reference-inventory-foundation-reconciliation.close.json`. |
 | WI-344——参考文档第 14 批 | 已实现 | [Work Item](../work-items/WI-344-reference-documentation-batch-14.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-344-reference-documentation-batch-14.contract.json`; verification `.ai/evidence/WI-344-reference-documentation-batch-14.verification.json`; finalization `.ai/decisions/WI-344-reference-documentation-batch-14.finalize.json`; close `.ai/decisions/WI-344-reference-documentation-batch-14.close.json`. |
+| WI-345——治理成本与性能文档第 15 批 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-345-reference-governance-cost-batch-15.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-345-reference-governance-cost-batch-15.contract.json`; verification `.ai/evidence/WI-345-reference-governance-cost-batch-15.verification.json`; finalization `.ai/decisions/WI-345-reference-governance-cost-batch-15.finalize.json`; close `.ai/decisions/WI-345-reference-governance-cost-batch-15.close.json`. |
 
 ## 当前边界
 

@@ -103,7 +103,7 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=243 implemented-equivalent=1 not-applicable=4 reference-only=32 deferred-next-batch=577 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=246 implemented-equivalent=1 not-applicable=4 reference-only=34 deferred-next-batch=572 migrate-gap=0 -->
 
 在固定的 v0.2.33 比较基线上，台账共有 5,119 条记录：4,262 条
 `generated-history`、243 条 `implemented-different-by-design`、1 条
@@ -591,3 +591,19 @@ repository 状态和独立绑定的 evidence。
 `implemented-different-by-design`、1 条 `implemented-equivalent`、4 条
 `not-applicable`、32 条 `reference-only`、577 条 `deferred-next-batch`；
 `migrate-gap` 为 0。deferred 数量是计划中的工作，不是 parity 声明。
+
+## WI-345：治理成本与性能文档第 15 批
+
+WI-345 在固定参考提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 上逐一比较以下五个文档。两个复杂度文档保持 `reference-only`，因为其中的 Python/Make scanner 和源阈值不是 Rust Runtime 行为。成本、性能预算和 profile/cost 分离由 Rust 原生、repository-bound 的投影承接，但边界更窄且明确为 advisory。
+
+| 固定参考路径 | 分类 | Rust 对应物 / 有界决定 |
+| --- | --- | --- |
+| `docs/reference/governance-complexity.ja.md` | reference-only | `docs/reference/governance-complexity.ja.md`、`docs/reference/governance-integrity-gate.ja.md` 和不可变 archive 规则记录边界；不复制源复杂度 scanner、Make target 或阈值。 |
+| `docs/reference/governance-complexity.md` | reference-only | `docs/reference/governance-complexity.md`、`docs/reference/governance-integrity-gate.md` 与 `inspect/status/doctor` 保留 repository facts 和 archive integrity，不宣称源指标等价。 |
+| `docs/reference/governance-cost-metrics.md` | implemented-different-by-design | `ai-cockpit diagnose --repo <repo> [--work-item <id>]`、typed `VerificationCostEstimate`/`VerificationCostObservation` 和 `docs/reference/verification-cost.md` 提供 identity-bound advisory facts；源 JSONL 阶段/等待解析和 wire shape 不是 Runtime 要求。 |
+| `docs/reference/governance-performance-budget.md` | implemented-different-by-design | typed `PerformanceBaseline`/`PerformanceAssessment`、`tests/performance/regression_gate.sh` 与 `tests/performance/README.md` 执行明确的本地预算，不推导 P95，也不削弱必需验证。 |
+| `docs/reference/governance-profile-cost-separation.md` | implemented-different-by-design | `docs/reference/governance-profile-cost-separation.md`、`ci-quality-gates.md` 与 `verification-route.md` 保持 light/standard/strict、operation/stage escalation、VerificationTier、EvidenceAssurance 和 cost 分离。 |
+
+这是语义/文档 parity，不是源命令或 JSON-wire 兼容性。对象工程边界保持一致：一个共享 Runtime、显式 `--repo`、repository-local evidence、由 policy 拥有的路线要求，以及不能授权更弱治理结论的 advisory 成本/性能事实。
+
+WI-345 后台账为 5,119 条：4,262 条 `generated-history`、246 条 `implemented-different-by-design`、1 条 `implemented-equivalent`、4 条 `not-applicable`、34 条 `reference-only`、572 条 `deferred-next-batch`；`migrate-gap` 为 0。572 条 deferred 仍是计划中的工作，不是 parity 声明。
