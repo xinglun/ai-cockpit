@@ -31528,38 +31528,62 @@
     },
     {
       "referencePath": "docs/reference/governance-complexity.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-345-reference-governance-cost-batch-15",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/governance-complexity.ja.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/reference/governance-integrity-gate.ja.md"
+      ],
+      "reason": "The source document explains its Python/Make complexity scanner and source archive-maintenance policy. The target keeps immutable archive and repository-integrity boundaries, but does not ship that source-specific scanner or claim equivalent complexity metrics; this target page records the non-portable boundary."
     },
     {
       "referencePath": "docs/reference/governance-complexity.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-345-reference-governance-cost-batch-15",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/governance-complexity.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/governance-integrity-gate.md"
+      ],
+      "reason": "The source document explains its Python/Make complexity scanner and source archive-maintenance policy. The target keeps immutable archive and repository-integrity boundaries, but does not ship that source-specific scanner or claim equivalent complexity metrics; this target page records the non-portable boundary."
     },
     {
       "referencePath": "docs/reference/governance-cost-metrics.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-345-reference-governance-cost-batch-15",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/governance-cost-metrics.md",
+        "docs/reference/verification-cost.md",
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-verification/src/lib.rs"
+      ],
+      "reason": "Rust exposes repository-bound `diagnose` plus typed VerificationCostEstimate/Observation and receipt telemetry. It deliberately does not copy the source JSONL lifecycle event parser, phase/wait taxonomy, or source report wire shape; all cost output remains advisory and identity-bound."
     },
     {
       "referencePath": "docs/reference/governance-performance-budget.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-345-reference-governance-cost-batch-15",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/governance-performance-budget.md",
+        "tests/performance/README.md",
+        "crates/cockpit-verification/src/lib.rs",
+        "tests/performance/regression_gate.sh"
+      ],
+      "reason": "Rust uses identity-bound PerformanceBaseline samples and explicit regression budgets, while the source P95/profile report is not a Runtime authority. Budget overrun never removes required verification, and no automatic P95 or governance profile is inferred."
     },
     {
       "referencePath": "docs/reference/governance-profile-cost-separation.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-345-reference-governance-cost-batch-15",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/governance-profile-cost-separation.md",
+        "docs/reference/ci-quality-gates.md",
+        "docs/reference/verification-route.md",
+        "crates/cockpit-verification/src/lib.rs"
+      ],
+      "reason": "Rust keeps light/standard/strict routing and separates VerificationTier from EvidenceAssurance. Operation/stage policy and protected gates drive escalation; cost observations cannot lower requirements, and no source profile name or hidden automatic decision is imported."
     },
     {
       "referencePath": "docs/reference/governance-profiles.ja.md",

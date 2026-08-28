@@ -1,0 +1,51 @@
+{
+  "changedPaths": [
+    "docs/reference/governance-complexity.ja.md",
+    "docs/reference/governance-complexity.md",
+    "docs/reference/governance-complexity.zh-CN.md",
+    "docs/reference/governance-cost-metrics.ja.md",
+    "docs/reference/governance-cost-metrics.md",
+    "docs/reference/governance-cost-metrics.zh-CN.md",
+    "docs/reference/governance-performance-budget.ja.md",
+    "docs/reference/governance-performance-budget.md",
+    "docs/reference/governance-performance-budget.zh-CN.md",
+    "docs/reference/governance-profile-cost-separation.ja.md",
+    "docs/reference/governance-profile-cost-separation.md",
+    "docs/reference/governance-profile-cost-separation.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-345-reference-governance-cost-batch-15.ja.md",
+    "docs/work-items/WI-345-reference-governance-cost-batch-15.md",
+    "docs/work-items/WI-345-reference-governance-cost-batch-15.zh-CN.md",
+    "tests/conformance/reference_file_inventory.json"
+  ],
+  "checkpointAt": "2026-08-28T01:25:24Z",
+  "checkpointContractDigest": "sha256:e1b52f3be4cc370b3be73d9bae765a81b8957539e0a5dc1dad6c7d6850f00eff",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:185c6935b55d5320509b9086cf3095d7798d8bdf1b304ec9c5ef0665fddbacda",
+  "createdAt": "2026-08-28T01:24:36Z",
+  "failedGate": "finish.verification",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-28T01:47:21Z",
+  "preflightContractDigest": "sha256:e1b52f3be4cc370b3be73d9bae765a81b8957539e0a5dc1dad6c7d6850f00eff",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:185c6935b55d5320509b9086cf3095d7798d8bdf1b304ec9c5ef0665fddbacda",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-28T01:47:26Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-345-reference-governance-cost-batch-15"
+}

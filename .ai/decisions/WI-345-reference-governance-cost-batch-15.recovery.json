@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-28T01:40:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-345-reference-governance-cost-batch-15.verification.json",
+    ".ai/work-items/active/WI-345-reference-governance-cost-batch-15.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery-retry-boundary"
+  ],
+  "predecessorContractDigest": "sha256:e1b52f3be4cc370b3be73d9bae765a81b8957539e0a5dc1dad6c7d6850f00eff",
+  "predecessorEventsDigest": "sha256:fc31d7eb812a5ff7850008f5de9c134131b79613fb72f7cb38f3f30b32ef8498",
+  "predecessorOutcomeDigest": "sha256:5f12d26aac166abd005e78656227e214dc0724f6fa2c3642e0a096c100fea06a",
+  "predecessorSummaryDigest": "sha256:d833a6973f56059c81df75abe95f6869935db4e680117afa9ebc9e02a7ce1abc",
+  "predecessorWorkItemId": "WI-345-reference-governance-cost-batch-15",
+  "reason": "Retry the fresh verification after binding the reviewed PR resource context; preserve the prior blocked lifecycle projection and do not rewrite generated evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh verification with the bound ResourceFinalizationContext, then complete finish and the reviewed PR lifecycle.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-345-reference-governance-cost-batch-15"
+}

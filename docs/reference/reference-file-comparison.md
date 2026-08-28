@@ -123,7 +123,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=243 implemented-equivalent=1 not-applicable=4 reference-only=32 deferred-next-batch=577 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=246 implemented-equivalent=1 not-applicable=4 reference-only=34 deferred-next-batch=572 migrate-gap=0 -->
 
 At the pinned v0.2.33 comparison baseline, the ledger contains 5,119 records:
 4,262 `generated-history`, 243 `implemented-different-by-design`, one
@@ -728,3 +728,32 @@ The current ledger is now 5,119 records: 4,262 `generated-history`, 243
 `not-applicable`, 32 `reference-only`, and 577 `deferred-next-batch`; there are
 zero `migrate-gap` records. The deferred count is scheduled work, not a parity
 claim.
+
+## WI-345 governance cost and performance documentation batch 15
+
+WI-345 individually compares the next five pinned reference documents at
+`e5acb677da6621004d96f0ef353c58fe8d3acfbf`. The two complexity pages remain
+reference-only because their Python/Make scanner and source thresholds are not
+Rust Runtime behavior. Cost, performance budgets, and profile/cost separation
+are represented by Rust-native, repository-bound projections with a narrower
+and explicit advisory boundary.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/governance-complexity.ja.md` | reference-only | `docs/reference/governance-complexity.ja.md`, `docs/reference/governance-integrity-gate.ja.md`, and immutable archive rules record the boundary; the source complexity scanner, Make target, and thresholds are not copied. |
+| `docs/reference/governance-complexity.md` | reference-only | `docs/reference/governance-complexity.md`, `docs/reference/governance-integrity-gate.md`, and `inspect/status/doctor` preserve repository facts and archive integrity, without claiming source metric equivalence. |
+| `docs/reference/governance-cost-metrics.md` | implemented-different-by-design | `ai-cockpit diagnose --repo <repo> [--work-item <id>]`, typed `VerificationCostEstimate`/`VerificationCostObservation`, and `docs/reference/verification-cost.md` provide identity-bound advisory facts; source JSONL phase/wait parsing and wire shape are not Runtime requirements. |
+| `docs/reference/governance-performance-budget.md` | implemented-different-by-design | Typed `PerformanceBaseline`/`PerformanceAssessment`, `tests/performance/regression_gate.sh`, and `tests/performance/README.md` enforce explicit local budgets without deriving P95 or weakening required verification. |
+| `docs/reference/governance-profile-cost-separation.md` | implemented-different-by-design | `docs/reference/governance-profile-cost-separation.md`, `ci-quality-gates.md`, and `verification-route.md` keep light/standard/strict, operation/stage escalation, VerificationTier, EvidenceAssurance, and cost separate. |
+
+This batch is semantic/documentation parity, not source command or JSON-wire
+compatibility. The object/adopter boundary is inherited unchanged: one shared
+Runtime, explicit `--repo`, repository-local evidence, policy-owned route
+requirements, and advisory cost/performance facts that cannot authorize a
+weaker governance result.
+
+The ledger after WI-345 is 5,119 records: 4,262 `generated-history`, 246
+`implemented-different-by-design`, one `implemented-equivalent`, four
+`not-applicable`, 34 `reference-only`, and 572 `deferred-next-batch`; there are
+zero `migrate-gap` records. The 572 deferred records remain scheduled work,
+not parity claims.

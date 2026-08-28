@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-28T01:47:56Z",
+  "files": {
+    "approachDigest": "sha256:429590ea3b016c39c11e5c04a72f82a793736def0b1277adbcc8e3e0e69146ad",
+    "approachPath": ".ai/work-items/archive/WI-345-reference-governance-cost-batch-15.approach.json",
+    "contractDigest": "sha256:31fb9e0e81de53ccab7d7073b548338df6b963a7e44e50bfedb8e815056eec91",
+    "contractPath": ".ai/work-items/archive/WI-345-reference-governance-cost-batch-15.contract.json",
+    "eventsDigest": "sha256:576a3930ba3989e227ba2a9ba0e3113d78e1923fa505394d63dcd0b454369eae",
+    "eventsPath": ".ai/work-items/archive/WI-345-reference-governance-cost-batch-15.events.jsonl",
+    "outcomeDigest": "sha256:3f67909241368ffe19a10f019efeae5473db261715a3cd410b1e1268e671b114",
+    "outcomePath": ".ai/work-items/archive/WI-345-reference-governance-cost-batch-15.outcome.json",
+    "summaryDigest": "sha256:6c95480712799e7d5d439088bc3fe4de8576437e5073c133f61a7796a1116f04",
+    "summaryPath": ".ai/work-items/archive/WI-345-reference-governance-cost-batch-15.summary.json",
+    "taskReportDigest": "sha256:3f11c2c826279ef8a848ed9956448e0c48201de6f1fdec1490db71f35dce2a82",
+    "taskReportMarkdownDigest": "sha256:f0b564981ba9a823f48b736e6c8b8cfdb6dc8708c345e3927f4ddf04dae6ea1d",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-345-reference-governance-cost-batch-15.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-345-reference-governance-cost-batch-15.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-345-reference-governance-cost-batch-15"
+}

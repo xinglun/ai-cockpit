@@ -63,6 +63,10 @@ matrix は次の 4 state だけを使います。
 | Multilingual semantic parity gate | Partial | CLI human output は localize されるが、全 report の field-by-field semantic parity は CI gate ではない。 |
 | Legacy evidence boundary | Implemented | legacy evidence は historical input のままで、fresh green verification に昇格しない。 |
 | Contract source language | Implemented | Contract の intent、scope、acceptance、authority は source text のまま保持し、翻訳で bytes を変更しない。 |
+| Governance complexity maintenance report | Reference-only | Source の Python/Make complexity scanner と threshold は source 固有の保守資料です。Rust は immutable archive と integrity boundary を保持しますが、同等 metric は主張しません。`governance-complexity.ja.md` を参照してください。 |
+| Governance cost metrics | Implemented differently | `diagnose`、typed cost estimate/observation、verification receipt が repository-bound advisory fact を提供します。Source JSONL phase/wait aggregation は Rust wire requirement ではありません。 |
+| Governance performance budgets | Implemented differently | Identity-bound `PerformanceBaseline` sample と明示的 regression budget を local に利用できます。Timing は required verification を弱めず provider assurance を作りません。 |
+| Governance profile/cost separation | Implemented differently | light/standard/strict route、operation/stage escalation、`VerificationTier`、`EvidenceAssurance`、advisory cost を分離します。 |
 | Installation と provider configuration | External boundary | binary delivery と provider/global configuration は repository governance state の外部で分離される。 |
 
 この matrix は working core と full reference surface parity を意図的に区別します。1 行の
@@ -277,6 +281,7 @@ verification record です。
 | WI-342 — documentation、distribution、enterprise boundary の file-level comparison | Implemented | [Work Item](../work-items/WI-342-reference-documentation-batch-13.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-342-reference-documentation-batch-13.contract.json`; verification `.ai/evidence/WI-342-reference-documentation-batch-13.verification.json`; finalization `.ai/decisions/WI-342-reference-documentation-batch-13.finalize.json`; close `.ai/decisions/WI-342-reference-documentation-batch-13.close.json`. |
 | WI-343 — reference inventory foundation reconciliation | Implemented | [Work Item](../work-items/WI-343-reference-inventory-foundation-reconciliation.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-343-reference-inventory-foundation-reconciliation.contract.json`; verification `.ai/evidence/WI-343-reference-inventory-foundation-reconciliation.verification.json`; finalization `.ai/decisions/WI-343-reference-inventory-foundation-reconciliation.finalize.json`; close `.ai/decisions/WI-343-reference-inventory-foundation-reconciliation.close.json`. |
 | WI-344 — reference documentation batch 14 | Implemented | [Work Item](../work-items/WI-344-reference-documentation-batch-14.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-344-reference-documentation-batch-14.contract.json`; verification `.ai/evidence/WI-344-reference-documentation-batch-14.verification.json`; finalization `.ai/decisions/WI-344-reference-documentation-batch-14.finalize.json`; close `.ai/decisions/WI-344-reference-documentation-batch-14.close.json`. |
+| WI-345 — governance cost and performance documentation batch 15 | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-345-reference-governance-cost-batch-15.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-345-reference-governance-cost-batch-15.contract.json`; verification `.ai/evidence/WI-345-reference-governance-cost-batch-15.verification.json`; finalization `.ai/decisions/WI-345-reference-governance-cost-batch-15.finalize.json`; close `.ai/decisions/WI-345-reference-governance-cost-batch-15.close.json`. |
 
 ## 現在の境界
 
