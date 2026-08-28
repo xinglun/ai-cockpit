@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:8d8d26d5a480649daf2fac16e3e16a3a4967af8394dfe6e85fa54d96044f49ae",
+  "receipt": {
+    "actor": "human:owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "post-merge-cleanup",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "947a4b44d946928c012b89dd5c4d410f4533c462",
+      "name": "codex/wi-354-release-v0-2-34",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:80d3466078b14c38db50cc329e6b14f946f04c8c7ef821ccbc7f7b03359eb5e9",
+    "operationId": "operation-WI-354-release-v0-2-34-cleanup",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "242524a3164c21c499937f77eb10eb11a28f2082",
+      "headRevision": "947a4b44d946928c012b89dd5c4d410f4533c462",
+      "mergeCommit": "d5f7f64c238894f3e37b0d05f57b9cb796aa4116",
+      "number": 319,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/319"
+    },
+    "reason": "PR #319 merged as d5f7f64; exact release branch, remote branch, and worktree were removed after verification.",
+    "receiptId": "ai-cockpit-WI-354-release-v0-2-34-cleanup-observed",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-354-release-v0-2-34",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/319",
+      "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/ai-cockpit-release-v0-2-34"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+    "runtimeVersion": "0.2.33",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-28T17:30:00+09:00",
+    "workItemId": "WI-354-release-v0-2-34",
+    "worktree": {
+      "branch": "codex/wi-354-release-v0-2-34",
+      "headRevision": "947a4b44d946928c012b89dd5c4d410f4533c462",
+      "path": "/Users/sei-rinn/dev/workspace_rust/.worktrees/ai-cockpit-release-v0-2-34",
+      "worktreeId": "WI-354-release-v0-2-34"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "WI-354-release-v0-2-34-cleanup-observation"
+}
