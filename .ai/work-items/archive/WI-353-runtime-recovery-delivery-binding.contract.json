@@ -1,0 +1,126 @@
+{
+  "acceptanceCriteria": [
+    "WI-351 的 archive、verification、Outcome、Summary、Events 和 task-report bytes 保持不可变，并由 successor recovery decision 精确绑定。",
+    "successor Contract 的 resourceContext 在 verification/archive 前精确绑定 GitHub PR #318、分支、worktree、main/origin 和当前实现头。",
+    "既有 Runtime 修复、回归测试和 fail-closed 行为保持不变，重新执行声明的 focused/full verification 与 hosted checks。",
+    "reviewed PR merge 后记录并验证 Provider finalization，精确清理分支/worktree，再完成 successor 与 predecessor 的结构化 close；未 merge 前不得声称已完成。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "11051dec7b12f8e7d15a272e1928d45d3f2f972f",
+  "createdAt": "2026-08-28T06:19:56Z",
+  "goal": "从 origin/main 11051dec7b12f8e7d15a272e1928d45d3f2f972f 对 WI-351 Runtime 修复执行显式 successor 交付：resourceContext 精确绑定 PR #318，保持既有实现与 fail-closed 行为，完成 hosted review/merge 后的 finalization、close 和清理。",
+  "intent": "在不改写 WI-351 不可变归档、验证和 recovery decision 的前提下，为已完成的 Runtime 修复绑定真实 GitHub PR #318，并完成 successor 的重新验证、Provider finalization 与结构化收尾。",
+  "mode": "code",
+  "outOfScope": [
+    "Sentinel 业务代码、Provider 实现和交易逻辑",
+    "WI-351 archive/verification/outcome/summary/events/task-report 的内容改写或删除",
+    "Runtime 共享代码之外的治理迁移",
+    "全局 Agent/MCP 配置、凭据和 secrets",
+    "未经人工决定的 PR merge、release、发布和生产执行"
+  ],
+  "predecessorContractDigest": "sha256:a51e317089eda4e87e3fe2f8e4fd70f5752d9e028f0a7ca7d7767f11d994286b",
+  "predecessorWorkItemId": "WI-351-runtime-recovery-binding",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-351-runtime-recovery-binding.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a88653ab2adb78991215756b49d8635236440d4976f207aef2f6a00d36602438",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-351-runtime-recovery-binding-2",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/318",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/ai-cockpit-runtime-recovery-binding-2"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/decisions/WI-351-runtime-recovery-binding.recovery.json",
+        ".ai/work-items/archive/WI-351-runtime-recovery-binding.archive.json"
+      ],
+      "expected": "WI-351 archive 与 successor identity 通过 exact predecessor digests 绑定，历史 bytes 不被改写。",
+      "required": true,
+      "scenario": "immutable predecessor 与 successor identity 的交叉绑定",
+      "status": "unverified",
+      "verificationPlan": "恢复 decision、archive manifest 与 predecessor digests，执行 governance integrity 与 successor lifecycle validation。"
+    },
+    {
+      "evidence": [
+        ".ai/work-items/active/WI-353-runtime-recovery-delivery-binding.contract.json",
+        "https://github.com/xinglun/ai-cockpit/pull/318"
+      ],
+      "expected": "successor Contract 的 baseRevision 与 resourceContext 精确匹配 PR #318 的 main/origin、branch、worktree 和 head。",
+      "required": true,
+      "scenario": "真实 reviewed PR resource context 的固定",
+      "status": "unverified",
+      "verificationPlan": "比较 GitHub PR #318 的 base/head 与 Contract，执行 finalize-plan 后的 Contract digest 校验。"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        "crates/cockpit-repository/tests/lifecycle_order.rs",
+        ".ai/evidence/WI-351-runtime-recovery-binding.verification.json"
+      ],
+      "expected": "既有 Runtime 修复、retry lifecycle 与 foreign/stale/contradictory evidence 的 fail-closed 行为保持不变。",
+      "required": true,
+      "scenario": "既有实现与 fail-closed behavior 的重新验证",
+      "status": "unverified",
+      "verificationPlan": "执行 focused recovery/lifecycle tests、locked workspace tests、fmt 与 clippy，并核对 hosted checks。"
+    },
+    {
+      "evidence": [
+        ".ai/work-items/archive/WI-351-runtime-recovery-binding.archive.json",
+        ".ai/evidence/WI-351-runtime-recovery-binding.verification.json"
+      ],
+      "expected": "PR merge 前不生成已合并 finalization；merge 后才记录 strict finalization receipt、验证并清理精确资源。",
+      "required": true,
+      "scenario": "merge 前后 Provider finalization gate",
+      "status": "unverified",
+      "verificationPlan": "在 provider merge 后记录 finalization receipt，执行 finalize-verify，再执行 close 与 exact cleanup。"
+    }
+  ],
+  "scope": [
+    ".ai/evidence/WI-351-runtime-recovery-binding.verification.json",
+    ".ai/work-items/archive/WI-351-runtime-recovery-binding.archive.json",
+    ".ai/work-items/archive/WI-351-runtime-recovery-binding.contract.json",
+    ".ai/work-items/archive/WI-351-runtime-recovery-binding.events.jsonl",
+    ".ai/work-items/archive/WI-351-runtime-recovery-binding.outcome.json",
+    ".ai/work-items/archive/WI-351-runtime-recovery-binding.summary.json",
+    ".ai/work-items/archive/WI-351-runtime-recovery-binding.task-report.json",
+    ".ai/work-items/archive/WI-351-runtime-recovery-binding.task-report.md",
+    ".ai/decisions/WI-351-runtime-recovery-binding.recovery.json",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-351-runtime-recovery-binding.ja.md",
+    "docs/work-items/WI-351-runtime-recovery-binding.md",
+    "docs/work-items/WI-351-runtime-recovery-binding.zh-CN.md",
+    "docs/work-items/WI-353-runtime-recovery-delivery-binding.ja.md",
+    "docs/work-items/WI-353-runtime-recovery-delivery-binding.md",
+    "docs/work-items/WI-353-runtime-recovery-delivery-binding.zh-CN.md",
+    ".ai/work-items/active/WI-353-runtime-recovery-delivery-binding.contract.json",
+    ".ai/work-items/active/WI-353-runtime-recovery-delivery-binding.summary.json"
+  ],
+  "sources": [
+    ".ai/decisions/WI-351-runtime-recovery-binding.recovery.json",
+    ".ai/work-items/archive/WI-351-runtime-recovery-binding.archive.json",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    ".github/workflows/ci.yml",
+    "https://github.com/xinglun/ai-cockpit/pull/318"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked --workspace",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings"
+  ],
+  "workItemId": "WI-353-runtime-recovery-delivery-binding"
+}

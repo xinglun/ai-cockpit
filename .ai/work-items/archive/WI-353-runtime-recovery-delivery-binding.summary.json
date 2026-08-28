@@ -1,0 +1,117 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-351-runtime-recovery-binding.recovery.json",
+    ".ai/work-items/archive/WI-353-runtime-recovery-delivery-binding.contract.json",
+    ".ai/work-items/archive/WI-353-runtime-recovery-delivery-binding.summary.json"
+  ],
+  "checkpointAt": "2026-08-28T06:34:38Z",
+  "checkpointContractDigest": "sha256:f6e4df352956c67c31e67ea73b6fe6d1868989f2e820738e1ee409d5714989f9",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:e24a7dbc968a4a0938b3c66a483fed14deddda7e028a4c63d31784e7b97369af",
+      "recorded": true,
+      "recordedAt": "2026-08-28T06:34:38Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b9ae028d901b5cddca02112335ae36f73a21122c5cf317e75c3169704704df90",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-353-runtime-recovery-delivery-binding"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:f6e4df352956c67c31e67ea73b6fe6d1868989f2e820738e1ee409d5714989f9",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e24a7dbc968a4a0938b3c66a483fed14deddda7e028a4c63d31784e7b97369af",
+      "previousContractHash": "sha256:e24a7dbc968a4a0938b3c66a483fed14deddda7e028a4c63d31784e7b97369af",
+      "reason": "补齐 successor 三语 Work Item 文档与 reference parity 注册，确保归档前交付记录完整。",
+      "recorded": true,
+      "recordedAt": "2026-08-28T06:50:52Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:57d54a93022193fe5c2db8269df89f38b6916f30322b06e12a6153a2e61564dd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-353-runtime-recovery-delivery-binding"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:57d54a93022193fe5c2db8269df89f38b6916f30322b06e12a6153a2e61564dd",
+  "createdAt": "2026-08-28T06:19:56Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-353-runtime-recovery-delivery-binding.contract.json",
+      ".ai/evidence/WI-353-runtime-recovery-delivery-binding.verification.json"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:a51e317089eda4e87e3fe2f8e4fd70f5752d9e028f0a7ca7d7767f11d994286b",
+  "predecessorWorkItemId": "WI-351-runtime-recovery-binding",
+  "preflightAt": "2026-08-28T06:59:43Z",
+  "preflightContractDigest": "sha256:f6e4df352956c67c31e67ea73b6fe6d1868989f2e820738e1ee409d5714989f9",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:57d54a93022193fe5c2db8269df89f38b6916f30322b06e12a6153a2e61564dd",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryDecisionPath": ".ai/decisions/WI-351-runtime-recovery-binding.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/decisions/WI-351-runtime-recovery-binding.recovery.json",
+        ".ai/work-items/archive/WI-351-runtime-recovery-binding.archive.json"
+      ],
+      "required": true,
+      "scenario": "immutable predecessor 与 successor identity 的交叉绑定",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/work-items/active/WI-353-runtime-recovery-delivery-binding.contract.json",
+        "https://github.com/xinglun/ai-cockpit/pull/318"
+      ],
+      "required": true,
+      "scenario": "真实 reviewed PR resource context 的固定",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        "crates/cockpit-repository/tests/lifecycle_order.rs",
+        ".ai/evidence/WI-351-runtime-recovery-binding.verification.json"
+      ],
+      "required": true,
+      "scenario": "既有实现与 fail-closed behavior 的重新验证",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/work-items/archive/WI-351-runtime-recovery-binding.archive.json",
+        ".ai/evidence/WI-351-runtime-recovery-binding.verification.json"
+      ],
+      "required": true,
+      "scenario": "merge 前后 Provider finalization gate",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-28T06:57:51Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-353-runtime-recovery-delivery-binding"
+}

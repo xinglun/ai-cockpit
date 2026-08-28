@@ -1,0 +1,109 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-353-runtime-recovery-delivery-binding.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:57d54a93022193fe5c2db8269df89f38b6916f30322b06e12a6153a2e61564dd",
+    "workItemId": "WI-353-runtime-recovery-delivery-binding"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-353-runtime-recovery-delivery-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-351-runtime-recovery-binding.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-353-runtime-recovery-delivery-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-353-runtime-recovery-delivery-binding.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-353-runtime-recovery-delivery-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-353-runtime-recovery-delivery-binding.summary.json"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-353-runtime-recovery-delivery-binding.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-353-runtime-recovery-delivery-binding.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-353-runtime-recovery-delivery-binding.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-353-runtime-recovery-delivery-binding.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-353-runtime-recovery-delivery-binding.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-353-runtime-recovery-delivery-binding.contract.json"
+        ],
+        "inference": false,
+        "text": "从 origin/main 11051dec7b12f8e7d15a272e1928d45d3f2f972f 对 WI-351 Runtime 修复执行显式 successor 交付：resourceContext 精确绑定 PR #318，保持既有实现与 fail-closed 行为，完成 hosted review/merge 后的 finalization、close 和清理。"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-353-runtime-recovery-delivery-binding.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-353-runtime-recovery-delivery-binding"
+}

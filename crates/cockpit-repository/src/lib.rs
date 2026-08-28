@@ -4468,6 +4468,12 @@ fn preflight_work_item_internal(
             });
         }
         let mut summary: serde_json::Value = read_json(&summary_path)?;
+        require_current_retry_recovery_binding(
+            &root,
+            &contract.work_item_id,
+            &summary,
+            current_runtime,
+        )?;
         let current_state = summary["state"].as_str().unwrap_or("");
         // A scaffold is intentionally not an active lifecycle item yet.  Keep
         // the historical read-only preflight behavior for this state so
@@ -4635,6 +4641,7 @@ fn finish_work_item_internal(
     let mut summary: serde_json::Value = read_json(&summary_path)?;
     let summary_state = summary["state"].as_str().unwrap_or("");
     let retry_recovery_pending = summary["recoveryRetryPending"] == serde_json::json!(true);
+    require_current_retry_recovery_binding(&root, work_item_id, &summary, current_runtime)?;
     if summary_state != "checkpointed" {
         return Err(ObserverError::State {
             path: summary_path.clone(),
@@ -4839,7 +4846,14 @@ fn finish_work_item_internal(
             .as_object_mut()
             .expect("Work Item Summary is an object")
             .remove("recoveryRetryDecisionDigest");
-        atomic_json(&summary_path, &summary)?;
+        if let Err(error) = atomic_json(&summary_path, &summary) {
+            // marker の削除に失敗した場合は元の Summary と今回のレポートを戻し、
+            // finish_ready と retry marker の矛盾した投影を残さない。
+            let _ = atomic_json(&summary_path, &original_summary);
+            let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.json")));
+            let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.md")));
+            return Err(error);
+        }
     }
     let outcome_v2 = OutcomeV2 {
         schema_version: 2,
@@ -5154,6 +5168,31 @@ fn retry_recovery_binding_matches(
         message: error.to_string(),
     })?;
     Ok(summary["recoveryRetryDecisionDigest"] == serde_json::json!(digest.to_string()))
+}
+
+/// Verify that a pending retry marker is backed by the current Runtime-owned
+/// recovery receipt before any lifecycle operation consumes the marker.
+fn require_current_retry_recovery_binding(
+    root: &Path,
+    work_item_id: &str,
+    summary: &serde_json::Value,
+    current_runtime: Option<&RuntimeContext>,
+) -> Result<(), ObserverError> {
+    if summary["recoveryRetryPending"] != serde_json::json!(true) {
+        return Ok(());
+    }
+    let decision = load_recovery_decision(root, work_item_id, current_runtime)?;
+    if decision
+        .as_ref()
+        .is_some_and(|value| value.decision == "retry")
+    {
+        return Ok(());
+    }
+    Err(recovery_decision_error(
+        root.join(".ai/decisions"),
+        "retry_binding_missing",
+        "pending retry marker has no current retry recovery receipt",
+    ))
 }
 
 fn validate_recovery_successor_binding(
@@ -5539,6 +5578,7 @@ fn record_verification_internal(
         });
     }
     let recovery_retry_pending = summary["recoveryRetryPending"] == serde_json::json!(true);
+    require_current_retry_recovery_binding(&root, work_item_id, &summary, current_runtime)?;
     if !matches!(summary["preflightState"].as_str(), Some("green" | "yellow"))
         && !recovery_retry_pending
     {
@@ -12860,7 +12900,16 @@ fn load_recovery_decision(
     {
         // Retry receipts bind the pre-retry Summary by design. Once fresh
         // verification advances that Summary, retain the bytes as history
-        // without projecting them as a current recovery decision.
+        // without projecting them as a current recovery decision. A pending
+        // marker, however, still requires a matching current receipt.
+        let summary = read_json(&summary_path)?;
+        if summary["recoveryRetryPending"] == serde_json::json!(true) {
+            return Err(recovery_decision_error(
+                summary_path,
+                "retry_binding_missing",
+                "pending retry marker has no valid current recovery receipt",
+            ));
+        }
         return Ok(None);
     } else if let Some((_, _, error)) = stale_candidates.into_iter().next() {
         return Err(error);

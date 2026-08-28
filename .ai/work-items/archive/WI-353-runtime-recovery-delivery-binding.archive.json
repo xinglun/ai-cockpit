@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-28T06:59:47Z",
+  "files": {
+    "contractDigest": "sha256:559323185ee1af89dde6e85837a3da2b83f96caa75d3c6a89665983ddaa289e3",
+    "contractPath": ".ai/work-items/archive/WI-353-runtime-recovery-delivery-binding.contract.json",
+    "eventsDigest": "sha256:90b0410885fe3db30fbd7d6b8419a3865a818ffa02e611fb903981321ad809d7",
+    "eventsPath": ".ai/work-items/archive/WI-353-runtime-recovery-delivery-binding.events.jsonl",
+    "outcomeDigest": "sha256:0111331e0e40c52b86466a49f69f24360e8486cbc89a8e541b176e3fa4b16cdd",
+    "outcomePath": ".ai/work-items/archive/WI-353-runtime-recovery-delivery-binding.outcome.json",
+    "summaryDigest": "sha256:3118b19774f6e9da4318e3db2003ed873448924566c641b23c3f875452318a91",
+    "summaryPath": ".ai/work-items/archive/WI-353-runtime-recovery-delivery-binding.summary.json",
+    "taskReportDigest": "sha256:0c28ba8ec14ccb8f3255d944b8c61f90aba7a2fb9c87699975b0ebc92f6102b1",
+    "taskReportMarkdownDigest": "sha256:0def8df42b4c68ed7b2f179f2d5c959985b5509ccc595ff82a8c0e19b828f9ac",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-353-runtime-recovery-delivery-binding.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-353-runtime-recovery-delivery-binding.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-353-runtime-recovery-delivery-binding"
+}

@@ -839,6 +839,131 @@ fn retry_verify_preflight_finish_keeps_recovery_receipt_bound_to_the_attempt() {
 }
 
 #[test]
+fn pending_retry_requires_a_matching_receipt_at_each_lifecycle_boundary() {
+    for case in ["missing", "misnamed", "tampered"] {
+        let directory = repository();
+        let id = "WI-BLOCKED";
+        let runtime = current_runtime();
+        plan_resource_finalization(
+            directory.path(),
+            id,
+            &ResourceFinalizationContext {
+                branch: "feature/recovery-binding-negative".into(),
+                worktree: directory.path().display().to_string(),
+                base_branch: "main".into(),
+                base_remote: "origin".into(),
+                provider: "github".into(),
+                pull_request:
+                    "https://github.com/example/ai-cockpit/pull/recovery-binding-negative".into(),
+            },
+        )
+        .expect("finalization plan");
+
+        let mut retry = receipt(&directory, "retry with a pending current receipt");
+        retry["decision"] = json!("retry");
+        retry
+            .as_object_mut()
+            .expect("retry receipt object")
+            .remove("successorWorkItemId");
+        retry["runtimeVersion"] = json!(runtime.runtime_version);
+        retry["runtimeDigest"] = json!(runtime.runtime_digest.to_string());
+        retry["decidedAt"] = json!("2026-08-28T05:02:00Z");
+        record_recovery_decision(directory.path(), id, &retry, &runtime).expect("retry recovery");
+
+        let canonical = directory
+            .path()
+            .join(".ai/decisions/WI-BLOCKED.recovery.json");
+        match case {
+            "missing" => fs::remove_file(&canonical).expect("remove retry receipt"),
+            "misnamed" => fs::rename(
+                &canonical,
+                directory
+                    .path()
+                    .join(".ai/decisions/WI-BLOCKED.recovery.misnamed.json"),
+            )
+            .expect("rename retry receipt"),
+            "tampered" => {
+                let mut value: serde_json::Value =
+                    serde_json::from_slice(&fs::read(&canonical).expect("retry receipt"))
+                        .expect("retry receipt JSON");
+                value["predecessorSummaryDigest"] = json!(Digest::sha256_bytes(b"stale-summary"));
+                fs::write(
+                    &canonical,
+                    serde_json::to_vec_pretty(&value).expect("receipt JSON"),
+                )
+                .expect("tamper retry receipt");
+            }
+            _ => unreachable!(),
+        }
+
+        let outcome = outcome_v2_with_runtime(directory.path(), id, &runtime)
+            .expect("invalid pending retry remains renderable");
+        assert_eq!(outcome.state, OutcomeState::Unknown, "{case}");
+        assert_eq!(
+            outcome.decision_state,
+            Some(cockpit_core::DecisionState::Red),
+            "{case}"
+        );
+        assert!(
+            outcome
+                .unknowns
+                .contains(&"recovery_decision_invalid".into()),
+            "{case}: {:?}",
+            outcome.unknowns
+        );
+
+        let contract_path = directory
+            .path()
+            .join(".ai/work-items/active/WI-BLOCKED.contract.json");
+        let preflight =
+            preflight_work_item_with_runtime(directory.path(), &contract_path, &runtime)
+                .expect_err("preflight must not trust a pending marker alone");
+        assert!(
+            preflight.to_string().contains("recovery_decision_invalid"),
+            "{case}: {preflight}"
+        );
+
+        let git = cockpit_git::GitRepository::discover(directory.path()).expect("git repository");
+        let snapshot = git.snapshot().expect("snapshot");
+        let run = run_repository_verification(
+            directory.path(),
+            &RepositoryVerificationRequest {
+                node_id: "recovery-binding-negative-check".into(),
+                program: "true".into(),
+                args: Vec::new(),
+                scope: vec!["src/**".into()],
+                stage: "task".into(),
+                runner: "local".into(),
+                runtime_digest: runtime.runtime_digest.to_string(),
+                base_commit: None,
+                workers: 1,
+                policy: RepositoryVerificationPolicy::NeverReuse,
+            },
+        )
+        .expect("verification run");
+        let record = record_verification_with_runtime(
+            directory.path(),
+            id,
+            &serde_json::to_value(&run.receipt).expect("receipt JSON"),
+            &runtime,
+            &snapshot,
+        )
+        .expect_err("verification must not trust a pending marker alone");
+        assert!(
+            record.to_string().contains("recovery_decision_invalid"),
+            "{case}: {record}"
+        );
+
+        let finish = finish_work_item_with_runtime(directory.path(), id, &runtime)
+            .expect_err("finish must not trust a pending marker alone");
+        assert!(
+            finish.to_string().contains("recovery_decision_invalid"),
+            "{case}: {finish}"
+        );
+    }
+}
+
+#[test]
 fn newer_retry_receipt_supersedes_stale_contract_binding_in_append_only_chain() {
     let directory = repository();
     let runtime = current_runtime();
