@@ -28,11 +28,11 @@
   "repositorySnapshotDigest": "sha256:623389d3ae5bb65ddbed9048c4aca7843a2dd3a72a151682dac5a1661fae09e5",
   "requiredEvidenceClasses": [],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-369-post-merge-ci-transition",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/332",
     "worktree": "/private/tmp/ai-cockpit-wi369-post-merge-ci-transition"
   },
   "risk": "normal",

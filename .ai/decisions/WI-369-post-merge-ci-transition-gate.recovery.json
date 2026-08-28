@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-29T05:45:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-369-post-merge-ci-transition-gate.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    "docs/getting-started/first-work-item.md"
+  ],
+  "predecessorContractDigest": "sha256:59e75339db8d5fca3a3fe8a32e7f823712fa85777d014b25af4d78d1e86e2adb",
+  "predecessorEventsDigest": "sha256:be2dd4128203c5a2689b47a86966ec002f66ea457993b549f6d63402efdc77a9",
+  "predecessorOutcomeDigest": "sha256:3a811840940af7742be214305f92ee7855a5ae3f2f6a4759c4a4f472a49bdfbe",
+  "predecessorSummaryDigest": "sha256:08a968e02e601ba473b7bd8154eb41424833d6aad1a98782126233ce2158c8f1",
+  "predecessorWorkItemId": "WI-369-post-merge-ci-transition-gate",
+  "reason": "The finalize-plan resource context changed the Contract identity after a prior failed finish; retry the same bounded Work Item with fresh preflight and verification instead of opening a successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh non-red preflight and installed Runtime verification for the planned PR context, then finish and archive without rewriting prior evidence.",
+  "runtimeDigest": "sha256:af238d00182cdc108cbb95e3b18c8ed4ad07bc40289a1e970da47d09d12e5f86",
+  "runtimeVersion": "0.2.38",
+  "schemaVersion": 1,
+  "workItemId": "WI-369-post-merge-ci-transition-gate"
+}
