@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-28T14:25:30Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-363-release-v0-2-37.contract.json",
+    ".ai/work-items/active/WI-363-release-v0-2-37.summary.json",
+    ".ai/work-items/active/WI-363-release-v0-2-37.outcome.json",
+    ".ai/work-items/active/WI-363-release-v0-2-37.events.jsonl"
+  ],
+  "policyRefs": [
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:e74bfd644910cd7bf4e2494647dce51fd8ecc98eb2e9d7d5d0ae9d055ecccc8b",
+  "predecessorEventsDigest": "sha256:69e48a7b2804174ec3a19384715431df357f0ff5132d89385a78282bb275c9f7",
+  "predecessorOutcomeDigest": "sha256:a1a1c37d6e35eccb3923b6d0eae2a70bb938f6f3ebdfe0847be35d49067226ba",
+  "predecessorSummaryDigest": "sha256:40bc049dd596a1f836f05f4f42ad98bda8d1767bb0d3263207504fecce443bc8",
+  "predecessorWorkItemId": "WI-363-release-v0-2-37",
+  "reason": "finalize-plan 正确绑定当前 PR 资源上下文后，使先前验证证据失效；按 Runtime 的 append-only recovery 规则重新验证当前 Contract。",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "重新执行当前 Contract 的 preflight、verify、finish 与后续生命周期。",
+  "runtimeDigest": "sha256:39a1e27deb5d47946c723d6129ead21a6fcb6bd5dbb7c1346a97e83ec61543c4",
+  "runtimeVersion": "0.2.34",
+  "schemaVersion": 1,
+  "workItemId": "WI-363-release-v0-2-37"
+}

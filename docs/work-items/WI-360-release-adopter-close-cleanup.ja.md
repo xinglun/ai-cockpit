@@ -6,7 +6,7 @@ description: "staged/N-1 adopter acceptance の resource finalization と一時 
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 lastVerifiedBy: WI-360-release-adopter-close-cleanup
 authority: canonical
 ---
