@@ -123,11 +123,11 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=246 implemented-equivalent=1 not-applicable=4 reference-only=34 deferred-next-batch=572 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=252 implemented-equivalent=1 not-applicable=4 reference-only=34 deferred-next-batch=566 migrate-gap=0 -->
 
 At the pinned v0.2.33 comparison baseline, the ledger contains 5,119 records:
-4,262 `generated-history`, 243 `implemented-different-by-design`, one
-`implemented-equivalent`, four `not-applicable`, 32 `reference-only`, and 577
+4,262 `generated-history`, 252 `implemented-different-by-design`, one
+`implemented-equivalent`, four `not-applicable`, 34 `reference-only`, and 566
 `deferred-next-batch` records. Deferred records remain scheduled work, not
 parity claims. The capability/profile slice has no remaining `migrate-gap`
 records:
@@ -143,7 +143,7 @@ records:
 
 The governance entrypoints, getting-started routes, CI/release boundaries, and
 capability/profile projections have been reviewed at this baseline. The four
-records above are Rust-native, explicitly bounded counterparts; the 582
+records above are Rust-native, explicitly bounded counterparts; the 566
 deferred semantic comparisons remain scheduled work.
 
 WI-274 rebinds only the target checkout metadata and canonical comparison
@@ -757,3 +757,35 @@ The ledger after WI-345 is 5,119 records: 4,262 `generated-history`, 246
 `not-applicable`, 34 `reference-only`, and 572 `deferred-next-batch`; there are
 zero `migrate-gap` records. The 572 deferred records remain scheduled work,
 not parity claims.
+
+## WI-346 governance profiles and Cockpit status reading
+
+WI-346 individually compares the six pinned reference documents below at
+`e5acb677da6621004d96f0ef353c58fe8d3acfbf`. All six are
+`implemented-different-by-design`: the target now gives adopters an explicit
+tri-language reading route, while its Rust Runtime, repository context, and
+CI boundaries remain different from the source Make/Python orchestration.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/governance-profiles.ja.md` | implemented-different-by-design | `docs/reference/governance-profiles.ja.md`, `governance-profile-cost-separation.ja.md`, `ci-quality-gates.ja.md`, and `verification-route.ja.md` document the same proportional profile intent in Japanese; source dispatch bytes are not copied. |
+| `docs/reference/governance-profiles.md` | implemented-different-by-design | `docs/reference/governance-profiles.md`, `governance-profile-cost-separation.md`, `ci-quality-gates.md`, and `verification-route.md` map Light/Standard/Strict, release escalation, mandatory floors, and fail-closed routing to the target's explicit `gate --repo` boundary. |
+| `docs/reference/governance-profiles.zh-CN.md` | implemented-different-by-design | The Chinese counterpart pages preserve profile, tier/assurance, cost, and override boundaries without presenting source `make` or Python commands as Rust requirements. |
+| `docs/reference/how-to-read-cockpit-status.ja.md` | implemented-different-by-design | `how-to-read-cockpit-status.ja.md`, `outcome-report.ja.md`, and `commands.ja.md` provide a Japanese human handoff route; contract text and source evidence remain authoritative. |
+| `docs/reference/how-to-read-cockpit-status.md` | implemented-different-by-design | `how-to-read-cockpit-status.md`, `outcome-report.md`, and `commands.md` map source reader labels to the Rust Outcome sections, colors, stop conditions, and explicit next action. |
+| `docs/reference/how-to-read-cockpit-status.zh-CN.md` | implemented-different-by-design | The Chinese counterpart pages provide the same human-safe reading order and evidence boundary; automatic translation cannot alter Contract facts or create approval. |
+
+The six pages deliberately distinguish `VerificationTier` from
+`EvidenceAssurance`, and both from advisory cost observations. They explain
+that `🟢` is reviewable evidence, `🟡` is incomplete or decision-pending, and
+`🔴` is a stop condition; none is merge or release authorization. `unknown`
+remains visible and cannot be guessed away. The Rust pages use explicit
+`--repo`, preserve the original Contract language, and state the MCP/host
+presentation boundary so an adopter can inherit the same behavior.
+
+This is semantic/documentation parity, not source command or JSON-wire parity.
+The current ledger after WI-346 is 5,119 records: 4,262
+`generated-history`, 252 `implemented-different-by-design`, one
+`implemented-equivalent`, four `not-applicable`, 34 `reference-only`, and 566
+`deferred-next-batch`; `migrate-gap` remains zero. The 566 deferred records are
+still scheduled comparisons, not parity claims.

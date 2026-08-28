@@ -31587,45 +31587,78 @@
     },
     {
       "referencePath": "docs/reference/governance-profiles.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-346-reference-governance-profiles-status",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/governance-profiles.ja.md",
+        "docs/reference/governance-profile-cost-separation.ja.md",
+        "docs/reference/ci-quality-gates.ja.md",
+        "docs/reference/verification-route.ja.md",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "reason": "The reference risk-based Light/Standard/Strict guidance is preserved in a Japanese Rust-native route with release as an operation escalation, cost separated from verification and assurance, and fail-closed controls. Source Make/Python dispatch and source wire shapes are not copied."
     },
     {
       "referencePath": "docs/reference/governance-profiles.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-346-reference-governance-profiles-status",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/governance-profiles.md",
+        "docs/reference/governance-profile-cost-separation.md",
+        "docs/reference/ci-quality-gates.md",
+        "docs/reference/verification-route.md",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "reason": "The reference risk-based Light/Standard/Strict guidance is preserved in a Rust-native route with release as an operation escalation, cost separated from verification and assurance, and fail-closed controls. Source Make/Python dispatch and source wire shapes are not copied."
     },
     {
       "referencePath": "docs/reference/governance-profiles.zh-CN.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-346-reference-governance-profiles-status",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/governance-profiles.zh-CN.md",
+        "docs/reference/governance-profile-cost-separation.zh-CN.md",
+        "docs/reference/ci-quality-gates.zh-CN.md",
+        "docs/reference/verification-route.zh-CN.md",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "reason": "源文件关于 Light/Standard/Strict 风险质量路由的语义由 Rust 原生路线保留：release 是操作升级，成本与 Verification/Assurance 分离，强制控制保持 fail-closed。不复制源 Make/Python 调度或源 wire shape。"
     },
     {
       "referencePath": "docs/reference/how-to-read-cockpit-status.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-346-reference-governance-profiles-status",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/how-to-read-cockpit-status.ja.md",
+        "docs/reference/outcome-report.ja.md",
+        "docs/reference/commands.ja.md",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "reason": "The reference human status-reading order and semantic color signals are projected onto the target's visible tri-language Outcome and request-scoped status commands. The target preserves contract text and never infers approval from a color; source report wire fields are not copied."
     },
     {
       "referencePath": "docs/reference/how-to-read-cockpit-status.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-346-reference-governance-profiles-status",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/how-to-read-cockpit-status.md",
+        "docs/reference/outcome-report.md",
+        "docs/reference/commands.md",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "reason": "The reference human status-reading order and semantic color signals are projected onto the target's visible tri-language Outcome and request-scoped status commands. The target preserves contract text and never infers approval from a color; source report wire fields are not copied."
     },
     {
       "referencePath": "docs/reference/how-to-read-cockpit-status.zh-CN.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-346-reference-governance-profiles-status",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/how-to-read-cockpit-status.zh-CN.md",
+        "docs/reference/outcome-report.zh-CN.md",
+        "docs/reference/commands.zh-CN.md",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "reason": "源文件关于面向人的 status 阅读顺序和颜色信号，由目标的三语可见 Outcome 与 request-scoped status 命令投影。目标保留 Contract 原文，不从颜色推断批准；不复制源报告 wire 字段。"
     },
     {
       "referencePath": "docs/reference/human-report-semantic-quality.md",
