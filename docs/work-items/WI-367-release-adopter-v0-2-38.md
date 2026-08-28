@@ -7,7 +7,7 @@ audience: [adopter, maintainer, reviewer]
 status: implemented
 authority: canonical
 lastVerifiedBy: WI-367-release-adopter-v0-2-38
-terminalArchive: .ai/work-items/archive/WI-367-release-adopter-v0-2-38.archive.json
+terminalArchive: .ai/work-items/archive/WI-367-release-adopter-v0-2-38.contract.json
 terminalVerification: .ai/evidence/WI-367-release-adopter-v0-2-38.verification.json
 terminalFinalization: .ai/decisions/WI-367-release-adopter-v0-2-38.finalize.json
 terminalDecision: .ai/decisions/WI-367-release-adopter-v0-2-38.close.json

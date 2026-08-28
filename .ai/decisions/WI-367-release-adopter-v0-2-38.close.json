@@ -1,0 +1,134 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-367-release-adopter-v0-2-38.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:756a274e97ad6ad0664462b65011702fefaa9505d3a51d3e46a93a2db239665d",
+      "workItemId": "WI-367-release-adopter-v0-2-38"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-367-release-adopter-v0-2-38.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-367-release-adopter-v0-2-38.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-367-release-adopter-v0-2-38/acceptance.json",
+            ".ai/evidence/WI-367-release-adopter-v0-2-38.verification.json",
+            ".ai/decisions/WI-367-release-adopter-v0-2-38.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:owner via explicit-user-authorization at 2026-08-28T18:43:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-367-release-adopter-v0-2-38.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-367-release-adopter-v0-2-38.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-367-release-adopter-v0-2-38.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-367-release-adopter-v0-2-38.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-367-release-adopter-v0-2-38.contract.json"
+          ],
+          "inference": false,
+          "text": "Establish an auditable post-release adopter acceptance baseline for v0.2.38 without source or workspace-binary fallback."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-367-release-adopter-v0-2-38.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-367-release-adopter-v0-2-38"
+  },
+  "finalReportDigest": "sha256:01be90d7311852e9c550ede611c6211bc75ea56d4147161233f88718e3813dd6",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:78e86de75579f9a54e6bfaac4066128d6651a8056e6200782da7e020771f71b2",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-367-release-adopter-v0-2-38.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-28T18:43:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-367-release-adopter-v0-2-38/acceptance.json",
+      ".ai/evidence/WI-367-release-adopter-v0-2-38.verification.json",
+      ".ai/decisions/WI-367-release-adopter-v0-2-38.finalize.json"
+    ],
+    "policyRefs": [
+      "https://github.com/xinglun/ai-cockpit/actions/runs/33195494850",
+      "AGENTS.md:premerge-finalization-before-close"
+    ],
+    "reason": "Confirm the immutable public v0.2.38 adopter acceptance after PR #330 hosted checks passed and exact branch/worktree cleanup was verified.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-28T18:42:14Z",
+  "workItemId": "WI-367-release-adopter-v0-2-38"
+}

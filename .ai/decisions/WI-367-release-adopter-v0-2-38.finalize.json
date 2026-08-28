@@ -1,0 +1,58 @@
+{
+  "actor": "human:owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "de307e5c5ade75d7f8d5e183febb9e8f3ab90fb6",
+    "name": "codex/wi-367-release-adopter-v0-2-38",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:ee56a9d5a9104cee5da863eb08a4716c75b07b6cd754dd4e48f82289660f6ee1",
+  "operationId": "delete-wi-367-release-adopter-v0-2-38",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "eff57c83aea7e905b4620ecd3ff664be0c100d98",
+    "headRevision": "de307e5c5ade75d7f8d5e183febb9e8f3ab90fb6",
+    "mergeCommit": "a49254ee646c152a452d881c41768f39d94f4671",
+    "number": 330,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/330"
+  },
+  "reason": "The reviewed PR was merged with all hosted checks passing; the exact Work Item branch and worktree will be removed after synchronization.",
+  "receiptId": "wi-367-release-adopter-v0-2-38-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-367-release-adopter-v0-2-38",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/330",
+    "worktree": "/private/tmp/ai-cockpit-wi367-release-adopter-v0-2-38"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:39a1e27deb5d47946c723d6129ead21a6fcb6bd5dbb7c1346a97e83ec61543c4",
+  "runtimeVersion": "0.2.34",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-28T18:41:24Z",
+  "workItemId": "WI-367-release-adopter-v0-2-38",
+  "worktree": {
+    "branch": "codex/wi-367-release-adopter-v0-2-38",
+    "headRevision": "de307e5c5ade75d7f8d5e183febb9e8f3ab90fb6",
+    "path": "/private/tmp/ai-cockpit-wi367-release-adopter-v0-2-38",
+    "worktreeId": "WI-367-release-adopter-v0-2-38"
+  }
+}
