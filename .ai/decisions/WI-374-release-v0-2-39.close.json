@@ -1,0 +1,132 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-374-release-v0-2-39.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:840a6f46601cc58666ce83ed2deb165a68d1149366e24b7f93aad39f706b3747",
+      "workItemId": "WI-374-release-v0-2-39"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-374-release-v0-2-39.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-374-release-v0-2-39.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-374-release-v0-2-39.verification.json",
+            ".ai/decisions/WI-374-release-v0-2-39.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via reviewed-pr-337-and-cleanup at 2026-08-29T00:15:00+09:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-374-release-v0-2-39.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-374-release-v0-2-39.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-374-release-v0-2-39.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-374-release-v0-2-39.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-374-release-v0-2-39.contract.json"
+          ],
+          "inference": false,
+          "text": "Produce a reviewed v0.2.39 release and identity-bound post-release acceptance using only downloaded public artifacts."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-374-release-v0-2-39.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-374-release-v0-2-39"
+  },
+  "finalReportDigest": "sha256:679079754ce250a5e6969b27bf98f54fbfe6eab875e0c07bbdbfe8f11687df6e",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:1460f6b29625814f936a03e549a3329d342014569520bbaaa3106dd88c45dd52",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-374-release-v0-2-39.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "reviewed-pr-337-and-cleanup",
+    "decidedAt": "2026-08-29T00:15:00+09:00",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-374-release-v0-2-39.verification.json",
+      ".ai/decisions/WI-374-release-v0-2-39.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "Reviewed PR #337 passed hosted checks, merged to origin/main, and the exact branch/worktree cleanup was verified. Public artifact acceptance remains a post-release successor boundary.",
+    "resumeCondition": "After the immutable v0.2.39 Release is published, run the separate WI-375 adopter acceptance with only the downloaded artifact."
+  },
+  "timestamp": "2026-08-28T23:57:48Z",
+  "workItemId": "WI-374-release-v0-2-39"
+}
