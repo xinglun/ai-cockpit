@@ -1,0 +1,95 @@
+{
+  "acceptanceCriteria": [
+    "recovery retry と fresh preflight の後、before_edit および過去 amendment の checkpoint evidence は immutable historical evidence として保持され、current checkpoint binding の不一致だけが finish を停止する。",
+    "より新しい valid retry receipt がある場合、古い successor receipt の predecessor outcome/events presence mismatch は stale candidate として無害化される。ただし最新候補の malformed、foreign identity、digest mismatch は引き続き fail-closed になる。",
+    "既存の receipt、checkpoint、summary、decision history の bytes は変更せず、回帰テストで exact な stale-history と fail-closed の両方を固定する。",
+    "Contract に宣言した検証コマンドを通過し、Runtime の lifecycle finish における今回の Sentinel 相当ケースを再現・検証できる。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "a7db853ff3fb575f85553d1fc9add6e1e37efbdd",
+  "createdAt": "2026-08-28T00:23:25Z",
+  "goal": "現在のライフサイクルだけを検証対象とし、履歴 checkpoint evidence は現在のスナップショット不一致だけで finish を阻害しないようにする。また、より新しい有効な retry receipt が存在する場合、古い predecessor outcome/events presence mismatch を stale history として扱い、fail-closed の不変性を保つ。",
+  "intent": "Sentinel Provider のライフサイクル完了時に、recovery retry 後の不変な過去 checkpoint evidence と、新しい retry receipt に置換された古い recovery receipt が現在の失敗として扱われ、合法的な finish が停止した。履歴を改変せずに、現在の checkpoint binding と stale な過去候補を正しく分離する。",
+  "mode": "code",
+  "outOfScope": [
+    "Sentinel リポジトリのコード・履歴・Provider",
+    "global Agent/MCP 設定、認証情報、secret",
+    "Sentinel の report / `.ai/` 証跡の書換え",
+    "user visible benefit の新しい宣言契約",
+    "NVIDIA 固有処理",
+    "gate、leader、action matrix、position sizing、execution の業務ロジック",
+    "merge、release、close（レビュー済み PR 後の人間判断）"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4e4c53ee4c1a3c1a18ad9d8862c4162ead4839e0ce4caf23931671b7b25e6b42",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/runtime-recovery-checkpoint-compatibility",
+    "provider": "github",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/ai-cockpit-runtime-recovery"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "scenario": "current checkpoint binding after historical edit",
+      "required": true,
+      "evidence": [],
+      "expected": "Historical before_edit and amendment checkpoint evidence remains immutable, while a current before_finish binding is the only snapshot authorization checked against the current repository.",
+      "verificationPlan": "Run lifecycle_order regression coverage with an amended Contract and fresh before_finish checkpoint evidence, then assert finish succeeds without rewriting historical entries.",
+      "status": "unverified"
+    },
+    {
+      "scenario": "stale predecessor presence after valid retry",
+      "required": true,
+      "evidence": [],
+      "expected": "An older successor receipt with outcome/events presence mismatch is treated as stale only when a newer valid retry receipt is present.",
+      "verificationPlan": "Run recovery_decision regression coverage with the exact old successor plus newer retry candidate shape and assert the latest retry is selected.",
+      "status": "unverified"
+    },
+    {
+      "scenario": "newest recovery candidate remains fail-closed",
+      "required": true,
+      "evidence": [],
+      "expected": "Malformed, foreign, digest-mismatched, or otherwise invalid newest recovery candidates still return recovery_decision_invalid and cannot be bypassed by an older valid candidate.",
+      "verificationPlan": "Run the existing and new recovery_decision negative fixtures for invalid newest candidates and assert stable fail-closed diagnostics.",
+      "status": "unverified"
+    },
+    {
+      "scenario": "append-only history preservation",
+      "required": true,
+      "evidence": [],
+      "expected": "Historical checkpoint and recovery receipt bytes remain unchanged while the current read-side projection selects the valid lifecycle head.",
+      "verificationPlan": "Run lifecycle and recovery tests with byte snapshots of historical evidence before and after read-side selection.",
+      "status": "unverified"
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "crates/cockpit-repository/tests/lifecycle_order.rs"
+  ],
+  "sources": [
+    "crates/cockpit-repository/src/lib.rs#validate_checkpoint_evidence_bindings",
+    "crates/cockpit-repository/src/lib.rs#load_recovery_decision",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "crates/cockpit-repository/tests/lifecycle_order.rs",
+    "ユーザー承認済み Sentinel Provider 完了時の Runtime finish blocking evidence（2026-08-28）",
+    "ユーザー承認済みの実 PR バインディングを含む後続收尾（2026-08-28）"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked -p cockpit-repository --test recovery_decision -- --nocapture",
+    "cargo test --locked -p cockpit-repository --test lifecycle_order -- --nocapture",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "runtime-recovery-checkpoint-compatibility"
+}

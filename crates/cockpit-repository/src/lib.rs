@@ -12754,7 +12754,9 @@ fn load_recovery_decision(
                     "predecessor_contract_mismatch",
                     "predecessor_summary_mismatch",
                     "predecessor_outcome_mismatch",
+                    "predecessor_outcome_presence_mismatch",
                     "predecessor_events_mismatch",
+                    "predecessor_events_presence_mismatch",
                     "runtime_mismatch",
                 ]
                 .iter()

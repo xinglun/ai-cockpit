@@ -764,6 +764,57 @@ fn newer_retry_receipt_supersedes_stale_contract_binding_in_append_only_chain() 
 }
 
 #[test]
+fn newer_retry_receipt_supersedes_stale_successor_presence_mismatch() {
+    let directory = repository();
+    let runtime = current_runtime();
+    let decisions = directory.path().join(".ai/decisions");
+    let canonical = decisions.join("WI-BLOCKED.recovery.json");
+
+    let mut stale_successor = receipt(
+        &directory,
+        "historical successor omitted predecessor outcome and events",
+    );
+    let summary_path = directory
+        .path()
+        .join(".ai/work-items/active/WI-BLOCKED.summary.json");
+    let mut retry_summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).unwrap()).unwrap();
+    retry_summary["recoveryRetryPending"] = json!(true);
+    stale_successor["predecessorSummaryDigest"] =
+        json!(cockpit_protocol::digest_json(&retry_summary).unwrap());
+    stale_successor["runtimeVersion"] = json!(runtime.runtime_version);
+    stale_successor["runtimeDigest"] = json!(runtime.runtime_digest.to_string());
+    stale_successor["decidedAt"] = json!("2026-08-23T00:08:00Z");
+    stale_successor
+        .as_object_mut()
+        .unwrap()
+        .remove("predecessorOutcomeDigest");
+    stale_successor
+        .as_object_mut()
+        .unwrap()
+        .remove("predecessorEventsDigest");
+    let stale_bytes = serde_json::to_vec_pretty(&stale_successor).unwrap();
+    fs::write(&canonical, &stale_bytes).unwrap();
+
+    let mut retry = receipt(&directory, "newer retry replaces stale successor history");
+    retry["decision"] = json!("retry");
+    retry.as_object_mut().unwrap().remove("successorWorkItemId");
+    retry["runtimeVersion"] = json!(runtime.runtime_version);
+    retry["runtimeDigest"] = json!(runtime.runtime_digest.to_string());
+    retry["decidedAt"] = json!("2026-08-23T00:09:00Z");
+    record_recovery_decision(directory.path(), "WI-BLOCKED", &retry, &runtime)
+        .expect("newer valid retry should remain recordable");
+
+    let outcome = outcome_v2_with_runtime(directory.path(), "WI-BLOCKED", &runtime)
+        .expect("stale successor presence mismatch should not hide newer retry");
+    assert_eq!(
+        outcome.recovery_decision.as_ref().unwrap().reason,
+        "newer retry replaces stale successor history"
+    );
+    assert_eq!(fs::read(&canonical).unwrap(), stale_bytes);
+}
+
+#[test]
 fn superseded_predecessor_preserves_bytes_and_closes_without_current_verification() {
     let directory = repository();
     let runtime = RuntimeContext {

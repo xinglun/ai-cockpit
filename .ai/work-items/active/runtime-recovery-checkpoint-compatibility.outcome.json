@@ -1,0 +1,141 @@
+{
+  "acceptanceResults": [
+    "recovery retry と fresh preflight の後、before_edit および過去 amendment の checkpoint evidence は immutable historical evidence として保持され、current checkpoint binding の不一致だけが finish を停止する。",
+    "より新しい valid retry receipt がある場合、古い successor receipt の predecessor outcome/events presence mismatch は stale candidate として無害化される。ただし最新候補の malformed、foreign identity、digest mismatch は引き続き fail-closed になる。",
+    "既存の receipt、checkpoint、summary、decision history の bytes は変更せず、回帰テストで exact な stale-history と fail-closed の両方を固定する。",
+    "Contract に宣言した検証コマンドを通過し、Runtime の lifecycle finish における今回の Sentinel 相当ケースを再現・検証できる。"
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/runtime-recovery-checkpoint-compatibility.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/runtime-recovery-checkpoint-compatibility.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8f658ca066c41bbaab577228d51536ae5cde91728d4df3b0b6e8839e2eb3785c",
+      "workItemId": "runtime-recovery-checkpoint-compatibility"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/runtime-recovery-checkpoint-compatibility.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/runtime-recovery-checkpoint-compatibility.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/runtime-recovery-checkpoint-compatibility.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/runtime-recovery-checkpoint-compatibility.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/runtime-recovery-checkpoint-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/runtime-recovery-checkpoint-compatibility.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/runtime-recovery-checkpoint-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/runtime-recovery-checkpoint-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/runtime-recovery-checkpoint-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/runtime-recovery-checkpoint-compatibility.contract.json"
+          ],
+          "inference": false,
+          "text": "現在のライフサイクルだけを検証対象とし、履歴 checkpoint evidence は現在のスナップショット不一致だけで finish を阻害しないようにする。また、より新しい有効な retry receipt が存在する場合、古い predecessor outcome/events presence mismatch を stale history として扱い、fail-closed の不変性を保つ。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/runtime-recovery-checkpoint-compatibility.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "runtime-recovery-checkpoint-compatibility"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/runtime-recovery-checkpoint-compatibility.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "runtime-recovery-checkpoint-compatibility"
+}

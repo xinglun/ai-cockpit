@@ -288,6 +288,20 @@ fn before_edit_checkpoint_survives_authorized_edit_and_fresh_preflight() {
     .expect("finalization plan");
     preflight_work_item(directory.path(), &contract_path).expect("initial preflight");
     checkpoint_work_item(directory.path(), id).expect("before_edit checkpoint");
+    let checkpointed_summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(format!(".ai/work-items/active/{id}.summary.json")),
+        )
+        .expect("checkpointed summary"),
+    )
+    .expect("checkpointed summary JSON");
+    let before_edit_evidence = checkpointed_summary["checkpointEvidence"]
+        .as_array()
+        .and_then(|entries| entries.iter().find(|entry| entry["stage"] == "before_edit"))
+        .cloned()
+        .expect("before_edit checkpoint evidence");
 
     fs::write(directory.path().join("source.rs"), "pub fn changed() {}\n").expect("source edit");
     preflight_work_item(directory.path(), &contract_path).expect("fresh preflight");
@@ -300,6 +314,21 @@ fn before_edit_checkpoint_survives_authorized_edit_and_fresh_preflight() {
     )
     .expect("verification");
     finish_work_item(directory.path(), id).expect("finish after fresh snapshot binding");
+    let finished_summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(format!(".ai/work-items/active/{id}.summary.json")),
+        )
+        .expect("finished summary"),
+    )
+    .expect("finished summary JSON");
+    assert!(
+        finished_summary["checkpointEvidence"]
+            .as_array()
+            .is_some_and(|entries| entries.iter().any(|entry| entry == &before_edit_evidence)),
+        "historical before_edit evidence must remain immutable after a fresh finish binding"
+    );
 }
 
 #[test]

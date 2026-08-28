@@ -1,0 +1,120 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/runtime-recovery-checkpoint-compatibility.contract.json",
+    ".ai/work-items/active/runtime-recovery-checkpoint-compatibility.summary.json"
+  ],
+  "checkpointAt": "2026-08-28T00:27:31Z",
+  "checkpointContractDigest": "sha256:62352a92fd9ff2c716900e67719bbbf240826cce1b927774d46863a27ddb9665",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:be98d86816bc519c72d9a0a17b553aef2c9b0b8bb52699699c35743b77c579f1",
+      "recorded": true,
+      "recordedAt": "2026-08-28T00:27:31Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8f658ca066c41bbaab577228d51536ae5cde91728d4df3b0b6e8839e2eb3785c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "runtime-recovery-checkpoint-compatibility"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:62352a92fd9ff2c716900e67719bbbf240826cce1b927774d46863a27ddb9665",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:be98d86816bc519c72d9a0a17b553aef2c9b0b8bb52699699c35743b77c579f1",
+      "previousContractHash": "sha256:be98d86816bc519c72d9a0a17b553aef2c9b0b8bb52699699c35743b77c579f1",
+      "reason": "用户已授权将真实 PR 绑定纳入本 Work Item 后续收尾；merge、release、close 仍保留为人类后续判断。",
+      "recorded": true,
+      "recordedAt": "2026-08-28T00:45:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8f658ca066c41bbaab577228d51536ae5cde91728d4df3b0b6e8839e2eb3785c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "runtime-recovery-checkpoint-compatibility"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:8f658ca066c41bbaab577228d51536ae5cde91728d4df3b0b6e8839e2eb3785c",
+  "createdAt": "2026-08-28T00:23:25Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lib.rs",
+      "crates/cockpit-repository/tests/recovery_decision.rs",
+      "crates/cockpit-repository/tests/lifecycle_order.rs"
+    ],
+    "reason": "変更は stale recovery candidate の read-side 分類と immutable checkpoint history の回帰検証に限定され、業務ロジックや Sentinel 証跡には影響しない。",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-28T00:52:25Z",
+  "preflightContractDigest": "sha256:62352a92fd9ff2c716900e67719bbbf240826cce1b927774d46863a27ddb9665",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8f658ca066c41bbaab577228d51536ae5cde91728d4df3b0b6e8839e2eb3785c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryRetryPending": true,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/lifecycle_order.rs",
+        ".ai/evidence/runtime-recovery-checkpoint-compatibility.verification.json"
+      ],
+      "reason": "回帰テストで historical before_edit evidence の保持と current finish binding の更新を検証した。",
+      "required": true,
+      "scenario": "current checkpoint binding after historical edit",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        ".ai/evidence/runtime-recovery-checkpoint-compatibility.verification.json"
+      ],
+      "reason": "古い successor receipt の outcome/events presence mismatch と新しい retry receipt の選択を検証した。",
+      "required": true,
+      "scenario": "stale predecessor presence after valid retry",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        ".ai/evidence/runtime-recovery-checkpoint-compatibility.verification.json"
+      ],
+      "reason": "foreign、malformed、misnamed、digest mismatch の current candidate が fail-closed になる既存回帰を全量実行した。",
+      "required": true,
+      "scenario": "newest recovery candidate remains fail-closed",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/lifecycle_order.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        ".ai/evidence/runtime-recovery-checkpoint-compatibility.verification.json"
+      ],
+      "reason": "historical checkpoint と canonical recovery receipt の bytes が保持されることを回帰テストで検証した。",
+      "required": true,
+      "scenario": "append-only history preservation",
+      "status": "verified"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-08-28T00:39:55Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "runtime-recovery-checkpoint-compatibility"
+}
