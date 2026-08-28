@@ -1,0 +1,89 @@
+{
+  "acceptanceCriteria": [
+    "Cargo workspace metadata and lockfile report v0.2.39 consistently.",
+    "The parity projection for recovered WI-370 and WI-371 references the authoritative recovery receipts and all strict documentation and release gates pass.",
+    "The reviewed release workflow publishes v0.2.39 assets with manifest, SHA256SUMS, target-bound SBOM, Formula, and provenance identity.",
+    "The installed v0.2.39 binary is downloaded from the immutable public Release, checksum-verified, and its runtime identity is recorded.",
+    "The current ai-cockpit repository and an isolated fresh adopter inherit the optimization; exact reusable verification demonstrates a reuse hit while changed or unknown inputs remain fail-closed.",
+    "Post-release acceptance records runtime identity, repository isolation, evidence reuse, lifecycle evidence, and cleanup without modifying Release truth on failure.",
+    "Reviewed merge, finalization, close, synchronized default branch, and exact branch/worktree cleanup leave the repository ready_on_base."
+  ],
+  "authority": "authorized",
+  "baseRevision": "f9a9c7b04e2aab2c129da2bea49254faf2c48733",
+  "createdAt": "2026-08-28T23:23:21Z",
+  "goal": "Produce a reviewed v0.2.39 release and identity-bound post-release acceptance using only downloaded public artifacts.",
+  "intent": "Publish v0.2.39 with the dynamic exact verification-reuse optimization, repair the release-blocking parity projection, and verify that the immutable public binary is inherited by this repository and an isolated adopter.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime semantics",
+    "historical evidence rewrite",
+    "global Agent/MCP configuration",
+    "source-build fallback",
+    "second technology-stack adopter"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9ad2196dda0fd8b45d233f4540d05cfc17ae5ef49c476a66e4b7b3d89b410a62",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-374-release-v0-2-39",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/337",
+    "worktree": "/private/tmp/ai-cockpit-wi374-release-v0-2-39"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "v0.2.39 metadata is consistent and recovered Work Item parity rows reference their authoritative receipts",
+      "required": true,
+      "scenario": "release metadata and parity projection",
+      "status": "unverified",
+      "verificationPlan": "Run version consistency, documentation acceptance, parity governance, and strict repository gates before release."
+    },
+    {
+      "evidence": [],
+      "expected": "The published v0.2.39 archive, manifest, checksum set, SBOM, Formula, and provenance are identity-bound and valid",
+      "required": true,
+      "scenario": "public artifact and supply-chain acceptance",
+      "status": "unverified",
+      "verificationPlan": "Run the tagged release workflow and validate the downloaded public artifact without source or workspace fallback."
+    },
+    {
+      "evidence": [],
+      "expected": "The installed release binary reuses exact valid evidence in this repository and a fresh adopter while changed or unknown inputs rerun or stop",
+      "required": true,
+      "scenario": "runtime reuse and repository isolation",
+      "status": "unverified",
+      "verificationPlan": "Run the release adopter acceptance harness and explicit repository-bound lifecycle checks, retaining runtime and isolation receipts."
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/work-items/WI-374-release-v0-2-39.md",
+    "docs/work-items/WI-374-release-v0-2-39.zh-CN.md",
+    "docs/work-items/WI-374-release-v0-2-39.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-374-release-v0-2-39"
+}
