@@ -1,0 +1,134 @@
+{
+  "acceptanceResults": [
+    "非 canonical WI-* 的 archived/runtime/test 标识不会被强制写入 reference parity registry，且不会削弱 canonical WI-* 的 parity 校验。",
+    "新增确定性回归覆盖非 canonical 标识通过、canonical 标识缺失 parity entry 仍失败，以及已有 valid fixture 行为不变。",
+    "不修改 archived Work Item bytes，不清理 pending-close backlog，不改变 Gate、Runtime 生命周期或 provider/execution authority。",
+    "治理门禁测试与项目质量验证通过，Contract、Summary 和 evidence 保持当前 repository/base identity 绑定。"
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-349-governance-parity-id-boundary.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-349-governance-parity-id-boundary.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a2790a3c5bf1bce3ccbf142dffe82d295589dc8606b114863cb9c64ed891dae0",
+      "workItemId": "WI-349-governance-parity-id-boundary"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-349-governance-parity-id-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-349-governance-parity-id-boundary.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-349-governance-parity-id-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-349-governance-parity-id-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-349-governance-parity-id-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-349-governance-parity-id-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-349-governance-parity-id-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "让 archived Work Item 的 reference parity 校验仅适用于 canonical WI-* 标识或已声明 parity projection 的记录，避免任意 runtime/test 标识触发不可满足的 missing parity entry。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-349-governance-parity-id-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-349-governance-parity-id-boundary"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-349-governance-parity-id-boundary.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-349-governance-parity-id-boundary"
+}

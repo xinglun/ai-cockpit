@@ -72,6 +72,15 @@ def short_id(work_item: str) -> str:
     return match.group(1).upper() if match else work_item
 
 
+def _canonical_parity_work_item_id(work_item: str) -> bool:
+    """reference parity の強制対象となる canonical Work Item ID を判定する。"""
+    return re.fullmatch(
+        r"WI-[0-9]+[A-Za-z]?(?:-[A-Za-z0-9][A-Za-z0-9-]*)+",
+        work_item,
+        re.IGNORECASE,
+    ) is not None
+
+
 def created_at(path: Path) -> datetime | None:
     try:
         value = load_json(path).get("createdAt")
@@ -1333,7 +1342,7 @@ def main() -> int:
         parity_projection = (
             _active_parity_projection_declared(repo, work_item)
             if location == "active"
-            else short_id(work_item) in rows
+            else _canonical_parity_work_item_id(work_item) or short_id(work_item) in rows
         )
         if parity_projection:
             for document_suffix, _language in WORK_ITEM_DOCUMENTS:
@@ -1686,6 +1695,9 @@ def main() -> int:
                                 PENDING_PARITY_REGISTRY,
                             )
                         )
+            if not parity_projection:
+                inventory.append(record)
+                continue
             for parity_doc, implemented in PARITY_DOCS:
                 line = work_item_rows.get(parity_doc)
                 if line is None:

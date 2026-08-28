@@ -1,0 +1,64 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-28T03:46:55Z",
+  "checkpointContractDigest": "sha256:a333391280eb0c629094b6a69dafc460d34641bbb9978f4f1b789a9d252f348b",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:51c5bac6f0c23bb3c0d469802aedf2ba5b2a7ef94370bd4f9f92d0269040911e",
+      "recorded": true,
+      "recordedAt": "2026-08-28T03:46:55Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6b85f80ebdaef28d43cdd331807774efb75886738a3519abc76bdbfe6fc68d89",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-349-governance-parity-id-boundary"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:a333391280eb0c629094b6a69dafc460d34641bbb9978f4f1b789a9d252f348b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:51c5bac6f0c23bb3c0d469802aedf2ba5b2a7ef94370bd4f9f92d0269040911e",
+      "previousContractHash": "sha256:51c5bac6f0c23bb3c0d469802aedf2ba5b2a7ef94370bd4f9f92d0269040911e",
+      "reason": "将不存在的 make quality 声明修正为本 Rust repository 实际提供的治理完整性回归入口；范围与 authority 不变。",
+      "recorded": true,
+      "recordedAt": "2026-08-28T03:53:21Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a2790a3c5bf1bce3ccbf142dffe82d295589dc8606b114863cb9c64ed891dae0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-349-governance-parity-id-boundary"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:a2790a3c5bf1bce3ccbf142dffe82d295589dc8606b114863cb9c64ed891dae0",
+  "createdAt": "2026-08-28T03:00:00Z",
+  "failedGate": "finish.governance",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-28T03:57:50Z",
+  "preflightContractDigest": "sha256:a333391280eb0c629094b6a69dafc460d34641bbb9978f4f1b789a9d252f348b",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:a2790a3c5bf1bce3ccbf142dffe82d295589dc8606b114863cb9c64ed891dae0",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-28T03:58:25Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-349-governance-parity-id-boundary"
+}

@@ -70,6 +70,116 @@ PY
 
 run_case valid 0 none
 
+# 任意の runtime/test 識別子は historical governance record であり、canonical
+# reference-parity Work Item ではないため、parity row を要求してはならない。
+noncanonical_repo="$tmp/noncanonical-archived-id"
+noncanonical_report="$tmp/noncanonical-archived-id-report.json"
+build_fixture "$fixtures/valid.json" "$noncanonical_repo"
+python3 - "$noncanonical_repo" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+old = "WI-900-release-v9-9-9"
+short = "WI-900"
+new = "runtime-recovery-v9.9.9"
+
+for directory in (
+    root / ".ai/work-items/archive",
+    root / ".ai/evidence",
+    root / ".ai/decisions",
+    root / "docs/work-items",
+):
+    for path in list(directory.glob(f"{old}*")):
+        path.rename(path.with_name(path.name.replace(old, new)))
+
+for path in root.rglob("*"):
+    if not path.is_file() or ".git" in path.parts:
+        continue
+    text = path.read_text(encoding="utf-8")
+    if old in text:
+        path.write_text(text.replace(old, new), encoding="utf-8")
+
+for name in (
+    "reference-parity.md",
+    "reference-parity.zh-CN.md",
+    "reference-parity.ja.md",
+):
+    path = root / "docs/reference" / name
+    lines = [
+        line
+        for line in path.read_text(encoding="utf-8").splitlines()
+        if old not in line and f"| {short} " not in line
+    ]
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+PY
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$noncanonical_repo" \
+  --report "$noncanonical_report" >/dev/null
+python3 - "$noncanonical_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert report["state"] == "passed", report
+assert report["findings"] == [], report["findings"]
+item = next(
+    item
+    for item in report["inventory"]
+    if item["workItemId"] == "runtime-recovery-v9.9.9"
+)
+assert item["lifecycleState"] == "closed", item
+PY
+printf 'governance noncanonical archived-id regression passed\n'
+
+# canonical WI-* 識別子は引き続き parity projection の必須対象とする。
+# non-canonical 例外の後も row 欠落は fail closed でなければならない。
+canonical_missing_repo="$tmp/canonical-missing-parity"
+canonical_missing_report="$tmp/canonical-missing-parity-report.json"
+build_fixture "$fixtures/valid.json" "$canonical_missing_repo"
+python3 - "$canonical_missing_repo" <<'PY'
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+for name in (
+    "reference-parity.md",
+    "reference-parity.zh-CN.md",
+    "reference-parity.ja.md",
+):
+    path = root / "docs/reference" / name
+    lines = [
+        line
+        for line in path.read_text(encoding="utf-8").splitlines()
+        if "| WI-900 " not in line
+    ]
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+PY
+set +e
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$canonical_missing_repo" \
+  --report "$canonical_missing_report" >/dev/null
+canonical_missing_code=$?
+set -e
+[[ "$canonical_missing_code" -eq 1 ]] || {
+  printf 'canonical missing parity: expected exit 1, got %s\n' "$canonical_missing_code" >&2
+  exit 1
+}
+python3 - "$canonical_missing_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert sum(
+    finding["code"] == "missing_parity_entry"
+    for finding in report["findings"]
+) == 3, report["findings"]
+PY
+printf 'governance canonical missing-parity regression passed\n'
+
 # ``confirmed`` is an explicit positive Runtime decision token equivalent to
 # ``approved`` for terminal promotion; arbitrary/rejected decisions remain
 # non-green.

@@ -1,0 +1,73 @@
+{
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-349-governance-parity-id-boundary",
+  "mode": "implementation",
+  "state": "implementation_active",
+  "intent": "修复治理完整性门禁将非标准 Work Item 标识错误要求 reference parity 行的边界问题，同时保留 canonical WI-* 的 parity 强制性。",
+  "goal": "让 archived Work Item 的 reference parity 校验仅适用于 canonical WI-* 标识或已声明 parity projection 的记录，避免任意 runtime/test 标识触发不可满足的 missing parity entry。",
+  "scope": [
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "docs/superpowers/plans/2026-08-28-governance-parity-id-boundary.md"
+  ],
+  "outOfScope": [
+    "任何 archived Work Item",
+    "既有 reference parity 文档",
+    "生产业务逻辑",
+    "全局 Runtime 配置",
+    "pending-close backlog 的清理或关闭"
+  ],
+  "risk": "normal",
+  "authority": "direct_user_authorized_governance_exemption: 用户明确批准在 archived pending-close backlog 存在时为本独立治理修复 bootstrap successor Contract；该豁免仅限本 Work Item，不改变 Runtime 的长期生命周期政策。",
+  "acceptanceCriteria": [
+    "非 canonical WI-* 的 archived/runtime/test 标识不会被强制写入 reference parity registry，且不会削弱 canonical WI-* 的 parity 校验。",
+    "新增确定性回归覆盖非 canonical 标识通过、canonical 标识缺失 parity entry 仍失败，以及已有 valid fixture 行为不变。",
+    "不修改 archived Work Item bytes，不清理 pending-close backlog，不改变 Gate、Runtime 生命周期或 provider/execution authority。",
+    "治理门禁测试与项目质量验证通过，Contract、Summary 和 evidence 保持当前 repository/base identity 绑定。"
+  ],
+  "requiredEvidenceClasses": [
+    "verification",
+    "tests"
+  ],
+  "sources": [],
+  "verification": [
+    "bash tests/ci/governance_integrity_gate_test.sh"
+  ],
+  "baseRevision": "bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "repositorySnapshotDigest": "sha256:ec3ef9647b31b644de942add47ff37c4354c6bf4a9ea73061a7affc039471f64",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-349-governance-parity-id-boundary",
+    "provider": "github",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/ai-cockpit-governance-non-wi-parity"
+  },
+  "createdAt": "2026-08-28T03:00:00Z",
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Direct user authorization covers the one-time lifecycle bootstrap; implementation scope remains bounded to the governance integrity gate and its deterministic regression."
+  },
+  "preReviewWarnings": [
+    "本 Work Item 使用一次性 direct-user governance exemption bootstrap；review 应确认该豁免没有转化为长期 pending-close bypass。"
+  ],
+  "authorityEvidence": {
+    "assurance": "self_declared",
+    "actor": "direct user",
+    "authoritySource": "current user instruction: 批准的治理豁免",
+    "operations": [
+      "bootstrap successor Work Item while archived pending-close backlog exists"
+    ],
+    "policyRefs": [],
+    "evidenceRefs": [
+      "current user instruction in this task"
+    ]
+  }
+}
