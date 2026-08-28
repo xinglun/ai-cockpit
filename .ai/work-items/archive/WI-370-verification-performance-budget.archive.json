@@ -1,0 +1,21 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-28T21:34:22Z",
+  "files": {
+    "contractDigest": "sha256:3c0efcac1f85f1abff78f34fc68bd1312c2c2911cc1ea1d57931ad22cb6ee50b",
+    "contractPath": ".ai/work-items/archive/WI-370-verification-performance-budget.contract.json",
+    "eventsDigest": "sha256:df7b8743fd66f518c86f4d04230408cc98ed41ba2facb2416e32ad1d78a991e6",
+    "eventsPath": ".ai/work-items/archive/WI-370-verification-performance-budget.events.jsonl",
+    "outcomeDigest": "sha256:a8fbedf6158a30fb1b65893ad59f00a2d866544672b108905e72d57a0cb30bca",
+    "outcomePath": ".ai/work-items/archive/WI-370-verification-performance-budget.outcome.json",
+    "summaryDigest": "sha256:27f199ac24cbe7f89d1e63b64836d2af7d783d3316fabe0b60747ebb3799cf2b",
+    "summaryPath": ".ai/work-items/archive/WI-370-verification-performance-budget.summary.json",
+    "taskReportDigest": "sha256:7fcff9e8dd3f92e57e4e5dd20b1016c0005a829a6cfed6561e8db4a4f80d7708",
+    "taskReportMarkdownDigest": "sha256:73ed24849d70439312452d9b6cd322a70b3b5d311ba3b775b8354e8f8cc12483",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-370-verification-performance-budget.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-370-verification-performance-budget.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-370-verification-performance-budget"
+}

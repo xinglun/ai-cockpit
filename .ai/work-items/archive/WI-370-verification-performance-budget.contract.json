@@ -1,0 +1,60 @@
+{
+  "acceptanceCriteria": [
+    "Work Item verification uses a dynamic profile-authorized path for the detected project command; explicit custom commands remain fresh unless reuse is explicitly requested.",
+    "The dynamic reusable path may reuse only a valid identity-bound receipt whose repository, profile, runtime, command, scope, stage, runner, base, toolchain, dependency, and policy context all match.",
+    "A reused result records a fresh Work Item verification evidence binding and never skips required/protected governance nodes.",
+    "Any changed snapshot, command, scope, stage, runner, runtime, profile, toolchain, dependency, or malformed/tampered receipt denies reuse and executes the declared verification command; unknown impact never becomes green by timing or cache state.",
+    "The selection decision reports executed, reused, escalated, and denied reasons so an Agent can distinguish a precise warm path from a required cold path.",
+    "Current ai-cockpit and a fresh isolated adopter both demonstrate measurable cold versus warm behavior using the installed Runtime after release; no source/build fallback is used.",
+    "Three-language documentation explains the dynamic selection boundary, evidence identity, and that timing/reuse never authorizes weaker governance."
+  ],
+  "authority": "authorized",
+  "baseRevision": "4a5c438550279b2e39a2a97c2d73defd933f9afc",
+  "createdAt": "2026-08-28T21:09:50Z",
+  "goal": "Make unchanged, already-verified project commands fast to repeat and select only verification work justified by current impact facts, while preserving full execution or policy-directed escalation after any relevant identity, snapshot, command, scope, dependency, policy, or runtime change.",
+  "intent": "Reduce repeated verification latency for the current repository and an adopter repository through dynamic, precise verification selection and identity-bound receipt reuse without weakening required checks, fail-closed behavior, or Work Item evidence binding.",
+  "mode": "code",
+  "outOfScope": [
+    "Changing verification truth",
+    " required gate semantics",
+    " Runtime identity policy",
+    " parallel Work Item authorization",
+    " CI/release workflows",
+    " global Agent/MCP configuration",
+    " or source fallback."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:df69f210dd15c41ec88c597ddf1e57710b278d1ae758f87e66cd5cb1aef08608",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-370-verification-performance-budget",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/pending-wi370",
+    "worktree": "/private/tmp/ai-cockpit-wi370-verification-performance-budget"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/verify.rs",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/governance-performance-budget.md",
+    "docs/reference/governance-performance-budget.zh-CN.md",
+    "docs/reference/governance-performance-budget.ja.md",
+    "tests/performance/README.md",
+    "tests/performance/regression_gate.sh"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-370-verification-performance-budget"
+}

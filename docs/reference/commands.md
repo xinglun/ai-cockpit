@@ -47,10 +47,15 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
 ## Important options
 
 - `verify --command <program> --args <comma-separated>` runs an explicit command
-  and is always fresh. `--work-item <id>` records the receipt for that Work Item
-  and also forces fresh execution.
+  and is always fresh. `--work-item <id>` records the receipt for that Work Item;
+  its detected Cargo/npm command uses the dynamic profile-authorized path, while
+  an explicit custom command remains fresh.
 - `verify` without `--command` detects Cargo or npm and may use a confirmed
-  profile for cross-process reuse.
+  profile for cross-process reuse. Reuse is admitted only when the current
+  repository, snapshot, profile, runtime, command, scope, stage, runner, base,
+  toolchain, dependency, and policy identities match exactly. Otherwise the
+  declared command executes and the result reports the denial/escalation reason.
+  Required and protected nodes are never skipped by timing or cache state.
 - `verify --workers <n>` requires a positive worker count and caps concurrency.
 - `work-item boundary --repo <path> --id <id> --file <boundary.json>` binds an
   additive Contract `concurrencyBoundary`. Its four path classes and

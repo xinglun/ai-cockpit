@@ -44,6 +44,17 @@ Performance and governance strength are separate. `VerificationTier` and
 or a budget result. Protected and policy-required nodes remain required even
 when an over-budget report identifies a bottleneck.
 
+## Dynamic verification selection
+
+Detected Work Item commands use the same profile-authorized reuse path as
+standalone auto-detected verification. The planner reuses a result only after
+the repository, snapshot, profile, Runtime, command, scope, stage, runner,
+base, toolchain, dependency, and policy identities match. A mismatch or
+unknown impact executes the declared command and records the reason; it does
+not silently widen reuse or downgrade a required check. Explicit custom
+commands remain fresh so an operator must deliberately define any future
+custom-command reuse contract.
+
 ## Object-project inheritance
 
 Adopter repositories can use the same identity-bound fixture and regression
@@ -51,3 +62,8 @@ gate, with their own repository and Runtime identities. The shared Runtime
 does not store a global budget or current project, and one repository's timing
 cannot authorize another repository's Work Item.
 
+The same dynamic rule is inherited by adopter repositories after Runtime
+upgrade: cold verification establishes the receipt, and an unchanged warm
+repeat may reuse it only within that adopter's repository context. The adopter
+acceptance receipt must record cold/warm elapsed time, executed/reused nodes,
+selection reasons, Runtime identity, and repository identity.

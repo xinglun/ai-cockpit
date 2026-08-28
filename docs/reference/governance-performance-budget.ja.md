@@ -29,7 +29,12 @@ Reference の profile P95 report は Rust Runtime authority ではありませ�
 
 Performance と governance strength は別の次元です。`VerificationTier` と `EvidenceAssurance` は elapsed time、cache hit、worker 数、budget result から導出されません。over-budget report が bottleneck を示しても、protected node と policy-required node は必須のままです。
 
+## Dynamic verification selection
+
+検出された Work Item command は standalone の auto-detected verification と同じ profile-authorized reuse path を使います。repository、snapshot、profile、Runtime、command、scope、stage、runner、base、toolchain、dependency、policy identity がすべて一致した場合だけ reuse します。不一致または impact unknown の場合は宣言された command を実行し、その理由を記録します。reuse の範囲を暗黙に広げたり、必須 check を弱めたりしません。explicit custom command は常に fresh であり、将来 reuse する場合は明示的な custom-command reuse Contract が必要です。
+
 ## Object project への継承
 
 Adopter repository は同じ identity-bound fixture と regression gate を使えますが、repository/Runtime identity はそれぞれ固有です。Shared Runtime は global budget/current project を保存せず、ある repository の timing が別 repository の Work Item を認可することもありません。
 
+Runtime upgrade 後も adopter repository は同じ dynamic rule を継承します。cold verification で receipt を作り、変更のない warm repeat だけがその adopter の repository context 内で reuse できます。adopter acceptance receipt には cold/warm elapsed time、executed/reused nodes、selection reason、Runtime identity、repository identity を記録します。

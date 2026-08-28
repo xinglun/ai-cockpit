@@ -844,7 +844,13 @@ fn run() -> Result<()> {
                         .and_then(|route| route.base_revision.clone())
                         .or_else(|| base_revision.clone()),
                     workers,
-                    policy: if explicit || work_item.is_some() {
+                    // Detected Work Item commands use the same exact,
+                    // identity-bound profile authorization as bare `verify`.
+                    // Explicit custom commands remain fresh unless a future
+                    // explicit reuse contract is added; this keeps dynamic
+                    // reuse precise without treating arbitrary commands as
+                    // cacheable.
+                    policy: if explicit {
                         RepositoryVerificationPolicy::NeverReuse
                     } else {
                         RepositoryVerificationPolicy::ProfileAuthorized

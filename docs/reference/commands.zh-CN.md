@@ -44,8 +44,10 @@ deleted transition，作为有限的历史 reconciliation。该 transition 必�
 ## 重要选项
 
 - `verify --command <program> --args <comma-separated>` 执行显式命令且总是 fresh；`--work-item <id>`
-  记录该 Work Item 的 receipt，也总是 fresh。
-- 不提供 `--command` 的 `verify` 会检测 Cargo 或 npm，并可能使用已确认 profile 做跨进程 reuse。
+  记录该 Work Item 的 receipt，但检测到的 Cargo/npm 命令使用动态的 profile-authorized 路径，显式自定义命令仍总是 fresh。
+- 不提供 `--command` 的 `verify` 会检测 Cargo 或 npm，并可能使用已确认 profile 做跨进程 reuse。只有当前
+  repository、snapshot、profile、Runtime、command、scope、stage、runner、base、toolchain、dependency 和 policy
+  identity 全部精确匹配时才允许 reuse；否则执行声明的命令并报告拒绝/升级原因。耗时或缓存状态绝不会跳过 required/protected node。
 - `verify --workers <n>` 要求正数并限制并发。
 - `work-item boundary --repo <path> --id <id> --file <boundary.json>` 将可选的
   `concurrencyBoundary` 绑定到 Contract。四类路径和 `maxWorkers` 会被验证；后者是 slot 容量，
