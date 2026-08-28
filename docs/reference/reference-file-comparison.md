@@ -123,11 +123,11 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=269 implemented-equivalent=1 not-applicable=4 reference-only=37 deferred-next-batch=546 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=275 implemented-equivalent=1 not-applicable=4 reference-only=42 deferred-next-batch=535 migrate-gap=0 -->
 
-At the pinned v0.2.33 comparison baseline, the ledger contains 5,119 records:
-4,262 `generated-history`, 269 `implemented-different-by-design`, one
-`implemented-equivalent`, four `not-applicable`, 37 `reference-only`, and 546
+At the pinned reference comparison baseline, the ledger contains 5,119 records:
+4,262 `generated-history`, 275 `implemented-different-by-design`, one
+`implemented-equivalent`, four `not-applicable`, 42 `reference-only`, and 535
 `deferred-next-batch` records. Deferred records remain scheduled work, not
 parity claims. The capability/profile slice has no remaining `migrate-gap`
 records:
@@ -853,3 +853,25 @@ parity. The updated ledger contains 5,119 records: 4,262
 `deferred-next-batch`; `migrate-gap` remains zero. The same shared Runtime,
 explicit `--repo`, repository-local evidence, and object/adopter isolation apply
 to every target project.
+
+## WI-368 — pre-release, adversarial, adopter, and reference-impact batch
+
+WI-368 compares eleven additional pinned paths at
+`e5acb677da6621004d96f0ef353c58fe8d3acfbf`, one by one. Six are
+`implemented-different-by-design` and five are `reference-only`:
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/pre-release-documentation-alignment.md` | reference-only | Historical generated alignment; current docs use repository-local gates. |
+| `docs/reference/pre-release-documentation-review.json` | reference-only | Historical five-strategy review; source findings cannot authorize a target release. |
+| `docs/reference/project-test-timing-baseline.json` | implemented-different-by-design | Identity-bound performance samples and advisory budgets; timings never lower verification. |
+| `docs/reference/provider-backed-governance-validation.md` | implemented-different-by-design | Provider/hosted controls remain delegated evidence; local checks do not prove them. |
+| `docs/reference/real-absurd-injection-cases.{md,zh-CN.md,ja.md}` | implemented-different-by-design | Canonical manifest and Rust tests preserve 15 structured cases and 12 named RAI cases. |
+| `docs/reference/real-adopter-reference-validation.md` | implemented-different-by-design | Immutable public Release adopter/upgrade harness with isolated lifecycle and cleanup evidence. |
+| `docs/reference/reference-impact-gate.{md,zh-CN.md,ja.md}` | reference-only | The source static scanner/schema/Make surface is not shipped; operation-time policy is a narrower declared-facts boundary. |
+
+The batch also corrects the Standard profile wording so it no longer implies
+that a static reference-impact scanner exists. The source adversarial language
+pages disagree on named-case count; the target follows the manifest as machine
+truth and keeps that discrepancy visible. This is semantic parity and explicit
+boundary documentation, not source command or JSON-wire compatibility.

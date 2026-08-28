@@ -30,7 +30,7 @@ it does not replace human authority.
 | Profile | Typical change | Target route |
 | --- | --- | --- |
 | `light` | Documentation, comments, non-executable examples, formatting-only changes | Focused quality checks |
-| `standard` | Ordinary source, tests, bug fixes, and small refactors | Project verification plus reference-impact checks |
+| `standard` | Ordinary source, tests, bug fixes, and small refactors | Project verification plus any explicitly declared impact evidence |
 | `strict` | Governance, CI, installer, security, dependency, destructive/public API, migration, calibration, or evidence-schema changes | Full repository and supply-chain checks |
 
 `release` is an operation class, not a fourth profile. A release-owned
@@ -54,6 +54,16 @@ The route keeps these dimensions separate:
 Organization Policy, Project Policy, Release Policy, a protected gate, or an
 explicit human-owned Contract. The planner may propose an escalation; it must
 not hide policy inside a plan.
+
+The reference template's static reference-impact scanner is not a Rust Runtime
+capability in this release. The operation-time evaluator checks declared
+operation, target, scope, authority, freshness, trust, and impact facts, but it
+does not infer callers, dynamic references, external consumers, or monitoring
+dependencies. A Standard route therefore does not silently claim that a
+delete/rename/deprecation is safe: when such impact is relevant, the Contract
+must declare the required evidence or the result remains `unknown`/human
+review. See [operation-time policy re-evaluation](operation-time-policy-reevaluation.md)
+and the [reference parity boundary](reference-parity.md).
 
 Every route keeps the same mandatory control floor: scope, trust, lifecycle,
 and evidence integrity. Optional heavy or cost-related checks are not
@@ -108,4 +118,3 @@ publication, or a security claim. Yellow means evidence or a decision is
 incomplete. Red means a required control failed or the context is invalid and
 work must stop. See [How to read Cockpit status](how-to-read-cockpit-status.md)
 for the person-facing reading order.
-

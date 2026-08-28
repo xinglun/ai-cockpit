@@ -28,7 +28,7 @@ AI Cockpit 根据仓库事实、Work Item Contract、执行阶段和适用策略
 | 级别 | 典型变更 | 目标路线 |
 | --- | --- | --- |
 | `light` | 文档、注释、不可执行示例、仅格式变更 | 聚焦质量检查 |
-| `standard` | 普通源码、测试、缺陷修复和小型重构 | 项目验证加引用影响检查 |
+| `standard` | 普通源码、测试、缺陷修复和小型重构 | 项目验证加已明确声明的影响证据 |
 | `strict` | 治理、CI、安装器、安全、依赖、破坏性/公共 API、迁移、校准或证据 Schema 变更 | 完整仓库和供应链检查 |
 
 `release` 是操作类别，不是第四种配置级别。涉及发布资源的操作可以在
@@ -47,6 +47,13 @@ strict 底线之上增加 release-preflight、制品、校验和、SBOM、proven
 `T3` 不等于 `ProviderVerified`，`strict` 也不等于 `EnterpriseVerified`。
 Tier 或 assurance 要求必须能追溯到 Organization Policy、Project Policy、Release Policy、受保护 Gate
 或人工拥有的 Contract。Planner 可以提出升级，但不能把策略藏在计划内部。
+
+参考模板的静态 reference-impact scanner 不是本版本 Rust Runtime 的能力。
+操作时评估器会检查已声明的 operation、target、scope、authority、freshness、
+trust 和 impact 事实，但不会推导 callers、动态引用、外部 Consumer 或监控依赖。
+因此 Standard 路由不会默默宣称删除、重命名或废弃是安全的：相关影响存在时，
+Contract 必须声明所需证据，否则结果保持为 `unknown`/需要人工 review。参见
+[操作时策略重新评估](operation-time-policy-reevaluation.zh-CN.md)和[参考源对齐边界](reference-parity.zh-CN.md)。
 
 所有路线都保留相同的强制控制底线：scope、trust、lifecycle 和 evidence integrity。
 可选的 heavy 或成本检查不是授权或安全开关。未知配置、损坏策略、危险路径、无效 base、
@@ -86,4 +93,3 @@ assurance 要求、理由和 Gate 身份。Receipt 是路由证据，不是授�
 使用 `ai-cockpit work-item outcome --repo <path> --id <work-item>` 阅读面向人的交接结果。
 绿色表示可以审阅列出的证据，不表示已授权 merge、release、发布或安全声明；黄色表示证据或决定不完整；
 红色表示必需控制失败或上下文无效，必须停止。参阅[如何阅读 Cockpit 状态](how-to-read-cockpit-status.zh-CN.md)。
-

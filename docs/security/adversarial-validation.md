@@ -32,6 +32,11 @@ for example, RAI-01 remains `not_proven` because callers, reflection,
 monitoring, and external contracts cannot be inferred from a delete request,
 and RAI-04 remains `partial` because provider identity is delegated.
 
+The pinned reference language pages disagree about the number of named real
+scenarios. The manifest is canonical: it contains twelve named RAI cases and
+fifteen separate structured wording cases; the discrepancy is retained as
+reference history rather than guessed into a capability claim.
+
 ## Real-absurdity parity boundary
 
 The reference corpus also evaluates twelve named real-world scenarios. The

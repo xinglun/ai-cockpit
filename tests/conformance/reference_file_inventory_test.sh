@@ -80,7 +80,33 @@ for wi347_path in "${wi347_paths[@]}"; do
 done
 test "$(jq '[.records[] | select(.batch == "WI-347-reference-knowledge-trust-lifecycle-assessment")] | length' "$manifest")" -eq 10
 test "$(jq '[.records[] | select(.batch == "WI-347-reference-knowledge-trust-lifecycle-assessment" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$manifest")" -eq 0
+wi368_paths=(
+  docs/reference/pre-release-documentation-alignment.md
+  docs/reference/pre-release-documentation-review.json
+  docs/reference/project-test-timing-baseline.json
+  docs/reference/provider-backed-governance-validation.md
+  docs/reference/real-absurd-injection-cases.md
+  docs/reference/real-absurd-injection-cases.zh-CN.md
+  docs/reference/real-absurd-injection-cases.ja.md
+  docs/reference/real-adopter-reference-validation.md
+  docs/reference/reference-impact-gate.md
+  docs/reference/reference-impact-gate.zh-CN.md
+  docs/reference/reference-impact-gate.ja.md
+)
+for wi368_path in "${wi368_paths[@]}"; do
+  test "$(jq --arg path "$wi368_path" '[.records[] | select(.referencePath == $path and .batch == "WI-368-reference-file-comparison-batch-16" and (.classification == "implemented-different-by-design" or .classification == "reference-only") and (.reason | length) > 0)] | length' "$manifest")" -eq 1
+done
+test "$(jq '[.records[] | select(.batch == "WI-368-reference-file-comparison-batch-16")] | length' "$manifest")" -eq 11
+test "$(jq '[.records[] | select(.batch == "WI-368-reference-file-comparison-batch-16" and .classification == "implemented-different-by-design")] | length' "$manifest")" -eq 6
+test "$(jq '[.records[] | select(.batch == "WI-368-reference-file-comparison-batch-16" and .classification == "reference-only")] | length' "$manifest")" -eq 5
+test "$(jq '[.records[] | select(.batch == "WI-368-reference-file-comparison-batch-16" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$manifest")" -eq 0
+test "$(jq -r '.records[] | select(.referencePath == "docs/reference/reference-impact-gate.md") | .classification' "$manifest")" = "reference-only"
 test "$(jq -r '.records[] | select(.batch == "governance-entrypoints" and .classification == "deferred-next-batch") | .referencePath' "$manifest" | wc -l | tr -d ' ')" -eq 0
+grep -q "static reference-impact scanner is not a Rust Runtime" "$root/docs/reference/governance-profiles.md"
+grep -q "静态 reference-impact scanner 不是本版本 Rust Runtime" "$root/docs/reference/governance-profiles.zh-CN.md"
+grep -q "static reference-impact scanner は、この Release の Rust" "$root/docs/reference/governance-profiles.ja.md"
+grep -q "命名场景数量不一致" "$root/docs/work-items/WI-368-reference-file-comparison-batch-16.zh-CN.md"
+grep -q "named scenario count" "$root/docs/work-items/WI-368-reference-file-comparison-batch-16.ja.md"
 test "$(jq '[.records[] | select(.batch == "capability-status-projection")] | length' "$manifest")" -eq 6
 test "$(jq '[.records[] | select(.batch == "capability-status-projection" and (.classification == "deferred-next-batch" or .classification == ""))] | length' "$manifest")" -eq 0
 test "$(jq '[.records[] | select(.batch == "capability-status-projection" and ((.rustCounterparts | length) == 0 and (.reason | contains("no exact Rust counterpart") | not)))] | length' "$manifest")" -eq 0

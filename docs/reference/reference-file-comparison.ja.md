@@ -107,11 +107,11 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=269 implemented-equivalent=1 not-applicable=4 reference-only=37 deferred-next-batch=546 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=275 implemented-equivalent=1 not-applicable=4 reference-only=42 deferred-next-batch=535 migrate-gap=0 -->
 
-固定した v0.2.33 comparison baseline の ledger は 5,119 records です。内訳は
-4,262 `generated-history`、262 `implemented-different-by-design`、1
-`implemented-equivalent`、4 `not-applicable`、34 `reference-only`、556 `deferred-next-batch` です。
+固定した reference comparison baseline の ledger は 5,119 records です。内訳は
+4,262 `generated-history`、275 `implemented-different-by-design`、1
+`implemented-equivalent`、4 `not-applicable`、42 `reference-only`、535 `deferred-next-batch` です。
 Deferred record は予定された比較であり parity claim ではありません。
 capability/profile slice に `migrate-gap` は残っていません。
 
@@ -724,3 +724,22 @@ ledger は 5,119 records：4,262 `generated-history`、269 `implemented-differen
 1 `implemented-equivalent`、4 `not-applicable`、37 `reference-only`、546
 `deferred-next-batch`、`migrate-gap` は 0 です。すべての object/adopter project は共有 Runtime、
 明示的な `--repo`、repository-local evidence、isolation boundary を継承します。
+
+## WI-368 — pre-release、adversarial、adopter、reference-impact batch
+
+WI-368 は pinned commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf` の 11 path を逐一比較しました。
+6 path は `implemented-different-by-design`、5 path は `reference-only` です。
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/pre-release-documentation-alignment.md` | reference-only | Historical generated alignment。current docs は repository-local gate を使います。 |
+| `docs/reference/pre-release-documentation-review.json` | reference-only | Historical five-strategy review。source finding は target release を authorize しません。 |
+| `docs/reference/project-test-timing-baseline.json` | implemented-different-by-design | identity-bound performance sample と advisory budget。timing は verification を下げません。 |
+| `docs/reference/provider-backed-governance-validation.md` | implemented-different-by-design | provider/hosted control は delegated evidence のままです。local check は証明になりません。 |
+| `docs/reference/real-absurd-injection-cases.{md,zh-CN.md,ja.md}` | implemented-different-by-design | canonical manifest と Rust test で 15 structured case / 12 named RAI case を保持します。 |
+| `docs/reference/real-adopter-reference-validation.md` | implemented-different-by-design | immutable public Release adopter/upgrade harness と isolation/lifecycle/cleanup evidence。 |
+| `docs/reference/reference-impact-gate.{md,zh-CN.md,ja.md}` | reference-only | source static scanner/schema/Make surface は提供せず、operation-time policy は declared facts の狭い boundary に留めます。 |
+
+この batch では Standard profile の overclaim も修正しました。static reference-impact scanner が存在するとは記載せず、
+source の adversarial language page にある named-case count の差異は manifest を machine truth として可視化します。
+これは semantic parity と明示的な boundary documentation であり、source command/JSON-wire compatibility ではありません。

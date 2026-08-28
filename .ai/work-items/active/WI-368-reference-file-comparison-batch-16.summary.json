@@ -1,0 +1,67 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-368-reference-file-comparison-batch-16.contract.json",
+    ".ai/work-items/active/WI-368-reference-file-comparison-batch-16.summary.json"
+  ],
+  "checkpointAt": "2026-08-28T19:08:45Z",
+  "checkpointContractDigest": "sha256:56f9458332c02d310a8d52c32968db9e6498cb6a19a6ea64fe7247d31db7d3d1",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:adf167e68e979aa3a6bbe733b5bea102626d427e2751c79941096abf89d17dcd",
+      "recorded": true,
+      "recordedAt": "2026-08-28T19:08:45Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d07e03c16077bcd02a3fbc042aed68128c5c86e8db2d926fa0fa6103d976c0d2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-368-reference-file-comparison-batch-16"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:56f9458332c02d310a8d52c32968db9e6498cb6a19a6ea64fe7247d31db7d3d1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:adf167e68e979aa3a6bbe733b5bea102626d427e2751c79941096abf89d17dcd",
+      "previousContractHash": "sha256:adf167e68e979aa3a6bbe733b5bea102626d427e2751c79941096abf89d17dcd",
+      "reason": "Bound governance-profiles tri-language documentation to the current WI after the quality route identified those in-scope reference-parity corrections as changed paths.",
+      "recorded": true,
+      "recordedAt": "2026-08-28T19:26:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5b16049b277c1e1b6f522a11e8ecda5f36bb6a89a08b738e44e9e0b263a90ccf",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-368-reference-file-comparison-batch-16"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:e1469216067da9d64a3f235ffe8107c677edbff37ab04ca2046702ef0700feac",
+  "createdAt": "2026-08-28T19:03:07Z",
+  "failedGate": "finish.governance",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-28T19:45:06Z",
+  "preflightContractDigest": "sha256:56f9458332c02d310a8d52c32968db9e6498cb6a19a6ea64fe7247d31db7d3d1",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:e1469216067da9d64a3f235ffe8107c677edbff37ab04ca2046702ef0700feac",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-28T19:45:14Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-368-reference-file-comparison-batch-16"
+}
