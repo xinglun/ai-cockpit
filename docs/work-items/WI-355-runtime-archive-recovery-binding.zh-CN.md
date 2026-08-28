@@ -6,10 +6,14 @@ description: "将合法 stale retry receipt 作为 archived Work Item 的历史�
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: translation
 canonical: docs/work-items/WI-355-runtime-archive-recovery-binding.md
 lastVerifiedBy: WI-355-runtime-archive-recovery-binding
+terminalArchive: .ai/work-items/archive/WI-355-runtime-archive-recovery-binding.contract.json
+terminalVerification: .ai/evidence/WI-355-runtime-archive-recovery-binding.verification.json
+terminalFinalization: .ai/decisions/WI-355-runtime-archive-recovery-binding.finalize.json
+terminalDecision: .ai/decisions/WI-355-runtime-archive-recovery-binding.close.json
 predecessor: WI-353-runtime-recovery-delivery-binding
 capabilityClaims:
   - archived_retry_recovery_binding
@@ -33,5 +37,4 @@ fail-closed。WI-353 的 archive bytes 保持不可变，不在本实现编辑�
 - 增加 archived stale-retry 回归测试，并保持既有 recovery negative tests。
 - 执行 formatting、locked workspace tests、clippy、governance integrity 与 documentation
   acceptance。
-- 在 reviewed PR merge、provider finalization 验证和结构化 close 完成前，本 Work Item 保持
-  in progress。
+- reviewed PR merge、provider finalization 验证和结构化 close 均已完成。

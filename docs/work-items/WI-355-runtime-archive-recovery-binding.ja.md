@@ -6,10 +6,14 @@ description: "正当な stale retry receipt を archived Work Item の historica
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: translation
 canonical: docs/work-items/WI-355-runtime-archive-recovery-binding.md
 lastVerifiedBy: WI-355-runtime-archive-recovery-binding
+terminalArchive: .ai/work-items/archive/WI-355-runtime-archive-recovery-binding.contract.json
+terminalVerification: .ai/evidence/WI-355-runtime-archive-recovery-binding.verification.json
+terminalFinalization: .ai/decisions/WI-355-runtime-archive-recovery-binding.finalize.json
+terminalDecision: .ai/decisions/WI-355-runtime-archive-recovery-binding.close.json
 predecessor: WI-353-runtime-recovery-delivery-binding
 capabilityClaims:
   - archived_retry_recovery_binding
@@ -34,5 +38,4 @@ fail-closed です。WI-353 の archive bytes は immutable で、実装の編�
 - archived stale-retry regression を追加し、既存の recovery negative test を維持します。
 - formatting、locked workspace tests、clippy、governance integrity、documentation acceptance
   を実行します。
-- reviewed PR の merge、provider finalization の検証、structured close が完了するまで
-  この Work Item は in progress とします。
+- reviewed PR の merge、provider finalization の検証、structured close が完了しました。

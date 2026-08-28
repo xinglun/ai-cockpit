@@ -6,9 +6,13 @@ description: "Consume legitimate stale retry receipts as historical evidence for
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-355-runtime-archive-recovery-binding
+terminalArchive: .ai/work-items/archive/WI-355-runtime-archive-recovery-binding.contract.json
+terminalVerification: .ai/evidence/WI-355-runtime-archive-recovery-binding.verification.json
+terminalFinalization: .ai/decisions/WI-355-runtime-archive-recovery-binding.finalize.json
+terminalDecision: .ai/decisions/WI-355-runtime-archive-recovery-binding.close.json
 predecessor: WI-353-runtime-recovery-delivery-binding
 capabilityClaims:
   - archived_retry_recovery_binding
@@ -35,5 +39,5 @@ implementation edit boundary.
   recovery tests.
 - Run formatting, locked workspace tests, clippy, governance integrity, and
   documentation acceptance.
-- The Work Item remains in progress until its reviewed PR is merged, provider
-  finalization is verified, and structured close is recorded.
+- The reviewed PR is merged, provider finalization is verified, and structured
+  close is recorded.
