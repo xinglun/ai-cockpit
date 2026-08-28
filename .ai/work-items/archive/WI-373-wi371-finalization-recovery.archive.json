@@ -1,0 +1,21 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-28T22:40:21Z",
+  "files": {
+    "contractDigest": "sha256:89046128778c2eccef35cc9642bec0d5b713137862377a4ba433f3c365a7d6ca",
+    "contractPath": ".ai/work-items/archive/WI-373-wi371-finalization-recovery.contract.json",
+    "eventsDigest": "sha256:ab110999eb5d0fa950c920ee00ad73c895bb8785ed82516b17332e19725489c1",
+    "eventsPath": ".ai/work-items/archive/WI-373-wi371-finalization-recovery.events.jsonl",
+    "outcomeDigest": "sha256:863015f003e44078455d435cc47a0230bd782c8c70acfc5ad8ae19d16685a96d",
+    "outcomePath": ".ai/work-items/archive/WI-373-wi371-finalization-recovery.outcome.json",
+    "summaryDigest": "sha256:9fa61b424ffc1041bf15c1b84a8a497457a5a512114094b01aa0db524b8743c5",
+    "summaryPath": ".ai/work-items/archive/WI-373-wi371-finalization-recovery.summary.json",
+    "taskReportDigest": "sha256:e10e26e557f9ac2cfe36460bf558fa03379a17fd94c83e399a4eb7521644a0c0",
+    "taskReportMarkdownDigest": "sha256:67324b57ca252ccfc1af2d40addb01a4f3792b098ff7b48e90f31e38a65b4d97",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-373-wi371-finalization-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-373-wi371-finalization-recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-373-wi371-finalization-recovery"
+}
