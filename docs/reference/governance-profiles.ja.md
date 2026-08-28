@@ -29,7 +29,7 @@ unknown または空の path evidence によって route を弱めることは�
 | Profile | 代表的な変更 | Target route |
 | --- | --- | --- |
 | `light` | 文書、コメント、非実行 example、format のみ | focused quality check |
-| `standard` | 通常の source、test、bug fix、小規模 refactor | project verification と reference-impact check |
+| `standard` | 通常の source、test、bug fix、小規模 refactor | project verification と明示された impact evidence |
 | `strict` | governance、CI、installer、security、dependency、破壊的/Public API、migration、calibration、evidence Schema | repository と supply-chain の full check |
 
 `release` は第 4 の Profile ではなく operation class です。release resource を扱う operation は
@@ -49,6 +49,15 @@ non-release の strict 変更が、名前だけを理由に release graph を得
 Tier/assurance の要求は Organization Policy、Project Policy、Release Policy、protected gate、
 または人が所有する Contract まで追跡できなければなりません。Planner は escalation を提案できますが、
 policy を plan の内部に隠してはいけません。
+
+Reference template の static reference-impact scanner は、この Release の Rust
+Runtime capability ではありません。Operation-time evaluator は宣言された
+operation、target、scope、authority、freshness、trust、impact の事実を確認しますが、
+caller、dynamic reference、external consumer、monitoring dependency を推論しません。
+したがって Standard route は delete/rename/deprecate の安全性を暗黙に主張しません。
+影響が関係する場合は Contract が必要な evidence を明示し、そうでなければ結果は
+`unknown`/human review のままです。[Operation-time policy](operation-time-policy-reevaluation.ja.md)
+と [Reference parity](reference-parity.ja.md) を参照してください。
 
 すべての route は scope、trust、lifecycle、evidence integrity という同じ mandatory control floor を維持します。
 optional な heavy/cost check は authorization や security の switch ではありません。unknown profile、壊れた policy、
@@ -90,4 +99,3 @@ typed Contract/verification record、repository が宣言する CI gate です�
 Green は列挙された evidence を review できることを示すだけで、merge、release、publication、security claim の承認ではありません。
 Yellow は evidence または判断が不完全、Red は mandatory control または context が無効で停止が必要です。
 [Cockpit Status の読み方](how-to-read-cockpit-status.ja.md)も参照してください。
-

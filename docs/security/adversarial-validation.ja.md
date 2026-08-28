@@ -30,6 +30,9 @@ Manifest は RAI-01 から RAI-12 の named case も、明示的な status（`pa
 external contract を推論できないため `not_proven`、RAI-04 は provider identity が委譲境界にあるため
 `partial` です。
 
+Pinned reference の三言語 page は named real scenario の数が一致しません。machine truth は manifest です。
+12 named RAI case と、別の 15 structured wording case を保持し、この歴史的な差異を capability claim に推測しません。
+
 ## Real-absurdity parity の境界
 
 Reference corpus は 12 の実例 scenario も評価します。Rust は proven な能力と review/external assurance

@@ -52,6 +52,7 @@ WI344_BATCH = "WI-344-reference-documentation-batch-14"
 WI346_BATCH = "WI-346-reference-governance-profiles-status"
 WI347_BATCH = "WI-347-reference-knowledge-trust-lifecycle-assessment"
 WI348_BATCH = "WI-348-reference-verification-operation-policy"
+WI368_BATCH = "WI-368-reference-file-comparison-batch-16"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -1542,6 +1543,115 @@ WI348_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
     ),
 }
 
+WI368_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "docs/reference/pre-release-documentation-alignment.md": (
+        "reference-only",
+        [
+            "docs/reference/reference-file-comparison.md",
+            "tests/docs/documentation_acceptance.sh",
+        ],
+        "This generated source alignment report is historical review evidence. The target uses its own repository-local documentation gates and must not promote source Work Item history or generated alignment bytes as current release authority.",
+    ),
+    "docs/reference/pre-release-documentation-review.json": (
+        "reference-only",
+        [
+            "docs/reference/reference-file-comparison.md",
+            "docs/reference/reference-parity.md",
+            "tests/docs/documentation_acceptance.sh",
+        ],
+        "This source five-strategy review record is immutable historical assessment. Target documentation truth is re-evaluated from current files and Runtime evidence; source findings and self-declared status cannot authorize a target release.",
+    ),
+    "docs/reference/project-test-timing-baseline.json": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/governance-performance-budget.md",
+            "docs/reference/governance-performance-budget.zh-CN.md",
+            "docs/reference/governance-performance-budget.ja.md",
+            "docs/reference/performance-diagnosis.md",
+            "crates/cockpit-verification/src/lib.rs",
+            "tests/performance/regression_gate.sh",
+        ],
+        "The source timing seed is mapped to identity-bound Rust PerformanceBaseline samples and advisory regression budgets. Measurements inform scheduling/cost only; they never authorize a weaker verification route and source timings are not copied.",
+    ),
+    "docs/reference/provider-backed-governance-validation.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/ci-release-evidence.md",
+            "docs/reference/ci-release-evidence.zh-CN.md",
+            "docs/reference/ci-release-evidence.ja.md",
+            "docs/security/enterprise-governance.md",
+            "docs/security/enterprise-governance.zh-CN.md",
+            "docs/security/enterprise-governance.ja.md",
+        ],
+        "Provider configuration, branch protection, reviewer identity, and hosted controls remain delegated evidence. The target binds and displays external records without claiming that local Rust or CI checks prove provider or enterprise governance.",
+    ),
+    "docs/reference/real-absurd-injection-cases.md": (
+        "implemented-different-by-design",
+        [
+            "docs/security/adversarial-validation.md",
+            "tests/adversarial/manifest.json",
+            "crates/cockpit-core/tests/adversarial_v2.rs",
+        ],
+        "The target preserves the semantic 15-case wording corpus and twelve named RAI scenarios through a Rust-native manifest and adversarial tests. Source narrative and wording variants are not Runtime authority; source language files disagree on the named-case count, so the manifest is canonical.",
+    ),
+    "docs/reference/real-absurd-injection-cases.zh-CN.md": (
+        "implemented-different-by-design",
+        [
+            "docs/security/adversarial-validation.zh-CN.md",
+            "tests/adversarial/manifest.json",
+            "crates/cockpit-core/tests/adversarial_v2.rs",
+        ],
+        "中文 source 语义由 Rust 的三语 adversarial 文档、manifest 与回归测试承接；保留 15 个结构化 wording cases 与 12 个命名 RAI cases 的 canonical manifest，不复制源 prose 或把语言差异当作 capability。",
+    ),
+    "docs/reference/real-absurd-injection-cases.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/security/adversarial-validation.ja.md",
+            "tests/adversarial/manifest.json",
+            "crates/cockpit-core/tests/adversarial_v2.rs",
+        ],
+        "Japanese source semantics are projected to the Rust tri-language adversarial pages, canonical manifest, and regression tests. The target preserves the 15 structured wording cases and twelve named RAI cases without copying source narrative or claiming general language fluency.",
+    ),
+    "docs/reference/real-adopter-reference-validation.md": (
+        "implemented-different-by-design",
+        [
+            "docs/release/distribution.md",
+            "docs/release/distribution.zh-CN.md",
+            "docs/release/distribution.ja.md",
+            "tests/release/adopter_acceptance.sh",
+            "tests/release/adopter_upgrade_acceptance.sh",
+        ],
+        "Disposable reference-clone validation is represented by the immutable public Release adopter and upgrade harness. The target records artifact, binary, repository, lifecycle, isolation, and cleanup evidence; provider identity, hosted review, and enterprise assurance remain external.",
+    ),
+    "docs/reference/reference-impact-gate.md": (
+        "reference-only",
+        [
+            "docs/reference/operation-time-policy-reevaluation.md",
+            "docs/reference/governance-profiles.md",
+            "docs/reference/reference-parity.md",
+        ],
+        "The source static reference-impact scanner, schema, and Make/Python commands are not present in the Rust Runtime. Operation-time policy still evaluates declared operation, target, scope, authority, freshness, trust, and impact, but it does not infer callers or external consumers; this is an explicit bounded gap, not an equivalence claim.",
+    ),
+    "docs/reference/reference-impact-gate.zh-CN.md": (
+        "reference-only",
+        [
+            "docs/reference/operation-time-policy-reevaluation.zh-CN.md",
+            "docs/reference/governance-profiles.zh-CN.md",
+            "docs/reference/reference-parity.zh-CN.md",
+        ],
+        "源静态 reference-impact scanner、schema 和 Make/Python 命令未迁入 Rust Runtime。操作时策略仍评估已声明的 operation、target、scope、authority、freshness、trust 和 impact，但不推导 callers 或 external consumers；这是明确的有界 gap，不是对等实现声明。",
+    ),
+    "docs/reference/reference-impact-gate.ja.md": (
+        "reference-only",
+        [
+            "docs/reference/operation-time-policy-reevaluation.ja.md",
+            "docs/reference/governance-profiles.ja.md",
+            "docs/reference/reference-parity.ja.md",
+        ],
+        "Reference source の static impact scanner、schema、Make/Python command は Rust Runtime に移植していません。Operation-time policy は宣言された operation、target、scope、authority、freshness、trust、impact を評価しますが、caller や external consumer を推論しません。これは明示的な bounded gap であり、同等実装の主張ではありません。",
+    ),
+}
+
 WI345_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
     "docs/reference/governance-complexity.ja.md": (
         "reference-only",
@@ -2110,6 +2220,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 {
                     "referencePath": path,
                     "batch": WI348_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
+        wi368 = WI368_REFERENCE_FILES.get(path)
+        if wi368 is not None:
+            classification, counterparts, reason = wi368
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI368_BATCH,
                     "classification": classification,
                     "rustCounterparts": counterparts,
                     "reason": reason,
@@ -2714,6 +2837,40 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for classification in wi348_classifications
         ):
             errors.append("WI-348 batch cannot leave deferred or migrate-gap records")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI368_BATCH
+        for record in records
+    ):
+        wi368_records = [
+            record
+            for record in records
+            if isinstance(record, dict) and record.get("batch") == WI368_BATCH
+        ]
+        expected_wi368_paths = set(WI368_REFERENCE_FILES)
+        actual_wi368_paths = {
+            record.get("referencePath")
+            for record in wi368_records
+            if isinstance(record.get("referencePath"), str)
+        }
+        if actual_wi368_paths != expected_wi368_paths:
+            errors.append(
+                "WI-368 batch paths do not match the pinned eleven-file set: "
+                f"expected {sorted(expected_wi368_paths)!r}, got {sorted(actual_wi368_paths)!r}"
+            )
+        if len(wi368_records) != len(expected_wi368_paths):
+            errors.append(
+                f"WI-368 batch must contain {len(expected_wi368_paths)} records, found {len(wi368_records)}"
+            )
+        wi368_classifications = [record.get("classification") for record in wi368_records]
+        if wi368_classifications.count("implemented-different-by-design") != 6:
+            errors.append("WI-368 batch must contain six implemented-different-by-design records")
+        if wi368_classifications.count("reference-only") != 5:
+            errors.append("WI-368 batch must contain five reference-only records")
+        if any(
+            classification in {"deferred-next-batch", "migrate-gap"}
+            for classification in wi368_classifications
+        ):
+            errors.append("WI-368 batch cannot leave deferred or migrate-gap records")
     if any(
         isinstance(record, dict) and record.get("batch") == "WI-345-reference-governance-cost-batch-15"
         for record in records

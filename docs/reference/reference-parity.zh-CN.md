@@ -66,6 +66,7 @@ capabilityClaims:
 | 治理性能预算 | 以不同方式实现 | 本地提供 identity-bound `PerformanceBaseline` sample 与明确 regression budget；耗时不会削弱必需验证或建立 provider assurance。 |
 | 治理 profile/成本分离 | 以不同方式实现 | light/standard/strict 路线、operation/stage escalation、`VerificationTier`、`EvidenceAssurance` 与 advisory cost 保持独立。 |
 | 操作时高风险策略重新评估 | 以不同方式实现 | Rust Core 的 `OperationTimeRequest` 在执行前评估精确操作、目标、范围、权限、新鲜度、信任和影响；从不执行操作或授予 provider 权限。 |
+| 删除/重命名/废弃前的静态引用影响扫描 | 延期 | 源 scanner 及其 Python/Make/schema surface 未提供。Rust 操作时评估器不会推导 callers、动态引用、外部 Consumer 或监控；相关影响必须声明证据，否则保持 unknown/需要人工 review。 |
 | 多语言语义一致性 | 部分实现 | Runtime 自有标签及停止/下一步语义已三语文档化并测试；人类拥有的 Contract 原文保持编写语言，不宣称任意 prose comparator。 |
 | 轻量验证与软门 | 以不同方式实现 | 按比例路线、内容绑定复用、确定性的 partial 依赖处理、单调升级和可见 advisory 边界由 Runtime 原生提供。 |
 | 安装和 provider 配置 | 外部边界 | binary delivery 与 provider/global configuration 和 repository governance state 分离。 |
@@ -300,6 +301,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-365——发布升级验收的 Git 身份绑定 | 已实现 | [Work Item](../work-items/WI-365-release-upgrade-git-identity.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-365-release-upgrade-git-identity.contract.json`; verification `.ai/evidence/WI-365-release-upgrade-git-identity.verification.json`; finalization `.ai/decisions/WI-365-release-upgrade-git-identity.finalize.json`; close `.ai/decisions/WI-365-release-upgrade-git-identity.close.json`. |
 | WI-366——在 N-1 身份根治后发布 v0.2.38 | 已实现 | [Work Item](../work-items/WI-366-release-v0-2-38.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-366-release-v0-2-38.contract.json`; verification `.ai/evidence/WI-366-release-v0-2-38.verification.json`; finalization `.ai/decisions/WI-366-release-v0-2-38.finalize.json`; close `.ai/decisions/WI-366-release-v0-2-38.close.json`. |
 | WI-367——v0.2.38 公开 Release adopter 验收 | 已实现 | [Work Item](../work-items/WI-367-release-adopter-v0-2-38.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-367-release-adopter-v0-2-38.contract.json`; verification `.ai/evidence/WI-367-release-adopter-v0-2-38.verification.json`; finalization `.ai/decisions/WI-367-release-adopter-v0-2-38.finalize.json`; close `.ai/decisions/WI-367-release-adopter-v0-2-38.close.json`. |
+| WI-368——参考源逐文件比对批次 16 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-368-reference-file-comparison-batch-16.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-368-reference-file-comparison-batch-16.contract.json`; verification `.ai/evidence/WI-368-reference-file-comparison-batch-16.verification.json`; finalization `.ai/decisions/WI-368-reference-file-comparison-batch-16.finalize.json`; close `.ai/decisions/WI-368-reference-file-comparison-batch-16.close.json`. |
 
 ## 当前边界
 

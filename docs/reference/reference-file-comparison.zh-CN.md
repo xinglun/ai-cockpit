@@ -103,11 +103,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=269 implemented-equivalent=1 not-applicable=4 reference-only=37 deferred-next-batch=546 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=275 implemented-equivalent=1 not-applicable=4 reference-only=42 deferred-next-batch=535 migrate-gap=0 -->
 
-在固定的 v0.2.33 比较基线上，台账共有 5,119 条记录：4,262 条
-`generated-history`、262 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、4 条 `not-applicable`、34 条 `reference-only` 与 556 条
+在固定参考源比较基线上，台账共有 5,119 条记录：4,262 条
+`generated-history`、275 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、4 条 `not-applicable`、42 条 `reference-only` 与 535 条
 `deferred-next-batch`。deferred 记录仍是待比较工作，不是 parity 声明。
 capability/profile slice 已没有 `migrate-gap`：
 
@@ -680,3 +680,22 @@ WI-348 逐一比较固定提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 的�
 `implemented-different-by-design`、1 条 `implemented-equivalent`、4 条
 `not-applicable`、37 条 `reference-only`、546 条 `deferred-next-batch`；
 `migrate-gap` 仍为 0。每个目标工程继续使用同一共享 Runtime、显式 `--repo`、仓库本地证据和对象/adopter 隔离。
+
+## WI-368：发布前、荒诞测试、adopter 与 reference-impact 批次
+
+WI-368 在固定提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 上逐一比较了 11 个路径。
+其中 6 条是 `implemented-different-by-design`，5 条是 `reference-only`：
+
+| 固定参考路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `docs/reference/pre-release-documentation-alignment.md` | reference-only | 历史生成对齐记录；当前文档使用仓库本地 gate。 |
+| `docs/reference/pre-release-documentation-review.json` | reference-only | 历史五策略审查；源发现不能授权目标发布。 |
+| `docs/reference/project-test-timing-baseline.json` | implemented-different-by-design | 身份绑定的性能样本与 advisory budget；耗时不会降低验证。 |
+| `docs/reference/provider-backed-governance-validation.md` | implemented-different-by-design | provider/hosted 控制保持为委托证据；本地检查不能证明它们。 |
+| `docs/reference/real-absurd-injection-cases.{md,zh-CN.md,ja.md}` | implemented-different-by-design | canonical manifest 与 Rust 测试保留 15 个结构化 cases、12 个命名 RAI cases。 |
+| `docs/reference/real-adopter-reference-validation.md` | implemented-different-by-design | 不可变公开 Release 的 adopter/upgrade 验收，含隔离生命周期和清理证据。 |
+| `docs/reference/reference-impact-gate.{md,zh-CN.md,ja.md}` | reference-only | 源静态 scanner/schema/Make surface 未提供；操作时策略是更窄的已声明事实边界。 |
+
+本批还修正了 Standard profile 的措辞，不再暗示存在静态 reference-impact scanner。
+参考源荒诞测试三语页面对命名场景数量不一致；目标以 manifest 作为机器事实并保留差异。
+这是语义 parity 与明确边界文档，不是源命令或 JSON-wire 兼容。

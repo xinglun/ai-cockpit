@@ -27,6 +27,9 @@ Manifest 还把 RAI-01 到 RAI-12 的命名案例绑定到明确状态（`pass`�
 删除请求推导 callers、reflection、monitoring 和外部 contract，仍是 `not_proven`；RAI-04 因为 provider
 身份属于委托边界，仍是 `partial`。
 
+固定参考源的三语页面对命名真实场景数量有差异。机器事实以 manifest 为准：12 个命名 RAI cases，
+另有 15 个独立的结构化 wording cases；保留该历史差异，不把它猜测成能力声明。
+
 ## 真实荒诞案例的对齐边界
 
 参考 corpus 还评估 12 个命名的真实场景。Rust 当前明确区分已证明能力与仍需 review/外部 assurance 的边界：
