@@ -6,9 +6,13 @@ description: "在不改写不可变前置证据的前提下，把 WI-356 交付�
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-357-release-adopter-finalization-recovery
+terminalArchive: .ai/work-items/archive/WI-357-release-adopter-finalization-recovery.contract.json
+terminalVerification: .ai/evidence/WI-357-release-adopter-finalization-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-357-release-adopter-finalization-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-357-release-adopter-finalization-recovery.close.json
 predecessor: WI-356-release-adopter-script-order
 capabilityClaims:
   - adopter_finalization_recovery
