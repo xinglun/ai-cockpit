@@ -4,9 +4,13 @@ title: "WI-348 — Verification, operation-time policy, and provider-bound refer
 workItemId: WI-348-reference-verification-operation-policy
 description: "Compare the next ten pinned reference paths and close bounded Rust-native verification/policy gaps."
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-348-reference-verification-operation-policy
+terminalArchive: .ai/work-items/archive/WI-348-reference-verification-operation-policy.contract.json
+terminalVerification: .ai/evidence/WI-348-reference-verification-operation-policy.verification.json
+terminalFinalization: .ai/decisions/WI-348-reference-verification-operation-policy.finalize.json
+terminalDecision: .ai/decisions/WI-348-reference-verification-operation-policy.close.json
 capabilityClaims: [reference_parity, operation_time_policy_evaluation]
 ---
 

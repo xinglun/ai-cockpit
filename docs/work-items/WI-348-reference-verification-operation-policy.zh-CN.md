@@ -4,10 +4,14 @@ title: "WI-348——验证、操作时策略与 provider 边界参考批次"
 workItemId: WI-348-reference-verification-operation-policy
 description: "逐一比较固定的十个参考路径，并补齐有界的 Rust 验证/策略差异。"
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: translation
 canonical: docs/work-items/WI-348-reference-verification-operation-policy.md
 lastVerifiedBy: WI-348-reference-verification-operation-policy
+terminalArchive: .ai/work-items/archive/WI-348-reference-verification-operation-policy.contract.json
+terminalVerification: .ai/evidence/WI-348-reference-verification-operation-policy.verification.json
+terminalFinalization: .ai/decisions/WI-348-reference-verification-operation-policy.finalize.json
+terminalDecision: .ai/decisions/WI-348-reference-verification-operation-policy.close.json
 capabilityClaims: [reference_parity, operation_time_policy_evaluation]
 ---
 
