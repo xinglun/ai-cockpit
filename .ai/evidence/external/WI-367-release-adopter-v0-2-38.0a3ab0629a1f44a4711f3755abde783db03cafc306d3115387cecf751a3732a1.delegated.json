@@ -1,0 +1,18 @@
+{
+  "boundAt": "2026-08-28T18:20:51Z",
+  "evidence": {
+    "assurance": "provider_verified",
+    "collectedAt": "2026-08-28T18:18:06Z",
+    "digest": "sha256:0a3ab0629a1f44a4711f3755abde783db03cafc306d3115387cecf751a3732a1",
+    "origin": "https://github.com/xinglun/ai-cockpit/actions/runs/33195494850",
+    "provider": "github-release",
+    "rawEvidenceRef": ".ai/evidence/external/WI-367-release-adopter-v0-2-38.acceptance.json",
+    "subject": "xinglun/ai-cockpit@v0.2.38 adopter acceptance",
+    "validity": "valid"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:39a1e27deb5d47946c723d6129ead21a6fcb6bd5dbb7c1346a97e83ec61543c4",
+  "runtimeVersion": "0.2.34",
+  "schemaVersion": 1,
+  "workItemId": "WI-367-release-adopter-v0-2-38"
+}

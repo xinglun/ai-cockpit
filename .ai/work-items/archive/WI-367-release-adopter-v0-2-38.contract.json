@@ -1,0 +1,53 @@
+{
+  "acceptanceCriteria": [
+    "Public v0.2.38 release metadata, archive digest, and binary digest are captured and mutually consistent",
+    "Fresh adopter repository is attached and governed only by the downloaded v0.2.38 binary",
+    "Repository identity, Work Item lifecycle, evidence reuse, and close decision are recorded with runtime identity",
+    "HOME and XDG_CONFIG_HOME remain unchanged; runtime-write roots are isolated and bounded; temporary run root is removed on success and failure",
+    "No source checkout, workspace binary, or cargo build/run fallback is used",
+    "The resulting acceptance receipt and checksums are reproducible and suitable for future release baselines",
+    "The public adopter harness completes on macOS Bash 3.2 and Linux Bash without manifest deadlock, and its regression test exercises the portable path"
+  ],
+  "authority": "authorized",
+  "baseRevision": "eff57c83aea7e905b4620ecd3ff664be0c100d98",
+  "createdAt": "2026-08-28T18:02:58Z",
+  "goal": "Establish an auditable post-release adopter acceptance baseline for v0.2.38 without source or workspace-binary fallback.",
+  "intent": "Use only the immutable public v0.2.38 Release binary to govern a fresh adopter repository, prove the release acceptance evidence and isolation boundaries, and preserve the result for repeatable future releases.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime implementation changes",
+    "CI workflow changes",
+    "Business code in the adopter repository"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:03060c992dcbefc6ebf2beae9e98ee656f294651e957176e27c2b16f82e5b49d",
+  "requiredEvidenceClasses": [
+    "verification",
+    "delegated:github"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-367-release-adopter-v0-2-38",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/330",
+    "worktree": "/private/tmp/ai-cockpit-wi367-release-adopter-v0-2-38"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/isolation_manifest.sh",
+    "docs/release",
+    ".ai"
+  ],
+  "sources": [
+    "Local v0.2.38 public adopter run: macOS Bash 3.2 hung in isolation_manifest.sh manifest_source_checkout before Runtime operations",
+    "Release workflow 33195494850: Linux public adopter and N-1 upgrade acceptance passed"
+  ],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-367-release-adopter-v0-2-38"
+}

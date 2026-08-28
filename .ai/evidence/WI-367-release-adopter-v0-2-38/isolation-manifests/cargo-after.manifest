@@ -1,0 +1,3 @@
+{"path":".global-cache","type":"file","mode":"644","size":"57344","mtime":"1787940946","digest":"sha256:6901629a7ab71843d832ad29753954a8b454dc27c3e7a5f501ee96f18cb8421d","target":null,"resolvedTarget":null}
+{"path":".package-cache","type":"file","mode":"644","size":"0","mtime":"1787940945","digest":"sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855","target":null,"resolvedTarget":null}
+{"path":".package-cache-mutate","type":"file","mode":"644","size":"0","mtime":"1787940950","digest":"sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855","target":null,"resolvedTarget":null}
