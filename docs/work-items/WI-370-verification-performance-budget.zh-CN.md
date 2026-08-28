@@ -4,7 +4,7 @@ title: "WI-370——验证性能预算与精确复用"
 description: "在不削弱治理的前提下，通过动态、身份绑定的复用降低重复验证延迟。"
 workItemId: WI-370-verification-performance-budget
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: recovered
 authority: human-authorized
 lastVerifiedBy: WI-370-verification-performance-budget
 capabilityClaims: [verification_performance, evidence_integrity]

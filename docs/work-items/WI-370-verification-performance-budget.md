@@ -4,7 +4,7 @@ title: "WI-370 — Verification performance budget and exact reuse"
 description: "Reduce redundant verification latency through dynamic, identity-bound reuse without weakening governance."
 workItemId: WI-370-verification-performance-budget
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: recovered
 authority: human-authorized
 lastVerifiedBy: WI-370-verification-performance-budget
 capabilityClaims: [verification_performance, evidence_integrity]

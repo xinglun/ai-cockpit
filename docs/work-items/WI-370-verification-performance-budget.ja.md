@@ -4,7 +4,7 @@ title: "WI-370 — Verification performance budget と exact reuse"
 description: "ガバナンスを弱めず、動的で identity-bound な再利用により重複検証の遅延を減らす。"
 workItemId: WI-370-verification-performance-budget
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: recovered
 authority: human-authorized
 lastVerifiedBy: WI-370-verification-performance-budget
 capabilityClaims: [verification_performance, evidence_integrity]
