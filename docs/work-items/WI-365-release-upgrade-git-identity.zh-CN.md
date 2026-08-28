@@ -4,9 +4,13 @@ title: "WI-365——发布升级 Git 身份"
 workItemId: WI-365-release-upgrade-git-identity
 description: "使隔离 CI 环境中的公开版本到候选版本 N-1 验收提交具有确定性。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-365-release-upgrade-git-identity
+terminalArchive: .ai/work-items/archive/WI-365-release-upgrade-git-identity.contract.json
+terminalVerification: .ai/evidence/WI-365-release-upgrade-git-identity.verification.json
+terminalFinalization: .ai/decisions/WI-365-release-upgrade-git-identity.finalize.json
+terminalDecision: .ai/decisions/WI-365-release-upgrade-git-identity.close.json
 capabilityClaims: [release_distribution, adopter_acceptance]
 ---
 
