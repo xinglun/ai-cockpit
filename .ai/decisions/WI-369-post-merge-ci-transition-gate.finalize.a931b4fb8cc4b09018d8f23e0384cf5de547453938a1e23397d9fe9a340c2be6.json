@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:c329d6806c790e51d177708fa308368512455eba1df4f751a143264ad13c4bff",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "explicit-user-authorization",
+    "before": {
+      "branch": "present",
+      "pullRequest": "unmerged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "4b2d817a863c3c6f351cf09c6a32049453b9b771",
+      "name": "codex/wi-369-post-merge-ci-transition",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:1b77b15e881c6034a8bf2168bda1fceaaf5964b0263cd0988d68ea2b5aeb415d",
+    "operationId": "github-pr-332-merge-observation-20260828",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "b44c7eae9f415412474176871096562ea5723051",
+      "headRevision": "4b2d817a863c3c6f351cf09c6a32049453b9b771",
+      "mergeCommit": "fe733dac8c56fc2ac6d233466e1be96f73b39b22",
+      "number": 332,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/332"
+    },
+    "reason": "PR #332 merged with all hosted checks passed; record the provider merge observation before exact resource cleanup.",
+    "receiptId": "github-pr-332-merge-observation",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-369-post-merge-ci-transition",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/332",
+      "worktree": "/private/tmp/ai-cockpit-wi369-post-merge-ci-transition"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:af238d00182cdc108cbb95e3b18c8ed4ad07bc40289a1e970da47d09d12e5f86",
+    "runtimeVersion": "0.2.38",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-28T20:58:00Z",
+    "workItemId": "WI-369-post-merge-ci-transition-gate",
+    "worktree": {
+      "branch": "codex/wi-369-post-merge-ci-transition",
+      "headRevision": "4b2d817a863c3c6f351cf09c6a32049453b9b771",
+      "path": "/private/tmp/ai-cockpit-wi369-post-merge-ci-transition",
+      "worktreeId": "WI-369-post-merge-ci-transition-gate"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-369-post-merge-observation"
+}
