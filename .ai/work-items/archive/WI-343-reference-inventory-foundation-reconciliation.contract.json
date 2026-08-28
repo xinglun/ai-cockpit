@@ -34,8 +34,8 @@
     "baseBranch": "main",
     "baseRemote": "origin",
     "branch": "codex/wi-343-reference-inventory-foundation-reconciliation",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/307",
     "worktree": "/private/tmp/ai-cockpit-wi343-reference-inventory-foundation-reconciliation"
   },
   "risk": "normal",
