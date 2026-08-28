@@ -1,0 +1,67 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-359-release-v0-2-36.contract.json",
+    ".ai/work-items/active/WI-359-release-v0-2-36.summary.json"
+  ],
+  "checkpointAt": "2026-08-28T10:25:41Z",
+  "checkpointContractDigest": "sha256:6ff4901d8e20000d8ced27db1f0071c7b9b02db6f5a07786ffea920bd1dc0341",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:7fcc9ff4c0cc4844db68693b164a2f0e4ea302dd1d9d60f798659a0293a50622",
+      "recorded": true,
+      "recordedAt": "2026-08-28T10:25:41Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:41b145a2f5c74f91fe40668fa8819c9e8751115ba5ea3f2fad64ab408b665c28",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-359-release-v0-2-36"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:6ff4901d8e20000d8ced27db1f0071c7b9b02db6f5a07786ffea920bd1dc0341",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7fcc9ff4c0cc4844db68693b164a2f0e4ea302dd1d9d60f798659a0293a50622",
+      "previousContractHash": "sha256:7fcc9ff4c0cc4844db68693b164a2f0e4ea302dd1d9d60f798659a0293a50622",
+      "reason": "Human-directed release precondition: merge, synchronize, and exactly clean every delivery branch/worktree before creating the v0.2.36 tag.",
+      "recorded": true,
+      "recordedAt": "2026-08-28T10:40:55Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:61e12bad8cac45519b00608a842a627c22dbf7ada48c2dc983a22a0fea3f666a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-359-release-v0-2-36"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:61e12bad8cac45519b00608a842a627c22dbf7ada48c2dc983a22a0fea3f666a",
+  "createdAt": "2026-08-28T10:25:07Z",
+  "failedGate": "finish.governance",
+  "mode": "release",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-28T10:43:51Z",
+  "preflightContractDigest": "sha256:6ff4901d8e20000d8ced27db1f0071c7b9b02db6f5a07786ffea920bd1dc0341",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:61e12bad8cac45519b00608a842a627c22dbf7ada48c2dc983a22a0fea3f666a",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-28T10:38:02Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-359-release-v0-2-36"
+}
