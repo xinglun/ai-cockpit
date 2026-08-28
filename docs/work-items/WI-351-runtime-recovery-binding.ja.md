@@ -6,7 +6,7 @@ description: "Runtime 自身の状態 projection 後も retry recovery receipt �
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 authority: translation
 canonical: docs/work-items/WI-351-runtime-recovery-binding.md
 lastVerifiedBy: WI-351-runtime-recovery-binding
@@ -39,5 +39,6 @@ configuration、historical archive は対象外です。
 - local の `cargo fmt --all -- --check`、locked workspace tests、clippy は通過し、hosted
   verification は [PR #318](https://github.com/xinglun/ai-cockpit/pull/318) で実行します。
 
-現在は reviewed merge と provider finalization を待つ状態です。不変の archive は
-lifecycle evidence の source of truth として保持します。
+この Work Item は recovered historical predecessor です。不変の archive と recovery
+decision を lifecycle evidence の source of truth として保持し、predecessor bytes を
+書き換えず delivery は WI-353 で継続します。

@@ -6,7 +6,7 @@ description: "Keep retry recovery receipts valid across Runtime-owned state proj
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-351-runtime-recovery-binding
 terminalArchive: .ai/work-items/archive/WI-351-runtime-recovery-binding.contract.json
@@ -41,5 +41,6 @@ outside the boundary.
   PR [#318](https://github.com/xinglun/ai-cockpit/pull/318) carries the hosted
   verification.
 
-The Work Item is currently awaiting reviewed merge and provider finalization;
-the immutable archive remains the source of lifecycle evidence.
+The Work Item is a recovered historical predecessor. Its immutable archive and
+recovery decision remain the source of lifecycle evidence; delivery continues
+through WI-353 without rewriting predecessor bytes.

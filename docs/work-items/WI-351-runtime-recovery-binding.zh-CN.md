@@ -6,7 +6,7 @@ description: "在 Runtime 自身投影状态后保持 retry recovery receipt 有
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 authority: translation
 canonical: docs/work-items/WI-351-runtime-recovery-binding.md
 lastVerifiedBy: WI-351-runtime-recovery-binding
@@ -38,5 +38,5 @@ capabilityClaims:
 - 本地 `cargo fmt --all -- --check`、locked workspace tests 和 clippy 均通过；hosted
   验证由 [PR #318](https://github.com/xinglun/ai-cockpit/pull/318) 承载。
 
-当前 Work Item 正等待 reviewed merge 与 provider finalization；不可变 archive 仍是
-lifecycle evidence 的来源。
+当前 Work Item 是 recovered historical predecessor。不可变 archive 与 recovery decision
+仍是 lifecycle evidence 的来源；delivery 由 WI-353 继续，且不改写前置 bytes。
