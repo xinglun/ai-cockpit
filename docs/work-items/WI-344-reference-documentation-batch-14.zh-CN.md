@@ -4,9 +4,13 @@ title: "WI-344——参考文档第 14 批"
 workItemId: WI-344-reference-documentation-batch-14
 description: "逐一比较五个固定参考验收/恢复文档，记录有界的 Rust 对应物，不导入源项目历史。"
 audience: [maintainer, reviewer]
-status: active
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-344-reference-documentation-batch-14
+terminalArchive: .ai/work-items/archive/WI-344-reference-documentation-batch-14.contract.json
+terminalVerification: .ai/evidence/WI-344-reference-documentation-batch-14.verification.json
+terminalFinalization: .ai/decisions/WI-344-reference-documentation-batch-14.finalize.json
+terminalDecision: .ai/decisions/WI-344-reference-documentation-batch-14.close.json
 capabilityClaims:
   - reference_parity
 ---

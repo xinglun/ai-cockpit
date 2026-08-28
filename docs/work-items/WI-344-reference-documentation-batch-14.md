@@ -4,9 +4,13 @@ title: "WI-344 — reference documentation batch 14"
 workItemId: WI-344-reference-documentation-batch-14
 description: "Compare five pinned reference acceptance/recovery documents individually and record bounded Rust counterparts without importing source history."
 audience: [maintainer, reviewer]
-status: active
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-344-reference-documentation-batch-14
+terminalArchive: .ai/work-items/archive/WI-344-reference-documentation-batch-14.contract.json
+terminalVerification: .ai/evidence/WI-344-reference-documentation-batch-14.verification.json
+terminalFinalization: .ai/decisions/WI-344-reference-documentation-batch-14.finalize.json
+terminalDecision: .ai/decisions/WI-344-reference-documentation-batch-14.close.json
 capabilityClaims:
   - reference_parity
 ---

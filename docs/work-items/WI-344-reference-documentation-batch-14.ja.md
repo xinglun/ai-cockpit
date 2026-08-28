@@ -4,9 +4,13 @@ title: "WI-344 — reference documentation batch 14"
 workItemId: WI-344-reference-documentation-batch-14
 description: "5 つの pinned reference acceptance/recovery document を一つずつ比較し、source history を取り込まず Rust の bounded counterpart を記録します。"
 audience: [maintainer, reviewer]
-status: active
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-344-reference-documentation-batch-14
+terminalArchive: .ai/work-items/archive/WI-344-reference-documentation-batch-14.contract.json
+terminalVerification: .ai/evidence/WI-344-reference-documentation-batch-14.verification.json
+terminalFinalization: .ai/decisions/WI-344-reference-documentation-batch-14.finalize.json
+terminalDecision: .ai/decisions/WI-344-reference-documentation-batch-14.close.json
 capabilityClaims:
   - reference_parity
 ---

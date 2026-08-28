@@ -1,0 +1,129 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-344-reference-documentation-batch-14.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2e81b573abf914fa1a0743d58fccb25c35f948f0e00a252b468eb2386a5b17cd",
+      "workItemId": "WI-344-reference-documentation-batch-14"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-344-reference-documentation-batch-14.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-344-reference-documentation-batch-14.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-344-reference-documentation-batch-14.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-28T00:53:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-344-reference-documentation-batch-14.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-344-reference-documentation-batch-14.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-344-reference-documentation-batch-14.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-344-reference-documentation-batch-14.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-344-reference-documentation-batch-14.contract.json"
+          ],
+          "inference": false,
+          "text": "完成五个参考文件的语义对账，确保历史验收/复盘文档不被误迁移为当前 Runtime 能力，也不遗漏需要迁移的用户可见治理语义。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-344-reference-documentation-batch-14.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-344-reference-documentation-batch-14"
+  },
+  "finalReportDigest": "sha256:081ab4932d95dcf2d05b15e5d50152089aec751436f6e90cf3ddb37a6501c0f8",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:cba34139e85cdefd04fd69df39ab7ae3247fffe3de4bb56fe54b18cbee918060",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-344-reference-documentation-batch-14.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-28T00:53:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-344-reference-documentation-batch-14.verification.json"
+    ],
+    "policyRefs": [
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "Reviewed PR #308 passed all hosted checks, was merged, and exact branch/worktree cleanup was verified.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-08-28T00:52:57Z",
+  "workItemId": "WI-344-reference-documentation-batch-14"
+}

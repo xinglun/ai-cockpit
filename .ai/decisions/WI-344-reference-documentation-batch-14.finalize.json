@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "post-merge-exact-resource-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "faa9b84b80971df542eb07283283dccb03cedcab",
+    "name": "codex/wi-344-reference-documentation-batch-14",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:dc691e646b3c821a396f585e9c7760cf780d6c32da93c868d2e9fe2ed0457ef1",
+  "operationId": "github-pr-308-merge-cleanup-20260828",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "a7db853ff3fb575f85553d1fc9add6e1e37efbdd",
+    "headRevision": "faa9b84b80971df542eb07283283dccb03cedcab",
+    "mergeCommit": "4573c4123129f0b4a1a22dd404ccda39d84b62bd",
+    "number": 308,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/308"
+  },
+  "reason": "PR #308 passed all hosted checks and was merged; the exact feature branch and worktree were removed after verification.",
+  "receiptId": "github-pr-308-finalization-20260828",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-344-reference-documentation-batch-14",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/308",
+    "worktree": "/private/tmp/ai-cockpit-wi344-reference-documentation-batch-14"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-28T00:51:35Z",
+  "workItemId": "WI-344-reference-documentation-batch-14",
+  "worktree": {
+    "branch": "codex/wi-344-reference-documentation-batch-14",
+    "headRevision": "faa9b84b80971df542eb07283283dccb03cedcab",
+    "path": "/private/tmp/ai-cockpit-wi344-reference-documentation-batch-14",
+    "worktreeId": "WI-344-reference-documentation-batch-14"
+  }
+}
