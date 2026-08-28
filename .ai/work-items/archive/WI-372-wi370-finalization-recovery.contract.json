@@ -1,0 +1,51 @@
+{
+  "acceptanceCriteria": [
+    "Actual PR #333 context is bound before fresh verification.",
+    "Predecessor archive and evidence bytes remain unchanged.",
+    "Finalization verifies exact branch and worktree deletion before close."
+  ],
+  "authority": "authorized",
+  "baseRevision": "3be9932f6e9a4b613ccd546eb56d358c29a54471",
+  "createdAt": "2026-08-28T22:32:45Z",
+  "goal": "Record the actual reviewed PR #333 context, revalidate the bounded recovery, and close the successor after exact branch and worktree cleanup.",
+  "intent": "Correct the provider finalization identity for merged WI-370 without rewriting its immutable archive or evidence.",
+  "mode": "code",
+  "outOfScope": [
+    "Runtime code",
+    "performance behavior",
+    "release artifacts",
+    "global Agent/MCP configuration",
+    "historical predecessor bytes"
+  ],
+  "predecessorContractDigest": "sha256:2443f1c2ab0d018273bdd6a4ccd8776de1d6edd28366bb06e2dc8b5caca975ce",
+  "predecessorWorkItemId": "WI-370-verification-performance-budget",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-370-verification-performance-budget.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:46501bba46fc62bcd2ac9aefbe3f34c6491d1cc1788a34d01023b2b4f9c580e0",
+  "requiredEvidenceClasses": [
+    "finalization",
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-372-wi370-finalization-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/335",
+    "worktree": "/private/tmp/ai-cockpit-wi372-wi370-finalization-recovery"
+  },
+  "risk": "low",
+  "scope": [
+    ".ai/decisions",
+    "docs/work-items",
+    "docs/reference/reference-parity"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-372-wi370-finalization-recovery"
+}
