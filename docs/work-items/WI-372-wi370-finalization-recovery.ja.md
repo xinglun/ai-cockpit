@@ -4,9 +4,13 @@ title: "WI-372 — WI-370 provider finalization 復旧"
 description: "不変な predecessor bytes を書き換えず、review 済み PR identity を束ねて performance Work Item を close する。"
 workItemId: WI-372-wi370-finalization-recovery
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-372-wi370-finalization-recovery
+terminalArchive: .ai/work-items/archive/WI-372-wi370-finalization-recovery.contract.json
+terminalVerification: .ai/evidence/WI-372-wi370-finalization-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-372-wi370-finalization-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-372-wi370-finalization-recovery.close.json
 capabilityClaims: [governance_integrity, resource_finalization]
 ---
 

@@ -4,9 +4,13 @@ title: "WI-372——WI-370 provider finalization 恢复"
 description: "绑定已审查的 PR 身份，在不重写不可变前置字节的前提下关闭性能 Work Item。"
 workItemId: WI-372-wi370-finalization-recovery
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-372-wi370-finalization-recovery
+terminalArchive: .ai/work-items/archive/WI-372-wi370-finalization-recovery.contract.json
+terminalVerification: .ai/evidence/WI-372-wi370-finalization-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-372-wi370-finalization-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-372-wi370-finalization-recovery.close.json
 capabilityClaims: [governance_integrity, resource_finalization]
 ---
 

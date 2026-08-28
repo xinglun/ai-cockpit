@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "1af72819cccd844b47c7f01fa72568c6bffeaf83",
+    "name": "codex/wi-372-wi370-finalization-recovery",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:3caf88c77266c243ca77860d3381ff01ffcd5a1b71c873349170d06bbf6a1190",
+  "operationId": "github-pr-335-merge-cleanup-20260829",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "3be9932f6e9a4b613ccd546eb56d358c29a54471",
+    "headRevision": "1af72819cccd844b47c7f01fa72568c6bffeaf83",
+    "mergeCommit": "1a9747792bb08a95f20674bcfa26d51a2726432f",
+    "number": 335,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/335"
+  },
+  "reason": "The reviewed PR #335 passed all hosted checks; after synchronization the exact recovery branch and worktree were removed and the cleanup is recorded without rewriting predecessor history.",
+  "receiptId": "github-pr-335-finalization-deleted-20260829",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-372-wi370-finalization-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/335",
+    "worktree": "/private/tmp/ai-cockpit-wi372-wi370-finalization-recovery"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:af238d00182cdc108cbb95e3b18c8ed4ad07bc40289a1e970da47d09d12e5f86",
+  "runtimeVersion": "0.2.38",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-29T08:08:00+09:00",
+  "workItemId": "WI-372-wi370-finalization-recovery",
+  "worktree": {
+    "branch": "codex/wi-372-wi370-finalization-recovery",
+    "headRevision": "1af72819cccd844b47c7f01fa72568c6bffeaf83",
+    "path": "/private/tmp/ai-cockpit-wi372-wi370-finalization-recovery",
+    "worktreeId": "WI-372-wi370-finalization-recovery"
+  }
+}
