@@ -60,6 +60,14 @@ close_line=$(grep -n -- 'lifecycle-close.json close' "$script" | head -1 | cut -
   printf 'adopter acceptance must record preflight before checkpoint\n' >&2
   exit 1
 }
+attach_line=$(grep -n -- 'capture_runtime attach.json attach' "$script" | head -1 | cut -d: -f1)
+agents_line=$(grep -n -- ': > "$adopter_root/AGENTS.md"' "$script" | head -1 | cut -d: -f1)
+adapter_commit_line=$(grep -n -- "git -C \"\$adopter_root\" commit -qm 'attach adopter governance state'" "$script" | head -1 | cut -d: -f1)
+first_smoke_line=$(grep -n -- 'capture_runtime first-adopter-smoke.json work-item new' "$script" | head -1 | cut -d: -f1)
+[[ -n "$attach_line" && -n "$agents_line" && -n "$adapter_commit_line" && -n "$first_smoke_line" && "$attach_line" -lt "$agents_line" && "$agents_line" -lt "$adapter_commit_line" && "$adapter_commit_line" -lt "$first_smoke_line" ]] || {
+  printf 'adopter acceptance must attach before creating/committing AGENTS.md and creating first-adopter-smoke\n' >&2
+  exit 1
+}
 base_revision_line=$(grep -n -- 'lifecycle_base_revision' "$script" | head -1 | cut -d: -f1)
 [[ -n "$base_revision_line" ]] || {
   printf 'adopter acceptance must preserve the archived Contract base revision\n' >&2
