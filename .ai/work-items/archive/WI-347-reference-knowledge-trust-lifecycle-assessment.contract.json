@@ -27,11 +27,11 @@
     "object-adopter-boundary"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-347-reference-knowledge-trust-lifecycle-assessment",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/312",
     "worktree": "/private/tmp/ai-cockpit-wi347-reference-knowledge-trust-lifecycle-assessment"
   },
   "risk": "normal",

@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-28T03:08:47Z",
+  "files": {
+    "approachDigest": "sha256:5d50e210773f154ea31ea74aecb80e8156eb621b1403ebb9038778c11b2a9d68",
+    "approachPath": ".ai/work-items/archive/WI-347-reference-knowledge-trust-lifecycle-assessment.approach.json",
+    "contractDigest": "sha256:35d0d52af6eab852240bbbf3a2d15e43bc67d076e3760c7c067419c301b2b543",
+    "contractPath": ".ai/work-items/archive/WI-347-reference-knowledge-trust-lifecycle-assessment.contract.json",
+    "eventsDigest": "sha256:2f7e37174b18f35d82bb0f530401e684344ef1bf76860e4f0851c1de705ecb75",
+    "eventsPath": ".ai/work-items/archive/WI-347-reference-knowledge-trust-lifecycle-assessment.events.jsonl",
+    "outcomeDigest": "sha256:f2d6fa00c70e9f159cf96f0d5265e9eb3a1eb479fcc8d127475c747d5bca8eb4",
+    "outcomePath": ".ai/work-items/archive/WI-347-reference-knowledge-trust-lifecycle-assessment.outcome.json",
+    "summaryDigest": "sha256:6f0e936b1fc9c385a870581a7d55ec4f5338ff1b0861ed6509d31a9914465bfb",
+    "summaryPath": ".ai/work-items/archive/WI-347-reference-knowledge-trust-lifecycle-assessment.summary.json",
+    "taskReportDigest": "sha256:13c13d2bf053918e6190bb719e235c8e2edba6a8bc9c67cbc83454b3c425532a",
+    "taskReportMarkdownDigest": "sha256:d5525d186ee1d90512e1f050326f06e1810d4a21512fb22645ac9e3fe10de936",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-347-reference-knowledge-trust-lifecycle-assessment.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-347-reference-knowledge-trust-lifecycle-assessment.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-347-reference-knowledge-trust-lifecycle-assessment"
+}
