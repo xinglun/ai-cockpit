@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:4a16c0c9b1e33eaaea8bedc99655cfab8b6a680fed6fe5c01933a36cfbb711e0",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "Human owner authorized the v0.2.38 release after the v0.2.37 N-1 Git identity root-fix; release uses immutable public artifacts and isolated acceptance.",
+  "recordedAt": "2026-08-29T00:00:00Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a87f73c4b3788139f48209addcf2e714eb0635c49bf8609b7b886ced3641216b",
+  "schemaVersion": 1,
+  "workItemId": "WI-366-release-v0-2-38"
+}

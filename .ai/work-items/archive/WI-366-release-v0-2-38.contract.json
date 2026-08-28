@@ -1,0 +1,100 @@
+{
+  "acceptanceCriteria": [
+    "Cargo metadata and lockfile report v0.2.38 consistently.",
+    "The reviewed release workflow, release policy, documentation, and staged adopter regression checks pass before the immutable tag.",
+    "The v0.2.37 N-1 Git identity failure is covered by a repository-local identity regression and no global Git configuration is required.",
+    "The post-release public artifact, installed binary, adopter isolation, and N-1 upgrade acceptance are explicitly handed off to a successor acceptance Work Item and are not claimed before publication.",
+    "Merge, finalization, close, and exact branch/worktree cleanup leave the repository ready on the synchronized default branch.",
+    "Closed WI-365 tri-language Work Item projections report implemented status consistently with their terminal evidence and parity rows."
+  ],
+  "authority": "authorized",
+  "baseRevision": "7d56b4ba96bc7af5042c00e0196d0108ca9cf061",
+  "createdAt": "2026-08-28T16:54:59Z",
+  "goal": "Prepare a reproducible v0.2.38 public release from synchronized main, root-fix the N-1 release failure, and hand off immutable public-artifact acceptance without claiming unpublished evidence.",
+  "intent": "Prepare v0.2.38 from the reviewed synchronized main after root-fixing the v0.2.37 N-1 release failure; publish only after this Work Item is reviewed and hand off post-release acceptance to a successor.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime semantics",
+    "historical evidence rewrite",
+    "global Agent/MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:24e58f1ca3b31240a10b3c04ba3f3b987da1f9e7ad284e3f7456cf49694d2287",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-366-release-v0-2-38",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/329",
+    "worktree": "/private/tmp/ai-cockpit-wi366-release-v0-2-38"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "local release gate output",
+        "verification receipt"
+      ],
+      "expected": "Workspace metadata, lockfile, tri-language release/versioning docs, parity projection, and staged release/adopter checks are consistent before tagging.",
+      "required": true,
+      "scenario": "release metadata and staged policy checks",
+      "status": "verified",
+      "verificationPlan": "Run cargo metadata/check, documentation acceptance, parity status, and adopter harness static/regression tests."
+    },
+    {
+      "evidence": [
+        "adopter upgrade acceptance test",
+        "WI-365 verification receipt"
+      ],
+      "expected": "The upgrade harness commits after cloning with no usable global Git identity by configuring repository-local identity.",
+      "required": true,
+      "scenario": "N-1 clone-local Git identity regression",
+      "status": "verified",
+      "verificationPlan": "Run adopter_upgrade_acceptance_test.sh with isolated HOME/XDG and GIT_CONFIG_GLOBAL=/dev/null."
+    },
+    {
+      "evidence": [
+        "release documentation handoff"
+      ],
+      "expected": "Public artifact identity and fresh-adopter acceptance are reserved for a successor Work Item bound to the immutable published tag.",
+      "required": true,
+      "scenario": "post-release acceptance handoff",
+      "status": "verified",
+      "verificationPlan": "Record the successor Work Item and post-release acceptance command in the release documentation without claiming unpublished evidence."
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/work-items/WI-366-release-v0-2-38.md",
+    "docs/work-items/WI-366-release-v0-2-38.zh-CN.md",
+    "docs/work-items/WI-366-release-v0-2-38.ja.md",
+    "docs/work-items/WI-365-release-upgrade-git-identity.md",
+    "docs/work-items/WI-365-release-upgrade-git-identity.zh-CN.md",
+    "docs/work-items/WI-365-release-upgrade-git-identity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "GitHub Actions run 33186936390: v0.2.37 N-1 acceptance failed because cloned repositories had no local Git identity",
+    "WI-365 terminal evidence: repository-local Git identity root-fix"
+  ],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-366-release-v0-2-38"
+}

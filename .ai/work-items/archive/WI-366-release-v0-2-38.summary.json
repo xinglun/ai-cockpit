@@ -1,0 +1,151 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-28T17:01:10Z",
+  "checkpointContractDigest": "sha256:a5b68dfaf6f112fc80997fac910a5dbd938502ab35493b35df269fc119313e58",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:e2fd345eaa5460d2d18fa1152cfa5219c7b9c38c63b00300b3e780e5a5c02807",
+      "recorded": true,
+      "recordedAt": "2026-08-28T17:01:10Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0c5761f0fc74742eb5f36b5cd41f3f22e9bf825da0a231d5685ad07e59dc8370",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-366-release-v0-2-38"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:42b81433a84b10261d7b704482b6f5ac6eea50336fb0d1a5cf60f5c86fa3a063",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e2fd345eaa5460d2d18fa1152cfa5219c7b9c38c63b00300b3e780e5a5c02807",
+      "previousContractHash": "sha256:e2fd345eaa5460d2d18fa1152cfa5219c7b9c38c63b00300b3e780e5a5c02807",
+      "reason": "Root-fix release parity drift: the closed WI-365 terminal evidence and Implemented parity rows were not reflected by its tri-language Work Item documents; synchronize those projections before v0.2.38 release acceptance.",
+      "recorded": true,
+      "recordedAt": "2026-08-28T17:09:11Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a87f73c4b3788139f48209addcf2e714eb0635c49bf8609b7b886ced3641216b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-366-release-v0-2-38"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:4a16c0c9b1e33eaaea8bedc99655cfab8b6a680fed6fe5c01933a36cfbb711e0",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e2fd345eaa5460d2d18fa1152cfa5219c7b9c38c63b00300b3e780e5a5c02807",
+      "previousContractHash": "sha256:42b81433a84b10261d7b704482b6f5ac6eea50336fb0d1a5cf60f5c86fa3a063",
+      "reason": "Bind the reviewed GitHub PR and exact feature worktree before terminal lifecycle; the resource finalization plan must be part of the current Contract and revalidated before release verification.",
+      "recorded": true,
+      "recordedAt": "2026-08-28T17:12:50Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a87f73c4b3788139f48209addcf2e714eb0635c49bf8609b7b886ced3641216b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-366-release-v0-2-38"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:a5b68dfaf6f112fc80997fac910a5dbd938502ab35493b35df269fc119313e58",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e2fd345eaa5460d2d18fa1152cfa5219c7b9c38c63b00300b3e780e5a5c02807",
+      "previousContractHash": "sha256:4a16c0c9b1e33eaaea8bedc99655cfab8b6a680fed6fe5c01933a36cfbb711e0",
+      "reason": "Correct the release lifecycle boundary: pre-release WI-366 verifies staged checks and handoff only; public artifact/install/adopter evidence is reserved for a successor bound to the immutable tag. This prevents claiming evidence that cannot exist before publication.",
+      "recorded": true,
+      "recordedAt": "2026-08-28T17:18:11Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:eb7555d0fc96d289b2249ff83c5bc04780cfe8d0902612c745e8a5977d692541",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-366-release-v0-2-38"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:eb7555d0fc96d289b2249ff83c5bc04780cfe8d0902612c745e8a5977d692541",
+  "createdAt": "2026-08-28T16:54:59Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:a5b68dfaf6f112fc80997fac910a5dbd938502ab35493b35df269fc119313e58",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Human owner authorized the v0.2.38 release after the v0.2.37 N-1 Git identity root-fix; release uses immutable public artifacts and isolated acceptance.",
+    "recordedAt": "2026-08-29T00:00:00Z",
+    "recordedBy": "human:owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:eb7555d0fc96d289b2249ff83c5bc04780cfe8d0902612c745e8a5977d692541",
+    "schemaVersion": 1,
+    "workItemId": "WI-366-release-v0-2-38"
+  },
+  "failedGate": "finish.governance",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-28T17:21:46Z",
+  "preflightContractDigest": "sha256:a5b68dfaf6f112fc80997fac910a5dbd938502ab35493b35df269fc119313e58",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:eb7555d0fc96d289b2249ff83c5bc04780cfe8d0902612c745e8a5977d692541",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "local release gate output",
+        "verification receipt"
+      ],
+      "expected": "Workspace metadata, lockfile, tri-language release/versioning docs, parity projection, and staged release/adopter checks are consistent before tagging.",
+      "required": true,
+      "scenario": "release metadata and staged policy checks",
+      "status": "verified",
+      "verificationPlan": "Run cargo metadata/check, documentation acceptance, parity status, and adopter harness static/regression tests."
+    },
+    {
+      "evidence": [
+        "adopter upgrade acceptance test",
+        "WI-365 verification receipt"
+      ],
+      "expected": "The upgrade harness commits after cloning with no usable global Git identity by configuring repository-local identity.",
+      "required": true,
+      "scenario": "N-1 clone-local Git identity regression",
+      "status": "verified",
+      "verificationPlan": "Run adopter_upgrade_acceptance_test.sh with isolated HOME/XDG and GIT_CONFIG_GLOBAL=/dev/null."
+    },
+    {
+      "evidence": [
+        "release documentation handoff"
+      ],
+      "expected": "Public artifact identity and fresh-adopter acceptance are reserved for a successor Work Item bound to the immutable published tag.",
+      "required": true,
+      "scenario": "post-release acceptance handoff",
+      "status": "verified",
+      "verificationPlan": "Record the successor Work Item and post-release acceptance command in the release documentation without claiming unpublished evidence."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-28T17:21:54Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-366-release-v0-2-38"
+}
