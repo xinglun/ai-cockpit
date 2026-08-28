@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-28T00:38:37Z",
+  "files": {
+    "approachDigest": "sha256:be1477a7e9144b5e2c3c61e9f092753a996a70938989285d612d600a842550c5",
+    "approachPath": ".ai/work-items/archive/WI-344-reference-documentation-batch-14.approach.json",
+    "contractDigest": "sha256:dc691e646b3c821a396f585e9c7760cf780d6c32da93c868d2e9fe2ed0457ef1",
+    "contractPath": ".ai/work-items/archive/WI-344-reference-documentation-batch-14.contract.json",
+    "eventsDigest": "sha256:d278f5a698393ec30d970287ead03a8d54ce8f2c90f3f678aa739a599d0eb640",
+    "eventsPath": ".ai/work-items/archive/WI-344-reference-documentation-batch-14.events.jsonl",
+    "outcomeDigest": "sha256:64e3d5c41972db1c1dedf0813ad52a71d16742cbaf7246eeef98fc9dbd8553b8",
+    "outcomePath": ".ai/work-items/archive/WI-344-reference-documentation-batch-14.outcome.json",
+    "summaryDigest": "sha256:53a2228ee24e0a002f0b6cc91cb5d112f6cf4dfc3715817d7d023086d0f0f72e",
+    "summaryPath": ".ai/work-items/archive/WI-344-reference-documentation-batch-14.summary.json",
+    "taskReportDigest": "sha256:a1f40f9dc13226a51ca9299d57aebfa164642183a424f5e1b0123f0746aa4e39",
+    "taskReportMarkdownDigest": "sha256:f0bdd2f126792b0de5a630481f4f0a9cadf07659050d9094701016c195c6760d",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-344-reference-documentation-batch-14.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-344-reference-documentation-batch-14.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-344-reference-documentation-batch-14"
+}

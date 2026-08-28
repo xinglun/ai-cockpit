@@ -29,11 +29,11 @@
     "tests"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-344-reference-documentation-batch-14",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/308",
     "worktree": "/private/tmp/ai-cockpit-wi344-reference-documentation-batch-14"
   },
   "risk": "normal",
