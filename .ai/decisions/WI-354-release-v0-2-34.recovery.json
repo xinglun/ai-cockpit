@@ -1,0 +1,24 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-28T08:10:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-354-release-v0-2-34.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/319"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:9734914c7177d80f3a79c4b4c6ab32080fcbce834b8ba2ecd438365b9db363d6",
+  "predecessorEventsDigest": "sha256:1b0498192041780491671eb8b7be01697906fa80d45a8a1957d25722c87759b8",
+  "predecessorOutcomeDigest": "sha256:790e162cec59d370acb0afcc08aee2b0e2e9c07e28ee762d60bf4938f8daf601",
+  "predecessorSummaryDigest": "sha256:5be9a32f2427b0c1aa07aca1b91b7e5d0d4cdb058f868000ec78f9673d8b5fe6",
+  "predecessorWorkItemId": "WI-354-release-v0-2-34",
+  "reason": "Retry the release lifecycle after rebasing onto the latest reviewed default branch; all prior attempt bytes remain bound and no scope or authority is expanded.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Use the exact PR #319 context, rerun preflight and verification with the installed Runtime, then retry finish.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-354-release-v0-2-34"
+}

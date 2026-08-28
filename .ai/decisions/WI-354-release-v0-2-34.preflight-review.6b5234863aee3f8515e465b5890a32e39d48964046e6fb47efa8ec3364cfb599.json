@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:9734914c7177d80f3a79c4b4c6ab32080fcbce834b8ba2ecd438365b9db363d6",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "Reconfirmed the bounded high-risk release Contract after fresh verification on the latest repository snapshot; no scope or authority expansion.",
+  "recordedAt": "2026-08-28T16:58:00+09:00",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7713ed8ec42ed6d04e9401a9794544ba2f0c8313bf55ed697726ec602e32d212",
+  "schemaVersion": 1,
+  "workItemId": "WI-354-release-v0-2-34"
+}

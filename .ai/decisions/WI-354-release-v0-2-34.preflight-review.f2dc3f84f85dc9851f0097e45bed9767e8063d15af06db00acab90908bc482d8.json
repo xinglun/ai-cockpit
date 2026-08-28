@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:a5c48796e27efb8e6f9d8a33ed4bb03e009b905d0d898e6c3feddc38995a2928",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:b01568b44e1b8ca238a099adc09d4b6d20698baacadac354fd392dbc937880c4",
+  "reason": "Reconfirmed the bounded high-risk release Contract after adding the amendment-recovery regression; no scope or authority expansion.",
+  "recordedAt": "2026-08-28T07:35:00Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:13880a14d2c7ff3f076715aec203c47e74cef76152776e6675d9f99999f51445",
+  "schemaVersion": 1,
+  "workItemId": "WI-354-release-v0-2-34"
+}

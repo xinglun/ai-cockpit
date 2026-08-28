@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:6960993ab2ed551d74a9ffde3f512c90dd5bce299590f33604e817ef9d96b32c",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
+  "reason": "Authorized release preparation and post-release installation handoff after WI-352 cleanup guard.",
+  "recordedAt": "2026-08-28T07:00:00Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:af6a7f5c418f081ed550a2643c49755ad06873e2811e7e9af7154a1a9274d705",
+  "schemaVersion": 1,
+  "workItemId": "WI-354-release-v0-2-34"
+}

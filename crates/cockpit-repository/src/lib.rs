@@ -4377,6 +4377,19 @@ pub fn revalidate_contract_amendment(
         .and_then(serde_json::Value::as_array_mut)
         .expect("checkpointEvidence was validated as an array");
     entries.push(record.clone());
+    // A Contract amendment invalidates the finish-ready projection.  Reopen
+    // the single checkpointed recovery state so the normal preflight → verify
+    // → finish path can be replayed without hand-editing generated Summary
+    // bytes.  The previous Outcome/evidence remain immutable predecessor
+    // facts; a fresh verification will replace the active projection.
+    if summary["state"] == serde_json::json!("finish_ready") {
+        summary["state"] = "checkpointed".into();
+        if let Some(object) = summary.as_object_mut() {
+            object.remove("failedGate");
+            object.remove("recoveryCondition");
+            object.remove("outcomeState");
+        }
+    }
     summary["preflightState"] = "not_run".into();
     summary["verificationInvalidatedByContractAmendment"] = serde_json::json!({
         "contractHash": current_contract_hash,
@@ -12300,7 +12313,7 @@ fn append_task_outcome_events(
                 .any(|event| event.event_type == "blocked")
         });
         if existing.iter().any(|event| event.event_type == "completed")
-            && !(allow_recovery_retry && completed_then_blocked)
+            && !(allow_recovery_retry || completed_then_blocked)
         {
             return Err(ObserverError::State {
                 path,
