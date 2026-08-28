@@ -6,7 +6,7 @@
     "Contract に宣言した検証コマンドを通過し、Runtime の lifecycle finish における今回の Sentinel 相当ケースを再現・検証できる。"
   ],
   "authority": "authorized",
-  "baseRevision": "a7db853ff3fb575f85553d1fc9add6e1e37efbdd",
+  "baseRevision": "747cf3d9f846aac52b2a592ec61a874511c18b81",
   "createdAt": "2026-08-28T00:23:25Z",
   "goal": "現在のライフサイクルだけを検証対象とし、履歴 checkpoint evidence は現在のスナップショット不一致だけで finish を阻害しないようにする。また、より新しい有効な retry receipt が存在する場合、古い predecessor outcome/events presence mismatch を stale history として扱い、fail-closed の不変性を保つ。",
   "intent": "Sentinel Provider のライフサイクル完了時に、recovery retry 後の不変な過去 checkpoint evidence と、新しい retry receipt に置換された古い recovery receipt が現在の失敗として扱われ、合法的な finish が停止した。履歴を改変せずに、現在の checkpoint binding と stale な過去候補を正しく分離する。",

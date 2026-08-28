@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-28T01:03:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/runtime-recovery-checkpoint-compatibility.outcome.json",
+    ".ai/work-items/active/runtime-recovery-checkpoint-compatibility.summary.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:96da9c8a61fc2fb6bd57aec80e87807059c9db03f3b94907c7a34ccd9e98dddb",
+  "predecessorEventsDigest": "sha256:481426f048c32658fffe0a68090243be36286e430c9676a003ec35d7f8dd9d53",
+  "predecessorOutcomeDigest": "sha256:e2716835c357b0f380cda22f6c497d1f2cb3e936d002c637b4f48c0675a59948",
+  "predecessorSummaryDigest": "sha256:cd68812edb2059dec04a3588790fc661a6534815766300d4d175fb73ae5c74e2",
+  "predecessorWorkItemId": "runtime-recovery-checkpoint-compatibility",
+  "reason": "最新 origin/main への rebase に伴う Contract baseRevision 更新後も、実 PR バインディングを含む後続の収束を同一 Work Item で再試行する。merge、release、close は人間判断として保持する。",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "実 PR バインディング後の fresh verification evidence が current Contract と repository snapshot に一致すること。",
+  "runtimeDigest": "sha256:377c246b384e677b4d55295e4a11295c7438759fe9913ccb4e802eb641719a87",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "runtime-recovery-checkpoint-compatibility"
+}

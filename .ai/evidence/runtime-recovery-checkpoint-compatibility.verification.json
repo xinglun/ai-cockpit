@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:62352a92fd9ff2c716900e67719bbbf240826cce1b927774d46863a27ddb9665",
-  "createdAt": "2026-08-28T00:52:15Z",
+  "contractDigest": "sha256:96da9c8a61fc2fb6bd57aec80e87807059c9db03f3b94907c7a34ccd9e98dddb",
+  "createdAt": "2026-08-28T01:04:43Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 141425,
-      "executionElapsedMs": 141164,
+      "elapsedMs": 136987,
+      "executionElapsedMs": 136739,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -20,15 +20,15 @@
       "processesSpawned": 1,
       "protectedNodesExecuted": 0,
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "runtimeDigest": "sha256:8211c44ec210344cdd57434847bd087c7870fccddb573e7b7c42908c5d3f15ae",
+      "runtimeDigest": "sha256:377c246b384e677b4d55295e4a11295c7438759fe9913ccb4e802eb641719a87",
       "runtimeVersion": "0.2.33",
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 141425,
-    "executionElapsedMs": 141164,
-    "filesHashed": 11,
-    "filesRead": 11,
+    "elapsedMs": 136987,
+    "executionElapsedMs": 136739,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,25 +36,21 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "crates/cockpit-repository/src/lib.rs",
-        "crates/cockpit-repository/tests/lifecycle_order.rs",
-        "crates/cockpit-repository/tests/recovery_decision.rs"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
-      "baseRevision": "a7db853ff3fb575f85553d1fc9add6e1e37efbdd",
+      "baseRevision": "747cf3d9f846aac52b2a592ec61a874511c18b81",
       "dependencyConfidence": "unknown",
       "escalations": [],
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 141164,
+      "executionElapsedMs": 136739,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:8f658ca066c41bbaab577228d51536ae5cde91728d4df3b0b6e8839e2eb3785c",
+      "repositorySnapshotDigest": "sha256:80685cdcca9099c4fbff517780773e3a1c29b7d48f7630552f7e79007ce6e43b",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -80,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:310003c4feb173a9701caa7c00794e2af5c373fa347555bccc653ff9c6921e77",
+        "outputDigest": "sha256:e653660773d3929638a7cf2dd66a18122fd87c803b9bb831137a84ec85230148",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -92,14 +88,14 @@
         "timedOut": false
       }
     ],
-    "runtimeDigest": "sha256:8211c44ec210344cdd57434847bd087c7870fccddb573e7b7c42908c5d3f15ae",
+    "runtimeDigest": "sha256:377c246b384e677b4d55295e4a11295c7438759fe9913ccb4e802eb641719a87",
     "runtimeVersion": "0.2.33",
     "workItemId": "runtime-recovery-checkpoint-compatibility"
   },
-  "receiptDigest": "sha256:3f0a4763d92e870234582115a4874f557fb71d59f36ac30b2b642a3a0019b698",
+  "receiptDigest": "sha256:666cdc0ffda20a4bffde00f235c085c5e0019f8e6901efaa05902f62fc7a4fe1",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:8f658ca066c41bbaab577228d51536ae5cde91728d4df3b0b6e8839e2eb3785c",
-  "runtimeDigest": "sha256:8211c44ec210344cdd57434847bd087c7870fccddb573e7b7c42908c5d3f15ae",
+  "repositorySnapshotDigest": "sha256:80685cdcca9099c4fbff517780773e3a1c29b7d48f7630552f7e79007ce6e43b",
+  "runtimeDigest": "sha256:377c246b384e677b4d55295e4a11295c7438759fe9913ccb4e802eb641719a87",
   "runtimeVersion": "0.2.33",
   "workItemId": "runtime-recovery-checkpoint-compatibility"
 }
