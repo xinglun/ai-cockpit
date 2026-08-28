@@ -4,9 +4,13 @@ title: "WI-368 — Reference file comparison batch 16"
 description: "Pinned reference の 11 file を逐一比較し、Rust-native boundary を明示する。"
 workItemId: WI-368-reference-file-comparison-batch-16
 audience: [maintainer, reviewer]
-status: implementation_active
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-368-reference-file-comparison-batch-16
+terminalArchive: .ai/work-items/archive/WI-368-reference-file-comparison-batch-16.contract.json
+terminalVerification: .ai/evidence/WI-368-reference-file-comparison-batch-16.verification.json
+terminalFinalization: .ai/decisions/WI-368-reference-file-comparison-batch-16.finalize.json
+terminalDecision: .ai/decisions/WI-368-reference-file-comparison-batch-16.close.json
 capabilityClaims:
   - reference_parity
 ---

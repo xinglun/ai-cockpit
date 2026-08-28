@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-368-reference-file-comparison-batch-16.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:708a5f679f0b85359a434107e8d367d8a0cdc78834d905a2ca00aad41bf9e934",
+      "workItemId": "WI-368-reference-file-comparison-batch-16"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-368-reference-file-comparison-batch-16.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-368-reference-file-comparison-batch-16.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-368-reference-file-comparison-batch-16.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-368-reference-file-comparison-batch-16.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-368-reference-file-comparison-batch-16.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-368-reference-file-comparison-batch-16.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-368-reference-file-comparison-batch-16.verification.json",
+            ".ai/decisions/WI-368-reference-file-comparison-batch-16.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:repository-owner via explicit-user-authorization at 2026-08-28T20:04:30Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-368-reference-file-comparison-batch-16.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-368-reference-file-comparison-batch-16.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-368-reference-file-comparison-batch-16.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-368-reference-file-comparison-batch-16.contract.json"
+          ],
+          "inference": false,
+          "text": "Establish evidence-backed mappings for all 11 pinned files, implement or explicitly bound a repository-scoped reference-impact gate, and preserve object/adopter inheritance and release/runtime separation."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-368-reference-file-comparison-batch-16.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-368-reference-file-comparison-batch-16"
+  },
+  "finalReportDigest": "sha256:84909e7fa370bb532d3506058f87c2737e3b9b8b2247a7ec21ab13f692d791ff",
+  "humanDecision": "confirmed",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:bce363a4140d98a0315e6d830fb027c46bcb32eaa9b3cfd4a5418fac51555900",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-368-reference-file-comparison-batch-16.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-28T20:04:30Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-368-reference-file-comparison-batch-16.verification.json",
+      ".ai/decisions/WI-368-reference-file-comparison-batch-16.finalize.json"
+    ],
+    "policyRefs": [
+      "docs/reference/commands.md#resource-finalization"
+    ],
+    "reason": "Reviewed PR #331, hosted checks, installed Runtime evidence, reference parity records, and exact resource cleanup; approve closure.",
+    "resumeCondition": "No resume required; open the next bounded Work Item from synchronized main."
+  },
+  "timestamp": "2026-08-28T20:04:11Z",
+  "workItemId": "WI-368-reference-file-comparison-batch-16"
+}

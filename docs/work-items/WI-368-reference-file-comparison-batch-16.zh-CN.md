@@ -4,9 +4,13 @@ title: "WI-368——参考源逐文件比对批次 16"
 description: "逐一比对固定参考源的 11 个文件，并明确 Rust 原生边界。"
 workItemId: WI-368-reference-file-comparison-batch-16
 audience: [maintainer, reviewer]
-status: implementation_active
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-368-reference-file-comparison-batch-16
+terminalArchive: .ai/work-items/archive/WI-368-reference-file-comparison-batch-16.contract.json
+terminalVerification: .ai/evidence/WI-368-reference-file-comparison-batch-16.verification.json
+terminalFinalization: .ai/decisions/WI-368-reference-file-comparison-batch-16.finalize.json
+terminalDecision: .ai/decisions/WI-368-reference-file-comparison-batch-16.close.json
 capabilityClaims:
   - reference_parity
 ---
