@@ -3455,12 +3455,31 @@ fn unclosed_archived_work_items(root: &Path) -> Result<Vec<String>, ObserverErro
     let mut pending = archived_ids
         .into_iter()
         .filter(|work_item_id| {
-            !close_decision_is_valid_for_status(root, work_item_id, &expected_repository_id)
+            archive_requires_close(root, work_item_id)
+                && !close_decision_is_valid_for_status(root, work_item_id, &expected_repository_id)
         })
         .collect::<Vec<_>>();
     pending.sort();
     pending.dedup();
     Ok(pending)
+}
+
+/// New archive manifests explicitly opt into the close gate.  Older archive
+/// bytes predate that gate and remain historical, so they do not deadlock
+/// entry into a new Work Item. Superseded archives are resolved by their
+/// recovery successor and never require a second close decision.
+fn archive_requires_close(root: &Path, work_item_id: &str) -> bool {
+    let path = root
+        .join(".ai/work-items/archive")
+        .join(format!("{work_item_id}.archive.json"));
+    let Ok(manifest) = read_json(&path) else {
+        return false;
+    };
+    manifest.get("state").and_then(serde_json::Value::as_str) == Some("archived")
+        && manifest
+            .get("closeRequired")
+            .and_then(serde_json::Value::as_bool)
+            == Some(true)
 }
 
 fn validate_start_entry(root: &Path, reject_unclosed_archives: bool) -> Result<(), ObserverError> {
@@ -8953,6 +8972,7 @@ fn archive_work_item_internal(
         "protocolVersion": 1,
         "workItemId": work_item_id,
         "state": "archived",
+        "closeRequired": true,
         "files": files,
         "createdAt": timestamp,
     });

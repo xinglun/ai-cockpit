@@ -55,9 +55,10 @@ fn write_unclosed_archive(root: &Path, id: &str) -> (PathBuf, Vec<u8>) {
     let archive = root.join(".ai/work-items/archive");
     fs::create_dir_all(&archive).expect("archive directory");
     let path = archive.join(format!("{id}.archive.json"));
-    let bytes = br#"{"schemaVersion":1,"workItemId":"WI-OLD","state":"archived"}
+    let bytes =
+        br#"{"schemaVersion":1,"workItemId":"WI-OLD","state":"archived","closeRequired":true}
 "#
-    .to_vec();
+        .to_vec();
     fs::write(&path, &bytes).expect("archive marker");
     (path, bytes)
 }

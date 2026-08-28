@@ -167,7 +167,7 @@ fn new_work_item_fails_closed_when_an_archived_item_is_not_closed() {
     fs::create_dir_all(&archive).expect("archive directory");
     fs::write(
         archive.join("WI-ARCHIVED-PENDING.archive.json"),
-        br#"{"schemaVersion":1,"workItemId":"WI-ARCHIVED-PENDING","state":"archived"}"#,
+        br#"{"schemaVersion":1,"workItemId":"WI-ARCHIVED-PENDING","state":"archived","closeRequired":true}"#,
     )
     .expect("archive marker");
 

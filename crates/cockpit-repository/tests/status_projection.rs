@@ -4,7 +4,7 @@ use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
     archive_work_item, attach, checkpoint_work_item, close_work_item_with_structured_decision,
     finish_work_item, outcome_v2_with_runtime, plan_resource_finalization, preflight_work_item,
-    record_verification, record_verification_with_runtime, render_human_outcome,
+    record_verification, record_verification_with_runtime, render_human_outcome, repository_id,
     run_repository_verification, start_work_item, start_work_item_with_options,
     work_item_status_index_with_runtime, work_item_status_snapshot_with_runtime,
 };
@@ -537,4 +537,107 @@ fn foreign_close_repository_identity_never_promotes_archived_status() {
     assert_eq!(status.lifecycle_phase, "archived");
     assert_eq!(status.completion_domains["closure"], "archived");
     assert!(status.unknowns.contains(&"close_decision_invalid".into()));
+}
+
+#[test]
+fn legacy_closed_archive_does_not_block_new_work_item_entry() {
+    let directory = repository();
+    let work_item_id = "WI-LEGACY-CLOSED";
+    let repository_id = repository_id(directory.path()).to_string();
+    let archive = directory.path().join(".ai/work-items/archive");
+    let decisions = directory.path().join(".ai/decisions");
+    fs::write(
+        archive.join(format!("{work_item_id}.contract.json")),
+        serde_json::json!({
+            "workItemId": work_item_id,
+            "repositoryId": repository_id,
+        })
+        .to_string(),
+    )
+    .expect("legacy contract");
+    fs::write(
+        archive.join(format!("{work_item_id}.archive.json")),
+        serde_json::json!({
+            "workItemId": work_item_id,
+            "state": "archived",
+        })
+        .to_string(),
+    )
+    .expect("legacy archive");
+    fs::write(
+        decisions.join(format!("{work_item_id}.close.json")),
+        serde_json::json!({
+            "decisionState": "confirmed",
+            "humanDecision": "approved",
+            "state": "closed",
+            "structuredDecision": {
+                "actor": "human:owner",
+                "authoritySource": "historical-policy",
+                "decidedAt": "2026-01-01T00:00:00Z",
+                "decision": "approved",
+                "evidenceRefs": [],
+                "policyRefs": [],
+                "reason": "Historical close record predates repository identity binding.",
+                "resumeCondition": "none"
+            },
+            "timestamp": "2026-01-01T00:00:00Z",
+            "workItemId": work_item_id,
+        })
+        .to_string(),
+    )
+    .expect("legacy close");
+
+    start_work_item_with_options(
+        directory.path(),
+        "WI-AFTER-LEGACY",
+        "start after a historical close",
+        "ensure old close records do not deadlock new work",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect("legacy closed archive must not block entry");
+}
+
+#[test]
+fn current_archive_without_close_blocks_new_work_item_entry() {
+    let directory = repository();
+    let work_item_id = "WI-CURRENT-UNCLOSED";
+    let repository_id = repository_id(directory.path()).to_string();
+    let archive = directory.path().join(".ai/work-items/archive");
+    fs::write(
+        archive.join(format!("{work_item_id}.contract.json")),
+        serde_json::json!({
+            "workItemId": work_item_id,
+            "repositoryId": repository_id,
+        })
+        .to_string(),
+    )
+    .expect("current contract");
+    fs::write(
+        archive.join(format!("{work_item_id}.archive.json")),
+        serde_json::json!({
+            "workItemId": work_item_id,
+            "state": "archived",
+            "closeRequired": true,
+        })
+        .to_string(),
+    )
+    .expect("current archive");
+
+    let error = start_work_item_with_options(
+        directory.path(),
+        "WI-BLOCKED-BY-CURRENT",
+        "start after an unclosed current archive",
+        "preserve the close gate for new archives",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect_err("current archive without close must block entry");
+    assert!(error.to_string().contains(work_item_id));
 }
