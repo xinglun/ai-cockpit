@@ -9,7 +9,7 @@ audience:
 status: implemented
 authority: translation
 canonical: docs/reference/japanese-capability-assessment.md
-lastVerifiedBy: WI-347-reference-knowledge-trust-lifecycle-assessment
+lastVerifiedBy: WI-348-reference-verification-operation-policy
 capabilityClaims:
   - multilingual_reader_coverage
 ---
@@ -25,6 +25,8 @@ capabilityClaims:
 Mixed technical Japanese、Unicode、path、高リスク/absurd input の明示的 stop、Japanese CLI と status/Outcome presentation、installation と repository attach guidance、document metadata と三言語 link を確認します。Rust test は governance fact と Contract text を保持し、固定表示 label だけを localize できることを確認します。
 
 各 capability claim は executable または repository-local evidence に bind されます。欠落、stale、英語から推定した、または実行できない日本語 path は、該当 gate で unknown または release-blocking のままです。
+
+Source の assessment matrix は release receipt としてコピーせず、bounded check に対応付けます。Japanese reader page、localized Outcome marker、input-trust/adversarial test、installation/attach route、document link/metadata check を対象にします。Provider release state と一般的な fluency は未検証の external/human-review 領域です。
 
 ## 主張しないこと
 

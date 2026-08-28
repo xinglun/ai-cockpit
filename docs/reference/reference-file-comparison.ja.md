@@ -20,7 +20,7 @@ Reference は specification と behavior corpus であり、Rust Runtime にコ�
 ## 固定 baseline
 
 - Reference: [spirex-ds-dev/ai-cockpit-template](https://github.com/spirex-ds-dev/ai-cockpit-template)、commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf`。
-- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `a533d49dfa848d95742833f8cd1b5f7e1bb897d5`。
+- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b`。
 - 比較に使う Runtime: `ai-cockpit 0.2.33`、binary SHA256 `eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4`。
 
 このページは現在固定した比較 baseline だけを説明します。歴史的な delivery detail は
@@ -107,7 +107,7 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=262 implemented-equivalent=1 not-applicable=4 reference-only=34 deferred-next-batch=556 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=269 implemented-equivalent=1 not-applicable=4 reference-only=37 deferred-next-batch=546 migrate-gap=0 -->
 
 固定した v0.2.33 comparison baseline の ledger は 5,119 records です。内訳は
 4,262 `generated-history`、262 `implemented-different-by-design`、1
@@ -698,3 +698,29 @@ source の Python/Make orchestration、generated assessment bytes、provider-glo
 これは semantic/documentation parity であり、source command や JSON-wire parity ではありません。Object/adopter boundary は shared Runtime、明示的な `--repo`、isolated repository fact/evidence、外部 provider/enterprise assurance のままです。Knowledge、provenance、installation、traceability、language projection は authority、benefit、approval、release evidence を作りません。
 
 WI-347 後の ledger は 5,119 record、4,262 `generated-history`、262 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、34 `reference-only`、556 `deferred-next-batch`、`migrate-gap` は 0 です。556 deferred は予定された比較であり parity claim ではありません。
+
+## WI-348 — verification、operation-time policy、provider boundary batch
+
+WI-348 は pinned commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf` の次の十個の path を
+一つずつ比較します。七つは Rust で意図した別実装、三つの historical provider/pre-release
+record は `reference-only` です。Rust Core に strict な operation-time evaluator を追加しますが、
+これは policy input であり executor や provider authority ではありません。
+
+| Pinned reference path | Classification | Rust counterpart / boundary |
+| --- | --- | --- |
+| `docs/reference/japanese-capability-assessment.md` | implemented-different-by-design | 三言語 Japanese assessment boundary、Outcome、adversarial、installation、documentation check。一般的な fluency は主張しません。 |
+| `docs/reference/lightweight-verification-and-soft-gates.md` | implemented-different-by-design | 比例した route、content-bound reuse、決定的な partial dependency、単調な escalation、可視の advisory boundary。 |
+| `docs/reference/multilingual-semantic-parity.md` | implemented-different-by-design | 三言語の Runtime-owned label/marker、安全、unknown、decision、limitation、next-action。Contract 値は作成言語を保持します。 |
+| `docs/reference/open-pr-issue-reconciliation-662.json` | reference-only | Historical provider inventory。現在の state は新しい external observation が必要で、release/merge を許可しません。 |
+| `docs/reference/open-pr-issue-reconciliation-662.md` | reference-only | Historical reconciliation narrative。current status や `.ai/` にコピーしません。 |
+| `docs/reference/operation-time-policy-reevaluation.ja.md` | implemented-different-by-design | Rust `OperationTimeRequest`/decision evaluator と strict regression test。source Python trust/provider execution はコピーしません。 |
+| `docs/reference/operation-time-policy-reevaluation.md` | implemented-different-by-design | operation、target、scope、authority、freshness、trust、impact を明示する同じ境界。 |
+| `docs/reference/operation-time-policy-reevaluation.zh-CN.md` | implemented-different-by-design | 同じ fail-closed evaluator の中国語 reader route。 |
+| `docs/reference/performance-diagnosis.md` | implemented-different-by-design | request-scoped `diagnose` と cost observation で execution/reuse を測定し、provider wait/P95/assurance を発明しません。 |
+| `docs/reference/pre-release-documentation-alignment.json` | reference-only | Historical generated alignment receipt。target documentation は独自の repository-local check を使います。 |
+
+これは source Python、Make、JSON wire、provider state の parity ではありません。更新後の
+ledger は 5,119 records：4,262 `generated-history`、269 `implemented-different-by-design`、
+1 `implemented-equivalent`、4 `not-applicable`、37 `reference-only`、546
+`deferred-next-batch`、`migrate-gap` は 0 です。すべての object/adopter project は共有 Runtime、
+明示的な `--repo`、repository-local evidence、isolation boundary を継承します。

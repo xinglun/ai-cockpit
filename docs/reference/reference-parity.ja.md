@@ -67,6 +67,9 @@ matrix は次の 4 state だけを使います。
 | Governance cost metrics | Implemented differently | `diagnose`、typed cost estimate/observation、verification receipt が repository-bound advisory fact を提供します。Source JSONL phase/wait aggregation は Rust wire requirement ではありません。 |
 | Governance performance budgets | Implemented differently | Identity-bound `PerformanceBaseline` sample と明示的 regression budget を local に利用できます。Timing は required verification を弱めず provider assurance を作りません。 |
 | Governance profile/cost separation | Implemented differently | light/standard/strict route、operation/stage escalation、`VerificationTier`、`EvidenceAssurance`、advisory cost を分離します。 |
+| Operation-time high-risk policy re-evaluation | Implemented differently | Rust Core の `OperationTimeRequest` が実行直前に operation、target、scope、authority、freshness、trust、impact を評価し、実行や provider 権限付与はしません。 |
+| Multilingual semantic parity | Partial | Runtime-owned label と stop/next-action の意味を三言語で文書化・テストします。人が所有する Contract text は作成言語を保持し、任意 prose comparator は主張しません。 |
+| Lightweight verification and soft gates | Implemented differently | 比例した route、content-bound reuse、決定的な partial dependency、単調な escalation、可視の advisory boundary を Runtime が提供します。 |
 | Installation と provider configuration | External boundary | binary delivery と provider/global configuration は repository governance state の外部で分離される。 |
 
 この matrix は working core と full reference surface parity を意図的に区別します。1 行の
@@ -284,6 +287,7 @@ verification record です。
 | WI-345 — governance cost and performance documentation batch 15 | Implemented | [Work Item](../work-items/WI-345-reference-governance-cost-batch-15.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-345-reference-governance-cost-batch-15.contract.json`; verification `.ai/evidence/WI-345-reference-governance-cost-batch-15.verification.json`; finalization `.ai/decisions/WI-345-reference-governance-cost-batch-15.finalize.json`; close `.ai/decisions/WI-345-reference-governance-cost-batch-15.close.json`. |
 | WI-346 — Governance Profile と Cockpit Status の読み方 | Implemented | [Work Item](../work-items/WI-346-reference-governance-profiles-status.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-346-reference-governance-profiles-status.contract.json`; verification `.ai/evidence/WI-346-reference-governance-profiles-status.verification.json`; finalization `.ai/decisions/WI-346-reference-governance-profiles-status.finalize.json`; close `.ai/decisions/WI-346-reference-governance-profiles-status.close.json`. |
 | WI-347 — Knowledge、input trust、installed lifecycle、Japanese capability assessment | Implemented | [Work Item](../work-items/WI-347-reference-knowledge-trust-lifecycle-assessment.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-347-reference-knowledge-trust-lifecycle-assessment.contract.json`; verification `.ai/evidence/WI-347-reference-knowledge-trust-lifecycle-assessment.verification.json`; finalization `.ai/decisions/WI-347-reference-knowledge-trust-lifecycle-assessment.finalize.json`; close `.ai/decisions/WI-347-reference-knowledge-trust-lifecycle-assessment.close.json`. |
+| WI-348 — verification、operation-time policy、provider boundary の reference batch | In progress | [Work Item](../work-items/WI-348-reference-verification-operation-policy.ja.md)。固定した十個の path を比較し、Rust-native operation-time evaluation を追加します。historical provider/pre-release record は reference-only とし、reviewed merge/close 前に terminal evidence を主張しません。 |
 
 ## 現在の境界
 

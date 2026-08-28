@@ -65,6 +65,9 @@ capabilityClaims:
 | 治理成本指标 | 以不同方式实现 | `diagnose`、typed 成本 estimate/observation 和 verification receipt 提供 repository-bound advisory facts；源 JSONL 阶段/等待聚合不是 Rust wire 要求。 |
 | 治理性能预算 | 以不同方式实现 | 本地提供 identity-bound `PerformanceBaseline` sample 与明确 regression budget；耗时不会削弱必需验证或建立 provider assurance。 |
 | 治理 profile/成本分离 | 以不同方式实现 | light/standard/strict 路线、operation/stage escalation、`VerificationTier`、`EvidenceAssurance` 与 advisory cost 保持独立。 |
+| 操作时高风险策略重新评估 | 以不同方式实现 | Rust Core 的 `OperationTimeRequest` 在执行前评估精确操作、目标、范围、权限、新鲜度、信任和影响；从不执行操作或授予 provider 权限。 |
+| 多语言语义一致性 | 部分实现 | Runtime 自有标签及停止/下一步语义已三语文档化并测试；人类拥有的 Contract 原文保持编写语言，不宣称任意 prose comparator。 |
+| 轻量验证与软门 | 以不同方式实现 | 按比例路线、内容绑定复用、确定性的 partial 依赖处理、单调升级和可见 advisory 边界由 Runtime 原生提供。 |
 | 安装和 provider 配置 | 外部边界 | binary delivery 与 provider/global configuration 和 repository governance state 分离。 |
 
 矩阵刻意区分已工作的核心和完整参考源表面 parity。某一行的 green 只证明该行边界，
@@ -280,6 +283,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-345——治理成本与性能文档第 15 批 | 已实现 | [Work Item](../work-items/WI-345-reference-governance-cost-batch-15.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-345-reference-governance-cost-batch-15.contract.json`; verification `.ai/evidence/WI-345-reference-governance-cost-batch-15.verification.json`; finalization `.ai/decisions/WI-345-reference-governance-cost-batch-15.finalize.json`; close `.ai/decisions/WI-345-reference-governance-cost-batch-15.close.json`. |
 | WI-346——治理配置与 Cockpit 状态阅读 | 已实现 | [Work Item](../work-items/WI-346-reference-governance-profiles-status.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-346-reference-governance-profiles-status.contract.json`; verification `.ai/evidence/WI-346-reference-governance-profiles-status.verification.json`; finalization `.ai/decisions/WI-346-reference-governance-profiles-status.finalize.json`; close `.ai/decisions/WI-346-reference-governance-profiles-status.close.json`. |
 | WI-347——Knowledge、输入信任、已安装生命周期与日语能力评估 | 已实现 | [Work Item](../work-items/WI-347-reference-knowledge-trust-lifecycle-assessment.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-347-reference-knowledge-trust-lifecycle-assessment.contract.json`; verification `.ai/evidence/WI-347-reference-knowledge-trust-lifecycle-assessment.verification.json`; finalization `.ai/decisions/WI-347-reference-knowledge-trust-lifecycle-assessment.finalize.json`; close `.ai/decisions/WI-347-reference-knowledge-trust-lifecycle-assessment.close.json`. |
+| WI-348——验证、操作时策略和 provider 边界参考批次 | 进行中 | [Work Item](../work-items/WI-348-reference-verification-operation-policy.zh-CN.md)；本批映射十个固定参考路径，增加 Rust 原生操作时评估，并将历史 provider/pre-release 记录保持为 reference-only。审查合并和 close 前不宣称终态证据。 |
 
 ## 当前边界
 

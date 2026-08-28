@@ -9,7 +9,7 @@ audience:
 status: implemented
 authority: translation
 canonical: docs/reference/japanese-capability-assessment.md
-lastVerifiedBy: WI-347-reference-knowledge-trust-lifecycle-assessment
+lastVerifiedBy: WI-348-reference-verification-operation-policy
 capabilityClaims:
   - multilingual_reader_coverage
 ---
@@ -25,6 +25,10 @@ capabilityClaims:
 目标检查同一组有限读者面：混合技术日语、Unicode 和路径；高风险/荒诞输入的显式停止；日语 CLI、Status/Outcome 展示；安装和 repository attach 指引；文档元数据和三语链接。Rust 测试确认治理事实和 Contract 原文保留，而固定展示标签可以本地化。
 
 每项能力声明都绑定可执行或仓库本地证据。缺失、过期、由英文推断或不可执行的日语路径，对相关 gate 保持 unknown 或阻断发布。
+
+参考评估矩阵映射到目标的有限检查，而不是复制成发布收据：日语读者页面、
+本地化 Outcome marker、输入信任/荒诞测试、安装/attach 路线以及文档链接和元数据
+检查。Provider 发布状态和一般流畅度仍是未证明的外部或人工复核事项。
 
 ## 不作出的声明
 

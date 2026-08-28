@@ -84,6 +84,188 @@ pub enum OperationKind {
     Release,
 }
 
+/// High-risk operations that require a fresh policy evaluation immediately
+/// before an executor performs them.  This vocabulary is intentionally
+/// separate from [`OperationKind`]: the latter is the Work Item capability
+/// vocabulary, while this enum describes the operation-time interception
+/// boundary used by adapters and executors.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum OperationTimeOperation {
+    DeleteFiles,
+    ModifyTests,
+    ModifyCi,
+    ModifyBranchProtection,
+    WriteSecret,
+    Push,
+    Merge,
+    Release,
+    DataMigration,
+    ExecuteScript,
+    ExternalApiWrite,
+    InstallOrUpgrade,
+    UninstallGovernance,
+}
+
+impl OperationTimeOperation {
+    fn parse(value: &str) -> bool {
+        matches!(
+            value,
+            "delete_files"
+                | "modify_tests"
+                | "modify_ci"
+                | "modify_branch_protection"
+                | "write_secret"
+                | "push"
+                | "merge"
+                | "release"
+                | "data_migration"
+                | "execute_script"
+                | "external_api_write"
+                | "install_or_upgrade"
+                | "uninstall_governance"
+        )
+    }
+}
+
+/// Versioned, repository-neutral facts supplied immediately before a
+/// high-risk operation.  This is a policy input only: it never executes a
+/// command, writes a provider resource, or grants provider permission.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct OperationTimeRequest {
+    pub schema_version: u32,
+    pub requested_operation: String,
+    pub actual_tool_call: String,
+    pub target_resource: String,
+    pub declared_scope: Vec<String>,
+    pub approved_operation: String,
+    pub approved_target_resource: String,
+    pub approved_scope: Vec<String>,
+    pub current_authority: String,
+    pub evidence_fresh: bool,
+    pub destructive_impact: String,
+    /// `authority` is the only value that can be treated as attributable
+    /// authority. Other values remain reviewable input, never permission.
+    pub input_trust: String,
+}
+
+pub const OPERATION_TIME_REQUEST_SCHEMA_VERSION: u32 = 1;
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum OperationTimeDecisionKind {
+    Allow,
+    Review,
+    Confirm,
+    Block,
+}
+
+/// Fail-closed result of operation-time policy evaluation.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct OperationTimeDecision {
+    pub decision: OperationTimeDecisionKind,
+    pub reason: String,
+    pub safe_alternative: String,
+    pub recovery_condition: String,
+}
+
+impl OperationTimeDecision {
+    pub fn may_proceed_automatically(&self) -> bool {
+        self.decision == OperationTimeDecisionKind::Allow
+    }
+}
+
+/// Re-evaluate a high-risk operation immediately before execution.
+///
+/// An `Allow` result means only that the local policy facts are internally
+/// consistent. The executor must still apply its own controls and provider
+/// permissions. A prior request is insufficient when the actual call,
+/// target, scope, authority, trust, or evidence has changed.
+pub fn evaluate_operation_time_policy(request: &OperationTimeRequest) -> OperationTimeDecision {
+    let safe_alternative = "preserve the request and actual call for human review".to_string();
+    let block = |reason: &str, recovery: &str| OperationTimeDecision {
+        decision: OperationTimeDecisionKind::Block,
+        reason: reason.to_string(),
+        safe_alternative: safe_alternative.clone(),
+        recovery_condition: recovery.to_string(),
+    };
+    let confirm = |reason: &str, recovery: &str| OperationTimeDecision {
+        decision: OperationTimeDecisionKind::Confirm,
+        reason: reason.to_string(),
+        safe_alternative: safe_alternative.clone(),
+        recovery_condition: recovery.to_string(),
+    };
+
+    if request.schema_version != OPERATION_TIME_REQUEST_SCHEMA_VERSION {
+        return block(
+            "operation-time request schema version is unsupported",
+            "create a request using the supported operation-time schema",
+        );
+    }
+    if !OperationTimeOperation::parse(&request.actual_tool_call) {
+        return block(
+            "actual tool call is not a recognized high-risk operation",
+            "classify the actual tool call before requesting approval",
+        );
+    }
+    if request.requested_operation != request.actual_tool_call {
+        return block(
+            "actual tool call does not match the requested operation",
+            "create a new approval binding for the actual tool call",
+        );
+    }
+    if request.declared_scope.is_empty() || request.approved_scope.is_empty() {
+        return block(
+            "operation scope is not declared",
+            "declare the exact target scope before requesting approval",
+        );
+    }
+    if !matches!(
+        request.destructive_impact.as_str(),
+        "low" | "medium" | "high"
+    ) {
+        return block(
+            "destructive impact is not classified",
+            "classify destructive impact before requesting a current approval",
+        );
+    }
+    if request.input_trust != "authority" {
+        return confirm(
+            "input trust is not authoritative for the requested high-risk operation",
+            "obtain attributable human authority for the operation",
+        );
+    }
+    if request.current_authority.trim().is_empty() || request.approved_operation.trim().is_empty() {
+        return confirm(
+            "current authority is missing for the requested high-risk operation",
+            "obtain current human authority bound to the operation, target, and scope",
+        );
+    }
+    if !request.evidence_fresh {
+        return confirm(
+            "operation evidence is stale",
+            "refresh the operation evidence and request human confirmation",
+        );
+    }
+    if request.approved_operation != request.actual_tool_call
+        || request.approved_target_resource != request.target_resource
+        || request.approved_scope != request.declared_scope
+    {
+        return confirm(
+            "approval binding does not match the current operation target or scope",
+            "create a current approval binding for the exact operation, target, and scope",
+        );
+    }
+    OperationTimeDecision {
+        decision: OperationTimeDecisionKind::Allow,
+        reason: "operation-time policy inputs match the current request".into(),
+        safe_alternative: "continue through the executor's separate applicable controls".into(),
+        recovery_condition: "retain this decision with the operation evidence".into(),
+    }
+}
+
 /// Version of the structured request envelope introduced after the original
 /// raw adapter binding.  The version is deliberately independent from the
 /// repository Protocol major: adapters can reject a request envelope without

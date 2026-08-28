@@ -8,7 +8,7 @@ audience:
   - reviewer
 status: implemented
 authority: canonical
-lastVerifiedBy: WI-347-reference-knowledge-trust-lifecycle-assessment
+lastVerifiedBy: WI-348-reference-verification-operation-policy
 capabilityClaims:
   - multilingual_reader_coverage
 ---
@@ -36,6 +36,12 @@ labels are localized.
 Every capability claim is tied to executable or repository-local evidence. A
 missing, stale, English-inferred, or non-executable Japanese path remains
 visible as unknown or a release-blocking condition for the relevant gate.
+
+The source assessment matrix is mapped to the target's bounded checks rather
+than copied as a release receipt: Japanese reader pages, localized Outcome
+markers, input-trust/adversarial tests, installation/attach routes, and
+documentation link/metadata checks. Provider release state and general
+fluency remain unproven external or human-review concerns.
 
 ## What is not claimed
 

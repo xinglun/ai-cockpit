@@ -104,7 +104,7 @@ comparison_documents = (
     Path('docs/reference/reference-file-comparison.ja.md'),
 )
 comparison_markers = (
-    'a533d49dfa848d95742833f8cd1b5f7e1bb897d5',
+    'bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b',
     'ai-cockpit 0.2.33',
     'eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4',
     '.ai/project/adopter-capability-manifest.json',

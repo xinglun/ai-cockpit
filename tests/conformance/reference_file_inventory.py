@@ -31,7 +31,7 @@ ALLOWED_CLASSIFICATIONS = {
 FIRST_BATCH = "governance-entrypoints"
 GETTING_STARTED_BATCH = "getting-started-onboarding"
 EXPECTED_REFERENCE_COMMIT = "e5acb677da6621004d96f0ef353c58fe8d3acfbf"
-EXPECTED_TARGET_COMMIT = "a533d49dfa848d95742833f8cd1b5f7e1bb897d5"
+EXPECTED_TARGET_COMMIT = "bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b"
 CAPABILITY_STATUS_BATCH = "capability-status-projection"
 WI270_BATCH = "WI-270-reference-contract-batch"
 WI287_BATCH = "WI-287-reference-checkpoint-conformance"
@@ -51,6 +51,7 @@ WI343_BATCH = "WI-343-reference-inventory-foundation-reconciliation"
 WI344_BATCH = "WI-344-reference-documentation-batch-14"
 WI346_BATCH = "WI-346-reference-governance-profiles-status"
 WI347_BATCH = "WI-347-reference-knowledge-trust-lifecycle-assessment"
+WI348_BATCH = "WI-348-reference-verification-operation-policy"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -1433,6 +1434,114 @@ WI347_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
     ),
 }
 
+WI348_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "docs/reference/japanese-capability-assessment.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/japanese-capability-assessment.md",
+            "docs/reference/japanese-capability-assessment.zh-CN.md",
+            "docs/reference/japanese-capability-assessment.ja.md",
+            "tests/cli/intelligence.rs",
+            "tests/docs/documentation_acceptance.sh",
+        ],
+        "The source assessment matrix is mapped to bounded tri-language reader, Outcome, adversarial, installation, and documentation checks. Source assessment JSON/Python calibration and general fluency claims remain reference-bound.",
+    ),
+    "docs/reference/lightweight-verification-and-soft-gates.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/lightweight-verification-and-soft-gates.md",
+            "docs/reference/lightweight-verification-and-soft-gates.zh-CN.md",
+            "docs/reference/lightweight-verification-and-soft-gates.ja.md",
+            "docs/reference/governance-profiles.md",
+            "crates/cockpit-verification/src/lib.rs",
+            "crates/cockpit-evidence/src/lib.rs",
+        ],
+        "Rust preserves proportional light/standard/strict routing, content-addressed reuse, deterministic dependency handling, monotonic escalation, and visible soft/unknown boundaries without copying the source Python/Make checker.",
+    ),
+    "docs/reference/multilingual-semantic-parity.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/multilingual-semantic-parity.md",
+            "docs/reference/multilingual-semantic-parity.zh-CN.md",
+            "docs/reference/multilingual-semantic-parity.ja.md",
+            "crates/cockpit-cli/tests/intelligence.rs",
+            "crates/cockpit-repository/src/outcome_render.rs",
+            "docs/reference/outcome-report.md",
+        ],
+        "The target tests equivalent Runtime-owned labels, markers, safety, unknown, decision, limitation, and next-action semantics in three languages while preserving Contract text in its authoring language; source comparator wire and arbitrary prose translation are not copied.",
+    ),
+    "docs/reference/open-pr-issue-reconciliation-662.json": (
+        "reference-only",
+        [
+            "docs/reference/provider-reconciliation-boundary.md",
+            "docs/reference/provider-reconciliation-boundary.zh-CN.md",
+            "docs/reference/provider-reconciliation-boundary.ja.md",
+            "docs/reference/reference-parity.md",
+        ],
+        "This is a historical source/provider inventory. It cannot prove current GitHub, release, or enterprise state and is retained only as pinned reference context.",
+    ),
+    "docs/reference/open-pr-issue-reconciliation-662.md": (
+        "reference-only",
+        [
+            "docs/reference/provider-reconciliation-boundary.md",
+            "docs/reference/provider-reconciliation-boundary.zh-CN.md",
+            "docs/reference/provider-reconciliation-boundary.ja.md",
+            "docs/reference/reference-parity.md",
+        ],
+        "This historical reconciliation narrative is source-bound and cannot authorize a target merge, release, or close. Current provider observations require fresh external evidence.",
+    ),
+    "docs/reference/operation-time-policy-reevaluation.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/operation-time-policy-reevaluation.ja.md",
+            "crates/cockpit-core/src/lib.rs",
+            "crates/cockpit-core/tests/operation_time_policy.rs",
+        ],
+        "The Rust Core supplies a strict operation-time request/decision evaluator with the same high-risk categories and fail-closed mismatch rules; source Python trust modules and provider execution remain external.",
+    ),
+    "docs/reference/operation-time-policy-reevaluation.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/operation-time-policy-reevaluation.md",
+            "docs/reference/operation-time-policy-reevaluation.zh-CN.md",
+            "docs/reference/operation-time-policy-reevaluation.ja.md",
+            "crates/cockpit-core/src/lib.rs",
+            "crates/cockpit-core/tests/operation_time_policy.rs",
+        ],
+        "The Rust Core supplies a strict operation-time request/decision evaluator with explicit operation, target, scope, authority, freshness, trust, and impact facts. It evaluates but never executes or grants provider permission.",
+    ),
+    "docs/reference/operation-time-policy-reevaluation.zh-CN.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/operation-time-policy-reevaluation.zh-CN.md",
+            "crates/cockpit-core/src/lib.rs",
+            "crates/cockpit-core/tests/operation_time_policy.rs",
+        ],
+        "Rust Core 的严格操作时请求/决定评估器覆盖源语义的高风险操作和 fail-closed 绑定检查；评估不执行操作，也不授予 provider 权限。",
+    ),
+    "docs/reference/performance-diagnosis.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/performance-diagnosis.md",
+            "docs/reference/performance-diagnosis.zh-CN.md",
+            "docs/reference/performance-diagnosis.ja.md",
+            "docs/reference/governance-cost-metrics.md",
+            "crates/cockpit-verification/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+        ],
+        "Rust request-scoped diagnosis and cost observations cover measured execution/reuse facts and preserve unknown/partial boundaries. The source JSONL parser, provider waits, P95, and performance claims are not invented.",
+    ),
+    "docs/reference/pre-release-documentation-alignment.json": (
+        "reference-only",
+        [
+            "docs/reference/provider-reconciliation-boundary.md",
+            "docs/reference/reference-file-comparison.md",
+            "tests/docs/documentation_acceptance.sh",
+        ],
+        "This generated source alignment receipt is historical assessment evidence, not target Runtime authority or current release proof. Target documentation is validated by its own repository-local checks and evidence.",
+    ),
+}
+
 WI345_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
     "docs/reference/governance-complexity.ja.md": (
         "reference-only",
@@ -1988,6 +2097,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 {
                     "referencePath": path,
                     "batch": WI347_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
+        wi348 = WI348_REFERENCE_FILES.get(path)
+        if wi348 is not None:
+            classification, counterparts, reason = wi348
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI348_BATCH,
                     "classification": classification,
                     "rustCounterparts": counterparts,
                     "reason": reason,
@@ -2558,6 +2680,40 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for classification in wi347_classifications
         ):
             errors.append("WI-347 batch cannot leave deferred or migrate-gap records")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI348_BATCH
+        for record in records
+    ):
+        wi348_records = [
+            record
+            for record in records
+            if isinstance(record, dict) and record.get("batch") == WI348_BATCH
+        ]
+        expected_wi348_paths = set(WI348_REFERENCE_FILES)
+        actual_wi348_paths = {
+            record.get("referencePath")
+            for record in wi348_records
+            if isinstance(record.get("referencePath"), str)
+        }
+        if actual_wi348_paths != expected_wi348_paths:
+            errors.append(
+                "WI-348 batch paths do not match the pinned ten-file set: "
+                f"expected {sorted(expected_wi348_paths)!r}, got {sorted(actual_wi348_paths)!r}"
+            )
+        if len(wi348_records) != len(expected_wi348_paths):
+            errors.append(
+                f"WI-348 batch must contain {len(expected_wi348_paths)} records, found {len(wi348_records)}"
+            )
+        wi348_classifications = [record.get("classification") for record in wi348_records]
+        if wi348_classifications.count("implemented-different-by-design") != 7:
+            errors.append("WI-348 batch must contain seven implemented-different-by-design records")
+        if wi348_classifications.count("reference-only") != 3:
+            errors.append("WI-348 batch must contain three reference-only records")
+        if any(
+            classification in {"deferred-next-batch", "migrate-gap"}
+            for classification in wi348_classifications
+        ):
+            errors.append("WI-348 batch cannot leave deferred or migrate-gap records")
     if any(
         isinstance(record, dict) and record.get("batch") == "WI-345-reference-governance-cost-batch-15"
         for record in records

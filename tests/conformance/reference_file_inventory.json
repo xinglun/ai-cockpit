@@ -3,12 +3,12 @@
   "referenceRepository": "https://github.com/spirex-ds-dev/ai-cockpit-template",
   "referenceCommit": "e5acb677da6621004d96f0ef353c58fe8d3acfbf",
   "targetRepository": "https://github.com/xinglun/ai-cockpit",
-  "targetCommit": "a533d49dfa848d95742833f8cd1b5f7e1bb897d5",
+  "targetCommit": "bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b",
   "referenceTrackedFileCount": 5119,
-  "targetTrackedFileCount": 4350,
-  "targetTrackedPathDigest": "sha256:fc68e3a4611e2a399f0fe0d746956d033c5f98e74c0e5e5fb8030bddbbb84e02",
-  "targetWorkingTreeFileCount": 4350,
-  "targetWorkingTreePathDigest": "sha256:fc68e3a4611e2a399f0fe0d746956d033c5f98e74c0e5e5fb8030bddbbb84e02",
+  "targetTrackedFileCount": 4950,
+  "targetTrackedPathDigest": "sha256:cece01fdc478f16103ec5d69876f859ea43af0bf9c98220ba856717d615e8eb7",
+  "targetWorkingTreeFileCount": 4950,
+  "targetWorkingTreePathDigest": "sha256:cece01fdc478f16103ec5d69876f859ea43af0bf9c98220ba856717d615e8eb7",
   "allowedClassifications": [
     "deferred-next-batch",
     "generated-history",
@@ -31776,73 +31776,128 @@
     },
     {
       "referencePath": "docs/reference/japanese-capability-assessment.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-348-reference-verification-operation-policy",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/japanese-capability-assessment.md",
+        "docs/reference/japanese-capability-assessment.zh-CN.md",
+        "docs/reference/japanese-capability-assessment.ja.md",
+        "tests/cli/intelligence.rs",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "reason": "The source assessment matrix is mapped to bounded tri-language reader, Outcome, adversarial, installation, and documentation checks. Source assessment JSON/Python calibration and general fluency claims remain reference-bound."
     },
     {
       "referencePath": "docs/reference/lightweight-verification-and-soft-gates.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-348-reference-verification-operation-policy",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/lightweight-verification-and-soft-gates.md",
+        "docs/reference/lightweight-verification-and-soft-gates.zh-CN.md",
+        "docs/reference/lightweight-verification-and-soft-gates.ja.md",
+        "docs/reference/governance-profiles.md",
+        "crates/cockpit-verification/src/lib.rs",
+        "crates/cockpit-evidence/src/lib.rs"
+      ],
+      "reason": "Rust preserves proportional light/standard/strict routing, content-addressed reuse, deterministic dependency handling, monotonic escalation, and visible soft/unknown boundaries without copying the source Python/Make checker."
     },
     {
       "referencePath": "docs/reference/multilingual-semantic-parity.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-348-reference-verification-operation-policy",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/multilingual-semantic-parity.md",
+        "docs/reference/multilingual-semantic-parity.zh-CN.md",
+        "docs/reference/multilingual-semantic-parity.ja.md",
+        "crates/cockpit-cli/tests/intelligence.rs",
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "The target tests equivalent Runtime-owned labels, markers, safety, unknown, decision, limitation, and next-action semantics in three languages while preserving Contract text in its authoring language; source comparator wire and arbitrary prose translation are not copied."
     },
     {
       "referencePath": "docs/reference/open-pr-issue-reconciliation-662.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-348-reference-verification-operation-policy",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/provider-reconciliation-boundary.md",
+        "docs/reference/provider-reconciliation-boundary.zh-CN.md",
+        "docs/reference/provider-reconciliation-boundary.ja.md",
+        "docs/reference/reference-parity.md"
+      ],
+      "reason": "This is a historical source/provider inventory. It cannot prove current GitHub, release, or enterprise state and is retained only as pinned reference context."
     },
     {
       "referencePath": "docs/reference/open-pr-issue-reconciliation-662.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-348-reference-verification-operation-policy",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/provider-reconciliation-boundary.md",
+        "docs/reference/provider-reconciliation-boundary.zh-CN.md",
+        "docs/reference/provider-reconciliation-boundary.ja.md",
+        "docs/reference/reference-parity.md"
+      ],
+      "reason": "This historical reconciliation narrative is source-bound and cannot authorize a target merge, release, or close. Current provider observations require fresh external evidence."
     },
     {
       "referencePath": "docs/reference/operation-time-policy-reevaluation.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-348-reference-verification-operation-policy",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/operation-time-policy-reevaluation.ja.md",
+        "crates/cockpit-core/src/lib.rs",
+        "crates/cockpit-core/tests/operation_time_policy.rs"
+      ],
+      "reason": "The Rust Core supplies a strict operation-time request/decision evaluator with the same high-risk categories and fail-closed mismatch rules; source Python trust modules and provider execution remain external."
     },
     {
       "referencePath": "docs/reference/operation-time-policy-reevaluation.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-348-reference-verification-operation-policy",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/operation-time-policy-reevaluation.md",
+        "docs/reference/operation-time-policy-reevaluation.zh-CN.md",
+        "docs/reference/operation-time-policy-reevaluation.ja.md",
+        "crates/cockpit-core/src/lib.rs",
+        "crates/cockpit-core/tests/operation_time_policy.rs"
+      ],
+      "reason": "The Rust Core supplies a strict operation-time request/decision evaluator with explicit operation, target, scope, authority, freshness, trust, and impact facts. It evaluates but never executes or grants provider permission."
     },
     {
       "referencePath": "docs/reference/operation-time-policy-reevaluation.zh-CN.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-348-reference-verification-operation-policy",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/operation-time-policy-reevaluation.zh-CN.md",
+        "crates/cockpit-core/src/lib.rs",
+        "crates/cockpit-core/tests/operation_time_policy.rs"
+      ],
+      "reason": "Rust Core 的严格操作时请求/决定评估器覆盖源语义的高风险操作和 fail-closed 绑定检查；评估不执行操作，也不授予 provider 权限。"
     },
     {
       "referencePath": "docs/reference/performance-diagnosis.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-348-reference-verification-operation-policy",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/performance-diagnosis.md",
+        "docs/reference/performance-diagnosis.zh-CN.md",
+        "docs/reference/performance-diagnosis.ja.md",
+        "docs/reference/governance-cost-metrics.md",
+        "crates/cockpit-verification/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "Rust request-scoped diagnosis and cost observations cover measured execution/reuse facts and preserve unknown/partial boundaries. The source JSONL parser, provider waits, P95, and performance claims are not invented."
     },
     {
       "referencePath": "docs/reference/pre-release-documentation-alignment.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-348-reference-verification-operation-policy",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/provider-reconciliation-boundary.md",
+        "docs/reference/reference-file-comparison.md",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "reason": "This generated source alignment receipt is historical assessment evidence, not target Runtime authority or current release proof. Target documentation is validated by its own repository-local checks and evidence."
     },
     {
       "referencePath": "docs/reference/pre-release-documentation-alignment.md",
