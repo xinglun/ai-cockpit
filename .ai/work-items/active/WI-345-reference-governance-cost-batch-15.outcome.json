@@ -1,0 +1,285 @@
+{
+  "acceptanceResults": [
+    "Individually compare the five pinned reference documentation files and record an evidence-backed Rust boundary for each; do not claim source-specific Python or Make surfaces are present.",
+    "Classify every in-scope inventory record as implemented-different-by-design or reference-only with a deterministic reason and explicit Rust counterpart or boundary.",
+    "Document the Rust-native cost, performance-budget, profile-separation, and archive-complexity boundaries in English, Simplified Chinese, and Japanese without inventing CLI commands or governance decisions.",
+    "Keep VerificationTier and EvidenceAssurance orthogonal; keep cost/performance observations advisory and fail closed on unknown identity or budget evidence.",
+    "Update the three comparison/parity documents and inventory counts, preserve the reference source language and non-wire-compatibility boundary, and prove object/adopter repositories inherit the same request-scoped Runtime rules.",
+    "Run the declared documentation, inventory, governance, formatting, lint, and workspace tests; no Runtime behavior or global Agent/MCP configuration changes are in scope."
+  ],
+  "createdAt": "2026-08-28T01:47:26Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:bf9258eba1099f14c99d11679e6e1483a2a5f4135a6e304c51f111e10ff79726",
+  "evidenceRefs": [
+    ".ai/evidence/WI-345-reference-governance-cost-batch-15.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-345-reference-governance-cost-batch-15.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-345-reference-governance-cost-batch-15.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:185c6935b55d5320509b9086cf3095d7798d8bdf1b304ec9c5ef0665fddbacda",
+      "workItemId": "WI-345-reference-governance-cost-batch-15"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-345-reference-governance-cost-batch-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/governance-complexity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-345-reference-governance-cost-batch-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/governance-complexity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-345-reference-governance-cost-batch-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/governance-complexity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-345-reference-governance-cost-batch-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/governance-cost-metrics.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-345-reference-governance-cost-batch-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/governance-cost-metrics.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-345-reference-governance-cost-batch-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/governance-cost-metrics.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-345-reference-governance-cost-batch-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/governance-performance-budget.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-345-reference-governance-cost-batch-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/governance-performance-budget.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-345-reference-governance-cost-batch-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/governance-performance-budget.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-345-reference-governance-cost-batch-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/governance-profile-cost-separation.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-345-reference-governance-cost-batch-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/governance-profile-cost-separation.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-345-reference-governance-cost-batch-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/governance-profile-cost-separation.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-345-reference-governance-cost-batch-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-file-comparison.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-345-reference-governance-cost-batch-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-file-comparison.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-345-reference-governance-cost-batch-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-file-comparison.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-345-reference-governance-cost-batch-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-345-reference-governance-cost-batch-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-345-reference-governance-cost-batch-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-345-reference-governance-cost-batch-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-345-reference-governance-cost-batch-15.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-345-reference-governance-cost-batch-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-345-reference-governance-cost-batch-15.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-345-reference-governance-cost-batch-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-345-reference-governance-cost-batch-15.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-345-reference-governance-cost-batch-15.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/conformance/reference_file_inventory.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-345-reference-governance-cost-batch-15.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-345-reference-governance-cost-batch-15.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-345-reference-governance-cost-batch-15.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-345-reference-governance-cost-batch-15.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-345-reference-governance-cost-batch-15.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-345-reference-governance-cost-batch-15.contract.json"
+          ],
+          "inference": false,
+          "text": "Close the next five pinned reference documentation paths without hiding source-specific capabilities or inventing Rust behavior."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-345-reference-governance-cost-batch-15.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-345-reference-governance-cost-batch-15"
+  },
+  "taskReportDigest": "sha256:831f83b10128f86ae75a13459a326859bc79a7b235942322142aa15c8983631a",
+  "taskReportMarkdownDigest": "sha256:f0b564981ba9a823f48b736e6c8b8cfdb6dc8708c345e3927f4ddf04dae6ea1d",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-345-reference-governance-cost-batch-15.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-345-reference-governance-cost-batch-15"
+}

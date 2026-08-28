@@ -24,19 +24,28 @@
     "tests/conformance/reference_file_inventory.json"
   ],
   "checkpointAt": "2026-08-28T01:25:24Z",
-  "checkpointContractDigest": "sha256:e34031a6619e521a4ab6c2bd1c0bf7920d348a2e6a91f91bfd2f01f0af1c1eb0",
+  "checkpointContractDigest": "sha256:e1b52f3be4cc370b3be73d9bae765a81b8957539e0a5dc1dad6c7d6850f00eff",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:74e509c4975e16041d2363dc7a5d122922c5994f1099768536c61523dc827e5b",
+  "checkpointRepositorySnapshotDigest": "sha256:185c6935b55d5320509b9086cf3095d7798d8bdf1b304ec9c5ef0665fddbacda",
   "createdAt": "2026-08-28T01:24:36Z",
+  "failedGate": "finish.verification",
   "mode": "implementation",
-  "preflightAt": "2026-08-28T01:25:24Z",
-  "preflightContractDigest": "sha256:e34031a6619e521a4ab6c2bd1c0bf7920d348a2e6a91f91bfd2f01f0af1c1eb0",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:74e509c4975e16041d2363dc7a5d122922c5994f1099768536c61523dc827e5b",
-  "preflightState": "yellow",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-28T01:47:21Z",
+  "preflightContractDigest": "sha256:e1b52f3be4cc370b3be73d9bae765a81b8957539e0a5dc1dad6c7d6850f00eff",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:185c6935b55d5320509b9086cf3095d7798d8bdf1b304ec9c5ef0665fddbacda",
+  "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-08-28T01:25:24Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-28T01:47:26Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-345-reference-governance-cost-batch-15"
 }
