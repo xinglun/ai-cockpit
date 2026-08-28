@@ -7,9 +7,13 @@ audience:
   - adopter
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-358-release-v0-2-35
+terminalArchive: .ai/work-items/archive/WI-358-release-v0-2-35.contract.json
+terminalVerification: .ai/evidence/WI-358-release-v0-2-35.verification.json
+terminalFinalization: .ai/decisions/WI-358-release-v0-2-35.finalize.json
+terminalDecision: .ai/decisions/WI-358-release-v0-2-35.close.json
 capabilityClaims: [release_distribution, lifecycle_entry_compatibility]
 ---
 
@@ -50,4 +54,8 @@ Work Item 继续使用 fail-closed close 门；同时把没有新标记的旧归
 ## 验证
 
 Runtime lifecycle evidence、hosted PR checks、release workflow、公开 binary digest
-和 adopter acceptance receipt 是权威记录。
+和 adopter acceptance receipt 是权威记录。终态 lifecycle：archive
+`.ai/work-items/archive/WI-358-release-v0-2-35.contract.json`；verification
+`.ai/evidence/WI-358-release-v0-2-35.verification.json`；finalization
+`.ai/decisions/WI-358-release-v0-2-35.finalize.json`；close
+`.ai/decisions/WI-358-release-v0-2-35.close.json`。

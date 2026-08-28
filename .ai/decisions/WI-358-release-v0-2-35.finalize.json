@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "reviewed-PR-323-merge-and-exact-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "ec52507f1b9fc76c0edbfd9ef509a7b3049869b",
+    "name": "codex/wi-358-release-v0-2-35",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:87d0424dc1e3f5477fe9db3d8e165ea02ff3b4b254016f4b7bfcb1c76aaa1214",
+  "operationId": "operation-WI-358-release-v0-2-35-merged-deleted",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "8474b7b396a21f3539d6d25fcfbf91d31adb46de",
+    "headRevision": "ec52507f1b9fc76c0edbfd9ef509a7b3049869b",
+    "mergeCommit": "c523b10ead2d1cf0cba790df7a14e71915a264fc",
+    "number": 323,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/323"
+  },
+  "reason": "Reviewed PR #323 passed all hosted checks and merged at c523b10; the exact feature worktree and local and remote branch will be deleted after verifying the clean precondition.",
+  "receiptId": "ai-cockpit-WI-358-release-v0-2-35-merged-deleted",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-358-release-v0-2-35",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/323",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/ai-cockpit-release-v0-2-35"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:39a1e27deb5d47946c723d6129ead21a6fcb6bd5dbb7c1346a97e83ec61543c4",
+  "runtimeVersion": "0.2.34",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-28T10:14:01Z",
+  "workItemId": "WI-358-release-v0-2-35",
+  "worktree": {
+    "branch": "codex/wi-358-release-v0-2-35",
+    "headRevision": "ec52507f1b9fc76c0edbfd9ef509a7b3049869b",
+    "path": "/Users/sei-rinn/dev/workspace_rust/.worktrees/ai-cockpit-release-v0-2-35",
+    "worktreeId": "WI-358-release-v0-2-35"
+  }
+}
