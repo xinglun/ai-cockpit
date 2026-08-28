@@ -86,6 +86,12 @@ resource context を持つ通常の archived Work Item で provider finalization
 receipt が欠落または無効な場合、Outcome は stable unknown
 `resource_finalization_pending` を追加し、green/verified にはなりません。
 この receipt は repository verification とは別の provider-side 境界です。
+archived Work Item は明示的な close decision が有効になるまで terminal ではありません。
+Human handoff は、対象の branch/worktree を cleanup し、finalization を記録し、
+`finalize-verify` を実行してから `close` する順序を示します。外部 resource がない
+item は review 済みの人間の `close` 判断だけが必要です。machine status projection
+はこの gap を blocker として示し、対応する `safeActions` を返すため、Agent が
+静かに次の Work Item へ進むことはできません。
 
 CLI の直接出力は `AI_COCKPIT_LANGUAGE`、次にプロセス locale を使用します。Agent
 の会話では利用者の言語で同じ handoff を表示します。JSON のフィールド名と enum

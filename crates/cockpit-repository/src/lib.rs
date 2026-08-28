@@ -11023,14 +11023,21 @@ pub fn work_item_status_snapshot_with_runtime(
     if historical {
         unknowns.push("legacy_evidence_historical".into());
     }
-    if archived && close_decision_present && !close_decision_valid {
-        unknowns.push("close_decision_invalid".into());
+    if archived && !close_decision_valid {
+        if close_decision_present {
+            unknowns.push("close_decision_invalid".into());
+        } else {
+            unknowns.push("close_decision_pending".into());
+        }
     }
     unknowns.sort();
     unknowns.dedup();
     let mut blockers = Vec::new();
     if governance_state == "red" {
         blockers.push("governance_red".into());
+    }
+    if archived && !close_decision_valid {
+        blockers.push("archived_work_item_pending_close".into());
     }
     let blocking = !blockers.is_empty();
     let human_decision_required =
@@ -11170,10 +11177,65 @@ pub fn work_item_status_snapshot_with_runtime(
     if historical {
         diagnostics.push("historical_evidence_not_revalidated".into());
     }
-    if archived && close_decision_present && !close_decision_valid {
-        diagnostics.push("close_decision_not_accepted".into());
+    if archived && !close_decision_valid {
+        diagnostics.push(if close_decision_present {
+            "close_decision_not_accepted".into()
+        } else {
+            "lifecycle_cleanup_required".into()
+        });
     }
-    let mut safe_actions = if blocking {
+    let mut safe_actions = if archived && !close_decision_valid {
+        let mut actions = Vec::new();
+        if contract.resource_context.is_some() {
+            let finalization_path = resource_finalization_decision_path(&root, work_item_id);
+            let finalization_state = if fs::symlink_metadata(&finalization_path).is_err() {
+                "missing"
+            } else {
+                match verify_resource_finalization_internal(&root, work_item_id, Some(runtime)) {
+                    Ok(value) if value["disposition"].as_str() == Some("deleted") => "deleted",
+                    Ok(_) => "retained",
+                    Err(_) => "invalid",
+                }
+            };
+            match finalization_state {
+                "deleted" => {
+                    actions.extend(["finalize_verify", "close"].into_iter().map(str::to_owned))
+                }
+                "retained" => actions.extend(
+                    [
+                        "cleanup_resources",
+                        "record_finalization",
+                        "finalize_verify",
+                        "close_after_cleanup",
+                    ]
+                    .into_iter()
+                    .map(str::to_owned),
+                ),
+                "missing" => actions.extend(
+                    [
+                        "finalize_resources",
+                        "record_finalization",
+                        "finalize_verify",
+                        "close_after_cleanup",
+                    ]
+                    .into_iter()
+                    .map(str::to_owned),
+                ),
+                _ => actions.extend(
+                    [
+                        "repair_finalization",
+                        "finalize_verify",
+                        "close_after_cleanup",
+                    ]
+                    .into_iter()
+                    .map(str::to_owned),
+                ),
+            }
+        } else {
+            actions.push("close_after_review".into());
+        }
+        actions
+    } else if blocking {
         vec!["resolve_blockers".into(), "stop".into()]
     } else {
         match lifecycle_phase.as_str() {
@@ -11396,7 +11458,7 @@ pub fn work_item_status_index_with_runtime(
 /// state, and a strict structured human decision whose summary agrees with
 /// the structured value. Invalid records remain visible as unknowns and can
 /// never promote an archived Work Item to `closed`.
-fn close_decision_is_valid_for_status(
+pub(crate) fn close_decision_is_valid_for_status(
     root: &Path,
     work_item_id: &str,
     repository_id: &str,
@@ -12443,6 +12505,26 @@ fn outcome_v2_internal(
         decision_state = DecisionState::Yellow;
         summary = "Archived verification is valid, but provider finalization evidence is missing or invalid; outcome is not ready.";
         evidence_unknown = Some("resource_finalization_pending");
+    }
+    // Archive is not a terminal handoff.  Even when the verification receipt
+    // and provider cleanup are valid, the Work Item remains non-terminal until
+    // an identity-bound human close decision is recorded.  Project this gap
+    // explicitly so agents cannot mistake an archived item for a completed one.
+    let close_decision_path = root
+        .join(".ai/decisions")
+        .join(format!("{work_item_id}.close.json"));
+    let close_pending = archived
+        && !historical
+        && !close_decision_is_valid_for_status(&root, work_item_id, &contract.repository_id);
+    if close_pending && state == OutcomeState::Verified {
+        state = OutcomeState::NotReady;
+        decision_state = DecisionState::Yellow;
+        summary = "Archived verification is valid, but the required human close decision is missing or invalid; outcome is not ready.";
+        evidence_unknown = Some(if fs::symlink_metadata(&close_decision_path).is_ok() {
+            "close_decision_invalid"
+        } else {
+            "close_decision_pending"
+        });
     }
     // A failed lifecycle gate is persisted as an active, repository-bound
     // blocked projection.  Prefer that projection over recomputing the

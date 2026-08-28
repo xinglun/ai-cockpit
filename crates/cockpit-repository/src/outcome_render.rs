@@ -121,7 +121,7 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
             "Verification evidence is invalid or does not match this Work Item/repository; stopped."
         }
     };
-    let next = if historical {
+    let mut next = if historical {
         if superseded {
             match language {
                 "zh" => {
@@ -176,6 +176,42 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
             (_, _) => "Repair the missing evidence and verify again; remain stopped until then.",
         }
     };
+    let archived_contract = root
+        .join(".ai/work-items/archive")
+        .join(format!("{}.contract.json", outcome.work_item_id));
+    let archived_unclosed = !historical
+        && archived_contract.is_file()
+        && !crate::close_decision_is_valid_for_status(
+            root,
+            &outcome.work_item_id,
+            &outcome.repository_id,
+        );
+    if archived_unclosed {
+        let finalization_pending = outcome
+            .unknowns
+            .iter()
+            .any(|unknown| unknown == "resource_finalization_pending");
+        next = match (language, finalization_pending) {
+            ("zh", true) => {
+                "先完成 provider finalization：清理并删除该 Work Item 的精确分支和工作树，记录 finalization receipt，运行 finalize-verify，随后 close。"
+            }
+            ("ja", true) => {
+                "まず provider finalization を完了します。対象 Work Item の正確な branch と worktree を cleanup/delete し、finalization receipt を記録して finalize-verify を実行し、その後 close してください。"
+            }
+            (_, true) => {
+                "Complete provider finalization first: clean up and delete the exact Work Item branch and worktree, record the finalization receipt, run finalize-verify, then close."
+            }
+            ("zh", false) => {
+                "审阅归档证据后记录明确的人工 close 决定；完成 close 前不得开始下一个 Work Item。"
+            }
+            ("ja", false) => {
+                "アーカイブ evidence を確認して明示的な人間の close 判断を記録してください。close 完了前に次の Work Item を開始しないでください。"
+            }
+            (_, false) => {
+                "Review the archive evidence and record the explicit human close decision; do not start another Work Item until close is complete."
+            }
+        };
+    }
     let failed_gate = if historical {
         None
     } else {

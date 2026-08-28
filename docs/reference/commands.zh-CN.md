@@ -67,6 +67,7 @@ deleted transition，作为有限的历史 reconciliation。该 transition 必�
   转成成功。CLI 无法强制宿主 Agent 或 UI 打开/展开对话面板；宿主必须展示 stderr
   handoff，或用 `work-item outcome` 确定性重放。
 - `work-item status --repo <path> --id <id>` 是只读命令，输出生命周期、治理状态、活动健康、事实计数、阻塞项、未知项、evidence 和 source digest；不会调度任务，也不会臆造百分比。
+- archived 但没有有效 close decision 的 Work Item 是生命周期阻塞项，不是已完成项。其 `safeActions` 会明确剩余收尾：绑定资源的项需要 `finalize_resources` 或 `cleanup_resources`、`record_finalization`、`finalize_verify`，然后执行 `close_after_cleanup`（已验证为 Deleted 时可执行 `close`）；没有外部资源的项需要 `close_after_review`。Agent 必须按这些 action 执行，在 predecessor close 或显式 recovery 前不得开始下一个 Work Item。
 - 顶层 `status` 还输出确定性的 `readiness` 对象。只有在命名分支干净、HEAD 与唯一发现的远端默认 revision 完全一致、没有 active Work Item 且没有等待 close 的 archived Work Item 时，`readyOnBase` 才能为 `true`。远端元数据缺失或含糊时为 `state: unknown`，绝不输出 green；`blocked` 会列出精确阻塞原因，`unclosedArchivedWorkItems` 会列出需要 close 或显式 recovery 的记录。
 - `work-item status --repo <path> --all --json` 按稳定 ID 顺序聚合 active 与 archived Work Item，输出固定的
   green/yellow/red/unknown 计数、成员 diagnostics/digest、当前 repository snapshot digest 与确定性的 index digest。

@@ -92,6 +92,14 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
 - `work-item status --repo <path> --id <id>` is read-only and reports lifecycle,
   governance, activity health, fact counts, blockers, unknowns, evidence, and
   source digests. It never schedules work or invents a percentage.
+- An archived Work Item without a valid close decision is a lifecycle blocker,
+  not a completed item. Its `safeActions` explicitly identify the remaining
+  handoff: resource-bound items require `finalize_resources` or
+  `cleanup_resources`, `record_finalization`, `finalize_verify`, and then
+  `close_after_cleanup` (or `close` after a verified Deleted receipt); items
+  without external resources require `close_after_review`. Agents must follow
+  these actions and must not start another Work Item until the predecessor is
+  closed or explicitly recovered.
 - Top-level `status` includes a deterministic `readiness` object. Its
   `readyOnBase: true` claim is limited to a clean named branch at the single
   locally discovered remote default revision, with no active Work Item and no
