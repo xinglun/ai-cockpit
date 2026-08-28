@@ -1,0 +1,48 @@
+{
+  "acceptanceCriteria": [
+    "Workspace package versions and Cargo.lock are 0.2.36 and pass version consistency.",
+    "Release tag v0.2.36 is created only from the reviewed, merged, synchronized main revision that includes WI-358 close/finalization records.",
+    "Public release workflow passes source quality, all target builds, artifact/SBOM/checksum binding, and adopter acceptance including cleanup proof.",
+    "Downloaded macOS arm64 artifact checksum and binary digest match the public release manifest; installed binary reports 0.2.36.",
+    "Installed v0.2.36 inspect/status/doctor/agent doctor pass with explicit repository context and no active Work Items.",
+    "Before the v0.2.36 tag is created, every merged delivery branch and worktree is synchronized and exactly cleaned; no stale merged branch or checkout remains.",
+    "v0.2.35 failed publication remains preserved and is not relabeled as published."
+  ],
+  "authority": "authorized",
+  "baseRevision": "99cd0304d16a312accd9afd1fcb26a63b5fc5da6",
+  "createdAt": "2026-08-28T10:25:07Z",
+  "goal": "Release v0.2.36 from the reviewed synchronized default branch, install the exact public artifact, and prove object-project cleanup and isolation acceptance.",
+  "intent": "Publish the cleanup fix as an immutable v0.2.36 release from the fully synchronized main revision, with exact public artifact verification and adopter acceptance.",
+  "mode": "release",
+  "outOfScope": [
+    "Moving or deleting v0.2.35; rewriting its failed-publication truth; new runtime behavior; global Agent/MCP configuration; unrelated reference parity work."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:248cea49a34ee09360cf76de491cb20e31cf2fbc0e06e00e86a047d10ab68de9",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-359-release-v0-2-36",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/324",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/ai-cockpit-release-v0-2-36"
+  },
+  "risk": "normal",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/**",
+    ".ai/work-items/**",
+    ".ai/evidence/**",
+    ".ai/decisions/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-359-release-v0-2-36"
+}

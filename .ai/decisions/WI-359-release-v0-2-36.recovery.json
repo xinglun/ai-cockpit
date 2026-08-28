@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-28T10:50:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-359-release-v0-2-36.verification.json",
+    ".ai/work-items/active/WI-359-release-v0-2-36.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:release-branch-cleanup-precondition"
+  ],
+  "predecessorContractDigest": "sha256:a40bd8796ba5d7c01cdb362414e048a07b92a08fc3c79feb623b8d233378bdf1",
+  "predecessorEventsDigest": "sha256:654891eb51b149dd82a097770916e5139cf57ea57a3915f08791da02a4b6affa",
+  "predecessorOutcomeDigest": "sha256:78a6e0f7695375e602a957373e6ab939cb767dfede398440c9e81157ec761b7c",
+  "predecessorSummaryDigest": "sha256:9fc861157cd627d83aade0cf4bc083b3efc0757851a3b6ed2296a38e9972e0d1",
+  "predecessorWorkItemId": "WI-359-release-v0-2-36",
+  "reason": "Retry after finalization context binding invalidated the prior verification; preserve the blocked lifecycle record and rerun fresh verification before finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh verification with the bound PR context, then complete finish and the reviewed PR lifecycle.",
+  "runtimeDigest": "sha256:39a1e27deb5d47946c723d6129ead21a6fcb6bd5dbb7c1346a97e83ec61543c4",
+  "runtimeVersion": "0.2.34",
+  "schemaVersion": 1,
+  "workItemId": "WI-359-release-v0-2-36"
+}
