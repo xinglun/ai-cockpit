@@ -67,7 +67,7 @@
       "nonRiskExplanations": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-348-reference-verification-operation-policy.summary.json"
+            ".ai/work-items/archive/WI-348-reference-verification-operation-policy.summary.json"
           ],
           "inference": false,
           "text": "No repository paths were observed as changed by the current Summary."
@@ -105,7 +105,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-348-reference-verification-operation-policy.contract.json"
+            ".ai/work-items/archive/WI-348-reference-verification-operation-policy.contract.json"
           ],
           "inference": false,
           "text": "Publish an evidence-backed Rust-native mapping for this batch and add a typed operation-time governance evaluator where the reference responsibility is otherwise absent."
@@ -114,7 +114,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-348-reference-verification-operation-policy.contract.json"
+            ".ai/work-items/archive/WI-348-reference-verification-operation-policy.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -124,7 +124,7 @@
     "status": "verified",
     "workItemId": "WI-348-reference-verification-operation-policy"
   },
-  "taskReportDigest": "sha256:260dde41cd7dba635351b4dda9c5884d44bd9dde9ffb7f7612f198e0806004e2",
+  "taskReportDigest": "sha256:f65b132fb0875eae742e1844ffa65d8bfe991239c56f8c063dcfb7a65f29fa8e",
   "taskReportMarkdownDigest": "sha256:e7a6e057c6f0ce2199781cbcc3cdf5298f33a68746a9289e911d9f6ad04e69cb",
   "unknowns": [
     "user_visible_benefit_not_declared"
