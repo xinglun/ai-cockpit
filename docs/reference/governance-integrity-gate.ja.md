@@ -72,3 +72,18 @@ repository にも継承されます。Rust Runtime のコピーは不要です�
 この gate は verification tier や assurance を選択しません。risk/stage/policy による
 選択と reference source の逐文件 conformance は別の検証境界であり、この inventory から
 推測してはなりません。
+
+## merge 後の close transition
+
+Archive は reviewed branch で provider merge の前に作成され、finalization と authoritative
+な close receipt は merge 後に記録されます。そのため default branch には、archive 済みで
+close 未記録の Work Item が短時間存在します。設定された default branch への実際の GitHub
+`push` で、`HEAD` が正確な二親の merge commit であり、その merge が対象 Work Item の archive
+Contract を新規追加した場合だけ、この状態を `lifecycleState: awaiting_merge_close` として
+扱います。これにより誤った `missing_terminal_decision` finding を出しません。
+
+これは bypass でも恒久的な猶予でもありません。次の非 transition の default-branch check
+では provider の finalization/close receipt が必要です。direct commit、壊れた merge、無関係な
+archive、古い未 close Work Item、GitHub context の欠落または矛盾は引き続き fail-closed です。
+Workflow は GitHub の不変な `GITHUB_EVENT_NAME`、`GITHUB_REF`、`GITHUB_SHA` context を継承し、
+branch-local や process-global の「current project」state は使用しません。

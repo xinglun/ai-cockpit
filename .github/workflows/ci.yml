@@ -125,6 +125,10 @@ jobs:
           ROUTE_PROFILE: ${{ steps.quality_route.outputs.profile }}
         run: |
           set -euo pipefail
+          # The gate consumes GitHub's immutable push/PR context
+          # (GITHUB_EVENT_NAME, GITHUB_REF, GITHUB_SHA) to recognize only the
+          # bounded post-merge archive-to-close transition. No bypass context
+          # or repository-global current-project state is introduced here.
           gate_args=(
             python3 tests/ci/run_repository_gates.py
             --repo "$GITHUB_WORKSPACE"

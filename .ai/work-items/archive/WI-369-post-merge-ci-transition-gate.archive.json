@@ -1,0 +1,21 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-28T20:45:08Z",
+  "files": {
+    "contractDigest": "sha256:1b77b15e881c6034a8bf2168bda1fceaaf5964b0263cd0988d68ea2b5aeb415d",
+    "contractPath": ".ai/work-items/archive/WI-369-post-merge-ci-transition-gate.contract.json",
+    "eventsDigest": "sha256:c7e8cc1c779caef3f40f4019c9c296b5de68a34b72e100774017666f65fff54d",
+    "eventsPath": ".ai/work-items/archive/WI-369-post-merge-ci-transition-gate.events.jsonl",
+    "outcomeDigest": "sha256:e79bd1f0f38dd1fce65cf55c3adbdae8bb04d5dabb53dcc4bd47eae48757afa4",
+    "outcomePath": ".ai/work-items/archive/WI-369-post-merge-ci-transition-gate.outcome.json",
+    "summaryDigest": "sha256:dedc00cad6a906022096ec1b13ea04595480a5ebf8364b1ea7abec422b666e6d",
+    "summaryPath": ".ai/work-items/archive/WI-369-post-merge-ci-transition-gate.summary.json",
+    "taskReportDigest": "sha256:46380739dfb3231dcc1f3ce511fcee0cd993de6adb3091110d19b835bdea0d33",
+    "taskReportMarkdownDigest": "sha256:978b41407dca8cdb66f128891c6fccb6ec3ce97756f71c551aebe482fe109c39",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-369-post-merge-ci-transition-gate.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-369-post-merge-ci-transition-gate.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-369-post-merge-ci-transition-gate"
+}

@@ -362,6 +362,60 @@ def stale_awaiting_merge_close(repo: Path, value: dict[str, Any], phase: str) ->
     )
 
 
+def merge_commit_introduces_archived_work_item(
+    repo: Path, work_item: str, base_branch: str
+) -> bool:
+    """Recognize only the real merge-to-default transition for an archived WI.
+
+    Archive happens on the reviewed branch, while provider finalization and
+    close happen after that branch is merged.  A push for the merge commit is
+    therefore an intentional short-lived lifecycle state.  This exception is
+    deliberately narrow: it requires GitHub push context, the default branch,
+    an exact two-parent HEAD, and an archive Contract newly added by that
+    merge.  A later direct commit or an older unclosed Work Item remains a
+    blocking governance finding.
+    """
+    if os.environ.get("GITHUB_EVENT_NAME") != "push":
+        return False
+    if os.environ.get("GITHUB_REF") != f"refs/heads/{base_branch}":
+        return False
+    head = subprocess.run(
+        ["git", "rev-parse", "HEAD^{commit}"],
+        cwd=repo,
+        check=False,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+    if not re.fullmatch(r"[0-9a-f]{40}", head):
+        return False
+    advertised_head = os.environ.get("GITHUB_SHA")
+    if advertised_head and advertised_head != head:
+        return False
+    parents = subprocess.run(
+        ["git", "rev-list", "--parents", "-n1", head],
+        cwd=repo,
+        check=False,
+        capture_output=True,
+        text=True,
+    ).stdout.strip().split()
+    if len(parents) != 3 or parents[0] != head:
+        return False
+    archive_path = f".ai/work-items/archive/{work_item}.contract.json"
+    archive_contract = repo / archive_path
+    if not archive_contract.is_file() or archive_contract.is_symlink():
+        return False
+    diff = subprocess.run(
+        ["git", "diff", "--name-status", parents[1], head, "--", archive_path],
+        cwd=repo,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if diff.returncode != 0:
+        return False
+    return any(line.split("\t", 1)[0] == "A" for line in diff.stdout.splitlines())
+
+
 def premerge_finalize_state(
     repo: Path, work_item: str, value: dict[str, Any]
 ) -> tuple[bool, str]:
@@ -1616,7 +1670,13 @@ def main() -> int:
                         and base_branch
                         and isinstance(provider, str)
                         and provider != "unknown"
-                        and repository_phase(repo, base_branch) in {"feature_branch", "pull_request"}
+                        and (
+                            repository_phase(repo, base_branch)
+                            in {"feature_branch", "pull_request"}
+                            or merge_commit_introduces_archived_work_item(
+                                repo, work_item, base_branch
+                            )
+                        )
                     ):
                         record["lifecycleState"] = "awaiting_merge_close"
                     else:

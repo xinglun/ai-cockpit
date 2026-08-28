@@ -65,3 +65,17 @@ Rust Runtime。
 
 本门不选择 verification tier 或 assurance。风险/阶段/策略选择，以及逐文件参考源
 一致性，属于独立验证边界，不能从本盘点中推断。
+
+## 合并后的关闭过渡
+
+Archive 会在经过 review 的分支上、provider merge 之前生成；finalization 和权威的
+close 回执则在 merge 之后记录。因此，默认分支可能短暂出现“已有归档 Work Item、但
+尚未有 close 记录”的状态。对于真实 GitHub `push` 到配置的默认分支，只有同时满足
+以下条件时，质量门才会识别这个过渡：`HEAD` 是精确的双父 merge commit，且该 merge
+新增了该 Work Item 的 archive Contract。此时报告
+`lifecycleState: awaiting_merge_close`，不会错误地产生 `missing_terminal_decision`。
+
+这不是 bypass，也不是永久宽限。下一次非过渡的默认分支检查必须看到 provider
+finalization/close 回执；直接提交、格式错误的 merge、无关的 archive、历史遗留的未关闭
+Work Item，或缺失/矛盾的 GitHub context，仍然 fail-closed。Workflow 继承 GitHub 不可变的
+`GITHUB_EVENT_NAME`、`GITHUB_REF`、`GITHUB_SHA` context，不使用分支本地或进程级的“当前项目”状态。

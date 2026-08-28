@@ -77,3 +77,22 @@ copying the Rust Runtime.
 The gate does not choose verification tier or assurance. Risk/stage/policy
 selection and reference-source file-by-file conformance are separate
 verification boundaries and must not be inferred from this inventory.
+
+## Post-merge closure transition
+
+Archive is intentionally created on the reviewed branch before the provider
+merge. Finalization and the authoritative close receipt are recorded after
+that merge, so the default branch can briefly contain an archived Work Item
+without its close record. On a real GitHub `push` to the configured default
+branch, the gate recognizes this state only when `HEAD` is an exact two-parent
+merge commit and that merge adds the Work Item's archive Contract. It reports
+`lifecycleState: awaiting_merge_close` rather than emitting a false
+`missing_terminal_decision` finding.
+
+This is a bounded transition, not a bypass or a permanent grace period. The
+next non-transition default-branch check must observe the provider
+finalization/close record; a direct commit, malformed merge, unrelated archive,
+old unclosed Work Item, or missing/contradictory GitHub context remains
+fail-closed. The workflow inherits GitHub's immutable `GITHUB_EVENT_NAME`,
+`GITHUB_REF`, and `GITHUB_SHA` context; no branch-local or process-global
+"current project" state is used.

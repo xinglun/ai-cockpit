@@ -1,0 +1,146 @@
+{
+  "acceptanceResults": [
+    "A default-branch merge commit that introduces an archived Work Item with a valid pre-merge finalization context is classified as an explicit post-merge transition and does not emit a false missing-terminal-decision failure.",
+    "A historical archived Work Item that remains unclosed after the transition is still reported as a blocking stale/closure finding on the next non-transition default-branch check.",
+    "Direct default-branch commits, malformed merge states, unrelated archived items, and missing/invalid parity evidence remain fail-closed.",
+    "The CI workflow passes the event/commit context needed to make the transition decision deterministic without bypassing PR, release, or contract-aware gates.",
+    "Regression tests cover merge commit introduction, subsequent closure, stale closure, direct commit, and no global state or source fallback.",
+    "Tri-language documentation and parity ledger describe the explicit post-merge transition and preserve the requirement for eventual finalize/close.",
+    "Installed v0.2.38 Runtime lifecycle and visible human Outcome are completed for this Work Item."
+  ],
+  "createdAt": "2026-08-28T20:45:01Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:b8eb248a7e10a8d98ef3dc2edceafa95464fd3d566dc8369d38647efa5b73684",
+  "evidenceRefs": [
+    ".ai/evidence/WI-369-post-merge-ci-transition-gate.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-369-post-merge-ci-transition-gate.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-369-post-merge-ci-transition-gate.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:df69f210dd15c41ec88c597ddf1e57710b278d1ae758f87e66cd5cb1aef08608",
+      "workItemId": "WI-369-post-merge-ci-transition-gate"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-369-post-merge-ci-transition-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-369-post-merge-ci-transition-gate.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-369-post-merge-ci-transition-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-369-post-merge-ci-transition-gate.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-369-post-merge-ci-transition-gate.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-369-post-merge-ci-transition-gate.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-369-post-merge-ci-transition-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-369-post-merge-ci-transition-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-369-post-merge-ci-transition-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-369-post-merge-ci-transition-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "Make default-branch CI distinguish a reviewed merge commit that newly introduces an archived Work Item awaiting post-merge finalization from a stale historical missing-close condition, and prove the distinction with deterministic tests and documentation."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-369-post-merge-ci-transition-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-369-post-merge-ci-transition-gate"
+  },
+  "taskReportDigest": "sha256:46380739dfb3231dcc1f3ce511fcee0cd993de6adb3091110d19b835bdea0d33",
+  "taskReportMarkdownDigest": "sha256:978b41407dca8cdb66f128891c6fccb6ec3ce97756f71c551aebe482fe109c39",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-369-post-merge-ci-transition-gate.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-369-post-merge-ci-transition-gate"
+}

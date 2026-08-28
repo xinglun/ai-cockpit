@@ -1,0 +1,67 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-369-post-merge-ci-transition-gate.contract.json",
+    ".ai/work-items/archive/WI-369-post-merge-ci-transition-gate.summary.json"
+  ],
+  "checkpointAt": "2026-08-28T20:09:42Z",
+  "checkpointContractDigest": "sha256:59e75339db8d5fca3a3fe8a32e7f823712fa85777d014b25af4d78d1e86e2adb",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:bd50616b9360b6465f9395ac1535eb6bf8e7c460d0bb5077714505fba8d01f01",
+      "recorded": true,
+      "recordedAt": "2026-08-28T20:09:42Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6a1b423131f3d84f8641c0a21c263a05bb6dc0957dac8a1dd7a62eb8f855b164",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-369-post-merge-ci-transition-gate"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:59e75339db8d5fca3a3fe8a32e7f823712fa85777d014b25af4d78d1e86e2adb",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:bd50616b9360b6465f9395ac1535eb6bf8e7c460d0bb5077714505fba8d01f01",
+      "previousContractHash": "sha256:bd50616b9360b6465f9395ac1535eb6bf8e7c460d0bb5077714505fba8d01f01",
+      "reason": "Refresh the checkpoint binding after the explicit PR finalization plan; keep the same bounded Work Item and rerun current verification.",
+      "recorded": true,
+      "recordedAt": "2026-08-28T20:40:12Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:df69f210dd15c41ec88c597ddf1e57710b278d1ae758f87e66cd5cb1aef08608",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-369-post-merge-ci-transition-gate"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:df69f210dd15c41ec88c597ddf1e57710b278d1ae758f87e66cd5cb1aef08608",
+  "createdAt": "2026-08-28T20:09:06Z",
+  "failedGate": "finish.governance",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-28T20:44:51Z",
+  "preflightContractDigest": "sha256:59e75339db8d5fca3a3fe8a32e7f823712fa85777d014b25af4d78d1e86e2adb",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:df69f210dd15c41ec88c597ddf1e57710b278d1ae758f87e66cd5cb1aef08608",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-28T20:45:01Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-369-post-merge-ci-transition-gate"
+}
