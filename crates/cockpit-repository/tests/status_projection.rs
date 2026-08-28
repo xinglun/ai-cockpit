@@ -1,9 +1,11 @@
 use cockpit_core::Digest;
 use cockpit_protocol::{HumanDecision, ResourceFinalizationContext, RuntimeContext};
 use cockpit_repository::{
-    WorkItemStartOptions, archive_work_item, attach, checkpoint_work_item,
-    close_work_item_with_structured_decision, finish_work_item, plan_resource_finalization,
-    preflight_work_item, record_verification, start_work_item, start_work_item_with_options,
+    RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
+    archive_work_item, attach, checkpoint_work_item, close_work_item_with_structured_decision,
+    finish_work_item, outcome_v2_with_runtime, plan_resource_finalization, preflight_work_item,
+    record_verification, record_verification_with_runtime, render_human_outcome,
+    run_repository_verification, start_work_item, start_work_item_with_options,
     work_item_status_index_with_runtime, work_item_status_snapshot_with_runtime,
 };
 use std::{fs, process::Command};
@@ -313,12 +315,30 @@ fn status_projection_distinguishes_archived_from_valid_closed_decision() {
     ));
     preflight_work_item(directory.path(), &contract).expect("preflight");
     checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
-    record_verification(
+    let current_runtime = runtime();
+    let run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "status-check".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: current_runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("verification run");
+    let evidence = serde_json::to_value(&run.receipt).expect("verification receipt");
+    record_verification_with_runtime(
         directory.path(),
         work_item_id,
-        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
-        "0.1.0",
-        &Digest::sha256_bytes(b"status-runtime"),
+        &evidence,
+        &current_runtime,
+        &run.final_snapshot,
     )
     .expect("verification");
     finish_work_item(directory.path(), work_item_id).expect("finish");
@@ -330,6 +350,38 @@ fn status_projection_distinguishes_archived_from_valid_closed_decision() {
     assert_eq!(archived.lifecycle_phase, "archived");
     assert_eq!(archived.completion_domains["closure"], "archived");
     assert!(archived.human_decisions.is_empty());
+    assert!(
+        archived.blocking,
+        "archived items must not appear ready before close"
+    );
+    assert!(
+        archived
+            .blockers
+            .contains(&"archived_work_item_pending_close".into())
+    );
+    assert!(archived.unknowns.contains(&"close_decision_pending".into()));
+    assert!(archived.safe_actions.contains(&"finalize_resources".into()));
+    assert!(
+        archived
+            .safe_actions
+            .contains(&"close_after_cleanup".into())
+    );
+    let outcome = outcome_v2_with_runtime(directory.path(), work_item_id, &runtime())
+        .expect("archived outcome");
+    assert_eq!(
+        outcome.decision_state,
+        Some(cockpit_core::DecisionState::Yellow)
+    );
+    assert!(
+        outcome
+            .unknowns
+            .contains(&"resource_finalization_pending".into())
+    );
+    let handoff = render_human_outcome(directory.path(), &outcome, "zh");
+    assert!(handoff.starts_with("Outcome: 🟡"));
+    assert!(handoff.contains("provider finalization"));
+    assert!(handoff.contains("finalize-verify"));
+    assert!(handoff.contains("close"));
 
     close_work_item_with_structured_decision(
         directory.path(),
@@ -351,6 +403,13 @@ fn status_projection_distinguishes_archived_from_valid_closed_decision() {
     assert_eq!(closed.lifecycle_phase, "closed");
     assert_eq!(closed.completion_domains["closure"], "closed");
     assert_eq!(closed.human_decisions, vec!["close_decision_recorded"]);
+    assert!(!closed.blocking);
+    assert!(
+        !closed
+            .safe_actions
+            .iter()
+            .any(|action| action == "close_after_cleanup")
+    );
 
     let decision_path = directory
         .path()

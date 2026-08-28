@@ -79,6 +79,11 @@ v2 envelope 的 `createdAt` 和 retention 的 `createdAt` 必须是 RFC3339 时�
 finalization receipt 缺失或无效，Outcome 会加入稳定 unknown
 `resource_finalization_pending`，不得显示为 green/verified。该 receipt
 属于独立的 provider-side 边界，不等同于 repository verification。
+archived Work Item 在有效的显式 close decision 之前也不是终态。人类 handoff
+会明确剩余顺序：清理精确的 branch/worktree、记录 finalization、运行
+`finalize-verify`，然后 `close`；没有外部资源的项只需要经过审阅并记录人工
+`close` 决定。机器 status projection 会把这个缺口标记为阻塞并输出对应
+`safeActions`，Agent 不能静默进入下一个 Work Item。
 
 CLI 直接输出优先使用 `AI_COCKPIT_LANGUAGE`，其次使用进程 locale。Agent 对话应
 使用用户当前语言。JSON 字段名和枚举值在不同语言之间保持稳定。

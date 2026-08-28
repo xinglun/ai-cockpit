@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-28T05:41:46Z",
+  "files": {
+    "contractDigest": "sha256:5fb33b9dc320d320654f7394c60dae9f47add378105867069af3e1a4fa76a060",
+    "contractPath": ".ai/work-items/archive/WI-352-lifecycle-cleanup-guard.contract.json",
+    "eventsDigest": "sha256:0b8d64749d1ce3c29948f4278444b670f5a572ff5f14abf690bbb7f545e9548e",
+    "eventsPath": ".ai/work-items/archive/WI-352-lifecycle-cleanup-guard.events.jsonl",
+    "outcomeDigest": "sha256:1ba68ae829968d033dae657c3569b60fb07210fdf6bd9b01d0b959f785797723",
+    "outcomePath": ".ai/work-items/archive/WI-352-lifecycle-cleanup-guard.outcome.json",
+    "summaryDigest": "sha256:9e3fdd91b8be853a6ec69cd9268dc1f8e59cd21b024fee1ade5833987ce2454d",
+    "summaryPath": ".ai/work-items/archive/WI-352-lifecycle-cleanup-guard.summary.json",
+    "taskReportDigest": "sha256:7122a42fa7f7f29ca4b662e40e49c10910c5fc5bdbca44a82447dd16390fce8f",
+    "taskReportMarkdownDigest": "sha256:4a50dff56dc5f9c10dd6a3527756fa0170e3bcb395d6d475d7e442f2488af269",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-352-lifecycle-cleanup-guard.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-352-lifecycle-cleanup-guard.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-352-lifecycle-cleanup-guard"
+}
