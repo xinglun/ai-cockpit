@@ -48,6 +48,7 @@ WI333_BATCH = "WI-333-reference-file-comparison-batch-11"
 WI334_BATCH = "WI-334-reference-file-comparison-batch-12"
 WI342_BATCH = "WI-342-reference-documentation-batch-13"
 WI343_BATCH = "WI-343-reference-inventory-foundation-reconciliation"
+WI344_BATCH = "WI-344-reference-documentation-batch-14"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -1257,6 +1258,56 @@ WI343_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
     ),
 }
 
+WI344_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "docs/reference/failure-recovery-usability.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/troubleshooting.md",
+            "docs/features/task-outcome-report.md",
+            "docs/reference/outcome-report.md",
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+        ],
+        "The target provides a repository-bound recovery and human Outcome projection with explicit failed gates, recovery conditions, interventions, stops, resolutions, and next actions. The source nine-scenario Python report validator and exact report wire shape are not copied; companion source scripts/tests remain separately staged for semantic comparison.",
+    ),
+    "docs/reference/final-north-star-acceptance.json": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/final-replacement-acceptance.md",
+            "docs/reference/reference-parity.md",
+            "tests/conformance/final_replacement_acceptance.sh",
+        ],
+        "The source twenty-dimension acceptance decision is represented by the target's bounded final-replacement acceptance route and exact dimension/parity documentation. The target preserves explicit external-adopter/provider limitations and does not copy the source JSON decision bytes.",
+    ),
+    "docs/reference/final-north-star-acceptance.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/final-replacement-acceptance.md",
+            "docs/reference/outcome-report.md",
+            "docs/reference/reference-parity.md",
+        ],
+        "The target keeps the North Star boundary through final-replacement acceptance, evidence-bound Outcome, and reference-parity routes. Local tests cannot substitute for external adopter/provider evidence, and the source evaluator prose is not copied as current release authority.",
+    ),
+    "docs/reference/final-wiii-remediation-closure-audit.md": (
+        "reference-only",
+        [
+            "docs/reference/reference-parity.md",
+            "docs/reference/agent-workflow.md",
+            "docs/reference/work-item-intelligence-interface.md",
+        ],
+        "This is a source-repository-specific historical audit of the reference Work Item Intelligence remediation and its provider PR history. The target documents its own Rust-native Work Item and parallelism boundaries but must not import source PR identities, reviewer claims, or historical closure evidence.",
+    ),
+    "docs/reference/full-remediation-acceptance.md": (
+        "reference-only",
+        [
+            "docs/reference/final-replacement-acceptance.md",
+            "docs/reference/reference-parity.md",
+            "docs/reference/outcome-report.md",
+        ],
+        "This is an internal source-project acceptance baseline for source WI-01 through WI-19 and its historical release sequence. The target retains only its own evidence-bound acceptance and reader routes; source Work Item history, progress gates, and release claims are not portable adopter capability.",
+    ),
+}
+
 
 def wi270_counterpart(path: str) -> tuple[list[str], str] | None:
     if path in WI270_DOC_CONCEPTS:
@@ -1751,6 +1802,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 }
             )
             continue
+        wi344 = WI344_REFERENCE_FILES.get(path)
+        if wi344 is not None:
+            classification, counterparts, reason = wi344
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI344_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
         wi342 = WI342_REFERENCE_FILES.get(path)
         if wi342 is not None:
             classification, counterparts, reason = wi342
@@ -2204,6 +2268,40 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for classification in wi343_classifications
         ):
             errors.append("WI-343 batch cannot leave deferred or migrate-gap records")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI344_BATCH
+        for record in records
+    ):
+        wi344_records = [
+            record
+            for record in records
+            if isinstance(record, dict) and record.get("batch") == WI344_BATCH
+        ]
+        expected_wi344_paths = set(WI344_REFERENCE_FILES)
+        actual_wi344_paths = {
+            record.get("referencePath")
+            for record in wi344_records
+            if isinstance(record.get("referencePath"), str)
+        }
+        if actual_wi344_paths != expected_wi344_paths:
+            errors.append(
+                "WI-344 batch paths do not match the pinned five-file set: "
+                f"expected {sorted(expected_wi344_paths)!r}, got {sorted(actual_wi344_paths)!r}"
+            )
+        if len(wi344_records) != len(expected_wi344_paths):
+            errors.append(
+                f"WI-344 batch must contain {len(expected_wi344_paths)} records, found {len(wi344_records)}"
+            )
+        wi344_classifications = [record.get("classification") for record in wi344_records]
+        if wi344_classifications.count("implemented-different-by-design") != 3:
+            errors.append("WI-344 batch must contain three implemented-different-by-design records")
+        if wi344_classifications.count("reference-only") != 2:
+            errors.append("WI-344 batch must contain two reference-only records")
+        if any(
+            classification in {"deferred-next-batch", "migrate-gap"}
+            for classification in wi344_classifications
+        ):
+            errors.append("WI-344 batch cannot leave deferred or migrate-gap records")
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(records):
         errors.append(f"referenceTrackedFileCount {expected_count!r} != record count {len(records)}")

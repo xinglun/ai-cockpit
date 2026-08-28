@@ -31471,38 +31471,60 @@
     },
     {
       "referencePath": "docs/reference/failure-recovery-usability.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-344-reference-documentation-batch-14",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/troubleshooting.md",
+        "docs/features/task-outcome-report.md",
+        "docs/reference/outcome-report.md",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "The target provides a repository-bound recovery and human Outcome projection with explicit failed gates, recovery conditions, interventions, stops, resolutions, and next actions. The source nine-scenario Python report validator and exact report wire shape are not copied; companion source scripts/tests remain separately staged for semantic comparison."
     },
     {
       "referencePath": "docs/reference/final-north-star-acceptance.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-344-reference-documentation-batch-14",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/final-replacement-acceptance.md",
+        "docs/reference/reference-parity.md",
+        "tests/conformance/final_replacement_acceptance.sh"
+      ],
+      "reason": "The source twenty-dimension acceptance decision is represented by the target's bounded final-replacement acceptance route and exact dimension/parity documentation. The target preserves explicit external-adopter/provider limitations and does not copy the source JSON decision bytes."
     },
     {
       "referencePath": "docs/reference/final-north-star-acceptance.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-344-reference-documentation-batch-14",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/final-replacement-acceptance.md",
+        "docs/reference/outcome-report.md",
+        "docs/reference/reference-parity.md"
+      ],
+      "reason": "The target keeps the North Star boundary through final-replacement acceptance, evidence-bound Outcome, and reference-parity routes. Local tests cannot substitute for external adopter/provider evidence, and the source evaluator prose is not copied as current release authority."
     },
     {
       "referencePath": "docs/reference/final-wiii-remediation-closure-audit.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-344-reference-documentation-batch-14",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/agent-workflow.md",
+        "docs/reference/work-item-intelligence-interface.md"
+      ],
+      "reason": "This is a source-repository-specific historical audit of the reference Work Item Intelligence remediation and its provider PR history. The target documents its own Rust-native Work Item and parallelism boundaries but must not import source PR identities, reviewer claims, or historical closure evidence."
     },
     {
       "referencePath": "docs/reference/full-remediation-acceptance.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-344-reference-documentation-batch-14",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/final-replacement-acceptance.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "This is an internal source-project acceptance baseline for source WI-01 through WI-19 and its historical release sequence. The target retains only its own evidence-bound acceptance and reader routes; source Work Item history, progress gates, and release claims are not portable adopter capability."
     },
     {
       "referencePath": "docs/reference/governance-complexity.ja.md",
