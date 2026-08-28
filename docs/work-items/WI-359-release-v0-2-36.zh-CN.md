@@ -4,9 +4,13 @@ title: "WI-359——从同步 main 发布 v0.2.36"
 workItemId: WI-359-release-v0-2-36
 description: "仅从完全同步的默认分支发布清理修复，并验证真实公开制品。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-359-release-v0-2-36
+terminalArchive: .ai/work-items/archive/WI-359-release-v0-2-36.contract.json
+terminalVerification: .ai/evidence/WI-359-release-v0-2-36.verification.json
+terminalFinalization: .ai/decisions/WI-359-release-v0-2-36.finalize.json
+terminalDecision: .ai/decisions/WI-359-release-v0-2-36.close.json
 capabilityClaims: [release_distribution, adopter_acceptance]
 ---
 
@@ -43,3 +47,7 @@ Agent/MCP 配置，或在发布验收中使用源码构建 fallback。
 
 Runtime lifecycle evidence、审核过的 PR、hosted release workflow、公开 Release manifest/checksum、安装 binary digest
 和 adopter acceptance receipt 是权威记录。
+终态 lifecycle：archive `.ai/work-items/archive/WI-359-release-v0-2-36.contract.json`；verification
+`.ai/evidence/WI-359-release-v0-2-36.verification.json`；finalization
+`.ai/decisions/WI-359-release-v0-2-36.finalize.json`；close
+`.ai/decisions/WI-359-release-v0-2-36.close.json`。

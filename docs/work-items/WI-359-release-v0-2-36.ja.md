@@ -4,9 +4,13 @@ title: "WI-359 — 同期済み main から v0.2.36 を公開"
 workItemId: WI-359-release-v0-2-36
 description: "完全に同期した default branch から cleanup fix を公開し、実際の public artifact を検証する。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-359-release-v0-2-36
+terminalArchive: .ai/work-items/archive/WI-359-release-v0-2-36.contract.json
+terminalVerification: .ai/evidence/WI-359-release-v0-2-36.verification.json
+terminalFinalization: .ai/decisions/WI-359-release-v0-2-36.finalize.json
+terminalDecision: .ai/decisions/WI-359-release-v0-2-36.close.json
 capabilityClaims: [release_distribution, adopter_acceptance]
 ---
 
@@ -41,3 +45,4 @@ v0.2.35 を移動・削除・再標識せず、失敗した workflow の事実�
 ## Verification
 
 Runtime lifecycle evidence、review 済み PR、hosted release workflow、public Release manifest/checksum、installed binary digest、adopter acceptance receipt が authoritative record です。
+Terminal lifecycle: archive `.ai/work-items/archive/WI-359-release-v0-2-36.contract.json`、verification `.ai/evidence/WI-359-release-v0-2-36.verification.json`、finalization `.ai/decisions/WI-359-release-v0-2-36.finalize.json`、close `.ai/decisions/WI-359-release-v0-2-36.close.json`。

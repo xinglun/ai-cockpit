@@ -4,9 +4,13 @@ title: "WI-359 — v0.2.36 release from synchronized main"
 workItemId: WI-359-release-v0-2-36
 description: "Publish the cleanup fix only from the fully synchronized default branch and verify the exact public artifact."
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-359-release-v0-2-36
+terminalArchive: .ai/work-items/archive/WI-359-release-v0-2-36.contract.json
+terminalVerification: .ai/evidence/WI-359-release-v0-2-36.verification.json
+terminalFinalization: .ai/decisions/WI-359-release-v0-2-36.finalize.json
+terminalDecision: .ai/decisions/WI-359-release-v0-2-36.close.json
 capabilityClaims: [release_distribution, adopter_acceptance]
 ---
 
@@ -49,3 +53,7 @@ fallback for release acceptance.
 
 The Runtime lifecycle evidence, reviewed PR, hosted release workflow, public Release
 manifest/checksums, installed-binary digest, and adopter acceptance receipt are authoritative.
+Terminal lifecycle: archive `.ai/work-items/archive/WI-359-release-v0-2-36.contract.json`;
+verification `.ai/evidence/WI-359-release-v0-2-36.verification.json`; finalization
+`.ai/decisions/WI-359-release-v0-2-36.finalize.json`; close
+`.ai/decisions/WI-359-release-v0-2-36.close.json`.
