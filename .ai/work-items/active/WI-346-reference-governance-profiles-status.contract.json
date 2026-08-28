@@ -34,7 +34,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-346-reference-governance-profiles-status",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/311",
     "worktree": "/private/tmp/ai-cockpit-wi346-reference-governance-profiles-status"
   },
   "risk": "normal",
