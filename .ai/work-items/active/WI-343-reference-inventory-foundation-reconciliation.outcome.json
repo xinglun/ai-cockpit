@@ -1,0 +1,142 @@
+{
+  "acceptanceResults": [
+    "The five pinned WI-339 reference paths have exactly one non-deferred inventory classification matching their completed comparison records.",
+    "The inventory generator and committed manifest agree deterministically at the pinned source and target commits with no migrate-gap records.",
+    "The English, Simplified Chinese, and Japanese comparison/parity ledgers identify the reconciliation and preserve semantic/non-wire boundaries.",
+    "No source implementation, Runtime behavior, immutable historical evidence, or unsupported provider capability is added.",
+    "The Work Item passes declared documentation, inventory, governance, and locked workspace checks."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-343-reference-inventory-foundation-reconciliation.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-343-reference-inventory-foundation-reconciliation.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3d0c1418338437f74fa1427f27ca1864f8a31ccd18d36bdbb51fa316bd6486ea",
+      "workItemId": "WI-343-reference-inventory-foundation-reconciliation"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-343-reference-inventory-foundation-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-343-reference-inventory-foundation-reconciliation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-343-reference-inventory-foundation-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-343-reference-inventory-foundation-reconciliation.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-343-reference-inventory-foundation-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-343-reference-inventory-foundation-reconciliation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-343-reference-inventory-foundation-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-343-reference-inventory-foundation-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-343-reference-inventory-foundation-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-343-reference-inventory-foundation-reconciliation.contract.json"
+          ],
+          "inference": false,
+          "text": "Reconcile the inventory, tri-language comparison/parity ledgers, and this Work Item record without copying reference tooling or changing Runtime semantics."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-343-reference-inventory-foundation-reconciliation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-343-reference-inventory-foundation-reconciliation"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-343-reference-inventory-foundation-reconciliation.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-343-reference-inventory-foundation-reconciliation"
+}

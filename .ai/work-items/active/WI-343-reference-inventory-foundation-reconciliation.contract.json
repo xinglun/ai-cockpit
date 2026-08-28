@@ -1,0 +1,77 @@
+{
+  "acceptanceCriteria": [
+    "The five pinned WI-339 reference paths have exactly one non-deferred inventory classification matching their completed comparison records.",
+    "The inventory generator and committed manifest agree deterministically at the pinned source and target commits with no migrate-gap records.",
+    "The English, Simplified Chinese, and Japanese comparison/parity ledgers identify the reconciliation and preserve semantic/non-wire boundaries.",
+    "No source implementation, Runtime behavior, immutable historical evidence, or unsupported provider capability is added.",
+    "The Work Item passes declared documentation, inventory, governance, and locked workspace checks."
+  ],
+  "authority": "authorized",
+  "baseRevision": "661b64effb67d1af9215b79fa609869a671d65b5",
+  "createdAt": "2026-08-27T23:33:14Z",
+  "goal": "Reconcile the inventory, tri-language comparison/parity ledgers, and this Work Item record without copying reference tooling or changing Runtime semantics.",
+  "intent": "Correct the reference inventory so previously completed WI-339 five-file comparisons are represented as terminal, evidence-backed classifications instead of remaining deferred.",
+  "mode": "code",
+  "outOfScope": [
+    "Rust Runtime behavior",
+    "source Python or Make implementation",
+    "Dependabot integration",
+    "deprecated-asset deletion",
+    "derived-artifact registry",
+    "other deferred reference paths",
+    "global Agent or MCP configuration",
+    "immutable historical evidence"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e3a3ae3e15f7190a765a62adbd108ce3fbaa014b20a03e8b4b80c7534826bd26",
+  "requiredEvidenceClasses": [
+    "verification",
+    "tests"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-343-reference-inventory-foundation-reconciliation",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi343-reference-inventory-foundation-reconciliation"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-343-reference-inventory-foundation-reconciliation.md",
+    "docs/work-items/WI-343-reference-inventory-foundation-reconciliation.zh-CN.md",
+    "docs/work-items/WI-343-reference-inventory-foundation-reconciliation.ja.md"
+  ],
+  "sources": [
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/cross-wi-integration.md",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/dependabot-intake.md",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/deprecated-assets-registry.json",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/deprecated-assets.md",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/derived-artifacts.md",
+    "docs/work-items/WI-336-reference-docs-foundation.md",
+    "docs/work-items/WI-337-reference-docs-foundation-retry.md",
+    "docs/work-items/WI-338-reference-docs-foundation-clean.md",
+    "docs/work-items/WI-339-reference-docs-foundation-clean-retry.md",
+    "docs/reference/reference-file-comparison.md",
+    "tests/conformance/reference_file_inventory.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/conformance/reference_file_inventory.py --manifest tests/conformance/reference_file_inventory.json --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf --target-commit a533d49dfa848d95742833f8cd1b5f7e1bb897d5 --check",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/getting_started_semantic.sh",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report target/wi343-governance-integrity.json",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-343-reference-inventory-foundation-reconciliation"
+}

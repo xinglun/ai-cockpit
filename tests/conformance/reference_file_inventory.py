@@ -47,6 +47,7 @@ WI332_BATCH = "WI-332-reference-file-comparison-batch-10"
 WI333_BATCH = "WI-333-reference-file-comparison-batch-11"
 WI334_BATCH = "WI-334-reference-file-comparison-batch-12"
 WI342_BATCH = "WI-342-reference-documentation-batch-13"
+WI343_BATCH = "WI-343-reference-inventory-foundation-reconciliation"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -1206,6 +1207,56 @@ WI342_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
     ),
 }
 
+WI343_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "docs/reference/cross-wi-integration.md": (
+        "reference-only",
+        [
+            "docs/reference/reference-parity.md",
+            "docs/reference/outcome-report.md",
+            ".ai/work-items/archive/",
+        ],
+        "The source aggregate report is an advisory historical integration view. The target's per-Work-Item archive validation, reference-parity ledger, and human Outcome boundary provide the corresponding audit surfaces without adding a cross-Work-Item Runtime report or claiming an observable conversation receipt.",
+    ),
+    "docs/reference/dependabot-intake.md": (
+        "not-applicable",
+        [
+            "docs/reference/ci-release-evidence.md",
+            "Cargo.toml",
+            "Cargo.lock",
+        ],
+        "Dependabot bot-branch intake is provider-specific and is not a Runtime capability. The target keeps generic delegated provider evidence and explicit Work Item source binding, while dependency facts and update-service selection remain repository/provider responsibilities.",
+    ),
+    "docs/reference/deprecated-assets-registry.json": (
+        "reference-only",
+        [
+            ".ai/README.md",
+            "docs/reference/agent-workflow.md",
+            "crates/cockpit-repository/src/lib.rs",
+        ],
+        "The source registry is a source-repository cleanup inventory, not a portable Runtime protocol. Explicit lifecycle closure, immutable history, and exact resource finalization provide the target cleanup boundary without shipping a source deletion registry or Make scan.",
+    ),
+    "docs/reference/deprecated-assets.md": (
+        "reference-only",
+        [
+            "docs/reference/agent-workflow.md",
+            "docs/reference/reference-parity.md",
+            "crates/cockpit-repository/src/lib.rs",
+        ],
+        "The source obsolete-command and registry-hygiene explanation remains reference documentation. Rust uses explicit --repo lifecycle commands, immutable archives, and reviewed resource finalization; it does not claim the source check-deprecated-assets command.",
+    ),
+    "docs/reference/derived-artifacts.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/outcome-report.md",
+            "docs/reference/verification-semantics.md",
+            ".ai/README.md",
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+        ],
+        "The target preserves the source fact-versus-view boundary through typed Contract, evidence, archive, status, and Outcome projections. Derived views cannot authorize later decisions; no source Python registry or second authority is required or read.",
+    ),
+}
+
 
 def wi270_counterpart(path: str) -> tuple[list[str], str] | None:
     if path in WI270_DOC_CONCEPTS:
@@ -1687,6 +1738,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 }
             )
             continue
+        wi343 = WI343_REFERENCE_FILES.get(path)
+        if wi343 is not None:
+            classification, counterparts, reason = wi343
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI343_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
         wi342 = WI342_REFERENCE_FILES.get(path)
         if wi342 is not None:
             classification, counterparts, reason = wi342
@@ -2104,6 +2168,42 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for classification in wi342_classifications
         ):
             errors.append("WI-342 batch cannot leave deferred or migrate-gap records")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI343_BATCH
+        for record in records
+    ):
+        wi343_records = [
+            record
+            for record in records
+            if isinstance(record, dict) and record.get("batch") == WI343_BATCH
+        ]
+        expected_wi343_paths = set(WI343_REFERENCE_FILES)
+        actual_wi343_paths = {
+            record.get("referencePath")
+            for record in wi343_records
+            if isinstance(record.get("referencePath"), str)
+        }
+        if actual_wi343_paths != expected_wi343_paths:
+            errors.append(
+                "WI-343 batch paths do not match the pinned five-file set: "
+                f"expected {sorted(expected_wi343_paths)!r}, got {sorted(actual_wi343_paths)!r}"
+            )
+        if len(wi343_records) != len(expected_wi343_paths):
+            errors.append(
+                f"WI-343 batch must contain {len(expected_wi343_paths)} records, found {len(wi343_records)}"
+            )
+        wi343_classifications = [record.get("classification") for record in wi343_records]
+        if wi343_classifications.count("implemented-different-by-design") != 1:
+            errors.append("WI-343 batch must contain one implemented-different-by-design record")
+        if wi343_classifications.count("not-applicable") != 1:
+            errors.append("WI-343 batch must contain one not-applicable record")
+        if wi343_classifications.count("reference-only") != 3:
+            errors.append("WI-343 batch must contain three reference-only records")
+        if any(
+            classification in {"deferred-next-batch", "migrate-gap"}
+            for classification in wi343_classifications
+        ):
+            errors.append("WI-343 batch cannot leave deferred or migrate-gap records")
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(records):
         errors.append(f"referenceTrackedFileCount {expected_count!r} != record count {len(records)}")

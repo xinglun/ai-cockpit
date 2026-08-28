@@ -103,11 +103,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=239 implemented-equivalent=1 not-applicable=3 reference-only=27 deferred-next-batch=587 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=240 implemented-equivalent=1 not-applicable=4 reference-only=30 deferred-next-batch=582 migrate-gap=0 -->
 
 在固定的 v0.2.33 比较基线上，台账共有 5,119 条记录：4,262 条
-`generated-history`、239 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、3 条 `not-applicable`、27 条 `reference-only` 与 587 条
+`generated-history`、240 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、4 条 `not-applicable`、30 条 `reference-only` 与 582 条
 `deferred-next-batch`。deferred 记录仍是待比较工作，不是 parity 声明。
 capability/profile slice 已没有 `migrate-gap`：
 
@@ -118,7 +118,7 @@ capability/profile slice 已没有 `migrate-gap`：
 4. `.ai/project_profile.yaml` 由 `.ai/project.json` 与严格 JSON `profile-policy.json` projection 表达。
 
 治理入口、getting-started 路线、CI/release 边界与 capability/profile projection 已按该基线审阅；
-以上四条是有界的 Rust-native counterpart，587 条 deferred 语义比较仍是后续工作。
+以上四条是有界的 Rust-native counterpart，582 条 deferred 语义比较仍是后续工作。
 
 WI-274 只将目标 checkout metadata 和 canonical comparison snapshot 重新绑定到已审阅的
 默认分支提交。WI-273 保持为不可变的失败交付记录：其首次提交无法证明 parity 登记先于
@@ -522,6 +522,23 @@ WI-336 在固定参考提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 上逐�
 Dependabot workflow、删除 registry 或生成历史。每个 Work Item 的 archive 与面向人的 Outcome
 仍是权威来源；derived view 不能授权后续决定。其余台账记录继续明确保持 deferred。
 
+## WI-343：参考 inventory 基础对账
+
+WI-339 已逐一比较下面五个固定参考路径，但机器 inventory 仍将它们标为
+`deferred-next-batch`。WI-343 只把既有决定确定性登记到 inventory，不改变 Runtime 行为，也不复制源工具。
+
+| 固定参考路径 | 分类 |
+| --- | --- |
+| `docs/reference/cross-wi-integration.md` | `reference-only` |
+| `docs/reference/dependabot-intake.md` | `not-applicable` |
+| `docs/reference/deprecated-assets-registry.json` | `reference-only` |
+| `docs/reference/deprecated-assets.md` | `reference-only` |
+| `docs/reference/derived-artifacts.md` | `implemented-different-by-design` |
+
+三语 ledger 与生成 inventory 现在一致：240 条 implemented-different-by-design、4 条
+not-applicable、30 条 reference-only、582 条 deferred，`migrate-gap` 为 0。这是 ledger
+对账，不是源命令或 JSON-wire 兼容性声明。
+
 ## WI-342：文档、分发与企业边界批次
 
 WI-342 在固定参考提交
@@ -548,7 +565,7 @@ WI-342 在固定参考提交
 一个共享 Runtime、按 repository 隔离的 `.ai/` 状态、外部 provider evidence，以及不声称
 组织级身份或合规能力。
 
-本批完成后的台账为 5,119 条：4,262 条 `generated-history`、239 条
-`implemented-different-by-design`、1 条 `implemented-equivalent`、3 条
-`not-applicable`、27 条 `reference-only` 与 587 条 `deferred-next-batch`；
-`migrate-gap` 仍为 0。587 条 deferred 仍是计划中的逐文件比较工作，不是 parity 声明。
+本批完成后的台账为 5,119 条：4,262 条 `generated-history`、240 条
+`implemented-different-by-design`、1 条 `implemented-equivalent`、4 条
+`not-applicable`、30 条 `reference-only` 与 582 条 `deferred-next-batch`；
+`migrate-gap` 仍为 0。582 条 deferred 仍是计划中的逐文件比较工作，不是 parity 声明。

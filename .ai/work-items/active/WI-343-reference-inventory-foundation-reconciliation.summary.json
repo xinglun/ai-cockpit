@@ -1,0 +1,32 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-343-reference-inventory-foundation-reconciliation.contract.json",
+    ".ai/work-items/active/WI-343-reference-inventory-foundation-reconciliation.summary.json"
+  ],
+  "checkpointAt": "2026-08-27T23:34:28Z",
+  "checkpointContractDigest": "sha256:91a5858355730510a35bce1f5da9ae2ae57e054ec5c56e0b3b257982b58a00aa",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:3d0c1418338437f74fa1427f27ca1864f8a31ccd18d36bdbb51fa316bd6486ea",
+  "createdAt": "2026-08-27T23:33:14Z",
+  "failedGate": "finish.governance",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-27T23:59:57Z",
+  "preflightContractDigest": "sha256:91a5858355730510a35bce1f5da9ae2ae57e054ec5c56e0b3b257982b58a00aa",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:3d0c1418338437f74fa1427f27ca1864f8a31ccd18d36bdbb51fa316bd6486ea",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryRetryPending": true,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-28T00:00:00Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-343-reference-inventory-foundation-reconciliation"
+}

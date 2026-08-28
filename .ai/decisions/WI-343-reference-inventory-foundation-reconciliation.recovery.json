@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-28T00:00:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-343-reference-inventory-foundation-reconciliation.verification.json",
+    ".ai/work-items/active/WI-343-reference-inventory-foundation-reconciliation.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery-retry-boundary"
+  ],
+  "predecessorContractDigest": "sha256:56e5776b61975e71703ff33eb64b05a06b063cab04c5010437457412d0a2de50",
+  "predecessorEventsDigest": "sha256:acf8eca6d28046abd5bbc8a586e3598c2e146c2aa1a37f8ae70d7ef8e2607a9f",
+  "predecessorOutcomeDigest": "sha256:14a12fb77651e5924aef4a8d5188c7a632ba1afe6282c0784fb4deb7490dccd3",
+  "predecessorSummaryDigest": "sha256:f3f37f172665844770c37d8139cc912647e4df40f61c9b8148068b338dce095a",
+  "predecessorWorkItemId": "WI-343-reference-inventory-foundation-reconciliation",
+  "reason": "Retry after finish correctly rejected the first verification because the Contract authority value was not Runtime-valid; preserve the blocked attempt and rerun current Contract verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Fresh verification evidence matches the current Contract and repository snapshot, then finish and the reviewed PR lifecycle can continue.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "WI-343-reference-inventory-foundation-reconciliation"
+}

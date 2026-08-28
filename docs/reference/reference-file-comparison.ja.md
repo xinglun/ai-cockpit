@@ -107,11 +107,11 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=239 implemented-equivalent=1 not-applicable=3 reference-only=27 deferred-next-batch=587 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=240 implemented-equivalent=1 not-applicable=4 reference-only=30 deferred-next-batch=582 migrate-gap=0 -->
 
 固定した v0.2.33 comparison baseline の ledger は 5,119 records です。内訳は
-4,262 `generated-history`、239 `implemented-different-by-design`、1
-`implemented-equivalent`、3 `not-applicable`、27 `reference-only`、587 `deferred-next-batch` です。
+4,262 `generated-history`、240 `implemented-different-by-design`、1
+`implemented-equivalent`、4 `not-applicable`、30 `reference-only`、582 `deferred-next-batch` です。
 Deferred record は予定された比較であり parity claim ではありません。
 capability/profile slice に `migrate-gap` は残っていません。
 
@@ -122,7 +122,7 @@ capability/profile slice に `migrate-gap` は残っていません。
 
 Governance entrypoint、getting-started route、CI/release boundary、capability/profile
 projection はこの baseline で review 済みです。上記 4 件は bounded な Rust-native counterpart として登録済みで、
-587 deferred semantic comparison は後続作業として残ります。
+582 deferred semantic comparison は後続作業として残ります。
 
 WI-274 は target checkout metadata と canonical comparison snapshot だけを、レビュー済み
 default branch commit に再バインドします。WI-273 は immutable な failed-delivery record として
@@ -564,6 +564,24 @@ automation、historical cleanup tooling を分離して判定しています。
 Rust は reference Python、Make target、Dependabot workflow、deletion registry、generated history を copy しません。
 Work Item archive と human Outcome が authority であり、derived view は後続の決定を authorize できません。残りの ledger record は明示的に deferred のままです。
 
+## WI-343 — reference inventory foundation の reconciliation
+
+WI-339 は次の 5 つの pinned path をすでに一つずつ比較していましたが、machine inventory
+はそれらを `deferred-next-batch` のまま残していました。WI-343 は既存の判断を deterministic
+に inventory へ登録するだけで、Runtime behavior の変更や source tooling の copy は行いません。
+
+| Pinned source path | Classification |
+| --- | --- |
+| `docs/reference/cross-wi-integration.md` | `reference-only` |
+| `docs/reference/dependabot-intake.md` | `not-applicable` |
+| `docs/reference/deprecated-assets-registry.json` | `reference-only` |
+| `docs/reference/deprecated-assets.md` | `reference-only` |
+| `docs/reference/derived-artifacts.md` | `implemented-different-by-design` |
+
+Tri-language ledger と generated inventory は一致し、240 implemented-different-by-design、
+4 not-applicable、30 reference-only、582 deferred、`migrate-gap` は 0 です。これは ledger
+reconciliation であり、source command や JSON-wire compatibility の主張ではありません。
+
 ## WI-342 — ドキュメント、配布、enterprise boundary の batch
 
 WI-342 は pinned reference commit
@@ -590,7 +608,7 @@ control observation は evidence として移転できません。これは sema
 JSON-wire parity ではありません。object/adopter boundary は shared Runtime、repository ごとの `.ai/` isolation、
 external provider evidence、organization-level identity/compliance を主張しないことです。
 
-この batch 後の ledger は 5,119 record です。4,262 `generated-history`、239
-`implemented-different-by-design`、1 `implemented-equivalent`、3 `not-applicable`、27
-`reference-only`、587 `deferred-next-batch`、`migrate-gap` は 0 です。587 deferred は後続の逐次比較であり、
+この batch 後の ledger は 5,119 record です。4,262 `generated-history`、240
+`implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、30
+`reference-only`、582 `deferred-next-batch`、`migrate-gap` は 0 です。582 deferred は後続の逐次比較であり、
 parity claim ではありません。
