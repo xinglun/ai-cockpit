@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-28T09:22:20Z",
+  "files": {
+    "contractDigest": "sha256:567927051075afa2020fd58acc51292c0e5c6eb726b95a21f0b06d67e4d11674",
+    "contractPath": ".ai/work-items/archive/WI-357-release-adopter-finalization-recovery.contract.json",
+    "eventsDigest": "sha256:0e45b69e5ba9fd47fa58e06cd7bb534916012f47759c907bf37c9ce0a8f98a0d",
+    "eventsPath": ".ai/work-items/archive/WI-357-release-adopter-finalization-recovery.events.jsonl",
+    "outcomeDigest": "sha256:17340810066729ec2a8110f3917a3f7079461a2a1d37618cc0ea3068446c8e00",
+    "outcomePath": ".ai/work-items/archive/WI-357-release-adopter-finalization-recovery.outcome.json",
+    "summaryDigest": "sha256:ca314099ba7a68d0161aff24725678f5729a1db774c86ab5fa49b1bfe5cde004",
+    "summaryPath": ".ai/work-items/archive/WI-357-release-adopter-finalization-recovery.summary.json",
+    "taskReportDigest": "sha256:8da12696d2b4d3054ec390150d9f6f67a113b21b6236c9002df97525af7f7cc2",
+    "taskReportMarkdownDigest": "sha256:1f674d3f15e3a7940b2fc71421d6e7701440ab7c213a0876fb5a66970ea0cadb",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-357-release-adopter-finalization-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-357-release-adopter-finalization-recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-357-release-adopter-finalization-recovery"
+}

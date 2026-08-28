@@ -1,0 +1,32 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-356-release-adopter-script-order.recovery.json",
+    ".ai/work-items/archive/WI-357-release-adopter-finalization-recovery.contract.json",
+    ".ai/work-items/archive/WI-357-release-adopter-finalization-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-08-28T09:18:25Z",
+  "checkpointContractDigest": "sha256:7010ebe2a725463555bf72e73aa4e57769e2f9a2bf4facebcdf07885864a624d",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:414f8f8400bcc58a721fb95db078c017f9e5ec817449b4e80dcd33e24c1e20c2",
+  "createdAt": "2026-08-28T09:12:33Z",
+  "mode": "code",
+  "predecessorContractDigest": "sha256:4fc2e22caf76a12204f4af07731021b617e9518697db04c266a394ea798c14b9",
+  "predecessorWorkItemId": "WI-356-release-adopter-script-order",
+  "preflightAt": "2026-08-28T09:22:11Z",
+  "preflightContractDigest": "sha256:7010ebe2a725463555bf72e73aa4e57769e2f9a2bf4facebcdf07885864a624d",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:414f8f8400bcc58a721fb95db078c017f9e5ec817449b4e80dcd33e24c1e20c2",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-356-release-adopter-script-order.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-28T09:22:15Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-357-release-adopter-finalization-recovery"
+}
