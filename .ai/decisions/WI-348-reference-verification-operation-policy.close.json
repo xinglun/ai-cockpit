@@ -1,0 +1,131 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-348-reference-verification-operation-policy.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:db62926bedee1bdee0277daab25e56c0032c7b2a11a795c1ec2de9d884d6ebaa",
+      "workItemId": "WI-348-reference-verification-operation-policy"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-348-reference-verification-operation-policy.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-348-reference-verification-operation-policy.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-348-reference-verification-operation-policy.verification.json",
+            ".ai/decisions/WI-348-reference-verification-operation-policy.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-28T05:15:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-348-reference-verification-operation-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-348-reference-verification-operation-policy.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-348-reference-verification-operation-policy.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-348-reference-verification-operation-policy.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-348-reference-verification-operation-policy.contract.json"
+          ],
+          "inference": false,
+          "text": "Publish an evidence-backed Rust-native mapping for this batch and add a typed operation-time governance evaluator where the reference responsibility is otherwise absent."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-348-reference-verification-operation-policy.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-348-reference-verification-operation-policy"
+  },
+  "finalReportDigest": "sha256:5e2e432a593875e8c571ba5914fe16fa13c83be61d7a1ebc45e91369586726a7",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:8c39aa13f92eb87e48af032964acc2dcb72fb186d6746d734954dab4c3ccc71a",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-348-reference-verification-operation-policy.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-28T05:15:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-348-reference-verification-operation-policy.verification.json",
+      ".ai/decisions/WI-348-reference-verification-operation-policy.finalize.json"
+    ],
+    "policyRefs": [
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "Reviewed PR #315 is merged; verified archive and exact feature resource cleanup.",
+    "resumeCondition": "none; reopen only through an explicit successor Contract"
+  },
+  "timestamp": "2026-08-28T05:01:52Z",
+  "workItemId": "WI-348-reference-verification-operation-policy"
+}
