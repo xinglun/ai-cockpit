@@ -103,11 +103,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=240 implemented-equivalent=1 not-applicable=4 reference-only=30 deferred-next-batch=582 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=243 implemented-equivalent=1 not-applicable=4 reference-only=32 deferred-next-batch=577 migrate-gap=0 -->
 
 在固定的 v0.2.33 比较基线上，台账共有 5,119 条记录：4,262 条
-`generated-history`、240 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、4 条 `not-applicable`、30 条 `reference-only` 与 582 条
+`generated-history`、243 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、4 条 `not-applicable`、32 条 `reference-only` 与 577 条
 `deferred-next-batch`。deferred 记录仍是待比较工作，不是 parity 声明。
 capability/profile slice 已没有 `migrate-gap`：
 
@@ -569,3 +569,25 @@ WI-342 在固定参考提交
 `implemented-different-by-design`、1 条 `implemented-equivalent`、4 条
 `not-applicable`、30 条 `reference-only` 与 582 条 `deferred-next-batch`；
 `migrate-gap` 仍为 0。582 条 deferred 仍是计划中的逐文件比较工作，不是 parity 声明。
+
+## WI-344：参考文档第 14 批
+
+WI-344 逐一读取以下五个固定参考文档。其中三个责任由 Rust 原生读者/Runtime
+边界承接，两个属于源项目专属历史报告，不应成为目标能力或证据。
+
+| 固定参考路径 | 分类 | Rust 对应物 / 有界决定 |
+| --- | --- | --- |
+| `docs/reference/failure-recovery-usability.md` | implemented-different-by-design | `docs/reference/troubleshooting.md`、`docs/features/task-outcome-report.md`、`docs/reference/outcome-report.md` 和 typed recovery/Outcome service 提供仓库绑定的 failed-gate、recovery-condition、intervention、stop、resolution 与 next-action 报告。源九场景 Python report wire shape 仍单独排期。 |
+| `docs/reference/final-north-star-acceptance.json` | implemented-different-by-design | `docs/reference/final-replacement-acceptance.md`、本 parity ledger 与 final-replacement harness 保留 20 个 dimension 及明确的外部 adopter/provider 限制，不导入源 decision bytes。 |
+| `docs/reference/final-north-star-acceptance.md` | implemented-different-by-design | Design Philosophy、Product Boundary、Outcome 和 final-replacement acceptance 保留 North Star，并把本地检查与外部 evidence 分开。 |
+| `docs/reference/final-wiii-remediation-closure-audit.md` | reference-only | 源 WIII 的 PR 身份、reviewer 和历史关闭声明不是可移植的目标证据；Rust 保留自己的 Work Item intelligence 与并行路线。 |
+| `docs/reference/full-remediation-acceptance.md` | reference-only | 源 WI-01–WI-19 修复顺序是内部历史。目标保留自己的 evidence-bound acceptance 路线，不发布源进度或 Release 声明。 |
+
+这是语义/文档 parity，不是源命令或 JSON-wire parity。配套源 recovery/acceptance
+脚本和测试仍在各自文件比较中排期；对象工程边界仍是一个共享 Runtime、隔离的
+repository 状态和独立绑定的 evidence。
+
+当前台账为 5,119 条：4,262 条 `generated-history`、243 条
+`implemented-different-by-design`、1 条 `implemented-equivalent`、4 条
+`not-applicable`、32 条 `reference-only`、577 条 `deferred-next-batch`；
+`migrate-gap` 为 0。deferred 数量是计划中的工作，不是 parity 声明。

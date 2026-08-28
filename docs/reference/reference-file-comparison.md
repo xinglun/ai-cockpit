@@ -123,11 +123,11 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=240 implemented-equivalent=1 not-applicable=4 reference-only=30 deferred-next-batch=582 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=243 implemented-equivalent=1 not-applicable=4 reference-only=32 deferred-next-batch=577 migrate-gap=0 -->
 
 At the pinned v0.2.33 comparison baseline, the ledger contains 5,119 records:
-4,262 `generated-history`, 240 `implemented-different-by-design`, one
-`implemented-equivalent`, four `not-applicable`, 30 `reference-only`, and 582
+4,262 `generated-history`, 243 `implemented-different-by-design`, one
+`implemented-equivalent`, four `not-applicable`, 32 `reference-only`, and 577
 `deferred-next-batch` records. Deferred records remain scheduled work, not
 parity claims. The capability/profile slice has no remaining `migrate-gap`
 records:
@@ -702,3 +702,29 @@ compatibility. Rust does not copy the reference Python scripts, Make targets,
 Dependabot workflow, deletion registry, or generated history. The per-Work-Item
 archive and human Outcome remain authoritative; derived views cannot authorize a
 later decision. The remaining ledger records stay explicitly deferred.
+
+## WI-344 reference documentation batch 14
+
+WI-344 reads the following five pinned reference documents individually. Three
+responsibilities are represented by Rust-native reader/runtime boundaries and
+two are source-specific historical reports that must not become target
+capability or evidence.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/failure-recovery-usability.md` | implemented-different-by-design | `docs/reference/troubleshooting.md`, `docs/features/task-outcome-report.md`, `docs/reference/outcome-report.md`, and typed recovery/Outcome services provide repository-bound failed-gate, recovery-condition, intervention, stop, resolution, and next-action reporting. The source nine-scenario Python report wire shape remains separately staged. |
+| `docs/reference/final-north-star-acceptance.json` | implemented-different-by-design | `docs/reference/final-replacement-acceptance.md`, this parity ledger, and the final-replacement harness preserve the twenty dimensions and explicit external-adopter/provider limitations without importing source decision bytes. |
+| `docs/reference/final-north-star-acceptance.md` | implemented-different-by-design | Design Philosophy, Product Boundary, Outcome, and final-replacement acceptance preserve the North Star and keep local checks separate from external evidence. |
+| `docs/reference/final-wiii-remediation-closure-audit.md` | reference-only | Source WIII PR identities, reviewers, and historical closure claims are not portable target evidence; Rust keeps its own Work Item intelligence and parallelism routes. |
+| `docs/reference/full-remediation-acceptance.md` | reference-only | The source WI-01–WI-19 remediation sequence is internal history. The target keeps its own evidence-bound acceptance route and does not publish source progress or release claims. |
+
+This is semantic/documentation parity, not source command or JSON-wire parity.
+The companion source recovery and acceptance scripts/tests remain deferred until
+their own file-level comparison. The object/adopter boundary remains one shared
+Runtime, isolated repository state, and independently bound evidence.
+
+The current ledger is now 5,119 records: 4,262 `generated-history`, 243
+`implemented-different-by-design`, one `implemented-equivalent`, four
+`not-applicable`, 32 `reference-only`, and 577 `deferred-next-batch`; there are
+zero `migrate-gap` records. The deferred count is scheduled work, not a parity
+claim.

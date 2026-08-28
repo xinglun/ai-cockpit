@@ -107,11 +107,11 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=240 implemented-equivalent=1 not-applicable=4 reference-only=30 deferred-next-batch=582 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=243 implemented-equivalent=1 not-applicable=4 reference-only=32 deferred-next-batch=577 migrate-gap=0 -->
 
 固定した v0.2.33 comparison baseline の ledger は 5,119 records です。内訳は
-4,262 `generated-history`、240 `implemented-different-by-design`、1
-`implemented-equivalent`、4 `not-applicable`、30 `reference-only`、582 `deferred-next-batch` です。
+4,262 `generated-history`、243 `implemented-different-by-design`、1
+`implemented-equivalent`、4 `not-applicable`、32 `reference-only`、577 `deferred-next-batch` です。
 Deferred record は予定された比較であり parity claim ではありません。
 capability/profile slice に `migrate-gap` は残っていません。
 
@@ -612,3 +612,25 @@ external provider evidence、organization-level identity/compliance を主張し
 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、30
 `reference-only`、582 `deferred-next-batch`、`migrate-gap` は 0 です。582 deferred は後続の逐次比較であり、
 parity claim ではありません。
+
+## WI-344 — reference documentation batch 14
+
+WI-344 は pinned reference の次の 5 document を一つずつ確認しました。3 つの責任は
+Rust-native reader/Runtime boundary で表現され、2 つは source-specific historical report
+として target capability/evidence に昇格しません。
+
+| Pinned reference path | Classification | Rust counterpart / 境界の決定 |
+| --- | --- | --- |
+| `docs/reference/failure-recovery-usability.md` | implemented-different-by-design | `docs/reference/troubleshooting.md`、`docs/features/task-outcome-report.md`、`docs/reference/outcome-report.md` と typed recovery/Outcome service が repository-bound な failed gate、recovery condition、intervention、stop、resolution、next action を扱います。source の 9 scenario Python report wire shape は別 batch です。 |
+| `docs/reference/final-north-star-acceptance.json` | implemented-different-by-design | `docs/reference/final-replacement-acceptance.md`、parity ledger、final-replacement harness が 20 dimension と external adopter/provider limitation を保持し、source decision bytes は import しません。 |
+| `docs/reference/final-north-star-acceptance.md` | implemented-different-by-design | Design Philosophy、Product Boundary、Outcome、final-replacement acceptance が North Star を保持し、local check と external evidence を分離します。 |
+| `docs/reference/final-wiii-remediation-closure-audit.md` | reference-only | source WIII の PR identity、reviewer、historical closure claim は portable な target evidence ではありません。Rust は自身の Work Item intelligence/parallelism route を持ちます。 |
+| `docs/reference/full-remediation-acceptance.md` | reference-only | source WI-01–WI-19 remediation sequence は internal history です。target は自身の evidence-bound acceptance route のみを保持し、source progress/Release claim を公開しません。 |
+
+これは semantic/documentation parity であり、source command や JSON-wire parity ではありません。
+source recovery/acceptance script と test は各 file-level comparison で別途扱います。object/adopter
+boundary は shared Runtime、repository state isolation、独立した evidence binding です。
+
+現在の ledger は 5,119 record です。4,262 `generated-history`、243
+`implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、32
+`reference-only`、577 `deferred-next-batch`、`migrate-gap` は 0 です。deferred は予定作業であり、parity claim ではありません。

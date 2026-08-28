@@ -1,0 +1,73 @@
+{
+  "acceptanceCriteria": [
+    "five reference files are individually compared against the pinned source revision and target counterparts",
+    "inventory classifications and reasons are deterministic and contain no deferred claim for these five paths",
+    "comparison and parity documents are synchronized in English, Chinese, and Japanese",
+    "historical/internal source records are not represented as current target capability without evidence",
+    "object/adopter governance inheritance boundary is explicit and no Rust behavior is changed"
+  ],
+  "authority": "authorized",
+  "baseRevision": "a7db853ff3fb575f85553d1fc9add6e1e37efbdd",
+  "createdAt": "2026-08-28T00:20:10Z",
+  "goal": "完成五个参考文件的语义对账，确保历史验收/复盘文档不被误迁移为当前 Runtime 能力，也不遗漏需要迁移的用户可见治理语义。",
+  "intent": "逐文件比对参考源 pinned revision 中下一组五个 docs/reference 文件，纠正分类并明确 Rust 对象工程能力继承边界。",
+  "mode": "implementation",
+  "outOfScope": [
+    "Rust Runtime behavior",
+    " CLI/MCP behavior",
+    " source repository files",
+    " global Agent/MCP configuration",
+    " historical archive/evidence bytes",
+    " release/adopter changes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4e4c53ee4c1a3c1a18ad9d8862c4162ead4839e0ce4caf23931671b7b25e6b42",
+  "requiredEvidenceClasses": [
+    "verification",
+    "tests"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-344-reference-documentation-batch-14",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/308",
+    "worktree": "/private/tmp/ai-cockpit-wi344-reference-documentation-batch-14"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-344-reference-documentation-batch-14.md",
+    "docs/work-items/WI-344-reference-documentation-batch-14.zh-CN.md",
+    "docs/work-items/WI-344-reference-documentation-batch-14.ja.md"
+  ],
+  "sources": [
+    "reference:e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/failure-recovery-usability.md",
+    "reference:e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/final-north-star-acceptance.json",
+    "reference:e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/final-north-star-acceptance.md",
+    "reference:e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/final-wiii-remediation-closure-audit.md",
+    "reference:e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/full-remediation-acceptance.md",
+    "target:a7db853ff3fb575f85553d1fc9add6e1e37efbdd:docs/reference/troubleshooting.md",
+    "target:a7db853ff3fb575f85553d1fc9add6e1e37efbdd:docs/features/task-outcome-report.md",
+    "target:a7db853ff3fb575f85553d1fc9add6e1e37efbdd:docs/reference/final-replacement-acceptance.md",
+    "target:a7db853ff3fb575f85553d1fc9add6e1e37efbdd:docs/reference/reference-parity.md",
+    "target:a7db853ff3fb575f85553d1fc9add6e1e37efbdd:docs/reference/reference-file-comparison.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/conformance/reference_file_inventory.py --manifest tests/conformance/reference_file_inventory.json --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf --target-commit a533d49dfa848d95742833f8cd1b5f7e1bb897d5 --check",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/getting_started_semantic.sh",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report target/wi344-governance-integrity.json"
+  ],
+  "workItemId": "WI-344-reference-documentation-batch-14"
+}
