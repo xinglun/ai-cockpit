@@ -1,0 +1,57 @@
+{
+  "acceptanceCriteria": [
+    "Archived but unclosed Work Items expose explicit finalize or cleanup and close next actions in machine status and human Outcome; they remain non-green and ordinary start/new remains fail closed.",
+    "A valid merged PR with a deleted branch and removed worktree reaches close only through identity-bound finalization evidence; missing or retained resources cannot be silently closed.",
+    "Release adopter and upgrade harnesses remove their private run roots on success and failure after writing acceptance artifacts; test wrappers also clean temporary outputs without deleting truth.",
+    "Regression tests cover cleanup omission visibility, start/new blocking, failure-path cleanup, and isolation of HOME XDG_CONFIG_HOME TMPDIR and CARGO_HOME.",
+    "English Simplified Chinese and Japanese documentation describe the same repository/adopter cleanup boundary; no source fallback or global current-project state is introduced."
+  ],
+  "authority": "authorized",
+  "baseRevision": "11051dec7b12f8e7d15a272e1928d45d3f2f972f",
+  "createdAt": "2026-08-28T05:11:27Z",
+  "goal": "让每个仓库在 Work Item 结束时获得明确的 cleanup handoff 与 fail-closed readiness；发布 adopter harness 不留下临时运行根目录。",
+  "intent": "根治对象工程遗漏 finalize、close、分支和工作树清理的生命周期缺口，并确保发布验收临时环境在成功和失败路径都可证明清理。",
+  "mode": "implementation",
+  "outOfScope": [
+    "provider API 自动删除分支或工作树",
+    "全局 Agent 或 MCP 配置",
+    "业务工程代码生成",
+    "架构拆分 lib.rs"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:09b2d9e055b23e894432ed780541a5689f3ae77a5c8c6ef2016ed09f8e91fe91",
+  "requiredEvidenceClasses": [
+    "verification",
+    "tests"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-352-lifecycle-cleanup-guard",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/317",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/adopter_acceptance_test.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh",
+    "crates/cockpit-repository/tests/**",
+    "tests/**",
+    "docs/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-352-lifecycle-cleanup-guard"
+}

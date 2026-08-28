@@ -107,6 +107,13 @@ For an ordinary archived Work Item with a bound resource context, a missing or
 invalid provider finalization receipt adds the stable
 `resource_finalization_pending` unknown and prevents a green/verified Outcome.
 The receipt is a separate provider-side boundary from repository verification.
+An archived Work Item also remains non-terminal until its explicit close
+decision is valid. The human handoff therefore names the remaining sequence:
+clean up the exact branch/worktree, record finalization, run
+`finalize-verify`, and then `close`; an item without external resources only
+needs the reviewed human `close` decision. The machine status projection marks
+this gap as blocking and exposes corresponding `safeActions` so an Agent cannot
+silently proceed to another Work Item.
 
 The CLI uses `AI_COCKPIT_LANGUAGE`, then the process locale, for direct human
 output. Agent conversations should render the same handoff in the language of

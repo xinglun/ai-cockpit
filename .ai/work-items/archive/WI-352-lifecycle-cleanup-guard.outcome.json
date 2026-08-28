@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "Archived but unclosed Work Items expose explicit finalize or cleanup and close next actions in machine status and human Outcome; they remain non-green and ordinary start/new remains fail closed.",
+    "A valid merged PR with a deleted branch and removed worktree reaches close only through identity-bound finalization evidence; missing or retained resources cannot be silently closed.",
+    "Release adopter and upgrade harnesses remove their private run roots on success and failure after writing acceptance artifacts; test wrappers also clean temporary outputs without deleting truth.",
+    "Regression tests cover cleanup omission visibility, start/new blocking, failure-path cleanup, and isolation of HOME XDG_CONFIG_HOME TMPDIR and CARGO_HOME.",
+    "English Simplified Chinese and Japanese documentation describe the same repository/adopter cleanup boundary; no source fallback or global current-project state is introduced."
+  ],
+  "createdAt": "2026-08-28T05:41:38Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:6de42bc190e53754a86365e3b761130a70122ad2ae281d8715ae32ddd3b3f49d",
+  "evidenceRefs": [
+    ".ai/evidence/WI-352-lifecycle-cleanup-guard.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-352-lifecycle-cleanup-guard.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-352-lifecycle-cleanup-guard.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a4773ed904883dea5590a046deaf558051be645bb6d301bb3e4d6f81b46cdb93",
+      "workItemId": "WI-352-lifecycle-cleanup-guard"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-352-lifecycle-cleanup-guard.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-352-lifecycle-cleanup-guard.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-352-lifecycle-cleanup-guard.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-352-lifecycle-cleanup-guard.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-352-lifecycle-cleanup-guard.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-352-lifecycle-cleanup-guard.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-352-lifecycle-cleanup-guard.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-352-lifecycle-cleanup-guard.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-352-lifecycle-cleanup-guard.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-352-lifecycle-cleanup-guard.contract.json"
+          ],
+          "inference": false,
+          "text": "让每个仓库在 Work Item 结束时获得明确的 cleanup handoff 与 fail-closed readiness；发布 adopter harness 不留下临时运行根目录。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-352-lifecycle-cleanup-guard.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-352-lifecycle-cleanup-guard"
+  },
+  "taskReportDigest": "sha256:7122a42fa7f7f29ca4b662e40e49c10910c5fc5bdbca44a82447dd16390fce8f",
+  "taskReportMarkdownDigest": "sha256:4a50dff56dc5f9c10dd6a3527756fa0170e3bcb395d6d475d7e442f2488af269",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-352-lifecycle-cleanup-guard.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-352-lifecycle-cleanup-guard"
+}
