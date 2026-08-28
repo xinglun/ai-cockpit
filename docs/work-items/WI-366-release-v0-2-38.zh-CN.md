@@ -4,9 +4,13 @@ title: "WI-366——N-1 身份根治后的 v0.2.38 发布准备"
 workItemId: WI-366-release-v0-2-38
 description: "在 v0.2.37 N-1 Git 身份根治后准备发布，并将不可变公开产物验收交给后续 Work Item。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-366-release-v0-2-38
+terminalArchive: .ai/work-items/archive/WI-366-release-v0-2-38.contract.json
+terminalVerification: .ai/evidence/WI-366-release-v0-2-38.verification.json
+terminalFinalization: .ai/decisions/WI-366-release-v0-2-38.finalize.json
+terminalDecision: .ai/decisions/WI-366-release-v0-2-38.close.json
 capabilityClaims: [release_distribution, adopter_acceptance]
 ---
 

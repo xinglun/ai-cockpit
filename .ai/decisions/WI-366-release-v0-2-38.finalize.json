@@ -1,0 +1,58 @@
+{
+  "actor": "human:owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "385ed3835a4e6cce64ff43bc2c320149430dd8be",
+    "name": "codex/wi-366-release-v0-2-38",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:e8eafefe03e728dc754973faba265e7a4881ceacef84c1b5d1ab410998ad2a88",
+  "operationId": "delete-wi-366-release-v0-2-38",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "7d56b4ba96bc7af5042c00e0196d0108ca9cf061",
+    "headRevision": "385ed3835a4e6cce64ff43bc2c320149430dd8be",
+    "mergeCommit": "7a986c72dd179a6216c8aa68635c55e6ace380d4",
+    "number": 329,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/329"
+  },
+  "reason": "The reviewed PR was merged with all hosted checks passing; the exact Work Item branch and worktree were removed after synchronization.",
+  "receiptId": "wi-366-release-v0-2-38-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-366-release-v0-2-38",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/329",
+    "worktree": "/private/tmp/ai-cockpit-wi366-release-v0-2-38"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:39a1e27deb5d47946c723d6129ead21a6fcb6bd5dbb7c1346a97e83ec61543c4",
+  "runtimeVersion": "0.2.34",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-28T17:35:22Z",
+  "workItemId": "WI-366-release-v0-2-38",
+  "worktree": {
+    "branch": "codex/wi-366-release-v0-2-38",
+    "headRevision": "385ed3835a4e6cce64ff43bc2c320149430dd8be",
+    "path": "/private/tmp/ai-cockpit-wi366-release-v0-2-38",
+    "worktreeId": "WI-366-release-v0-2-38"
+  }
+}

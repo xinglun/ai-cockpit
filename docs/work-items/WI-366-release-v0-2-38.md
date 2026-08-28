@@ -4,9 +4,13 @@ title: "WI-366 — v0.2.38 release preparation after N-1 identity root-fix"
 workItemId: WI-366-release-v0-2-38
 description: "Prepare the first release after the v0.2.37 N-1 Git identity root-fix and hand off immutable public-artifact acceptance."
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-366-release-v0-2-38
+terminalArchive: .ai/work-items/archive/WI-366-release-v0-2-38.contract.json
+terminalVerification: .ai/evidence/WI-366-release-v0-2-38.verification.json
+terminalFinalization: .ai/decisions/WI-366-release-v0-2-38.finalize.json
+terminalDecision: .ai/decisions/WI-366-release-v0-2-38.close.json
 capabilityClaims: [release_distribution, adopter_acceptance]
 ---
 
