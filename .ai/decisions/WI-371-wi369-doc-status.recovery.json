@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "provider-finalization-correction-policy",
+  "decidedAt": "2026-08-28T22:40:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-371-wi369-doc-status.archive.json",
+    "https://github.com/xinglun/ai-cockpit/pull/334"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:premerge-finalization-before-close"
+  ],
+  "predecessorContractDigest": "sha256:13a40915d1a3349b498a94ce32e969b28ed091366f1f8d12c2a840757939ce24",
+  "predecessorEventsDigest": "sha256:f8b8971851cf0fd8b321da6ff816b98e4733ab9ccb7b997b286c42691fcffaf5",
+  "predecessorOutcomeDigest": "sha256:d8c22bbabddfebe71c84d07d58ea46a40ff7bbcf42e7a669fbd4308238ff49f0",
+  "predecessorSummaryDigest": "sha256:775f77d31905f2b980bc47dfc47ee2d329f16f90055d84f7b19a03246fbe1988",
+  "predecessorWorkItemId": "WI-371-wi369-doc-status",
+  "reason": "WI-371 was archived with a placeholder PR URL in its immutable resource context before the reviewed PR identity was known; preserve predecessor truth and complete finalization through a clean successor with the actual PR identity bound before verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Start the linked successor from synchronized origin/main, bind the actual PR #334 context before verification, complete the bounded recovery evidence and hosted review, finalize and verify exact branch/worktree cleanup, close the successor, then supersede the predecessor without rewriting its immutable bytes.",
+  "runtimeDigest": "sha256:af238d00182cdc108cbb95e3b18c8ed4ad07bc40289a1e970da47d09d12e5f86",
+  "runtimeVersion": "0.2.38",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-373-wi371-finalization-recovery",
+  "workItemId": "WI-371-wi369-doc-status"
+}

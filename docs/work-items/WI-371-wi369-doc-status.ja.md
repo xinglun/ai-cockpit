@@ -6,7 +6,7 @@ description: "完了済み WI-369 レコードの三言語ドキュメント投�
 audience:
   - maintainer
   - reviewer
-status: implemented
+status: recovered
 authority: human-authorized
 lastVerifiedBy: WI-371-wi369-doc-status
 capabilityClaims:
