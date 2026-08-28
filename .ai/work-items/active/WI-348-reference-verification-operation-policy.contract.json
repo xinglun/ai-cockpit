@@ -26,11 +26,11 @@
   "repositorySnapshotDigest": "sha256:6b85f80ebdaef28d43cdd331807774efb75886738a3519abc76bdbfe6fc68d89",
   "requiredEvidenceClasses": [],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-348-reference-verification-operation-policy",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/315",
     "worktree": "/private/tmp/ai-cockpit-wi348-reference-verification-operation-policy"
   },
   "risk": "normal",
