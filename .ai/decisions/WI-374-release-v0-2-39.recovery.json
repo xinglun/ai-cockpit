@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-29T00:00:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-374-release-v0-2-39.contract.json",
+    ".ai/work-items/active/WI-374-release-v0-2-39.summary.json",
+    ".ai/work-items/active/WI-374-release-v0-2-39.outcome.json",
+    ".ai/work-items/active/WI-374-release-v0-2-39.events.jsonl",
+    ".ai/evidence/WI-374-release-v0-2-39.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery-retry-boundary",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:4a03496418a6745a4a9215ef945cfb4153bb628534b331ccd3e1c9ca129a7ee0",
+  "predecessorEventsDigest": "sha256:3900537344663c39de9c5250da4ca47482d6e1079fa5519a0cfd8f83da4124d1",
+  "predecessorOutcomeDigest": "sha256:efa3fc564cf720d28da726c4db84fa3c3861a32c8f96efabfb09bbd30495ddce",
+  "predecessorSummaryDigest": "sha256:91cd5525511fb55301ef76180e5dc0974c3bcb4049d0c17dd46787db04242f0a",
+  "predecessorWorkItemId": "WI-374-release-v0-2-39",
+  "reason": "finalize-plan bound the reviewed PR resource context after the initial verification, changing the Contract binding and invalidating the earlier verification receipt. Preserve the blocked Outcome and retry the same Work Item with fresh preflight and verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification against the bound PR context, then retry finish, archive, finalize, finalize-verify, and close after hosted review.",
+  "runtimeDigest": "sha256:af238d00182cdc108cbb95e3b18c8ed4ad07bc40289a1e970da47d09d12e5f86",
+  "runtimeVersion": "0.2.38",
+  "schemaVersion": 1,
+  "workItemId": "WI-374-release-v0-2-39"
+}
