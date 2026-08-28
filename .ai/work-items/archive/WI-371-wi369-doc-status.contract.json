@@ -1,0 +1,43 @@
+{
+  "acceptanceCriteria": [
+    "All three WI-369 documents use terminal implemented status and retain synchronized links and content.",
+    "The existing docs acceptance and governance integrity gates pass without altering archived Work Item evidence."
+  ],
+  "authority": "authorized",
+  "baseRevision": "4a5c438550279b2e39a2a97c2d73defd933f9afc",
+  "createdAt": "2026-08-28T21:39:56Z",
+  "goal": "Make the terminal WI-369 documentation declare implemented status in all languages and pass the existing docs governance gate without changing Runtime behavior.",
+  "intent": "Correct the stale three-language documentation status for the already closed WI-369 so CI governance docs match its archived lifecycle truth.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime code",
+    " CI gate logic",
+    " performance behavior",
+    " release artifacts",
+    " historical evidence",
+    " global Agent/MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:df69f210dd15c41ec88c597ddf1e57710b278d1ae758f87e66cd5cb1aef08608",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-371-wi369-doc-status",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/pending-wi371",
+    "worktree": "/private/tmp/ai-cockpit-wi371-wi369-doc-status"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-369-post-merge-ci-transition-gate.md",
+    "docs/work-items/WI-369-post-merge-ci-transition-gate.zh-CN.md",
+    "docs/work-items/WI-369-post-merge-ci-transition-gate.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-371-wi369-doc-status"
+}

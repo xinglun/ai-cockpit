@@ -4,7 +4,7 @@ title: "WI-369——合并后的 CI 过渡门"
 description: "区分经过 review 的 merge-to-close 过渡与历史遗留的未关闭 Work Item，同时不削弱质量门。"
 workItemId: WI-369-post-merge-ci-transition-gate
 audience: [maintainer, reviewer]
-status: implementation_active
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-369-post-merge-ci-transition-gate
 capabilityClaims:

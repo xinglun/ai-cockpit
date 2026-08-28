@@ -4,7 +4,7 @@ title: "WI-369 — merge 後 CI transition gate"
 description: "review 済み merge から close までの過渡状態と、古い未 close Work Item を区別し、gate を弱めない。"
 workItemId: WI-369-post-merge-ci-transition-gate
 audience: [maintainer, reviewer]
-status: implementation_active
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-369-post-merge-ci-transition-gate
 capabilityClaims:
