@@ -4,9 +4,13 @@ title: "WI-347——Knowledge、输入信任、已安装生命周期与日语能
 workItemId: WI-347-reference-knowledge-trust-lifecycle-assessment
 description: "比较接下来的十个固定参考路径，发布有界的 Rust 原生三语映射。"
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-347-reference-knowledge-trust-lifecycle-assessment
+terminalArchive: .ai/work-items/archive/WI-347-reference-knowledge-trust-lifecycle-assessment.contract.json
+terminalVerification: .ai/evidence/WI-347-reference-knowledge-trust-lifecycle-assessment.verification.json
+terminalFinalization: .ai/decisions/WI-347-reference-knowledge-trust-lifecycle-assessment.finalize.json
+terminalDecision: .ai/decisions/WI-347-reference-knowledge-trust-lifecycle-assessment.close.json
 capabilityClaims:
   - reference_parity
 ---

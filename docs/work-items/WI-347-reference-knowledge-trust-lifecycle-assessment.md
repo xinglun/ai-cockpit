@@ -4,9 +4,13 @@ title: "WI-347 — Knowledge, input trust, installed lifecycle, and Japanese cap
 workItemId: WI-347-reference-knowledge-trust-lifecycle-assessment
 description: "Compare the next ten pinned reference paths and publish bounded Rust-native, tri-language mappings."
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-347-reference-knowledge-trust-lifecycle-assessment
+terminalArchive: .ai/work-items/archive/WI-347-reference-knowledge-trust-lifecycle-assessment.contract.json
+terminalVerification: .ai/evidence/WI-347-reference-knowledge-trust-lifecycle-assessment.verification.json
+terminalFinalization: .ai/decisions/WI-347-reference-knowledge-trust-lifecycle-assessment.finalize.json
+terminalDecision: .ai/decisions/WI-347-reference-knowledge-trust-lifecycle-assessment.close.json
 capabilityClaims:
   - reference_parity
 ---
