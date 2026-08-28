@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "a72f587b685672da7c80ce64467457148e270101",
+    "name": "codex/wi-348-reference-verification-operation-policy",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:1f6d6a39030bec68f14c5a8a13dea9964aaa260dcce6c2e5d95f8179bc34f4f9",
+  "operationId": "github-pr-315-merge-cleanup-20260828",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b",
+    "headRevision": "a72f587b685672da7c80ce64467457148e270101",
+    "mergeCommit": "61249401adb51d1062cd4eb48a41dbb3fa5d5ba3",
+    "number": 315,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/315"
+  },
+  "reason": "PR #315 passed all hosted checks and was merged; the exact feature branch and worktree were removed after synchronization and cleanup verification.",
+  "receiptId": "github-pr-315-finalization-20260828",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-348-reference-verification-operation-policy",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/315",
+    "worktree": "/private/tmp/ai-cockpit-wi348-reference-verification-operation-policy"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-28T05:10:00Z",
+  "workItemId": "WI-348-reference-verification-operation-policy",
+  "worktree": {
+    "branch": "codex/wi-348-reference-verification-operation-policy",
+    "headRevision": "a72f587b685672da7c80ce64467457148e270101",
+    "path": "/private/tmp/ai-cockpit-wi348-reference-verification-operation-policy",
+    "worktreeId": "WI-348-reference-verification-operation-policy"
+  }
+}
