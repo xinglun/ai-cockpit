@@ -1,0 +1,97 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-354-release-v0-2-34.contract.json",
+    ".ai/work-items/active/WI-354-release-v0-2-34.summary.json"
+  ],
+  "checkpointAt": "2026-08-28T06:50:33Z",
+  "checkpointContractDigest": "sha256:15ac3ab2c556fb6472a72cbf38c419c92a97b8fc78082b598ad43664da6c24c8",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:6960993ab2ed551d74a9ffde3f512c90dd5bce299590f33604e817ef9d96b32c",
+      "recorded": true,
+      "recordedAt": "2026-08-28T06:50:33Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4c579f35b9e847495e097253b470db0cf0b30eb3af5ecf1fc3984a1e811ae8e5",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-354-release-v0-2-34"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:a9dbe5e60032ea151a466cd94946997e481511f0c70028c261ed9e46fc3eb35a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:6960993ab2ed551d74a9ffde3f512c90dd5bce299590f33604e817ef9d96b32c",
+      "previousContractHash": "sha256:6960993ab2ed551d74a9ffde3f512c90dd5bce299590f33604e817ef9d96b32c",
+      "reason": "Add the release scenarioCoverage declaration required by the high-risk Contract; no scope or authority expansion.",
+      "recorded": true,
+      "recordedAt": "2026-08-28T07:08:07Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4c579f35b9e847495e097253b470db0cf0b30eb3af5ecf1fc3984a1e811ae8e5",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-354-release-v0-2-34"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:4c579f35b9e847495e097253b470db0cf0b30eb3af5ecf1fc3984a1e811ae8e5",
+  "createdAt": "2026-08-28T06:47:20Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:15ac3ab2c556fb6472a72cbf38c419c92a97b8fc78082b598ad43664da6c24c8",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Reconfirmed the bounded high-risk release Contract after finalization context binding; no scope or authority expansion.",
+    "recordedAt": "2026-08-28T07:40:00Z",
+    "recordedBy": "human:owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:4c579f35b9e847495e097253b470db0cf0b30eb3af5ecf1fc3984a1e811ae8e5",
+    "schemaVersion": 1,
+    "workItemId": "WI-354-release-v0-2-34"
+  },
+  "failedGate": "finish.verification",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-28T07:21:36Z",
+  "preflightContractDigest": "sha256:15ac3ab2c556fb6472a72cbf38c419c92a97b8fc78082b598ad43664da6c24c8",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:4c579f35b9e847495e097253b470db0cf0b30eb3af5ecf1fc3984a1e811ae8e5",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "cargo test --locked --workspace",
+        "tests/docs/documentation_acceptance.sh",
+        "tests/release/version_consistency.sh",
+        "tests/release/workflow_policy.sh",
+        "tests/release/adopter_acceptance_test.sh",
+        "tests/release/adopter_upgrade_acceptance_test.sh"
+      ],
+      "expected": "The reviewed v0.2.34 release route passes source and staged release gates and hands immutable public-artifact installation to the post-release successor.",
+      "required": true,
+      "scenario": "release preparation and staged handoff",
+      "status": "verified",
+      "verificationPlan": "Run declared source, documentation, policy, workspace, and staged release checks before tagging."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-28T07:21:37Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-354-release-v0-2-34"
+}

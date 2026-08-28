@@ -1,0 +1,82 @@
+{
+  "acceptanceCriteria": [
+    "All workspace packages and Cargo.lock resolve to 0.2.34 and the release tag is v0.2.34.",
+    "All three release, distribution-architecture, and versioning documents identify v0.2.34 as the current installation baseline while preserving prior failed-release history.",
+    "The reviewed release route passes documentation, version-consistency, governance-integrity, release-policy, and complete workspace verification before tagging.",
+    "The hosted workflow publishes only the immutable v0.2.34 tag commit with manifest, SHA256SUMS, target SBOMs, provenance, archive smoke, and staged adopter gates.",
+    "The release Work Item records a mandatory post-release successor for installation and current-repository acceptance without claiming public bytes before publication."
+  ],
+  "authority": "authorized",
+  "baseRevision": "846dfdafa64a4075735f7ebfd2ddceb115f6e872",
+  "createdAt": "2026-08-28T06:47:20Z",
+  "goal": "Release v0.2.34 through the reviewed hosted release route and preserve an auditable successor boundary for public binary installation.",
+  "intent": "Prepare and publish v0.2.34 from the reviewed default branch after WI-352 closed-lifecycle cleanup guard, then hand off immutable public-artifact installation and current-repository acceptance.",
+  "mode": "code",
+  "outOfScope": [
+    "Historical release bytes and receipts",
+    "WI-351/353 recovery branch and PR",
+    "New runtime governance behavior",
+    "External Homebrew tap publication",
+    "Global Agent or MCP configuration",
+    "Second technology-stack adopter acceptance",
+    "Post-release public artifact receipt contents beyond the documented successor handoff"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:af6a7f5c418f081ed550a2643c49755ad06873e2811e7e9af7154a1a9274d705",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-354-release-v0-2-34",
+    "provider": "github",
+    "pullRequest": "pending",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/ai-cockpit-release-v0-2-34"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "cargo test --locked --workspace",
+        "tests/docs/documentation_acceptance.sh",
+        "tests/release/version_consistency.sh",
+        "tests/release/workflow_policy.sh",
+        "tests/release/adopter_acceptance_test.sh",
+        "tests/release/adopter_upgrade_acceptance_test.sh"
+      ],
+      "expected": "The reviewed v0.2.34 release route passes source and staged release gates and hands immutable public-artifact installation to the post-release successor.",
+      "required": true,
+      "scenario": "release preparation and staged handoff",
+      "status": "verified",
+      "verificationPlan": "Run declared source, documentation, policy, workspace, and staged release checks before tagging."
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-354-release-v0-2-34.md",
+    "docs/work-items/WI-354-release-v0-2-34.zh-CN.md",
+    "docs/work-items/WI-354-release-v0-2-34.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-354-release-v0-2-34"
+}

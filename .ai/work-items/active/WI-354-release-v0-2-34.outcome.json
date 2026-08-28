@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "All workspace packages and Cargo.lock resolve to 0.2.34 and the release tag is v0.2.34.",
+    "All three release, distribution-architecture, and versioning documents identify v0.2.34 as the current installation baseline while preserving prior failed-release history.",
+    "The reviewed release route passes documentation, version-consistency, governance-integrity, release-policy, and complete workspace verification before tagging.",
+    "The hosted workflow publishes only the immutable v0.2.34 tag commit with manifest, SHA256SUMS, target SBOMs, provenance, archive smoke, and staged adopter gates.",
+    "The release Work Item records a mandatory post-release successor for installation and current-repository acceptance without claiming public bytes before publication."
+  ],
+  "createdAt": "2026-08-28T07:21:37Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:0b83766d248996bbb4841c19a8725a1f467597cb49a24419be58617d17b3239f",
+  "evidenceRefs": [
+    ".ai/evidence/WI-354-release-v0-2-34.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-354-release-v0-2-34.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-354-release-v0-2-34.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4c579f35b9e847495e097253b470db0cf0b30eb3af5ecf1fc3984a1e811ae8e5",
+      "workItemId": "WI-354-release-v0-2-34"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-354-release-v0-2-34.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-354-release-v0-2-34.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-354-release-v0-2-34.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-354-release-v0-2-34.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-354-release-v0-2-34.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-354-release-v0-2-34.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-354-release-v0-2-34.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-354-release-v0-2-34.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-354-release-v0-2-34.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-354-release-v0-2-34.contract.json"
+          ],
+          "inference": false,
+          "text": "Release v0.2.34 through the reviewed hosted release route and preserve an auditable successor boundary for public binary installation."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-354-release-v0-2-34.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-354-release-v0-2-34"
+  },
+  "taskReportDigest": "sha256:cbccfb600fede1a10869e951ef057e6d0a1402617441f1958edfdf90859ad5dc",
+  "taskReportMarkdownDigest": "sha256:90f80d507dc115e579ce5899e1541622a85b705ea19b8e41bd5e45501a8a015e",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-354-release-v0-2-34.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-354-release-v0-2-34"
+}
