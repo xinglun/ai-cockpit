@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:80fe9a43e8b5edad9fcfba5e4f7c36638aa3a00838b94910c8216c65bb879f18",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
+  "reason": "确认该修复仅处理发布验收 harness 的资源清理与生命周期绑定，不扩大 Runtime、协议、发布标签或全局配置范围；失败的 v0.2.36 发布记录保持不可变。",
+  "recordedAt": "2026-08-28T20:22:00+09:00",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:35262078f9b6f1ba27af70f0c7392cd7efe30892df616f3e85658e46ff0e6641",
+  "schemaVersion": 1,
+  "workItemId": "WI-360-release-adopter-close-cleanup"
+}

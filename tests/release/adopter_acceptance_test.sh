@@ -43,6 +43,14 @@ grep -q -- 'adopter repository identity is missing or malformed' "$script"
 grep -q -- 'decisionState == "confirmed"' "$script"
 grep -q -- 'structuredDecision.evidenceRefs' "$script"
 grep -q -- 'structuredDecision.policyRefs' "$script"
+grep -q -- 'result:{disposition:"deleted"' "$script"
+grep -q -- 'rm -rf -- "$lifecycle_worktree"' "$script"
+grep -q -- 'worktree prune' "$script"
+grep -q -- 'branch -D' "$script"
+if grep -q -- 'result:{disposition:"retained"' "$script"; then
+  printf 'staged adopter lifecycle must not close with retained resources\n' >&2
+  exit 1
+fi
 if grep -Eq -- 'close --repo [^[:space:]]+ --id [^[:space:]]+ --human-decision approved$' "$script"; then
   printf 'adopter acceptance must not close with an unstructured decision\n' >&2
   exit 1

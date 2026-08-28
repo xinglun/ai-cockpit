@@ -624,6 +624,12 @@ capture_runtime verify-reuse.json verify --repo "$adopter_root" --workers 1
 jq -e '.passed == true and .nodesReused >= 1 and .nodesExecuted == 0 and .processesSpawned == 0' "$output/verify-reuse.json" >/dev/null || die 'second verification did not reuse evidence with zero spawns'
 mark_passed reuse-assertion
 
+lifecycle_control_root="$adopter_root"
+lifecycle_control_branch="$(git -C "$lifecycle_control_root" branch --show-current)"
+lifecycle_branch=release-adopter-lifecycle
+lifecycle_worktree="$adopter_root"
+git -C "$adopter_root" switch -q -c "$lifecycle_branch"
+
 lifecycle_id=release-adopter-lifecycle
 capture_runtime lifecycle-start.json start --repo "$adopter_root" --id "$lifecycle_id" \
   --intent 'Validate the published Runtime against a real adopter change.' \
@@ -633,11 +639,6 @@ capture_runtime lifecycle-start.json start --repo "$adopter_root" --id "$lifecyc
 lifecycle_contract="$adopter_root/.ai/work-items/active/$lifecycle_id.contract.json"
 [[ -f "$lifecycle_contract" ]] || die 'lifecycle contract was not created'
 lifecycle_base_revision="$(jq -er '.baseRevision | select(type == "string" and test("^[0-9a-f]{40}$"))' "$lifecycle_contract")" || die 'lifecycle Contract base revision is missing or malformed'
-# Resource finalization is a mandatory part of the Runtime lifecycle.  The
-# adopter fixture intentionally retains its local branch/worktree, so the
-# harness binds an explicit, auditable retained receipt rather than pretending
-# that a provider deleted anything.
-lifecycle_branch="$(git -C "$adopter_root" branch --show-current)"
 lifecycle_head="$(git -C "$adopter_root" rev-parse HEAD)"
 lifecycle_pr="acceptance://$tag/$lifecycle_id"
 lifecycle_context="$run_root/$lifecycle_id.finalize-context.json"
@@ -665,6 +666,17 @@ capture_runtime lifecycle-finish.json finish --repo "$adopter_root" --id "$lifec
 capture_runtime lifecycle-archive.json archive --repo "$adopter_root" --id "$lifecycle_id"
 archived_lifecycle_contract="$adopter_root/.ai/work-items/archive/$lifecycle_id.contract.json"
 archived_lifecycle_contract_digest="sha256:$(sha256_file "$archived_lifecycle_contract")"
+git -C "$adopter_root" add .
+git -C "$adopter_root" commit -qm 'commit adopter lifecycle archive'
+lifecycle_head="$(git -C "$adopter_root" rev-parse HEAD)"
+control_clone="$run_root/adopter-control"
+git clone -q "$adopter_root" "$control_clone"
+git -C "$control_clone" switch -q -c release-adopter-control
+rm -rf -- "$lifecycle_worktree"
+git -C "$control_clone" worktree prune
+git -C "$control_clone" branch -D "$lifecycle_branch" >/dev/null
+[[ ! -e "$lifecycle_worktree" && ! -L "$lifecycle_worktree" ]] || die 'lifecycle worktree was not removed before close'
+adopter_root="$control_clone"
 lifecycle_receipt="$run_root/$lifecycle_id.finalize-receipt.json"
 jq -n \
   --arg workItemId "$lifecycle_id" \
@@ -674,7 +686,7 @@ jq -n \
   --arg provider release-adopter-harness \
   --arg pullRequest "$lifecycle_pr" \
   --arg branch "$lifecycle_branch" \
-  --arg worktree "$adopter_root" \
+  --arg worktree "$lifecycle_worktree" \
   --arg headRevision "$lifecycle_head" \
   --arg lifecycleBaseRevision "$lifecycle_base_revision" \
   --arg contractDigest "$archived_lifecycle_contract_digest" \
@@ -682,7 +694,7 @@ jq -n \
   '{
     schemaVersion:1,
     receiptId:("release-adopter-" + $workItemId),
-    operationId:("retain-" + $workItemId),
+    operationId:("delete-" + $workItemId),
     repositoryId:$repositoryId,
     workItemId:$workItemId,
     runtimeVersion:$runtimeVersion,
@@ -692,20 +704,20 @@ jq -n \
     branch:{name:$branch,remote:"local",headRevision:$headRevision},
     worktree:{worktreeId:$workItemId,path:$worktree,branch:$branch,headRevision:$headRevision},
     before:{pullRequest:"merged",branch:"present",worktree:"clean"},
-    after:{pullRequest:"merged",branch:"present",worktree:"clean"},
-    result:{disposition:"retained",failureCodes:[],unknownCodes:[]},
+    after:{pullRequest:"merged",branch:"deleted",worktree:"removed"},
+    result:{disposition:"deleted",failureCodes:[],unknownCodes:[]},
     actor:"harness:release-adopter",
     authoritySource:"release-adopter-acceptance",
-    reason:"The isolated adopter fixture is intentionally retained after lifecycle verification.",
+    reason:"The isolated adopter lifecycle branch and worktree were removed before close.",
     timestamp:$timestamp,
     contractDigest:$contractDigest,
     resourceContext:{branch:$branch,worktree:$worktree,baseBranch:$branch,baseRemote:"local",provider:$provider,pullRequest:$pullRequest}
   }' > "$lifecycle_receipt"
 cp "$lifecycle_receipt" "$output/work-items/$lifecycle_id.finalize-receipt.json"
 capture_runtime lifecycle-finalize.json work-item finalize --repo "$adopter_root" --id "$lifecycle_id" --input "$lifecycle_receipt"
-jq -e '.state == "recorded" and .disposition == "retained"' "$output/lifecycle-finalize.json" >/dev/null || die 'lifecycle finalize receipt was not recorded as retained'
+jq -e '.state == "recorded" and .disposition == "deleted"' "$output/lifecycle-finalize.json" >/dev/null || die 'lifecycle finalize receipt was not recorded as deleted'
 capture_runtime lifecycle-finalize-verify.json work-item finalize-verify --repo "$adopter_root" --id "$lifecycle_id"
-jq -e '.state == "verified" and .disposition == "retained"' "$output/lifecycle-finalize-verify.json" >/dev/null || die 'lifecycle finalize verification did not pass'
+jq -e '.state == "verified" and .disposition == "deleted"' "$output/lifecycle-finalize-verify.json" >/dev/null || die 'lifecycle finalize verification did not pass'
 capture_runtime lifecycle-close.json close --repo "$adopter_root" --id "$lifecycle_id" \
   --human-decision approved \
   --actor human:release-acceptance \

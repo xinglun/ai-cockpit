@@ -136,15 +136,15 @@ adopter acceptance。
 publish 依赖这两个 job。其 receipt 记录 `stagedCandidate: true` 和
 `releasePublished: false`，不会改写 provider Release truth。
 
-维护者可以在 Release 发布后重复执行公开 binary 验收基线：
+维护者可以在 Release 发布后重复执行公开 binary 验收基线。
+不可变的 `v0.2.36` tag 当前记录了一次 staged 验收失败，没有公开 Release，也没有 adopter 基线。
+仓库保留的 WI-239 receipt 仍是历史 v0.2.31 基线。后续成功 Release 必须先持久化自己的公开 binary
+receipt，才能被描述为 adopter 基线；仅有 hosted job artifact 不构成仓库持久化基线。
 
-**v0.2.36 adopter acceptance 基线：`aarch64-apple-darwin`。**
-发布后的 acceptance successor 会在发布后持久化 v0.2.36 的公开 binary receipt；仓库保留的 WI-239 receipt
-仍是历史 v0.2.31 基线。GitHub Actions run `32696048024` 也在
-`x86_64-unknown-linux-gnu` 上完成 staged、public 与 N-1 adopter
-路径，但这些 hosted Linux artifacts 是外部、受 provider retention 限制的短期 evidence，
-不是仓库持久化基线。其他已发布 target 只有 build 与 smoke evidence；除非另有持久化的
-acceptance receipt，不能宣称它们完成完整 adopter lifecycle。
+持久化 adopter acceptance 基线：`aarch64-apple-darwin`（WI-239，公开的
+`v0.2.31`；provider metadata 记录 `immutable: false`）。GitHub Actions run
+`32696048024` 仅作为 `x86_64-unknown-linux-gnu` hosted Linux 验收 evidence 保留，
+不是持久化的单 target 基线。
 
 ```bash
 tests/release/adopter_acceptance.sh \
@@ -161,7 +161,7 @@ attach/profile/Agent doctor，保持 `first-adopter-smoke` 为 `not_ready`，验
 
 这份发布后 receipt 的 lifecycle close 必须是完整的结构化 Human Decision。harness 要求记录 actor、authority source、reason、evidence reference、policy reference、决定时间和 resume condition；它会把常规且非符号链接的 `.ai/decisions/<work-item>.close.json` 复制到验收 artifact，并生成包含 adopter `repositoryId`、Work Item ID、决定摘要和校验结果的 binding record。缺失、foreign、字段不完整或 identity 不匹配的 close receipt 都会 fail closed；不会把已发布的 Release 改写成未发布。
 
-在旧 Work Item 和新 Work Item close 之前，harness 都必须执行 Runtime 的资源收尾边界：`finalize-plan` 在 verification 之前绑定 fixture 的 branch/worktree context，归档之后用 `finalize` 与 `finalize-verify` 记录 fixture 被明确保留的资源状态。这不是装饰步骤；缺少它时 `close` 必须 fail closed。
+在旧 Work Item 和新 Work Item close 之前，harness 都必须执行 Runtime 的资源收尾边界：`finalize-plan` 在 verification 之前绑定 fixture 的 branch/worktree context。归档之后，harness 提交 fixture branch 上的归档记录，将其 fast-forward 到幸存的 control worktree，删除精确的 fixture branch 与 worktree，然后用 `disposition: deleted` 的 `finalize` 与 `finalize-verify` 记录结果。这不是装饰步骤；保留资源时 `close` 必须 fail closed。
 
 在验收 receipt 输出最终确定后，成功、失败和中断路径都会只清理经过校验的临时 `run_root`。
 `cleanup.json` 以及 `acceptance.json` 中的 `cleanupState` / `cleanupError` 记录清理结果。清理失败时必须

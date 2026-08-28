@@ -52,6 +52,15 @@ grep -q -- 'adopter repository identity is missing or malformed' "$script"
 grep -q -- 'decisionState == "confirmed"' "$script"
 grep -q -- 'structuredDecision.evidenceRefs' "$script"
 grep -q -- 'structuredDecision.policyRefs' "$script"
+grep -q -- 'result:{disposition:"deleted"' "$script"
+grep -q -- 'rm -rf -- "$old_worktree"' "$script"
+grep -q -- 'rm -rf -- "$new_worktree"' "$script"
+grep -q -- 'worktree prune' "$script"
+grep -q -- 'branch -D' "$script"
+if grep -q -- 'result:{disposition:"retained"' "$script"; then
+  echo 'staged upgrade lifecycle must not close with retained resources' >&2
+  exit 1
+fi
 if grep -Eq -- 'close --repo [^[:space:]]+ --id [^[:space:]]+ --human-decision approved$' "$script"; then
   echo 'adopter upgrade acceptance must not close with an unstructured decision' >&2
   exit 1

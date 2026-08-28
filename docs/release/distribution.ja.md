@@ -141,15 +141,15 @@ staged target への upgrade を行います。publish は両 job に依存し�
 書き換えません。
 
 Maintainer は Release 公開後に public binary acceptance baseline を再実行できます。
+immutable な `v0.2.36` tag は現在 staged acceptance failure を記録しており、公開 Release と adopter
+baseline はありません。repository に保持された WI-239 receipt は historical v0.2.31 baseline として残ります。
+今後の成功した Release は、adopter baseline と呼ぶ前に自身の public-binary receipt を永続化する必要があります。
+hosted job artifact だけでは repository-persisted baseline になりません。
 
-**v0.2.36 adopter acceptance baseline: `aarch64-apple-darwin`。**
-公開後の acceptance successor が v0.2.36 の public-binary receipt を永続化します。repository に保持された
-WI-239 receipt は historical v0.2.31 baseline として残ります。GitHub Actions run `32696048024` も
-`x86_64-unknown-linux-gnu` 上で staged、public、N-1
-adopter path を完了しましたが、この hosted Linux artifact は external/provider-retained
-かつ短命な evidence であり、repository に永続化された baseline ではありません。他の
-published target は build/smoke evidence のみで、別の acceptance receipt が永続化されない
-限り full adopter lifecycle の完了とは主張しません。
+永続化された adopter acceptance baseline: `aarch64-apple-darwin`（WI-239、公開
+`v0.2.31`；provider metadata は `immutable: false` を記録）。GitHub Actions run
+`32696048024` は `x86_64-unknown-linux-gnu` の hosted Linux acceptance evidence としてのみ保持し、
+永続化された single-target baseline ではありません。
 
 ### 過去の N-1 schema migration 受入れ
 
@@ -201,7 +201,7 @@ attach/profile/Agent doctor、`first-adopter-smoke` の `not_ready`、Work Item 
 
 この post-release receipt の lifecycle close は完全な structured Human Decision でなければなりません。harness は actor、authority source、reason、evidence reference、policy reference、決定時刻、resume condition を要求します。通常ファイルかつ symlink ではない `.ai/decisions/<work-item>.close.json` を acceptance artifact にコピーし、adopter の `repositoryId`、Work Item ID、decision digest、検証結果を含む binding record を生成します。close receipt の欠落、foreign、必須項目不足、identity 不一致は fail closed となり、公開済み Release を未公開へ書き戻すことはありません。
 
-old Work Item と new Work Item の close 前に、harness は Runtime の resource-finalization boundary も実行します。`finalize-plan` が verification 前に fixture の branch/worktree context を bind し、archive 後の `finalize` と `finalize-verify` が fixture の意図的な retain 状態を receipt に記録します。これは表示だけの手順ではなく、欠落時に `close` が fail closed になる実際の lifecycle 要件です。
+old Work Item と new Work Item の close 前に、harness は Runtime の resource-finalization boundary も実行します。`finalize-plan` が verification 前に fixture の branch/worktree context を bind します。archive 後、harness は fixture branch の archive 記録を commit し、存続する control worktree へ fast-forward した後、対象 branch と worktree を削除し、`disposition: deleted` の `finalize` と `finalize-verify` を記録します。これは表示だけの手順ではなく、resource が retain された場合に `close` が fail closed になる実際の lifecycle 要件です。
 
 receipt の出力を確定した後、success、failure、interrupt のすべての経路で、検証済みの一時 `run_root` だけを削除します。
 `cleanup.json` と `acceptance.json` の `cleanupState` / `cleanupError` が結果を記録します。cleanup failure は

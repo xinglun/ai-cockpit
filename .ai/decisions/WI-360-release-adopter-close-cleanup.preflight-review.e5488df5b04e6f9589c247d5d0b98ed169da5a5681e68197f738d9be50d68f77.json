@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:2e270646fab05c87ac22009373969efe9cc6547569bd51683cbf2e501331fbcb",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:dfac66d6cd6f0105e7316dba3fd0f4a204bd6c77aaa3bd58a16f2e9a6cb593e9",
+  "reason": "确认当前 Contract 的发布验收修复范围与真实 staged/N-1 验收结果，允许进入完成生命周期；不改变 v0.2.36 失败 Release truth。",
+  "recordedAt": "2026-08-28T21:35:00+09:00",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b243548e6da3cea42f661f31eb910ef61aecde518fab0ec75b8f4aca2489aa0c",
+  "schemaVersion": 1,
+  "workItemId": "WI-360-release-adopter-close-cleanup"
+}

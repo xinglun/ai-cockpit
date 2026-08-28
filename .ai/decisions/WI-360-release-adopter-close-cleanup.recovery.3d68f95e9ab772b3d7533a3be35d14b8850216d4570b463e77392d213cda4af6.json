@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-28T21:20:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-360-release-adopter-close-cleanup.summary.json",
+    ".ai/work-items/active/WI-360-release-adopter-close-cleanup.outcome.json",
+    ".ai/work-items/active/WI-360-release-adopter-close-cleanup.events.jsonl"
+  ],
+  "policyRefs": [
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:2e270646fab05c87ac22009373969efe9cc6547569bd51683cbf2e501331fbcb",
+  "predecessorEventsDigest": "sha256:e6d03ea796bb24ce27a4866e48bc3fd3ad19ebea1c1ad1bfe49b566f816d32ce",
+  "predecessorOutcomeDigest": "sha256:3f8cbdc13d39515fee86ae416a6e8a0ec1957b4582a35f8506f7518216f90f77",
+  "predecessorSummaryDigest": "sha256:fd4aa935fe4de535fe6dca9eb414de17905796486d9b2b5803417070ec616d15",
+  "predecessorWorkItemId": "WI-360-release-adopter-close-cleanup",
+  "reason": "重新绑定第一次失败 finish 生成的 Outcome 与当前 Summary/Events，恢复当前 Work Item 的合法 retry 路径。",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "重新执行当前 Contract 的 preflight、verify、finish 与后续生命周期。",
+  "runtimeDigest": "sha256:39a1e27deb5d47946c723d6129ead21a6fcb6bd5dbb7c1346a97e83ec61543c4",
+  "runtimeVersion": "0.2.34",
+  "schemaVersion": 1,
+  "workItemId": "WI-360-release-adopter-close-cleanup"
+}

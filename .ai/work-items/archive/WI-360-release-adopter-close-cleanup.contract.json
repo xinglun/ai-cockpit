@@ -1,0 +1,89 @@
+{
+  "acceptanceCriteria": [
+    "staged adopter acceptance completes start, preflight, checkpoint, verify, finish, archive, cleanup, finalize, finalize-verify, and close with deleted resource disposition",
+    "staged N-1 upgrade acceptance applies the same cleanup-before-close rule for old and new Work Items",
+    "success and failure paths retain acceptance receipts while removing the exact temporary run root without deleting unrelated paths",
+    "regression tests reject retained-resource close and assert deleted cleanup binding; tri-language release docs state the boundary"
+  ],
+  "authority": "authorized",
+  "baseRevision": "a14a42fa398174fd966f63290e11e68d2823e4f9",
+  "createdAt": "2026-08-28T11:20:36Z",
+  "goal": "让发布验收仅在 adopter branch/worktree 已真实清理且 finalization disposition=deleted 后完成 close，并在成功与失败路径证明临时环境可清理。",
+  "intent": "修复发布验收 harness 在 staged adopter lifecycle 中保留 branch/worktree 后仍执行 close 的缺陷，使验收真实遵守合并后资源清理边界。",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    "src/**",
+    ".github/workflows/**",
+    "Cargo.toml",
+    "Cargo.lock",
+    "v0.2.36 tag and existing release truth"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:35262078f9b6f1ba27af70f0c7392cd7efe30892df616f3e85658e46ff0e6641",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-360-release-adopter-close-cleanup",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/360",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/ai-cockpit-wi-360-release-adopter-close-cleanup"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance.sh",
+        "staged-candidate:v0.2.36:aarch64-apple-darwin:acceptance.json"
+      ],
+      "expected": "The staged candidate acceptance completes close only after its exact branch and checkout are removed, and records deleted finalization evidence.",
+      "required": true,
+      "scenario": "staged adopter lifecycle cleans resources before close",
+      "status": "verified",
+      "verificationPlan": "Run the staged acceptance with a candidate artifact, assert lifecycle close succeeds with disposition deleted, and inspect the emitted receipt and cleanup manifest."
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "staged-candidate:v0.2.31-to-v0.2.36:aarch64-apple-darwin:acceptance.json"
+      ],
+      "expected": "The old and new Work Item lifecycles in the staged upgrade fixture both complete close after exact branch and checkout cleanup without rewriting historical evidence.",
+      "required": true,
+      "scenario": "N-1 upgrade lifecycle cleans both resources before close",
+      "status": "verified",
+      "verificationPlan": "Run the staged N-1 acceptance with public v0.2.31 and the v0.2.36 candidate, assert both close decisions and deleted finalization receipts, and compare historical evidence digests."
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance_test.sh",
+        "tests/release/adopter_upgrade_acceptance_test.sh"
+      ],
+      "expected": "A failed acceptance retains acceptance.json and SHA256SUMS, marks failure without changing release truth, and removes only its validated temporary run root.",
+      "required": true,
+      "scenario": "failure-path cleanup preserves truth",
+      "status": "verified",
+      "verificationPlan": "Exercise invalid candidate and blocked-cleanup fixtures; assert failure receipts, cleanup metadata, and no unrelated path deletion."
+    }
+  ],
+  "scope": [
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/adopter_acceptance_test.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh",
+    "docs/release/distribution.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/work-items/WI-360-release-adopter-close-cleanup.md",
+    "docs/work-items/WI-360-release-adopter-close-cleanup.ja.md",
+    "docs/work-items/WI-360-release-adopter-close-cleanup.zh-CN.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-360-release-adopter-close-cleanup"
+}
