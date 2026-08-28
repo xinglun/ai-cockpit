@@ -29,12 +29,33 @@
   "requiredEvidenceClasses": [
     "verification"
   ],
+  "scenarioCoverage": [
+    {
+      "scenario": "primary worktree and default branch entry rejection",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "crates/cockpit-cli/tests/worktree_entry.rs"
+      ],
+      "expected": "An ordinary Work Item cannot bind the repository primary worktree or default branch; the Runtime returns a stable fail-closed reason before writing a Contract.",
+      "verificationPlan": "Run focused CLI regressions against a primary-root/default-branch repository and assert no Work Item files are created; run the same flow from a dedicated linked worktree and assert it remains eligible."
+    },
+    {
+      "scenario": "dedicated worktree release lifecycle",
+      "required": false,
+      "status": "not_applicable",
+      "evidence": [],
+      "reason": "The public v0.2.37 artifact, adopter and N-1 receipts, hosted merge, and final cleanup are post-archive external boundaries; they cannot be verified before this Work Item is archived and its reviewed PR is merged.",
+      "expected": "The v0.2.37 release lifecycle runs on the dedicated Work Item worktree and finalization proves exact branch and worktree cleanup before close.",
+      "verificationPlan": "After reviewed merge, run the immutable public artifact, adopter, N-1, finalization, close, and ready_on_base acceptance checks."
+    }
+  ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-364-primary-worktree-release",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/327",
     "worktree": "/private/tmp/ai-cockpit-wi364-primary-worktree"
   },
   "risk": "high",

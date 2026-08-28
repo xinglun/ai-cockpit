@@ -58,11 +58,11 @@
   ],
   "changedPaths": [
     ".ai/decisions/WI-363-release-v0-2-37.recovery.json",
-    ".ai/work-items/active/WI-364-primary-worktree-release.contract.json",
-    ".ai/work-items/active/WI-364-primary-worktree-release.summary.json"
+    ".ai/work-items/archive/WI-364-primary-worktree-release.contract.json",
+    ".ai/work-items/archive/WI-364-primary-worktree-release.summary.json"
   ],
   "checkpointAt": "2026-08-28T15:07:15Z",
-  "checkpointContractDigest": "sha256:afd39b60cdfbceb441460af861a0675cfa8264c4ca6eac878b4ee9605fe9a7ba",
+  "checkpointContractDigest": "sha256:5b71ca320e9867b8432e248d819441427cbbd771d8d933b9c70f78cf0c9600f6",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -118,23 +118,44 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-364-primary-worktree-release"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:5b71ca320e9867b8432e248d819441427cbbd771d8d933b9c70f78cf0c9600f6",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:afd39b60cdfbceb441460af861a0675cfa8264c4ca6eac878b4ee9605fe9a7ba",
+      "previousContractHash": "sha256:7651aa263aa444f3bf29f0f294784c527c2e9a2ce706a6f71ee1bfa7efaa9eb1",
+      "reason": "Declare the post-archive public release/adopter scenario as a deferred external boundary instead of treating it as an unverified pre-finish requirement; preserve the required entry-rejection scenario and keep post-release acceptance mandatory before closure.",
+      "recorded": true,
+      "recordedAt": "2026-08-28T15:30:06Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ceb81f3b7c946991bfeb26307d70741067bb4cca7cb788b4775fcab94fa4c75c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-364-primary-worktree-release"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:7352e674b44d59a6afa2fc329eaa358669bbbccfa7b8cca8a5d43d4bf7577fd9",
+  "checkpointRepositorySnapshotDigest": "sha256:ceb81f3b7c946991bfeb26307d70741067bb4cca7cb788b4775fcab94fa4c75c",
   "createdAt": "2026-08-28T14:56:44Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:7651aa263aa444f3bf29f0f294784c527c2e9a2ce706a6f71ee1bfa7efaa9eb1",
+    "contractDigest": "sha256:5b71ca320e9867b8432e248d819441427cbbd771d8d933b9c70f78cf0c9600f6",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
-    "reason": "Explicitly authorize the bounded release recovery and dedicated-worktree root fix; unresolved implementation evidence remains to be collected by the declared verification plan.",
-    "recordedAt": "2026-08-29T00:00:00Z",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Confirm the bounded release recovery and dedicated-worktree root fix after declaring post-archive public release/adopter evidence as a deferred external boundary; implementation and release evidence remain to be collected by the declared plan.",
+    "recordedAt": "2026-08-29T00:05:00Z",
     "recordedBy": "human:owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:3b7df76c7dbb847713578c334b465ab530c1f4fecdffd4eb6f88ca478a83fbbe",
+    "repositorySnapshotDigest": "sha256:ceb81f3b7c946991bfeb26307d70741067bb4cca7cb788b4775fcab94fa4c75c",
     "schemaVersion": 1,
     "workItemId": "WI-364-primary-worktree-release"
   },
+  "failedGate": "finish.verification",
   "intentAlignment": {
     "evidence": [
       "crates/cockpit-repository/src/lib.rs",
@@ -145,14 +166,16 @@
     "state": "resolved"
   },
   "mode": "release",
+  "outcomeState": "blocked",
   "predecessorContractDigest": "sha256:e74bfd644910cd7bf4e2494647dce51fd8ecc98eb2e9d7d5d0ae9d055ecccc8b",
   "predecessorWorkItemId": "WI-363-release-v0-2-37",
-  "preflightAt": "2026-08-28T15:13:20Z",
-  "preflightContractDigest": "sha256:7651aa263aa444f3bf29f0f294784c527c2e9a2ce706a6f71ee1bfa7efaa9eb1",
-  "preflightDecisionDigest": "sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
-  "preflightRepositorySnapshotDigest": "sha256:3b7df76c7dbb847713578c334b465ab530c1f4fecdffd4eb6f88ca478a83fbbe",
-  "preflightState": "yellow",
+  "preflightAt": "2026-08-28T15:34:49Z",
+  "preflightContractDigest": "sha256:5b71ca320e9867b8432e248d819441427cbbd771d8d933b9c70f78cf0c9600f6",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:ceb81f3b7c946991bfeb26307d70741067bb4cca7cb788b4775fcab94fa4c75c",
+  "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
   "recoveryDecisionPath": ".ai/decisions/WI-363-release-v0-2-37.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -169,18 +192,20 @@
     {
       "evidence": [],
       "expected": "The v0.2.37 release lifecycle runs on the dedicated Work Item worktree and finalization proves exact branch and worktree cleanup before close.",
-      "required": true,
+      "reason": "The public v0.2.37 artifact, adopter and N-1 receipts, hosted merge, and final cleanup are post-archive external boundaries; they cannot be verified before this Work Item is archived and its reviewed PR is merged.",
+      "required": false,
       "scenario": "dedicated worktree release lifecycle",
-      "status": "unverified",
-      "verificationPlan": "Run the installed Runtime lifecycle, hosted CI, public release artifact checks, adopter and N-1 acceptance, finalization verification, close, and ready_on_base checks."
+      "status": "not_applicable",
+      "verificationPlan": "After reviewed merge, run the immutable public artifact, adopter, N-1, finalization, close, and ready_on_base acceptance checks."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-08-28T15:13:20.808868+00:00",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:7651aa263aa444f3bf29f0f294784c527c2e9a2ce706a6f71ee1bfa7efaa9eb1",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-08-28T15:12:58Z"
-  },
+  "state": "finish_ready",
+  "updatedAt": "2026-08-28T15:34:53Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-364-primary-worktree-release"
 }

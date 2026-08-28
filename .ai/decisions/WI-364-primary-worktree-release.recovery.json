@@ -1,0 +1,27 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-29T00:03:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-364-primary-worktree-release.outcome.json",
+    ".ai/evidence/WI-364-primary-worktree-release.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery-retry-boundary",
+    ".ai/README.md:release-truth"
+  ],
+  "predecessorContractDigest": "sha256:5b71ca320e9867b8432e248d819441427cbbd771d8d933b9c70f78cf0c9600f6",
+  "predecessorEventsDigest": "sha256:f484bca622f0f98c2e242b6fa6534a4b0d819547e2cf390d912421ea7cc258dc",
+  "predecessorOutcomeDigest": "sha256:92ee472e1cff9e847f9a9466dda74f85c3f99d2311af2b09ee41f7d9717df8bc",
+  "predecessorSummaryDigest": "sha256:892ecf6f2d55eb2c2a5a4a6477fec16a94ee2ea25e4e04b440aec6fa3de2b0f7",
+  "predecessorWorkItemId": "WI-364-primary-worktree-release",
+  "reason": "Retry after the Contract amendment that correctly defers post-archive public release evidence; regenerate current verification and finish evidence without modifying the failed predecessor projection.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh Runtime-bound verification, obtain a green preflight, then finish and archive before the reviewed PR lifecycle.",
+  "runtimeDigest": "sha256:39a1e27deb5d47946c723d6129ead21a6fcb6bd5dbb7c1346a97e83ec61543c4",
+  "runtimeVersion": "0.2.34",
+  "schemaVersion": 1,
+  "workItemId": "WI-364-primary-worktree-release"
+}

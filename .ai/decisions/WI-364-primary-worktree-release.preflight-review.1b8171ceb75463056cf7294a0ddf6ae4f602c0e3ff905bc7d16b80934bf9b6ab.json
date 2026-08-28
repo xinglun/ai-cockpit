@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:5b71ca320e9867b8432e248d819441427cbbd771d8d933b9c70f78cf0c9600f6",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:b01568b44e1b8ca238a099adc09d4b6d20698baacadac354fd392dbc937880c4",
+  "reason": "Confirm the bounded release recovery and dedicated-worktree root fix after declaring post-archive public release/adopter evidence as a deferred external boundary; implementation and release evidence remain to be collected by the declared plan.",
+  "recordedAt": "2026-08-29T00:01:00Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ceb81f3b7c946991bfeb26307d70741067bb4cca7cb788b4775fcab94fa4c75c",
+  "schemaVersion": 1,
+  "workItemId": "WI-364-primary-worktree-release"
+}
