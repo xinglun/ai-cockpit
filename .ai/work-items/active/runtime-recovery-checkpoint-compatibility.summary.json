@@ -62,7 +62,7 @@
       "workItemId": "runtime-recovery-checkpoint-compatibility"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:80685cdcca9099c4fbff517780773e3a1c29b7d48f7630552f7e79007ce6e43b",
+  "checkpointRepositorySnapshotDigest": "sha256:4ee3d47be34f48a9425ef1328aa87617f146c9b7a635d8a9ba088e34769cbce8",
   "createdAt": "2026-08-28T00:23:25Z",
   "failedGate": "finish.governance",
   "intentAlignment": {
@@ -76,10 +76,10 @@
   },
   "mode": "code",
   "outcomeState": "blocked",
-  "preflightAt": "2026-08-28T01:04:44Z",
+  "preflightAt": "2026-08-28T01:08:25Z",
   "preflightContractDigest": "sha256:96da9c8a61fc2fb6bd57aec80e87807059c9db03f3b94907c7a34ccd9e98dddb",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:80685cdcca9099c4fbff517780773e3a1c29b7d48f7630552f7e79007ce6e43b",
+  "preflightRepositorySnapshotDigest": "sha256:4ee3d47be34f48a9425ef1328aa87617f146c9b7a635d8a9ba088e34769cbce8",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
