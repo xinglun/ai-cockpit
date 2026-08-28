@@ -1,0 +1,132 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-371-wi369-doc-status.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4b0bb7e308ad29fded3d8fe36953bb9580df77a201273086eb7502af203a4646",
+      "workItemId": "WI-371-wi369-doc-status"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-371-wi369-doc-status.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-371-wi369-doc-status.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-371-wi369-doc-status.recovery.json",
+            ".ai/decisions/WI-371-wi369-doc-status.recovery.3841c70d32acabe0c408610e1bcc69b2c3cfb7d5bed6952cae14bae52479f44f.json",
+            ".ai/work-items/archive/WI-373-wi371-finalization-recovery.archive.json",
+            ".ai/decisions/WI-373-wi371-finalization-recovery.close.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'superseded' by human:repository-owner via explicit-user-authorization at 2026-08-29T08:28:00+09:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-371-wi369-doc-status.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-371-wi369-doc-status.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-371-wi369-doc-status.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-371-wi369-doc-status.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-371-wi369-doc-status.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the terminal WI-369 documentation declare implemented status in all languages and pass the existing docs governance gate without changing Runtime behavior."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-371-wi369-doc-status.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-371-wi369-doc-status"
+  },
+  "finalReportDigest": "sha256:6a7c87c9fd166e6ccb7684af757fd9d67f311019d44fac105123414801d9b1ba",
+  "humanDecision": "superseded",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-29T08:28:00+09:00",
+    "decision": "superseded",
+    "evidenceRefs": [
+      ".ai/decisions/WI-371-wi369-doc-status.recovery.json",
+      ".ai/decisions/WI-371-wi369-doc-status.recovery.3841c70d32acabe0c408610e1bcc69b2c3cfb7d5bed6952cae14bae52479f44f.json",
+      ".ai/work-items/archive/WI-373-wi371-finalization-recovery.archive.json",
+      ".ai/decisions/WI-373-wi371-finalization-recovery.close.json"
+    ],
+    "policyRefs": [
+      ".ai/README.md"
+    ],
+    "reason": "Immutable WI-371 history is superseded by verified WI-373; original bytes remain preserved and exact cleanup is bound by the successor.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-28T23:09:24Z",
+  "workItemId": "WI-371-wi369-doc-status"
+}

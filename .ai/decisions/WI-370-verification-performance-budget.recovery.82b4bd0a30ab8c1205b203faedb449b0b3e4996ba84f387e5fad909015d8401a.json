@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-29T08:24:00+09:00",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-370-verification-performance-budget.archive.json",
+    ".ai/decisions/WI-370-verification-performance-budget.recovery.json",
+    ".ai/work-items/archive/WI-372-wi370-finalization-recovery.archive.json",
+    ".ai/evidence/WI-372-wi370-finalization-recovery.verification.json",
+    ".ai/decisions/WI-372-wi370-finalization-recovery.finalize.json",
+    ".ai/decisions/WI-372-wi370-finalization-recovery.close.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:2443f1c2ab0d018273bdd6a4ccd8776de1d6edd28366bb06e2dc8b5caca975ce",
+  "predecessorEventsDigest": "sha256:df7b8743fd66f518c86f4d04230408cc98ed41ba2facb2416e32ad1d78a991e6",
+  "predecessorOutcomeDigest": "sha256:645585278876e7ef4b85feac64e073a7005ec3a24d7cc06ed1e87b4a59582ff7",
+  "predecessorSummaryDigest": "sha256:7095fe09da1f131b2d788e7e3dae1698c12ac242f1da9f65ff5794432c1a116b",
+  "predecessorWorkItemId": "WI-370-verification-performance-budget",
+  "reason": "Preserve immutable WI-370 implementation, evidence, and placeholder resource context as historical; the verified WI-372 successor completed the actual PR #333 finalization and exact cleanup.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "none",
+  "runtimeDigest": "sha256:af238d00182cdc108cbb95e3b18c8ed4ad07bc40289a1e970da47d09d12e5f86",
+  "runtimeVersion": "0.2.38",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-372-wi370-finalization-recovery",
+  "workItemId": "WI-370-verification-performance-budget"
+}
