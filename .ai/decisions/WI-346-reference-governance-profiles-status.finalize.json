@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "2bfe0a4603922cf28cfff48c8397ee247cc8c71e",
+    "name": "codex/wi-346-reference-governance-profiles-status",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:498baeef3ee6e423bcffedcbbe15a037b3dddfe66a9565bf129bd02a22f7cc36",
+  "operationId": "github-pr-311-merge-cleanup-20260828",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "8bf06612a0f0a8adda0aacfdf65e17ece9c2ca0f",
+    "headRevision": "2bfe0a4603922cf28cfff48c8397ee247cc8c71e",
+    "mergeCommit": "95a2e7fc3b7e441dd3d075bf0ff7385332864beb",
+    "number": 311,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/311"
+  },
+  "reason": "PR #311 passed all hosted checks and was merged; the exact feature branch and worktree were removed and verified.",
+  "receiptId": "github-pr-311-finalization-20260828",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-346-reference-governance-profiles-status",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/311",
+    "worktree": "/private/tmp/ai-cockpit-wi346-reference-governance-profiles-status"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-28T02:36:00Z",
+  "workItemId": "WI-346-reference-governance-profiles-status",
+  "worktree": {
+    "branch": "codex/wi-346-reference-governance-profiles-status",
+    "headRevision": "2bfe0a4603922cf28cfff48c8397ee247cc8c71e",
+    "path": "/private/tmp/ai-cockpit-wi346-reference-governance-profiles-status",
+    "worktreeId": "WI-346-reference-governance-profiles-status"
+  }
+}

@@ -4,9 +4,13 @@ title: "WI-346——治理配置与 Cockpit 状态阅读"
 workItemId: WI-346-reference-governance-profiles-status
 description: "逐一比较六个固定的治理配置和状态阅读文档，补充有界的三语 Rust 指引。"
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-346-reference-governance-profiles-status
+terminalArchive: .ai/work-items/archive/WI-346-reference-governance-profiles-status.contract.json
+terminalVerification: .ai/evidence/WI-346-reference-governance-profiles-status.verification.json
+terminalFinalization: .ai/decisions/WI-346-reference-governance-profiles-status.finalize.json
+terminalDecision: .ai/decisions/WI-346-reference-governance-profiles-status.close.json
 capabilityClaims:
   - reference_parity
 ---

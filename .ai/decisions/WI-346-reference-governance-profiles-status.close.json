@@ -1,0 +1,129 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-346-reference-governance-profiles-status.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b9cc2320ed2c672293531746efec3b064f082fa7705a88ac69014c0819d9b7d5",
+      "workItemId": "WI-346-reference-governance-profiles-status"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-346-reference-governance-profiles-status.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-346-reference-governance-profiles-status.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-346-reference-governance-profiles-status.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via reviewed-PR-311-and-cleanup at 2026-08-28T02:37:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-346-reference-governance-profiles-status.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-346-reference-governance-profiles-status.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-346-reference-governance-profiles-status.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-346-reference-governance-profiles-status.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-346-reference-governance-profiles-status.contract.json"
+          ],
+          "inference": false,
+          "text": "Preserve reference behavior where applicable while documenting honest Rust-native governance profile routing and human status interpretation for object repositories."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-346-reference-governance-profiles-status.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-346-reference-governance-profiles-status"
+  },
+  "finalReportDigest": "sha256:e334b4e12cdeb789419cac43b3c6d56296afe85241e1d91e67f5474550150bd2",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:fabab012578da4804fc3e2d04c5a7a6d633a009231dbcdf3023e39b4fed205d9",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-346-reference-governance-profiles-status.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "reviewed-PR-311-and-cleanup",
+    "decidedAt": "2026-08-28T02:37:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-346-reference-governance-profiles-status.verification.json"
+    ],
+    "policyRefs": [
+      "docs/reference/governance-profiles.md"
+    ],
+    "reason": "PR #311 passed hosted checks, was merged, and exact branch/worktree cleanup was verified.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-28T02:37:39Z",
+  "workItemId": "WI-346-reference-governance-profiles-status"
+}

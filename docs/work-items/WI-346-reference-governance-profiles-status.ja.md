@@ -4,9 +4,13 @@ title: "WI-346 — Governance Profile と Cockpit Status の読み方"
 workItemId: WI-346-reference-governance-profiles-status
 description: "6 つの pinned governance/status document を比較し、bounded な三言語 Rust guide を追加します。"
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-346-reference-governance-profiles-status
+terminalArchive: .ai/work-items/archive/WI-346-reference-governance-profiles-status.contract.json
+terminalVerification: .ai/evidence/WI-346-reference-governance-profiles-status.verification.json
+terminalFinalization: .ai/decisions/WI-346-reference-governance-profiles-status.finalize.json
+terminalDecision: .ai/decisions/WI-346-reference-governance-profiles-status.close.json
 capabilityClaims:
   - reference_parity
 ---
