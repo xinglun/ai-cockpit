@@ -1,0 +1,64 @@
+{
+  "acceptanceCriteria": [
+    "PR #325 is reviewed, all hosted checks passed, and it merged at reviewed head 3ccc72ed62cf8b8b8dfb763793c6517d8231b3cb into main merge commit 8d96e8720663d1b6f5d998278281e8a085da0b6c",
+    "The provider finalization receipt binds repositoryId, WI-362, PR #325, reviewed head, predecessor frozen Contract base a14a42fa398174fd966f63290e11e68d2823e4f9, and the exact lifecycle checkout",
+    "The receipt records deleted branch and removed worktree, finalize-verify confirms exact postconditions, and close succeeds with a structured human decision",
+    "WI-360 and WI-361 historical bytes remain unchanged and main is clean, synchronized, and ready_on_base after close"
+  ],
+  "authority": "authorized",
+  "baseRevision": "a14a42fa398174fd966f63290e11e68d2823e4f9",
+  "createdAt": "2026-08-28T13:34:54Z",
+  "goal": "Bind PR #325 to its predecessor frozen base, record deleted branch and worktree finalization, verify the postconditions, close the recovery successor, and leave main ready for release.",
+  "intent": "Complete exact provider finalization and close for recovered WI-361 while preserving predecessor history.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates",
+    "tests/release",
+    ".github",
+    "WI-360 and WI-361 immutable archive/evidence bytes"
+  ],
+  "predecessorContractDigest": "sha256:a5a21bf17ea1bd3f6b78ad52d7c5305c25765ff7b682139f3169675ed20276a7",
+  "predecessorWorkItemId": "WI-361-release-adopter-close-finalization",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-361-release-adopter-close-finalization.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:365a2f694885f6ee790acfe403b05e29dc053806296fabf911cd3e71ee870af0",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-360-release-adopter-close-cleanup",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/325",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/ai-cockpit-wi-360-release-adopter-close-cleanup"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "https://github.com/xinglun/ai-cockpit/pull/325",
+        "3ccc72ed62cf8b8b8dfb763793c6517d8231b3cb",
+        ".ai/decisions/WI-361-release-adopter-close-finalization.recovery.json"
+      ],
+      "expected": "PR #325 is merged at the reviewed head, the exact lifecycle branch and checkout are deleted, and the successor closes only after finalize-verify confirms those postconditions against base a14a42fa.",
+      "required": true,
+      "scenario": "provider finalization binds the predecessor frozen base before recovery close",
+      "status": "unverified",
+      "verificationPlan": "Bind the recovered resource context, record a deleted finalization receipt using the predecessor frozen base, run finalize-verify, then close with a structured human decision and inspect readiness."
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/WI-362-release-adopter-close-finalization-recovery.contract.json",
+    ".ai/work-items/active/WI-362-release-adopter-close-finalization-recovery.summary.json",
+    ".ai/decisions/WI-361-release-adopter-close-finalization.recovery.json"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-362-release-adopter-close-finalization-recovery"
+}

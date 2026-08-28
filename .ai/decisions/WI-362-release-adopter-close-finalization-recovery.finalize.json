@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-recovery-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "3ccc72ed62cf8b8b8dfb763793c6517d8231b3cb",
+    "name": "codex/wi-360-release-adopter-close-cleanup",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:50cee70aae56eecc5fe5f393a98ec2794393015351c51158e74af3b7af22e61b",
+  "operationId": "delete-WI-362-release-adopter-close-finalization-recovery",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "a14a42fa398174fd966f63290e11e68d2823e4f9",
+    "headRevision": "3ccc72ed62cf8b8b8dfb763793c6517d8231b3cb",
+    "mergeCommit": "8d96e8720663d1b6f5d998278281e8a085da0b6c",
+    "number": 325,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/325"
+  },
+  "reason": "PR #325 is merged at the reviewed head; its exact local and remote branch and lifecycle worktree were removed before recovery close.",
+  "receiptId": "release-adopter-recovery-WI-362-release-adopter-close-finalization-recovery",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-360-release-adopter-close-cleanup",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/325",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/ai-cockpit-wi-360-release-adopter-close-cleanup"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:39a1e27deb5d47946c723d6129ead21a6fcb6bd5dbb7c1346a97e83ec61543c4",
+  "runtimeVersion": "0.2.34",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-28T13:47:00Z",
+  "workItemId": "WI-362-release-adopter-close-finalization-recovery",
+  "worktree": {
+    "branch": "codex/wi-360-release-adopter-close-cleanup",
+    "headRevision": "3ccc72ed62cf8b8b8dfb763793c6517d8231b3cb",
+    "path": "/Users/sei-rinn/dev/workspace_rust/.worktrees/ai-cockpit-wi-360-release-adopter-close-cleanup",
+    "worktreeId": "WI-360-release-adopter-close-cleanup"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-recovery-authorization",
+  "decidedAt": "2026-08-28T13:50:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-361-release-adopter-close-finalization.archive.json",
+    ".ai/work-items/archive/WI-361-release-adopter-close-finalization.contract.json",
+    ".ai/decisions/WI-361-release-adopter-close-finalization.recovery.json",
+    ".ai/decisions/WI-362-release-adopter-close-finalization-recovery.finalize.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:premerge-finalization-before-close"
+  ],
+  "predecessorContractDigest": "sha256:a5a21bf17ea1bd3f6b78ad52d7c5305c25765ff7b682139f3169675ed20276a7",
+  "predecessorEventsDigest": "sha256:8d8ac33469425ae923eb71d53d405b55fdd3da8b353841e9811c513c9f839909",
+  "predecessorOutcomeDigest": "sha256:d61a785c32e3cadecb8e9d5e45d77e77d36a7171737ed8979ef31e61aa1a7049",
+  "predecessorSummaryDigest": "sha256:1332c7dded8486f9fe06430007fb6fd706425c1283806b89a4e4c17253281ea6",
+  "predecessorWorkItemId": "WI-361-release-adopter-close-finalization",
+  "reason": "WI-361 is an immutable recovery predecessor whose provider finalization was completed by WI-362 with the correct frozen PR base. Mark WI-361 as historical superseded without rewriting its archive bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "No resume required; WI-362 is the closeable successor and its deleted finalization receipt is verified.",
+  "runtimeDigest": "sha256:39a1e27deb5d47946c723d6129ead21a6fcb6bd5dbb7c1346a97e83ec61543c4",
+  "runtimeVersion": "0.2.34",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-362-release-adopter-close-finalization-recovery",
+  "workItemId": "WI-361-release-adopter-close-finalization"
+}

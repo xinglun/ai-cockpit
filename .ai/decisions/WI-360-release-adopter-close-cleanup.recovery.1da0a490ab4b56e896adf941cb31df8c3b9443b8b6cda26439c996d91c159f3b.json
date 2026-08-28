@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-recovery-authorization",
+  "decidedAt": "2026-08-28T13:52:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-360-release-adopter-close-cleanup.archive.json",
+    ".ai/work-items/archive/WI-360-release-adopter-close-cleanup.contract.json",
+    ".ai/decisions/WI-360-release-adopter-close-cleanup.recovery.d5e48e580ce2880216fc18c80582443cede6eaf91e9a61b434a91b90fe77fe6d.json",
+    ".ai/decisions/WI-362-release-adopter-close-finalization-recovery.finalize.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:premerge-finalization-before-close"
+  ],
+  "predecessorContractDigest": "sha256:8945c398bf1469b86826a1c6c570432b5791b4dfc1cc9ec53a7c0c1c268aef73",
+  "predecessorEventsDigest": "sha256:033a9369d7b673586902c51759e73b966b3bed11df5eff180e28c057edf9d140",
+  "predecessorOutcomeDigest": "sha256:e7c89f083d3b06aa3b1341c2a81aeecdab872c7f014eef2edbff7448a599c8ad",
+  "predecessorSummaryDigest": "sha256:acc565fe15aad76b091aaf16b34ae6a81e0e3949908103c91f37c2afbf255654",
+  "predecessorWorkItemId": "WI-360-release-adopter-close-cleanup",
+  "reason": "WI-360 is the immutable release-adopter cleanup delivery whose provider context was recovered through WI-361 and completed by WI-362. Mark WI-360 as historical superseded without rewriting its archive bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "No resume required; the WI-361 to WI-362 recovery chain owns the verified deleted finalization.",
+  "runtimeDigest": "sha256:39a1e27deb5d47946c723d6129ead21a6fcb6bd5dbb7c1346a97e83ec61543c4",
+  "runtimeVersion": "0.2.34",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-361-release-adopter-close-finalization",
+  "workItemId": "WI-360-release-adopter-close-cleanup"
+}

@@ -1,0 +1,179 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-362-release-adopter-close-finalization-recovery.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:365a2f694885f6ee790acfe403b05e29dc053806296fabf911cd3e71ee870af0",
+    "workItemId": "WI-362-release-adopter-close-finalization-recovery"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-362-release-adopter-close-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-360-release-adopter-close-cleanup.recovery.d5e48e580ce2880216fc18c80582443cede6eaf91e9a61b434a91b90fe77fe6d.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-362-release-adopter-close-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-361-release-adopter-close-finalization.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-362-release-adopter-close-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-361-release-adopter-close-finalization.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-362-release-adopter-close-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-362-release-adopter-close-finalization-recovery.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-362-release-adopter-close-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-362-release-adopter-close-finalization-recovery.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-362-release-adopter-close-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-361-release-adopter-close-finalization.approach.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-362-release-adopter-close-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-361-release-adopter-close-finalization.archive.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-362-release-adopter-close-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-361-release-adopter-close-finalization.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-362-release-adopter-close-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-361-release-adopter-close-finalization.events.jsonl"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-362-release-adopter-close-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-361-release-adopter-close-finalization.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-362-release-adopter-close-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-361-release-adopter-close-finalization.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-362-release-adopter-close-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-361-release-adopter-close-finalization.task-report.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-362-release-adopter-close-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-361-release-adopter-close-finalization.task-report.md"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-362-release-adopter-close-finalization-recovery.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-362-release-adopter-close-finalization-recovery.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-362-release-adopter-close-finalization-recovery.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-362-release-adopter-close-finalization-recovery.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-362-release-adopter-close-finalization-recovery.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-362-release-adopter-close-finalization-recovery.contract.json"
+        ],
+        "inference": false,
+        "text": "Bind PR #325 to its predecessor frozen base, record deleted branch and worktree finalization, verify the postconditions, close the recovery successor, and leave main ready for release."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-362-release-adopter-close-finalization-recovery.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-362-release-adopter-close-finalization-recovery"
+}

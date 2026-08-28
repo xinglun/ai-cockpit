@@ -1,0 +1,21 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-28T13:44:19Z",
+  "files": {
+    "contractDigest": "sha256:50cee70aae56eecc5fe5f393a98ec2794393015351c51158e74af3b7af22e61b",
+    "contractPath": ".ai/work-items/archive/WI-362-release-adopter-close-finalization-recovery.contract.json",
+    "eventsDigest": "sha256:a0e64e2ee9230c403fe676b12590b81dd73a4158414d73fbbec17ff6a4e35e98",
+    "eventsPath": ".ai/work-items/archive/WI-362-release-adopter-close-finalization-recovery.events.jsonl",
+    "outcomeDigest": "sha256:e5c2800bd6f6091d5c70f2ff4ddbe9acd054cad243d431f96dd1b042faf533c2",
+    "outcomePath": ".ai/work-items/archive/WI-362-release-adopter-close-finalization-recovery.outcome.json",
+    "summaryDigest": "sha256:c957cc5ddcb6117127c772073c1c9690a7fcb98709ef473bde375f4957c7d093",
+    "summaryPath": ".ai/work-items/archive/WI-362-release-adopter-close-finalization-recovery.summary.json",
+    "taskReportDigest": "sha256:3c9dec3c989d1c307f30a4b5181ea267e5865b7967bed570710e38211f1acb39",
+    "taskReportMarkdownDigest": "sha256:0ef0dc191fe503a53eed920064179ab8172da9e68bc13a7f9d15e3aab2bb6935",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-362-release-adopter-close-finalization-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-362-release-adopter-close-finalization-recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-362-release-adopter-close-finalization-recovery"
+}

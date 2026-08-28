@@ -1,0 +1,64 @@
+{
+  "acceptanceCriteria": [
+    "PR #325 is reviewed, all hosted checks passed, and it merged at head 3ccc72ed62cf8b8b8dfb763793c6517d8231b3cb into main merge commit 8d96e8720663d1b6f5d998278281e8a085da0b6c",
+    "The provider finalization receipt binds repositoryId, WI-361, PR #325, the exact merged head, the archived Contract base a14a42fa398174fd966f63290e11e68d2823e4f9, and the surviving lifecycle checkout",
+    "The receipt records deleted branch and removed worktree; finalize-verify confirms exact postconditions; close succeeds with a structured human decision",
+    "WI-360 historical archive/recovery bytes remain unchanged and main is clean, synchronized, and ready_on_base after close"
+  ],
+  "authority": "authorized",
+  "baseRevision": "8d96e8720663d1b6f5d998278281e8a085da0b6c",
+  "createdAt": "2026-08-28T13:04:27Z",
+  "goal": "Bind PR #325 and its merged head to the recovered adopter cleanup, record deleted resource finalization, verify it, close the successor, and leave the repository ready for release.",
+  "intent": "Complete provider finalization and close for recovered WI-360 after reviewed PR #325 merged.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates",
+    "tests/release",
+    ".github",
+    "previous WI-360 archive/evidence bytes"
+  ],
+  "predecessorContractDigest": "sha256:8945c398bf1469b86826a1c6c570432b5791b4dfc1cc9ec53a7c0c1c268aef73",
+  "predecessorWorkItemId": "WI-360-release-adopter-close-cleanup",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-360-release-adopter-close-cleanup.recovery.d5e48e580ce2880216fc18c80582443cede6eaf91e9a61b434a91b90fe77fe6d.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:365a2f694885f6ee790acfe403b05e29dc053806296fabf911cd3e71ee870af0",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-360-release-adopter-close-cleanup",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/325",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/ai-cockpit-wi-360-release-adopter-close-cleanup"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "https://github.com/xinglun/ai-cockpit/pull/325",
+        "3ccc72ed62cf8b8b8dfb763793c6517d8231b3cb",
+        ".ai/decisions/WI-360-release-adopter-close-cleanup.recovery.d5e48e580ce2880216fc18c80582443cede6eaf91e9a61b434a91b90fe77fe6d.json"
+      ],
+      "expected": "PR #325 is merged at the reviewed head, the exact lifecycle branch and checkout are deleted, and the successor closes only after finalize-verify confirms those postconditions.",
+      "required": true,
+      "scenario": "merged adopter cleanup is finalized before successor close",
+      "status": "unverified",
+      "verificationPlan": "Record a repository-bound deleted finalization receipt for PR #325, run finalize-verify, then close with a structured human decision and inspect readiness."
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/WI-361-release-adopter-close-finalization.contract.json",
+    ".ai/work-items/active/WI-361-release-adopter-close-finalization.summary.json",
+    ".ai/decisions/WI-360-release-adopter-close-cleanup.recovery.d5e48e580ce2880216fc18c80582443cede6eaf91e9a61b434a91b90fe77fe6d.json"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-361-release-adopter-close-finalization"
+}

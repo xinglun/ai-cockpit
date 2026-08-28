@@ -1,0 +1,101 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-360-release-adopter-close-cleanup.recovery.d5e48e580ce2880216fc18c80582443cede6eaf91e9a61b434a91b90fe77fe6d.json",
+    ".ai/decisions/WI-361-release-adopter-close-finalization.recovery.json",
+    ".ai/evidence/WI-361-release-adopter-close-finalization.verification.json",
+    ".ai/work-items/archive/WI-362-release-adopter-close-finalization-recovery.contract.json",
+    ".ai/work-items/archive/WI-362-release-adopter-close-finalization-recovery.summary.json",
+    ".ai/work-items/archive/WI-361-release-adopter-close-finalization.approach.json",
+    ".ai/work-items/archive/WI-361-release-adopter-close-finalization.archive.json",
+    ".ai/work-items/archive/WI-361-release-adopter-close-finalization.contract.json",
+    ".ai/work-items/archive/WI-361-release-adopter-close-finalization.events.jsonl",
+    ".ai/work-items/archive/WI-361-release-adopter-close-finalization.outcome.json",
+    ".ai/work-items/archive/WI-361-release-adopter-close-finalization.summary.json",
+    ".ai/work-items/archive/WI-361-release-adopter-close-finalization.task-report.json",
+    ".ai/work-items/archive/WI-361-release-adopter-close-finalization.task-report.md"
+  ],
+  "checkpointAt": "2026-08-28T13:36:07Z",
+  "checkpointContractDigest": "sha256:ffbbad7aeebc69ff8b9b0da120c7897ca487159ef1b0958086b5f0c8c0e9a435",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:781dcab3612d1e8d8115a0e96b289b133f8a4820642f1819887a9d6b8c4f94de",
+      "recorded": true,
+      "recordedAt": "2026-08-28T13:36:07Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:365a2f694885f6ee790acfe403b05e29dc053806296fabf911cd3e71ee870af0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-362-release-adopter-close-finalization-recovery"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:ffbbad7aeebc69ff8b9b0da120c7897ca487159ef1b0958086b5f0c8c0e9a435",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:781dcab3612d1e8d8115a0e96b289b133f8a4820642f1819887a9d6b8c4f94de",
+      "previousContractHash": "sha256:781dcab3612d1e8d8115a0e96b289b133f8a4820642f1819887a9d6b8c4f94de",
+      "reason": "Finalize-plan bound the exact merged PR #325 provider context; regenerate verification against the final Contract before finish.",
+      "recorded": true,
+      "recordedAt": "2026-08-28T13:40:26Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:365a2f694885f6ee790acfe403b05e29dc053806296fabf911cd3e71ee870af0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-362-release-adopter-close-finalization-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:365a2f694885f6ee790acfe403b05e29dc053806296fabf911cd3e71ee870af0",
+  "createdAt": "2026-08-28T13:34:54Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-362-release-adopter-close-finalization-recovery.verification.json",
+      "https://github.com/xinglun/ai-cockpit/pull/325"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:a5a21bf17ea1bd3f6b78ad52d7c5305c25765ff7b682139f3169675ed20276a7",
+  "predecessorWorkItemId": "WI-361-release-adopter-close-finalization",
+  "preflightAt": "2026-08-28T13:44:08Z",
+  "preflightContractDigest": "sha256:ffbbad7aeebc69ff8b9b0da120c7897ca487159ef1b0958086b5f0c8c0e9a435",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:365a2f694885f6ee790acfe403b05e29dc053806296fabf911cd3e71ee870af0",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryDecisionPath": ".ai/decisions/WI-361-release-adopter-close-finalization.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "https://github.com/xinglun/ai-cockpit/pull/325",
+        "3ccc72ed62cf8b8b8dfb763793c6517d8231b3cb",
+        ".ai/evidence/WI-362-release-adopter-close-finalization-recovery.verification.json",
+        ".ai/decisions/WI-361-release-adopter-close-finalization.recovery.json"
+      ],
+      "required": true,
+      "scenario": "provider finalization binds the predecessor frozen base before recovery close",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-28T13:44:14Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-362-release-adopter-close-finalization-recovery"
+}

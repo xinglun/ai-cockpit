@@ -1,0 +1,91 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-360-release-adopter-close-cleanup.recovery.d5e48e580ce2880216fc18c80582443cede6eaf91e9a61b434a91b90fe77fe6d.json",
+    ".ai/work-items/archive/WI-361-release-adopter-close-finalization.contract.json",
+    ".ai/work-items/archive/WI-361-release-adopter-close-finalization.summary.json"
+  ],
+  "checkpointAt": "2026-08-28T13:07:46Z",
+  "checkpointContractDigest": "sha256:a5a21bf17ea1bd3f6b78ad52d7c5305c25765ff7b682139f3169675ed20276a7",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:bbe37c17370e3b7bbf72747ecf7c2de79d7dd9aecca4419511b3c66b7d59fb9e",
+      "recorded": true,
+      "recordedAt": "2026-08-28T13:07:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:365a2f694885f6ee790acfe403b05e29dc053806296fabf911cd3e71ee870af0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-361-release-adopter-close-finalization"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:a5a21bf17ea1bd3f6b78ad52d7c5305c25765ff7b682139f3169675ed20276a7",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:bbe37c17370e3b7bbf72747ecf7c2de79d7dd9aecca4419511b3c66b7d59fb9e",
+      "previousContractHash": "sha256:bbe37c17370e3b7bbf72747ecf7c2de79d7dd9aecca4419511b3c66b7d59fb9e",
+      "reason": "Correct invalid required evidence class provider to the Runtime-supported verification class; provider finalization remains a lifecycle acceptance condition.",
+      "recorded": true,
+      "recordedAt": "2026-08-28T13:26:15Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:365a2f694885f6ee790acfe403b05e29dc053806296fabf911cd3e71ee870af0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-361-release-adopter-close-finalization"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:365a2f694885f6ee790acfe403b05e29dc053806296fabf911cd3e71ee870af0",
+  "createdAt": "2026-08-28T13:04:27Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-361-release-adopter-close-finalization.verification.json",
+      "https://github.com/xinglun/ai-cockpit/pull/325"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:8945c398bf1469b86826a1c6c570432b5791b4dfc1cc9ec53a7c0c1c268aef73",
+  "predecessorWorkItemId": "WI-360-release-adopter-close-cleanup",
+  "preflightAt": "2026-08-28T13:29:58Z",
+  "preflightContractDigest": "sha256:a5a21bf17ea1bd3f6b78ad52d7c5305c25765ff7b682139f3169675ed20276a7",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:365a2f694885f6ee790acfe403b05e29dc053806296fabf911cd3e71ee870af0",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryDecisionPath": ".ai/decisions/WI-360-release-adopter-close-cleanup.recovery.d5e48e580ce2880216fc18c80582443cede6eaf91e9a61b434a91b90fe77fe6d.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "https://github.com/xinglun/ai-cockpit/pull/325",
+        "3ccc72ed62cf8b8b8dfb763793c6517d8231b3cb",
+        ".ai/evidence/WI-361-release-adopter-close-finalization.verification.json",
+        ".ai/decisions/WI-360-release-adopter-close-cleanup.recovery.d5e48e580ce2880216fc18c80582443cede6eaf91e9a61b434a91b90fe77fe6d.json"
+      ],
+      "required": true,
+      "scenario": "merged adopter cleanup is finalized before successor close",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-28T13:30:45Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-361-release-adopter-close-finalization"
+}

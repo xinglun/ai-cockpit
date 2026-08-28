@@ -1,0 +1,33 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-recovery-authorization",
+  "decidedAt": "2026-08-28T13:34:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-361-release-adopter-close-finalization.archive.json",
+    ".ai/work-items/archive/WI-361-release-adopter-close-finalization.contract.json",
+    ".ai/work-items/archive/WI-361-release-adopter-close-finalization.summary.json",
+    ".ai/work-items/archive/WI-361-release-adopter-close-finalization.outcome.json",
+    "https://github.com/xinglun/ai-cockpit/pull/325",
+    "8d96e8720663d1b6f5d998278281e8a085da0b6c"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:premerge-finalization-before-close",
+    "docs/reference/agent-workflow.zh-CN.md:recovery-and-resource-finalization"
+  ],
+  "predecessorContractDigest": "sha256:a5a21bf17ea1bd3f6b78ad52d7c5305c25765ff7b682139f3169675ed20276a7",
+  "predecessorEventsDigest": "sha256:8d8ac33469425ae923eb71d53d405b55fdd3da8b353841e9811c513c9f839909",
+  "predecessorOutcomeDigest": "sha256:d61a785c32e3cadecb8e9d5e45d77e77d36a7171737ed8979ef31e61aa1a7049",
+  "predecessorSummaryDigest": "sha256:1332c7dded8486f9fe06430007fb6fd706425c1283806b89a4e4c17253281ea6",
+  "predecessorWorkItemId": "WI-361-release-adopter-close-finalization",
+  "reason": "WI-361 was archived with the synchronized-main recovery base, but its reviewed PR #325 finalization must bind the predecessor frozen base a14a42fa. Preserve WI-361 immutable bytes and complete the exact deleted-resource finalization through a successor with the correct provider base binding.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Activate WI-362 from synchronized main, bind PR #325 and predecessor base a14a42fa, verify, finalize deleted branch/worktree, close, and remove the exact remote branch.",
+  "runtimeDigest": "sha256:39a1e27deb5d47946c723d6129ead21a6fcb6bd5dbb7c1346a97e83ec61543c4",
+  "runtimeVersion": "0.2.34",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-362-release-adopter-close-finalization-recovery",
+  "workItemId": "WI-361-release-adopter-close-finalization"
+}
