@@ -585,13 +585,16 @@ manifest_tree "$isolated_xdg" "$run_root/xdg-before.manifest"
 manifest_tree "$isolated_tmp" "$run_root/tmp-before.manifest"
 manifest_tree "$isolated_cargo" "$run_root/cargo-before.manifest"
 
-: > "$adopter_root/AGENTS.md"
 capture_runtime attach.json attach --repo "$adopter_root"
 capture_runtime inspect.json inspect --repo "$adopter_root"
 inspect_runtime_version="$(jq -er '.runtimeVersion' "$output/inspect.json")"
 inspect_runtime_digest="$(jq -er '.runtimeDigest' "$output/inspect.json")"
 [[ "$inspect_runtime_version" == "$runtime_version" && "$inspect_runtime_digest" == "$runtime_digest" ]] || die 'inspect Runtime identity does not match downloaded binary'
 mark_passed inspect-runtime-identity
+# Agent adapter state is created only after attach, then committed before any
+# Work Item is created.  This keeps the adopter repository clean at the
+# lifecycle boundary while preserving the explicit adapter-install contract.
+: > "$adopter_root/AGENTS.md"
 capture_runtime profile-confirm.json profile confirm --repo "$adopter_root" --program cargo --args test,--workspace
 capture_runtime agent-list.json agent list --repo "$adopter_root"
 capture_runtime agent-install.json agent install --repo "$adopter_root" --provider auto
@@ -600,6 +603,9 @@ jq -e '.state == "VERIFIED" and .repositoryId != null and (.problems | length ==
 adopter_repository_id="$(jq -er '.repositoryId' "$output/agent-doctor.json")"
 repository_id="$adopter_repository_id"
 mark_passed agent-doctor-assertion
+
+git -C "$adopter_root" add .
+git -C "$adopter_root" commit -qm 'attach adopter governance state'
 
 capture_runtime first-adopter-smoke.json work-item new --repo "$adopter_root" --id first-adopter-smoke --mode code
 first_smoke_contract="$adopter_root/.ai/work-items/active/first-adopter-smoke.contract.json"
@@ -610,7 +616,7 @@ jq -e '.state == "not_ready" and .intent == "" and (.scope | length == 0) and (.
 mark_passed first-adopter-smoke-assertion
 
 git -C "$adopter_root" add .
-git -C "$adopter_root" commit -qm 'attach adopter governance state'
+git -C "$adopter_root" commit -qm 'create first adopter Work Item scaffold'
 
 capture_runtime verify-first.json verify --repo "$adopter_root" --workers 1
 jq -e '.passed == true and .nodesExecuted >= 1 and .nodesReused == 0 and .processesSpawned >= 1' "$output/verify-first.json" >/dev/null || die 'first verification did not execute a process'
