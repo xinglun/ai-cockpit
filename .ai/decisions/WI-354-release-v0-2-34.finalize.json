@@ -1,0 +1,59 @@
+{
+  "actor": "human:owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "reviewed-pr-hosted-checks",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "90375230012bd6f5a34238833822dec37edc2975",
+    "name": "codex/wi-354-release-v0-2-34",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:80d3466078b14c38db50cc329e6b14f946f04c8c7ef821ccbc7f7b03359eb5e9",
+  "operationId": "operation-WI-354-release-v0-2-34-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "242524a3164c21c499937f77eb10eb11a28f2082",
+    "headRevision": "90375230012bd6f5a34238833822dec37edc2975",
+    "number": 319,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/319"
+  },
+  "reason": "PR #319 passed all hosted checks; retain the exact branch and worktree until merge and cleanup are recorded.",
+  "receiptId": "ai-cockpit-WI-354-release-v0-2-34-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-354-release-v0-2-34",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/319",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/ai-cockpit-release-v0-2-34"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-28T17:20:00+09:00",
+  "workItemId": "WI-354-release-v0-2-34",
+  "worktree": {
+    "branch": "codex/wi-354-release-v0-2-34",
+    "headRevision": "90375230012bd6f5a34238833822dec37edc2975",
+    "path": "/Users/sei-rinn/dev/workspace_rust/.worktrees/ai-cockpit-release-v0-2-34",
+    "worktreeId": "WI-354-release-v0-2-34"
+  }
+}
