@@ -1,0 +1,113 @@
+{
+  "acceptanceCriteria": [
+    "合法 stale retry receipt 在 archived completed Work Item 的读取路径中被消费为历史，且不产生 recovery_decision_invalid。",
+    "malformed、foreign、misnamed、ambiguous candidate 与 recoveryRetryPending 缺少当前回执的情况继续 fail closed。",
+    "WI-353 archive bytes 不变，三语 parity 与 Work Item 文档保持一致，且完成声明的 Rust verification 与 hosted checks。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "242524a3164c21c499937f77eb10eb11a28f2082",
+  "createdAt": "2026-08-28T07:25:18Z",
+  "goal": "让 archived completed Work Item 的 stale retry receipt 在 outcome 与 close 读取路径中被安全消费为历史，而不放宽任何不可信 evidence 校验。",
+  "intent": "修复 archive 阶段对合法 stale retry recovery receipt 的错误阻断：完成 retry 后，旧回执应作为 consumed historical evidence，不再伪装成当前 recovery；malformed、foreign、misnamed、ambiguous candidate 仍必须 fail closed。",
+  "mode": "code",
+  "outOfScope": [
+    "WI-353 与更早 Work Item 的 immutable archive、summary、outcome、events、task-report bytes",
+    "数据库、外部 provider、业务领域逻辑、全局 Agent/MCP 配置、凭据与 secrets",
+    "放宽 malformed、foreign、misnamed、ambiguous 或 current pending retry evidence 的 fail-closed 边界"
+  ],
+  "predecessorContractDigest": "sha256:f6e4df352956c67c31e67ea73b6fe6d1868989f2e820738e1ee409d5714989f9",
+  "predecessorWorkItemId": "WI-353-runtime-recovery-delivery-binding",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-353-runtime-recovery-delivery-binding.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:46565bc01ef3c1abd78af00e311fb4f7b513e3eb7d4680216fc861a5a3e6260e",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-355-runtime-archive-recovery-binding",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/ai-cockpit-runtime-archive-recovery-binding"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "scenario": "archived completed Work Item with a stale retry receipt",
+      "required": true,
+      "status": "unverified",
+      "evidence": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs"
+      ],
+      "expected": "A valid retry receipt whose predecessor binding is stale after fresh archived projections is consumed as historical evidence without recovery_decision_invalid.",
+      "verificationPlan": "Add an archived regression fixture with a stale retry binding and assert the Outcome remains governed by finalization/close state rather than recovery invalidity."
+    },
+    {
+      "scenario": "malformed, foreign, misnamed, or ambiguous recovery candidate",
+      "required": true,
+      "status": "unverified",
+      "evidence": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs"
+      ],
+      "expected": "Untrusted recovery candidates remain fail-closed and cannot fall through to a weaker archive or finalization path.",
+      "verificationPlan": "Run existing archived and current recovery negative tests alongside the new stale-retry regression."
+    },
+    {
+      "scenario": "pending retry marker without a current retry receipt",
+      "required": true,
+      "status": "unverified",
+      "evidence": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs"
+      ],
+      "expected": "A pending retry marker still requires a matching current recovery receipt and is never treated as consumed history.",
+      "verificationPlan": "Preserve and execute the pending-marker negative regression while changing only the archived stale-retry branch."
+    },
+    {
+      "scenario": "immutable predecessor archive",
+      "required": true,
+      "status": "unverified",
+      "evidence": [
+        ".ai/work-items/archive/WI-353-runtime-recovery-delivery-binding.archive.json",
+        ".ai/work-items/archive/WI-353-runtime-recovery-delivery-binding.contract.json"
+      ],
+      "expected": "The correction changes only Runtime source/tests and does not rewrite WI-353 archived bytes.",
+      "verificationPlan": "Compare predecessor archive digests before and after verification and inspect the final diff."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    ".ai/decisions/WI-353-runtime-recovery-delivery-binding.recovery.json",
+    ".ai/work-items/active/WI-355-runtime-archive-recovery-binding.contract.json",
+    ".ai/work-items/active/WI-355-runtime-archive-recovery-binding.summary.json",
+    ".ai/work-items/active/WI-355-runtime-archive-recovery-binding.approach.json",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-355-runtime-archive-recovery-binding.md",
+    "docs/work-items/WI-355-runtime-archive-recovery-binding.ja.md",
+    "docs/work-items/WI-355-runtime-archive-recovery-binding.zh-CN.md"
+  ],
+  "sources": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "docs/reference/commands.md",
+    "docs/reference/agent-workflow.md",
+    ".ai/work-items/archive/WI-353-runtime-recovery-delivery-binding.archive.json"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked --workspace",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report /tmp/wi-355-governance-integrity-report.json",
+    "bash tests/docs/documentation_acceptance.sh"
+  ],
+  "workItemId": "WI-355-runtime-archive-recovery-binding"
+}
