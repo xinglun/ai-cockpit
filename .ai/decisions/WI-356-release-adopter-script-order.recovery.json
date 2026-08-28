@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "reviewed-PR-321-merge-and-recovery",
+  "decidedAt": "2026-08-28T09:10:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-356-release-adopter-script-order.contract.json",
+    ".ai/evidence/WI-356-release-adopter-script-order.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/321"
+  ],
+  "policyRefs": [
+    "docs/reference/commands.md#work-item-recovery",
+    "docs/reference/agent-workflow.md#recovery-and-retry"
+  ],
+  "predecessorContractDigest": "sha256:4fc2e22caf76a12204f4af07731021b617e9518697db04c266a394ea798c14b9",
+  "predecessorEventsDigest": "sha256:7f888109bf6574cbda724ec15bdbc066f1916a4fe759941f350ca96ad436b3af",
+  "predecessorOutcomeDigest": "sha256:60862401e5ed0178468cdf5a4c2376751bedb6c4776949e25baf94b16971444e",
+  "predecessorSummaryDigest": "sha256:d0661b1deca950f01e9e81ee94a4b8b9ca63fc0fad09ee09bde9ebcda7b2b910",
+  "predecessorWorkItemId": "WI-356-release-adopter-script-order",
+  "reason": "The immutable WI-356 archive was created with a provisional pending PR context before PR #321 existed; the reviewed fix is merged, but finalization must be re-bound through a dedicated recovery successor rather than fabricating or rewriting the predecessor receipt.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Create the explicitly linked successor, bind the reviewed PR #321 and exact cleanup context before archive, then complete finalize-verify and structured close without rewriting WI-356 archive bytes.",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-357-release-adopter-finalization-recovery",
+  "workItemId": "WI-356-release-adopter-script-order"
+}

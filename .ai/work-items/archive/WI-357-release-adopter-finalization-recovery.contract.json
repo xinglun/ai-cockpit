@@ -1,0 +1,52 @@
+{
+  "acceptanceCriteria": [
+    "Successor Contract binds WI-356 predecessor digests and the recovery decision without rewriting predecessor bytes.",
+    "A reviewed PR is opened from the dedicated successor branch, and finalize-plan binds its actual provider URL before verification evidence.",
+    "finish, archive, finalize-verify, and structured close succeed with a Deleted resource receipt and visible Outcome."
+  ],
+  "authority": "authorized",
+  "baseRevision": "8320474415db7aea271cc86377aeab89df7220de",
+  "createdAt": "2026-08-28T09:12:33Z",
+  "goal": "Bind the reviewed PR #321 and exact branch/worktree cleanup in a new recovery Work Item, then close it without rewriting WI-356 archive bytes",
+  "intent": "Recover WI-356 provider finalization after its immutable provisional PR context prevented a truthful receipt",
+  "mode": "code",
+  "outOfScope": [
+    "Runtime source changes",
+    "Predecessor WI-356 archive/evidence/receipts",
+    "Release version bump or release publication"
+  ],
+  "predecessorContractDigest": "sha256:4fc2e22caf76a12204f4af07731021b617e9518697db04c266a394ea798c14b9",
+  "predecessorWorkItemId": "WI-356-release-adopter-script-order",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-356-release-adopter-script-order.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9dc91de1a4c6130c4f05a7cb99c3da65e7dee0885bb886562b7bb5e7d7933da2",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-357-release-adopter-finalization-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/322",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/ai-cockpit-release-adopter-finalization-recovery"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-357-release-adopter-finalization-recovery.md",
+    "docs/work-items/WI-357-release-adopter-finalization-recovery.zh-CN.md",
+    "docs/work-items/WI-357-release-adopter-finalization-recovery.ja.md",
+    ".ai/decisions/WI-356-release-adopter-script-order.recovery.json"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-357-release-adopter-finalization-recovery"
+}

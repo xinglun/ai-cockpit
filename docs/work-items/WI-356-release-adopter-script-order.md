@@ -6,9 +6,9 @@ description: "Keep the published-artifact adopter harness aligned with the Runti
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 authority: canonical
-lastVerifiedBy: WI-356-release-adopter-script-order
+lastVerifiedBy: WI-357-release-adopter-finalization-recovery
 terminalArchive: .ai/work-items/archive/WI-356-release-adopter-script-order.contract.json
 terminalVerification: .ai/evidence/WI-356-release-adopter-script-order.verification.json
 ---
