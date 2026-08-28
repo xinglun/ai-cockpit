@@ -28,6 +28,10 @@ entry rule と再現可能な acceptance proof を保ちます。
 動作、公開 Release artifact、global Agent/MCP configuration、upgrade harness は
 この Work Item の範囲外です。
 
+regression はこの順序境界を意図的に検査します。adapter install の結果を
+commit してから `work-item new` を呼び出し、lifecycle entry で repository が
+clean であることを保証します。
+
 ## Verification と delivery boundary
 
 script の static check は成功・失敗時の cleanup assertion を含めて pass します。

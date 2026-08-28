@@ -26,6 +26,9 @@ fail-closed 的干净入口规则，并保持验收可重复。
 本次仅修改 staged adopter harness 及其静态回归。Runtime 行为、公开发布物、
 全局 Agent/MCP 配置和 upgrade harness 不在本 Work Item 范围内。
 
+回归测试刻意检查这个顺序边界：必须先提交 adapter 安装结果，再调用
+`work-item new`，确保生命周期入口处 repository 是干净的。
+
 ## 验证与交付边界
 
 脚本静态检查已通过，并覆盖成功与失败路径的清理断言。归档 Contract、

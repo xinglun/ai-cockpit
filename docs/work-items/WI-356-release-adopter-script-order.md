@@ -28,6 +28,10 @@ The change is limited to the staged adopter harness and its static regression.
 Runtime behavior, public release artifacts, global Agent/MCP configuration, and
 the upgrade harness are outside this Work Item.
 
+The regression deliberately checks the ordering boundary: adapter installation
+must be committed before `work-item new` is invoked, so a clean repository is
+present at lifecycle entry.
+
 ## Verification and delivery boundary
 
 The harness static checks pass, including success and failure cleanup
