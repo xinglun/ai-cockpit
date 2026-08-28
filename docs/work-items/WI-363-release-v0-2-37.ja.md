@@ -4,7 +4,7 @@ title: "WI-363 — v0.2.37 release と install 済み binary の受入れ"
 workItemId: WI-363-release-v0-2-37
 description: "release-adopter cleanup の merge 後に immutable release を公開し、隔離 adopter flow で public binary を検証する。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-363-release-v0-2-37
 capabilityClaims: [release_distribution, adopter_acceptance]

@@ -1,0 +1,186 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "Runtime entry guard implementation",
+          "path": "crates/cockpit-repository/src/lib.rs",
+          "type": "source",
+          "verification": "cargo test --locked -p cockpit-cli --test worktree_entry"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "primary/default/dedicated worktree regressions",
+          "path": "crates/cockpit-cli/tests/worktree_entry.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-cli --test worktree_entry"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "dedicated worktree workflow",
+          "path": "docs/reference/agent-workflow.md",
+          "type": "document",
+          "verification": "bash tests/docs/documentation_acceptance.sh"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "public v0.2.37 artifact acceptance",
+          "path": "tests/release/adopter_acceptance.sh",
+          "type": "test",
+          "verification": "post-release immutable artifact acceptance"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "finalization and close cleanup",
+          "path": ".ai/decisions/WI-363-release-v0-2-37.recovery.json",
+          "type": "governance",
+          "verification": "installed Runtime finalization/close and ready_on_base"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-363-release-v0-2-37.recovery.json",
+    ".ai/work-items/active/WI-364-primary-worktree-release.contract.json",
+    ".ai/work-items/active/WI-364-primary-worktree-release.summary.json"
+  ],
+  "checkpointAt": "2026-08-28T15:07:15Z",
+  "checkpointContractDigest": "sha256:afd39b60cdfbceb441460af861a0675cfa8264c4ca6eac878b4ee9605fe9a7ba",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:afd39b60cdfbceb441460af861a0675cfa8264c4ca6eac878b4ee9605fe9a7ba",
+      "recorded": true,
+      "recordedAt": "2026-08-28T15:07:15Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7352e674b44d59a6afa2fc329eaa358669bbbccfa7b8cca8a5d43d4bf7577fd9",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-364-primary-worktree-release"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:1abdbdd105fb13b4fe302d916f8b528bffd84bd00b0f4f5db64dd65abad783d2",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:afd39b60cdfbceb441460af861a0675cfa8264c4ca6eac878b4ee9605fe9a7ba",
+      "previousContractHash": "sha256:afd39b60cdfbceb441460af861a0675cfa8264c4ca6eac878b4ee9605fe9a7ba",
+      "reason": "Correct the documentation projection to the repository’s canonical agent-workflow and commands references; record this scope amendment before fresh preflight and verification.",
+      "recorded": true,
+      "recordedAt": "2026-08-28T15:07:33Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7352e674b44d59a6afa2fc329eaa358669bbbccfa7b8cca8a5d43d4bf7577fd9",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-364-primary-worktree-release"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:7651aa263aa444f3bf29f0f294784c527c2e9a2ce706a6f71ee1bfa7efaa9eb1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:afd39b60cdfbceb441460af861a0675cfa8264c4ca6eac878b4ee9605fe9a7ba",
+      "previousContractHash": "sha256:1abdbdd105fb13b4fe302d916f8b528bffd84bd00b0f4f5db64dd65abad783d2",
+      "reason": "Record the predecessor WI-363 documentation as recovered after its immutable release delivery was superseded by this dedicated-worktree successor.",
+      "recorded": true,
+      "recordedAt": "2026-08-28T15:12:58Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3b7df76c7dbb847713578c334b465ab530c1f4fecdffd4eb6f88ca478a83fbbe",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-364-primary-worktree-release"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:7352e674b44d59a6afa2fc329eaa358669bbbccfa7b8cca8a5d43d4bf7577fd9",
+  "createdAt": "2026-08-28T14:56:44Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:7651aa263aa444f3bf29f0f294784c527c2e9a2ce706a6f71ee1bfa7efaa9eb1",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
+    "reason": "Explicitly authorize the bounded release recovery and dedicated-worktree root fix; unresolved implementation evidence remains to be collected by the declared verification plan.",
+    "recordedAt": "2026-08-29T00:00:00Z",
+    "recordedBy": "human:owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:3b7df76c7dbb847713578c334b465ab530c1f4fecdffd4eb6f88ca478a83fbbe",
+    "schemaVersion": 1,
+    "workItemId": "WI-364-primary-worktree-release"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lib.rs",
+      "docs/reference/agent-workflow.md",
+      "tests/release/adopter_acceptance.sh"
+    ],
+    "reason": "The successor fixes the release delivery boundary and redelivers the immutable release from an isolated Work Item worktree without rewriting predecessor evidence.",
+    "state": "resolved"
+  },
+  "mode": "release",
+  "predecessorContractDigest": "sha256:e74bfd644910cd7bf4e2494647dce51fd8ecc98eb2e9d7d5d0ae9d055ecccc8b",
+  "predecessorWorkItemId": "WI-363-release-v0-2-37",
+  "preflightAt": "2026-08-28T15:13:20Z",
+  "preflightContractDigest": "sha256:7651aa263aa444f3bf29f0f294784c527c2e9a2ce706a6f71ee1bfa7efaa9eb1",
+  "preflightDecisionDigest": "sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
+  "preflightRepositorySnapshotDigest": "sha256:3b7df76c7dbb847713578c334b465ab530c1f4fecdffd4eb6f88ca478a83fbbe",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-363-release-v0-2-37.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/worktree_entry.rs"
+      ],
+      "expected": "An ordinary Work Item cannot bind the repository primary worktree or default branch; the Runtime returns a stable fail-closed reason before writing a Contract.",
+      "required": true,
+      "scenario": "primary worktree and default branch entry rejection",
+      "status": "verified",
+      "verificationPlan": "Run focused CLI regressions against a primary-root/default-branch repository and assert no Work Item files are created; run the same flow from a dedicated linked worktree and assert it remains eligible."
+    },
+    {
+      "evidence": [],
+      "expected": "The v0.2.37 release lifecycle runs on the dedicated Work Item worktree and finalization proves exact branch and worktree cleanup before close.",
+      "required": true,
+      "scenario": "dedicated worktree release lifecycle",
+      "status": "unverified",
+      "verificationPlan": "Run the installed Runtime lifecycle, hosted CI, public release artifact checks, adopter and N-1 acceptance, finalization verification, close, and ready_on_base checks."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-08-28T15:13:20.808868+00:00",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:7651aa263aa444f3bf29f0f294784c527c2e9a2ce706a6f71ee1bfa7efaa9eb1",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-08-28T15:12:58Z"
+  },
+  "workItemId": "WI-364-primary-worktree-release"
+}

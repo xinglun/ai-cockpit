@@ -1,0 +1,66 @@
+{
+  "acceptanceCriteria": [
+    "Ordinary start and work-item new fail closed on the repository primary worktree and default branch, while a dedicated linked worktree is accepted.",
+    "The guard has focused regression tests covering primary root, default branch, dedicated worktree, and missing/ambiguous remote metadata without false green.",
+    "Tri-language workflow documentation states the dedicated worktree requirement and predecessor WI-363 recovery boundary.",
+    "Published v0.2.37 artifacts are downloaded and checksum-bound with no source or workspace fallback.",
+    "Adopter and N-1 acceptance receipts prove runtime/repository identity, isolation, and temporary-root cleanup.",
+    "PR review/CI, archive, finalization, close, and exact branch/worktree cleanup leave synchronized main ready_on_base."
+  ],
+  "authority": "authorized",
+  "baseRevision": "9ecb6c726f1a17ad0161360dab2853f5f08d44c6",
+  "createdAt": "2026-08-28T14:56:44Z",
+  "goal": "Prevent ordinary Work Items from binding the repository primary worktree or default branch, then publish and verify v0.2.37 with complete finalization and close evidence.",
+  "intent": "Root-fix the release delivery boundary exposed by WI-363 and redeliver the immutable v0.2.37 release from a dedicated Work Item worktree.",
+  "mode": "release",
+  "outOfScope": [
+    "Changing immutable WI-363 archive/evidence/decision bytes",
+    "Changing release artifact semantics",
+    " global Agent/MCP configuration",
+    " or unrelated Runtime behavior"
+  ],
+  "predecessorContractDigest": "sha256:e74bfd644910cd7bf4e2494647dce51fd8ecc98eb2e9d7d5d0ae9d055ecccc8b",
+  "predecessorWorkItemId": "WI-363-release-v0-2-37",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-363-release-v0-2-37.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:353767b75ec3d51ab285de6846c58fde438adf0978440b46e23ce5da747c3f43",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-364-primary-worktree-release",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi364-primary-worktree"
+  },
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/tests/worktree_entry.rs",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/work-items/WI-364-primary-worktree-release.md",
+    "docs/work-items/WI-364-primary-worktree-release.zh-CN.md",
+    "docs/work-items/WI-364-primary-worktree-release.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/work-items/WI-363-release-v0-2-37.md",
+    "docs/work-items/WI-363-release-v0-2-37.zh-CN.md",
+    "docs/work-items/WI-363-release-v0-2-37.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-364-primary-worktree-release"
+}

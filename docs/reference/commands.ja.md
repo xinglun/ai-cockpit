@@ -57,6 +57,7 @@ handoff だけを抑止します。`work-item outcome` は既定で stdout に�
   になります。global な current Work Item は作りません。
 - `start` は `--id`、`--intent`、`--goal` が必須です。green governed flow には `--authority authorized` が必要です。
 - `start` または `work-item new` の前に Runtime は repository-scoped entry gate を評価します。`.ai` 以外の作業ツリー変更、detached HEAD、検出された remote default ref と現在の HEAD の不一致、または有効な close decision のない archived Work Item があれば fail closed になります。gate は archived bytes を書き換えません。`work-item recover` の successor は明示的な同じ recovery chain の継続であり、独立した次の Work Item ではありません。
+- 同じ entry gate は、通常の Work Item が repository の primary worktree または既知の default branch を使うことも拒否します。feature branch の専用 linked worktree を使用してください。明確な remote default base のない linked worktree は ready とせず拒否します。linked worktree がない local calibration repository は、base が検出可能になるまで `status: unknown` のままです。
 - `work-item new --repo <path> --id <id> --mode <mode>` は `not_ready` skeleton を作ります。snapshot-derived facts だけを埋め、
   human field は空または `unknown` のままです。移行期の `start` も同じ writer を使います。repository-local の
   exclusive reservation により重複競合は fail closed になり、同じ ID では 1 件だけが成功し、異なる repository は独立して動作します。

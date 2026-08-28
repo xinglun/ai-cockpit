@@ -41,6 +41,13 @@ the installed Rust Runtime and this repository's Protocol vocabulary.
   `readyOnBase` is the only positive readiness claim; missing or ambiguous
   remote metadata is `unknown`, never an implicit green. Recovery successors
   remain an explicit continuation of their predecessor.
+- A normal `start` or `work-item new` must run from a dedicated linked
+  worktree on a non-default branch. The repository primary worktree is reserved
+  for the synchronized default branch, because binding an implementation there
+  makes exact branch/worktree removal impossible to prove at finalization. The
+  Runtime rejects the primary worktree and known default branch before writing
+  a Work Item. A linked worktree without an unambiguous remote default base is
+  also rejected; this is a fail-closed topology check, not a provider bypass.
 - Before editing, read `.ai/README.md` and `.ai/glossary.md`; query `inspect`,
   `status`, and `doctor`; keep edits inside the declared scope; preserve tests
   and evidence; update the Summary; and run the Contract's project checks.
