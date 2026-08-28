@@ -49,6 +49,7 @@ WI334_BATCH = "WI-334-reference-file-comparison-batch-12"
 WI342_BATCH = "WI-342-reference-documentation-batch-13"
 WI343_BATCH = "WI-343-reference-inventory-foundation-reconciliation"
 WI344_BATCH = "WI-344-reference-documentation-batch-14"
+WI346_BATCH = "WI-346-reference-governance-profiles-status"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -1308,6 +1309,72 @@ WI344_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
     ),
 }
 
+WI346_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "docs/reference/governance-profiles.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/governance-profiles.ja.md",
+            "docs/reference/governance-profile-cost-separation.ja.md",
+            "docs/reference/ci-quality-gates.ja.md",
+            "docs/reference/verification-route.ja.md",
+            "tests/docs/documentation_acceptance.sh",
+        ],
+        "The reference risk-based Light/Standard/Strict guidance is preserved in a Japanese Rust-native route with release as an operation escalation, cost separated from verification and assurance, and fail-closed controls. Source Make/Python dispatch and source wire shapes are not copied.",
+    ),
+    "docs/reference/governance-profiles.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/governance-profiles.md",
+            "docs/reference/governance-profile-cost-separation.md",
+            "docs/reference/ci-quality-gates.md",
+            "docs/reference/verification-route.md",
+            "tests/docs/documentation_acceptance.sh",
+        ],
+        "The reference risk-based Light/Standard/Strict guidance is preserved in a Rust-native route with release as an operation escalation, cost separated from verification and assurance, and fail-closed controls. Source Make/Python dispatch and source wire shapes are not copied.",
+    ),
+    "docs/reference/governance-profiles.zh-CN.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/governance-profiles.zh-CN.md",
+            "docs/reference/governance-profile-cost-separation.zh-CN.md",
+            "docs/reference/ci-quality-gates.zh-CN.md",
+            "docs/reference/verification-route.zh-CN.md",
+            "tests/docs/documentation_acceptance.sh",
+        ],
+        "源文件关于 Light/Standard/Strict 风险质量路由的语义由 Rust 原生路线保留：release 是操作升级，成本与 Verification/Assurance 分离，强制控制保持 fail-closed。不复制源 Make/Python 调度或源 wire shape。",
+    ),
+    "docs/reference/how-to-read-cockpit-status.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/how-to-read-cockpit-status.ja.md",
+            "docs/reference/outcome-report.ja.md",
+            "docs/reference/commands.ja.md",
+            "tests/docs/documentation_acceptance.sh",
+        ],
+        "The reference human status-reading order and semantic color signals are projected onto the target's visible tri-language Outcome and request-scoped status commands. The target preserves contract text and never infers approval from a color; source report wire fields are not copied.",
+    ),
+    "docs/reference/how-to-read-cockpit-status.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/how-to-read-cockpit-status.md",
+            "docs/reference/outcome-report.md",
+            "docs/reference/commands.md",
+            "tests/docs/documentation_acceptance.sh",
+        ],
+        "The reference human status-reading order and semantic color signals are projected onto the target's visible tri-language Outcome and request-scoped status commands. The target preserves contract text and never infers approval from a color; source report wire fields are not copied.",
+    ),
+    "docs/reference/how-to-read-cockpit-status.zh-CN.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/how-to-read-cockpit-status.zh-CN.md",
+            "docs/reference/outcome-report.zh-CN.md",
+            "docs/reference/commands.zh-CN.md",
+            "tests/docs/documentation_acceptance.sh",
+        ],
+        "源文件关于面向人的 status 阅读顺序和颜色信号，由目标的三语可见 Outcome 与 request-scoped status 命令投影。目标保留 Contract 原文，不从颜色推断批准；不复制源报告 wire 字段。",
+    ),
+}
+
 
 def wi270_counterpart(path: str) -> tuple[list[str], str] | None:
     if path in WI270_DOC_CONCEPTS:
@@ -1815,6 +1882,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 }
             )
             continue
+        wi346 = WI346_REFERENCE_FILES.get(path)
+        if wi346 is not None:
+            classification, counterparts, reason = wi346
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI346_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
         wi342 = WI342_REFERENCE_FILES.get(path)
         if wi342 is not None:
             classification, counterparts, reason = wi342
@@ -2302,6 +2382,38 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for classification in wi344_classifications
         ):
             errors.append("WI-344 batch cannot leave deferred or migrate-gap records")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI346_BATCH
+        for record in records
+    ):
+        wi346_records = [
+            record
+            for record in records
+            if isinstance(record, dict) and record.get("batch") == WI346_BATCH
+        ]
+        expected_wi346_paths = set(WI346_REFERENCE_FILES)
+        actual_wi346_paths = {
+            record.get("referencePath")
+            for record in wi346_records
+            if isinstance(record.get("referencePath"), str)
+        }
+        if actual_wi346_paths != expected_wi346_paths:
+            errors.append(
+                "WI-346 batch paths do not match the pinned six-file set: "
+                f"expected {sorted(expected_wi346_paths)!r}, got {sorted(actual_wi346_paths)!r}"
+            )
+        if len(wi346_records) != len(expected_wi346_paths):
+            errors.append(
+                f"WI-346 batch must contain {len(expected_wi346_paths)} records, found {len(wi346_records)}"
+            )
+        wi346_classifications = [record.get("classification") for record in wi346_records]
+        if wi346_classifications.count("implemented-different-by-design") != len(expected_wi346_paths):
+            errors.append("WI-346 batch must contain six implemented-different-by-design records")
+        if any(
+            classification in {"deferred-next-batch", "migrate-gap"}
+            for classification in wi346_classifications
+        ):
+            errors.append("WI-346 batch cannot leave deferred or migrate-gap records")
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(records):
         errors.append(f"referenceTrackedFileCount {expected_count!r} != record count {len(records)}")

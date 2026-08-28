@@ -1,0 +1,88 @@
+{
+  "acceptanceCriteria": [
+    "All six selected reference files are individually compared and classified with source and target evidence.",
+    "Tri-language governance profile guidance states Light/Standard/Strict routing, release escalation, cost-versus-assurance separation, mandatory control floor, and fail-closed boundaries without claiming unavailable source commands.",
+    "Tri-language status guidance explains human Outcome colors, stop conditions, evidence boundaries, and next actions for adopters and non-technical reviewers.",
+    "Comparison inventory and parity records are updated bidirectionally, preserve pinned source identity, and mark only verified closed work as implemented.",
+    "Object repositories inherit the same explicit repository context, Runtime/adopter boundary, and human Outcome rules."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "8bf06612a0f0a8adda0aacfdf65e17ece9c2ca0f",
+  "createdAt": "2026-08-28T02:05:25Z",
+  "goal": "Preserve reference behavior where applicable while documenting honest Rust-native governance profile routing and human status interpretation for object repositories.",
+  "intent": "Compare the reference governance-profile and cockpit-status reading guidance file by file and document the target Rust Runtime semantic boundary for adopters.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime behavior changes",
+    "Source Python/Make/YAML migration",
+    "Global Agent/MCP configuration",
+    "Unrelated inventory/history classifications",
+    "Release/adopter implementation",
+    "Architecture split",
+    "Other reference files."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e5c4580463f11cad1336479dcb00b9d55845a858d0354bc5fb79633d252a5bbb",
+  "requiredEvidenceClasses": [
+    "verification",
+    "tests"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-346-reference-governance-profiles-status",
+    "provider": "github",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi346-reference-governance-profiles-status"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/governance-profiles.md",
+    "docs/reference/governance-profiles.zh-CN.md",
+    "docs/reference/governance-profiles.ja.md",
+    "docs/reference/how-to-read-cockpit-status.md",
+    "docs/reference/how-to-read-cockpit-status.zh-CN.md",
+    "docs/reference/how-to-read-cockpit-status.ja.md",
+    "docs/reference/README.md",
+    "docs/reference/README.zh-CN.md",
+    "docs/reference/README.ja.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-346-reference-governance-profiles-status.md",
+    "docs/work-items/WI-346-reference-governance-profiles-status.zh-CN.md",
+    "docs/work-items/WI-346-reference-governance-profiles-status.ja.md",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json"
+  ],
+  "sources": [
+    "reference:e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/governance-profiles.ja.md",
+    "reference:e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/governance-profiles.md",
+    "reference:e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/governance-profiles.zh-CN.md",
+    "reference:e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/how-to-read-cockpit-status.ja.md",
+    "reference:e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/how-to-read-cockpit-status.md",
+    "reference:e5acb677da6621004d96f0ef353c58fe8d3acfbf:docs/reference/how-to-read-cockpit-status.zh-CN.md",
+    "target:8bf06612a0f0a8adda0aacfdf65e17ece9c2ca0f:docs/reference/governance-profile-cost-separation.md",
+    "target:8bf06612a0f0a8adda0aacfdf65e17ece9c2ca0f:docs/reference/verification-route.md",
+    "target:8bf06612a0f0a8adda0aacfdf65e17ece9c2ca0f:docs/reference/ci-quality-gates.md",
+    "target:8bf06612a0f0a8adda0aacfdf65e17ece9c2ca0f:docs/reference/outcome-report.md",
+    "target:8bf06612a0f0a8adda0aacfdf65e17ece9c2ca0f:docs/current/README.md",
+    "target:8bf06612a0f0a8adda0aacfdf65e17ece9c2ca0f:.ai/README.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/conformance/reference_file_inventory.py --manifest tests/conformance/reference_file_inventory.json --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf --target-commit a533d49dfa848d95742833f8cd1b5f7e1bb897d5 --check",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/getting_started_semantic.sh",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report target/wi346-governance-integrity.json",
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-346-reference-governance-profiles-status"
+}

@@ -103,11 +103,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=246 implemented-equivalent=1 not-applicable=4 reference-only=34 deferred-next-batch=572 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=252 implemented-equivalent=1 not-applicable=4 reference-only=34 deferred-next-batch=566 migrate-gap=0 -->
 
 在固定的 v0.2.33 比较基线上，台账共有 5,119 条记录：4,262 条
-`generated-history`、243 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、4 条 `not-applicable`、32 条 `reference-only` 与 577 条
+`generated-history`、252 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、4 条 `not-applicable`、34 条 `reference-only` 与 566 条
 `deferred-next-batch`。deferred 记录仍是待比较工作，不是 parity 声明。
 capability/profile slice 已没有 `migrate-gap`：
 
@@ -118,7 +118,7 @@ capability/profile slice 已没有 `migrate-gap`：
 4. `.ai/project_profile.yaml` 由 `.ai/project.json` 与严格 JSON `profile-policy.json` projection 表达。
 
 治理入口、getting-started 路线、CI/release 边界与 capability/profile projection 已按该基线审阅；
-以上四条是有界的 Rust-native counterpart，582 条 deferred 语义比较仍是后续工作。
+以上四条是有界的 Rust-native counterpart，566 条 deferred 语义比较仍是后续工作。
 
 WI-274 只将目标 checkout metadata 和 canonical comparison snapshot 重新绑定到已审阅的
 默认分支提交。WI-273 保持为不可变的失败交付记录：其首次提交无法证明 parity 登记先于
@@ -587,9 +587,9 @@ WI-344 逐一读取以下五个固定参考文档。其中三个责任由 Rust �
 脚本和测试仍在各自文件比较中排期；对象工程边界仍是一个共享 Runtime、隔离的
 repository 状态和独立绑定的 evidence。
 
-当前台账为 5,119 条：4,262 条 `generated-history`、243 条
+当前台账为 5,119 条：4,262 条 `generated-history`、252 条
 `implemented-different-by-design`、1 条 `implemented-equivalent`、4 条
-`not-applicable`、32 条 `reference-only`、577 条 `deferred-next-batch`；
+`not-applicable`、34 条 `reference-only`、566 条 `deferred-next-batch`；
 `migrate-gap` 为 0。deferred 数量是计划中的工作，不是 parity 声明。
 
 ## WI-345：治理成本与性能文档第 15 批
@@ -606,4 +606,28 @@ WI-345 在固定参考提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 上逐�
 
 这是语义/文档 parity，不是源命令或 JSON-wire 兼容性。对象工程边界保持一致：一个共享 Runtime、显式 `--repo`、repository-local evidence、由 policy 拥有的路线要求，以及不能授权更弱治理结论的 advisory 成本/性能事实。
 
-WI-345 后台账为 5,119 条：4,262 条 `generated-history`、246 条 `implemented-different-by-design`、1 条 `implemented-equivalent`、4 条 `not-applicable`、34 条 `reference-only`、572 条 `deferred-next-batch`；`migrate-gap` 为 0。572 条 deferred 仍是计划中的工作，不是 parity 声明。
+WI-345 后台账为 5,119 条：4,262 条 `generated-history`、246 条 `implemented-different-by-design`、1 条 `implemented-equivalent`、4 条 `not-applicable`、34 条 `reference-only`、572 条 `deferred-next-batch`；`migrate-gap` 为 0。572 条 deferred 仍是计划中的工作，不是 parity 声明。WI-346 的当前结果记录如下。
+
+## WI-346：治理配置与 Cockpit 状态阅读
+
+WI-346 在固定参考提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 上逐一比较以下六个参考文档。
+六个文件均为 `implemented-different-by-design`：目标现在提供明确的三语阅读路线，但 Rust Runtime、
+repository context 和 CI 边界与源 Make/Python 编排不同。
+
+| 固定参考路径 | 分类 | Rust 对应物 / 有界决定 |
+| --- | --- | --- |
+| `docs/reference/governance-profiles.ja.md` | implemented-different-by-design | `governance-profiles.ja.md`、`governance-profile-cost-separation.ja.md`、`ci-quality-gates.ja.md` 与 `verification-route.ja.md` 以日语保留比例化 profile、release 升级、成本/assurance 分离和 fail-closed 边界；不复制源调度字节。 |
+| `docs/reference/governance-profiles.md` | implemented-different-by-design | 英文 profile 页面、成本分离、CI Gate 与 verification route 将 Light/Standard/Strict、release escalation、强制底线和显式 `gate --repo` 边界映射到目标。 |
+| `docs/reference/governance-profiles.zh-CN.md` | implemented-different-by-design | 中文页面保留 profile、tier/assurance、成本和 override 边界，不把源 `make` 或 Python 命令说成 Rust 要求。 |
+| `docs/reference/how-to-read-cockpit-status.ja.md` | implemented-different-by-design | 日语状态阅读页、`outcome-report.ja.md` 与 `commands.ja.md` 提供面向人的 handoff；Contract 原文和证据仍是权威。 |
+| `docs/reference/how-to-read-cockpit-status.md` | implemented-different-by-design | 英文状态阅读页、`outcome-report.md` 与 `commands.md` 把源 reader 标签映射到 Rust Outcome 章节、颜色、停止条件和明确下一步。 |
+| `docs/reference/how-to-read-cockpit-status.zh-CN.md` | implemented-different-by-design | 中文页面提供同样的安全阅读顺序和证据边界；自动翻译不能改变 Contract 事实或产生批准。 |
+
+六个页面明确区分 `VerificationTier`、`EvidenceAssurance` 和 advisory 成本观测；说明 🟢 仅表示可评审证据，
+🟡 表示不完整或等待决定，🔴 表示必须停止，三者都不是 merge 或 release 授权。`unknown` 保持可见，不能靠猜测消除。
+目标页面要求显式 `--repo`，保留 Contract 原文，并说明 MCP/宿主显示边界，使对象工程可以继承同一行为。
+
+这是语义/文档 parity，不是源命令或 JSON-wire parity。WI-346 后当前台账为 5,119 条：4,262 条
+`generated-history`、252 条 `implemented-different-by-design`、1 条 `implemented-equivalent`、4 条
+`not-applicable`、34 条 `reference-only`、566 条 `deferred-next-batch`；`migrate-gap` 仍为 0。
+566 条 deferred 仍是计划中的比较，不是 parity 声明。

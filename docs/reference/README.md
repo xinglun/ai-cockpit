@@ -27,6 +27,8 @@ separate from exact machine-facing details:
 - [Configuration reference](configuration.md) — `.ai/cockpit.toml`, profiles, and generated records.
 - [Troubleshooting and recovery](troubleshooting.md) — stop states and the next safe action.
 - [Human-facing Outcome](outcome-report.md) — the readable result, risks, evidence, and next action.
+- [Governance profiles](governance-profiles.md) — proportional Light/Standard/Strict routing and its assurance boundary.
+- [How to read Cockpit status](how-to-read-cockpit-status.md) — a person-facing reading order for colors, evidence, and next actions.
 - [Agent workflow and review boundaries](agent-workflow.md) — inherited Work Item, Outcome, release, and safety rules.
 - [Verification route](verification-route.md) — typed stages, orthogonal tier/assurance, planning, receipts, and CI boundary.
 - [Final replacement acceptance](final-replacement-acceptance.md) — the reproducible conformance and no-copy boundary.

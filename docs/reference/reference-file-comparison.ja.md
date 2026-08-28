@@ -107,11 +107,11 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=246 implemented-equivalent=1 not-applicable=4 reference-only=34 deferred-next-batch=572 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=252 implemented-equivalent=1 not-applicable=4 reference-only=34 deferred-next-batch=566 migrate-gap=0 -->
 
 固定した v0.2.33 comparison baseline の ledger は 5,119 records です。内訳は
-4,262 `generated-history`、243 `implemented-different-by-design`、1
-`implemented-equivalent`、4 `not-applicable`、32 `reference-only`、577 `deferred-next-batch` です。
+4,262 `generated-history`、252 `implemented-different-by-design`、1
+`implemented-equivalent`、4 `not-applicable`、34 `reference-only`、566 `deferred-next-batch` です。
 Deferred record は予定された比較であり parity claim ではありません。
 capability/profile slice に `migrate-gap` は残っていません。
 
@@ -122,7 +122,7 @@ capability/profile slice に `migrate-gap` は残っていません。
 
 Governance entrypoint、getting-started route、CI/release boundary、capability/profile
 projection はこの baseline で review 済みです。上記 4 件は bounded な Rust-native counterpart として登録済みで、
-582 deferred semantic comparison は後続作業として残ります。
+566 deferred semantic comparison は後続作業として残ります。
 
 WI-274 は target checkout metadata と canonical comparison snapshot だけを、レビュー済み
 default branch commit に再バインドします。WI-273 は immutable な failed-delivery record として
@@ -631,9 +631,9 @@ Rust-native reader/Runtime boundary で表現され、2 つは source-specific h
 source recovery/acceptance script と test は各 file-level comparison で別途扱います。object/adopter
 boundary は shared Runtime、repository state isolation、独立した evidence binding です。
 
-現在の ledger は 5,119 record です。4,262 `generated-history`、243
-`implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、32
-`reference-only`、577 `deferred-next-batch`、`migrate-gap` は 0 です。deferred は予定作業であり、parity claim ではありません。
+現在の ledger は 5,119 record です。4,262 `generated-history`、252
+`implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、34
+`reference-only`、566 `deferred-next-batch`、`migrate-gap` は 0 です。deferred は予定作業であり、parity claim ではありません。
 
 ## WI-345 — governance cost / performance documentation batch 15
 
@@ -651,4 +651,27 @@ WI-345 は pinned reference commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf` �
 
 WI-345 後の ledger は 5,119 record です。4,262 `generated-history`、246
 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、34
-`reference-only`、572 `deferred-next-batch`、`migrate-gap` は 0 です。572 deferred は予定された比較であり、parity claim ではありません。
+`reference-only`、572 `deferred-next-batch`、`migrate-gap` は 0 です。572 deferred は予定された比較であり、parity claim ではありません。WI-346 の現在の結果を次に記録します。
+
+## WI-346 — Governance Profile と Cockpit Status の読み方
+
+WI-346 は pinned reference commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf` の次の 6 document を一つずつ比較しました。
+6 件すべてを `implemented-different-by-design` とします。target は明確な三言語の reader route を追加しましたが、
+Rust Runtime、repository context、CI boundary は source の Make/Python orchestration とは異なります。
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/governance-profiles.ja.md` | implemented-different-by-design | `governance-profiles.ja.md`、`governance-profile-cost-separation.ja.md`、`ci-quality-gates.ja.md`、`verification-route.ja.md` が proportional profile、release escalation、cost/assurance 分離、fail-closed boundary を日本語で説明し、source dispatch bytes はコピーしません。 |
+| `docs/reference/governance-profiles.md` | implemented-different-by-design | 英語の profile/cost separation、CI gate、verification route が Light/Standard/Strict、release escalation、mandatory floor、明示的な `gate --repo` boundary を target に写像します。 |
+| `docs/reference/governance-profiles.zh-CN.md` | implemented-different-by-design | 中国語ページが profile、tier/assurance、cost、override の境界を保持します。source `make`/Python command を Rust requirement として示しません。 |
+| `docs/reference/how-to-read-cockpit-status.ja.md` | implemented-different-by-design | 日本語の status reader、`outcome-report.ja.md`、`commands.ja.md` が人向け handoff を提供し、Contract 原文と evidence を authority とします。 |
+| `docs/reference/how-to-read-cockpit-status.md` | implemented-different-by-design | 英語 reader、`outcome-report.md`、`commands.md` が source の reader label を Rust Outcome section、color、停止条件、次の action に対応づけます。 |
+| `docs/reference/how-to-read-cockpit-status.zh-CN.md` | implemented-different-by-design | 中国語 reader が同じ安全な読み順と evidence boundary を提供します。自動翻訳で Contract の事実や承認を作りません。 |
+
+6 ページは `VerificationTier`、`EvidenceAssurance`、advisory cost observation を分離します。🟢 は review 可能な evidence、
+🟡 は不足または判断待ち、🔴 は停止を示し、どれも merge/release authorization ではありません。`unknown` は可視のまま推測で消しません。
+明示的な `--repo`、Contract 原文、MCP/host presentation boundary を説明し、adopter repository が同じ動作を継承できます。
+
+これは semantic/documentation parity であり、source command や JSON-wire parity ではありません。WI-346 後の現在 ledger は
+5,119 record、4,262 `generated-history`、252 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、
+34 `reference-only`、566 `deferred-next-batch`、`migrate-gap` は 0 です。566 deferred は予定比較であり parity claim ではありません。
