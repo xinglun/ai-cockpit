@@ -7,9 +7,9 @@
     "Object/adopter inheritance remains explicit --repo with shared Runtime and repository-local evidence; no global current project or source runtime copy is introduced.",
     "Inventory, docs, strict Rust tests, formatting, lint, and locked workspace verification pass; installed Runtime lifecycle reaches visible green Outcome before reviewed merge."
   ],
-  "createdAt": "2026-08-28T04:31:20Z",
+  "createdAt": "2026-08-28T04:45:42Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:f1577115f2249015d26d880f09c5501204eb2793e2a2f98d48c28f9902f8a715",
+  "evidenceDigest": "sha256:da1f14843efb57df2e4201a4524f14955b65585ed77ea09a9f09ff73e8019727",
   "evidenceRefs": [
     ".ai/evidence/WI-348-reference-verification-operation-policy.verification.json"
   ],
@@ -35,7 +35,7 @@
         ".ai/evidence/WI-348-reference-verification-operation-policy.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:451978963afaaaaedb80b1a47625d577d386e1c1990c144fb98ba2471080f5fc",
+      "repositorySnapshotDigest": "sha256:db62926bedee1bdee0277daab25e56c0032c7b2a11a795c1ec2de9d884d6ebaa",
       "workItemId": "WI-348-reference-verification-operation-policy"
     },
     "format": "ai-cockpit.task-outcome",
@@ -124,7 +124,7 @@
     "status": "verified",
     "workItemId": "WI-348-reference-verification-operation-policy"
   },
-  "taskReportDigest": "sha256:0da39cb0b1326cfea9ba84f75ffb03a8a1f7d38a839dc3855d42c073535699df",
+  "taskReportDigest": "sha256:260dde41cd7dba635351b4dda9c5884d44bd9dde9ffb7f7612f198e0806004e2",
   "taskReportMarkdownDigest": "sha256:e7a6e057c6f0ce2199781cbcc3cdf5298f33a68746a9289e911d9f6ad04e69cb",
   "unknowns": [
     "user_visible_benefit_not_declared"

@@ -99,18 +99,21 @@
       "workItemId": "WI-348-reference-verification-operation-policy"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:451978963afaaaaedb80b1a47625d577d386e1c1990c144fb98ba2471080f5fc",
+  "checkpointRepositorySnapshotDigest": "sha256:db62926bedee1bdee0277daab25e56c0032c7b2a11a795c1ec2de9d884d6ebaa",
   "createdAt": "2026-08-28T03:26:50Z",
+  "failedGate": "finish.verification",
   "mode": "implementation",
-  "preflightAt": "2026-08-28T04:31:14Z",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-28T04:44:29Z",
   "preflightContractDigest": "sha256:dc3caab2d4503c8251fc372a31ffa5750f390b961ad972dabbf336abecb8d19b",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:451978963afaaaaedb80b1a47625d577d386e1c1990c144fb98ba2471080f5fc",
+  "preflightRepositorySnapshotDigest": "sha256:db62926bedee1bdee0277daab25e56c0032c7b2a11a795c1ec2de9d884d6ebaa",
   "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "finish_ready",
-  "updatedAt": "2026-08-28T04:31:20Z",
+  "updatedAt": "2026-08-28T04:45:42Z",
   "verification": [
     {
       "check": "project-command-0",

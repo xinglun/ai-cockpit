@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
   "contractDigest": "sha256:dc3caab2d4503c8251fc372a31ffa5750f390b961ad972dabbf336abecb8d19b",
-  "createdAt": "2026-08-28T04:31:06Z",
+  "createdAt": "2026-08-28T04:44:25Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 163982,
-      "executionElapsedMs": 163734,
+      "elapsedMs": 170572,
+      "executionElapsedMs": 170312,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,8 +25,8 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 163982,
-    "executionElapsedMs": 163734,
+    "elapsedMs": 170572,
+    "executionElapsedMs": 170312,
     "filesHashed": 5,
     "filesRead": 5,
     "gitCalls": 8,
@@ -44,13 +44,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 163734,
+      "executionElapsedMs": 170312,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:451978963afaaaaedb80b1a47625d577d386e1c1990c144fb98ba2471080f5fc",
+      "repositorySnapshotDigest": "sha256:db62926bedee1bdee0277daab25e56c0032c7b2a11a795c1ec2de9d884d6ebaa",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -76,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:e8b86abb1e7b3baa3db7bfcb664d8ecc0996bb9c4b1059464c5b846f7ba25ca7",
+        "outputDigest": "sha256:a66d357951430874687434aac3fd8097102ba59e43ac37a596a2988bef279abe",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -92,9 +92,9 @@
     "runtimeVersion": "0.2.33",
     "workItemId": "WI-348-reference-verification-operation-policy"
   },
-  "receiptDigest": "sha256:6731a421cc5663b1f03d50b39259cb44dc62327338a6997fd614528517aed60f",
+  "receiptDigest": "sha256:45ae3c363364d16927f4f37637e6380161c646e7197038e34b5cab3d2d0607ab",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:451978963afaaaaedb80b1a47625d577d386e1c1990c144fb98ba2471080f5fc",
+  "repositorySnapshotDigest": "sha256:db62926bedee1bdee0277daab25e56c0032c7b2a11a795c1ec2de9d884d6ebaa",
   "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
   "runtimeVersion": "0.2.33",
   "workItemId": "WI-348-reference-verification-operation-policy"

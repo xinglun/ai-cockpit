@@ -4,7 +4,7 @@
       ".ai/evidence/WI-348-reference-verification-operation-policy.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:451978963afaaaaedb80b1a47625d577d386e1c1990c144fb98ba2471080f5fc",
+    "repositorySnapshotDigest": "sha256:db62926bedee1bdee0277daab25e56c0032c7b2a11a795c1ec2de9d884d6ebaa",
     "workItemId": "WI-348-reference-verification-operation-policy"
   },
   "format": "ai-cockpit.task-outcome",
