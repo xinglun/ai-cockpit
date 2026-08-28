@@ -1,0 +1,131 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-365-release-upgrade-git-identity.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c2ca5711e45dffe6ac9dee3f71145646848efb5369b06315340760a03bb158dd",
+      "workItemId": "WI-365-release-upgrade-git-identity"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-365-release-upgrade-git-identity.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-365-release-upgrade-git-identity.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-365-release-upgrade-git-identity.verification.json",
+            ".ai/decisions/WI-365-release-upgrade-git-identity.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:owner via explicit-user-authorization at 2026-08-29T01:56:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-365-release-upgrade-git-identity.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-365-release-upgrade-git-identity.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-365-release-upgrade-git-identity.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-365-release-upgrade-git-identity.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-365-release-upgrade-git-identity.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the N-1 release acceptance harness self-contained and fail-closed in an isolated Git environment, then prove the fix with regression evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-365-release-upgrade-git-identity.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-365-release-upgrade-git-identity"
+  },
+  "finalReportDigest": "sha256:260312c7066990932f24dfe85d5e4efa0eb4888eab3170219ab2fa93b5a1d2fe",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:d5ec82b103e38a0e10fd4718a56d105fbf3d84e0504e824d7a8f62c2036c8e35",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-365-release-upgrade-git-identity.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-29T01:56:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-365-release-upgrade-git-identity.verification.json",
+      ".ai/decisions/WI-365-release-upgrade-git-identity.finalize.json"
+    ],
+    "policyRefs": [
+      "https://github.com/xinglun/ai-cockpit/actions/runs/33191645602"
+    ],
+    "reason": "Confirm the reviewed root-fix for N-1 release upgrade Git identity after all hosted checks passed and exact resources were finalized.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-28T16:53:01Z",
+  "workItemId": "WI-365-release-upgrade-git-identity"
+}

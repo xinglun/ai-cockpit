@@ -1,0 +1,58 @@
+{
+  "actor": "human:owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "cfd4e352e900220eeb597bf92c91ba6d0d129e20",
+    "name": "codex/wi-365-release-upgrade-git-identity",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:6243da158ee84221a52ccfa07768ad0ea3848cbed4674f2be178e4011b40601f",
+  "operationId": "delete-wi-365-release-upgrade-git-identity",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "c5bd4c0450b8808d75763bbe0882302fce9ea6ab",
+    "headRevision": "cfd4e352e900220eeb597bf92c91ba6d0d129e20",
+    "mergeCommit": "9f108c047a06c9f885728ff728b3ca61b21329c9",
+    "number": 328,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/328"
+  },
+  "reason": "The reviewed PR was merged with all hosted checks passing; the exact Work Item branch and worktree were removed after synchronization.",
+  "receiptId": "wi-365-release-upgrade-git-identity-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-365-release-upgrade-git-identity",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/328",
+    "worktree": "/private/tmp/ai-cockpit-wi365-release-upgrade-git-identity"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:39a1e27deb5d47946c723d6129ead21a6fcb6bd5dbb7c1346a97e83ec61543c4",
+  "runtimeVersion": "0.2.34",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-29T01:55:00Z",
+  "workItemId": "WI-365-release-upgrade-git-identity",
+  "worktree": {
+    "branch": "codex/wi-365-release-upgrade-git-identity",
+    "headRevision": "cfd4e352e900220eeb597bf92c91ba6d0d129e20",
+    "path": "/private/tmp/ai-cockpit-wi365-release-upgrade-git-identity",
+    "worktreeId": "WI-365-release-upgrade-git-identity"
+  }
+}
