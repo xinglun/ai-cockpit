@@ -4,9 +4,13 @@ title: "WI-369 — Post-merge CI transition gate"
 description: "Distinguish the reviewed merge-to-close transition from a stale unclosed Work Item without weakening the gate."
 workItemId: WI-369-post-merge-ci-transition-gate
 audience: [maintainer, reviewer]
-status: implementation_active
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-369-post-merge-ci-transition-gate
+terminalArchive: .ai/work-items/archive/WI-369-post-merge-ci-transition-gate.contract.json
+terminalVerification: .ai/evidence/WI-369-post-merge-ci-transition-gate.verification.json
+terminalFinalization: .ai/decisions/WI-369-post-merge-ci-transition-gate.finalize.d6e6c0bc91cdbdd880b1a8e9599e087d8003643969967bc0eef1156671d7ffa5.json
+terminalDecision: .ai/decisions/WI-369-post-merge-ci-transition-gate.close.json
 capabilityClaims:
   - governance_integrity
   - reference_parity

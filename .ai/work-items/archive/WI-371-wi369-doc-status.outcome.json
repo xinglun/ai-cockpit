@@ -1,0 +1,134 @@
+{
+  "acceptanceResults": [
+    "All three WI-369 documents use terminal implemented status and retain synchronized links and content.",
+    "The existing docs acceptance and governance integrity gates pass without altering archived Work Item evidence."
+  ],
+  "createdAt": "2026-08-28T21:40:28Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:f2ff93b80050aabe081cec66fbcc6de52059e9910415e09be336c47d40131911",
+  "evidenceRefs": [
+    ".ai/evidence/WI-371-wi369-doc-status.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-371-wi369-doc-status.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-371-wi369-doc-status.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4b0bb7e308ad29fded3d8fe36953bb9580df77a201273086eb7502af203a4646",
+      "workItemId": "WI-371-wi369-doc-status"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-371-wi369-doc-status.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-371-wi369-doc-status.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-371-wi369-doc-status.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-371-wi369-doc-status.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-371-wi369-doc-status.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-371-wi369-doc-status.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-371-wi369-doc-status.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the terminal WI-369 documentation declare implemented status in all languages and pass the existing docs governance gate without changing Runtime behavior."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-371-wi369-doc-status.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-371-wi369-doc-status"
+  },
+  "taskReportDigest": "sha256:ecd6af2cdba7ba55d7b01fa926c8c486e392930212678a155c2cab51a8a17335",
+  "taskReportMarkdownDigest": "sha256:b19985c0424ac2e4d2b8d66d49cd8161b40b5fe3e1ee89367a77c67bd4be0a7c",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-371-wi369-doc-status.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-371-wi369-doc-status"
+}

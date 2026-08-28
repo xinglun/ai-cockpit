@@ -1,0 +1,61 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-28T21:40:09Z",
+  "checkpointContractDigest": "sha256:13a40915d1a3349b498a94ce32e969b28ed091366f1f8d12c2a840757939ce24",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 2,
+      "contractHash": "sha256:dbbec584a154f7849c23dee0dfac0c0b0d4511025e4bd7fcbc28dde286905e46",
+      "recorded": true,
+      "recordedAt": "2026-08-28T21:40:09Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4b0bb7e308ad29fded3d8fe36953bb9580df77a201273086eb7502af203a4646",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-371-wi369-doc-status"
+    },
+    {
+      "acceptanceCount": 2,
+      "contractHash": "sha256:13a40915d1a3349b498a94ce32e969b28ed091366f1f8d12c2a840757939ce24",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:dbbec584a154f7849c23dee0dfac0c0b0d4511025e4bd7fcbc28dde286905e46",
+      "previousContractHash": "sha256:dbbec584a154f7849c23dee0dfac0c0b0d4511025e4bd7fcbc28dde286905e46",
+      "reason": "Bind finalized PR/worktree context before final verification so the receipt covers the immutable resource plan.",
+      "recorded": true,
+      "recordedAt": "2026-08-28T21:40:22Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4b0bb7e308ad29fded3d8fe36953bb9580df77a201273086eb7502af203a4646",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-371-wi369-doc-status"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:4b0bb7e308ad29fded3d8fe36953bb9580df77a201273086eb7502af203a4646",
+  "createdAt": "2026-08-28T21:39:56Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-28T21:40:27Z",
+  "preflightContractDigest": "sha256:13a40915d1a3349b498a94ce32e969b28ed091366f1f8d12c2a840757939ce24",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:4b0bb7e308ad29fded3d8fe36953bb9580df77a201273086eb7502af203a4646",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-28T21:40:28Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-371-wi369-doc-status"
+}
