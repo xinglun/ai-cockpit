@@ -1,0 +1,101 @@
+{
+  "acceptanceCriteria": [
+    "新增回归测试覆盖 retry → verify → preflight → finish 的合法生命周期，证明 recovery receipt 不会因 Runtime 自身更新 Summary/Outcome/Events 而失效",
+    "真正的 foreign、stale、contradictory recovery evidence 仍然 fail closed，既有安全测试继续通过",
+    "修复不改写历史 archive，不绕过 Contract、checkpoint、verification、finish 的治理门槛",
+    "完成 cargo fmt --all -- --check、cargo test --locked --workspace、cargo clippy --locked --workspace --all-targets --all-features -- -D warnings，以及仓库质量门禁"
+  ],
+  "authority": "authorized",
+  "baseRevision": "11051dec7b12f8e7d15a272e1928d45d3f2f972f",
+  "createdAt": "2026-08-28T05:12:13Z",
+  "goal": "使 retry recovery receipt 在合法的重试生命周期中保持可验证且不被 Runtime 自己的状态投影误判为外部或过期证据，同时保留对真正 foreign、stale、contradictory evidence 的 fail-closed 行为。",
+  "intent": "修复 Work Item 重试生命周期中的恢复回执绑定缺陷：重试成功后 Runtime 会更新当前 Summary、Outcome、Events 并投影 finish 前状态，但旧恢复回执仍被当作当前绑定进行校验，导致同一 Runtime 自身制造 evidence_contradictory 并阻塞 Provider WI 收尾。用户已授权继续收尾，并批准将共享 Runtime 缺陷单独作为后续 Work Item 处理。",
+  "mode": "code",
+  "outOfScope": [
+    "Sentinel 业务代码、Provider 实现、Sentinel .ai 状态、历史 Work Item archive、Runtime CLI 协议之外的仓库治理迁移、凭据与全局配置、放宽 foreign/stale/contradictory evidence 校验、任何交易决策或生产执行逻辑"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:09b2d9e055b23e894432ed780541a5689f3ae77a5c8c6ef2016ed09f8e91fe91",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-351-runtime-recovery-binding-2",
+    "provider": "github",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/ai-cockpit-runtime-recovery-binding-2"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        "crates/cockpit-repository/tests/lifecycle_order.rs"
+      ],
+      "expected": "retry 後に Summary、Outcome、Events が Runtime により更新されても、同じ Work Item の recovery receipt は正当なライフサイクル証拠として検証される",
+      "required": true,
+      "scenario": "合法な retry recovery の状態投影",
+      "status": "unverified",
+      "verificationPlan": "retry → verify → preflight → finish の回帰テストを実行し、receipt の identity binding と finish の成功を確認する"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        "crates/cockpit-repository/tests/recovery_events.rs"
+      ],
+      "expected": "foreign、stale、contradictory な recovery evidence は従来どおり拒否され、合法な retry だけが例外なく継続できる",
+      "required": true,
+      "scenario": "不正な recovery evidence の fail-closed",
+      "status": "unverified",
+      "verificationPlan": "既存の recovery decision、recovery events、lifecycle regression を実行し、negative path が停止することを確認する"
+    },
+    {
+      "evidence": [
+        ".ai/work-items/archive",
+        ".ai/evidence"
+      ],
+      "expected": "修正は現在の Runtime 実装と回帰テストだけに限定され、既存 archive と過去 evidence の bytes は変更されない",
+      "required": true,
+      "scenario": "歴史的 archive の不変性",
+      "status": "unverified",
+      "verificationPlan": "実装前後の archive digest と git diff を比較し、既存の .ai/work-items/archive と .ai/evidence に変更がないことを確認する"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/lib.rs",
+        ".github/workflows/ci.yml"
+      ],
+      "expected": "修正は Contract、checkpoint、verification、finish の必要条件を緩和せず、gate、execution、position sizing などの外部動作に影響しない",
+      "required": true,
+      "scenario": "治理门槛不可绕过",
+      "status": "unverified",
+      "verificationPlan": "全 workspace quality gate と lifecycle regression を実行し、変更範囲および既存停止条件を確認する"
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "crates/cockpit-repository/tests/lifecycle_order.rs",
+    "crates/cockpit-repository/tests/recovery_events.rs"
+  ],
+  "sources": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/governance_controls.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "crates/cockpit-repository/tests/lifecycle_order.rs",
+    "crates/cockpit-repository/tests/recovery_events.rs"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked --workspace",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings"
+  ],
+  "workItemId": "WI-351-runtime-recovery-binding"
+}

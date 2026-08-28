@@ -4,10 +4,11 @@ use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
     archive_work_item, archive_work_item_with_runtime, attach, checkpoint_work_item,
     close_work_item_with_structured_decision, close_work_item_with_structured_decision_and_runtime,
-    finish_work_item, outcome_v2, outcome_v2_with_runtime, plan_resource_finalization,
-    preflight_work_item, record_recovery_decision, record_verification_with_runtime,
-    render_human_outcome, repository_id, revalidate_contract_amendment,
-    run_repository_verification, start_work_item_with_options,
+    finish_work_item, finish_work_item_with_runtime, outcome_v2, outcome_v2_with_runtime,
+    plan_resource_finalization, preflight_work_item, preflight_work_item_with_runtime,
+    record_recovery_decision, record_verification_with_runtime, render_human_outcome,
+    repository_id, revalidate_contract_amendment, run_repository_verification,
+    start_work_item_with_options,
 };
 use serde_json::json;
 use std::fs;
@@ -715,6 +716,126 @@ fn retry_recovery_accepts_a_lifecycle_state_failure_with_red_preflight() {
     assert_eq!(recovered["preflightState"], "red");
     assert!(recovered.get("failedGate").is_none());
     assert!(recovered.get("recoveryCondition").is_none());
+}
+
+#[test]
+fn retry_verify_preflight_finish_keeps_recovery_receipt_bound_to_the_attempt() {
+    let directory = repository();
+    let id = "WI-BLOCKED";
+    let runtime = current_runtime();
+    plan_resource_finalization(
+        directory.path(),
+        id,
+        &ResourceFinalizationContext {
+            branch: "feature/recovery-binding".into(),
+            worktree: directory.path().display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: "https://github.com/example/ai-cockpit/pull/recovery-binding".into(),
+        },
+    )
+    .expect("finalization plan");
+
+    let mut retry = receipt(&directory, "retry the failed lifecycle attempt");
+    retry["decision"] = json!("retry");
+    retry
+        .as_object_mut()
+        .expect("retry receipt object")
+        .remove("successorWorkItemId");
+    retry["runtimeVersion"] = json!(runtime.runtime_version);
+    retry["runtimeDigest"] = json!(runtime.runtime_digest.to_string());
+    retry["decidedAt"] = json!("2026-08-28T05:00:00Z");
+    record_recovery_decision(directory.path(), id, &retry, &runtime).expect("retry recovery");
+
+    // retry 後に Runtime 自身が追加する blocked projection を模擬する。
+    // これらの bytes は外部の偽造ではなく、現在の試行に続く状態である。
+    let outcome_path = directory
+        .path()
+        .join(format!(".ai/work-items/active/{id}.outcome.json"));
+    let mut projected_outcome: serde_json::Value =
+        serde_json::from_slice(&fs::read(&outcome_path).expect("outcome")).expect("outcome JSON");
+    projected_outcome["summary"] = json!("A later Runtime projection kept the item recoverable.");
+    fs::write(
+        &outcome_path,
+        serde_json::to_vec_pretty(&projected_outcome).expect("projected outcome bytes"),
+    )
+    .expect("projected outcome");
+    let events_path = directory
+        .path()
+        .join(format!(".ai/work-items/active/{id}.events.jsonl"));
+    let event = json!({
+        "schemaVersion": 1,
+        "eventId": "blocked-after-retry",
+        "repositoryId": repository_id(directory.path()),
+        "workItemId": id,
+        "eventType": "blocked",
+        "timestamp": "2026-08-28T05:01:00Z",
+        "detail": "Runtime projected a recoverable retry state",
+        "evidenceRefs": [],
+        "relatedEventIds": [],
+        "correctionOf": null
+    });
+    use std::io::Write;
+    let mut events = fs::OpenOptions::new()
+        .append(true)
+        .open(&events_path)
+        .expect("events");
+    writeln!(
+        events,
+        "{}",
+        serde_json::to_string(&event).expect("event JSON")
+    )
+    .expect("append event");
+
+    let projected = outcome_v2_with_runtime(directory.path(), id, &runtime)
+        .expect("Runtime-owned retry projection remains readable");
+    assert_eq!(
+        projected
+            .recovery_decision
+            .as_ref()
+            .map(|value| value.decision.as_str()),
+        Some("retry")
+    );
+
+    let git = cockpit_git::GitRepository::discover(directory.path()).expect("git repository");
+    let snapshot = git.snapshot().expect("snapshot");
+    let run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "recovery-binding-check".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src/**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("verification run");
+    record_verification_with_runtime(
+        directory.path(),
+        id,
+        &serde_json::to_value(&run.receipt).expect("receipt JSON"),
+        &runtime,
+        &snapshot,
+    )
+    .expect("record verification");
+
+    let decision = preflight_work_item_with_runtime(
+        directory.path(),
+        &directory
+            .path()
+            .join(format!(".ai/work-items/active/{id}.contract.json")),
+        &runtime,
+    )
+    .expect("fresh preflight after verification");
+    assert_eq!(decision.state, cockpit_core::DecisionState::Green);
+    finish_work_item_with_runtime(directory.path(), id, &runtime)
+        .expect("finish after retry verification and preflight");
 }
 
 #[test]

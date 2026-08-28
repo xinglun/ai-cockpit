@@ -4831,6 +4831,14 @@ fn finish_work_item_internal(
             .as_object_mut()
             .expect("Work Item Summary is an object")
             .remove("recoveryRetryPending");
+        summary
+            .as_object_mut()
+            .expect("Work Item Summary is an object")
+            .remove("recoveryRetryDecisionPath");
+        summary
+            .as_object_mut()
+            .expect("Work Item Summary is an object")
+            .remove("recoveryRetryDecisionDigest");
         atomic_json(&summary_path, &summary)?;
     }
     let outcome_v2 = OutcomeV2 {
@@ -4954,6 +4962,7 @@ fn validate_recovery_predecessor_bindings(
     current_runtime: Option<&RuntimeContext>,
     contract_path: &Path,
     summary_path: &Path,
+    candidate_path: Option<&Path>,
 ) -> Result<(), ObserverError> {
     let decisions = root.join(".ai/decisions");
     if receipt.schema_version != 1
@@ -5041,17 +5050,14 @@ fn validate_recovery_predecessor_bindings(
             path: summary_path.into(),
             message: error.to_string(),
         })?;
-    if receipt.predecessor_summary_digest != expected_summary_digest {
-        let retry_pending = receipt.decision == "retry"
-            && summary["state"] == serde_json::json!("checkpointed")
-            && summary["recoveryRetryPending"] == serde_json::json!(true);
-        if !retry_pending {
-            return Err(recovery_decision_error(
-                summary_path,
-                "predecessor_summary_mismatch",
-                "predecessor Summary digest mismatch",
-            ));
-        }
+    let retry_binding =
+        retry_recovery_binding_matches(root, work_item_id, &summary, receipt, candidate_path)?;
+    if receipt.predecessor_summary_digest != expected_summary_digest && !retry_binding {
+        return Err(recovery_decision_error(
+            summary_path,
+            "predecessor_summary_mismatch",
+            "predecessor Summary digest mismatch",
+        ));
     }
 
     let outcome_path = work_item_artifact_path_optional(root, work_item_id, "outcome.json")?;
@@ -5063,7 +5069,7 @@ fn validate_recovery_predecessor_bindings(
                     message: error.to_string(),
                 }
             })?;
-            if expected != &actual {
+            if expected != &actual && !retry_binding {
                 return Err(recovery_decision_error(
                     path,
                     "predecessor_outcome_mismatch",
@@ -5089,7 +5095,7 @@ fn validate_recovery_predecessor_bindings(
                     path: path.clone(),
                     source,
                 })?);
-            if expected != &actual {
+            if expected != &actual && !retry_binding {
                 return Err(recovery_decision_error(
                     path,
                     "predecessor_events_mismatch",
@@ -5107,6 +5113,47 @@ fn validate_recovery_predecessor_bindings(
         (None, None) => {}
     }
     Ok(())
+}
+
+fn retry_recovery_binding_matches(
+    root: &Path,
+    work_item_id: &str,
+    summary: &serde_json::Value,
+    receipt: &RecoveryDecisionReceipt,
+    candidate_path: Option<&Path>,
+) -> Result<bool, ObserverError> {
+    if receipt.decision != "retry"
+        || summary["state"] != serde_json::json!("checkpointed")
+        || summary["recoveryRetryPending"] != serde_json::json!(true)
+    {
+        return Ok(false);
+    }
+    let Some(candidate_path) = candidate_path else {
+        return Ok(false);
+    };
+    let Some(file_name) = candidate_path.file_name().and_then(|value| value.to_str()) else {
+        return Ok(false);
+    };
+    let canonical = format!("{work_item_id}.recovery.json");
+    let versioned_prefix = format!("{work_item_id}.recovery.");
+    if file_name != canonical
+        && !(file_name.starts_with(&versioned_prefix) && file_name.ends_with(".json"))
+    {
+        return Ok(false);
+    }
+    let expected_path = summary["recoveryRetryDecisionPath"].as_str();
+    if expected_path != Some(repository_relative_path(root, candidate_path).as_str()) {
+        return Ok(false);
+    }
+    let value = serde_json::to_value(receipt).map_err(|error| ObserverError::State {
+        path: root.join(".ai/decisions"),
+        message: error.to_string(),
+    })?;
+    let digest = cockpit_protocol::digest_json(&value).map_err(|error| ObserverError::State {
+        path: root.join(".ai/decisions"),
+        message: error.to_string(),
+    })?;
+    Ok(summary["recoveryRetryDecisionDigest"] == serde_json::json!(digest.to_string()))
 }
 
 fn validate_recovery_successor_binding(
@@ -5179,6 +5226,7 @@ pub fn record_recovery_decision(
         Some(runtime),
         &contract_path,
         &summary_path,
+        None,
     )?;
     if matches!(typed.decision.as_str(), "successor" | "supersede") {
         let Some(successor_id) = typed.successor_work_item_id.as_deref() else {
@@ -5250,6 +5298,24 @@ pub fn record_recovery_decision(
             let _ = atomic_json(&summary_path, &original_summary);
         }
         return Err(error);
+    }
+    if typed.decision == "retry" {
+        let retry_digest =
+            cockpit_protocol::digest_json(&value).map_err(|error| ObserverError::State {
+                path: path.clone(),
+                message: error.to_string(),
+            })?;
+        let mut summary = read_json(&summary_path)?;
+        summary["recoveryRetryDecisionPath"] =
+            serde_json::json!(repository_relative_path(&root, &path));
+        summary["recoveryRetryDecisionDigest"] = serde_json::json!(retry_digest.to_string());
+        if let Err(error) = atomic_json(&summary_path, &summary) {
+            if let Some((summary_path, original_summary)) = retry_summary_backup {
+                let _ = atomic_json(&summary_path, &original_summary);
+            }
+            let _ = fs::remove_file(&path);
+            return Err(error);
+        }
     }
     if typed.decision == "successor" {
         let successor_id = typed
@@ -12704,6 +12770,7 @@ fn read_and_validate_recovery_decision(
         current_runtime,
         contract_path,
         summary_path,
+        Some(path),
     )?;
     validate_recovery_successor_binding(root, work_item_id, &receipt)?;
     Ok(receipt)
