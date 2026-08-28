@@ -1,0 +1,26 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-28T19:50:36Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-368-reference-file-comparison-batch-16.outcome.json",
+    ".ai/decisions/WI-368-reference-file-comparison-batch-16.finalize-plan.json"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:534ddf04d9c37508b605d8c75dead358e09a975a9e383132fad1958f39e11e9d",
+  "predecessorEventsDigest": "sha256:93252aadbbdfdbf72cfd2c2eaf70e80dff582789ceacd9b238b9390381bf3533",
+  "predecessorOutcomeDigest": "sha256:57592d03a4770af486da6d749828ecd27c960724ebce937fcd58517d70003b9a",
+  "predecessorSummaryDigest": "sha256:fbd357dc889b305d737bb76601f7d9c51aea2320c464c0f95e74db701d7cf525",
+  "predecessorWorkItemId": "WI-368-reference-file-comparison-batch-16",
+  "reason": "Retry the blocked finish after binding the reviewed pull request and refreshing the verification evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight and fresh verification for the current Contract, then retry finish.",
+  "runtimeDigest": "sha256:af238d00182cdc108cbb95e3b18c8ed4ad07bc40289a1e970da47d09d12e5f86",
+  "runtimeVersion": "0.2.38",
+  "schemaVersion": 1,
+  "workItemId": "WI-368-reference-file-comparison-batch-16"
+}

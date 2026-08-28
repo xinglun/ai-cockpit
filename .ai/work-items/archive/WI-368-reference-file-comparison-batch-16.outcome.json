@@ -9,14 +9,17 @@
     "Object projects inherit one shared Runtime, explicit --repo context, repository-local evidence isolation, and no global project state.",
     "Inventory, parity, documentation, and targeted tests pass; visible human Outcome is delivered; the Work Item completes the installed v0.2.38 lifecycle and exact cleanup."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-08-28T19:54:06Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:9aa6e49394d5044f2f9eba625b76ce8a37cb333f718d267ce347068be83e8fc3",
   "evidenceRefs": [
     ".ai/evidence/WI-368-reference-file-comparison-batch-16.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-368-reference-file-comparison-batch-16.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -24,41 +27,38 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-368-reference-file-comparison-batch-16.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:e1469216067da9d64a3f235ffe8107c677edbff37ab04ca2046702ef0700feac",
+      "repositorySnapshotDigest": "sha256:708a5f679f0b85359a434107e8d367d8a0cdc78834d905a2ca00aad41bf9e934",
       "workItemId": "WI-368-reference-file-comparison-batch-16"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-368-reference-file-comparison-batch-16.summary.json"
+            ".ai/work-items/archive/WI-368-reference-file-comparison-batch-16.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-368-reference-file-comparison-batch-16.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-368-reference-file-comparison-batch-16.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-368-reference-file-comparison-batch-16.summary.json"
+            ".ai/work-items/archive/WI-368-reference-file-comparison-batch-16.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-368-reference-file-comparison-batch-16.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-368-reference-file-comparison-batch-16.summary.json"
         }
       ],
       "evidence": [
@@ -77,15 +77,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-368-reference-file-comparison-batch-16.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -96,7 +88,7 @@
             ".ai/evidence/WI-368-reference-file-comparison-batch-16.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -106,15 +98,23 @@
             ".ai/evidence/WI-368-reference-file-comparison-batch-16.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-368-reference-file-comparison-batch-16.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-368-reference-file-comparison-batch-16.contract.json"
+            ".ai/work-items/archive/WI-368-reference-file-comparison-batch-16.contract.json"
           ],
           "inference": false,
           "text": "Establish evidence-backed mappings for all 11 pinned files, implement or explicitly bound a repository-scoped reference-impact gate, and preserve object/adopter inheritance and release/runtime separation."
@@ -123,23 +123,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-368-reference-file-comparison-batch-16.contract.json"
+            ".ai/work-items/archive/WI-368-reference-file-comparison-batch-16.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-368-reference-file-comparison-batch-16"
   },
+  "taskReportDigest": "sha256:4056bd297e10d8ea1f0d4550df13774b342d8830ba86e93c268fb4c498389f7f",
+  "taskReportMarkdownDigest": "sha256:12a368db101e10e40381dae10eb600f2930f604d5ffe8cbfd1f62ecdff0feb57",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-368-reference-file-comparison-batch-16.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-368-reference-file-comparison-batch-16"
 }

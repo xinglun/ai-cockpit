@@ -32,11 +32,11 @@
   "repositorySnapshotDigest": "sha256:d07e03c16077bcd02a3fbc042aed68128c5c86e8db2d926fa0fa6103d976c0d2",
   "requiredEvidenceClasses": [],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-368-reference-file-comparison-batch-16",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/331",
     "worktree": "/private/tmp/ai-cockpit-wi368-reference-file-comparison-batch-16"
   },
   "risk": "normal",

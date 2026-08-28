@@ -1,10 +1,10 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-368-reference-file-comparison-batch-16.contract.json",
-    ".ai/work-items/active/WI-368-reference-file-comparison-batch-16.summary.json"
+    ".ai/work-items/archive/WI-368-reference-file-comparison-batch-16.contract.json",
+    ".ai/work-items/archive/WI-368-reference-file-comparison-batch-16.summary.json"
   ],
   "checkpointAt": "2026-08-28T19:08:45Z",
-  "checkpointContractDigest": "sha256:56f9458332c02d310a8d52c32968db9e6498cb6a19a6ea64fe7247d31db7d3d1",
+  "checkpointContractDigest": "sha256:534ddf04d9c37508b605d8c75dead358e09a975a9e383132fad1958f39e11e9d",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -42,21 +42,21 @@
       "workItemId": "WI-368-reference-file-comparison-batch-16"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:e1469216067da9d64a3f235ffe8107c677edbff37ab04ca2046702ef0700feac",
+  "checkpointRepositorySnapshotDigest": "sha256:708a5f679f0b85359a434107e8d367d8a0cdc78834d905a2ca00aad41bf9e934",
   "createdAt": "2026-08-28T19:03:07Z",
   "failedGate": "finish.governance",
   "mode": "code",
   "outcomeState": "blocked",
-  "preflightAt": "2026-08-28T19:45:06Z",
-  "preflightContractDigest": "sha256:56f9458332c02d310a8d52c32968db9e6498cb6a19a6ea64fe7247d31db7d3d1",
+  "preflightAt": "2026-08-28T19:54:01Z",
+  "preflightContractDigest": "sha256:534ddf04d9c37508b605d8c75dead358e09a975a9e383132fad1958f39e11e9d",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:e1469216067da9d64a3f235ffe8107c677edbff37ab04ca2046702ef0700feac",
+  "preflightRepositorySnapshotDigest": "sha256:708a5f679f0b85359a434107e8d367d8a0cdc78834d905a2ca00aad41bf9e934",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-08-28T19:45:14Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-28T19:54:06Z",
   "verification": [
     {
       "check": "project-command-0",
