@@ -229,6 +229,17 @@ pass() {
   if [[ $# -ge 2 ]]; then reason="$2"; fi
   record "$1" passed "$reason"
 }
+
+# Every repository that the harness commits to must carry its own identity.
+# Clone operations intentionally do not copy .git/config, and the CI runner
+# may have no usable global identity.  Keep this repository-local and explicit
+# so the acceptance remains deterministic without mutating user/global config.
+configure_git_identity() {
+  local repository="$1"
+  git -C "$repository" config --local user.name 'AI Cockpit N-1 Acceptance'
+  git -C "$repository" config --local user.email 'ai-cockpit-n-minus-one@example.invalid'
+}
+
 finish() {
   local exit_code=$? state=failed
   set +e
@@ -388,7 +399,8 @@ pass public-release-pins
 
 env -i HOME="$isolated_home" XDG_CONFIG_HOME="$isolated_xdg" TMPDIR="$isolated_tmp" CARGO_HOME="$isolated_cargo" RUSTUP_HOME="$rustup_home" RUSTUP_TOOLCHAIN="$rustup_toolchain" PATH="$PATH" LANG=C LC_ALL=C cargo new --lib --vcs none "$adopter" >/dev/null
 printf 'target/\n' > "$adopter/.gitignore"; : > "$adopter/AGENTS.md"
-git -C "$adopter" init -q; git -C "$adopter" config user.name 'AI Cockpit N-1 Acceptance'; git -C "$adopter" config user.email 'ai-cockpit-n-minus-one@example.invalid'
+git -C "$adopter" init -q
+configure_git_identity "$adopter"
 git -C "$adopter" add .; git -C "$adopter" commit -qm 'initial adopter'
 # Cargo/rustup may populate the intentionally isolated HOME while scaffolding
 # the fixture.  Capture the baseline after that setup and before any Runtime
@@ -470,6 +482,7 @@ git -C "$adopter" commit -qm 'commit N-1 adopter lifecycle archive'
 old_head="$(git -C "$adopter" rev-parse HEAD)"
 old_control_root="$run_root/old-control"
 git clone -q "$adopter" "$old_control_root"
+configure_git_identity "$old_control_root"
 git -C "$old_control_root" switch -q -c release-adopter-old-control
 rm -rf -- "$old_worktree"
 git -C "$old_control_root" worktree prune
@@ -611,6 +624,7 @@ git -C "$adopter" commit -qm 'commit post-migration adopter lifecycle archive'
 new_head="$(git -C "$adopter" rev-parse HEAD)"
 new_control_root="$run_root/new-control"
 git clone -q "$adopter" "$new_control_root"
+configure_git_identity "$new_control_root"
 git -C "$new_control_root" switch -q -c release-adopter-new-control
 rm -rf -- "$new_worktree"
 git -C "$new_control_root" worktree prune
