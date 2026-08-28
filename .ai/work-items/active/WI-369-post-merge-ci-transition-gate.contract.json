@@ -1,0 +1,59 @@
+{
+  "acceptanceCriteria": [
+    "A default-branch merge commit that introduces an archived Work Item with a valid pre-merge finalization context is classified as an explicit post-merge transition and does not emit a false missing-terminal-decision failure.",
+    "A historical archived Work Item that remains unclosed after the transition is still reported as a blocking stale/closure finding on the next non-transition default-branch check.",
+    "Direct default-branch commits, malformed merge states, unrelated archived items, and missing/invalid parity evidence remain fail-closed.",
+    "The CI workflow passes the event/commit context needed to make the transition decision deterministic without bypassing PR, release, or contract-aware gates.",
+    "Regression tests cover merge commit introduction, subsequent closure, stale closure, direct commit, and no global state or source fallback.",
+    "Tri-language documentation and parity ledger describe the explicit post-merge transition and preserve the requirement for eventual finalize/close.",
+    "Installed v0.2.38 Runtime lifecycle and visible human Outcome are completed for this Work Item."
+  ],
+  "authority": "authorized",
+  "baseRevision": "b44c7eae9f415412474176871096562ea5723051",
+  "createdAt": "2026-08-28T20:09:06Z",
+  "goal": "Make default-branch CI distinguish a reviewed merge commit that newly introduces an archived Work Item awaiting post-merge finalization from a stale historical missing-close condition, and prove the distinction with deterministic tests and documentation.",
+  "intent": "Eliminate false-failure quality notifications caused by the intentional post-merge finalize/close transition while preserving fail-closed detection of stale unclosed Work Items.",
+  "mode": "code",
+  "outOfScope": [
+    "Rust Runtime lifecycle semantics",
+    "release artifact contents",
+    "provider APIs",
+    "global Agent/MCP configuration",
+    "reference inventory next batch",
+    "source Python/Make/V1 runtime"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:623389d3ae5bb65ddbed9048c4aca7843a2dd3a72a151682dac5a1661fae09e5",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-369-post-merge-ci-transition",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi369-post-merge-ci-transition"
+  },
+  "risk": "normal",
+  "scope": [
+    ".github/workflows/ci.yml",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "docs/reference/governance-integrity-gate.md",
+    "docs/reference/governance-integrity-gate.zh-CN.md",
+    "docs/reference/governance-integrity-gate.ja.md",
+    "docs/work-items/WI-369-post-merge-ci-transition-gate.md",
+    "docs/work-items/WI-369-post-merge-ci-transition-gate.zh-CN.md",
+    "docs/work-items/WI-369-post-merge-ci-transition-gate.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-369-post-merge-ci-transition-gate"
+}

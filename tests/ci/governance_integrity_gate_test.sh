@@ -117,6 +117,150 @@ run_case retained-premerge-finalize 1 invalid_premerge_finalize
 run_case foreign-premerge-finalize 1 invalid_premerge_finalize
 run_case spoofed-base-premerge-finalize 1 invalid_premerge_finalize
 
+# A reviewed merge commit can legitimately introduce an archived Work Item
+# before the provider-side finalize/close receipt is written.  The default
+# branch gate must recognize that short transition without treating it as a
+# missing terminal decision; the next non-merge check must still require close.
+post_merge_transition_repo="$tmp/post-merge-transition"
+post_merge_transition_report="$tmp/post-merge-transition-report.json"
+build_fixture "$fixtures/awaiting-merge-close.json" "$post_merge_transition_repo"
+python3 - "$post_merge_transition_repo" <<'PY'
+import subprocess
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+work_item = "WI-901-corrective-after-baseline"
+
+base_with_files = subprocess.run(
+    ["git", "rev-parse", "main"], cwd=repo, check=True, capture_output=True, text=True
+).stdout.strip()
+subprocess.run(["git", "checkout", "-q", "main"], cwd=repo, check=True)
+for relative in (
+    f".ai/work-items/archive/{work_item}.archive.json",
+    f".ai/work-items/archive/{work_item}.contract.json",
+    f".ai/work-items/archive/{work_item}.outcome.json",
+    f".ai/work-items/archive/{work_item}.summary.json",
+    f".ai/evidence/{work_item}.verification.json",
+    f".ai/decisions/{work_item}.finalize.json",
+    f"docs/work-items/{work_item}.md",
+    f"docs/work-items/{work_item}.zh-CN.md",
+    f"docs/work-items/{work_item}.ja.md",
+):
+    path = repo / relative
+    if path.exists():
+        path.unlink()
+for relative in (
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+):
+    path = repo / relative
+    path.write_text(
+        "\n".join(
+            line
+            for line in path.read_text(encoding="utf-8").splitlines()
+            if work_item.split("-", 2)[0:2] != line.strip("| ").split(" ", 1)[0:1]
+            and "WI-901" not in line
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+subprocess.run(["git", "add", "."], cwd=repo, check=True)
+subprocess.run(["git", "commit", "-qm", "fixture base without pending work item"], cwd=repo, check=True)
+
+subprocess.run(["git", "branch", "-D", "codex/fixture"], cwd=repo, check=True)
+subprocess.run(["git", "branch", "codex/fixture"], cwd=repo, check=True)
+subprocess.run(["git", "checkout", "-q", "codex/fixture"], cwd=repo, check=True)
+restore = [
+    f".ai/work-items/archive/{work_item}.archive.json",
+    f".ai/work-items/archive/{work_item}.contract.json",
+    f".ai/work-items/archive/{work_item}.outcome.json",
+    f".ai/work-items/archive/{work_item}.summary.json",
+    f".ai/evidence/{work_item}.verification.json",
+    f"docs/work-items/{work_item}.md",
+    f"docs/work-items/{work_item}.zh-CN.md",
+    f"docs/work-items/{work_item}.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+]
+subprocess.run(["git", "checkout", base_with_files, "--", *restore], cwd=repo, check=True)
+subprocess.run(["git", "add", "."], cwd=repo, check=True)
+subprocess.run(["git", "commit", "-qm", "fixture archived work item"], cwd=repo, check=True)
+subprocess.run(["git", "checkout", "-q", "main"], cwd=repo, check=True)
+subprocess.run(["git", "merge", "--no-ff", "-qm", "reviewed fixture merge", "codex/fixture"], cwd=repo, check=True)
+PY
+post_merge_transition_head="$(git -C "$post_merge_transition_repo" rev-parse HEAD)"
+set +e
+GITHUB_EVENT_NAME=push \
+GITHUB_REF=refs/heads/main \
+GITHUB_SHA="$post_merge_transition_head" \
+python3 "$gate" --repo "$post_merge_transition_repo" --report "$post_merge_transition_report" >/dev/null
+post_merge_transition_code=$?
+set -e
+[[ "$post_merge_transition_code" -eq 0 ]] || {
+  printf 'merge transition should not fail the default-branch gate\n' >&2
+  exit 1
+}
+python3 - "$post_merge_transition_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert report["state"] == "passed", report["findings"]
+item = next(
+    item
+    for item in report["inventory"]
+    if item["workItemId"] == "WI-901-corrective-after-baseline"
+)
+assert item["lifecycleState"] == "awaiting_merge_close", item
+assert not any(
+    finding["workItemId"] == "WI-901-corrective-after-baseline"
+    and finding["code"] == "missing_terminal_decision"
+    for finding in report["findings"]
+), report["findings"]
+PY
+printf 'post-merge transition regression passed\n'
+
+# Once any ordinary commit lands after the merge, the grace window expires.
+# Without a provider finalization and close receipt the same Work Item must
+# block the next default-branch check.
+python3 - "$post_merge_transition_repo" <<'PY'
+import subprocess
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+(repo / "post-merge-follow-up.txt").write_text("follow-up\n", encoding="utf-8")
+subprocess.run(["git", "add", "post-merge-follow-up.txt"], cwd=repo, check=True)
+subprocess.run(["git", "commit", "-qm", "fixture follow-up commit"], cwd=repo, check=True)
+PY
+post_merge_follow_up_head="$(git -C "$post_merge_transition_repo" rev-parse HEAD)"
+set +e
+GITHUB_EVENT_NAME=push \
+GITHUB_REF=refs/heads/main \
+GITHUB_SHA="$post_merge_follow_up_head" \
+python3 "$gate" --repo "$post_merge_transition_repo" --report "$tmp/post-merge-follow-up-report.json" >/dev/null
+post_merge_follow_up_code=$?
+set -e
+[[ "$post_merge_follow_up_code" -eq 1 ]] || {
+  printf 'post-merge follow-up without close must remain fail-closed\n' >&2
+  exit 1
+}
+python3 - "$tmp/post-merge-follow-up-report.json" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert any(
+    item["workItemId"] == "WI-901-corrective-after-baseline"
+    and item["code"] == "missing_terminal_decision"
+    for item in report["findings"]
+), report["findings"]
+PY
+printf 'post-merge transition expiry regression passed\n'
+
 # An immutable retry is not a terminal decision.  Without a successor (or a
 # normal finalize/close chain), the gate must keep the predecessor open and
 # fail closed rather than treating the retry receipt as a completed delivery.
