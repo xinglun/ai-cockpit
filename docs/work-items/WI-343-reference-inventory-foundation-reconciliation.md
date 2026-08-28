@@ -4,9 +4,13 @@ title: "WI-343 — reference inventory foundation reconciliation"
 workItemId: WI-343-reference-inventory-foundation-reconciliation
 description: "Register five already-compared reference paths in the machine inventory without changing Runtime behavior or copying source tooling."
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-343-reference-inventory-foundation-reconciliation
+terminalArchive: .ai/work-items/archive/WI-343-reference-inventory-foundation-reconciliation.contract.json
+terminalVerification: .ai/evidence/WI-343-reference-inventory-foundation-reconciliation.verification.json
+terminalFinalization: .ai/decisions/WI-343-reference-inventory-foundation-reconciliation.finalize.json
+terminalDecision: .ai/decisions/WI-343-reference-inventory-foundation-reconciliation.close.json
 capabilityClaims:
   - reference_parity
 ---

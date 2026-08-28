@@ -4,9 +4,13 @@ title: "WI-343——参考 inventory 基础对账"
 workItemId: WI-343-reference-inventory-foundation-reconciliation
 description: "将已完成比较的五个参考路径登记到机器 inventory，不改变 Runtime 行为，也不复制源工具。"
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-343-reference-inventory-foundation-reconciliation
+terminalArchive: .ai/work-items/archive/WI-343-reference-inventory-foundation-reconciliation.contract.json
+terminalVerification: .ai/evidence/WI-343-reference-inventory-foundation-reconciliation.verification.json
+terminalFinalization: .ai/decisions/WI-343-reference-inventory-foundation-reconciliation.finalize.json
+terminalDecision: .ai/decisions/WI-343-reference-inventory-foundation-reconciliation.close.json
 capabilityClaims:
   - reference_parity
 ---
