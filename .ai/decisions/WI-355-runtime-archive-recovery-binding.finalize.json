@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "reviewed-PR-320-merge-and-exact-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "25afb918f3c725d3572091406134c864032aaa90",
+    "name": "codex/wi-355-runtime-archive-recovery-binding",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:9d85e8aa80a70dde5fc905378ef1ad02eb4cc19b67229268086e19bf09b7bb28",
+  "operationId": "operation-WI-355-runtime-archive-recovery-binding-merged-deleted",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "242524a3164c21c499937f77eb10eb11a28f2082",
+    "headRevision": "25afb918f3c725d3572091406134c864032aaa90",
+    "mergeCommit": "0b7e11d742be99c6c5f71941386d4454b07f89b2",
+    "number": 320,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/320"
+  },
+  "reason": "PR #320 merged at 0b7e11d; the exact feature worktree and local and remote branch were deleted after verifying the clean precondition.",
+  "receiptId": "ai-cockpit-WI-355-runtime-archive-recovery-binding-merged-deleted",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-355-runtime-archive-recovery-binding",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/320",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/ai-cockpit-runtime-archive-recovery-binding"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:6a4fa1c307f791fd523d672bc19628d2977ff79644eec6f5f98a37bf1b21d961",
+  "runtimeVersion": "0.2.34",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-28T08:52:54Z",
+  "workItemId": "WI-355-runtime-archive-recovery-binding",
+  "worktree": {
+    "branch": "codex/wi-355-runtime-archive-recovery-binding",
+    "headRevision": "25afb918f3c725d3572091406134c864032aaa90",
+    "path": "/Users/sei-rinn/dev/workspace_rust/.worktrees/ai-cockpit-runtime-archive-recovery-binding",
+    "worktreeId": "WI-355-runtime-archive-recovery-binding"
+  }
+}
