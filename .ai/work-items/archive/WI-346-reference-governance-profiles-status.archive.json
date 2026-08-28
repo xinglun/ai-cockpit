@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-28T02:30:47Z",
+  "files": {
+    "contractDigest": "sha256:498baeef3ee6e423bcffedcbbe15a037b3dddfe66a9565bf129bd02a22f7cc36",
+    "contractPath": ".ai/work-items/archive/WI-346-reference-governance-profiles-status.contract.json",
+    "eventsDigest": "sha256:ca6af226d76b05f52c0ea9053f748c0db6d7a1882ac5f3f433c216c0582b28f0",
+    "eventsPath": ".ai/work-items/archive/WI-346-reference-governance-profiles-status.events.jsonl",
+    "outcomeDigest": "sha256:39d162117628b19ff5d7ebd3f050228dedf43537cac7462b822a5438d6ca1512",
+    "outcomePath": ".ai/work-items/archive/WI-346-reference-governance-profiles-status.outcome.json",
+    "summaryDigest": "sha256:a9c1ba16384909ff3f6667667f3f2e1e8a434e390bc1315e566c886040c70168",
+    "summaryPath": ".ai/work-items/archive/WI-346-reference-governance-profiles-status.summary.json",
+    "taskReportDigest": "sha256:762831573c30c8c79b421f22ad14c36e166c85da80781420a9bf3403e0a72de7",
+    "taskReportMarkdownDigest": "sha256:04426733fb6615b1ab45e322be295972151570fc1df1f698788e33756b1dcdff",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-346-reference-governance-profiles-status.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-346-reference-governance-profiles-status.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-346-reference-governance-profiles-status"
+}

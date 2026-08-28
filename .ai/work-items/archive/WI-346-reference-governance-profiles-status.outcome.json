@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "All six selected reference files are individually compared and classified with source and target evidence.",
+    "Tri-language governance profile guidance states Light/Standard/Strict routing, release escalation, cost-versus-assurance separation, mandatory control floor, and fail-closed boundaries without claiming unavailable source commands.",
+    "Tri-language status guidance explains human Outcome colors, stop conditions, evidence boundaries, and next actions for adopters and non-technical reviewers.",
+    "Comparison inventory and parity records are updated bidirectionally, preserve pinned source identity, and mark only verified closed work as implemented.",
+    "Object repositories inherit the same explicit repository context, Runtime/adopter boundary, and human Outcome rules."
+  ],
+  "createdAt": "2026-08-28T02:30:42Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:c6a81a0e6b6eb95aae01e0e3619773f88ad5e15916564e30b130bf19db8b19a5",
+  "evidenceRefs": [
+    ".ai/evidence/WI-346-reference-governance-profiles-status.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-346-reference-governance-profiles-status.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-346-reference-governance-profiles-status.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b9cc2320ed2c672293531746efec3b064f082fa7705a88ac69014c0819d9b7d5",
+      "workItemId": "WI-346-reference-governance-profiles-status"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-346-reference-governance-profiles-status.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-346-reference-governance-profiles-status.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-346-reference-governance-profiles-status.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-346-reference-governance-profiles-status.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-346-reference-governance-profiles-status.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-346-reference-governance-profiles-status.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-346-reference-governance-profiles-status.contract.json"
+          ],
+          "inference": false,
+          "text": "Preserve reference behavior where applicable while documenting honest Rust-native governance profile routing and human status interpretation for object repositories."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-346-reference-governance-profiles-status.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-346-reference-governance-profiles-status"
+  },
+  "taskReportDigest": "sha256:762831573c30c8c79b421f22ad14c36e166c85da80781420a9bf3403e0a72de7",
+  "taskReportMarkdownDigest": "sha256:04426733fb6615b1ab45e322be295972151570fc1df1f698788e33756b1dcdff",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-346-reference-governance-profiles-status.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-346-reference-governance-profiles-status"
+}

@@ -1,0 +1,25 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-28T02:17:45Z",
+  "checkpointContractDigest": "sha256:5b463af0416c5f317c6e7fdf3ecc99798fb6f947ed33fe81bbac54bde57dbfa8",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:b9cc2320ed2c672293531746efec3b064f082fa7705a88ac69014c0819d9b7d5",
+  "createdAt": "2026-08-28T02:05:25Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-28T02:30:37Z",
+  "preflightContractDigest": "sha256:5b463af0416c5f317c6e7fdf3ecc99798fb6f947ed33fe81bbac54bde57dbfa8",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:b9cc2320ed2c672293531746efec3b064f082fa7705a88ac69014c0819d9b7d5",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-28T02:30:42Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-346-reference-governance-profiles-status"
+}
