@@ -5578,9 +5578,13 @@ fn record_verification_internal(
         });
     }
     let recovery_retry_pending = summary["recoveryRetryPending"] == serde_json::json!(true);
+    let contract_amendment_pending = summary
+        .get("verificationInvalidatedByContractAmendment")
+        .is_some();
     require_current_retry_recovery_binding(&root, work_item_id, &summary, current_runtime)?;
     if !matches!(summary["preflightState"].as_str(), Some("green" | "yellow"))
         && !recovery_retry_pending
+        && !contract_amendment_pending
     {
         return Err(ObserverError::State {
             path: summary_path,

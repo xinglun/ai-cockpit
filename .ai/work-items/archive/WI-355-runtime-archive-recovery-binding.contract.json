@@ -26,57 +26,57 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-355-runtime-archive-recovery-binding",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/320",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/ai-cockpit-runtime-archive-recovery-binding"
   },
   "risk": "high",
   "scenarioCoverage": [
     {
-      "scenario": "archived completed Work Item with a stale retry receipt",
-      "required": true,
-      "status": "unverified",
       "evidence": [
         "crates/cockpit-repository/src/lib.rs",
         "crates/cockpit-repository/tests/recovery_decision.rs"
       ],
       "expected": "A valid retry receipt whose predecessor binding is stale after fresh archived projections is consumed as historical evidence without recovery_decision_invalid.",
+      "required": true,
+      "scenario": "archived completed Work Item with a stale retry receipt",
+      "status": "unverified",
       "verificationPlan": "Add an archived regression fixture with a stale retry binding and assert the Outcome remains governed by finalization/close state rather than recovery invalidity."
     },
     {
-      "scenario": "malformed, foreign, misnamed, or ambiguous recovery candidate",
-      "required": true,
-      "status": "unverified",
       "evidence": [
         "crates/cockpit-repository/src/lib.rs",
         "crates/cockpit-repository/tests/recovery_decision.rs"
       ],
       "expected": "Untrusted recovery candidates remain fail-closed and cannot fall through to a weaker archive or finalization path.",
+      "required": true,
+      "scenario": "malformed, foreign, misnamed, or ambiguous recovery candidate",
+      "status": "unverified",
       "verificationPlan": "Run existing archived and current recovery negative tests alongside the new stale-retry regression."
     },
     {
-      "scenario": "pending retry marker without a current retry receipt",
-      "required": true,
-      "status": "unverified",
       "evidence": [
         "crates/cockpit-repository/src/lib.rs",
         "crates/cockpit-repository/tests/recovery_decision.rs"
       ],
       "expected": "A pending retry marker still requires a matching current recovery receipt and is never treated as consumed history.",
+      "required": true,
+      "scenario": "pending retry marker without a current retry receipt",
+      "status": "unverified",
       "verificationPlan": "Preserve and execute the pending-marker negative regression while changing only the archived stale-retry branch."
     },
     {
-      "scenario": "immutable predecessor archive",
-      "required": true,
-      "status": "unverified",
       "evidence": [
         ".ai/work-items/archive/WI-353-runtime-recovery-delivery-binding.archive.json",
         ".ai/work-items/archive/WI-353-runtime-recovery-delivery-binding.contract.json"
       ],
       "expected": "The correction changes only Runtime source/tests and does not rewrite WI-353 archived bytes.",
+      "required": true,
+      "scenario": "immutable predecessor archive",
+      "status": "unverified",
       "verificationPlan": "Compare predecessor archive digests before and after verification and inspect the final diff."
     }
   ],
@@ -92,7 +92,10 @@
     "docs/reference/reference-parity.zh-CN.md",
     "docs/work-items/WI-355-runtime-archive-recovery-binding.md",
     "docs/work-items/WI-355-runtime-archive-recovery-binding.ja.md",
-    "docs/work-items/WI-355-runtime-archive-recovery-binding.zh-CN.md"
+    "docs/work-items/WI-355-runtime-archive-recovery-binding.zh-CN.md",
+    "docs/work-items/WI-353-runtime-recovery-delivery-binding.md",
+    "docs/work-items/WI-353-runtime-recovery-delivery-binding.ja.md",
+    "docs/work-items/WI-353-runtime-recovery-delivery-binding.zh-CN.md"
   ],
   "sources": [
     "crates/cockpit-repository/src/lib.rs",

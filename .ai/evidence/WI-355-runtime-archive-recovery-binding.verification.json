@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:2004be13182abe8b99fd123917b60f03176e9619eeb9147df0f200c211c06af2",
-  "createdAt": "2026-08-28T07:40:59Z",
+  "contractDigest": "sha256:1ef031e1f64c0a86bcc9947c1b4052ab6c29adaf5fcf7fc12e539422c0dc3121",
+  "createdAt": "2026-08-28T08:36:18Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 197611,
-      "executionElapsedMs": 197299,
+      "elapsedMs": 277665,
+      "executionElapsedMs": 277497,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -20,15 +20,15 @@
       "processesSpawned": 1,
       "protectedNodesExecuted": 0,
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "runtimeDigest": "sha256:d8355aa14d89fe0109a07ffe21b5e05ebe00c5793b9e4c4dd08429ff9682a36c",
+      "runtimeDigest": "sha256:d7a3d05e4c3d76c9a7379eb9d28af04580d506510700d8caf713385c937b0cd4",
       "runtimeVersion": "0.2.33",
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 197611,
-    "executionElapsedMs": 197299,
-    "filesHashed": 21,
-    "filesRead": 21,
+    "elapsedMs": 277665,
+    "executionElapsedMs": 277497,
+    "filesHashed": 15,
+    "filesRead": 15,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -39,12 +39,9 @@
       "affectedPaths": [
         "crates/cockpit-repository/src/lib.rs",
         "crates/cockpit-repository/tests/recovery_decision.rs",
-        "docs/reference/reference-parity.ja.md",
-        "docs/reference/reference-parity.md",
-        "docs/reference/reference-parity.zh-CN.md",
-        "docs/work-items/WI-355-runtime-archive-recovery-binding.ja.md",
-        "docs/work-items/WI-355-runtime-archive-recovery-binding.md",
-        "docs/work-items/WI-355-runtime-archive-recovery-binding.zh-CN.md"
+        "docs/work-items/WI-353-runtime-recovery-delivery-binding.ja.md",
+        "docs/work-items/WI-353-runtime-recovery-delivery-binding.md",
+        "docs/work-items/WI-353-runtime-recovery-delivery-binding.zh-CN.md"
       ],
       "assurance": "repository_verified",
       "baseRevision": "242524a3164c21c499937f77eb10eb11a28f2082",
@@ -53,13 +50,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 197299,
+      "executionElapsedMs": 277497,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:6c86a20ded20fc6cd271eb1d5131a1dd556a3dbd29a842883507a728a9092a2e",
+      "repositorySnapshotDigest": "sha256:22f3cc20d7dcc4c05145bd72d3785c42395d50a3b9057b4b9b7aab71f4697388",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -85,7 +82,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:c41b97e3f46d2913cf5f97c597e49c80dbbc66df74ec4ea1240f1a214930a665",
+        "outputDigest": "sha256:4f87cc7ba8c6c695bd42e417deb820617720e1e2fd507795e42a7b89505ab25f",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -97,14 +94,14 @@
         "timedOut": false
       }
     ],
-    "runtimeDigest": "sha256:d8355aa14d89fe0109a07ffe21b5e05ebe00c5793b9e4c4dd08429ff9682a36c",
+    "runtimeDigest": "sha256:d7a3d05e4c3d76c9a7379eb9d28af04580d506510700d8caf713385c937b0cd4",
     "runtimeVersion": "0.2.33",
     "workItemId": "WI-355-runtime-archive-recovery-binding"
   },
-  "receiptDigest": "sha256:469e799b2b28735b08d0db4b431c3e7411dee63eccf47f232d6cd4e07cdecb86",
+  "receiptDigest": "sha256:6bff96def76e64e16c903c9c0ccc0d9cb2b1f839618c75c2daaf42472d288490",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:6c86a20ded20fc6cd271eb1d5131a1dd556a3dbd29a842883507a728a9092a2e",
-  "runtimeDigest": "sha256:d8355aa14d89fe0109a07ffe21b5e05ebe00c5793b9e4c4dd08429ff9682a36c",
+  "repositorySnapshotDigest": "sha256:22f3cc20d7dcc4c05145bd72d3785c42395d50a3b9057b4b9b7aab71f4697388",
+  "runtimeDigest": "sha256:d7a3d05e4c3d76c9a7379eb9d28af04580d506510700d8caf713385c937b0cd4",
   "runtimeVersion": "0.2.33",
   "workItemId": "WI-355-runtime-archive-recovery-binding"
 }
