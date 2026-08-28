@@ -454,6 +454,156 @@ fn calibrated_auto_command_reuses_a_persisted_receipt_in_a_second_process() {
 }
 
 #[test]
+fn work_item_detected_command_uses_dynamic_profile_authorized_reuse() {
+    let suffix = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("clock")
+        .as_nanos();
+    let sequence = NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed);
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-verify-work-item-reuse-{}-{suffix}-{sequence}",
+        std::process::id()
+    ));
+    fs::create_dir_all(&directory).expect("directory");
+    fs::write(
+        directory.join("package.json"),
+        r#"{"scripts":{"test":"node verify.js"}}"#,
+    )
+    .expect("package");
+    fs::write(
+        directory.join("verify.js"),
+        "const fs=require('fs'); const p='.verify-count'; const n=fs.existsSync(p)?+fs.readFileSync(p):0; fs.writeFileSync(p,String(n+1));\n",
+    )
+    .expect("script");
+    fs::write(directory.join(".gitignore"), ".verify-count\n").expect("ignore counter");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(&directory)
+        .status()
+        .expect("git init");
+    Command::new("git")
+        .args(["add", "."])
+        .current_dir(&directory)
+        .status()
+        .expect("git add");
+    assert!(
+        Command::new("git")
+            .args([
+                "-c",
+                "user.name=AI Cockpit Test",
+                "-c",
+                "user.email=ai-cockpit@example.invalid",
+                "commit",
+                "-qm",
+                "fixture",
+            ])
+            .current_dir(&directory)
+            .status()
+            .expect("git commit")
+            .success()
+    );
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    for args in [
+        vec!["attach", "--repo"],
+        vec!["profile", "confirm", "--repo"],
+    ] {
+        let mut command = Command::new(binary);
+        command.args(&args).arg(&directory);
+        if args[0] == "profile" {
+            command.args(["--program", "npm", "--args", "test"]);
+        }
+        assert!(
+            command
+                .current_dir(&directory)
+                .output()
+                .expect("setup")
+                .status
+                .success()
+        );
+    }
+    let start = Command::new(binary)
+        .args([
+            "start",
+            "--repo",
+            directory.to_str().expect("repo path"),
+            "--id",
+            "WI-VERIFY-REUSE",
+            "--intent",
+            "verify reuse",
+            "--goal",
+            "reuse exact evidence",
+            "--scope",
+            "**",
+            "--authority",
+            "authorized",
+            "--acceptance",
+            "unchanged verification reuses exact evidence",
+        ])
+        .current_dir(&directory)
+        .output()
+        .expect("start");
+    assert!(
+        start.status.success(),
+        "start stderr: {}",
+        String::from_utf8_lossy(&start.stderr)
+    );
+    let contract_path = directory.join(".ai/work-items/active/WI-VERIFY-REUSE.contract.json");
+    assert!(
+        Command::new(binary)
+            .args(["preflight", "--repo"])
+            .arg(&directory)
+            .args(["--contract"])
+            .arg(&contract_path)
+            .current_dir(&directory)
+            .output()
+            .expect("preflight")
+            .status
+            .success()
+    );
+    assert!(
+        Command::new(binary)
+            .args(["checkpoint", "--repo"])
+            .arg(&directory)
+            .args(["--id", "WI-VERIFY-REUSE"])
+            .current_dir(&directory)
+            .output()
+            .expect("checkpoint")
+            .status
+            .success()
+    );
+    let run = || {
+        let output = Command::new(binary)
+            .args([
+                "verify",
+                "--repo",
+                directory.to_str().expect("repo path"),
+                "--work-item",
+                "WI-VERIFY-REUSE",
+            ])
+            .current_dir(&directory)
+            .output()
+            .expect("verify");
+        assert!(
+            output.status.success(),
+            "verify stderr: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        serde_json::from_slice::<serde_json::Value>(&output.stdout).expect("JSON")
+    };
+    let first = run();
+    let second = run();
+    assert_eq!(first["nodesExecuted"], 1);
+    assert_eq!(first["nodesReused"], 0);
+    assert_eq!(second["nodesExecuted"], 0);
+    assert_eq!(second["nodesReused"], 1);
+    assert_eq!(
+        fs::read_to_string(directory.join(".verify-count")).expect("counter"),
+        "1"
+    );
+    fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[test]
 fn verification_evidence_uses_snapshot_after_command_side_effects() {
     let suffix = SystemTime::now()
         .duration_since(UNIX_EPOCH)

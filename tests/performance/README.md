@@ -26,3 +26,12 @@ explicit resource budget. A command whose weight is zero or exceeds the budget
 fails closed, while dependency order, protected nodes, and receipt reuse keep
 their existing semantics. Repository contexts and runtime sessions are
 request-scoped; they do not create a process-global current repository.
+
+For a Work Item, the detected Cargo/npm command is dynamically eligible for
+the same profile-authorized receipt reuse as standalone auto-detected
+verification. The Runtime compares the complete identity context before every
+reuse decision. Changed or unknown impact executes the declared command and
+records the reason, while explicit custom commands remain fresh. Adopter
+acceptance must run the identical cold/warm sequence with the published binary
+and retain both repository and Runtime identities; local source builds are not
+valid acceptance evidence.

@@ -1,0 +1,146 @@
+{
+  "acceptanceResults": [
+    "Work Item verification uses a dynamic profile-authorized path for the detected project command; explicit custom commands remain fresh unless reuse is explicitly requested.",
+    "The dynamic reusable path may reuse only a valid identity-bound receipt whose repository, profile, runtime, command, scope, stage, runner, base, toolchain, dependency, and policy context all match.",
+    "A reused result records a fresh Work Item verification evidence binding and never skips required/protected governance nodes.",
+    "Any changed snapshot, command, scope, stage, runner, runtime, profile, toolchain, dependency, or malformed/tampered receipt denies reuse and executes the declared verification command; unknown impact never becomes green by timing or cache state.",
+    "The selection decision reports executed, reused, escalated, and denied reasons so an Agent can distinguish a precise warm path from a required cold path.",
+    "Current ai-cockpit and a fresh isolated adopter both demonstrate measurable cold versus warm behavior using the installed Runtime after release; no source/build fallback is used.",
+    "Three-language documentation explains the dynamic selection boundary, evidence identity, and that timing/reuse never authorizes weaker governance."
+  ],
+  "createdAt": "2026-08-28T21:34:15Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:7d3bc0e12fc561b7a4cffbe48fffba9e62011e6914c1f3331ba8e9e0c55a73d7",
+  "evidenceRefs": [
+    ".ai/evidence/WI-370-verification-performance-budget.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-370-verification-performance-budget.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-370-verification-performance-budget.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7a94fc1cf095feaac1fddd9c5d1f0bd38b5422f662ba8d954c569bf6165e7006",
+      "workItemId": "WI-370-verification-performance-budget"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-370-verification-performance-budget.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-370-verification-performance-budget.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-370-verification-performance-budget.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-370-verification-performance-budget.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-370-verification-performance-budget.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-370-verification-performance-budget.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-370-verification-performance-budget.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-370-verification-performance-budget.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-370-verification-performance-budget.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-370-verification-performance-budget.contract.json"
+          ],
+          "inference": false,
+          "text": "Make unchanged, already-verified project commands fast to repeat and select only verification work justified by current impact facts, while preserving full execution or policy-directed escalation after any relevant identity, snapshot, command, scope, dependency, policy, or runtime change."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-370-verification-performance-budget.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-370-verification-performance-budget"
+  },
+  "taskReportDigest": "sha256:7fcff9e8dd3f92e57e4e5dd20b1016c0005a829a6cfed6561e8db4a4f80d7708",
+  "taskReportMarkdownDigest": "sha256:73ed24849d70439312452d9b6cd322a70b3b5d311ba3b775b8354e8f8cc12483",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-370-verification-performance-budget.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-370-verification-performance-budget"
+}

@@ -46,8 +46,12 @@ handoff だけを抑止します。`work-item outcome` は既定で stdout に�
 ## Important options
 
 - `verify --command <program> --args <comma-separated>` は explicit command を常に fresh に実行します。
-  `--work-item <id>` は receipt を記録し、同じく fresh execution を強制します。
+  `--work-item <id>` は receipt を記録しますが、検出された Cargo/npm command は dynamic な
+  profile-authorized path を使い、explicit custom command は常に fresh です。
 - `--command` なしの `verify` は Cargo または npm を検出し、confirmed profile で cross-process reuse できます。
+  現在の repository、snapshot、profile、Runtime、command、scope、stage、runner、base、toolchain、dependency、policy
+  identity がすべて exact match の場合だけ reuse を許可します。それ以外は宣言された command を実行し、拒否/昇格理由を返します。
+  timing や cache state が required/protected node を省略することはありません。
 - `verify --workers <n>` は positive worker count を要求し concurrency を制限します。
 - `work-item boundary --repo <path> --id <id> --file <boundary.json>` は optional な
   `concurrencyBoundary` を Contract に bind します。4 種類の path と `maxWorkers` を検証しますが、
