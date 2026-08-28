@@ -1,0 +1,27 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-28T18:24:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-367-release-adopter-v0-2-38.verification.json",
+    ".ai/work-items/active/WI-367-release-adopter-v0-2-38.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:canonical-delivery-order",
+    "docs/reference/agent-workflow.md:retry-recovery"
+  ],
+  "predecessorContractDigest": "sha256:812ccda69abd5b26163a25c6772eefd6bcf19825434330494f26febc5736eae8",
+  "predecessorEventsDigest": "sha256:c3924030e30f68357e087d09f1daa479db3c7777795b517c2ec85aac70a92dc9",
+  "predecessorOutcomeDigest": "sha256:7e18c147852725bb5d2844f25dcc04f5e02cdb79ff89e0848ee290498a42e9b9",
+  "predecessorSummaryDigest": "sha256:f8d627e97a10fab6dff97dc0e2b0ff6452a89a587266a16fa4a92df2bb1ef1df",
+  "predecessorWorkItemId": "WI-367-release-adopter-v0-2-38",
+  "reason": "Retry WI-367 after the first finish attempt correctly stopped because finalize-plan was missing, then the finalize plan changed the Contract binding and required fresh verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh verify after the finalized resource context, obtain a green preflight, then finish/archive/finalize/close through the reviewed PR.",
+  "runtimeDigest": "sha256:39a1e27deb5d47946c723d6129ead21a6fcb6bd5dbb7c1346a97e83ec61543c4",
+  "runtimeVersion": "0.2.34",
+  "schemaVersion": 1,
+  "workItemId": "WI-367-release-adopter-v0-2-38"
+}
