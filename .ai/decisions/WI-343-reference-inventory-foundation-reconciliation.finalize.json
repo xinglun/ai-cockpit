@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "c1cceaec42c887138ea064cd596355c9fdd83dc6",
+    "name": "codex/wi-343-reference-inventory-foundation-reconciliation",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:474edb0df980815b1e621e2b887c77fa25b559282664bccf7af73366ac61d149",
+  "operationId": "github-pr-307-merge-cleanup-20260828",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "661b64effb67d1af9215b79fa609869a671d65b5",
+    "headRevision": "c1cceaec42c887138ea064cd596355c9fdd83dc6",
+    "mergeCommit": "d2ffe60538f0fbc6b280bfe1826f64825ace2d55",
+    "number": 307,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/307"
+  },
+  "reason": "PR #307 passed all hosted checks and was merged; the exact feature branch and worktree were removed after verification.",
+  "receiptId": "github-pr-307-finalization-20260828",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-343-reference-inventory-foundation-reconciliation",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/307",
+    "worktree": "/private/tmp/ai-cockpit-wi343-reference-inventory-foundation-reconciliation"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-28T00:10:00Z",
+  "workItemId": "WI-343-reference-inventory-foundation-reconciliation",
+  "worktree": {
+    "branch": "codex/wi-343-reference-inventory-foundation-reconciliation",
+    "headRevision": "c1cceaec42c887138ea064cd596355c9fdd83dc6",
+    "path": "/private/tmp/ai-cockpit-wi343-reference-inventory-foundation-reconciliation",
+    "worktreeId": "WI-343-reference-inventory-foundation-reconciliation"
+  }
+}
