@@ -31246,38 +31246,60 @@
     },
     {
       "referencePath": "docs/reference/cross-wi-integration.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-343-reference-inventory-foundation-reconciliation",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/outcome-report.md",
+        ".ai/work-items/archive/"
+      ],
+      "reason": "The source aggregate report is an advisory historical integration view. The target's per-Work-Item archive validation, reference-parity ledger, and human Outcome boundary provide the corresponding audit surfaces without adding a cross-Work-Item Runtime report or claiming an observable conversation receipt."
     },
     {
       "referencePath": "docs/reference/dependabot-intake.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-343-reference-inventory-foundation-reconciliation",
+      "classification": "not-applicable",
+      "rustCounterparts": [
+        "docs/reference/ci-release-evidence.md",
+        "Cargo.toml",
+        "Cargo.lock"
+      ],
+      "reason": "Dependabot bot-branch intake is provider-specific and is not a Runtime capability. The target keeps generic delegated provider evidence and explicit Work Item source binding, while dependency facts and update-service selection remain repository/provider responsibilities."
     },
     {
       "referencePath": "docs/reference/deprecated-assets-registry.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-343-reference-inventory-foundation-reconciliation",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        ".ai/README.md",
+        "docs/reference/agent-workflow.md",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "The source registry is a source-repository cleanup inventory, not a portable Runtime protocol. Explicit lifecycle closure, immutable history, and exact resource finalization provide the target cleanup boundary without shipping a source deletion registry or Make scan."
     },
     {
       "referencePath": "docs/reference/deprecated-assets.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-343-reference-inventory-foundation-reconciliation",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/agent-workflow.md",
+        "docs/reference/reference-parity.md",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "The source obsolete-command and registry-hygiene explanation remains reference documentation. Rust uses explicit --repo lifecycle commands, immutable archives, and reviewed resource finalization; it does not claim the source check-deprecated-assets command."
     },
     {
       "referencePath": "docs/reference/derived-artifacts.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-343-reference-inventory-foundation-reconciliation",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/outcome-report.md",
+        "docs/reference/verification-semantics.md",
+        ".ai/README.md",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "The target preserves the source fact-versus-view boundary through typed Contract, evidence, archive, status, and Outcome projections. Derived views cannot authorize later decisions; no source Python registry or second authority is required or read."
     },
     {
       "referencePath": "docs/reference/diff-bound-evidence-reuse.md",

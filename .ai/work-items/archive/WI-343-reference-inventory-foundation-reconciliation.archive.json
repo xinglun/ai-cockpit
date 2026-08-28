@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-28T00:03:40Z",
+  "files": {
+    "contractDigest": "sha256:474edb0df980815b1e621e2b887c77fa25b559282664bccf7af73366ac61d149",
+    "contractPath": ".ai/work-items/archive/WI-343-reference-inventory-foundation-reconciliation.contract.json",
+    "eventsDigest": "sha256:083771de54efbda0d2311f55dfafbaccb3fca289c275aef050125d40278b0803",
+    "eventsPath": ".ai/work-items/archive/WI-343-reference-inventory-foundation-reconciliation.events.jsonl",
+    "outcomeDigest": "sha256:3f5833a9175a37ee9013b4516788536520744586da935fe72e4b373c94aa9d85",
+    "outcomePath": ".ai/work-items/archive/WI-343-reference-inventory-foundation-reconciliation.outcome.json",
+    "summaryDigest": "sha256:9e09d2579c01be1a30e3d90c8b86de4ed4984bd1db9477ed6e169b92737569fc",
+    "summaryPath": ".ai/work-items/archive/WI-343-reference-inventory-foundation-reconciliation.summary.json",
+    "taskReportDigest": "sha256:1b1ee39b6f1389cc5fb1036cdb08c4e32880e0c3b343938140d4aa72fbbd019e",
+    "taskReportMarkdownDigest": "sha256:89c7db281805d1b94924270141fb25102edfb8ecbcdf60b060ed3bfcf4b65d35",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-343-reference-inventory-foundation-reconciliation.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-343-reference-inventory-foundation-reconciliation.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-343-reference-inventory-foundation-reconciliation"
+}

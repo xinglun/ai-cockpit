@@ -123,11 +123,11 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=239 implemented-equivalent=1 not-applicable=3 reference-only=27 deferred-next-batch=587 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=240 implemented-equivalent=1 not-applicable=4 reference-only=30 deferred-next-batch=582 migrate-gap=0 -->
 
 At the pinned v0.2.33 comparison baseline, the ledger contains 5,119 records:
-4,262 `generated-history`, 239 `implemented-different-by-design`, one
-`implemented-equivalent`, three `not-applicable`, 27 `reference-only`, and 587
+4,262 `generated-history`, 240 `implemented-different-by-design`, one
+`implemented-equivalent`, four `not-applicable`, 30 `reference-only`, and 582
 `deferred-next-batch` records. Deferred records remain scheduled work, not
 parity claims. The capability/profile slice has no remaining `migrate-gap`
 records:
@@ -143,7 +143,7 @@ records:
 
 The governance entrypoints, getting-started routes, CI/release boundaries, and
 capability/profile projections have been reviewed at this baseline. The four
-records above are Rust-native, explicitly bounded counterparts; the 587
+records above are Rust-native, explicitly bounded counterparts; the 582
 deferred semantic comparisons remain scheduled work.
 
 WI-274 rebinds only the target checkout metadata and canonical comparison
@@ -627,6 +627,26 @@ required-check gates. The inventory, tri-language ledgers, and WI-334 evidence
 bind this decision; no source participant, Python, Make, or V1 artifact is
 introduced.
 
+## WI-343 inventory foundation reconciliation
+
+WI-339 had already compared the following five pinned paths individually, but
+the machine inventory still left them as `deferred-next-batch`. WI-343 registers
+those existing decisions deterministically without changing Runtime behavior or
+copying source tooling.
+
+| Pinned source path | Classification |
+| --- | --- |
+| `docs/reference/cross-wi-integration.md` | `reference-only` |
+| `docs/reference/dependabot-intake.md` | `not-applicable` |
+| `docs/reference/deprecated-assets-registry.json` | `reference-only` |
+| `docs/reference/deprecated-assets.md` | `reference-only` |
+| `docs/reference/derived-artifacts.md` | `implemented-different-by-design` |
+
+The tri-language ledgers now agree with the generated inventory: 240
+implemented-different-by-design, four not-applicable, 30 reference-only, and
+582 deferred records, with zero migrate-gap. This is a ledger reconciliation,
+not a source command or JSON-wire compatibility claim.
+
 ## WI-342 documentation, distribution, and enterprise-boundary batch
 
 WI-342 reads the following ten pinned reference paths individually at
@@ -657,9 +677,9 @@ one shared Runtime, repository-scoped `.ai/` state, external provider evidence,
 and no organization-wide identity or compliance claim.
 
 The current ledger after this batch is 5,119 records: 4,262
-`generated-history`, 239 `implemented-different-by-design`, one
-`implemented-equivalent`, three `not-applicable`, 27 `reference-only`, and 587
-`deferred-next-batch`; `migrate-gap` remains zero. The 587 deferred records are
+`generated-history`, 240 `implemented-different-by-design`, one
+`implemented-equivalent`, four `not-applicable`, 30 `reference-only`, and 582
+`deferred-next-batch`; `migrate-gap` remains zero. The 582 deferred records are
 still scheduled comparison work and are not parity claims.
 
 ## WI-336 first five governance-documentation paths
