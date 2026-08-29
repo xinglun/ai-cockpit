@@ -8,9 +8,13 @@ audience:
   - contributor
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-408-inspect-readonly-boundary
+terminalArchive: .ai/work-items/archive/WI-408-inspect-readonly-boundary.contract.json
+terminalVerification: .ai/evidence/WI-408-inspect-readonly-boundary.verification.json
+terminalFinalization: .ai/decisions/WI-408-inspect-readonly-boundary.finalize.json
+terminalDecision: .ai/decisions/WI-408-inspect-readonly-boundary.close.json
 ---
 
 # WI-408 — Work Item inspect の read-only boundary
