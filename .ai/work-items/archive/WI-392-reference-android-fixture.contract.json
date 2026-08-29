@@ -1,0 +1,70 @@
+{
+  "acceptanceCriteria": [
+    "Each of the four pinned Android fixture files is compared individually and mapped to a Rust-native counterpart or explicitly marked external/non-applicable.",
+    "Tri-language documentation explains Android fixture facts, unknown boundaries, shared external Runtime installation, explicit repository context, and adopter-owned Gradle/Android checks without hard-copying source implementation.",
+    "Reference inventory, parity index, documentation links, and tri-language Work Item records bind the pinned source commit and remain synchronized.",
+    "The mapping does not claim direct compatibility with source-specific installer, Make, Python, guard YAML, or legacy JSON wire behavior.",
+    "Declared documentation, inventory, and conformance checks pass with installed Runtime evidence."
+  ],
+  "authority": "authorized",
+  "baseRevision": "e75009c626748f3165281867811670f4aad539bd",
+  "createdAt": "2026-08-29T09:32:02Z",
+  "goal": "Establish auditable semantic parity and inheritance boundaries for the four pinned examples/fixtures/android-app files.",
+  "intent": "Compare the pinned Android fixture files one by one and record Rust-native/adopter mappings without copying Android-specific installation or legacy runtime behavior.",
+  "mode": "docs",
+  "outOfScope": [
+    "Rust Runtime implementation",
+    "Android/Gradle SDK installation or build orchestration",
+    "Reference install.sh",
+    " Makefile",
+    " Python",
+    " guard YAML",
+    " or legacy wire schema",
+    "Changes to adopter repositories or global Agent/MCP configuration",
+    "Unrelated reference files and future batches"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:704c8846c40e3ee2d588e8ad33bda0be2b61bc5fa58e4b2864e80634cc6a708c",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-392-reference-android-fixture",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/356",
+    "worktree": "/private/tmp/ai-cockpit-wi392-reference-android-fixture"
+  },
+  "risk": "normal",
+  "scope": [
+    "examples/fixtures/android-app/app/src/main/kotlin/example/MainActivity.kt",
+    "examples/fixtures/android-app/app/src/test/kotlin/example/MainActivityTest.kt",
+    "examples/fixtures/android-app/fixture.json",
+    "examples/fixtures/android-app/settings.gradle.kts",
+    "docs/reference/android-fixture-adaptation.md",
+    "docs/reference/android-fixture-adaptation.zh-CN.md",
+    "docs/reference/android-fixture-adaptation.ja.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/README.md",
+    "docs/reference/README.zh-CN.md",
+    "docs/reference/README.ja.md",
+    "docs/work-items/WI-392-reference-android-fixture.md",
+    "docs/work-items/WI-392-reference-android-fixture.zh-CN.md",
+    "docs/work-items/WI-392-reference-android-fixture.ja.md",
+    "tests/conformance/reference_file_inventory.json"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-392-reference-android-fixture"
+}

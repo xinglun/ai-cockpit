@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "Each of the four pinned Android fixture files is compared individually and mapped to a Rust-native counterpart or explicitly marked external/non-applicable.",
+    "Tri-language documentation explains Android fixture facts, unknown boundaries, shared external Runtime installation, explicit repository context, and adopter-owned Gradle/Android checks without hard-copying source implementation.",
+    "Reference inventory, parity index, documentation links, and tri-language Work Item records bind the pinned source commit and remain synchronized.",
+    "The mapping does not claim direct compatibility with source-specific installer, Make, Python, guard YAML, or legacy JSON wire behavior.",
+    "Declared documentation, inventory, and conformance checks pass with installed Runtime evidence."
+  ],
+  "createdAt": "2026-08-29T09:41:24Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:54b52a4313f7297ba493d84b64700f918b37f37aa84d3404b9bbe5d849e8a523",
+  "evidenceRefs": [
+    ".ai/evidence/WI-392-reference-android-fixture.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-392-reference-android-fixture.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-392-reference-android-fixture.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:87ec2df8469549e1318fcd167c5ccb83fe3d25ce89aeefd58c5f03165469eb2d",
+      "workItemId": "WI-392-reference-android-fixture"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-392-reference-android-fixture.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-392-reference-android-fixture.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-392-reference-android-fixture.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-392-reference-android-fixture.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-392-reference-android-fixture.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-392-reference-android-fixture.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-392-reference-android-fixture.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-392-reference-android-fixture.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-392-reference-android-fixture.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-392-reference-android-fixture.contract.json"
+          ],
+          "inference": false,
+          "text": "Establish auditable semantic parity and inheritance boundaries for the four pinned examples/fixtures/android-app files."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-392-reference-android-fixture.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-392-reference-android-fixture"
+  },
+  "taskReportDigest": "sha256:7617dd2f20642795dd785338187d562fc5ada8e6987b7ca8a2fef71b33b3d04b",
+  "taskReportMarkdownDigest": "sha256:ef6883899d94bcc00ad0b031a0ef85723697f0f1e7b80009102d4d0fc0fa8dff",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-392-reference-android-fixture.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-392-reference-android-fixture"
+}

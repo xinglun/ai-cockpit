@@ -103,11 +103,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=312 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=493 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=316 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=489 migrate-gap=0 -->
 
 在固定参考源比较基线上，台账共有 5,119 条记录：4,262 条
-`generated-history`、312 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、4 条 `not-applicable`、47 条 `reference-only` 与 493 条
+`generated-history`、316 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、4 条 `not-applicable`、47 条 `reference-only` 与 489 条
 `deferred-next-batch`。deferred 记录仍是待比较工作，不是 parity 声明。
 capability/profile slice 已没有 `migrate-gap`：
 
@@ -848,3 +848,22 @@ WI-391 在固定源提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 上逐节�
 WI-391 后清单为 4,262 个 `generated-history`、312 个 `implemented-different-by-design`、1 个
 `implemented-equivalent`、4 个 `not-applicable`、47 个 `reference-only` 和 493 个
 `deferred-next-batch`；`migrate-gap` 仍为零。
+
+## WI-392：Android fixture 适配
+
+WI-392 在固定源提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 上逐一比较四个 Android fixture 文件。
+Kotlin 源码和测试语义映射到 adopter 自己的路径与命令；fixture 元数据和 Gradle 拓扑映射为 Project
+Profile/Observer 事实，同时明确 Unknown 边界。
+
+| 固定参考路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `examples/fixtures/android-app/app/src/main/kotlin/example/MainActivity.kt` | 有意采用不同实现 | `docs/reference/android-fixture-adaptation.zh-CN.md` 将源路径映射到显式 Contract scope，Kotlin 执行仍由 adopter/provider 负责。 |
+| `examples/fixtures/android-app/app/src/test/kotlin/example/MainActivityTest.kt` | 有意采用不同实现 | 适配指南将 `kotlin.test` 断言映射为 owner 确认的 Gradle verification 命令；测试文件不能证明 SDK/device/CI 已准备。 |
+| `examples/fixtures/android-app/fixture.json` | 有意采用不同实现 | Project Profile/Observer 可记录 stack/toolchain/platform/path 事实；`installerStack` 不是 Runtime 安装契约，platform 标签也不是证据。 |
+| `examples/fixtures/android-app/settings.gradle.kts` | 有意采用不同实现 | Gradle repository/module 拓扑作为有界上下文记录；依赖、SDK、credential、network 和 hosted-CI readiness 在有证据前保持 Unknown。 |
+
+这是语义/文档对等，不是 Android 工具链支持、构建执行或源 JSON wire 兼容。安装有意采用每个 adopter
+之外的一份不可变共享 Runtime，并显式 `attach --repo`；参考 fixture 的 Gradle 文件、SDK 安装和 installer
+行为不复制。WI-392 后清单为 4,262 个 `generated-history`、316 个 `implemented-different-by-design`、1 个
+`implemented-equivalent`、4 个 `not-applicable`、47 个 `reference-only` 和 489 个 `deferred-next-batch`；
+`migrate-gap` 仍为零。
