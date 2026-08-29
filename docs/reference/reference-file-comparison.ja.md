@@ -107,11 +107,11 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=312 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=493 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=316 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=489 migrate-gap=0 -->
 
 固定した reference comparison baseline の ledger は 5,119 records です。内訳は
-4,262 `generated-history`、312 `implemented-different-by-design`、1
-`implemented-equivalent`、4 `not-applicable`、47 `reference-only`、493 `deferred-next-batch` です。
+4,262 `generated-history`、316 `implemented-different-by-design`、1
+`implemented-equivalent`、4 `not-applicable`、47 `reference-only`、489 `deferred-next-batch` です。
 Deferred record は予定された比較であり parity claim ではありません。
 capability/profile slice に `migrate-gap` は残っていません。
 
@@ -897,3 +897,16 @@ Rust-native C# adaptation page と既存の installation、Contract、verificati
 
 これは semantic/documentation parity であり、C# toolchain support または second-technology adopter acceptance の主張ではありません。将来の C# adopter receipt は immutable public Release と自身の repository context を使います。shared Runtime は adopter の外部に一度だけ install し、`.ai/`、Contract、evidence、project policy は明示的な `--repo` で repository-local に分離します。
 WI-391 後の ledger は 4,262 `generated-history`、312 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、47 `reference-only`、493 `deferred-next-batch`、`migrate-gap` は 0 です。
+
+## WI-392 — Android fixture adaptation
+
+WI-392 は pinned source commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf` の Android fixture 4 ファイルを一つずつ比較します。Kotlin source/test の semantic は adopter-owned path と command に対応付け、fixture metadata と Gradle topology は Project Profile/Observer fact として bounded に扱います。
+
+| Pinned reference path | Classification | Rust-native counterpart と boundary |
+| --- | --- | --- |
+| `examples/fixtures/android-app/app/src/main/kotlin/example/MainActivity.kt` | implemented-different-by-design | `docs/reference/android-fixture-adaptation.ja.md` が source path を明示的な Contract scope に対応付け、Kotlin 実行は provider-owned のままにします。 |
+| `examples/fixtures/android-app/app/src/test/kotlin/example/MainActivityTest.kt` | implemented-different-by-design | `kotlin.test` assertion を owner-confirmed Gradle verification command に対応付けます。test file だけでは SDK/device/CI readiness を証明しません。 |
+| `examples/fixtures/android-app/fixture.json` | implemented-different-by-design | Project Profile/Observer は stack/toolchain/platform/path fact を記録できますが、`installerStack` は Runtime install contract ではなく platform label は evidence ではありません。 |
+| `examples/fixtures/android-app/settings.gradle.kts` | implemented-different-by-design | Gradle repository/module topology を bounded context とし、dependency、SDK、credential、network、hosted-CI readiness は evidence まで Unknown です。 |
+
+これは semantic/documentation parity であり、Android toolchain support、build execution、source JSON-wire compatibility ではありません。Install は adopter 外部の immutable shared Runtime 一つと明示的な `attach --repo` を使い、fixture の Gradle file、SDK install、installer behavior はコピーしません。WI-392 後の ledger は 4,262 `generated-history`、316 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、47 `reference-only`、489 `deferred-next-batch`、`migrate-gap` は 0 です。

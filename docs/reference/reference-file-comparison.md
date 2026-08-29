@@ -123,11 +123,11 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=312 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=493 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=316 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=489 migrate-gap=0 -->
 
 At the pinned reference comparison baseline, the ledger contains 5,119 records:
-4,262 `generated-history`, 312 `implemented-different-by-design`, one
-`implemented-equivalent`, four `not-applicable`, 47 `reference-only`, and 493
+4,262 `generated-history`, 316 `implemented-different-by-design`, one
+`implemented-equivalent`, four `not-applicable`, 47 `reference-only`, and 489
 `deferred-next-batch` records. Deferred records remain scheduled work, not
 parity claims. The capability/profile slice has no remaining `migrate-gap`
 records:
@@ -1078,4 +1078,28 @@ project policy remain repository-local and isolated by explicit `--repo`.
 The ledger after WI-391 contains 4,262 `generated-history`, 312
 `implemented-different-by-design`, one `implemented-equivalent`, four
 `not-applicable`, 47 `reference-only`, and 493 `deferred-next-batch` records;
+`migrate-gap` remains zero.
+
+## WI-392 — Android fixture adaptation
+
+WI-392 compares the four pinned Android fixture files one by one at source
+commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf`. Kotlin source and test
+semantics are mapped to adopter-owned paths and commands; fixture metadata and
+Gradle topology are mapped to Project Profile/Observer facts with explicit
+unknown boundaries.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `examples/fixtures/android-app/app/src/main/kotlin/example/MainActivity.kt` | implemented-different-by-design | `docs/reference/android-fixture-adaptation.md` maps the source path to explicit Contract scope and keeps Kotlin execution provider-owned. |
+| `examples/fixtures/android-app/app/src/test/kotlin/example/MainActivityTest.kt` | implemented-different-by-design | The adaptation guide maps the `kotlin.test` assertion to an owner-confirmed Gradle verification command; a test file does not prove SDK/device/CI readiness. |
+| `examples/fixtures/android-app/fixture.json` | implemented-different-by-design | Project Profile/Observer may record stack/toolchain/platform/path facts; `installerStack` is not a Runtime install contract and platform labels are not evidence. |
+| `examples/fixtures/android-app/settings.gradle.kts` | implemented-different-by-design | Gradle repository/module topology is recorded as bounded context; dependency, SDK, credential, network, and hosted-CI readiness remain Unknown until evidence exists. |
+
+This is semantic/documentation parity, not Android toolchain support, build
+execution, or source JSON-wire compatibility. Installation intentionally uses
+one shared immutable Runtime outside each adopter plus explicit `attach --repo`;
+the reference fixture's Gradle files, SDK installation, and installer behavior
+are not copied. The ledger after WI-392 contains 4,262 `generated-history`,
+316 `implemented-different-by-design`, one `implemented-equivalent`, four
+`not-applicable`, 47 `reference-only`, and 489 `deferred-next-batch` records;
 `migrate-gap` remains zero.
