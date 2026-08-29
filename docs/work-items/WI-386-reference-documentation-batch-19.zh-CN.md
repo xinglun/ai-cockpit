@@ -4,9 +4,13 @@ title: "WI-386——参考文档第 19 批"
 workItemId: WI-386-reference-documentation-batch-19
 description: "逐一比较四个固定参考文档，记录有界的 Rust-native parity，不复制历史 authority。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-386-reference-documentation-batch-19
+terminalArchive: .ai/work-items/archive/WI-386-reference-documentation-batch-19.contract.json
+terminalVerification: .ai/evidence/WI-386-reference-documentation-batch-19.verification.json
+terminalFinalization: .ai/decisions/WI-386-reference-documentation-batch-19.finalize.2cc1132bcf299d801f45b938018ca71d67a818d8669b80615b97a2cdcd104a02.json
+terminalDecision: .ai/decisions/WI-386-reference-documentation-batch-19.close.json
 ---
 
 # WI-386——参考文档第 19 批

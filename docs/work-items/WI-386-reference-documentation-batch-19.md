@@ -4,9 +4,13 @@ title: "WI-386 — reference documentation batch 19"
 workItemId: WI-386-reference-documentation-batch-19
 description: "Compare four pinned reference documents and record bounded Rust-native parity without copying historical authority."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-386-reference-documentation-batch-19
+terminalArchive: .ai/work-items/archive/WI-386-reference-documentation-batch-19.contract.json
+terminalVerification: .ai/evidence/WI-386-reference-documentation-batch-19.verification.json
+terminalFinalization: .ai/decisions/WI-386-reference-documentation-batch-19.finalize.2cc1132bcf299d801f45b938018ca71d67a818d8669b80615b97a2cdcd104a02.json
+terminalDecision: .ai/decisions/WI-386-reference-documentation-batch-19.close.json
 ---
 
 # WI-386 — reference documentation batch 19
