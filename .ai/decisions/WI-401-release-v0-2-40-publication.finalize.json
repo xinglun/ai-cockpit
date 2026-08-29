@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "post-merge-exact-resource-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "2889213aebaadf7a3c68049eaac440fb9936fff8",
+    "name": "codex/wi-401-release-v0-2-40-publication",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:f3c077cecb3c6b56b7dcefbebde462afd714139b17933d4c1fb8ac1ec77e842b",
+  "operationId": "github-pr-365-delete-cleanup-20260830",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "11f525037d087e25719b1890ac57661dc4cd771c",
+    "headRevision": "2889213aebaadf7a3c68049eaac440fb9936fff8",
+    "mergeCommit": "00e1b2a28c24217652cd7991b6573dd351ec31b1",
+    "number": 365,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/365"
+  },
+  "reason": "PR #365 passed hosted quality, Windows runtime, V1 behavioral oracle, and task-list checks, merged as 00e1b2a; the exact dedicated branch and worktree were removed after synchronizing main.",
+  "receiptId": "ai-cockpit-WI-401-release-v0-2-40-publication-deleted-20260830",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-401-release-v0-2-40-publication",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/365",
+    "worktree": "/private/tmp/ai-cockpit-wi401-release-v0-2-40-publication"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:c2320ee9aa30db6bd4fdc7b1a4d186e3dc4a12152ec672f01b5fbd816c28e83c",
+  "runtimeVersion": "0.2.40",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-30T01:25:00+09:00",
+  "workItemId": "WI-401-release-v0-2-40-publication",
+  "worktree": {
+    "branch": "codex/wi-401-release-v0-2-40-publication",
+    "headRevision": "2889213aebaadf7a3c68049eaac440fb9936fff8",
+    "path": "/private/tmp/ai-cockpit-wi401-release-v0-2-40-publication",
+    "worktreeId": "WI-401-release-v0-2-40-publication"
+  }
+}

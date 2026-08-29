@@ -4,9 +4,13 @@ title: "WI-401 — v0.2.40 公開 Release 公開と adopter 受入れ"
 description: "レビュー済み v0.2.40 Runtime を公開し、新規 adopter で不変 artifact を受入れる。"
 workItemId: WI-401-release-v0-2-40-publication
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-401-release-v0-2-40-publication
+terminalArchive: .ai/work-items/archive/WI-401-release-v0-2-40-publication.contract.json
+terminalVerification: .ai/evidence/WI-401-release-v0-2-40-publication.verification.json
+terminalFinalization: .ai/decisions/WI-401-release-v0-2-40-publication.finalize.json
+terminalDecision: .ai/decisions/WI-401-release-v0-2-40-publication.close.json
 capabilityClaims: [release_distribution, adopter_acceptance, runtime_installation]
 ---
 

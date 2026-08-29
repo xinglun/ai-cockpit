@@ -15,14 +15,14 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-401-release-v0-2-40-publication.summary.json"
+          ".ai/work-items/archive/WI-401-release-v0-2-40-publication.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/WI-400-release-v0-2-40-adopter-acceptance.close.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-401-release-v0-2-40-publication.summary.json"
+          ".ai/work-items/archive/WI-401-release-v0-2-40-publication.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/WI-400-release-v0-2-40-adopter-acceptance.finalize.json"
@@ -81,7 +81,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-401-release-v0-2-40-publication.contract.json"
+          ".ai/work-items/archive/WI-401-release-v0-2-40-publication.contract.json"
         ],
         "inference": false,
         "text": "Establish the v0.2.40 public Release and prove the installed shared Runtime can govern both this repository and a fresh independent adopter with bound evidence."
@@ -90,7 +90,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-401-release-v0-2-40-publication.contract.json"
+          ".ai/work-items/archive/WI-401-release-v0-2-40-publication.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
