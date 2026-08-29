@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "The v0.2.40 tag and public Release are produced from the reviewed synchronized main merge and all release identity, SBOM, provenance, and checksum gates pass.",
+    "The public v0.2.40 artifact is downloaded and checksum-verified in an isolated environment with runtime tag/version/archiveDigest/binaryDigest/platform/downloadSource recorded.",
+    "A fresh adopter receives independent repository identity/scaffold/Agent adapter and a complete lifecycle; first-adopter-smoke remains not_ready, evidence reuse is proven, and forbidden roots plus temporary run roots are clean.",
+    "The current repository installs the verified public v0.2.40 binary, reports COMPATIBLE/doctor ok, and retains auditable acceptance artifacts while main ends ready_on_base with no open release branch.",
+    "The three reference-parity ledgers keep exact pre-archive lifecycle rows for this Work Item: In progress → Implemented after verified close, 进行中 → 验证关闭后已实现, and In progress → verified close 後 Implemented, with archive, verification, finalization, and close paths."
+  ],
+  "createdAt": "2026-08-29T16:07:50Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:fd4e1c58614a74e3bd4a202c9dddb3b43aaff999c3361c9675a1321d47df7ccd",
+  "evidenceRefs": [
+    ".ai/evidence/WI-401-release-v0-2-40-publication.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-401-release-v0-2-40-publication.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-401-release-v0-2-40-publication.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7b14bace674123990fdaa7e2fae65e9bf98fa0e65d5e02b24cd55b751c93cbef",
+      "workItemId": "WI-401-release-v0-2-40-publication"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-401-release-v0-2-40-publication.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-400-release-v0-2-40-adopter-acceptance.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-401-release-v0-2-40-publication.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-400-release-v0-2-40-adopter-acceptance.finalize.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-401-release-v0-2-40-publication.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-401-release-v0-2-40-publication.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-401-release-v0-2-40-publication.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-401-release-v0-2-40-publication.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-401-release-v0-2-40-publication.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-401-release-v0-2-40-publication.contract.json"
+          ],
+          "inference": false,
+          "text": "Establish the v0.2.40 public Release and prove the installed shared Runtime can govern both this repository and a fresh independent adopter with bound evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-401-release-v0-2-40-publication.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-401-release-v0-2-40-publication"
+  },
+  "taskReportDigest": "sha256:e52aa57def481d21b2d05eeb81372e1b902078ed20f99585888a6a5f11c88ae2",
+  "taskReportMarkdownDigest": "sha256:ca81c5fe9ed6cffc06c52986ff1479a1416d1c16630982d85b598d624047108a",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-401-release-v0-2-40-publication.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-401-release-v0-2-40-publication"
+}

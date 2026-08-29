@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-30T01:15:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-401-release-v0-2-40-publication.verification.json",
+    ".ai/work-items/active/WI-401-release-v0-2-40-publication.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md#recovery-retry-boundary"
+  ],
+  "predecessorContractDigest": "sha256:4643fb2a87cfc51999d123f080df37c59d50b3eae8be49bb6538705d3b635ecb",
+  "predecessorEventsDigest": "sha256:8983e90af369a6cb3e2cfa89162f1026edde9c2bd5220a18f6c6ffd80bec32c3",
+  "predecessorOutcomeDigest": "sha256:ece49f50e91e1a4db576966191e4083bf196c952db06a05bd1edbd3ba8736ba8",
+  "predecessorSummaryDigest": "sha256:49ecb7c14dbec78dc58d70433dccf525f2d45e0e8f88b9a464e0d0074c7f3b0b",
+  "predecessorWorkItemId": "WI-401-release-v0-2-40-publication",
+  "reason": "Retry after the failed task-report projection; preserve the stopped Outcome and rebind the current verification evidence before finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Remove only the failed retry report, run fresh preflight and verification, then retry finish and archive.",
+  "runtimeDigest": "sha256:dd14c95f88419e60fcef55ac5a6c12abcf29ef63bea508fcb49cf11f3a61af02",
+  "runtimeVersion": "0.2.40",
+  "schemaVersion": 1,
+  "workItemId": "WI-401-release-v0-2-40-publication"
+}

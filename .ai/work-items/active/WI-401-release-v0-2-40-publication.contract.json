@@ -1,0 +1,62 @@
+{
+  "acceptanceCriteria": [
+    "The v0.2.40 tag and public Release are produced from the reviewed synchronized main merge and all release identity, SBOM, provenance, and checksum gates pass.",
+    "The public v0.2.40 artifact is downloaded and checksum-verified in an isolated environment with runtime tag/version/archiveDigest/binaryDigest/platform/downloadSource recorded.",
+    "A fresh adopter receives independent repository identity/scaffold/Agent adapter and a complete lifecycle; first-adopter-smoke remains not_ready, evidence reuse is proven, and forbidden roots plus temporary run roots are clean.",
+    "The current repository installs the verified public v0.2.40 binary, reports COMPATIBLE/doctor ok, and retains auditable acceptance artifacts while main ends ready_on_base with no open release branch.",
+    "The three reference-parity ledgers keep exact pre-archive lifecycle rows for this Work Item: In progress → Implemented after verified close, 进行中 → 验证关闭后已实现, and In progress → verified close 後 Implemented, with archive, verification, finalization, and close paths."
+  ],
+  "authority": "authorized",
+  "baseRevision": "11f525037d087e25719b1890ac57661dc4cd771c",
+  "createdAt": "2026-08-29T15:31:40Z",
+  "goal": "Establish the v0.2.40 public Release and prove the installed shared Runtime can govern both this repository and a fresh independent adopter with bound evidence.",
+  "intent": "Publish v0.2.40 from the reviewed main merge and validate the immutable public binary in an isolated fresh adopter, then install it for current-repository governance.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime implementation and governance semantics",
+    "Reference-source parity batch and business-project code",
+    "Global Agent or MCP configuration",
+    "Source-build or workspace-binary fallback as Release evidence"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:815166f1e54377486e99b5734945533e25d4fcc0eb04efecd9ef54c551506651",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-401-release-v0-2-40-publication",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/365",
+    "worktree": "/private/tmp/ai-cockpit-wi401-release-v0-2-40-publication"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/decisions/WI-400-release-v0-2-40-adopter-acceptance.close.json",
+    ".ai/decisions/WI-400-release-v0-2-40-adopter-acceptance.finalize.json",
+    "docs/work-items/WI-400-release-v0-2-40-adopter-acceptance.md",
+    "docs/work-items/WI-400-release-v0-2-40-adopter-acceptance.zh-CN.md",
+    "docs/work-items/WI-400-release-v0-2-40-adopter-acceptance.ja.md",
+    "docs/work-items/WI-401-release-v0-2-40-publication.md",
+    "docs/work-items/WI-401-release-v0-2-40-publication.zh-CN.md",
+    "docs/work-items/WI-401-release-v0-2-40-publication.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    ".ai/evidence/external/v0.2.40/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/release/adopter_acceptance_test.sh",
+    "bash tests/release/adopter_upgrade_acceptance_test.sh",
+    "bash tests/release/version_consistency_test.sh",
+    "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
+    "git diff --check"
+  ],
+  "workItemId": "WI-401-release-v0-2-40-publication"
+}

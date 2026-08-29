@@ -1,0 +1,84 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-400-release-v0-2-40-adopter-acceptance.close.json",
+    ".ai/decisions/WI-400-release-v0-2-40-adopter-acceptance.finalize.json"
+  ],
+  "checkpointAt": "2026-08-29T15:36:22Z",
+  "checkpointContractDigest": "sha256:4643fb2a87cfc51999d123f080df37c59d50b3eae8be49bb6538705d3b635ecb",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:15bb98d2f9223b48e26e8fa39b6158ecb674bb92357e5e09141d4d1754daf82d",
+      "recorded": true,
+      "recordedAt": "2026-08-29T15:36:22Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4cb82ce06e80801c9c94d4e7884720b85c831932710a4ffe2e4da6ae3b5b20db",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-401-release-v0-2-40-publication"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:f41179d3807e544524207f1e0c6a3551522729bece008b8248690f4264bede39",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:15bb98d2f9223b48e26e8fa39b6158ecb674bb92357e5e09141d4d1754daf82d",
+      "previousContractHash": "sha256:15bb98d2f9223b48e26e8fa39b6158ecb674bb92357e5e09141d4d1754daf82d",
+      "reason": "Bind the reviewed GitHub PR URL before archive; the prior provisional pending value was replaced without changing scope or authority.",
+      "recorded": true,
+      "recordedAt": "2026-08-29T15:39:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:95691135066f4ad9435d4a6adb289b373408ee863af59f8974266d6e58a793fc",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-401-release-v0-2-40-publication"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:4643fb2a87cfc51999d123f080df37c59d50b3eae8be49bb6538705d3b635ecb",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:15bb98d2f9223b48e26e8fa39b6158ecb674bb92357e5e09141d4d1754daf82d",
+      "previousContractHash": "sha256:f41179d3807e544524207f1e0c6a3551522729bece008b8248690f4264bede39",
+      "reason": "Align tri-language parity rows with the Runtime pre-archive registration contract discovered by hosted CI.",
+      "recorded": true,
+      "recordedAt": "2026-08-29T15:56:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8cdb00ad8f1a4b24318ed3973478eff12dcb96d8f3ecf3664c397fd74b9d1ec9",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-401-release-v0-2-40-publication"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:7b14bace674123990fdaa7e2fae65e9bf98fa0e65d5e02b24cd55b751c93cbef",
+  "createdAt": "2026-08-29T15:31:40Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-29T16:07:46Z",
+  "preflightContractDigest": "sha256:4643fb2a87cfc51999d123f080df37c59d50b3eae8be49bb6538705d3b635ecb",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:7b14bace674123990fdaa7e2fae65e9bf98fa0e65d5e02b24cd55b751c93cbef",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T16:07:50Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-401-release-v0-2-40-publication"
+}

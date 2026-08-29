@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-30T00:45:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-401-release-v0-2-40-publication.verification.json",
+    ".ai/work-items/active/WI-401-release-v0-2-40-publication.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md#recovery-retry-boundary"
+  ],
+  "predecessorContractDigest": "sha256:f41179d3807e544524207f1e0c6a3551522729bece008b8248690f4264bede39",
+  "predecessorEventsDigest": "sha256:ecf864be6c042fbcbfa99979d5becc2993ca2cdbc673741f22075d430a3d4f56",
+  "predecessorOutcomeDigest": "sha256:3ead7df66508dffed64a808b5f9156c5def24a9e6aa223fa0d2818570aecd664",
+  "predecessorSummaryDigest": "sha256:82e9a217bbe2a6279ff86e1223392f187847ad4b8944bda4cd3222f82b402edf",
+  "predecessorWorkItemId": "WI-401-release-v0-2-40-publication",
+  "reason": "Retry after the finish projection correctly stopped on a stale task report following the PR-context Contract amendment; preserve the failed Outcome and rebind fresh verification before archive.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification against the finalized Contract, then retry finish and archive.",
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "schemaVersion": 1,
+  "workItemId": "WI-401-release-v0-2-40-publication"
+}
