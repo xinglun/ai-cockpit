@@ -4,9 +4,13 @@ title: "WI-387 — reference documentation batch 20"
 workItemId: WI-387-reference-documentation-batch-20
 description: "4 つの pinned security / supply-chain 文書を逐一比較し、source authority をコピーせず Rust-native parity を記録する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-387-reference-documentation-batch-20
+terminalArchive: .ai/work-items/archive/WI-387-reference-documentation-batch-20.contract.json
+terminalVerification: .ai/evidence/WI-387-reference-documentation-batch-20.verification.json
+terminalFinalization: .ai/decisions/WI-387-reference-documentation-batch-20.finalize.edfed06a65d511b9c23bddb70acd78685adbb2caefa38024af11721e276e4839.json
+terminalDecision: .ai/decisions/WI-387-reference-documentation-batch-20.close.json
 ---
 
 # WI-387 — reference documentation batch 20
