@@ -35,11 +35,11 @@
     "human-decision"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-376-release-adopter-acceptance-final",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/340",
     "worktree": "/private/tmp/ai-cockpit-wi376-final"
   },
   "risk": "normal",

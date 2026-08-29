@@ -1,8 +1,8 @@
 {
-  "branch": "codex/wi-376-release-adopter-acceptance",
-  "worktree": "/private/tmp/ai-cockpit-wi376-release-adopter-acceptance",
+  "branch": "codex/wi-376-release-adopter-acceptance-final",
+  "worktree": "/private/tmp/ai-cockpit-wi376-final",
   "baseBranch": "main",
   "baseRemote": "origin",
   "provider": "github",
-  "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/339"
+  "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/340"
 }
