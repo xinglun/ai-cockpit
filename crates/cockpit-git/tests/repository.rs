@@ -80,6 +80,18 @@ fn snapshot_observes_head_and_untracked_paths_with_one_snapshot_api() {
 }
 
 #[test]
+fn clean_snapshot_skips_redundant_diff_subprocess() {
+    let path = temporary_repository();
+    let repository = GitRepository::discover(&path).expect("discover");
+    let snapshot = repository.snapshot().expect("snapshot");
+    assert!(snapshot.changed_paths.is_empty());
+    assert_eq!(snapshot.git_calls, 3);
+    assert!(snapshot.diff_digest.starts_with("sha256:"));
+    assert!(snapshot.source_tree_digest.is_some());
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
 fn snapshot_reuses_tracked_patch_facts_without_serializing_source_text() {
     let path = temporary_repository();
     fs::write(path.join("README.md"), "changed\nSENTINEL_NEW_TEXT\n").expect("write");

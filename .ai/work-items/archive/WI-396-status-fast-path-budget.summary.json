@@ -1,0 +1,84 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-396-status-fast-path-budget.contract.json",
+    ".ai/work-items/archive/WI-396-status-fast-path-budget.summary.json"
+  ],
+  "checkpointAt": "2026-08-29T12:35:24Z",
+  "checkpointContractDigest": "sha256:73435aa81a24b08c295b17bddff0c2f2b24694b4d73352498e7ed3b2dc2c635e",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:3ee58e559242b2de2f650968f160147b37ff7460eeec5a94d3d0f4ab19307cd4",
+      "recorded": true,
+      "recordedAt": "2026-08-29T12:35:24Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:35a4899e21a552f941eada5eb596251413e79721611ed5558089d2d65c02f3a2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-396-status-fast-path-budget"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:b97d6532035894f75b5e4531fcc62b271109e50de5e6f3e1704b01853a9b0f61",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3ee58e559242b2de2f650968f160147b37ff7460eeec5a94d3d0f4ab19307cd4",
+      "previousContractHash": "sha256:3ee58e559242b2de2f650968f160147b37ff7460eeec5a94d3d0f4ab19307cd4",
+      "reason": "Bind the snapshot-digest telemetry correction to this Work Item: dynamic gitCalls must not enter source identity, and the existing governance-only commit regression must remain green.",
+      "recorded": true,
+      "recordedAt": "2026-08-29T12:47:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:def32b385ddbdbb354f36f938d4ae5ce54645c7d1f3c4f9dab14ee64020bfac7",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-396-status-fast-path-budget"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:73435aa81a24b08c295b17bddff0c2f2b24694b4d73352498e7ed3b2dc2c635e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3ee58e559242b2de2f650968f160147b37ff7460eeec5a94d3d0f4ab19307cd4",
+      "previousContractHash": "sha256:b97d6532035894f75b5e4531fcc62b271109e50de5e6f3e1704b01853a9b0f61",
+      "reason": "Bind the reviewed PR and remote base context before final lifecycle evidence.",
+      "recorded": true,
+      "recordedAt": "2026-08-29T13:02:55Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ceab2b51c1ebd66d45a9b974521e7e00ab67a5b5a2cdbda3103bb711c19ae807",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-396-status-fast-path-budget"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:ceab2b51c1ebd66d45a9b974521e7e00ab67a5b5a2cdbda3103bb711c19ae807",
+  "createdAt": "2026-08-29T12:33:41Z",
+  "mode": "code",
+  "preflightAt": "2026-08-29T13:08:01Z",
+  "preflightContractDigest": "sha256:73435aa81a24b08c295b17bddff0c2f2b24694b4d73352498e7ed3b2dc2c635e",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:ceab2b51c1ebd66d45a9b974521e7e00ab67a5b5a2cdbda3103bb711c19ae807",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T13:08:13Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-396-status-fast-path-budget"
+}

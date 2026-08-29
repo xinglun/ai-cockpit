@@ -1,0 +1,70 @@
+{
+  "acceptanceCriteria": [
+    "Measure status warm startup and medium observation using the release/installed Runtime boundary on the declared local platform; record samples, median, filesRead/filesHashed, gitCalls, elapsedMs, Runtime identity, and repository identity. The gate must fail closed when a declared budget is exceeded or evidence is missing.",
+    "For a clean repository snapshot, avoid invoking an equivalent Git diff subprocess when no changed paths exist; preserve exact changed-path, diff-digest, source-tree-digest, snapshot identity, and fail-closed semantics. Dirty, unknown, or changed inputs must retain the full diff path.",
+    "Enforce the documented status <50 ms and medium observation <100 ms targets in a real identity-bound performance gate, or emit a bounded failed assessment with the measured gap; never weaken governance or silently widen the budget.",
+    "Keep all optimization request-scoped and repository-local: no process-global current repository, cross-repository cache, shared evidence, or object-project-specific code. Adopter guidance must use the shared external Runtime with explicit --repo and preserve per-repository evidence identity.",
+    "Performance regression, repository isolation, lifecycle, tri-language documentation, and full workspace quality tests pass; the performance gate covers both positive and negative budget cases and remains independent from governance authorization."
+  ],
+  "authority": "authorized",
+  "baseRevision": "2c7710c51db08ea4034b173137f2adfdbf45234e",
+  "createdAt": "2026-08-29T12:33:41Z",
+  "goal": "Reduce measured Runtime startup cost toward the declared local performance budgets without weakening governance or object-project inheritance.",
+  "intent": "Continue the Rust performance convergence after WI-395 by removing a measured clean-snapshot subprocess and enforcing an honest release/installed-binary benchmark gate for status and observation.",
+  "mode": "code",
+  "outOfScope": [
+    "Changing Contract authority, Outcome semantics, evidence validity, required verification, or fail-closed decisions to obtain speed.",
+    "Global caches, cross-repository state, scheduler/dependency redesign, broad lib.rs architecture split, release packaging, Homebrew, and reference-project installer/Make/Python/V1 copying.",
+    "Claiming provider, enterprise, or universal hardware performance from a local measurement."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:35a4899e21a552f941eada5eb596251413e79721611ed5558089d2d65c02f3a2",
+  "requiredEvidenceClasses": ["verification"],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-396-status-fast-path-budget",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/360",
+    "worktree": "/private/tmp/ai-cockpit-wi396-status-fast-path-budget"
+  },
+  "risk": "medium",
+  "scope": [
+    "crates/cockpit-git/src/lib.rs",
+    "crates/cockpit-git/tests/repository.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/contract_preflight.rs",
+    "crates/cockpit-cli/tests/performance.rs",
+    "tests/performance/regression_gate.sh",
+    "tests/performance/regression_gate_test.sh",
+    "tests/performance/README.md",
+    "tests/performance/README.zh-CN.md",
+    "tests/performance/README.ja.md",
+    "docs/reference/governance-performance-budget.md",
+    "docs/reference/governance-performance-budget.zh-CN.md",
+    "docs/reference/governance-performance-budget.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-396-status-fast-path-budget.md",
+    "docs/work-items/WI-396-status-fast-path-budget.zh-CN.md",
+    "docs/work-items/WI-396-status-fast-path-budget.ja.md"
+  ],
+  "sources": [
+    "docs/reference/governance-performance-budget.md",
+    "tests/performance/README.md",
+    "docs/reference/reference-parity.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace --all-targets --all-features -- --test-threads=1",
+    "bash tests/performance/regression_gate_test.sh",
+    "cargo test --locked -p cockpit-cli --test performance -- --nocapture",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report /tmp/wi396-governance.json",
+    "python3 tests/docs/work_item_status_consistency.py --repo .",
+    "git diff --check"
+  ],
+  "workItemId": "WI-396-status-fast-path-budget"
+}

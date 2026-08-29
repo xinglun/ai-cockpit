@@ -7035,6 +7035,11 @@ pub fn snapshot_digest(snapshot: &RepositorySnapshot) -> Result<Digest, Observer
     stable.root = PathBuf::from(".");
     stable.git_root = PathBuf::from(".");
     stable.head = None;
+    // Git subprocess count is request telemetry, not repository identity.
+    // Clean snapshots may skip the redundant diff call while dirty snapshots
+    // still execute it; that implementation detail must not stale a source
+    // digest or make governance-only changes look like source changes.
+    stable.git_calls = 0;
     stable.tree_digest = source_tree_digest(snapshot)?.to_string();
     stable
         .changed_paths
