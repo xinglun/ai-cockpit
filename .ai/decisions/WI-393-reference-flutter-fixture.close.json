@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-393-reference-flutter-fixture.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:716db836d4988da665761651c550ba0e6de77af83f026c0743551883de0d95f0",
+      "workItemId": "WI-393-reference-flutter-fixture"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-393-reference-flutter-fixture.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-393-reference-flutter-fixture.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-393-reference-flutter-fixture.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-393-reference-flutter-fixture.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-393-reference-flutter-fixture.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-393-reference-flutter-fixture.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-393-reference-flutter-fixture.verification.json",
+            ".ai/decisions/WI-393-reference-flutter-fixture.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-29T10:15:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-393-reference-flutter-fixture.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-393-reference-flutter-fixture.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-393-reference-flutter-fixture.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-393-reference-flutter-fixture.contract.json"
+          ],
+          "inference": false,
+          "text": "Establish auditable semantic parity and inheritance boundaries for the four pinned examples/fixtures/flutter-app files."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-393-reference-flutter-fixture.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-393-reference-flutter-fixture"
+  },
+  "finalReportDigest": "sha256:88fb74ddb54b616d3885a88b3a9f842eaca88ba40c2d9c18042cee19d6feaff3",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:254dc11080e2521225751e66384793ac693c4f1f21bbf648f411cdfb3ae94c90",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-393-reference-flutter-fixture.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-29T10:15:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-393-reference-flutter-fixture.verification.json",
+      ".ai/decisions/WI-393-reference-flutter-fixture.finalize.json"
+    ],
+    "policyRefs": [
+      ".ai/README.md"
+    ],
+    "reason": "Reviewed PR #357 and verified the four-file Flutter fixture semantic mapping; installation remains intentionally different with one shared external Runtime and explicit repository attachment.",
+    "resumeCondition": "If a future reference comparison finds a Flutter semantic gap, open a bounded successor Work Item with explicit scope."
+  },
+  "timestamp": "2026-08-29T10:13:58Z",
+  "workItemId": "WI-393-reference-flutter-fixture"
+}
