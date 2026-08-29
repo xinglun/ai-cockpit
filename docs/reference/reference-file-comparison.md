@@ -123,7 +123,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=292 implemented-equivalent=1 not-applicable=4 reference-only=45 deferred-next-batch=515 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=294 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=511 migrate-gap=0 -->
 
 At the pinned reference comparison baseline, the ledger contains 5,119 records:
 4,262 `generated-history`, 292 `implemented-different-by-design`, one
@@ -930,4 +930,29 @@ Runtime with explicit `--repo` and isolated repository facts, Work Items,
 evidence, knowledge, and snapshots. The ledger after WI-379 contains 4,262
 `generated-history`, 292 `implemented-different-by-design`, one
 `implemented-equivalent`, four `not-applicable`, 45 `reference-only`, and 515
+`deferred-next-batch` records; `migrate-gap` remains zero.
+
+## WI-386 — reference documentation batch 19
+
+WI-386 compares four deferred reference documents one by one at pinned source
+commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf`. Two historical/internal
+documents remain `reference-only`; the roadmap and security-boundary
+responsibilities are represented by current Rust-native documentation. This
+batch does not copy source Python, Make commands, provider configuration,
+historical GO/NO-GO claims, or future roadmap milestones as shipped features.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/review-final-evidence.md` | reference-only | Generated R11 evidence index bound to source-specific `make` checks and historical review state. Current `final-replacement-acceptance.md`, `ci-release-evidence.md`, and repository-local Work Item evidence generate fresh, identity-bound truth; no historical GO/NO-GO is copied. |
+| `docs/review-remediation-backlog.md` | reference-only | Internal R0–R11 backlog and Python/Make execution plan. Current `repository-workflow.md`, `governance-integrity-gate.md`, and this comparison ledger are the maintained boundaries; the source plan is not current authority. |
+| `docs/roadmap.md` | implemented-different-by-design | `docs/philosophy.md`, `docs/architecture.md`, and `docs/capabilities.md` preserve mission, evidence governance, intent, human control, repository intelligence, and organization-policy direction. Historical V1–V4 milestones and source roadmap wording are not shipped capability claims. |
+| `docs/security-boundaries.md` | implemented-different-by-design | `docs/security/threat-model.md`, `docs/reference/input-trust-dataflow.md`, `docs/reference/operation-time-policy-reevaluation.md`, and `docs/security/adversarial-validation.md` preserve content/authority separation, deterministic fail-closed handling, high-risk re-evaluation, and limitations. The source classifier implementation is not copied. |
+
+This is semantic/documentation parity, not source command, JSON-wire, or
+provider-state compatibility. Every object/adopter project inherits the
+Rust-native documentation boundary from the shared Runtime, while repository
+facts, Work Items, evidence, knowledge, and snapshots remain isolated behind
+explicit `--repo`. The ledger after WI-386 contains 4,262
+`generated-history`, 294 `implemented-different-by-design`, one
+`implemented-equivalent`, four `not-applicable`, 47 `reference-only`, and 511
 `deferred-next-batch` records; `migrate-gap` remains zero.
