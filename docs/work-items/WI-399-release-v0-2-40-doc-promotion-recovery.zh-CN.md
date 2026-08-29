@@ -4,9 +4,13 @@ title: "WI-399——v0.2.40 文档晋升恢复"
 description: "在专用 worktree 中恢复 WI-398 交付并保留可审计的发布基线。"
 workItemId: WI-399-release-v0-2-40-doc-promotion-recovery
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-399-release-v0-2-40-doc-promotion-recovery
+terminalArchive: .ai/work-items/archive/WI-399-release-v0-2-40-doc-promotion-recovery.contract.json
+terminalVerification: .ai/evidence/WI-399-release-v0-2-40-doc-promotion-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-399-release-v0-2-40-doc-promotion-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-399-release-v0-2-40-doc-promotion-recovery.close.json
 capabilityClaims: [documentation_governance, release_distribution]
 ---
 

@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "WI-398-recovery-WI-399",
+  "decidedAt": "2026-08-30T00:25:00+09:00",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-398-release-v0-2-40-doc-promotion.recovery.json",
+    ".ai/decisions/WI-399-release-v0-2-40-doc-promotion-recovery.close.json",
+    ".ai/decisions/WI-399-release-v0-2-40-doc-promotion-recovery.finalize.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:b3ae6bcf1e60998a38c3799467f88a5b8177210ca295d8046c3249fc0377fd66",
+  "predecessorEventsDigest": "sha256:1c6abf7f060d48e9ba7427e9d1b146df2c3f0b9d3718e1c6b2e9db9fd8cab820",
+  "predecessorOutcomeDigest": "sha256:1dfdcbd221e19ccf418ccf3ab5c27aa32bc9a7bbb33793a84d9a43d3e4c05742",
+  "predecessorSummaryDigest": "sha256:6b7beeed0f4701fa3678c710350429efd563d115924c1c69d6b5d2fcf9915794",
+  "predecessorWorkItemId": "WI-398-release-v0-2-40-doc-promotion",
+  "reason": "WI-398 is explicitly superseded by its completed WI-399 recovery successor; preserve all immutable predecessor bytes and project the successor as the authoritative delivery path.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "No further WI-398 lifecycle work; use the closed WI-399 successor and continue with public v0.2.40 release acceptance.",
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-399-release-v0-2-40-doc-promotion-recovery",
+  "workItemId": "WI-398-release-v0-2-40-doc-promotion"
+}

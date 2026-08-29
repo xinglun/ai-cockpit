@@ -4,9 +4,13 @@ title: "WI-399 — v0.2.40 ドキュメント昇格リカバリ"
 description: "専用 worktree で WI-398 の配送を復旧し、監査可能な release baseline を保持する。"
 workItemId: WI-399-release-v0-2-40-doc-promotion-recovery
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-399-release-v0-2-40-doc-promotion-recovery
+terminalArchive: .ai/work-items/archive/WI-399-release-v0-2-40-doc-promotion-recovery.contract.json
+terminalVerification: .ai/evidence/WI-399-release-v0-2-40-doc-promotion-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-399-release-v0-2-40-doc-promotion-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-399-release-v0-2-40-doc-promotion-recovery.close.json
 capabilityClaims: [documentation_governance, release_distribution]
 ---
 

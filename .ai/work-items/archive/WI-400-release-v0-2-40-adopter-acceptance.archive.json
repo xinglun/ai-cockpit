@@ -1,0 +1,23 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-29T15:18:19Z",
+  "files": {
+    "approachDigest": "sha256:53a42647a3e34c3b257dadbfcb477ea3d8fa08b55b8cc4c378380d4a5dabf4d2",
+    "approachPath": ".ai/work-items/archive/WI-400-release-v0-2-40-adopter-acceptance.approach.json",
+    "contractDigest": "sha256:c7989c0940e04ce26b95d6d8433164d102848b711de43c881ff2c8fbbd869305",
+    "contractPath": ".ai/work-items/archive/WI-400-release-v0-2-40-adopter-acceptance.contract.json",
+    "eventsDigest": "sha256:5dfcd8aedc3e7ec31942c8ea9a8369365e14e61a496894f84a8071b2e959869d",
+    "eventsPath": ".ai/work-items/archive/WI-400-release-v0-2-40-adopter-acceptance.events.jsonl",
+    "outcomeDigest": "sha256:a299e0ed9da5182e42ad07847cb260848f580150fcf3b8ec6cde252feb2383cd",
+    "outcomePath": ".ai/work-items/archive/WI-400-release-v0-2-40-adopter-acceptance.outcome.json",
+    "summaryDigest": "sha256:daabe069bb8e0484ee160c720632fa14ef7c86aba6b75c35c793c91d776a79cf",
+    "summaryPath": ".ai/work-items/archive/WI-400-release-v0-2-40-adopter-acceptance.summary.json",
+    "taskReportDigest": "sha256:ebf820c913dfc0202d1039e92b2ea780068b1b00aa95067d4fdcb246538adfec",
+    "taskReportMarkdownDigest": "sha256:d41d435a2c19a230f39aa2be626359a64e3ff54f7e1f9747443105c52ffb7791",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-400-release-v0-2-40-adopter-acceptance.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-400-release-v0-2-40-adopter-acceptance.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-400-release-v0-2-40-adopter-acceptance"
+}

@@ -4,9 +4,13 @@ title: "WI-399 — v0.2.40 documentation-promotion recovery"
 description: "Recover the WI-398 delivery in a dedicated worktree and preserve an auditable release baseline."
 workItemId: WI-399-release-v0-2-40-doc-promotion-recovery
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-399-release-v0-2-40-doc-promotion-recovery
+terminalArchive: .ai/work-items/archive/WI-399-release-v0-2-40-doc-promotion-recovery.contract.json
+terminalVerification: .ai/evidence/WI-399-release-v0-2-40-doc-promotion-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-399-release-v0-2-40-doc-promotion-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-399-release-v0-2-40-doc-promotion-recovery.close.json
 capabilityClaims: [documentation_governance, release_distribution]
 ---
 

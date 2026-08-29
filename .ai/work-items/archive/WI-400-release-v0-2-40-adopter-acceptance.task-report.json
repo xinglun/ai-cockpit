@@ -1,0 +1,116 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-400-release-v0-2-40-adopter-acceptance.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:2ac81288db4f290f95399cd2933326b95ddb1d485640a16858dcaa8cec90b3f0",
+    "workItemId": "WI-400-release-v0-2-40-adopter-acceptance"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-400-release-v0-2-40-adopter-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-398-release-v0-2-40-doc-promotion.close.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-400-release-v0-2-40-adopter-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-398-release-v0-2-40-doc-promotion.recovery.4bcd4ba43bc60c51001ab8c7d32cb6aab86d9cb7d051a5b03f9cee0d62ff8d71.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-400-release-v0-2-40-adopter-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-399-release-v0-2-40-doc-promotion-recovery.close.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-400-release-v0-2-40-adopter-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-399-release-v0-2-40-doc-promotion-recovery.finalize.json"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-400-release-v0-2-40-adopter-acceptance.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-400-release-v0-2-40-adopter-acceptance.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-400-release-v0-2-40-adopter-acceptance.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-400-release-v0-2-40-adopter-acceptance.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-400-release-v0-2-40-adopter-acceptance.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-400-release-v0-2-40-adopter-acceptance.contract.json"
+        ],
+        "inference": false,
+        "text": "Establish a reproducible post-release adopter acceptance baseline for v0.2.40 and leave the current repository ready for the next performance/reference batch."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-400-release-v0-2-40-adopter-acceptance.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-400-release-v0-2-40-adopter-acceptance"
+}

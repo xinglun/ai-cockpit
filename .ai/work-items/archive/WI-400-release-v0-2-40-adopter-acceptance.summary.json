@@ -1,0 +1,89 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-398-release-v0-2-40-doc-promotion.close.json",
+    ".ai/decisions/WI-398-release-v0-2-40-doc-promotion.recovery.4bcd4ba43bc60c51001ab8c7d32cb6aab86d9cb7d051a5b03f9cee0d62ff8d71.json",
+    ".ai/decisions/WI-399-release-v0-2-40-doc-promotion-recovery.close.json",
+    ".ai/decisions/WI-399-release-v0-2-40-doc-promotion-recovery.finalize.json"
+  ],
+  "checkpointAt": "2026-08-29T15:12:12Z",
+  "checkpointContractDigest": "sha256:2fbc6c13d1ffd172289e020b1e25a00eb72fd7a420bccc059c796e1072e6759e",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:3249ebbfc6194815a79ba1a16b85d6fe47f232f7f52d07ab80f6ef881d9afb4b",
+      "recorded": true,
+      "recordedAt": "2026-08-29T15:12:12Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5650cceafe9cbf9f88fc93a9c51c4abb1c0cf99ef77a8fe3fdebd904d7b7f18c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-400-release-v0-2-40-adopter-acceptance"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:c2e47452113d29e6873e13d6d99a8cbb481b45f0ceaea9a9a42d49c57e092d0c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3249ebbfc6194815a79ba1a16b85d6fe47f232f7f52d07ab80f6ef881d9afb4b",
+      "previousContractHash": "sha256:3249ebbfc6194815a79ba1a16b85d6fe47f232f7f52d07ab80f6ef881d9afb4b",
+      "reason": "Correct the verification command set to the repository’s existing release and documentation gates before execution.",
+      "recorded": true,
+      "recordedAt": "2026-08-29T15:12:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5650cceafe9cbf9f88fc93a9c51c4abb1c0cf99ef77a8fe3fdebd904d7b7f18c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-400-release-v0-2-40-adopter-acceptance"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:8d1fa2dd996308baf52f74863a275e4b5736d222ac28eaec3ccdd64793e6f536",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3249ebbfc6194815a79ba1a16b85d6fe47f232f7f52d07ab80f6ef881d9afb4b",
+      "previousContractHash": "sha256:c2e47452113d29e6873e13d6d99a8cbb481b45f0ceaea9a9a42d49c57e092d0c",
+      "reason": "Bind the workflow policy argument so the declared verification command is executable.",
+      "recorded": true,
+      "recordedAt": "2026-08-29T15:13:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5650cceafe9cbf9f88fc93a9c51c4abb1c0cf99ef77a8fe3fdebd904d7b7f18c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-400-release-v0-2-40-adopter-acceptance"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:2ac81288db4f290f95399cd2933326b95ddb1d485640a16858dcaa8cec90b3f0",
+  "createdAt": "2026-08-29T15:05:11Z",
+  "failedGate": "finish.governance",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-29T15:18:15Z",
+  "preflightContractDigest": "sha256:2fbc6c13d1ffd172289e020b1e25a00eb72fd7a420bccc059c796e1072e6759e",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:2ac81288db4f290f95399cd2933326b95ddb1d485640a16858dcaa8cec90b3f0",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T15:18:15Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-400-release-v0-2-40-adopter-acceptance"
+}
