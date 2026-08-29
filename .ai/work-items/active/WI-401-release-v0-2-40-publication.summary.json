@@ -1,0 +1,28 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-400-release-v0-2-40-adopter-acceptance.close.json",
+    ".ai/decisions/WI-400-release-v0-2-40-adopter-acceptance.finalize.json"
+  ],
+  "checkpointAt": "2026-08-29T15:36:22Z",
+  "checkpointContractDigest": "sha256:15bb98d2f9223b48e26e8fa39b6158ecb674bb92357e5e09141d4d1754daf82d",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:4cb82ce06e80801c9c94d4e7884720b85c831932710a4ffe2e4da6ae3b5b20db",
+  "createdAt": "2026-08-29T15:31:40Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-29T15:37:15Z",
+  "preflightContractDigest": "sha256:15bb98d2f9223b48e26e8fa39b6158ecb674bb92357e5e09141d4d1754daf82d",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:4cb82ce06e80801c9c94d4e7884720b85c831932710a4ffe2e4da6ae3b5b20db",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T15:37:28Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-401-release-v0-2-40-publication"
+}

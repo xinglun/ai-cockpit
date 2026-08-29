@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "post-merge-exact-resource-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "b53bc84bb66f7f81d6a220b92cbe902a75ab3799",
+    "name": "codex/wi-400-release-v0-2-40-adopter",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:c7989c0940e04ce26b95d6d8433164d102848b711de43c881ff2c8fbbd869305",
+  "operationId": "github-pr-364-delete-cleanup-20260829",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "8cc95b2fdf7cfb2c555ee03d307d9fee6419f106",
+    "headRevision": "b53bc84bb66f7f81d6a220b92cbe902a75ab3799",
+    "mergeCommit": "11f525037d087e25719b1890ac57661dc4cd771c",
+    "number": 364,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/364"
+  },
+  "reason": "PR #364 passed hosted quality, Windows runtime, v1 behavioral oracle, and task-list checks, merged as 11f52503; the exact dedicated branch and worktree were removed after synchronizing main.",
+  "receiptId": "ai-cockpit-WI-400-release-v0-2-40-adopter-acceptance-deleted-20260829",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-400-release-v0-2-40-adopter",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/364",
+    "worktree": "/private/tmp/ai-cockpit-wi400-release-v0-2-40-adopter"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-29T15:29:28Z",
+  "workItemId": "WI-400-release-v0-2-40-adopter-acceptance",
+  "worktree": {
+    "branch": "codex/wi-400-release-v0-2-40-adopter",
+    "headRevision": "b53bc84bb66f7f81d6a220b92cbe902a75ab3799",
+    "path": "/private/tmp/ai-cockpit-wi400-release-v0-2-40-adopter",
+    "worktreeId": "WI-400-release-v0-2-40-adopter-acceptance"
+  }
+}

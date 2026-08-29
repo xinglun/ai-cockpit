@@ -4,9 +4,13 @@ title: "WI-400——v0.2.40 公开 Release adopter 验收"
 description: "在隔离的 adopter 工程中从零验证不可变 v0.2.40 Release 二进制。"
 workItemId: WI-400-release-v0-2-40-adopter-acceptance
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-400-release-v0-2-40-adopter-acceptance
+terminalArchive: .ai/work-items/archive/WI-400-release-v0-2-40-adopter-acceptance.contract.json
+terminalVerification: .ai/evidence/WI-400-release-v0-2-40-adopter-acceptance.verification.json
+terminalFinalization: .ai/decisions/WI-400-release-v0-2-40-adopter-acceptance.finalize.json
+terminalDecision: .ai/decisions/WI-400-release-v0-2-40-adopter-acceptance.close.json
 capabilityClaims: [release_acceptance, repository_isolation, evidence_reuse]
 ---
 
