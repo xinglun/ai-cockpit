@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:1d4765c057953b6c41f6ecefcafdcf4ef5c7334ba831c0dadb15c9758a29cd0b",
-  "createdAt": "2026-08-29T19:19:52Z",
+  "contractDigest": "sha256:857666ba83bdbab92d4f94ea6072da631d35089248300ecaf82f992e53706fa8",
+  "createdAt": "2026-08-29T19:23:08Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 180829,
-      "executionElapsedMs": 180563,
+      "elapsedMs": 119866,
+      "executionElapsedMs": 119612,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 180829,
-    "executionElapsedMs": 180563,
-    "filesHashed": 17,
-    "filesRead": 17,
+    "elapsedMs": 119866,
+    "executionElapsedMs": 119612,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,14 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/reference/reference-parity.ja.md",
-        "docs/reference/reference-parity.md",
-        "docs/reference/reference-parity.zh-CN.md",
-        "docs/work-items/WI-402-rust-performance-extreme.ja.md",
-        "docs/work-items/WI-402-rust-performance-extreme.md",
-        "docs/work-items/WI-402-rust-performance-extreme.zh-CN.md"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "6eb3ccf9fa4ec54c94370f10dea6e1b38112978a",
       "dependencyConfidence": "unknown",
@@ -51,13 +44,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 180563,
+      "executionElapsedMs": 119612,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:54f9dcddb34e8a91c1c4380916e26d2d456f7a6ef860e3344b97a19c92c9c3c3",
+      "repositorySnapshotDigest": "sha256:c8be58df3347c07c034cfb97cd53d23d8f3ec6662c76f85ea4b2c93006555560",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -83,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:1dcfef8b825e0fe545f8b9a9fa5fc3fd6b1848bbc5c3cbbb873eb000f115c7a3",
+        "outputDigest": "sha256:ae15c00c7495628474e27e22fbe8ee6212cf94b6cf02b2fa702583c2a95ab74e",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -99,9 +92,9 @@
     "runtimeVersion": "0.2.40",
     "workItemId": "WI-404-release-docs-terminal-promotion"
   },
-  "receiptDigest": "sha256:28eb8057bbd0261d144d8a03ad21ee7903a0ab94488007238abb7ad84a6c8b00",
+  "receiptDigest": "sha256:71abedf4e4c5b37c8e3556a66325b6c350ed3ff58b5a293f833c7dcc0e9ed794",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:54f9dcddb34e8a91c1c4380916e26d2d456f7a6ef860e3344b97a19c92c9c3c3",
+  "repositorySnapshotDigest": "sha256:c8be58df3347c07c034cfb97cd53d23d8f3ec6662c76f85ea4b2c93006555560",
   "runtimeDigest": "sha256:8f32216afd448a98ec41dd0cda0dd4c76cdb68ac3af435826d305ac1c3074f79",
   "runtimeVersion": "0.2.40",
   "workItemId": "WI-404-release-docs-terminal-promotion"

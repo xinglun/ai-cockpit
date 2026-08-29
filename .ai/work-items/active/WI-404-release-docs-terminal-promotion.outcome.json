@@ -1,0 +1,135 @@
+{
+  "acceptanceResults": [
+    "三语 WI-402 文档状态为 implemented，并链接真实 archive、verification、finalization、close 记录。",
+    "不修改 WI-402 的 .ai 归档、evidence 或 decision bytes。",
+    "文档 gate、格式检查和完整测试通过。"
+  ],
+  "createdAt": "2026-08-29T19:23:14Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:aa12ff615a1709c4798c035e6dfe031a4085ecb0b1ad4c77d2d9015c153a67c4",
+  "evidenceRefs": [
+    ".ai/evidence/WI-404-release-docs-terminal-promotion.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-404-release-docs-terminal-promotion.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-404-release-docs-terminal-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c8be58df3347c07c034cfb97cd53d23d8f3ec6662c76f85ea4b2c93006555560",
+      "workItemId": "WI-404-release-docs-terminal-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-404-release-docs-terminal-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-404-release-docs-terminal-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-404-release-docs-terminal-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-404-release-docs-terminal-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-404-release-docs-terminal-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-404-release-docs-terminal-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-404-release-docs-terminal-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "让 WI-402 的三语文档与其已验证、已归档、已关闭事实一致，并为后续发布提供可审计的文档终态。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-404-release-docs-terminal-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-404-release-docs-terminal-promotion"
+  },
+  "taskReportDigest": "sha256:b4133d0023d6cb32cf36113cea7a0e3e644643f6d246b510e189db233b04c5be",
+  "taskReportMarkdownDigest": "sha256:0dccebc465e92cd0fcbcf8ec4395ea83a5ada5831e163ca17294244c6001e7df",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-404-release-docs-terminal-promotion.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-404-release-docs-terminal-promotion"
+}

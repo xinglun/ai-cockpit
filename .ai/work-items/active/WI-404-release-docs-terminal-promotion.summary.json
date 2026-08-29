@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-08-29T19:14:09Z",
-  "checkpointContractDigest": "sha256:1d4765c057953b6c41f6ecefcafdcf4ef5c7334ba831c0dadb15c9758a29cd0b",
+  "checkpointContractDigest": "sha256:857666ba83bdbab92d4f94ea6072da631d35089248300ecaf82f992e53706fa8",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -39,18 +39,18 @@
       "workItemId": "WI-404-release-docs-terminal-promotion"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:54f9dcddb34e8a91c1c4380916e26d2d456f7a6ef860e3344b97a19c92c9c3c3",
+  "checkpointRepositorySnapshotDigest": "sha256:c8be58df3347c07c034cfb97cd53d23d8f3ec6662c76f85ea4b2c93006555560",
   "createdAt": "2026-08-29T19:13:57Z",
   "mode": "implementation",
-  "preflightAt": "2026-08-29T19:20:00Z",
-  "preflightContractDigest": "sha256:1d4765c057953b6c41f6ecefcafdcf4ef5c7334ba831c0dadb15c9758a29cd0b",
+  "preflightAt": "2026-08-29T19:23:13Z",
+  "preflightContractDigest": "sha256:857666ba83bdbab92d4f94ea6072da631d35089248300ecaf82f992e53706fa8",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:54f9dcddb34e8a91c1c4380916e26d2d456f7a6ef860e3344b97a19c92c9c3c3",
+  "preflightRepositorySnapshotDigest": "sha256:c8be58df3347c07c034cfb97cd53d23d8f3ec6662c76f85ea4b2c93006555560",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-08-29T19:14:09Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T19:23:14Z",
   "verification": [
     {
       "check": "project-command-0",
