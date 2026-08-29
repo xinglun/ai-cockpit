@@ -123,7 +123,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=294 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=511 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=298 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=507 migrate-gap=0 -->
 
 At the pinned reference comparison baseline, the ledger contains 5,119 records:
 4,262 `generated-history`, 292 `implemented-different-by-design`, one
@@ -956,3 +956,27 @@ explicit `--repo`. The ledger after WI-386 contains 4,262
 `generated-history`, 294 `implemented-different-by-design`, one
 `implemented-equivalent`, four `not-applicable`, 47 `reference-only`, and 511
 `deferred-next-batch` records; `migrate-gap` remains zero.
+
+## WI-387 — reference documentation batch 20
+
+WI-387 compares the next four deferred security and supply-chain documents one
+by one at pinned source commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf`.
+Their responsibilities are represented by Rust-native security, trust-flow,
+release-evidence, and distribution documentation. This batch preserves the
+bounded repository-governance response and delegated external-control boundary;
+it does not claim to ship a general prompt-injection detector or generate
+signatures, SBOM, provenance, or provider assurance.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/security/injection-boundary.ja.md` | implemented-different-by-design | `docs/security/adversarial-validation.ja.md`, `docs/reference/input-trust-dataflow.ja.md`, and `docs/reference/operation-time-policy-reevaluation.ja.md` preserve the Japanese bounded injection response, fail-closed operation-time review, and explicit external-control limits. |
+| `docs/security/injection-boundary.md` | implemented-different-by-design | `docs/security/adversarial-validation.md`, `docs/reference/input-trust-dataflow.md`, and `docs/reference/operation-time-policy-reevaluation.md` preserve the bounded repository-governance response; untrusted text remains data and the source page is not copied as a general detector claim. |
+| `docs/security/injection-boundary.zh-CN.md` | implemented-different-by-design | `docs/security/adversarial-validation.zh-CN.md`, `docs/reference/input-trust-dataflow.zh-CN.md`, and `docs/reference/operation-time-policy-reevaluation.zh-CN.md` preserve the Chinese boundary, deterministic fail-closed handling, and non-claims. |
+| `docs/security/supply-chain.md` | implemented-different-by-design | `docs/security/threat-model.md`, `docs/reference/ci-release-evidence.md`, `docs/release/distribution.md`, and `docs/getting-started/security-release-verification.md` preserve delegated supply-chain evidence ownership and exact artifact binding; external trust roots remain outside the Runtime. |
+
+The ledger after WI-387 contains 4,262 `generated-history`, 298
+`implemented-different-by-design`, one `implemented-equivalent`, four
+`not-applicable`, 47 `reference-only`, and 507 `deferred-next-batch` records;
+`migrate-gap` remains zero. The same Rust-native security and supply-chain
+boundaries are inherited by every attached object/adopter repository, while
+repository facts and evidence remain isolated by explicit `--repo` context.

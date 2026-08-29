@@ -103,7 +103,7 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=294 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=511 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=298 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=507 migrate-gap=0 -->
 
 在固定参考源比较基线上，台账共有 5,119 条记录：4,262 条
 `generated-history`、292 条 `implemented-different-by-design`、1 条
@@ -766,3 +766,21 @@ Runtime 继承 Rust-native 文档边界，但 repository facts、Work Item、evi
 仍在显式 `--repo` 下隔离。WI-386 后台账为 4,262 条 `generated-history`、294 条
 `implemented-different-by-design`、1 条 `implemented-equivalent`、4 条 `not-applicable`、47 条
 `reference-only`、511 条 `deferred-next-batch`；`migrate-gap` 仍为 0。
+
+## WI-387：参考文档第 20 批
+
+WI-387 在固定参考提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 上逐一比较接下来的四个安全与供应链文档。
+其责任由 Rust-native 的安全、信任流、发布证据和分发文档承载。本批保留有界的仓库治理响应与外部控制责任边界，
+不声称提供通用提示词注入检测器，也不由 Runtime 生成签名、SBOM、provenance 或 provider assurance。
+
+| 固定参考路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `docs/security/injection-boundary.ja.md` | implemented-different-by-design | `docs/security/adversarial-validation.ja.md`、`docs/reference/input-trust-dataflow.ja.md`、`docs/reference/operation-time-policy-reevaluation.ja.md` 保留日语注入边界、操作时 fail-closed 复核和外部控制限制。 |
+| `docs/security/injection-boundary.md` | implemented-different-by-design | `docs/security/adversarial-validation.md`、`docs/reference/input-trust-dataflow.md`、`docs/reference/operation-time-policy-reevaluation.md` 保留有界仓库治理响应；不可信文本仍是数据，源页面不复制为通用检测器声明。 |
+| `docs/security/injection-boundary.zh-CN.md` | implemented-different-by-design | `docs/security/adversarial-validation.zh-CN.md`、`docs/reference/input-trust-dataflow.zh-CN.md`、`docs/reference/operation-time-policy-reevaluation.zh-CN.md` 保留中文边界、确定性 fail-closed 处理和非声明。 |
+| `docs/security/supply-chain.md` | implemented-different-by-design | `docs/security/threat-model.md`、`docs/reference/ci-release-evidence.md`、`docs/release/distribution.md`、`docs/getting-started/security-release-verification.md` 保留委托式供应链证据责任与精确制品绑定；外部信任根仍在 Runtime 之外。 |
+
+WI-387 后台账为 4,262 条 `generated-history`、298 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、4 条 `not-applicable`、47 条 `reference-only`、507 条
+`deferred-next-batch`；`migrate-gap` 仍为 0。每个已 attach 的对象/adopter 工程都继承相同的
+Rust-native 安全与供应链边界，而 repository facts 与 evidence 继续由显式 `--repo` 隔离。
