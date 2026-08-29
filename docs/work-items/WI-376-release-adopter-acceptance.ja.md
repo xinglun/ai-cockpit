@@ -4,9 +4,13 @@ title: "WI-376 — v0.2.39 Release adopter 受入検証"
 description: "不変な公開 Release を現在のリポジトリと新規独立 adopter で検証する。"
 workItemId: WI-376-release-adopter-acceptance
 audience: [maintainer, reviewer]
-status: completed
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-376-release-adopter-acceptance
+terminalArchive: .ai/work-items/archive/WI-376-release-adopter-acceptance.contract.json
+terminalVerification: .ai/evidence/WI-376-release-adopter-acceptance.verification.json
+terminalFinalization: .ai/decisions/WI-376-release-adopter-acceptance.finalize.json
+terminalDecision: .ai/decisions/WI-376-release-adopter-acceptance.close.json
 capabilityClaims: [release_acceptance, repository_isolation, evidence_reuse]
 ---
 

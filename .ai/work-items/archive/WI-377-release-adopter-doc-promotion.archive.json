@@ -1,0 +1,21 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-29T02:24:54Z",
+  "files": {
+    "contractDigest": "sha256:f19760b2d1c76413986b50a191a8724f5164b0fe66bf42d137909ee6f71975fd",
+    "contractPath": ".ai/work-items/archive/WI-377-release-adopter-doc-promotion.contract.json",
+    "eventsDigest": "sha256:e9bbcd11382dd705f4d8dc4373732e37b1551f7cc58674a578bf5af81558c7d4",
+    "eventsPath": ".ai/work-items/archive/WI-377-release-adopter-doc-promotion.events.jsonl",
+    "outcomeDigest": "sha256:907fb1f375d028b17d22d9cc76836ff7b936d57df112a076bbd59f70ea387d7d",
+    "outcomePath": ".ai/work-items/archive/WI-377-release-adopter-doc-promotion.outcome.json",
+    "summaryDigest": "sha256:3dfc0bc38ba0d1048da110d2bad2f6f40a0bacf2cc060e435e73cf5afbe40d47",
+    "summaryPath": ".ai/work-items/archive/WI-377-release-adopter-doc-promotion.summary.json",
+    "taskReportDigest": "sha256:0801e70c3c22165f91fc325a4b0cc17db44c751653cc745ad5ece4aabcba2220",
+    "taskReportMarkdownDigest": "sha256:0cafd516034e0e07ab8951b6cece11cc0e2a5c0a4692ab80e403a1beb7589f31",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-377-release-adopter-doc-promotion.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-377-release-adopter-doc-promotion.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-377-release-adopter-doc-promotion"
+}

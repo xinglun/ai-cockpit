@@ -110,9 +110,13 @@ delivery, or explicit human direction; record that reason and linkage.
 After a reviewed PR passes hosted checks, close the Work Item only after the
 archive and decision receipts are verified, the merged PR head SHA and
 fast-forward-synchronized default branch are recorded, all relevant worktrees
-are clean, and the exact remote/local Work Item branch is removed. Any failed
-step is fail closed; never merge a feature branch into local `main` as a
-substitute for PR review.
+are clean, and the exact remote/local Work Item branch is removed. Immediately
+after close, run
+`python3 tests/docs/promote_closed_work_item.py --repo <repository> --check-all`.
+If it reports stale projections, use the same helper in a narrowly scoped
+documentation-promotion Work Item, rerun `--check-all`, and only then declare
+the repository ready for the next release. Any failed step is fail closed;
+never merge a feature branch into local `main` as a substitute for PR review.
 
 Keep rules language-neutral and project-neutral, never include secrets or local
 credentials, and never modify user-global Agent or MCP configuration. The
