@@ -1,0 +1,157 @@
+{
+  "acceptanceResults": [
+    "The harness downloads only the immutable public v0.2.40 Release artifact and records tag, archive, and binary digests.",
+    "The isolated adopter repository receives independent repository identity, scaffold, Agent adapter, and Work Item lifecycle evidence without writing the main project.",
+    "Evidence reuse is demonstrated only when the repository snapshot, Contract, Work Item, and Runtime identity match; first-adopter-smoke remains not_ready until human fields are supplied.",
+    "The closed WI-399 documentation projection is promoted in all three languages and all acceptance artifacts are retained with a total digest."
+  ],
+  "createdAt": "2026-08-29T15:18:15Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:189e0e745343d33d6786df224fe62fbdd2e07b750fe9643602a7a9faf2835195",
+  "evidenceRefs": [
+    ".ai/evidence/WI-400-release-v0-2-40-adopter-acceptance.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-400-release-v0-2-40-adopter-acceptance.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-400-release-v0-2-40-adopter-acceptance.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2ac81288db4f290f95399cd2933326b95ddb1d485640a16858dcaa8cec90b3f0",
+      "workItemId": "WI-400-release-v0-2-40-adopter-acceptance"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-400-release-v0-2-40-adopter-acceptance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-398-release-v0-2-40-doc-promotion.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-400-release-v0-2-40-adopter-acceptance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-398-release-v0-2-40-doc-promotion.recovery.4bcd4ba43bc60c51001ab8c7d32cb6aab86d9cb7d051a5b03f9cee0d62ff8d71.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-400-release-v0-2-40-adopter-acceptance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-399-release-v0-2-40-doc-promotion-recovery.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-400-release-v0-2-40-adopter-acceptance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-399-release-v0-2-40-doc-promotion-recovery.finalize.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-400-release-v0-2-40-adopter-acceptance.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-400-release-v0-2-40-adopter-acceptance.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-400-release-v0-2-40-adopter-acceptance.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-400-release-v0-2-40-adopter-acceptance.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-400-release-v0-2-40-adopter-acceptance.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-400-release-v0-2-40-adopter-acceptance.contract.json"
+          ],
+          "inference": false,
+          "text": "Establish a reproducible post-release adopter acceptance baseline for v0.2.40 and leave the current repository ready for the next performance/reference batch."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-400-release-v0-2-40-adopter-acceptance.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-400-release-v0-2-40-adopter-acceptance"
+  },
+  "taskReportDigest": "sha256:ebf820c913dfc0202d1039e92b2ea780068b1b00aa95067d4fdcb246538adfec",
+  "taskReportMarkdownDigest": "sha256:d41d435a2c19a230f39aa2be626359a64e3ff54f7e1f9747443105c52ffb7791",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-400-release-v0-2-40-adopter-acceptance.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-400-release-v0-2-40-adopter-acceptance"
+}

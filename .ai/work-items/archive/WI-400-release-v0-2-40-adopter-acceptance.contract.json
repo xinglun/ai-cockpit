@@ -1,0 +1,69 @@
+{
+  "acceptanceCriteria": [
+    "The harness downloads only the immutable public v0.2.40 Release artifact and records tag, archive, and binary digests.",
+    "The isolated adopter repository receives independent repository identity, scaffold, Agent adapter, and Work Item lifecycle evidence without writing the main project.",
+    "Evidence reuse is demonstrated only when the repository snapshot, Contract, Work Item, and Runtime identity match; first-adopter-smoke remains not_ready until human fields are supplied.",
+    "The closed WI-399 documentation projection is promoted in all three languages and all acceptance artifacts are retained with a total digest."
+  ],
+  "authority": "authorized",
+  "baseRevision": "8cc95b2fdf7cfb2c555ee03d307d9fee6419f106",
+  "createdAt": "2026-08-29T15:05:11Z",
+  "goal": "Establish a reproducible post-release adopter acceptance baseline for v0.2.40 and leave the current repository ready for the next performance/reference batch.",
+  "intent": "Validate the public v0.2.40 Release binary from zero in an isolated adopter repository and promote the closed WI-399 documentation projection.",
+  "mode": "release",
+  "outOfScope": [
+    "Runtime implementation",
+    "Reference-source feature parity",
+    "Business-project code",
+    "Global Agent or MCP configuration",
+    "Source-build fallback"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2d24ffebd50cca5ada443c2df3c45c8e799aa4d24b609538d2ed72a392b61b63",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-400-release-v0-2-40-adopter",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/364",
+    "worktree": "/private/tmp/ai-cockpit-wi400-release-v0-2-40-adopter"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/decisions/WI-398-release-v0-2-40-doc-promotion.close.json",
+    ".ai/decisions/WI-398-release-v0-2-40-doc-promotion.recovery.4bcd4ba43bc60c51001ab8c7d32cb6aab86d9cb7d051a5b03f9cee0d62ff8d71.json",
+    ".ai/decisions/WI-399-release-v0-2-40-doc-promotion-recovery.close.json",
+    ".ai/decisions/WI-399-release-v0-2-40-doc-promotion-recovery.finalize.json",
+    "docs/work-items/WI-399-release-v0-2-40-doc-promotion-recovery.md",
+    "docs/work-items/WI-399-release-v0-2-40-doc-promotion-recovery.zh-CN.md",
+    "docs/work-items/WI-399-release-v0-2-40-doc-promotion-recovery.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-400-release-v0-2-40-adopter-acceptance.md",
+    "docs/work-items/WI-400-release-v0-2-40-adopter-acceptance.zh-CN.md",
+    "docs/work-items/WI-400-release-v0-2-40-adopter-acceptance.ja.md",
+    ".ai/evidence/external/v0-2-40/**"
+  ],
+  "sources": [
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_acceptance_test.sh",
+    "tests/release/release_gate_policy_test.sh",
+    "docs/work-items/WI-376-release-adopter-acceptance.md",
+    "WI-399-release-v0-2-40-doc-promotion-recovery terminal receipts"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/release/adopter_acceptance_test.sh",
+    "bash tests/release/adopter_upgrade_acceptance_test.sh",
+    "bash tests/release/version_consistency_test.sh",
+    "bash tests/release/workflow_policy.sh .github/workflows/release.yml"
+  ],
+  "workItemId": "WI-400-release-v0-2-40-adopter-acceptance"
+}

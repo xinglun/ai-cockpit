@@ -1,0 +1,152 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-398-release-v0-2-40-doc-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:da2743e99b140c888746ffd37e8e1f15d70a10b6a12ced20c5030114c29db8c8",
+      "workItemId": "WI-398-release-v0-2-40-doc-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-398-release-v0-2-40-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-397-release-v0-2-40.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-398-release-v0-2-40-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-397-release-v0-2-40.finalize.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-398-release-v0-2-40-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-398-release-v0-2-40-doc-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-398-release-v0-2-40-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-398-release-v0-2-40-doc-promotion.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-398-release-v0-2-40-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-398-release-v0-2-40-doc-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-398-release-v0-2-40-doc-promotion.recovery.json",
+            ".ai/decisions/WI-398-release-v0-2-40-doc-promotion.recovery.4b8b53d2f6cde7a0f2a6fb7d19f38a0e40e7d9c0a9f2877f1c9e91b5bd4ddf08.json",
+            ".ai/decisions/WI-399-release-v0-2-40-doc-promotion-recovery.close.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'superseded' by human:repository-owner via WI-398-recovery-WI-399 at 2026-08-30T00:30:00+09:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-398-release-v0-2-40-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-398-release-v0-2-40-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-398-release-v0-2-40-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-398-release-v0-2-40-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the tri-language Work Item and parity ledger accurately reflect WI-397 close and preserve its immutable release receipts."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-398-release-v0-2-40-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-398-release-v0-2-40-doc-promotion"
+  },
+  "finalReportDigest": "sha256:a3671e0c0ff337fe04b82c5ebefd8f716cd8a9436b1400504a6aac2b17d0dedb",
+  "humanDecision": "superseded",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "WI-398-recovery-WI-399",
+    "decidedAt": "2026-08-30T00:30:00+09:00",
+    "decision": "superseded",
+    "evidenceRefs": [
+      ".ai/decisions/WI-398-release-v0-2-40-doc-promotion.recovery.json",
+      ".ai/decisions/WI-398-release-v0-2-40-doc-promotion.recovery.4b8b53d2f6cde7a0f2a6fb7d19f38a0e40e7d9c0a9f2877f1c9e91b5bd4ddf08.json",
+      ".ai/decisions/WI-399-release-v0-2-40-doc-promotion-recovery.close.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md"
+    ],
+    "reason": "WI-398 is explicitly superseded by the completed WI-399 recovery successor. The immutable archive remains unchanged and the recovery chain records why finalization moved to the dedicated successor.",
+    "resumeCondition": "No further WI-398 lifecycle work; continue with public v0.2.40 release and adopter acceptance."
+  },
+  "timestamp": "2026-08-29T15:03:38Z",
+  "workItemId": "WI-398-release-v0-2-40-doc-promotion"
+}

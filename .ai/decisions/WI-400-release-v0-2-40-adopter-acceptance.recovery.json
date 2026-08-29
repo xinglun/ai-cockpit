@@ -1,0 +1,26 @@
+{
+  "actor": "human:release-recovery",
+  "authoritySource": "explicit-recovery-review",
+  "decidedAt": "2026-08-29T15:16:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-400-release-v0-2-40-adopter-acceptance.verification.json",
+    ".ai/work-items/active/WI-400-release-v0-2-40-adopter-acceptance.summary.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md#canonical-delivery-order"
+  ],
+  "predecessorContractDigest": "sha256:2fbc6c13d1ffd172289e020b1e25a00eb72fd7a420bccc059c796e1072e6759e",
+  "predecessorEventsDigest": "sha256:58facc254588a9ff5055999047a83c5d8afdc2bf69ab49e42dd69ff09c92a6d1",
+  "predecessorOutcomeDigest": "sha256:d0d6175a800cf0bd02f5fac34ecd409e60458666e7e00cf38a6fcafef64a4105",
+  "predecessorSummaryDigest": "sha256:c9867f5244424f5f2bbcdcda14ac772ace44bcf81e11f6cb7cb144f4477a0f60",
+  "predecessorWorkItemId": "WI-400-release-v0-2-40-adopter-acceptance",
+  "reason": "Retry WI-400 after the first finish attempt correctly stopped on the missing finalization plan; preserve the blocked predecessor evidence and continue with the now-bound plan.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun fresh preflight and verification, then finish only with the same non-provisional finalization plan and current repository snapshot.",
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "schemaVersion": 1,
+  "workItemId": "WI-400-release-v0-2-40-adopter-acceptance"
+}

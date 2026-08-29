@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "post-merge-exact-resource-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "5ef708f03762b208af8e2ea3ee28767b886fe5f1",
+    "name": "codex/wi-399-release-v0-2-40-recovery",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:314fc4a3d39b0d79a4d597e89805c28ff75e38fc7cc9437ff9d3ae16b7c66adb",
+  "operationId": "github-pr-363-delete-cleanup-20260830",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "3930fb66cb2d7a332bd1db27a9a260c4f49a0f85",
+    "headRevision": "5ef708f03762b208af8e2ea3ee28767b886fe5f1",
+    "mergeCommit": "8cc95b2fdf7cfb2c555ee03d307d9fee6419f106",
+    "number": 363,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/363"
+  },
+  "reason": "PR #363 passed hosted quality, Windows runtime, v1 behavioral oracle, and task-list checks, merged as 8cc95b2; the exact dedicated branch and worktree were removed after synchronizing main.",
+  "receiptId": "ai-cockpit-WI-399-release-v0-2-40-doc-promotion-recovery-deleted-20260830",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-399-release-v0-2-40-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/363",
+    "worktree": "/private/tmp/ai-cockpit-wi399-release-v0-2-40-recovery"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-30T00:05:00+09:00",
+  "workItemId": "WI-399-release-v0-2-40-doc-promotion-recovery",
+  "worktree": {
+    "branch": "codex/wi-399-release-v0-2-40-recovery",
+    "headRevision": "5ef708f03762b208af8e2ea3ee28767b886fe5f1",
+    "path": "/private/tmp/ai-cockpit-wi399-release-v0-2-40-recovery",
+    "worktreeId": "WI-399-release-v0-2-40-doc-promotion-recovery"
+  }
+}
