@@ -66,7 +66,7 @@
       "nonRiskExplanations": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-378-reference-documentation-batch-17.summary.json"
+            ".ai/work-items/archive/WI-378-reference-documentation-batch-17.summary.json"
           ],
           "inference": false,
           "text": "No repository paths were observed as changed by the current Summary."
@@ -104,7 +104,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-378-reference-documentation-batch-17.contract.json"
+            ".ai/work-items/archive/WI-378-reference-documentation-batch-17.contract.json"
           ],
           "inference": false,
           "text": "完成下一批参考文档的语义分类与可审计 Rust-native 对应，不复制 Python/Make/V1 实现或历史治理结论。"
@@ -113,7 +113,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-378-reference-documentation-batch-17.contract.json"
+            ".ai/work-items/archive/WI-378-reference-documentation-batch-17.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -123,7 +123,7 @@
     "status": "verified",
     "workItemId": "WI-378-reference-documentation-batch-17"
   },
-  "taskReportDigest": "sha256:5621ac18f1806516dafb5a34027efaf22fc664dc70e2c958a9e78ccd0114ae73",
+  "taskReportDigest": "sha256:9aec1241512bbac5240082ecc2157eb5b4e7537dfd04d783fa87f9728c9fce0d",
   "taskReportMarkdownDigest": "sha256:09228da492eff7aed6ad6f7f02a654afda0bc75662da8b73920faf444e2b4b94",
   "unknowns": [
     "user_visible_benefit_not_declared"
