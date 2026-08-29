@@ -59,18 +59,18 @@
       "workItemId": "WI-404-release-docs-terminal-promotion"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:35dd536fc5e380f84f59e209b002267f87fa2855121915017c6b2f29a96ecd55",
+  "checkpointRepositorySnapshotDigest": "sha256:0124bd7f5d3a6c2b9dced5ac2f47160f588d6583ab43859d8104e701d09018a9",
   "createdAt": "2026-08-29T19:13:57Z",
   "mode": "implementation",
-  "preflightAt": "2026-08-29T20:02:39Z",
+  "preflightAt": "2026-08-29T20:08:42Z",
   "preflightContractDigest": "sha256:cfd985437de0f28b918fb89b9878c9cddbd77622f455568eb6f94f8046e5e43a",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:35dd536fc5e380f84f59e209b002267f87fa2855121915017c6b2f29a96ecd55",
+  "preflightRepositorySnapshotDigest": "sha256:0124bd7f5d3a6c2b9dced5ac2f47160f588d6583ab43859d8104e701d09018a9",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "finish_ready",
-  "updatedAt": "2026-08-29T20:02:40Z",
+  "updatedAt": "2026-08-29T20:08:42Z",
   "verification": [
     {
       "check": "project-command-0",
