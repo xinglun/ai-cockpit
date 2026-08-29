@@ -6,13 +6,14 @@ use cockpit_protocol::{
     ResourceFinalizationContext, RuntimeContext,
 };
 use cockpit_repository::{
-    WorkItemStartOptions, acquire_parallel_slot, archive_work_item, attach, checkpoint_work_item,
-    close_work_item_with_decision, close_work_item_with_structured_decision, evidence_purge_plan,
-    evidence_state_for_contract, export_audit_events, finish_work_item,
-    governance_decision_for_contract, implementation_approach, import_delegated_evidence,
-    plan_resource_finalization, preflight_work_item, record_verification, release_parallel_slot,
+    ActiveArtifactReconciliationReceipt, WorkItemStartOptions, acquire_parallel_slot,
+    archive_work_item, attach, checkpoint_work_item, close_work_item_with_decision,
+    close_work_item_with_structured_decision, evidence_purge_plan, evidence_state_for_contract,
+    export_audit_events, finish_work_item, governance_decision_for_contract,
+    implementation_approach, import_delegated_evidence, plan_resource_finalization,
+    preflight_work_item, reconcile_active_artifacts, record_verification, release_parallel_slot,
     render_human_outcome, set_evidence_retention_policy, set_work_item_concurrency_boundary,
-    set_work_item_intelligence, start_work_item, start_work_item_with_options,
+    set_work_item_intelligence, start_work_item, start_work_item_with_options, status,
 };
 use std::{
     fs,
@@ -124,6 +125,7 @@ fn archive_rejects_provisional_resource_context_without_moving_active_bytes() {
         &["**".into()],
     )
     .expect("start");
+
     prepare_for_verification(&path, work_item_id);
     record_verification(
         &path,
@@ -198,6 +200,7 @@ fn archive_accepts_explicit_non_provisional_resource_finalization_plan() {
         &["**".into()],
     )
     .expect("start");
+
     prepare_for_verification(&path, work_item_id);
     record_verification(
         &path,
@@ -345,6 +348,244 @@ fn archive_moves_implementation_approach_and_removes_active_orphan() {
     .expect("manifest JSON");
     let digest = Digest::sha256_bytes(&fs::read(&archived).expect("archived approach"));
     assert_eq!(manifest["files"]["approachDigest"], digest.to_string());
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn archive_moves_failed_attempt_variants_and_binds_their_digests() {
+    let path = repository();
+    let work_item_id = "WI-FAILED-ATTEMPT-VARIANTS";
+    start_work_item(
+        &path,
+        work_item_id,
+        "preserve failed lifecycle attempts",
+        "move historical blocked projections out of active during archive",
+        &["**".into()],
+    )
+    .expect("start");
+    prepare_for_verification(&path, work_item_id);
+    record_verification(
+        &path,
+        work_item_id,
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.2.23",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+    finish_work_item(&path, work_item_id).expect("finish");
+
+    let variants = [
+        (
+            format!("{work_item_id}.outcome.finish-blocked.json"),
+            br#"{"state":"blocked","workItemId":"WI-FAILED-ATTEMPT-VARIANTS"}"#.to_vec(),
+        ),
+        (
+            format!("{work_item_id}.events.finish-blocked.jsonl"),
+            br#"{"schemaVersion":1,"eventType":"blocked"}
+"#
+            .to_vec(),
+        ),
+    ];
+    for (name, bytes) in &variants {
+        fs::write(path.join(".ai/work-items/active").join(name), bytes).expect("variant");
+    }
+
+    archive_work_item(&path, work_item_id).expect("archive");
+    let archive = path.join(".ai/work-items/archive");
+    let historical = archive.join(format!("{work_item_id}.outcome.finish-blocked.json"));
+    assert_eq!(
+        fs::read(&historical).expect("archived outcome variant"),
+        variants[0].1
+    );
+    assert_eq!(
+        fs::read(archive.join(format!("{work_item_id}.events.finish-blocked.jsonl")))
+            .expect("archived events variant"),
+        variants[1].1
+    );
+    for (name, _) in &variants {
+        assert!(!path.join(".ai/work-items/active").join(name).exists());
+    }
+    let manifest: serde_json::Value = serde_json::from_slice(
+        &fs::read(archive.join(format!("{work_item_id}.archive.json"))).expect("manifest"),
+    )
+    .expect("manifest JSON");
+    let historical_artifacts = manifest["historicalArtifacts"]
+        .as_array()
+        .expect("historical artifact manifest");
+    assert_eq!(historical_artifacts.len(), variants.len());
+    for (name, bytes) in &variants {
+        let path_value = format!(".ai/work-items/archive/{name}");
+        let item = historical_artifacts
+            .iter()
+            .find(|item| item["path"] == path_value)
+            .expect("variant path bound");
+        assert_eq!(
+            item["digest"],
+            Digest::sha256_bytes(bytes).to_string(),
+            "variant digest bound"
+        );
+    }
+    fs::write(
+        archive.join(format!("{work_item_id}.outcome.finish-blocked.json")),
+        br#"{"tampered":true}"#,
+    )
+    .expect("tamper historical variant");
+    let error = close_work_item_with_decision(&path, work_item_id, "approved")
+        .expect_err("tampered historical variant must be rejected");
+    assert!(error.to_string().contains("historical artifact digest"));
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[cfg(unix)]
+#[test]
+fn archive_rejects_symlinked_failed_attempt_variant() {
+    use std::os::unix::fs::symlink;
+
+    let path = repository();
+    let work_item_id = "WI-FAILED-ATTEMPT-SYMLINK";
+    start_work_item(
+        &path,
+        work_item_id,
+        "reject unsafe historical projection",
+        "do not follow a failed-attempt symlink during archive",
+        &["**".into()],
+    )
+    .expect("start");
+
+    let target = path.join("outside-history.json");
+    fs::write(&target, br#"{"foreign":true}"#).expect("target");
+    let variant = path
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.outcome.finish-blocked.json"));
+    symlink(&target, &variant).expect("variant symlink");
+
+    prepare_for_verification(&path, work_item_id);
+    record_verification(
+        &path,
+        work_item_id,
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.2.23",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+    finish_work_item(&path, work_item_id).expect("finish");
+
+    let error = archive_work_item(&path, work_item_id)
+        .expect_err("archive must reject symlinked historical projection");
+    assert!(error.to_string().contains("regular non-symlink"));
+    assert!(
+        fs::symlink_metadata(&variant)
+            .expect("variant metadata")
+            .file_type()
+            .is_symlink()
+    );
+    assert!(
+        !path
+            .join(".ai/work-items/archive")
+            .join(format!("{work_item_id}.archive.json"))
+            .exists()
+    );
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn status_reports_orphaned_active_variants_without_counting_them_as_work_items() {
+    let path = repository();
+    let work_item_id = "WI-ORPHAN-VARIANT-STATUS";
+    start_work_item(
+        &path,
+        work_item_id,
+        "report active residue",
+        "make orphaned failed attempts visible",
+        &["**".into()],
+    )
+    .expect("start");
+    prepare_for_verification(&path, work_item_id);
+    record_verification(
+        &path,
+        work_item_id,
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.2.23",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+    finish_work_item(&path, work_item_id).expect("finish");
+    archive_work_item(&path, work_item_id).expect("archive");
+    let name = format!("{work_item_id}.outcome.finish-blocked.json");
+    fs::write(
+        path.join(".ai/work-items/active").join(&name),
+        br#"{"state":"blocked"}"#,
+    )
+    .expect("orphan variant");
+
+    let repository_status = status(&path).expect("status");
+    assert_eq!(repository_status.active_work_items, 0);
+    assert_eq!(repository_status.active_artifacts, vec![name.clone()]);
+    assert_eq!(repository_status.orphaned_active_artifacts, vec![name]);
+    assert!(
+        repository_status
+            .readiness
+            .blockers
+            .contains(&"orphaned_active_artifacts_present".into())
+    );
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn reconcile_moves_variants_for_an_already_archived_work_item() {
+    let path = repository();
+    let work_item_id = "WI-ORPHAN-VARIANT-RECONCILE";
+    start_work_item(
+        &path,
+        work_item_id,
+        "reconcile archived residue",
+        "move old failed attempts without rewriting archive truth",
+        &["**".into()],
+    )
+    .expect("start");
+    prepare_for_verification(&path, work_item_id);
+    record_verification(
+        &path,
+        work_item_id,
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.2.23",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+    finish_work_item(&path, work_item_id).expect("finish");
+    archive_work_item(&path, work_item_id).expect("archive");
+    let name = format!("{work_item_id}.events.historical.jsonl");
+    let bytes = br#"{"schemaVersion":1,"eventType":"blocked"}
+"#;
+    fs::write(path.join(".ai/work-items/active").join(&name), bytes).expect("orphan variant");
+    let original_manifest = fs::read(
+        path.join(".ai/work-items/archive")
+            .join(format!("{work_item_id}.archive.json")),
+    )
+    .expect("manifest before reconcile");
+
+    let receipt: ActiveArtifactReconciliationReceipt =
+        reconcile_active_artifacts(&path, work_item_id).expect("reconcile");
+    assert_eq!(receipt.state, "reconciled");
+    assert_eq!(receipt.moved_artifacts.len(), 1);
+    assert!(!path.join(".ai/work-items/active").join(&name).exists());
+    assert_eq!(
+        fs::read(path.join(".ai/work-items/archive").join(&name)).expect("archived variant"),
+        bytes
+    );
+    assert_eq!(
+        fs::read(
+            path.join(".ai/work-items/archive")
+                .join(format!("{work_item_id}.archive.json")),
+        )
+        .expect("manifest after reconcile"),
+        original_manifest,
+        "archive truth remains immutable"
+    );
+    let receipt_path = path
+        .join(".ai/work-items/archive")
+        .join(format!("{work_item_id}.artifact-reconciliation.json"));
+    assert!(receipt_path.is_file());
     fs::remove_dir_all(path).expect("cleanup");
 }
 

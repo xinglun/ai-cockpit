@@ -373,6 +373,14 @@ enum WorkItemCommand {
         #[arg(long)]
         json: bool,
     },
+    /// Move failed-attempt artifacts left by an older/interrupted archive
+    /// into the immutable archive and bind them with a reconciliation receipt.
+    ReconcileArtifacts {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+    },
     /// Bind branch/worktree/provider/PR context before archive.
     FinalizePlan {
         #[arg(long)]
@@ -1194,6 +1202,12 @@ fn run() -> Result<()> {
                         )
                     );
                 }
+            }
+            WorkItemCommand::ReconcileArtifacts { repo, id } => {
+                require_compatible(&repo, &runtime_context)?;
+                let receipt = cockpit_repository::reconcile_active_artifacts(&repo, &id)
+                    .context("reconcile active Work Item artifacts")?;
+                println!("{}", serde_json::to_string_pretty(&receipt)?);
             }
             WorkItemCommand::FinalizePlan { repo, id, input } => {
                 require_compatible(&repo, &runtime_context)?;
