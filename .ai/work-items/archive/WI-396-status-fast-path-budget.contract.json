@@ -23,11 +23,11 @@
   "repositorySnapshotDigest": "sha256:35a4899e21a552f941eada5eb596251413e79721611ed5558089d2d65c02f3a2",
   "requiredEvidenceClasses": ["verification"],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-396-status-fast-path-budget",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/360",
     "worktree": "/private/tmp/ai-cockpit-wi396-status-fast-path-budget"
   },
   "risk": "medium",

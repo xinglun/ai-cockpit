@@ -1,0 +1,21 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-29T13:08:18Z",
+  "files": {
+    "contractDigest": "sha256:aa4bb5cf86e0172a8cec65f8594427572903968ca34b73dca20c8fc6c6f93281",
+    "contractPath": ".ai/work-items/archive/WI-396-status-fast-path-budget.contract.json",
+    "eventsDigest": "sha256:55d383c9566250aa57b93fcda2ce5a0477f0d017e3678b6c2034ba66796d646d",
+    "eventsPath": ".ai/work-items/archive/WI-396-status-fast-path-budget.events.jsonl",
+    "outcomeDigest": "sha256:9608abcfda75f4af103fd035a4dd6fd03630800a1be9945842447c7e8807b715",
+    "outcomePath": ".ai/work-items/archive/WI-396-status-fast-path-budget.outcome.json",
+    "summaryDigest": "sha256:d23efdb7b4c0328ffcc5d8dcb60bae608f972b92a3d6c539b19ab34d1f10e65f",
+    "summaryPath": ".ai/work-items/archive/WI-396-status-fast-path-budget.summary.json",
+    "taskReportDigest": "sha256:0f51fb3240200df5c9830130bbe3df939016d47f7b63e866ac65b24e0972a87a",
+    "taskReportMarkdownDigest": "sha256:e8840298110ad245277dea54efe4c85068491606f9ec389d241e981ac92de4b2",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-396-status-fast-path-budget.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-396-status-fast-path-budget.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-396-status-fast-path-budget"
+}

@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "Measure status warm startup and medium observation using the release/installed Runtime boundary on the declared local platform; record samples, median, filesRead/filesHashed, gitCalls, elapsedMs, Runtime identity, and repository identity. The gate must fail closed when a declared budget is exceeded or evidence is missing.",
+    "For a clean repository snapshot, avoid invoking an equivalent Git diff subprocess when no changed paths exist; preserve exact changed-path, diff-digest, source-tree-digest, snapshot identity, and fail-closed semantics. Dirty, unknown, or changed inputs must retain the full diff path.",
+    "Enforce the documented status <50 ms and medium observation <100 ms targets in a real identity-bound performance gate, or emit a bounded failed assessment with the measured gap; never weaken governance or silently widen the budget.",
+    "Keep all optimization request-scoped and repository-local: no process-global current repository, cross-repository cache, shared evidence, or object-project-specific code. Adopter guidance must use the shared external Runtime with explicit --repo and preserve per-repository evidence identity.",
+    "Performance regression, repository isolation, lifecycle, tri-language documentation, and full workspace quality tests pass; the performance gate covers both positive and negative budget cases and remains independent from governance authorization."
+  ],
+  "createdAt": "2026-08-29T13:08:13Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:c02b23cc0cacaf9cea9b70d3b486f325d862ef1a4079666e3400a453c23b32f2",
+  "evidenceRefs": [
+    ".ai/evidence/WI-396-status-fast-path-budget.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-396-status-fast-path-budget.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-396-status-fast-path-budget.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ceab2b51c1ebd66d45a9b974521e7e00ab67a5b5a2cdbda3103bb711c19ae807",
+      "workItemId": "WI-396-status-fast-path-budget"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-396-status-fast-path-budget.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-396-status-fast-path-budget.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-396-status-fast-path-budget.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-396-status-fast-path-budget.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-396-status-fast-path-budget.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-396-status-fast-path-budget.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-396-status-fast-path-budget.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-396-status-fast-path-budget.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-396-status-fast-path-budget.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-396-status-fast-path-budget.contract.json"
+          ],
+          "inference": false,
+          "text": "Reduce measured Runtime startup cost toward the declared local performance budgets without weakening governance or object-project inheritance."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-396-status-fast-path-budget.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-396-status-fast-path-budget"
+  },
+  "taskReportDigest": "sha256:0f51fb3240200df5c9830130bbe3df939016d47f7b63e866ac65b24e0972a87a",
+  "taskReportMarkdownDigest": "sha256:e8840298110ad245277dea54efe4c85068491606f9ec389d241e981ac92de4b2",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-396-status-fast-path-budget.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-396-status-fast-path-budget"
+}
