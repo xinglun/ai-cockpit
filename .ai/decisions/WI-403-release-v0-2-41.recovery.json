@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-30T04:05:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-403-release-v0-2-41.outcome.json",
+    ".ai/evidence/WI-403-release-v0-2-41.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:canonical-delivery-order",
+    "docs/reference/agent-workflow.md:finalize-plan-before-finish"
+  ],
+  "predecessorContractDigest": "sha256:9445882537d69ee7591b748162542908d95c9001d4393199fa6502ccb7f5aac8",
+  "predecessorEventsDigest": "sha256:3b7cc62654302b82e0d023ae244eca823b3227ee7d4df6dad831ec009f47f392",
+  "predecessorOutcomeDigest": "sha256:d76b04d7c20265fa44abc23fba94a8a7d92d1b434748a828fde64d8e59878d08",
+  "predecessorSummaryDigest": "sha256:f2db07063dacaae3f8fc7c81a03d5482048eb8c5275c676df49a8c5c828486fc",
+  "predecessorWorkItemId": "WI-403-release-v0-2-41",
+  "reason": "Retry after the Runtime correctly rejected finish while the current verification evidence was stale against the finalized resource context; rerun preflight and verification before archive.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Fresh non-red preflight and verification evidence match the current Contract, resource context, repository snapshot, and Runtime identity.",
+  "runtimeDigest": "sha256:8f32216afd448a98ec41dd0cda0dd4c76cdb68ac3af435826d305ac1c3074f79",
+  "runtimeVersion": "0.2.40",
+  "schemaVersion": 1,
+  "workItemId": "WI-403-release-v0-2-41"
+}

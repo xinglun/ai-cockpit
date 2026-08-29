@@ -1,0 +1,28 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-29T18:48:15Z",
+  "checkpointContractDigest": "sha256:9445882537d69ee7591b748162542908d95c9001d4393199fa6502ccb7f5aac8",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:407532380ae36f851ddf515dc7a225ce62ca53c6ea562cb57ffc7ea237584825",
+  "createdAt": "2026-08-29T18:40:56Z",
+  "failedGate": "finish.preflight",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-29T19:05:22Z",
+  "preflightContractDigest": "sha256:9445882537d69ee7591b748162542908d95c9001d4393199fa6502ccb7f5aac8",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:407532380ae36f851ddf515dc7a225ce62ca53c6ea562cb57ffc7ea237584825",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record a fresh non-red preflight result, then retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T19:05:28Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-403-release-v0-2-41"
+}
