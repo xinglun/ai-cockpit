@@ -107,7 +107,7 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=304 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=501 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=310 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=495 migrate-gap=0 -->
 
 固定した reference comparison baseline の ledger は 5,119 records です。内訳は
 4,262 `generated-history`、292 `implemented-different-by-design`、1
@@ -855,3 +855,18 @@ WI-388 は pinned source commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf` の d
 repository fact と evidence は明示的な `--repo` の下で分離されます。WI-388 後の ledger は 4,262 `generated-history`、
 304 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、47 `reference-only`、
 501 `deferred-next-batch`、`migrate-gap` は 0 です。
+
+## WI-389 — reference documentation batch 22
+
+WI-389 は pinned source commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf` の deferred 6 文書を一つずつ比較します。Uninstall は installed Runtime lifecycle route、upgrade は Rust-native upgrade reference に対応させます。proposal-before-write、owner confirmation、immutable Release binding、rollback、conflict stop、明示的な active recovery の境界を保ち、source installer command はコピーしません。
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/troubleshooting/uninstall.ja.md` | implemented-different-by-design | `docs/reference/installed-lifecycle.ja.md` が read-only inventory、owner confirmation、proposal と別の execution confirmation、bounded removal、receipt verification、evidence retention、Unknown 時の fail-closed recovery を保持します。 |
+| `docs/troubleshooting/uninstall.md` | implemented-different-by-design | `docs/reference/installed-lifecycle.md` が read-only inventory、owner confirmation、proposal と別の execution confirmation、bounded removal、receipt verification、evidence retention、Unknown 時の fail-closed recovery を保持します。 |
+| `docs/troubleshooting/uninstall.zh-CN.md` | implemented-different-by-design | `docs/reference/installed-lifecycle.zh-CN.md` が read-only inventory、owner confirmation、proposal と別の execution confirmation、bounded removal、receipt verification、evidence retention、Unknown 時の fail-closed recovery を保持します。 |
+| `docs/upgrade.ja.md` | implemented-different-by-design | `docs/reference/upgrade.ja.md` が immutable Release/runtime identity、rollback-safe active configuration、conflict/downgrade stop、explicit migration、別途 review された `--upgrade-with-active` recovery を保持します。 |
+| `docs/upgrade.md` | implemented-different-by-design | `docs/reference/upgrade.md` が immutable Release/runtime identity、rollback-safe active configuration、conflict/downgrade stop、explicit migration、別途 review された `--upgrade-with-active` recovery を保持します。 |
+| `docs/upgrade.zh-CN.md` | implemented-different-by-design | `docs/reference/upgrade.zh-CN.md` が immutable Release/runtime identity、rollback-safe active configuration、conflict/downgrade stop、explicit migration、別途 review された `--upgrade-with-active` recovery を保持します。 |
+
+これは semantic/documentation parity であり、source command、JSON wire、provider state compatibility ではありません。すべての attached object/adopter repository は shared Runtime から同じ uninstall、upgrade、rollback、recovery boundary を継承し、repository fact と evidence は明示的な `--repo` で隔離されます。WI-389 後の ledger は 4,262 `generated-history`、310 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、47 `reference-only`、495 `deferred-next-batch`、`migrate-gap` はゼロです。

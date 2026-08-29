@@ -123,7 +123,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=304 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=501 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=310 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=495 migrate-gap=0 -->
 
 At the pinned reference comparison baseline, the ledger contains 5,119 records:
 4,262 `generated-history`, 292 `implemented-different-by-design`, one
@@ -1006,4 +1006,31 @@ boundaries from the shared Runtime, while repository facts and evidence remain
 isolated by explicit `--repo`. The ledger after WI-388 contains 4,262
 `generated-history`, 304 `implemented-different-by-design`, one
 `implemented-equivalent`, four `not-applicable`, 47 `reference-only`, and 501
+`deferred-next-batch` records; `migrate-gap` remains zero.
+
+## WI-389 — reference documentation batch 22
+
+WI-389 compares six deferred reference documents one by one at pinned source
+commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf`. The uninstall guidance is
+represented by the installed-lifecycle route, and upgrade guidance by the
+Rust-native upgrade reference. The batch preserves proposal-before-write,
+owner confirmation, immutable Release binding, rollback, conflict stops, and
+explicit active-recovery boundaries without copying source installer commands.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/troubleshooting/uninstall.ja.md` | implemented-different-by-design | `docs/reference/installed-lifecycle.ja.md` preserves read-only inventory, owner confirmation, proposal and separate execution confirmation, bounded removal, receipt verification, evidence retention, and fail-closed unknown recovery. |
+| `docs/troubleshooting/uninstall.md` | implemented-different-by-design | `docs/reference/installed-lifecycle.md` preserves read-only inventory, owner confirmation, proposal and separate execution confirmation, bounded removal, receipt verification, evidence retention, and fail-closed unknown recovery. |
+| `docs/troubleshooting/uninstall.zh-CN.md` | implemented-different-by-design | `docs/reference/installed-lifecycle.zh-CN.md` preserves read-only inventory, owner confirmation, proposal and separate execution confirmation, bounded removal, receipt verification, evidence retention, and fail-closed unknown recovery. |
+| `docs/upgrade.ja.md` | implemented-different-by-design | `docs/reference/upgrade.ja.md` preserves immutable Release/runtime identity, rollback-safe active configuration, conflict and downgrade stops, explicit migration, and separately reviewed `--upgrade-with-active` recovery. |
+| `docs/upgrade.md` | implemented-different-by-design | `docs/reference/upgrade.md` preserves immutable Release/runtime identity, rollback-safe active configuration, conflict and downgrade stops, explicit migration, and separately reviewed `--upgrade-with-active` recovery. |
+| `docs/upgrade.zh-CN.md` | implemented-different-by-design | `docs/reference/upgrade.zh-CN.md` preserves immutable Release/runtime identity, rollback-safe active configuration, conflict and downgrade stops, explicit migration, and separately reviewed `--upgrade-with-active` recovery. |
+
+This is semantic/documentation parity, not source command, JSON-wire, or
+provider-state compatibility. Every attached object/adopter repository
+inherits the same Rust-native uninstall, upgrade, rollback, and recovery
+boundaries from the shared Runtime, while repository facts and evidence remain
+isolated by explicit `--repo`. The ledger after WI-389 contains 4,262
+`generated-history`, 310 `implemented-different-by-design`, one
+`implemented-equivalent`, four `not-applicable`, 47 `reference-only`, and 495
 `deferred-next-batch` records; `migrate-gap` remains zero.

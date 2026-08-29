@@ -103,7 +103,7 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=304 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=501 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=310 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=495 migrate-gap=0 -->
 
 在固定参考源比较基线上，台账共有 5,119 条记录：4,262 条
 `generated-history`、292 条 `implemented-different-by-design`、1 条
@@ -805,3 +805,18 @@ Runtime 继承相同的威胁、采用、安装和恢复边界，而 repository 
 WI-388 后台账为 4,262 条 `generated-history`、304 条 `implemented-different-by-design`、1 条
 `implemented-equivalent`、4 条 `not-applicable`、47 条 `reference-only`、501 条 `deferred-next-batch`；
 `migrate-gap` 仍为 0。
+
+## WI-389：参考文档第 22 批
+
+WI-389 在固定源提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 上逐一比较六个延后参考文档。卸载指南由已安装 Runtime 生命周期路线承载，升级指南由 Rust 原生升级参考承载。本批保留先提案后写入、负责人确认、不可变 Release 绑定、回滚、冲突停止和显式 active 恢复边界，不复制源 installer 命令。
+
+| 固定参考路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `docs/troubleshooting/uninstall.ja.md` | 有意采用不同实现 | `docs/reference/installed-lifecycle.ja.md` 保留只读盘点、负责人确认、提案与独立执行确认、范围受限移除、回执验证、证据保留和 Unknown 时 fail-closed 恢复。 |
+| `docs/troubleshooting/uninstall.md` | 有意采用不同实现 | `docs/reference/installed-lifecycle.md` 保留只读盘点、负责人确认、提案与独立执行确认、范围受限移除、回执验证、证据保留和 Unknown 时 fail-closed 恢复。 |
+| `docs/troubleshooting/uninstall.zh-CN.md` | 有意采用不同实现 | `docs/reference/installed-lifecycle.zh-CN.md` 保留只读盘点、负责人确认、提案与独立执行确认、范围受限移除、回执验证、证据保留和 Unknown 时 fail-closed 恢复。 |
+| `docs/upgrade.ja.md` | 有意采用不同实现 | `docs/reference/upgrade.ja.md` 保留不可变 Release/Runtime identity、配置回滚安全、冲突与 downgrade 停止、显式 migration 和单独评审的 `--upgrade-with-active` 恢复。 |
+| `docs/upgrade.md` | 有意采用不同实现 | `docs/reference/upgrade.md` 保留不可变 Release/Runtime identity、配置回滚安全、冲突与 downgrade 停止、显式 migration 和单独评审的 `--upgrade-with-active` 恢复。 |
+| `docs/upgrade.zh-CN.md` | 有意采用不同实现 | `docs/reference/upgrade.zh-CN.md` 保留不可变 Release/Runtime identity、配置回滚安全、冲突与 downgrade 停止、显式 migration 和单独评审的 `--upgrade-with-active` 恢复。 |
+
+这是语义/文档对等，不是源命令、JSON wire 或 provider state 兼容。每个 attach 的对象/采用方工程都从共享 Runtime 继承同一卸载、升级、回滚和恢复边界；工程事实和证据仍由显式 `--repo` 隔离。WI-389 后清单为 4,262 个 `generated-history`、310 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、4 个 `not-applicable`、47 个 `reference-only` 和 495 个 `deferred-next-batch`；`migrate-gap` 仍为零。

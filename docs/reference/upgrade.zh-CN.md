@@ -40,6 +40,8 @@ Migration plan 必须列出受影响路径、schema/version 过渡、备份位�
 手工修改生成的 evidence。Managed Agent adapter（包括 Cursor rule）必须显式在仓库内安装，并
 具有 ownership 与 detach 路径；Runtime 升级不会静默注入它们。
 
+存在 active Work Item、无法建立远程默认分支、受管理文件已经分叉、目标是 downgrade，或冲突报告缺失/格式错误时，在写入前停止。先解决冲突或提供明确的 base 证据，再重试。只有在有意进行并经过单独评审的恢复场景中，才使用 `--upgrade-with-active`。
+
 ## Repository migration
 
 先运行 `ai-cockpit migrate plan --repo <path>`，只使用命令要求的显式 approval 应用经过评审的计划。Migration 必须保留 Contract、evidence、decision、knowledge 和 archive 历史；不能仅因 Runtime 版本变化就重写旧证据。Migration 未完成或不兼容时，仍可使用只读诊断，但有状态的 lifecycle 写入会 fail closed。

@@ -51,6 +51,19 @@ Runtime does not claim that an installer, provider, sandbox, or enterprise
 retention system has completed an operation just because a local binary was
 removed.
 
+### Uninstall safely
+
+Use uninstall only after the repository owner has decided to remove the
+installed Runtime or its repository attachment. First perform a read-only
+inventory of the AI Cockpit files that are present. Then ask whether records
+must be preserved or purged, generate a removal plan without writing, and
+review its affected paths, unknowns, and recovery route. Obtain a separate
+confirmation before executing the plan. Execute only the approved, bounded
+removal without touching unrelated project work, and verify the removal
+receipt while retaining the evidence. If ownership, scope, or recovery is
+unknown, stop and ask the repository owner; complete disposal is never implied
+by deleting a local binary.
+
 ## Mapping to the reference source
 
 The reference source's Python installer stages, Make targets, generated status,

@@ -1,0 +1,25 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-29T08:08:47Z",
+  "checkpointContractDigest": "sha256:27155089dd06a993359abdab0369c9e2e6d428ba519cca1da37256bb2f63b080",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:c09283b11629deb87fac61e56b7b233f34a048aafa6f953b994b9dfb550a0f05",
+  "createdAt": "2026-08-29T08:08:42Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-29T08:18:19Z",
+  "preflightContractDigest": "sha256:27155089dd06a993359abdab0369c9e2e6d428ba519cca1da37256bb2f63b080",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:c09283b11629deb87fac61e56b7b233f34a048aafa6f953b994b9dfb550a0f05",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T08:18:22Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-389-reference-documentation-batch-22"
+}
