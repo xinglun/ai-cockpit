@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "ai-cockpit-WI-375-wi374-doc-status-post-merge-finalization",
+  "operationId": "operation-WI-375-wi374-doc-status-post-merge-cleanup",
+  "workItemId": "WI-375-wi374-doc-status",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeVersion": "0.2.38",
+  "runtimeDigest": "sha256:af238d00182cdc108cbb95e3b18c8ed4ad07bc40289a1e970da47d09d12e5f86",
+  "provider": "github",
+  "actor": "human:repository-owner",
+  "authoritySource": "reviewed-PR-338-merge",
+  "timestamp": "2026-08-29T00:30:00+09:00",
+  "reason": "PR #338 passed hosted quality, Windows, V1, and task-list checks, merged at 22e8d1d, and the exact feature branch and worktree were removed after synchronization.",
+  "contractDigest": "sha256:bcc9934bd66cbd0cea26047573e39700fb4eb2abd3a1021558131e816f90985d",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-375-wi374-doc-status",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/338",
+    "worktree": "/private/tmp/ai-cockpit-wi375-wi374-doc-status"
+  },
+  "branch": {
+    "name": "codex/wi-375-wi374-doc-status",
+    "remote": "origin",
+    "headRevision": "7e18835ef4896e8d348fd4cdad4d0aab734f784c"
+  },
+  "worktree": {
+    "worktreeId": "WI-375-wi374-doc-status",
+    "path": "/private/tmp/ai-cockpit-wi375-wi374-doc-status",
+    "branch": "codex/wi-375-wi374-doc-status",
+    "headRevision": "7e18835ef4896e8d348fd4cdad4d0aab734f784c"
+  },
+  "pullRequest": {
+    "number": 338,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/338",
+    "baseRemote": "origin",
+    "baseBranch": "main",
+    "baseRevision": "74b5da1c1ba1c57471a9d21e6ca37c01f4204f8c",
+    "headRevision": "7e18835ef4896e8d348fd4cdad4d0aab734f784c",
+    "mergeCommit": "22e8d1d357cb364efb35ab3ae9d7d766054d1af5"
+  },
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  }
+}
