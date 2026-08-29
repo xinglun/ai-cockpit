@@ -13,22 +13,28 @@
     ".ai/work-items/archive/WI-382-reference-inventory-count-truth.task-report.md"
   ],
   "checkpointAt": "2026-08-29T05:34:46Z",
-  "checkpointContractDigest": "sha256:3bc7247e0f6ac997b0e12241cdacab3919d0b5a31f6b88f75c8e9e7f1443d56f",
+  "checkpointContractDigest": "sha256:cefac2a85a81bf1929c7e618c901c67fb5cd7dd730a33f2fe9bc1f9ab0c6997d",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:b391c3b3fe0b55d53551135cd216b027be9e674eecde63c949dd1788afae4196",
+  "checkpointRepositorySnapshotDigest": "sha256:0de6a2d6e75de844f6b722c14f24de25d6a59e36dbacda4043ee815b8096bd90",
   "createdAt": "2026-08-29T05:31:19Z",
   "mode": "implementation",
   "predecessorContractDigest": "sha256:494390de941b46e0267fe9e31a6ea8d060872c84444efa99791c13cd4c8d7221",
   "predecessorWorkItemId": "WI-382-reference-inventory-count-truth",
-  "preflightAt": "2026-08-29T05:34:43Z",
-  "preflightContractDigest": "sha256:3bc7247e0f6ac997b0e12241cdacab3919d0b5a31f6b88f75c8e9e7f1443d56f",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:b391c3b3fe0b55d53551135cd216b027be9e674eecde63c949dd1788afae4196",
-  "preflightState": "yellow",
+  "preflightAt": "2026-08-29T05:38:56Z",
+  "preflightContractDigest": "sha256:cefac2a85a81bf1929c7e618c901c67fb5cd7dd730a33f2fe9bc1f9ab0c6997d",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:0de6a2d6e75de844f6b722c14f24de25d6a59e36dbacda4043ee815b8096bd90",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-382-reference-inventory-count-truth.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-08-29T05:34:46Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-383-reference-inventory-count-recovery"
 }
