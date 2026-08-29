@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "reviewed-PR-349-merge",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "834acd1ae00a7209b2e5aacbc2defba29deecf2c",
+    "name": "codex/wi-385-reference-inventory-terminal-projection",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:4c8239549dbf27de9c5ddeb056ed90b38ef4b4ace87db6a9dbda06aba61d02a7",
+  "operationId": "github-pr-349-merge-retained-20260829",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "e43e05ffc2a9e226d514687b6821702a30944a58",
+    "headRevision": "834acd1ae00a7209b2e5aacbc2defba29deecf2c",
+    "mergeCommit": "497ce768f2218e84e2956388639af027015ffdd2",
+    "number": 349,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/349"
+  },
+  "reason": "PR #349 passed all hosted checks and merged; retain the exact feature branch and clean worktree until post-merge cleanup is verified.",
+  "receiptId": "ai-cockpit-WI-385-reference-inventory-terminal-projection-merged-retained",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-385-reference-inventory-terminal-projection",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/349",
+    "worktree": "/private/tmp/ai-cockpit-wi385-reference-inventory-terminal-projection"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-29T06:14:41Z",
+  "workItemId": "WI-385-reference-inventory-terminal-projection",
+  "worktree": {
+    "branch": "codex/wi-385-reference-inventory-terminal-projection",
+    "headRevision": "834acd1ae00a7209b2e5aacbc2defba29deecf2c",
+    "path": "/private/tmp/ai-cockpit-wi385-reference-inventory-terminal-projection",
+    "worktreeId": "WI-385-reference-inventory-terminal-projection"
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-385-reference-inventory-terminal-projection.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:96b6de4bf7b447ec18d9c9ef73933c1f95be567a9dfb9677ae21f9df0b569c39",
+      "workItemId": "WI-385-reference-inventory-terminal-projection"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-385-reference-inventory-terminal-projection.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-384-reference-inventory-archive-order.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-385-reference-inventory-terminal-projection.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-385-reference-inventory-terminal-projection.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-385-reference-inventory-terminal-projection.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-385-reference-inventory-terminal-projection.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-385-reference-inventory-terminal-projection.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-385-reference-inventory-terminal-projection.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-385-reference-inventory-terminal-projection.verification.json",
+            ".ai/decisions/WI-385-reference-inventory-terminal-projection.finalize.5000ae21b509964497aa74cb0abb6463b1c0737042b05ae6d130044eed153358.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-29T06:16:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-385-reference-inventory-terminal-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-385-reference-inventory-terminal-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-385-reference-inventory-terminal-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-385-reference-inventory-terminal-projection.contract.json"
+          ],
+          "inference": false,
+          "text": "修复 post-close 文档一致性门发现的 conditional/in_progress 遗留，并保留 WI-384 不可变历史。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-385-reference-inventory-terminal-projection.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-385-reference-inventory-terminal-projection"
+  },
+  "finalReportDigest": "sha256:aeae4f0bcf1e1604e3c9ac367425100371a861923619f592e50bfcc80a5ef8ef",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:c03221215c69fb16ecffb096aa576f46d43d0281921d932039f5f5160bebf1d7",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-385-reference-inventory-terminal-projection.finalize.5000ae21b509964497aa74cb0abb6463b1c0737042b05ae6d130044eed153358.json",
+  "resourceFinalizationSequence": 1,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-29T06:16:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-385-reference-inventory-terminal-projection.verification.json",
+      ".ai/decisions/WI-385-reference-inventory-terminal-projection.finalize.5000ae21b509964497aa74cb0abb6463b1c0737042b05ae6d130044eed153358.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md:post-merge-cleanup"
+    ],
+    "reason": "Reviewed PR #349 merge, hosted checks, documentation gates, immutable WI-384 preservation, and exact branch/worktree cleanup.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-08-29T06:15:54Z",
+  "workItemId": "WI-385-reference-inventory-terminal-projection"
+}
