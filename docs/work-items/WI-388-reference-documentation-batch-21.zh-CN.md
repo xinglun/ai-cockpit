@@ -4,9 +4,13 @@ title: "WI-388——参考文档第 21 批"
 workItemId: WI-388-reference-documentation-batch-21
 description: "比较六个固定的排查、采用稳定性和威胁模型文档，在不复制源 authority 的前提下记录有界 Rust-native parity。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-388-reference-documentation-batch-21
+terminalArchive: .ai/work-items/archive/WI-388-reference-documentation-batch-21.contract.json
+terminalVerification: .ai/evidence/WI-388-reference-documentation-batch-21.verification.json
+terminalFinalization: .ai/decisions/WI-388-reference-documentation-batch-21.finalize.796631a3301dfcc04a7ef0e0381c01f3d8fca7bffbf9278763ea588a53bbc5d4.json
+terminalDecision: .ai/decisions/WI-388-reference-documentation-batch-21.close.json
 ---
 
 # WI-388——参考文档第 21 批
