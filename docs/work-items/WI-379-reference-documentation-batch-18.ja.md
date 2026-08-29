@@ -5,9 +5,10 @@ description: “pinned reference の次の10 pathを比較し、bounded Rust-nat
 workItemId: WI-379-reference-documentation-batch-18
 canonical: docs/work-items/WI-379-reference-documentation-batch-18.md
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: translation
 lastVerifiedBy: WI-379-reference-documentation-batch-18
+terminalDecision: .ai/decisions/WI-379-reference-documentation-batch-18.recovery.json
 capabilityClaims: [reference_comparison, verification_reuse, intelligence, lifecycle_closure]
 ---
 
@@ -20,6 +21,11 @@ capabilityClaims: [reference_comparison, verification_reuse, intelligence, lifec
 pinned inventory の次の10 pathを一つずつ比較し、その reader-facing な governance meaning を
 shared Rust Runtime へ写像します。source の Python、Make、provider configuration、historical
 decision はコピーしません。
+
+reviewed PR #343 は bounded documentation を届けましたが、provider PR identity が確定する
+前に Work Item が archive されました。archive、evidence、Outcome、pending resource context
+は immutable な historical bytes です。明示的な recovery successor WI-380 が、この記録を
+書き換えずに provider finalization を完了します。
 
 ## Path と判断
 

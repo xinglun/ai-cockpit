@@ -1,0 +1,21 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-29T04:32:46Z",
+  "files": {
+    "contractDigest": "sha256:ddd844a2282ac3be73230609193c85dd72f2d2482d4f9642020b47ea322c893e",
+    "contractPath": ".ai/work-items/archive/WI-380-reference-documentation-batch-18-finalization-recovery.contract.json",
+    "eventsDigest": "sha256:49c9061b33d5dc3e01a360020019a0ee2ce4bc5d75386f8683008ca3c09a821e",
+    "eventsPath": ".ai/work-items/archive/WI-380-reference-documentation-batch-18-finalization-recovery.events.jsonl",
+    "outcomeDigest": "sha256:102be75bd69629993cfa0690ccf90453303125d33ff8fd118dedb51eefa9263c",
+    "outcomePath": ".ai/work-items/archive/WI-380-reference-documentation-batch-18-finalization-recovery.outcome.json",
+    "summaryDigest": "sha256:cc6c93f6b9b85616a1dc27c70b06b57824c55be46d7660f361fd3a1e2b3dc537",
+    "summaryPath": ".ai/work-items/archive/WI-380-reference-documentation-batch-18-finalization-recovery.summary.json",
+    "taskReportDigest": "sha256:72bd524983519f5f1cb388c642afc5d3e351cfb044a4d5676fd2d0d9189652ec",
+    "taskReportMarkdownDigest": "sha256:0eaa87fe2f7c1276fc8b861323641dccc6a85c32a46ae678ca3ea7e0ae597015",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-380-reference-documentation-batch-18-finalization-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-380-reference-documentation-batch-18-finalization-recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-380-reference-documentation-batch-18-finalization-recovery"
+}

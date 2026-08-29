@@ -5,9 +5,10 @@ description: “比较固定参考源下一批十个路径，发布有界的 Rus
 workItemId: WI-379-reference-documentation-batch-18
 canonical: docs/work-items/WI-379-reference-documentation-batch-18.md
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: translation
 lastVerifiedBy: WI-379-reference-documentation-batch-18
+terminalDecision: .ai/decisions/WI-379-reference-documentation-batch-18.recovery.json
 capabilityClaims: [reference_comparison, verification_reuse, intelligence, lifecycle_closure]
 ---
 
@@ -19,6 +20,10 @@ capabilityClaims: [reference_comparison, verification_reuse, intelligence, lifec
 
 逐一比较固定 inventory 的下一批十个路径，把其面向读者的治理含义映射到共享 Rust
 Runtime；不复制源 Python、Make、Provider 配置或历史决定。
+
+评审 PR #343 已交付有界文档，但该 Work Item 在 provider PR identity 确定前就已归档。
+其 archive、evidence、Outcome 和 pending resource context 均为不可变历史 bytes。
+显式恢复 successor WI-380 将在不改写本记录的前提下完成 provider finalization。
 
 ## 路径与决定
 

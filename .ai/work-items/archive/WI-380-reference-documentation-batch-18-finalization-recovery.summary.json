@@ -1,0 +1,32 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-379-reference-documentation-batch-18.recovery.json",
+    ".ai/work-items/archive/WI-380-reference-documentation-batch-18-finalization-recovery.contract.json",
+    ".ai/work-items/archive/WI-380-reference-documentation-batch-18-finalization-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-08-29T04:21:59Z",
+  "checkpointContractDigest": "sha256:31be4bd71d84f162bf26661852ebd2a8d38ed90dd185a9c161005fb496df6081",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:3a2b26149491094f0dece1f4d5b9cd80c9267fc4df97d91af6182ac726eb233c",
+  "createdAt": "2026-08-29T04:20:21Z",
+  "mode": "documentation",
+  "predecessorContractDigest": "sha256:391b7d75a50a74176668eca256fa1ac39211e043e1f635f7db9f7035b5c374db",
+  "predecessorWorkItemId": "WI-379-reference-documentation-batch-18",
+  "preflightAt": "2026-08-29T04:32:30Z",
+  "preflightContractDigest": "sha256:31be4bd71d84f162bf26661852ebd2a8d38ed90dd185a9c161005fb496df6081",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:3a2b26149491094f0dece1f4d5b9cd80c9267fc4df97d91af6182ac726eb233c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-379-reference-documentation-batch-18.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T04:32:40Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-380-reference-documentation-batch-18-finalization-recovery"
+}

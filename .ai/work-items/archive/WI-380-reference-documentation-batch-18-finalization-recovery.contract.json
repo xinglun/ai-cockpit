@@ -1,0 +1,66 @@
+{
+  "acceptanceCriteria": [
+    "WI-379 recovery decision binds the exact predecessor Contract, Summary, Outcome, Events, repository, and Runtime digests.",
+    "WI-379 immutable archive and evidence bytes remain unchanged.",
+    "Tri-language parity rows distinguish WI-379 as recovered and WI-380 as the successor recovery.",
+    "The actual reviewed successor PR context is bound before verification evidence is recorded.",
+    "Finalization proves exact remote/local branch and worktree cleanup before close.",
+    "Hosted checks, installed Runtime verification, finalization, close, and visible human Outcome are recorded."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "176da32ed832eb025e75611d52ae1bceb9c3dbb9",
+  "createdAt": "2026-08-29T04:20:21Z",
+  "goal": "Record the recovery lineage, update tri-language parity projections, bind the successor pull request before verification, and close only after exact branch and worktree cleanup are proven.",
+  "intent": "Correct the immutable finalization gap for WI-379 without rewriting predecessor bytes, and complete a reviewed successor closure with an actual provider identity bound before verification.",
+  "mode": "documentation",
+  "outOfScope": [
+    "Runtime code",
+    "WI-379 immutable archive, evidence, outcome, and original PR #343",
+    "release artifacts and global Agent/MCP configuration"
+  ],
+  "predecessorContractDigest": "sha256:391b7d75a50a74176668eca256fa1ac39211e043e1f635f7db9f7035b5c374db",
+  "predecessorWorkItemId": "WI-379-reference-documentation-batch-18",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-379-reference-documentation-batch-18.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2d82062ca5949d0f6ba8f46c17e8854e52a5f158d4bb65bdb367b3e971aeb33b",
+  "requiredEvidenceClasses": [
+    "verification",
+    "finalization"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-380-reference-docs-finalization-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/344",
+    "worktree": "/private/tmp/ai-cockpit-wi380-finalization-recovery"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-379-reference-documentation-batch-18.md",
+    "docs/work-items/WI-379-reference-documentation-batch-18.zh-CN.md",
+    "docs/work-items/WI-379-reference-documentation-batch-18.ja.md",
+    "docs/work-items/WI-380-reference-documentation-batch-18-finalization-recovery.md",
+    "docs/work-items/WI-380-reference-documentation-batch-18-finalization-recovery.zh-CN.md",
+    "docs/work-items/WI-380-reference-documentation-batch-18-finalization-recovery.ja.md",
+    ".ai/decisions/**"
+  ],
+  "sources": [
+    "WI-379-reference-documentation-batch-18 predecessor archive and recovery decision",
+    "https://github.com/xinglun/ai-cockpit/pull/343",
+    "https://github.com/xinglun/ai-cockpit/blob/main/AGENTS.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/ci/governance_integrity_gate.py --repo .",
+    "bash tests/docs/documentation_acceptance.sh",
+    "python3 tests/docs/work_item_status_consistency.py --repo .",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-380-reference-documentation-batch-18-finalization-recovery"
+}
