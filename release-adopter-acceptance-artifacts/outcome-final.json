@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 2,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-376-release-adopter-acceptance",
+  "state": "verified",
+  "decisionState": "green",
+  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
+  "acceptanceResults": [
+    "The downloaded v0.2.39 public archive and binary digest match release-manifest.json and SHA256SUMS.",
+    "The installed Runtime reports version 0.2.39 and its runtime digest is recorded in acceptance evidence.",
+    "The current repository reports COMPATIBLE, ready_on_base, doctor ok, runtimeCodeInRepository false, and agent doctor VERIFIED under v0.2.39.",
+    "A fresh adopter attaches with a distinct repositoryId and receives the minimum scaffold without shared state.",
+    "The fresh work-item scaffold remains not_ready and leaves intent, scope, acceptanceCriteria, and authority for human input.",
+    "The adopter lifecycle produces valid schema-2 evidence bound to its repositoryId, snapshot, runtime identity, Work Item, and close decision.",
+    "An exact repeated verification reuses evidence with zero executed nodes and zero spawned processes; a changed snapshot re-executes verification.",
+    "HOME and XDG_CONFIG_HOME remain unchanged; isolated TMPDIR and CARGO_HOME writes stay inside their declared roots.",
+    "The adopter acceptance artifact contains runtime identity, repository identities, JSON outputs, reuse proof, isolation manifests, lifecycle evidence, and SHA256SUMS.",
+    "The temporary adopter repository and all temporary run roots are removed after evidence is preserved."
+  ],
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "evidenceRefs": [
+    ".ai/evidence/WI-376-release-adopter-acceptance.verification.json"
+  ],
+  "humanBenefitReport": {
+    "state": "unknown",
+    "userVisibleChanges": [],
+    "affectedUsers": [],
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "evidenceRefs": [
+      ".ai/evidence/WI-376-release-adopter-acceptance.verification.json"
+    ]
+  },
+  "taskOutcomeReport": {
+    "format": "ai-cockpit.task-outcome",
+    "schemaVersion": 1,
+    "workItemId": "WI-376-release-adopter-acceptance",
+    "status": "verified",
+    "humanStatusColor": "green",
+    "bindings": {
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "workItemId": "WI-376-release-adopter-acceptance",
+      "evidenceRefs": [
+        ".ai/evidence/WI-376-release-adopter-acceptance.verification.json"
+      ],
+      "repositorySnapshotDigest": "sha256:00d95b3892cff440bdd8d6531f9d8936457a9ec8f332538c4347390eacd2aa5e"
+    },
+    "sections": {
+      "outcomeSummary": [
+        {
+          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
+          "evidenceRefs": [
+            ".ai/evidence/WI-376-release-adopter-acceptance.verification.json"
+          ],
+          "inference": false
+        }
+      ],
+      "taskOverview": [
+        {
+          "text": "Establish a reproducible post-release adopter acceptance baseline using only immutable public Release artifacts.",
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-376-release-adopter-acceptance.contract.json"
+          ],
+          "inference": false
+        }
+      ],
+      "deliveredChanges": [],
+      "findings": [],
+      "risks": [],
+      "warnings": [
+        {
+          "text": "User-visible benefit is not declared by the Work Item owner.",
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-376-release-adopter-acceptance.contract.json"
+          ],
+          "inference": false
+        }
+      ],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "text": "No repository paths were observed as changed by the current Summary.",
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-376-release-adopter-acceptance.summary.json"
+          ],
+          "inference": false
+        }
+      ],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "interventions": [],
+      "forcedStops": [],
+      "resolutions": [
+        {
+          "text": "The current verification evidence is valid for this repository and Work Item.",
+          "evidenceRefs": [
+            ".ai/evidence/WI-376-release-adopter-acceptance.verification.json"
+          ],
+          "inference": false
+        }
+      ],
+      "recurrencePrevention": [],
+      "avoidedImpact": [],
+      "residualRisks": [
+        {
+          "text": "Remaining unknown: user_visible_benefit_not_declared",
+          "evidenceRefs": [
+            ".ai/evidence/WI-376-release-adopter-acceptance.verification.json"
+          ],
+          "inference": false
+        }
+      ],
+      "humanDecisions": [],
+      "evidence": [
+        {
+          "text": ".ai/evidence/WI-376-release-adopter-acceptance.verification.json",
+          "evidenceRefs": [
+            ".ai/evidence/WI-376-release-adopter-acceptance.verification.json"
+          ],
+          "inference": false
+        }
+      ]
+    }
+  }
+}
