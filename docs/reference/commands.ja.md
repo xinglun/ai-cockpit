@@ -77,6 +77,10 @@ handoff だけを抑止します。`work-item outcome` は既定で stdout に�
   CLI は埋め込み先の Agent/UI に会話 panel の表示や展開を強制できません。host は
   stderr handoff を表示するか、`work-item outcome` で決定的に再生する必要があります。
 - `work-item status --repo <path> --id <id>` は read-only で lifecycle、governance、activity health、fact count、blocker、unknown、evidence、source digest を返します。scheduler を動かさず、割合を発明しません。
+- `work-item inspect --repo <path> --id <id>` は compatibility、implementation approach、parallel slot の read-only projection です。
+  approach はメモリ上で計算され、`.ai/work-items/active/<id>.approach.json` は作成・更新されません。
+  repository-local の approach artifact が必要な場合は、明示的な write boundary である
+  `work-item approach` を使用します。
 - 有効な close decision がない archived Work Item は lifecycle blocker であり、完了ではありません。`safeActions` は残りの handoff を明示します。resource-bound item では `finalize_resources` または `cleanup_resources`、`record_finalization`、`finalize_verify`、続いて `close_after_cleanup`（Deleted receipt の検証済みなら `close`）が必要です。外部 resource がない item では `close_after_review` が必要です。Agent はこれらの action に従い、predecessor が close または明示的 recovery されるまで次の Work Item を開始してはいけません。
 - top-level `status` には deterministic な `readiness` object も含まれます。名前付きで clean な branch が唯一検出された remote default revision と一致し、active Work Item がなく、close 待ちの archived Work Item もない場合だけ `readyOnBase: true` になります。remote metadata が欠落または曖昧な場合は `state: unknown` であり、green にはなりません。`blocked` は entry blocker を、`unclosedArchivedWorkItems` は close または明示的 recovery が必要な記録を示します。
 - `work-item status --repo <path> --all --json` は active/archived Work Item を stable な ID 順で集約し、

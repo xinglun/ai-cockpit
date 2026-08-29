@@ -11366,13 +11366,30 @@ pub fn generate_knowledge(root: &Path) -> Result<cockpit_knowledge::KnowledgeInd
     Ok(index)
 }
 
-/// Build a request-scoped, provenance-aware implementation approach.  Facts
-/// are copied from the current Observer snapshot and derivations name the
-/// exact fact keys they consume.  Empty human-owned contract fields remain
-/// unknown rather than being guessed from prose or filenames.
+/// Build and persist a request-scoped, provenance-aware implementation
+/// approach.  This explicit command is the write boundary for the approach
+/// projection; read-only callers should use [`implementation_approach_read_only`].
 pub fn implementation_approach(
     root: &Path,
     work_item_id: &str,
+) -> Result<ImplementationApproach, ObserverError> {
+    implementation_approach_internal(root, work_item_id, true)
+}
+
+/// Build the same implementation approach projection without materializing an
+/// `.approach.json` artifact.  `work-item inspect` uses this variant so that
+/// inspection remains a truthful read-only operation.
+pub fn implementation_approach_read_only(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<ImplementationApproach, ObserverError> {
+    implementation_approach_internal(root, work_item_id, false)
+}
+
+fn implementation_approach_internal(
+    root: &Path,
+    work_item_id: &str,
+    persist: bool,
 ) -> Result<ImplementationApproach, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
@@ -11479,15 +11496,17 @@ pub fn implementation_approach(
         unknowns,
         evidence_refs,
     };
-    atomic_json(
-        &root
-            .join(".ai/work-items/active")
-            .join(format!("{work_item_id}.approach.json")),
-        &serde_json::to_value(&approach).map_err(|error| ObserverError::State {
-            path: root.clone(),
-            message: error.to_string(),
-        })?,
-    )?;
+    if persist {
+        atomic_json(
+            &root
+                .join(".ai/work-items/active")
+                .join(format!("{work_item_id}.approach.json")),
+            &serde_json::to_value(&approach).map_err(|error| ObserverError::State {
+                path: root.clone(),
+                message: error.to_string(),
+            })?,
+        )?;
+    }
     Ok(approach)
 }
 

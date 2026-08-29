@@ -1,0 +1,97 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-29T22:43:11Z",
+  "checkpointContractDigest": "sha256:7cb82c6d32f288db4921f3e0d55f39ea55d06d137f78341b2219a6bad779e6b1",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:2632ef723f1810377670d97f300643d3fe0767961ed5f01b7e0db723260d6a21",
+      "recorded": true,
+      "recordedAt": "2026-08-29T22:43:11Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bb7d5898d1f269e4d6fbfe3cfda07f07363e8bc7536610b5bcd4ce7775e04e4d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-408-inspect-readonly-boundary"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:7cb82c6d32f288db4921f3e0d55f39ea55d06d137f78341b2219a6bad779e6b1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:2632ef723f1810377670d97f300643d3fe0767961ed5f01b7e0db723260d6a21",
+      "previousContractHash": "sha256:2632ef723f1810377670d97f300643d3fe0767961ed5f01b7e0db723260d6a21",
+      "reason": "Bind the reviewed GitHub PR and exact worktree context before archive; regenerate verification against the amended Contract.",
+      "recorded": true,
+      "recordedAt": "2026-08-29T23:09:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bb7d5898d1f269e4d6fbfe3cfda07f07363e8bc7536610b5bcd4ce7775e04e4d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-408-inspect-readonly-boundary"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:bb7d5898d1f269e4d6fbfe3cfda07f07363e8bc7536610b5bcd4ce7775e04e4d",
+  "createdAt": "2026-08-29T22:41:55Z",
+  "intentAlignment": {
+    "reason": "The implementation and regression evidence bind the requested read-only boundary; user benefit remains a human-owned claim.",
+    "state": "unknown"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-08-29T23:20:54Z",
+  "preflightContractDigest": "sha256:7cb82c6d32f288db4921f3e0d55f39ea55d06d137f78341b2219a6bad779e6b1",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:bb7d5898d1f269e4d6fbfe3cfda07f07363e8bc7536610b5bcd4ce7775e04e4d",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/intelligence.rs:read_only_projection_commands_leave_repository_bytes_unchanged"
+      ],
+      "expected": "Repeated work-item inspect calls return compatibility, approach, and parallel-slot data without changing repository bytes.",
+      "required": true,
+      "scenario": "inspect_read_only_projection",
+      "status": "verified",
+      "verificationPlan": "Run the full read-only projection command matrix twice and compare the repository tree manifest."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/intelligence.rs:read_only_implementation_approach_does_not_persist_an_artifact"
+      ],
+      "expected": "The explicit work-item approach command persists the repository-local approach artifact; read-only derivation does not.",
+      "required": true,
+      "scenario": "explicit_approach_write_boundary",
+      "status": "verified",
+      "verificationPlan": "Call the read-only helper, assert no artifact, then call the explicit writer and assert stable bytes."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/intelligence.rs:read_only_projection_commands_leave_repository_bytes_unchanged"
+      ],
+      "expected": "A freshly attached repository uses the same explicit --repo read-only boundary and cannot write another repository's projection.",
+      "required": true,
+      "scenario": "adopter_inspect_isolation",
+      "status": "verified",
+      "verificationPlan": "Attach the temporary repository fixture and execute the matrix with an explicit repository path."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T23:20:59Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-408-inspect-readonly-boundary"
+}

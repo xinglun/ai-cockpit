@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "reviewed-work-item-recovery",
+  "decidedAt": "2026-08-29T23:20:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-408-inspect-readonly-boundary.verification.json",
+    ".ai/work-items/active/WI-408-inspect-readonly-boundary.summary.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    ".ai/glossary.md"
+  ],
+  "predecessorContractDigest": "sha256:7cb82c6d32f288db4921f3e0d55f39ea55d06d137f78341b2219a6bad779e6b1",
+  "predecessorEventsDigest": "sha256:3b2c8c0cae327eaf5116225fc934a1d69119810db583549faf563193e419ab4a",
+  "predecessorOutcomeDigest": "sha256:6348426cc679ccc776967a31f6e0dde4eefc05348f26f3754cdb8643c2ac50e6",
+  "predecessorSummaryDigest": "sha256:4feee862f96e01e68373222c633f1150602d8058e98b925e5211e3b87b4e55af",
+  "predecessorWorkItemId": "WI-408-inspect-readonly-boundary",
+  "reason": "The reviewed PR resource context amended the Contract after the initial verification; authorize a fresh verification bound to the amended Contract without rewriting predecessor evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh non-red preflight and full verification against the amended Contract before finish/archive.",
+  "runtimeDigest": "sha256:8f32216afd448a98ec41dd0cda0dd4c76cdb68ac3af435826d305ac1c3074f79",
+  "runtimeVersion": "0.2.40",
+  "schemaVersion": 1,
+  "workItemId": "WI-408-inspect-readonly-boundary"
+}

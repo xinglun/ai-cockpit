@@ -288,6 +288,9 @@ current repository snapshot と deterministic な index digest の両方に bind
 foreign な member は可視の `unknown` のままで、他の member を隠したり fail open したりしません。
 `observe`、`capability show`、status projection を繰り返しても request-scoped read のままで、tracked
 capability/status file や observer cache を作りません。
+`work-item inspect` も同じ read-only boundary に従い、implementation approach をメモリ上で計算するだけで
+`.ai/work-items/active/<id>.approach.json` を作成・更新しません。repository-local の approach artifact を
+明示的に保存する場合だけ `work-item approach` を使用します。
 
 ### Traceability、Outcome、parallel readiness
 

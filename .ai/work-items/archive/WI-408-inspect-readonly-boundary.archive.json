@@ -1,0 +1,23 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-29T23:21:04Z",
+  "files": {
+    "approachDigest": "sha256:e36de06ef1ea406fd77135c24abc98f72c9acfad3ebb10358e21c6932d48de91",
+    "approachPath": ".ai/work-items/archive/WI-408-inspect-readonly-boundary.approach.json",
+    "contractDigest": "sha256:5d997707f17a4550e8b68376e0d3d97be6afa3d96601edcb81793a6363786c49",
+    "contractPath": ".ai/work-items/archive/WI-408-inspect-readonly-boundary.contract.json",
+    "eventsDigest": "sha256:9c3a8ec6129b8c85ac77b90205e66be0973365b0fb9cfa375968899bebe71072",
+    "eventsPath": ".ai/work-items/archive/WI-408-inspect-readonly-boundary.events.jsonl",
+    "outcomeDigest": "sha256:a0a5057dc8c9b829222b2ecc5af3727d98ec116436ae82cadc4e83e1df8f701e",
+    "outcomePath": ".ai/work-items/archive/WI-408-inspect-readonly-boundary.outcome.json",
+    "summaryDigest": "sha256:55eee5da5c87877a611853d74e98fa1074147a9269d09c46e8e09c5eba330657",
+    "summaryPath": ".ai/work-items/archive/WI-408-inspect-readonly-boundary.summary.json",
+    "taskReportDigest": "sha256:39792359e5a6ea974334473c29daf9bb6b74e377f19271082d9d416ee220520a",
+    "taskReportMarkdownDigest": "sha256:98bd81f896a70c38ed9dae50b441ff74c8506dd6cfc15b3b2d567c518b9a5995",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-408-inspect-readonly-boundary.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-408-inspect-readonly-boundary.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-408-inspect-readonly-boundary"
+}

@@ -1,6 +1,7 @@
 {
   "gates": [
     {"category": "ci", "command": ["tests/ci/governance_integrity_gate_test.sh"], "id": "ci_governance_integrity_regression", "minimumProfile": "light"},
+    {"category": "ci", "command": ["tests/ci/inspect_projection_boundary_test.sh"], "id": "ci_inspect_projection_boundary", "minimumProfile": "light"},
     {"category": "ci", "command": ["tests/ci/knowledge_projection_boundary_test.sh"], "id": "ci_knowledge_projection_boundary", "minimumProfile": "light"},
     {"category": "ci", "command": ["tests/ci/repository_gate_manifest_test.sh"], "id": "ci_manifest_regression", "minimumProfile": "light"},
     {"category": "ci", "command": ["python3", "tests/ci/quality_route_test.py"], "id": "ci_quality_route_regression", "minimumProfile": "light"},
