@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "post-merge-exact-resource-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "e83a8edab942292dea5c2962ef35a024623875d5",
+    "name": "codex/wi-394-reference-ios-swift-fixture",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:e8b652456f9d82cb99b6651b2efa3476fd593a8113cd73b61fc249c94e50b5b9",
+  "operationId": "github-pr-358-delete-cleanup-20260829",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "714538a203a550c47f5d431cf282cc2feb84474a",
+    "headRevision": "e83a8edab942292dea5c2962ef35a024623875d5",
+    "mergeCommit": "18acb7c3aa84b0816d9ede969298311a1152a47e",
+    "number": 358,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/358"
+  },
+  "reason": "PR #358 merged as 18acb7c3; the exact remote branch and dedicated worktree were removed after clean-state verification.",
+  "receiptId": "ai-cockpit-WI-394-reference-ios-swift-fixture-deleted-20260829",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-394-reference-ios-swift-fixture",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/358",
+    "worktree": "/private/tmp/ai-cockpit-wi394-reference-ios-swift-fixture"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-29T10:38:13Z",
+  "workItemId": "WI-394-reference-ios-swift-fixture",
+  "worktree": {
+    "branch": "codex/wi-394-reference-ios-swift-fixture",
+    "headRevision": "e83a8edab942292dea5c2962ef35a024623875d5",
+    "path": "/private/tmp/ai-cockpit-wi394-reference-ios-swift-fixture",
+    "worktreeId": "WI-394-reference-ios-swift-fixture"
+  }
+}
