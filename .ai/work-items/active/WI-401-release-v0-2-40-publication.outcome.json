@@ -5,9 +5,9 @@
     "A fresh adopter receives independent repository identity/scaffold/Agent adapter and a complete lifecycle; first-adopter-smoke remains not_ready, evidence reuse is proven, and forbidden roots plus temporary run roots are clean.",
     "The current repository installs the verified public v0.2.40 binary, reports COMPATIBLE/doctor ok, and retains auditable acceptance artifacts while main ends ready_on_base with no open release branch."
   ],
-  "createdAt": "2026-08-29T15:37:28Z",
+  "createdAt": "2026-08-29T15:41:39Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:52183f953046d02ba3d662ff4726d5ada72ab472a542190a86a0700a043c58fc",
+  "evidenceDigest": "sha256:91f1bd6b01fba10cb5ddeb9dc1cef6cc3385e8abd04b0cf0b451b3e59e58c5cf",
   "evidenceRefs": [
     ".ai/evidence/WI-401-release-v0-2-40-publication.verification.json"
   ],
@@ -33,7 +33,7 @@
         ".ai/evidence/WI-401-release-v0-2-40-publication.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:4cb82ce06e80801c9c94d4e7884720b85c831932710a4ffe2e4da6ae3b5b20db",
+      "repositorySnapshotDigest": "sha256:95691135066f4ad9435d4a6adb289b373408ee863af59f8974266d6e58a793fc",
       "workItemId": "WI-401-release-v0-2-40-publication"
     },
     "format": "ai-cockpit.task-outcome",
@@ -129,7 +129,7 @@
     "status": "verified",
     "workItemId": "WI-401-release-v0-2-40-publication"
   },
-  "taskReportDigest": "sha256:92c4880c6374de14cbd65855cfc76c719c77b57829dbcdbe469a28e2ea349292",
+  "taskReportDigest": "sha256:b0595267ea7076d2fcf9a3e74398e09929493551b6a8dfe4497d9213fabe55a9",
   "taskReportMarkdownDigest": "sha256:ca81c5fe9ed6cffc06c52986ff1479a1416d1c16630982d85b598d624047108a",
   "unknowns": [
     "user_visible_benefit_not_declared"

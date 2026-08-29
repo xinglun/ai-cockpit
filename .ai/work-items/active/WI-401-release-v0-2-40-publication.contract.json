@@ -29,7 +29,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-401-release-v0-2-40-publication",
     "provider": "github",
-    "pullRequest": "pending",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/365",
     "worktree": "/private/tmp/ai-cockpit-wi401-release-v0-2-40-publication"
   },
   "risk": "normal",
