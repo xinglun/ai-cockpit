@@ -4,9 +4,13 @@ title: "WI-389——参考文档第 22 批"
 workItemId: WI-389-reference-documentation-batch-22
 description: "逐一比较六个卸载与升级参考文档，在不复制源 authority 的前提下记录有界 Rust 文档对等。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-389-reference-documentation-batch-22
+terminalArchive: .ai/work-items/archive/WI-389-reference-documentation-batch-22.contract.json
+terminalVerification: .ai/evidence/WI-389-reference-documentation-batch-22.verification.json
+terminalFinalization: .ai/decisions/WI-389-reference-documentation-batch-22.finalize.b22804ee16ad3895f3bb0d41c77d4d85bdf2cf114f236cb7708e32422284399d.json
+terminalDecision: .ai/decisions/WI-389-reference-documentation-batch-22.close.json
 canonical: docs/work-items/WI-389-reference-documentation-batch-22.md
 ---
 

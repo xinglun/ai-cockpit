@@ -4,9 +4,13 @@ title: "WI-389 — reference documentation batch 22"
 workItemId: WI-389-reference-documentation-batch-22
 description: "Compare six pinned uninstall and upgrade documents and record bounded Rust-native parity without copying source authority."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-389-reference-documentation-batch-22
+terminalArchive: .ai/work-items/archive/WI-389-reference-documentation-batch-22.contract.json
+terminalVerification: .ai/evidence/WI-389-reference-documentation-batch-22.verification.json
+terminalFinalization: .ai/decisions/WI-389-reference-documentation-batch-22.finalize.b22804ee16ad3895f3bb0d41c77d4d85bdf2cf114f236cb7708e32422284399d.json
+terminalDecision: .ai/decisions/WI-389-reference-documentation-batch-22.close.json
 ---
 
 # WI-389 — reference documentation batch 22

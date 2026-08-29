@@ -4,9 +4,13 @@ title: "WI-389 — reference documentation batch 22"
 workItemId: WI-389-reference-documentation-batch-22
 description: "六つの uninstall / upgrade reference document を比較し、source authority をコピーしない bounded Rust-native parity を記録します。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-389-reference-documentation-batch-22
+terminalArchive: .ai/work-items/archive/WI-389-reference-documentation-batch-22.contract.json
+terminalVerification: .ai/evidence/WI-389-reference-documentation-batch-22.verification.json
+terminalFinalization: .ai/decisions/WI-389-reference-documentation-batch-22.finalize.b22804ee16ad3895f3bb0d41c77d4d85bdf2cf114f236cb7708e32422284399d.json
+terminalDecision: .ai/decisions/WI-389-reference-documentation-batch-22.close.json
 canonical: docs/work-items/WI-389-reference-documentation-batch-22.md
 ---
 
