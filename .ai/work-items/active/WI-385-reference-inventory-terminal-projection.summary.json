@@ -1,0 +1,19 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-384-reference-inventory-archive-order.recovery.json",
+    ".ai/work-items/active/WI-385-reference-inventory-terminal-projection.contract.json",
+    ".ai/work-items/active/WI-385-reference-inventory-terminal-projection.summary.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-08-29T06:05:09Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:d047212151590638ccfde7bafdf67ba4ed5726a17b9d4cbb6d6e5a57eb7b1a7d",
+  "predecessorWorkItemId": "WI-384-reference-inventory-archive-order",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-384-reference-inventory-archive-order.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "updatedAt": "2026-08-29T06:06:09Z",
+  "workItemId": "WI-385-reference-inventory-terminal-projection"
+}

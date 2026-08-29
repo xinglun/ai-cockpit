@@ -6,9 +6,13 @@ description: "Redeliver the reference inventory parity documentation from origin
 audience:
   - maintainer
   - reviewer
-status: in_progress
-authority: canonical
+status: implemented
+authority: human-authorized
 lastVerifiedBy: WI-384-reference-inventory-archive-order
+terminalArchive: .ai/work-items/archive/WI-384-reference-inventory-archive-order.contract.json
+terminalVerification: .ai/evidence/WI-384-reference-inventory-archive-order.verification.json
+terminalFinalization: .ai/decisions/WI-384-reference-inventory-archive-order.finalize.33860f23c671c0707f6b0816ba55089af33c14b244b71855c31fb51af40ac81c.json
+terminalDecision: .ai/decisions/WI-384-reference-inventory-archive-order.close.json
 ---
 
 # WI-384 — reference inventory archive order
