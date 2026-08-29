@@ -1,0 +1,62 @@
+{
+  "acceptanceCriteria": [
+    "All three WI-397 Work Item documents have terminal implemented status and exact archive, verification, finalization, and close references.",
+    "All three parity ledgers register WI-397 with matching terminal status and evidence paths.",
+    "WI-397 finalization and close receipts remain intact and are not hand-edited.",
+    "Documentation, parity, governance, and diff checks pass before the release tag is created."
+  ],
+  "authority": "authorized",
+  "baseRevision": "693422bc3e09c1df587e7d9ab1f883568d0110b8",
+  "createdAt": "2026-08-29T14:25:22Z",
+  "goal": "Make the tri-language Work Item and parity ledger accurately reflect WI-397 close and preserve its immutable release receipts.",
+  "intent": "Promote the closed WI-397 release preparation documentation to an auditable terminal state before publishing v0.2.40.",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime semantics, release implementation, and public adopter acceptance",
+    "Global Agent/MCP configuration and historical evidence rewrite",
+    "Source-build fallback and business-project code"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ac530c98de9e015f41c2822669f1eabb394f8380ff9a45694e817398a820b11e",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-398-release-v0-2-40-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/362",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-397-release-v0-2-40.md",
+    "docs/work-items/WI-397-release-v0-2-40.zh-CN.md",
+    "docs/work-items/WI-397-release-v0-2-40.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    ".ai/decisions/WI-397-release-v0-2-40.finalize.json",
+    ".ai/decisions/WI-397-release-v0-2-40.close.json",
+    "docs/work-items/WI-398-release-v0-2-40-doc-promotion.md",
+    "docs/work-items/WI-398-release-v0-2-40-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-398-release-v0-2-40-doc-promotion.ja.md"
+  ],
+  "sources": [
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/ci/governance_integrity_gate.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo . --work-item WI-397-release-v0-2-40 --check",
+    "bash tests/docs/documentation_acceptance.sh",
+    "python3 tests/docs/work_item_status_consistency.py --repo .",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report /tmp/wi398-governance.json",
+    "git diff --check"
+  ],
+  "workItemId": "WI-398-release-v0-2-40-doc-promotion"
+}

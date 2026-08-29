@@ -1,0 +1,136 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-397-release-v0-2-40.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:59e862fa5230dd87212566f8df7e4671d9a47a94c895787e71499f49c71bc82a",
+      "workItemId": "WI-397-release-v0-2-40"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-397-release-v0-2-40.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-397-release-v0-2-40.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-397-release-v0-2-40.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-397-release-v0-2-40.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-397-release-v0-2-40.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-397-release-v0-2-40.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-397-release-v0-2-40.verification.json",
+            ".ai/decisions/WI-397-release-v0-2-40.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via release-maintainer at 2026-08-29T14:32:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-397-release-v0-2-40.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-397-release-v0-2-40.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-397-release-v0-2-40.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-397-release-v0-2-40.contract.json"
+          ],
+          "inference": false,
+          "text": "Release, install, and acceptance-test the measured Rust performance improvement without weakening governance, repository isolation, or object-project inheritance."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-397-release-v0-2-40.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-397-release-v0-2-40"
+  },
+  "finalReportDigest": "sha256:d5720d9a4ec09c34e7dfcff69e9dd32dee394147d3e83b09b8c6e836bf495a21",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:2df4dddc4da448f4954c2ef5503393593a770e56a8f511cc7780559ce2aa655b",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-397-release-v0-2-40.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "release-maintainer",
+    "decidedAt": "2026-08-29T14:32:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-397-release-v0-2-40.verification.json",
+      ".ai/decisions/WI-397-release-v0-2-40.finalize.json"
+    ],
+    "policyRefs": [],
+    "reason": "Reviewed PR #361, hosted checks, finalization receipt, and exact cleanup; approve release preparation for v0.2.40. Public artifact and adopter acceptance remain successor WI-398 gates.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-08-29T14:24:14Z",
+  "workItemId": "WI-397-release-v0-2-40"
+}
