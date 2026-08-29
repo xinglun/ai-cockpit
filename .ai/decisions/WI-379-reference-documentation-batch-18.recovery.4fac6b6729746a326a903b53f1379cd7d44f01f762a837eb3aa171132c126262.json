@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-29T04:47:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-379-reference-documentation-batch-18.recovery.json",
+    ".ai/work-items/archive/WI-380-reference-documentation-batch-18-finalization-recovery.archive.json",
+    ".ai/decisions/WI-380-reference-documentation-batch-18-finalization-recovery.close.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:391b7d75a50a74176668eca256fa1ac39211e043e1f635f7db9f7035b5c374db",
+  "predecessorEventsDigest": "sha256:12710fbe81487d08373de8fbab126cdb2b4e7c6e34f99d6ba47da0e63a22501e",
+  "predecessorOutcomeDigest": "sha256:f89fef986bcee7788dc369dc3e461759df6910e7b9f9fcf3d4c2799b31ef9089",
+  "predecessorSummaryDigest": "sha256:715b6a58c222084a2f79ffe6cf1f49ed01fb8048401496272c31c7fc5233c4b2",
+  "predecessorWorkItemId": "WI-379-reference-documentation-batch-18",
+  "reason": "WI-379 immutable history is superseded by the verified WI-380 recovery successor, which completed provider finalization and close; original bytes remain preserved.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "none",
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-380-reference-documentation-batch-18-finalization-recovery",
+  "workItemId": "WI-379-reference-documentation-batch-18"
+}
