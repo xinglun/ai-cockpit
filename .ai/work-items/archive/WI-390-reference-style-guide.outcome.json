@@ -66,7 +66,7 @@
       "nonRiskExplanations": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-390-reference-style-guide.summary.json"
+            ".ai/work-items/archive/WI-390-reference-style-guide.summary.json"
           ],
           "inference": false,
           "text": "No repository paths were observed as changed by the current Summary."
@@ -104,7 +104,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-390-reference-style-guide.contract.json"
+            ".ai/work-items/archive/WI-390-reference-style-guide.contract.json"
           ],
           "inference": false,
           "text": "Complete a bounded semantic comparison of docs/work-item-style-guide.md, document any differences and inheritance obligations, and keep governance decisions human-owned."
@@ -113,7 +113,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-390-reference-style-guide.contract.json"
+            ".ai/work-items/archive/WI-390-reference-style-guide.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -123,7 +123,7 @@
     "status": "verified",
     "workItemId": "WI-390-reference-style-guide"
   },
-  "taskReportDigest": "sha256:21209d8979949fa1e82a08241e21a405dcdb8cb5ae6d182c2461d5e5886dfe17",
+  "taskReportDigest": "sha256:6730586a9ee48ee8d65f3a5d9ad2deb212c8100f49baf3b4bb9e4a9384a1069b",
   "taskReportMarkdownDigest": "sha256:b7f153b7d277863b805c34e91ad69ad2d35d82a7c7189a51d346d4fbc3160340",
   "unknowns": [
     "user_visible_benefit_not_declared"

@@ -36,7 +36,7 @@
     "nonRiskExplanations": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-390-reference-style-guide.summary.json"
+          ".ai/work-items/archive/WI-390-reference-style-guide.summary.json"
         ],
         "inference": false,
         "text": "No repository paths were observed as changed by the current Summary."
@@ -74,7 +74,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-390-reference-style-guide.contract.json"
+          ".ai/work-items/archive/WI-390-reference-style-guide.contract.json"
         ],
         "inference": false,
         "text": "Complete a bounded semantic comparison of docs/work-item-style-guide.md, document any differences and inheritance obligations, and keep governance decisions human-owned."
@@ -83,7 +83,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-390-reference-style-guide.contract.json"
+          ".ai/work-items/archive/WI-390-reference-style-guide.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
