@@ -331,6 +331,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-394——iOS Swift Package fixture 适配 | 已实现 | [Work Item](../work-items/WI-394-reference-ios-swift-fixture.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-394-reference-ios-swift-fixture.contract.json`; verification `.ai/evidence/WI-394-reference-ios-swift-fixture.verification.json`; finalization `.ai/decisions/WI-394-reference-ios-swift-fixture.finalize.json`; close `.ai/decisions/WI-394-reference-ios-swift-fixture.close.json`. |
 | WI-395——Runtime 性能优化 | 已实现 | [Work Item](../work-items/WI-395-runtime-performance-extreme.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-395-runtime-performance-extreme.contract.json`; verification `.ai/evidence/WI-395-runtime-performance-extreme.verification.json`; finalization `.ai/decisions/WI-395-runtime-performance-extreme.finalize.json`; close `.ai/decisions/WI-395-runtime-performance-extreme.close.json`. |
 | WI-396——status 快速路径与严格性能预算 | 已实现 | [Work Item](../work-items/WI-396-status-fast-path-budget.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-396-status-fast-path-budget.contract.json`; verification `.ai/evidence/WI-396-status-fast-path-budget.verification.json`; finalization `.ai/decisions/WI-396-status-fast-path-budget.finalize.json`; close `.ai/decisions/WI-396-status-fast-path-budget.close.json`. |
+| WI-397——v0.2.40 发布准备 | 进行中 | [Work Item](../work-items/WI-397-release-v0-2-40.zh-CN.md); verification `.ai/evidence/WI-397-release-v0-2-40.verification.json`. |
 
 ## 当前边界
 

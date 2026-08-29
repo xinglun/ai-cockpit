@@ -1,0 +1,212 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "workspace metadata and lock identity",
+          "path": "Cargo.toml",
+          "type": "release",
+          "verification": "cargo metadata --locked --format-version 1"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "tri-language release documentation and version consistency",
+          "path": "tests/release/version_consistency_test.sh",
+          "type": "test",
+          "verification": "bash tests/release/version_consistency_test.sh"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "source and workflow release policy",
+          "path": ".github/workflows/release.yml",
+          "type": "workflow",
+          "verification": "release workflow source_quality"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "source performance regression",
+          "path": "tests/performance/regression_gate_test.sh",
+          "type": "test",
+          "verification": "bash tests/performance/regression_gate_test.sh"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-397-release-v0-2-40.contract.json",
+    ".ai/work-items/archive/WI-397-release-v0-2-40.summary.json"
+  ],
+  "checkpointAt": "2026-08-29T13:39:56Z",
+  "checkpointContractDigest": "sha256:e561068f0b8fc788538b4225fc75e75da3dbca3404ab1f9e2a1f776233c3ecc7",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:0b546eff9c252dba90468f10c15a5e9e3dea8ec582d7c97c7d24c4c4728bf957",
+      "recorded": true,
+      "recordedAt": "2026-08-29T13:39:56Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:59e862fa5230dd87212566f8df7e4671d9a47a94c895787e71499f49c71bc82a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-397-release-v0-2-40"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:cb2ac20dd0a8358fc969de91267c9ec8a48eefe18ba4705fdeb904ef2e516051",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:0b546eff9c252dba90468f10c15a5e9e3dea8ec582d7c97c7d24c4c4728bf957",
+      "previousContractHash": "sha256:0b546eff9c252dba90468f10c15a5e9e3dea8ec582d7c97c7d24c4c4728bf957",
+      "reason": "Bind the exact reviewed PR resource context before rerunning verification after the finalization-plan correction.",
+      "recorded": true,
+      "recordedAt": "2026-08-29T14:01:28Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:59e862fa5230dd87212566f8df7e4671d9a47a94c895787e71499f49c71bc82a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-397-release-v0-2-40"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:38e4aec2ce75cc0ad4949ee6dcf240e99ad247b4db82e77e55946de345a6ed1f",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:0b546eff9c252dba90468f10c15a5e9e3dea8ec582d7c97c7d24c4c4728bf957",
+      "previousContractHash": "sha256:cb2ac20dd0a8358fc969de91267c9ec8a48eefe18ba4705fdeb904ef2e516051",
+      "reason": "Narrow pre-release scope and defer public artifact and adopter acceptance to explicit successor WI-398.",
+      "recorded": true,
+      "recordedAt": "2026-08-29T14:04:01Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:59e862fa5230dd87212566f8df7e4671d9a47a94c895787e71499f49c71bc82a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-397-release-v0-2-40"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:e561068f0b8fc788538b4225fc75e75da3dbca3404ab1f9e2a1f776233c3ecc7",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:0b546eff9c252dba90468f10c15a5e9e3dea8ec582d7c97c7d24c4c4728bf957",
+      "previousContractHash": "sha256:38e4aec2ce75cc0ad4949ee6dcf240e99ad247b4db82e77e55946de345a6ed1f",
+      "reason": "Align required scenarios with the pre-release boundary; hosted build and public adopter evidence remain successor WI-398 gates.",
+      "recorded": true,
+      "recordedAt": "2026-08-29T14:07:45Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:59e862fa5230dd87212566f8df7e4671d9a47a94c895787e71499f49c71bc82a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-397-release-v0-2-40"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:59e862fa5230dd87212566f8df7e4671d9a47a94c895787e71499f49c71bc82a",
+  "createdAt": "2026-08-29T13:36:09Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "Cargo.toml",
+      "docs/release/distribution.md",
+      "tests/performance/regression_gate.sh"
+    ],
+    "reason": "The pre-release Work Item binds the WI-396 optimization to the next immutable Runtime release without changing governance semantics.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-29T14:07:51Z",
+  "preflightContractDigest": "sha256:e561068f0b8fc788538b4225fc75e75da3dbca3404ab1f9e2a1f776233c3ecc7",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:59e862fa5230dd87212566f8df7e4671d9a47a94c895787e71499f49c71bc82a",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "Cargo.toml",
+        "Cargo.lock",
+        ".github/workflows/release.yml",
+        "tests/release/version_consistency.sh"
+      ],
+      "expected": "v0.2.40 metadata is consistent and the release inputs are bounded to the exact merged commit and closed artifact contract.",
+      "required": true,
+      "scenario": "release metadata and candidate integrity",
+      "status": "verified",
+      "verificationPlan": "Run version consistency, source archive, action runtime, workflow policy, full workspace quality, and staged release checks."
+    },
+    {
+      "evidence": [
+        "docs/release/distribution.md",
+        ".github/workflows/release.yml",
+        "tests/release/version_consistency.sh"
+      ],
+      "expected": "The release workflow and staged candidate contract bind v0.2.40 to the exact merged commit, target matrix, manifest, checksum, SBOM, and provenance inputs.",
+      "required": true,
+      "scenario": "release workflow contract",
+      "status": "verified",
+      "verificationPlan": "Run the reviewed release workflow's source, aggregate, policy, verify, staged adopter, and attestation jobs before creating the immutable tag."
+    },
+    {
+      "evidence": [
+        "tests/performance/regression_gate.sh",
+        "docs/reference/governance-performance-budget.md"
+      ],
+      "expected": "The source tree retains the WI-396 clean-snapshot fast path and its bounded performance gate while preparing v0.2.40.",
+      "required": true,
+      "scenario": "source performance gate preservation",
+      "status": "verified",
+      "verificationPlan": "Run the performance regression gate and record its bounded local result without claiming provider or enterprise performance."
+    },
+    {
+      "evidence": [
+        "docs/work-items/WI-397-release-v0-2-40.md",
+        "tests/release/adopter_acceptance.sh"
+      ],
+      "expected": "A successor Work Item will prove the public v0.2.40 binary in a fresh isolated adopter and preserve the published Release truth.",
+      "reason": "Public Release bytes do not exist until the reviewed merge and immutable tag; WI-398 owns post-release acceptance.",
+      "required": false,
+      "scenario": "post-release adopter handoff",
+      "status": "not_applicable",
+      "verificationPlan": "WI-398 will download only the public v0.2.40 artifact and record Runtime, repository, isolation, lifecycle, reuse, and cleanup evidence."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T14:07:52Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-397-release-v0-2-40"
+}
