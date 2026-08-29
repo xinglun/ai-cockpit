@@ -8,9 +8,13 @@ audience:
   - contributor
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-406-close-promotion-alignment
+terminalArchive: .ai/work-items/archive/WI-406-close-promotion-alignment.contract.json
+terminalVerification: .ai/evidence/WI-406-close-promotion-alignment.verification.json
+terminalFinalization: .ai/decisions/WI-406-close-promotion-alignment.finalize.json
+terminalDecision: .ai/decisions/WI-406-close-promotion-alignment.close.json
 ---
 
 # WI-406 — Closed documentation promotion alignment
