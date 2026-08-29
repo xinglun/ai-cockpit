@@ -4,7 +4,7 @@ title: "WI-398 — v0.2.40 documentation promotion"
 description: "不変の Runtime 証拠に基づき、close 済み v0.2.40 release-preparation 文書を終端投影へ昇格する。"
 workItemId: WI-398-release-v0-2-40-doc-promotion
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-398-release-v0-2-40-doc-promotion
 capabilityClaims: [documentation_governance, release_distribution]

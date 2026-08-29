@@ -1,0 +1,68 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-398-release-v0-2-40-doc-promotion.recovery.json",
+    ".ai/work-items/archive/WI-399-release-v0-2-40-doc-promotion-recovery.contract.json",
+    ".ai/work-items/archive/WI-399-release-v0-2-40-doc-promotion-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-08-29T14:43:04Z",
+  "checkpointContractDigest": "sha256:d0a90211d0e88639926960a19370494e7f0ed16a155a085469b070dce65a458a",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:ff513d5ee0dd64eff4127d74aeed5c568a9b5c8d0f4c6c7d1ee13e7f4b41b635",
+      "recorded": true,
+      "recordedAt": "2026-08-29T14:43:04Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:fcb720cbd5a3b1aa7b9f23d6cb89a94437936c7ab9c554d14924a74ef49337a8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-399-release-v0-2-40-doc-promotion-recovery"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:d0a90211d0e88639926960a19370494e7f0ed16a155a085469b070dce65a458a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ff513d5ee0dd64eff4127d74aeed5c568a9b5c8d0f4c6c7d1ee13e7f4b41b635",
+      "previousContractHash": "sha256:ff513d5ee0dd64eff4127d74aeed5c568a9b5c8d0f4c6c7d1ee13e7f4b41b635",
+      "reason": "Documentation acceptance found WI-398 parity/status drift; include its three language documents so the recovery repairs the authoritative projection in the current Work Item.",
+      "recorded": true,
+      "recordedAt": "2026-08-29T14:43:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:fcb720cbd5a3b1aa7b9f23d6cb89a94437936c7ab9c554d14924a74ef49337a8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-399-release-v0-2-40-doc-promotion-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:2fb2ac39970c2b111ef66ab96a001aac89713b72908fd41e1acc6b73a4637e15",
+  "createdAt": "2026-08-29T14:39:19Z",
+  "mode": "docs",
+  "predecessorContractDigest": "sha256:b3ae6bcf1e60998a38c3799467f88a5b8177210ca295d8046c3249fc0377fd66",
+  "predecessorWorkItemId": "WI-398-release-v0-2-40-doc-promotion",
+  "preflightAt": "2026-08-29T14:48:15Z",
+  "preflightContractDigest": "sha256:d0a90211d0e88639926960a19370494e7f0ed16a155a085469b070dce65a458a",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:2fb2ac39970c2b111ef66ab96a001aac89713b72908fd41e1acc6b73a4637e15",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-398-release-v0-2-40-doc-promotion.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T14:48:19Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-399-release-v0-2-40-doc-promotion-recovery"
+}
