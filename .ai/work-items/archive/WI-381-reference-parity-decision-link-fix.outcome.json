@@ -1,0 +1,134 @@
+{
+  "acceptanceResults": [
+    "三语 parity 行均引用 WI-379 archive、verification、canonical recovery 与 versioned supersede recovery decision。",
+    "治理完整性门不再报告 WI-379 missing_parity_decision；原始 archive/evidence bytes 摘要保持不变。"
+  ],
+  "createdAt": "2026-08-29T04:51:40Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:c0248383db88152508f412ebb27367a8c0f893600934887cedfb4b74bd1a6b8f",
+  "evidenceRefs": [
+    ".ai/evidence/WI-381-reference-parity-decision-link-fix.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-381-reference-parity-decision-link-fix.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-381-reference-parity-decision-link-fix.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:270a5250e02dba2f00fa5884adf8c8949dba168283a3b85e12ef17e48b07fc45",
+      "workItemId": "WI-381-reference-parity-decision-link-fix"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-381-reference-parity-decision-link-fix.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-381-reference-parity-decision-link-fix.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-381-reference-parity-decision-link-fix.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-381-reference-parity-decision-link-fix.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-381-reference-parity-decision-link-fix.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-381-reference-parity-decision-link-fix.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-381-reference-parity-decision-link-fix.contract.json"
+          ],
+          "inference": false,
+          "text": "使已关闭的 predecessor/successor recovery 链在三语文档中完整绑定 canonical archive、verification 和实际 versioned supersede decision 路径，同时保持历史 bytes 不变。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-381-reference-parity-decision-link-fix.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-381-reference-parity-decision-link-fix"
+  },
+  "taskReportDigest": "sha256:0e7f8592c077345f841526955ec5da331dfa7e67ec0d95ff990d6aff4fa1b98a",
+  "taskReportMarkdownDigest": "sha256:a51f5e8fa2f4ae977efb93bb38e4cfb2312fd72b7490aaee6782568ffbb8fb38",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-381-reference-parity-decision-link-fix.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-381-reference-parity-decision-link-fix"
+}
