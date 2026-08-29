@@ -309,6 +309,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-370——验证性能预算与精确复用 | 已恢复 | 已归档 Contract `.ai/work-items/archive/WI-370-verification-performance-budget.contract.json`；verification `.ai/evidence/WI-370-verification-performance-budget.verification.json`；权威 supersession 恢复 `.ai/decisions/WI-370-verification-performance-budget.recovery.82b4bd0a30ab8c1205b203faedb449b0b3e4996ba84f387e5fad909015d8401a.json` 继续由 WI-372 完成，不重写前置字节。 |
 | WI-374——v0.2.39 发布与精确验证复用验收 | 已实现 | [Work Item](../work-items/WI-374-release-v0-2-39.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-374-release-v0-2-39.contract.json`; verification `.ai/evidence/WI-374-release-v0-2-39.verification.json`; finalization `.ai/decisions/WI-374-release-v0-2-39.finalize.json`; close `.ai/decisions/WI-374-release-v0-2-39.close.json`. |
 | WI-375——WI-374 终态文档提升 | 已实现 | [Work Item](../work-items/WI-375-wi374-doc-status.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-375-wi374-doc-status.contract.json`; verification `.ai/evidence/WI-375-wi374-doc-status.verification.json`; finalization `.ai/decisions/WI-375-wi374-doc-status.finalize.json`; close `.ai/decisions/WI-375-wi374-doc-status.close.json`. |
+| WI-376——v0.2.39 公开 Release adopter 验收 | 已实现 | [Work Item](../work-items/WI-376-release-adopter-acceptance.zh-CN.md); `.ai/evidence/WI-376-release-adopter-acceptance.verification.json`; `release-adopter-acceptance-artifacts/acceptance.json`. |
 
 ## 当前边界
 
