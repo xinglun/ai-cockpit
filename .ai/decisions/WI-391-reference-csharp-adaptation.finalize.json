@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "2028cb666778744ef1303a3a21582366579d61e2",
+    "name": "codex/wi-391-reference-csharp-adaptation",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:d8b9be0d44dcc297a7d36bf87f9558f461787040e4d8c80a16a20e339f9daefa",
+  "operationId": "github-pr-355-merge-cleanup-20260829",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "2044d18d593f337bb8aff5fe4292689165a729d4",
+    "headRevision": "2028cb666778744ef1303a3a21582366579d61e2",
+    "mergeCommit": "5bee5b49d776f7153f2cfa91e410d67490e6b3ef",
+    "number": 355,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/355"
+  },
+  "reason": "PR #355 merged; retain the exact WI-391 branch and worktree until finalization verification and close complete.",
+  "receiptId": "ai-cockpit-WI-391-reference-csharp-adaptation-retained-20260829",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-391-reference-csharp-adaptation",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/355",
+    "worktree": "/private/tmp/ai-cockpit-wi391-reference-csharp-adaptation"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-29T09:29:00Z",
+  "workItemId": "WI-391-reference-csharp-adaptation",
+  "worktree": {
+    "branch": "codex/wi-391-reference-csharp-adaptation",
+    "headRevision": "2028cb666778744ef1303a3a21582366579d61e2",
+    "path": "/private/tmp/ai-cockpit-wi391-reference-csharp-adaptation",
+    "worktreeId": "WI-391-reference-csharp-adaptation"
+  }
+}
