@@ -1,0 +1,142 @@
+{
+  "acceptanceResults": [
+    "Docs promotion accepts WI-404's valid close using finalReport evidence binding plus structured decision refs without rewriting immutable .ai bytes.",
+    "WI-404 English, Chinese, and Japanese docs are promoted to implemented with terminal evidence links.",
+    "Existing strict promotion regression tests and docs gates pass; malformed or missing final report evidence remains fail-closed."
+  ],
+  "createdAt": "2026-08-29T21:21:52Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:5aded613f9ee42afe79fca14588f8cd9644a3059682893dfe1a26b4d2e4eed79",
+  "evidenceRefs": [
+    ".ai/evidence/WI-406-close-promotion-alignment.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-406-close-promotion-alignment.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-406-close-promotion-alignment.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0e231c3df920360369a1e3c7445cebea81cb7b538b12d1df38c2d2230e83156e",
+      "workItemId": "WI-406-close-promotion-alignment"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-406-close-promotion-alignment.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-406-close-promotion-alignment.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-406-close-promotion-alignment.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-406-close-promotion-alignment.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-406-close-promotion-alignment.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-406-close-promotion-alignment.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-406-close-promotion-alignment.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-406-close-promotion-alignment.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-406-close-promotion-alignment.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-406-close-promotion-alignment.contract.json"
+          ],
+          "inference": false,
+          "text": "Ensure the docs quality gate accepts valid Runtime close receipts without requiring duplicated verification references, and leave WI-404 tri-language docs in terminal implemented state."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-406-close-promotion-alignment.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-406-close-promotion-alignment"
+  },
+  "taskReportDigest": "sha256:69666be79c417d6eb47578b103e1bb8fc045ed47e466a7dbbdedc9fde4df1ac7",
+  "taskReportMarkdownDigest": "sha256:208d7eebbebfa6f45d55ae96e5c46adab26d7183e2f2a8bb998eba88e53f6009",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-406-close-promotion-alignment.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-406-close-promotion-alignment"
+}

@@ -192,9 +192,39 @@ for document in "$fixture"/docs/work-items/WI-999-closed-docs-fixture*.md; do
   grep -Fq 'terminalArchive: .ai/work-items/archive/WI-999-closed-docs-fixture.contract.json' "$document"
   grep -Fq 'terminalVerification: .ai/evidence/WI-999-closed-docs-fixture.verification.json' "$document"
   grep -Fq 'terminalDecision: .ai/decisions/WI-999-closed-docs-fixture.close.json' "$document"
-  grep -Fq 'This pre-archive planning sentence must remain byte-for-byte unchanged.' "$document"
+grep -Fq 'This pre-archive planning sentence must remain byte-for-byte unchanged.' "$document"
 done
 python3 "$helper" --repo "$fixture" --check-all
+
+# The Runtime's canonical close record binds verification evidence through the
+# final Task Outcome report.  Structured human-decision references may contain
+# the finalization/archive evidence without duplicating the verification path;
+# promotion must accept that authoritative final-report binding while still
+# rejecting a missing or malformed final report below.
+cp -R "$tmp/unpromoted" "$tmp/final-report-binding"
+python3 - "$tmp/final-report-binding" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = "WI-999-closed-docs-fixture"
+close_path = root / ".ai/decisions" / f"{work_item}.close.json"
+close = json.loads(close_path.read_text(encoding="utf-8"))
+sequence_two = sorted((root / ".ai/decisions").glob(f"{work_item}.finalize.*.json"))[-1]
+close["structuredDecision"]["evidenceRefs"] = [
+    f".ai/decisions/{sequence_two.name}",
+]
+close_path.write_text(json.dumps(close, indent=2) + "\n", encoding="utf-8")
+PY
+if python3 "$helper" --repo "$tmp/final-report-binding" --work-item WI-999-closed-docs-fixture --check \
+  >"$tmp/final-report-binding.out" 2>"$tmp/final-report-binding.err"; then
+  echo 'promotion check accepted stale final-report-binding documentation' >&2
+  exit 1
+fi
+grep -Fq 'promotion required' "$tmp/final-report-binding.err"
+python3 "$helper" --repo "$tmp/final-report-binding" --work-item WI-999-closed-docs-fixture
+python3 "$helper" --repo "$tmp/final-report-binding" --work-item WI-999-closed-docs-fixture --check
 
 # A Runtime-generated canonical receipt may already bind the merged PR and
 # exact cleanup in one terminal observation. It has no transition children,

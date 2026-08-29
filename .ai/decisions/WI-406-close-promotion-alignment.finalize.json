@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "reviewed-pr-hosted-checks",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "87d2e0500042896f188c1573a5f2d0ef60f1fc46",
+    "name": "codex/wi-406-close-promotion-alignment",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:73650094833ba9e639aee539ddd2fa6d4702d11e682fc4f80c24650cc80ac3c1",
+  "operationId": "github-pr-371-delete-cleanup-20260829",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "321253aa39dcd91761bc7deaaac9d773430bc71d",
+    "headRevision": "87d2e0500042896f188c1573a5f2d0ef60f1fc46",
+    "mergeCommit": "ad9de5f201fc3ff279ce7d6eee8d2babd22d29de",
+    "number": 371,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/371"
+  },
+  "reason": "PR #371 and its post-merge archive transition were reviewed and merged; the exact dedicated branch and worktree were removed after synchronization.",
+  "receiptId": "ai-cockpit-WI-406-close-promotion-alignment-deleted-20260829",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-406-close-promotion-alignment",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/371",
+    "worktree": "/private/tmp/ai-cockpit-wi-406-close-promotion-alignment"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:8f32216afd448a98ec41dd0cda0dd4c76cdb68ac3af435826d305ac1c3074f79",
+  "runtimeVersion": "0.2.40",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-29T21:36:09Z",
+  "workItemId": "WI-406-close-promotion-alignment",
+  "worktree": {
+    "branch": "codex/wi-406-close-promotion-alignment",
+    "headRevision": "87d2e0500042896f188c1573a5f2d0ef60f1fc46",
+    "path": "/private/tmp/ai-cockpit-wi-406-close-promotion-alignment",
+    "worktreeId": "WI-406-close-promotion-alignment"
+  }
+}
