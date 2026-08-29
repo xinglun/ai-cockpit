@@ -1,0 +1,58 @@
+Outcome: 🟢 成功 — WI-376-release-adopter-acceptance
+结果
+
+已完成
+- 验证证据有效；用户可见收益尚未声明。
+- 验收标准（Contract 原文） / Acceptance criteria (Contract language)
+- The downloaded v0.2.39 public archive and binary digest match release-manifest.json and SHA256SUMS.
+- The installed Runtime reports version 0.2.39 and its runtime digest is recorded in acceptance evidence.
+- The current repository reports COMPATIBLE, ready_on_base, doctor ok, runtimeCodeInRepository false, and agent doctor VERIFIED under v0.2.39.
+- A fresh adopter attaches with a distinct repositoryId and receives the minimum scaffold without shared state.
+- The fresh work-item scaffold remains not_ready and leaves intent, scope, acceptanceCriteria, and authority for human input.
+- The adopter lifecycle produces valid schema-2 evidence bound to its repositoryId, snapshot, runtime identity, Work Item, and close decision.
+- An exact repeated verification reuses evidence with zero executed nodes and zero spawned processes; a changed snapshot re-executes verification.
+- HOME and XDG_CONFIG_HOME remain unchanged; isolated TMPDIR and CARGO_HOME writes stay inside their declared roots.
+- The adopter acceptance artifact contains runtime identity, repository identities, JSON outputs, reuse proof, isolation manifests, lifecycle evidence, and SHA256SUMS.
+- The temporary adopter repository and all temporary run roots are removed after evidence is preserved.
+
+发现的问题
+- 无
+
+触发的停止
+- 无
+
+已解决的问题
+- The current verification evidence is valid for this repository and Work Item.
+
+避免的风险
+- 无
+
+剩余风险
+- Remaining unknown: user_visible_benefit_not_declared
+- User-visible benefit is not declared by the Work Item owner.
+- user_visible_benefit_not_declared
+
+未知项
+- user_visible_benefit_not_declared
+
+人工决定
+- 决定: approved
+  执行人: human:release-acceptance
+  授权来源: reviewed-PR-340-merge
+  理由: 确认公开 v0.2.39 adopter 验收已通过，PR #340 已审查合并，分支与 worktree 已精确清理。
+  证据引用: .ai/evidence/WI-376-release-adopter-acceptance.verification.json
+  策略引用: release-adopter-acceptance:v0.2.39
+  决定时间: 2026-08-29T02:08:00Z
+  恢复条件: none
+
+验证
+- 成功: .ai/evidence/WI-376-release-adopter-acceptance.verification.json
+
+影响
+- 用户可见收益尚未声明。
+
+下一步
+- 审阅证据后再决定是否继续；🟢 不代表已授权合并或发布。
+
+证据
+- .ai/evidence/WI-376-release-adopter-acceptance.verification.json

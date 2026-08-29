@@ -1,0 +1,58 @@
+{
+  "actor": "human:release-acceptance",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "reviewed-PR-340-merge",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "928f8090354332524823bf79bed8b0eb8064fa13",
+    "name": "codex/wi-376-release-adopter-acceptance-final",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:1e3991568d87400f72863722caf0f54957d921a78feede8d7deeb7c023916431",
+  "operationId": "operation-WI-376-release-adopter-acceptance-post-merge-cleanup",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "b7ff4c729df4195d77b874ff9e3ab9b5bacd5691",
+    "headRevision": "928f8090354332524823bf79bed8b0eb8064fa13",
+    "mergeCommit": "6a9db7a53ee8f9d3c58bf0426fb0e897c3a8328b",
+    "number": 340,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/340"
+  },
+  "reason": "PR #340 passed hosted quality, Windows, V1, and task-list checks, merged as 6a9db7a, and the exact feature branch and worktree were removed after synchronization.",
+  "receiptId": "ai-cockpit-WI-376-release-adopter-acceptance-post-merge-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-376-release-adopter-acceptance-final",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/340",
+    "worktree": "/private/tmp/ai-cockpit-wi376-final"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-29T02:07:00Z",
+  "workItemId": "WI-376-release-adopter-acceptance",
+  "worktree": {
+    "branch": "codex/wi-376-release-adopter-acceptance-final",
+    "headRevision": "928f8090354332524823bf79bed8b0eb8064fa13",
+    "path": "/private/tmp/ai-cockpit-wi376-final",
+    "worktreeId": "WI-376-release-adopter-acceptance-final"
+  }
+}
