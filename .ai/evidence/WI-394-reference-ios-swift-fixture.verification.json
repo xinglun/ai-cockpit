@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:77cdd71add46ddda401f429eb3905ecdc08546fcf249280d2cfebc8b4b8f2028",
-  "createdAt": "2026-08-29T10:28:27Z",
+  "contractDigest": "sha256:102ebea4319add672c879745af057ca251a6e9ac7987b8fd9915ba8d717f3690",
+  "createdAt": "2026-08-29T10:31:01Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 199822,
-      "executionElapsedMs": 199583,
+      "elapsedMs": 132839,
+      "executionElapsedMs": 132590,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,8 +25,8 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 199822,
-    "executionElapsedMs": 199583,
+    "elapsedMs": 132839,
+    "executionElapsedMs": 132590,
     "filesHashed": 5,
     "filesRead": 5,
     "gitCalls": 8,
@@ -44,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 199583,
+      "executionElapsedMs": 132590,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -76,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:6d798dc8ef620896af93675d00e6277c883f931492eddd887da19da3c1915741",
+        "outputDigest": "sha256:14cb8513d921253d99d32aa7e42ad571b242357222b41ff7d37308a195405a0f",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -92,7 +92,7 @@
     "runtimeVersion": "0.2.39",
     "workItemId": "WI-394-reference-ios-swift-fixture"
   },
-  "receiptDigest": "sha256:523adf1b37288d3feff3f8796ec337ee521919be613e56cef28b952ff155e318",
+  "receiptDigest": "sha256:0b99789c729a4706b3cb26c9192ca659b971326f9895d8f3e9f9f9e3efdc9fd3",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:e55563733affd91fe976f32fdeefd77938097634bcb69c462b714ae7aede88aa",
   "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
