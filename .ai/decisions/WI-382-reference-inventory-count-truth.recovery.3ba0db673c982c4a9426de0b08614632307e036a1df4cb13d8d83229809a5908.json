@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "human:repository-owner",
+  "decidedAt": "2026-08-29T06:30:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-382-reference-inventory-count-truth.recovery.json",
+    ".ai/work-items/archive/WI-383-reference-inventory-count-recovery.archive.json",
+    ".ai/decisions/WI-383-reference-inventory-count-recovery.close.json",
+    ".ai/decisions/WI-384-reference-inventory-archive-order.close.json"
+  ],
+  "policyRefs": [
+    "docs/reference/commands.md",
+    "docs/reference/repository-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:494390de941b46e0267fe9e31a6ea8d060872c84444efa99791c13cd4c8d7221",
+  "predecessorEventsDigest": "sha256:24047ab0e9d7cf8899372e143d648fb5491244053bdaa72991581e06ab56b1f2",
+  "predecessorOutcomeDigest": "sha256:d3e7f503c005aac95f237fa1c24f01ed7eafab035b01fa3dd8989de41e96b713",
+  "predecessorSummaryDigest": "sha256:ec2a248b9aa0c094900ef61e16035f9576a5a00dbb3db22d33b1e66b5b20db70",
+  "predecessorWorkItemId": "WI-382-reference-inventory-count-truth",
+  "reason": "WI-383 superseded WI-382 and the corrected successor chain is merged and closed; preserve WI-382 bytes as historical evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Do not resume this predecessor; continue only through the reviewed successor chain.",
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-383-reference-inventory-count-recovery",
+  "workItemId": "WI-382-reference-inventory-count-truth"
+}
