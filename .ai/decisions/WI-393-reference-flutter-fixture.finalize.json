@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "post-merge-exact-resource-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "6db231ab3074c61336607126cf54fd3b68f7b29b",
+    "name": "codex/wi-393-reference-flutter-fixture",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:d81c4dd65a9de07be24c822c160bde774e731e1b6ea5bbebd2f2d230b57657b4",
+  "operationId": "github-pr-357-delete-cleanup-20260829",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "e7b0368142d1a395a2c5647c2dab97104076ff25",
+    "headRevision": "6db231ab3074c61336607126cf54fd3b68f7b29b",
+    "mergeCommit": "7fb81da0ca3497e973e9026f62ce49f2db83a9fb",
+    "number": 357,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/357"
+  },
+  "reason": "PR #357 merged as 7fb81da; the exact remote branch and dedicated worktree were removed after clean-state verification.",
+  "receiptId": "ai-cockpit-WI-393-reference-flutter-fixture-deleted-20260829",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-393-reference-flutter-fixture",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/357",
+    "worktree": "/private/tmp/ai-cockpit-wi393-reference-flutter-fixture"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-29T10:13:08Z",
+  "workItemId": "WI-393-reference-flutter-fixture",
+  "worktree": {
+    "branch": "codex/wi-393-reference-flutter-fixture",
+    "headRevision": "6db231ab3074c61336607126cf54fd3b68f7b29b",
+    "path": "/private/tmp/ai-cockpit-wi393-reference-flutter-fixture",
+    "worktreeId": "WI-393-reference-flutter-fixture"
+  }
+}
