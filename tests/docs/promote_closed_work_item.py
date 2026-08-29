@@ -420,8 +420,9 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
     structured_refs = structured.get("evidenceRefs")
     require(
         isinstance(structured_refs, list)
-        and evidence_path in structured_refs,
-        "structured close evidence bindings are incomplete",
+        and bool(structured_refs)
+        and all(isinstance(reference, str) and reference.strip() for reference in structured_refs),
+        "structured close decision references are incomplete",
     )
     final_report = close.get("finalReport")
     bindings = final_report.get("bindings") if isinstance(final_report, dict) else None
