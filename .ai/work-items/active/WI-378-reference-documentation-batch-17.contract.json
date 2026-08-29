@@ -35,11 +35,11 @@
     "reference-parity"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-378-reference-docs-batch-17",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/342",
     "worktree": "/private/tmp/ai-cockpit-wi378-reference-docs"
   },
   "risk": "normal",
