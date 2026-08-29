@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-29T12:30:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-378-reference-documentation-batch-17.verification.json",
+    ".ai/decisions/WI-378-reference-documentation-batch-17.recovery.3bc2c27385a2f026feb1d88c707d24c37bd4ab606a41bd8ab0b1f60072ad201c.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:7e637a49e79e18a0162c98af5f67ea302275d96374dca1fdd96229143cb7f8e5",
+  "predecessorEventsDigest": "sha256:fe83bfa99da3be920e170ef3f52efbe7ecaca47e2b19e28b44fc69787ad6722c",
+  "predecessorOutcomeDigest": "sha256:0a3de02fee98503c88e61f4d7ff8692b10b5161db22ff084578cec56b3e39834",
+  "predecessorSummaryDigest": "sha256:6c4fc7869f130040fd0d4fbdf5cc17fdfcadf9e49762a204671467adde536f55",
+  "predecessorWorkItemId": "WI-378-reference-documentation-batch-17",
+  "reason": "Retry to bind a fresh verification snapshot to the reviewed branch head after hosted Contract gate reported stale evidence; preserve the prior verified attempt and all recovery history.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run a fresh non-red preflight and installed-Runtime verification against the reviewed branch head before finish.",
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "schemaVersion": 1,
+  "workItemId": "WI-378-reference-documentation-batch-17"
+}
