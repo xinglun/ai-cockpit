@@ -1,0 +1,41 @@
+{
+  "acceptanceCriteria": [
+    "The reference style guidance is compared section by section and its applicable semantics are represented by an explicit Rust-native documentation counterpart or a documented non-applicability decision.",
+    "The target documentation states that intent, scope, acceptance, non-goals, evidence, and verification are human-owned and machine-checkable without inventing governance decisions.",
+    "Reference installation/runtime implementation is not copied; object/adopter repositories inherit only the documented shared-Runtime governance boundary.",
+    "Reference inventory, parity, Work Item records, and all three language projections remain synchronized with the final classification.",
+    "The repository passes the declared workspace verification and documentation/conformance checks."
+  ],
+  "authority": "authorized",
+  "baseRevision": "d76297870d4a9a9e2ad6db28c39246214f29d1be",
+  "createdAt": "2026-08-29T08:31:02Z",
+  "goal": "Complete a bounded semantic comparison of docs/work-item-style-guide.md, document any differences and inheritance obligations, and keep governance decisions human-owned.",
+  "intent": "Compare the next pinned Work Item style guidance file and preserve its reader-facing governance semantics in Rust-native documentation without copying reference installation or runtime implementation.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime/protocol implementation; source Python/Make/installer; release/adopter CI; architecture changes; unrelated examples and fixture files"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e439208632f957964b2c1947ac1554b0f548753d9133ba8ebd90b1a66f17e9cc",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-390-reference-style-guide",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/354",
+    "worktree": "/private/tmp/ai-cockpit-wi390-reference-style-guide"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-item-style-guide.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-390-reference-style-guide"
+}
