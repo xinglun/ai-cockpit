@@ -1,0 +1,203 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-29T21:56:05Z",
+  "checkpointContractDigest": "sha256:bc07246c67f90574a53fa4c8a5ad920e73b5e8bcd44f647bd61e750c725ecb61",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:19ad1107301cc858ab12dd51ca5f5120297c170a21b38315c4a75a0a55d2d610",
+      "recorded": true,
+      "recordedAt": "2026-08-29T21:56:05Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bcbf43ab06e0cdfab2e2e544f1f40999c676a3dac9ffd9b2c83dd7eddceb927d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-407-knowledge-materialization-boundary"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:a644bf73cce844277a1c446110a74801f429422326e6c9ee5eb14a712abe6a90",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:19ad1107301cc858ab12dd51ca5f5120297c170a21b38315c4a75a0a55d2d610",
+      "previousContractHash": "sha256:19ad1107301cc858ab12dd51ca5f5120297c170a21b38315c4a75a0a55d2d610",
+      "reason": "Add explicit high-risk scenarioCoverage for attach, legacy/v2 materialization, stale rebuild, and adopter isolation before implementation.",
+      "recorded": true,
+      "recordedAt": "2026-08-29T21:56:48Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bcbf43ab06e0cdfab2e2e544f1f40999c676a3dac9ffd9b2c83dd7eddceb927d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-407-knowledge-materialization-boundary"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:86bfe3a27929c240969eb7b50e356179525f2776e4b9a271bfd41ace8636de9b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:19ad1107301cc858ab12dd51ca5f5120297c170a21b38315c4a75a0a55d2d610",
+      "previousContractHash": "sha256:a644bf73cce844277a1c446110a74801f429422326e6c9ee5eb14a712abe6a90",
+      "reason": "Expanded the bounded Knowledge projection surface to the repository-bound MCP adapter so CLI and Agent entry points report the same derived-write boundary.",
+      "recorded": true,
+      "recordedAt": "2026-08-29T22:01:09Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bcbf43ab06e0cdfab2e2e544f1f40999c676a3dac9ffd9b2c83dd7eddceb927d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-407-knowledge-materialization-boundary"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:f385a388bf30e2471bca708b15b1b2b3eef7d779330eb3c07b1a3692558e0035",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:19ad1107301cc858ab12dd51ca5f5120297c170a21b38315c4a75a0a55d2d610",
+      "previousContractHash": "sha256:86bfe3a27929c240969eb7b50e356179525f2776e4b9a271bfd41ace8636de9b",
+      "reason": "Bound the tests/ci subtree explicitly so the amended CI regression gate remains within the active Contract scope.",
+      "recorded": true,
+      "recordedAt": "2026-08-29T22:08:37Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:07257e8b724907cf0a9812a6d8aa13c4c204bb706e3995828923032f71ae5c8b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-407-knowledge-materialization-boundary"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:bc07246c67f90574a53fa4c8a5ad920e73b5e8bcd44f647bd61e750c725ecb61",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:19ad1107301cc858ab12dd51ca5f5120297c170a21b38315c4a75a0a55d2d610",
+      "previousContractHash": "sha256:f385a388bf30e2471bca708b15b1b2b3eef7d779330eb3c07b1a3692558e0035",
+      "reason": "Bind the reviewed branch, worktree, remote, provider, and planned PR context required by the release cleanup workflow before finalization.",
+      "recorded": true,
+      "recordedAt": "2026-08-29T22:15:51Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:07257e8b724907cf0a9812a6d8aa13c4c204bb706e3995828923032f71ae5c8b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-407-knowledge-materialization-boundary"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:07257e8b724907cf0a9812a6d8aa13c4c204bb706e3995828923032f71ae5c8b",
+  "createdAt": "2026-08-29T21:53:21Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:bc07246c67f90574a53fa4c8a5ad920e73b5e8bcd44f647bd61e750c725ecb61",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+    "reason": "Confirmed the finalization context is part of the same bounded Work Item and the fresh preflight review remains limited to the Knowledge projection change.",
+    "recordedAt": "2026-08-30T01:05:00Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:07257e8b724907cf0a9812a6d8aa13c4c204bb706e3995828923032f71ae5c8b",
+    "schemaVersion": 1,
+    "workItemId": "WI-407-knowledge-materialization-boundary"
+  },
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "reason": "Runtime evidence verifies the repository-local projection boundary; human benefit alignment remains an explicit human-owned claim.",
+    "state": "unknown"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-29T22:22:56Z",
+  "preflightContractDigest": "sha256:bc07246c67f90574a53fa4c8a5ad920e73b5e8bcd44f647bd61e750c725ecb61",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:07257e8b724907cf0a9812a6d8aa13c4c204bb706e3995828923032f71ae5c8b",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/knowledge_projection.rs:attach_knowledge_directory_is_idempotent_and_empty"
+      ],
+      "expected": "Attach creates a repository-local knowledge directory idempotently without creating records or decisions.",
+      "required": true,
+      "scenario": "attach_knowledge_directory",
+      "status": "verified",
+      "verificationPlan": "Run attach twice on a fresh repository and compare the scaffold and authoritative records."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/knowledge.rs:knowledge_query_projects_archived_work_item_records_deterministically"
+      ],
+      "expected": "The legacy knowledge query deterministically materializes an index and records from archived Work Items.",
+      "required": true,
+      "scenario": "legacy_knowledge_query_materialization",
+      "status": "verified",
+      "verificationPlan": "Run the CLI query against an archived fixture and verify source digest, output, and generated paths."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/knowledge_projection.rs:projections_rebuild_explicitly_without_mutating_authority"
+      ],
+      "expected": "The v2 knowledge query materializes a repository-bound index without changing authoritative governance bytes.",
+      "required": true,
+      "scenario": "knowledge_v2_query_materialization",
+      "status": "verified",
+      "verificationPlan": "Run query --v2 and compare Contract, evidence, archive, and decision digests before and after."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/knowledge_projection.rs:projections_rebuild_explicitly_without_mutating_authority"
+      ],
+      "expected": "A missing, stale, or malformed derived projection is rebuilt through the explicit query path and never grants authority.",
+      "required": true,
+      "scenario": "stale_knowledge_projection_rebuild",
+      "status": "verified",
+      "verificationPlan": "Tamper or remove the derived index, change an archived source, and verify deterministic rebuild behavior."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/knowledge_projection.rs:knowledge_v2_projection_is_repository_isolated"
+      ],
+      "expected": "A fresh attached adopter receives repository-local Knowledge behavior and cannot read or write the Cockpit repository projection.",
+      "required": true,
+      "scenario": "adopter_knowledge_isolation",
+      "status": "verified",
+      "verificationPlan": "Run the installed Runtime with explicit repository contexts and compare knowledge roots and identities."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-mcp/tests/rpc.rs:repository_bound_mcp_knowledge_query_reports_derived_write_boundary"
+      ],
+      "expected": "The repository-bound MCP knowledge query materializes only repository-local derived data and reports its boundary.",
+      "required": true,
+      "scenario": "mcp_knowledge_query_materialization",
+      "status": "verified",
+      "verificationPlan": "Call knowledge_query through the repository-bound MCP handler and assert projection metadata and repository isolation."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T22:23:06Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-407-knowledge-materialization-boundary"
+}

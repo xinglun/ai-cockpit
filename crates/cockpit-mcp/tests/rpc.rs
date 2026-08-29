@@ -101,6 +101,53 @@ fn mcp_initialize_and_tool_list_are_read_only_and_deterministic() {
 }
 
 #[test]
+fn repository_bound_mcp_knowledge_query_reports_derived_write_boundary() {
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-mcp-knowledge-{}",
+        NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed)
+    ));
+    fs::create_dir_all(&directory).expect("repository");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(&directory)
+        .status()
+        .expect("git init");
+    cockpit_repository::attach(&directory).expect("attach");
+    let protocol_before = fs::read(directory.join(".ai/cockpit.toml")).expect("protocol");
+    let response = handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0","id":1,"method":"tools/call",
+            "params":{"name":"knowledge_query","arguments":{}}
+        }),
+        &directory,
+        &test_runtime_context(),
+    );
+    assert_eq!(response["result"]["isError"], false);
+    assert_eq!(
+        response["result"]["structuredContent"]["projection"]["path"],
+        ".ai/knowledge/index.json"
+    );
+    assert_eq!(
+        response["result"]["structuredContent"]["projection"]["materialization"],
+        "created"
+    );
+    assert_eq!(
+        response["result"]["structuredContent"]["projection"]["writeBoundary"],
+        "repository-local-derived"
+    );
+    assert_eq!(
+        response["result"]["structuredContent"]["projection"]["authority"],
+        "none"
+    );
+    assert_eq!(
+        fs::read(directory.join(".ai/cockpit.toml")).expect("protocol"),
+        protocol_before
+    );
+    assert!(directory.join(".ai/knowledge/index.json").is_file());
+    fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[test]
 fn mcp_work_item_controls_persists_the_same_bound_preflight_receipt_as_cli() {
     let directory = std::env::temp_dir().join(format!(
         "cockpit-mcp-controls-{}",

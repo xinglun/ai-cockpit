@@ -18,7 +18,7 @@ capabilityClaims:
 
 [English](implementation-knowledge.md) · [简体中文](implementation-knowledge.zh-CN.md) · [日本語](implementation-knowledge.ja.md)
 
-实现知识是已验证并归档 Work Item 的只读投影，不是 Agent 记忆、第二事实源或设计权威。
+实现知识是已验证并归档 Work Item 的派生投影，不是 Agent 记忆、第二事实源或设计权威。
 Contract、验证证据、归档和最终 Outcome 仍是权威记录。
 
 ## 查询
@@ -30,10 +30,12 @@ ai-cockpit knowledge query --repo /path/to/repository \
 ```
 
 Runtime 对提供的条件采用 AND 语义，返回稳定且绑定仓库的记录。`--v2` 返回包含 truth state、confidence、证据引用、unknowns 和 snapshot digest 的 `KnowledgeV2Record`。
-查询不会写入 `.ai/`，也不会授权新变更。
+显式查询可能在仓库本地的 `.ai/knowledge/` 下物化或重建派生索引；响应会报告
+`projection.materialization`、`projection.path` 和
+`projection.writeBoundary=repository-local-derived`。这次写入不会授权新变更，也不会修改 Contract、evidence、archive 或 decision 权威记录。
 
-Work Item 完成后，Runtime 从已验证归档刷新知识记录和索引；源路径依赖映射允许只刷新受影响记录。
-索引缺失、损坏、过期或不完整时必须重建并重新验证，或明确返回 partial/unknown。
+生命周期命令不会静默物化 Knowledge。派生索引缺失、损坏、过期或不完整时，只有显式查询路径会从归档来源重建并重新验证，或明确返回 partial/unknown。
+source digest 仅用于缓存校验；归档记录仍是事实来源。
 
 ## 与参考源的明确差异
 

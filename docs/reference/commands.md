@@ -33,7 +33,8 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
 
 | Group | Commands | Boundary |
 | --- | --- | --- |
-| Read-only | `inspect`, `observe`, `status`, `compatibility`, `migrate plan`, `knowledge query`, `capability show`, `diagnose`, `doctor` | Read repository state or derived evidence; no silent repair. |
+| Read-only | `inspect`, `observe`, `status`, `compatibility`, `migrate plan`, `capability show`, `diagnose`, `doctor` | Read repository state or derived evidence; no silent repair. |
+| Derived projection | `knowledge query` | Explicitly materializes or reuses a repository-local `.ai/knowledge/` index; reports `projection.writeBoundary=repository-local-derived` and never changes governance authority. |
 | Setup | `attach`, `profile confirm`, `profile propose` | Create/update protocol state, confirm a profile, or emit a read-only candidate. |
 | Migration | `migrate apply --approved` | Apply only the reviewed repository-schema migration and write a runtime-bound migration receipt. |
 | Governance | `preflight` | Read a Contract and return a green/yellow/red decision plus `reviewState`; incomplete or uncertain Contracts are human-review yellow and cannot cross checkpoint. |

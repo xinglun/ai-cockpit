@@ -11312,8 +11312,11 @@ pub fn generate_knowledge(root: &Path) -> Result<cockpit_knowledge::KnowledgeInd
     let index_path = knowledge.join("index.json");
     let source_digest = knowledge_source_digest(&archive)?;
     if index_path.is_file() {
-        let cached = read_json(&index_path)?;
-        if let Ok(index) = serde_json::from_value::<cockpit_knowledge::KnowledgeIndex>(cached)
+        // A derived cache is disposable.  An unreadable, malformed, or
+        // schema-incompatible index is treated as stale and rebuilt through
+        // this explicit query path; authority remains in the archive.
+        if let Ok(cached) = read_json(&index_path)
+            && let Ok(index) = serde_json::from_value::<cockpit_knowledge::KnowledgeIndex>(cached)
             && index.source_digest == source_digest
         {
             return Ok(index);

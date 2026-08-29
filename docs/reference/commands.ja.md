@@ -32,7 +32,8 @@ handoff だけを抑止します。`work-item outcome` は既定で stdout に�
 
 | Group | Commands | Boundary |
 | --- | --- | --- |
-| Read-only | `inspect`、`observe`、`status`、`compatibility`、`migrate plan`、`knowledge query`、`capability show`、`diagnose`、`doctor` | repository state/evidence を読み、黙って修復しない。 |
+| Read-only | `inspect`、`observe`、`status`、`compatibility`、`migrate plan`、`capability show`、`diagnose`、`doctor` | repository state/evidence を読み、黙って修復しない。 |
+| Derived projection | `knowledge query` | 明示的な query のみで repository-local `.ai/knowledge/` index を materialize/reuse し、`projection.writeBoundary=repository-local-derived` を返す。governance authority は変更しない。 |
 | Setup | `attach`、`profile confirm`、`profile propose` | protocol state の作成/更新、profile の確認、read-only candidate の出力。 |
 | Migration | `migrate apply --approved` | review 済みの repository schema migration だけを適用し、Runtime-bound migration receipt を作る。 |
 | Governance | `preflight` | Contract を読み green/yellow/red decision と `reviewState` を返す。不完全・不確実な Contract は human-review yellow となり checkpoint を越えられない。 |

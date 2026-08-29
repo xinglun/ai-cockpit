@@ -50,7 +50,7 @@ profile を確認してください。
 | Work Item lifecycle | bounded work を start、checkpoint、finish、archive、close する。 | `start`、`checkpoint`、`finish`、`archive`、`close` | 明示的な state transition と receipt。 |
 | Verification | allowlist/profile command を制限内で実行する。 | `ai-cockpit verify --repo <path> ...` | pass/fail/unknown と execution evidence。 |
 | Evidence reuse | identity binding が一致するときだけ再実行を省略する。 | confirmed profile + automatic `verify` | reuse または fail-closed rerun。 |
-| Knowledge | repository-local の完了済み evidence を query する。 | `ai-cockpit knowledge query --repo <path>` | filtered result。第二の fact source ではない。 |
+| Knowledge | repository-local の完了済み evidence を query し、derived projection を明示的に materialize する。 | `ai-cockpit knowledge query --repo <path>` | filtered result と repository-local write boundary。第二の fact source ではない。 |
 | MCP | 同じ repository service を MCP client に公開する。 | `ai-cockpit mcp --repo <path>` | explicit binding 付き JSON-RPC result。 |
 | Doctor | runtime と repository の readiness を診断する。 | `ai-cockpit doctor --repo <path>` | action 可能な診断。黙って修復しない。 |
 | Profile confirmation | controlled reuse 用の quality command を確認する。 | `ai-cockpit profile confirm --repo <path> --program cargo --args test,--workspace` | review 可能な profile version。 |
@@ -280,6 +280,8 @@ ai-cockpit knowledge query --repo /path/to/repository --topic installation
 ```
 
 Knowledge は repository-local evidence の projection で、第二の source of truth ではありません。
+明示的な `knowledge query` は `.ai/knowledge/` の derived index を作成または rebuild することがあり、
+`projection.writeBoundary=repository-local-derived` を返します。これは新しい変更を authorize しません。
 Work Item や receipt が missing、stale、invalid なら新しい claim に変換しません。all-Work-Item
 projection は ID 順で安定に並べ、green/yellow/red/unknown の count と item ごとの diagnostic を返し、
 current repository snapshot と deterministic な index digest の両方に bind します。malformed または

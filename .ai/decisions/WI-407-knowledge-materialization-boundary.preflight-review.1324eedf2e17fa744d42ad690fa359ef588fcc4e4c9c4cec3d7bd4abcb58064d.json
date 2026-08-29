@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:a644bf73cce844277a1c446110a74801f429422326e6c9ee5eb14a712abe6a90",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "reason": "Confirmed the amended bounded scenario coverage and implementation boundary for repository-local Knowledge materialization; publication remains separate.",
+  "recordedAt": "2026-08-30T00:20:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:bcbf43ab06e0cdfab2e2e544f1f40999c676a3dac9ffd9b2c83dd7eddceb927d",
+  "schemaVersion": 1,
+  "workItemId": "WI-407-knowledge-materialization-boundary"
+}

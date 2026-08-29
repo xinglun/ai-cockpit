@@ -49,7 +49,7 @@ bootstrap。依赖 evidence reuse 前请先检查 attached profile。
 | Work Item 生命周期 | 启动、checkpoint、完成、归档并关闭有界工作。 | `start`、`checkpoint`、`finish`、`archive`、`close` | 明确的状态转换和 receipt。 |
 | Verification | 在允许命令和资源限制内运行检查。 | `ai-cockpit verify --repo <path> ...` | pass/fail/unknown 与执行 evidence。 |
 | Evidence reuse | 所有 identity binding 一致时才跳过重复运行。 | 已确认 profile + 自动 `verify` | reuse 或 fail-closed rerun。 |
-| Knowledge | 查询 repository-local 的已完成 evidence。 | `ai-cockpit knowledge query --repo <path>` | 过滤结果，不是第二事实源。 |
+| Knowledge | 查询 repository-local 的已完成 evidence，并显式物化派生投影。 | `ai-cockpit knowledge query --repo <path>` | 过滤结果和仓库本地写入边界；不是第二事实源。 |
 | MCP | 向 MCP client 提供相同 repository service。 | `ai-cockpit mcp --repo <path>` | 有显式绑定的 JSON-RPC 结果。 |
 | Doctor | 诊断 runtime 和 repository 准备度。 | `ai-cockpit doctor --repo <path>` | 可操作诊断，不静默修复。 |
 | Profile confirmation | 确认可用于受控 reuse 的质量命令。 | `ai-cockpit profile confirm --repo <path> --program cargo --args test,--workspace` | 可审查的新 profile 版本。 |
@@ -275,7 +275,9 @@ ai-cockpit work-item status --repo /path/to/repository --all --json
 ai-cockpit knowledge query --repo /path/to/repository --topic installation
 ```
 
-Knowledge 是 repository-local evidence 的 projection，不是第二事实源。缺失、过期或无效的
+Knowledge 是 repository-local evidence 的 projection，不是第二事实源。显式的 `knowledge query`
+可能创建或重建 `.ai/knowledge/` 派生索引，并报告
+`projection.writeBoundary=repository-local-derived`；它不会授权变更。缺失、过期或无效的
 Work Item 和 receipt 不能变成新的 claim。all-Work-Item projection 按 ID 稳定排序，输出
 green/yellow/red/unknown 计数和逐项 diagnostics，并绑定当前 repository snapshot 与确定性的
 index digest。格式错误或 foreign 的成员会保持可见 `unknown`，不会隐藏其他成员或 fail open。

@@ -18,7 +18,7 @@ capabilityClaims:
 
 [English](implementation-knowledge.md) · [简体中文](implementation-knowledge.zh-CN.md) · [日本語](implementation-knowledge.ja.md)
 
-実装 Knowledge は、検証済みで archive された Work Item の read-only projection です。Agent memory、第二の事実源、design authority ではありません。Authority は Contract、verification evidence、archive、最終 Outcome に残ります。
+実装 Knowledge は、検証済みで archive された Work Item から導出される projection です。Agent memory、第二の事実源、design authority ではありません。Authority は Contract、verification evidence、archive、最終 Outcome に残ります。
 
 ## Query
 
@@ -28,9 +28,9 @@ ai-cockpit knowledge query --repo /path/to/repository \
   --state verified --work-item-id <id>
 ```
 
-指定した filter は AND で評価され、repository に bind された安定した record が返ります。`--v2` は truth state、confidence、evidence reference、unknown、snapshot digest を含む `KnowledgeV2Record` を選択します。Query は `.ai/` に書き込まず、新しい変更を authorize しません。
+指定した filter は AND で評価され、repository に bind された安定した record が返ります。`--v2` は truth state、confidence、evidence reference、unknown、snapshot digest を含む `KnowledgeV2Record` を選択します。明示的な Query は repository-local な `.ai/knowledge/` の derived index を materialize または rebuild することがあり、response の `projection.materialization`、`projection.path`、`projection.writeBoundary=repository-local-derived` で境界を示します。この write は新しい変更を authorize せず、Contract、evidence、archive、decision の authority を変更しません。
 
-Work Item の finalize 後、Runtime は検証済み archive から record と index を更新します。source-path dependency map があるため影響を受けた record だけを更新できます。index が欠落、破損、stale、不完全なら rebuild と再検証を行うか、partial/unknown を明示します。
+Lifecycle command は Knowledge を黙って materialize しません。index が欠落、破損、stale、不完全なら、明示的な Query path だけが archive source から rebuild と再検証を行うか、partial/unknown を明示します。source digest は cache validator に限られ、archive record が source of truth です。
 
 ## Reference source との差分
 
