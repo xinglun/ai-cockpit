@@ -107,7 +107,7 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=275 implemented-equivalent=1 not-applicable=4 reference-only=42 deferred-next-batch=535 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=284 implemented-equivalent=1 not-applicable=4 reference-only=43 deferred-next-batch=525 migrate-gap=0 -->
 
 固定した reference comparison baseline の ledger は 5,119 records です。内訳は
 4,262 `generated-history`、275 `implemented-different-by-design`、1
@@ -743,3 +743,25 @@ WI-368 は pinned commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf` の 11 path 
 この batch では Standard profile の overclaim も修正しました。static reference-impact scanner が存在するとは記載せず、
 source の adversarial language page にある named-case count の差異は manifest を machine truth として可視化します。
 これは semantic parity と明示的な boundary documentation であり、source command/JSON-wire compatibility ではありません。
+
+## WI-378 reference documentation batch 17
+
+WI-378 は pinned source commit にある次の deferred 10 path を一つずつ比較しました。9 つの責務は Rust-native の三言語文書と既存 Runtime/test で表現し、生成された plan trace 1 つは `reference-only` としました。source の Python、Make、provider configuration、historical remediation decision はコピーしません。
+
+| Pinned reference path | Classification | Rust counterpart / boundary |
+| --- | --- | --- |
+| `docs/reference/remediation-instruction-traceability.json` | reference-only | `docs/reference/instruction-traceability.md` と machine inventory が現在の traceability boundary を説明します。source の generated historical plan directive は target authority ではありません。 |
+| `docs/reference/repository-workflow.ja.md` | implemented-different-by-design | 三言語 `docs/reference/repository-workflow.*`、`.ai/README.md`、`AGENTS.md` が明示的 repository context、serial Work Item、reviewed PR、close、cleanup を保持します。 |
+| `docs/reference/schemas.md` | implemented-different-by-design | 三言語 `schemas.*`、typed Protocol/repository validator、immutable evidence/decision boundary が record family に対応します。source wire compatibility は主張しません。 |
+| `docs/reference/test-architecture.md` | implemented-different-by-design | 三言語 `test-architecture.*`、CI quality route、conformance manifest、release/adopter harness、negative-first test が layered evidence と external limit を説明します。 |
+| `docs/reference/test-weakening-guard.ja.md` | implemented-different-by-design | 日本語 Rust-native weakening route、snapshot-derived governance signal、regression。source Python/Make surface は搭載しません。 |
+| `docs/reference/test-weakening-guard.md` | implemented-different-by-design | 英語 Rust-native weakening route、保守的な path handling、dynamic profile boundary、recovery condition。 |
+| `docs/reference/test-weakening-guard.zh-CN.md` | implemented-different-by-design | 中国語 Rust-native weakening route、fail-closed unknown、比例分析、明示した non-claim。 |
+| `docs/reference/troubleshooting.ja.md` | implemented-different-by-design | 日本語 stop-state/recovery、command reference、installed-lifecycle boundary、documentation check が source wizard/Make instruction に対応します。 |
+| `docs/reference/troubleshooting.md` | implemented-different-by-design | 英語 stop-state/recovery route と toolchain、adopter、active Work Item、evidence 保全の境界。 |
+| `docs/reference/upgrade.ja.md` | implemented-different-by-design | 日本語 Runtime upgrade と repository migration の分離、immutable Release、rollback、history preservation。 |
+
+更新後の ledger は 5,119 record：4,262 `generated-history`、284
+`implemented-different-by-design`、1 `implemented-equivalent`、4
+`not-applicable`、43 `reference-only`、525 `deferred-next-batch`、
+`migrate-gap` は 0 です。Deferred は予定された比較であり parity claim ではありません。

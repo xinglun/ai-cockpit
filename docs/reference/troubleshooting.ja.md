@@ -31,6 +31,12 @@ capabilityClaims:
 `.ai` record、receipt、`index.pending` を削除して status をきれいに見せてはいけません。missing、malformed、stale、矛盾した
 evidence は意図的に fail closed になります。
 
+## Installation と toolchain の境界
+
+`attach`、`profile confirm`、`agent doctor` が停止した場合は、示された repository fact を確認し、明示的な `--repo` で同じ command を再実行します。Runtime は project の JDK、Gradle、Xcode、CocoaPods、Node、その他の external toolchain を install/切替しません。project command の不足は adopter configuration の問題であり、Contract を弱めたり workspace binary に置き換えたりする理由にはなりません。
+
+repository に active Work Item がある場合は、upgrade や新しい Work Item の前に finish/archive します。linked worktree、remote の既定 branch、finalization receipt がない場合は停止して record を保全します。Recovery は identity-bound な successor/retry path を使います。reference source の Make/Python wizard command は Rust Runtime command ではありません。installed CLI と repository が宣言した verification command を使ってください。
+
 すでに `finish_ready` の Work Item に暗黙の rewind 操作はない。rewind は
 state history を曖昧にするためである。変更後の snapshot 用に successor Work
 Item を作り、古い receipt を historical evidence として参照する。

@@ -32,6 +32,22 @@ Never delete `.ai` records, receipts, or `index.pending` to make status look
 clean. Missing, malformed, stale, or contradictory evidence is intentionally
 fail-closed.
 
+## Installation and toolchain boundaries
+
+If `attach`, `profile confirm`, or `agent doctor` stops, inspect the named
+repository fact and rerun the same command with the explicit `--repo`. The
+Runtime does not install or switch a project's JDK, Gradle, Xcode, CocoaPods,
+Node, or other external toolchain. A missing project command is an adopter
+configuration issue, not a reason to weaken the Contract or substitute a
+workspace binary.
+
+If a repository has an active Work Item, finish/archive it before an upgrade or
+new Work Item. If a linked worktree, remote default branch, or finalization
+receipt is missing, stop and preserve the records; recovery must use an
+identity-bound successor/retry path. The reference source's Make/Python
+wizard commands are not Rust Runtime commands. Use the installed CLI and the
+repository's own declared verification commands.
+
 An already `finish_ready` Work Item has no implicit rewind operation. This is
 intentional: a rewind would make the state history ambiguous. Use a successor
 Work Item for the changed snapshot and reference the old receipt as historical

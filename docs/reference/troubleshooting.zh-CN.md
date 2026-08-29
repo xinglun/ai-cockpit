@@ -31,6 +31,12 @@ capabilityClaims:
 不要删除 `.ai` 记录、receipt 或 `index.pending` 来让状态看起来干净。缺失、malformed、过期或
 矛盾的 evidence 会按设计 fail closed。
 
+## 安装与工具链边界
+
+如果 `attach`、`profile confirm` 或 `agent doctor` 停止，先检查它指出的仓库事实，再使用显式 `--repo` 重跑同一命令。Runtime 不会安装或切换项目的 JDK、Gradle、Xcode、CocoaPods、Node 或其他外部工具链。项目命令缺失属于 adopter 配置问题，不能因此削弱 Contract 或改用 workspace binary。
+
+仓库存在 active Work Item 时，应在升级或创建新 Work Item 前先 finish/archive。如果 linked worktree、远端默认分支或 finalization receipt 缺失，应停止并保留记录；恢复必须使用绑定 identity 的 successor/retry 路径。参考源的 Make/Python wizard 命令不是 Rust Runtime 命令；请使用已安装 CLI 和当前仓库声明的 verification commands。
+
 已经处于 `finish_ready` 的 Work Item 没有隐式 rewind 操作。这是有意的：
 rewind 会使状态历史含义不明确。应为变化后的 snapshot 创建 successor Work
 Item，并把旧 receipt 作为历史 evidence 引用。
