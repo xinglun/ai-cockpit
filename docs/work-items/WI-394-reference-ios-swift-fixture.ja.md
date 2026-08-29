@@ -9,9 +9,13 @@ audience:
   - contributor
   - maintainer
 authority: canonical
-status: in_progress
+status: implemented
 sourceCommit: e5acb677da6621004d96f0ef353c58fe8d3acfbf
 lastVerifiedBy: WI-394-reference-ios-swift-fixture
+terminalArchive: .ai/work-items/archive/WI-394-reference-ios-swift-fixture.contract.json
+terminalVerification: .ai/evidence/WI-394-reference-ios-swift-fixture.verification.json
+terminalFinalization: .ai/decisions/WI-394-reference-ios-swift-fixture.finalize.json
+terminalDecision: .ai/decisions/WI-394-reference-ios-swift-fixture.close.json
 ---
 
 # WI-394 — Reference iOS Swift Package fixture 適応
