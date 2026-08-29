@@ -9,9 +9,13 @@ audience:
   - contributor
   - maintainer
 authority: canonical
-status: in_progress
+status: implemented
 sourceCommit: e5acb677da6621004d96f0ef353c58fe8d3acfbf
 lastVerifiedBy: WI-392-reference-android-fixture
+terminalArchive: .ai/work-items/archive/WI-392-reference-android-fixture.contract.json
+terminalVerification: .ai/evidence/WI-392-reference-android-fixture.verification.json
+terminalFinalization: .ai/decisions/WI-392-reference-android-fixture.finalize.53b26b80706cab70f1fb4c8c3772cbf92475c25fa11d5141c906ccafa9566fea.json
+terminalDecision: .ai/decisions/WI-392-reference-android-fixture.close.json
 ---
 
 # WI-392：参考 Android fixture 适配
