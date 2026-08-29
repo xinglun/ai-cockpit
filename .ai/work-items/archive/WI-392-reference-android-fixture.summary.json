@@ -1,7 +1,7 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-392-reference-android-fixture.contract.json",
-    ".ai/work-items/active/WI-392-reference-android-fixture.summary.json"
+    ".ai/work-items/archive/WI-392-reference-android-fixture.contract.json",
+    ".ai/work-items/archive/WI-392-reference-android-fixture.summary.json"
   ],
   "checkpointAt": "2026-08-29T09:32:36Z",
   "checkpointContractDigest": "sha256:9d90b89f8eb55478efc4ba44cc0d68ae3e241accd2e51ada95e5784d83914e81",

@@ -45,17 +45,17 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-392-reference-android-fixture.summary.json"
+            ".ai/work-items/archive/WI-392-reference-android-fixture.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-392-reference-android-fixture.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-392-reference-android-fixture.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-392-reference-android-fixture.summary.json"
+            ".ai/work-items/archive/WI-392-reference-android-fixture.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-392-reference-android-fixture.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-392-reference-android-fixture.summary.json"
         }
       ],
       "evidence": [
@@ -111,7 +111,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-392-reference-android-fixture.contract.json"
+            ".ai/work-items/archive/WI-392-reference-android-fixture.contract.json"
           ],
           "inference": false,
           "text": "Establish auditable semantic parity and inheritance boundaries for the four pinned examples/fixtures/android-app files."
@@ -120,7 +120,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-392-reference-android-fixture.contract.json"
+            ".ai/work-items/archive/WI-392-reference-android-fixture.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -130,8 +130,8 @@
     "status": "verified",
     "workItemId": "WI-392-reference-android-fixture"
   },
-  "taskReportDigest": "sha256:93cdae85656db961a04cf8109889c754b8d041f929ffdae4ed7195217b82153b",
-  "taskReportMarkdownDigest": "sha256:a5566642786e209efa9e3bb06df3f1b59ecf80d6ddb4c1b0515a15b26768ca00",
+  "taskReportDigest": "sha256:7617dd2f20642795dd785338187d562fc5ada8e6987b7ca8a2fef71b33b3d04b",
+  "taskReportMarkdownDigest": "sha256:ef6883899d94bcc00ad0b031a0ef85723697f0f1e7b80009102d4d0fc0fa8dff",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

@@ -14,8 +14,8 @@
 
 ## Delivered changes
 
-- Changed path: .ai/work-items/active/WI-392-reference-android-fixture.contract.json
-- Changed path: .ai/work-items/active/WI-392-reference-android-fixture.summary.json
+- Changed path: .ai/work-items/archive/WI-392-reference-android-fixture.contract.json
+- Changed path: .ai/work-items/archive/WI-392-reference-android-fixture.summary.json
 
 ## Findings
 

@@ -1,0 +1,23 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-29T09:41:34Z",
+  "files": {
+    "approachDigest": "sha256:215ac03d5f303fa2e61e5d8d46d87bcf811431a2942d8fbf12f992262af13ac8",
+    "approachPath": ".ai/work-items/archive/WI-392-reference-android-fixture.approach.json",
+    "contractDigest": "sha256:d0f64b49282e5cfbc452ffe4c0e953d99c8b8768a315453a94f5b1120fa5a6f0",
+    "contractPath": ".ai/work-items/archive/WI-392-reference-android-fixture.contract.json",
+    "eventsDigest": "sha256:9c4b736218ec8fc8a32284c267de97e30feb1a247df71ad157553aa3c414f149",
+    "eventsPath": ".ai/work-items/archive/WI-392-reference-android-fixture.events.jsonl",
+    "outcomeDigest": "sha256:30e8c1d351a4fec761caa90a97330e41a046be7c24fbef0b0627358f477db344",
+    "outcomePath": ".ai/work-items/archive/WI-392-reference-android-fixture.outcome.json",
+    "summaryDigest": "sha256:aae3a08d049fac0652ccb83362ca4ca45d73aa1bf0ac51312f0da761e63f6b9e",
+    "summaryPath": ".ai/work-items/archive/WI-392-reference-android-fixture.summary.json",
+    "taskReportDigest": "sha256:7617dd2f20642795dd785338187d562fc5ada8e6987b7ca8a2fef71b33b3d04b",
+    "taskReportMarkdownDigest": "sha256:ef6883899d94bcc00ad0b031a0ef85723697f0f1e7b80009102d4d0fc0fa8dff",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-392-reference-android-fixture.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-392-reference-android-fixture.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-392-reference-android-fixture"
+}
