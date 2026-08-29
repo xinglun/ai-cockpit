@@ -1,0 +1,28 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-388-reference-documentation-batch-21.contract.json",
+    ".ai/work-items/archive/WI-388-reference-documentation-batch-21.summary.json"
+  ],
+  "checkpointAt": "2026-08-29T07:43:35Z",
+  "checkpointContractDigest": "sha256:92822f45dde251ae4fe25891a8ab7510ab8ef1527d832c6e109785ea3548e6ea",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:26ab2ec28f52d64548331c739910f29273d131ab1e81869e607d85e67dd1fd83",
+  "createdAt": "2026-08-29T07:43:09Z",
+  "mode": "docs",
+  "preflightAt": "2026-08-29T07:57:17Z",
+  "preflightContractDigest": "sha256:92822f45dde251ae4fe25891a8ab7510ab8ef1527d832c6e109785ea3548e6ea",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:26ab2ec28f52d64548331c739910f29273d131ab1e81869e607d85e67dd1fd83",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T07:57:30Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-388-reference-documentation-batch-21"
+}

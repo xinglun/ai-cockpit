@@ -103,7 +103,7 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=298 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=507 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=304 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=501 migrate-gap=0 -->
 
 在固定参考源比较基线上，台账共有 5,119 条记录：4,262 条
 `generated-history`、292 条 `implemented-different-by-design`、1 条
@@ -784,3 +784,24 @@ WI-387 后台账为 4,262 条 `generated-history`、298 条 `implemented-differe
 `implemented-equivalent`、4 条 `not-applicable`、47 条 `reference-only`、507 条
 `deferred-next-batch`；`migrate-gap` 仍为 0。每个已 attach 的对象/adopter 工程都继承相同的
 Rust-native 安全与供应链边界，而 repository facts 与 evidence 继续由显式 `--repo` 隔离。
+
+## WI-388：参考文档第 21 批
+
+WI-388 在固定参考提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 上逐一比较六个 deferred 文档。
+其责任已由 Rust-native 威胁模型、采用、发布证据、安装和排查路径承载。本批记录分布式对应关系与证据边界，
+不复制源命令或历史稳定性结论。
+
+| 固定参考路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `docs/security/threat-model.md` | implemented-different-by-design | `docs/security/threat-model.md`、`.zh-CN.md`、`.ja.md` 保留保护资产、信任边界、fail-closed 威胁和外部控制限制；不声称能识别所有恶意意图或认证企业安全。 |
+| `docs/template-adopter-stability-matrix.md` | implemented-different-by-design | `docs/reference/final-replacement-acceptance.md`、`docs/getting-started/standard-adoption-guide.md`、`docs/reference/ci-release-evidence.md` 与 `tests/release/adopter_acceptance.sh` 分布承载模板、采用、生命周期和证据类型边界；模板单独运行不能升级为外部稳定性证明。 |
+| `docs/troubleshooting.md` | implemented-different-by-design | 三语 `docs/reference/troubleshooting.*` 提供停止状态、恢复、证据保留和显式 repository-bound 命令，而不是仅兼容性跳转页。 |
+| `docs/troubleshooting/installation.ja.md` | implemented-different-by-design | `docs/getting-started/installation.ja.md`、`installation-security.ja.md` 和 `docs/reference/troubleshooting.ja.md` 保留不确定即停止、严格 Release 验证和显式 attach，不复制源 wizard 命令。 |
+| `docs/troubleshooting/installation.md` | implemented-different-by-design | `docs/getting-started/installation.md`、`installation-security.md` 和 `docs/reference/troubleshooting.md` 保留不确定即停止、严格 Release 验证和显式 attach，不静默选择移动分支或旧制品。 |
+| `docs/troubleshooting/installation.zh-CN.md` | implemented-different-by-design | `docs/getting-started/installation.zh-CN.md`、`installation-security.zh-CN.md` 和 `docs/reference/troubleshooting.zh-CN.md` 保留中文恢复路径、严格制品绑定和显式 repository context。 |
+
+这是语义/文档 parity，不是源命令、JSON-wire 或 provider 状态兼容。每个已 attach 的对象/adopter 工程都从共享
+Runtime 继承相同的威胁、采用、安装和恢复边界，而 repository facts 与 evidence 继续由显式 `--repo` 隔离。
+WI-388 后台账为 4,262 条 `generated-history`、304 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、4 条 `not-applicable`、47 条 `reference-only`、501 条 `deferred-next-batch`；
+`migrate-gap` 仍为 0。
