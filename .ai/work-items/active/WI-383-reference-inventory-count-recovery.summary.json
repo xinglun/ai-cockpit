@@ -20,7 +20,7 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:494390de941b46e0267fe9e31a6ea8d060872c84444efa99791c13cd4c8d7221",
   "predecessorWorkItemId": "WI-382-reference-inventory-count-truth",
-  "preflightAt": "2026-08-29T05:38:56Z",
+  "preflightAt": "2026-08-29T05:39:33Z",
   "preflightContractDigest": "sha256:cefac2a85a81bf1929c7e618c901c67fb5cd7dd730a33f2fe9bc1f9ab0c6997d",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:0de6a2d6e75de844f6b722c14f24de25d6a59e36dbacda4043ee815b8096bd90",
@@ -28,8 +28,8 @@
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-382-reference-inventory-count-truth.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-08-29T05:34:46Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T05:39:38Z",
   "verification": [
     {
       "check": "project-command-0",
