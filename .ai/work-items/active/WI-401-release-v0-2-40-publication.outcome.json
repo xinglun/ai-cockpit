@@ -6,9 +6,9 @@
     "The current repository installs the verified public v0.2.40 binary, reports COMPATIBLE/doctor ok, and retains auditable acceptance artifacts while main ends ready_on_base with no open release branch.",
     "The three reference-parity ledgers keep exact pre-archive lifecycle rows for this Work Item: In progress → Implemented after verified close, 进行中 → 验证关闭后已实现, and In progress → verified close 後 Implemented, with archive, verification, finalization, and close paths."
   ],
-  "createdAt": "2026-08-29T16:02:24Z",
+  "createdAt": "2026-08-29T16:07:50Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:f78251a3b3916c19ce246247c3efcb500d1ffb05619624e389f8730bfac06170",
+  "evidenceDigest": "sha256:fd4e1c58614a74e3bd4a202c9dddb3b43aaff999c3361c9675a1321d47df7ccd",
   "evidenceRefs": [
     ".ai/evidence/WI-401-release-v0-2-40-publication.verification.json"
   ],
@@ -34,7 +34,7 @@
         ".ai/evidence/WI-401-release-v0-2-40-publication.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:8cdb00ad8f1a4b24318ed3973478eff12dcb96d8f3ecf3664c397fd74b9d1ec9",
+      "repositorySnapshotDigest": "sha256:7b14bace674123990fdaa7e2fae65e9bf98fa0e65d5e02b24cd55b751c93cbef",
       "workItemId": "WI-401-release-v0-2-40-publication"
     },
     "format": "ai-cockpit.task-outcome",
@@ -130,7 +130,7 @@
     "status": "verified",
     "workItemId": "WI-401-release-v0-2-40-publication"
   },
-  "taskReportDigest": "sha256:9b55090017e562871513a72c81b72b6032cea855b296d0229cdb2391e7feebd5",
+  "taskReportDigest": "sha256:e52aa57def481d21b2d05eeb81372e1b902078ed20f99585888a6a5f11c88ae2",
   "taskReportMarkdownDigest": "sha256:ca81c5fe9ed6cffc06c52986ff1479a1416d1c16630982d85b598d624047108a",
   "unknowns": [
     "user_visible_benefit_not_declared"

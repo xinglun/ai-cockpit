@@ -4,7 +4,7 @@
       ".ai/evidence/WI-401-release-v0-2-40-publication.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:8cdb00ad8f1a4b24318ed3973478eff12dcb96d8f3ecf3664c397fd74b9d1ec9",
+    "repositorySnapshotDigest": "sha256:7b14bace674123990fdaa7e2fae65e9bf98fa0e65d5e02b24cd55b751c93cbef",
     "workItemId": "WI-401-release-v0-2-40-publication"
   },
   "format": "ai-cockpit.task-outcome",
