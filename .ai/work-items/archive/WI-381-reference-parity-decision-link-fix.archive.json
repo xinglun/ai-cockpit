@@ -1,0 +1,21 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-29T04:51:45Z",
+  "files": {
+    "contractDigest": "sha256:9349f6771347a3b241468f46f8d4090812a2476fbd7963fcb2d1347e46e03cc7",
+    "contractPath": ".ai/work-items/archive/WI-381-reference-parity-decision-link-fix.contract.json",
+    "eventsDigest": "sha256:e6f0a2489bc0a17fdd301369459c3a735a828c5fa6409324fd9dd23744139e85",
+    "eventsPath": ".ai/work-items/archive/WI-381-reference-parity-decision-link-fix.events.jsonl",
+    "outcomeDigest": "sha256:1e1f403f3d230d0a2110108a5b96045c5efaf892ef0eb6008879bef53c5adde0",
+    "outcomePath": ".ai/work-items/archive/WI-381-reference-parity-decision-link-fix.outcome.json",
+    "summaryDigest": "sha256:30fc46bd18b93196eae6a7396b9de1cb70f16e4c4509bc5343e6e40429739d3a",
+    "summaryPath": ".ai/work-items/archive/WI-381-reference-parity-decision-link-fix.summary.json",
+    "taskReportDigest": "sha256:0e7f8592c077345f841526955ec5da331dfa7e67ec0d95ff990d6aff4fa1b98a",
+    "taskReportMarkdownDigest": "sha256:a51f5e8fa2f4ae977efb93bb38e4cfb2312fd72b7490aaee6782568ffbb8fb38",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-381-reference-parity-decision-link-fix.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-381-reference-parity-decision-link-fix.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-381-reference-parity-decision-link-fix"
+}
