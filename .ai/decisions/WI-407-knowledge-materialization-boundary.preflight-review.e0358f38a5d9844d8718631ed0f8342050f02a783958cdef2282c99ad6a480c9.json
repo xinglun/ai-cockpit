@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:f385a388bf30e2471bca708b15b1b2b3eef7d779330eb3c07b1a3692558e0035",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "reason": "Confirmed the amended Knowledge projection boundary includes CLI and repository-bound MCP surfaces; derived indexes remain non-authoritative and release publication remains separate.",
+  "recordedAt": "2026-08-30T00:30:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:07257e8b724907cf0a9812a6d8aa13c4c204bb706e3995828923032f71ae5c8b",
+  "schemaVersion": 1,
+  "workItemId": "WI-407-knowledge-materialization-boundary"
+}

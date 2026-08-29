@@ -51,7 +51,7 @@ missing. Review the attached profile before relying on evidence reuse.
 | Work Item lifecycle | Start, checkpoint, finish, archive, and close bounded work. | `start`, `checkpoint`, `finish`, `archive`, `close` | Explicit state transitions and receipts. |
 | Verification | Run allowlisted or profile-detected commands with limits. | `ai-cockpit verify --repo <path> ...` | Pass/fail/unknown result and execution evidence. |
 | Evidence reuse | Avoid a repeat run only when all identity bindings match. | Confirmed profile + automatic `verify` | Reuse, or a fail-closed rerun. |
-| Knowledge | Query completed repository-local evidence. | `ai-cockpit knowledge query --repo <path>` | Filtered results; never a second source of truth. |
+| Knowledge | Query completed repository-local evidence and explicitly materialize its derived projection. | `ai-cockpit knowledge query --repo <path>` | Filtered results plus a repository-local write boundary; never a second source of truth. |
 | MCP | Expose the same repository services to an MCP client. | `ai-cockpit mcp --repo <path>` | JSON-RPC result envelopes with explicit binding. |
 | Doctor | Diagnose runtime and repository readiness. | `ai-cockpit doctor --repo <path>` | Actionable diagnostics; no silent repair. |
 | Profile confirmation | Confirm a quality command for controlled reuse. | `ai-cockpit profile confirm --repo <path> --program cargo --args test,--workspace` | New reviewable profile version. |
@@ -353,11 +353,14 @@ ai-cockpit knowledge query --repo /path/to/repository --topic installation
 ```
 
 Knowledge is a projection of repository-local evidence, not a second source of
-truth. Missing, stale, or invalid Work Items and receipts must not become fresh
-claims. The all-Work-Item projection sorts IDs, reports green/yellow/red/unknown
-counts and per-item diagnostics, and binds both the current repository snapshot
-and a deterministic index digest. A malformed or foreign member stays visible
-as `unknown`; it does not hide the other members or fail open.
+truth. An explicit `knowledge query` may create or rebuild `.ai/knowledge/`
+derived indexes and reports `projection.writeBoundary=repository-local-derived`;
+it never authorizes a change. Missing, stale, or invalid Work Items and receipts
+must not become fresh claims. The all-Work-Item projection sorts IDs, reports
+green/yellow/red/unknown counts and per-item diagnostics, and binds both the
+current repository snapshot and a deterministic index digest. A malformed or
+foreign member stays visible as `unknown`; it does not hide the other members or
+fail open.
 Repeated `observe`, `capability show`, and status projections are request-scoped
 reads: they do not create tracked capability/status files or observer caches.
 

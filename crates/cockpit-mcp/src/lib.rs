@@ -99,73 +99,87 @@ pub fn handle_request_for_repo(
                     serde_json::to_value(registry).map_err(|error| error.to_string())
                 })
         }),
-        "knowledge_query" => {
-            require_compatible(repo, runtime).and_then(|_| {
-                cockpit_repository::generate_knowledge(repo)
-                    .map_err(|error| error.to_string())
-                    .map(|index| {
-                        let filter = cockpit_knowledge::Query {
-                            topic: arguments.get("topic").and_then(Value::as_str).map(str::to_owned),
-                            component: arguments.get("component").and_then(Value::as_str).map(str::to_owned),
-                            state: arguments.get("state").and_then(Value::as_str).map(str::to_owned),
-                            work_item_id: arguments.get("workItemId").and_then(Value::as_str).map(str::to_owned),
-                        };
-                        json!({"matchCount": cockpit_knowledge::query(&index, &filter).len(), "results": cockpit_knowledge::query(&index, &filter)})
+        "knowledge_query" => require_compatible(repo, runtime).and_then(|_| {
+            let projection_path = repo.join(".ai/knowledge/index.json");
+            let before = fs::read(&projection_path).ok();
+            cockpit_repository::generate_knowledge(repo)
+                .map_err(|error| error.to_string())
+                .map(|index| {
+                    let after = fs::read(&projection_path).ok();
+                    let materialization = if before.is_none() {
+                        "created"
+                    } else if before != after {
+                        "rebuilt"
+                    } else {
+                        "reused"
+                    };
+                    let filter = cockpit_knowledge::Query {
+                        topic: arguments
+                            .get("topic")
+                            .and_then(Value::as_str)
+                            .map(str::to_owned),
+                        component: arguments
+                            .get("component")
+                            .and_then(Value::as_str)
+                            .map(str::to_owned),
+                        state: arguments
+                            .get("state")
+                            .and_then(Value::as_str)
+                            .map(str::to_owned),
+                        work_item_id: arguments
+                            .get("workItemId")
+                            .and_then(Value::as_str)
+                            .map(str::to_owned),
+                    };
+                    let results = cockpit_knowledge::query(&index, &filter);
+                    json!({
+                        "schemaVersion": 1,
+                        "projection": {
+                            "path": ".ai/knowledge/index.json",
+                            "materialization": materialization,
+                            "writeBoundary": "repository-local-derived",
+                            "authority": "none",
+                            "sourceDigest": index.source_digest
+                        },
+                        "matchCount": results.len(),
+                        "results": results
                     })
-            })
-        }
-        "blockers" => {
-            require_compatible(repo, runtime)
-                .and_then(|_| decision_items(repo, &arguments, "blockers", runtime))
-        }
-        "safe_actions" => {
-            require_compatible(repo, runtime)
-                .and_then(|_| decision_items(repo, &arguments, "safe_actions", runtime))
-        }
+                })
+        }),
+        "blockers" => require_compatible(repo, runtime)
+            .and_then(|_| decision_items(repo, &arguments, "blockers", runtime)),
+        "safe_actions" => require_compatible(repo, runtime)
+            .and_then(|_| decision_items(repo, &arguments, "safe_actions", runtime)),
         "work_item_list" => work_item_list(repo),
         "work_item_get" => work_item_get(repo, &arguments),
-        "work_item_outcome" => {
-            require_compatible(repo, runtime)
-                .and_then(|_| work_item_outcome(repo, &arguments, runtime))
-        }
-        "work_item_status" => {
-            require_compatible(repo, runtime)
-                .and_then(|_| work_item_status(repo, &arguments, runtime))
-        }
-        "work_item_validate" => {
-            require_compatible(repo, runtime)
-                .and_then(|_| work_item_validate(repo, &arguments, runtime))
-        }
+        "work_item_outcome" => require_compatible(repo, runtime)
+            .and_then(|_| work_item_outcome(repo, &arguments, runtime)),
+        "work_item_status" => require_compatible(repo, runtime)
+            .and_then(|_| work_item_status(repo, &arguments, runtime)),
+        "work_item_validate" => require_compatible(repo, runtime)
+            .and_then(|_| work_item_validate(repo, &arguments, runtime)),
         "evidence_get" => evidence_get(repo, &arguments),
-        "delegated_evidence_list" => {
-            require_compatible(repo, runtime).and_then(|_| {
-                let work_item_id = arguments
-                    .get("workItemId")
-                    .and_then(Value::as_str)
-                    .ok_or("workItemId argument is required")?;
-                cockpit_repository::list_delegated_evidence(repo, work_item_id)
-                    .map_err(|error| error.to_string())
-                    .and_then(|receipts| {
-                        serde_json::to_value(receipts).map_err(|error| error.to_string())
-                    })
-            })
-        }
-        "preflight" => {
-            require_compatible(repo, runtime)
-                .and_then(|_| preflight_for_repo(repo, &arguments, runtime))
-        }
+        "delegated_evidence_list" => require_compatible(repo, runtime).and_then(|_| {
+            let work_item_id = arguments
+                .get("workItemId")
+                .and_then(Value::as_str)
+                .ok_or("workItemId argument is required")?;
+            cockpit_repository::list_delegated_evidence(repo, work_item_id)
+                .map_err(|error| error.to_string())
+                .and_then(|receipts| {
+                    serde_json::to_value(receipts).map_err(|error| error.to_string())
+                })
+        }),
+        "preflight" => require_compatible(repo, runtime)
+            .and_then(|_| preflight_for_repo(repo, &arguments, runtime)),
         "work_item_controls" => {
-            require_compatible(repo, runtime)
-                .and_then(|_| work_item_controls(repo, &arguments))
+            require_compatible(repo, runtime).and_then(|_| work_item_controls(repo, &arguments))
         }
-        "work_item_recover" => {
-            require_compatible(repo, runtime)
-                .and_then(|_| work_item_recover(repo, &arguments, runtime))
-        }
+        "work_item_recover" => require_compatible(repo, runtime)
+            .and_then(|_| work_item_recover(repo, &arguments, runtime)),
         "verify" => verify_for_repo(repo, &arguments, runtime),
         "work_item_parallel" => {
-            require_compatible(repo, runtime)
-                .and_then(|_| work_item_parallel(repo, &arguments))
+            require_compatible(repo, runtime).and_then(|_| work_item_parallel(repo, &arguments))
         }
         _ => return error_response(id, -32602, "unknown tool"),
     };

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:19ad1107301cc858ab12dd51ca5f5120297c170a21b38315c4a75a0a55d2d610",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:ea0afe517d5806c1c674b034d5b214a1f5bb5337a41f8d6b5e0a9a96a55f6d78",
+  "reason": "Confirmed bounded implementation of repository-local Knowledge materialization and documentation alignment; release publication remains a separate subsequent Work Item.",
+  "recordedAt": "2026-08-30T00:15:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:bcbf43ab06e0cdfab2e2e544f1f40999c676a3dac9ffd9b2c83dd7eddceb927d",
+  "schemaVersion": 1,
+  "workItemId": "WI-407-knowledge-materialization-boundary"
+}

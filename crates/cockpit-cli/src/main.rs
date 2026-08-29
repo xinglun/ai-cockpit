@@ -18,7 +18,7 @@ use cockpit_repository::{
     scaffold_work_item, start_work_item_with_options, status, verify_resource_finalization,
 };
 use serde_json::json;
-use std::path::PathBuf;
+use std::{fs, path::PathBuf};
 
 mod runtime_identity;
 
@@ -1455,8 +1455,18 @@ fn run() -> Result<()> {
             } => {
                 require_compatible(&repo, &runtime_context)?;
                 if v2 {
+                    let projection_path = repo.join(".ai/knowledge/index.v2.json");
+                    let before = fs::read(&projection_path).ok();
                     let records = cockpit_repository::generate_knowledge_v2(&repo)
                         .context("project knowledge v2")?;
+                    let after = fs::read(&projection_path).ok();
+                    let materialization = if before.is_none() {
+                        "created"
+                    } else if before != after {
+                        "rebuilt"
+                    } else {
+                        "reused"
+                    };
                     let records = records
                         .into_iter()
                         .filter(|record| {
@@ -1470,11 +1480,31 @@ fn run() -> Result<()> {
                                     .is_none_or(|value| &record.work_item_id == value)
                         })
                         .collect::<Vec<_>>();
-                    let output = json!({"schemaVersion": 2, "matchCount": records.len(), "results": records});
+                    let output = json!({
+                        "schemaVersion": 2,
+                        "projection": {
+                            "path": ".ai/knowledge/index.v2.json",
+                            "materialization": materialization,
+                            "writeBoundary": "repository-local-derived",
+                            "authority": "none"
+                        },
+                        "matchCount": records.len(),
+                        "results": records
+                    });
                     println!("{}", serde_json::to_string_pretty(&output)?);
                     return Ok(());
                 }
+                let projection_path = repo.join(".ai/knowledge/index.json");
+                let before = fs::read(&projection_path).ok();
                 let index = generate_knowledge(&repo).context("project knowledge")?;
+                let after = fs::read(&projection_path).ok();
+                let materialization = if before.is_none() {
+                    "created"
+                } else if before != after {
+                    "rebuilt"
+                } else {
+                    "reused"
+                };
                 let results = query(
                     &index,
                     &Query {
@@ -1485,6 +1515,14 @@ fn run() -> Result<()> {
                     },
                 );
                 let output = json!({
+                    "schemaVersion": 1,
+                    "projection": {
+                        "path": ".ai/knowledge/index.json",
+                        "materialization": materialization,
+                        "writeBoundary": "repository-local-derived",
+                        "authority": "none",
+                        "sourceDigest": index.source_digest
+                    },
                     "matchCount": results.len(),
                     "results": results,
                 });

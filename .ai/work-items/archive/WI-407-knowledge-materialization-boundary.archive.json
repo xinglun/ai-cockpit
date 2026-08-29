@@ -1,0 +1,21 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-29T22:23:09Z",
+  "files": {
+    "contractDigest": "sha256:e03c35aa969657ecbc781f768ab6ed43273fb8098ea0b62d64301ab42a3e0be6",
+    "contractPath": ".ai/work-items/archive/WI-407-knowledge-materialization-boundary.contract.json",
+    "eventsDigest": "sha256:80a01af96eeaf365ef8f1103aba898c0a86ed2a66cf9b6a69ba3f3cfd93ebf7f",
+    "eventsPath": ".ai/work-items/archive/WI-407-knowledge-materialization-boundary.events.jsonl",
+    "outcomeDigest": "sha256:2da7c488911000173b0e3360d6205078f6962b208b478e453cdf91d903be49d2",
+    "outcomePath": ".ai/work-items/archive/WI-407-knowledge-materialization-boundary.outcome.json",
+    "summaryDigest": "sha256:6217dc9e367f9a39ddcc463d47bedd56b22b0c722ac9e6be95dc856798c4df4b",
+    "summaryPath": ".ai/work-items/archive/WI-407-knowledge-materialization-boundary.summary.json",
+    "taskReportDigest": "sha256:2f63275a3d5bc98294b7273644e9f125114cdbe124b2368b6843042e84389521",
+    "taskReportMarkdownDigest": "sha256:022282f04565afbd2181b7e469b901848fd0f87bbdc4e906cc5ee9d0c6580320",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-407-knowledge-materialization-boundary.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-407-knowledge-materialization-boundary.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-407-knowledge-materialization-boundary"
+}

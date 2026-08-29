@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:bc07246c67f90574a53fa4c8a5ad920e73b5e8bcd44f647bd61e750c725ecb61",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "reason": "Confirmed the finalization context is part of the same bounded Work Item and the fresh preflight review remains limited to the Knowledge projection change.",
+  "recordedAt": "2026-08-30T01:05:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:07257e8b724907cf0a9812a6d8aa13c4c204bb706e3995828923032f71ae5c8b",
+  "schemaVersion": 1,
+  "workItemId": "WI-407-knowledge-materialization-boundary"
+}

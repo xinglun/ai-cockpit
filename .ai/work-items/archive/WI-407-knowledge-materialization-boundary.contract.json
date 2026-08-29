@@ -1,0 +1,118 @@
+{
+  "acceptanceCriteria": [
+    "The repository-bound MCP knowledge_query response reports the same derived-projection write boundary and never presents the projection as governance authority.",
+    "Attach creates the repository-local .ai/knowledge directory idempotently without inventing records or governance decisions.",
+    "Knowledge query and query --v2 materialize deterministic projections bound to archive source data and report their write boundary; missing, stale, or invalid projections are rebuilt only through the explicit query/refresh path.",
+    "Install, upgrade, profile/configuration, and correction/reconciliation documentation clearly distinguishes Runtime-global behavior from repository-local Knowledge and preserves repository isolation.",
+    "Current repository and a fresh attached adopter pass regression checks proving authoritative archive/evidence/decision records remain unchanged by Knowledge projection.",
+    "Three-language documentation and static tests no longer claim that a query never writes .ai when the Runtime materializes a derived index.",
+    "The resulting behavior is ready for the next immutable release and its post-release adopter acceptance."
+  ],
+  "authority": "human-authorized",
+  "baseRevision": "79e999392e0666faf31edef62dcce5240cb04490",
+  "createdAt": "2026-08-29T21:53:21Z",
+  "goal": "让 Knowledge 的目录、索引、来源 digest 与刷新时机可验证且不会被误认为第二事实源；为本批次发布提供稳定的仓库/对象继承基线。",
+  "intent": "明确并修正 Knowledge 派生投影在 Runtime 安装、仓库 attach、配置升级与纠正流程中的边界，并确保当前工程与对象工程获得一致、可审计的知识物化行为。",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime binary installation without an explicit repository context",
+    "Business code or global Agent/MCP configuration in adopter repositories",
+    "Semantic search",
+    " vector retrieval",
+    " RAG",
+    " or a second knowledge authority",
+    "Release metadata/public publication (handled by the following release Work Item)",
+    "Rewriting historical Contract",
+    " evidence",
+    " archive",
+    " or decision bytes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:bcbf43ab06e0cdfab2e2e544f1f40999c676a3dac9ffd9b2c83dd7eddceb927d",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-407-knowledge-materialization-boundary",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/372",
+    "worktree": "/private/tmp/ai-cockpit-wi407-knowledge-materialization-boundary"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Attach creates a repository-local knowledge directory idempotently without creating records or decisions.",
+      "required": true,
+      "scenario": "attach_knowledge_directory",
+      "status": "unverified",
+      "verificationPlan": "Run attach twice on a fresh repository and compare the scaffold and authoritative records."
+    },
+    {
+      "evidence": [],
+      "expected": "The legacy knowledge query deterministically materializes an index and records from archived Work Items.",
+      "required": true,
+      "scenario": "legacy_knowledge_query_materialization",
+      "status": "unverified",
+      "verificationPlan": "Run the CLI query against an archived fixture and verify source digest, output, and generated paths."
+    },
+    {
+      "evidence": [],
+      "expected": "The v2 knowledge query materializes a repository-bound index without changing authoritative governance bytes.",
+      "required": true,
+      "scenario": "knowledge_v2_query_materialization",
+      "status": "unverified",
+      "verificationPlan": "Run query --v2 and compare Contract, evidence, archive, and decision digests before and after."
+    },
+    {
+      "evidence": [],
+      "expected": "A missing, stale, or malformed derived projection is rebuilt through the explicit query path and never grants authority.",
+      "required": true,
+      "scenario": "stale_knowledge_projection_rebuild",
+      "status": "unverified",
+      "verificationPlan": "Tamper or remove the derived index, change an archived source, and verify deterministic rebuild behavior."
+    },
+    {
+      "evidence": [],
+      "expected": "A fresh attached adopter receives repository-local Knowledge behavior and cannot read or write the Cockpit repository projection.",
+      "required": true,
+      "scenario": "adopter_knowledge_isolation",
+      "status": "unverified",
+      "verificationPlan": "Run the installed Runtime with explicit repository contexts and compare knowledge roots and identities."
+    },
+    {
+      "evidence": [],
+      "expected": "The repository-bound MCP knowledge query materializes only repository-local derived data and reports its boundary.",
+      "required": true,
+      "scenario": "mcp_knowledge_query_materialization",
+      "status": "unverified",
+      "verificationPlan": "Call knowledge_query through the repository-bound MCP handler and assert projection metadata and repository isolation."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/knowledge.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-repository/tests/knowledge_projection.rs",
+    "docs/reference/implementation-knowledge.md",
+    "docs/reference/implementation-knowledge.zh-CN.md",
+    "docs/reference/implementation-knowledge.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/capabilities.md",
+    "docs/capabilities.zh-CN.md",
+    "docs/capabilities.ja.md",
+    "tests/ci/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-407-knowledge-materialization-boundary"
+}

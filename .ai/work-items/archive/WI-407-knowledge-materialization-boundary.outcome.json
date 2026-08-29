@@ -1,0 +1,139 @@
+{
+  "acceptanceResults": [
+    "The repository-bound MCP knowledge_query response reports the same derived-projection write boundary and never presents the projection as governance authority.",
+    "Attach creates the repository-local .ai/knowledge directory idempotently without inventing records or governance decisions.",
+    "Knowledge query and query --v2 materialize deterministic projections bound to archive source data and report their write boundary; missing, stale, or invalid projections are rebuilt only through the explicit query/refresh path.",
+    "Install, upgrade, profile/configuration, and correction/reconciliation documentation clearly distinguishes Runtime-global behavior from repository-local Knowledge and preserves repository isolation.",
+    "Current repository and a fresh attached adopter pass regression checks proving authoritative archive/evidence/decision records remain unchanged by Knowledge projection.",
+    "Three-language documentation and static tests no longer claim that a query never writes .ai when the Runtime materializes a derived index.",
+    "The resulting behavior is ready for the next immutable release and its post-release adopter acceptance."
+  ],
+  "createdAt": "2026-08-29T22:23:06Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:099e06f93f7879ee5479da173f3a65ad084feb6b3c50b1694d65e45e1c206890",
+  "evidenceRefs": [
+    ".ai/evidence/WI-407-knowledge-materialization-boundary.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-407-knowledge-materialization-boundary.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-407-knowledge-materialization-boundary.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:07257e8b724907cf0a9812a6d8aa13c4c204bb706e3995828923032f71ae5c8b",
+      "workItemId": "WI-407-knowledge-materialization-boundary"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-407-knowledge-materialization-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-407-knowledge-materialization-boundary.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-407-knowledge-materialization-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-407-knowledge-materialization-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-407-knowledge-materialization-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-407-knowledge-materialization-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-407-knowledge-materialization-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "让 Knowledge 的目录、索引、来源 digest 与刷新时机可验证且不会被误认为第二事实源；为本批次发布提供稳定的仓库/对象继承基线。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-407-knowledge-materialization-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-407-knowledge-materialization-boundary"
+  },
+  "taskReportDigest": "sha256:2f63275a3d5bc98294b7273644e9f125114cdbe124b2368b6843042e84389521",
+  "taskReportMarkdownDigest": "sha256:022282f04565afbd2181b7e469b901848fd0f87bbdc4e906cc5ee9d0c6580320",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-407-knowledge-materialization-boundary.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-407-knowledge-materialization-boundary"
+}

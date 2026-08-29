@@ -66,6 +66,22 @@ fn knowledge_query_projects_archived_work_item_records_deterministically() {
         .output()
         .expect("attach");
     assert!(attach.status.success());
+    let knowledge_dir = directory.join(".ai/knowledge");
+    assert!(knowledge_dir.is_dir());
+    assert_eq!(
+        fs::read_dir(&knowledge_dir).expect("knowledge dir").count(),
+        0
+    );
+    let attach_again = Command::new(binary)
+        .args(["attach", "--repo"])
+        .arg(&directory)
+        .output()
+        .expect("idempotent attach");
+    assert!(attach_again.status.success());
+    assert_eq!(
+        fs::read_dir(&knowledge_dir).expect("knowledge dir").count(),
+        0
+    );
     let start = Command::new(binary)
         .args(["start", "--repo"])
         .arg(&directory)
@@ -135,6 +151,7 @@ fn knowledge_query_projects_archived_work_item_records_deterministically() {
             String::from_utf8_lossy(&output.stderr)
         );
     }
+    assert!(!knowledge_dir.join("index.json").exists());
     let output = Command::new(binary)
         .args(["knowledge", "query", "--repo"])
         .arg(&directory)
@@ -148,5 +165,42 @@ fn knowledge_query_projects_archived_work_item_records_deterministically() {
     );
     let json: serde_json::Value = serde_json::from_slice(&output.stdout).expect("JSON");
     assert_eq!(json["matchCount"], 1);
+    assert_eq!(json["projection"]["path"], ".ai/knowledge/index.json");
+    assert_eq!(json["projection"]["materialization"], "created");
+    assert_eq!(
+        json["projection"]["writeBoundary"],
+        "repository-local-derived"
+    );
+    assert_eq!(json["projection"]["authority"], "none");
+    assert!(knowledge_dir.join("index.json").is_file());
+
+    let repeated = Command::new(binary)
+        .args(["knowledge", "query", "--repo"])
+        .arg(&directory)
+        .args(["--state", "archived"])
+        .output()
+        .expect("repeated query");
+    assert!(repeated.status.success());
+    let repeated_json: serde_json::Value =
+        serde_json::from_slice(&repeated.stdout).expect("repeated JSON");
+    assert_eq!(repeated_json["projection"]["materialization"], "reused");
+
+    let v2 = Command::new(binary)
+        .args(["knowledge", "query", "--repo"])
+        .arg(&directory)
+        .args(["--v2", "--work-item-id", "WI-K"])
+        .output()
+        .expect("v2 query");
+    assert!(v2.status.success());
+    let v2_json: serde_json::Value = serde_json::from_slice(&v2.stdout).expect("v2 JSON");
+    assert_eq!(v2_json["schemaVersion"], 2);
+    assert_eq!(v2_json["projection"]["path"], ".ai/knowledge/index.v2.json");
+    assert_eq!(v2_json["projection"]["materialization"], "created");
+    assert_eq!(
+        v2_json["projection"]["writeBoundary"],
+        "repository-local-derived"
+    );
+    assert_eq!(v2_json["projection"]["authority"], "none");
+    assert!(knowledge_dir.join("index.v2.json").is_file());
     fs::remove_dir_all(directory).expect("cleanup");
 }

@@ -30,7 +30,8 @@ deleted transition，作为有限的历史 reconciliation。该 transition 必�
 
 | 分组 | 命令 | 边界 |
 | --- | --- | --- |
-| 只读 | `inspect`、`observe`、`status`、`compatibility`、`migrate plan`、`knowledge query`、`capability show`、`diagnose`、`doctor` | 读取 repository 状态或 evidence，不静默修复。 |
+| 只读 | `inspect`、`observe`、`status`、`compatibility`、`migrate plan`、`capability show`、`diagnose`、`doctor` | 读取 repository 状态或 evidence，不静默修复。 |
+| 派生投影 | `knowledge query` | 仅通过显式查询物化或复用仓库本地 `.ai/knowledge/` 索引；报告 `projection.writeBoundary=repository-local-derived`，不会改变治理权威记录。 |
 | 准备 | `attach`、`profile confirm`、`profile propose` | 创建/更新协议状态、确认 profile，或输出只读候选。 |
 | 迁移 | `migrate apply --approved` | 只应用经过审查的 repository schema migration，并写入绑定 Runtime 的 migration receipt。 |
 | 治理 | `preflight` | 读取 Contract，返回 green/yellow/red decision 与 `reviewState`；不完整或不确定的 Contract 为需人工确认的 yellow，不能越过 checkpoint。 |
