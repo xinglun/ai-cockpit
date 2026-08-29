@@ -1,0 +1,64 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-29T05:06:20Z",
+  "checkpointContractDigest": "sha256:494390de941b46e0267fe9e31a6ea8d060872c84444efa99791c13cd4c8d7221",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 2,
+      "contractHash": "sha256:bfd0cf0873825b657d9cd974d14c6175a584429d96a090b4e2f4f27070aa8ce4",
+      "recorded": true,
+      "recordedAt": "2026-08-29T05:06:20Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:582de291f64f082c67a9daa7a9e7b6477fa4799ace39964b49b9b459f897516b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-382-reference-inventory-count-truth"
+    },
+    {
+      "acceptanceCount": 2,
+      "contractHash": "sha256:494390de941b46e0267fe9e31a6ea8d060872c84444efa99791c13cd4c8d7221",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:bfd0cf0873825b657d9cd974d14c6175a584429d96a090b4e2f4f27070aa8ce4",
+      "previousContractHash": "sha256:bfd0cf0873825b657d9cd974d14c6175a584429d96a090b4e2f4f27070aa8ce4",
+      "reason": "前次 verification 在 finalize-plan 之前产生，绑定实际 PR 后必须重新验证，禁止复用旧证据。",
+      "recorded": true,
+      "recordedAt": "2026-08-29T05:09:27Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3f9c95659113730432278d431039a696ef8ecf60ebf25edd1af8319817ed2eb0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-382-reference-inventory-count-truth"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:3f9c95659113730432278d431039a696ef8ecf60ebf25edd1af8319817ed2eb0",
+  "createdAt": "2026-08-29T05:05:33Z",
+  "failedGate": "finish.governance",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-29T05:10:02Z",
+  "preflightContractDigest": "sha256:494390de941b46e0267fe9e31a6ea8d060872c84444efa99791c13cd4c8d7221",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:3f9c95659113730432278d431039a696ef8ecf60ebf25edd1af8319817ed2eb0",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T05:10:06Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-382-reference-inventory-count-truth"
+}
