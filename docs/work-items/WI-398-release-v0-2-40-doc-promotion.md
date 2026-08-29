@@ -4,7 +4,7 @@ title: "WI-398 — v0.2.40 documentation promotion"
 description: "Promote the closed v0.2.40 release-preparation documentation from immutable Runtime evidence."
 workItemId: WI-398-release-v0-2-40-doc-promotion
 audience: [maintainer, reviewer]
-status: implemented
+status: recovered
 authority: human-authorized
 lastVerifiedBy: WI-398-release-v0-2-40-doc-promotion
 capabilityClaims: [documentation_governance, release_distribution]

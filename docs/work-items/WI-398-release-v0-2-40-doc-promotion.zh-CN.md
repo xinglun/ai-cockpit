@@ -4,7 +4,7 @@ title: "WI-398——v0.2.40 文档晋升"
 description: "根据不可变 Runtime 证据，将已关闭的 v0.2.40 发布准备文档晋升为终态。"
 workItemId: WI-398-release-v0-2-40-doc-promotion
 audience: [maintainer, reviewer]
-status: implemented
+status: recovered
 authority: human-authorized
 lastVerifiedBy: WI-398-release-v0-2-40-doc-promotion
 capabilityClaims: [documentation_governance, release_distribution]
