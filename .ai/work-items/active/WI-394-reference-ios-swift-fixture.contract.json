@@ -1,0 +1,72 @@
+{
+  "acceptanceCriteria": [
+    "Each of the four pinned iOS Swift Package fixture files is compared individually and mapped to a Rust-native counterpart or explicitly marked external/non-applicable.",
+    "Tri-language documentation explains Swift Package fixture facts, unknown boundaries, shared external Runtime installation, explicit repository context, and adopter-owned Swift/Xcode checks without hard-copying source implementation.",
+    "Reference inventory, parity index, documentation links, and tri-language Work Item records bind the pinned source commit and remain synchronized.",
+    "The mapping does not claim direct compatibility with source-specific installer, Make, Python, guard YAML, or legacy JSON wire behavior.",
+    "Declared documentation, inventory, and conformance checks pass with installed Runtime evidence."
+  ],
+  "authority": "authorized",
+  "baseRevision": "714538a203a550c47f5d431cf282cc2feb84474a",
+  "createdAt": "2026-08-29T10:19:58Z",
+  "goal": "Establish auditable semantic parity and inheritance boundaries for the four pinned examples/fixtures/ios-swift-package files.",
+  "intent": "Compare the pinned iOS Swift Package fixture files one by one and record Rust-native/adopter mappings without copying Swift/Xcode installation or legacy runtime behavior.",
+  "mode": "docs",
+  "outOfScope": [
+    "Rust Runtime implementation",
+    "Swift/Xcode SDK installation or build orchestration",
+    "Reference installer implementation",
+    "Reference Make integration",
+    "Reference Python guards",
+    "Reference guard YAML",
+    "Legacy wire schema compatibility",
+    "Changes to adopter repositories or global Agent/MCP configuration",
+    "Unrelated reference files and future batches"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:22a27a9c32a70944d109cce822f36605fe966d07cfad9086a2aced5c3d68f20b",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-394-reference-ios-swift-fixture",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi394-reference-ios-swift-fixture"
+  },
+  "risk": "normal",
+  "scope": [
+    "examples/fixtures/ios-swift-package/Package.swift",
+    "examples/fixtures/ios-swift-package/Sources/AppCore/AppCore.swift",
+    "examples/fixtures/ios-swift-package/Tests/AppCoreTests/AppCoreTests.swift",
+    "examples/fixtures/ios-swift-package/fixture.json",
+    "docs/reference/ios-swift-fixture-adaptation.md",
+    "docs/reference/ios-swift-fixture-adaptation.zh-CN.md",
+    "docs/reference/ios-swift-fixture-adaptation.ja.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/README.md",
+    "docs/reference/README.zh-CN.md",
+    "docs/reference/README.ja.md",
+    "docs/work-items/WI-394-reference-ios-swift-fixture.md",
+    "docs/work-items/WI-394-reference-ios-swift-fixture.zh-CN.md",
+    "docs/work-items/WI-394-reference-ios-swift-fixture.ja.md",
+    "tests/conformance/reference_file_inventory.json"
+  ],
+  "sources": [
+    "pinned reference e5acb677da6621004d96f0ef353c58fe8d3acfbf"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-394-reference-ios-swift-fixture"
+}

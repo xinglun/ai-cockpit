@@ -123,7 +123,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=320 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=485 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=481 migrate-gap=0 -->
 
 At the pinned reference comparison baseline, the ledger contains 5,119 records:
 4,262 `generated-history`, 316 `implemented-different-by-design`, one
@@ -1126,4 +1126,28 @@ Flutter SDK/package installation and the reference install implementation are
 not copied. The ledger after WI-393 contains 4,262 `generated-history`, 320
 `implemented-different-by-design`, one `implemented-equivalent`, four
 `not-applicable`, 47 `reference-only`, and 485 `deferred-next-batch` records;
+`migrate-gap` remains zero.
+
+## WI-394 — iOS Swift Package fixture adaptation
+
+WI-394 compares the four pinned iOS Swift Package fixture files one by one at
+source commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf`. Swift package,
+source, and XCTest semantics are mapped to adopter-owned paths and commands;
+fixture metadata is mapped to Project Profile/Observer facts with explicit
+unknown boundaries.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `examples/fixtures/ios-swift-package/Package.swift` | implemented-different-by-design | The SwiftPM product/target topology is adopter/provider-owned build metadata; SDK/Xcode readiness is not inferred by the Runtime. |
+| `examples/fixtures/ios-swift-package/Sources/AppCore/AppCore.swift` | implemented-different-by-design | The `greeting()` source path is adopter-owned Contract scope; Swift execution remains provider-owned. |
+| `examples/fixtures/ios-swift-package/Tests/AppCoreTests/AppCoreTests.swift` | implemented-different-by-design | The XCTest assertion maps to an owner-confirmed `swift test` or Xcode command; the file alone does not prove SDK, simulator, signing, or hosted-CI readiness. |
+| `examples/fixtures/ios-swift-package/fixture.json` | implemented-different-by-design | Project Profile/Observer may record package/toolchain/platform/path facts; `installerStack` and `macos` are metadata, not shared Runtime installation or execution evidence. |
+
+This is semantic/documentation parity, not Apple toolchain support, build
+execution, or source JSON-wire compatibility. Installation intentionally uses
+one shared immutable Runtime outside each adopter plus explicit `attach --repo`;
+SwiftPM/Xcode installation, SDK selection, and source installer behavior are
+not copied. The ledger after WI-394 contains 4,262 `generated-history`, 324
+`implemented-different-by-design`, one `implemented-equivalent`, four
+`not-applicable`, 47 `reference-only`, and 481 `deferred-next-batch` records;
 `migrate-gap` remains zero.

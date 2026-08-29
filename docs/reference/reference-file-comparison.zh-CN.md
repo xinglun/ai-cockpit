@@ -103,7 +103,7 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=320 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=485 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=481 migrate-gap=0 -->
 
 在固定参考源比较基线上，台账共有 5,119 条记录：4,262 条
 `generated-history`、316 条 `implemented-different-by-design`、1 条
@@ -885,4 +885,23 @@ Dart 源码和测试语义映射到 adopter 自己的路径与命令；fixture �
 之外的一份不可变共享 Runtime，并显式 `attach --repo`；Flutter SDK/包安装和参考源安装实现不复制。WI-393
 后清单为 4,262 个 `generated-history`、320 个 `implemented-different-by-design`、1 个
 `implemented-equivalent`、4 个 `not-applicable`、47 个 `reference-only` 和 485 个
+`deferred-next-batch`；`migrate-gap` 仍为零。
+
+## WI-394：iOS Swift Package fixture 适配
+
+WI-394 在固定源提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 上逐一比较四个 iOS Swift Package
+fixture 文件。Swift Package 拓扑、源码和 XCTest 语义映射到 adopter 自己的路径与命令；fixture 元数据
+映射为 Project Profile/Observer 事实，同时明确 Unknown 边界。
+
+| 固定参考路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `examples/fixtures/ios-swift-package/Package.swift` | 有意采用不同实现 | SwiftPM product/target 拓扑是对象工程/Provider 所有的构建元数据；Runtime 不推断 SDK/Xcode 就绪。 |
+| `examples/fixtures/ios-swift-package/Sources/AppCore/AppCore.swift` | 有意采用不同实现 | `greeting()` 源路径属于对象工程 Contract scope；Swift 执行仍由 Provider 负责。 |
+| `examples/fixtures/ios-swift-package/Tests/AppCoreTests/AppCoreTests.swift` | 有意采用不同实现 | XCTest 断言映射为所有者确认的 `swift test` 或 Xcode 命令；文件本身不能证明 SDK、模拟器、签名或托管 CI 就绪。 |
+| `examples/fixtures/ios-swift-package/fixture.json` | 有意采用不同实现 | Project Profile/Observer 可记录 package/toolchain/platform/path 事实；`installerStack` 和 `macos` 是元数据，不是共享 Runtime 安装或执行证据。 |
+
+这是语义/文档对等，不是 Apple 工具链支持、构建执行或源 JSON wire 兼容。安装有意采用每个 adopter
+之外的一份不可变共享 Runtime，并显式 `attach --repo`；SwiftPM/Xcode 安装、SDK 选择和源安装器行为不复制。
+WI-394 后清单为 4,262 个 `generated-history`、324 个 `implemented-different-by-design`、1 个
+`implemented-equivalent`、4 个 `not-applicable`、47 个 `reference-only` 和 481 个
 `deferred-next-batch`；`migrate-gap` 仍为零。
