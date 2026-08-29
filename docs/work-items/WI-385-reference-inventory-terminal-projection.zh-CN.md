@@ -4,9 +4,13 @@ title: "WI-385——参考 inventory 终态投影"
 workItemId: WI-385-reference-inventory-terminal-projection
 description: "在不改写不可变历史的前提下完成 WI-384 关闭后的终态文档投影。"
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-385-reference-inventory-terminal-projection
+terminalArchive: .ai/work-items/archive/WI-385-reference-inventory-terminal-projection.contract.json
+terminalVerification: .ai/evidence/WI-385-reference-inventory-terminal-projection.verification.json
+terminalFinalization: .ai/decisions/WI-385-reference-inventory-terminal-projection.finalize.5000ae21b509964497aa74cb0abb6463b1c0737042b05ae6d130044eed153358.json
+terminalDecision: .ai/decisions/WI-385-reference-inventory-terminal-projection.close.json
 ---
 
 # WI-385——参考 inventory 终态投影

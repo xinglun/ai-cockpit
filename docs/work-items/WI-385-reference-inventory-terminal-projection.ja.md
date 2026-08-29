@@ -4,9 +4,13 @@ title: "WI-385 — reference inventory terminal projection"
 workItemId: WI-385-reference-inventory-terminal-projection
 description: "不変履歴を書き換えずに WI-384 の post-close terminal projection を完了する。"
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-385-reference-inventory-terminal-projection
+terminalArchive: .ai/work-items/archive/WI-385-reference-inventory-terminal-projection.contract.json
+terminalVerification: .ai/evidence/WI-385-reference-inventory-terminal-projection.verification.json
+terminalFinalization: .ai/decisions/WI-385-reference-inventory-terminal-projection.finalize.5000ae21b509964497aa74cb0abb6463b1c0737042b05ae6d130044eed153358.json
+terminalDecision: .ai/decisions/WI-385-reference-inventory-terminal-projection.close.json
 ---
 
 # WI-385 — reference inventory terminal projection
