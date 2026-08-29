@@ -33538,10 +33538,16 @@
     },
     {
       "referencePath": "docs/work-item-style-guide.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "reference-documentation-batch-23",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/work-item-style-guide.md",
+        "docs/reference/work-item-style-guide.zh-CN.md",
+        "docs/reference/work-item-style-guide.ja.md",
+        "docs/reference/contract-fields.md",
+        "docs/reference/repository-workflow.md"
+      ],
+      "reason": "The Rust-native style guide preserves the source's outcome-first, human-owned intent/problem, explicit scope and non-goals, observable acceptance, executable verification, minimal-process, and documentation-before-schema guidance. Contract fields, repository workflow, proportional verification profiles, shared-runtime installation boundaries, and per-repository object-project inheritance are linked as the target's authoritative context; source template metadata, Make/Python commands, and installer/runtime implementation are not copied."
     },
     {
       "referencePath": "examples/csharp/README.md",

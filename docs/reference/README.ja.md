@@ -29,6 +29,7 @@ route index は一般利用者の journey と正確な machine-facing detail を
 - [Governance Profile](governance-profiles.ja.md) — リスクに応じた Light/Standard/Strict route と assurance boundary。
 - [Cockpit Status の読み方](how-to-read-cockpit-status.ja.md) — 人向けの色、証拠、次の action の読み順。
 - [Agent ワークフローとレビュー境界](agent-workflow.ja.md) — Work Item、Outcome、release、安全規則の本 project 向け適用。
+- [Work Item スタイルガイド](work-item-style-guide.ja.md) — 人が所有する intent、scope、acceptance、実行可能な verification の指針。
 - [Verification route](verification-route.ja.md) — 型付き stage、直交する tier/assurance、計画、レシート、CI 境界。
 - [実装 Knowledge](implementation-knowledge.ja.md) — 決定的で evidence-bound な record と query の境界。
 - [Input trust data flow](input-trust-dataflow.ja.md) — provenance 分類と fail-closed な input 処理。
