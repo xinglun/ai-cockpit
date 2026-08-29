@@ -30,6 +30,7 @@ capabilityClaims:
 - [如何阅读 Cockpit 状态](how-to-read-cockpit-status.zh-CN.md)——面向人的颜色、证据和下一步阅读顺序。
 - [Agent 工作流与评审边界](agent-workflow.zh-CN.md)——Work Item、Outcome、发布与安全规则的本工程适配。
 - [Work Item 编写指南](work-item-style-guide.zh-CN.md)——由人拥有的 intent、scope、验收和可执行验证指导。
+- [C# 技术栈适配](csharp-adaptation.zh-CN.md)——Rust 原生的 C#/.NET adopter 映射与明确的安装边界。
 - [Verification 路线](verification-route.zh-CN.md)——类型化阶段、正交 tier/assurance、计划、回执和 CI 边界。
 - [实现知识](implementation-knowledge.zh-CN.md)——确定性、证据绑定的记录和查询边界。
 - [输入信任数据流](input-trust-dataflow.zh-CN.md)——来源分类和 fail-closed 输入处理。

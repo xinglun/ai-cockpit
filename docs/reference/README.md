@@ -31,6 +31,7 @@ separate from exact machine-facing details:
 - [How to read Cockpit status](how-to-read-cockpit-status.md) — a person-facing reading order for colors, evidence, and next actions.
 - [Agent workflow and review boundaries](agent-workflow.md) — inherited Work Item, Outcome, release, and safety rules.
 - [Work Item style guide](work-item-style-guide.md) — human-owned intent, scope, acceptance, and executable verification guidance.
+- [C# stack adaptation](csharp-adaptation.md) — Rust-native C#/.NET adopter mapping with an explicit installation boundary.
 - [Verification route](verification-route.md) — typed stages, orthogonal tier/assurance, planning, receipts, and CI boundary.
 - [Implementation knowledge](implementation-knowledge.md) — deterministic, evidence-bound records and query limits.
 - [Input trust data flow](input-trust-dataflow.md) — provenance classification and fail-closed input handling.

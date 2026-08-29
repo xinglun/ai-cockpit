@@ -123,11 +123,11 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=311 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=494 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=312 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=493 migrate-gap=0 -->
 
 At the pinned reference comparison baseline, the ledger contains 5,119 records:
-4,262 `generated-history`, 310 `implemented-different-by-design`, one
-`implemented-equivalent`, four `not-applicable`, 47 `reference-only`, and 495
+4,262 `generated-history`, 312 `implemented-different-by-design`, one
+`implemented-equivalent`, four `not-applicable`, 47 `reference-only`, and 493
 `deferred-next-batch` records. Deferred records remain scheduled work, not
 parity claims. The capability/profile slice has no remaining `migrate-gap`
 records:
@@ -1056,3 +1056,26 @@ identity stay isolated by explicit `--repo`. The ledger after WI-390 contains
 4,262 `generated-history`, 311 `implemented-different-by-design`, one
 `implemented-equivalent`, four `not-applicable`, 47 `reference-only`, and 494
 `deferred-next-batch` records; `migrate-gap` remains zero.
+
+## WI-391 — C# adaptation example
+
+WI-391 compares the pinned `examples/csharp/README.md` section by section at
+source commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf`. The source's four
+concerns—installation, .NET quality checks and coverage boundaries, Contract
+design, and guideline-compliance evidence—are represented by a tri-language
+Rust-native C# adaptation page and existing installation, Contract, and
+verification references.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `examples/csharp/README.md` | implemented-different-by-design | `docs/reference/csharp-adaptation.md`, `.zh-CN.md`, and `.ja.md`, with links to the shared Runtime installation, Contract fields, and verification route. The source semantics are retained, but `install.sh`, `Makefile.ai.stack`, source guard/Python orchestration, and legacy JSON-wire examples remain external or non-compatible by design. |
+
+This is semantic/documentation parity, not C# toolchain support or a second
+technology adopter acceptance claim. A future C# adopter receipt must use an
+immutable public Release and its own repository context. The shared Runtime is
+installed once outside the adopter, while `.ai/`, Contract, evidence, and
+project policy remain repository-local and isolated by explicit `--repo`.
+The ledger after WI-391 contains 4,262 `generated-history`, 312
+`implemented-different-by-design`, one `implemented-equivalent`, four
+`not-applicable`, 47 `reference-only`, and 493 `deferred-next-batch` records;
+`migrate-gap` remains zero.

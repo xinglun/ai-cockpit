@@ -103,11 +103,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=311 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=494 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=312 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=493 migrate-gap=0 -->
 
 在固定参考源比较基线上，台账共有 5,119 条记录：4,262 条
-`generated-history`、310 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、4 条 `not-applicable`、47 条 `reference-only` 与 495 条
+`generated-history`、312 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、4 条 `not-applicable`、47 条 `reference-only` 与 493 条
 `deferred-next-batch`。deferred 记录仍是待比较工作，不是 parity 声明。
 capability/profile slice 已没有 `migrate-gap`：
 
@@ -832,3 +832,19 @@ WI-390 逐段比较固定源文件 `docs/work-item-style-guide.md`。其面向�
 | `docs/work-item-style-guide.md` | 有意采用不同实现 | `docs/reference/work-item-style-guide.md`、`.zh-CN.md` 和 `.ja.md`，由 reference index 链接，并以 `contract-fields` 与 `repository-workflow` 为上下文。页面保留由人拥有的 intent/problem/constraints/rationale、显式 scope/non-goals、机器可检查验收、可执行验证、相称 profile 和对象/采用方工程继承；不复制源元数据、Python/Make 命令、installer 行为或 Runtime 实现。 |
 
 这是语义/文档对等，不是源命令或 JSON wire 兼容。共享 Runtime 仍在每个对象工程之外；每个 attach 的仓库通过自己的 `.ai/` 与 adapter 继承同样的面向读者边界，而 Contract、evidence、knowledge 和 repository identity 继续由显式 `--repo` 隔离。WI-390 后清单为 4,262 个 `generated-history`、311 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、4 个 `not-applicable`、47 个 `reference-only` 和 494 个 `deferred-next-batch`；`migrate-gap` 仍为零。
+
+## WI-391：C# 适配示例
+
+WI-391 在固定源提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 上逐节比较
+`examples/csharp/README.md`。源文件的四项关注点——安装、.NET 质量检查与 coverage 边界、Contract
+设计以及 guideline 合规 evidence——由三语 Rust 原生 C# 适配页及现有安装、Contract、verification
+参考共同承载。
+
+| 固定参考路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `examples/csharp/README.md` | 有意采用不同实现 | `docs/reference/csharp-adaptation.md`、`.zh-CN.md`、`.ja.md`，并链接共享 Runtime 安装、Contract 字段和 verification route。保留源语义，但 `install.sh`、`Makefile.ai.stack`、源 guard/Python 编排以及旧 JSON-wire 示例按设计保持外部或不兼容。 |
+
+这是语义/文档对等，不是 C# 工具链支持或第二技术栈 adopter 验收声明。未来 C# adopter 回执必须使用不可变公开 Release 与自己的 repository context。共享 Runtime 在 adopter 外安装一次，`.ai/`、Contract、evidence 和项目 policy 仍在 repository 内，由显式 `--repo` 隔离。
+WI-391 后清单为 4,262 个 `generated-history`、312 个 `implemented-different-by-design`、1 个
+`implemented-equivalent`、4 个 `not-applicable`、47 个 `reference-only` 和 493 个
+`deferred-next-batch`；`migrate-gap` 仍为零。
