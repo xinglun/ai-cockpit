@@ -1,0 +1,21 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-29T05:47:49Z",
+  "files": {
+    "contractDigest": "sha256:3aab7b2ead42a9235dc1ba23be15e1d458fca02097b0459d25b155764c6a6fa9",
+    "contractPath": ".ai/work-items/archive/WI-384-reference-inventory-archive-order.contract.json",
+    "eventsDigest": "sha256:63d74632aa6442c16231c9d17f208189dba4843707f27856b3032e2bb6504e32",
+    "eventsPath": ".ai/work-items/archive/WI-384-reference-inventory-archive-order.events.jsonl",
+    "outcomeDigest": "sha256:5372fd4980ef0e3a2d1f159f17c8333039fbe82d01cb7d2cdbe94595e1308b04",
+    "outcomePath": ".ai/work-items/archive/WI-384-reference-inventory-archive-order.outcome.json",
+    "summaryDigest": "sha256:0f3de463b7d44bca385725efc678e45191734cd52f5dee263c0aaddd39832bce",
+    "summaryPath": ".ai/work-items/archive/WI-384-reference-inventory-archive-order.summary.json",
+    "taskReportDigest": "sha256:07e50384839f152bca3ac8538b869b8e73c533455df530af0eb4960520b36e61",
+    "taskReportMarkdownDigest": "sha256:df74927d483afd70c4e12f6b625c8f29077a4f262ea0dfc57f40054c88eefab1",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-384-reference-inventory-archive-order.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-384-reference-inventory-archive-order.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-384-reference-inventory-archive-order"
+}

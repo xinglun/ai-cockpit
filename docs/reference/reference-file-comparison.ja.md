@@ -110,8 +110,8 @@ complete parity とは扱いません。
 <!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=292 implemented-equivalent=1 not-applicable=4 reference-only=45 deferred-next-batch=515 migrate-gap=0 -->
 
 固定した reference comparison baseline の ledger は 5,119 records です。内訳は
-4,262 `generated-history`、275 `implemented-different-by-design`、1
-`implemented-equivalent`、4 `not-applicable`、42 `reference-only`、535 `deferred-next-batch` です。
+4,262 `generated-history`、292 `implemented-different-by-design`、1
+`implemented-equivalent`、4 `not-applicable`、45 `reference-only`、515 `deferred-next-batch` です。
 Deferred record は予定された比較であり parity claim ではありません。
 capability/profile slice に `migrate-gap` は残っていません。
 
@@ -122,7 +122,7 @@ capability/profile slice に `migrate-gap` は残っていません。
 
 Governance entrypoint、getting-started route、CI/release boundary、capability/profile
 projection はこの baseline で review 済みです。上記 4 件は bounded な Rust-native counterpart として登録済みで、
-556 deferred semantic comparison は後続作業として残ります。
+515 deferred semantic comparison は後続作業として残ります。
 
 WI-274 は target checkout metadata と canonical comparison snapshot だけを、レビュー済み
 default branch commit に再バインドします。WI-273 は immutable な failed-delivery record として

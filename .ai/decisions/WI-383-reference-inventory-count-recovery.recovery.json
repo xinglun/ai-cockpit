@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "human:repository-owner",
+  "decidedAt": "2026-08-29T05:48:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-383-reference-inventory-count-recovery.archive.json",
+    ".ai/evidence/WI-383-reference-inventory-count-recovery.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/347"
+  ],
+  "policyRefs": [
+    "docs/reference/repository-workflow.md",
+    "docs/reference/governance-integrity-gate.md"
+  ],
+  "predecessorContractDigest": "sha256:cefac2a85a81bf1929c7e618c901c67fb5cd7dd730a33f2fe9bc1f9ab0c6997d",
+  "predecessorEventsDigest": "sha256:7758d4f5c85d572e4f5f8843fabab6ee4e71447119199f2d2ae18605be1fe9d1",
+  "predecessorOutcomeDigest": "sha256:6f48ea82ca2461ea2e07b17bd0b69c1af4eeb878664b22c194b8a1120ab5104c",
+  "predecessorSummaryDigest": "sha256:fce85ceab7a56c651d265a80b2b67100fc2d8709f2a3accabf0353c0ba9bd2cb",
+  "predecessorWorkItemId": "WI-383-reference-inventory-count-recovery",
+  "reason": "WI-383 archive correctly rejected verification after a post-verify governance commit changed the bound repository snapshot. Preserve WI-383 bytes and redeliver the same bounded documentation correction with verify-finish-archive ordering before committing generated lifecycle records.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Create a clean successor from origin/main, preserve predecessor bytes, register tri-language parity before verification, run verify then finish then archive before committing generated records, pass hosted checks, merge, finalize, close, and clean exact resources.",
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-384-reference-inventory-archive-order",
+  "workItemId": "WI-383-reference-inventory-count-recovery"
+}

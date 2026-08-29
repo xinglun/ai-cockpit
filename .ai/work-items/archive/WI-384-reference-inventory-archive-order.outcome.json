@@ -1,0 +1,271 @@
+{
+  "acceptanceResults": [
+    "三语 reference-file-comparison 正文统计与 reference-inventory-counts 注释及实际台账完全一致",
+    "三语 reference-parity 台账在验证证据写入前登记 WI-382、WI-383 的恢复行与 WI-384 的进行中行，且状态、记录路径和语言投影一致",
+    "不修改 WI-382/WI-383 的归档事实，不修改机器 inventory、Runtime 行为或全局 Agent/MCP 配置",
+    "Work Item 文档三语存在、身份一致、链接互相可达，并与恢复证据保持可审计边界",
+    "verify 后先 finish、再 archive，生成的 lifecycle records 在 archive 成功后统一提交，避免 verification snapshot 失效",
+    "文档、inventory、work-item status 和 governance integrity gates 全部通过"
+  ],
+  "createdAt": "2026-08-29T05:47:45Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:fc2cbe8e9e08688f88cdf3bc69409df97a2005dc294dd3ff4807c0585b508c5c",
+  "evidenceRefs": [
+    ".ai/evidence/WI-384-reference-inventory-archive-order.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-384-reference-inventory-archive-order.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-384-reference-inventory-archive-order.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:49931db50d2c23cc4f794d4cbee65e0230b64aa9b1ae22c4b9559f430b7e90cc",
+      "workItemId": "WI-384-reference-inventory-archive-order"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-384-reference-inventory-archive-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-382-reference-inventory-count-truth.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-384-reference-inventory-archive-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-383-reference-inventory-count-recovery.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-384-reference-inventory-archive-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-382-reference-inventory-count-truth.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-384-reference-inventory-archive-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-383-reference-inventory-count-recovery.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-384-reference-inventory-archive-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-384-reference-inventory-archive-order.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-384-reference-inventory-archive-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-384-reference-inventory-archive-order.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-384-reference-inventory-archive-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-382-reference-inventory-count-truth.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-384-reference-inventory-archive-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-382-reference-inventory-count-truth.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-384-reference-inventory-archive-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-382-reference-inventory-count-truth.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-384-reference-inventory-archive-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-382-reference-inventory-count-truth.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-384-reference-inventory-archive-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-382-reference-inventory-count-truth.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-384-reference-inventory-archive-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-382-reference-inventory-count-truth.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-384-reference-inventory-archive-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-382-reference-inventory-count-truth.task-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-384-reference-inventory-archive-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-383-reference-inventory-count-recovery.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-384-reference-inventory-archive-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-383-reference-inventory-count-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-384-reference-inventory-archive-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-383-reference-inventory-count-recovery.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-384-reference-inventory-archive-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-383-reference-inventory-count-recovery.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-384-reference-inventory-archive-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-383-reference-inventory-count-recovery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-384-reference-inventory-archive-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-383-reference-inventory-count-recovery.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-384-reference-inventory-archive-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-383-reference-inventory-count-recovery.task-report.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-384-reference-inventory-archive-order.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-384-reference-inventory-archive-order.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-384-reference-inventory-archive-order.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-384-reference-inventory-archive-order.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-384-reference-inventory-archive-order.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-384-reference-inventory-archive-order.contract.json"
+          ],
+          "inference": false,
+          "text": "从 origin/main 清洁基线重建参考 inventory 文档恢复，严格执行 verify、finish、archive 后再提交生成记录，避免快照绑定漂移"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-384-reference-inventory-archive-order.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-384-reference-inventory-archive-order"
+  },
+  "taskReportDigest": "sha256:07e50384839f152bca3ac8538b869b8e73c533455df530af0eb4960520b36e61",
+  "taskReportMarkdownDigest": "sha256:df74927d483afd70c4e12f6b625c8f29077a4f262ea0dfc57f40054c88eefab1",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-384-reference-inventory-archive-order.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-384-reference-inventory-archive-order"
+}

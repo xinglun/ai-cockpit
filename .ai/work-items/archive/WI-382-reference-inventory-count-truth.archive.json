@@ -1,0 +1,21 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-29T05:10:10Z",
+  "files": {
+    "contractDigest": "sha256:6b7dca66980d94662daede9d847304f3688fa50f999ab48583fea354763b2b2c",
+    "contractPath": ".ai/work-items/archive/WI-382-reference-inventory-count-truth.contract.json",
+    "eventsDigest": "sha256:24047ab0e9d7cf8899372e143d648fb5491244053bdaa72991581e06ab56b1f2",
+    "eventsPath": ".ai/work-items/archive/WI-382-reference-inventory-count-truth.events.jsonl",
+    "outcomeDigest": "sha256:dd841044b849184718a177787154683abdcc89a2ed0b8ccaf2522bf6661cb8a5",
+    "outcomePath": ".ai/work-items/archive/WI-382-reference-inventory-count-truth.outcome.json",
+    "summaryDigest": "sha256:fc439b66f25412342d158d7ebc99dfef476906a994231883fd338661b153a232",
+    "summaryPath": ".ai/work-items/archive/WI-382-reference-inventory-count-truth.summary.json",
+    "taskReportDigest": "sha256:ebbecf024cb1699b7dc960a6aa03fce2b006c88345eb124a25e4c92ac4d114c1",
+    "taskReportMarkdownDigest": "sha256:27726134d1a1a76f8114819b6ffa95fac9de3f9daca1946b84523669789e1aad",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-382-reference-inventory-count-truth.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-382-reference-inventory-count-truth.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-382-reference-inventory-count-truth"
+}

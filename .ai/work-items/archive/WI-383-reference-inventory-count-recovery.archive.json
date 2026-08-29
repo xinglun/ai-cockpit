@@ -1,0 +1,21 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-29T05:40:00Z",
+  "files": {
+    "contractDigest": "sha256:d7e83676f640cad6712ac9621b5084ea232dd97ece3173175f2dbd1a37864d92",
+    "contractPath": ".ai/work-items/archive/WI-383-reference-inventory-count-recovery.contract.json",
+    "eventsDigest": "sha256:7758d4f5c85d572e4f5f8843fabab6ee4e71447119199f2d2ae18605be1fe9d1",
+    "eventsPath": ".ai/work-items/archive/WI-383-reference-inventory-count-recovery.events.jsonl",
+    "outcomeDigest": "sha256:a88c98e7b5f21169e96d950daa6351c4d2a82ef1f5100a85f91358da4c4c5264",
+    "outcomePath": ".ai/work-items/archive/WI-383-reference-inventory-count-recovery.outcome.json",
+    "summaryDigest": "sha256:bf5689603ac33dbd86840a0fdd0fd2292d1695b4be3dcbd62d64da2a1a2ca8fc",
+    "summaryPath": ".ai/work-items/archive/WI-383-reference-inventory-count-recovery.summary.json",
+    "taskReportDigest": "sha256:a5dd1ffa86bf64047c3cc4268f14cafa27659d385c7f85484710b9a83d13e0fb",
+    "taskReportMarkdownDigest": "sha256:d30782c19a3b7a04b857ec135a913a7547006af98cd3b41699e31f9a23616ee5",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-383-reference-inventory-count-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-383-reference-inventory-count-recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-383-reference-inventory-count-recovery"
+}
