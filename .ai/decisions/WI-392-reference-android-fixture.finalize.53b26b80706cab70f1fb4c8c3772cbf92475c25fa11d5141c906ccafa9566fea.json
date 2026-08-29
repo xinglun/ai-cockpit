@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:4329343afd8ba2af494a931f80c78988bd5a8ef16fd0cf53ad0c6aab0184e836",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "post-merge-exact-resource-cleanup",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "fcdea9ecead62de366f6e30b3124b2a74ad97557",
+      "name": "codex/wi-392-reference-android-fixture",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:d0f64b49282e5cfbc452ffe4c0e953d99c8b8768a315453a94f5b1120fa5a6f0",
+    "operationId": "github-pr-356-delete-cleanup-20260829",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "e75009c626748f3165281867811670f4aad539bd",
+      "headRevision": "fcdea9ecead62de366f6e30b3124b2a74ad97557",
+      "mergeCommit": "e5cc7267e41f8b66ec4c1df7045517ae1dbfd50e",
+      "number": 356,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/356"
+    },
+    "reason": "PR #356 merged as e5cc726; the exact remote branch and dedicated worktree were removed after clean-state verification.",
+    "receiptId": "ai-cockpit-WI-392-reference-android-fixture-deleted-20260829",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-392-reference-android-fixture",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/356",
+      "worktree": "/private/tmp/ai-cockpit-wi392-reference-android-fixture"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+    "runtimeVersion": "0.2.39",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-29T09:50:00Z",
+    "workItemId": "WI-392-reference-android-fixture",
+    "worktree": {
+      "branch": "codex/wi-392-reference-android-fixture",
+      "headRevision": "fcdea9ecead62de366f6e30b3124b2a74ad97557",
+      "path": "/private/tmp/ai-cockpit-wi392-reference-android-fixture",
+      "worktreeId": "WI-392-reference-android-fixture"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-392-reference-android-fixture-resources-deleted"
+}
