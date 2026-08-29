@@ -1,0 +1,44 @@
+{
+  "acceptanceCriteria": [
+    "三语 reference-file-comparison 正文统计与 reference-inventory-counts 注释及实际台账完全一致",
+    "不修改机器台账、历史 evidence 或 Runtime 行为；文档验收与治理门通过"
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "bd12563d549de972754c82d8d7b484473933f52e",
+  "createdAt": "2026-08-29T05:05:33Z",
+  "goal": "建立单一且准确的参考文件比较计数基线，避免后续批次依据错误数字",
+  "intent": "修正三语参考文件比较文档中的过期分类统计，使正文与机器可读台账一致",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime代码",
+    "tests/conformance/reference_file_inventory.json",
+    ".ai生成记录",
+    "发布产物",
+    "全局Agent/MCP配置"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6aa087913cbc3ea2f36cbadfa3152e1de1c7cadf45a5e05c0d1e390988c8fe03",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-382-reference-inventory-count-truth",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi382-reference-inventory-count-truth"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-382-reference-inventory-count-truth"
+}
