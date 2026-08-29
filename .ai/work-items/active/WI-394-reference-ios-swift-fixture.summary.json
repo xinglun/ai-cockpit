@@ -6,17 +6,23 @@
   "checkpointAt": "2026-08-29T10:20:42Z",
   "checkpointContractDigest": "sha256:77cdd71add46ddda401f429eb3905ecdc08546fcf249280d2cfebc8b4b8f2028",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:22a27a9c32a70944d109cce822f36605fe966d07cfad9086a2aced5c3d68f20b",
+  "checkpointRepositorySnapshotDigest": "sha256:e55563733affd91fe976f32fdeefd77938097634bcb69c462b714ae7aede88aa",
   "createdAt": "2026-08-29T10:19:58Z",
   "mode": "docs",
-  "preflightAt": "2026-08-29T10:20:42Z",
+  "preflightAt": "2026-08-29T10:28:27Z",
   "preflightContractDigest": "sha256:77cdd71add46ddda401f429eb3905ecdc08546fcf249280d2cfebc8b4b8f2028",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:22a27a9c32a70944d109cce822f36605fe966d07cfad9086a2aced5c3d68f20b",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:e55563733affd91fe976f32fdeefd77938097634bcb69c462b714ae7aede88aa",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-08-29T10:20:42Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-394-reference-ios-swift-fixture"
 }
