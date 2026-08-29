@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "release-adopter-manual-adopter-lifecycle",
+  "operationId": "delete-manual-adopter-lifecycle",
+  "repositoryId": "sha256:74f852847674b405d81bf3480b83c2e469c45702735b1479330d1052b66f8562",
+  "workItemId": "manual-adopter-lifecycle",
+  "runtimeVersion": "0.2.39",
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "provider": "manual-adopter-release-acceptance",
+  "pullRequest": {
+    "number": 1,
+    "url": "acceptance://v0.2.39/manual-adopter-lifecycle",
+    "headRevision": "2b46767623b3db7e966aea9ae9667a80525fc195",
+    "baseBranch": "manual-adopter-lifecycle",
+    "baseRemote": "local",
+    "baseRevision": "d39129ad4ae09319918bcbfeb663ed198437e99f",
+    "mergeCommit": "2b46767623b3db7e966aea9ae9667a80525fc195"
+  },
+  "branch": {
+    "name": "manual-adopter-lifecycle",
+    "remote": "local",
+    "headRevision": "2b46767623b3db7e966aea9ae9667a80525fc195"
+  },
+  "worktree": {
+    "worktreeId": "manual-adopter-lifecycle",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-adopter",
+    "branch": "manual-adopter-lifecycle",
+    "headRevision": "2b46767623b3db7e966aea9ae9667a80525fc195"
+  },
+  "before": {
+    "pullRequest": "merged",
+    "branch": "present",
+    "worktree": "clean"
+  },
+  "after": {
+    "pullRequest": "merged",
+    "branch": "deleted",
+    "worktree": "removed"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "actor": "harness:release-adopter",
+  "authoritySource": "release-adopter-acceptance",
+  "reason": "The isolated adopter lifecycle branch and worktree were removed before close.",
+  "timestamp": "2026-08-29T01:33:08Z",
+  "contractDigest": "sha256:266418b98ad6f11169776c13dd848d033e9222f2410277d24e38204d4caf19eb",
+  "resourceContext": {
+    "branch": "manual-adopter-lifecycle",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-adopter",
+    "baseBranch": "manual-adopter-lifecycle",
+    "baseRemote": "local",
+    "provider": "manual-adopter-release-acceptance",
+    "pullRequest": "acceptance://v0.2.39/manual-adopter-lifecycle"
+  }
+}

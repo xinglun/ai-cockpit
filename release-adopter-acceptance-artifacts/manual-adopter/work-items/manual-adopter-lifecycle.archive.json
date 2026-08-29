@@ -1,0 +1,21 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-29T01:32:18Z",
+  "files": {
+    "contractDigest": "sha256:266418b98ad6f11169776c13dd848d033e9222f2410277d24e38204d4caf19eb",
+    "contractPath": ".ai/work-items/archive/manual-adopter-lifecycle.contract.json",
+    "eventsDigest": "sha256:48bad13d14084f61d8370d2dee853fec3459bbbd78effc3ecc5e6944fdcc977c",
+    "eventsPath": ".ai/work-items/archive/manual-adopter-lifecycle.events.jsonl",
+    "outcomeDigest": "sha256:12a7b5ce8cf20d7ee281d7530f77b10491ab95e26c9ca17ca33f47468752fbfe",
+    "outcomePath": ".ai/work-items/archive/manual-adopter-lifecycle.outcome.json",
+    "summaryDigest": "sha256:11798c01d4379b1338b28c8ab221477eed20c724bf5559ae7adb6a8decf2988d",
+    "summaryPath": ".ai/work-items/archive/manual-adopter-lifecycle.summary.json",
+    "taskReportDigest": "sha256:08bb10479bd93161e16b5fe6df9060b54c0e6122a407d7b794dd77d27f01506e",
+    "taskReportMarkdownDigest": "sha256:f3755712c859f67f558ca6799832214bd64914bca9a1552ce10f9cbc475802d1",
+    "taskReportMarkdownPath": ".ai/work-items/archive/manual-adopter-lifecycle.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/manual-adopter-lifecycle.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "manual-adopter-lifecycle"
+}

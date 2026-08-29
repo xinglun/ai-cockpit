@@ -1,0 +1,20 @@
+{
+  "state": "red",
+  "blockers": [
+    "scope_exceeded"
+  ],
+  "unknowns": [
+    "required_evidence_missing"
+  ],
+  "safe_actions": [
+    "collect_required_evidence",
+    "stop_and_request_new_contract"
+  ],
+  "required_checks": [
+    "scope",
+    "verification"
+  ],
+  "authority": "authorized",
+  "outcome_state": "blocked",
+  "reviewState": "blocked"
+}

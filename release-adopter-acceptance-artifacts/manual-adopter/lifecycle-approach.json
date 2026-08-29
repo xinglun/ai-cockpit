@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 2,
+  "repositoryId": "sha256:e520922b6228784e68a3ad0c6f9c2a5b0bff504a16fdd2d72e83b1fb9dd4d539",
+  "workItemId": "manual-adopter-lifecycle",
+  "repositorySnapshotDigest": "sha256:6b1779e17c183494c4b7afe77b47dd433233cac72b18aa158686ea6cce4197d5",
+  "facts": [
+    {
+      "key": "baseRevision",
+      "value": "d060b4a6e39667336d131a935ba1cd32b512ed6e",
+      "origin": "observed",
+      "evidenceRefs": [
+        "git:HEAD"
+      ],
+      "confidence": "high"
+    },
+    {
+      "key": "buildSystems",
+      "value": [
+        "Cargo"
+      ],
+      "origin": "observed",
+      "evidenceRefs": [
+        "repository-snapshot"
+      ],
+      "confidence": "high"
+    },
+    {
+      "key": "languages",
+      "value": [
+        "Rust"
+      ],
+      "origin": "observed",
+      "evidenceRefs": [
+        "repository-snapshot"
+      ],
+      "confidence": "high"
+    },
+    {
+      "key": "repositoryId",
+      "value": "sha256:e520922b6228784e68a3ad0c6f9c2a5b0bff504a16fdd2d72e83b1fb9dd4d539",
+      "origin": "observed",
+      "evidenceRefs": [
+        ".ai/cockpit.toml"
+      ],
+      "confidence": "high"
+    }
+  ],
+  "derivations": [
+    {
+      "key": "verificationCapability",
+      "value": [
+        {
+          "args": [
+            "test",
+            "--workspace"
+          ],
+          "program": "cargo",
+          "state": "detected"
+        }
+      ],
+      "rule": "observer.quality_commands_from_detected_build_system",
+      "inputFactKeys": [
+        "buildSystems"
+      ],
+      "evidenceRefs": [
+        "repository-snapshot"
+      ],
+      "confidence": "medium"
+    }
+  ],
+  "unknowns": [],
+  "evidenceRefs": [
+    ".ai/work-items/active/manual-adopter-lifecycle",
+    "repository-snapshot"
+  ]
+}

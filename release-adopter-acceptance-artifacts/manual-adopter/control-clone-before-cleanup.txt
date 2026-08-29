@@ -1,0 +1,4 @@
+control_clone=/tmp/wi376-manual-adopter-final/adopter-control
+control_head=2b46767623b3db7e966aea9ae9667a80525fc195
+feature_branch_removed=0
+fixed adopter path removed before finalization

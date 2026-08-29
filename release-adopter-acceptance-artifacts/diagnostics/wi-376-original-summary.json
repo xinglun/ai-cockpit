@@ -1,0 +1,22 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-376-release-adopter-acceptance.contract.json",
+    ".ai/work-items/active/WI-376-release-adopter-acceptance.summary.json"
+  ],
+  "checkpointAt": "2026-08-29T01:10:25Z",
+  "checkpointContractDigest": "sha256:ca54855b7f22250b914892b8de4ea6cdd0e3401c673f4d496e0a8d544be6c29e",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:d69605c1e38ad6ff8ef49b3f08bd7a2254f12a6b9a47254ca4cd259e9dbb8fa5",
+  "createdAt": "2026-08-29T01:09:35Z",
+  "mode": "release",
+  "preflightAt": "2026-08-29T01:38:18Z",
+  "preflightContractDigest": "sha256:6b87c5f549dde7cc45c87d36f8030333e6500d828751f6fcce330f7ab2186a45",
+  "preflightDecisionDigest": "sha256:23ab9d52ca3a22d0e64f878db44b9e8dff77030ece0e3ba4193b923922377a50",
+  "preflightRepositorySnapshotDigest": "sha256:3487424c69e2b4d5e51e8a98f173043758d41fafb660f65f0b971c952d77c631",
+  "preflightState": "red",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-29T01:10:25Z",
+  "workItemId": "WI-376-release-adopter-acceptance"
+}

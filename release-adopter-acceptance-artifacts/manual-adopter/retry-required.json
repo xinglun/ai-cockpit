@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "state": "retry_required",
+  "reason": "The first manual lifecycle attempt verified before finalize-plan, then correctly stopped when the finalized Contract digest no longer matched the immutable verification evidence.",
+  "requiredRecovery": "Recreate the exact temporary adopter and execute finalize-plan before preflight/checkpoint/verify.",
+  "evidencePolicy": "The contradictory attempt is retained as a failed diagnostic artifact and is not used as a passing acceptance result."
+}

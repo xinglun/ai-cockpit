@@ -1,0 +1,20 @@
+{
+  "changedPaths": [
+    ".ai/agent-interface.json",
+    ".ai/cockpit.toml",
+    ".ai/decisions/profile-v1.json",
+    ".ai/project.json"
+  ],
+  "dependencyFingerprint": "sha256:2e9b7bcf6332104f88a926f9387e801a63cefba98d79038b13313b3663457bf1",
+  "diffDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "filesHashed": 1,
+  "filesRead": 1,
+  "gitCalls": 4,
+  "gitRoot": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-adopter",
+  "head": "653b4b5ba60e0a04e602ea0a986d7580526805ca",
+  "protocolVersion": 1,
+  "repositoryRoot": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-adopter",
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "treeDigest": "sha256:de79088b93afc6f892591151747c3f4c8a4018579dfcdb030e69445baceb34ac"
+}

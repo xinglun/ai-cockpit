@@ -1,0 +1,7 @@
+{
+  "provider": "codex",
+  "target": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-adopter/AGENTS.md",
+  "ownership_path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-adopter/.ai/adapters/codex.json",
+  "repository_id": "sha256:e520922b6228784e68a3ad0c6f9c2a5b0bff504a16fdd2d72e83b1fb9dd4d539",
+  "installed_digest": "sha256:5939644d3672bf3bc825848ac8d8edbe55403d8cdda5f8d9ab68437774a1ad24"
+}

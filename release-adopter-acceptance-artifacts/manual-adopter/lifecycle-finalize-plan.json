@@ -1,0 +1,20 @@
+{
+  "contractDigest": "sha256:d8696c1578810011754dd4f33df53eb34eaacac6b893764146524b3eb543ce4a",
+  "next": [
+    "archive",
+    "finalize",
+    "finalize-verify",
+    "close"
+  ],
+  "protocolVersion": 1,
+  "resourceContext": {
+    "baseBranch": "manual-adopter-lifecycle",
+    "baseRemote": "local",
+    "branch": "manual-adopter-lifecycle",
+    "provider": "manual-adopter-release-acceptance",
+    "pullRequest": "acceptance://v0.2.39/manual-adopter-lifecycle",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-adopter"
+  },
+  "state": "planned",
+  "workItemId": "manual-adopter-lifecycle"
+}

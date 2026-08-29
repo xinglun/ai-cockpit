@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-376-release-adopter-acceptance",
+  "repositorySnapshotDigest": "sha256:88bbefcac04e292f04d9ae1605d10ebf291dade127e9b2f82ed463e4e86be908",
+  "facts": [
+    {
+      "key": "baseRevision",
+      "value": "b7ff4c729df4195d77b874ff9e3ab9b5bacd5691",
+      "origin": "observed",
+      "evidenceRefs": [
+        "git:HEAD"
+      ],
+      "confidence": "high"
+    },
+    {
+      "key": "buildSystems",
+      "value": [
+        "Cargo"
+      ],
+      "origin": "observed",
+      "evidenceRefs": [
+        "repository-snapshot"
+      ],
+      "confidence": "high"
+    },
+    {
+      "key": "languages",
+      "value": [
+        "Python",
+        "Rust"
+      ],
+      "origin": "observed",
+      "evidenceRefs": [
+        "repository-snapshot"
+      ],
+      "confidence": "high"
+    },
+    {
+      "key": "repositoryId",
+      "value": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "origin": "observed",
+      "evidenceRefs": [
+        ".ai/cockpit.toml"
+      ],
+      "confidence": "high"
+    }
+  ],
+  "derivations": [
+    {
+      "key": "verificationCapability",
+      "value": [
+        {
+          "args": [
+            "test",
+            "--workspace"
+          ],
+          "program": "cargo",
+          "state": "detected"
+        }
+      ],
+      "rule": "observer.quality_commands_from_detected_build_system",
+      "inputFactKeys": [
+        "buildSystems"
+      ],
+      "evidenceRefs": [
+        "repository-snapshot"
+      ],
+      "confidence": "medium"
+    }
+  ],
+  "unknowns": [],
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-376-release-adopter-acceptance",
+    "repository-snapshot"
+  ]
+}
