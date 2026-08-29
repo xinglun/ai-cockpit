@@ -1,0 +1,58 @@
+{
+  "actor": "human:release-acceptance",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "reviewed-PR-345-merge",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "1d5a19f5e7ea5d33c6c1c9fdafd193a28d574db6",
+    "name": "codex/wi-381-reference-parity-decision-link-fix",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:9349f6771347a3b241468f46f8d4090812a2476fbd7963fcb2d1347e46e03cc7",
+  "operationId": "operation-WI-381-reference-parity-decision-link-fix-post-merge-cleanup",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "9bedc6b03dc07d72c917f7239a056209b70ed1da",
+    "headRevision": "1d5a19f5e7ea5d33c6c1c9fdafd193a28d574db6",
+    "mergeCommit": "1de29262064ce545d1d06387c89da84e29b608f7",
+    "number": 345,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/345"
+  },
+  "reason": "PR #345 passed hosted quality, Windows, V1, and task-list checks, merged as 1de2926, and the exact feature branch and worktree were removed after synchronization.",
+  "receiptId": "ai-cockpit-WI-381-reference-parity-decision-link-fix-post-merge-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-381-reference-parity-decision-link-fix",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/345",
+    "worktree": "/private/tmp/ai-cockpit-wi381-parity-decision"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-29T04:58:00Z",
+  "workItemId": "WI-381-reference-parity-decision-link-fix",
+  "worktree": {
+    "branch": "codex/wi-381-reference-parity-decision-link-fix",
+    "headRevision": "1d5a19f5e7ea5d33c6c1c9fdafd193a28d574db6",
+    "path": "/private/tmp/ai-cockpit-wi381-parity-decision",
+    "worktreeId": "WI-381-reference-parity-decision-link-fix"
+  }
+}

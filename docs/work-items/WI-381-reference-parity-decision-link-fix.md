@@ -4,7 +4,7 @@ title: "WI-381 — reference parity supersede decision link fix"
 description: "Bind the versioned historical supersede decision in all parity projections without changing historical evidence."
 workItemId: WI-381-reference-parity-decision-link-fix
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-381-reference-parity-decision-link-fix
 terminalArchive: .ai/work-items/archive/WI-381-reference-parity-decision-link-fix.contract.json

@@ -5,7 +5,7 @@ description: "在不修改历史证据的前提下，将版本化历史替代决
 workItemId: WI-381-reference-parity-decision-link-fix
 canonical: docs/work-items/WI-381-reference-parity-decision-link-fix.md
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: translation
 lastVerifiedBy: WI-381-reference-parity-decision-link-fix
 terminalArchive: .ai/work-items/archive/WI-381-reference-parity-decision-link-fix.contract.json
