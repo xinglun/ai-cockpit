@@ -36,6 +36,10 @@ Runtime-only upgrade は通常 repository bytes を変更しません。Schema m
 
 Uninstall も proposal と execution の境界です。Repository owner が明示的に disposal を認めない限り evidence を保持します。Local binary を削除しても installer、provider、sandbox、enterprise retention の完了を意味しません。
 
+### 安全な uninstall
+
+Repository owner が installed Runtime または repository attachment の削除を決めた場合だけ使います。最初に read-only で存在する AI Cockpit file を記録し、record を保存するか purge するか確認します。次に write しない removal plan を作り、対象 path、Unknown、recovery route を review します。実行前には別の confirmation が必要です。承認済みで範囲を限定した removal だけを実行し、無関係な project work は削除しません。終了後は removal receipt を検証して evidence を保持します。ownership、scope、recovery が Unknown なら停止して repository owner に相談します。local binary の削除だけで完全な disposal とはみなしません。
+
 ## Reference source との対応
 
 Reference の Python installer stage、Make target、generated status、migration record は conformance material であり、コピー対象ではありません。Rust は shared Runtime、明示的 repository context、typed receipt、public artifact acceptance harness を使います。Provider/enterprise operation は外部の検証可能な evidence reference として残ります。

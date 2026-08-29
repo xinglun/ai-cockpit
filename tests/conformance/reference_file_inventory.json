@@ -33455,23 +33455,29 @@
     {
       "referencePath": "docs/troubleshooting/uninstall.ja.md",
       "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/installed-lifecycle.ja.md"
+      ],
+      "reason": "The Japanese installed-lifecycle route preserves read-only inventory, owner confirmation, proposal-before-write, bounded execution, receipt verification, evidence retention, and fail-closed unknown recovery; it uses the shared Rust Runtime boundary rather than a source uninstall wizard."
     },
     {
       "referencePath": "docs/troubleshooting/uninstall.md",
       "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/installed-lifecycle.md"
+      ],
+      "reason": "The installed-lifecycle route preserves read-only inventory, owner confirmation, proposal-before-write, bounded execution, receipt verification, evidence retention, and fail-closed unknown recovery; it uses the shared Rust Runtime boundary rather than a source uninstall wizard."
     },
     {
       "referencePath": "docs/troubleshooting/uninstall.zh-CN.md",
       "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/installed-lifecycle.zh-CN.md"
+      ],
+      "reason": "The Chinese installed-lifecycle route preserves read-only inventory, owner confirmation, proposal-before-write, bounded execution, receipt verification, evidence retention, and fail-closed unknown recovery; it uses the shared Rust Runtime boundary rather than a source uninstall wizard."
     },
     {
       "referencePath": "docs/trust-layer.ja.md",
@@ -33506,23 +33512,29 @@
     {
       "referencePath": "docs/upgrade.ja.md",
       "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/upgrade.ja.md"
+      ],
+      "reason": "The Japanese Rust-native upgrade route preserves immutable Release/runtime identity checks, current-configuration rollback, conflict and downgrade stops, explicit migration, and separately reviewed active-recovery semantics without copying source installer commands."
     },
     {
       "referencePath": "docs/upgrade.md",
       "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/upgrade.md"
+      ],
+      "reason": "The Rust-native upgrade route preserves immutable Release/runtime identity checks, current-configuration rollback, conflict and downgrade stops, explicit migration, and separately reviewed active-recovery semantics without copying source installer commands."
     },
     {
       "referencePath": "docs/upgrade.zh-CN.md",
       "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/upgrade.zh-CN.md"
+      ],
+      "reason": "The Chinese Rust-native upgrade route preserves immutable Release/runtime identity checks, current-configuration rollback, conflict and downgrade stops, explicit migration, and separately reviewed active-recovery semantics without copying source installer commands."
     },
     {
       "referencePath": "docs/work-item-style-guide.md",

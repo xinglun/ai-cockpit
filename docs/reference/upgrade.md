@@ -53,6 +53,12 @@ or edit generated evidence by hand. Managed Agent adapters (including a Cursor
 rule) are explicit repository-local installations with ownership and detach
 paths; they are not silently injected by a Runtime upgrade.
 
+Stop before writing when an active Work Item exists, the remote default branch
+cannot be established, a managed file has diverged, the target is a downgrade,
+or the conflict report is missing or malformed. Resolve the conflict or supply
+explicit base evidence before retrying. Use `--upgrade-with-active` only for an
+intentional, separately reviewed recovery scenario.
+
 ## Repository migration
 
 Run `ai-cockpit migrate plan --repo <path>` first. Apply only the reviewed plan

@@ -42,6 +42,8 @@ review 用の conflict report を出します。ファイルの上書きや gene
 Cursor rule を含む managed Agent adapter は ownership と detach を持つ明示的な repository-local
 install であり、Runtime upgrade が暗黙に注入するものではありません。
 
+active Work Item がある、remote の既定 branch を確立できない、managed file が diverged、target が downgrade、または conflict report が欠落/不正の場合は write 前に停止します。conflict を解消するか明確な base evidence を用意して retry してください。`--upgrade-with-active` は意図的で別途 review された recovery scenario の場合だけ使います。
+
 ## Repository migration
 
 まず `ai-cockpit migrate plan --repo <path>` を実行し、command が要求する明示的な approval 付きで reviewed plan だけを適用します。Migration は Contract、evidence、decision、knowledge、archive history を保全し、Runtime version の変更だけを理由に古い evidence を書き換えません。未完了/非互換の場合、read-only diagnostics は使えますが、stateful lifecycle write は fail closed です。

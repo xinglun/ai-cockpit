@@ -1,0 +1,53 @@
+{
+  "acceptanceCriteria": [
+    "Six pinned reference paths are read at e5acb677 and each receives an explicit semantic classification.",
+    "Inventory records are updated with bounded Rust-native counterparts or a justified different-by-design boundary; migrate-gap remains zero.",
+    "Tri-language comparison, parity, and Work Item documentation are synchronized and state the object/adopter inheritance boundary.",
+    "No source commands, provider authority, or historical evidence are copied into the target repository.",
+    "Documentation, inventory, governance, and installed Runtime verification checks pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "12dc153ed080595160a5aa3458944a9c6acd0587",
+  "createdAt": "2026-08-29T08:08:42Z",
+  "goal": "Complete the semantic comparison batch for uninstall and upgrade guidance and synchronize tri-language comparison, parity, inventory, and Work Item records.",
+  "intent": "Compare the next pinned uninstall and upgrade reference documents one by one, preserve their reader-facing governance semantics in Rust-native routes, and expose safe stop and recovery boundaries for adopter projects.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime or protocol code changes",
+    "Copying source Python",
+    " Make",
+    " installer",
+    " or historical governance truth",
+    "Release",
+    " adopter CI",
+    " and architecture refactors"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:100ca7e9e997c8d433ec80e0fecc2b9556145b2b622c81cf01d41f6adf2c9cd8",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-389-reference-documentation-batch-22",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi389-reference-documentation-batch-22"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/troubleshooting/uninstall.ja.md",
+    "docs/troubleshooting/uninstall.md",
+    "docs/troubleshooting/uninstall.zh-CN.md",
+    "docs/upgrade.ja.md",
+    "docs/upgrade.md",
+    "docs/upgrade.zh-CN.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-389-reference-documentation-batch-22"
+}
