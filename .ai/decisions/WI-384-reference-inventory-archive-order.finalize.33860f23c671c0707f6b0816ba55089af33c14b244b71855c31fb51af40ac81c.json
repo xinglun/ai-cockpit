@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:558b6a28a7922ffe802144de90e150f29c2fd32b1cde235ff94994f5f855b21f",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "explicit-user-authorization",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "205a3d492830eb134fd65b3dfd021a36e1271d4a",
+      "name": "codex/wi-384-reference-inventory-archive-order",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:3aab7b2ead42a9235dc1ba23be15e1d458fca02097b0459d25b155764c6a6fa9",
+    "operationId": "github-pr-348-merge-cleanup-20260829",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "bd12563d549de972754c82d8d7b484473933f52e",
+      "headRevision": "205a3d492830eb134fd65b3dfd021a36e1271d4a",
+      "mergeCommit": "a9c23c7b9c443e29e8493f85c835cdbbf50456aa",
+      "number": 348,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/348"
+    },
+    "reason": "PR #348 merged with all hosted checks passed; the exact feature branch and worktree were removed and verified.",
+    "receiptId": "ai-cockpit-WI-384-reference-inventory-archive-order-deleted-20260829",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-384-reference-inventory-archive-order",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/348",
+      "worktree": "/private/tmp/ai-cockpit-wi384-reference-inventory-archive-order"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+    "runtimeVersion": "0.2.39",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-29T05:58:23Z",
+    "workItemId": "WI-384-reference-inventory-archive-order",
+    "worktree": {
+      "branch": "codex/wi-384-reference-inventory-archive-order",
+      "headRevision": "205a3d492830eb134fd65b3dfd021a36e1271d4a",
+      "path": "/private/tmp/ai-cockpit-wi384-reference-inventory-archive-order",
+      "worktreeId": "WI-384-reference-inventory-archive-order"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-384-reference-inventory-archive-order-resources-deleted"
+}
