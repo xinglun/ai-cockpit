@@ -1,0 +1,69 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-406-close-promotion-alignment.contract.json",
+    ".ai/work-items/active/WI-406-close-promotion-alignment.summary.json"
+  ],
+  "checkpointAt": "2026-08-29T21:19:11Z",
+  "checkpointContractDigest": "sha256:c2d6bd35d63674c47e028e181d448cbec97b3aba913ab1b90ff3338770348675",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:629c943600c3b0af281a6e6419478ed24eff16779c153ae629d012bb3cd547b8",
+  "createdAt": "2026-08-29T21:18:31Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-406-close-promotion-alignment.contract.json"
+    ],
+    "reason": "The implementation remains within the human-owned documentation promotion Contract.",
+    "state": "resolved"
+  },
+  "mode": "docs",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-29T21:20:56Z",
+  "preflightContractDigest": "sha256:c2d6bd35d63674c47e028e181d448cbec97b3aba913ab1b90ff3338770348675",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:629c943600c3b0af281a6e6419478ed24eff16779c153ae629d012bb3cd547b8",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/docs/promote_closed_work_item_test.sh"
+      ],
+      "reason": "Promotion accepts a Runtime close whose authoritative verification binding is carried by finalReport.",
+      "required": true,
+      "scenario": "runtime_final_report_binding",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/docs/promote_closed_work_item_test.sh"
+      ],
+      "reason": "Missing or malformed final report evidence remains rejected.",
+      "required": true,
+      "scenario": "missing_final_report_fail_closed",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "docs/work-items/WI-404-release-docs-terminal-promotion.md",
+        "docs/work-items/WI-404-release-docs-terminal-promotion.zh-CN.md",
+        "docs/work-items/WI-404-release-docs-terminal-promotion.ja.md"
+      ],
+      "reason": "English, Chinese, and Japanese Work Item projections carry the same terminal evidence links.",
+      "required": true,
+      "scenario": "tri_language_terminal_promotion",
+      "status": "verified"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-08-29T21:20:56Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-406-close-promotion-alignment"
+}

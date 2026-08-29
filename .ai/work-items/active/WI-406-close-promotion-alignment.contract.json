@@ -1,0 +1,51 @@
+{
+  "acceptanceCriteria": [
+    "Docs promotion accepts WI-404's valid close using finalReport evidence binding plus structured decision refs without rewriting immutable .ai bytes.",
+    "WI-404 English, Chinese, and Japanese docs are promoted to implemented with terminal evidence links.",
+    "Existing strict promotion regression tests and docs gates pass; malformed or missing final report evidence remains fail-closed."
+  ],
+  "authority": "authorized",
+  "baseRevision": "321253aa39dcd91761bc7deaaac9d773430bc71d",
+  "createdAt": "2026-08-29T21:18:31Z",
+  "goal": "Ensure the docs quality gate accepts valid Runtime close receipts without requiring duplicated verification references, and leave WI-404 tri-language docs in terminal implemented state.",
+  "intent": "Align closed Work Item documentation promotion with Runtime final-report evidence bindings and promote WI-404 terminal documentation.",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime lifecycle semantics",
+    "Historical .ai evidence or decision bytes",
+    "Release automation and object repositories"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0124bd7f5d3a6c2b9dced5ac2f47160f588d6583ab43859d8104e701d09018a9",
+  "requiredEvidenceClasses": [
+    "verification",
+    "docs"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-406-close-promotion-alignment",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-406-close-promotion-alignment"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh",
+    "docs/work-items/WI-404-release-docs-terminal-promotion.md",
+    "docs/work-items/WI-404-release-docs-terminal-promotion.zh-CN.md",
+    "docs/work-items/WI-404-release-docs-terminal-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-406-close-promotion-alignment"
+}

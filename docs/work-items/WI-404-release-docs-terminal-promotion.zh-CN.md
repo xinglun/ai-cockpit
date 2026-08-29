@@ -8,9 +8,13 @@ audience:
   - contributor
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-404-release-docs-terminal-promotion
+terminalArchive: .ai/work-items/archive/WI-404-release-docs-terminal-promotion.contract.json
+terminalVerification: .ai/evidence/WI-404-release-docs-terminal-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-404-release-docs-terminal-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-404-release-docs-terminal-promotion.close.json
 ---
 
 # WI-404 —— 发布文档终态晋级
