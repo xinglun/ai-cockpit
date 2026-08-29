@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-30T00:55:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-401-release-v0-2-40-publication.verification.json",
+    ".ai/work-items/active/WI-401-release-v0-2-40-publication.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md#recovery-retry-boundary"
+  ],
+  "predecessorContractDigest": "sha256:f41179d3807e544524207f1e0c6a3551522729bece008b8248690f4264bede39",
+  "predecessorEventsDigest": "sha256:842caba95cfdc5608f899df6b3e8aaadcd356092c933537040c3d403538a9f29",
+  "predecessorOutcomeDigest": "sha256:58545a4abc257488b6d3d605c17794fc7b74406a02404f0bac2daba9d9f6e277",
+  "predecessorSummaryDigest": "sha256:3f86872af2dbca42c84074c72f95027a6e9916db7994ae4e386c65d49402e383",
+  "predecessorWorkItemId": "WI-401-release-v0-2-40-publication",
+  "reason": "Retry after the source Runtime v0.2.40 regenerated current verification evidence for the PR quality route; preserve prior finish projection and bind the fresh Runtime identity before archive.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh source Runtime preflight and verification, then retry finish and archive.",
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "schemaVersion": 1,
+  "workItemId": "WI-401-release-v0-2-40-publication"
+}

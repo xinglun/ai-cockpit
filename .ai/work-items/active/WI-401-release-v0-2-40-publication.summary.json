@@ -42,18 +42,21 @@
       "workItemId": "WI-401-release-v0-2-40-publication"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:95691135066f4ad9435d4a6adb289b373408ee863af59f8974266d6e58a793fc",
+  "checkpointRepositorySnapshotDigest": "sha256:1425da2431e9686626f6e31015e1fa94cc04d8ea7a7361f72fdd420855bdd31c",
   "createdAt": "2026-08-29T15:31:40Z",
+  "failedGate": "finish.lifecycle",
   "mode": "implementation",
-  "preflightAt": "2026-08-29T15:41:35Z",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-29T15:47:08Z",
   "preflightContractDigest": "sha256:f41179d3807e544524207f1e0c6a3551522729bece008b8248690f4264bede39",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:95691135066f4ad9435d4a6adb289b373408ee863af59f8974266d6e58a793fc",
+  "preflightRepositorySnapshotDigest": "sha256:1425da2431e9686626f6e31015e1fa94cc04d8ea7a7361f72fdd420855bdd31c",
   "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "finish_ready",
-  "updatedAt": "2026-08-29T15:41:39Z",
+  "updatedAt": "2026-08-29T15:47:08Z",
   "verification": [
     {
       "check": "project-command-0",
