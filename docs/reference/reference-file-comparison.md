@@ -123,7 +123,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=298 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=507 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=304 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=501 migrate-gap=0 -->
 
 At the pinned reference comparison baseline, the ledger contains 5,119 records:
 4,262 `generated-history`, 292 `implemented-different-by-design`, one
@@ -980,3 +980,30 @@ The ledger after WI-387 contains 4,262 `generated-history`, 298
 `migrate-gap` remains zero. The same Rust-native security and supply-chain
 boundaries are inherited by every attached object/adopter repository, while
 repository facts and evidence remain isolated by explicit `--repo` context.
+
+## WI-388 — reference documentation batch 21
+
+WI-388 compares six deferred reference documents one by one at pinned source
+commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf`. Their responsibilities are
+represented by Rust-native threat-model, adoption, release-evidence,
+installation, and troubleshooting routes. This batch records the distributed
+counterparts and their evidence boundaries without copying source commands or
+historical stability claims.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/security/threat-model.md` | implemented-different-by-design | `docs/security/threat-model.md`, `.zh-CN.md`, and `.ja.md` preserve protected assets, trust boundaries, fail-closed threats, and explicit external-control limits; no claim is made to detect every malicious intention or certify enterprise security. |
+| `docs/template-adopter-stability-matrix.md` | implemented-different-by-design | `docs/reference/final-replacement-acceptance.md`, `docs/getting-started/standard-adoption-guide.md`, `docs/reference/ci-release-evidence.md`, and `tests/release/adopter_acceptance.sh` distribute template, adoption, lifecycle, and evidence-kind boundaries; template-only runs are not promoted to external stability proof. |
+| `docs/troubleshooting.md` | implemented-different-by-design | The tri-language `docs/reference/troubleshooting.*` route provides stop states, recovery, evidence preservation, and explicit repository-bound commands rather than a compatibility-only redirect. |
+| `docs/troubleshooting/installation.ja.md` | implemented-different-by-design | `docs/getting-started/installation.ja.md`, `installation-security.ja.md`, and `docs/reference/troubleshooting.ja.md` preserve uncertainty stops, strict Release verification, and explicit attachment without source wizard commands. |
+| `docs/troubleshooting/installation.md` | implemented-different-by-design | `docs/getting-started/installation.md`, `installation-security.md`, and `docs/reference/troubleshooting.md` preserve uncertainty stops, strict Release verification, and explicit attachment without silently selecting moving or older artifacts. |
+| `docs/troubleshooting/installation.zh-CN.md` | implemented-different-by-design | `docs/getting-started/installation.zh-CN.md`, `installation-security.zh-CN.md`, and `docs/reference/troubleshooting.zh-CN.md` preserve the Chinese recovery route, strict artifact binding, and explicit repository context. |
+
+This is semantic/documentation parity, not source command, JSON-wire, or
+provider-state compatibility. Every attached object/adopter repository
+inherits the same Rust-native threat, adoption, installation, and recovery
+boundaries from the shared Runtime, while repository facts and evidence remain
+isolated by explicit `--repo`. The ledger after WI-388 contains 4,262
+`generated-history`, 304 `implemented-different-by-design`, one
+`implemented-equivalent`, four `not-applicable`, 47 `reference-only`, and 501
+`deferred-next-batch` records; `migrate-gap` remains zero.

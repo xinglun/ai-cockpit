@@ -107,7 +107,7 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=298 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=507 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=304 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=501 migrate-gap=0 -->
 
 固定した reference comparison baseline の ledger は 5,119 records です。内訳は
 4,262 `generated-history`、292 `implemented-different-by-design`、1
@@ -834,3 +834,24 @@ WI-387 後の ledger は 4,262 `generated-history`、298 `implemented-different-
 `implemented-equivalent`、4 `not-applicable`、47 `reference-only`、507 `deferred-next-batch`、
 `migrate-gap` は 0 です。すべての attach 済み object/adopter project は同じ Rust-native security / supply-chain
 boundary を継承し、repository fact と evidence は明示的な `--repo` context で分離されます。
+
+## WI-388 — reference documentation batch 21
+
+WI-388 は pinned source commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf` の deferred 6 文書を一つずつ比較します。
+責務は Rust-native threat model、adoption、release evidence、installation、troubleshooting route で表現されています。
+本 batch は分散した counterpart と evidence boundary を記録し、source command や歴史的な stability claim は copy しません。
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/security/threat-model.md` | implemented-different-by-design | `docs/security/threat-model.md`、`.zh-CN.md`、`.ja.md` が protected asset、trust boundary、fail-closed threat、external control limit を保持します。すべての malicious intention の検出や enterprise security certification は主張しません。 |
+| `docs/template-adopter-stability-matrix.md` | implemented-different-by-design | `docs/reference/final-replacement-acceptance.md`、`docs/getting-started/standard-adoption-guide.md`、`docs/reference/ci-release-evidence.md`、`tests/release/adopter_acceptance.sh` が template/adoption/lifecycle/evidence-kind boundary を分担します。template-only run を external stability proof に昇格しません。 |
+| `docs/troubleshooting.md` | implemented-different-by-design | 三言語 `docs/reference/troubleshooting.*` が stop state、recovery、evidence preservation、明示的な repository-bound command を提供し、compatibility-only redirect にはしません。 |
+| `docs/troubleshooting/installation.ja.md` | implemented-different-by-design | `docs/getting-started/installation.ja.md`、`installation-security.ja.md`、`docs/reference/troubleshooting.ja.md` が uncertainty stop、strict Release verification、explicit attachment を保持し、source wizard command は copy しません。 |
+| `docs/troubleshooting/installation.md` | implemented-different-by-design | `docs/getting-started/installation.md`、`installation-security.md`、`docs/reference/troubleshooting.md` が uncertainty stop、strict Release verification、explicit attachment を保持し、moving/older artifact を黙って選びません。 |
+| `docs/troubleshooting/installation.zh-CN.md` | implemented-different-by-design | `docs/getting-started/installation.zh-CN.md`、`installation-security.zh-CN.md`、`docs/reference/troubleshooting.zh-CN.md` が中国語 recovery route、strict artifact binding、explicit repository context を保持します。 |
+
+これは semantic/documentation parity であり、source command、JSON-wire、provider state の compatibility ではありません。
+すべての attach 済み object/adopter project は shared Runtime から threat、adoption、installation、recovery boundary を継承し、
+repository fact と evidence は明示的な `--repo` の下で分離されます。WI-388 後の ledger は 4,262 `generated-history`、
+304 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、47 `reference-only`、
+501 `deferred-next-batch`、`migrate-gap` は 0 です。

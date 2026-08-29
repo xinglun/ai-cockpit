@@ -1,0 +1,54 @@
+{
+  "acceptanceCriteria": [
+    "Six pinned reference paths are read at e5acb677 and each receives an explicit semantic classification.",
+    "Inventory records are updated with bounded Rust-native counterparts or a justified different-by-design boundary; migrate-gap remains zero.",
+    "Tri-language comparison, parity, and Work Item documentation are synchronized and state the object/adopter inheritance boundary.",
+    "No source commands, provider authority, or historical evidence are copied into the target repository.",
+    "Documentation, inventory, governance, and installed Runtime verification checks pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "b1af84c4acbaa2964c6ecd7aee1847981bb686fd",
+  "createdAt": "2026-08-29T07:43:09Z",
+  "goal": "Complete the semantic comparison batch for six pinned reference paths and synchronize the tri-language comparison, parity, inventory, and Work Item records.",
+  "intent": "Compare the next pinned troubleshooting, adoption stability, and threat-model reference files one by one, preserve their user-facing governance semantics, and record bounded Rust-native counterparts without copying reference implementation authority.",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime code or protocol changes",
+    "Copying source Python",
+    " Make",
+    " or historical governance truth",
+    "Release",
+    " adopter CI",
+    " and architecture refactors"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:32f56c7913f02747cafa0d78864635f9aca259bada82a2d075e09c79b9d48214",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-388-reference-documentation-batch-21",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi388-reference-documentation-batch-21"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/security/threat-model.md",
+    "docs/template-adopter-stability-matrix.md",
+    "docs/troubleshooting.md",
+    "docs/troubleshooting/installation.ja.md",
+    "docs/troubleshooting/installation.md",
+    "docs/troubleshooting/installation.zh-CN.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-388-reference-documentation-batch-21"
+}

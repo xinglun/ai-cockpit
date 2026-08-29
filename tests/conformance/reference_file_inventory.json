@@ -32492,9 +32492,13 @@
     {
       "referencePath": "docs/security/threat-model.md",
       "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/security/threat-model.md",
+        "docs/security/threat-model.zh-CN.md",
+        "docs/security/threat-model.ja.md"
+      ],
+      "reason": "The Rust-native tri-language threat model preserves protected assets, trust boundaries, fail-closed threats, and explicit external-control limits with a shared Runtime and isolated repository context; it does not claim to detect every malicious intention or certify enterprise security."
     },
     {
       "referencePath": "docs/superpowers/plans/2026-07-14-review-remediation-loop.md",
@@ -33395,37 +33399,58 @@
     {
       "referencePath": "docs/template-adopter-stability-matrix.md",
       "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/final-replacement-acceptance.md",
+        "docs/getting-started/standard-adoption-guide.md",
+        "docs/reference/ci-release-evidence.md",
+        "tests/release/adopter_acceptance.sh"
+      ],
+      "reason": "Template, compatibility, first-adoption, governance-journey, and lifecycle claims are distributed across Rust-native adoption, release-evidence, and immutable adopter-acceptance routes; evidence kind and boundary remain explicit, and no source matrix or template-only run is promoted to external stability proof."
     },
     {
       "referencePath": "docs/troubleshooting.md",
       "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/troubleshooting.md",
+        "docs/reference/troubleshooting.zh-CN.md",
+        "docs/reference/troubleshooting.ja.md"
+      ],
+      "reason": "The target keeps troubleshooting as a reader-first reference route with explicit stop states, recovery, evidence preservation, and repository-bound commands rather than a compatibility-only redirect."
     },
     {
       "referencePath": "docs/troubleshooting/installation.ja.md",
       "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/installation.ja.md",
+        "docs/getting-started/installation-security.ja.md",
+        "docs/reference/troubleshooting.ja.md"
+      ],
+      "reason": "Japanese installation recovery guidance is covered by the Rust-native install, strict release-verification, and troubleshooting routes; uncertainty stops, source wizard commands are not copied, and repository attachment remains explicit."
     },
     {
       "referencePath": "docs/troubleshooting/installation.md",
       "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/installation.md",
+        "docs/getting-started/installation-security.md",
+        "docs/reference/troubleshooting.md"
+      ],
+      "reason": "English installation recovery guidance is covered by the Rust-native install, strict release-verification, and troubleshooting routes; uncertainty stops, moving or older artifacts are not silently selected, and repository attachment remains explicit."
     },
     {
       "referencePath": "docs/troubleshooting/installation.zh-CN.md",
       "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/installation.zh-CN.md",
+        "docs/getting-started/installation-security.zh-CN.md",
+        "docs/reference/troubleshooting.zh-CN.md"
+      ],
+      "reason": "Chinese installation recovery guidance is covered by the Rust-native install, strict release-verification, and troubleshooting routes; uncertainty stops, moving or older artifacts are not silently selected, and repository attachment remains explicit."
     },
     {
       "referencePath": "docs/troubleshooting/uninstall.ja.md",
