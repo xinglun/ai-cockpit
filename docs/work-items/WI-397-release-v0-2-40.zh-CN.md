@@ -4,9 +4,13 @@ title: "WI-397——v0.2.40 发布与公开性能继承"
 description: "发布 WI-396 clean-snapshot 优化，并在本 repository 与全新 adopter 中验证下载的发布 binary。"
 workItemId: WI-397-release-v0-2-40
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-397-release-v0-2-40
+terminalArchive: .ai/work-items/archive/WI-397-release-v0-2-40.contract.json
+terminalVerification: .ai/evidence/WI-397-release-v0-2-40.verification.json
+terminalFinalization: .ai/decisions/WI-397-release-v0-2-40.finalize.json
+terminalDecision: .ai/decisions/WI-397-release-v0-2-40.close.json
 capabilityClaims: [release_distribution, verification_performance, adopter_acceptance]
 ---
 

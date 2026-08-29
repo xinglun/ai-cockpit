@@ -4,9 +4,13 @@ title: "WI-397 — v0.2.40 release and published performance inheritance"
 description: "Publish the WI-396 clean-snapshot optimization and verify the downloaded release binary in this repository and a fresh adopter."
 workItemId: WI-397-release-v0-2-40
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-397-release-v0-2-40
+terminalArchive: .ai/work-items/archive/WI-397-release-v0-2-40.contract.json
+terminalVerification: .ai/evidence/WI-397-release-v0-2-40.verification.json
+terminalFinalization: .ai/decisions/WI-397-release-v0-2-40.finalize.json
+terminalDecision: .ai/decisions/WI-397-release-v0-2-40.close.json
 capabilityClaims: [release_distribution, verification_performance, adopter_acceptance]
 ---
 

@@ -1,0 +1,157 @@
+{
+  "acceptanceResults": [
+    "All three WI-397 Work Item documents have terminal implemented status and exact archive, verification, finalization, and close references.",
+    "All three parity ledgers register WI-397 with matching terminal status and evidence paths.",
+    "WI-397 finalization and close receipts remain intact and are not hand-edited.",
+    "Documentation, parity, governance, and diff checks pass before the release tag is created."
+  ],
+  "createdAt": "2026-08-29T14:28:24Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:9450d569a9de33e4e7159c5efb4e735aa3619ba4394cf71fddbdeff3ba8d805c",
+  "evidenceRefs": [
+    ".ai/evidence/WI-398-release-v0-2-40-doc-promotion.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-398-release-v0-2-40-doc-promotion.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-398-release-v0-2-40-doc-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:da2743e99b140c888746ffd37e8e1f15d70a10b6a12ced20c5030114c29db8c8",
+      "workItemId": "WI-398-release-v0-2-40-doc-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-398-release-v0-2-40-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-397-release-v0-2-40.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-398-release-v0-2-40-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-397-release-v0-2-40.finalize.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-398-release-v0-2-40-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-398-release-v0-2-40-doc-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-398-release-v0-2-40-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-398-release-v0-2-40-doc-promotion.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-398-release-v0-2-40-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-398-release-v0-2-40-doc-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-398-release-v0-2-40-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-398-release-v0-2-40-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-398-release-v0-2-40-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-398-release-v0-2-40-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the tri-language Work Item and parity ledger accurately reflect WI-397 close and preserve its immutable release receipts."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-398-release-v0-2-40-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-398-release-v0-2-40-doc-promotion"
+  },
+  "taskReportDigest": "sha256:4d5c7c8c7d7ebafcfa7d95e9ec3ec12a7c5979f7c64082bc10e961db5b09f945",
+  "taskReportMarkdownDigest": "sha256:03dd2700904e7dc53b87963b4cd8d3a19b5231b24ec8ca509c168abbe6811fa9",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-398-release-v0-2-40-doc-promotion.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-398-release-v0-2-40-doc-promotion"
+}
