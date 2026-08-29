@@ -33551,10 +33551,17 @@
     },
     {
       "referencePath": "examples/csharp/README.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "reference-documentation-batch-24",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/csharp-adaptation.md",
+        "docs/reference/csharp-adaptation.zh-CN.md",
+        "docs/reference/csharp-adaptation.ja.md",
+        "docs/getting-started/installation.md",
+        "docs/reference/contract-fields.md",
+        "docs/reference/verification-route.md"
+      ],
+      "reason": "The Rust-native C# adaptation preserves the source's installation, stack-check, Contract, coverage-boundary, and guideline-evidence semantics section by section. Installation remains an immutable shared Runtime plus explicit repository attach; adopter/provider-owned dotnet checks remain external. Source install.sh, Makefile.ai.stack, guard YAML, Python orchestration, and legacy JSON wire examples are intentionally not copied or claimed compatible."
     },
     {
       "referencePath": "examples/fixtures/android-app/app/src/main/kotlin/example/MainActivity.kt",

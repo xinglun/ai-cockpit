@@ -1,0 +1,81 @@
+{
+  "acceptanceCriteria": [
+    "The pinned reference examples/csharp/README.md is compared section by section, with each semantic concern mapped to a Rust-native counterpart or explicitly marked external/non-applicable.",
+    "The tri-language C# adaptation guide explains shared external Runtime installation, explicit repository attachment, repository-local .ai state, and adopter-owned .NET commands without copying the reference installer or Makefile implementation.",
+    "The guide uses current Rust Contract, verification, evidence, and human-decision boundaries; it does not claim direct compatibility with the reference contractVersion/verification wire shape.",
+    "Reference inventory, parity, index links, and tri-language Work Item records bind the pinned source commit and remain synchronized.",
+    "Declared documentation, inventory, and conformance checks pass with the installed Runtime evidence."
+  ],
+  "authority": "authorized",
+  "baseRevision": "2044d18d593f337bb8aff5fe4292689165a729d4",
+  "createdAt": "2026-08-29T09:02:54Z",
+  "goal": "Provide an auditable C# stack adaptation guide for adopters without copying the reference installer, Makefile, Python/runtime implementation, or legacy wire schema.",
+  "intent": "Compare the pinned reference examples/csharp/README.md section by section and carry forward only the applicable governance and adopter guidance through a Rust-native C# adaptation document, while preserving the deliberate installation boundary.",
+  "mode": "docs",
+  "outOfScope": [
+    "crates/**",
+    "src/**",
+    "install.sh",
+    "Makefile.ai",
+    "Makefile.ai.stack",
+    "scripts/**",
+    "tests/**",
+    "release/**",
+    ".github/**",
+    "provider/global Agent or MCP configuration",
+    "source repository bytes and legacy Contract wire compatibility"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:31ee9698f7195e8d24296e40f8dee014f9cb521665703355a8880cd62bcd373b",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "sources": [
+    {
+      "path": "examples/csharp/README.md",
+      "reason": "Pinned reference source e5acb677; compare installation, stack gates, Contract design, and guideline evidence semantics section by section without copying implementation or legacy wire bytes."
+    },
+    {
+      "path": "docs/getting-started/installation.md",
+      "reason": "Rust-native shared Runtime installation and explicit repository attachment boundary."
+    },
+    {
+      "path": "docs/reference/contract-fields.md",
+      "reason": "Current Rust Contract and Summary field semantics used by the adaptation guide."
+    }
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-391-reference-csharp-adaptation",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi391-reference-csharp-adaptation"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/csharp-adaptation.md",
+    "docs/reference/csharp-adaptation.zh-CN.md",
+    "docs/reference/csharp-adaptation.ja.md",
+    "docs/reference/README.md",
+    "docs/reference/README.zh-CN.md",
+    "docs/reference/README.ja.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-391-reference-csharp-adaptation.md",
+    "docs/work-items/WI-391-reference-csharp-adaptation.zh-CN.md",
+    "docs/work-items/WI-391-reference-csharp-adaptation.ja.md",
+    "tests/conformance/reference_file_inventory.json"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-391-reference-csharp-adaptation"
+}

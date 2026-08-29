@@ -107,11 +107,11 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=311 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=494 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=312 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=493 migrate-gap=0 -->
 
 固定した reference comparison baseline の ledger は 5,119 records です。内訳は
-4,262 `generated-history`、310 `implemented-different-by-design`、1
-`implemented-equivalent`、4 `not-applicable`、47 `reference-only`、495 `deferred-next-batch` です。
+4,262 `generated-history`、312 `implemented-different-by-design`、1
+`implemented-equivalent`、4 `not-applicable`、47 `reference-only`、493 `deferred-next-batch` です。
 Deferred record は予定された比較であり parity claim ではありません。
 capability/profile slice に `migrate-gap` は残っていません。
 
@@ -883,3 +883,17 @@ WI-390 は pinned `docs/work-item-style-guide.md` を section ごとに比較し
 | `docs/work-item-style-guide.md` | implemented-different-by-design | `docs/reference/work-item-style-guide.md`、`.zh-CN.md`、`.ja.md`。reference index から link し、`contract-fields` と `repository-workflow` を context とします。human-owned intent/problem/constraints/rationale、明示的 scope/non-goals、machine-checkable acceptance、実行可能な verification、proportional profile、object/adopter project 継承を保持し、source metadata、Python/Make command、installer behavior、Runtime implementation はコピーしません。 |
 
 これは semantic/documentation parity であり、source command や JSON wire compatibility ではありません。shared Runtime は adopter project の外部に残り、各 attached repository は自分の `.ai/` と adapter から同じ reader-facing boundary を継承します。Contract、evidence、knowledge、repository identity は明示的な `--repo` で分離されます。WI-390 後の ledger は 4,262 `generated-history`、311 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、47 `reference-only`、494 `deferred-next-batch`、`migrate-gap` は 0 です。
+
+## WI-391 — C# adaptation example
+
+WI-391 は pinned source commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf` の
+`examples/csharp/README.md` を section ごとに比較します。source の四つの concern（installation、.NET
+quality check と coverage boundary、Contract design、guideline compliance evidence）は、三言語の
+Rust-native C# adaptation page と既存の installation、Contract、verification reference で表します。
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `examples/csharp/README.md` | implemented-different-by-design | `docs/reference/csharp-adaptation.md`、`.zh-CN.md`、`.ja.md` が shared Runtime installation、Contract fields、verification route への link とともに対応します。source semantics は保ちますが、`install.sh`、`Makefile.ai.stack`、source guard/Python orchestration、legacy JSON-wire example は意図的に external または non-compatible のままです。 |
+
+これは semantic/documentation parity であり、C# toolchain support または second-technology adopter acceptance の主張ではありません。将来の C# adopter receipt は immutable public Release と自身の repository context を使います。shared Runtime は adopter の外部に一度だけ install し、`.ai/`、Contract、evidence、project policy は明示的な `--repo` で repository-local に分離します。
+WI-391 後の ledger は 4,262 `generated-history`、312 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、47 `reference-only`、493 `deferred-next-batch`、`migrate-gap` は 0 です。
