@@ -1,0 +1,128 @@
+{
+  "acceptanceCriteria": [
+    "Advance the workspace and lockfile exactly one patch from v0.2.39 to v0.2.40; no existing tag or Release is reused.",
+    "The reviewed release workflow builds all declared targets from the exact merged commit and binds the manifest, Formula, SHA256SUMS, target-bound SBOM, provenance, and immutable tag identity; source quality and release policy remain fail-closed.",
+    "Tri-language release, versioning, and performance documentation uses v0.2.40 current-baseline examples and preserves the shared external Runtime plus explicit --repo boundary.",
+    "Pre-release source, release-policy, workflow, documentation, and performance gates pass without weakening governance or changing the declared budget.",
+    "Public binary installation, adopter isolation, evidence reuse, N-1 acceptance, and release-truth failure handling are explicitly deferred to successor WI-398 and are not claimed by this Work Item.",
+    "After reviewed PR merge and hosted checks, finalization, close, synchronization, and exact branch/worktree cleanup leave main ready_on_base with no open PR or codex branch."
+  ],
+  "authority": "authorized",
+  "baseRevision": "ec13cd92073403e939bf8d12cf79ae5285c79de9",
+  "createdAt": "2026-08-29T13:36:09Z",
+  "goal": "Release, install, and acceptance-test the measured Rust performance improvement without weakening governance, repository isolation, or object-project inheritance.",
+  "intent": "Publish v0.2.40 with the WI-396 clean-snapshot performance optimization and prove the immutable public binary is inherited by this repository and a fresh isolated adopter.",
+  "mode": "code",
+  "outOfScope": [
+    "Runtime semantics changes; historical evidence rewrite; global Agent/MCP configuration; source-build fallback; second-technology-stack adopter.",
+    "Changing Contract authority, Outcome semantics, evidence validity, fail-closed decisions, or performance budgets to make release acceptance pass.",
+    "Copying reference installer, Make/Python runtime, SDK/toolchain installation, legacy wire schema, or business-project code."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a636cf48a105c6b7da9c338dd4164b88f2e3b34dc7ed921396c8bd69a2b77800",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-397-release-v0-2-40",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/361",
+    "worktree": "/private/tmp/ai-cockpit-wi397-release-v0-2-40"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "Cargo.toml",
+        "Cargo.lock",
+        ".github/workflows/release.yml",
+        "tests/release/version_consistency.sh"
+      ],
+      "expected": "v0.2.40 metadata is consistent and the release inputs are bounded to the exact merged commit and closed artifact contract.",
+      "required": true,
+      "scenario": "release metadata and candidate integrity",
+      "status": "unverified",
+      "verificationPlan": "Run version consistency, source archive, action runtime, workflow policy, full workspace quality, and staged release checks."
+    },
+    {
+      "evidence": [
+        "docs/release/distribution.md",
+        ".github/workflows/release.yml",
+        "tests/release/version_consistency.sh"
+      ],
+      "expected": "The release workflow and staged candidate contract bind v0.2.40 to the exact merged commit, target matrix, manifest, checksum, SBOM, and provenance inputs.",
+      "required": true,
+      "scenario": "release workflow contract",
+      "status": "verified",
+      "verificationPlan": "Run the source version, archive, action runtime, workflow policy, documentation, and governance checks; hosted staged build and attestation remain release-workflow gates."
+    },
+    {
+      "evidence": [
+        "tests/performance/regression_gate.sh",
+        "docs/reference/governance-performance-budget.md"
+      ],
+      "expected": "The source tree retains the WI-396 clean-snapshot fast path and its bounded performance gate while preparing v0.2.40.",
+      "required": true,
+      "scenario": "source performance gate preservation",
+      "status": "unverified",
+      "verificationPlan": "Run the performance regression gate and record its bounded local result without claiming provider or enterprise performance."
+    },
+    {
+      "evidence": [
+        "docs/work-items/WI-397-release-v0-2-40.md",
+        "tests/release/adopter_acceptance.sh"
+      ],
+      "expected": "A successor Work Item will prove the public v0.2.40 binary in a fresh isolated adopter and preserve the published Release truth.",
+      "required": false,
+      "scenario": "post-release adopter handoff",
+      "status": "not_applicable",
+      "reason": "Public Release bytes do not exist until the reviewed merge and immutable tag; WI-398 owns post-release acceptance.",
+      "verificationPlan": "WI-398 will download only the public v0.2.40 artifact and record Runtime, repository, isolation, lifecycle, reuse, and cleanup evidence."
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "tests/release/version_consistency.sh",
+    "tests/release/version_consistency_test.sh",
+    ".github/workflows/release.yml",
+    "docs/work-items/WI-397-release-v0-2-40.md",
+    "docs/work-items/WI-397-release-v0-2-40.zh-CN.md",
+    "docs/work-items/WI-397-release-v0-2-40.ja.md"
+  ],
+  "sources": [
+    "docs/release/distribution.md",
+    "docs/reference/governance-performance-budget.md",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    ".github/workflows/release.yml",
+    "docs/work-items/WI-374-release-v0-2-39.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace --all-targets --all-features -- --test-threads=1",
+    "bash tests/release/version_consistency_test.sh",
+    "bash tests/release/source_archive_policy_test.sh",
+    "bash tests/release/action_runtime_policy_test.sh",
+    "bash tests/release/annotated_tag_identity.sh",
+    "bash tests/release/workflow_policy.sh",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report /tmp/wi397-governance.json",
+    "python3 tests/docs/work_item_status_consistency.py --repo .",
+    "bash tests/performance/regression_gate_test.sh",
+    "git diff --check"
+  ],
+  "workItemId": "WI-397-release-v0-2-40"
+}
