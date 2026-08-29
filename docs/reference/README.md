@@ -35,6 +35,12 @@ separate from exact machine-facing details:
 - [Input trust data flow](input-trust-dataflow.md) — provenance classification and fail-closed input handling.
 - [Installed Runtime lifecycle](installed-lifecycle.md) — shared Runtime installation, attachment, upgrade, and rollback boundaries.
 - [Instruction traceability](instruction-traceability.md) — source-path, Work Item, evidence, and closure links.
+- [Verification evidence reuse runtime](verification-evidence-reuse-runtime.md) — bounded planning, protected nodes, and identity-bound receipts.
+- [Verification evidence reuse decision](verification-evidence-reuse.md) — freshness bindings, invalidation, and measurable call-count reduction.
+- [Verification fixture boundary](verification-fixture-boundary.md) — isolated local fixtures and their evidence limits.
+- [Work Item Intelligence integration boundary](wiii-v2-integration-audit.md) — read-only Rust projection and non-wire-compatibility boundary.
+- [Work Item Intelligence performance baseline](work-item-intelligence-performance-baseline.md) — reproducible local observations without governance authority.
+- [Work Item lifecycle closure](work-item-lifecycle-closure.md) — reviewed merge, archive, exact cleanup, and recovery.
 - [Japanese capability assessment boundary](japanese-capability-assessment.md) — evidence-bound multilingual coverage without a general fluency claim.
 - [Final replacement acceptance](final-replacement-acceptance.md) — the reproducible conformance and no-copy boundary.
 - [Repository Protocol v1](../protocol/v1/specification.md) — normative storage and receipt contract.

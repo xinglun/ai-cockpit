@@ -123,7 +123,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=284 implemented-equivalent=1 not-applicable=4 reference-only=43 deferred-next-batch=525 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=292 implemented-equivalent=1 not-applicable=4 reference-only=45 deferred-next-batch=515 migrate-gap=0 -->
 
 At the pinned reference comparison baseline, the ledger contains 5,119 records:
 4,262 `generated-history`, 284 `implemented-different-by-design`, one
@@ -902,3 +902,32 @@ The updated ledger remains 5,119 records: 4,262 `generated-history`, 284
 `not-applicable`, 43 `reference-only`, and 525 `deferred-next-batch`; there are
 zero `migrate-gap` records. The deferred set remains scheduled comparison work,
 not a parity claim.
+
+## WI-379 reference documentation batch 18
+
+WI-379 compares the next ten deferred reference paths individually at the
+pinned source commit. Eight responsibilities are represented by Rust-native
+tri-language documentation and two historical audit files remain
+`reference-only`. The batch adds no Runtime code and does not copy source
+Python, Make, provider configuration, or generated history.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/upgrade.md` | implemented-different-by-design | Tri-language `upgrade.*`, `installed-lifecycle.*`, and explicit migration/conflict/rollback boundaries; source installer commands are explanatory only. |
+| `docs/reference/verification-evidence-reuse-runtime.md` | implemented-different-by-design | `verification-evidence-reuse-runtime.*`, `verification-route.*`, `verification-semantics.*`, typed identity-bound receipts, protected-node execution, and observable reuse metrics. |
+| `docs/reference/verification-evidence-reuse.md` | implemented-different-by-design | `verification-evidence-reuse.*`, `verification-cost.*`, and `verification-planner.*`; exact binding/invalidation and advisory call-count boundary. |
+| `docs/reference/verification-fixture-boundary.md` | implemented-different-by-design | `verification-fixture-boundary.*` and repository-native tests; local fixtures exclude runtime/cache state and cannot prove provider/adopter evidence. |
+| `docs/reference/wi01-wi20-bidirectional-traceability-audit.json` | reference-only | Historical generated V1 audit bytes; current target truth is the pinned inventory, Work Item archive, evidence, and tri-language traceability pages. |
+| `docs/reference/wi01-wi20-bidirectional-traceability-audit.md` | reference-only | Historical narrative bound to source Python/Make evidence; it is not copied or treated as current target authority. |
+| `docs/reference/wiii-v2-integration-audit.md` | implemented-different-by-design | `wiii-v2-integration-audit.*`, Rust `status`/intelligence projection, explicit schema/source identity checks, and no scheduler/provider claims. |
+| `docs/reference/work-item-intelligence-performance-baseline.md` | implemented-different-by-design | `work-item-intelligence-performance-baseline.*`, `diagnose`, and advisory cost/performance observations; source benchmark numbers are not claimed. |
+| `docs/reference/work-item-lifecycle-closure.ja.md` | implemented-different-by-design | `work-item-lifecycle-closure.*`, `repository-workflow.*`, and Runtime `finalize`/`close` receipts with exact PR/base/branch/worktree cleanup. |
+| `docs/reference/work-item-lifecycle-closure.md` | implemented-different-by-design | Same Rust-native closure route and recovery boundary in English; source `make`/Python orchestration is not a command requirement. |
+
+This is semantic/documentation parity, not source command, JSON-wire, or
+provider-state compatibility. The object/adopter boundary remains one shared
+Runtime with explicit `--repo` and isolated repository facts, Work Items,
+evidence, knowledge, and snapshots. The ledger after WI-379 contains 4,262
+`generated-history`, 292 `implemented-different-by-design`, one
+`implemented-equivalent`, four `not-applicable`, 45 `reference-only`, and 515
+`deferred-next-batch` records; `migrate-gap` remains zero.

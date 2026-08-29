@@ -34,6 +34,12 @@ capabilityClaims:
 - [输入信任数据流](input-trust-dataflow.zh-CN.md)——来源分类和 fail-closed 输入处理。
 - [已安装 Runtime 生命周期](installed-lifecycle.zh-CN.md)——共享 Runtime 的安装、attach、升级和回滚边界。
 - [指令可追溯性](instruction-traceability.zh-CN.md)——source path、Work Item、证据和关闭之间的关系。
+- [Verification 证据复用 Runtime](verification-evidence-reuse-runtime.zh-CN.md)——有限规划、受保护节点和身份绑定 receipt。
+- [Verification 证据复用决策](verification-evidence-reuse.zh-CN.md)——新鲜度绑定、失效和可测量的调用减少。
+- [Verification fixture 边界](verification-fixture-boundary.zh-CN.md)——隔离本地 fixture 及其证据限制。
+- [Work Item Intelligence 集成边界](wiii-v2-integration-audit.zh-CN.md)——只读 Rust 投影及非 wire 兼容边界。
+- [Work Item Intelligence 性能基线](work-item-intelligence-performance-baseline.zh-CN.md)——不授予治理权限的可复现本地观测。
+- [Work Item 生命周期关闭](work-item-lifecycle-closure.zh-CN.md)——评审合并、归档、精确清理与恢复。
 - [日语能力评估边界](japanese-capability-assessment.zh-CN.md)——有证据边界的多语言覆盖，不宣称一般流畅度。
 - [最终替代验收](final-replacement-acceptance.zh-CN.md)——可重复的 conformance 和无复制边界。
 - [Repository Protocol v1](../protocol/v1/specification.zh-CN.md)——规范存储和 receipt contract。

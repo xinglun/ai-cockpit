@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "Each selected pinned reference path has one evidence-backed classification and an explicit Rust counterpart or reference-only decision.",
+    "Required reader-facing routes are present in English, Simplified Chinese, and Japanese when applicable and preserve semantic/non-wire boundaries.",
+    "Inventory and tri-language parity records agree with the same source commit counts and Work Item evidence.",
+    "Documentation and inventory checks pass using the installed Runtime and no migrate-gap or untracked path is introduced.",
+    "Contract language and source governance facts remain unchanged by presentation localization."
+  ],
+  "createdAt": "2026-08-29T04:01:02Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:0d3f7a9257f4deae12ed1b83a6dbfdcf7f805dafc5db3be3d67d8e084369293f",
+  "evidenceRefs": [
+    ".ai/evidence/WI-379-reference-documentation-batch-18.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-379-reference-documentation-batch-18.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-379-reference-documentation-batch-18.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7ea481ac930f77823d3fa0aba833344191f441016a572e2942c4c4a26a78dc37",
+      "workItemId": "WI-379-reference-documentation-batch-18"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-379-reference-documentation-batch-18.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-379-reference-documentation-batch-18.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-379-reference-documentation-batch-18.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-379-reference-documentation-batch-18.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-379-reference-documentation-batch-18.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-379-reference-documentation-batch-18.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-379-reference-documentation-batch-18.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-379-reference-documentation-batch-18.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-379-reference-documentation-batch-18.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-379-reference-documentation-batch-18.contract.json"
+          ],
+          "inference": false,
+          "text": "对 pinned reference inventory 下一批十个路径完成证据支持的分类与文档映射，不复制 Python、Make 或 V1 runtime"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-379-reference-documentation-batch-18.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-379-reference-documentation-batch-18"
+  },
+  "taskReportDigest": "sha256:0857eafc8d0ec96af725f485d35ac3a1ecee713bc07a8cd97ad646172fbf538a",
+  "taskReportMarkdownDigest": "sha256:564199de273a888d02edb93a9628d6ddddf8c99ea3db98fd1eac793ea1af5076",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-379-reference-documentation-batch-18.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-379-reference-documentation-batch-18"
+}

@@ -103,7 +103,7 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=284 implemented-equivalent=1 not-applicable=4 reference-only=43 deferred-next-batch=525 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=292 implemented-equivalent=1 not-applicable=4 reference-only=45 deferred-next-batch=515 migrate-gap=0 -->
 
 在固定参考源比较基线上，台账共有 5,119 条记录：4,262 条
 `generated-history`、275 条 `implemented-different-by-design`、1 条
@@ -721,3 +721,28 @@ WI-378 在固定参考提交上逐一比较了下一批十个 deferred 路径。
 `implemented-different-by-design`、1 条 `implemented-equivalent`、4 条
 `not-applicable`、43 条 `reference-only`、525 条 `deferred-next-batch`；
 `migrate-gap` 为 0。Deferred 集合仍是计划中的比较，不是 parity 声明。
+
+## WI-379：参考文档第 18 批
+
+WI-379 在固定参考提交上逐一比较下一批十个 deferred 路径。八项责任由 Rust-native
+三语文档承担，两个历史审计文件保持 `reference-only`。本批不添加 Runtime 代码，也不
+复制源 Python、Make、Provider 配置或生成历史。
+
+| 固定参考路径 | 分类 | Rust 对应/边界决定 |
+| --- | --- | --- |
+| `docs/reference/upgrade.md` | implemented-different-by-design | 三语 `upgrade.*`、`installed-lifecycle.*` 以及 migration/conflict/rollback 边界；源 installer 命令仅作说明。 |
+| `docs/reference/verification-evidence-reuse-runtime.md` | implemented-different-by-design | `verification-evidence-reuse-runtime.*`、`verification-route.*`、`verification-semantics.*`、typed identity-bound receipt、受保护节点执行和可观测复用指标。 |
+| `docs/reference/verification-evidence-reuse.md` | implemented-different-by-design | `verification-evidence-reuse.*`、`verification-cost.*`、`verification-planner.*`；精确绑定/失效和 advisory 调用次数边界。 |
+| `docs/reference/verification-fixture-boundary.md` | implemented-different-by-design | `verification-fixture-boundary.*` 与 repository-native 测试；本地 fixture 排除 Runtime/cache 状态，不能证明 provider/adopter evidence。 |
+| `docs/reference/wi01-wi20-bidirectional-traceability-audit.json` | reference-only | 历史生成的 V1 审计 bytes；当前目标事实来自 pinned inventory、Work Item archive、evidence 和三语追溯页面。 |
+| `docs/reference/wi01-wi20-bidirectional-traceability-audit.md` | reference-only | 绑定源 Python/Make evidence 的历史叙述，不复制也不作为当前目标 authority。 |
+| `docs/reference/wiii-v2-integration-audit.md` | implemented-different-by-design | `wiii-v2-integration-audit.*`、Rust `status`/intelligence 投影、显式 schema/source identity 检查及无 scheduler/provider 声明。 |
+| `docs/reference/work-item-intelligence-performance-baseline.md` | implemented-different-by-design | `work-item-intelligence-performance-baseline.*`、`diagnose` 和 advisory 成本/性能观测；不声称源 benchmark 数字。 |
+| `docs/reference/work-item-lifecycle-closure.ja.md` | implemented-different-by-design | `work-item-lifecycle-closure.*`、`repository-workflow.*` 与 Runtime `finalize`/`close` receipt，精确绑定 PR/base/branch/worktree 清理。 |
+| `docs/reference/work-item-lifecycle-closure.md` | implemented-different-by-design | 英语 Rust-native close 路径与 recovery 边界；源 `make`/Python 编排不是命令要求。 |
+
+这是语义/文档 parity，不是源命令、JSON-wire 或 provider 状态兼容。对象/adopter 边界
+保持为一个共享 Runtime、显式 `--repo` 和隔离的 repository facts、Work Item、evidence、
+knowledge、snapshot。WI-379 后台账为 4,262 条 `generated-history`、292 条
+`implemented-different-by-design`、1 条 `implemented-equivalent`、4 条 `not-applicable`、
+45 条 `reference-only`、515 条 `deferred-next-batch`；`migrate-gap` 仍为 0。

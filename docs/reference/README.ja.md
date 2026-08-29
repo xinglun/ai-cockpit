@@ -34,6 +34,12 @@ route index は一般利用者の journey と正確な machine-facing detail を
 - [Input trust data flow](input-trust-dataflow.ja.md) — provenance 分類と fail-closed な input 処理。
 - [Installed Runtime lifecycle](installed-lifecycle.ja.md) — shared Runtime の install、attach、upgrade、rollback 境界。
 - [Instruction traceability](instruction-traceability.ja.md) — source path、Work Item、evidence、close の関係。
+- [Verification evidence reuse Runtime](verification-evidence-reuse-runtime.ja.md) — bounded planning、protected node、identity-bound receipt。
+- [Verification evidence reuse の判断](verification-evidence-reuse.ja.md) — freshness binding、invalidation、測定可能な call-count 削減。
+- [Verification fixture の境界](verification-fixture-boundary.ja.md) — isolated local fixture と evidence の限界。
+- [Work Item Intelligence の統合境界](wiii-v2-integration-audit.ja.md) — read-only Rust projection と非 wire compatibility 境界。
+- [Work Item Intelligence performance baseline](work-item-intelligence-performance-baseline.ja.md) — governance authority ではない再現可能な観測。
+- [Work Item ライフサイクルのクローズ](work-item-lifecycle-closure.ja.md) — reviewed merge、archive、正確な cleanup、recovery。
 - [Japanese capability assessment boundary](japanese-capability-assessment.ja.md) — 一般的な fluency を主張しない evidence-bound な多言語 coverage。
 - [最終置換 acceptance](final-replacement-acceptance.ja.md) — 再現可能な conformance とコピーなしの境界。
 - [Repository Protocol v1](../protocol/v1/specification.ja.md) — normative storage と receipt contract。
