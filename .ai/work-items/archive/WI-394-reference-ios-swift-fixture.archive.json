@@ -1,0 +1,23 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-29T10:33:26Z",
+  "files": {
+    "approachDigest": "sha256:e6c3af3c9614b2961b53028228f69a898727d11b36bbb67e77c42409106933ba",
+    "approachPath": ".ai/work-items/archive/WI-394-reference-ios-swift-fixture.approach.json",
+    "contractDigest": "sha256:e8b652456f9d82cb99b6651b2efa3476fd593a8113cd73b61fc249c94e50b5b9",
+    "contractPath": ".ai/work-items/archive/WI-394-reference-ios-swift-fixture.contract.json",
+    "eventsDigest": "sha256:ca3dc55d137f77783fa6651b407a1cacb1d467fad3ef0a8e293f262e17ba632b",
+    "eventsPath": ".ai/work-items/archive/WI-394-reference-ios-swift-fixture.events.jsonl",
+    "outcomeDigest": "sha256:e10a9f83be88266999aec3041096695ae8f566ff2115483690607ddb5a8bea61",
+    "outcomePath": ".ai/work-items/archive/WI-394-reference-ios-swift-fixture.outcome.json",
+    "summaryDigest": "sha256:ce3faf5635581af1290b71f13157f1f4d12322404a50a8680d4d9994c744daab",
+    "summaryPath": ".ai/work-items/archive/WI-394-reference-ios-swift-fixture.summary.json",
+    "taskReportDigest": "sha256:af174aa8a72e1057a1020d3f5fe96d0a97a53f70a440cdf60a50201d5badd816",
+    "taskReportMarkdownDigest": "sha256:469bbd0bec45c0739c91a3798ce4e521ae08f69d32151d88c7a6aa2a19af9f86",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-394-reference-ios-swift-fixture.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-394-reference-ios-swift-fixture.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-394-reference-ios-swift-fixture"
+}

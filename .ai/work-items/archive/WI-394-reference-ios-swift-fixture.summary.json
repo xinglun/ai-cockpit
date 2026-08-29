@@ -1,0 +1,28 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-394-reference-ios-swift-fixture.contract.json",
+    ".ai/work-items/archive/WI-394-reference-ios-swift-fixture.summary.json"
+  ],
+  "checkpointAt": "2026-08-29T10:20:42Z",
+  "checkpointContractDigest": "sha256:102ebea4319add672c879745af057ca251a6e9ac7987b8fd9915ba8d717f3690",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:e55563733affd91fe976f32fdeefd77938097634bcb69c462b714ae7aede88aa",
+  "createdAt": "2026-08-29T10:19:58Z",
+  "mode": "docs",
+  "preflightAt": "2026-08-29T10:31:01Z",
+  "preflightContractDigest": "sha256:102ebea4319add672c879745af057ca251a6e9ac7987b8fd9915ba8d717f3690",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:e55563733affd91fe976f32fdeefd77938097634bcb69c462b714ae7aede88aa",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T10:31:17Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-394-reference-ios-swift-fixture"
+}

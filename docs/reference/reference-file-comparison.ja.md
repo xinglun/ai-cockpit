@@ -107,7 +107,7 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=320 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=485 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=481 migrate-gap=0 -->
 
 固定した reference comparison baseline の ledger は 5,119 records です。内訳は
 4,262 `generated-history`、316 `implemented-different-by-design`、1
@@ -923,3 +923,16 @@ WI-393 は pinned source commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf` の F
 | `examples/fixtures/flutter-app/test/widget_test.dart` | implemented-different-by-design | `flutter_test` assertion を owner-confirmed provider command に対応付けます。file だけでは SDK、platform runner、plugin、hosted CI readiness を証明しません。 |
 
 これは semantic/documentation parity であり、Flutter toolchain support、build execution、source JSON-wire compatibility ではありません。Install は adopter 外部の immutable shared Runtime 一つと明示的な `attach --repo` を使い、Flutter SDK/package install と reference installer implementation はコピーしません。WI-393 後の ledger は 4,262 `generated-history`、320 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、47 `reference-only`、485 `deferred-next-batch`、`migrate-gap` は 0 です。
+
+## WI-394 — iOS Swift Package fixture adaptation
+
+WI-394 は pinned source commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf` の iOS Swift Package fixture 4 ファイルを一つずつ比較します。Swift Package topology、source、XCTest の semantic は adopter-owned path と command に対応付け、fixture metadata は Project Profile/Observer fact として bounded に扱います。
+
+| Pinned reference path | Classification | Rust-native counterpart と boundary |
+| --- | --- | --- |
+| `examples/fixtures/ios-swift-package/Package.swift` | implemented-different-by-design | SwiftPM product/target topology は adopter/provider-owned build metadata であり、Runtime は SDK/Xcode readiness を推測しません。 |
+| `examples/fixtures/ios-swift-package/Sources/AppCore/AppCore.swift` | implemented-different-by-design | `greeting()` source path は adopter の Contract scope で、Swift 実行は provider-owned です。 |
+| `examples/fixtures/ios-swift-package/Tests/AppCoreTests/AppCoreTests.swift` | implemented-different-by-design | XCTest assertion を owner-confirmed `swift test` または Xcode command に対応付けます。file だけでは SDK、simulator、signing、hosted CI readiness を証明しません。 |
+| `examples/fixtures/ios-swift-package/fixture.json` | implemented-different-by-design | Project Profile/Observer は package/toolchain/platform/path fact を記録できます。`installerStack` と `macos` は metadata であり shared Runtime install/execution evidence ではありません。 |
+
+これは semantic/documentation parity であり、Apple toolchain support、build execution、source JSON-wire compatibility ではありません。Install は adopter 外部の immutable shared Runtime 一つと明示的な `attach --repo` を使い、SwiftPM/Xcode install、SDK 選択、source installer behavior はコピーしません。WI-394 後の ledger は 4,262 `generated-history`、324 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、47 `reference-only`、481 `deferred-next-batch`、`migrate-gap` は 0 です。

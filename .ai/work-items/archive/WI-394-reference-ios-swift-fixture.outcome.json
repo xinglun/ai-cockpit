@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "Each of the four pinned iOS Swift Package fixture files is compared individually and mapped to a Rust-native counterpart or explicitly marked external/non-applicable.",
+    "Tri-language documentation explains Swift Package fixture facts, unknown boundaries, shared external Runtime installation, explicit repository context, and adopter-owned Swift/Xcode checks without hard-copying source implementation.",
+    "Reference inventory, parity index, documentation links, and tri-language Work Item records bind the pinned source commit and remain synchronized.",
+    "The mapping does not claim direct compatibility with source-specific installer, Make, Python, guard YAML, or legacy JSON wire behavior.",
+    "Declared documentation, inventory, and conformance checks pass with installed Runtime evidence."
+  ],
+  "createdAt": "2026-08-29T10:31:17Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:9244916e5034f2dadcef2b7f97d28e578a6957571fdfa24a980b4e0bcf1fa00d",
+  "evidenceRefs": [
+    ".ai/evidence/WI-394-reference-ios-swift-fixture.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-394-reference-ios-swift-fixture.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-394-reference-ios-swift-fixture.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e55563733affd91fe976f32fdeefd77938097634bcb69c462b714ae7aede88aa",
+      "workItemId": "WI-394-reference-ios-swift-fixture"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-394-reference-ios-swift-fixture.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-394-reference-ios-swift-fixture.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-394-reference-ios-swift-fixture.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-394-reference-ios-swift-fixture.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-394-reference-ios-swift-fixture.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-394-reference-ios-swift-fixture.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-394-reference-ios-swift-fixture.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-394-reference-ios-swift-fixture.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-394-reference-ios-swift-fixture.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-394-reference-ios-swift-fixture.contract.json"
+          ],
+          "inference": false,
+          "text": "Establish auditable semantic parity and inheritance boundaries for the four pinned examples/fixtures/ios-swift-package files."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-394-reference-ios-swift-fixture.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-394-reference-ios-swift-fixture"
+  },
+  "taskReportDigest": "sha256:af174aa8a72e1057a1020d3f5fe96d0a97a53f70a440cdf60a50201d5badd816",
+  "taskReportMarkdownDigest": "sha256:469bbd0bec45c0739c91a3798ce4e521ae08f69d32151d88c7a6aa2a19af9f86",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-394-reference-ios-swift-fixture.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-394-reference-ios-swift-fixture"
+}

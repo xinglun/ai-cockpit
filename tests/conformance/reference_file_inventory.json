@@ -33662,31 +33662,47 @@
     },
     {
       "referencePath": "examples/fixtures/ios-swift-package/Package.swift",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "reference-ios-swift-fixture-batch-27",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/ios-swift-fixture-adaptation.md",
+        "docs/reference/ios-swift-fixture-adaptation.zh-CN.md",
+        "docs/reference/ios-swift-fixture-adaptation.ja.md"
+      ],
+      "reason": "SwiftPM product and target topology is adopter/provider-owned build metadata. SDK and Xcode readiness remain Unknown; source build and installer implementation are not copied."
     },
     {
       "referencePath": "examples/fixtures/ios-swift-package/Sources/AppCore/AppCore.swift",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "reference-ios-swift-fixture-batch-27",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/ios-swift-fixture-adaptation.md",
+        "docs/reference/ios-swift-fixture-adaptation.zh-CN.md",
+        "docs/reference/ios-swift-fixture-adaptation.ja.md"
+      ],
+      "reason": "The greeting source path is adopter-owned Contract scope; Swift execution remains provider-owned and is not inferred by the Runtime."
     },
     {
       "referencePath": "examples/fixtures/ios-swift-package/Tests/AppCoreTests/AppCoreTests.swift",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "reference-ios-swift-fixture-batch-27",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/ios-swift-fixture-adaptation.md",
+        "docs/reference/ios-swift-fixture-adaptation.zh-CN.md",
+        "docs/reference/ios-swift-fixture-adaptation.ja.md"
+      ],
+      "reason": "The XCTest assertion maps to an owner-confirmed swift test or Xcode command; the file does not prove SDK, simulator, signing, or hosted CI readiness."
     },
     {
       "referencePath": "examples/fixtures/ios-swift-package/fixture.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "reference-ios-swift-fixture-batch-27",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/ios-swift-fixture-adaptation.md",
+        "docs/reference/ios-swift-fixture-adaptation.zh-CN.md",
+        "docs/reference/ios-swift-fixture-adaptation.ja.md"
+      ],
+      "reason": "Swift package/toolchain/platform/path metadata maps to bounded Profile/Observer facts. installerStack and macos are not shared Runtime installation or execution evidence."
     },
     {
       "referencePath": "examples/fixtures/java-multimodule/.gitignore",
