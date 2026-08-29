@@ -8,9 +8,13 @@ audience:
   - contributor
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-402-rust-performance-extreme
+terminalArchive: .ai/work-items/archive/WI-402-rust-performance-extreme.contract.json
+terminalVerification: .ai/evidence/WI-402-rust-performance-extreme.verification.json
+terminalFinalization: .ai/decisions/WI-402-rust-performance-extreme.finalize.json
+terminalDecision: .ai/decisions/WI-402-rust-performance-extreme.close.json
 ---
 
 # WI-402 — Rust Runtime performance extreme

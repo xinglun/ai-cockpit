@@ -1,0 +1,46 @@
+{
+  "acceptanceCriteria": [
+    "三语 WI-402 文档状态为 implemented，并链接真实 archive、verification、finalization、close 记录。",
+    "不修改 WI-402 的 .ai 归档、evidence 或 decision bytes。",
+    "文档 gate、格式检查和完整测试通过。"
+  ],
+  "authority": "human-authorized",
+  "baseRevision": "6eb3ccf9fa4ec54c94370f10dea6e1b38112978a",
+  "createdAt": "2026-08-29T19:13:57Z",
+  "goal": "让 WI-402 的三语文档与其已验证、已归档、已关闭事实一致，并为后续发布提供可审计的文档终态。",
+  "intent": "修正已完成 Work Item 的三语文档终态标记与终态证据链接，解除发布质量门对历史债务的阻断。",
+  "mode": "implementation",
+  "outOfScope": [
+    "Rust Runtime semantics",
+    "reference-source parity implementation",
+    "release artifact publication"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3df6aa59e3ea446e8707bc664fbf50ff8fca789499c37a6c5c5c95aa5b1eb45a",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-404-release-docs-terminal-promotion",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi404-release-docs"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-402-rust-performance-extreme.md",
+    "docs/work-items/WI-402-rust-performance-extreme.zh-CN.md",
+    "docs/work-items/WI-402-rust-performance-extreme.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-404-release-docs-terminal-promotion"
+}
