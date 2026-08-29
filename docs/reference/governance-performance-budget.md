@@ -55,6 +55,12 @@ not silently widen reuse or downgrade a required check. Explicit custom
 commands remain fresh so an operator must deliberately define any future
 custom-command reuse contract.
 
+WI-402 makes the reusable identity stable across shell and Agent turns by excluding only
+session bookkeeping (`_`, `OLDPWD`, `SHLVL`, mise metadata, and `CODEX_*`). Command and
+toolchain inputs remain bound. The content key is source-only: Runtime-generated `.ai/`
+receipts cannot invalidate their own reusable result, while source or non-`.ai` changes do.
+The regression test exercises a first execution followed by an exact second-run reuse.
+
 ## Rust-native optimization boundary
 
 WI-395 removes redundant snapshot work from request-scoped status and

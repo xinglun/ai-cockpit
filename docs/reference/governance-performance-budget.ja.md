@@ -33,6 +33,12 @@ Performance と governance strength は別の次元です。`VerificationTier` �
 
 検出された Work Item command は standalone の auto-detected verification と同じ profile-authorized reuse path を使います。repository、snapshot、profile、Runtime、command、scope、stage、runner、base、toolchain、dependency、policy identity がすべて一致した場合だけ reuse します。不一致または impact unknown の場合は宣言された command を実行し、その理由を記録します。reuse の範囲を暗黙に広げたり、必須 check を弱めたりしません。explicit custom command は常に fresh であり、将来 reuse する場合は明示的な custom-command reuse Contract が必要です。
 
+WI-402 は shell と Agent turn をまたいで reusable identity を安定させます。除外するのは session
+bookkeeping（`_`、`OLDPWD`、`SHLVL`、mise metadata、`CODEX_*`）だけで、command/toolchain input は
+引き続き bind します。content key は source-only であり、Runtime が生成する `.ai/` receipt 自身では
+reuse を stale にしませんが、source または非 `.ai` の変更は無効化します。回帰テストは first execution
+と exact second-run reuse を確認します。
+
 ## Rust ネイティブ最適化の境界
 
 WI-395 は request-scoped status と Work Item 集約 status 投影の重複 snapshot を除去し、

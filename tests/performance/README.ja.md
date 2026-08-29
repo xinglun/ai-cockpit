@@ -26,3 +26,7 @@ process-level の current repository は作りません。
 WI-395 の Rust ネイティブ最適化は、Work Item 集約 status の重複 snapshot を除去し、既存の Git index
 読み取り中に source-tree digest を取得し、リモート既定メタデータを 1 回の限定クエリで解決し、observe 中の
 再帰的な再ソートも避けます。最適化は request-scoped/identity-bound であり、global repository cache や参照源のインストール手順を導入しません。
+
+Portable `runtime_benchmark.sh <binary> <repo> <output.json> [iterations]
+[work-item-id] [budgets.json]` は `inspect`、`status`、`doctor`、`observe` の cold/warm process latency と、
+指定時の Work Item status/diagnose を測定します。外部の executable regular file だけを受け付け、Runtime が報告した identity と file SHA-256 を記録し、atomic に出力します。source fallback の build/run は行いません。出力は measurement evidence であり、release gate には明示的にレビューした budget file と `regression_gate.sh` を使用します。

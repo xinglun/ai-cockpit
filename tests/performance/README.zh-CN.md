@@ -24,3 +24,9 @@ Repository context 和 Runtime session 都是 request-scoped，不创建进程�
 WI-395 的 Rust 原生优化移除了聚合 Work Item status 的重复 snapshot，在已有 Git 索引读取中捕获
 source-tree 摘要，以一次受限查询解析远端默认元数据，并避免观察阶段反复递归排序。优化保持
 request-scoped 和 identity-bound，不创建全局 repository cache，也不复制参考源安装流程。
+
+便携脚本 `runtime_benchmark.sh <binary> <repo> <output.json> [iterations]
+[work-item-id] [budgets.json]` 测量 `inspect`、`status`、`doctor`、`observe` 的冷/热进程耗时，
+以及可选的 Work Item status/diagnose。它要求外部的可执行普通文件，记录 Runtime 报告的身份和文件
+SHA-256，原子写出结果，绝不构建或回退到源码。脚本输出只是测量证据；发布 gate 必须再用经过明确审查的
+budget 文件调用 `regression_gate.sh`。
