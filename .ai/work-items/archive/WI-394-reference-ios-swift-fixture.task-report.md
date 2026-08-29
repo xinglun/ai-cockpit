@@ -14,8 +14,8 @@
 
 ## Delivered changes
 
-- Changed path: .ai/work-items/active/WI-394-reference-ios-swift-fixture.contract.json
-- Changed path: .ai/work-items/active/WI-394-reference-ios-swift-fixture.summary.json
+- Changed path: .ai/work-items/archive/WI-394-reference-ios-swift-fixture.contract.json
+- Changed path: .ai/work-items/archive/WI-394-reference-ios-swift-fixture.summary.json
 
 ## Findings
 

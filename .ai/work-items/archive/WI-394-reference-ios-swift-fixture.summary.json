@@ -1,7 +1,7 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-394-reference-ios-swift-fixture.contract.json",
-    ".ai/work-items/active/WI-394-reference-ios-swift-fixture.summary.json"
+    ".ai/work-items/archive/WI-394-reference-ios-swift-fixture.contract.json",
+    ".ai/work-items/archive/WI-394-reference-ios-swift-fixture.summary.json"
   ],
   "checkpointAt": "2026-08-29T10:20:42Z",
   "checkpointContractDigest": "sha256:102ebea4319add672c879745af057ca251a6e9ac7987b8fd9915ba8d717f3690",
