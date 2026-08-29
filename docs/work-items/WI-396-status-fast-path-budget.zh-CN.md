@@ -6,8 +6,12 @@ description: "移除 clean snapshot 的一次可证明冗余 subprocess，同时
 type: implementation
 audience: [adopter, contributor, maintainer, reviewer]
 authority: human-authorized
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-396-status-fast-path-budget
+terminalArchive: .ai/work-items/archive/WI-396-status-fast-path-budget.contract.json
+terminalVerification: .ai/evidence/WI-396-status-fast-path-budget.verification.json
+terminalFinalization: .ai/decisions/WI-396-status-fast-path-budget.finalize.json
+terminalDecision: .ai/decisions/WI-396-status-fast-path-budget.close.json
 ---
 
 # WI-396——status 快速路径与严格性能预算

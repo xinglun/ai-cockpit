@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "post-merge-exact-resource-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "392b65e360fe65a38dc017c141e455863ebe0c46",
+    "name": "codex/wi-396-status-fast-path-budget",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:aa4bb5cf86e0172a8cec65f8594427572903968ca34b73dca20c8fc6c6f93281",
+  "operationId": "github-pr-360-delete-cleanup-20260829",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "2c7710c51db08ea4034b173137f2adfdbf45234e",
+    "headRevision": "392b65e360fe65a38dc017c141e455863ebe0c46",
+    "mergeCommit": "d2584b35553c187f168349c03b5fb965742ac30d",
+    "number": 360,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/360"
+  },
+  "reason": "PR #360 merged as d2584b35553c187f168349c03b5fb965742ac30d; the exact remote branch and dedicated worktree are removed only after clean-state verification.",
+  "receiptId": "ai-cockpit-WI-396-status-fast-path-budget-deleted-20260829",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-396-status-fast-path-budget",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/360",
+    "worktree": "/private/tmp/ai-cockpit-wi396-status-fast-path-budget"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-29T13:27:00Z",
+  "workItemId": "WI-396-status-fast-path-budget",
+  "worktree": {
+    "branch": "codex/wi-396-status-fast-path-budget",
+    "headRevision": "392b65e360fe65a38dc017c141e455863ebe0c46",
+    "path": "/private/tmp/ai-cockpit-wi396-status-fast-path-budget",
+    "worktreeId": "WI-396-status-fast-path-budget"
+  }
+}

@@ -6,8 +6,12 @@ description: "Remove a measured clean-snapshot subprocess while keeping performa
 type: implementation
 audience: [adopter, contributor, maintainer, reviewer]
 authority: human-authorized
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-396-status-fast-path-budget
+terminalArchive: .ai/work-items/archive/WI-396-status-fast-path-budget.contract.json
+terminalVerification: .ai/evidence/WI-396-status-fast-path-budget.verification.json
+terminalFinalization: .ai/decisions/WI-396-status-fast-path-budget.finalize.json
+terminalDecision: .ai/decisions/WI-396-status-fast-path-budget.close.json
 ---
 
 # WI-396 — Status fast path and strict performance budget
