@@ -32,26 +32,12 @@
   "requiredEvidenceClasses": [
     "verification"
   ],
-  "sources": [
-    {
-      "path": "examples/csharp/README.md",
-      "reason": "Pinned reference source e5acb677; compare installation, stack gates, Contract design, and guideline evidence semantics section by section without copying implementation or legacy wire bytes."
-    },
-    {
-      "path": "docs/getting-started/installation.md",
-      "reason": "Rust-native shared Runtime installation and explicit repository attachment boundary."
-    },
-    {
-      "path": "docs/reference/contract-fields.md",
-      "reason": "Current Rust Contract and Summary field semantics used by the adaptation guide."
-    }
-  ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-391-reference-csharp-adaptation",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/355",
     "worktree": "/private/tmp/ai-cockpit-wi391-reference-csharp-adaptation"
   },
   "risk": "normal",
@@ -72,6 +58,20 @@
     "docs/work-items/WI-391-reference-csharp-adaptation.zh-CN.md",
     "docs/work-items/WI-391-reference-csharp-adaptation.ja.md",
     "tests/conformance/reference_file_inventory.json"
+  ],
+  "sources": [
+    {
+      "path": "examples/csharp/README.md",
+      "reason": "Pinned reference source e5acb677; compare installation, stack gates, Contract design, and guideline evidence semantics section by section without copying implementation or legacy wire bytes."
+    },
+    {
+      "path": "docs/getting-started/installation.md",
+      "reason": "Rust-native shared Runtime installation and explicit repository attachment boundary."
+    },
+    {
+      "path": "docs/reference/contract-fields.md",
+      "reason": "Current Rust Contract and Summary field semantics used by the adaptation guide."
+    }
   ],
   "state": "implementation_active",
   "verification": [
